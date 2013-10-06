@@ -25,6 +25,9 @@ namespace FlashSpaceInvadersApp
     /// </summary>
     public sealed class Application
     {
+        // Reason: Mochi received a DMCA take down warning from the original creators of "Space Invaders."
+        // https://www.mochimedia.com/community/forum/topic/all-space-invaders-games-pulled-from-mochi-catal
+
         public readonly ApplicationWebService service = new ApplicationWebService();
 
 
@@ -42,7 +45,7 @@ namespace FlashSpaceInvadersApp
             if (self_chrome_socket != null)
             {
                 chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
-                chrome.Notification.DefaultTitle = "Invaders";
+                chrome.Notification.DefaultTitle = "Space Invaders";
 
                 #region FormStyler
                 FormStyler.AtFormCreated = s =>
@@ -103,9 +106,10 @@ namespace FlashSpaceInvadersApp
                            Console.WriteLine("appwindow loading... " + new { xappwindow });
                            Console.WriteLine("appwindow loading... " + new { xappwindow.contentWindow });
 
+                           // our window frame non client area plus inner body margin
                            xappwindow.resizeTo(
-                            ApplicationSprite.DefaultWidth + 16,
-                            ApplicationSprite.DefaultWidth + 32
+                            ApplicationSprite.DefaultWidth + 32,
+                            ApplicationSprite.DefaultWidth + 64
                            );
 
                            xappwindow.With(

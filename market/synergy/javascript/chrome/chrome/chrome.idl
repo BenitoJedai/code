@@ -174,12 +174,14 @@ interface chrome.AppWindow
 
 	void close();
 	void restore();
-	void moveTo();
+	
+	void moveTo(int x, int y);
+	void resizeTo(int w, int h);
+
 	void clearAttention();
 	void minimize();
 	void drawAttention();
 	void focus();
-	void resizeTo();
 	void maximize();
 
 	readonly attribute WindowProxy? contentWindow;
