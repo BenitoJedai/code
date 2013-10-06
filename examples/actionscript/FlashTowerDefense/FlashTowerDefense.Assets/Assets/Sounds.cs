@@ -48,7 +48,10 @@ namespace FlashTowerDefense.ActionScript.Assets
 
 
         
-        [Embed(source = Path + "/shotgun2.mp3")]
+        //[Embed(source = Path + "/shotgun2.mp3")]
+        //public static Class shotgun2;
+
+        [Embed(source = Path + "/snd_shotgun3.mp3")]
         public static Class shotgun2;
 
         [Embed(source = Path + "/door-open.mp3")]

@@ -10,6 +10,8 @@ namespace FlashWorkerExperiment
     {
         public ApplicationSprite()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131006-air
+
             //System.ArgumentException: Parameter count does not match passed in argument value count.
             //   at System.Reflection.Emit.CustomAttributeBuilder.InitCustomAttributeBuilder(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues, FieldInfo[] namedFields, Object[] fieldValues)
             //   at System.Reflection.Emit.CustomAttributeBuilder..ctor(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues, FieldInfo[] namedFields, Object[] fieldValues)
@@ -46,6 +48,18 @@ namespace FlashWorkerExperiment
 
                 t.AttachTo(this);
 
+                //                C:\util\flex_sdk_4.6\bin\mxmlc.exe
+                // -static-link-runtime-shared-libraries=true +configname=airmobile   -debug -verbose-stacktraces -sp=. -swf-version=17 --target-player=11.4.0  -locale en_US -strict -output="V:\web\FlashWorkerExperiment.ApplicationSprite.swf" FlashWorkerExperiment\ApplicationSprite.as
+                //Loading configuration file C:\util\flex_sdk_4.6\frameworks\airmobile-config.xml
+                //V:\web\FlashWorkerExperiment\ApplicationSprite.as(42): col: 40 Error: Call to a possibly undefined method createWorker through a reference with static type Class.
+
+                //                worker1 = WorkerDomain.createWorker(super.loaderInfo.bytes, false);
+                //                                       ^
+
+                // http://jacksondunstan.com/articles/1968
+                // "C:\util\flex_sdk_4.6\frameworks\libs\player\11.9\playerglobal.swc"
+                // "C:\util\air3-9_sdk_sa_win\frameworks\libs\player\11.9\playerglobal.swc"
+
                 var w = WorkerDomain.createWorker(
                     this.loaderInfo.bytes
                 );
@@ -53,8 +67,8 @@ namespace FlashWorkerExperiment
                 w.start();
             }
             else
-            { 
-                
+            {
+
             }
         }
 
