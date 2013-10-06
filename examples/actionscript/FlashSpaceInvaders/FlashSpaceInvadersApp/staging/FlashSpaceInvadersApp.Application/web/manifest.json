@@ -1,8 +1,8 @@
 
 {
 "manifest_version": 2,
-  "name": "FlashSpaceInvadersApp",
-  "description": "FlashSpaceInvadersApp",
+  "name": "Space Invaders",
+  "description": "Space Invaders",
   "version": "14",
  "minimum_chrome_version": "27",
   "offline_enabled": true,
