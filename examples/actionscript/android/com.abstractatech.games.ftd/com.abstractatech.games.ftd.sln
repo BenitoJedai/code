@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.games.ftd", "com.abstractatech.games.ftd\com.abstractatech.games.ftd.csproj", "{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF} = {A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}
+		{B939002B-9922-4999-B943-6C0DF657D25B} = {B939002B-9922-4999-B943-6C0DF657D25B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Assets", "..\..\FlashTowerDefense\FlashTowerDefense.Assets\FlashTowerDefense.Assets.csproj", "{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense", "..\..\FlashTowerDefense\FlashTowerDefense\FlashTowerDefense.csproj", "{B939002B-9922-4999-B943-6C0DF657D25B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{5DB7ED64-40B9-4362-8D3B-9DAF621D0D87}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Debug|x86.ActiveCfg = Debug|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Debug|x86.Build.0 = Debug|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Release|Any CPU.ActiveCfg = Release|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Release|Mixed Platforms.Build.0 = Release|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Release|x86.ActiveCfg = Release|x86
+		{9883D8EC-B91C-4CF4-AF7B-85343C9CB206}.Release|x86.Build.0 = Release|x86
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}.Release|x86.ActiveCfg = Release|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B939002B-9922-4999-B943-6C0DF657D25B}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B939002B-9922-4999-B943-6C0DF657D25B} = {5DB7ED64-40B9-4362-8D3B-9DAF621D0D87}
+		{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF} = {5DB7ED64-40B9-4362-8D3B-9DAF621D0D87}
+	EndGlobalSection
+EndGlobal

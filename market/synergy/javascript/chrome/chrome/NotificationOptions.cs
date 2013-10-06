@@ -99,7 +99,8 @@ namespace chrome
 
         public static List<Notification> AllNotifications = new List<Notification>();
 
-        public static string DefaultTitle = "my.jsc-solutions.net";
+        //public static string DefaultTitle = "my.jsc-solutions.net";
+        public static string DefaultTitle = null;
         public static string DefaultIconUrl = "assets/ScriptCoreLib/jsc.png";
 
         public Notification(
@@ -116,7 +117,12 @@ namespace chrome
             //Console.WriteLine("Notification .ctor");
 
             if (title == null)
-                title = DefaultTitle;
+            {
+                if (DefaultTitle == null)
+                    title = Native.document.title;
+                else
+                    title = DefaultTitle;
+            }
 
             if (iconUrl == null)
                 iconUrl = DefaultIconUrl;

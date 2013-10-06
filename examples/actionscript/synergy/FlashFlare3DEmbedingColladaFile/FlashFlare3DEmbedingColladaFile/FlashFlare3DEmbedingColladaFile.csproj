@@ -5,15 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F644ADB-93E1-4611-8AF7-BBF5127219C6}</ProjectGuid>
+    <ProjectGuid>{C4F01399-07E0-49BA-B022-91BF925E77DB}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashTowerDefenseApp</RootNamespace>
-    <AssemblyName>FlashTowerDefenseApp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>FlashFlare3DEmbedingColladaFile</RootNamespace>
+    <AssemblyName>FlashFlare3DEmbedingColladaFile</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>FlashTowerDefenseApp.Program</StartupObject>
-    <TargetFrameworkProfile />
+    <StartupObject>FlashFlare3DEmbedingColladaFile.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,34 +34,16 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Assets\</OutputPath>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Chrome Web Server">
-      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
-    </Reference>
-    <Reference Include="Chrome Web Store">
-      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -73,9 +53,6 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Async">
-      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
@@ -88,6 +65,10 @@
     <Reference Include="ScriptCoreLib.Windows.Forms">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <SpecificVersion>False</SpecificVersion>
@@ -118,6 +99,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -130,62 +113,41 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashTowerDefenseApp.AssetsLibrary">
-      <HintPath>.\bin\staging.AssetsLibrary\FlashTowerDefenseApp.AssetsLibrary.dll</HintPath>
+    <Reference Include="FlashFlare3DEmbedingColladaFile.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FlashFlare3DEmbedingColladaFile.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="FlashTowerDefenseApp.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashTowerDefenseApp.AssetsLibrary.dll</HintPath>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="Flare3D">
+      <HintPath>..\packages\Flare3D.1.0.0.0\lib\Flare3D.dll</HintPath>
+    </Reference>
+    <Reference Include="Flare3DWaterShipComponent">
+      <HintPath>..\packages\Flare3DWaterShipComponent.1.0.0.0\lib\Flare3DWaterShipComponent.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
     <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Preview.png" />
-    <Content Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FlashTowerDefense.Assets\FlashTowerDefense.Assets.csproj">
-      <Project>{A953BF17-FCD7-4AB8-95F9-B77EEA5EDECF}</Project>
-      <Name>FlashTowerDefense.Assets</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FlashTowerDefense\FlashTowerDefense.csproj">
-      <Project>{B939002B-9922-4999-B943-6C0DF657D25B}</Project>
-      <Name>FlashTowerDefense</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
+    <EmbeddedResource Include="web\assets\FlashFlare3DEmbedingColladaFile\Soldier_new-1.jpg" />
     <None Include="packages.config" />
-    <None Include="staging\FlashTowerDefenseApp.Application\web\manifest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-build.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-install.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-test.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="web\assets\FlashFlare3DEmbedingColladaFile\knocked_out_7.dae" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
-)</PostBuildEvent>
+		if $(ConfigurationName)==Release (
+		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
+		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
-		
-	</PreBuildEvent>
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>

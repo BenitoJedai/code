@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/3.0">
-  <id>com.abstractatech.gamification.ftd</id>
+  <application xmlns="http://ns.adobe.com/air/application/3.5">
+    <id>com.abstractatech.gamification.ftd</id>
   <versionNumber>1.0.1</versionNumber>
   <filename>ftd</filename>
   <name>ftd</name>
