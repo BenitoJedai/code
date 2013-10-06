@@ -29,6 +29,9 @@ namespace WebServiceWithStringFields
         // what about events and properties?
         // what about arrays and other primitive datatypes?
         // how does the JVMCLR do it? can we plug into it?
+        // how do we do it between flash and js?
+        // how about worker scope?
+        // what about streams, io, file upload?
         public Action MakeYellow = delegate { };
 
         public Task<string> this[string index]
