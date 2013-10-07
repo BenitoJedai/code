@@ -96,6 +96,11 @@
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\DataRowCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\DataRow.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\DataColumnCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\DataColumn.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\DataTable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\File.cs" />
