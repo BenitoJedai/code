@@ -20,7 +20,6 @@ namespace SendMailExperiment
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -28,12 +27,28 @@ namespace SendMailExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+
+            new IHTMLButton { innerText = "send" }.AttachToDocument().WhenClicked(
+                async delegate
+                {
+
+                    await new ApplicationWebService
+                    {
+                        FromAddress = "admin@example.com",
+                        FromName = "Example.com Admin",
+
+                        ToAddress = "user@example.com",
+                        ToName = "Mr. User",
+
+                        Subject = "foo",
+
+                        MessageString = "hello world"
+                    }.SendEMail();
+
+
+                }
             );
+
         }
 
     }

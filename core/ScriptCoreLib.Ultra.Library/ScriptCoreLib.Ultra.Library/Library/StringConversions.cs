@@ -7,22 +7,22 @@ using System.IO;
 
 namespace ScriptCoreLib.Library
 {
-    public static partial class StringConversions
+    namespace Templates
     {
         #region code template
-        public class __ElementType
+        public class StringConversions__ElementType
         {
-            public static __ElementType FromString(string e)
+            public static StringConversions__ElementType FromString(string e)
             {
                 throw new NotSupportedException();
             }
 
-            public static string ToString(__ElementType e)
+            public static string ToString(StringConversions__ElementType e)
             {
                 throw new NotSupportedException();
             }
 
-            public static string ConvertElementTypeArrayToString(__ElementType[] e)
+            public static string ConvertElementTypeArrayToString(StringConversions__ElementType[] e)
             {
                 //Unable to cast object of type 'System.Int32[]' to type 'System.Object[]'.
 
@@ -51,22 +51,22 @@ namespace ScriptCoreLib.Library
 
                     //Console.WriteLine("i: " + i + ", item: " + item);
 
-                    xml.Add(new XElement("i" + i, ToString((__ElementType)item)));
+                    xml.Add(new XElement("i" + i, ToString((StringConversions__ElementType)item)));
                 }
 
-                var value = ConvertXElementToString(xml);
+                var value = StringConversions.ConvertXElementToString(xml);
 
-                Console.WriteLine("value: " + value);
+                //Console.WriteLine("value: " + value);
 
                 return value;
             }
 
-            public static __ElementType[] ConvertStringToElementTypeArray(string e)
+            public static StringConversions__ElementType[] ConvertStringToElementTypeArray(string e)
             {
                 if (string.IsNullOrEmpty(e))
                     return null;
 
-                var xml = ConvertStringToXElement(e);
+                var xml = StringConversions.ConvertStringToXElement(e);
 
                 //&lt;array c=&quot;2&quot;&gt;
                 //  &lt;i0&gt;2&lt;/i0&gt;
@@ -80,7 +80,7 @@ namespace ScriptCoreLib.Library
                 //Console.WriteLine(new { Length });
 
 
-                var y = new __ElementType[Length];
+                var y = new StringConversions__ElementType[Length];
 
                 for (int i = 0; i < Length; i++)
                 {
@@ -93,6 +93,11 @@ namespace ScriptCoreLib.Library
             }
         }
         #endregion
+    }
+
+    public static partial class StringConversions
+    {
+  
 
         #region string[]
         [Obsolete]
