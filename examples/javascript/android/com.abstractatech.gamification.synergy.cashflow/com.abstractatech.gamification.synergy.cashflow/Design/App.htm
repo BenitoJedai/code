@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<title>App</title>
+	</head>
+	<body style="overflow: hidden;">
+		<noscript>Error: This Application requires JavaScript.</noscript>
+		<link rel='stylesheet' href='App.css'/>
+		<!-- http://kenbong.blogspot.com/2009/03/cashflow-board-game-101.html
+            http://www.mrbass.org/boardgames/cashflow/
+             -->
+
+        <style>
+            img,  .BlurArea {
+                -webkit-transition: -webkit-filter 500ms linear;
+            }
+            @media (orientation: portrait) {
+                .Board {
+                -webkit-filter: opacity(0%);
+                }
+
+            }
+
+             @media (orientation: landscape) {
+                .YourProfession {
+                -webkit-filter: opacity(0%);
+                }
+
+            }
+
+            .Card {
+
+                 -webkit-transition: -webkit-filter 500ms linear, bottom 200ms ease-in;
+
+                 bottom: -9em;
+                -webkit-filter: opacity(90%) blur(3px) brightness(0.6);
+            }
+
+            .BlurArea {
+                cursor: pointer;
+                -webkit-filter: blur(3px) brightness(0.6);
+            }
+
+               .BlurArea:hover {
+                -webkit-filter: blur(2px) brightness(0.8);
+            }
+
+            .BlurArea:focus {
+                -webkit-filter: blur(0px) brightness(1);
+            }
+
+             .Card:hover {
+                bottom: 1em;
+                -webkit-filter: opacity(100%) blur(2px) brightness(0.8);
+            }
+
+            .Card:focus {
+                bottom: 1em;
+                -webkit-filter: opacity(100%) blur(0px) brightness(1);
+               
+            }
+
+               
+        </style>
+        <div class="BlurArea"
+            tabindex="2" 
+            
+            >
+        <img class="YourProfession" style ="position: absolute; left: -1em; top: -10%; height: 120%;" src="YourProfession.jpg" />
+        <img class="Board" style ="position: absolute; left: -10%; top: 0px; width: 120%;" src="Board.jpg" />
+        </div>
+        <img
+            tabindex="3" 
+            class="Card"
+            style ="
+            
+            cursor: pointer;
+            position: absolute; right: 1em;  width: 20em; box-shadow: 0px 0px 2em 1em rgba(0,0,0, 0.9); " src="Card.jpg" />
+	</body>
+</html>
