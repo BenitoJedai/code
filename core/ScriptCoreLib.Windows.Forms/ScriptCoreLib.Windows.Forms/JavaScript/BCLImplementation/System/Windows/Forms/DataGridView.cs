@@ -12,6 +12,7 @@ using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Drawing;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+using System.Data;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -1501,6 +1502,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
+        public object InternalDataSource;
+        public object DataSource
+        {
+            get
+            {
+                return InternalDataSource;
+            }
+            set
+            {
+                this.InternalDataSource = value;
 
+                var DataTable = value as DataTable;
+                if (DataTable != null)
+                {
+                    // now what?
+
+                    // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
+                }
+            }
+        }
     }
 }

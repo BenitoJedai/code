@@ -10,6 +10,8 @@ using System.Xml.Linq;
 
 namespace FormsWebServiceViaInheritance
 {
+    // http://msdn.microsoft.com/en-us/library/system.componentmodel.marshalbyvaluecomponent.aspx
+    // MarshalByValueUserControl
     public partial class ApplicationWebService : UserControl
 #if ReleaseAndroid
 , ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken_Forms
