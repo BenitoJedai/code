@@ -2,7 +2,10 @@ using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace com.abstractatech.gamification.synergy.cashflow
@@ -10,17 +13,24 @@ namespace com.abstractatech.gamification.synergy.cashflow
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public sealed class ApplicationWebService : Component
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public Task<string> poll_onnfc(string last_id, Action<XElement> yield)
         {
-            // Send it back to the caller.
-            y(e);
+#if DEBUG
+            Thread.Sleep(500);
+
+            return Task.FromResult(last_id);
+#else
+
+            var c = new TaskCompletionSource<string>();
+
+            AndroidNFCEvents.ApplicationWebService_poll_onnfc.poll_onnfc(
+                last_id, yield, c.SetResult
+            );
+
+            return c.Task;
+#endif
         }
 
     }

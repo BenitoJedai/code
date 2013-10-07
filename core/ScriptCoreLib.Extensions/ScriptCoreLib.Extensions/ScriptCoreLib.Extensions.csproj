@@ -101,6 +101,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\CharExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilderExtensions.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\EnumerableExtensions.cs" />
     <Compile Include="Shared\Components\ApplicationWebServiceComponent.cs">
       <SubType>Component</SubType>
     </Compile>
