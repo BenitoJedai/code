@@ -33,6 +33,8 @@ namespace ScriptCoreLib.Library
             return Convert.ToBase64String(bytes);
         }
 
+
+
         public static byte[] FromBase64StringOrDefault(this string e)
         {
             if (e == null)
@@ -49,6 +51,43 @@ namespace ScriptCoreLib.Library
             return Convert.ToBase64String(e);
         }
 
+
+
+        public static int[] Int32ArrayFromBase64StringOrDefault(this string e)
+        {
+            if (e == null)
+                return null;
+
+            var m = new MemoryStream(Convert.FromBase64String(e));
+            var r = new BinaryReader(m);
+
+            var length = m.Length / 4;
+
+            var a = new int[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                a[i] = r.ReadInt32();
+            }
+
+            return a;
+        }
+
+        public static string Int32ArrayToBase64StringOrDefault(this int[] e)
+        {
+            if (e == null)
+                return null;
+
+            var m = new MemoryStream();
+            var w = new BinaryWriter(m);
+
+            foreach (var item in e)
+            {
+                w.Write(item);
+            }
+
+            return Convert.ToBase64String(m.ToArray());
+        }
 
         #region XElement
         public static string ConvertXElementToString(XElement e)
