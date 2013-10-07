@@ -1,20 +1,52 @@
 <html>
 	<head>
-		<title>App</title>
+		<title>::</title>
 	</head>
-	<body style="overflow: hidden;">
-		<noscript>Error: This Application requires JavaScript.</noscript>
-		<link rel='stylesheet' href='App.css'/>
-		<!-- http://kenbong.blogspot.com/2009/03/cashflow-board-game-101.html
-            http://www.mrbass.org/boardgames/cashflow/
-             -->
 
         <style>
+            body, html, .BlurArea {
+                overflow: hidden; 
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+                margin: 0px;
+
+                background-color: black;
+
+            }
+
+            head, title {
+            display: block;
+                
+            }
+            title 
+            {
+                cursor: pointer;
+
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                height: 3em;
+                position: absolute;
+                
+                text-shadow: 3px 3px 3px black;
+                font-size: x-large;
+                padding: 0.2em;
+                color: white;
+                font-family: 'Courier New';
+                text-align: center;
+                z-index: 100;
+                background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%,rgba(0,0,0,0) 100%); /* W3C */
+            }
+
             img,  .BlurArea {
                 -webkit-transition: -webkit-filter 500ms linear;
             }
             @media (orientation: portrait) {
                 .Board {
+                    z-index: -10;
                 -webkit-filter: opacity(0%);
                 }
 
@@ -22,19 +54,13 @@
 
              @media (orientation: landscape) {
                 .YourProfession {
+                    z-index: -10;
                 -webkit-filter: opacity(0%);
                 }
 
             }
 
-            .Card {
-
-                 -webkit-transition: -webkit-filter 500ms linear, bottom 200ms ease-in;
-
-                 bottom: -9em;
-                -webkit-filter: opacity(90%) blur(3px) brightness(0.6);
-            }
-
+   
             .BlurArea {
                 cursor: pointer;
                 -webkit-filter: blur(3px) brightness(0.6);
@@ -48,32 +74,72 @@
                 -webkit-filter: blur(0px) brightness(1);
             }
 
-             .Card:hover {
-                bottom: 1em;
-                -webkit-filter: opacity(100%) blur(2px) brightness(0.8);
+
+            .Card, .Card2 {
+                 cursor: pointer;
+                 position: absolute; 
+                 
+                 right: 1em;  
+                 
+                 width: 20em;  
+
+                 transition: -webkit-filter 500ms linear, box-shadow 4500ms linear,bottom 200ms cubic-bezier(.33,.02,.45,1) ;
+                 /*-webkit-transition: -webkit-filter 500ms linear, bottom 200ms cubic-bezier(.33,.02,.45,1) ;*/
+
+                 bottom: -10em;
+                -webkit-filter: opacity(90%) blur(3px) brightness(0.6);
+                box-shadow: 0px 0px 2em 1em rgba(0,0,0, 0.6);
             }
 
-            .Card:focus {
-                bottom: 1em;
+            .Card2 {
+                 right: 4em;  
+
+            }
+
+             .Card:hover, .Card:hover  {
+                -webkit-filter: opacity(100%) blur(1px) brightness(0.8);
+            }
+
+            .Card:focus,   .Card2:focus  {
+                    z-index: 10;
+                bottom: 3%;
+                box-shadow: 0px 0px 2em 1em rgba(0,0,0, 0.9);
                 -webkit-filter: opacity(100%) blur(0px) brightness(1);
                
             }
 
                
         </style>
-        <div class="BlurArea"
+
+	<body >
+		<noscript>Error: This Application requires JavaScript.</noscript>
+		<link rel='stylesheet' href='App.css'/>
+		<!-- http://kenbong.blogspot.com/2009/03/cashflow-board-game-101.html
+            http://www.mrbass.org/boardgames/cashflow/
+             -->
+
+    
+        <div
+            
+            id="BlurArea"
+             class="BlurArea"
             tabindex="2" 
             
             >
-        <img class="YourProfession" style ="position: absolute; left: -1em; top: -10%; height: 120%;" src="YourProfession.jpg" />
         <img class="Board" style ="position: absolute; left: -10%; top: 0px; width: 120%;" src="Board.jpg" />
+        <img class="YourProfession" style ="position: absolute; left: -12%; top: -2%; height: 104%;" src="YourProfession.jpg" />
         </div>
+
         <img
             tabindex="3" 
+            id="Card"
             class="Card"
-            style ="
-            
-            cursor: pointer;
-            position: absolute; right: 1em;  width: 20em; box-shadow: 0px 0px 2em 1em rgba(0,0,0, 0.9); " src="Card.jpg" />
+            src="Card.jpg" />
+
+                <img
+            tabindex="3" 
+            id="Card2"
+            class="Card2"
+            src="Card2.jpg" />
 	</body>
 </html>
