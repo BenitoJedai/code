@@ -133,6 +133,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\InvalidOperationException.cs">
       <Link>BCLImplementation\System\InvalidOperationException.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\BinaryReader.cs">
+      <Link>BCLImplementation\System\IO\BinaryReader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\BinaryWriter.cs">
+      <Link>BCLImplementation\System\IO\BinaryWriter.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Directory.cs">
       <Link>BCLImplementation\System\IO\Directory.cs</Link>
     </Compile>
