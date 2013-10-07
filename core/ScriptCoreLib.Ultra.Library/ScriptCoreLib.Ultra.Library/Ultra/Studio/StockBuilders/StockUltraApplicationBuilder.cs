@@ -349,6 +349,9 @@ associated with an assembly."
             ApplicationType.UsingNamespaces.Add("System.Text");
             ApplicationType.UsingNamespaces.Add("System.Linq");
             ApplicationType.UsingNamespaces.Add("System.Xml.Linq");
+            ApplicationType.UsingNamespaces.Add("System.Collections.Generic");
+            ApplicationType.UsingNamespaces.Add("System.Threading.Tasks");
+
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM");
