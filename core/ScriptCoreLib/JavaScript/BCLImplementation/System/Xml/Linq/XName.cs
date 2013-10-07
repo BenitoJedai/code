@@ -7,42 +7,50 @@ using System.Xml.Linq;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
 
-	[Script(Implements = typeof(XName))]
-	internal class __XName
-	{
-		internal string InternalValue;
+    [Script(Implements = typeof(XName))]
+    internal class __XName
+    {
+        internal string InternalValue;
 
-		public string LocalName
-		{
-			get
-			{
-				return InternalValue;
-			}
-		}
-		public override string ToString()
-		{
-			return LocalName;
-		}
+        public string LocalName
+        {
+            get
+            {
+                return InternalValue;
+            }
+        }
+        public override string ToString()
+        {
+            return LocalName;
+        }
 
-		public static implicit operator __XName(string e)
-		{
-			return new __XName { InternalValue = e };
-		}
+        public static implicit operator __XName(string e)
+        {
+            return new __XName { InternalValue = e };
+        }
 
-		public static XName Get(string localName, string namespaceName)
-		{
-			return (XName)(object)new __XName { InternalValue = localName };
-		}
+        public static XName Get(string localName)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\DataTypesForWebServiceExperiment\DataTypesForWebServiceExperiment\Application.cs
 
-		public static bool operator ==(__XName left, __XName right)
-		{
-			return left.LocalName == right.LocalName;
-		}
+            return Get(localName, "");
+        }
 
-		public static bool operator !=(__XName left, __XName right)
-		{
-			return left.LocalName != right.LocalName;
-		}
+        public static XName Get(string localName, string namespaceName)
+        {
+            return (XName)(object)new __XName { InternalValue = localName };
+        }
 
-	}
+        public static bool operator ==(__XName left, __XName right)
+        {
+            return left.LocalName == right.LocalName;
+        }
+
+        public static bool operator !=(__XName left, __XName right)
+        {
+            return left.LocalName != right.LocalName;
+        }
+
+    }
 }
