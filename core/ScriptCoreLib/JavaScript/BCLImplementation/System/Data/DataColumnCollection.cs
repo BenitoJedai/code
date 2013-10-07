@@ -8,7 +8,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data
 {
     [Script(Implements = typeof(global::System.Data.DataColumnCollection))]
-    public class __DataColumnCollection : IEnumerable
+    public class __DataColumnCollection : __InternalDataCollectionBase
     {
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
         // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationWebService.cs
@@ -20,10 +20,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data
             this.InternalList.Add(column);
         }
 
-        public IEnumerator GetEnumerator()
+        public void AddRange(DataColumn[] columns)
         {
-            return this.InternalList.GetEnumerator();
+            this.InternalList.AddRange(columns);
         }
+
+        public override IEnumerable GetInternalList()
+        {
+            return InternalList;
+        }
+
 
         public static implicit operator DataColumnCollection(__DataColumnCollection x)
         {

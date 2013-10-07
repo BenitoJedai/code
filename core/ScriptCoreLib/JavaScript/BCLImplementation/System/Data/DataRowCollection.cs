@@ -9,7 +9,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data
 {
     [Script(Implements = typeof(global::System.Data.DataRowCollection))]
-    public class __DataRowCollection : IEnumerable
+    public class __DataRowCollection : __InternalDataCollectionBase
     {
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
         // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationWebService.cs
@@ -21,10 +21,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data
             this.InternalList.Add(row);
         }
 
-        public IEnumerator GetEnumerator()
+        public void AddRange(DataRow[] row)
         {
-            return this.InternalList.GetEnumerator();
+            this.InternalList.AddRange(row);
         }
+
+
+        public override IEnumerable GetInternalList()
+        {
+            return InternalList;
+        }
+
 
         public static implicit operator DataRowCollection(__DataRowCollection x)
         {

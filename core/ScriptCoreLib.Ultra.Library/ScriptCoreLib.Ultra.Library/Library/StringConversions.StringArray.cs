@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.IO;
+using System.Data;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Library
 {
@@ -123,6 +125,89 @@ namespace ScriptCoreLib.Library
 
             return new FileInfo(e);
         }
+        #endregion
+    }
+
+    public static class StringConversionsForDataTable
+    {
+        // tested by
+        // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationWebService.cs
+
+        #region DataTable
+        public static string ConvertToString(DataTable e)
+        {
+            if (e == null)
+                return null;
+
+
+            // http://www.w3schools.com/tags/tag_th.asp
+            var table = new XElement("DataTable");
+
+            {
+                var tr = new XElement("Columns");
+                table.Add(tr);
+
+                foreach (DataColumn item in e.Columns)
+                {
+                    var th = new XElement("DataColumn",
+                        item.ColumnName
+                    );
+
+                    tr.Add(th);
+                }
+            }
+
+            foreach (DataRow row in e.Rows)
+            {
+                var tr = new XElement("DataRow");
+                table.Add(tr);
+
+                foreach (DataColumn item in e.Columns)
+                {
+                    var th = new XElement("DataColumn",
+                        row[item]
+                    );
+
+                    tr.Add(th);
+                }
+            }
+
+            return table.ToString();
+        }
+
+        public static DataTable ConvertFromString(string e)
+        {
+            if (string.IsNullOrEmpty(e))
+                return null;
+
+            var n = new DataTable();
+
+            // DataTable.ReadXML?
+            var x = XElement.Parse(e);
+
+            var Columns = x.Element("Columns").Elements("DataColumn").Select(k => new DataColumn { ColumnName = k.Value }).ToArray();
+            n.Columns.AddRange(Columns);
+
+            x.Elements("DataRow").WithEach(
+                r =>
+                {
+                    var nr = n.NewRow();
+
+
+                    r.Elements("DataColumn").WithEachIndex(
+                        (c, ci) =>
+                        {
+                            nr[Columns[ci]] = c.Value;
+                        }
+                    );
+
+                    n.Rows.Add(nr);
+                }
+            );
+
+            return n;
+        }
+
         #endregion
     }
 }
