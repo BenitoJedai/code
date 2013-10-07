@@ -7,7 +7,10 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 {
     [Script(Implements = typeof(global::System.Data.DataColumn))]
-    internal class __DataColumn : __MarshalByValueComponent
+    public class __DataColumn : __MarshalByValueComponent
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
+
+        public string ColumnName { get; set; }
     }
 }

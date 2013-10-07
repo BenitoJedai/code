@@ -14,6 +14,7 @@ using NASDAQSNA.Design;
 using NASDAQSNA.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NASDAQSNA
 {
@@ -22,13 +23,12 @@ namespace NASDAQSNA
     /// </summary>
     public sealed class Application
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page)
+        public Application(IDefault page)
         {
             @"Hello world".ToDocumentTitle();
 
@@ -83,7 +83,7 @@ namespace NASDAQSNA
                 };
 
             #region AddRelatedCompanies
-            Action<IHTMLDiv, string, Action> AddRelatedCompanies = null;
+            Func<IHTMLDiv, string, Action, Task> AddRelatedCompanies = null;
 
             AddRelatedCompanies =
                 (c, qid, done) =>
@@ -93,10 +93,12 @@ namespace NASDAQSNA
 
                     cc.style.marginLeft = "2em";
 
-                    // Send data from JavaScript to the server tier
-                    service.GetRelatedCompanies(
-                        qid,
-                        (id, CompanyName, Price) =>
+
+
+                    var service = new ApplicationWebService
+                    {
+                        qid = qid,
+                        yield = (id, CompanyName, Price) =>
                         {
                             var nid = GetNumericNodeId(id).ToString();
 
@@ -160,34 +162,15 @@ namespace NASDAQSNA
                                 ccc.ToggleVisible();
 
 
-                                btn.onmouseover +=
-                                    delegate
+
+                                btn.WhenClicked(
+                                    async delegate
                                     {
                                         if (cx == 0)
                                         {
                                             btn.style.color = JSColor.Red;
 
-                                            AddRelatedCompanies(ccc, id,
-                                                delegate
-                                                {
-                                                    btn.style.color = JSColor.Blue;
-
-                                                }
-                                            );
-                                        }
-
-
-                                        cx++;
-                                    };
-
-                                btn.onclick +=
-                                    delegate
-                                    {
-                                        if (cx == 0)
-                                        {
-                                            btn.style.color = JSColor.Red;
-
-                                            AddRelatedCompanies(ccc, id,
+                                            await AddRelatedCompanies(ccc, id,
                                                 delegate
                                                 {
                                                     btn.style.color = JSColor.Blue;
@@ -201,10 +184,16 @@ namespace NASDAQSNA
 
                                         ccc.ToggleVisible();
 
-                                    };
+                                    }
+                                );
+
                             }
                         }
-                    );
+                    };
+
+
+
+                    return service.GetRelatedCompanies();
                 };
             #endregion
 
