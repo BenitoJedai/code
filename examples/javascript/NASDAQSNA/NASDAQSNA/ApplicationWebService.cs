@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Net;
 using ScriptCoreLib.Extensions;
+using System.Threading.Tasks;
 
 namespace NASDAQSNA
 {
@@ -17,8 +18,12 @@ namespace NASDAQSNA
     public sealed class ApplicationWebService
     {
 
+        public string qid = "NASDAQ:FB";
 
-        public void GetRelatedCompanies(string qid = "NASDAQ:FB", Action<string, string, string> yield = null)
+        public Action<string, string, string> yield = null;
+
+
+        public async Task GetRelatedCompanies()
         {
 
             var c = new WebClient();

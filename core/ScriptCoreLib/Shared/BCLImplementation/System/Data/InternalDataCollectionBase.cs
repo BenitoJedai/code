@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 {
     [Script(Implements = typeof(global::System.Data.InternalDataCollectionBase))]
     public class __InternalDataCollectionBase : IEnumerable
