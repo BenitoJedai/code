@@ -19,6 +19,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridView))]
     internal class __DataGridView : __Control, __ISupportInitialize
     {
+        public bool AllowUserToAddRows { get; set; }
+
         public IHTMLDiv InternalElement;
         public IHTMLDiv InternalScrollContainerElement;
 
@@ -1519,6 +1521,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // now what?
 
                     // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
+                    // http://stackoverflow.com/questions/6902269/moving-data-from-datatable-to-datagridview-in-c-sharp
+
+                    this.Rows.Clear();
+
+                    // we cant remove columns yet?
+                    //this.Columns.Clear();
+
+                    foreach (DataColumn item in DataTable.Columns)
+                    {
+                        this.Columns.Add(
+                            new DataGridViewColumn
+                            {
+                                Name = item.ColumnName,
+                                HeaderText = item.ColumnName
+                            }
+                        );
+                    }
+
+                    foreach (DataRow item in DataTable.Rows)
+                    {
+                        var r = new DataGridViewRow();
+
+                        foreach (DataColumn c in DataTable.Columns)
+                        {
+                            r.Cells.Add(
+                                new DataGridViewTextBoxCell
+                                {
+                                    // two way binding?
+                                    //ReadOnly = true,
+
+                                    Value = item[c]
+                                }
+                            );
+                        }
+
+                        this.Rows.Add(r);
+                    }
                 }
             }
         }
