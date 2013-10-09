@@ -19,14 +19,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __Timer()
             : this(null)
         {
-
+            //Console.WriteLine("__Timer.ctor");
         }
 
         public __Timer(IContainer e)
         {
+            //Console.WriteLine("__Timer.ctor IContainer");
+
+
             Target = new Timer();
             Target.Tick += t =>
                 {
+                    //Console.WriteLine("Target.Tick");
+
                     if (this.Tick != null)
                         this.Tick(this, null);
                 };
@@ -44,7 +49,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _Enabled = value;
 
                 if (value)
+                {
+                    //Console.WriteLine("__Timer.StartInterval");
+
                     Target.StartInterval(_Interval);
+                }
                 else
                     Target.Stop();
             }

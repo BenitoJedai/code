@@ -85,8 +85,11 @@ namespace DataTypesForWebServiceExperiment
 
                      foreach (var item in Result)
                      {
-                         new IHTMLPre { innerText = new { item.e }.ToString() }.AttachToDocument();
+                         //new IHTMLPre { innerText = new { item.e }.ToString() }.AttachToDocument();
+                         var x = new IHTMLPre { innerText = item.ToString() }.AttachToDocument();
 
+                         var xx = await item.GetString();
+                         x.innerText = xx;
                      }
                  }
              );

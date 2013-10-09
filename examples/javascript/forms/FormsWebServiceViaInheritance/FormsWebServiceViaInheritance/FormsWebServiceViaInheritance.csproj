@@ -141,6 +141,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\TimerDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Library\TimerDisplay.Designer.cs">
+      <DependentUpon>TimerDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
@@ -171,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ApplicationWebService.resx">
       <DependentUpon>ApplicationWebService.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\TimerDisplay.resx">
+      <DependentUpon>TimerDisplay.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
