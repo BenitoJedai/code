@@ -52,7 +52,7 @@ namespace SQLiteConsoleExperiment
             c.Show();
 
             c.AtCommand +=
-                (x, y) =>
+                async (x, y) =>
                 {
                     if (x == "cls")
                     {
@@ -68,28 +68,46 @@ namespace SQLiteConsoleExperiment
                     Action<XElement> AtDataGridContent =
                         xml =>
                         {
-                            var ff = new Form
-                            {
-                                Text = x
-                            };
+                            //var ff = new Form
+                            //{
+                            //    Text = x
+                            //};
 
-                            var fw = new WebBrowser { Dock = DockStyle.Fill };
+                            //var fw = new WebBrowser { Dock = DockStyle.Fill };
 
-                            fw.DocumentText = xml.ToString();
+                            //fw.DocumentText = xml.ToString();
 
-                            ff.Controls.Add(fw);
+                            //ff.Controls.Add(fw);
 
-                            ff.StartPosition = FormStartPosition.Manual;
-                            ff.Left = c.Right - ff.Width;
-                            ff.Top = c.Top;
-                            ff.Height = c.Height;
+                            //ff.StartPosition = FormStartPosition.Manual;
+                            //ff.Left = c.Right - ff.Width;
+                            //ff.Top = c.Top;
+                            //ff.Height = c.Height;
 
-                            ff.Show();
+                            //ff.Show();
 
                             //MessageBox.Show(xml.ToString());
                         };
 
-                    this.applicationWebService1.ExecuteReaderAsync(x, y, AtDataGridContent);
+                    var data = await this.applicationWebService1.ExecuteReaderAsync(x, y, AtDataGridContent);
+
+                    {
+                        var ff = new Form
+                        {
+                            Text = new { data.TableName }.ToString()
+                        };
+
+                        var g = new DataGridView
+                        {
+                            Dock = DockStyle.Fill,
+                            DataSource = data
+                        };
+
+                        ff.Controls.Add(g);
+
+                        ff.Show();
+
+                    }
                 };
 
             c.FormClosing +=

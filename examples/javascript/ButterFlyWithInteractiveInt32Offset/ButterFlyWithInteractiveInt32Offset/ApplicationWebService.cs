@@ -14,26 +14,26 @@ namespace ButterFlyWithInteractiveInt32Offset
     /// </summary>
     public sealed class ApplicationWebService
     {
-      
 
-        public async Task<string> File_ReadLine(string CallerFilePath, string CallerLineNumber)
+
+        public async Task<string> File_ReadLine(string CallerFilePath, int CallerLineNumber)
         {
             Console.WriteLine(new { CallerFilePath, CallerLineNumber });
 
-            return (File.ReadAllLines(CallerFilePath)[int.Parse(CallerLineNumber) - 1]);
+            return (File.ReadAllLines(CallerFilePath)[CallerLineNumber - 1]);
 
         }
 
         public void File_WriteLine(
             string CallerFilePath,
-            string CallerLineNumber,
+            int CallerLineNumber,
 
             string value)
         {
             Console.WriteLine(new { CallerFilePath, CallerLineNumber, value });
             var Lines = File.ReadAllLines(CallerFilePath);
 
-            Lines[int.Parse(CallerLineNumber) - 1] = value;
+            Lines[CallerLineNumber - 1] = value;
 
             File.WriteAllLines(CallerFilePath, Lines);
 

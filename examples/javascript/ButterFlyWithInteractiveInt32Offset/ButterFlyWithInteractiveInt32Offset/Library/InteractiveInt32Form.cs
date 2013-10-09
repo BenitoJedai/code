@@ -30,8 +30,8 @@ namespace ScriptCoreLib.Extensions
 
         public class Service
         {
-            public Func<string, string, Task<string>> File_ReadLine;
-            public Action<string, string, string> File_WriteLine;
+            public Func<string, int, Task<string>> File_ReadLine;
+            public Action<string, int, string> File_WriteLine;
         }
 
         public static Service service = new Service();
@@ -75,7 +75,7 @@ namespace ScriptCoreLib.Extensions
                 service.File_ReadLine.With(
                     File_ReadLine =>
                     {
-                        File_ReadLine(CallerFilePath, "" + CallerLineNumber).ContinueWithResult(
+                        File_ReadLine(CallerFilePath, CallerLineNumber).ContinueWithResult(
                             x =>
                             {
 
@@ -96,7 +96,7 @@ namespace ScriptCoreLib.Extensions
 
                                         if (service.File_WriteLine != null)
                                             service.File_WriteLine(
-                                                CallerFilePath, "" + CallerLineNumber,
+                                                CallerFilePath, CallerLineNumber,
                                                 f.label2.Text
                                             );
 
