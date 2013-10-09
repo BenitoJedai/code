@@ -945,6 +945,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                 if (WebMethod.TaskResult != null)
                 {
+                    //Console.WriteLine(new { WebMethod.TaskResult });
+
                     Write("<TaskResult>");
                     Write(escapeXML(WebMethod.TaskResult));
                     Write("</TaskResult>");

@@ -51,7 +51,7 @@ namespace AccountExperiment
                           if (string.IsNullOrEmpty(message.Value))
                               return;
 
-                          Native.Window.alert(message.Value);
+                          Native.window.alert(message.Value);
                           message.Delete();
 
 
@@ -233,7 +233,7 @@ namespace AccountExperiment
                     delegate
                     {
                         service.SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere(session.Value,
-                            x => Native.Window.alert(x)
+                            x => Native.window.alert(x)
                         );
                     };
 

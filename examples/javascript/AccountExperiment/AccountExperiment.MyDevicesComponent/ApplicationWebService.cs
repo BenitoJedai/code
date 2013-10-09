@@ -5,6 +5,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace AccountExperiment.MyDevicesComponent
@@ -15,29 +16,30 @@ namespace AccountExperiment.MyDevicesComponent
     public sealed partial class ApplicationWebService : Component,
         IMyDevicesComponent_MyDevices
     {
-        public MyDevices devices = new MyDevices();
+        MyDevices devices = new MyDevices();
 
-        public void MyDevices_Insert(string account, string name, string value, Action<string> yield)
+        public Task<long> MyDevices_Insert(
+            long account,
+            string name,
+            string value)
         {
-            var id = devices.Insert(
+            return devices.Insert(
                 new MyDevicesQueries.Insert
                 {
-                    account = long.Parse(account),
+                    account = account,
                     name = name,
                     value = value,
                     ticks = 0
                 }
             );
 
-            yield("" + id);
         }
 
-
-
-        public void MyDevices_SelectByAccount(string account, Action<string, string, string> yield, Action done)
+        // jsc you are not unescaping params?
+        public Task MyDevices_SelectByAccount(long account, Action<string, string, string> yield)
         {
             devices.SelectByAccount(
-                new MyDevicesQueries.SelectByAccount { account = long.Parse(account) },
+                new MyDevicesQueries.SelectByAccount { account = account },
                 r =>
                 {
                     long id = r.id;
@@ -49,31 +51,33 @@ namespace AccountExperiment.MyDevicesComponent
                 }
             );
 
-            done();
+            return Task.FromResult(default(object));
         }
 
 
-        public void MyDevices_Update(string account, string id, string name, string value, Action done)
+        public Task MyDevices_Update(
+            long account,
+            long id,
+            string name,
+            string value)
         {
-            devices.Update(
+            return devices.Update(
                 new MyDevicesQueries.Update
                 {
-                    account = long.Parse(account),
-                    id = long.Parse(id),
+                    account = account,
+                    id = id,
                     name = name,
                     value = value
                 }
             );
-
-            done();
         }
     }
 
     public interface IMyDevicesComponent_MyDevices
     {
         // consumers may need to wrap with session id
-        void MyDevices_Insert(string account, string name, string value, Action<string> yield);
-        void MyDevices_SelectByAccount(string account, Action<string, string, string> yield, Action done);
-        void MyDevices_Update(string account, string id, string name, string value, Action done);
+        Task<long> MyDevices_Insert(long account, string name, string value);
+        Task MyDevices_SelectByAccount(long account, Action<string, string, string> yield);
+        Task MyDevices_Update(long account, long id, string name, string value);
     }
 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AccountExperiment.MyDevicesComponent.Schema
 {
@@ -38,7 +39,7 @@ namespace AccountExperiment.MyDevicesComponent.Schema
         }
 
 
-        public long Insert(Insert value)
+        public Task<long> Insert(Insert value)
         {
             var id = -1L;
 
@@ -51,7 +52,7 @@ namespace AccountExperiment.MyDevicesComponent.Schema
                 }
             );
 
-            return id;
+            return Task.FromResult(id);
         }
 
         public void SelectByAccount(SelectByAccount e, Action<dynamic> y)
@@ -59,23 +60,31 @@ namespace AccountExperiment.MyDevicesComponent.Schema
             WithConnection(
                 c =>
                 {
-                    e.ExecuteReader(c).WithEach(y);
+                    var r = e.ExecuteReader(c);
+
+                    //var data = new DataTable();
+                    //data.Load(r);
+
+                    r.WithEach(y);
 
                 }
             );
         }
 
-        public void Update(Update value)
+        public Task Update(Update value)
         {
             //Console.WriteLine("enter Update");
 
             WithConnection(
                 c =>
                 {
+
+
                     value.ExecuteNonQuery(c);
                 }
-             );
-            //Console.WriteLine("exit Update");
+            );
+
+            return Task.FromResult(default(object));
         }
     }
 }

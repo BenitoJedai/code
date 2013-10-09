@@ -70,5 +70,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalForeColor = SystemColors.WindowText;
             this.InternalBackColor = SystemColors.Window;
         }
+
+
+        #region operators
+        public static implicit operator __DataGridViewCellStyle(DataGridViewCellStyle c)
+        {
+            return (__DataGridViewCellStyle)(object)c;
+        }
+        public static implicit operator DataGridViewCellStyle(__DataGridViewCellStyle c)
+        {
+            return (DataGridViewCellStyle)(object)c;
+        }
+        #endregion
     }
 }

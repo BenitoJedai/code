@@ -39,8 +39,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-        public __DataGridViewCellStyle InternalStyle { get; set; }
-        public DataGridViewCellStyle Style { get; set; }
+        public __DataGridViewCellStyle InternalStyle;
+        public DataGridViewCellStyle Style { get { return InternalStyle; } set { InternalStyle = value; } }
 
         public __DataGridViewRow InternalOwningRow;
         public DataGridViewRow OwningRow { get { return InternalOwningRow; } }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.account = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,6 +62,8 @@
             // 
             // account
             // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.account.DefaultCellStyle = dataGridViewCellStyle1;
             this.account.HeaderText = "account";
             this.account.Name = "account";
             this.account.ReadOnly = true;

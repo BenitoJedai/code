@@ -1,18 +1,18 @@
 ﻿using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Drawing;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using ScriptCoreLib.Shared.Drawing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ScriptCoreLib.JavaScript.Drawing;
-using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
-using System.Data;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -521,8 +521,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     EditElement.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                                 };
 
+                            var OriginalValue = (string)SourceCell.Value;
                             EditElement.value = (string)SourceCell.Value;
 
+
+                            #region CheckChanges
+                            Action CheckChanges = delegate
+                            {
+                                //if (((string)SourceCell.Value) != EditElement.value)
+                                //{
+                                SourceCell.Value = EditElement.value;
+
+                                //}
+
+                            };
+                            #endregion
 
                             #region ExitEditMode
                             Action ExitEditMode = delegate
@@ -545,20 +558,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                 InternalRaiseCellEndEdit(SourceCell);
 
+                                if (OriginalValue == (string)SourceCell.Value)
+                                    return;
+
+                                this.AutoResizeColumn(SourceCell.ColumnIndex);
                             };
                             #endregion
 
-                            #region CheckChanges
-                            Action CheckChanges = delegate
-                            {
-                                //if (((string)SourceCell.Value) != EditElement.value)
-                                //{
-                                SourceCell.Value = EditElement.value;
-
-                                //}
-
-                            };
-                            #endregion
 
 
                             #region CellBeginEdit
@@ -960,13 +966,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     for (int i = 0; i < SourceRow.InternalCells.InternalItems.Count; i++)
                     {
+                        var SourceColumn = this.InternalColumns.InternalItems[i];
                         var SourceCell = SourceRow.InternalCells.InternalItems[i];
 
                         if (SourceCell.InternalTableColumn == null)
+                        {
                             InitializeMissingCell(
                                 SourceCell,
                                 SourceRow
                             );
+                        }
+
+                        SourceColumn.InternalDefaultCellStyleChanged +=
+                            delegate
+                            {
+                                if (SourceColumn.DefaultCellStyle != null)
+                                {
+                                    SourceCell.Style.ForeColor = SourceColumn.DefaultCellStyle.ForeColor;
+                                    SourceCell.Style.BackColor = SourceColumn.DefaultCellStyle.BackColor;
+                                }
+                            };
+
+                        if (SourceColumn.DefaultCellStyle != null)
+                        {
+                            SourceCell.Style.ForeColor = SourceColumn.DefaultCellStyle.ForeColor;
+                            SourceCell.Style.BackColor = SourceColumn.DefaultCellStyle.BackColor;
+                        }
                     }
                 };
             #endregion
@@ -1017,6 +1042,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c1contentclight.style.top = "0";
                     c1contentclight.style.right = "0";
                     c1contentclight.style.height = "10px";
+
                     c1contentclight.style.backgroundColor = JSColor.White;
 
 
@@ -1257,7 +1283,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             );
 
                             cwidth = Math.Max(cwidth, this.InternalColumns.InternalItems[cindex].InternalContent.offsetWidth);
-                            cwidth += 8;
+
+                            // extra padding?
+                            cwidth += 8 + 24;
 
                             Console.WriteLine("InternalAutoSize" + new { c.Width, cwidth });
 
@@ -1584,7 +1612,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         //this[SourceCell.ColumnIndex, SourceRow.Index].Selected = true;
                     }
                     #endregion
-
 
 
                     if (this.CellEndEdit != null)
