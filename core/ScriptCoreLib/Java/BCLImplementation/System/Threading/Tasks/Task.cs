@@ -14,11 +14,11 @@ namespace ScriptCoreLib.Java.BCLImplementation.System.Threading.Tasks
 
         public static Task<TResult> FromResult<TResult>(TResult result)
         {
-            var t =  new __Task<TResult>();
+            var t = new __Task<TResult>();
 
             t.InternalSetCompleteAndYield(result);
 
-                return t;
+            return t;
         }
 
         public void InternalSetCompleteAndYield()
@@ -60,6 +60,19 @@ namespace ScriptCoreLib.Java.BCLImplementation.System.Threading.Tasks
         public static implicit operator __Task<TResult>(Task<TResult> e)
         {
             return (__Task<TResult>)(object)e;
+        }
+
+        public Task ContinueWith(Action<Task<TResult>> continuationAction)
+        {
+            var x = new TaskCompletionSource<object>();
+
+            if (!this.IsCompleted)
+                throw new NotImplementedException();
+
+            continuationAction(this);
+
+            x.SetResult(null);
+            return x.Task;
         }
     }
 }

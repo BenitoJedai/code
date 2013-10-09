@@ -79,6 +79,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
             try
             {
+                //I/System.Console(12089): Caused by: java.lang.NullPointerException
+                //I/System.Console(12089):        at org.apache.xml.serializer.ToStream.writeAttrString(ToStream.java:2099)
+                //I/System.Console(12089):        at org.apache.xml.serializer.ToStream.processAttributes(ToStream.java:2079)
+                //I/System.Console(12089):        at org.apache.xml.serializer.ToStream.closeStartTag(ToStream.java:2623)
+                //I/System.Console(12089):        at org.apache.xml.serializer.ToStream.startElement(ToStream.java:1927)
+                //I/System.Console(12089):        at org.apache.xalan.transformer.TransformerIdentityImpl.startElement(TransformerIdentityImpl.java:1073)
+                //I/System.Console(12089):        at org.apache.xml.serializer.TreeWalker.startNode(TreeWalker.java:359)
+                //I/System.Console(12089):        at org.apache.xml.serializer.TreeWalker.traverse(TreeWalker.java:145)
+                //I/System.Console(12089):        at org.apache.xalan.transformer.TransformerIdentityImpl.transform(TransformerIdentityImpl.java:390)
+                //I/System.Console(12089):        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XNode.InternalToString(__XNode.java:81)
+
+
                 this.InternalEnsureElement();
 
                 // http://stackoverflow.com/questions/9150403/how-do-you-debug-an-xml-object-that-causes-a-transform-error-when-writing-to-str

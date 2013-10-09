@@ -17,8 +17,18 @@ namespace FormsConfiguredAtWebService
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
     public sealed partial class ApplicationWebService : Component
+#if Android
+, ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken_Forms
+#endif
     {
-        private System.Data.SqlClient.SqlDataAdapter ServerField;
+
+        //        Implementation not found for type import :
+        //type: System.Windows.Forms.Form
+        //method: Void .ctor()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+        //private System.Data.SqlClient.SqlDataAdapter ServerField;
 
         /// <summary>
         /// This Method is a javascript callable method.
@@ -32,13 +42,17 @@ namespace FormsConfiguredAtWebService
         }
 
 
-        public async Task<string> SpecialMessage()
+        public
+            //async 
+            Task<string> SpecialMessage()
         {
-            return "hi from server";
+            return Task.FromResult("hi from server");
         }
 
 
-        public async Task<DataTable> GetQueryResultAsDataTable()
+        public
+            //async 
+            Task<DataTable> GetQueryResultAsDataTable()
         {
             var table = new DataTable();
 
@@ -56,22 +70,28 @@ namespace FormsConfiguredAtWebService
             row[column2] = "test2 long text for autosize ... more text";
             table.Rows.Add(row);
 
-            return table;
+            return Task.FromResult(table);
         }
 
-        public async Task<Goo> CreateServerGoo()
+        public
+            //async 
+            Task<Goo> CreateServerGoo()
         {
-            var data = await GetQueryResultAsDataTable();
+            var data =
+                //await 
+                GetQueryResultAsDataTable().Result;
 
-            return new Goo
-            {
-                GooTitle = "foo",
-                GooButtonMessage = "foo message",
-                GooDataSource = data,
+            return Task.FromResult(
+                new Goo
+                {
+                    GooTitle = "foo",
+                    GooButtonMessage = "foo message",
+                    GooDataSource = data,
 
-                // a new copy
-                service = new ApplicationWebService()
-            };
+                    // a new copy
+                    service = new ApplicationWebService()
+                }
+            );
         }
 
         // jsc should also allow static methods
