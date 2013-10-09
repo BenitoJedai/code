@@ -143,6 +143,10 @@ namespace ScriptCoreLib.Library
             // http://www.w3schools.com/tags/tag_th.asp
             var table = new XElement("DataTable");
 
+            table.Add(
+                new XAttribute("TableName", e.TableName)
+            );
+
             {
                 var tr = new XElement("Columns");
                 table.Add(tr);
@@ -165,6 +169,7 @@ namespace ScriptCoreLib.Library
                 foreach (DataColumn item in e.Columns)
                 {
                     var th = new XElement("DataColumn",
+                        // is it a string?
                         row[item]
                     );
 
@@ -184,6 +189,8 @@ namespace ScriptCoreLib.Library
 
             // DataTable.ReadXML?
             var x = XElement.Parse(e);
+
+            n.TableName = x.Attribute("TableName").Value;
 
             var Columns = x.Element("Columns").Elements("DataColumn").Select(k => new DataColumn { ColumnName = k.Value }).ToArray();
             n.Columns.AddRange(Columns);

@@ -54,9 +54,15 @@ namespace com.abstractatech.gamification.synergy.cashflow
                {
                    new deal().play();
                };
+
+            page.Card3.onfocus +=
+             delegate
+             {
+                 new deal().play();
+             };
             #endregion
 
-            var Cards = new[] { page.Card, page.Card2 };
+            var Cards = new[] { page.Card, page.Card2, page.Card3 };
             var NFCTags = new List<string>();
 
             page.BlurArea.focus();

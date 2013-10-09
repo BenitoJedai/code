@@ -14,6 +14,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public IHTMLTableColumn InternalTableColumn;
         public DragHelper InternalHorizontalDrag;
 
+        public IHTMLSpan InternalContent;
+
+
         public override DataGridViewCellStyle DefaultCellStyle { get; set; }
         public override bool ReadOnly { get; set; }
 
@@ -46,13 +49,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (InternalContext == null)
                 return -1;
 
-            var r = this as __DataGridViewColumn;
 
-            // what else could it be?
-            if (r == null)
-                return -1;
 
-            return InternalContext.InternalColumns.InternalItems.IndexOf(r);
+            return InternalContext.InternalColumns.InternalItems.IndexOf(this);
+        }
+
+
+
+        public DataGridViewAutoSizeColumnMode AutoSizeMode { get; set; }
+
+
+        public virtual int GetPreferredWidth(DataGridViewAutoSizeColumnMode autoSizeColumnMode, bool fixedHeight)
+        {
+            return 200;
         }
 
         #region Width

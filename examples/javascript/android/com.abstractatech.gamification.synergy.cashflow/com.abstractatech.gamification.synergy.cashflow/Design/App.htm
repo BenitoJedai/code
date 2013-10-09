@@ -75,7 +75,7 @@
             }
 
 
-            .Card, .Card2 {
+            .Card, .Card2, .Card3 {
                  cursor: pointer;
                  position: absolute; 
                  
@@ -93,6 +93,13 @@
 
             .Card2 {
                  right: 4em;  
+                 bottom: -9em;
+
+            }
+
+                .Card3 {
+                 bottom: -10em;
+                 right: 7em;  
 
             }
 
@@ -100,7 +107,7 @@
                 -webkit-filter: opacity(100%) blur(1px) brightness(0.8);
             }
 
-            .Card:focus,   .Card2:focus  {
+            .Card:focus,   .Card2:focus, .Card3:focus  {
                     z-index: 10;
                 bottom: 3%;
                 box-shadow: 0px 0px 2em 1em rgba(0,0,0, 0.9);
@@ -141,5 +148,11 @@
             id="Card2"
             class="Card2"
             src="Card2.jpg" />
+
+                 <img
+            tabindex="3" 
+            id="Card3"
+            class="Card3"
+            src="Card3.jpg" />
 	</body>
 </html>

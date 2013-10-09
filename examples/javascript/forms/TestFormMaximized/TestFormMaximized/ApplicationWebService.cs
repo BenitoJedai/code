@@ -2,13 +2,14 @@ using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace TestDataTableToJavascript
+namespace TestFormMaximized
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -20,25 +21,10 @@ namespace TestDataTableToJavascript
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public async Task<DataTable> GetQueryResultAsDataTable()
+        public void WebMethod2(string e, Action<string> y)
         {
-            var table = new DataTable();
-
-            var column = new DataColumn();
-            column.ColumnName = "Column 1";
-
-            var column2 = new DataColumn();
-            column2.ColumnName = "Column 2";
-            table.Columns.Add(column);
-            table.Columns.Add(column2);
-
-            var row = table.NewRow();
-           
-            row[column] = "test1";
-            row[column2] = "test2 long text for autosize ... more text";
-            table.Rows.Add(row);
-
-            return table;
+            // Send it back to the caller.
+            y(e);
         }
 
     }
