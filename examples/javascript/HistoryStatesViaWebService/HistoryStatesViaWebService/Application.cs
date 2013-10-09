@@ -306,6 +306,13 @@ namespace HistoryStatesViaWebService
                             f.Show();
 
                             f.WindowState = FormWindowState.Maximized;
+                            f.PopupInsteadOfClosing(
+                                HandleFormClosing: false
+
+                                // , 
+                                // does not play well with maximized yet
+                                //SpecialNoMovement: true
+                                );
 
                         };
 

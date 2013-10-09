@@ -55,6 +55,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalAutoResizeColumn(columnIndex);
         }
 
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_BackgroundColor(System.Drawing.Color)]
+        public global::System.Drawing.Color InternalBackgroundColor;
+        public event Action InternalBackgroundColorChanged;
+        public global::System.Drawing.Color BackgroundColor
+        {
+            get
+            {
+                return InternalBackgroundColor;
+            }
+            set
+            {
+                this.InternalBackgroundColor = value;
+                this.InternalScrollContainerElement.style.backgroundColor = InternalBackgroundColor.ToString();
+                if (InternalBackgroundColorChanged != null)
+                    InternalBackgroundColorChanged();
+            }
+        }
+
+        public bool InternalSkipAutoSize;
+
         public __DataGridView()
         {
             //Console.WriteLine("__DataGridView");
@@ -104,7 +124,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalSetDefaultFont();
 
             this.InternalScrollContainerElement = new IHTMLDiv().AttachTo(this.InternalElement);
-            this.InternalScrollContainerElement.style.backgroundColor = JSColor.Gray;
+            //this.InternalScrollContainerElement.style.backgroundColor = JSColor.Gray;
+            this.BackgroundColor = global::System.Drawing.SystemColors.AppWorkspace;
+
             this.InternalScrollContainerElement.style.overflow = DOM.IStyle.OverflowEnum.auto;
             this.InternalScrollContainerElement.style.position = DOM.IStyle.PositionEnum.absolute;
             this.InternalScrollContainerElement.style.left = "0px";
@@ -176,7 +198,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     l.style.height = "1px";
                     l.style.left = "0px";
                     l.style.right = "0px";
-                    l.style.backgroundColor = JSColor.Gray;
+
+                    l.style.backgroundColor = this.InternalBackgroundColor.ToString();
+                    InternalBackgroundColorChanged +=
+                        delegate
+                        {
+                            l.style.backgroundColor = this.InternalBackgroundColor.ToString();
+                        };
 
                     return r;
                 };
@@ -203,8 +231,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     _HorizontalResizerLine.style.width = "1px";
                     _HorizontalResizerLine.style.top = "0px";
                     _HorizontalResizerLine.style.bottom = "0px";
-                    _HorizontalResizerLine.style.backgroundColor = JSColor.Gray;
-
+                    _HorizontalResizerLine.style.backgroundColor = this.InternalBackgroundColor.ToString();
+                    InternalBackgroundColorChanged +=
+                        delegate
+                        {
+                            _HorizontalResizerLine.style.backgroundColor = this.InternalBackgroundColor.ToString();
+                        };
                     return _HorizontalResizer;
                 };
             #endregion
@@ -658,6 +690,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.ondblclick +=
                         ev =>
                         {
+
+                            ev.stopPropagation();
+                            ev.preventDefault();
+
                             EnterEditMode();
                         };
                     #endregion
@@ -1174,7 +1210,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                  //{ Width = 1045, cwidth = 1975 } 
 
                                  Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
-                                 ((IHTMLElement)ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Gray;
+                                 ((IHTMLElement)ColumnHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
 
                                  var cwidth = c.Width + ColumnHorizontalResizerDrag.Position.X - __DragStartX;
                                  Console.WriteLine(new { c.Width, cwidth });
@@ -1435,10 +1471,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                       CreateMissingCells(SourceRow);
 
-                      if (this.AutoSizeColumnsMode != DataGridViewAutoSizeColumnsMode.None)
-                      {
-                          t.Start();
-                      }
+                      if (!InternalSkipAutoSize)
+                          if (this.AutoSizeColumnsMode != DataGridViewAutoSizeColumnsMode.None)
+                          {
+                              t.Start();
+                          }
 
                       InitializeZeroColumnCell(SourceRow);
                       if (InternalNewRow != null)
@@ -1477,7 +1514,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         InternalNewRow = null;
                         PendingNewRow = SourceRow;
 
+                        InternalSkipAutoSize = true;
                         this.InternalRows.InternalItems.Source.Add(n);
+                        InternalSkipAutoSize = false;
 
                         InternalNewRow = n;
 

@@ -320,7 +320,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
         {
             __Form __f = f;
 
-            __f.CloseButtonContent.title = "Popup";
+            __f.InternalCloseButtonContent.title = "Popup";
 
             var content = new { f };
 

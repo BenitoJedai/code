@@ -89,7 +89,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLDiv ResizeGripElement;
 
-        IHTMLImage icon = "assets/ScriptCoreLib/jsc.ico";
+        //IHTMLImage icon = "assets/ScriptCoreLib/jsc.ico";
+        IHTMLImage icon = "assets/ScriptCoreLib/jsc.png";
 
         public ScriptCoreLib.JavaScript.Controls.DragHelper ResizeGripDrag;
 
@@ -532,8 +533,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             return;
                         }
 
+                    // { InternalHostHeight = 0, y = 301 } 
                     var MinimizeY = InternalHostHeight - 26;
                     var y = InternalCaptionDrag.Position.Y;
+                    Console.WriteLine(new { InternalHostHeight, y });
                     y = Math.Min(MinimizeY, Math.Max(-4, y));
 
 
@@ -564,7 +567,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //if (Native.Document.fullscreenElement == TargetNoBorder)
                     this.Location = new Point(InternalCaptionDrag.Position.X, y);
 
-
+                    Console.WriteLine(new { Location });
 
                     if (y < 0)
                     {
@@ -930,12 +933,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 var host = (IHTMLElement)this.HTMLTarget.parentNode;
 
-                var value = host.clientWidth;
+                var value = Native.window.Width;
 
                 // tested by
                 // X:\jsc.svn\examples\javascript\HistoryStatesViaWebService\HistoryStatesViaWebService\Application.cs
                 if (host == Native.document.body)
-                    value = value < host.scrollWidth ? host.scrollWidth : host.clientWidth;
+                {
+                    if (host.clientWidth > 0)
+                        if (host.scrollWidth > 0)
+                            value = host.clientWidth < host.scrollWidth ? host.scrollWidth : host.clientWidth;
+                }
+                else
+                {
+                    value = host.clientWidth;
+                }
 
                 return value;
             }
@@ -947,10 +958,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 var host = (IHTMLElement)this.HTMLTarget.parentNode;
 
-                var value = host.clientHeight;
+                // IE fk u
+                var value = Native.window.Height;
 
                 if (host == Native.document.body)
-                    value = value < host.scrollHeight ? host.scrollHeight : host.clientHeight;
+                {
+                    if (host.clientHeight > 0)
+                        if (host.scrollHeight > 0)
+                            value = host.clientHeight < host.scrollHeight ? host.scrollHeight : host.clientHeight;
+                }
+                else
+                {
+                    value = host.clientHeight;
+                }
 
                 return value;
             }
