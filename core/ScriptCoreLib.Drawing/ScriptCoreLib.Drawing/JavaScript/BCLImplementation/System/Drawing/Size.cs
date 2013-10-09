@@ -21,5 +21,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
             this.Width = w;
         }
 
+        public override string ToString()
+        {
+            return new { Width, Height }.ToString();
+        }
     }
 }

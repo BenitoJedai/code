@@ -1,0 +1,4 @@
+body {
+    transition: border-left 500ms linear, border-top 500ms linear;
+
+}

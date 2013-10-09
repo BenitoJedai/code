@@ -31,5 +31,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
             return p;
         }
 
+        public override string ToString()
+        {
+            return new { X, Y }.ToString();
+        }
     }
 }

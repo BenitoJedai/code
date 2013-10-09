@@ -12,6 +12,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
     {
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
 
+        public string TableName { get; set; }
+
         public DataColumnCollection Columns { get; internal set; }
 
         public __DataTable()

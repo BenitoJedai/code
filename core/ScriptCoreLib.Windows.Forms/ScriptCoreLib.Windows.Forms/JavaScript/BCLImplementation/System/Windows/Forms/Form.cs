@@ -62,8 +62,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public ScriptCoreLib.JavaScript.Controls.DragHelper InternalCaptionDrag;
 
-        public IHTMLDiv CloseButton;
-        public IHTMLDiv CloseButtonContent;
+        public IHTMLDiv InternalCloseButton;
+        public IHTMLDiv InternalCloseButtonContent;
 
         const int innerborder = 1;
 
@@ -91,6 +91,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         IHTMLImage icon = "assets/ScriptCoreLib/jsc.ico";
 
+        public ScriptCoreLib.JavaScript.Controls.DragHelper ResizeGripDrag;
 
         public bool ShowIcon
         {
@@ -103,6 +104,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.StartPosition = FormStartPosition.CenterScreen;
 
             var TargetElement = new IHTMLDiv();
+
+            // thanks host, but we do our own resizers
+            // http://stackoverflow.com/questions/13224184/css-resize-handles-with-resize-both-property
+            // http://www.w3schools.com/cssref/css3_pr_resize.asp
+            //TargetElement.style.resize = "none !important";
 
             TargetElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
             TargetElement.style.left = "0px";
@@ -303,7 +309,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
             #region ResizeGripDrag
-            var ResizeGripDrag = new ScriptCoreLib.JavaScript.Controls.DragHelper(ResizeGripElement);
+            ResizeGripDrag = new ScriptCoreLib.JavaScript.Controls.DragHelper(ResizeGripElement);
 
             ResizeGripDrag.Enabled = true;
 
@@ -348,75 +354,75 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.BackColor = Color.FromArgb(0xD6, 0xD3, 0xCE);
 
             #region CloseButton
-            CloseButton = new IHTMLDiv { name = "CloseButton" };
-            CloseButton.style.textAlign = IStyle.TextAlignEnum.center;
-            CloseButton.style.fontWeight = "bold";
-            CloseButton.style.cursor = IStyle.CursorEnum.@default;
+            InternalCloseButton = new IHTMLDiv { name = "CloseButton" };
+            InternalCloseButton.style.textAlign = IStyle.TextAlignEnum.center;
+            InternalCloseButton.style.fontWeight = "bold";
+            InternalCloseButton.style.cursor = IStyle.CursorEnum.@default;
 
-            CloseButtonContent = new IHTMLDiv { }.AttachTo(CloseButton);
+            InternalCloseButtonContent = new IHTMLDiv { }.AttachTo(InternalCloseButton);
 
-            CloseButtonContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            CloseButtonContent.style.left = "0px";
-            CloseButtonContent.style.top = "0px";
-            CloseButtonContent.style.bottom = "0";
-            CloseButtonContent.style.right = "0";
-
-
-
-            CloseButtonContent.title = "Close";
-            CloseButtonContent.innerHTML = "&times";
+            InternalCloseButtonContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            InternalCloseButtonContent.style.left = "0px";
+            InternalCloseButtonContent.style.top = "0px";
+            InternalCloseButtonContent.style.bottom = "0";
+            InternalCloseButtonContent.style.right = "0";
 
 
 
-            CloseButton.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            InternalCloseButtonContent.title = "Close";
+            InternalCloseButtonContent.innerHTML = "&times";
+
+
+
+            InternalCloseButton.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 
             //CloseButton.style.backgroundColor = JSColor.System.ThreeDFace;
-            CloseButton.style.backgroundColor = "#D6D3CE";
+            InternalCloseButton.style.backgroundColor = "#D6D3CE";
 
-            CloseButton.style.height = "18px";
-            CloseButton.style.width = "18px";
-            CloseButton.style.right = (innerborder + 3) + "px";
-            CloseButton.style.top = (innerborder + 2) + "px";
+            InternalCloseButton.style.height = "18px";
+            InternalCloseButton.style.width = "18px";
+            InternalCloseButton.style.right = (innerborder + 3) + "px";
+            InternalCloseButton.style.top = (innerborder + 2) + "px";
 
-            CloseButton.style.borderWidth = "1px";
-            CloseButton.style.borderStyle = "solid";
+            InternalCloseButton.style.borderWidth = "1px";
+            InternalCloseButton.style.borderStyle = "solid";
 
-            CloseButton.style.borderRightColor = "#424142";
-            CloseButton.style.borderBottomColor = "#424142";
-            CloseButton.style.borderLeftColor = "#FFFFFF";
-            CloseButton.style.borderTopColor = "#FFFFFF";
+            InternalCloseButton.style.borderRightColor = "#424142";
+            InternalCloseButton.style.borderBottomColor = "#424142";
+            InternalCloseButton.style.borderLeftColor = "#FFFFFF";
+            InternalCloseButton.style.borderTopColor = "#FFFFFF";
 
 
 
-            CloseButtonContent.style.borderWidth = "1px";
-            CloseButtonContent.style.borderStyle = "solid";
+            InternalCloseButtonContent.style.borderWidth = "1px";
+            InternalCloseButtonContent.style.borderStyle = "solid";
 
-            CloseButtonContent.style.borderLeftColor = "#D6D3CE";
-            CloseButtonContent.style.borderTopColor = "#D6D3CE";
-            CloseButtonContent.style.borderRightColor = "#848284";
-            CloseButtonContent.style.borderBottomColor = "#848284";
+            InternalCloseButtonContent.style.borderLeftColor = "#D6D3CE";
+            InternalCloseButtonContent.style.borderTopColor = "#D6D3CE";
+            InternalCloseButtonContent.style.borderRightColor = "#848284";
+            InternalCloseButtonContent.style.borderBottomColor = "#848284";
 
             #region CloseButton onclick
-            CloseButton.onmouseover +=
+            InternalCloseButton.onmouseover +=
                  delegate
                  {
-                     CloseButtonContent.style.color = JSColor.Red;
+                     InternalCloseButtonContent.style.color = JSColor.Red;
                  };
 
-            CloseButton.onmouseout +=
+            InternalCloseButton.onmouseout +=
                 delegate
                 {
-                    CloseButtonContent.style.color = JSColor.None;
+                    InternalCloseButtonContent.style.color = JSColor.None;
                 };
 
-            CloseButton.onmousedown +=
+            InternalCloseButton.onmousedown +=
                 e =>
                 {
                     e.StopPropagation();
                     e.PreventDefault();
                 };
 
-            CloseButton.onclick +=
+            InternalCloseButton.onclick +=
                 delegate
                 {
 
@@ -430,11 +436,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             TargetNoBorder.appendChild(
                 Caption, CaptionShadow, CaptionContent,
                 icon, CaptionForeground,
-                ContentContainerPadding, CloseButton
+                ContentContainerPadding, InternalCloseButton
             );
 
+            CaptionForeground.oncontextmenu +=
+                e =>
+                {
+                    // can we show our own menu?
+                    e.preventDefault();
+                    e.stopPropagation();
+                };
 
-            #region drag
+            #region InternalCaptionDrag
             InternalCaptionDrag = new ScriptCoreLib.JavaScript.Controls.DragHelper(CaptionForeground);
 
             // http://forum.mootools.net/topic.php?id=534
@@ -442,12 +455,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // look at http://forkjavascript.com/
 
             InternalCaptionDrag.Enabled = true;
+            #endregion
 
             var BeforePosition = new Shared.Drawing.Point(0, 0);
 
             var FirstMove = false;
+            var AnyMove = false;
 
+            var DragStartMaximized = false;
+            var DragStartMaximizedY = 0;
 
+            #region DragStart
             InternalCaptionDrag.DragStart +=
                 delegate
                 {
@@ -460,17 +478,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     BeforePosition = InternalCaptionDrag.Position;
 
                     FirstMove = true;
+                    DragStartMaximized = this.WindowState == FormWindowState.Maximized;
+                    //if (DragStartMaximized)
+                    //    DragStartMaximizedY = this.InternalRestoreLocation.Y;
+
+                    // offsetWidth: 1045
+
+                    Console.WriteLine(new { BeforePosition, DragStartMaximized });
 
                     Capture = true;
                     InternalMouseCapured();
 
                 };
+            #endregion
 
             #region WindowState
             Action InternalEnterFullscreen =
                 delegate
                 {
-                    //Console.WriteLine("InternalEnterFullscreen WindowState <- Maximized");
+                    Console.WriteLine("InternalEnterFullscreen WindowState <- Maximized");
                     this.WindowState = FormWindowState.Maximized;
 
                 };
@@ -479,33 +505,61 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action InternalExitFullscreen =
                 delegate
                 {
-                    //Console.WriteLine("InternalEnterFullscreen WindowState <- Normal");
+                    Console.WriteLine("InternalExitFullscreen WindowState <- Normal");
+
                     this.WindowState = FormWindowState.Normal;
 
                 };
             #endregion
 
+
             #region DragMove
             InternalCaptionDrag.DragMove +=
                 delegate
                 {
+                    if (!Capture)
+                        return;
+
+
+                    //Console.WriteLine(new { InternalCaptionDrag.Position, BeforePosition, DragStartMaximized });
+
+                    // { Position = [192, 205.5], BeforePosition = [192, 205.5], DragStartMaximized = true } 
+
+                    if (InternalCaptionDrag.Position.X == BeforePosition.X)
+                        if (InternalCaptionDrag.Position.Y == BeforePosition.Y)
+                        {
+                            //Console.WriteLine("FirstMove without move");
+                            return;
+                        }
+
+                    var MinimizeY = InternalHostHeight - 26;
+                    var y = InternalCaptionDrag.Position.Y;
+                    y = Math.Min(MinimizeY, Math.Max(-4, y));
+
+
                     if (FirstMove)
                     {
                         FirstMove = false;
 
-                        if (TargetNoBorder.parentNode != TargetResizerPadding)
+                        if (this.WindowState == FormWindowState.Maximized)
                         {
+                            //Capture = false;
+
+                            //this.InternalRestoreLocation = new Point(InternalCaptionDrag.Position.X, y);
+
+
+                            // we have a small glitch here
+                            Console.WriteLine("InternalCaptionDrag.DragMove FirstMove " + new { this.InternalRestoreLocation });
+
                             InternalExitFullscreen();
 
-
+                            //return;
                         }
-
-                        InternalUpdateZIndex(HTMLTarget);
                     }
 
-                    var MinimizeY = Native.window.Height - 26;
 
-                    var y = Math.Min(MinimizeY, Math.Max(-4, InternalCaptionDrag.Position.Y));
+                    AnyMove = true;
+
 
                     //if (Native.Document.fullscreenElement == TargetNoBorder)
                     this.Location = new Point(InternalCaptionDrag.Position.X, y);
@@ -531,9 +585,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalCaptionDrag.DragStop +=
                 delegate
                 {
+                    if (!Capture)
+                        return;
+
+
                     Capture = false;
                     InternalMouseReleased();
 
+                    if (!AnyMove)
+                        return;
 
                     //var Location = this.Location;
 
@@ -543,15 +603,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     CaptionForeground.style.cursor = IStyle.CursorEnum.@default;
                     Native.document.body.style.cursor = IStyle.CursorEnum.@default;
 
-                    var MinimizeY = Native.window.Height - 26;
+
+                    var MinimizeY = InternalHostHeight - 26;
                     var y = InternalCaptionDrag.Position.Y;
+
+                    //if (this.HTMLTarget.parentNode != Native.document.body)
+                    //{
+                    //    // this window is in a nested element, or even in another window.
+                    //    // bail!
+
+                    //    return;
+                    //}
 
                     if (y < 0)
                     {
                         InternalCaptionDrag.Position = BeforePosition;
-                        this.Location = new Point(BeforePosition.X, BeforePosition.Y);
 
                         InternalEnterFullscreen();
+
+                        this.InternalRestoreLocation = new Point(BeforePosition.X, BeforePosition.Y);
                     }
                     else if (y >= MinimizeY)
                     {
@@ -591,26 +661,39 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
 
+            #region MiddleClick
             InternalCaptionDrag.MiddleClick +=
                 delegate
                 {
+                    Capture = false;
+
                     if (this.WindowState == FormWindowState.Minimized)
                     {
                         this.WindowState = FormWindowState.Normal;
                         return;
                     }
 
-                    if (TargetNoBorder.parentNode != TargetResizerPadding)
+                    if (this.WindowState == FormWindowState.Maximized)
+                    {
+                        Console.WriteLine("InternalCaptionDrag.MiddleClick  InternalExitFullscreen");
+
                         InternalExitFullscreen();
+                    }
                     else
+                    {
+                        Console.WriteLine("InternalCaptionDrag.MiddleClick  InternalEnterFullscreen");
                         InternalEnterFullscreen();
+                    }
                 };
             #endregion
+
 
             #region ondblclick
             CaptionForeground.ondblclick +=
                 delegate
                 {
+                    Capture = false;
+
                     if (this.WindowState == FormWindowState.Minimized)
                     {
                         this.WindowState = FormWindowState.Normal;
@@ -618,7 +701,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
 
 
-                    if (TargetNoBorder.parentNode != TargetResizerPadding)
+                    if (this.WindowState == FormWindowState.Maximized)
                         InternalExitFullscreen();
                     else
                         InternalEnterFullscreen();
@@ -635,8 +718,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 Caption = Caption,
                 CaptionContent = CaptionContent,
 
-                CloseButton = CloseButton,
-                CloseButtonContent = CloseButtonContent,
+                CloseButton = InternalCloseButton,
+                CloseButtonContent = InternalCloseButtonContent,
 
                 TargetInnerBorder = TargetInnerBorder,
                 TargetOuterBorder = TargetOuterBorder,
@@ -724,7 +807,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
         public bool TopMost { get; set; }
-        public bool ControlBox { get; set; }
+
+
+        public bool InternalControlBox;
+        public bool ControlBox
+        {
+            get
+            {
+                return InternalControlBox;
+            }
+            set
+            {
+                InternalControlBox = value;
+
+                this.InternalCloseButton.Show(value);
+            }
+        }
 
         public Size ClientSize
         {
@@ -820,10 +918,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public static Action<__Form, Action> InternalHTMLTargetAttachToDocument =
             (that, yield) =>
             {
-                that.HTMLTarget.AttachToDocument();
+                if (that.HTMLTarget.parentNode == null)
+                    that.HTMLTarget.AttachToDocument();
 
                 yield();
             };
+
+        public int InternalHostWidth
+        {
+            get
+            {
+                var host = (IHTMLElement)this.HTMLTarget.parentNode;
+
+                var value = host.clientWidth;
+
+                // tested by
+                // X:\jsc.svn\examples\javascript\HistoryStatesViaWebService\HistoryStatesViaWebService\Application.cs
+                if (host == Native.document.body)
+                    value = value < host.scrollWidth ? host.scrollWidth : host.clientWidth;
+
+                return value;
+            }
+        }
+
+        public int InternalHostHeight
+        {
+            get
+            {
+                var host = (IHTMLElement)this.HTMLTarget.parentNode;
+
+                var value = host.clientHeight;
+
+                if (host == Native.document.body)
+                    value = value < host.scrollHeight ? host.scrollHeight : host.clientHeight;
+
+                return value;
+            }
+        }
+
 
         bool InternalBeforeVisibleChangedDone = false;
         public override void InternalBeforeVisibleChanged(Action yield)
@@ -844,12 +976,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this,
                 delegate
                 {
+
                     if (this.StartPosition == FormStartPosition.CenterScreen)
                     {
+                        this.Width = Math.Min(InternalHostWidth, this.Width);
+                        this.Height = Math.Min(InternalHostHeight, this.Height);
+
+                        //Console.WriteLine(new { this.height, host_Bounds });
+
                         this.Location = new Point
                         {
-                            X = (Native.window.Width - this.Width) / 2,
-                            Y = Math.Max(0, (Native.window.Height - this.Height) / 2)
+                            X = (InternalHostWidth - this.Width) / 2,
+                            Y = Math.Max(0, (InternalHostHeight - this.Height) / 2)
                         };
                     }
 
@@ -869,6 +1007,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         if (item.TabIndex == 0)
                             item.Focus();
                     }
+
+                    Native.window.requestAnimationFrame +=
+                        delegate
+                        {
+                            InternalWindowStateAnimated = true;
+                        };
                 }
             );
 
@@ -953,6 +1097,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         static List<__Form> InternalMaximizedForms = new List<__Form>();
 
+
+        public bool InternalWindowStateAnimated = false;
+
         FormWindowState InternalWindowState;
 
         public FormWindowState WindowState
@@ -997,37 +1144,73 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-                        if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
-                        {
-                            this.ContentContainer.Orphanize().AttachTo(this.HTMLTarget);
-                            this.ContentContainer.style.zIndex = 0;
-                        }
-                        else
-                        {
-                            this.TargetNoBorder.Orphanize().AttachTo(TargetResizerPadding);
-                            this.TargetNoBorder.style.zIndex = 0;
-                        }
+                        //if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
+                        //{
+                        //    this.ContentContainer.Orphanize().AttachTo(this.HTMLTarget);
+                        //    this.ContentContainer.style.zIndex = 0;
+                        //}
+                        //else
+                        //{
+                        // unhide our old frame
+                        //this.HTMLTarget.style.display = IStyle.DisplayEnum.block;
 
+                        //this.TargetNoBorder.Orphanize().AttachTo(TargetResizerPadding);
+                        //this.TargetNoBorder.style.zIndex = 0;
+
+                        Console.WriteLine("WindowState undo InternalMaximizedForms " + new
+                        {
+                            this.InternalRestoreLocation,
+                            this.InternalRestoreClientSIze
+                        }
+                        );
+
+                        this.HTMLTarget.style.right = "";
+                        this.HTMLTarget.style.bottom = "";
+
+                        this.ResizeGripElement.Show();
+
+
+
+
+                        this.HTMLTarget.style.SetLocation(
+                            this.InternalRestoreLocation.X,
+                            this.InternalRestoreLocation.Y
+                        );
+
+                        //    this.width,
+                        //    this.height
+                        //);
+
+
+
+                        this.ClientSize = this.InternalRestoreClientSIze;
+
+
+                        Console.WriteLine("WindowState undo InternalMaximizedForms " + new
+                        {
+                            this.Location,
+                        }
+        );
 
                         InternalCaptionDrag.OffsetPosition.Y = 12;
                         InternalCaptionDrag.OffsetPosition.X = this.Width / 2;
 
-                        if (InternalMaximizedForms.Count == 0)
-                        {
-                            // exit only if we are not maximized again
-                            Native.window.requestAnimationFrame +=
-                                delegate
-                                {
-                                    if (InternalMaximizedForms.Count == 0)
-                                    {
-                                        //Console.WriteLine("set_WindowState exitFullscreen InternalMaximizedForms.Count == 0");
+                        //if (InternalMaximizedForms.Count == 0)
+                        //{
+                        //    // exit only if we are not maximized again
+                        //    Native.window.requestAnimationFrame +=
+                        //        delegate
+                        //        {
+                        //            if (InternalMaximizedForms.Count == 0)
+                        //            {
+                        //                //Console.WriteLine("set_WindowState exitFullscreen InternalMaximizedForms.Count == 0");
 
 
-                                        Native.document.exitFullscreen();
-                                    }
-                                };
+                        //                Native.document.exitFullscreen();
+                        //            }
+                        //        };
 
-                        }
+                        //}
 
                         Native.window.requestAnimationFrame +=
                             delegate
@@ -1055,16 +1238,98 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         //Console.WriteLine("set_WindowState <- Maximized, InternalMaximizedForms.Add");
                         InternalMaximizedForms.Add(this);
 
-                        if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
+                        //if (this.FormBorderStyle == global::System.Windows.Forms.FormBorderStyle.None)
+                        //{
+                        //    this.ContentContainer.Orphanize().AttachToDocument();
+                        //    InternalUpdateZIndex(this.ContentContainer);
+                        //}
+                        //else
+                        //{
+
+                        //this.TargetNoBorder.Orphanize().AttachTo(host);
+
+                        //// hide our old frame
+                        //this.HTMLTarget.style.display = IStyle.DisplayEnum.none;
+
+                        //this.HTMLTarget.style.position = IStyle.PositionEnum.absolute;
+
+                        // do InternalMaximizedForms { Location = [object Object], ClientSize = [object Object] }
+                        Console.WriteLine("WindowState do InternalMaximizedForms " + new { this.Location, this.ClientSize });
+
+                        //this.internalre
+                        //this.ResizeGripDrag.Enabled = false;
+                        this.ResizeGripElement.Hide();
+
+
+                        //                        InternalEnterFullscreen WindowState <- Maximized
+                        // view-source:27892
+                        //WindowState do InternalMaximizedForms { Location = { X = 407.5, Y = 0 }, ClientSize = { Width = 400, Height = 320 } }
+                        // view-source:27892
+                        //{ BeforePosition = [407.5, 0], DragStartMaximized = true } view-source:27892
+
+                        // view-source:27892
+                        //InternalCaptionDrag.MiddleClick  InternalExitFullscreen
+                        // view-source:27892
+                        //InternalEnterFullscreen WindowState <- Normal
+                        // view-source:27892
+                        //WindowState undo InternalMaximizedForms { InternalRestoreLocation = { X = 407.5, Y = 0 }, InternalRestoreClientSIze = { Width = 400, Height = 320 } }
+
+
+                        this.InternalRestoreLocation = this.Location;
+                        this.InternalRestoreClientSIze = this.ClientSize;
+
+                        #region 100ms maximize
+                        this.HTMLTarget.style.right = (InternalHostWidth - this.Right) + "px";
+                        this.HTMLTarget.style.bottom = (InternalHostHeight - this.Bottom) + "px";
+
+
+                        this.HTMLTarget.style.width = "";
+                        this.HTMLTarget.style.height = "";
+
+                        if (InternalWindowStateAnimated)
                         {
-                            this.ContentContainer.Orphanize().AttachToDocument();
-                            InternalUpdateZIndex(this.ContentContainer);
+                            (this.HTMLTarget.style as dynamic).transition = "left 100ms linear, top 100ms linear, right 100ms linear, bottom 100ms linear";
+
+
+                            var anitimer_Enabled = true;
+
+                            var anitimer = new ScriptCoreLib.JavaScript.Runtime.Timer(
+                                delegate
+                                {
+
+                                    anitimer_Enabled = false;
+                                    (this.HTMLTarget.style as dynamic).transition = "";
+                                }
+                            );
+
+                            anitimer.StartTimeout(100 + 20);
+
+                            Native.window.onframe +=
+                               delegate
+                               {
+                                   // overhead?
+                                   //if (!anitimer.Enabled)
+                                   if (!anitimer_Enabled)
+                                       return;
+
+                                   InternalClientSizeChanged();
+                               };
                         }
-                        else
-                        {
-                            this.TargetNoBorder.Orphanize().AttachToDocument();
-                            InternalUpdateZIndex(this.TargetNoBorder);
-                        }
+
+
+                        // where we want to be in 100ms
+                        this.HTMLTarget.style.left = "0px";
+                        this.HTMLTarget.style.top = "0px";
+
+
+
+                        this.HTMLTarget.style.right = "0px";
+                        this.HTMLTarget.style.bottom = "0px";
+                        #endregion
+
+
+                        //InternalUpdateZIndex(this.TargetNoBorder);
+                        //}
 
                         CaptionShadow.Show();
 
@@ -1082,48 +1347,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     InternalClientSizeChanged();
 
-                                    #region UnmaximzeWhenLostFullscreen
-                                    var UnmaximzeWhenLostFullscreen = default(Action);
+                                    //#region UnmaximzeWhenLostFullscreen
+                                    //var UnmaximzeWhenLostFullscreen = default(Action);
 
-                                    UnmaximzeWhenLostFullscreen =
-                                        delegate
-                                        {
-                                            // how much cpu does this check take?
-                                            // if significant then refactor 
+                                    //UnmaximzeWhenLostFullscreen =
+                                    //    delegate
+                                    //    {
+                                    //        // how much cpu does this check take?
+                                    //        // if significant then refactor 
 
-                                            if (WindowState == FormWindowState.Normal)
-                                            {
-                                                return;
-                                            }
+                                    //        if (WindowState == FormWindowState.Normal)
+                                    //        {
+                                    //            return;
+                                    //        }
 
-                                            dynamic window = Native.window;
-
-
-                                            int innerHeight = window.innerHeight;
-                                            int outerHeight = window.outerHeight;
-
-                                            if (innerHeight != outerHeight)
-                                            {
-                                                // how to deal with zoom?
-
-                                                Console.WriteLine("UnmaximzeWhenLostFullscreen " + new { innerHeight, outerHeight });
-
-                                                this.WindowState = FormWindowState.Normal;
-                                                return;
-                                            }
+                                    //        dynamic window = Native.window;
 
 
-                                            Native.window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
-                                        };
+                                    //        int innerHeight = window.innerHeight;
+                                    //        int outerHeight = window.outerHeight;
 
-                                    Native.window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
-                                    #endregion
+                                    //        if (innerHeight != outerHeight)
+                                    //        {
+                                    //            // how to deal with zoom?
+
+                                    //            Console.WriteLine("UnmaximzeWhenLostFullscreen " + new { innerHeight, outerHeight });
+
+                                    //            this.WindowState = FormWindowState.Normal;
+                                    //            return;
+                                    //        }
+
+
+                                    //        Native.window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
+                                    //    };
+
+                                    //Native.window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
+                                    //#endregion
                                 };
 
                             Native.window.onresize += onresize;
 
                             //Console.WriteLine("set_WindowState requestFullscreen");
-                            Native.Document.body.requestFullscreen();
+                            //Native.Document.body.requestFullscreen();
 
 
                         }
@@ -1134,6 +1399,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 else if (value == FormWindowState.Minimized)
                 {
+                    #region Minimized
                     CaptionShadow.Show();
 
                     this.InternalRestoreLocation = this.Location;
@@ -1144,11 +1410,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Native.window.requestAnimationFrame +=
                         delegate
                         {
-                            this.MinimumSize = this.Size;
-                            this.MaximumSize = new Size(Native.window.Width, this.Height);
 
-                            this.Top = Native.document.body.scrollHeight - 26;
+                            this.MinimumSize = this.Size;
+                            this.MaximumSize = new Size(InternalHostWidth, this.Height);
+
+                            this.Top = InternalHostHeight - 26;
                         };
+                    #endregion
 
                 }
 
@@ -1257,14 +1525,5 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public static bool BreakAtWindowState;
     }
 
-    //[Script]
-    //internal static partial class InternalExtensions
-    //{
-    //    public static T WithDynamic<T>(this T e, Action<dynamic> y)
-    //    {
-    //        y(e);
 
-    //        return e;
-    //    }
-    //}
 }

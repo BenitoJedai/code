@@ -13,6 +13,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public virtual bool ReadOnly { get; set; }
 
 
+        public IHTMLSpan InternalContent;
 
         public IHTMLDiv InternalContentContainer;
         public IHTMLTableColumn InternalTableColumn;

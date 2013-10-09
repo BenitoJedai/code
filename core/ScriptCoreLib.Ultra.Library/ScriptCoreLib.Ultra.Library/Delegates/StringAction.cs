@@ -8,10 +8,13 @@ namespace ScriptCoreLib.Delegates
 {
 	// if only we had generic here :) just not yet
 
-	public delegate void XElementAction(XElement x);
+    [Obsolete]
+    public delegate void XElementAction(XElement x);
 
-	public delegate void StringAction(string e);
+    [Obsolete]
+    public delegate void StringAction(string e);
 
-	public delegate void DoubleAction(double e);
+    [Obsolete]
+    public delegate void DoubleAction(double e);
 
 }

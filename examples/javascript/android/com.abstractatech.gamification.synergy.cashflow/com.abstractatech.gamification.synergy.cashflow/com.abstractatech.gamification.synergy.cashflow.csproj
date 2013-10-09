@@ -148,6 +148,7 @@
     <Content Include="Design\Card.jpg" />
     <Content Include="Design\Card2.jpg" />
     <Content Include="Audio\deal.mp3" />
+    <Content Include="Design\Card3.jpg" />
     <Content Include="Design\YourProfession.jpg" />
     <Compile Include="Application.Designer.cs">
       <DependentUpon>Application.cs</DependentUpon>

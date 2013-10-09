@@ -19,6 +19,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridView))]
     internal class __DataGridView : __Control, __ISupportInitialize
     {
+        public DataGridViewAutoSizeColumnsMode AutoSizeColumnsMode { get; set; }
+
         public bool AllowUserToAddRows { get; set; }
 
         public IHTMLDiv InternalElement;
@@ -44,6 +46,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public DataGridViewCellStyle DefaultCellStyle { get; set; }
         public DataGridViewCellStyle ColumnHeadersDefaultCellStyle { get; set; }
         public DataGridViewCellStyle RowHeadersDefaultCellStyle { get; set; }
+
+        public Action<int> InternalAutoResizeColumn;
+
+        public void AutoResizeColumn(int columnIndex)
+        {
+            if (InternalAutoResizeColumn != null)
+                InternalAutoResizeColumn(columnIndex);
+        }
 
         public __DataGridView()
         {
@@ -146,7 +156,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             #endregion
 
-            #region CreateVerticalResizer
+            #region CreateVerticalResizer |
             Func<IHTMLDiv> CreateVerticalResizer =
                 () =>
                 {
@@ -173,7 +183,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
 
-            #region CreateHorizontalResizer
+            #region CreateHorizontalResizer -
             Func<IHTMLDiv> CreateHorizontalResizer =
                 () =>
                 {
@@ -357,7 +367,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.InternalWidthChanged += AtInternalWidthChanged;
                     #endregion
 
-                    var InternalContent = new IHTMLSpan { };
+                    SourceCell.InternalContent = new IHTMLSpan { };
+                    var InternalContent = SourceCell.InternalContent;
 
                     #region AtInternalValueChanged
                     Action AtInternalValueChanged = delegate
@@ -406,7 +417,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalContent.style.marginLeft = "4px";
                     InternalContent.style.marginRight = "4px";
                     InternalContent.style.lineHeight = (SourceRow.Height - 1) + "px";
-
+                    InternalContent.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
+                    //InternalContent.style.textO;
 
                     //c1content.style.margin = "6px";
 
@@ -930,6 +942,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     var c = this.InternalColumns.InternalItems[_e.NewIndex];
 
+                    c.InternalContext = this;
+
 
                     //if (c is __DataGridViewButtonColumn)
                     //    Console.WriteLine("InternalColumns __DataGridViewButtonColumn ItemAdded " + new { _e.NewIndex });
@@ -980,6 +994,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                     var c1content = new IHTMLSpan { innerText = c.HeaderText }.AttachTo(c1contentc);
+                    c.InternalContent = c1content;
                     c1content.style.marginLeft = "4px";
                     c1content.style.font = DefaultFont.ToCssString();
                     c1content.style.lineHeight = "22px";
@@ -1132,16 +1147,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
                     #region Drag
+                    var __DragStartX = 0;
 
                     {
-                        var __X = 0;
+
+
+
                         ColumnHorizontalResizerDrag.DragStart +=
                             delegate
                             {
+
                                 Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.move;
                                 ((IHTMLElement)ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
 
-                                __X = ColumnHorizontalResizerDrag.Position.X;
+                                __DragStartX = ColumnHorizontalResizerDrag.Position.X;
                             };
 
 
@@ -1149,10 +1168,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         ColumnHorizontalResizerDrag.DragStop +=
                              delegate
                              {
+                                 //                                 { Width = 115, cwidth = 1045 } view-source:27892
+
+                                 // view-source:27892
+                                 //{ Width = 1045, cwidth = 1975 } 
+
                                  Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
                                  ((IHTMLElement)ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Gray;
 
-                                 c.Width += ColumnHorizontalResizerDrag.Position.X - __X;
+                                 var cwidth = c.Width + ColumnHorizontalResizerDrag.Position.X - __DragStartX;
+                                 Console.WriteLine(new { c.Width, cwidth });
+
+                                 c.Width = cwidth;
                              };
                     }
 
@@ -1163,6 +1190,68 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             ColumnUpdateToHorizontalResizerScroll();
 
                         };
+
+
+
+                    #region InternalAutoSize
+                    this.InternalAutoResizeColumn += cindex =>
+                    {
+                        if (cindex != c.Index)
+                            return;
+
+                        var rows = this.InternalRows.InternalItems.InternalList;
+
+                        // InternalAutoSize { Count = 33, cindex = -1 }
+
+
+                        //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex });
+
+                        if (cindex >= 0)
+                        {
+                            var cwidth = rows.Max(
+                                rr =>
+                                {
+                                    __DataGridViewCell cc = rr.Cells[cindex];
+
+
+                                    //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex, cc.InternalContent.offsetWidth });
+
+                                    return cc.InternalContent.offsetWidth;
+                                }
+                            );
+
+                            cwidth = Math.Max(cwidth, this.InternalColumns.InternalItems[cindex].InternalContent.offsetWidth);
+                            cwidth += 8;
+
+                            Console.WriteLine("InternalAutoSize" + new { c.Width, cwidth });
+
+                            __DragStartX = ColumnHorizontalResizerDrag.Position.X + (cwidth - c.Width);
+                            c.Width = Math.Max(20, cwidth);
+                        }
+                    };
+
+                    ColumnHorizontalResizer.onmousedown +=
+                        e =>
+                        {
+                            if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                            {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                this.InternalAutoResizeColumn(c.Index);
+
+
+                            }
+                        };
+
+                    ColumnHorizontalResizer.ondblclick +=
+                        delegate
+                        {
+                            this.InternalAutoResizeColumn(c.Index);
+                        };
+                    #endregion
+
+
                     #endregion
 
                     if (ColumnAdded != null)
@@ -1303,6 +1392,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InitializeZeroColumnCell(InternalNewRow);
 
+            var t = new global::System.Windows.Forms.Timer();
+            t.Interval = 100;
+            t.Tick +=
+                delegate
+                {
+                    t.Stop();
+
+                    foreach (var item in this.InternalColumns.InternalItems)
+                    {
+                        this.InternalAutoResizeColumn(item.Index);
+                    }
+                };
             #region InternalRows
 
             this.InternalRows.InternalItems.Added +=
@@ -1334,7 +1435,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                       CreateMissingCells(SourceRow);
 
-
+                      if (this.AutoSizeColumnsMode != DataGridViewAutoSizeColumnsMode.None)
+                      {
+                          t.Start();
+                      }
 
                       InitializeZeroColumnCell(SourceRow);
                       if (InternalNewRow != null)
@@ -1417,7 +1521,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRaiseCellEndEdit =
                 (SourceCell) =>
                 {
-                    Console.WriteLine("InternalRaiseCellEndEdit " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
+                    //Console.WriteLine("InternalRaiseCellEndEdit " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
 
                     var SourceRow = SourceCell.InternalOwningRow;
 

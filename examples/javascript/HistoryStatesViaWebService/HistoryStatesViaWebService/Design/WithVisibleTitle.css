@@ -1,0 +1,21 @@
+ head, title {
+     position: fixed;
+     right: 0px;
+            display: block;
+            left: 0px;
+        }
+
+        title {
+             font-family: 'Courier New';
+                text-align: center;
+
+               text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+                background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%); /* W3C */
+            color: black;
+            font-size: x-large;
+            padding: 0.1em;
+        }
+
+body {
+    margin-top: 4em;
+}
