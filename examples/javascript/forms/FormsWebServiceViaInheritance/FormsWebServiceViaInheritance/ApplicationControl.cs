@@ -1,4 +1,5 @@
 using FormsWebServiceViaInheritance;
+using FormsWebServiceViaInheritance.Library;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -39,6 +40,21 @@ namespace FormsWebServiceViaInheritance
             button1.Text = x;
 
             button1.Enabled = true;
+        }
+
+        private void button2_Click(object sender, System.EventArgs e)
+        {
+            var x = new TimerDisplay();
+            this.Controls.Add(x);
+            x.Go();
+
+        }
+
+        private async void button3_Click(object sender, System.EventArgs e)
+        {
+            var x = await this.GetTimerDisplay();
+            this.Controls.Add(x);
+            x.Go();
         }
 
     }

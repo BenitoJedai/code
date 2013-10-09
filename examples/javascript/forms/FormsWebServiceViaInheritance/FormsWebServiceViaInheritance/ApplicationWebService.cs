@@ -1,3 +1,4 @@
+using FormsWebServiceViaInheritance.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -27,5 +28,9 @@ namespace FormsWebServiceViaInheritance
             );
         }
 
+        public Task<TimerDisplay> GetTimerDisplay()
+        {
+            return Task.FromResult(new TimerDisplay { Foo = "from GetTimerDisplay" });
+        }
     }
 }
