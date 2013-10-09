@@ -19,8 +19,8 @@ namespace ScriptCoreLib.ActionScript.flash.system
         // http://esdot.ca/site/2012/intro-to-as3-workers-part-3-nape-physics-starling
         // http://flexmonkey.blogspot.co.uk/2012/09/multi-threaded-sound-synthesis-in-flex.html
 
-
-        public static readonly bool isSupported;
+        //28d0:02:01 RewriteToAssembly error: System.InvalidOperationException: ScriptCoreLib.ActionScript.flash.system.WorkerDomain has conflicting members: isSupported
+        public static bool isSupported { get; set; }
 
         public static Worker createWorker(ByteArray swf, bool giveAppPrivileges = false)
         {

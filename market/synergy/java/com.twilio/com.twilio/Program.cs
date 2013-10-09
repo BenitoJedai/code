@@ -29,6 +29,22 @@ namespace com.twilio
             // META-INF/MANIFEST.MF
             // Main-Class: 
 
+
+
+            //Closing partial types...
+            //0bb8:02:01 0024:0001 __clr__com.twilio define jsc.meta::ScriptCoreLib.Desktop.JVM.JVMLauncher
+            //0bb8:02:01 0025:0002 __clr__com.twilio define jsc.meta::ScriptCoreLib.Desktop.JVM.JVMLauncher+
+            //0bb8:02:01 0025:0003 __clr__com.twilio define jsc.meta::ScriptCoreLib.Desktop.JVM.JVMLauncher+
+            //0bb8:02:01 RewriteToAssembly error: System.InvalidOperationException:   ---> System.ArgumentException: Duplicate type name within an assembly.
+            //   at System.Reflection.Emit.TypeBuilder.DefineType(RuntimeModule module, String fullname, Int32 tkParent, TypeAttributes attributes, Int32 tk
+            //   at System.Reflection.Emit.TypeBuilder.Init(String fullname, TypeAttributes attr, Type parent, Type[] interfaces, ModuleBuilder module, Pack
+            //   at System.Reflection.Emit.TypeBuilder.DefineNestedType(String name, TypeAttributes attr, Type parent, Type[] interfaces)
+            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyTypeDefinition.DefineType(TypeBuilder _DeclaringType, String TypeName, Type BaseType, Ty
+            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyTypeDefinition.Invoke()
+            //   --- End of inner exception stack trace ---
+            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyTypeDefinition.Invoke()
+            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass434.<InternalInvoke>b__3b1(Type SourceType)
+
             // http://www.twilio.com/docs/quickstart/java/sms
             // http://www.twilio.com/docs/quickstart/java/sms/sending-via-rest
 

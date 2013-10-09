@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Ultra.WebService
     /// <summary>
     /// This type is used to serve custom content from the web server.
     /// </summary>
+
+    [Obsolete]
     public class WebServiceHandler
     {
         public HttpContext Context;
