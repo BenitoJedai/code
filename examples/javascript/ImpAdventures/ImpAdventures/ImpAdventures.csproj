@@ -149,7 +149,9 @@
     <Content Include="Audio\ChangeRoom.mp3" />
     <Content Include="Audio\Talk.mp3" />
     <Content Include="Data\LostInTime.htm" />
-    <Content Include="Data\LostInTime.xml" />
+    <Content Include="Data\LostInTime.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Data\LostInTime\cursor-red.cur" />
     <Content Include="Data\LostInTime\cursor.cur" />
     <Content Include="Data\LostInTime\power.png" />

@@ -19,8 +19,8 @@ using ScriptCoreLib.JavaScript.Windows.Forms;
 namespace ScriptCoreLib.Extensions
 {
     public static class CSSMinimizeFormToSidebarExtensions
-    { 
-    
+    {
+
     }
 }
 
@@ -30,7 +30,7 @@ namespace CSSMinimizeFormToSidebar
     {
         // advertise in ScriptCoreLib.Extensions
         public static global::CSSMinimizeFormToSidebar.HTML.Pages.IApp InitializeSidebarBehaviour(
-            Form f, 
+            Form f,
             bool HandleClosed = true,
             bool HandleDragToLeft = true)
         {
@@ -229,6 +229,8 @@ namespace CSSMinimizeFormToSidebar
                         if (f.GetHTMLTarget().parentNode == null)
                             return;
 
+
+
                         if (IsMinimized)
                         {
                             return;
@@ -246,6 +248,12 @@ namespace CSSMinimizeFormToSidebar
 
                             if (f.Capture)
                                 return;
+
+                            Console.WriteLine(new { f.WindowState });
+
+                            if (f.WindowState != FormWindowState.Normal)
+                                return;
+
 
                             Minimize();
 
