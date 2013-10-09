@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using SearchComponent;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace TestClassReferenceInServerSide
     /// </summary>
     public sealed partial class ApplicationWebService : Component
     {
+        SearchComponentClass search = new SearchComponentClass(); 
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
