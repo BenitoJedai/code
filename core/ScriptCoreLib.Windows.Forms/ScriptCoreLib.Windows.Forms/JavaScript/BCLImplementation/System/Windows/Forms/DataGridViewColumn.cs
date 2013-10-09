@@ -17,7 +17,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public IHTMLSpan InternalContent;
 
 
-        public override DataGridViewCellStyle DefaultCellStyle { get; set; }
+        public DataGridViewCellStyle InternalDefaultCellStyle;
+        public event Action InternalDefaultCellStyleChanged;
+        public override DataGridViewCellStyle DefaultCellStyle
+        {
+            get { return InternalDefaultCellStyle; }
+            set
+            {
+                InternalDefaultCellStyle = value;
+                if (InternalDefaultCellStyleChanged != null)
+                    InternalDefaultCellStyleChanged();
+            }
+        }
+
         public override bool ReadOnly { get; set; }
 
         #region HeaderText

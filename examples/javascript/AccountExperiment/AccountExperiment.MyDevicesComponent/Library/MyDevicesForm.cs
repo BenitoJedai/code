@@ -16,7 +16,7 @@ namespace AccountExperiment.MyDevicesComponent.Library
         // what data is available for the client.
         // eg. hacking shall result in logout
 
-        public int __account { get; set; }
+        public long __account { get; set; }
         public IMyDevicesComponent_MyDevices service { get; set; }
 
         public MyDevicesForm()
@@ -34,7 +34,7 @@ namespace AccountExperiment.MyDevicesComponent.Library
 
         }
 
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (ScriptCoreLib_bug_disable_dataGridView1_CellValueChanged)
                 return;
@@ -61,6 +61,9 @@ namespace AccountExperiment.MyDevicesComponent.Library
                 1
                 , e.RowIndex
             ];
+            //cells_account.Style.BackColor = Color.Gray;
+
+            //this.dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.Cyan;
 
             var cells_name = this.dataGridView1[
                 //this.name.Index
@@ -74,7 +77,12 @@ namespace AccountExperiment.MyDevicesComponent.Library
                 , e.RowIndex
             ];
 
+            //                    at System.Runtime.CompilerServices.AsyncMethodBuilderCore.&amp;lt;ThrowAsync&amp;gt;b__0(Object state)</StackTrace><ExceptionString>System.InvalidCastException: Unable to cast object of type 'System.Int64' to type 'System.String'.
+            //at AccountExperiment.MyDevicesComponent.Library.MyDevicesForm.&amp;lt;dataGridView1_CellValueChanged&amp;gt;d__0.MoveNext() in x:\jsc.svn\examples\javascript\AccountExperiment\AccountExperiment.MyDevicesComponent\Library\MyDevicesForm.cs:line 81
+
             #region pending
+
+            // Additional information: Unable to cast object of type 'System.Int64' to type 'System.String'.
             if (string.IsNullOrEmpty((string)cells_id.Value))
             {
                 // need to add it!
@@ -95,17 +103,15 @@ namespace AccountExperiment.MyDevicesComponent.Library
 
 
                 this.Cursor = Cursors.AppStarting;
-                service.MyDevices_Insert(
-                    "" + this.__account,
+                var __id = await service.MyDevices_Insert(
+                     this.__account,
                     (string)cells_name.Value,
-                    (string)cells_value.Value,
-
-                    __id =>
-                    {
-                        cells_id.Value = __id;
-                        this.Cursor = Cursors.Default;
-                    }
+                    (string)cells_value.Value
                 );
+
+                cells_id.Value = "" + __id;
+                this.Cursor = Cursors.Default;
+
                 return;
             }
             #endregion
@@ -114,49 +120,50 @@ namespace AccountExperiment.MyDevicesComponent.Library
                 return;
 
             this.Cursor = Cursors.AppStarting;
-            service.MyDevices_Update(
-                "" + this.__account,
-                (string)cells_id.Value,
-                (string)cells_name.Value,
-                (string)cells_value.Value,
 
-                done: delegate
-                {
-                    this.Cursor = Cursors.Default;
-                }
+            await service.MyDevices_Update(
+                 this.__account,
+                 Convert.ToInt64((string)cells_id.Value),
+                (string)cells_name.Value,
+                (string)cells_value.Value
             );
+
+
+            this.Cursor = Cursors.Default;
 
         }
 
         bool ScriptCoreLib_bug_disable_dataGridView1_CellValueChanged = true;
 
-        private void MyDevicesForm_Load(object sender, EventArgs e)
+        private async void MyDevicesForm_Load(object sender, EventArgs e)
         {
             // 
             this.Cursor = Cursors.AppStarting;
-            service.MyDevices_SelectByAccount(
-                "" + this.__account,
-                yield: (id, name, value) =>
-                {
-                    var row = new DataGridViewRow();
 
-                    row.Cells.AddTextRange(
-                        id,
-                        "" + __account,
-                        name,
-                        value
-                    );
+            Action<string, string, string> yield =
+                 (id, name, value) =>
+                 {
+                     var row = new DataGridViewRow();
 
-                    this.dataGridView1.Rows.Add(row);
-                },
-                done: delegate
-                {
-                    this.Cursor = Cursors.Default;
+                     row.Cells.AddTextRange(
+                         id,
+                          "" + __account,
+                         name,
+                         value
+                     );
 
-                    ScriptCoreLib_bug_disable_dataGridView1_CellValueChanged = false;
-                }
+                     this.dataGridView1.Rows.Add(row);
+                 };
 
+            await service.MyDevices_SelectByAccount(
+                 this.__account,
+               yield
             );
+
+
+            this.Cursor = Cursors.Default;
+
+            ScriptCoreLib_bug_disable_dataGridView1_CellValueChanged = false;
         }
     }
 }

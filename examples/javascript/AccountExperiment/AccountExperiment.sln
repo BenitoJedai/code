@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountExperiment", "AccountExperiment\AccountExperiment.csproj", "{9122FB76-35CE-41C7-8894-4E58D1BA94BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AF78D0D8-5A61-43E9-AE1E-D9439F383D75}"
@@ -14,13 +14,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{3012
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{05B8BBA9-A534-42F1-8365-FF97F83F5600}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{05B8BBA9-A534-42F1-8365-FF97F83F5600}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountExperiment.MyDevicesComponent", "AccountExperiment.MyDevicesComponent\AccountExperiment.MyDevicesComponent.csproj", "{3D035C03-5D69-452B-9022-0269DBD26D8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Design.Blue", "..\..\..\market\Abstractatech.Design.Blue\Abstractatech.Design.Blue\Abstractatech.Design.Blue.csproj", "{99FFCEB1-6A96-4780-AA7E-11ED8258D223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -194,6 +196,36 @@ Global
 		{99FFCEB1-6A96-4780-AA7E-11ED8258D223}.Release|Mixed Platforms.Build.0 = Release|x86
 		{99FFCEB1-6A96-4780-AA7E-11ED8258D223}.Release|x86.ActiveCfg = Release|x86
 		{99FFCEB1-6A96-4780-AA7E-11ED8258D223}.Release|x86.Build.0 = Release|x86
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|x86.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|x86.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.LocalAppEngine|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.LocalAppEngine|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.LocalAppEngine|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.LocalAppEngine|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.LocalAppEngine|x86.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.PHP|x86.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,7 +233,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {30126D13-598C-4A63-B0B1-89476361AFDC}
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {30126D13-598C-4A63-B0B1-89476361AFDC}
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {30126D13-598C-4A63-B0B1-89476361AFDC}
 		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {05B8BBA9-A534-42F1-8365-FF97F83F5600}
 		{99FFCEB1-6A96-4780-AA7E-11ED8258D223} = {05B8BBA9-A534-42F1-8365-FF97F83F5600}
+		{30126D13-598C-4A63-B0B1-89476361AFDC} = {05B8BBA9-A534-42F1-8365-FF97F83F5600}
 	EndGlobalSection
 EndGlobal

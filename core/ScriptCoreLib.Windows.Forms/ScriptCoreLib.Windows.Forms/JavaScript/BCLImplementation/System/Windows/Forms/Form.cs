@@ -739,59 +739,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public static int __FormZIndex = 0;
 
-        #region Close
-        public void Close()
-        {
-            InternalClose();
-        }
-
-        public event Action<FormClosingEventArgs> InternalBeforeFormClosing;
-
-        public void InternalClose(CloseReason reason = CloseReason.None)
-        {
-            var a = new FormClosingEventArgs(reason, false);
-
-            if (InternalBeforeFormClosing != null)
-                InternalBeforeFormClosing(a);
-
-            if (a.Cancel)
-                return;
-
-            if (FormClosing != null)
-                FormClosing(this, a);
-
-            if (a.Cancel)
-                return;
-
-            foreach (var item in this.OwnedForms)
-            {
-                item.Close();
-            }
-
-            this.Owner = null;
-
-            this.WindowState = FormWindowState.Normal;
-
-            HTMLTarget.Orphanize();
-
-            // allow to be showed again?!
-            InternalBeforeVisibleChangedDone = false;
-
-
-            if (this.Closed != null)
-                this.Closed(this, new EventArgs());
-
-            RaiseFormClosed();
-
-        }
-
-        public void RaiseFormClosed()
-        {
-            if (this.FormClosed != null)
-                this.FormClosed(this, new FormClosedEventArgs(CloseReason.None));
-
-        }
-        #endregion
 
         protected override Size SizeFromClientSize(Size clientSize)
         {
@@ -976,68 +923,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-
-        bool InternalBeforeVisibleChangedDone = false;
-        public override void InternalBeforeVisibleChanged(Action yield)
-        {
-            if (InternalBeforeVisibleChangedDone)
-            {
-                yield();
-                return;
-            }
-
-            InternalBeforeVisibleChangedDone = true;
-
-
-
-
-
-            InternalHTMLTargetAttachToDocument(
-                this,
-                delegate
-                {
-
-                    if (this.StartPosition == FormStartPosition.CenterScreen)
-                    {
-                        this.Width = Math.Min(InternalHostWidth, this.Width);
-                        this.Height = Math.Min(InternalHostHeight, this.Height);
-
-                        //Console.WriteLine(new { this.height, host_Bounds });
-
-                        this.Location = new Point
-                        {
-                            X = (InternalHostWidth - this.Width) / 2,
-                            Y = Math.Max(0, (InternalHostHeight - this.Height) / 2)
-                        };
-                    }
-
-                    InternalRaiseLoad();
-
-                    InternalUpdateZIndex(HTMLTarget);
-
-                    InternalRaiseShown();
-
-
-                    var length = this.Controls.Count;
-
-                    for (int i = 0; i < length; i++)
-                    {
-                        var item = this.Controls[i];
-
-                        if (item.TabIndex == 0)
-                            item.Focus();
-                    }
-
-                    Native.window.requestAnimationFrame +=
-                        delegate
-                        {
-                            InternalWindowStateAnimated = true;
-                        };
-                }
-            );
-
-
-        }
 
         public override void BringToFront()
         {
@@ -1537,6 +1422,197 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InternalUpdateBounds(x, y, width, height);
         }
+
+
+
+
+
+
+
+
+        #region Close
+        public void Close()
+        {
+            InternalClose();
+        }
+
+        public event Action<FormClosingEventArgs> InternalBeforeFormClosing;
+
+        public void InternalClose(CloseReason reason = CloseReason.None)
+        {
+            var a = new FormClosingEventArgs(reason, false);
+
+            if (InternalBeforeFormClosing != null)
+                InternalBeforeFormClosing(a);
+
+            if (a.Cancel)
+                return;
+
+            if (FormClosing != null)
+                FormClosing(this, a);
+
+            if (a.Cancel)
+                return;
+
+            foreach (var item in this.OwnedForms)
+            {
+                item.Close();
+            }
+
+            this.Owner = null;
+
+            this.WindowState = FormWindowState.Normal;
+
+
+            //-webkit-transition: -webkit-transform 200ms linear; transition: -webkit-transform 200ms linear;
+            // -webkit-filter: opacity(0.8); 
+            // -webkit-transform: scale(0.7);
+
+
+            #region fadeout
+            (this.HTMLTarget.style as dynamic).webkitTransition = "none";
+            (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(1.0)";
+            (this.HTMLTarget.style as dynamic).webkitTransform = " scale(1.0)";
+
+            (this.HTMLTarget.style as dynamic).webkitTransition = "-webkit-transform 50ms linear, -webkit-filter 50ms linear";
+
+            (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.0)";
+            (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.95)";
+
+            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                delegate
+                {
+
+                    HTMLTarget.Orphanize();
+
+                    (this.HTMLTarget.style as dynamic).webkitTransition = "none";
+
+                    (this.HTMLTarget.style as dynamic).webkitFilter = "";
+                    (this.HTMLTarget.style as dynamic).webkitTransform = "";
+                }
+            ).StartTimeout(100);
+            #endregion
+
+
+            // allow to be showed again?!
+            InternalBeforeVisibleChangedDone = false;
+
+
+            if (this.Closed != null)
+                this.Closed(this, new EventArgs());
+
+            RaiseFormClosed();
+
+        }
+
+        public void RaiseFormClosed()
+        {
+            if (this.FormClosed != null)
+                this.FormClosed(this, new FormClosedEventArgs(CloseReason.None));
+
+        }
+        #endregion
+
+
+
+
+
+
+
+        bool InternalBeforeVisibleChangedDone = false;
+        public override void InternalBeforeVisibleChanged(Action yield)
+        {
+            if (InternalBeforeVisibleChangedDone)
+            {
+                yield();
+                return;
+            }
+
+            InternalBeforeVisibleChangedDone = true;
+
+
+
+
+
+            InternalHTMLTargetAttachToDocument(
+                this,
+                delegate
+                {
+
+                    if (this.StartPosition == FormStartPosition.CenterScreen)
+                    {
+                        this.Width = Math.Min(InternalHostWidth, this.Width);
+                        this.Height = Math.Min(InternalHostHeight, this.Height);
+
+                        //Console.WriteLine(new { this.height, host_Bounds });
+
+                        this.Location = new Point
+                        {
+                            X = (InternalHostWidth - this.Width) / 2,
+                            Y = Math.Max(0, (InternalHostHeight - this.Height) / 2)
+                        };
+                    }
+
+                    #region fadein
+
+                    // http://www.w3schools.com/css3/css3_transitions.asp
+                    (this.HTMLTarget.style as dynamic).webkitTransition = "none";
+
+
+                    (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.8)";
+                    (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.9)";
+
+
+                    Native.window.requestAnimationFrame += delegate
+                    {
+                        (this.HTMLTarget.style as dynamic).webkitTransition = "-webkit-transform 150ms linear, -webkit-filter 150ms linear";
+
+                        (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(1.0)";
+                        (this.HTMLTarget.style as dynamic).webkitTransform = " scale(1.0)";
+
+                        new ScriptCoreLib.JavaScript.Runtime.Timer(
+                            delegate
+                            {
+
+
+                                (this.HTMLTarget.style as dynamic).webkitTransition = "none";
+                                (this.HTMLTarget.style as dynamic).webkitFilter = "";
+                                (this.HTMLTarget.style as dynamic).webkitTransform = "";
+                            }
+                        ).StartTimeout(150);
+                    };
+
+                    #endregion
+
+
+                    InternalRaiseLoad();
+
+                    InternalUpdateZIndex(HTMLTarget);
+
+                    InternalRaiseShown();
+
+
+                    var length = this.Controls.Count;
+
+                    for (int i = 0; i < length; i++)
+                    {
+                        var item = this.Controls[i];
+
+                        if (item.TabIndex == 0)
+                            item.Focus();
+                    }
+
+                    Native.window.requestAnimationFrame +=
+                        delegate
+                        {
+                            InternalWindowStateAnimated = true;
+                        };
+                }
+            );
+
+
+        }
+
     }
 
     [Script]
