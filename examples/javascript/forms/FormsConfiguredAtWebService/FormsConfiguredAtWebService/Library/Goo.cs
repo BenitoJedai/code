@@ -37,11 +37,21 @@ namespace FormsConfiguredAtWebService.Library
 
         public ApplicationWebService service;
 
-        private async void button2_Click(object sender, EventArgs e)
+        private
+            //async 
+            void button2_Click(object sender, EventArgs e)
         {
-            var x = await service.SpecialMessage();
+            //var x = await service.SpecialMessage();
 
-            MessageBox.Show(new { x }.ToString());
+            service.SpecialMessage().ContinueWith(
+                task =>
+                {
+                    var x = task.Result;
+
+
+                    MessageBox.Show(new { x }.ToString());
+                }
+            );
 
         }
     }
