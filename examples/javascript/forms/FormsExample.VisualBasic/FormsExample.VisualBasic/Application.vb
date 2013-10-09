@@ -26,16 +26,16 @@ Public NotInheritable Class Application
 	''' This is a javascript application.
 	''' </summary>
 	''' <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-	Public Sub New(page As IDefaultPage)
-		content.AttachControlTo(page.Content)
-		content.AutoSizeControlTo(page.ContentSize)
-		JavaScriptStringExtensions.ToDocumentTitle("Hello world")
-		' Send data from JavaScript to the server tier
-		service.WebMethod2(
-			"A string from JavaScript.",
-			Sub (value) value.ToDocumentTitle()
-		)
-	End Sub 
+    Public Sub New(page As IDefault)
+        content.AttachControlTo(page.Content)
+        content.AutoSizeControlTo(page.ContentSize)
+        JavaScriptStringExtensions.ToDocumentTitle("Hello world")
+        ' Send data from JavaScript to the server tier
+        service.WebMethod2(
+            "A string from JavaScript.",
+            Sub(value) value.ToDocumentTitle()
+        )
+    End Sub
 
 
 End Class

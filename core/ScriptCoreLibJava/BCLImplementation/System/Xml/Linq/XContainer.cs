@@ -22,6 +22,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
         public void Add(object content)
         {
+            if (content == null)
+                return;
+
             InternalEnsureElement();
 
             #region string
@@ -80,6 +83,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             }
             #endregion
 
+            Console.WriteLine("__XContainer.Add " + new { content });
+            if (content != null)
+                Console.WriteLine("__XContainer.Add Type " + content.GetType());
 
             throw new NotImplementedException();
         }
