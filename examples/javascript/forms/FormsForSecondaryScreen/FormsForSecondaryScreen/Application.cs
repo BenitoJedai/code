@@ -37,7 +37,7 @@ namespace FormsForSecondaryScreen
         {
             content.BackColor = Color.Transparent;
 
-            if (Native.Window.opener != null)
+            if (Native.window.opener != null)
             {
                 content.button1.Enabled = false;
                 content.button1.Text = "we are the secondary screen!";
@@ -56,7 +56,7 @@ namespace FormsForSecondaryScreen
 
                     int c = -1;
 
-                    Native.Window.open("/", "_blank").With(
+                    Native.window.open("/", "_blank").With(
                         w =>
                         {
                             w.onload +=
@@ -108,7 +108,7 @@ namespace FormsForSecondaryScreen
                                         Action update =
                                             delegate
                                             {
-                                                dynamic xwlocal = Native.Window;
+                                                dynamic xwlocal = Native.window;
 
                                                 int xwlocal_left = xwlocal.screenLeft;
                                                 int xwlocal_top = xwlocal.screenTop;
@@ -178,7 +178,7 @@ namespace FormsForSecondaryScreen
                                         loop = delegate
                                             {
                                                 update();
-                                                Native.Window.requestAnimationFrame += loop;
+                                                Native.window.requestAnimationFrame += loop;
                                             };
                                         loop();
                                         #endregion
