@@ -1235,7 +1235,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         if (cindex != c.Index)
                             return;
 
-                        var rows = this.InternalRows.InternalItems.InternalList;
+                        var rows = this.InternalRows.InternalItems.Source;
 
                         // InternalAutoSize { Count = 33, cindex = -1 }
 
