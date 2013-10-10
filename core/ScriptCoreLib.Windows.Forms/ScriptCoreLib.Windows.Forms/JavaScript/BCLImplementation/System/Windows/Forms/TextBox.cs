@@ -25,6 +25,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set { _TextAlign = value; }
         }
 
+        public override bool Enabled
+        {
+            get
+            {
+                return !HTMLTarget.disabled;
+            }
+            set
+            {
+                HTMLTarget.disabled = !value;
+            }
+        }
+
         ScrollBars InternalScrollBars;
 
         public ScrollBars ScrollBars
