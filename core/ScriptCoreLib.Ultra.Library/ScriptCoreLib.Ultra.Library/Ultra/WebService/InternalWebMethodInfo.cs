@@ -25,9 +25,24 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public ArrayList InternalParameters;
 
+        public Dictionary<string, string> InternalFields;
+
         public static void AddField(InternalWebMethodInfo that, string FieldName, string FieldValue)
         {
+            if (that.InternalFields == null)
+                that.InternalFields = new Dictionary<string, string>();
+
+            //> 000a 0x01d5 bytes
+            //time to serialize fields into cookie { Length = 1 }
+            //AddField { FieldName = field_Foo, FieldValue = 7 }
+
+            // tested by
+            // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131011-fields
+
             Console.WriteLine("AddField " + new { FieldName, FieldValue });
+
+            that.InternalFields[FieldName] = FieldValue;
         }
 
         #region TaskComplete
