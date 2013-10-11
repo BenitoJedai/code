@@ -27,6 +27,10 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public Dictionary<string, string> InternalFields;
 
+
+        // to be called for field init a /view-source
+        public bool IsConstructor;
+
         public static void AddField(InternalWebMethodInfo that, string FieldName, string FieldValue)
         {
             if (that.InternalFields == null)
@@ -149,19 +153,6 @@ namespace ScriptCoreLib.Ultra.WebService
         public void LoadParameters(HttpContext c)
         {
             this.InternalContext = c;
-
-            //foreach (var Parameter in this.Parameters)
-            //{
-            //    if (Parameter.IsDelegate)
-            //    {
-            //    }
-            //    else
-            //    {
-            //        //WriteFormKeysToConsole(c);
-
-
-            //    }
-            //}
         }
 
         public static string InternalURLDecode(string Value)

@@ -53,44 +53,7 @@ namespace IdentityTokenFromWebService
                 }
             );
 
-            #region manual restore
-            var cookie = Native.document.cookie;
-
-            //{ IdentityToken = 0, Value = IdentityToken, cookie = Password=mypassword; 
-            // _fields=IdentityToken=1235363739&foo=bar; xx=yy }
-
-            var ByCookie = new Cookie("_fields");
-
-            var Values = ByCookie.Values;
-
-            foreach (var key in Values.AllKeys)
-            {
-                var value = Values[key];
-
-                Native.window.localStorage[key] = value;
-
-                new IHTMLPre { innerText = "_fields " + new { key, value }.ToString() }.AttachToDocument();
-
-            }
-
-            // http://caniuse.com/namevalue-storage
-            // sessionStorage will forget for new windows
-            for (uint i = 0; i < Native.window.localStorage.length; i++)
-            {
-                var key = Native.window.localStorage.key(i);
-                var value = Native.window.localStorage[key];
-
-                new IHTMLPre { innerText = "localStorage " + new { key, value }.ToString() }.AttachToDocument();
-
-                if (key == "IdentityToken")
-                    this.IdentityToken = System.Convert.ToInt32(value);
-            }
-            #endregion
-
             new { this.IdentityToken }.ToString().ToDocumentTitle();
-
-            ByCookie.Delete();
-
         }
 
     }
