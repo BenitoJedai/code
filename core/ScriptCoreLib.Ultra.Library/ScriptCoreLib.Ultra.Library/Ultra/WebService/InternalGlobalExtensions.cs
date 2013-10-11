@@ -261,6 +261,7 @@ namespace ScriptCoreLib.Ultra.WebService
                     WebMethods,
                     Context.Request.QueryString[InternalWebMethodInfo.QueryKey]
                 );
+
                 if (WebMethod == null)
                 {
                     // let user defined handler handle it..
@@ -642,8 +643,9 @@ namespace ScriptCoreLib.Ultra.WebService
             var files = g.GetFiles();
             var bytes = 0;
 
-            w.AppendLine(WebApplicationIcon.Icon);
-            w.AppendLine(WebApplicationIcon.Image);
+            // do we need these?
+            //w.AppendLine(WebApplicationIcon.Icon);
+            //w.AppendLine(WebApplicationIcon.Image);
 
             //Explicit entries
 

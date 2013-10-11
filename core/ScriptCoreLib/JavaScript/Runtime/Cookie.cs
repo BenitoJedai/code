@@ -5,92 +5,88 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.Serialized;
 using ScriptCoreLib.Shared;
+using System;
+using System.Collections.Specialized;
 
 namespace ScriptCoreLib.JavaScript.Runtime
 {
 
-        
 
-    [Script]
-    public class Cookie<T> : Cookie
-        where T: class
-    {
-        public Cookie(string e)
-            : base(e)
-        {
-        }
 
-        System.Action<Predicate<T>> _spawn_helper;
+    //[Script]
+    //public class Cookie<T> : Cookie
+    //    where T : class
+    //{
+    //    public Cookie(string e)
+    //        : base(e)
+    //    {
+    //    }
 
-        public Cookie(string e, System.Action<Predicate<T>> def)
-            : base(e)
-        {
-            _spawn_helper = def;
-        }
+    //    //System.Action<Predicate<T>> _spawn_helper;
 
-        public static implicit operator T(Cookie<T> p)
-        {
-            return p.Value;
-        }
+    //    //public Cookie(string e, System.Action<Predicate<T>> def)
+    //    //    : base(e)
+    //    //{
+    //    //    _spawn_helper = def;
+    //    //}
 
-        /// <summary>
-        /// this is a time expensive property
-        /// </summary>
-        public new T Value
-        {
-            get
-            {
-                var x = new ObjectStreamHelper<T>();
+    //    public static implicit operator T(Cookie<T> p)
+    //    {
+    //        return p.Value;
+    //    }
 
-                try
-                {
-                    x.Stream = this.ValueBase64;
-                }
-                catch
-                {
+    //    /// <summary>
+    //    /// this is a time expensive property
+    //    /// </summary>
+    //    public new T Value
+    //    {
+    //        get
+    //        {
+    //            var x = new ObjectStreamHelper<T>();
 
-                }
-            
-                var p = new Predicate<T>();
+    //            try
+    //            {
+    //                x.Stream = this.ValueBase64;
+    //            }
+    //            catch
+    //            {
 
-                p.Target = x.Item;
+    //            }
 
-                p.Invoke(_spawn_helper);
+    //            var p = new Predicate<T>();
 
-                return p.Target;
-            }
-            set
-            {
-                var x = new ObjectStreamHelper<T>();
+    //            p.Target = x.Item;
 
-                x.Item = value;
+    //            p.Invoke(_spawn_helper);
 
-                this.ValueBase64 = x.Stream;
-            }
-        }
-    }
+    //            return p.Target;
+    //        }
+    //        set
+    //        {
+    //            var x = new ObjectStreamHelper<T>();
+
+    //            x.Item = value;
+
+    //            this.ValueBase64 = x.Stream;
+    //        }
+    //    }
+    //}
 
     [Script]
     public class Cookie
     {
         public readonly string Name;
 
+        [Obsolete]
         public static string PHPSession
         {
-            get{
+            get
+            {
                 return new Cookie("PHPSESSID").Value;
             }
         }
 
-        public const string Separator = "$";
 
-        public Cookie this [string e]
-        {
-            get
-            {
-                return new Cookie(Name + "$" + e);
-            }
-        }
 
         public Cookie(string name)
         {
@@ -105,9 +101,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
+
+        // dispose?
         public void Delete()
         {
-            Native.document.cookie = EscapedName + "=;expires=" + new IDate( 0 ).toGMTString();
+            Native.document.cookie = EscapedName + "=;expires=" + new IDate(0).toGMTString();
 
         }
 
@@ -116,7 +114,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             get
             {
                 int z = int.Parse(Value);
-                
+
                 if (Native.window.isNaN(z))
                     return 0;
 
@@ -157,29 +155,77 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
-        
 
+
+        public const string Separator = "$";
+
+        public Cookie this[string e]
+        {
+            get
+            {
+                return new Cookie(Name + "$" + e);
+            }
+        }
+
+        public NameValueCollection Values
+        {
+            get
+            {
+                var n = new NameValueCollection();
+
+                // _fields=IdentityToken=1235363739&foo=bar;
+
+                var value = this.Value;
+
+                foreach (var z in value.Split('&'))
+                {
+                    var i = z.IndexOf("=");
+
+                    if (i > -1)
+                    {
+                        var v0 = z.Substring(0, i);
+                        var v1 = z.Substring(i + 1);
+
+                        n[v0] = v1;
+                    }
+                }
+
+
+                return n;
+            }
+        }
 
         public string Value
         {
             get
             {
-                if (Native.Document == null)
+                if (Native.document == null)
                     return "";
 
-                string[] s = IArray<string>.Split(Native.Document.cookie, "; ");
+                var cookie = Native.document.cookie;
 
-                string x = "";
+                // tested by
+                // X:\jsc.svn\examples\javascript\IdentityTokenFromWebService\IdentityTokenFromWebService\Application.cs
+
+                // cookie = Password=mypassword; _fields=IdentityToken=1235363739&foo=bar; xx=yy }
+
+                var s = cookie.Split(new[] { "; " }, StringSplitOptions.None);
+                var x = "";
 
                 foreach (string z in s)
                 {
-                    string[] v = IArray<string>.Split(z, "=");
+                    var i = z.IndexOf("=");
 
-                    if (v[0] == EscapedName)
+                    if (i > -1)
                     {
-                        x = v[1];
+                        var v0 = z.Substring(0, i);
 
-                        break;
+                        if (v0 == EscapedName)
+                        {
+                            x = z.Substring(i + 1);
+
+                            break;
+                        }
                     }
                 }
 
@@ -187,7 +233,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                     x = "";
 
                 x = Native.window.unescape(x);
-              
+
 
                 return x.Trim();
             }
@@ -202,7 +248,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                     return;
 
 
-                string v = EscapedName + "=" + x +";path=/;";
+                string v = EscapedName + "=" + x + ";path=/;";
 
                 Native.Document.cookie = v;
 
@@ -211,10 +257,10 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 //{
                 //    if (Value == x)
                 //        return;
-                    
+
                 //    throw new System.ScriptException(
                 //        "Cookie could not be set from \n\t" + o + " (" + o.Length + ") to \n\t"  + x + " (" + x.Length + ")\n\n " + v);
-                    
+
                 //}
             }
         }

@@ -9,6 +9,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
 	public class InternalWebMethodWorker
 	{
+        [Obsolete("We can now use List<>")]
 		public readonly ArrayList Results = new ArrayList();
 
 		public static void Add(InternalWebMethodWorker that, InternalWebMethodInfo value)
