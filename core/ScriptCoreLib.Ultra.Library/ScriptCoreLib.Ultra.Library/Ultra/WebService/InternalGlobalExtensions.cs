@@ -274,6 +274,35 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     if (that.Context.Request.Path == "/xml")
                     {
+                        if (WebMethod.InternalFields != null)
+                        {
+                            // typename instead?
+                            var c = new HttpCookie("InternalFields");
+                            // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
+                            foreach (string item in WebMethod.InternalFields.Keys)
+                            {
+                                c[item] = WebMethod.InternalFields[item];
+                            }
+
+                            // Set-Cookie:InternalFields=field_Foo=7; path=/
+                            that.Context.Response.AppendCookie(c);
+
+
+                        }
+
+                        // no yields
+                        if (WebMethod.Results.Length == 0)
+                            if (WebMethod.TaskResult == null)
+                            {
+                                // or should we send binary zip for webworker?
+                                // NoContent
+                                g.Context.Response.StatusCode = 204;
+                                g.Context.Response.Flush();
+
+                                that.CompleteRequest();
+                                return;
+                            }
+
                         WriteXDocument(g, Write, WebMethod);
                         that.CompleteRequest();
                         return;
@@ -592,6 +621,9 @@ namespace ScriptCoreLib.Ultra.WebService
                 if (that.Request.Path == "/view-source")
                 {
                     var app = h.Applications[0];
+
+                    // can we just invoke a ctor?
+                    // and have the fields returne?
 
                     h.WriteSource(app);
 
