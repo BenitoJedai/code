@@ -60,6 +60,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return "" + value;
         }
 
+        public static string ToString(float value)
+        {
+            return "" + value;
+        }
+
         public static string ToString(byte value)
         {
             return "" + value;
@@ -272,6 +277,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return double.Parse(value);
 
         }
+
+    
 
         public static float ToSingle(string value)
         {

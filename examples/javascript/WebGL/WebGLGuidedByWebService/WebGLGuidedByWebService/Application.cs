@@ -19,6 +19,7 @@ using WebGLGuidedByWebService.HTML.Pages;
 namespace WebGLGuidedByWebService
 {
     using ScriptCoreLib.JavaScript.WebGL;
+    using System.Diagnostics;
     using WebGLGuidedByWebService.Shaders;
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
@@ -289,14 +290,26 @@ namespace WebGLGuidedByWebService
 
             var syncdata = new ApplicationWebService[0];
 
-            this.x = 0;
+            //this.x = 0;
             this.y = 0;
+
+            var st = new Stopwatch();
+            st.Start();
+
+            xml = new XElement(
+                "hi",
+                new XAttribute("a", "can you see me?")
+                );
 
             Action sync = async delegate
             {
                 while (true)
                 {
                     var local_syncdata = await onsyncframe();
+
+                    onsyncframe_ElapsedMilliseconds = st.ElapsedMilliseconds;
+                    st.Restart();
+
                     syncframe++;
 
                     Console.WriteLine(new { syncframe, local_syncdata.Length });
@@ -351,7 +364,7 @@ namespace WebGLGuidedByWebService
 
                 foreach (var item in syncdata)
                 {
-                    DrawFrameworkWingAtX((f)item.x, (f)item.y);
+                    DrawFrameworkWingAtX(item.x, item.y);
                 }
 
                 mvPopMatrix();
@@ -424,7 +437,7 @@ namespace WebGLGuidedByWebService
 
                 c++;
 
-                Native.Document.title = "" + c;
+                Native.Document.title = new { c, syncframe }.ToString();
 
                 drawScene();
                 animate();
