@@ -93,7 +93,7 @@ namespace ScriptCoreLib.Ultra.WebService
         {
             var r = default(string);
 
-            Console.WriteLine("GetParameterValue: " + new { name, that.Parameters.Length });
+            //Console.WriteLine("GetParameterValue: " + new { name, that.Parameters.Length });
 
 
             // do we support null parameters?
