@@ -25,6 +25,19 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public ArrayList InternalParameters;
 
+        public static void AddField(InternalWebMethodInfo that, string FieldName, string FieldValue)
+        {
+            Console.WriteLine("AddField " + new { FieldName, FieldValue });
+        }
+
+        #region TaskComplete
+        public bool TaskComplete;
+        public string TaskResult;
+
+        // methods called
+        public InternalWebMethodInfo[] Results;
+
+
         public static void SetResult(InternalWebMethodInfo that)
         {
             that.TaskComplete = true;
@@ -41,6 +54,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
             SetResult(that);
         }
+        #endregion
+
 
         public static void AddParameter(InternalWebMethodInfo that, string Name, string Value)
         {
@@ -61,11 +76,6 @@ namespace ScriptCoreLib.Ultra.WebService
         }
 
 
-        public bool TaskComplete;
-        public string TaskResult;
-
-        // methods called
-        public InternalWebMethodInfo[] Results;
 
         public string ToQueryString()
         {
@@ -134,7 +144,7 @@ namespace ScriptCoreLib.Ultra.WebService
             //    {
             //        //WriteFormKeysToConsole(c);
 
-      
+
             //    }
             //}
         }
