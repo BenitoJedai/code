@@ -12,6 +12,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace AndroidListApplications
@@ -29,13 +30,27 @@ namespace AndroidListApplications
     /// </summary>
     public sealed class ApplicationWebService
     {
+
+        //       0001 0200001b ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions+InternalWebMethodParameterInfoAction
+
+
+        //Implementation not found for type import :
+        //type: System.Collections.Generic.Dictionary`2+KeyCollection[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+        //method: Enumerator GetEnumerator()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="yield">A callback to javascript.</param>
-        public void queryIntentActivities(yield_ACTION_MAIN yield, Action yield_done)
+        public Task queryIntentActivities(yield_ACTION_MAIN yield)
         {
+            var context = ThreadLocalContextReference.CurrentContext;
+
+
             // http://stackoverflow.com/questions/2695746/how-to-get-a-list-of-installed-android-applications-and-pick-one-to-run
             // https://play.google.com/store/apps/details?id=com.flopcode.android.inspector
 
@@ -43,11 +58,12 @@ namespace AndroidListApplications
 
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-            var context = ThreadLocalContextReference.CurrentContext;
 
             var pm = context.getPackageManager();
 
-            var pkgAppsList = pm.queryIntentActivitiesEnumerable(mainIntent).OrderBy(k => k.activityInfo.packageName).WithEach(
+            var pkgAppsList = pm.queryIntentActivitiesEnumerable(mainIntent)
+                .OrderBy(k => k.activityInfo.packageName)
+                .WithEach(
                 r =>
                 {
                     // http://stackoverflow.com/questions/6344694/get-foreground-application-icon-convert-to-base64
@@ -94,7 +110,9 @@ namespace AndroidListApplications
                 }
             );
 
-            yield_done();
+            //yield_done();
+
+            return new object().ToTaskResult();
         }
 
 

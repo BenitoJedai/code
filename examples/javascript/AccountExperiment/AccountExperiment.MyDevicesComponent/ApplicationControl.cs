@@ -17,11 +17,16 @@ namespace AccountExperiment.MyDevicesComponent
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            new MyDevicesComponent.Library.MyDevicesForm
+            var f = new MyDevicesComponent.Library.MyDevicesForm
             {
-                __account = int.Parse(this.textBox1.Text),
-                service = this.applicationWebService1
-            }.Show();
+                service = new ApplicationWebService
+                {
+                    account = int.Parse(this.textBox1.Text)
+                }
+            };
+
+
+            f.Show();
         }
 
     }

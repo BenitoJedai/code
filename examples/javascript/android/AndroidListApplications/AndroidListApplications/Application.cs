@@ -24,6 +24,8 @@ namespace AndroidListApplications
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -61,32 +63,15 @@ namespace AndroidListApplications
             }.ToEmptyList();
 
             Action queryIntentActivities =
-                delegate
+                async delegate
                 {
                     var a = new List<string>();
 
                     // Send data from JavaScript to the server tier
-                    service.queryIntentActivities(
-                        yield_done:
-                            delegate
-                            {
-                                items.WithEach(
-                                    item =>
-                                    {
-                                        if (a.Contains(item.packageName))
-                                            return;
-
-                                        item.div.style.color = "red";
-
-                                        item.Launch.disabled = true;
-                                        item.Remove.disabled = true;
-                                    }
-                                );
-
-                                // remove others!
-                            },
+                    await service.queryIntentActivities(
                         yield: (packageName, name, icon_base64, label) =>
                         {
+                            #region yield
                             a.Add(packageName);
 
                             // already have it
@@ -110,7 +95,7 @@ namespace AndroidListApplications
                                         // http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-5d0f4f25128cc9cd0cb-7ffd.html
 
 
-                                        if (!Native.Window.confirm("Remove " + name + "?"))
+                                        if (!Native.window.confirm("Remove " + name + "?"))
                                             return;
 
                                         service.Remove(packageName, name);
@@ -165,8 +150,25 @@ namespace AndroidListApplications
                             //https://play.google.com/store/apps/details?id=com.abstractatech.battery
 
                             new IHTMLAnchor { href = "https://play.google.com/store/apps/details?id=" + packageName, innerText = name }.AttachTo(div);
+                            #endregion
+
                         }
                     );
+
+                    items.WithEach(
+                                   item =>
+                                   {
+                                       if (a.Contains(item.packageName))
+                                           return;
+
+                                       item.div.style.color = "red";
+
+                                       item.Launch.disabled = true;
+                                       item.Remove.disabled = true;
+                                   }
+                               );
+
+                    // remove others!
                 };
 
             queryIntentActivities();

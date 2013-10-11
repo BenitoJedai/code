@@ -18,8 +18,11 @@ namespace AccountExperiment.MyDevicesComponent
     {
         MyDevices devices = new MyDevices();
 
+
+
+        public long account;
+
         public Task<long> MyDevices_Insert(
-            long account,
             string name,
             string value)
         {
@@ -36,7 +39,7 @@ namespace AccountExperiment.MyDevicesComponent
         }
 
         // jsc you are not unescaping params?
-        public Task MyDevices_SelectByAccount(long account, Action<string, string, string> yield)
+        public Task MyDevices_SelectByAccount( Action<long, string, string> yield)
         {
             devices.SelectByAccount(
                 new MyDevicesQueries.SelectByAccount { account = account },
@@ -47,7 +50,7 @@ namespace AccountExperiment.MyDevicesComponent
                     string name = r.name;
                     string value = r.value;
 
-                    yield("" + id, name, value);
+                    yield(id, name, value);
                 }
             );
 
@@ -56,7 +59,6 @@ namespace AccountExperiment.MyDevicesComponent
 
 
         public Task MyDevices_Update(
-            long account,
             long id,
             string name,
             string value)
@@ -76,8 +78,8 @@ namespace AccountExperiment.MyDevicesComponent
     public interface IMyDevicesComponent_MyDevices
     {
         // consumers may need to wrap with session id
-        Task<long> MyDevices_Insert(long account, string name, string value);
-        Task MyDevices_SelectByAccount(long account, Action<string, string, string> yield);
-        Task MyDevices_Update(long account, long id, string name, string value);
+        Task<long> MyDevices_Insert(string name, string value);
+        Task MyDevices_SelectByAccount(Action<long, string, string> yield);
+        Task MyDevices_Update(long id, string name, string value);
     }
 }

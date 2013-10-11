@@ -9,7 +9,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpCookie))]
     internal class __HttpCookie
     {
-        public __HttpCookie() : this(null, null)
+        public __HttpCookie()
+            : this(null, null)
         {
 
         }
@@ -28,6 +29,24 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Web
         public string Name { get; set; }
 
         public DateTime Expires { get; set; }
+
+
         public string Value { get; set; }
+
+        public string this[string key]
+        {
+            set 
+            {
+                Console.WriteLine("__HttpCookie");
+            }
+        }
+
+
+        //        Implementation not found for type import :
+        //type: System.Web.HttpCookie
+        //method: Void set_Item(System.String, System.String)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
     }
 }

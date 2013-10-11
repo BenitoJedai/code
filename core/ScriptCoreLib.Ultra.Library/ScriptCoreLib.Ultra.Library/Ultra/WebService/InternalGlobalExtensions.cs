@@ -265,13 +265,29 @@ namespace ScriptCoreLib.Ultra.WebService
                     // typename instead?
                     var c = new HttpCookie("InternalFields");
                     // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
-                    foreach (string item in x.InternalFields.Keys)
+
+                    //Implementation not found for type import :
+                    //type: System.Collections.Generic.Dictionary`2+KeyCollection[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+                    //method: Enumerator GetEnumerator()
+                    //Did you forget to add the [Script] attribute?
+                    //Please double check the signature!
+
+                    //assembly: W:\staging\clr\AndroidListApplications.ApplicationWebService.AndroidActivity.dll
+                    //type: ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions+<>c__DisplayClass10, AndroidListApplications.ApplicationWebService.AndroidActivity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+                    //offset: 0x0030
+                    // method:Void <InternalApplication_BeginRequest>b__4(ScriptCoreLib.Ultra.WebService.InternalWebMethodInfo)
+                    //ystem.NotSupportedException:
+
+                    //Implementation not found for type import :
+
+                    foreach (string item in x.InternalFields.Keys.ToArray())
                     {
                         c[item] = x.InternalFields[item];
                     }
 
                     // Set-Cookie:InternalFields=field_Foo=7; path=/
-                    that.Context.Response.AppendCookie(c);
+                    //that.Context.Response.AppendCookie(c);
+                    that.Context.Response.SetCookie(c);
 
 
                 };
@@ -647,7 +663,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 #region /view-source
                 if (that.Request.Path == "/view-source")
                 {
-                   
+
 
                     var app = h.Applications[0];
 

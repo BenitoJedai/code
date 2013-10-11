@@ -37,7 +37,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         #region Keys
         [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection))]
-        public class __KeyCollection : ICollection<TKey>, ICollection
+        public class __KeyCollection : 
+            ICollection<TKey>, 
+            ICollection
+            //, IEnumerable
         {
             public java.util.HashMap InternalDictionary;
 
