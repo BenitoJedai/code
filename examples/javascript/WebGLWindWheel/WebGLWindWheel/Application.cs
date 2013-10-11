@@ -37,12 +37,7 @@ namespace WebGLWindWheel
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
-
             var size = 600;
-
-
-
-
             var gl = new WebGLRenderingContext();
 
             var canvas = gl.canvas.AttachToDocument();
@@ -59,31 +54,11 @@ namespace WebGLWindWheel
 
 
 
-            var shaderProgram = gl.createProgram();
+            var shaderProgram = gl.createProgram(
+                new GeometryVertexShader(),
+                new GeometryFragmentShader()
+           );
 
-
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader failed");
-                }
-
-                return shader;
-            };
-            #endregion
-
-            var vs = createShader(new GeometryVertexShader());
-            var fs = createShader(new GeometryFragmentShader());
-
-
-            gl.attachShader(shaderProgram, vs);
-            gl.attachShader(shaderProgram, fs);
 
 
             gl.linkProgram(shaderProgram);
