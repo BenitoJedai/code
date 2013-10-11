@@ -261,6 +261,50 @@ namespace WebGLGuidedByWebService
             };
             #endregion
 
+            var __pointer_x = 0;
+            var __pointer_y = 0;
+
+            canvas.onmousedown +=
+                delegate
+                {
+                    canvas.requestPointerLock();
+                };
+
+            canvas.onmousemove +=
+                e =>
+                {
+                    if (Native.document.pointerLockElement == canvas)
+                    {
+
+                        __pointer_x += e.movementX;
+                        __pointer_y += e.movementY;
+                    }
+                };
+
+            canvas.onmouseup +=
+                e =>
+                {
+                    Native.document.exitPointerLock();
+                };
+
+            var syncdata = new ApplicationWebService[0];
+
+            this.x = 0;
+            this.y = 0;
+
+            Action sync = async delegate
+            {
+                while (true)
+                {
+                    var local_syncdata = await onsyncframe();
+                    syncframe++;
+
+                    Console.WriteLine(new { syncframe, local_syncdata.Length });
+                    syncdata = local_syncdata;
+                }
+            };
+
+            sync();
 
             #region drawScene
             Action drawScene = delegate
@@ -274,6 +318,43 @@ namespace WebGLGuidedByWebService
 
                 glMatrix.mat4.translate(mvMatrix, new float[] { 0f, 0.0f, -7.0f });
 
+
+                mvPushMatrix();
+                glMatrix.mat4.rotate(mvMatrix, degToRad(rWind), new float[] { 0f, 1f, 0f });
+                glMatrix.mat4.rotate(mvMatrix, __pointer_y * 0.01f, new float[] { 1f, 0, 0f });
+                glMatrix.mat4.rotate(mvMatrix, __pointer_x * 0.01f, new float[] { 0, 1f, 0f });
+
+
+                #region DrawFrameworkWingAtX
+                Action<float, float> DrawFrameworkWingAtX =
+                    (WingX, WingY) =>
+                    {
+                        #region draw center cube
+                        mvPushMatrix();
+
+                        glMatrix.mat4.translate(mvMatrix, new float[] { cubesize * WingX, cubesize * WingY, 0 });
+
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                        gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+                        setMatrixUniforms();
+                        gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
+
+                        mvPopMatrix();
+                        #endregion
+                    };
+                #endregion
+
+                foreach (var item in syncdata)
+                {
+                    DrawFrameworkWingAtX((f)item.x, (f)item.y);
+                }
+
+                mvPopMatrix();
 
 
 
@@ -335,7 +416,6 @@ namespace WebGLGuidedByWebService
 
 
 
-            var c = 0;
 
             #region tick
 
