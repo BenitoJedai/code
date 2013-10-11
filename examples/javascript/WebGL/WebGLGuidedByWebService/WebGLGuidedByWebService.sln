@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLGuidedByWebService", "WebGLGuidedByWebService\WebGLGuidedByWebService.csproj", "{D291DDC8-F693-4930-A302-CA8F49EADDB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButterFlyWithInteractiveInt32Offset", "..\..\ButterFlyWithInteractiveInt32Offset\ButterFlyWithInteractiveInt32Offset\ButterFlyWithInteractiveInt32Offset.csproj", "{8A11634A-BB26-4F7A-BB7F-0501AEB04522}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{81549097-8800-4B9C-95A2-F3184AAD0DD5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D291DDC8-F693-4930-A302-CA8F49EADDB0}.Debug|x86.ActiveCfg = Debug|x86
+		{D291DDC8-F693-4930-A302-CA8F49EADDB0}.Debug|x86.Build.0 = Debug|x86
+		{D291DDC8-F693-4930-A302-CA8F49EADDB0}.Release|x86.ActiveCfg = Release|x86
+		{D291DDC8-F693-4930-A302-CA8F49EADDB0}.Release|x86.Build.0 = Release|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Debug|x86.ActiveCfg = Debug|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Debug|x86.Build.0 = Debug|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Release|x86.ActiveCfg = Release|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522} = {81549097-8800-4B9C-95A2-F3184AAD0DD5}
+	EndGlobalSection
+EndGlobal
