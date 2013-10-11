@@ -13,6 +13,11 @@ namespace System.Threading.Tasks
         {
             return Task.FromResult(source);
         }
+    }
+
+    public static class TaskAsyncIProgressExtensions
+    {
+
 
         public static Task<TSource> StartNewWithProgress<TSource>(this TaskFactory that,
             TSource state,

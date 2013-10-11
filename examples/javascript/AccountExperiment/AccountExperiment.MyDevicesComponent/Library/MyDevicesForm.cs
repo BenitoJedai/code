@@ -16,7 +16,6 @@ namespace AccountExperiment.MyDevicesComponent.Library
         // what data is available for the client.
         // eg. hacking shall result in logout
 
-        public long __account { get; set; }
         public IMyDevicesComponent_MyDevices service { get; set; }
 
         public MyDevicesForm()
@@ -92,7 +91,8 @@ namespace AccountExperiment.MyDevicesComponent.Library
 
                 // we are limited by sinle account.
                 // client can try to hack. server must enforce.
-                cells_account.Value = "" + this.__account;
+                //cells_account.Value = "" + this.__account;
+                cells_account.Value = "?";
 
                 // prevent nulls
                 if (cells_value.Value == null)
@@ -104,7 +104,6 @@ namespace AccountExperiment.MyDevicesComponent.Library
 
                 this.Cursor = Cursors.AppStarting;
                 var __id = await service.MyDevices_Insert(
-                     this.__account,
                     (string)cells_name.Value,
                     (string)cells_value.Value
                 );
@@ -122,7 +121,6 @@ namespace AccountExperiment.MyDevicesComponent.Library
             this.Cursor = Cursors.AppStarting;
 
             await service.MyDevices_Update(
-                 this.__account,
                  Convert.ToInt64((string)cells_id.Value),
                 (string)cells_name.Value,
                 (string)cells_value.Value
@@ -140,14 +138,14 @@ namespace AccountExperiment.MyDevicesComponent.Library
             // 
             this.Cursor = Cursors.AppStarting;
 
-            Action<string, string, string> yield =
+            Action<long, string, string> yield =
                  (id, name, value) =>
                  {
                      var row = new DataGridViewRow();
 
                      row.Cells.AddTextRange(
-                         id,
-                          "" + __account,
+                         "" + id,
+                          "?",
                          name,
                          value
                      );
@@ -156,7 +154,6 @@ namespace AccountExperiment.MyDevicesComponent.Library
                  };
 
             await service.MyDevices_SelectByAccount(
-                 this.__account,
                yield
             );
 

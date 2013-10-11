@@ -83,11 +83,18 @@ namespace HistoryStatesViaWebService
 
             FlashTitle();
 
+
             page.Enter.WhenClicked(
                 async delegate
                 {
                     // we are in the click handler
                     // the layout was loaded in default state
+
+                    //    _06000002_field_state:
+                    //_06000002_field_reason:
+
+                    // jsc why cannot this be null?
+                    this.state = new ApplicationState { title = "???" };
 
                     var newstate = await this.DoEnter();
 
