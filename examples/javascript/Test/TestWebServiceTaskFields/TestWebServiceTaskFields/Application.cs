@@ -42,6 +42,10 @@ namespace TestWebServiceTaskFields
                 }
             );
 
+            new { this.Foo }.ToString().ToDocumentTitle();
+
+
+            new IHTMLPre { innerText = new { Goo }.ToString() }.AttachToDocument();
         }
 
     }

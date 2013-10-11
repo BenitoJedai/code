@@ -21,12 +21,21 @@ namespace TestWebServiceTaskFields
 
         public int Foo = 3;
 
+        public string Goo = "goo";
 
-        public Task yield()
+        public ApplicationWebService()
         {
-            Foo = 7;
+            Console.WriteLine("ApplicationWebService .ctor");
+        }
 
-            return new object().ToTaskResult();
+        public async Task yield()
+        {
+            Foo++;
+
+
+            // Set-Cookie:InternalFields=field_Foo=7&field_Goo=Z29v; path=/
+
+            //return new object().ToTaskResult();
 
             // time to serialize fields into cookie
         }

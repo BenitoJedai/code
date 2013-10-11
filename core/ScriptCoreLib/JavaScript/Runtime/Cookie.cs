@@ -167,70 +167,85 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
-        public NameValueCollection Values
+        public static NameValueCollection GetValues(string value)
         {
-            get
+            var n = new NameValueCollection();
+
+            // _fields=IdentityToken=1235363739&foo=bar;
+
+            if (!string.IsNullOrEmpty(value))
             {
-                var n = new NameValueCollection();
-
-                // _fields=IdentityToken=1235363739&foo=bar;
-
-                var value = this.Value;
-
                 foreach (var z in value.Split('&'))
                 {
                     var i = z.IndexOf("=");
 
                     if (i > -1)
                     {
-                        var v0 = z.Substring(0, i);
-                        var v1 = z.Substring(i + 1);
+                        var v0 = Native.window.unescape(z.Substring(0, i));
+                        var v1 = Native.window.unescape(z.Substring(i + 1));
 
                         n[v0] = v1;
                     }
                 }
-
-
-                return n;
             }
+
+
+            return n;
+        }
+
+        public NameValueCollection Values
+        {
+            get
+            {
+                var value = InternalGetValue();
+
+                return GetValues(value);
+            }
+        }
+
+        public string InternalGetValue()
+        {
+            if (Native.document == null)
+                return "";
+
+            var cookie = Native.document.cookie;
+
+            // tested by
+            // X:\jsc.svn\examples\javascript\IdentityTokenFromWebService\IdentityTokenFromWebService\Application.cs
+
+            // cookie = Password=mypassword; _fields=IdentityToken=1235363739&foo=bar; xx=yy }
+
+            var s = cookie.Split(new[] { "; " }, StringSplitOptions.None);
+            var x = "";
+
+            foreach (string z in s)
+            {
+                var i = z.IndexOf("=");
+
+                if (i > -1)
+                {
+                    var v0 = z.Substring(0, i);
+
+                    if (v0 == EscapedName)
+                    {
+                        x = z.Substring(i + 1);
+
+                        break;
+                    }
+                }
+            }
+
+            if (x == null)
+                x = "";
+
+            return x;
         }
 
         public string Value
         {
             get
             {
-                if (Native.document == null)
-                    return "";
-
-                var cookie = Native.document.cookie;
-
-                // tested by
-                // X:\jsc.svn\examples\javascript\IdentityTokenFromWebService\IdentityTokenFromWebService\Application.cs
-
-                // cookie = Password=mypassword; _fields=IdentityToken=1235363739&foo=bar; xx=yy }
-
-                var s = cookie.Split(new[] { "; " }, StringSplitOptions.None);
-                var x = "";
-
-                foreach (string z in s)
-                {
-                    var i = z.IndexOf("=");
-
-                    if (i > -1)
-                    {
-                        var v0 = z.Substring(0, i);
-
-                        if (v0 == EscapedName)
-                        {
-                            x = z.Substring(i + 1);
-
-                            break;
-                        }
-                    }
-                }
-
-                if (x == null)
-                    x = "";
+                var x = InternalGetValue();
 
                 x = Native.window.unescape(x);
 

@@ -19,9 +19,8 @@ namespace WebServiceLatencyBenchmarker
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    internal sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -35,13 +34,29 @@ namespace WebServiceLatencyBenchmarker
 
             WriteLine("Pinging host [" + host + "]:");
 
+            int Counter = 0;
 
             Action loop = async delegate
             {
-                var forever = true;
+                while (true)
+                {
+                    var Delay = new Stopwatch();
+                    Delay.Start();
 
-                while (forever)
-                    await Continue(host);
+                    Counter++;
+
+                    // Send data from JavaScript to the server tier
+                    await this.yield();
+
+
+                    this.elapsed = Delay.ElapsedMilliseconds;
+                    var DelayString = "" + Convert.ToInt32(Delay.ElapsedMilliseconds) + "ms";
+
+                    // jsc: this will cause an if block which is not supported just yet
+                    // new IHTMLDiv { innerText = "" + NowString }.AttachToDocument();
+
+                    WriteLine("Reply #" + Counter + " from " + host + " time=" + DelayString);
+                }
 
             };
 
@@ -66,26 +81,8 @@ namespace WebServiceLatencyBenchmarker
             Native.window.scrollTo(0, Native.Document.body.clientHeight);
         }
 
-        int Counter = 0;
 
-        async Task Continue(string host)
-        {
-            var Delay = new Stopwatch();
-            Delay.Start();
 
-            Counter++;
-
-            // Send data from JavaScript to the server tier
-            await service.Yield();
-
-            var DelayString = "" + Convert.ToInt32(Delay.ElapsedMilliseconds) + "ms";
-
-            // jsc: this will cause an if block which is not supported just yet
-            // new IHTMLDiv { innerText = "" + NowString }.AttachToDocument();
-
-            WriteLine("Reply #" + Counter + " from " + host + " time=" + DelayString);
-
-        }
 
     }
 }

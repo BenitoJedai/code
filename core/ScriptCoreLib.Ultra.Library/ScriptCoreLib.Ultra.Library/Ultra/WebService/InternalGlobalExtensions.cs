@@ -254,6 +254,29 @@ namespace ScriptCoreLib.Ultra.WebService
             //    item.LoadParameters(that.Context);
             //}
 
+            #region WriteInternalFields InternalFields -> AppendCookie
+            Action<InternalWebMethodInfo> WriteInternalFields =
+                x =>
+                {
+
+                    if (x.InternalFields == null)
+                        return;
+
+                    // typename instead?
+                    var c = new HttpCookie("InternalFields");
+                    // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
+                    foreach (string item in x.InternalFields.Keys)
+                    {
+                        c[item] = x.InternalFields[item];
+                    }
+
+                    // Set-Cookie:InternalFields=field_Foo=7; path=/
+                    that.Context.Response.AppendCookie(c);
+
+
+                };
+            #endregion
+
             #region POST
             if (Context.Request.HttpMethod == "POST")
             {
@@ -261,6 +284,9 @@ namespace ScriptCoreLib.Ultra.WebService
                     WebMethods,
                     Context.Request.QueryString[InternalWebMethodInfo.QueryKey]
                 );
+
+
+
 
                 if (WebMethod == null)
                 {
@@ -274,23 +300,11 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     if (that.Context.Request.Path == "/xml")
                     {
-                        if (WebMethod.InternalFields != null)
-                        {
-                            // typename instead?
-                            var c = new HttpCookie("InternalFields");
-                            // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
-                            foreach (string item in WebMethod.InternalFields.Keys)
-                            {
-                                c[item] = WebMethod.InternalFields[item];
-                            }
 
-                            // Set-Cookie:InternalFields=field_Foo=7; path=/
-                            that.Context.Response.AppendCookie(c);
-
-
-                        }
+                        WriteInternalFields(WebMethod);
 
                         // no yields
+                        #region 204
                         if (WebMethod.Results.Length == 0)
                             if (WebMethod.TaskResult == null)
                             {
@@ -302,6 +316,8 @@ namespace ScriptCoreLib.Ultra.WebService
                                 that.CompleteRequest();
                                 return;
                             }
+                        #endregion
+
 
                         WriteXDocument(g, Write, WebMethod);
                         that.CompleteRequest();
@@ -397,9 +413,20 @@ namespace ScriptCoreLib.Ultra.WebService
                 h.Context.Response.ContentType = "text/javascript";
 
                 g.Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
+
+                // are we not part of AppCache?
                 g.Response.Cache.SetExpires(DateTime.Now.AddMinutes(15));
 
+                Console.WriteLine("IsConstructor WriteInternalFields");
 
+                var Constructor = new InternalWebMethodInfo
+                {
+                    IsConstructor = true
+                };
+
+                g.Invoke(Constructor);
+
+                WriteInternalFields(Constructor);
 
 
 
@@ -620,6 +647,8 @@ namespace ScriptCoreLib.Ultra.WebService
                 #region /view-source
                 if (that.Request.Path == "/view-source")
                 {
+                   
+
                     var app = h.Applications[0];
 
                     // can we just invoke a ctor?
