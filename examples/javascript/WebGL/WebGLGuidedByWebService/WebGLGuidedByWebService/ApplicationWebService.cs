@@ -29,17 +29,42 @@ namespace WebGLGuidedByWebService
         //_06000008_field_y:null
 
         // why are these fields passed in as null?
+        //type$gTZJ8H4FJz6UwC8P_arIh6g.x = null;
+        //type$gTZJ8H4FJz6UwC8P_arIh6g.y = null;
 
-        public double x;
-        public double y;
+
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Convert.ToString(System.Single)]
+        // first run should also pass down the field values
+        // since js is precached, how do we do it?
+        // should we use an init cookie?
+
+        // what if we used WebGL GLSL vec2 here?
+        public float x;
+        public float y;
+
 
         public int syncframe = 0;
         public int c = 0;
 
+        // what about events and virtual events?
+
+        public long onsyncframe_ElapsedMilliseconds;
+
+        // what about debugger visualizers?
+        // http://community.devexpress.com/blogs/markmiller/archive/2012/12/03/here-s-your-game-changer-debug-visualizer-in-coderush-for-visual-studio.aspx
+        public XElement xml;
+
         public Task<ApplicationWebService[]> onsyncframe()
         {
             // we can breakpoint here, and modify live code
-            Console.Title = new { syncframe, c }.ToString();
+
+            if (onsyncframe_ElapsedMilliseconds == 0)
+                onsyncframe_ElapsedMilliseconds = 1000;
+
+            Console.Title = new { c, syncframe, onsyncframe_ElapsedMilliseconds, fps = 1000 / onsyncframe_ElapsedMilliseconds }.ToString();
+
+
+            // DebuggerVisualizer?
 
             var z = new List<ApplicationWebService>();
 
