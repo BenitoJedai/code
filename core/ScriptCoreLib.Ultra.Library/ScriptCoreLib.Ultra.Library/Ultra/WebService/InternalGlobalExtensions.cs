@@ -809,11 +809,11 @@ namespace ScriptCoreLib.Ultra.WebService
             if (WebMethod.Results == null)
             {
 
-                Write("<h2>No results from " + WebMethod.Name + "</h2>");
+                Write("<h2>No results from " + WebMethod.MethodName + "</h2>");
             }
             else
             {
-                Write("<h2>" + WebMethod.Results.Length + " results from " + WebMethod.Name + "</h2>");
+                Write("<h2>" + WebMethod.Results.Length + " results from " + WebMethod.MethodName + "</h2>");
                 Write("<blockquote>");
 
                 foreach (var item in WebMethod.Results)
@@ -990,7 +990,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
                 foreach (var item in WebMethod.Results)
                 {
-                    Write("<" + item.Name + ">");
+                    Write("<" + item.MethodName + ">");
 
                     if (item.Parameters != null)
                     {
@@ -1013,7 +1013,7 @@ namespace ScriptCoreLib.Ultra.WebService
                         }
                     }
 
-                    Write("</" + item.Name + ">");
+                    Write("</" + item.MethodName + ">");
 
                 }
             }
@@ -1079,12 +1079,12 @@ namespace ScriptCoreLib.Ultra.WebService
                 // when does this happen?
 
                 Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' />");
-                Write(" <code>" + item.Name + "</code>");
+                Write(" <code>" + item.MethodName + "</code>");
 
             }
             else
             {
-                Write("<img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> <code><a style='text-decoration: none;' href='" + item.ToQueryString() + "'>" + item.Name + "</a></code>");
+                Write("<img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> <code><a style='text-decoration: none;' href='" + item.ToQueryString() + "'>" + item.MethodName + "</a></code>");
             }
 
             if (more != null)

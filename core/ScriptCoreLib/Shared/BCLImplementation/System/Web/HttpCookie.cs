@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -31,13 +32,45 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Web
         public DateTime Expires { get; set; }
 
 
-        public string Value { get; set; }
+        public string InternalValue;
+        public NameValueCollection InternalValues;
+
+        public string Value
+        {
+            get
+            {
+                if (InternalValues != null)
+                {
+                    var w = new StringBuilder();
+
+                    foreach (var item in this.InternalValues.AllKeys)
+                    {
+                        w
+                            .Append(item)
+                            .Append("=")
+                            .Append(this.InternalValues[item])
+                            .Append("&");
+                    }
+
+                    return w.ToString();
+                }
+
+                return InternalValue;
+            }
+            set
+            {
+                InternalValue = value;
+            }
+        }
 
         public string this[string key]
         {
-            set 
+            set
             {
-                Console.WriteLine("__HttpCookie");
+                if (InternalValues == null)
+                    InternalValues = new NameValueCollection();
+
+                InternalValues[key] = value;
             }
         }
 

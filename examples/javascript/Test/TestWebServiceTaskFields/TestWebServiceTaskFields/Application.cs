@@ -48,5 +48,16 @@ namespace TestWebServiceTaskFields
             new IHTMLPre { innerText = new { Goo }.ToString() }.AttachToDocument();
         }
 
+
+        //public override async Task yield()
+        //{
+        //    Console.WriteLine("before yield");
+
+        //    await base.yield();
+
+
+        //    Console.WriteLine("after yield");
+
+        //}
     }
 }

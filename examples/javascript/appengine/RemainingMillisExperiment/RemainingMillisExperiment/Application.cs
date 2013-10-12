@@ -12,15 +12,16 @@ using System.Text;
 using System.Xml.Linq;
 using RemainingMillisExperiment.Design;
 using RemainingMillisExperiment.HTML.Pages;
+using System.Threading.Tasks;
+
 
 namespace RemainingMillisExperiment
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -28,11 +29,23 @@ namespace RemainingMillisExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            Native.document.title = this.title;
+
             // Send data from JavaScript to the server tier
-            service.getRemainingMillis(
-                @"",
-                value => page.Content.innerText = value
+
+            this.title += ".";
+            this.counter++;
+
+            this.RemainingMillis.ContinueWithResult(
+                RemainingMillis =>
+                {
+                    Native.document.title = this.title;
+                    page.Content.innerText = new { RemainingMillis }.ToString();
+
+                }
             );
+
+
         }
 
     }

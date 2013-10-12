@@ -28,7 +28,7 @@ namespace TestWebServiceTaskFields
             Console.WriteLine("ApplicationWebService .ctor");
         }
 
-        public async Task yield()
+        public virtual async Task yield()
         {
             Foo++;
 
