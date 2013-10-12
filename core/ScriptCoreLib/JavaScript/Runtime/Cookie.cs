@@ -169,6 +169,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         public static NameValueCollection GetValues(string value)
         {
+            Console.WriteLine("Cookie GetValues " + new { value });
+
+            // 
             var n = new NameValueCollection();
 
             // _fields=IdentityToken=1235363739&foo=bar;

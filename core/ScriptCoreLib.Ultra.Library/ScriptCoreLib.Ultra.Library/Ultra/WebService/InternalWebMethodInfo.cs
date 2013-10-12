@@ -15,7 +15,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public static string QueryKey = "WebMethod";
 
-        public string Name;
+        public string MethodName;
         public string TypeFullName;
 
         public string MetadataToken;
@@ -44,7 +44,7 @@ namespace ScriptCoreLib.Ultra.WebService
             // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131011-fields
 
-            Console.WriteLine("AddField " + new { FieldName, FieldValue });
+            Console.WriteLine("InternalWebMethodInfo.AddField " + new { FieldName, FieldValue });
 
             that.InternalFields[FieldName] = FieldValue;
         }
@@ -94,7 +94,10 @@ namespace ScriptCoreLib.Ultra.WebService
             );
         }
 
-
+        public override string ToString()
+        {
+            return new { IsConstructor, MetadataToken, Name = MethodName, TypeFullName }.ToString();
+        }
 
         public string ToQueryString()
         {
