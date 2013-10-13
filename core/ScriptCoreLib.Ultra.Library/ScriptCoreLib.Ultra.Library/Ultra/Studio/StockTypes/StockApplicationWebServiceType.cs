@@ -12,7 +12,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
         public StockApplicationWebServiceType(SolutionBuilderInteractive Interactive)
         {
-            this.IsSealed = true;
+            // we can now use it as a base type for our client side apps
+            //this.IsSealed = true;
 
             // Cassini will not be able to support debugging if WebService is made internal?
             //this.IsInternal = true;

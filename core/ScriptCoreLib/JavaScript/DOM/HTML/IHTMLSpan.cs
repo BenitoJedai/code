@@ -54,6 +54,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
 
+
         [System.Obsolete("experimental")]
         public static implicit operator IHTMLSpan(Task<string> innerText)
         {
@@ -66,6 +67,28 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     s.innerText = task.Result;
                 }
             );
+
+            return s;
+        }
+
+        [System.Obsolete("experimental")]
+        //public static implicit operator IHTMLSpan(Task<object> innerText)
+        public static implicit operator IHTMLSpan(Task innerText)
+        {
+            // first step for databinding?
+            var s = new IHTMLSpan { };
+
+
+            var x = innerText as Task<object>;
+            if (x != null)
+            {
+                x.ContinueWith(
+                    task =>
+                    {
+                        s.innerText = task.Result.ToString();
+                    }
+                );
+            }
 
             return s;
         }

@@ -96,6 +96,7 @@
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
+    <Compile Include="JavaScript\DOM\Storage.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRowCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRow.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumnCollection.cs" />

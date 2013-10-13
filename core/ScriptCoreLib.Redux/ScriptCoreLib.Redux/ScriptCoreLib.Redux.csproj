@@ -55,7 +55,6 @@
     <Compile Include="JavaScript\DOM\IWindow.cs" />
     <Compile Include="JavaScript\DOM\IXMLHttpRequest.cs" />
     <Compile Include="JavaScript\DOM\NavigatorInfo.cs" />
-    <Compile Include="JavaScript\DOM\Storage.cs" />
     <Compile Include="JavaScript\Extensions\WebGLExtensions.cs" />
     <Compile Include="JavaScript\Redux.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
