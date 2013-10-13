@@ -20,9 +20,8 @@ namespace TextToSpeechExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -35,7 +34,7 @@ namespace TextToSpeechExperiment
                 {
                     @"Hello world".ToDocumentTitle();
                     // Send data from JavaScript to the server tier
-                    await service.TextToSpeechSpeak(page.text.value);
+                    await TextToSpeechSpeak(page.text.value);
                 }
             );
 
@@ -99,7 +98,7 @@ namespace TextToSpeechExperiment
 
                     Console.WriteLine("onframe " + new { frameindex } + " speak!");
 
-                    await service.TextToSpeechSpeak(current);
+                    await TextToSpeechSpeak(current);
 
                     Console.WriteLine("onframe " + new { frameindex } + " speak! done");
 
