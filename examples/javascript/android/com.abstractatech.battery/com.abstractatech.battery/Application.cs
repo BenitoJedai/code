@@ -53,23 +53,7 @@ namespace com.abstractatech.battery
                     page.gauge_layer1.style.transform = transform;
                 };
 
-            //#if DEBUG
-            //            set(0.3);
-
-            //            Native.Window.onfocus +=
-            //                delegate
-            //                {
-            //                    set(1);
-
-            //                };
-
-            //            Native.Window.onblur +=
-            //                delegate
-            //                {
-            //                    set(0);
-
-            //                };
-            //#else
+           
             // it can get stuck. the dom might not represent the value we are setting if it is the same?
             //set(1);
             set(0);
