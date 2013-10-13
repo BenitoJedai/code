@@ -13,15 +13,15 @@ using System.Xml.Linq;
 using com.abstractatech.battery.Design;
 using com.abstractatech.battery.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
+using System.Threading.Tasks;
 
 namespace com.abstractatech.battery
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -53,7 +53,7 @@ namespace com.abstractatech.battery
                     page.gauge_layer1.style.transform = transform;
                 };
 
-           
+
             // it can get stuck. the dom might not represent the value we are setting if it is the same?
             //set(1);
             set(0);
@@ -63,23 +63,20 @@ namespace com.abstractatech.battery
             //(page.gauge_layer1.style as dynamic).transition = "-webkit-transform 0.7s ease-in";
 
 
-            Action batteryStatus = async delegate
-            {
-                var batteryPct = await service.batteryStatus();
+            ((Action)(
+                 async delegate
+                 {
+                     while (true)
+                     {
+                         await batteryStatusCheck();
 
-                set(System.Convert.ToDouble(batteryPct));
-            };
 
+                         set(batteryStatus);
 
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                delegate
-                {
-                    batteryStatus();
-                }
-            ).StartInterval(15000);
-
-            batteryStatus();
-            //#endif
+                         await Task.Delay(500 + new Random().Next(5000));
+                     }
+                 }
+             ))();
 
             "Battery".ToDocumentTitle();
         }

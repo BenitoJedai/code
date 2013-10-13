@@ -13,7 +13,7 @@ namespace com.abstractatech.battery
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public  class ApplicationWebService
     {
 
 
@@ -27,13 +27,16 @@ namespace com.abstractatech.battery
         // shown in the next snippet, the current battery status 
         // intent is returned.
 
+        public float batteryStatus = 0;
 
-        public Task<string> batteryStatus()
+        public Task batteryStatusCheck()
         {
             Console.WriteLine("enter batteryStatus");
 
 #if DEBUG
-            return Task.FromResult("" + 0.5);
+            batteryStatus = new Random().NextFloat();
+
+            return Task.FromResult(new object());
 #else
             var ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
@@ -47,7 +50,7 @@ namespace com.abstractatech.battery
 
             Console.WriteLine(new { batteryPct });
 
-            return Task.FromResult("" + batteryPct);
+            return Task.FromResult(batteryPct);
 #endif
 
         }
