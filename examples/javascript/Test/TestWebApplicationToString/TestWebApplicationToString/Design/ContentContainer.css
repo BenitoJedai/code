@@ -1,0 +1,19 @@
+        .ContentContainer > span {
+
+             
+            color: blue;
+
+            padding-left: 1em;
+            padding-right: 1em;
+            border-top: 1px solid gray;
+            border-left: 1em solid green;
+            transition: border-left 200ms linear;
+        }
+
+            .ContentContainer > span:empty {
+                border-left: 0.5em solid red;
+            }
+
+                .ContentContainer > span:empty:before {
+                    content: "(empty)";
+                }
