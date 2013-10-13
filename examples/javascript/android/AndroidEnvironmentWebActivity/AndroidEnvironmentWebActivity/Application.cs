@@ -20,9 +20,9 @@ namespace AndroidEnvironmentWebActivity
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        //public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -30,6 +30,7 @@ namespace AndroidEnvironmentWebActivity
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page)
         {
+            var service = this;
 
             #region pre
             Func<string, IHTMLDiv, IHTMLElement> pre =
@@ -144,36 +145,34 @@ namespace AndroidEnvironmentWebActivity
             ff("Environment_getExternalStorageState", () => service.Environment_getExternalStorageState(), pre);
             ff("Environment_getRootDirectory", () => service.Environment_getRootDirectory(), browse);
 
-            service.Environment_DIRECTORY("",
-                (
-                    string DIRECTORY_MUSIC,
-                    string DIRECTORY_PODCASTS,
-                    string DIRECTORY_RINGTONES,
-                    string DIRECTORY_ALARMS,
-                    string DIRECTORY_NOTIFICATIONS,
-                    string DIRECTORY_PICTURES,
-                    string DIRECTORY_MOVIES,
-                    string DIRECTORY_DOWNLOADS,
-                    string DIRECTORY_DCIM
-                ) =>
-                {
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_MUSIC", DIRECTORY_MUSIC, service.Environment_getExternalStoragePublicDirectory, browse);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_PODCASTS", DIRECTORY_PODCASTS, service.Environment_getExternalStoragePublicDirectory, browse);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_RINGTONES", DIRECTORY_RINGTONES, service.Environment_getExternalStoragePublicDirectory, browse);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_ALARMS", DIRECTORY_ALARMS, service.Environment_getExternalStoragePublicDirectory, browse);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_NOTIFICATIONS", DIRECTORY_NOTIFICATIONS, service.Environment_getExternalStoragePublicDirectory, browse);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_PICTURES", DIRECTORY_PICTURES, service.Environment_getExternalStoragePublicDirectory, browse);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_MOVIES", DIRECTORY_MOVIES, service.Environment_getExternalStoragePublicDirectory, browse);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_DOWNLOADS", DIRECTORY_DOWNLOADS, service.Environment_getExternalStoragePublicDirectory, browse);
-                    f("Environment_getExternalStoragePublicDirectory DIRECTORY_DCIM", DIRECTORY_DCIM, service.Environment_getExternalStoragePublicDirectory, browse);
-                }
-            );
+            //service.Environment_DIRECTORY("",
+            //    (
+            //        string DIRECTORY_MUSIC,
+            //        string DIRECTORY_PODCASTS,
+            //        string DIRECTORY_RINGTONES,
+            //        string DIRECTORY_ALARMS,
+            //        string DIRECTORY_NOTIFICATIONS,
+            //        string DIRECTORY_PICTURES,
+            //        string DIRECTORY_MOVIES,
+            //        string DIRECTORY_DOWNLOADS,
+            //        string DIRECTORY_DCIM
+            //    ) =>
+
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_MUSIC", DIRECTORY_MUSIC, service.Environment_getExternalStoragePublicDirectory, browse);
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_PODCASTS", DIRECTORY_PODCASTS, service.Environment_getExternalStoragePublicDirectory, browse);
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_RINGTONES", DIRECTORY_RINGTONES, service.Environment_getExternalStoragePublicDirectory, browse);
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_ALARMS", DIRECTORY_ALARMS, service.Environment_getExternalStoragePublicDirectory, browse);
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_NOTIFICATIONS", DIRECTORY_NOTIFICATIONS, service.Environment_getExternalStoragePublicDirectory, browse);
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_PICTURES", DIRECTORY_PICTURES, service.Environment_getExternalStoragePublicDirectory, browse);
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_MOVIES", DIRECTORY_MOVIES, service.Environment_getExternalStoragePublicDirectory, browse);
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_DOWNLOADS", DIRECTORY_DOWNLOADS, service.Environment_getExternalStoragePublicDirectory, browse);
+            f("Environment_getExternalStoragePublicDirectory DIRECTORY_DCIM", DIRECTORY_DCIM, service.Environment_getExternalStoragePublicDirectory, browse);
 
 
 
             new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
 
-          
+
 
             // new IHTMLButton("Environment_getDownloadCacheDirectory").AttachToDocument().onclick +=
             //    e => service.Environment_getDownloadCacheDirectory("",

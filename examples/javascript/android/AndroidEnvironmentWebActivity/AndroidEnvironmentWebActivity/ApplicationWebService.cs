@@ -12,51 +12,15 @@ using System.Threading.Tasks;
 
 namespace AndroidEnvironmentWebActivity
 {
-
-
-    public delegate void Environment_DIRECTORY_callback(
-        string DIRECTORY_MUSIC,
-        string DIRECTORY_PODCASTS,
-        string DIRECTORY_RINGTONES,
-        string DIRECTORY_ALARMS,
-        string DIRECTORY_NOTIFICATIONS,
-        string DIRECTORY_PICTURES,
-        string DIRECTORY_MOVIES,
-        string DIRECTORY_DOWNLOADS,
-        string DIRECTORY_DCIM
-    );
-
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public class ApplicationWebService
     {
         // jsc, when can we start sending async interfaces?
 
         // could we expose property Environment and have client build a
         // more complex call graph?
-
-
-        //        01cc:02:01 007a:0146 AndroidEnvironmentWebActivity.ApplicationWebService.AndroidActivity define AndroidEnvironmentWebActivity.ApplicationWebService::AndroidEnvironmentWebActivity.ApplicationWebService+<Environment_getDataDirectory>d__0+<>MoveNext
-        //01cc:02:01 RewriteToAssembly error: System.ArgumentException: Duplicate type name within an assembly.
-        //   at System.Reflection.Emit.TypeBuilder.DefineType(RuntimeModule module, String fullname, Int32 tkParent, TypeAttributes attributes, Int32 tkEnclosingType, Int32[] interfaceTokens)
-        //   at System.Reflection.Emit.TypeBuilder.Init(String fullname, TypeAttributes attr, Type parent, Type[] interfaces, ModuleBuilder module, PackingSize iPackingSize, Int32 iTypeSize, TypeBuilder enclosingType)
-        //   at System.Reflection.Emit.TypeBuilder.DefineNestedType(String name, TypeAttributes attr)
-
-        //0001 02000010 AndroidEnvironmentWebActivity.Activities.ApplicationWebServiceActivity+<>c__DisplayClass13+<>c__DisplayClass18+<>c__DisplayClass1a
-
-
-        // Implementation not found for type import :
-        // type: System.Threading.Tasks.Task`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
-        // method: System.String get_Result()
-        // Did you forget to add the [Script] attribute?
-        // Please double check the signature!
-
-        // assembly: W:\staging\clr\AndroidEnvironmentWebActivity.ApplicationWebService.AndroidActivity.dll
-        // type: AndroidEnvironmentWebActivity.Global, AndroidEnvironmentWebActivity.ApplicationWebService.AndroidActivity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-        // offset: 0x0029
-        //  method:Void Invoke(ScriptCoreLib.Ultra.WebService.InternalWebMethodInfo)
-        //System.NotSupportedException:
 
 
         public Task<string> Environment_getExternalStorageState()
@@ -97,20 +61,16 @@ namespace AndroidEnvironmentWebActivity
 
         // http://developer.android.com/reference/android/os/Environment.html#getExternalStoragePublicDirectory(java.lang.String)
 
-        public void Environment_DIRECTORY(string e, Environment_DIRECTORY_callback y)
-        {
-            y(
-                DIRECTORY_MUSIC: android.os.Environment.DIRECTORY_MUSIC,
-                DIRECTORY_PODCASTS: android.os.Environment.DIRECTORY_PODCASTS,
-                DIRECTORY_RINGTONES: android.os.Environment.DIRECTORY_RINGTONES,
-                DIRECTORY_ALARMS: android.os.Environment.DIRECTORY_ALARMS,
-                DIRECTORY_NOTIFICATIONS: android.os.Environment.DIRECTORY_NOTIFICATIONS,
-                DIRECTORY_PICTURES: android.os.Environment.DIRECTORY_PICTURES,
-                DIRECTORY_MOVIES: android.os.Environment.DIRECTORY_MOVIES,
-                DIRECTORY_DOWNLOADS: android.os.Environment.DIRECTORY_DOWNLOADS,
-                DIRECTORY_DCIM: android.os.Environment.DIRECTORY_DCIM
-            );
-        }
+        public string DIRECTORY_MUSIC = android.os.Environment.DIRECTORY_MUSIC;
+        public string DIRECTORY_PODCASTS = android.os.Environment.DIRECTORY_PODCASTS;
+        public string DIRECTORY_RINGTONES = android.os.Environment.DIRECTORY_RINGTONES;
+        public string DIRECTORY_ALARMS = android.os.Environment.DIRECTORY_ALARMS;
+        public string DIRECTORY_NOTIFICATIONS = android.os.Environment.DIRECTORY_NOTIFICATIONS;
+        public string DIRECTORY_PICTURES = android.os.Environment.DIRECTORY_PICTURES;
+        public string DIRECTORY_MOVIES = android.os.Environment.DIRECTORY_MOVIES;
+        public string DIRECTORY_DOWNLOADS = android.os.Environment.DIRECTORY_DOWNLOADS;
+        public string DIRECTORY_DCIM = android.os.Environment.DIRECTORY_DCIM;
+  
 
         public void Environment_getExternalStoragePublicDirectory(string DIRECTORY, Action<string> y)
         {
