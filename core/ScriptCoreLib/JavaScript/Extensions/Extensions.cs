@@ -113,7 +113,19 @@ namespace ScriptCoreLib.JavaScript.Extensions
             if (e.parentNode == null)
                 return;
 
+            // tested by
+            // X:\jsc.svn\examples\javascript\appengine\RemainingMillisExperiment\RemainingMillisExperiment\Application.cs
+            var old_id = ((IHTMLElement)e).id;
+
             e.parentNode.replaceChild(value, e);
+
+            if (!string.IsNullOrEmpty(old_id))
+            {
+                ((IHTMLElement)value).id = old_id;
+
+                // we just swapped out id's. make the old element forget its id
+                ((IHTMLElement)e).id = "";
+            }
         }
 
         public static T Orphanize<T>(this T e)

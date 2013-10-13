@@ -33,18 +33,40 @@ namespace RemainingMillisExperiment
 
             // Send data from JavaScript to the server tier
 
-            this.title += ".";
-            this.counter++;
+            this.title += "client";
 
-            this.RemainingMillis.ContinueWithResult(
-                RemainingMillis =>
+            this.counter = 333;
+
+
+            new IHTMLButton { innerText = "RemainingMillis" }.AttachToDocument().WhenClicked(
+                async delegate
                 {
-                    Native.document.title = this.title;
-                    page.Content.innerText = new { RemainingMillis }.ToString();
+                    page.Content = "?";
+                    //page.ContentContainer.AsXElement().Element("span").Add(new XAttribute("id", "Content"));
 
+                    await Task.Delay(333);
+
+                    var RemainingMillis = await this.RemainingMillis;
+
+                    Native.document.title = this.title;
+
+                    page.Content = new { RemainingMillis }.ToString();
+                    //page.ContentContainer.AsXElement().Element("span").Add(new XAttribute("id", "Content"));
                 }
             );
 
+            new IHTMLButton { innerText = "RemainingMillis lazy optimistic" }.AttachToDocument().WhenClicked(
+                 delegate
+                 {
+                     page.Content = "?";
+                     //page.ContentContainer.AsXElement().Element("span").Add(new XAttribute("id", "Content"));
+
+                     page.Content = this.RemainingMillisString;
+                     //page.ContentContainer.AsXElement().Element("span").Add(new XAttribute("id", "Content"));
+
+
+                 }
+            );
 
         }
 
