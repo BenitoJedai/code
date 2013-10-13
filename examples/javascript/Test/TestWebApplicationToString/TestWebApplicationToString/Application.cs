@@ -33,51 +33,51 @@ namespace TestWebApplicationToString
 
             page.Content = (this + 33).ToString();
 
-            var Refresh = ((IHTMLButton)"Refresh").AttachToDocument();
 
             new ContentContainer
             {
                 Content = this.GetItem(44)
             }.AttachToDocument();
 
-            Action yield = delegate
-            {
-                // <T> and async dont mix yet?
-                foreach (var item in this.GetItems())
-                {
-                    new ContentContainer
-                    {
-                        Content = item
-                    }.AttachToDocument();
 
-                }
-            };
 
-            Refresh.WhenClicked(
-                //async 
-                delegate
+            ((IHTMLButton)"Refresh").AttachToDocument().WhenClicked(
+                async Refresh =>
                 {
                     Console.WriteLine("before " + new { this.Count });
                     Refresh.innerText = "before " + new { this.Count }.ToString();
 
-                    //await 
-                    this.Refresh().GetAwaiter().OnCompleted(
-                        delegate
-                        {
+                    await this.Refresh();
 
-                            Refresh.innerText = "after " + new { this.Count }.ToString();
-                            Console.WriteLine("after " + new { this.Count });
+
+                    Refresh.innerText = "after " + new { this.Count }.ToString();
+                    Console.WriteLine("after " + new { this.Count });
 
 
 
+                    Action yield =
+                           delegate
+                           {
+                               //<T> and async dont mix yet?
+                               foreach (var item in this.GetItems())
+                               {
+                                   new ContentContainer
+                                   {
+                                       Content = item
+                                   }.AttachToDocument();
 
-                            yield();
-                        }
-                    );
+                               }
+                           };
+
+
+                    yield();
+
 
                 }
             );
         }
+
+
 
     }
 }

@@ -40,14 +40,6 @@ namespace TestWebApplicationToString
 
         public int Index;
 
-        public async Task<ApplicationWebService> GetItem(int i)
-        {
-            // slow down!
-            Thread.Sleep(333 + new Random().Next(3000));
-
-            return new ApplicationWebService { Index = i };
-        }
-
         public IEnumerable<Task<ApplicationWebService>> GetItems()
         {
             Console.WriteLine("enter GetItems");
@@ -59,9 +51,20 @@ namespace TestWebApplicationToString
             Console.WriteLine("exit GetItems");
         }
 
+        public async Task<ApplicationWebService> GetItem(int i)
+        {
+            // slow down!
+            Thread.Sleep(333 + new Random().Next(3000));
+
+            return new ApplicationWebService { Index = i };
+        }
+
+
         public static string operator +(ApplicationWebService x, int e)
         {
             return new { x, e }.ToString();
         }
     }
+
+
 }
