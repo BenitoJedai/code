@@ -27,6 +27,8 @@ namespace FormsVirtualDataGridView
     /// </summary>
     public sealed class Application
     {
+        // http://stackoverflow.com/questions/2020819/does-the-windows-forms-datagridview-implement-a-true-virtual-mode
+
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationControl content = new ApplicationControl();

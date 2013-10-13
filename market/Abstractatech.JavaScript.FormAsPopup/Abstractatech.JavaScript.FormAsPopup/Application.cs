@@ -563,8 +563,12 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     }
                     else
                     {
-                        if ((z.Right - f.Width / 2) > 0)
-                            if ((z.Left + f.Width / 2) < Native.window.Width)
+
+                        var IsNotOnLeft = (z.Right - f.Width / 4) > 0;
+                        var IsNotOnRight = (z.Left + f.Width * 3 / 4) < Native.window.Width;
+
+                        if (IsNotOnLeft)
+                            if (IsNotOnRight)
                             {
                                 __f.Opacity = 1;
 
@@ -586,8 +590,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                     var z = new { f.Right, f.Left };
 
-                    var IsNotOnLeft = (z.Right - f.Width / 2) > 0;
-                    var IsNotOnRight = (z.Left + f.Width / 2) < Native.window.Width;
+                    var IsNotOnLeft = (z.Right - f.Width / 4) > 0;
+                    var IsNotOnRight = (z.Left + f.Width * 3 / 4) < Native.window.Width;
 
                     if (SpecialNoMovement)
                     {
