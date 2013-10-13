@@ -18,9 +18,8 @@ namespace SHA1Experiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -28,11 +27,22 @@ namespace SHA1Experiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+
+            new IHTMLButton { innerText = "do" }.AttachToDocument().WhenClicked(
+                async delegate
+                {
+                    //var bytes = await this.GetSHA1Bytes(
+                    //    Encoding.UTF8.GetBytes("hello world")
+                    //);
+
+                    //new IHTMLPre { innerText = bytes.ToHexString() }.AttachToDocument();
+
+                    var x = await this.GetSHA1HexString(
+                          "hello world"
+                      );
+
+                    new IHTMLPre { innerText = x }.AttachToDocument();
+                }
             );
         }
 

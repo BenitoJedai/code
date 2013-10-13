@@ -1,55 +1,73 @@
 using ScriptCoreLib.JavaScript;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-	[Script(InternalConstructor = true)]
-	public class IHTMLSpan : IHTMLElement
-	{
+    [Script(InternalConstructor = true)]
+    public class IHTMLSpan : IHTMLElement
+    {
 
 
-		#region ctor
-		public IHTMLSpan()
-		{
-		}
+        #region ctor
+        public IHTMLSpan()
+        {
+        }
 
-		public IHTMLSpan(string html)
-		{
-		}
+        public IHTMLSpan(string html)
+        {
+        }
 
-		public IHTMLSpan(params INode[] e)
-		{
-		}
+        public IHTMLSpan(params INode[] e)
+        {
+        }
 
-		static IHTMLSpan InternalConstructor()
-		{
-			return (IHTMLSpan)(object)new IHTMLElement(HTMLElementEnum.span);
-		}
+        static IHTMLSpan InternalConstructor()
+        {
+            return (IHTMLSpan)(object)new IHTMLElement(HTMLElementEnum.span);
+        }
 
-		static IHTMLSpan InternalConstructor(string e)
-		{
-			IHTMLSpan n = new IHTMLSpan();
+        static IHTMLSpan InternalConstructor(string e)
+        {
+            IHTMLSpan n = new IHTMLSpan();
 
-			n.innerHTML = e;
+            n.innerHTML = e;
 
-			return n;
-		}
+            return n;
+        }
 
-		static IHTMLSpan InternalConstructor(params INode[] e)
-		{
-			IHTMLSpan n = new IHTMLSpan();
+        static IHTMLSpan InternalConstructor(params INode[] e)
+        {
+            IHTMLSpan n = new IHTMLSpan();
 
-			n.appendChild(e);
+            n.appendChild(e);
 
-			return n;
-		}
-
-
-		#endregion
+            return n;
+        }
 
 
-		public static implicit operator IHTMLSpan(string innerText)
-		{
-			return new IHTMLSpan { innerText = innerText };
-		}
-	}
+        #endregion
+
+
+        public static implicit operator IHTMLSpan(string innerText)
+        {
+            return new IHTMLSpan { innerText = innerText };
+        }
+
+
+        [System.Obsolete("experimental")]
+        public static implicit operator IHTMLSpan(Task<string> innerText)
+        {
+            // first step for databinding?
+            var s = new IHTMLSpan { };
+
+            innerText.ContinueWith(
+                task =>
+                {
+                    s.innerText = task.Result;
+                }
+            );
+
+            return s;
+        }
+    }
 }

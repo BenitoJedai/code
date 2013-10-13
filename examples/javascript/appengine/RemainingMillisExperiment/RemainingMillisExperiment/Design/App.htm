@@ -6,8 +6,26 @@
     <noscript>Error: This Application requires JavaScript.</noscript>
     <link rel='stylesheet' href='App.css' />
     <h1 id='Header'>getRemainingMillis</h1>
-    <p style='padding: 2em; color: blue;'>
-        <span id="Content"></span>
+
+
+    <style>
+        .ContentContainer > span {
+            padding-left: 1em;
+            padding-right: 1em;
+            border-top: 1px solid gray;
+            border-left: 1em solid green;
+            transition: border-left 200ms linear;
+        }
+
+            .ContentContainer > span:empty {
+                border-left: 0.5em solid red;
+            }
+
+                .ContentContainer > span:empty:before {
+                    content: "(empty)";
+                }
+    </style>
+    <p id="ContentContainer" style='padding: 2em; color: blue;' class="ContentContainer"><span id="Content"></span>
     </p>
 </body>
 </html>
