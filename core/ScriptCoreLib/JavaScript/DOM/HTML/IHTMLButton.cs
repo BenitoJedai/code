@@ -71,5 +71,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             // what if its not a button?
             return (IHTMLButton)x.AsHTMLElement();
         }
+
+        public static implicit operator IHTMLButton(string x)
+        {
+            // what if its not a button?
+            return new IHTMLButton { innerText = x };
+        }
     }
 }

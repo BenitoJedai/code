@@ -25,6 +25,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class IWindow : IEventTarget
     {
+        public Storage sessionStorage;
+        public Storage localStorage;
+
         public readonly History history;
 
         //public readonly URL URL;

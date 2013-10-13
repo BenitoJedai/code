@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class IWindow : IEventTarget
     {
 
+   
+
         // http://caniuse.com/#search=hash
 
         #region event onpopstate
@@ -59,8 +61,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        public Storage sessionStorage;
-        public Storage localStorage;
 
         public Performance performance;
 
