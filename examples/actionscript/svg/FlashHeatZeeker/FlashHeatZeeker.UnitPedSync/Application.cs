@@ -102,13 +102,13 @@ namespace FlashHeatZeeker.UnitPedSync
             con.Show();
 
             con.Height = 150;
-            con.Left = Native.Window.Width - con.Width;
+            con.Left = Native.window.Width - con.Width;
             con.Top = 0;
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                   delegate
                   {
-                      con.Left = Native.Window.Width - con.Width;
+                      con.Left = Native.window.Width - con.Width;
                       con.Top = 0;
                   };
 
@@ -151,12 +151,12 @@ namespace FlashHeatZeeker.UnitPedSync
                        embed =>
                        {
                            embed.style.SetLocation(0, 0);
-                           embed.style.SetSize(Native.Window.Width / 2 - 1, Native.Window.Height);
+                           embed.style.SetSize(Native.window.Width / 2 - 1, Native.window.Height);
 
-                           Native.Window.onresize +=
+                           Native.window.onresize +=
                                delegate
                                {
-                                   embed.style.SetSize(Native.Window.Width / 2 - 1, Native.Window.Height);
+                                   embed.style.SetSize(Native.window.Width / 2 - 1, Native.window.Height);
                                };
                        }
                    );
@@ -169,14 +169,14 @@ namespace FlashHeatZeeker.UnitPedSync
                 uppersprite.AttachSpriteToDocument().With(
                        embed =>
                        {
-                           embed.style.SetLocation(Native.Window.Width / 2, 0);
-                           embed.style.SetSize(Native.Window.Width / 2, Native.Window.Height / 2 - 1);
+                           embed.style.SetLocation(Native.window.Width / 2, 0);
+                           embed.style.SetSize(Native.window.Width / 2, Native.window.Height / 2 - 1);
 
-                           Native.Window.onresize +=
+                           Native.window.onresize +=
                                delegate
                                {
-                                   embed.style.SetLocation(Native.Window.Width / 2, 0);
-                                   embed.style.SetSize(Native.Window.Width / 2, Native.Window.Height / 2 - 1);
+                                   embed.style.SetLocation(Native.window.Width / 2, 0);
+                                   embed.style.SetSize(Native.window.Width / 2, Native.window.Height / 2 - 1);
                                };
                        }
                    );
@@ -188,14 +188,14 @@ namespace FlashHeatZeeker.UnitPedSync
                 lowersprite.AttachSpriteToDocument().With(
                        embed =>
                        {
-                           embed.style.SetLocation(Native.Window.Width / 2, Native.Window.Height / 2);
-                           embed.style.SetSize(Native.Window.Width / 2, Native.Window.Height / 2);
+                           embed.style.SetLocation(Native.window.Width / 2, Native.window.Height / 2);
+                           embed.style.SetSize(Native.window.Width / 2, Native.window.Height / 2);
 
-                           Native.Window.onresize +=
+                           Native.window.onresize +=
                                delegate
                                {
-                                   embed.style.SetLocation(Native.Window.Width / 2, Native.Window.Height / 2);
-                                   embed.style.SetSize(Native.Window.Width / 2, Native.Window.Height / 2);
+                                   embed.style.SetLocation(Native.window.Width / 2, Native.window.Height / 2);
+                                   embed.style.SetSize(Native.window.Width / 2, Native.window.Height / 2);
                                };
                        }
                    );
