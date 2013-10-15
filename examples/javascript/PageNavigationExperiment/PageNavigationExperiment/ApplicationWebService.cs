@@ -49,6 +49,11 @@ namespace PageNavigationExperiment
 
 
 
+        public async Task<string> GetSpecialString()
+        {
+
+            return "hi from server";
+        }
 
 
         public string reason;
