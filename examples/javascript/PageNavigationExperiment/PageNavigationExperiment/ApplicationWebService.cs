@@ -19,6 +19,8 @@ namespace PageNavigationExperiment
     /// </summary>
     public class ApplicationWebService
     {
+        // http://validator.w3.org/feed//docs/warning/RelativeSelf.html
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
@@ -39,26 +41,36 @@ namespace PageNavigationExperiment
             return new { Index }.ToString();
         }
 
-        public async Task<ApplicationWebService> GetItem(int i)
+        public
+            //async 
+            Task<ApplicationWebService> GetItem(int i)
         {
+
+
             // slow down!
             Thread.Sleep(333 + new Random().Next(3000));
 
-            return new ApplicationWebService { Index = i };
+            return new ApplicationWebService { Index = i }
+                .ToTaskResult();
         }
 
 
 
-        public async Task<string> GetSpecialString()
+        public
+            //async 
+            Task<string> GetSpecialString()
         {
 
-            return "hi from server";
+            return "hi from server"
+                .ToTaskResult();
         }
 
 
         public string reason;
 
-        public async Task<DataTable> DoEnterData(
+        public
+            //async 
+            Task<DataTable> DoEnterData(
 
             [CallerFilePathAttribute] string CallerFilePath = null,
             [CallerLineNumberAttribute] int CallerLineNumber = 0,
@@ -89,7 +101,7 @@ namespace PageNavigationExperiment
             }
 
 
-            return table;
+            return table.ToTaskResult();
         }
 
 
@@ -108,8 +120,20 @@ namespace PageNavigationExperiment
                 }
             );
 
+            // http://192.168.43.252:13510/#/third-page/uo
+
+            if (h.Context.Request.Path.StartsWith("/third-page/"))
+            {
+                h.Context.Response.Redirect(
+                    "/third-page#/" + h.Context.Request.Path.Substring("/third-page/".Length)
+                );
+                h.CompleteRequest();
+
+                return;
+            }
 
             // building google sitemap
+            #region /third-page
             if (h.Context.Request.Path == "/ThirdPage.htm"
                 || h.Context.Request.Path == "/third-page")
             {
@@ -175,6 +199,85 @@ namespace PageNavigationExperiment
                 h.CompleteRequest();
                 return;
             }
+            #endregion
+
+            #region /third-page
+            if (h.Context.Request.Path == "/s"
+                || h.Context.Request.Path == "/SearchPage.htm")
+            {
+
+                // 302 Found
+                // h.Context.Response.RedirectPermanent("/#/ThirdPage.htm", true);
+
+                var app = h.Applications[0];
+
+                var PageSource = XElement.Parse(app.PageSource);
+
+
+                var ydob = PageSource.Element("body");
+
+                // chrome will skip body. have to repair on the client
+                ydob.Name = "ydob";
+
+
+                Console.WriteLine(
+
+                    new { ydob }
+                );
+
+
+                // pre saved prevous state
+                var hidden = new XElement("hidden-body", ydob);
+
+                // Duplicate attribute.
+
+                //PageSource_body.Attribute("style").Value += "display: none;";
+
+                hidden.Add(
+                    new XAttribute("style", "display: none;")
+                );
+
+
+                // http://stackoverflow.com/questions/17607823/exclude-div-or-string-of-text-from-search-engines
+                // https://support.google.com/customsearch/answer/2364585?hl=en
+                hidden.Add(
+                    new XAttribute("class", "nocontent")
+                );
+
+                var ThirdPageSource = XElement.Parse(PageNavigationExperiment.HTML.Pages.SearchPageSource.Text);
+                var ThirdPageSource_body = ThirdPageSource.Element("body");
+                //manifest="cache-manifest"
+
+                ThirdPageSource.Add(
+                   new XAttribute("manifest", "cache-manifest")
+               );
+
+
+                ThirdPageSource.Add(
+                    hidden
+                );
+
+                ThirdPageSource.Add(
+                 new XElement("script",
+                        new XAttribute("src", "view-source"),
+                        " "
+                    )
+                );
+
+                h.Context.Response.Write(
+                  "<!DOCTYPE html>"
+                );
+
+
+                h.Context.Response.Write(
+                 ThirdPageSource.ToString()
+                );
+
+                h.CompleteRequest();
+                return;
+            }
+            #endregion
+
         }
     }
 }

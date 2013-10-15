@@ -278,6 +278,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static void replaceState<T>(this History h, T state, Action<HistoryScope<T>> yield)
         {
+
+            replaceState(h, state, 
+                
+                Native.document.location.pathname
+                , yield);
+        }
+
+        public static void replaceState<T>(this History h, T state, string url, Action<HistoryScope<T>> yield)
+        {
             Console.WriteLine("enter replaceState");
 
             if (yield.Target != null)
@@ -299,7 +308,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             Console.WriteLine("before history.replaceState");
             // IE throws __exc	Argument not optional
-            Native.window.history.replaceState(data, "", "");
+            Native.window.history.replaceState(data, "", url);
             Console.WriteLine("after history.replaceState");
 
             #region __unwind
@@ -342,20 +351,15 @@ namespace ScriptCoreLib.JavaScript.DOM
             Console.WriteLine("replaceState: " + new { HistoryScope.inline_unwind.Count });
         }
 
-        public static void pushState(this History h, string url, Action<HistoryScope<object>> yield)
-        {
-            // tested by
-            // X:\jsc.svn\examples\javascript\PageNavigationExperiment\PageNavigationExperiment\Application.cs
 
-            h.pushState(null, null, url);
-
-            h.replaceState(
-                state: new { },
-                yield: yield
-            );
-        }
 
         public static void pushState<T>(this History h, T state, Action<HistoryScope<T>> yield)
+        {
+
+            pushState(h, state, Native.document.location.pathname, yield);
+        }
+
+        public static void pushState<T>(this History h, T state, string url, Action<HistoryScope<T>> yield)
         {
             if (yield.Target != null)
                 if (yield.Target != Native.self)
@@ -378,7 +382,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             Console.WriteLine("pushState before: " + new { Native.window.history.length });
 
             // fck ie
-            Native.window.history.pushState(data, "", "");
+            Native.window.history.pushState(data, "", url);
 
             Console.WriteLine("pushState after: " + new { Native.window.history.length });
 

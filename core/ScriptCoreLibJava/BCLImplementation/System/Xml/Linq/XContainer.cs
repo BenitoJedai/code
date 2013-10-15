@@ -18,7 +18,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
         /// 
         /// It may be partial as the actual data is stored in the native dom.
         /// </summary>
-        public readonly ArrayList InternalPartialElements = new ArrayList();
+        public readonly List<__XElement> InternalPartialElements = new List<__XElement>();
 
         public void Add(object content)
         {
@@ -90,13 +90,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             throw new NotImplementedException();
         }
 
+
         void InternalNotifyChildren()
         {
-            foreach (__XElement item in this.InternalPartialElements)
-            {
-                item.InternalValue = this.InternalGetElementByTag(item.InternalValue.getLocalName());
-                item.InternalNotifyChildren();
-            }
+            //    foreach (__XElement item in this.InternalPartialElements)
+            //    {
+            //        item.InternalValue = this.InternalGetElementByTag(item.InternalValue.getLocalName());
+            //        item.InternalNotifyChildren();
+            //    }
         }
 
         override protected void InternalEnsureElement()
@@ -156,7 +157,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             }
         }
 
-        private void __adoptNode(__XElement e)
+        public void __adoptNode(__XElement e)
         {
             // adoptNode not available in java 1.4
             // should use importNode?

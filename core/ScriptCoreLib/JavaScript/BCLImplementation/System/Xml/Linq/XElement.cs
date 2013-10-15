@@ -21,9 +21,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 var nodeName = this.InternalElement.nodeName;
 
                 // for html elements lets lowercase em. or are we working on xml object?
+                // firefox has innerHTML for xml also. 
 
-                if (Expando.InternalIsMember(this.InternalValue, "innerHTML"))
-                    nodeName = nodeName.ToLower();
+                //if (Expando.InternalIsMember(this.InternalValue, "innerHTML"))
+                //    nodeName = nodeName.ToLower();
 
                 return new __XName { InternalValue = nodeName };
             }
@@ -158,7 +159,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
             }
 
             var nodes = x.Nodes().ToArray();
-            foreach (var item in nodes )
+            foreach (var item in nodes)
             {
                 this.Add(item);
             }
@@ -185,6 +186,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 new[] { (XElement)(object)this },
                 this.Elements().SelectMany(k => k.DescendantsAndSelf())
             );
+        }
+
+        public static implicit operator XElement(__XElement x)
+        {
+            return (XElement)(object)x;
         }
     }
 }

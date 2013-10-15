@@ -5,9 +5,9 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
-	[Script(Implements = typeof(global::System.Random))]
-	internal class __Random
-	{
+    [Script(Implements = typeof(global::System.Random))]
+    internal class __Random
+    {
         public virtual void NextBytes(byte[] buffer)
         {
             for (int i = 0; i < buffer.Length; i++)
@@ -21,6 +21,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return Next(0, int.MaxValue);
         }
 
+        public virtual int Next(int max)
+        {
+            // X:\jsc.svn\examples\javascript\PageNavigationExperiment\PageNavigationExperiment\ApplicationWebService.cs
+
+            return Next(0, max);
+        }
+
+
         public virtual int Next(int min, int max)
         {
             var len = max - min;
@@ -30,9 +38,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return ri + min;
         }
 
-		public virtual double NextDouble()
-		{
-			return java.lang.Math.random();
-		}
-	}
+        public virtual double NextDouble()
+        {
+            return java.lang.Math.random();
+        }
+    }
 }

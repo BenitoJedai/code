@@ -26,11 +26,38 @@ namespace PageNavigationExperiment
     /// </summary>
     public class Application : ApplicationWebService
     {
+        #region /s
+        public class SearchPageApplication : ApplicationWebService
+        {
+            public SearchPageApplication(ISearchPage page, Application master)
+            {
+                new ContentContainer
+                {
+                    Content = new { Native.document.location.search }.ToString()
+                }.AttachToDocument();
+
+
+            }
+        }
+        #endregion
+
+
         #region /third-page
         public class ThirdPageApplication : ApplicationWebService
         {
-            public ThirdPageApplication(IThirdPage page, Application master)
+            public ThirdPageApplication(IThirdPage page, Application master, string trace)
             {
+                new IHTMLHeader1
+                {
+                    innerText = new
+                    {
+                        trace,
+
+                        Native.document.location.search,
+                        Native.document.location.hash
+                    }.ToString()
+                }.AttachToDocument();
+
                 new IHTMLButton { innerText = "animate" }.AttachToDocument().WhenClicked(
                     delegate
                     {
@@ -148,6 +175,10 @@ namespace PageNavigationExperiment
         #endregion
 
 
+        public class __state
+        {
+            public Application i;
+        }
 
         static Application __that;
 
@@ -234,22 +265,25 @@ namespace PageNavigationExperiment
 
                 //await Task.Delay(300);
 
-                Console.WriteLine("pushState");
-                Native.window.history.pushState(
-                   null,
-                   null,
-                    //"/thirdpage.htm"
-                   "/third-page"
-               );
+                // Console.WriteLine("pushState");
+                // Native.window.history.pushState(
+                //    null,
+                //    null,
+                //     //"/thirdpage.htm"
+                //    "/third-page"
+                //);
 
                 Console.WriteLine("replaceState");
-                Native.window.history.replaceState(
+                Native.window.history.pushState(
                     //"/third-page",
                     new { },
+                    "/third-page",
                     async scope =>
                     {
                         // did the server prerender our page?
                         Console.WriteLine("at replaceState");
+
+                        var xtitle = Native.document.title;
 
                         // { nodeName = #text } 
                         var hidden = (IHTMLElement)Native.document.body.querySelectorAll("hidden-body").FirstOrDefault();
@@ -298,18 +332,20 @@ namespace PageNavigationExperiment
                         //await Native.window.requestAnimationFrameAsync;
                         //await Native.window.requestAnimationFrameAsync;
 
-                        await Task.Delay(11);
+                        //await Task.Delay(11);
 
+                        var xthat = __that;
+                        __that = null;
                         var x = new ThirdPageApplication(
                             layout,
-                            __that
+                            xthat,
+                            "pushState"
                         );
 
-
                         await scope;
-
+                        __that = xthat;
                         Console.WriteLine("restore state!"); ;
-
+                        Native.document.title = xtitle;
                         Native.document.body.parentNode.replaceChild(hidden.querySelectorAll("body")[0], Native.document.body);
                     }
                 );
@@ -318,12 +354,19 @@ namespace PageNavigationExperiment
 
 
 
-            page.GoThirdPage.WhenClicked(
+            page.GoThirdPageViaCode.WhenClicked(
                 async delegate
                 {
                     GoThirdPage();
                 }
             );
+
+            page.GoThirdPageViaLocation.WhenClicked(
+                  async delegate
+                  {
+                      Native.document.location.href = "/third-page";
+                  }
+              );
 
             //if (Native.document.location.hash.StartsWith("#/"))
             //{
@@ -343,18 +386,29 @@ namespace PageNavigationExperiment
             //}
 
 
-            "ThirdPage.htm".With(
-                uri =>
+            #region /third-page
+            new[] { "ThirdPage.htm", "third-page" }.WithEach(
+                async uri =>
                 {
+                    await Native.window.requestAnimationFrameAsync;
+
                     var selector = "a[href='" + uri + "']";
 
 
                     IStyleSheet.Default[selector].style.color = "red";
 
-                    Native.document.body.querySelectorAll(selector).WithEach(
+
+                    Native.document.body.querySelectorAll(IHTMLAnchor.HTMLElementEnum.a).WithEach(
                         xx =>
                         {
-                            var x = (IHTMLElement)xx;
+                            var x = (IHTMLAnchor)xx;
+
+
+                            if (Native.document.location.href + uri != x.href)
+                                return;
+
+                            //Console.WriteLine(new { a = x.href, uri, Native.document.location.href });
+                            // { a = http://192.168.43.252:13445/ThirdPage.htm, uri = ThirdPage.htm, href = http://192.168.43.252:13445/ } 
 
                             x.onclick +=
                                 e =>
@@ -365,22 +419,165 @@ namespace PageNavigationExperiment
                         }
                     );
 
-                    if (Native.document.location.pathname == "/" + uri)
-                    {
-                        //Native.window.history.replaceState(
-                        //     null,
-                        //     null,
-                        //    //"/thirdpage.htm"
-                        //    "/ThirdPage.htm"
-                        //    //"/third-page"
-                        // );
-                        var layout = new ThirdPage.FromDocument();
+                    if (__that != null)
+                        if (Native.document.location.pathname == "/" + uri)
+                        {
+                            //Native.window.history.replaceState(
+                            //     null,
+                            //     null,
+                            //    //"/thirdpage.htm"
+                            //    "/ThirdPage.htm"
+                            //    //"/third-page"
+                            // );
 
-                        new ThirdPageApplication(layout, __that);
-                    }
+
+                            var layout = new ThirdPage.FromDocument();
+
+                            new ThirdPageApplication(layout, __that, ".ctor");
+                        }
                 }
             );
+            #endregion
 
+
+
+
+
+            #region GoSearchPage
+            Action GoSearchPage = delegate
+            {
+                //IStyleSheet.Default["body"].style.borderLeft = "0em yellow solid";
+
+                //await Task.Delay(300);
+
+                // Console.WriteLine("pushState");
+                // Native.window.history.pushState(
+                //    null,
+                //    null,
+                //     //"/thirdpage.htm"
+                //    "/third-page"
+                //);
+
+                Console.WriteLine("replaceState");
+                Native.window.history.pushState(
+                    //"/third-page",
+                    new { },
+                    "/s",
+                    async scope =>
+                    {
+                        // did the server prerender our page?
+                        Console.WriteLine("at replaceState");
+
+                        var xtitle = Native.document.title;
+
+                        // { nodeName = #text } 
+                        var hidden = (IHTMLElement)Native.document.body.querySelectorAll("hidden-body").FirstOrDefault();
+                        Console.WriteLine("replaceState " + new { hidden });
+                        var layout = default(ISearchPage);
+
+                        if (hidden == null)
+                        {
+                            hidden = new IHTMLElement("hidden-body");
+                            hidden.style.display = IStyle.DisplayEnum.none;
+
+                            layout = new SearchPage();
+                            Native.document.title = layout.title.innerText;
+
+                            var page_body = Native.document.body;
+
+                            layout.body.appendChild(hidden);
+                            page_body.parentNode.replaceChild(layout.body, page_body);
+
+                            // we can also keep it memory
+                            hidden.appendChild(page_body);
+                        }
+                        else
+                        {
+                            //{ nodeName = YDOB } 
+                            var page_ydob = (IElement)hidden.querySelectorAll("ydob").FirstOrDefault();
+                            if (page_ydob != null)
+                            {
+                                // chrome will skip body. have to repair on the client
+
+                                var page_body = new IHTMLBody();
+
+                                page_ydob.attributes.ToArray().WithEach(a => { page_ydob.removeAttribute(a.name); page_body.setAttribute(a.name, a.value); });
+                                page_ydob.childNodes.ToArray().WithEach(a => { page_ydob.removeChild(a); page_body.appendChild(a); });
+
+                                hidden.replaceChild(page_body, page_ydob);
+
+                            }
+
+                            layout = new SearchPage.FromDocument();
+                        }
+
+                        // ready!
+
+                        // one wait works half time only
+                        //await Native.window.requestAnimationFrameAsync;
+                        //await Native.window.requestAnimationFrameAsync;
+
+                        //await Task.Delay(11);
+
+                        var xthat = __that;
+                        __that = null;
+                        var x = new SearchPageApplication(
+                            layout,
+                            xthat
+                        );
+
+                        await scope;
+                        __that = xthat;
+                        Console.WriteLine("restore state!"); ;
+                        Native.document.title = xtitle;
+                        Native.document.body.parentNode.replaceChild(hidden.querySelectorAll("body")[0], Native.document.body);
+                    }
+                );
+            };
+            #endregion
+
+
+            #region /s
+            new[] { "SearchPage.htm", "s" }.WithEach(
+              async uri =>
+              {
+                  await Native.window.requestAnimationFrameAsync;
+
+                  var selector = "a[href='" + uri + "']";
+
+
+                  IStyleSheet.Default[selector].style.color = "orange";
+
+                  Native.document.body.querySelectorAll(IHTMLAnchor.HTMLElementEnum.a).WithEach(
+                        xx =>
+                        {
+                            var x = (IHTMLAnchor)xx;
+
+
+                            if (Native.document.location.href + uri != x.href)
+                                return;
+
+                            x.style.borderBottom = "1px dashed blue";
+
+                            x.onclick +=
+                                e =>
+                                {
+                                    e.preventDefault();
+                                    GoSearchPage();
+                                };
+                        }
+                  );
+
+                  if (__that != null)
+                      if (Native.document.location.pathname == "/" + uri)
+                      {
+                          var layout = new SearchPage.FromDocument();
+
+                          new SearchPageApplication(layout, this);
+                      }
+              }
+          );
+            #endregion
 
         }
 
