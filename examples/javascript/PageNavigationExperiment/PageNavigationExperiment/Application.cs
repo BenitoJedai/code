@@ -16,6 +16,8 @@ using PageNavigationExperiment;
 using PageNavigationExperiment.Design;
 using PageNavigationExperiment.HTML.Pages;
 using System.Diagnostics;
+using System.Windows.Forms;
+using System.Data;
 
 namespace PageNavigationExperiment
 {
@@ -24,13 +26,11 @@ namespace PageNavigationExperiment
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
-        public class ThirdPageApplication : ApplicationWebService
+        #region /third-page
+        public class ThirdPageApplication
         {
-            public ThirdPageApplication(IThirdPage x, Application scope)
+            public ThirdPageApplication(IThirdPage x, Application app)
             {
-
-                //IStyleSheet.Default["body.third"].style.borderLeft = "3em red solid";
-
                 new IHTMLButton { innerText = "animate" }.AttachToDocument().WhenClicked(
                     delegate
                     {
@@ -39,37 +39,107 @@ namespace PageNavigationExperiment
                     }
                 );
 
-                //Native.window.requestAnimationFrame +=
-                //    delegate
-                //    {
                 IStyleSheet.Default["body.third"].style.borderLeft = "4em blue solid";
 
-                //};
+                new ContentContainer
+                {
+                    Content = new ApplicationWebService { }.GetItem(44)
+                }.AttachToDocument();
+
+
+                x.Data.WhenClicked(
+                    delegate
+                    {
+
+                        Native.window.history.pushState(
+                            new { reason = "new state" },
+                            async scope =>
+                            {
+                                // Uncaught Error: InvalidOperationException: we can only continue with global methods for now... { Target = { Index = 0 } }
+
+                                var f = new Form
+                                {
+                                    Text = "loading..." + new { scope.state.reason }.ToString(),
+
+                                    //Text = new { this.state.data.TableName }.ToString(),
+                                    //ControlBox = false,
+                                    ShowIcon = false,
+
+                                    //WindowState = FormWindowState.Maximized
+                                };
+
+                                f.FormClosing +=
+                                    (s, e) =>
+                                    {
+                                        if (e.CloseReason == CloseReason.UserClosing)
+                                        {
+                                            e.Cancel = true;
+
+                                            Native.window.history.back();
+                                        }
+                                    };
+
+                                var grid = new DataGridView
+                                {
+                                    // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_BorderStyle(System.Windows.Forms.BorderStyle)]
+                                    //BorderStyle = BorderStyle.Fixed3D 
+                                    //AutoSize = true,
+                                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
+
+                                    //DataSource = this.state.data,
+                                    Dock = DockStyle.Fill
+                                }.AttachTo(f);
+
+                                // do we need this?
+
+                                //f.GetHTMLTarget().AttachTo(goopage.output);
+
+                                grid.DataSourceChanged +=
+                                    delegate
+                                    {
+                                        Console.WriteLine("DataSourceChanged");
+
+                                        (grid.DataSource as DataTable).With(
+                                            data =>
+                                            {
+                                                f.Text = data.TableName;
+                                            }
+                                        );
+                                    };
+
+                                f.Show();
+
+
+                                //f.WindowState = FormWindowState.Maximized;
+                                //f.PopupInsteadOfClosing(
+                                //    HandleFormClosing: false
+
+                                //    // , 
+                                //    // does not play well with maximized yet
+                                //    //SpecialNoMovement: true
+                                //    );
+
+                                {
+                                    var data = await new ApplicationWebService { reason = scope.state.reason }.DoEnterData();
+
+                                    Console.WriteLine("set DataSource");
+                                    grid.DataSource = data;
+
+                                    await scope;
+
+                                    f.Close();
+                                }
+
+                            }
+                        );
+
+                    }
+                );
             }
         }
+        #endregion
 
-        //public Application(
-        //    IApp page, 
-        //    IThirdPage thirdpage
-        //    )
-        //    : this(page)
-        //{
-        //    // master page upgraded
-        //    // animate this secondary page
 
-        //    new IHTMLButton { innerText = "animate" }.AttachToDocument().WhenClicked(
-        //        delegate
-        //        {
-        //            IStyleSheet.Default["body.third"].style.borderLeft = "5em red solid";
-
-        //        }
-        //    );
-
-        //    //Native.window.requestAnimationFrame +=
-        //    //    delegate
-        //    //    {
-        //    IStyleSheet.Default["body.third"].style.borderLeft = "4em blue solid";
-        //}
 
 
 
@@ -81,6 +151,7 @@ namespace PageNavigationExperiment
             IStyleSheet.Default["body"].style.transition = "border-left 300ms linear";
             IStyleSheet.Default["body"].style.borderLeft = "3em yellow solid";
 
+            #region proof we can still find our element by id even if on a sub page
             new IHTMLTextArea { }.AttachTo(Native.document.body.parentNode).With(
                 async area =>
                 {
@@ -89,12 +160,29 @@ namespace PageNavigationExperiment
                     area.style.bottom = "1em";
                     area.style.zIndex = 1000;
                     area.readOnly = true;
-                    area.style.backgroundColor = "yellow";
-                    area.style.transition = "background-color 10000ms linear";
 
-                    await Native.window.requestAnimationFrameAsync;
 
-                    area.style.backgroundColor = "white";
+                    Action colors = async delegate
+                        {
+                            for (int i = 0; i < 3; i++)
+                            {
+
+                                area.style.backgroundColor = "red";
+                                await Task.Delay(200);
+                                area.style.backgroundColor = "yellow";
+                                await Task.Delay(200);
+                            }
+                            await Native.window.requestAnimationFrameAsync;
+                            area.style.transition = "background-color 10000ms linear";
+
+                            await Native.window.requestAnimationFrameAsync;
+
+                            area.style.backgroundColor = "white";
+                        };
+
+
+                    colors();
+
 
 
                     var st = new Stopwatch();
@@ -109,6 +197,7 @@ namespace PageNavigationExperiment
                     }
                 }
             );
+            #endregion
 
 
             //page.Location = Native.document.location.hash;
@@ -123,6 +212,7 @@ namespace PageNavigationExperiment
 
                 //await Task.Delay(300);
 
+                Console.WriteLine("pushState");
                 Native.window.history.pushState(
                    null,
                    null,
@@ -130,13 +220,14 @@ namespace PageNavigationExperiment
                    "/third-page"
                );
 
+                Console.WriteLine("replaceState");
                 Native.window.history.replaceState(
                     //"/third-page",
                     new { },
                     async scope =>
                     {
                         // did the server prerender our page?
-                        Console.WriteLine("replaceState");
+                        Console.WriteLine("at replaceState");
 
                         // { nodeName = #text } 
                         var hidden = (IHTMLElement)Native.document.body.querySelectorAll("hidden-body").FirstOrDefault();

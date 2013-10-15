@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -27,6 +29,68 @@ namespace PageNavigationExperiment
             // Send it back to the caller.
             y(e);
         }
+
+
+        public int Index;
+
+        public override string ToString()
+        {
+            // this will also run on client
+            return new { Index }.ToString();
+        }
+
+        public async Task<ApplicationWebService> GetItem(int i)
+        {
+            // slow down!
+            Thread.Sleep(333 + new Random().Next(3000));
+
+            return new ApplicationWebService { Index = i };
+        }
+
+
+
+
+
+        public string reason;
+
+        public async Task<DataTable> DoEnterData(
+
+            [CallerFilePathAttribute] string CallerFilePath = null,
+            [CallerLineNumberAttribute] int CallerLineNumber = 0,
+            [CallerMemberNameAttribute] string CallerMemberName = null
+
+            )
+        {
+            // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationWebService.cs
+
+            var table = new DataTable { TableName = "DoEnterData " + new { reason }.ToString() };
+
+            var column = new DataColumn();
+            column.ColumnName = "Column 1";
+
+            var column2 = new DataColumn();
+            column2.ColumnName = "Column 2";
+
+            table.Columns.Add(column);
+            table.Columns.Add(column2);
+
+            for (int i = 0; i < 32; i++)
+            {
+                var row = table.NewRow();
+
+                row[column] = "#" + i;
+                row[column2] = new { reason, CallerMemberName, CallerLineNumber, CallerFilePath }.ToString();
+                table.Rows.Add(row);
+            }
+
+
+            return table;
+        }
+
+
+
+
+
 
         public void Handler(WebServiceHandler h)
         {

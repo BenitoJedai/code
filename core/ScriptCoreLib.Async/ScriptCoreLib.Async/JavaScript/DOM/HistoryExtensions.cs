@@ -278,6 +278,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static void replaceState<T>(this History h, T state, Action<HistoryScope<T>> yield)
         {
+            Console.WriteLine("enter replaceState");
+
             if (yield.Target != null)
                 if (yield.Target != Native.self)
                     throw new InvalidOperationException("we can only continue with global methods for now... " + new { yield.Target });
@@ -295,7 +297,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                 invoke = new { function = MethodToken, arguments = new object[] { state } }
             };
 
-            Native.window.history.replaceState(data);
+            Console.WriteLine("before history.replaceState");
+            // IE throws __exc	Argument not optional
+            Native.window.history.replaceState(data, "", "");
+            Console.WriteLine("after history.replaceState");
 
             #region __unwind
             TaskCompletionSource<HistoryScope<T>> __unwind = null;
@@ -331,6 +336,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                  }
             );
 
+            Console.WriteLine("before yield");
             yield(scope);
 
             Console.WriteLine("replaceState: " + new { HistoryScope.inline_unwind.Count });
@@ -371,7 +377,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
             Console.WriteLine("pushState before: " + new { Native.window.history.length });
 
-            Native.window.history.pushState(data);
+            // fck ie
+            Native.window.history.pushState(data, "", "");
 
             Console.WriteLine("pushState after: " + new { Native.window.history.length });
 

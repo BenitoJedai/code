@@ -132,6 +132,8 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\ContentContainer.css" />
+    <Content Include="Design\ContentContainer.htm" />
     <Content Include="Design\ThirdPage.htm" />
     <Content Include="Design\OtherPage.htm" />
     <None Include="app.config" />

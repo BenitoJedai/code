@@ -419,8 +419,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalCloseButton.onmousedown +=
                 e =>
                 {
-                    e.StopPropagation();
-                    e.PreventDefault();
+                    e.stopPropagation();
+                    e.preventDefault();
                 };
 
             InternalCloseButton.onclick +=
@@ -1193,7 +1193,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         if (InternalWindowStateAnimated)
                         {
-                            (this.HTMLTarget.style as dynamic).transition = "left 100ms linear, top 100ms linear, right 100ms linear, bottom 100ms linear";
+                            this.HTMLTarget.style.transition = "left 100ms linear, top 100ms linear, right 100ms linear, bottom 100ms linear";
 
 
                             var anitimer_Enabled = true;
@@ -1203,7 +1203,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 {
 
                                     anitimer_Enabled = false;
-                                    (this.HTMLTarget.style as dynamic).transition = "";
+                                    this.HTMLTarget.style.transition = "";
                                 }
                             );
 
@@ -1470,11 +1470,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             #region fadeout
-            (this.HTMLTarget.style as dynamic).webkitTransition = "none";
+            this.HTMLTarget.style.transition = "none";
             (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(1.0)";
             (this.HTMLTarget.style as dynamic).webkitTransform = " scale(1.0)";
 
-            (this.HTMLTarget.style as dynamic).webkitTransition = "-webkit-transform 50ms linear, -webkit-filter 50ms linear";
+            this.HTMLTarget.style.transition = "-webkit-transform 50ms linear, -webkit-filter 50ms linear";
 
             (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.0)";
             (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.95)";
@@ -1485,7 +1485,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     HTMLTarget.Orphanize();
 
-                    (this.HTMLTarget.style as dynamic).webkitTransition = "none";
+                    this.HTMLTarget.style.transition = "none";
 
                     (this.HTMLTarget.style as dynamic).webkitFilter = "";
                     (this.HTMLTarget.style as dynamic).webkitTransform = "";

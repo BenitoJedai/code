@@ -1673,6 +1673,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
+        public event EventHandler DataSourceChanged;
 
         public object InternalDataSource;
         public object DataSource
@@ -1685,6 +1686,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 this.InternalDataSource = value;
 
+                #region DataTable
                 var DataTable = value as DataTable;
                 if (DataTable != null)
                 {
@@ -1729,6 +1731,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         this.Rows.Add(r);
                     }
                 }
+                #endregion
+
+
+                if (DataSourceChanged != null)
+                    DataSourceChanged(this, new EventArgs());
+
             }
         }
     }
