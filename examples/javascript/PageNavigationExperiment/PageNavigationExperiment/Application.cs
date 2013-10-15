@@ -346,12 +346,15 @@ namespace PageNavigationExperiment
             "ThirdPage.htm".With(
                 uri =>
                 {
-                    Native.document.body.querySelectorAll("a[href='" + uri + "']").WithEach(
+                    var selector = "a[href='" + uri + "']";
+
+
+                    IStyleSheet.Default[selector].style.color = "red";
+
+                    Native.document.body.querySelectorAll(selector).WithEach(
                         xx =>
                         {
                             var x = (IHTMLElement)xx;
-
-                            x.style.color = "red";
 
                             x.onclick +=
                                 e =>
