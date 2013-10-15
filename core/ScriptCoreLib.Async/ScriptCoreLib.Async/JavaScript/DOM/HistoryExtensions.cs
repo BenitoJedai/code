@@ -49,6 +49,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                              string hint = state.hint;
 
+                             Console.WriteLine(new { hint });
+
                              dynamic invoke = state.invoke;
 
                              string MethodToken = invoke.function;
@@ -332,6 +334,19 @@ namespace ScriptCoreLib.JavaScript.DOM
             yield(scope);
 
             Console.WriteLine("replaceState: " + new { HistoryScope.inline_unwind.Count });
+        }
+
+        public static void pushState(this History h, string url, Action<HistoryScope<object>> yield)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\PageNavigationExperiment\PageNavigationExperiment\Application.cs
+
+            h.pushState(null, null, url);
+
+            h.replaceState(
+                state: new { },
+                yield: yield
+            );
         }
 
         public static void pushState<T>(this History h, T state, Action<HistoryScope<T>> yield)

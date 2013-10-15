@@ -315,6 +315,10 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        // tested by
+        // X:\jsc.svn\examples\javascript\PageNavigationExperiment\PageNavigationExperiment\Application.cs
+        public string transition;
+
         public string transform
         {
             [Script(DefineAsStatic = true)]

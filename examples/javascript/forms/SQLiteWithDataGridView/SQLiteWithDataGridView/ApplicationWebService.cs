@@ -196,7 +196,10 @@ namespace SQLiteWithDataGridView
             var x = new __ConsoleToDatabaseWriter(AtConsole);
 
 
-            var xParentContentKey = ParentContentKey == "" ? null : (object)int.Parse(ParentContentKey);
+            var xParentContentKey = 
+                string.IsNullOrEmpty(
+                ParentContentKey)
+                ? null : (object)int.Parse(ParentContentKey);
 
             grid.SelectContentUpdates(
                 new TheGridTableQueries.SelectContentUpdates
