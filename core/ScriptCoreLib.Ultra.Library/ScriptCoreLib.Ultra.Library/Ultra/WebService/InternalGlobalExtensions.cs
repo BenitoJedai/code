@@ -703,10 +703,10 @@ namespace ScriptCoreLib.Ultra.WebService
             // should the app be able to control manifest on its own?
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201303/20130330-cache-manifest
-
+            // http://html5doctor.com/go-offline-with-application-cache/
             that.Response.ContentType = WebApplicationCacheManifest.ManifestContentType;
             that.Response.AddHeader("Cache-Control", "no-cache, private");
-
+            that.Response.AddHeader("Expires", "0");
             // http://stackoverflow.com/questions/1715568/how-to-properly-invalidate-an-html5-cache-manifest-for-online-offline-web-apps
             // Cache-Control: no-cache, private
 
@@ -758,6 +758,14 @@ namespace ScriptCoreLib.Ultra.WebService
             w.AppendLine("");
             w.AppendLine("SETTINGS:");
             w.AppendLine("prefer-online");
+
+            // http://html5doctor.com/go-offline-with-application-cache/
+            // The first value is the request URI to match, and the second is the resource sent upon matching. It caches the resource on the right for offline use, so this should be an explicit path.
+            //w.AppendLine("FALLBACK:");
+            //w.AppendLine("/ /#offline");
+
+
+            
 
             w.AppendLine("");
             w.AppendLine("NETWORK:");
