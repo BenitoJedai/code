@@ -79,6 +79,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
         }
 
 
+        public IEnumerable<XAttribute> Attributes()
+        {
+            var z = this.InternalElement.getAttributes();
+
+
+            return Enumerable.Range(
+                0,
+                 z.getLength()
+            ).Select(
+                i =>
+                {
+
+                    return (XAttribute)new __XAttribute { InternalElement = this, Name = z.item(i).getNodeName() };
+
+                }
+            );
+
+
+
+        }
+
         public XAttribute Attribute(XName name)
         {
             if (this.InternalElement.hasAttribute(name.LocalName))
@@ -103,13 +124,45 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
                 // http://ejohn.org/blog/nodename-case-sensitivity/
                 var nodeName = this.InternalElement.getNodeName();
 
-     
+
                 return new __XName { InternalValue = nodeName };
             }
             set
             {
-                throw new NotImplementedException();
+
+                InternalSetName(value);
             }
         }
+
+        private void InternalSetName(__XName value)
+        {
+            // fcku jxml
+
+            // [Fatal Error] :22:5: The element type "ydob" must be terminated by the matching end-tag "</ydob>".
+            var old = "<" + this.Name.LocalName + " ";
+            var oldclose = "</" + this.Name.LocalName + ">";
+
+            var str = this.ToString();
+            var fake = "<" + value.LocalName + " " + str.Substring(old.Length, str.Length - old.Length - oldclose.Length)
+                + "</" + value.LocalName + ">";
+
+            var e = (__XElement)(object)__XElement.Parse(fake);
+
+
+
+            this.InternalElementName = value;
+
+            e.InternalFixBeforeAdobt();
+            //Console.WriteLine("before adobt, add: " + e.InternalToString());
+            __adoptNode(e);
+
+            //this.InternalPartialElements.Add(e);
+            this.InternalValue.getParentNode().replaceChild(e.InternalValue, this.InternalValue);
+
+            this.InternalValue = e.InternalValue;
+        }
+
+
+
     }
 }

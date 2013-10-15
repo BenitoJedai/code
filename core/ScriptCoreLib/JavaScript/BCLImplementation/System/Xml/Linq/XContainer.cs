@@ -162,7 +162,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public IEnumerable<XElement> Elements(XName name)
         {
-            return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
+            //Console.WriteLine("Elements " + new { name });
+            return this.Elements().Where(
+                k =>
+                {
+                    //Console.WriteLine("Elements " + new { name, k.Name.LocalName });
+
+                    return k.Name.LocalName == name.LocalName;
+                }
+            );
         }
 
         public IEnumerable<XElement> Elements()
@@ -173,9 +181,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
             foreach (var item in e.childNodes)
             {
                 if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
-                    a.Add(
-                        (XElement)(object)new __XElement(null, null) { InternalValue = item }
-                    );
+                {
+                    var x = new __XElement(null, null) { InternalValue = item };
+
+                    a.Add(x);
+                }
 
             }
 

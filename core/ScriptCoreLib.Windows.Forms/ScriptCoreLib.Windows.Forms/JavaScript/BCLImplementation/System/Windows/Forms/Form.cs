@@ -869,7 +869,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             (that, yield) =>
             {
                 if (that.HTMLTarget.parentNode == null)
-                    that.HTMLTarget.AttachToDocument();
+                    that.HTMLTarget.AttachTo(
+                        Native.document.body.parentNode
+                    );
 
                 yield();
             };
@@ -884,11 +886,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 // tested by
                 // X:\jsc.svn\examples\javascript\HistoryStatesViaWebService\HistoryStatesViaWebService\Application.cs
-                if (host == Native.document.body)
+                if (host == Native.document.body.parentNode)
                 {
-                    if (host.clientWidth > 0)
-                        if (host.scrollWidth > 0)
-                            value = host.clientWidth < host.scrollWidth ? host.scrollWidth : host.clientWidth;
+                    //if (host.clientWidth > 0)
+                    //    if (host.scrollWidth > 0)
+                    //        value = host.clientWidth < host.scrollWidth ? host.scrollWidth : host.clientWidth;
                 }
                 else
                 {
@@ -908,11 +910,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 // IE fk u
                 var value = Native.window.Height;
 
-                if (host == Native.document.body)
+                if (host == Native.document.body.parentNode)
                 {
-                    if (host.clientHeight > 0)
-                        if (host.scrollHeight > 0)
-                            value = host.clientHeight < host.scrollHeight ? host.scrollHeight : host.clientHeight;
+                    //if (host.clientHeight > 0)
+                    //    if (host.scrollHeight > 0)
+                    //        value = host.clientHeight < host.scrollHeight ? host.scrollHeight : host.clientHeight;
                 }
                 else
                 {

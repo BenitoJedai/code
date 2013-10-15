@@ -9,6 +9,8 @@ namespace org.w3c.dom
 	[Script(IsNative = true)]
 	public interface Document : Node
 	{
+        Node renameNode(Node n, string namespaceURI, string qualifiedName);
+
 		/// <summary>
 		/// Creates an <code>Attr</code> of the given name.
 		/// </summary>

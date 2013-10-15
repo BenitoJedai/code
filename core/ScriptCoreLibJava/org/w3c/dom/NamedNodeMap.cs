@@ -16,5 +16,9 @@ namespace org.w3c.dom
 		/// <returns></returns>
         Node getNamedItem(string name);
 
+
+        int getLength();
+
+        Node item(int index);
 	}
 }
