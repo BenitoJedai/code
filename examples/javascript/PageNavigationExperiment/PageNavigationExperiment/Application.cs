@@ -24,12 +24,12 @@ namespace PageNavigationExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application : ApplicationWebService
+    public class Application : ApplicationWebService
     {
         #region /third-page
-        public class ThirdPageApplication
+        public class ThirdPageApplication : ApplicationWebService
         {
-            public ThirdPageApplication(IThirdPage x, Application app)
+            public ThirdPageApplication(IThirdPage page, Application master)
             {
                 new IHTMLButton { innerText = "animate" }.AttachToDocument().WhenClicked(
                     delegate
@@ -46,8 +46,16 @@ namespace PageNavigationExperiment
                     Content = new ApplicationWebService { }.GetItem(44)
                 }.AttachToDocument();
 
+                page.Yield.WhenClicked(
+                    async delegate
+                    {
+                        var z = await this.GetSpecialString();
 
-                x.Data.WhenClicked(
+                        master.yield(z);
+                    }
+                );
+
+                page.Data.WhenClicked(
                     delegate
                     {
 
@@ -141,10 +149,22 @@ namespace PageNavigationExperiment
 
 
 
+        static Application __that;
 
+        public Action<string> yield;
 
         public Application(IApp page)
         {
+            __that = this;
+
+            this.yield = message =>
+            {
+                Native.window.alert("hello! " + new { message });
+            };
+
+
+
+
             IStyleSheet.Default["body"].style.borderLeft = "0em yellow solid";
 
             // activate all animations?
@@ -163,22 +183,22 @@ namespace PageNavigationExperiment
 
 
                     Action colors = async delegate
+                    {
+                        for (int i = 0; i < 3; i++)
                         {
-                            for (int i = 0; i < 3; i++)
-                            {
 
-                                area.style.backgroundColor = "red";
-                                await Task.Delay(200);
-                                area.style.backgroundColor = "yellow";
-                                await Task.Delay(200);
-                            }
-                            await Native.window.requestAnimationFrameAsync;
-                            area.style.transition = "background-color 10000ms linear";
+                            area.style.backgroundColor = "red";
+                            await Task.Delay(200);
+                            area.style.backgroundColor = "yellow";
+                            await Task.Delay(200);
+                        }
+                        await Native.window.requestAnimationFrameAsync;
+                        area.style.transition = "background-color 10000ms linear";
 
-                            await Native.window.requestAnimationFrameAsync;
+                        await Native.window.requestAnimationFrameAsync;
 
-                            area.style.backgroundColor = "white";
-                        };
+                        area.style.backgroundColor = "white";
+                    };
 
 
                     colors();
@@ -206,6 +226,8 @@ namespace PageNavigationExperiment
 
             Console.WriteLine(new { Native.document.location.pathname });
 
+
+            #region GoThirdPage
             Action GoThirdPage = delegate
             {
                 //IStyleSheet.Default["body"].style.borderLeft = "0em yellow solid";
@@ -273,13 +295,14 @@ namespace PageNavigationExperiment
                         // ready!
 
                         // one wait works half time only
-                        await Native.window.requestAnimationFrameAsync;
-                        await Native.window.requestAnimationFrameAsync;
+                        //await Native.window.requestAnimationFrameAsync;
+                        //await Native.window.requestAnimationFrameAsync;
 
+                        await Task.Delay(11);
 
                         var x = new ThirdPageApplication(
                             layout,
-                            null
+                            __that
                         );
 
 
@@ -291,13 +314,9 @@ namespace PageNavigationExperiment
                     }
                 );
             };
+            #endregion
 
-            page.UseHistoryAPI.onclick +=
-                e =>
-                {
-                    e.preventDefault();
-                    GoThirdPage();
-                };
+
 
             page.GoThirdPage.WhenClicked(
                 async delegate
@@ -306,39 +325,59 @@ namespace PageNavigationExperiment
                 }
             );
 
-            if (Native.document.location.hash.StartsWith("#/"))
-            {
-                Native.window.history.replaceState(
-                    new { foo = 1 },
-                    "",
-                    Native.document.location.hash.Substring(1)
-                );
+            //if (Native.document.location.hash.StartsWith("#/"))
+            //{
+            //    Native.window.history.replaceState(
+            //        new { foo = 1 },
+            //        "",
+            //        Native.document.location.hash.Substring(1)
+            //    );
 
-                //Native.window.history.replaceState(
-                //    new { foo = 1 },
-                //    scope =>
-                //    {
-                //        Native.document.body.style.backgroundColor = "yellow";
-                //    }
-                //);
-            }
-
-
+            //    //Native.window.history.replaceState(
+            //    //    new { foo = 1 },
+            //    //    scope =>
+            //    //    {
+            //    //        Native.document.body.style.backgroundColor = "yellow";
+            //    //    }
+            //    //);
+            //}
 
 
-            if (Native.document.location.pathname == "/ThirdPage.htm")
-            {
-                //Native.window.history.replaceState(
-                //     null,
-                //     null,
-                //    //"/thirdpage.htm"
-                //    "/ThirdPage.htm"
-                //    //"/third-page"
-                // );
-                var layout = new ThirdPage.FromDocument();
+            "ThirdPage.htm".With(
+                uri =>
+                {
+                    Native.document.body.querySelectorAll("a[href='" + uri + "']").WithEach(
+                        xx =>
+                        {
+                            var x = (IHTMLElement)xx;
 
-                new ThirdPageApplication(layout, this);
-            }
+                            x.style.color = "red";
+
+                            x.onclick +=
+                                e =>
+                                {
+                                    e.preventDefault();
+                                    GoThirdPage();
+                                };
+                        }
+                    );
+
+                    if (Native.document.location.pathname == "/" + uri)
+                    {
+                        //Native.window.history.replaceState(
+                        //     null,
+                        //     null,
+                        //    //"/thirdpage.htm"
+                        //    "/ThirdPage.htm"
+                        //    //"/third-page"
+                        // );
+                        var layout = new ThirdPage.FromDocument();
+
+                        new ThirdPageApplication(layout, __that);
+                    }
+                }
+            );
+
 
         }
 
