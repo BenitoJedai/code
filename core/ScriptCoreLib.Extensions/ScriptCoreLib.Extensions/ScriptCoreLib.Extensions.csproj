@@ -56,6 +56,9 @@
     <Reference Include="ScriptCoreLib.Query">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
@@ -99,6 +102,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
+    <Compile Include="JavaScript\Extensions\FormExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\CharExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilderExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\EnumerableExtensions.cs" />

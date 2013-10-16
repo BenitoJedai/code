@@ -121,21 +121,104 @@ namespace CSSPrintMediaExperiment
             //    @"<style type='text/css' media='print'>h1{ border: 13px solid yellow;}</style>";
 
 
-            var f = new Form1();
 
             //f.FormBorderStyle = FormBorderStyle.None;
+            new Form1().AttachFormTo(page.output);
 
-            f.GetHTMLTarget().AttachTo(page.output);
+            //f.GetHTMLTarget().AttachTo(page.output);
 
-            f.Show();
+            //f.Show();
 
 
-            f.WindowState = FormWindowState.Maximized;
+            //f.WindowState = FormWindowState.Maximized;
 
             IStyleSheet.Default
                 [CSSMediaTypes.print]
                 [Native.document.body].style.overflow =
                     IStyle.OverflowEnum.hidden;
+
+
+            page.Print.onclick +=
+                delegate
+                {
+                    Native.window.print();
+                };
+
+            IStyleSheet.Default
+                [CSSMediaTypes.print]
+                [page.Print].style.display = IStyle.DisplayEnum.none;
+
+
+            var s = new SpecialLayout();
+
+            var i = new IHTMLIFrame();
+
+            // hide it from plain sight
+            i.style.display = IStyle.DisplayEnum.none;
+
+            new IHTMLInput { type = ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox }.AttachToDocument().With(
+                x =>
+                {
+                    x.onclick += delegate
+                    {
+                        i.ToggleVisible();
+                    };
+
+                }
+            );
+
+
+            // it will never load with out this call!
+            i.AttachToDocument();
+
+            // Uncaught TypeError: Cannot read property 'document' of undefined 
+
+            page.PrintFromIframe.disabled = true;
+
+            i.onload += delegate
+            {
+                var idoc = i.contentWindow.document;
+
+                // http://stackoverflow.com/questions/16649943/css-to-set-a4-paper-size
+                idoc.body.style.minWidth = "21cm";
+
+                var x = new IHTMLStyle().AttachTo(idoc.body);
+
+                s.AttachTo(idoc.body);
+
+
+
+                x.StyleSheet[CSSMediaTypes.print][s.Header].style.color =
+                    "yellow";
+
+                x.StyleSheet[CSSMediaTypes.print][s.Header].style.boxShadow =
+                 "inset 0 0 0 10000px red";
+
+
+                x.StyleSheet[CSSMediaTypes.print][s.SpecialText].before.style.content = "'print hello world'";
+                x.StyleSheet[CSSMediaTypes.print][s.SpecialText].before.style.color = "red";
+                x.StyleSheet[CSSMediaTypes.print][s.SpecialText].before.style.borderBottom = "1px solid red";
+
+                // http://www.w3schools.com/cssref/pr_gen_content.asp
+                //x.StyleSheet
+                //     //[CSSMediaTypes.print]
+                //     ["#" + s.SpecialText.id + ":before"]
+                //     .style.setProperty("content", "'hello world'", "");
+
+
+                new Form1 { Text = "for print" }.AttachFormTo(s.output);
+
+                page.PrintFromIframe.disabled = false;
+                page.PrintFromIframe.onclick +=
+                    delegate
+                    {
+                        i.contentWindow.print();
+                    };
+            };
+
+            i.src = "about:blank";
+
+
         }
 
     }

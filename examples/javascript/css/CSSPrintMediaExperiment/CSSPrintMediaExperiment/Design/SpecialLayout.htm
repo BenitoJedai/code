@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<title>App</title>
+    <link rel='stylesheet' href='App.css'/>
+  </head>
+  <body>
+
+    <h1 id='Header'>
+      Special Layout For Print
+    </h1>
+
+    <div>
+      <style>
+        .ContentContainer > span {
+
+
+        color: blue;
+
+        padding-left: 1em;
+        padding-right: 1em;
+        border-top: 1px solid gray;
+        border-left: 1em solid green;
+        transition: border-left 200ms linear;
+        }
+
+        .ContentContainer > span:empty {
+        border-left: 0.5em solid red;
+        }
+
+        .ContentContainer > span:empty:before {
+        content: "(empty)";
+        }
+      </style>
+
+      <p class="ContentContainer">
+        <span id="Content"></span>
+      </p>
+    </div>
+
+    
+    <h2 id='SpecialText'></h2>
+
+            <output style="
+        overflow: auto; border: inset; display: block; background-color: AppWorkspace; position: relative; width: 100%; height: 20em;"></output>
+
+
+	</body>
+</html>

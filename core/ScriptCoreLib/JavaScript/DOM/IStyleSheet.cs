@@ -73,6 +73,44 @@ namespace ScriptCoreLib.JavaScript.DOM
         // CSSStyleDeclaration
         public CSSStyleDeclaration style;
 
+        // pseudos
+
+        public CSSStyleRule before
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var p = this.parentRule;
+                if (p != null)
+                    if (p.type == CSSRuleTypes.MEDIA_RULE)
+                    {
+                        return ((CSSMediaRule)p)[selectorText + ":before"];
+
+                    }
+
+                return this.parentStyleSheet[selectorText + ":before"];
+            }
+        }
+
+        public CSSStyleRule after
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this.parentStyleSheet[selectorText + ":after"];
+            }
+        }
+
+        public CSSStyleRule empty
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this.parentStyleSheet[selectorText + ":empty"];
+            }
+        }
+
+
         //{ cssText =  } 
         //public string cssText;
     }

@@ -174,7 +174,6 @@
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridEditRow.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridNewRow.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\App.ico" />
-    <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
