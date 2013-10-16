@@ -496,7 +496,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.OnLocationChanged(null);
             }
 
-            Console.WriteLine("before InternalClientSizeChanged " + new { flag2 });
+            //Console.WriteLine("before InternalClientSizeChanged " + new { flag2 });
             if (flag2)
             {
                 //throw new Exception("Html element not set: " + this.Name);
@@ -520,7 +520,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void InternalClientSizeChanged()
         {
-            Console.WriteLine("at InternalClientSizeChanged");
+            //Console.WriteLine("at InternalClientSizeChanged");
 
             this.clientWidth = this.HTMLTargetContainerRef.clientWidth;
             this.clientHeight = this.HTMLTargetContainerRef.clientHeight;
@@ -702,7 +702,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void InternalOnSizeChanged()
         {
-            Console.WriteLine("at InternalOnSizeChanged");
+            //Console.WriteLine("at InternalOnSizeChanged");
 
 
             this.OnResize(null);

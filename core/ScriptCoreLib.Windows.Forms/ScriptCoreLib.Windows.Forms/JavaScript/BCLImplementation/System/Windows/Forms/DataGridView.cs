@@ -75,6 +75,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public bool InternalSkipAutoSize;
 
+
         public __DataGridView()
         {
             //Console.WriteLine("__DataGridView");
@@ -123,11 +124,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.InternalSetDefaultFont();
 
-            this.InternalScrollContainerElement = new IHTMLDiv().AttachTo(this.InternalElement);
+            this.InternalScrollContainerElement = new IHTMLDiv
+            {
+                // pstyle
+                //className = "InternalScrollContainerElement"
+            }.AttachTo(this.InternalElement);
             //this.InternalScrollContainerElement.style.backgroundColor = JSColor.Gray;
             this.BackgroundColor = global::System.Drawing.SystemColors.AppWorkspace;
 
             this.InternalScrollContainerElement.style.overflow = DOM.IStyle.OverflowEnum.auto;
+
+            // tested by
+            // X:\jsc.svn\examples\javascript\css\CSSPrintMediaExperiment\CSSPrintMediaExperiment\Application.cs
+
+            // for printer we do not want to see the scollbar
+            // if we change the document we will loose the style?
+            // this wont work
+            //IStyleSheet.Default
+            //    [CSSMediaTypes.print]
+            //    [this.InternalScrollContainerElement].style.overflow =
+            //        IStyle.OverflowEnum.hidden;
+
+           
+
             this.InternalScrollContainerElement.style.position = DOM.IStyle.PositionEnum.absolute;
             this.InternalScrollContainerElement.style.left = "0px";
             this.InternalScrollContainerElement.style.top = "0px";
@@ -1013,7 +1032,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                     c.InternalTableColumn = __ColumnsTableRow.AddColumn();
+
+
                     c.InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
+
+                    //IStyleSheet.Default
+                    //    [CSSMediaTypes.print]
+                    //    [c.InternalTableColumn].style.boxShadow =
+                    //        "inset 0 0 0 10000px " + JSColor.System.ButtonFace;
+
+
                     c.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
                     //var InternalNewCell = new __DataGridViewTextBoxCell();

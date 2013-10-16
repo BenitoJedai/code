@@ -1250,46 +1250,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             onresize =
                                 delegate
                                 {
-                                    Native.window.onresize -= onresize;
-
                                     InternalClientSizeChanged();
 
-                                    //#region UnmaximzeWhenLostFullscreen
-                                    //var UnmaximzeWhenLostFullscreen = default(Action);
 
-                                    //UnmaximzeWhenLostFullscreen =
-                                    //    delegate
-                                    //    {
-                                    //        // how much cpu does this check take?
-                                    //        // if significant then refactor 
-
-                                    //        if (WindowState == FormWindowState.Normal)
-                                    //        {
-                                    //            return;
-                                    //        }
-
-                                    //        dynamic window = Native.window;
+                                    if (this.WindowState == FormWindowState.Maximized)
+                                        return;
 
 
-                                    //        int innerHeight = window.innerHeight;
-                                    //        int outerHeight = window.outerHeight;
+                                    Native.window.onresize -= onresize;
 
-                                    //        if (innerHeight != outerHeight)
-                                    //        {
-                                    //            // how to deal with zoom?
-
-                                    //            Console.WriteLine("UnmaximzeWhenLostFullscreen " + new { innerHeight, outerHeight });
-
-                                    //            this.WindowState = FormWindowState.Normal;
-                                    //            return;
-                                    //        }
-
-
-                                    //        Native.window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
-                                    //    };
-
-                                    //Native.window.requestAnimationFrame += UnmaximzeWhenLostFullscreen;
-                                    //#endregion
                                 };
 
                             Native.window.onresize += onresize;
@@ -1524,6 +1493,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         bool InternalBeforeVisibleChangedDone = false;
         public override void InternalBeforeVisibleChanged(Action yield)
         {
+            Console.WriteLine("__Form.InternalBeforeVisibleChanged");
+
             if (InternalBeforeVisibleChangedDone)
             {
                 yield();
@@ -1541,6 +1512,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 delegate
                 {
 
+                    #region CenterScreen
                     if (this.StartPosition == FormStartPosition.CenterScreen)
                     {
                         this.Width = Math.Min(InternalHostWidth, this.Width);
@@ -1554,6 +1526,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             Y = Math.Max(0, (InternalHostHeight - this.Height) / 2)
                         };
                     }
+                    #endregion
 
                     #region fadein
 
@@ -1587,13 +1560,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
+                    Console.WriteLine("InternalRaiseLoad");
                     InternalRaiseLoad();
 
                     InternalUpdateZIndex(HTMLTarget);
 
+                    Console.WriteLine("InternalRaiseShown");
                     InternalRaiseShown();
 
+                    // let child controls know
+                    yield();
 
+
+                    #region Focus
                     var length = this.Controls.Count;
 
                     for (int i = 0; i < length; i++)
@@ -1603,12 +1582,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         if (item.TabIndex == 0)
                             item.Focus();
                     }
+                    #endregion
+
 
                     Native.window.requestAnimationFrame +=
                         delegate
                         {
                             InternalWindowStateAnimated = true;
                         };
+
                 }
             );
 

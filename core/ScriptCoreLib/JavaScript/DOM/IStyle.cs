@@ -9,9 +9,14 @@ namespace ScriptCoreLib.JavaScript.DOM
     // see: http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
 
 
+    // http://www.w3.org/TR/DOM-Level-2-Style/css.html
+    // CSSStyleDeclaration  
+    // CSS2Properties 
     [Script(HasNoPrototype = true)]
     public partial class IStyle
     {
+
+
         // CSS2Properties 
 
         // todo:
