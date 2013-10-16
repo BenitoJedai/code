@@ -1,29 +1,49 @@
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-
+    // StyleSheet 
     [Script(InternalConstructor = true)]
     public class IHTMLStyle : IHTMLElement
     {
-
+        // http://dev.w3.org/csswg/cssom/
 
         public string media;
         public string type;
 
+        public CSSStyleDeclaration this[string selectorText]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // X:\jsc.svn\examples\javascript\css\CSSPrintMediaExperiment\CSSPrintMediaExperiment\Application.cs
+
+                return this.StyleSheet[selectorText].style;
+            }
+        }
+
         #region StyleSheet
         internal IStyleSheet sheet;
         internal IStyleSheet styleSheet;
+
 
         public IStyleSheet StyleSheet
         {
             [Script(DefineAsStatic = true)]
             get
             {
+                if (this.parentNode == null)
+                    this.AttachTo(Native.document.head);
+
+                if (this.parentNode == null)
+                    this.AttachTo(Native.document.body);
+
+
                 if (Expando.InternalIsMember(this, "sheet"))
                     return this.sheet;
 

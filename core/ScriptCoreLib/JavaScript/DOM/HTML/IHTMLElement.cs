@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public /* abstract */ partial class IHTMLElement : IElement
     {
+
+
         // element is like exception. its a base class. not ot be created. not to be thrown.
 
         public string id;
@@ -268,7 +270,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public string title;
 
-        public readonly IStyle style;
+
+
 
         [Script(DefineAsStatic = true)]
         public static implicit operator IStyle(IHTMLElement e)

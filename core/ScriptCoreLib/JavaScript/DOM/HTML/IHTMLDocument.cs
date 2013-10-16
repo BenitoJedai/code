@@ -97,6 +97,21 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         //  readonly attribute HTMLCollection  anchors;
         public string cookie;
 
+        public IHTMLElement head
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var h = Native.document.getElementsByTagName("head");
+
+                if (h.Length == 0)
+                    return null;
+
+                return h[0];
+            }
+        }
+
+
         public ILocation location;
 
         // http://www.devguru.com/Technologies/ecmascript/quickref/doc_open.html

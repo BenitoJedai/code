@@ -4,43 +4,94 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // see: http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
 
-    [Script(InternalConstructor = true)]
-    public partial class IStyleSheetRule
+    public enum CSSRuleTypes
     {
-        public string selectorText;
-        public IStyle style;
+        UNKNOWN_RULE,
 
+        // CSSStyleRule
+        STYLE_RULE,
+        CHARSET_RULE,
+        IMPORT_RULE,
+        MEDIA_RULE,
+        FONT_FACE_RULE,
+        PAGE_RULE
     }
 
     [Script(InternalConstructor = true)]
-    public partial class IStyleSheet
+    public partial class CSSRule
     {
-        static IStyleSheet _Default;
+        public readonly CSSRuleTypes type;
 
-        public static IStyleSheet Default
+        public readonly IStyleSheet parentStyleSheet;
+        public readonly CSSRule parentRule;
+    }
+
+
+    // http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration
+    // http://dev.w3.org/csswg/cssom/
+    // http://dev.w3.org/csswg/cssom/#cssstyledeclaration
+    [Script(InternalConstructor = true)]
+    public partial class CSSStyleDeclaration
+        // . Furthermore, implementations that support a specific level of CSS 
+        // should correctly handle CSS shorthand properties for that level. 
+        : IStyle
+    {
+        // does this work?
+        // The cssText attribute must return the result of serializing the declarations.
+        public readonly string cssText;
+
+        // this is not usually set?
+        public readonly CSSRule parentRule;
+
+        // Example: styleObj.setProperty('color', 'red', 'important')
+        public void setProperty(string propertyName,
+                                string value,
+                                string priority) { }
+    }
+
+    namespace HTML
+    {
+        public /* abstract */ partial class IHTMLElement
         {
-            get
-            {
-                if (_Default == null)
-                    _Default = new IStyleSheet();
 
-
-                return _Default;
-            }
+            //   [SameObject, PutForwards=cssText] readonly attribute CSSStyleDeclaration style;
+            public readonly CSSStyleDeclaration style;
         }
+    }
 
-        public readonly string media;
-        public bool disabled;
+    [Script(InternalConstructor = true)]
+    public partial class CSSStyleRule : CSSRule
+    {
+        public string selectorText;
 
-        internal IStyleSheetRule[] rules;
-        internal IStyleSheetRule[] cssRules;
+        // CSSStyleDeclaration
+        public CSSStyleDeclaration style;
 
-        public IStyleSheetRule[] Rules
+        //{ cssText =  } 
+        //public string cssText;
+    }
+
+
+    [Script(InternalConstructor = true)]
+    public partial class CSSMediaRule : CSSRule
+    {
+        // http://www.w3.org/TR/1998/REC-CSS2-19980512/media.html#media-types
+        public string[] media;
+
+        // Uncaught TypeError: Cannot read property 'cssRules' of undefined 
+        // not for chrome??
+
+        #region Rules
+        internal CSSStyleRule[] rules;
+        internal CSSStyleRule[] cssRules;
+
+        public CSSStyleRule[] Rules
         {
             [Script(DefineAsStatic = true)]
             get
@@ -56,6 +107,102 @@ namespace ScriptCoreLib.JavaScript.DOM
                 throw new System.Exception("member IStyleSheet.Rules not found");
             }
         }
+        #endregion
+
+
+
+        public long insertRule(string rule, long index)
+        {
+            return default(long);
+        }
+
+        static int __style_id = 0;
+
+        public CSSStyleRule this[IHTMLElement e]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                //      page.Header.setAttribute("style-id", "45");
+                //IStyleSheet.Default[CSSMediaTypes.print][
+                //    //"#" + page.Header.id
+                //    "[style-id='45']"
+
+                var x = (string)e.getAttribute("style-id");
+
+                if (string.IsNullOrEmpty(x))
+                {
+                    x = "" + __style_id;
+
+                    __style_id++;
+                }
+
+                e.setAttribute("style-id", x);
+
+
+                return this["[style-id='" + x + "']"];
+
+            }
+        }
+        public CSSStyleRule this[string selectorText]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return __IStyleSheet.__get_item(this, selectorText);
+            }
+        }
+    }
+
+    // rename to CSSStyleSheet ?
+    // too public. collect examples using this type name beforehand
+    [Script(InternalConstructor = true)]
+    public partial class IStyleSheet
+    {
+        // http://www.w3.org/TR/DOM-Level-2-Style/css.html
+
+        #region Default
+        static IStyleSheet _Default;
+
+        public static IStyleSheet Default
+        {
+            get
+            {
+                if (_Default == null)
+                    _Default = new IStyleSheet();
+
+
+                return _Default;
+            }
+        }
+        #endregion
+
+
+        public readonly string media;
+        public bool disabled;
+
+        #region Rules
+        internal CSSStyleRule[] rules;
+        internal CSSStyleRule[] cssRules;
+
+        public CSSStyleRule[] Rules
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+
+
+                if (Expando.InternalIsMember(this, "cssRules"))
+                    return this.cssRules;
+
+                if (Expando.InternalIsMember(this, "rules"))
+                    return this.rules;
+
+                throw new System.Exception("member IStyleSheet.Rules not found");
+            }
+        }
+        #endregion
+
 
 
         #region Constructor
@@ -67,7 +214,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         static IStyleSheet InternalConstructor()
         {
-            HTML.IHTMLStyle s = new HTML.IHTMLStyle();
+            var s = new HTML.IHTMLStyle();
 
             // http://phrogz.net/JS/AddCSS_test.html
 
@@ -105,7 +252,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-
+        #region AddRule
         internal object addRule(string s, string d, int i)
         {
             return null;
@@ -121,7 +268,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://www.susaaland.dk/sharedoc/kdelibs-devel-3/khtml/html/classDOM_1_1CSSStyleSheet.html#a9
         // http://www.javascriptkit.com/domref/stylesheet.shtml
         [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(string selector, string declaration, int index)
+        public CSSStyleRule AddRule(string selector, string declaration, int index)
         {
             if (Expando.InternalIsMember(this, "insertRule"))
                 this.insertRule(selector + "{" + declaration + "}", index);
@@ -135,13 +282,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(string selector)
+        public CSSStyleRule AddRule(string selector)
         {
             return AddRule(selector, "/**/", this.Rules.Length);
         }
 
         [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(global::System.Collections.Generic.KeyValuePair<string, System.Action<IStyleSheetRule>> r)
+        public CSSStyleRule AddRule(global::System.Collections.Generic.KeyValuePair<string, System.Action<CSSStyleRule>> r)
         {
 
             return this.AddRule(r.Key, r.Value);
@@ -149,7 +296,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(string selector, System.Action<IStyleSheetRule> r)
+        public CSSStyleRule AddRule(string selector, System.Action<CSSStyleRule> r)
         {
             var x = AddRule(selector);
 
@@ -157,13 +304,27 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             return x;
         }
+        #endregion
 
-        public IStyleSheetRule this[string selectorText]
+
+        public CSSStyleRule this[string selectorText]
         {
             [Script(DefineAsStatic = true)]
             get
             {
                 return this.__get_item(selectorText);
+            }
+        }
+
+
+        public CSSMediaRule this[CSSMediaTypes x]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var selectorText = "@media " + x;
+
+                return (CSSMediaRule)(object)this.__get_item(selectorText);
             }
         }
 
@@ -189,16 +350,46 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
     }
 
+    // http://www.w3.org/TR/1998/REC-CSS2-19980512/media.html#at-media-rule
+    [Script(IsStringEnum = true)]
+    public enum CSSMediaTypes
+    //: string
+    {
+        all,
+        print,
+        screen,
+        tv
+    }
+
     [Script]
     internal static class __IStyleSheet
     {
-        public static IStyleSheetRule __get_item(this IStyleSheet e, string selectorText)
+        public static CSSStyleRule __get_item(this IStyleSheet e, string selectorText)
         {
             var a = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
 
             if (a == null)
             {
                 a = e.AddRule(selectorText);
+            }
+
+            return a;
+        }
+
+        public static CSSStyleRule __get_item(this CSSMediaRule e, string selectorText)
+        {
+            // IE not supported?
+            var a = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
+
+            if (a == null)
+            {
+                //   this.insertRule(selector + "{" + declaration + "}", index);
+                var i = e.insertRule(
+                    selectorText + " { /**/ }",
+                    e.cssRules.Length
+                );
+
+                a = e.Rules[i];
             }
 
             return a;
