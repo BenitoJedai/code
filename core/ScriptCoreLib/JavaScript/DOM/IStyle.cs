@@ -15,7 +15,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public partial class IStyle
     {
-
+        //  http://www.w3schools.com/cssref/pr_gen_content.asp
+        public string content;
 
         // CSS2Properties 
 
