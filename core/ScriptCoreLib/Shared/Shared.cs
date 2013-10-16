@@ -245,7 +245,7 @@ namespace ScriptCoreLib.Shared
     [Script(IsStringEnum = true)]
     public enum HTMLInputTypeEnum
     {
-        text, password, checkbox, radio, submit, reset, file, hidden, image, button,
+        text, password, checkbox, radio, submit, reset, file, hidden, image, button, date,
         /// <summary>
         /// this is not actually a part of html input tag, but denotes to multiline text
         /// </summary>
