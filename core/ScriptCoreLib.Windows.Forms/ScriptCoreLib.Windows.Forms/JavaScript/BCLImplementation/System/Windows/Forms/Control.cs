@@ -1344,7 +1344,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalInvalidate =
                     delegate
                     {
-                        Native.window.requestAnimationFrame +=
+                        this.HTMLTargetRef.requestAnimationFrame +=
                             delegate
                             {
                                 value(this, (PaintEventArgs)(object)a);

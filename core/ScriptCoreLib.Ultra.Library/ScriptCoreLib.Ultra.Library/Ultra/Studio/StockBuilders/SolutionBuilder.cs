@@ -185,11 +185,16 @@ namespace ScriptCoreLib.Ultra.Studio
             }
 
 
+
             Console.WriteLine(proj_Content.ToString());
+
+
+            //<TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
 
             proj_Content.Elements("PropertyGroup").Elements("ProjectGuid").ReplaceContentWith(proj_Identifier);
             proj_Content.Elements("PropertyGroup").Elements("RootNamespace").ReplaceContentWith(Name);
             proj_Content.Elements("PropertyGroup").Elements("AssemblyName").ReplaceContentWith(Name);
+
 
             // how many item groups are there that have references?
             Console.WriteLine("Looking for ItemGroup for Referenes...");

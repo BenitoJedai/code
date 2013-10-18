@@ -1119,7 +1119,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         //}
 
-                        Native.window.requestAnimationFrame +=
+                        this.HTMLTarget.requestAnimationFrame +=
                             delegate
                             {
                                 InternalClientSizeChanged();
@@ -1283,7 +1283,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.MinimumSize = this.DefaultMinimumSize;
                     this.ClientSize = new Size(200, 0);
 
-                    Native.window.requestAnimationFrame +=
+                    this.HTMLTarget.requestAnimationFrame +=
                         delegate
                         {
 
@@ -1506,7 +1506,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-
             InternalHTMLTargetAttachToDocument(
                 this,
                 delegate
@@ -1530,33 +1529,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     #region fadein
 
+
                     // http://www.w3schools.com/css3/css3_transitions.asp
-                    (this.HTMLTarget.style as dynamic).webkitTransition = "none";
+
+                    this.HTMLTarget.style.transition = "none";
 
 
                     (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.8)";
                     (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.9)";
 
 
-                    Native.window.requestAnimationFrame += delegate
-                    {
-                        (this.HTMLTarget.style as dynamic).webkitTransition = "-webkit-transform 150ms linear, -webkit-filter 150ms linear";
+                    new ScriptCoreLib.JavaScript.Runtime.Timer(
+                        delegate
+                        {
+                            // InternalBeforeVisibleChanged before requestAnimationFrame { node = [object HTMLDocument], ownerDocument = [object HTMLDocument], same = true }
+                            Console.WriteLine("InternalBeforeVisibleChanged after requestAnimationFrame");
 
-                        (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(1.0)";
-                        (this.HTMLTarget.style as dynamic).webkitTransform = " scale(1.0)";
+                            this.HTMLTarget.style.transition = "-webkit-transform 150ms linear, -webkit-filter 150ms linear";
 
-                        new ScriptCoreLib.JavaScript.Runtime.Timer(
-                            delegate
-                            {
+                            (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(1.0)";
+                            (this.HTMLTarget.style as dynamic).webkitTransform = " scale(1.0)";
 
+                            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                                delegate
+                                {
+                                    this.HTMLTarget.style.transition = "none";
 
-                                (this.HTMLTarget.style as dynamic).webkitTransition = "none";
-                                (this.HTMLTarget.style as dynamic).webkitFilter = "";
-                                (this.HTMLTarget.style as dynamic).webkitTransform = "";
-                            }
-                        ).StartTimeout(150);
-                    };
-
+                                    (this.HTMLTarget.style as dynamic).webkitFilter = "";
+                                    (this.HTMLTarget.style as dynamic).webkitTransform = "";
+                                }
+                            ).StartTimeout(150);
+                        }
+                    ).StartTimeout(1);
                     #endregion
 
 
@@ -1585,7 +1589,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
-                    Native.window.requestAnimationFrame +=
+                    this.HTMLTarget.requestAnimationFrame +=
                         delegate
                         {
                             InternalWindowStateAnimated = true;
@@ -1596,6 +1600,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         }
+
+
 
     }
 

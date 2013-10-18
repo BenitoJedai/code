@@ -1,23 +1,23 @@
+using chrome;
+using ChromeTCPServerWithFrameNone;
+using ChromeTCPServerWithFrameNone.Design;
+using ChromeTCPServerWithFrameNone.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
-using ChromeTCPServerWithFrameNone;
-using ChromeTCPServerWithFrameNone.Design;
-using ChromeTCPServerWithFrameNone.HTML.Pages;
-using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using chrome;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace ChromeTCPServerWithFrameNone
 {
@@ -194,7 +194,7 @@ namespace ChromeTCPServerWithFrameNone
 
 
                                             that.HTMLTarget.AttachTo(
-                                                appwindow.contentWindow.document.body
+                                                appwindow.contentWindow.document.body.parentNode
                                             );
 
                                             yield();
