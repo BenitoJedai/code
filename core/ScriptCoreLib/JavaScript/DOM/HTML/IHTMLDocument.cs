@@ -16,6 +16,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(HasNoPrototype = true)]
     public class IHTMLDocument : IDocument<IHTMLElement>
     {
+        public IWindow defaultView;
+
         /// <summary>
         /// Enable multitouch in Minefield by setting this field to true.
         /// </summary>

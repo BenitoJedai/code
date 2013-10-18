@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public /* abstract */ partial class IHTMLElement : IElement
     {
+        // X:\jsc.svn\examples\javascript\Test\TestOwnerDocumentDefaultView\TestOwnerDocumentDefaultView\Application.cs
+        public readonly IHTMLDocument ownerDocument;
 
 
         // element is like exception. its a base class. not ot be created. not to be thrown.
@@ -1031,6 +1033,28 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
             __requestPointerLock(this);
+        }
+
+
+
+        public event System.Action requestAnimationFrame
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestOwnerDocumentDefaultView\TestOwnerDocumentDefaultView\Application.cs
+                var w = this.ownerDocument.defaultView;
+
+                if (w == null)
+                    w = Native.window;
+
+                w.requestAnimationFrame += value;
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                throw new System.NotSupportedException();
+            }
         }
     }
 }
