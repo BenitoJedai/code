@@ -37,7 +37,7 @@ namespace AsyncButtonExperiment
 
             // Error	1	Cannot find all types required by the 'async' modifier. Are you targeting the wrong framework version, or missing a reference to an assembly?	x:\jsc.svn\examples\javascript\AsyncButtonExperiment\AsyncButtonExperiment\Application.cs	36	17	AsyncButtonExperiment
 
-
+            // Uncaught TypeError: Cannot call method 'unescape' of null 
 
             new IHTMLButton { innerText = "do async work" }.AttachToDocument().WhenClicked(
                 async btn =>

@@ -37,6 +37,28 @@ namespace PageNavigationExperiment
                 }.AttachToDocument();
 
 
+                new IHTMLDiv
+                                    {
+                                        innerHTML = @"
+                    <style>
+                    html {
+                        transition: border-top 500ms linear;
+                        border-top: 4em solid purple;
+                    }
+
+                    </style>"
+                                    }.With(
+                    async div =>
+                    {
+                        //await Native.window.requestAnimationFrameAsync;
+
+                        // wont work for html?
+                        await Task.Delay(100);
+
+                        div.AttachToDocument();
+                    }
+                    );
+
             }
         }
         #endregion
@@ -47,6 +69,8 @@ namespace PageNavigationExperiment
         {
             public ThirdPageApplication(IThirdPage page, Application master, string trace)
             {
+                //Native.document.oner
+
                 new IHTMLHeader1
                 {
                     innerText = new
@@ -193,7 +217,10 @@ namespace PageNavigationExperiment
                 Native.window.alert("hello! " + new { message });
             };
 
+   
+            //((IHTMLElement)Native.document.body.parentNode).style.borderTop = "1em yellow yellow";
 
+            //IStyleSheet.Default["html"].style.borderTop = "1em yellow yellow";
 
 
             IStyleSheet.Default["body"].style.borderLeft = "0em yellow solid";
@@ -201,6 +228,28 @@ namespace PageNavigationExperiment
             // activate all animations?
             IStyleSheet.Default["body"].style.transition = "border-left 300ms linear";
             IStyleSheet.Default["body"].style.borderLeft = "3em yellow solid";
+
+            new IHTMLDiv
+            {
+                innerHTML = @"
+<style>
+html {
+    transition: border-top 500ms linear;
+    border-top: 4em solid cyan;
+}
+
+</style>"
+            }.With(
+           async div =>
+           {
+               //await Native.window.requestAnimationFrameAsync;
+
+               // wont work for html?
+               await Task.Delay(100);
+
+               div.AttachToDocument();
+           }
+       );
 
             #region proof we can still find our element by id even if on a sub page
             new IHTMLTextArea { }.AttachTo(Native.document.body.parentNode).With(
@@ -234,6 +283,7 @@ namespace PageNavigationExperiment
 
                     colors();
 
+       
 
 
                     var st = new Stopwatch();
@@ -249,6 +299,9 @@ namespace PageNavigationExperiment
                 }
             );
             #endregion
+
+
+    
 
 
             //page.Location = Native.document.location.hash;
