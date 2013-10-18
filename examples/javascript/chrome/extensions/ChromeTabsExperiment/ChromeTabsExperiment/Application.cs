@@ -352,7 +352,7 @@ namespace ChromeTabsExperiment
                 //    Message = "extension!"
                 //};
 
-
+                // Port: Could not establish connection. Receiving end does not exist. 
                 var slave = "fkgibadjpabiongmgoeomdbcefhabmah";
                 // http://stackoverflow.com/questions/13921970/google-chrome-socket-api-in-extensions
                 // No, extensions do not have access to the socket API, and they aren't likely to ever get it.
@@ -362,6 +362,16 @@ namespace ChromeTabsExperiment
                     port =>
                     {
                         Console.WriteLine("connect done " + new { slave });
+
+                        port.onDisconnect.addListener(
+                             new Action(
+                                  delegate
+                                  {
+                                      Console.WriteLine("connect onDisconnect");
+
+                                  }
+                              )
+                        );
 
                         port.onMessage.addListener(
                               new Action<object>(
@@ -386,9 +396,19 @@ namespace ChromeTabsExperiment
                         pageActionClick +=
                             tab =>
                             {
-                                port.postMessage(
-                                   new { tab.id }
-                               );
+                                Console.WriteLine("pageActionClick " + new { tab.id });
+
+                                try
+                                {
+                                    port.postMessage(
+                                        new { tab.id }
+                                    );
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("error pageActionClick " + new { tab.id });
+                                }
+
                             };
 
                         Console.WriteLine("connect posted " + new { slave });
