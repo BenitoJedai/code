@@ -250,7 +250,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
             {
                 var x = InternalGetValue();
 
-                x = Native.window.unescape(x);
+                // running in a worker?
+                if (Native.window != null)
+                    x = Native.window.unescape(x);
 
 
                 return x.Trim();

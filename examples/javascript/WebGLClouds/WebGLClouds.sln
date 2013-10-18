@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLClouds", "WebGLClouds\WebGLClouds.csproj", "{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {7B5C94C5-F6AA-42BA-815B-34DD472A47AC}
