@@ -30,41 +30,7 @@ namespace ChromeTCPServer
             int DefaultHeight = 480
             )
         {
-            #region open
-            Action<string> open =
-                uri =>
-                {
 
-                    var f = new Form
-                    {
-
-                        Text = chrome.Notification.DefaultTitle,
-                        ShowIcon = false
-                    };
-
-
-
-                    //Refused to frame 'http://192.168.43.252:8877/' because it violates the following Content Security Policy directive: "frame-src 'self' data: chrome-extension-resource:"
-
-                    var w = new WebBrowser { }.AttachTo(f);
-
-                    f.SizeChanged +=
-                        delegate
-                        {
-                            Console.WriteLine("SizeChanged");
-
-                            var ClientSize = f.ClientSize;
-
-
-                            w.Width = ClientSize.Width;
-                            w.Height = ClientSize.Height;
-
-                        };
-                    w.Navigate(uri);
-
-                    f.Show();
-                };
-            #endregion
 
 
             #region FormStyler
@@ -298,7 +264,55 @@ namespace ChromeTCPServer
             #endregion
 
 
-            ChromeTCPServer.TheServer.Invoke(AppSource, open);
+            ChromeTCPServer.TheServer.InvokeAsync(AppSource,
+
+                async uri =>
+                {
+
+                    var f = new Form
+                    {
+
+                        Text = chrome.Notification.DefaultTitle,
+                        ShowIcon = false
+                    };
+
+
+
+                    //Refused to frame 'http://192.168.43.252:8877/' because it violates the following Content Security Policy directive: "frame-src 'self' data: chrome-extension-resource:"
+
+                    var w = new WebBrowser { }.AttachTo(f);
+
+                    f.SizeChanged +=
+                        delegate
+                        {
+                            Console.WriteLine("SizeChanged");
+
+                            var ClientSize = f.ClientSize;
+
+
+                            w.Width = ClientSize.Width;
+                            w.Height = ClientSize.Height;
+
+                        };
+                    w.Navigate(uri);
+
+                    f.Show();
+
+                    var x = new TaskCompletionSource<object>();
+
+                    f.FormClosed +=
+                        delegate
+                        {
+                            x.SetResult(f);
+                        };
+
+                    await x.Task;
+
+                    // Error	8	Since 'System.Func<string,System.Threading.Tasks.Task>' is an async method that returns 'Task', a return keyword must not be followed by an object expression. Did you intend to return 'Task<T>'?	X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs	311	21	ChromeTCPServerWithFrameNone
+                }
+
+
+            );
 
         }
     }

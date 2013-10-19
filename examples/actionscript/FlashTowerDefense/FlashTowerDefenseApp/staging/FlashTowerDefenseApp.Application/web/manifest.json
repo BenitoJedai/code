@@ -1,10 +1,10 @@
 
 {
 "manifest_version": 2,
-  "name": "FlashTowerDefenseApp",
-  "description": "FlashTowerDefenseApp",
+  "name": "FlashTowerDefense for Galaxy Note",
+  "description": "FlashTowerDefense for Galaxy Note",
   "version": "12",
- "minimum_chrome_version": "27",
+ "minimum_chrome_version": "32",
   "offline_enabled": true,
 
   "app": {
