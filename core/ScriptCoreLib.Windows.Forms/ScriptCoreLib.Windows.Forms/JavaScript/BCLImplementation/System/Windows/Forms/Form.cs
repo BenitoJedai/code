@@ -865,7 +865,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         // allow to create system window and attach to that instead
         // see also: X:\jsc.svn\examples\javascript\chrome\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
-        public static Action<__Form, Action> InternalHTMLTargetAttachToDocument =
+        public static Action<__Form, Action<bool>> InternalHTMLTargetAttachToDocument =
             (that, yield) =>
             {
                 if (that.HTMLTarget.parentNode == null)
@@ -873,7 +873,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         Native.document.body.parentNode
                     );
 
-                yield();
+                // animate!
+                yield(true);
             };
 
         public int InternalHostWidth
@@ -1508,7 +1509,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InternalHTMLTargetAttachToDocument(
                 this,
-                delegate
+                Animate =>
                 {
 
                     #region CenterScreen
@@ -1529,38 +1530,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     #region fadein
 
+                    // allow animation to be skipped by custom hosts
+                    // like chrom AppWindow
+                    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
+                    if (Animate)
+                    {
+                        // http://www.w3schools.com/css3/css3_transitions.asp
 
-                    // http://www.w3schools.com/css3/css3_transitions.asp
-
-                    this.HTMLTarget.style.transition = "none";
+                        this.HTMLTarget.style.transition = "none";
 
 
-                    (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.8)";
-                    (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.9)";
+                        (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.8)";
+                        (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.9)";
 
 
-                    new ScriptCoreLib.JavaScript.Runtime.Timer(
-                        delegate
-                        {
-                            // InternalBeforeVisibleChanged before requestAnimationFrame { node = [object HTMLDocument], ownerDocument = [object HTMLDocument], same = true }
-                            Console.WriteLine("InternalBeforeVisibleChanged after requestAnimationFrame");
+                        new ScriptCoreLib.JavaScript.Runtime.Timer(
+                            delegate
+                            {
+                                // InternalBeforeVisibleChanged before requestAnimationFrame { node = [object HTMLDocument], ownerDocument = [object HTMLDocument], same = true }
+                                Console.WriteLine("InternalBeforeVisibleChanged after requestAnimationFrame");
 
-                            this.HTMLTarget.style.transition = "-webkit-transform 150ms linear, -webkit-filter 150ms linear";
+                                this.HTMLTarget.style.transition = "-webkit-transform 150ms linear, -webkit-filter 150ms linear";
 
-                            (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(1.0)";
-                            (this.HTMLTarget.style as dynamic).webkitTransform = " scale(1.0)";
+                                (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(1.0)";
+                                (this.HTMLTarget.style as dynamic).webkitTransform = " scale(1.0)";
 
-                            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                                delegate
-                                {
-                                    this.HTMLTarget.style.transition = "none";
+                                new ScriptCoreLib.JavaScript.Runtime.Timer(
+                                    delegate
+                                    {
+                                        this.HTMLTarget.style.transition = "none";
 
-                                    (this.HTMLTarget.style as dynamic).webkitFilter = "";
-                                    (this.HTMLTarget.style as dynamic).webkitTransform = "";
-                                }
-                            ).StartTimeout(150);
-                        }
-                    ).StartTimeout(1);
+                                        (this.HTMLTarget.style as dynamic).webkitFilter = "";
+                                        (this.HTMLTarget.style as dynamic).webkitTransform = "";
+                                    }
+                                ).StartTimeout(150);
+                            }
+                        ).StartTimeout(1);
+                    }
                     #endregion
 
 
