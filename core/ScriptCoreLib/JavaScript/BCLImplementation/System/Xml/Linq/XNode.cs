@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
     [Script(Implements = typeof(XNode))]
     internal class __XNode : __XObject
     {
+        [Obsolete("not available for web workers?")]
         internal INode InternalValue;
 
         public override string ToString()

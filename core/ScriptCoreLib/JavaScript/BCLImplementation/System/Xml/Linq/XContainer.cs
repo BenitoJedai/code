@@ -39,10 +39,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             if (this.InternalValue == null)
             {
-                var doc = new IXMLDocument(this.InternalElementName.LocalName);
+                if (Native.window == null)
+                {
+
+                    // what if we are running in a web worker?
+                    // then we dont have the DOM xml available!
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\Test\TestSolutionBuilder\TestSolutionBuilderV1\Application.cs
+                }
+                else
+                {
 
 
-                this.InternalValue = doc.documentElement;
+
+                    var doc = new IXMLDocument(this.InternalElementName.LocalName);
+
+
+                    this.InternalValue = doc.documentElement;
+                }
             }
 
             #region string
@@ -51,9 +65,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
                 if (e != null)
                 {
-                    this.InternalValue.appendChild(
-                        this.InternalValue.ownerDocument.createTextNode(e)
-                    );
+                    if (this.InternalValue == null)
+                    {
+                        // web worker mode? do we need to store elements on our own?
+                    }
+                    else
+                    {
+                        this.InternalValue.appendChild(
+                            this.InternalValue.ownerDocument.createTextNode(e)
+                        );
+                    }
+
                     return;
                 }
             }
@@ -65,9 +87,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
                 if (e != null)
                 {
-                    this.InternalValue.appendChild(
-                        this.InternalValue.ownerDocument.createTextNode(e.Value)
-                    );
+                    if (this.InternalValue == null)
+                    {
+                        // web worker mode? do we need to store elements on our own?
+                    }
+                    else
+                    {
+
+                        this.InternalValue.appendChild(
+                            this.InternalValue.ownerDocument.createTextNode(e.Value)
+                        );
+                    }
+
                     return;
                 }
             }
@@ -80,9 +111,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
                 if (e != null)
                 {
-                    this.InternalValue.appendChild(
-                        this.InternalValue.ownerDocument.createComment(e.Value)
-                    );
+                    if (this.InternalValue == null)
+                    {
+                        // web worker mode? do we need to store elements on our own?
+                    }
+                    else
+                    {
+
+                        this.InternalValue.appendChild(
+                            this.InternalValue.ownerDocument.createComment(e.Value)
+                        );
+                    }
+
                     return;
                 }
             }
@@ -94,10 +134,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 var e = (__XAttribute)(object)(content as XAttribute);
                 if (e != null)
                 {
-                    var CurrentValue = e.Value;
+                    if (this.InternalValue == null)
+                    {
+                        // web worker mode? do we need to store elements on our own?
+                    }
+                    else
+                    {
 
-                    e.InternalElement = this;
-                    e.Value = CurrentValue;
+                        var CurrentValue = e.Value;
+
+                        e.InternalElement = this;
+                        e.Value = CurrentValue;
+                    }
+
                     return;
                 }
             }
@@ -109,16 +158,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 var e = (__XElement)(object)(content as XElement);
                 if (e != null)
                 {
-                    if (e.InternalValue == null)
+                    if (this.InternalValue == null)
                     {
-                        e.InternalValue = this.InternalValue.ownerDocument.createElement(e.InternalElementName.LocalName);
+                        // web worker mode? do we need to store elements on our own?
                     }
                     else
                     {
-                        __adoptNode(e);
-                    }
 
-                    this.InternalValue.appendChild(e.InternalValue);
+                        if (e.InternalValue == null)
+                        {
+                            e.InternalValue = this.InternalValue.ownerDocument.createElement(e.InternalElementName.LocalName);
+                        }
+                        else
+                        {
+                            __adoptNode(e);
+                        }
+
+                        this.InternalValue.appendChild(e.InternalValue);
+                    }
 
                     return;
                 }

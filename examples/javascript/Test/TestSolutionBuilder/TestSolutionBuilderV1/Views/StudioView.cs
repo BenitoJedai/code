@@ -22,6 +22,7 @@ using ScriptCoreLib.Ultra.Studio.StockPages;
 using ScriptCoreLib.Ultra.Studio.StockTypes;
 using TestSolutionBuilderV1.HTML.Pages;
 using TestSolutionBuilderV1.HTML.Images.FromAssets;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 
 namespace TestSolutionBuilderV1.Views
 {
@@ -456,10 +457,26 @@ namespace TestSolutionBuilderV1.Views
 
 
 
+            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
 
+            var wLeftScrollable = new System.Windows.Forms.Form
+            {
 
+                Text = "Toolbox",
+                ControlBox = false,
+                ShowIcon = false
+            };
 
-            Split.Split.LeftScrollable = (IHTMLDiv)(object)SolutionToolbox.body;
+            SolutionToolbox.Content.AttachTo(
+                wLeftScrollable.GetHTMLTargetContainer()
+            );
+
+            //wLeftScrollable.Show();
+            wLeftScrollable.AttachFormTo(Split.Split.LeftScrollable);
+
+            wLeftScrollable.PopupInsteadOfClosing();
+
+            //Split.Split.LeftScrollable = (IHTMLDiv)(object)SolutionToolbox.body;
             Split.Split.RightScrollable = Viewer.Container;
 
             // ...

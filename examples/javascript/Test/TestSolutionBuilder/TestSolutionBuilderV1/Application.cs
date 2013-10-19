@@ -23,59 +23,43 @@ using TestSolutionBuilderV1.Views;
 
 namespace TestSolutionBuilderV1
 {
-	/// <summary>
-	/// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
-	/// </summary>
-	public sealed class Application
-	{
-		public string Property1
-		{
-			get;
-			set;
-		}
-		/// <summary>
-		/// This is a javascript application.
-		/// </summary>
-		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-		public Application(IDefault  page)
-		{
-			
-			// Update document title
-			// http://do.jsc-solutions.net/Update-document-title
+    /// <summary>
+    /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
+    /// </summary>
+    public sealed class Application
+    {
 
-			@"Hello world".ToDocumentTitle();
-			// Send xml to server
-			// http://do.jsc-solutions.net/Send-xml-to-server
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IApp page)
+        {
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
 
-            // wtf?
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                chrome.Notification.DefaultTitle = "TestSolutionBuilderV1";
+
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text
+                );
+
+                return;
+            }
+            #endregion
+
             //page.Content = new StudioView(null).Content;
             new StudioView(null).Content.AttachToDocument();
 
 
-            //new ApplicationWebService().WebMethod2(
-            //    new XElement(@"Document", 
-            //        new object[] {
-            //            new XElement(@"Data", 
-            //                new object[] {
-            //                    @"Hello world"
-            //                }
-            //            ),
-            //            new XElement(@"Client", 
-            //                new object[] {
-            //                    @"Unchanged text"
-            //                }
-            //            )
-            //        }
-            //    ),
-            //    delegate (XElement doc)
-            //    {
-            //        // Show server message as document title
-            //        // http://do.jsc-solutions.net/Show-server-message-as-document-title
 
-            //        doc.Element(@"Data").Value.ToDocumentTitle();
-            //    }
-            //);
-		}
+        }
 
-	}
+    }
 }

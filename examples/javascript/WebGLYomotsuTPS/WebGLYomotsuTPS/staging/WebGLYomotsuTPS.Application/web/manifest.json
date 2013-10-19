@@ -1,17 +1,11 @@
 
 {
 "manifest_version": 2,
-  "name": "ChromeTCPServer",
-  "description": "ChromeTCPServer",
+  "name": "WebGLYomotsuTPS",
+  "description": "WebGLYomotsuTPS",
   "version": "12",
  "minimum_chrome_version": "32",
   "offline_enabled": true,
-
-     "externally_connectable": {
-    "ids": [
-      "*"
-		]
-	},
 
   "app": {
 
@@ -21,11 +15,11 @@
     }
   },
   "icons": {
+		"128": "assets/WebGLYomotsuTPS/Preview.png"
   },
   
 
   "permissions": [
-  "<all_urls>",
   "webview",
   "fullscreen",
   "pointerLock",

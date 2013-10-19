@@ -266,6 +266,7 @@ interface chrome.socket
 	// http://src.chromium.org/viewvc/chrome/trunk/src/net/socket/server_socket.h?revision=210146&pathrev=210147
 	async static void create(string type, any options, function<chrome.CreateInfo> callback);
 
+	static extension void disconnect(chrome.socketId socketId);
 	static extension void destroy(chrome.socketId socketId);
 
 
