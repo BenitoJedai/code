@@ -19,8 +19,6 @@ namespace FormsDataGridRowSelect
         {
             var x = await new ApplicationWebService { }.DoEnterData();
 
-            //Additional information: Column's SortMode cannot be set to Automatic while the DataGridView control's SelectionMode is set to ColumnHeaderSelect.
-
             this.dataGridView1.DataSource = x;
 
         }
@@ -36,6 +34,11 @@ namespace FormsDataGridRowSelect
         {
             //this.ParentForm.Text = new { dataGridView1.SelectedRows.Count }.ToString();
             this.ParentForm.Text = new { dataGridView1.SelectedCells.Count }.ToString();
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
 
