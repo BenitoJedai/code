@@ -80,14 +80,17 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\FlatButtonAppearance.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\HScrollProperties.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MenuStrip.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\StatusStrip.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripItemCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripDropDownItem.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripLabel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripMenuItem.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripItem.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripDropDownMenu.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripDropDown.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContextMenuStrip.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripStatusLabel.cs" />
     <Compile Include="JavaScript\Extensions\FormStyler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />

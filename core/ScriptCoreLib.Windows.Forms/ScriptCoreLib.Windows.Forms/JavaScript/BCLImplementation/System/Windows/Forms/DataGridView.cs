@@ -145,7 +145,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //    [this.InternalScrollContainerElement].style.overflow =
             //        IStyle.OverflowEnum.hidden;
 
-           
+
 
             this.InternalScrollContainerElement.style.position = DOM.IStyle.PositionEnum.absolute;
             this.InternalScrollContainerElement.style.left = "0px";
@@ -504,6 +504,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action EnterEditMode =
                         delegate
                         {
+                            if (this.ReadOnly)
+                                return;
+
                             if (SourceCell.ReadOnly)
                                 return;
 
@@ -1484,6 +1487,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InitializeZeroColumnCell(InternalNewRow);
 
+
+            #region InternalAutoResizeColumn
             var t = new global::System.Windows.Forms.Timer();
             t.Interval = 100;
             t.Tick +=
@@ -1496,6 +1501,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         this.InternalAutoResizeColumn(item.Index);
                     }
                 };
+            #endregion
+
+
+
+
             #region InternalRows
 
             this.InternalRows.InternalItems.Added +=
@@ -1660,6 +1670,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __DataGridViewSelectedCellCollection InternalSelectedCells { get; set; }
         public DataGridViewSelectedCellCollection SelectedCells { get; set; }
 
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.get_SelectedRows()]
+
         public __DataGridViewColumnCollection InternalColumns;
         public DataGridViewColumnCollection Columns { get; set; }
         public __DataGridViewRowCollection InternalRows;
@@ -1676,6 +1689,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public Action<__DataGridViewCell> InternalRaiseCellBeginEdit;
         public Action<__DataGridViewCell> InternalRaiseCellEndEdit;
         public Action<__DataGridViewCell> InternalRaiseCellValueChanged;
+
+
+
+        public event DataGridViewCellEventHandler CellDoubleClick;
 
         public event DataGridViewColumnEventHandler ColumnAdded;
         public event DataGridViewCellEventHandler CellContentClick;
@@ -1700,7 +1717,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-
+        #region DataSource
         public event EventHandler DataSourceChanged;
 
         public object InternalDataSource;
@@ -1767,5 +1784,33 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             }
         }
+        #endregion
+
+
+
+        //script: error JSC1000: No implementation found for this native method, please implement 
+        // [System.Windows.Forms.DataGridView.set_AlternatingRowsDefaultCellStyle(System.Windows.Forms.DataGridViewCellStyle)]
+
+        public DataGridViewCellStyle AlternatingRowsDefaultCellStyle
+        {
+            get;
+            set;
+        }
+
+        public DataGridViewSelectionMode SelectionMode { get; set; }
+
+
+        // tested by
+        // X:\jsc.svn\examples\javascript\forms\FormsDataGridRowSelect\FormsDataGridRowSelect\ApplicationControl.Designer.cs
+        public bool ReadOnly { get; set; }
+
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_ReadOnly(System.Boolean)]
+
+        //        arg[0] is typeof System.Windows.Forms.BorderStyle
+        ////script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_BorderStyle(System.Windows.Forms.BorderStyle)]
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_BorderStyle(System.Windows.Forms.BorderStyle)]
+
+        public BorderStyle BorderStyle { get; set; }
     }
 }
