@@ -26,6 +26,7 @@ namespace MSVSFormStyle
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -88,7 +89,7 @@ namespace MSVSFormStyle
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(45, 365);
+            this.button7.Location = new System.Drawing.Point(45, 433);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(211, 27);
             this.button7.TabIndex = 6;
@@ -114,9 +115,20 @@ namespace MSVSFormStyle
             this.button9.Text = "new Heat Zeeker Form()";
             this.button9.UseVisualStyleBackColor = true;
             // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(45, 346);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(211, 27);
+            this.button10.TabIndex = 9;
+            this.button10.Text = "new studio 2013 Form()";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // ApplicationControl
             // 
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.button10);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
@@ -127,7 +139,7 @@ namespace MSVSFormStyle
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(400, 427);
+            this.Size = new System.Drawing.Size(400, 504);
             this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
 
@@ -151,6 +163,7 @@ namespace MSVSFormStyle
         public Button button7;
         public Button button8;
         public Button button9;
+        public Button button10;
 
     }
 }

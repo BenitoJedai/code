@@ -219,7 +219,7 @@ namespace TestSolutionBuilderV1.Views
             var vv = new SolutionToolboxListView();
 
             vv.Container.style.color = Color.Black;
-            vv.Container.AttachTo(SolutionToolbox.Content);
+            //vv.Container.AttachTo(SolutionToolbox.Content);
 
             var items = new StockToolboxTabsForHTMLDocument();
 
@@ -457,21 +457,22 @@ namespace TestSolutionBuilderV1.Views
 
 
 
-            FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
 
             var wLeftScrollable = new System.Windows.Forms.Form
             {
-
+                BackColor = global::System.Drawing.Color.White,
                 Text = "Toolbox",
                 ControlBox = false,
                 ShowIcon = false
             };
 
-            SolutionToolbox.Content.AttachTo(
+            vv.Container.AttachTo(
                 wLeftScrollable.GetHTMLTargetContainer()
             );
 
             //wLeftScrollable.Show();
+
+            Split.Split.LeftScrollable.style.zIndex = 0;
             wLeftScrollable.AttachFormTo(Split.Split.LeftScrollable);
 
             wLeftScrollable.PopupInsteadOfClosing();
@@ -838,18 +839,26 @@ namespace TestSolutionBuilderV1.Views
 
             Viewer.First().Activate();
 
-            var SolutionExplorer = new SolutionDockWindowPage();
+            //var SolutionExplorer = new SolutionDockWindowPage();
 
-            SolutionExplorer.HeaderText.innerText = "Solution Explorer";
-            SolutionExplorer.Content.style.backgroundColor = Color.White;
-            SolutionExplorer.Content.style.padding = "2px";
-            SolutionExplorer.Content.ReplaceContentWith(_Solution.Container);
+            //SolutionExplorer.HeaderText.innerText = "Solution Explorer";
+            //SolutionExplorer.Content.style.backgroundColor = Color.White;
+            //SolutionExplorer.Content.style.padding = "2px";
+            //SolutionExplorer.Content.ReplaceContentWith(_Solution.Container);
+
+
+            var fSolutionExplorer = new System.Windows.Forms.Form { Text = "Solution Explorer" };
+
+            EditorTreeSplit.Split.RightScrollable.style.zIndex = 0;
+            fSolutionExplorer.AttachFormTo(EditorTreeSplit.Split.RightScrollable);
+
+            _Solution.Container.AttachTo(fSolutionExplorer.GetHTMLTargetContainer());
 
             _Solution.Container.style.overflow = IStyle.OverflowEnum.auto;
             _Solution.Container.style.height = "100%";
             _Solution.Container.style.backgroundColor = Color.White;
 
-            EditorTreeSplit.Split.RightContainer = (IHTMLDiv)(object)SolutionExplorer.Container;
+            //EditorTreeSplit.Split.RightContainer = (IHTMLDiv)(object)SolutionExplorer.Container;
 
             EditorTreeSplit.Container.AttachTo(Workspace);
 
