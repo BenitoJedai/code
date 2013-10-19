@@ -34,6 +34,10 @@ namespace NatureBoy.js
 
         static Dude()
         {
+            // web worker?
+            if (Native.window == null)
+                return;
+
             IStyleSheet.Default.AddRule(".idle img.idle").style.display = IStyle.DisplayEnum.block;
             IStyleSheet.Default.AddRule(".idle img.walk1").style.display = IStyle.DisplayEnum.none;
             IStyleSheet.Default.AddRule(".idle img.walk2").style.display = IStyle.DisplayEnum.none;

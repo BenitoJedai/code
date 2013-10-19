@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LBAPrequelPromotion", "LBAPrequelPromotion\LBAPrequelPromotion.csproj", "{A28A2898-D11B-4027-B5FE-2A911CC5D66F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{0CEAE0F4-6632-4095-98F4-1A52FDCFA9F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNone", "..\..\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,8 +45,31 @@ Global
 		{A28A2898-D11B-4027-B5FE-2A911CC5D66F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A28A2898-D11B-4027-B5FE-2A911CC5D66F}.Release|x86.ActiveCfg = Release|x86
 		{A28A2898-D11B-4027-B5FE-2A911CC5D66F}.Release|x86.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Any CPU.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Mixed Platforms.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|x86.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.Build.0 = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|Any CPU.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|x86.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Any CPU.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {0CEAE0F4-6632-4095-98F4-1A52FDCFA9F5}
 	EndGlobalSection
 EndGlobal

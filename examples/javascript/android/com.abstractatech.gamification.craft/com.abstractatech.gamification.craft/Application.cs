@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,29 @@ using ScriptCoreLib.JavaScript.Controls.LayeredControl;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using com.abstractatech.gamification.craft.HTML.Images.FromAssets;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace com.abstractatech.gamification.craft
 {
+    static class Extensions
+    {
+
+        public static byte ToByte(this int e)
+        {
+            return (byte)(e % 0x100);
+        }
+
+        public static Color AddLum(this Color e, int v)
+        {
+            var c = JSColor.FromRGB(e.R.ToByte(), e.G.ToByte(), e.B.ToByte()).ToHLS();
+
+            c.L = (c.L + v).Min(240).Max(0).ToByte();
+
+            var x = c.ToRGB();
+
+            return Color.FromRGB(x.R, x.G, x.B);
+        }
+    }
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -30,13 +51,59 @@ namespace com.abstractatech.gamification.craft
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+
+        public static void SetDialogColor(IHTMLDiv toolbar, Color toolbar_color, bool up)
+        {
+
+
+            if (up)
+            {
+                toolbar.style.backgroundColor = toolbar_color;
+
+                var toolbar_color_light = toolbar_color.AddLum(+20);
+                var toolbar_color_shadow = toolbar_color.AddLum(-20);
+
+                toolbar.style.borderLeft = "1px solid " + toolbar_color_light;
+                toolbar.style.borderTop = "1px solid " + toolbar_color_light;
+                toolbar.style.borderRight = "1px solid " + toolbar_color_shadow;
+                toolbar.style.borderBottom = "1px solid " + toolbar_color_shadow;
+                toolbar.style.backgroundPosition = "0px 0px";
+            }
+            else
+            {
+                toolbar.style.backgroundColor = toolbar_color.AddLum(+15);
+
+                var toolbar_color_light = toolbar_color.AddLum(+20 + 15);
+                var toolbar_color_shadow = toolbar_color.AddLum(-20 + 15);
+
+                toolbar.style.borderLeft = "1px solid " + toolbar_color_shadow;
+                toolbar.style.borderTop = "1px solid " + toolbar_color_shadow;
+                toolbar.style.borderRight = "1px solid " + toolbar_color_light;
+                toolbar.style.borderBottom = "1px solid " + toolbar_color_light;
+                toolbar.style.backgroundPosition = "1px 1px";
+            }
+
+        }
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            #region TheServer
+            #region AtFormCreated
+            FormStyler.AtFormCreated =
+                 s =>
+                 {
+                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                     var x = new AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                 };
+            #endregion
+
+
+
+            #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
             object self_chrome_socket = self_chrome.socket;
@@ -45,14 +112,17 @@ namespace com.abstractatech.gamification.craft
             {
                 chrome.Notification.DefaultTitle = "Craft";
                 chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
-                ChromeTCPServer.TheServer.Invoke(
-                    AppSource.Text
-                );
 
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
+                );
 
                 return;
             }
             #endregion
+
+
 
 
 

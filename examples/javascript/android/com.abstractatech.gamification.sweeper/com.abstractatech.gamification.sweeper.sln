@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.gamification.sweeper", "com.abstractatech.gamification.sweeper\com.abstractatech.gamification.sweeper.csproj", "{BB946822-D306-4488-8F29-349E1687D2D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassicMinesweeper", "..\..\ClassicMinesweeper\ClassicMinesweeper\ClassicMinesweeper.csproj", "{D86318AB-4D84-4F15-96AC-3A2956FF8165}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{426DB413-0290-4062-84ED-2F78A7BE549F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,5 +26,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D86318AB-4D84-4F15-96AC-3A2956FF8165} = {426DB413-0290-4062-84ED-2F78A7BE549F}
 	EndGlobalSection
 EndGlobal

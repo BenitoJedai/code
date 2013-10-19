@@ -1,8 +1,8 @@
 
 {
 "manifest_version": 2,
-  "name": "Craft",
-  "description": "Craft",
+  "name": "Minesweeper",
+  "description": "Minesweeper",
   "version": "12",
  "minimum_chrome_version": "32",
   "offline_enabled": true,
@@ -15,8 +15,7 @@
     }
   },
   "icons": {
-    "128": "Preview128.png"
-
+		"128": "assets/com.abstractatech.gamification.sweeper/Preview.png"
   },
   
 

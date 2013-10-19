@@ -28,8 +28,27 @@ namespace McKrackenFirstRoom
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page)
+        public Application(IApp page)
         {
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                chrome.Notification.DefaultTitle = "McKrackenFirstRoom";
+
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text
+                );
+
+                return;
+            }
+            #endregion
+
             // why does it activate in float mode?
             // shake should make it go away?
             //global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
@@ -92,7 +111,7 @@ namespace McKrackenFirstRoom
                 }
             ).StartTimeout(2000);
 
-            
+
             new NatureBoy.js.Class5().Control.style.SetLocation(0, 0);
 
 
