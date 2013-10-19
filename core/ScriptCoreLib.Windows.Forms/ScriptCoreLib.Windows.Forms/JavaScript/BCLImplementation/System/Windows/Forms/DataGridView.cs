@@ -105,7 +105,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         var item = this.InternalSelectedCells.InternalItems[_e.NewIndex];
 
-                        item.InternalContentContainer.style.backgroundColor = JSColor.System.Highlight;
+                        //item.InternalContentContainer.style.backgroundColor = JSColor.System.Highlight;
+
+                        var SelectionBackColor = this.DefaultCellStyle.SelectionBackColor;
+
+                        item.InternalContentContainer.style.backgroundColor = SelectionBackColor.ToString();
                         item.InternalContentContainer.style.color = JSColor.System.HighlightText;
                     }
 
@@ -388,6 +392,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalTableColumn.style.backgroundColor = JSColor.System.Window;
 
                     // this wont work if we have multiple datagrids
+                    // can we have a test for it?
                     SourceCell.InternalContentContainer = new IHTMLDiv { }.AttachTo(SourceCell.InternalTableColumn);
                     SourceCell.InternalContentContainer.tabIndex = (((SourceRow.Index + 1) << 16) + (SourceCell.ColumnIndex + 1));
 
@@ -399,6 +404,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.style.font = DefaultFont.ToCssString();
 
                     SourceCell.InternalTableColumn.style.borderBottom = "1px solid gray";
+
+
+                    if (SourceRow.Index % 2 == 1)
+                        if (this.AlternatingRowsDefaultCellStyle != null)
+                        {
+                            // tested by
+                            // X:\jsc.svn\examples\javascript\forms\FormsDataGridRowSelect\FormsDataGridRowSelect\ApplicationControl.cs
+
+                            var BackColor = this.AlternatingRowsDefaultCellStyle.BackColor;
+                            SourceCell.InternalStyle.InternalBackColor = BackColor;
+                        }
 
 
                     #region AtInternalWidthChanged
@@ -722,7 +738,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             ev.stopPropagation();
                             ev.preventDefault();
 
+                            if (this.CellDoubleClick != null)
+                                this.CellDoubleClick(
+                                    this, new DataGridViewCellEventArgs(SourceColumn.Index, SourceRow.Index)
+                                );
+
                             EnterEditMode();
+
+
                         };
                     #endregion
 
@@ -896,16 +919,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             SourceCell.InternalSelected = true;
 
-                            ev.PreventDefault();
-                            ev.StopPropagation();
+                            ev.preventDefault();
+                            ev.stopPropagation();
 
 
                             if (this.CellEnter != null)
-                                this.CellEnter(this, new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index));
+                                this.CellEnter(
+                                    this,
+                                    new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
+                                );
 
+                            {
+                                var NewSelectedCell = SourceCell;
 
-                            if (!this.InternalSelectedCells.Contains(SourceCell))
-                                this.InternalSelectedCells.Add(SourceCell);
+                                if (!this.InternalSelectedCells.Contains(NewSelectedCell))
+                                    this.InternalSelectedCells.Add(NewSelectedCell);
+                            }
+
+                            if (this.SelectionMode == DataGridViewSelectionMode.FullRowSelect)
+                            {
+                                // tested by
+                                // X:\jsc.svn\examples\javascript\forms\FormsDataGridRowSelect\FormsDataGridRowSelect\ApplicationControl.cs
+
+                                foreach (var NewSelectedCell in SourceRow.InternalCells.InternalItems)
+                                {
+
+                                    if (!this.InternalSelectedCells.Contains(NewSelectedCell))
+                                        this.InternalSelectedCells.Add(NewSelectedCell);
+                                }
+
+                            }
 
                         };
                     #endregion
@@ -934,6 +977,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                     SourceCell.InternalContentContainer.style.backgroundColor = SourceCell.InternalStyle.InternalBackColor.ToString();
+
 
                     if (SourceCell.InternalStyle.Alignment == DataGridViewContentAlignment.MiddleRight)
                         SourceCell.InternalContentContainer.style.textAlign = IStyle.TextAlignEnum.right;
@@ -1812,5 +1856,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_BorderStyle(System.Windows.Forms.BorderStyle)]
 
         public BorderStyle BorderStyle { get; set; }
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_ColumnHeadersBorderStyle(System.Windows.Forms.DataGridViewHeaderBorderStyle)]
+
+        public DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle { get; set; }
     }
 }

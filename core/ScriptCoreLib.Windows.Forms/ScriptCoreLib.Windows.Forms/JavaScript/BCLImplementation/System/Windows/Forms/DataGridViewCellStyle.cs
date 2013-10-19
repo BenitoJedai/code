@@ -69,6 +69,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.InternalForeColor = SystemColors.WindowText;
             this.InternalBackColor = SystemColors.Window;
+
+            this.SelectionBackColor = SystemColors.Highlight;
         }
 
 
