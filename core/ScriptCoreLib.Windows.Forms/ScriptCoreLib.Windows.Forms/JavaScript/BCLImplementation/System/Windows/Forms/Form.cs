@@ -720,6 +720,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 Caption = Caption,
                 CaptionContent = CaptionContent,
+                CaptionShadow = CaptionShadow,
 
                 CloseButton = InternalCloseButton,
                 CloseButtonContent = InternalCloseButtonContent,

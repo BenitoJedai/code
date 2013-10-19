@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
         public IHTMLDiv Caption;
         public IHTMLDiv CaptionContent;
+        public IHTMLDiv CaptionShadow;
 
         public IHTMLDiv TargetOuterBorder;
         public IHTMLDiv TargetInnerBorder;

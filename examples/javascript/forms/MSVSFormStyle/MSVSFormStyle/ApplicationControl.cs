@@ -43,5 +43,10 @@ namespace MSVSFormStyle
 
         }
 
+        private void button10_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
     }
 }

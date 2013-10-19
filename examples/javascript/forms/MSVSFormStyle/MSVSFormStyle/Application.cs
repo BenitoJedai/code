@@ -163,6 +163,38 @@ namespace MSVSFormStyle
              };
 
 
+            content.button10.Click +=
+                 delegate
+                 {
+                     FormStyler.AtFormCreated = s =>
+                     {
+                         // border> 8E9BBC
+                         // caption 4D6082
+
+                         s.TargetOuterBorder.style.boxShadow = "rgba(0, 0, 0, 0.2) 0px 0px 6px 0px";
+                         s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(142, 155, 188);
+
+                         s.TargetInnerBorder.style.borderWidth = "0px";
+
+                         s.CloseButton.style.color = JSColor.FromRGB(206, 212, 221);
+                         s.CloseButton.style.backgroundColor = JSColor.None;
+                         s.CloseButton.style.borderWidth = "0px";
+                         s.CloseButtonContent.style.borderWidth = "0px";
+
+                         s.TargetResizerPadding.style.left = "0px";
+                         s.TargetResizerPadding.style.top = "0px";
+                         s.TargetResizerPadding.style.right = "0px";
+                         s.TargetResizerPadding.style.bottom = "0px";
+
+                         s.Caption.style.backgroundColor = JSColor.FromRGB(77, 96, 130);
+                         s.CaptionShadow.style.backgroundColor = JSColor.FromRGB(77, 96, 130);
+                     };
+
+                     new Form1().PopupInsteadOfClosing(HandleFormClosing: false).Show();
+                 };
+
+
+
             content.AttachControlTo(Native.document.body);
 
             //content.AttachControlTo(page.Content);
