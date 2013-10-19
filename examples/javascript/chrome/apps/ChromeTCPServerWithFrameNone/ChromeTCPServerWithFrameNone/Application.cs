@@ -27,39 +27,42 @@ namespace ChromeTCPServer
         public static void Invoke(
             string AppSource,
             int DefaultWidth = 640,
-            int DefaultHeight = 480
+            int DefaultHeight = 480,
+            Action<FormStyler> AtFormCreated = null
             )
         {
+            #region  AtFormCreated
+            if (AtFormCreated == null)
+                AtFormCreated = AtFormCreated = s =>
+                {
+                    // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
+                    // X:\jsc.internal.svn\core\com.abstractatech.web\com.abstractatech.web\Domains\discover.xavalon.net\discover_xavalon_net.cs
+
+                    // browser popup will use this color
+                    ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(0, 0, 0);
+
+                    s.Caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0);
+                    s.TargetOuterBorder.style.boxShadow = "rgba(0, 0, 0, 0.3) 0px 0px 6px 3px";
+                    s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(0, 0, 0);
+
+                    s.TargetInnerBorder.style.borderWidth = "0px";
+
+                    s.CloseButton.style.color = JSColor.White;
+                    s.CloseButton.style.backgroundColor = JSColor.None;
+                    s.CloseButton.style.borderWidth = "0px";
+                    s.CloseButtonContent.style.borderWidth = "0px";
+
+                    s.TargetResizerPadding.style.left = "0px";
+                    s.TargetResizerPadding.style.top = "0px";
+                    s.TargetResizerPadding.style.right = "0px";
+                    s.TargetResizerPadding.style.bottom = "0px";
+
+                };
 
 
-
-            #region FormStyler
-            FormStyler.AtFormCreated = s =>
-            {
-                // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
-                // X:\jsc.internal.svn\core\com.abstractatech.web\com.abstractatech.web\Domains\discover.xavalon.net\discover_xavalon_net.cs
-
-                // browser popup will use this color
-                ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(0, 0, 0);
-
-                s.Caption.style.backgroundColor = JSColor.FromRGB(0, 0, 0);
-                s.TargetOuterBorder.style.boxShadow = "rgba(0, 0, 0, 0.3) 0px 0px 6px 3px";
-                s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(0, 0, 0);
-
-                s.TargetInnerBorder.style.borderWidth = "0px";
-
-                s.CloseButton.style.color = JSColor.White;
-                s.CloseButton.style.backgroundColor = JSColor.None;
-                s.CloseButton.style.borderWidth = "0px";
-                s.CloseButtonContent.style.borderWidth = "0px";
-
-                s.TargetResizerPadding.style.left = "0px";
-                s.TargetResizerPadding.style.top = "0px";
-                s.TargetResizerPadding.style.right = "0px";
-                s.TargetResizerPadding.style.bottom = "0px";
-
-            };
+            FormStyler.AtFormCreated = AtFormCreated;
             #endregion
+
 
 
 

@@ -80,6 +80,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             //Console.WriteLine("__DataGridView");
 
+            this.DefaultCellStyle = new DataGridViewCellStyle();
+
+
             this.InternalColumns = new __DataGridViewColumnCollection();
             this.Columns = (DataGridViewColumnCollection)(object)this.InternalColumns;
 
@@ -105,11 +108,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         var item = this.InternalSelectedCells.InternalItems[_e.NewIndex];
 
-                        //item.InternalContentContainer.style.backgroundColor = JSColor.System.Highlight;
-
+                        // when is this null?
+                        //if (this.DefaultCellStyle == null)
+                        //{
+                        //    item.InternalContentContainer.style.backgroundColor = JSColor.System.Highlight;
+                        //}
+                        //else
+                        //{
                         var SelectionBackColor = this.DefaultCellStyle.SelectionBackColor;
 
                         item.InternalContentContainer.style.backgroundColor = SelectionBackColor.ToString();
+                        //}
                         item.InternalContentContainer.style.color = JSColor.System.HighlightText;
                     }
 
