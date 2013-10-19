@@ -22,50 +22,57 @@ namespace NatureBoy.js
         const string ZakAssets = "assets/NatureBoy/zak";
         const string ZakSprites = "assets/NatureBoy/zak/sprites";
 
-        static IHTMLImage[] __Images =
-            new IHTMLImage[]
+        static IHTMLImage[] __Images
+        {
+            get
             {
-                new McKrackenFirstRoom.HTML.Images.FromAssets._114(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._115(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._116(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._117(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._118(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._119(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._120(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._121(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._122(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._123(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._124(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._125(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._126(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._127(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._128(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._129(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._130(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._131(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._132(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._133(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._134(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._135(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._136(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._137(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._138(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._139(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._140(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._141(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._142(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._143(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._144(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._145(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._146(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._147(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._148(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._149(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._150(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._151(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._152(),
-                new McKrackenFirstRoom.HTML.Images.FromAssets._153(),
-            };
+                return
+                    new IHTMLImage[]
+                    {
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._114(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._115(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._116(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._117(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._118(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._119(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._120(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._121(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._122(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._123(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._124(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._125(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._126(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._127(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._128(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._129(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._130(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._131(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._132(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._133(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._134(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._135(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._136(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._137(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._138(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._139(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._140(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._141(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._142(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._143(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._144(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._145(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._146(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._147(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._148(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._149(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._150(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._151(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._152(),
+                        new McKrackenFirstRoom.HTML.Images.FromAssets._153(),
+                    };
+            }
+        }
+
 
         #region Wolf Soldier
 
@@ -108,10 +115,14 @@ namespace NatureBoy.js
 
         #endregion
 
-        public static readonly Zak.Document DefaultData =
-            new Zak.Document
+        public static Zak.Document DefaultData
+        {
+            get
             {
-                Images = new[]
+                return
+                new Zak.Document
+                {
+                    Images = new[]
                 {
                     new Zak.ImageRef { Name = "empty", Source = new McKrackenFirstRoom.HTML.Images.FromAssets.empty().src },
                     new Zak.ImageRef { Name = "r1", Source = new McKrackenFirstRoom.HTML.Images.FromAssets.r1().src  },
@@ -119,17 +130,17 @@ namespace NatureBoy.js
                     new Zak.ImageRef { Name = "clock_left", Source =new McKrackenFirstRoom.HTML.Images.FromAssets.clock_left().src  },
                     new Zak.ImageRef { Name = "clock_right", Source =new McKrackenFirstRoom.HTML.Images.FromAssets.clock_right().src  }
                 }
-                .Concat(LoadWolfSoldierStand())
-                .Concat(LoadWolfSoldierWalk().SelectMany())
-                .ToArray(),
-                ViewPortSize = new Zak.Point
-                {
-                    X = "" + 320,
-                    Y = "" + 128
-                },
-                ViewPortZoom = "" + 2d,
-                BackgroundImageName = "r1",
-                Items = new[]
+                    .Concat(LoadWolfSoldierStand())
+                    .Concat(LoadWolfSoldierWalk().SelectMany())
+                    .ToArray(),
+                    ViewPortSize = new Zak.Point
+                    {
+                        X = "" + 320,
+                        Y = "" + 128
+                    },
+                    ViewPortZoom = "" + 2d,
+                    BackgroundImageName = "r1",
+                    Items = new[]
                 {
                     new Zak.ItemRef 
                     {
@@ -139,9 +150,9 @@ namespace NatureBoy.js
                         Position = new Zak.Point { X = "" + 128, Y = "" + 43 }
                     }
                 },
-                EntryPoint = new Zak.Point { X = "" + 222, Y = "" + 117 },
-                WalkArea =
-                    new[] {
+                    EntryPoint = new Zak.Point { X = "" + 222, Y = "" + 117 },
+                    WalkArea =
+                        new[] {
                         new Zak.Rect(141, 106, 296, 130)
                         ,
                         new Zak.Rect { 
@@ -153,7 +164,9 @@ namespace NatureBoy.js
                             To = new Zak.Point { X = "" + 175, Y = "" + 104 }
                         },
                     }
-            };
+                };
+            }
+        }
     }
 
 
@@ -458,8 +471,8 @@ namespace NatureBoy.js
                             }
                         };
 
-              
-                    
+
+
 
                     c.innerHTML = "done!";
 

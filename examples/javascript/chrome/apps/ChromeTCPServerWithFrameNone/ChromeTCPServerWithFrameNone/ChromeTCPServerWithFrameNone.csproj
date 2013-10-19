@@ -138,6 +138,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\AppWindowDrag.htm" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="staging\ChromeTCPServerWithFrameNone.Application\web\manifest.json">

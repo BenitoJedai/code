@@ -19,6 +19,7 @@ using ThreeDStuff.js;
 
 // android will use servers name for package id
 using com.abstractatech.gamification.lbapp;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 
 
 // server will look at the first app and then try to find a preview from assets
@@ -35,8 +36,39 @@ namespace LBAPrequelPromotion
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault page)
+        public Application(IApp page)
         {
+            #region AtFormCreated
+            FormStyler.AtFormCreated =
+                 s =>
+                 {
+                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                 };
+            #endregion
+
+
+
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultTitle = "LBA Redux";
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
+                );
+
+                return;
+            }
+            #endregion
+
             // https://docs.google.com/a/jsc-solutions.net/spreadsheet/ccc?key=0AjBm0oHdZ3DwdFhMb2UxVnBYUnNnUE16LUNiUzJJSVE#gid=0
             //<iframe src="https://docs.google.com/a/jsc-solutions.net/spreadsheet/embeddedform?formkey=dFhMb2UxVnBYUnNnUE16LUNiUzJJSVE6MQ" width="760" height="692" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 

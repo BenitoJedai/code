@@ -29,6 +29,27 @@ namespace com.abstractatech.gamification.sweeper
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                chrome.Notification.DefaultTitle = "Minesweeper";
+
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.LikeWindows3
+                );
+
+                return;
+            }
+            #endregion
+
+
             "Minesweeper".ToDocumentTitle();
 
             Action Dispose = delegate { };
