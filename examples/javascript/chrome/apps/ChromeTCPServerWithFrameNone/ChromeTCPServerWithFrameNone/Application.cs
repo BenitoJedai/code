@@ -197,7 +197,10 @@ namespace ChromeTCPServerWithFrameNone
                                                 appwindow.contentWindow.document.body.parentNode
                                             );
 
-                                            yield();
+                                            // no fade in thanks
+                                            yield(false);
+
+
                                             //Console.WriteLine("appwindow contentWindow onload done");
                                         };
                                    #endregion
