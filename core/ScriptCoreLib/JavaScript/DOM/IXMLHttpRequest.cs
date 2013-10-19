@@ -191,7 +191,12 @@ namespace ScriptCoreLib.JavaScript.DOM
                 this.InvokeOnComplete(
                     delegate
                     {
-                        var response = (byte[])new Uint8ClampedArray((ArrayBuffer)this.response);
+                        var response = default(byte[]);
+
+                        if (this.response != null)
+                        {
+                            response = (byte[])new Uint8ClampedArray((ArrayBuffer)this.response);
+                        }
 
                         y.SetResult(response);
 

@@ -31,22 +31,6 @@ namespace IsometricTycoonViewWithToolbar
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page)
         {
-            #region TheServer
-            dynamic self = Native.self;
-            dynamic self_chrome = self.chrome;
-            object self_chrome_socket = self_chrome.socket;
-
-            if (self_chrome_socket != null)
-            {
-                chrome.Notification.DefaultTitle = "IsometricTycoonViewWithToolbar";
-                ChromeTCPServer.TheServer.Invoke(
-                    DefaultSource.Text
-                );
-
-
-                return;
-            }
-            #endregion
 
             #region AtFormCreated
             FormStyler.AtFormCreated =
@@ -89,6 +73,26 @@ namespace IsometricTycoonViewWithToolbar
                      //FormStyler.LikeVisualStudioMetro(s);
                  };
             #endregion
+
+
+            #region TheServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultTitle = "IsometricTycoonViewWithToolbar";
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    DefaultSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
+                );
+
+
+                return;
+            }
+            #endregion
+
 
             global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 

@@ -264,6 +264,18 @@ namespace ChromeTCPServer
                 //    CachedFiles[asset] = xbytes;
                 //}
 
+
+                if (xbytes == null)
+                {
+                    var outputString = "HTTP/1.0 404 go away\r\nConnection: close\r\n\r\n";
+
+                    var bytes = Encoding.UTF8.GetBytes(outputString);
+                    //var xx = new Uint8ClampedArray(bytes);
+                    WriteBytes(bytes);
+                    WriteBytes(null);
+                    return;
+                }
+
                 Console.WriteLine(new { asset, xbytes.Length, Thread.CurrentThread.ManagedThreadId } + " after bytes");
                 //nn.Title = "after bytes";
 
@@ -579,7 +591,9 @@ namespace ChromeTCPServer
                         await xxx;
                     }
 
+                    // https://code.google.com/p/chromium/issues/detail?id=170595
                     Console.WriteLine("accept exit " + new { accept.socketId, HandlerStopwatch.ElapsedMilliseconds });
+                    accept.socketId.disconnect();
                     accept.socketId.destroy();
                 };
             #endregion
