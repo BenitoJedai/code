@@ -45,7 +45,7 @@ namespace ChromeTCPDataGrid
             if (self_chrome_socket != null)
             {
                 //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
-                //chrome.Notification.DefaultTitle = "FlashTowerDefense for Galaxy Note";
+                chrome.Notification.DefaultTitle = "ChromeTCPDataGrid";
 
 
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(

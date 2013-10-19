@@ -6,7 +6,7 @@ using MySystemColors = ScriptCoreLib.Shared.Drawing.Color.System;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
 {
-    
+
 
     [Script(Implements = typeof(global::System.Drawing.SystemColors))]
     internal class __SystemColors
@@ -23,44 +23,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
 
             // http://www.w3.org/TR/css3-color/#css2-system
 
-            __SystemColors.ActiveBorder = Get( MySystemColors.ActiveBorder );
-            __SystemColors.ActiveCaption = Get( MySystemColors.ActiveCaption );
-            __SystemColors.ActiveCaptionText = Get( MySystemColors.CaptionText );
-            __SystemColors.AppWorkspace = Get( MySystemColors.AppWorkspace );
-            __SystemColors.ButtonFace = Get( MySystemColors.ButtonFace );
-            __SystemColors.ButtonHighlight = Get( MySystemColors.ButtonHighlight );
-            __SystemColors.ButtonShadow = Get( MySystemColors.ButtonShadow );
-            __SystemColors.Control = Get( MySystemColors.ThreeDFace );
-            __SystemColors.ControlDark = Get( MySystemColors.ThreeDShadow );
-            __SystemColors.ControlDarkDark = Get( MySystemColors.ThreeDDarkShadow);
-            __SystemColors.ControlLight = Get( MySystemColors.ThreeDLightShadow );
-            __SystemColors.ControlLightLight = Get( MySystemColors.ThreeDHighlight );
-            __SystemColors.ControlText = Get( MySystemColors.ButtonText );
-            __SystemColors.Desktop = Get( MySystemColors.Background );
+            __SystemColors.ActiveBorder = Get(MySystemColors.ActiveBorder);
+            __SystemColors.ActiveCaption = Get(MySystemColors.ActiveCaption);
+            __SystemColors.ActiveCaptionText = Get(MySystemColors.CaptionText);
+            //__SystemColors.AppWorkspace = Get(MySystemColors.AppWorkspace);
+            __SystemColors.ButtonFace = Get(MySystemColors.ButtonFace);
+            __SystemColors.ButtonHighlight = Get(MySystemColors.ButtonHighlight);
+            __SystemColors.ButtonShadow = Get(MySystemColors.ButtonShadow);
+            __SystemColors.Control = Get(MySystemColors.ThreeDFace);
+            __SystemColors.ControlDark = Get(MySystemColors.ThreeDShadow);
+            __SystemColors.ControlDarkDark = Get(MySystemColors.ThreeDDarkShadow);
+            __SystemColors.ControlLight = Get(MySystemColors.ThreeDLightShadow);
+            __SystemColors.ControlLightLight = Get(MySystemColors.ThreeDHighlight);
+            __SystemColors.ControlText = Get(MySystemColors.ButtonText);
+            __SystemColors.Desktop = Get(MySystemColors.Background);
             //__SystemColors.GradientActiveCaption = Get( MySystemColors.GradientActiveCaption );
             //__SystemColors.GradientInactiveCaption = Get( MySystemColors.GradientInactiveCaption );
-            __SystemColors.GrayText = Get( MySystemColors.GrayText );
-            __SystemColors.Highlight = Get( MySystemColors.Highlight );
-            __SystemColors.HighlightText = Get( MySystemColors.HighlightText );
+            __SystemColors.GrayText = Get(MySystemColors.GrayText);
+            __SystemColors.Highlight = Get(MySystemColors.Highlight);
+            __SystemColors.HighlightText = Get(MySystemColors.HighlightText);
             //__SystemColors.HotTrack = Get( MySystemColors.HotTrack );
-            __SystemColors.InactiveBorder = Get( MySystemColors.InactiveBorder );
-            __SystemColors.InactiveCaption = Get( MySystemColors.InactiveCaption );
-            __SystemColors.InactiveCaptionText = Get( MySystemColors.InactiveCaptionText );
-            __SystemColors.Info = Get( MySystemColors.InfoBackground );
-            __SystemColors.InfoText = Get( MySystemColors.InfoText );
-            __SystemColors.Menu = Get( MySystemColors.Menu );
+            __SystemColors.InactiveBorder = Get(MySystemColors.InactiveBorder);
+            __SystemColors.InactiveCaption = Get(MySystemColors.InactiveCaption);
+            __SystemColors.InactiveCaptionText = Get(MySystemColors.InactiveCaptionText);
+            __SystemColors.Info = Get(MySystemColors.InfoBackground);
+            __SystemColors.InfoText = Get(MySystemColors.InfoText);
+            __SystemColors.Menu = Get(MySystemColors.Menu);
             //__SystemColors.MenuBar = Get( MySystemColors.MenuBar );
             //__SystemColors.MenuHighlight = Get( MySystemColors.MenuHighlight );
-            __SystemColors.MenuText = Get( MySystemColors.MenuText );
-            __SystemColors.ScrollBar = Get( MySystemColors.Scrollbar );
-            __SystemColors.Window = Get( MySystemColors.Window );
-            __SystemColors.WindowFrame = Get( MySystemColors.WindowFrame );
-            __SystemColors.WindowText = Get( MySystemColors.WindowText );
+            __SystemColors.MenuText = Get(MySystemColors.MenuText);
+            __SystemColors.ScrollBar = Get(MySystemColors.Scrollbar);
+            __SystemColors.Window = Get(MySystemColors.Window);
+            __SystemColors.WindowFrame = Get(MySystemColors.WindowFrame);
+            __SystemColors.WindowText = Get(MySystemColors.WindowText);
         }
 
 
 
-      // Summary:
+        // Summary:
         //     Gets a System.Drawing.Color structure that is the color of the active window's
         //     border.
         //
@@ -91,7 +91,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         //
         // Returns:
         //     A System.Drawing.Color that is the color of the application workspace.
-        public static __Color AppWorkspace { get; private set; }
+        public static __Color AppWorkspace
+        {
+            get
+            {
+                // chrome app
+                // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPDataGrid\ChromeTCPDataGrid\ApplicationControl.cs
+
+                return new __Color
+                {
+                    Value = Shared.Drawing.Color.FromGray(0x9f)
+                };
+            }
+        }
         //
         // Summary:
         //     Gets a System.Drawing.Color structure that is the face color of a 3-D element.
