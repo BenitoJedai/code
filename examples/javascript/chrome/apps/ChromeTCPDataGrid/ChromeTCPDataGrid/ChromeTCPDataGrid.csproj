@@ -39,6 +39,9 @@
     <Reference Include="Chrome Web Server">
       <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
     </Reference>
+    <Reference Include="Chrome Web Server Styled Form">
+      <HintPath>..\packages\Chrome.Web.Server.StyledForm.1.0.0.0\lib\Chrome Web Server Styled Form.dll</HintPath>
+    </Reference>
     <Reference Include="Chrome Web Store">
       <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
     </Reference>
@@ -149,6 +152,9 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
     <None Include="packages.config" />
+    <None Include="staging\ChromeTCPDataGrid.Application\web\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">

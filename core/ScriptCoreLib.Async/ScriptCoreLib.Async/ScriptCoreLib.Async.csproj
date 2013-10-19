@@ -121,6 +121,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\FormAsyncExtensions.cs" />
     <Compile Include="Extensions\TaskAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\HistoryExtensions.cs" />
     <Compile Include="JavaScript\DOM\HistoyAsyncExtensions.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="JavaScript\DOM\WorkerAsyncExtensions.cs" />
     <Compile Include="JavaScript\Experimental\X.cs" />
     <Compile Include="JavaScript\Extensions\AsyncJavaScriptStringExtensions.cs" />
+    <Compile Include="JavaScript\HistoricAttribute.cs" />
     <Compile Include="Lambda\Int32AsyncExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />

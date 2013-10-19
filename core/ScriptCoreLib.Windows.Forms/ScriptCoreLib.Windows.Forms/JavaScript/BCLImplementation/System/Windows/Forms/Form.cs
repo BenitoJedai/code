@@ -1264,6 +1264,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             Native.window.onresize += onresize;
 
+                            InternalClientSizeChanged();
+
                             //Console.WriteLine("set_WindowState requestFullscreen");
                             //Native.Document.body.requestFullscreen();
 
