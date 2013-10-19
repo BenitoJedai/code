@@ -37,14 +37,30 @@ namespace ChromeTCPDataGrid
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                //chrome.Notification.DefaultTitle = "FlashTowerDefense for Galaxy Note";
+
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text
+                    //,
+                    //ApplicationSprite.DefaultWidth,
+                    //ApplicationSprite.DefaultHeight
+                );
+
+                return;
+            }
+            #endregion
+
             content.AttachControlTo(page.Content);
             content.AutoSizeControlTo(page.ContentSize);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
         }
 
     }

@@ -329,13 +329,38 @@ namespace ChromeTCPServer
         }
 
         public static void Invoke(
+             string PageSource,
+             Action<string> open = null
+             )
+        {
+            if (open == null)
+                open = (u) => Native.window.open(u);
+
+            InvokeAsync(PageSource,
+                uri =>
+                {
+
+
+                    open(uri);
+
+                    // dont know when we close our uri activity
+                    var x = new TaskCompletionSource<object>();
+                    return x.Task;
+                }
+            );
+
+
+
+
+        }
+
+        public static void InvokeAsync(
             string PageSource,
-            Action<string> open = null
+            Func<string, Task> open
             )
         {
 
-            if (open == null)
-                open = (u) => Native.window.open(u);
+
 
             // https://code.google.com/p/chromium/issues/detail?id=179940
             // https://github.com/GoogleChrome/chrome-app-samples/blob/master/websocket-server/http.js
@@ -614,12 +639,6 @@ namespace ChromeTCPServer
                    if (listen >= 0)
                    {
 
-                       var nn = new Notification
-                       {
-                           //Message = new { uri }.ToString(),
-                           Message = uri,
-                       };
-
 
                        #region advertise
                        Action advertise = delegate
@@ -653,21 +672,40 @@ namespace ChromeTCPServer
                        #endregion
 
 
+                       Action ShowUri = null;
 
-                       nn.Clicked +=
-                           delegate
+
+                       ShowUri = delegate
+                       {
+                           var nn = new Notification
                            {
-                               advertise();
-
-                               open(uri);
+                               //Message = new { uri }.ToString(),
+                               Message = uri,
                            };
 
+                           nn.Clicked +=
+                               async delegate
+                               {
+                                   advertise();
+
+                                   await open(uri);
+
+                                   ShowUri();
+                               };
+                       };
+
+                       ShowUri();
+
+
+
                        chrome.app.runtime.Launched +=
-                            delegate
+                            async delegate
                             {
                                 advertise();
 
-                                open(uri);
+                                await open(uri);
+
+                                ShowUri();
                             };
 
 

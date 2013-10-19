@@ -41,7 +41,7 @@ namespace FlashTowerDefenseApp
             if (self_chrome_socket != null)
             {
                 chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
-                chrome.Notification.DefaultTitle = "FlashTowerDefenseApp";
+                chrome.Notification.DefaultTitle = "FlashTowerDefense for Galaxy Note";
 
 
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
