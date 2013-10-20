@@ -62,6 +62,44 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             //   [SameObject, PutForwards=cssText] readonly attribute CSSStyleDeclaration style;
             public readonly CSSStyleDeclaration style;
+
+            static int __style_id = 0;
+
+            [Obsolete("experimental")]
+            public CSSStyleRule stylerule
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    return IStyleSheet.Default[InternalGetExplicitRuleSelector()];
+                }
+            }
+
+            [Script(DefineAsStatic = true)]
+            internal string InternalGetExplicitRuleSelector()
+            {
+                //      page.Header.setAttribute("style-id", "45");
+                //IStyleSheet.Default[CSSMediaTypes.print][
+                //    //"#" + page.Header.id
+                //    "[style-id='45']"
+
+
+
+                var x = (string)this.getAttribute("style-id");
+
+                if (string.IsNullOrEmpty(x))
+                {
+                    x = "" + __style_id;
+
+                    __style_id++;
+                }
+
+                this.setAttribute("style-id", x);
+
+
+
+                return "[style-id='" + x + "']";
+            }
         }
     }
 
@@ -73,22 +111,54 @@ namespace ScriptCoreLib.JavaScript.DOM
         // CSSStyleDeclaration
         public CSSStyleDeclaration style;
 
-        // pseudos
+
+        [Obsolete("experimental")]
+        public CSSStyleRule print
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\Test\TestInteractiveStyleRule\TestInteractiveStyleRule\Application.cs
+
+                return this.parentStyleSheet[CSSMediaTypes.print][this.selectorText];
+            }
+        }
+
+
+        #region pseudo-classes
+        // http://www.w3.org/TR/CSS2/selector.html
+        public CSSStyleRule this[string pseudoSelector]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var x = selectorText + pseudoSelector;
+                var p = this.parentRule;
+                if (p != null)
+                    if (p.type == CSSRuleTypes.MEDIA_RULE)
+                        return ((CSSMediaRule)p)[x];
+
+
+                return this.parentStyleSheet[x];
+            }
+        }
+
+        public CSSStyleRule hover
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":hover"];
+            }
+        }
 
         public CSSStyleRule before
         {
             [Script(DefineAsStatic = true)]
             get
             {
-                var p = this.parentRule;
-                if (p != null)
-                    if (p.type == CSSRuleTypes.MEDIA_RULE)
-                    {
-                        return ((CSSMediaRule)p)[selectorText + ":before"];
-
-                    }
-
-                return this.parentStyleSheet[selectorText + ":before"];
+                return this[":before"];
             }
         }
 
@@ -97,7 +167,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
-                return this.parentStyleSheet[selectorText + ":after"];
+                return this[":after"];
             }
         }
 
@@ -106,10 +176,29 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
-                return this.parentStyleSheet[selectorText + ":empty"];
+                return this[":emprty"];
             }
         }
 
+        public CSSStyleRule visited
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":visited"];
+            }
+        }
+
+
+        public CSSStyleRule link
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":link"];
+            }
+        }
+        #endregion
 
         //{ cssText =  } 
         //public string cssText;
@@ -154,34 +243,16 @@ namespace ScriptCoreLib.JavaScript.DOM
             return default(long);
         }
 
-        static int __style_id = 0;
 
         public CSSStyleRule this[IHTMLElement e]
         {
             [Script(DefineAsStatic = true)]
             get
             {
-                //      page.Header.setAttribute("style-id", "45");
-                //IStyleSheet.Default[CSSMediaTypes.print][
-                //    //"#" + page.Header.id
-                //    "[style-id='45']"
-
-                var x = (string)e.getAttribute("style-id");
-
-                if (string.IsNullOrEmpty(x))
-                {
-                    x = "" + __style_id;
-
-                    __style_id++;
-                }
-
-                e.setAttribute("style-id", x);
-
-
-                return this["[style-id='" + x + "']"];
-
+                return this[e.InternalGetExplicitRuleSelector()];
             }
         }
+
         public CSSStyleRule this[string selectorText]
         {
             [Script(DefineAsStatic = true)]
@@ -344,6 +415,15 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+
+        public CSSStyleRule this[IHTMLElement e]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[e.InternalGetExplicitRuleSelector()];
+            }
+        }
 
         public CSSStyleRule this[string selectorText]
         {

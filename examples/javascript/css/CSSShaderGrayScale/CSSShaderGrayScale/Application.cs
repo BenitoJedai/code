@@ -44,7 +44,7 @@ namespace CSSShaderGrayScale
             }
 
             {
-                var CLRForm_hover = IStyleSheet.Default["." + className + ":hover"];
+                var CLRForm_hover = IStyleSheet.Default["." + className].hover;
                 dynamic CLRForm_hover_style = CLRForm_hover.style;
 
                 // new __grayscaleFragmentShader { amount = 0 };
@@ -95,26 +95,21 @@ namespace CSSShaderGrayScale
                 f.Text = "CSS filter shader";
 
                 #region WhileDragging
-
-
-                Action WhileDragging = null;
-
-                WhileDragging = delegate
-                {
-                    if (f.Capture)
+                Native.window.requestAnimationFrame +=
+                    delegate
                     {
-                        f.GetHTMLTarget().className = "";
-                        f.Text = "CSS filter shader (dragging)";
-                    }
-                    else
-                    {
-                        f.GetHTMLTarget().className = "CLRForm";
-                        f.Text = "CSS filter shader";
+                        if (f.Capture)
+                        {
+                            f.GetHTMLTarget().className = "";
+                            f.Text = "CSS filter shader (dragging)";
+                        }
+                        else
+                        {
+                            f.GetHTMLTarget().className = "CLRForm";
+                            f.Text = "CSS filter shader";
 
-                    }
-                    Native.window.requestAnimationFrame += WhileDragging;
-                };
-                Native.window.requestAnimationFrame += WhileDragging;
+                        }
+                    };
                 #endregion
 
                 var i = new WebBrowser
