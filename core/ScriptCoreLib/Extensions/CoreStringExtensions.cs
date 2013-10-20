@@ -10,6 +10,20 @@ namespace ScriptCoreLib.Extensions
     [Script]
     public static class CoreStringExtensions
     {
+        public static int Count(this string e, string subject)
+        {
+            var i = e.IndexOf(subject);
+            var c = 0;
+
+            while (i >= 0)
+            {
+                c++;
+                i = e.IndexOf(subject, i + subject.Length);
+            }
+
+            return c;
+        }
+
         public static IEnumerable<int> GetIndecies(this string e, string f)
         {
             var a = new List<int>();

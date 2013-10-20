@@ -36,10 +36,13 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             var f = new Form
             {
+                // can we undo this on runtime?
                 FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
+                WindowState = FormWindowState.Maximized,
 
+                ControlBox = false,
+                ShowIcon = false,
 
-                WindowState = FormWindowState.Maximized
             };
 
             //Error	79	'T' does not contain a definition for 'AutoScroll' and no extension method 'AutoScroll' accepting a first argument of type 'T' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\Extensions\FormExtensions.cs	44	21	ScriptCoreLib.Extensions
