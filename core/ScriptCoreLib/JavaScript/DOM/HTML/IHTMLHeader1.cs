@@ -9,6 +9,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public class IHTMLHeader1 : IHTMLElement
     {
+        public static implicit operator IHTMLHeader1(string innerText)
+        {
+            return new IHTMLHeader1 { innerText = innerText };
+        }
 
 
         #region Constructor
