@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonBrowserLogos", "..\..
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{8F46BCCE-1BA7-449D-8574-160722D035D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Avalon.PromotionBrandIntro", "..\..\..\..\market\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro.csproj", "{88A6D9ED-9611-4563-9239-3A632CEC6BD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -142,6 +144,21 @@ Global
 		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|Mixed Platforms.Build.0 = Release|x86
 		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|x86.ActiveCfg = Release|x86
 		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|x86.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Assets|Any CPU.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Assets|x86.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Assets|x86.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|x86.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|x86.Build.0 = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Any CPU.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|x86.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,5 +169,6 @@ Global
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {8F46BCCE-1BA7-449D-8574-160722D035D5}
 		{1E159C6B-6A83-491D-9B06-00465A5DBB30} = {8F46BCCE-1BA7-449D-8574-160722D035D5}
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {8F46BCCE-1BA7-449D-8574-160722D035D5}
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9} = {8F46BCCE-1BA7-449D-8574-160722D035D5}
 	EndGlobalSection
 EndGlobal

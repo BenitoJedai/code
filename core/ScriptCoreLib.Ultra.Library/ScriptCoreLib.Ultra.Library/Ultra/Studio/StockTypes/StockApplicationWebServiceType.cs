@@ -28,7 +28,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
             this.UsingNamespaces.Add("System.Threading.Tasks");
             this.UsingNamespaces.Add("System.Text");
             this.UsingNamespaces.Add("System.Data");
-
+            this.UsingNamespaces.Add("System.Runtime.CompilerServices");
+            
             this.UsingNamespaces.Add("ScriptCoreLib");
             this.UsingNamespaces.Add("ScriptCoreLib.Extensions");
             this.UsingNamespaces.Add("ScriptCoreLib.Delegates");

@@ -23,9 +23,17 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return f;
         }
 
-        public static T AttachControlToDocument<T>(this T that) where T : ScrollableControl
+        public static T AttachControlToDocument<T>(this T content)
+            //where T : ScrollableControl
+            where T : Control
         {
-            ScrollableControl content = that;
+            return AttachControlTo(content, null);
+        }
+
+        public static T AttachControlTo<T>(this T content, IHTMLElement c)
+            //where T : ScrollableControl
+            where T : Control
+        {
             // X:\jsc.svn\examples\javascript\forms\FormsProjectTemplateExperiment\FormsProjectTemplateExperiment\Application.cs
 
             // http://stackoverflow.com/questions/16649943/css-to-set-a4-paper-size
@@ -47,7 +55,10 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             //Error	79	'T' does not contain a definition for 'AutoScroll' and no extension method 'AutoScroll' accepting a first argument of type 'T' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\Extensions\FormExtensions.cs	44	21	ScriptCoreLib.Extensions
 
-            content.AutoScroll = true;
+            var ss = content as ScrollableControl;
+            if (ss != null)
+                ss.AutoScroll = true;
+
             //content.AutoScrollMargin = new Size(8, 8);
 
             // needs a fix for print!
@@ -61,10 +72,16 @@ namespace ScriptCoreLib.JavaScript.Extensions
                 };
 
             f.Controls.Add(content);
+
+
+
+            if (c != null)
+                f.GetHTMLTarget().AttachTo(c);
+
             f.Show();
 
 
-            return that;
+            return content;
         }
     }
 }
