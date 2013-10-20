@@ -1188,43 +1188,49 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         this.InternalRestoreClientSIze = this.ClientSize;
 
                         #region 100ms maximize
-                        this.HTMLTarget.style.right = (InternalHostWidth - this.Right) + "px";
-                        this.HTMLTarget.style.bottom = (InternalHostHeight - this.Bottom) + "px";
-
 
                         this.HTMLTarget.style.width = "";
                         this.HTMLTarget.style.height = "";
 
-                        if (InternalWindowStateAnimated)
+                        if (this.HTMLTarget.parentNode != null)
                         {
-                            this.HTMLTarget.style.transition = "left 100ms linear, top 100ms linear, right 100ms linear, bottom 100ms linear";
+
+                            this.HTMLTarget.style.right = (InternalHostWidth - this.Right) + "px";
+                            this.HTMLTarget.style.bottom = (InternalHostHeight - this.Bottom) + "px";
 
 
-                            var anitimer_Enabled = true;
 
-                            var anitimer = new ScriptCoreLib.JavaScript.Runtime.Timer(
-                                delegate
-                                {
 
-                                    anitimer_Enabled = false;
-                                    this.HTMLTarget.style.transition = "";
-                                }
-                            );
+                            if (InternalWindowStateAnimated)
+                            {
+                                this.HTMLTarget.style.transition = "left 100ms linear, top 100ms linear, right 100ms linear, bottom 100ms linear";
 
-                            anitimer.StartTimeout(100 + 20);
 
-                            Native.window.onframe +=
-                               delegate
-                               {
-                                   // overhead?
-                                   //if (!anitimer.Enabled)
-                                   if (!anitimer_Enabled)
-                                       return;
+                                var anitimer_Enabled = true;
 
-                                   InternalClientSizeChanged();
-                               };
+                                var anitimer = new ScriptCoreLib.JavaScript.Runtime.Timer(
+                                    delegate
+                                    {
+
+                                        anitimer_Enabled = false;
+                                        this.HTMLTarget.style.transition = "";
+                                    }
+                                );
+
+                                anitimer.StartTimeout(100 + 20);
+
+                                Native.window.onframe +=
+                                   delegate
+                                   {
+                                       // overhead?
+                                       //if (!anitimer.Enabled)
+                                       if (!anitimer_Enabled)
+                                           return;
+
+                                       InternalClientSizeChanged();
+                                   };
+                            }
                         }
-
 
                         // where we want to be in 100ms
                         this.HTMLTarget.style.left = "0px";
@@ -1516,19 +1522,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
 
                     #region CenterScreen
-                    if (this.StartPosition == FormStartPosition.CenterScreen)
-                    {
-                        this.Width = Math.Min(InternalHostWidth, this.Width);
-                        this.Height = Math.Min(InternalHostHeight, this.Height);
-
-                        //Console.WriteLine(new { this.height, host_Bounds });
-
-                        this.Location = new Point
+                    if (this.WindowState == FormWindowState.Normal)
+                        if (this.StartPosition == FormStartPosition.CenterScreen)
                         {
-                            X = (InternalHostWidth - this.Width) / 2,
-                            Y = Math.Max(0, (InternalHostHeight - this.Height) / 2)
-                        };
-                    }
+                            this.Width = Math.Min(InternalHostWidth, this.Width);
+                            this.Height = Math.Min(InternalHostHeight, this.Height);
+
+                            //Console.WriteLine(new { this.height, host_Bounds });
+
+                            this.Location = new Point
+                            {
+                                X = (InternalHostWidth - this.Width) / 2,
+                                Y = Math.Max(0, (InternalHostHeight - this.Height) / 2)
+                            };
+                        }
                     #endregion
 
                     #region fadein
@@ -1545,7 +1552,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         var old_webkitFilter = (this.HTMLTarget.style as dynamic).webkitFilter;
 
-                        (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.8)";
+                        (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.1)";
                         (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.9)";
 
 
@@ -1570,7 +1577,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     }
                                 ).StartTimeout(150);
                             }
-                        ).StartTimeout(1);
+                        ).StartTimeout(11);
                     }
                     #endregion
 

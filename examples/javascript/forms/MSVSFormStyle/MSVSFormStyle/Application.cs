@@ -195,7 +195,7 @@ namespace MSVSFormStyle
 
 
 
-            content.AttachControlTo(Native.document.body);
+            content.AttachControlToDocument();
 
             //content.AttachControlTo(page.Content);
             //content.AutoSizeControlTo(page.ContentSize);
