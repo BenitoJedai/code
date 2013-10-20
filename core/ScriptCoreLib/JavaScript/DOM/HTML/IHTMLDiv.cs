@@ -62,7 +62,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         /// will hide scrollbars, attach this element to the body and resize it 
         /// as fullscreen
         /// </summary>
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         [Obsolete("ScriptCoreLib.Extensions")]
         public void ToFullscreen()
         {
@@ -77,5 +77,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             this.style.SetLocation(0, 0, p.X, p.Y);
         }
+
+   
     }
 }
