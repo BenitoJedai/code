@@ -35,7 +35,7 @@ namespace ChromeFormsWebBrowserExperiment
         public Application(IApp page)
         {
             #region do InternalHTMLTargetAttachToDocument
-            if (Expando.InternalIsMember(Native.Window, "chrome"))
+            if (Expando.InternalIsMember(Native.window, "chrome"))
                 if (chrome.app.runtime != null)
                 {
                     // X:\jsc.svn\examples\javascript\chrome\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
@@ -44,7 +44,7 @@ namespace ChromeFormsWebBrowserExperiment
                     //Console.WriteLine("appwindow loading... " + new { current = chrome.app.window.current() });
                     // no HTML layout yet
 
-                    if (!(Native.Window.opener == null && Native.Window.parent == Native.Window.self))
+                    if (!(Native.window.opener == null && Native.window.parent == Native.window.self))
                     {
                         Console.WriteLine("i am about:blank");
                         return;
@@ -70,7 +70,7 @@ namespace ChromeFormsWebBrowserExperiment
 
 
                     #region InternalHTMLTargetAttachToDocument
-                    Action<__Form, Action> InternalHTMLTargetAttachToDocument =
+                    Action<__Form, Action<bool>> InternalHTMLTargetAttachToDocument =
                        (that, yield) =>
                        {
 
@@ -188,7 +188,7 @@ namespace ChromeFormsWebBrowserExperiment
                                                      appwindow.contentWindow.document.body
                                                  );
 
-                                                 yield();
+                                                 yield(false);
                                                  //Console.WriteLine("appwindow contentWindow onload done");
                                              };
 

@@ -537,11 +537,14 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
             var SpecialClose = false;
 
-
             #region DragMove
             __f.InternalCaptionDrag.DragMove +=
                 delegate
                 {
+
+                    var IsNotOnLeft = !(f.Left < -f.Width / 3);
+                    var IsNotOnRight = !(f.Right > (__f.InternalHostWidth + f.Width / 3));
+
                     var z = new { f.Right, f.Left };
 
                     if (SpecialNoMovement)
@@ -564,8 +567,6 @@ namespace Abstractatech.JavaScript.FormAsPopup
                     else
                     {
 
-                        var IsNotOnLeft = (z.Right - f.Width / 4) > 0;
-                        var IsNotOnRight = (z.Left + f.Width * 3 / 4) < Native.window.Width;
 
                         if (IsNotOnLeft)
                             if (IsNotOnRight)
@@ -577,6 +578,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                     }
 
+
+
                     __f.Opacity = 0.5;
                 };
             #endregion
@@ -586,13 +589,15 @@ namespace Abstractatech.JavaScript.FormAsPopup
             __f.InternalCaptionDrag.DragStop +=
                 delegate
                 {
+                    var IsNotOnLeft = !(f.Left < -f.Width / 3);
+                    var IsNotOnRight = !(f.Right > (__f.InternalHostWidth + f.Width / 3));
+
+
                     __f.Opacity = 1;
 
                     var z = new { f.Right, f.Left };
 
-                    var IsNotOnLeft = (z.Right - f.Width / 4) > 0;
-                    var IsNotOnRight = (z.Left + f.Width * 3 / 4) < Native.window.Width;
-
+          
                     if (SpecialNoMovement)
                     {
                         var dx = Math.Abs(undo_x - f.Left);
@@ -714,7 +719,10 @@ namespace Abstractatech.JavaScript.FormAsPopup
             content.AutoSizeControlTo(page.ContentSize);
 
 
-            content.f.PopupInsteadOfClosing(HandleFormClosing: false, SpecialNoMovement: true);
+            content.f.PopupInsteadOfClosing(
+                HandleFormClosing: false
+                //, SpecialNoMovement: true
+                );
         }
 
     }
