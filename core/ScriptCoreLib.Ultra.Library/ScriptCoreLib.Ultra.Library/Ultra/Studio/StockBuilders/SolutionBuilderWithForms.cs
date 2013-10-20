@@ -17,6 +17,7 @@ namespace ScriptCoreLib.Ultra.Studio
         public static SolutionBuilder WithForms(this SolutionBuilder sln)
         {
             return Internal(sln,
+                IsApplet: false,
                  ApplcationWebServiceAsComponent: true
             );
         }
@@ -27,6 +28,7 @@ namespace ScriptCoreLib.Ultra.Studio
             var sprite = default(SolutionProjectLanguageField);
 
             Internal(sln,
+                IsApplet: true,
                 ApplcationWebServiceAsComponent: false,
                 NotifyContent: value => content = value);
 
@@ -103,6 +105,8 @@ namespace ScriptCoreLib.Ultra.Studio
         static SolutionBuilder Internal(SolutionBuilder sln,
 
             bool ApplcationWebServiceAsComponent = false,
+
+            bool IsApplet = false,
             Action<SolutionProjectLanguageField> NotifyContent = null
             )
         {
@@ -136,7 +140,7 @@ namespace ScriptCoreLib.Ultra.Studio
                                          Name = ApplicationWebServiceType.Name + ".Designer",
                                      };
 
-                           
+
                                 ApplicationWebServiceDesignerType.Type.Name = ApplicationWebServiceType.Name;
 
                                 ApplicationWebServiceType.NamespaceChanged +=
@@ -261,6 +265,17 @@ the contents of this method with the code editor.",
                     // our content has been removed...
                     if (content.DeclaringType != sln.Interactive.ApplicationType)
                         return;
+
+                    if (!IsApplet)
+                    {
+                        AddCode(
+                            new KnownStockTypes.ScriptCoreLib.JavaScript.FormExtensions.AttachControlToDocument().ToCallExpression(
+                                content
+                            )
+                        );
+
+                        return;
+                    }
 
                     var page_get_Content =
                         new PseudoCallExpression

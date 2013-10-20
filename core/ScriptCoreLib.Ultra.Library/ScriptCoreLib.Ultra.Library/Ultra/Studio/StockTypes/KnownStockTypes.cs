@@ -714,6 +714,27 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
             public static partial class JavaScript
             {
+                public class FormExtensions : SolutionProjectLanguageType
+                {
+                    public FormExtensions()
+                    {
+                        Namespace = "ScriptCoreLib.JavaScript";
+                        Name = "FormExtensions";
+                    }
+             
+                    public class AttachControlToDocument : SolutionProjectLanguageMethod
+                    {
+                        public AttachControlToDocument()
+                        {
+                            Name = "AttachControlToDocument";
+                            IsExtensionMethod = true;
+                            IsStatic = true;
+                            DeclaringType = new FormExtensions();
+                            ReturnType = new KnownStockTypes.System.Object();
+                        }
+                    }
+                }
+
                 public static class Windows
                 {
                     public static class Forms
@@ -830,6 +851,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
             }
 
+            [Obsolete]
             public static class Delegates
             {
                 public class StringAction : SolutionProjectLanguageType
