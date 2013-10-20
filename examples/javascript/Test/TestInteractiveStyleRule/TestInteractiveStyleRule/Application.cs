@@ -32,8 +32,10 @@ namespace TestInteractiveStyleRule
         public Application(IApp page)
         {
 
-            page.output.stylerule.before.style.content = "'hello'";
+            page.Button.stylerule.before.style.content = "'" + page.Button.innerText + "'";
+            page.Button.stylerule.before.print.style.content = "'" + page.Button.innerText + " for print'";
 
+            page.Button.innerText = "";
 
             ((Action)(
                 async delegate
