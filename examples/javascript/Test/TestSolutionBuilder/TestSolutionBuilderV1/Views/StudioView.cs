@@ -223,7 +223,23 @@ namespace TestSolutionBuilderV1.Views
 
             var items = new StockToolboxTabsForHTMLDocument();
 
+            // jsc market components
+            vv.Add(
+                new SolutionToolboxListViewTab
+                {
+                    DataType = "SpiralDataType",
+
+                    Name = "Spiral1",
+                    Title = "Spiral",
+                    Text = "Spiral",
+                    Icon = new Spiral()
+                }
+             );
+
+
             items.WithEach(vv.Add);
+
+
 
 
             var Viewer = new SolutionDocumentViewer();
@@ -463,7 +479,8 @@ namespace TestSolutionBuilderV1.Views
                 BackColor = global::System.Drawing.Color.White,
                 Text = "Toolbox",
                 ControlBox = false,
-                ShowIcon = false
+                ShowIcon = false,
+                AutoScroll = true
             };
 
             vv.Container.AttachTo(
@@ -847,9 +864,10 @@ namespace TestSolutionBuilderV1.Views
             //SolutionExplorer.Content.ReplaceContentWith(_Solution.Container);
 
 
-            var fSolutionExplorer = new System.Windows.Forms.Form { 
-                     BackColor = global::System.Drawing.Color.White,
-                Text = "Solution Explorer" ,
+            var fSolutionExplorer = new System.Windows.Forms.Form
+            {
+                BackColor = global::System.Drawing.Color.White,
+                Text = "Solution Explorer",
                 ControlBox = false,
                 ShowIcon = false
 

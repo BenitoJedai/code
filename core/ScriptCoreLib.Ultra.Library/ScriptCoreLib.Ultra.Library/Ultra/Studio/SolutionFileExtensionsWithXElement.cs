@@ -132,7 +132,12 @@ namespace ScriptCoreLib.Ultra.Studio
                                                 File.IndentStack.Invoke();
                                             };
 
-                                        _XText.Value.Replace("\n", Environment.NewLine).Replace("\r" + Environment.NewLine, Environment.NewLine).ToLines().Select(WriteXMLText).SelectWithSeparator(Separator).Invoke();
+                                        _XText.Value
+                                            .Replace("\n", Environment.NewLine)
+                                            .Replace("\r" + Environment.NewLine, Environment.NewLine)
+                                            .ToLines()
+                                            .Select(WriteXMLText)
+                                            .SelectWithSeparator(Separator).Invoke();
                                     }
 
                                     var _XComment = item as XComment;

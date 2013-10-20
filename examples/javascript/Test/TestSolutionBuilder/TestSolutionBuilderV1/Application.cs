@@ -64,20 +64,23 @@ namespace TestSolutionBuilderV1
             #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
-            object self_chrome_socket = self_chrome.socket;
-
-            if (self_chrome_socket != null)
+            if (null != (object)self_chrome)
             {
-                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
-                chrome.Notification.DefaultTitle = "TestSolutionBuilderV1";
+                object self_chrome_socket = self_chrome.socket;
+
+                if (self_chrome_socket != null)
+                {
+                    chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                    chrome.Notification.DefaultTitle = "TestSolutionBuilderV1";
 
 
-                ChromeTCPServer.TheServerWithStyledForm.Invoke(
-                    AppSource.Text,
-                    AtFormCreated: FormStyler.AtFormCreated
-                );
+                    ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                        AppSource.Text,
+                        AtFormCreated: FormStyler.AtFormCreated
+                    );
 
-                return;
+                    return;
+                }
             }
             #endregion
 

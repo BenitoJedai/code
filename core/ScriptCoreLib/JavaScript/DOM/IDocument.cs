@@ -1,5 +1,6 @@
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 
 // http://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-5353782642
 
@@ -47,8 +48,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // https://developer.mozilla.org/En/DOM/document.importNode
         // http://www.alistapart.com/articles/crossbrowserscripting/
+        [Obsolete]
         public INode importNode(INode externalNode, bool deep)
         {
+            // http://msdn.microsoft.com/en-us/library/ie/ff975209(v=vs.85).aspx
+
             // Internet Explorer does not understand the DOM Level 2 method importNode().
             // joy.
 

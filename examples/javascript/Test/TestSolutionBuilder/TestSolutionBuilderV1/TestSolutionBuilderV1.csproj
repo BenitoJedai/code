@@ -154,11 +154,14 @@
     <Compile Include="Views\StudioView.cs" />
     <Content Include="Design\Images\DownloadSDK.png" />
     <Content Include="Design\Images\Glow1.png" />
+    <Content Include="Design\Images\Spiral.gif" />
     <Content Include="Design\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="staging\TestSolutionBuilderV1.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

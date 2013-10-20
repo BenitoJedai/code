@@ -155,8 +155,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
             #region XElement
             {
-                var e = (__XElement)(object)(content as XElement);
-                if (e != null)
+                var IncomingXElement = (__XElement)(object)(content as XElement);
+                if (IncomingXElement != null)
                 {
                     if (this.InternalValue == null)
                     {
@@ -164,17 +164,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                     }
                     else
                     {
+                        // X:\jsc.svn\examples\javascript\Test\TestAttachXElementToDocument\TestAttachXElementToDocument\Application.cs
 
-                        if (e.InternalValue == null)
+                        if (IncomingXElement.InternalValue == null)
                         {
-                            e.InternalValue = this.InternalValue.ownerDocument.createElement(e.InternalElementName.LocalName);
-                        }
-                        else
-                        {
-                            __adoptNode(e);
+                            IncomingXElement.InternalValue = this.InternalValue.ownerDocument.createElement(
+                                IncomingXElement.InternalElementName.LocalName
+                            );
+
+                            // missing content?
                         }
 
-                        this.InternalValue.appendChild(e.InternalValue);
+                        // http://stackoverflow.com/questions/1811116/ie-support-for-dom-importnode
+                        // The solution to all of my problems was to not use a DOM method after all, and instead use my own implementation. Here, in all of its glory, is my final solution to the importNode() problem coded in a cross-browser compliant way: (Line wraps marked » —Ed.)
+
+                        //__adoptNode(NewXElement);
+
+                        __XContainer.InternalRebuildDocument(this, IncomingXElement);
+
+
+                        //ie will complain. why?
+                        // does it expect adobtion?
+
+                        this.InternalValue.appendChild(IncomingXElement.InternalValue);
                     }
 
                     return;
@@ -186,6 +198,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
             // what is it?
             throw new NotImplementedException();
         }
+
+
         #endregion
 
 
@@ -195,6 +209,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
             return this.InternalElement.childNodes.Select(
                 item =>
                 {
+                    //Console.WriteLine(new { item });
+
                     if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
                         return (XNode)(object)new __XElement(null, null) { InternalValue = item };
 

@@ -96,7 +96,8 @@ namespace ScriptCoreLib.JavaScript.Components
 
 					ItemCenterInfoContent.style.position = IStyle.PositionEnum.absolute;
 					ItemCenterInfoContent.style.display = IStyle.DisplayEnum.inline_block;
-					ItemCenterInfoContent.style.left = "32px";
+                    //ItemCenterInfoContent.style.left = "32px";
+                    ItemCenterInfoContent.style.left = "40px";
 					ItemCenterInfoContent.style.top = "-0.5em";
 					//ItemCenterInfoContent.style.backgroundColor = Color.Red;
 					ItemCenterInfoContent.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
@@ -109,10 +110,12 @@ namespace ScriptCoreLib.JavaScript.Components
 							ItemCenterInfoContent.innerText = NewTab.Text;
 						};
 
+
+                    // firefox will drag this?
 					var ItemCenterImageContainer = new IHTMLDiv().AttachTo(ItemCenterContainer);
 
-					ItemCenterImageContainer.style.SetLocation(-1, -1);
-					ItemCenterImageContainer.style.SetSize(400, 300);
+					ItemCenterImageContainer.stylerule.style.SetLocation(-1, -1);
+					ItemCenterImageContainer.stylerule.style.SetSize(400, 300);
 
 
 					var ItemImage = new StockToolboxImageTransparent64().AttachTo(ItemCenterImageContainer);
@@ -125,7 +128,8 @@ namespace ScriptCoreLib.JavaScript.Components
 					ItemImage.style.borderWidth = "1px";
 					ItemImage.style.borderStyle = "solid";
 					ItemImage.style.borderColor = Color.Gray;
-					ItemImage.style.backgroundPosition = "30% 50%";
+                    ItemImage.style.backgroundPosition = "30% 50%";
+                    (ItemImage.style as dynamic).backgroundSize = "48px";
 					ItemImage.style.cursor = IStyle.CursorEnum.move;
 					ItemImage.title = NewTab.Title;
 					ItemImage.id = NewTab.Name;
