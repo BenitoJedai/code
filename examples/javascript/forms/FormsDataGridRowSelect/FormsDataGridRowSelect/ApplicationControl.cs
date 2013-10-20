@@ -42,5 +42,12 @@ namespace FormsDataGridRowSelect
 
         }
 
+        private async void button1_Click(object sender, System.EventArgs e)
+        {
+            var x = await new ApplicationWebService { }.DoEnterData();
+
+            this.dataGridView1.DataSource = x;
+        }
+
     }
 }

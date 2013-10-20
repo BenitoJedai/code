@@ -25,6 +25,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             this.InternalList.AddRange(columns);
         }
 
+        public override int Count
+        {
+            get
+            {
+                return this.InternalList.Count();
+            }
+        }
+
         public override IEnumerable GetInternalList()
         {
             return InternalList;

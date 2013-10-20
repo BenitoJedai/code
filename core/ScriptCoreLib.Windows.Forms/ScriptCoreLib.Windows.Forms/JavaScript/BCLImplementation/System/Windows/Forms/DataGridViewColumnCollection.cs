@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.Lambda;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +11,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewColumnCollection))]
     internal class __DataGridViewColumnCollection : __BaseCollection
     {
-        public BindingList<__DataGridViewColumn> InternalItems = new BindingList<__DataGridViewColumn>();
+        public readonly BindingListWithEvents<__DataGridViewColumn> InternalItemsX = new BindingListWithEvents<__DataGridViewColumn>();
+
+        public readonly BindingList<__DataGridViewColumn> InternalItems;
+
+        public __DataGridViewColumnCollection()
+        {
+            this.InternalItems = this.InternalItemsX.Source;
+        }
+
 
         public virtual int Add(string name, string header)
         {
@@ -22,7 +31,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalItems.Add(e);
             return InternalItems.Count - 1;
         }
-
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.InternalDataCollectionBase.get_Count()]
         public override int Count
         {
             get
@@ -31,8 +40,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                // now what?
             }
         }
+
+        public virtual void Clear()
+        {
+            while (this.Count > 0)
+                this.RemoveAt(this.Count - 1);
+        }
+
+        public void RemoveAt(int i)
+        {
+            this.InternalItems.RemoveAt(i);
+        }
+
 
         public virtual void AddRange(params DataGridViewColumn[] dataGridViewColumns)
         {
