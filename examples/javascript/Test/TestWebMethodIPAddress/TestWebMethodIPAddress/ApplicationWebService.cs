@@ -17,11 +17,8 @@ namespace TestWebMethodIPAddress
     /// </summary>
     public class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
+    
+        //[NFC, QR]
         public void WebMethod2(string e, Action<string> y)
         {
             Console.WriteLine("WebMethod2 " + new { h.Context.Request.UserHostAddress });
