@@ -28,6 +28,7 @@ namespace TestWebMethodIPAddress
             // http://www.piotrwalat.net/client-certificate-authentication-in-asp-net-web-api-and-windows-store-apps/
             // http://stackoverflow.com/questions/10638272/microsoft-http-server-api-using-ssl-how-to-demand-client-certificate
             // http://www.ibm.com/developerworks/lotus/library/ls-SSL_client_authentication/
+            // http://www.w3.org/TR/WebCryptoAPI/
 
             y(
 
