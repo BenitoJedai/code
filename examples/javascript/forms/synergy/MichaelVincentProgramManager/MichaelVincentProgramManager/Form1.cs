@@ -49,37 +49,37 @@ namespace MichaelVincentProgramManager
         bool InternalGoingFullscreen;
         private void Form1_LocationChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("Form1_LocationChanged");
+            //Console.WriteLine("Form1_LocationChanged");
 
-            if (InternalGoingFullscreen)
-            {
-                Console.WriteLine("Form1_LocationChanged InternalGoingFullscreen");
-                return;
-            }
+            //if (InternalGoingFullscreen)
+            //{
+            //    Console.WriteLine("Form1_LocationChanged InternalGoingFullscreen");
+            //    return;
+            //}
 
-            if (this.WindowState == FormWindowState.Maximized)
-            {
-                if (this.FormBorderStyle != System.Windows.Forms.FormBorderStyle.None)
-                {
-                    InternalGoingFullscreen = true;
-                    this.MaximumSize = this.DefaultMaximumSize;
+            //if (this.WindowState == FormWindowState.Maximized)
+            //{
+            //    if (this.FormBorderStyle != System.Windows.Forms.FormBorderStyle.None)
+            //    {
+            //        InternalGoingFullscreen = true;
+            //        this.MaximumSize = this.DefaultMaximumSize;
 
-                    Console.WriteLine("Form1_LocationChanged FormBorderStyle <- None");
-                    this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            //        Console.WriteLine("Form1_LocationChanged FormBorderStyle <- None");
+            //        this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-                    Console.WriteLine("Form1_LocationChanged WindowState <- Normal");
-                    this.WindowState = FormWindowState.Normal;
-                    Console.WriteLine("Form1_LocationChanged WindowState <- Maximized");
-                    this.WindowState = FormWindowState.Maximized;
+            //        Console.WriteLine("Form1_LocationChanged WindowState <- Normal");
+            //        this.WindowState = FormWindowState.Normal;
+            //        Console.WriteLine("Form1_LocationChanged WindowState <- Maximized");
+            //        this.WindowState = FormWindowState.Maximized;
 
-                    InternalGoingFullscreen = false;
-                }
-            }
-            else if (this.WindowState == FormWindowState.Normal)
-            {
-                Console.WriteLine("Form1_LocationChanged FormBorderStyle <- Sizable");
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-            }
+            //        InternalGoingFullscreen = false;
+            //    }
+            //}
+            //else if (this.WindowState == FormWindowState.Normal)
+            //{
+            //    Console.WriteLine("Form1_LocationChanged FormBorderStyle <- Sizable");
+            //    this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            //}
         }
 
         private void Form1_Click(object sender, EventArgs e)

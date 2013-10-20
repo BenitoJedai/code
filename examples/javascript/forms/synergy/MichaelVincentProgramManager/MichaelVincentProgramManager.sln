@@ -1,14 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MichaelVincentProgramManager", "MichaelVincentProgramManager\MichaelVincentProgramManager.csproj", "{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C3379160-F3BA-4C14-B69B-9740A06A031A}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSMinimizeFormToSidebar", "..\..\..\css\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar.csproj", "{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{4981B75E-E09F-415F-87C9-498DCC15FA43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,8 +39,42 @@ Global
 		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.Release|Mixed Platforms.Build.0 = Release|x86
 		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.Release|x86.ActiveCfg = Release|x86
 		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.Release|x86.Build.0 = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Android|Any CPU.ActiveCfg = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Android|Mixed Platforms.Build.0 = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Android|x86.ActiveCfg = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Android|x86.Build.0 = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|x86.ActiveCfg = Debug|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Debug|x86.Build.0 = Debug|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|Any CPU.ActiveCfg = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|Mixed Platforms.Build.0 = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|x86.ActiveCfg = Release|x86
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}.Release|x86.Build.0 = Release|x86
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|x86.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678} = {4981B75E-E09F-415F-87C9-498DCC15FA43}
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {4981B75E-E09F-415F-87C9-498DCC15FA43}
 	EndGlobalSection
 EndGlobal
