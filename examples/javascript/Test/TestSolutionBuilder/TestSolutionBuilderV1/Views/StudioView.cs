@@ -847,9 +847,17 @@ namespace TestSolutionBuilderV1.Views
             //SolutionExplorer.Content.ReplaceContentWith(_Solution.Container);
 
 
-            var fSolutionExplorer = new System.Windows.Forms.Form { Text = "Solution Explorer" };
+            var fSolutionExplorer = new System.Windows.Forms.Form { 
+                     BackColor = global::System.Drawing.Color.White,
+                Text = "Solution Explorer" ,
+                ControlBox = false,
+                ShowIcon = false
+
+            };
 
             EditorTreeSplit.Split.RightScrollable.style.zIndex = 0;
+            EditorTreeSplit.Split.RightScrollable.style.position = IStyle.PositionEnum.relative;
+
             fSolutionExplorer.AttachFormTo(EditorTreeSplit.Split.RightScrollable);
 
             _Solution.Container.AttachTo(fSolutionExplorer.GetHTMLTargetContainer());

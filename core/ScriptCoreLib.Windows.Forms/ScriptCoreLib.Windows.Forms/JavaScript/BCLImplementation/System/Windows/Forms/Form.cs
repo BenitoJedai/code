@@ -1539,9 +1539,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (Animate)
                     {
                         // http://www.w3schools.com/css3/css3_transitions.asp
+                        // X:\jsc.svn\examples\javascript\css\CSSShaderGrayScale\CSSShaderGrayScale\Application.cs
 
                         this.HTMLTarget.style.transition = "none";
 
+                        var old_webkitFilter = (this.HTMLTarget.style as dynamic).webkitFilter;
 
                         (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.8)";
                         (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.9)";
@@ -1563,7 +1565,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     {
                                         this.HTMLTarget.style.transition = "none";
 
-                                        (this.HTMLTarget.style as dynamic).webkitFilter = "";
+                                        (this.HTMLTarget.style as dynamic).webkitFilter = old_webkitFilter;
                                         (this.HTMLTarget.style as dynamic).webkitTransform = "";
                                     }
                                 ).StartTimeout(150);
