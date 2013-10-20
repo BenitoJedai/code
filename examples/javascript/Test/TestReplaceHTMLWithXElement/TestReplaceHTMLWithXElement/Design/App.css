@@ -1,0 +1,21 @@
+h1 { color: blue; }
+
+
+#foo {
+    border-left: 0.5em solid red;
+    min-height: 1em;
+}
+
+#foo>:first-child:empty {
+    border-left: 0.5em solid green;
+    min-height: 1em;
+}
+
+
+
+#bar:empty {
+    border-left: 0.5em solid red;
+    min-height: 1em;
+}
+
+
