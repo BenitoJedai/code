@@ -72,8 +72,29 @@ namespace NatureBoyTestPadExperiment
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault page)
+        public Application(IApp page)
         {
+            // where does the tcp server put the memory?
+
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                chrome.Notification.DefaultTitle = "NatureBoyTestPadExperiment";
+
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text
+                );
+
+                return;
+            }
+            #endregion
+
             global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 

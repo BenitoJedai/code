@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NatureBoyTestPadExperiment</RootNamespace>
     <AssemblyName>NatureBoyTestPadExperiment</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>NatureBoyTestPadExperiment.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android|x86'">
     <OutputPath>bin\x86\Android\</OutputPath>
@@ -45,6 +48,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Abstractatech.JavaScript.FormAsPopup">
@@ -52,6 +56,15 @@
     </Reference>
     <Reference Include="Abstractatech.JavaScript.NatureBoy">
       <HintPath>..\packages\Abstractatech.JavaScript.NatureBoy.1.0.0.0\lib\Abstractatech.JavaScript.NatureBoy.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Server">
+      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Server Styled Form">
+      <HintPath>..\packages\Chrome.Web.Server.StyledForm.1.0.0.0\lib\Chrome Web Server Styled Form.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
     </Reference>
     <Reference Include="DiagnosticsConsole">
       <HintPath>..\packages\DiagnosticsConsole.1.0.0.0\lib\DiagnosticsConsole.dll</HintPath>
@@ -63,6 +76,7 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -72,6 +86,9 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
@@ -156,8 +173,8 @@
     <Content Include="Debris\man2-horns_dead_2.png" />
     <Content Include="Debris\pig_blood.png" />
     <Content Include="Debris\sheep-blood.png" />
-    <Content Include="Design\Default.css" />
-    <Content Include="Design\Default.htm" />
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
     <Compile Include="Library\Extensions.cs" />
     <Compile Include="Library\MyFrames.cs" />
     <Compile Include="Library\NatureBoyTestPad.cs" />
@@ -198,8 +215,12 @@
     <Content Include="TheSheep\sheep-walk_4.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="staging\NatureBoyTestPadExperiment.Application\web\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

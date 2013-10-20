@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype=true)]
     public class ILocation
     {
+        // http://stackoverflow.com/questions/4505798/difference-between-window-location-assign-and-window-location-replace
+
         public string protocol;
         public string host;
         public string hash;
@@ -63,6 +65,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         public void replace(string e)
+        {
+        }
+
+        public void assign(string e)
         {
         }
     }

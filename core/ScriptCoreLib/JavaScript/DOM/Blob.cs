@@ -15,7 +15,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
-        public Blob(params string[] e)
+
+        // http://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link
+
+        public Blob(string[] e)
+        {
+
+        }
+
+        public Blob(string[] e, object args)
         {
 
         }
