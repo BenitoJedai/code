@@ -20,6 +20,7 @@ namespace ChromeFormsWebBrowserExperiment
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -50,14 +51,25 @@ namespace ChromeFormsWebBrowserExperiment
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(228, 271);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(335, 20);
+            this.textBox1.TabIndex = 3;
+            this.textBox1.Text = "http://192.168.1.100:27463/";
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.webBrowser1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(566, 305);
+            this.Size = new System.Drawing.Size(667, 305);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -74,6 +86,7 @@ namespace ChromeFormsWebBrowserExperiment
         private WebBrowser webBrowser1;
         private Button button1;
         private Button button2;
+        private TextBox textBox1;
 
     }
 }
