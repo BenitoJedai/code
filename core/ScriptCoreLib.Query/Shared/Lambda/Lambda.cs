@@ -510,19 +510,7 @@ namespace ScriptCoreLib.Shared.Lambda
             return string.Concat(source.AsEnumerable().ToArray());
         }
 
-        public static int Count(this string e, string subject)
-        {
-            var i = e.IndexOf(subject);
-            var c = 0;
 
-            while (i >= 0)
-            {
-                c++;
-                i = e.IndexOf(subject, i + subject.Length);
-            }
-
-            return c;
-        }
 
         public static IEnumerable<T> ConcatSingle<T>(this IEnumerable<T> source, T e)
         {

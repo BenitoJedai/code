@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using System.Windows;
 
@@ -17,11 +18,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
     [Script(Implements = typeof(global::System.Windows.Controls.TextBox))]
     internal class __TextBox : __TextBoxBase
     {
+        // see also:
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\TextBoxBase.cs
+
         public IHTMLDiv InternalContainer;
 
         public IHTMLSpan InternalTextField_Shadow;
         public IHTMLDiv InternalTextField_ShadowContainer;
 
+        #region InternalGetTextField
         public IHTMLInput InternalTextField;
         public IHTMLTextArea InternalTextField_MultiLine;
 
@@ -32,9 +37,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
             return InternalTextField;
         }
+        #endregion
+
 
         public __TextBox()
         {
+            #region InternalContainer
             this.InternalContainer = new IHTMLDiv();
 
             this.InternalContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
@@ -45,13 +53,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
             // do we create any new havoc?
             this.InternalContainer.style.zIndex = 0;
+            #endregion
 
+
+            #region InternalTextField_ShadowContainer
             this.InternalTextField_ShadowContainer = new IHTMLDiv();
 
-
-
-
-            //.AttachTo(this.InternalContainer);
 
             this.InternalTextField_ShadowContainer.style.position = IStyle.PositionEnum.absolute;
             this.InternalTextField_ShadowContainer.style.overflow = IStyle.OverflowEnum.hidden;
@@ -62,7 +69,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
             this.InternalTextField_Shadow.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
             this.InternalTextField_Shadow.style.display = IStyle.DisplayEnum.inline_block;
             this.InternalTextField_Shadow.style.position = IStyle.PositionEnum.absolute;
+            #endregion
 
+            #region InternalTextField
             this.InternalTextField = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.text)
             {
 
@@ -75,6 +84,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
             this.InternalTextField.style.paddingTop = "0";
             this.InternalTextField.style.paddingBottom = "0";
             this.InternalTextField.style.border = "1px solid gray";
+            #endregion
+
 
             Action InternalAutoSizeUpdate =
                 delegate
@@ -98,72 +109,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                 };
         }
 
-        internal void InternalAutoSizeToText(string value)
-        {
-            string n = value.Replace("\r", "");
-
-            if (n.EndsWith("\n"))
-                n += "\n";
-
-            this.InternalTextField_Shadow.innerText = n;
-            this.InternalAutoSizeUpdate();
-        }
-
-        public override IHTMLElement InternalGetDisplayObject()
-        {
-            return this.InternalContainer;
-        }
-
-
-        public override void InternalSetWidth(double value)
-        {
-            this.InternalContainer.style.width = value + "px";
-
-            if (this.InternalTextField != null)
-                this.InternalTextField.style.width = (value + "px");
-            if (this.InternalTextField_MultiLine != null)
-                this.InternalTextField_MultiLine.style.width = (value + "px");
-
-            InternalDisableAutoSize();
-        }
-
-        public override void InternalSetHeight(double value)
-        {
-            this.InternalContainer.style.height = value + "px";
-
-
-            if (this.InternalTextField != null)
-                this.InternalTextField.style.height = (value + "px");
-            if (this.InternalTextField_MultiLine != null)
-                this.InternalTextField_MultiLine.style.height = (value + "px");
-
-            InternalDisableAutoSize();
-
-        }
-
-        private void InternalDisableAutoSize()
-        {
-            this.InternalTextField_ShadowContainer.Orphanize();
-            this.InternalTextField_ShadowContainer = null;
-            this.InternalTextField_Shadow = null;
-        }
-
-        public override double InternalGetWidth()
-        {
-            var e = this.InternalGetDisplayObject();
-
-            return e.Bounds.Width;
-        }
-
-        public override double InternalGetHeight()
-        {
-            var e = this.InternalGetDisplayObject();
-
-            return e.Bounds.Height;
-        }
-
         #region InternalSetAcceptsReturn
-        public override void InternalSetAcceptsReturn(bool value)
+        public
+            override
+            void InternalSetAcceptsReturn(bool value)
         {
             if (value)
                 if (InternalTextField != null)
@@ -232,6 +181,72 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
             throw new NotImplementedException();
         }
         #endregion
+
+
+        internal void InternalAutoSizeToText(string value)
+        {
+            string n = value.Replace("\r", "");
+
+            if (n.EndsWith("\n"))
+                n += "\n";
+
+            this.InternalTextField_Shadow.innerText = n;
+            this.InternalAutoSizeUpdate();
+        }
+
+        public override IHTMLElement InternalGetDisplayObject()
+        {
+            return this.InternalContainer;
+        }
+
+
+        public override void InternalSetWidth(double value)
+        {
+            this.InternalContainer.style.width = value + "px";
+
+            if (this.InternalTextField != null)
+                this.InternalTextField.style.width = (value + "px");
+            if (this.InternalTextField_MultiLine != null)
+                this.InternalTextField_MultiLine.style.width = (value + "px");
+
+            InternalDisableAutoSize();
+        }
+
+        public override void InternalSetHeight(double value)
+        {
+            this.InternalContainer.style.height = value + "px";
+
+
+            if (this.InternalTextField != null)
+                this.InternalTextField.style.height = (value + "px");
+            if (this.InternalTextField_MultiLine != null)
+                this.InternalTextField_MultiLine.style.height = (value + "px");
+
+            InternalDisableAutoSize();
+
+        }
+
+        private void InternalDisableAutoSize()
+        {
+            this.InternalTextField_ShadowContainer.Orphanize();
+            this.InternalTextField_ShadowContainer = null;
+            this.InternalTextField_Shadow = null;
+        }
+
+        public override double InternalGetWidth()
+        {
+            var e = this.InternalGetDisplayObject();
+
+            return e.Bounds.Width;
+        }
+
+        public override double InternalGetHeight()
+        {
+            var e = this.InternalGetDisplayObject();
+
+            return e.Bounds.Height;
+        }
+
 
 
 

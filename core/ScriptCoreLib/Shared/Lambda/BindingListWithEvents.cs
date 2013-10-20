@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.Lambda
 {
+   
+
     [Script]
     public class BindingListWithEvents<T> : IDisposable
     {

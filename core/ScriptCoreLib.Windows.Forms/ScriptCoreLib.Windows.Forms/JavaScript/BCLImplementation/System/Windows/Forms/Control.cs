@@ -787,6 +787,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
+
+        public virtual void InternalSetFont(Font value)
+        { 
+        }
+
         private Font _Font;
 
         public Font Font
@@ -797,8 +802,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _Font = value;
 
                 this.HTMLTargetRef.style.font = value.ToCssString();
+                InternalSetFont(value);
 
                 OnFontChanged(new EventArgs());
+
+
             }
         }
         #endregion

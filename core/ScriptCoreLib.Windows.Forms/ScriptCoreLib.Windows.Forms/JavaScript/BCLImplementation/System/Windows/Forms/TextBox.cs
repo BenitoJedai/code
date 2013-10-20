@@ -29,14 +29,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return !HTMLTarget.disabled;
+                return !InternalTextField_MultiLine.disabled;
             }
             set
             {
-                HTMLTarget.disabled = !value;
+                InternalTextField_MultiLine.disabled = !value;
             }
         }
 
+
+        #region ScrollBars
         ScrollBars InternalScrollBars;
 
         public ScrollBars ScrollBars
@@ -49,11 +51,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 InternalScrollBars = value;
 
-                if (value != ScrollBars.None)
-                    this.HTMLTarget.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
-                else
-                    this.HTMLTarget.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+                InternalUpdateScrollBars = delegate
+                {
+                    if (value == ScrollBars.Both)
+                    {
+                        this.InternalGetTextField().style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.scroll;
+
+                    }
+                    if (value != ScrollBars.None)
+                    {
+                        this.InternalGetTextField().style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+                    }
+                    else
+                        this.InternalGetTextField().style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
+                };
+
+
+                InternalUpdateScrollBars();
+
+
             }
         }
+        #endregion
     }
 }

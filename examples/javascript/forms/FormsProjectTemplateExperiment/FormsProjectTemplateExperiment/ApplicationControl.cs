@@ -20,5 +20,14 @@ namespace FormsProjectTemplateExperiment
             this.ParentForm.Text = this.textBox1.Text;
         }
 
+        private void button2_Click(object sender, System.EventArgs e)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\Extensions\FormExtensions.cs
+
+            this.ParentForm.FormBorderStyle = FormBorderStyle.Sizable;
+            this.ParentForm.WindowState = FormWindowState.Normal;
+
+        }
+
     }
 }

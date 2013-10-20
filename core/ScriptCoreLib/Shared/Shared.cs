@@ -1,32 +1,7 @@
 using Serializable = System.SerializableAttribute;
 
-namespace ScriptCoreLib.Shared
-{
 
-    [Script]
-    [System.Obsolete]
-    public static class BooleanExtensions
-    {
-        [System.Obsolete("revert to ||", true)]
-        public static bool Or(this bool e, bool x)
-        {
-            if (e)
-                return true;
 
-            return x;
-        }
-
-        [System.Obsolete("revert to &&", true)]
-        public static bool And(this bool e, bool x)
-        {
-            if (e)
-                if (x)
-                    return true;
-
-            return false;
-        }
-    }
-}
 
 namespace ScriptCoreLib.Shared
 {
