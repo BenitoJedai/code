@@ -132,12 +132,21 @@ namespace ScriptCoreLib.Ultra.Studio
                                                 File.IndentStack.Invoke();
                                             };
 
-                                        _XText.Value
-                                            .Replace("\n", Environment.NewLine)
-                                            .Replace("\r" + Environment.NewLine, Environment.NewLine)
-                                            .ToLines()
-                                            .Select(WriteXMLText)
-                                            .SelectWithSeparator(Separator).Invoke();
+                                        if (_XText.Value == null)
+                                        {
+                                            File.Write(SolutionFileTextFragment.XMLKeyword, "<!--");
+                                            File.Write(SolutionFileTextFragment.XMLComment, "bugcheck: _XText null?");
+                                            File.Write(SolutionFileTextFragment.XMLKeyword, "-->");
+                                        }
+                                        else
+                                        {
+                                            _XText.Value
+                                                .Replace("\n", Environment.NewLine)
+                                                .Replace("\r" + Environment.NewLine, Environment.NewLine)
+                                                .ToLines()
+                                                .Select(WriteXMLText)
+                                                .SelectWithSeparator(Separator).Invoke();
+                                        }
                                     }
 
                                     var _XComment = item as XComment;
