@@ -12,18 +12,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TestFirstLine;
-using TestFirstLine.Design;
-using TestFirstLine.HTML.Pages;
+using TestReplaceHTMLWithXElement;
+using TestReplaceHTMLWithXElement.Design;
+using TestReplaceHTMLWithXElement.HTML.Pages;
 
-namespace TestFirstLine
+namespace TestReplaceHTMLWithXElement
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -31,9 +30,25 @@ namespace TestFirstLine
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //page.output.stylerule.
 
-            page.body.css.firstLine.style.color = "red";
-            page.body.css.firstLetter.style.fontSize = "3em";
+            page.foo.css.firstChild.style.color = "red";
+
+            page.output = this.Content();
+
+
+
+            // red { nodeName = #text }
+            page.output.innerText = "red " + new { page.foo.firstChild.nodeName };
+
+
+
+            page.a = "hello";
+
+            page.b = new XElement("div", "hello world");
+
+
+            page.specialcontent.css.before.style.contentAsync = SpecialContent();
         }
 
     }
