@@ -2,12 +2,27 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared;
+using System;
+using System.Threading.Tasks;
 
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // see: http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
 
+    [Script]
+    internal class __IStyle
+    {
+        public static void set_contentAsync(IStyle that, Task<string> value)
+        {
+            value.ContinueWith(
+                 task =>
+                 {
+                     that.content = task.Result;
+                 }
+             );
+        }
+    }
 
     // http://www.w3.org/TR/DOM-Level-2-Style/css.html
     // CSSStyleDeclaration  
@@ -16,7 +31,18 @@ namespace ScriptCoreLib.JavaScript.DOM
     public partial class IStyle
     {
         //  http://www.w3schools.com/cssref/pr_gen_content.asp
+        // http://caniuse.com/css-gencontent
         public string content;
+
+        [Obsolete("experimental")]
+        public Task<string> contentAsync
+        {
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                __IStyle.set_contentAsync(this, value);
+            }
+        }
 
         // CSS2Properties 
 
@@ -92,6 +118,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         //public string backgroundTop;
         public string backgroundRepeat;
         public string backgroundPosition;
+        public string backgroundSize;
 
         public string boxShadow;
 

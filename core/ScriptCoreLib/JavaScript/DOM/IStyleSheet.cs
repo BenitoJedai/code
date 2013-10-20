@@ -75,6 +75,16 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
             }
 
+            [Obsolete("experimental, is css better than stylerule? should return a proxy object instead of an actual rule a this point")]
+            public CSSStyleRule css
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    return IStyleSheet.Default[InternalGetExplicitRuleSelector()];
+                }
+            }
+
             [Script(DefineAsStatic = true)]
             internal string InternalGetExplicitRuleSelector()
             {
@@ -101,107 +111,6 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return "[style-id='" + x + "']";
             }
         }
-    }
-
-    [Script(InternalConstructor = true)]
-    public partial class CSSStyleRule : CSSRule
-    {
-        public string selectorText;
-
-        // CSSStyleDeclaration
-        public CSSStyleDeclaration style;
-
-
-        [Obsolete("experimental")]
-        public CSSStyleRule print
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                // tested by
-                // X:\jsc.svn\examples\javascript\Test\TestInteractiveStyleRule\TestInteractiveStyleRule\Application.cs
-
-                return this.parentStyleSheet[CSSMediaTypes.print][this.selectorText];
-            }
-        }
-
-
-        #region pseudo-classes
-        // http://www.w3.org/TR/CSS2/selector.html
-        public CSSStyleRule this[string pseudoSelector]
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                var x = selectorText + pseudoSelector;
-                var p = this.parentRule;
-                if (p != null)
-                    if (p.type == CSSRuleTypes.MEDIA_RULE)
-                        return ((CSSMediaRule)p)[x];
-
-
-                return this.parentStyleSheet[x];
-            }
-        }
-
-        public CSSStyleRule hover
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":hover"];
-            }
-        }
-
-        public CSSStyleRule before
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":before"];
-            }
-        }
-
-        public CSSStyleRule after
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":after"];
-            }
-        }
-
-        public CSSStyleRule empty
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":emprty"];
-            }
-        }
-
-        public CSSStyleRule visited
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":visited"];
-            }
-        }
-
-
-        public CSSStyleRule link
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":link"];
-            }
-        }
-        #endregion
-
-        //{ cssText =  } 
-        //public string cssText;
     }
 
 

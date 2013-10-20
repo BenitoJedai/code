@@ -6,6 +6,8 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.Shared.Drawing;
+using System.Xml.Linq;
+using System.Threading.Tasks;
 
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
@@ -1055,6 +1057,40 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             {
                 throw new System.NotSupportedException();
             }
+        }
+
+
+
+
+        public static implicit operator IHTMLElement(XElement x)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\Test\TestXText\TestXText\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestReplaceHTMLWithXElement\TestReplaceHTMLWithXElement\Application.cs
+
+            return x.AsHTMLElement();
+        }
+
+
+
+        [System.Obsolete("experimental")]
+        public static implicit operator IHTMLElement(Task<XElement> x)
+        {
+            // first step for databinding?
+            // X:\jsc.svn\examples\javascript\Test\TestReplaceHTMLWithXElement\TestReplaceHTMLWithXElement\Application.cs
+
+            var s = new IHTMLElement { };
+
+            // to be used with first child empty rule?
+            x.ContinueWith(
+                task =>
+                {
+
+                    s.AsXElement().ReplaceWith(task.Result);
+                }
+            );
+
+            return s;
         }
     }
 }
