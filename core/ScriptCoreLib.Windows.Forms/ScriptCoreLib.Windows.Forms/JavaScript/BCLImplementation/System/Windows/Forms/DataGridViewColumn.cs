@@ -76,9 +76,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return 200;
         }
 
+
         #region Width
         public int InternalWidth;
         public event Action InternalWidthChanged;
+        public IHTMLDiv ColumnHorizontalResizer;
         public int Width
         {
             get

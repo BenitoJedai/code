@@ -31,14 +31,7 @@ namespace TestDataGridViewClear
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            content.AttachControlToDocument();
         }
 
     }

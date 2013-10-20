@@ -55,6 +55,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalAutoResizeColumn(columnIndex);
         }
 
+
+        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_GridColor(System.Drawing.Color)]
+        public global::System.Drawing.Color GridColor { get; set; }
+
         //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_BackgroundColor(System.Drawing.Color)]
         public global::System.Drawing.Color InternalBackgroundColor;
         public event Action InternalBackgroundColorChanged;
@@ -263,12 +267,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     _HorizontalResizerLine.style.width = "1px";
                     _HorizontalResizerLine.style.top = "0px";
                     _HorizontalResizerLine.style.bottom = "0px";
+
+                    #region InternalBackgroundColor
                     _HorizontalResizerLine.style.backgroundColor = this.InternalBackgroundColor.ToString();
                     InternalBackgroundColorChanged +=
                         delegate
                         {
                             _HorizontalResizerLine.style.backgroundColor = this.InternalBackgroundColor.ToString();
                         };
+                    #endregion
+
+                    //this.InternalColumns
+
                     return _HorizontalResizer;
                 };
             #endregion
@@ -392,7 +402,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     var SourceColumn = this.InternalColumns.InternalItems[SourceCell.ColumnIndex];
 
 
+
+
                     SourceCell.InternalTableColumn = SourceRow.InternalTableRow.AddColumn();
+
+
+                    SourceRow.InternalCells.InternalItemsX.Removed +=
+                         (XRemovedCell, XRemovedCellIndex) =>
+                         {
+                             if (XRemovedCell == SourceCell)
+                             {
+                                 SourceCell.InternalTableColumn.Orphanize();
+                             }
+                         };
+
                     SourceCell.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
                     //if (SourceCell.ColumnIndex == 0)
@@ -1010,6 +1033,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     //});
 
+                    #region defaults
                     while (SourceRow.InternalCells.InternalItems.Count < this.InternalColumns.InternalItems.Count)
                     {
                         var ColumnIndex = SourceRow.InternalCells.Count;
@@ -1038,6 +1062,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                     }
+                    #endregion
+
 
                     for (int i = 0; i < SourceRow.InternalCells.InternalItems.Count; i++)
                     {
@@ -1067,18 +1093,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             SourceCell.Style.ForeColor = SourceColumn.DefaultCellStyle.ForeColor;
                             SourceCell.Style.BackColor = SourceColumn.DefaultCellStyle.BackColor;
                         }
+
+
                     }
+
+
                 };
             #endregion
 
             #region InternalColumns
-            this.InternalColumns.InternalItems.ListChanged += (_s, _e) =>
-            {
-                if (_e.ListChangedType == ListChangedType.ItemAdded)
+            this.InternalColumns.InternalItemsX.Removed +=
+                (SourceColumn, NewIndex) =>
                 {
-                    var c = this.InternalColumns.InternalItems[_e.NewIndex];
+                    foreach (var SourceRow in this.InternalRows.InternalItems.Source)
+                    {
+                        SourceRow.Cells.RemoveAt(NewIndex);
+                    }
 
-                    c.InternalContext = this;
+                    SourceColumn.InternalTableColumn.Orphanize();
+
+                    SourceColumn.ColumnHorizontalResizer.Orphanize();
+                };
+
+            this.InternalColumns.InternalItemsX.Added +=
+                (SourceColumn, NewIndex) =>
+                {
+                    //var SourceColumn = this.InternalColumns.InternalItems[_e.NewIndex];
+
+                    SourceColumn.InternalContext = this;
 
 
                     //if (c is __DataGridViewButtonColumn)
@@ -1087,22 +1129,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //    Console.WriteLine("InternalColumns ? ItemAdded " + new { _e.NewIndex });
 
 
-                    c.InternalTableColumn = __ColumnsTableRow.AddColumn();
+                    SourceColumn.InternalTableColumn = __ColumnsTableRow.AddColumn();
 
+                    SourceColumn.InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
+                    SourceColumn.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
-                    c.InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
-
-                    //IStyleSheet.Default
-                    //    [CSSMediaTypes.print]
-                    //    [c.InternalTableColumn].style.boxShadow =
-                    //        "inset 0 0 0 10000px " + JSColor.System.ButtonFace;
-
-
-                    c.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
-
-                    //var InternalNewCell = new __DataGridViewTextBoxCell();
-                    //InternalNewRow.InternalCells.InternalItems.Add(InternalNewCell);
-                    //InitializeCell(InternalNewCell, InternalNewRow);
 
                     foreach (var SourceRow in this.InternalRows.InternalItems.Source)
                     {
@@ -1110,9 +1141,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
 
 
-
-
-                    var c1contentcrel = new IHTMLDiv { }.AttachTo(c.InternalTableColumn);
+                    #region c1contentcrel
+                    var c1contentcrel = new IHTMLDiv { }.AttachTo(SourceColumn.InternalTableColumn);
                     c1contentcrel.style.position = IStyle.PositionEnum.relative;
                     c1contentcrel.style.left = "0";
                     c1contentcrel.style.top = "0";
@@ -1139,44 +1169,47 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c1contentc.style.height = "22px";
 
 
-                    var c1content = new IHTMLSpan { innerText = c.HeaderText }.AttachTo(c1contentc);
-                    c.InternalContent = c1content;
+                    var c1content = new IHTMLSpan { innerText = SourceColumn.HeaderText }.AttachTo(c1contentc);
+                    SourceColumn.InternalContent = c1content;
                     c1content.style.marginLeft = "4px";
                     c1content.style.font = DefaultFont.ToCssString();
                     c1content.style.lineHeight = "22px";
+                    #endregion
 
-                    c.InternalHeaderTextChanged +=
+
+                    SourceColumn.InternalHeaderTextChanged +=
                         delegate
                         {
-                            c1content.innerText = c.HeaderText;
+                            c1content.innerText = SourceColumn.HeaderText;
                         };
 
                     #region AtInternalWidthChanged
                     Action AtInternalWidthChanged =
                         delegate
                         {
-                            c.InternalTableColumn.style.width = c.Width + "px";
-                            c.InternalTableColumn.style.minWidth = c.Width + "px";
+                            SourceColumn.InternalTableColumn.style.width = SourceColumn.Width + "px";
+                            SourceColumn.InternalTableColumn.style.minWidth = SourceColumn.Width + "px";
                         };
 
 
 
-                    c.InternalWidthChanged += AtInternalWidthChanged;
+                    SourceColumn.InternalWidthChanged += AtInternalWidthChanged;
 
                     AtInternalWidthChanged();
                     #endregion
 
+                    #region InternalHorizontalDrag
+                    SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
 
-                    var ColumnHorizontalResizer = CreateHorizontalResizer();
+                    __ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
 
-                    __ColumnsTableContainer.insertNextSibling(ColumnHorizontalResizer);
-
-                    var ColumnHorizontalResizerDrag = new DragHelper(ColumnHorizontalResizer)
+                    var ColumnHorizontalResizerDrag = new DragHelper(SourceColumn.ColumnHorizontalResizer)
                     {
                         Enabled = true
                     };
 
-                    c.InternalHorizontalDrag = ColumnHorizontalResizerDrag;
+                    SourceColumn.InternalHorizontalDrag = ColumnHorizontalResizerDrag;
+                    #endregion
 
 
                     #region ColumnUpdateToHorizontalResizerScroll
@@ -1191,19 +1224,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                         //Console.WriteLine("ColumnUpdateToHorizontalResizerScroll " + new { x, scrollHeight });
-                        ColumnHorizontalResizer.style.SetLocation(
-                                 x,
-                                 0
+                        SourceColumn.ColumnHorizontalResizer.style.SetLocation(
+                                    x,
+                                    0
                             //this.InternalContainerElement.scrollTop
                             );
 
 
-                        ColumnHorizontalResizer.style.height = scrollHeight + "px";
+                        SourceColumn.ColumnHorizontalResizer.style.height = scrollHeight + "px";
                     };
                     #endregion
 
+                    #region ColumnUpdateToHorizontalResizerScroll
                     this.InternalRows.InternalItems.Added +=
-                        //this.InternalRows.InternalItems.Source.ListChanged +=
                         delegate
                         {
                             this.HTMLTargetRef.requestAnimationFrame +=
@@ -1221,22 +1254,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
 
                     this.InternalAtAfterVisibleChanged +=
-                     delegate
-                     {
-                         this.HTMLTargetRef.requestAnimationFrame +=
-                             delegate
-                             {
-                                 ColumnUpdateToHorizontalResizerScroll();
-                             };
+                        delegate
+                        {
+                            this.HTMLTargetRef.requestAnimationFrame +=
+                                delegate
+                                {
+                                    ColumnUpdateToHorizontalResizerScroll();
+                                };
 
-                     };
-
-
-                    //this.InternalContainerElement.onscroll +=
-                    //  e =>
-                    //  {
-                    //      ColumnUpdateToHorizontalResizerScroll();
-                    //  };
+                        };
+                    #endregion
 
                     #region CompensateFor
                     Action<DragHelper> CompensateFor =
@@ -1268,7 +1295,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             var x = ZeroHorizontalResizerDrag.Position.X;
 
-                            for (int i = 0; i <= _e.NewIndex; i++)
+                            for (int i = 0; i <= NewIndex; i++)
                             {
                                 x += this.InternalColumns.InternalItems[i].Width;
                             }
@@ -1280,7 +1307,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     Reposition();
 
-                    for (int i = 0; i <= _e.NewIndex; i++)
+                    for (int i = 0; i <= NewIndex; i++)
                     {
                         var item = this.InternalColumns.InternalItems[i];
 
@@ -1304,7 +1331,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             {
 
                                 Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.move;
-                                ((IHTMLElement)ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
+                                ((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
 
                                 __DragStartX = ColumnHorizontalResizerDrag.Position.X;
                             };
@@ -1312,21 +1339,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                         ColumnHorizontalResizerDrag.DragStop +=
-                             delegate
-                             {
-                                 //                                 { Width = 115, cwidth = 1045 } view-source:27892
+                                delegate
+                                {
+                                    //                                 { Width = 115, cwidth = 1045 } view-source:27892
 
-                                 // view-source:27892
-                                 //{ Width = 1045, cwidth = 1975 } 
+                                    // view-source:27892
+                                    //{ Width = 1045, cwidth = 1975 } 
 
-                                 Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
-                                 ((IHTMLElement)ColumnHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
+                                    Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
+                                    ((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
 
-                                 var cwidth = c.Width + ColumnHorizontalResizerDrag.Position.X - __DragStartX;
-                                 Console.WriteLine(new { c.Width, cwidth });
+                                    var cwidth = SourceColumn.Width + ColumnHorizontalResizerDrag.Position.X - __DragStartX;
+                                    Console.WriteLine(new { SourceColumn.Width, cwidth });
 
-                                 c.Width = cwidth;
-                             };
+                                    SourceColumn.Width = cwidth;
+                                };
                     }
 
 
@@ -1342,7 +1369,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region InternalAutoSize
                     this.InternalAutoResizeColumn += cindex =>
                     {
-                        if (cindex != c.Index)
+                        if (cindex != SourceColumn.Index)
                             return;
 
                         var rows = this.InternalRows.InternalItems.Source;
@@ -1371,14 +1398,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             // extra padding?
                             cwidth += 8 + 24;
 
-                            Console.WriteLine("InternalAutoSize" + new { c.Width, cwidth });
+                            Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth });
 
-                            __DragStartX = ColumnHorizontalResizerDrag.Position.X + (cwidth - c.Width);
-                            c.Width = Math.Max(20, cwidth);
+                            __DragStartX = ColumnHorizontalResizerDrag.Position.X + (cwidth - SourceColumn.Width);
+                            SourceColumn.Width = Math.Max(20, cwidth);
                         }
                     };
 
-                    ColumnHorizontalResizer.onmousedown +=
+                    SourceColumn.ColumnHorizontalResizer.onmousedown +=
                         e =>
                         {
                             if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
@@ -1386,16 +1413,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 e.preventDefault();
                                 e.stopPropagation();
 
-                                this.InternalAutoResizeColumn(c.Index);
+                                this.InternalAutoResizeColumn(SourceColumn.Index);
 
 
                             }
                         };
 
-                    ColumnHorizontalResizer.ondblclick +=
+                    SourceColumn.ColumnHorizontalResizer.ondblclick +=
                         delegate
                         {
-                            this.InternalAutoResizeColumn(c.Index);
+                            this.InternalAutoResizeColumn(SourceColumn.Index);
                         };
                     #endregion
 
@@ -1403,9 +1430,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
                     if (ColumnAdded != null)
-                        ColumnAdded(this, new DataGridViewColumnEventArgs((DataGridViewColumn)(object)c));
-                }
-            };
+                        ColumnAdded(this, new DataGridViewColumnEventArgs((DataGridViewColumn)(object)SourceColumn));
+
+                };
+
             #endregion
 
             #region InitializeZeroColumnCell
@@ -1596,6 +1624,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                               t.Start();
                           }
 
+
+
+
+
                       InitializeZeroColumnCell(SourceRow);
                       if (InternalNewRow != null)
                       {
@@ -1728,6 +1760,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __DataGridViewColumnCollection InternalColumns;
         public DataGridViewColumnCollection Columns { get; set; }
+
+
+
         public __DataGridViewRowCollection InternalRows;
         public DataGridViewRowCollection Rows { get; set; }
 
@@ -1795,18 +1830,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     this.Rows.Clear();
 
-                    // we cant remove columns yet?
-                    //this.Columns.Clear();
+                    while (this.Columns.Count > DataTable.Columns.Count)
+                        this.Columns.RemoveAt(this.Columns.Count - 1);
 
+
+                    var cIndex = 0;
                     foreach (DataColumn item in DataTable.Columns)
                     {
-                        this.Columns.Add(
-                            new DataGridViewColumn
-                            {
-                                Name = item.ColumnName,
-                                HeaderText = item.ColumnName
-                            }
-                        );
+                        if (cIndex < this.Columns.Count)
+                        {
+                            this.Columns[cIndex].HeaderText = item.ColumnName;
+                        }
+                        else
+                        {
+                            this.Columns.Add(
+                                new DataGridViewColumn
+                                {
+                                    HeaderText = item.ColumnName
+                                }
+                            );
+                        }
+
+                        cIndex++;
                     }
 
                     foreach (DataRow item in DataTable.Rows)

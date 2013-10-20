@@ -46,11 +46,16 @@ namespace FormsDataGridRowSelect
 
             var table = new DataTable { TableName = "DoEnterData " + new { reason }.ToString() };
 
+            var z = new Random().NextByte();
+
             var column = new DataColumn();
-            column.ColumnName = "Column 1";
+            column.ColumnName = "Column " + z;
+
+            // An exception of type 'System.Data.DuplicateNameException' occurred in System.Data.dll but was not handled in user code
+            //Additional information: A column named 'Column 2' already belongs to this DataTable.
 
             var column2 = new DataColumn();
-            column2.ColumnName = "Column 2";
+            column2.ColumnName = "Column x2";
 
             table.Columns.Add(column);
             table.Columns.Add(column2);
@@ -59,9 +64,9 @@ namespace FormsDataGridRowSelect
             {
                 var row = table.NewRow();
 
-                row[column] = "#" + i;
+                row[column] = "#" + (i + z);
                 //row[column2] = new { reason, CallerMemberName, CallerLineNumber, CallerFilePath }.ToString();
-                row[column2] = "John Doe, Canada | 600 USD";
+                row[column2] = "John Doe, Canada | 600 USD" + " | z " + z;
                 table.Rows.Add(row);
             }
 

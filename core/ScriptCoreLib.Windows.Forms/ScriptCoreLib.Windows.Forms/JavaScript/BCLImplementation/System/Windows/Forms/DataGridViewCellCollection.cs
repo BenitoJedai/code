@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.Lambda;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +11,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewCellCollection))]
     internal class __DataGridViewCellCollection : __BaseCollection
     {
-        public BindingList<__DataGridViewCell> InternalItems = new BindingList<__DataGridViewCell>();
+        public BindingListWithEvents<__DataGridViewCell> InternalItemsX = new BindingListWithEvents<__DataGridViewCell>();
+        public readonly BindingList<__DataGridViewCell> InternalItems;
+
+
+        public __DataGridViewCellCollection()
+        {
+            this.InternalItems = InternalItemsX.Source;
+        }
+
+
 
         public virtual int Add(DataGridViewCell e)
         {
@@ -27,6 +37,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 Add(item);
             }
+        }
+
+        public void RemoveAt(int i)
+        {
+            this.InternalItemsX.Source.RemoveAt(i);
         }
 
         public override int Count
