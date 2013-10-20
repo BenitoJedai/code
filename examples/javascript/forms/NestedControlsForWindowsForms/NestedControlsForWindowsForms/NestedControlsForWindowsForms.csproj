@@ -165,7 +165,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false
+rem start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>
 

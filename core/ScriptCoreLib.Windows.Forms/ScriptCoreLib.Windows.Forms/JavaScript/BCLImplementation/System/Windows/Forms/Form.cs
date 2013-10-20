@@ -896,7 +896,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 else
                 {
-                    value = host.clientWidth;
+                    if (host.clientWidth > 0)
+                        value = host.clientWidth;
                 }
 
                 return value;
@@ -909,7 +910,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 var host = (IHTMLElement)this.HTMLTarget.parentNode;
 
-                // IE fk u
                 var value = Native.window.Height;
 
                 if (host == Native.document.body.parentNode)
@@ -920,7 +920,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 else
                 {
-                    value = host.clientHeight;
+                    if (host.clientHeight > 0)
+                        value = host.clientHeight;
                 }
 
                 return value;
