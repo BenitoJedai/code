@@ -8,6 +8,11 @@ namespace ScriptCoreLib.Ultra.WebService
 {
 	public abstract class InternalGlobal : HttpApplication
     {
+        public InternalGlobal()
+        {
+
+        }
+
         #region InternalApplication
         HttpApplication InternalApplicationOverride;
 		public HttpApplication InternalApplication
