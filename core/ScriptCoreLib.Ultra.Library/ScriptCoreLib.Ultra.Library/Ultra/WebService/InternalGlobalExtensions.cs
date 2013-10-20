@@ -293,67 +293,12 @@ namespace ScriptCoreLib.Ultra.WebService
                 };
             #endregion
 
-            #region POST
-            if (Context.Request.HttpMethod == "POST")
-            {
-                var WebMethod = InternalWebMethodInfo.First(
-                    WebMethods,
-                    Context.Request.QueryString[InternalWebMethodInfo.QueryKey]
-                );
-
-
-
-
-                if (WebMethod == null)
-                {
-                    // let user defined handler handle it..
-                }
-                else
-                {
-                    WebMethod.LoadParameters(that.Context);
-
-                    g.Invoke(WebMethod);
-
-                    if (that.Context.Request.Path == "/xml")
-                    {
-
-                        WriteInternalFields(WebMethod);
-
-                        // no yields
-                        #region 204
-                        if (WebMethod.Results.Length == 0)
-                            if (WebMethod.TaskResult == null)
-                            {
-                                // or should we send binary zip for webworker?
-                                // NoContent
-                                g.Context.Response.StatusCode = 204;
-                                g.Context.Response.Flush();
-
-                                that.CompleteRequest();
-                                return;
-                            }
-                        #endregion
-
-
-                        WriteXDocument(g, Write, WebMethod);
-                        that.CompleteRequest();
-                        return;
-                    }
-
-                    that.Response.ContentType = "text/html";
-                    WriteDiagnosticsResults(Write, WebMethod);
-                    WriteDiagnostics(g, Write, WebMethods);
-                    that.CompleteRequest();
-                    return;
-                }
-            }
-            #endregion
 
 
             var IsComplete = false;
 
-            #region WebServiceHandler
-            var h = new WebServiceHandler
+            #region handler = WebServiceHandler
+            var handler = new WebServiceHandler
             {
                 Context = that.Context,
 
@@ -423,10 +368,10 @@ namespace ScriptCoreLib.Ultra.WebService
             };
             #endregion
 
-            #region WriteSource
-            h.WriteSource = app =>
+            #region handler.WriteSource
+            handler.WriteSource = app =>
             {
-                h.Context.Response.ContentType = "text/javascript";
+                handler.Context.Response.ContentType = "text/javascript";
 
                 g.Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
 
@@ -476,7 +421,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 {
                     Console.WriteLine("enter DiagnosticsMakeItSlowAndAddSalt");
 
-                    h.Context.Response.ContentType = "application/octet-stream";
+                    handler.Context.Response.ContentType = "application/octet-stream";
 
 
                     #region composite
@@ -571,8 +516,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                         }
 
-                        h.Context.Response.OutputStream.Write(xbuffer, 0, length * 2);
-                        h.Context.Response.Flush();
+                        handler.Context.Response.OutputStream.Write(xbuffer, 0, length * 2);
+                        handler.Context.Response.Flush();
 
                         var timetarget = 8000 - time.ElapsedMilliseconds;
 
@@ -608,7 +553,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 #region GZipAssemblyFile
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201301/20130103
 
-                var AcceptEncoding = h.Context.Request.Headers["Accept-Encoding"];
+                var AcceptEncoding = handler.Context.Request.Headers["Accept-Encoding"];
 
                 if (!string.IsNullOrEmpty(AcceptEncoding))
                     if (AcceptEncoding.Contains("gzip"))
@@ -618,7 +563,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
                         g.Response.WriteFile("/" + app.GZipAssemblyFile);
-                        h.CompleteRequest();
+                        handler.CompleteRequest();
 
                         return;
                     }
@@ -640,60 +585,130 @@ namespace ScriptCoreLib.Ultra.WebService
                 foreach (var item in app_references)
                 {
                     // asp.net needs absolute paths
-                    h.Context.Response.WriteFile("/" + item.Name);
+                    handler.Context.Response.WriteFile("/" + item.Name);
                 }
                 #endregion
 
 
-                h.CompleteRequest();
+                handler.CompleteRequest();
             };
             #endregion
 
-            g.Serve(h);
 
 
-            if (!IsComplete)
+            if (Context.Request.HttpMethod == "POST")
             {
-                if (that.Request.Path == "/jsc")
+                // tested by
+                // X:\jsc.svn\examples\javascript\Test\TestWebMethodIPAddress\TestWebMethodIPAddress\ApplicationWebService.cs
+
+                handler.WebMethod = InternalWebMethodInfo.First(
+                    WebMethods,
+                    Context.Request.QueryString[InternalWebMethodInfo.QueryKey]
+                );
+            }
+
+
+            g.Serve(handler);
+
+            if (IsComplete)
+                return;
+
+
+            #region POST
+            if (Context.Request.HttpMethod == "POST")
+            {
+
+
+                if (handler.WebMethod == null)
                 {
-                    h.Diagnostics();
-                    return;
+                    // let user defined handler handle it..
                 }
-
-                #region /view-source
-                if (that.Request.Path == "/view-source")
+                else
                 {
+                    handler.WebMethod.LoadParameters(that.Context);
+
+                    g.Invoke(handler.WebMethod);
+
+                    if (that.Context.Request.Path == "/xml")
+                    {
+
+                        WriteInternalFields(handler.WebMethod);
+
+                        // no yields
+                        #region 204
+                        if (handler.WebMethod.Results.Length == 0)
+                            if (handler.WebMethod.TaskResult == null)
+                            {
+                                // or should we send binary zip for webworker?
+                                // NoContent
+                                g.Context.Response.StatusCode = 204;
+                                g.Context.Response.Flush();
+
+                                that.CompleteRequest();
+                                return;
+                            }
+                        #endregion
 
 
-                    var app = h.Applications[0];
+                        WriteXDocument(g, Write, handler.WebMethod);
+                        that.CompleteRequest();
+                        return;
+                    }
 
-                    // can we just invoke a ctor?
-                    // and have the fields returne?
-
-                    h.WriteSource(app);
-
-                    return;
-                }
-                #endregion
-
-                if (h.IsDefaultPath)
-                {
-                    h.Default();
-                    return;
-                }
-
-                if (Context.Request.HttpMethod == "POST")
-                {
-                    // we dont know what to do with this POST..
-                    Context.Response.StatusCode = 404;
+                    that.Response.ContentType = "text/html";
+                    WriteDiagnosticsResults(Write, handler.WebMethod);
+                    WriteDiagnostics(g, Write, WebMethods);
                     that.CompleteRequest();
                     return;
                 }
-
-                // we could invoke web service handler now?
-                h.Redirect();
-                //h.Diagnostics();
             }
+            #endregion
+
+
+            if (IsComplete)
+                return;
+
+
+
+            if (that.Request.Path == "/jsc")
+            {
+                handler.Diagnostics();
+                return;
+            }
+
+            #region /view-source
+            if (that.Request.Path == "/view-source")
+            {
+
+
+                var app = handler.Applications[0];
+
+                // can we just invoke a ctor?
+                // and have the fields returne?
+
+                handler.WriteSource(app);
+
+                return;
+            }
+            #endregion
+
+            if (handler.IsDefaultPath)
+            {
+                handler.Default();
+                return;
+            }
+
+            if (Context.Request.HttpMethod == "POST")
+            {
+                // we dont know what to do with this POST..
+                Context.Response.StatusCode = 404;
+                that.CompleteRequest();
+                return;
+            }
+
+            // we could invoke web service handler now?
+            handler.Redirect();
+            //h.Diagnostics();
         }
 
 
@@ -765,7 +780,7 @@ namespace ScriptCoreLib.Ultra.WebService
             //w.AppendLine("/ /#offline");
 
 
-            
+
 
             w.AppendLine("");
             w.AppendLine("NETWORK:");

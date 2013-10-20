@@ -23,6 +23,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // This type was extracted from ScriptCoreLib.Net
 
+        // X:\jsc.svn\examples\javascript\Test\TestWebMethodIPAddress\TestWebMethodIPAddress\ApplicationWebService.cs
+        public bool withCredentials;
+
         #region event onprogress
         public event System.Action<ProgressEvent> onprogress
         {
