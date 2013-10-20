@@ -7,20 +7,28 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
-	[Script(Implements = typeof(XText))]
-	internal class __XText : __XNode
-	{
-		public string Value
-		{
-			get
-			{
-				return ((ITextNode)this.InternalValue).text;
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+    [Script(Implements = typeof(XText))]
+    internal class __XText : __XNode
+    {
+        public string Value
+        {
+            get
+            {
+                return ((ITextNode)this.InternalValue).text;
+            }
+            set
+            {
+                var o = this.InternalValue;
+                var n = this.InternalValue.ownerDocument.createTextNode(value);
 
-	}
+                var parentNode = this.InternalValue.parentNode;
+
+                parentNode.replaceChild(
+                    n,
+                    o
+                );
+            }
+        }
+
+    }
 }

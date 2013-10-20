@@ -116,18 +116,18 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
 
 
 
-
+        // ie 11 has XMLSerializer but does not support it
 		[Script(OptimizedCode = @"
+
+  if (typeof node.xml != 'undefined') {
+    return node.xml;
+  }
 
   if (typeof XMLSerializer != 'undefined') {
     return new XMLSerializer().serializeToString(node);
   }
-  else if (typeof node.xml != 'undefined') {
-    return node.xml;
-  }
-  else {
+
     return '';
-  }
 ")]
 		public static string ToXMLString(INode node)
 		{

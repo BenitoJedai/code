@@ -35,7 +35,7 @@ namespace WebGLToAnimatedGIFExperiment
 
         ISurface
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        //public readonly ApplicationWebService service = new ApplicationWebService();
 
         #region ISurface
         public event Action onframe;
@@ -52,6 +52,25 @@ namespace WebGLToAnimatedGIFExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                chrome.Notification.DefaultTitle = "WebGLToAnimatedGIFExperiment";
+
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text
+                );
+
+                return;
+            }
+            #endregion
+
             var ani3 = new WebGLTetrahedron.Application();
 
             ani3.gl.canvas.AttachTo(page.e1);

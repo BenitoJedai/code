@@ -192,5 +192,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             return (XElement)(object)x;
         }
+
+        public static implicit operator __XElement(XElement x)
+        {
+            return (__XElement)(object)x;
+        }
     }
 }
