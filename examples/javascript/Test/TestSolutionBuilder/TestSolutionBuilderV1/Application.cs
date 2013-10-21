@@ -76,7 +76,29 @@ namespace TestSolutionBuilderV1
 
                     ChromeTCPServer.TheServerWithStyledForm.Invoke(
                         AppSource.Text,
-                        AtFormCreated: FormStyler.AtFormCreated
+                        AtFormCreated: s =>
+                        {
+                            // border> 8E9BBC
+                            // caption 41
+
+                            s.TargetOuterBorder.style.boxShadow = "rgba(0, 0, 0, 0.2) 0px 0px 6px 0px";
+                            s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(12, 32, 45);
+
+                            s.TargetInnerBorder.style.borderWidth = "0px";
+
+                            s.CloseButton.style.color = JSColor.White;
+                            s.CloseButton.style.backgroundColor = JSColor.None;
+                            s.CloseButton.style.borderWidth = "0px";
+                            s.CloseButtonContent.style.borderWidth = "0px";
+
+                            s.TargetResizerPadding.style.left = "0px";
+                            s.TargetResizerPadding.style.top = "0px";
+                            s.TargetResizerPadding.style.right = "0px";
+                            s.TargetResizerPadding.style.bottom = "0px";
+
+                            s.Caption.style.backgroundColor = JSColor.FromRGB(41, 57, 85);
+                            s.CaptionShadow.style.backgroundColor = JSColor.FromRGB(41, 57, 85);
+                        }
                     );
 
                     return;
