@@ -20,6 +20,7 @@ namespace TestAsyncNET40
         private async void button1_Click(object sender, System.EventArgs e)
         {
             var test = await this.applicationWebService1.getString();
+            System.Console.WriteLine(test);
         }
 
     }
