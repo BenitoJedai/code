@@ -36,7 +36,7 @@ namespace ScriptCoreLib.JavaScript.Experimental
             Console.WriteLine("eval total " + new { e.source.Length });
 
 
-            var blob = new Blob(e.source);
+            var blob = new Blob(new [] {e.source});
 
             var src = blob.ToObjectURL();
 

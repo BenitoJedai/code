@@ -287,6 +287,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             ZeroVerticalResizer.style.SetLocation(0, 22 - 5);
 
+
+
+
             #region ZeroHorizontalResizer
 
             var ZeroHorizontalResizer = CreateHorizontalResizer().AttachTo(InternalScrollContainerElement);
@@ -301,10 +304,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action UpdateToVerticalResizerScroll = delegate
             {
                 ZeroVerticalResizer.style.SetLocation(
-                        this.InternalScrollContainerElement.scrollLeft,
-                        this.InternalScrollContainerElement.scrollTop + (22 - 5)
-                    );
+                    this.InternalScrollContainerElement.scrollLeft,
+                    this.InternalScrollContainerElement.scrollTop + (22 - 5)
+                );
             };
+
+
 
             #region UpdateToHorizontalResizerScroll
             Action UpdateToHorizontalResizerScroll = delegate
@@ -321,6 +326,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 var value = (ZeroHorizontalResizerDrag.Position.X + 4);
 
+                if (!this.InternalRowHeadersVisible)
+                    value = 4;
+
+
                 Corner.style.width = value + "px";
 
                 __ColumnsTable.style.paddingLeft = value + "px";
@@ -334,6 +343,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             UpdateToHorizontalResizerScroll();
             UpdateToHorizontalResizerDrag();
             #endregion
+
+
+            InternalRowHeadersVisibleChanged +=
+              delegate
+              {
+                  // tested by
+                  // X:\jsc.svn\examples\javascript\Test\TestNoZeroColumnHeaderNoScrollbarDateDataGrid\TestNoZeroColumnHeaderNoScrollbarDateDataGrid\ApplicationControl.cs
+
+
+                  ZeroHorizontalResizer.Show(this.InternalRowHeadersVisible);
+
+
+                  UpdateToHorizontalResizerDrag();
+                  UpdateToHorizontalResizerScroll();
+              };
+
 
             #region Drag
             ZeroHorizontalResizerDrag.DragStart +=
@@ -1295,6 +1320,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             var x = ZeroHorizontalResizerDrag.Position.X;
 
+                            if (!this.InternalRowHeadersVisible)
+                                x = 0;
+
                             for (int i = 0; i <= NewIndex; i++)
                             {
                                 x += this.InternalColumns.InternalItems[i].Width;
@@ -1306,6 +1334,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
 
                     Reposition();
+
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\Test\TestNoZeroColumnHeaderNoScrollbarDateDataGrid\TestNoZeroColumnHeaderNoScrollbarDateDataGrid\ApplicationControl.cs
+                    InternalRowHeadersVisibleChanged +=
+                       delegate
+                       {
+                           Reposition();
+                       };
 
                     for (int i = 0; i <= NewIndex; i++)
                     {
@@ -1372,6 +1408,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         if (cindex != SourceColumn.Index)
                             return;
 
+
+
                         var rows = this.InternalRows.InternalItems.Source;
 
                         // InternalAutoSize { Count = 33, cindex = -1 }
@@ -1394,14 +1432,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             );
 
                             cwidth = Math.Max(cwidth, this.InternalColumns.InternalItems[cindex].InternalContent.offsetWidth);
+                            if (cwidth == 0)
+                            {
+                                // no DOM?
+                                Console.WriteLine("InternalAutoSize skipped");
+                            }
+                            else
+                            {
 
-                            // extra padding?
-                            cwidth += 8 + 24;
+                                // extra padding?
+                                cwidth += 8 + 24;
 
-                            Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth });
+                                Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth });
 
-                            __DragStartX = ColumnHorizontalResizerDrag.Position.X + (cwidth - SourceColumn.Width);
-                            SourceColumn.Width = Math.Max(20, cwidth);
+                                __DragStartX = ColumnHorizontalResizerDrag.Position.X + (cwidth - SourceColumn.Width);
+                                SourceColumn.Width = Math.Max(20, cwidth);
+                            }
                         }
                     };
 
@@ -1436,7 +1482,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             #endregion
 
-            #region InitializeZeroColumnCell
+            #region InitializeZeroColumnCell |
             Action<__DataGridViewRow> InitializeZeroColumnCell =
                 SourceRow =>
                 {
@@ -1563,6 +1609,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     AtInternalHeightChanged();
                     SourceRow.InternalHeightChanged += AtInternalHeightChanged;
                     #endregion
+
+
                 };
             #endregion
 
@@ -1914,5 +1962,45 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_ColumnHeadersBorderStyle(System.Windows.Forms.DataGridViewHeaderBorderStyle)]
 
         public DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle { get; set; }
+
+
+
+        public ScrollBars InternalScrollBars;
+        public ScrollBars ScrollBars
+        {
+            get
+            {
+                return InternalScrollBars;
+            }
+            set
+            {
+                InternalScrollBars = value;
+
+                if (value == global::System.Windows.Forms.ScrollBars.None)
+                {
+                    this.InternalScrollContainerElement.style.overflow = IStyle.OverflowEnum.hidden;
+                }
+                else
+                {
+                    this.InternalScrollContainerElement.style.overflow = IStyle.OverflowEnum.auto;
+                }
+            }
+        }
+
+        public event Action InternalRowHeadersVisibleChanged;
+        public bool InternalRowHeadersVisible = true;
+        public bool RowHeadersVisible
+        {
+            get
+            {
+                return InternalRowHeadersVisible;
+            }
+            set
+            {
+                InternalRowHeadersVisible = value;
+                if (InternalRowHeadersVisibleChanged != null)
+                    InternalRowHeadersVisibleChanged();
+            }
+        }
     }
 }

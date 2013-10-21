@@ -1435,7 +1435,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         }
 
-        private void InternalVisibileChanged(EventArgs e)
+        public void InternalVisibileChanged(EventArgs e)
         {
             var c = this.Controls;
             var visible = this.Visible;

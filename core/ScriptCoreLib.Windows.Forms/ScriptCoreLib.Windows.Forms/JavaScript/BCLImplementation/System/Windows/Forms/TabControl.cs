@@ -636,10 +636,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             throw new NotImplementedException();
         }
 
-        protected void WndProc(ref Message m)
-        {
-            throw new NotImplementedException();
-        }
+        //protected void WndProc(ref Message m)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
         /// <summary>

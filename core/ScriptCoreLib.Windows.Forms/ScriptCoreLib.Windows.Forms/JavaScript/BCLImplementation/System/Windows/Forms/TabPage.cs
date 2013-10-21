@@ -12,7 +12,7 @@ using ScriptCoreLib.JavaScript.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    [Script(Implements = typeof(global::System.Windows.Forms.TabPage ))]
+    [Script(Implements = typeof(global::System.Windows.Forms.TabPage))]
     internal class __TabPage : __Panel
     {
         static internal int __tabCount = 0;
@@ -50,7 +50,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             int newh = __TabControl.__TAB_BAR_HEIGHT - 2;
             __tabButton.style.height = "" + newh;
-            
+
             __tabButton.style.border = "ridge";
             __tabButton.style.borderTop = "ridge";
             __tabButton.style.borderRight = "ridge";
@@ -87,7 +87,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected void OnTextChanged(object o, EventArgs e)
         {
-            this.__tabButton.innerText = Text;           
+            this.__tabButton.innerText = Text;
         }
 
 
@@ -109,7 +109,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public Shared.Drawing.Rectangle getBounds()
         {
-            return this.__tabButton.Bounds; 
+            return this.__tabButton.Bounds;
 
         }
 
@@ -123,7 +123,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.__isSelected = false;
             HTMLTarget.style.display = IStyle.DisplayEnum.none;
-           
+
             Color bf = SystemColors.ButtonFace;
             __tabButton.style.backgroundColor = bf.ToString();
             __tabButton.style.paddingBottom = "4px";
@@ -137,6 +137,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __tabButton.style.borderBottom = "none";
             __tabButton.style.backgroundColor = "white";
             __tabButton.style.paddingBottom = "8px";
+
+            Console.WriteLine("SelectTab");
+            // let datagrid know to resize?
+            this.InternalVisibileChanged(new EventArgs());
         }
 
         public void Hide()
@@ -155,7 +159,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event EventHandler TabStopChanged;
         public event EventHandler TextChanged;
         public event EventHandler VisibleChanged;
-        
+
         protected Control.ControlCollection CreateControlsInstance()
         {
             TabPage.TabPageControlCollection c = new TabPage.TabPageControlCollection((TabPage)Parent);
@@ -166,7 +170,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             throw new NotImplementedException();
         }
-        
+
         public event EventHandler Enter;
 
         protected void OnEnter(EventArgs e)
@@ -174,7 +178,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (Enter != null)
                 Enter(this, null);
         }
-                
+
         public event EventHandler Leave;
 
         protected void OnLeave(EventArgs e)
@@ -182,7 +186,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (Leave != null)
                 Leave(this, null);
         }
-                
+
         public event EventHandler PaintBackground;
 
         protected void OnPaintBackground(PaintEventArgs e)
@@ -213,7 +217,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             readonly TabPage Owner;
 
-            public __TabPageControlCollection(TabPage owner) : base(owner)
+            public __TabPageControlCollection(TabPage owner)
+                : base(owner)
             {
                 this.Owner = owner;
             }
