@@ -6,14 +6,13 @@
     <noscript>Error: This Application requires JavaScript.</noscript>
     <link rel='stylesheet' href='App.css' />
     <img src="Preview.png" style="display: none;" />
-    <div id="editor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;">
+    <pre id="editor" style="position: absolute; top: 0; right: 50%; bottom: 0; left: 0;">
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
 using System.Xml.Linq;
-
 namespace Cloud9ACE
 {
     public sealed class ApplicationWebService
@@ -23,11 +22,20 @@ namespace Cloud9ACE
             // Send it back to the caller.
             y(e);
         }
-
     }
 }
+    </pre>
 
+    <pre id="sqleditor" style="position: absolute; top: 0; right: 0; bottom: 0; left: 50%;">
+        select
+        t1.ContentKey
+        , t1.ContentValue
+        , t1.ContentComment
+        , (select count(*) from TheGridTable t2 where t2.ParentContentKey = t1.ContentKey) as ContentChildren 
+            from TheGridTable t1
+-- best way             
+where (t1.ParentContentKey is null and (@ParentContentKey1 is null or @ParentContentKey2 = '')) or t1.ParentContentKey = @ParentContentKey3
 
-    </div>
+    </pre>
 </body>
 </html>
