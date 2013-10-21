@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAsyncNET40", "TestAsyncNET40\TestAsyncNET40.csproj", "{430967E1-A301-4F2C-9E9F-8FA81B823F73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{430967E1-A301-4F2C-9E9F-8FA81B823F73}.Debug|x86.ActiveCfg = Debug|x86
+		{430967E1-A301-4F2C-9E9F-8FA81B823F73}.Debug|x86.Build.0 = Debug|x86
+		{430967E1-A301-4F2C-9E9F-8FA81B823F73}.Release|x86.ActiveCfg = Release|x86
+		{430967E1-A301-4F2C-9E9F-8FA81B823F73}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
