@@ -29,11 +29,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return !InternalTextField_MultiLine.disabled;
+                return !InternalTextField.disabled;
             }
             set
             {
-                InternalTextField_MultiLine.disabled = !value;
+                if (InternalTextField_MultiLine != null)
+                    InternalTextField_MultiLine.disabled = !value;
+
+                InternalTextField.disabled = !value;
             }
         }
 

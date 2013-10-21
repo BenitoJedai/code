@@ -148,10 +148,13 @@
     <Content Include="Design\mode-csharp.js" />
     <Content Include="Design\Preview.png" />
     <Content Include="Design\theme-dreamweaver.js" />
+    <Content Include="Design\mode-sql.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="staging\Cloud9ACE.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

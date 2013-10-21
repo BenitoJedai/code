@@ -57,6 +57,7 @@ namespace Cloud9ACE
                 new Design.ace().Content,
                 new Design.theme_dreamweaver().Content,
                 new Design.mode_csharp().Content,
+                new Design.mode_sql().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
                 {
@@ -80,6 +81,17 @@ namespace Cloud9ACE
 
                          ).apply(null, page.editor.id);
 
+                    new IFunction("e", @"
+
+    var editor = ace.edit(e);
+
+    editor.setTheme('ace/theme/dreamweaver');
+//    editor.getSession().setMode('ace/mode/csharp');
+    editor.getSession().setMode('ace/mode/sql');
+
+"
+
+     ).apply(null, page.sqleditor.id);
 
                 }
             );
