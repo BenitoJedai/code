@@ -16,6 +16,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event EventHandler DataSourceChanged;
 
         public object InternalDataSource;
+        public object InternalDataSourceSync;
+
         public object DataSource
         {
             get
@@ -26,23 +28,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 this.InternalDataSource = value;
 
+                this.Rows.Clear();
+
+                if (value == null)
+                {
+                    while (this.Columns.Count > 0)
+                        this.Columns.RemoveAt(this.Columns.Count - 1);
+
+                    return;
+                }
+
                 #region DataTable
-                var DataTable = value as DataTable;
-                if (DataTable != null)
+                var SourceDataTable = value as DataTable;
+                if (SourceDataTable != null)
                 {
                     // now what?
 
                     // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
                     // http://stackoverflow.com/questions/6902269/moving-data-from-datatable-to-datagridview-in-c-sharp
 
-                    this.Rows.Clear();
 
-                    while (this.Columns.Count > DataTable.Columns.Count)
+                    while (this.Columns.Count > SourceDataTable.Columns.Count)
                         this.Columns.RemoveAt(this.Columns.Count - 1);
 
 
                     var cIndex = 0;
-                    foreach (DataColumn item in DataTable.Columns)
+                    foreach (DataColumn item in SourceDataTable.Columns)
                     {
                         if (cIndex < this.Columns.Count)
                         {
@@ -62,11 +73,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         cIndex++;
                     }
 
-                    foreach (DataRow item in DataTable.Rows)
+                    foreach (DataRow item in SourceDataTable.Rows)
                     {
                         var r = new DataGridViewRow();
 
-                        foreach (DataColumn c in DataTable.Columns)
+                        foreach (DataColumn c in SourceDataTable.Columns)
                         {
                             var cc = new DataGridViewTextBoxCell
                             {
@@ -85,37 +96,70 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 #endregion
 
-                Console.WriteLine("add CellValueChanged ");
+                //Console.WriteLine("add CellValueChanged ");
+
+                var NewRow = default(DataRow);
+
+                var CurrentDataSourceSync = new object();
+                InternalDataSourceSync = CurrentDataSourceSync;
 
                 this.CellValueChanged +=
                     (_s, _e) =>
                     {
-                        Console.WriteLine("at CellValueChanged ");
-
-
-                        if (this.DataSource != DataTable)
+                        if (this.InternalDataSourceSync != CurrentDataSourceSync)
                             return;
+
+                        Console.WriteLine("DataSource at CellValueChanged " + new { _e.RowIndex, NewRow, SourceDataTable.Rows.Count });
+
 
                         // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableNewRow\TestDataTableNewRow\ApplicationWebService.cs
 
-                        var r = DataTable.Rows[_e.RowIndex];
+                        //InternalRaiseCellBeginEdit { ColumnIndex = 1, Index = 32 }
+                        // view-source:28036
+                        //TableNewRow { RowIndexOf = -1 }
+                        // view-source:28036
+                        //at CellValueChanged
 
-//                        script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRow.set_Item(System.Int32, System.Object)]
-//script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
-//script: error JSC1000: error at ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__DataGridView+<>c__DisplayClass3.<set_DataSource>b__1,
-// assembly: X:\jsc.svn\examples\javascript\forms\Test\TestDataTableNewRow\TestDataTableNewRow\bin\Release\ScriptCoreLib.Windows.Forms.dll
+                        var CurrentRow = NewRow;
 
-                        Console.WriteLine("at CellValueChanged DataTable");
-                        r[_e.ColumnIndex] = this[_e.ColumnIndex, _e.RowIndex].Value;
+                        if (_e.RowIndex >= 0)
+                            if (_e.RowIndex < SourceDataTable.Rows.Count)
+                            {
+                                NewRow = SourceDataTable.Rows[_e.RowIndex];
+                            }
+
+                        //                        script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRow.set_Item(System.Int32, System.Object)]
+                        //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+                        //script: error JSC1000: error at ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__DataGridView+<>c__DisplayClass3.<set_DataSource>b__1,
+                        // assembly: X:\jsc.svn\examples\javascript\forms\Test\TestDataTableNewRow\TestDataTableNewRow\bin\Release\ScriptCoreLib.Windows.Forms.dll
+
+                        Console.WriteLine("DataSource at CellValueChanged DataTable");
+                        NewRow[_e.ColumnIndex] = this[_e.ColumnIndex, _e.RowIndex].Value;
                     };
+
                 this.UserAddedRow +=
                     (_s, _e) =>
                     {
-                        if (this.DataSource != DataTable)
+                        if (this.InternalDataSourceSync != CurrentDataSourceSync)
                             return;
 
                         // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableNewRow\TestDataTableNewRow\ApplicationWebService.cs
-                        var r = DataTable.NewRow();
+                        Console.WriteLine("DataSource UserAddedRow" + new { SourceDataTable.Rows.Count });
+                        NewRow = SourceDataTable.NewRow();
+
+                        foreach (DataColumn item in SourceDataTable.Columns)
+                        {
+                            // user cannot enter null can he
+                            NewRow[item] = "";
+                        }
+
+
+                        // argh we need to add it!
+                        SourceDataTable.Rows.Add(NewRow);
+
+
+                        Console.WriteLine("DataSource UserAddedRow" + new { RowIndex = SourceDataTable.Rows.IndexOf(NewRow), SourceDataTable.Rows.Count });
+
                     };
 
 

@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataTableNewRow", "TestDataTableNewRow\TestDataTableNewRow.csproj", "{34E50DA4-68B7-460B-8C34-F008927DD5BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {B8D28279-57CD-4163-86F9-1DFDF540B58B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
 EndProject

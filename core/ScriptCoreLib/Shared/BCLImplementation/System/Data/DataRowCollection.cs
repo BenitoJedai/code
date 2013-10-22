@@ -40,6 +40,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             return InternalList;
         }
 
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRowCollection.IndexOf(System.Data.DataRow)]
+        public int IndexOf(DataRow row)
+        {
+            return this.InternalList.IndexOf(row);
+        }
+
         public DataRow this[int index]
         {
             get
