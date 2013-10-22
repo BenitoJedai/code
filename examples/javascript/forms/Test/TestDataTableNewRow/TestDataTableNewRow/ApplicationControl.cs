@@ -20,6 +20,11 @@ namespace TestDataTableNewRow
         {
             var DataTable = await applicationWebService1.DoEnterData();
 
+            init(DataTable);
+        }
+
+        private void init(System.Data.DataTable DataTable)
+        {
             // cut handlers
             //DataTable = DataTable.Clone();
 
@@ -33,16 +38,39 @@ namespace TestDataTableNewRow
             DataTable.ColumnChanged +=
                 (s, a) =>
                 {
-                    Console.WriteLine("ColumnChanged " + new { a.Row, a.Column, a.ProposedValue });
+                    Console.WriteLine("ColumnChanged " + new { RowIndexOf = DataTable.Rows.IndexOf(a.Row), a.Column, a.ProposedValue });
                 };
+            //add ColumnChanged
+            //Server TableNewRow { Row = System.Data.DataRow }
+            //TableNewRow { RowIndexOf = -1 }
+            //Server ColumnChanged { Row = System.Data.DataRow, Column = Column 2, ProposedValue = x }
+            //ColumnChanged { RowIndexOf = -1, Column = Column 2, ProposedValue = x }
+            //Server TableNewRow { Row = System.Data.DataRow }
+            //TableNewRow { RowIndexOf = -1 }
+
+
 
             DataTable.TableNewRow +=
                 (s, a) =>
                 {
-                    Console.WriteLine("TableNewRow " + new { a.Row });
+                    Console.WriteLine("TableNewRow " + new { RowIndexOf = DataTable.Rows.IndexOf(a.Row) });
 
                 };
             this.dataGridView1.DataSource = DataTable;
+
+
+            button1.Click +=
+                delegate
+                {
+                    // resync
+                    this.dataGridView1.DataSource = DataTable;
+                };
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            this.dataGridView1.DataSource = null;
         }
 
     }
