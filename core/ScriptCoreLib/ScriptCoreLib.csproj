@@ -97,6 +97,7 @@
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\DOM\CSSStyleRule.cs" />
+    <Compile Include="JavaScript\DOM\FileEntry.cs" />
     <Compile Include="JavaScript\DOM\Storage.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumnChangeEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumnChangeEventHandler.cs" />
