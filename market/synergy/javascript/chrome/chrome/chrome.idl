@@ -196,6 +196,57 @@ interface chrome.AppWindow
 
 };
 
+// https://developer.mozilla.org/en-US/docs/Web/API/FileEntry
+// reverese engineered
+// http://www.mosync.com/files/imports/doxygen/latest/html5/fileentry.md.html
+interface chrome.app.runtime.FileEntry
+{
+	attribute any   filesystem;
+
+	attribute string   fullPath;
+
+	attribute any   name;
+
+	attribute boolean   isDirectory;
+
+	attribute boolean   isFile;
+
+	attribute any   createWriter;
+
+	// http://www.w3.org/TR/file-system-api/#the-fileentry-interface
+	void file(function<any> successCallback);
+
+	attribute any   getMetadata;
+
+	attribute any   moveTo;
+
+	
+	attribute any   copyTo;
+
+
+	// returns null??
+	string   toURL();
+
+	attribute any   remove;
+
+	attribute any   getParent;
+};
+
+// http://developer.chrome.com/apps/fileSystem.html
+interface chrome.app.runtime.LaunchDataItem
+{
+	attribute FileEntry entry;
+	attribute string type;
+};
+
+interface chrome.app.runtime.LaunchData
+{
+	attribute string id;
+
+	// The file entries for the onLaunched event triggered by a matching file handler in the file_handlers manifest key.
+	attribute chrome.app.runtime.LaunchDataItem[] items;
+};
+
 
 
 // http://developer.chrome.com/trunk/apps/app.runtime.html
@@ -203,7 +254,7 @@ interface chrome.app.runtime
 {
 	static attribute string        id  ;
 
-	event static attribute chrome.ChromeEventTarget<any> onLaunched;
+	event static attribute chrome.ChromeEventTarget<chrome.app.runtime.LaunchData> onLaunched;
 	//event static attribute chrome.ChromeEventTarget onLaunched;
 	event static attribute chrome.ChromeEventTarget onRestarted;
 
