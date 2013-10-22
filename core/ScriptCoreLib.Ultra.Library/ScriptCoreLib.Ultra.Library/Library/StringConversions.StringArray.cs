@@ -155,6 +155,10 @@ namespace ScriptCoreLib.Library
                 foreach (DataColumn item in e.Columns)
                 {
                     var th = new XElement("DataColumn",
+                        new XAttribute(
+                            "ReadOnly",
+                            item.ReadOnly
+                        ),
                         item.ColumnName
                     );
 
@@ -211,7 +215,13 @@ namespace ScriptCoreLib.Library
             var xDataColumns = xColumns.Elements("DataColumn");
 
 
-            var Columns = xDataColumns.Select(k => new DataColumn { ColumnName = k.Value }).ToArray();
+            var Columns = xDataColumns.Select(
+                k =>
+                    new DataColumn
+                    {
+                        ColumnName = k.Value,
+                        ReadOnly = Convert.ToBoolean(k.Attribute("ReadOnly").Value)
+                    }).ToArray();
 
             n.Columns.AddRange(Columns);
 

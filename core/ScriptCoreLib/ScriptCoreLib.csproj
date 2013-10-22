@@ -98,6 +98,10 @@
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\DOM\CSSStyleRule.cs" />
     <Compile Include="JavaScript\DOM\Storage.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataColumnChangeEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataColumnChangeEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataTableNewRowEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataTableNewRowEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRowCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRow.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumnCollection.cs" />
