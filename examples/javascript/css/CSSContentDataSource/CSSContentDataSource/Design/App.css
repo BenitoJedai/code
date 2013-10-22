@@ -1,0 +1,8 @@
+h1 {
+    color: blue;
+}
+
+[data-column]:empty:before {
+    color: gray;
+    content: 'waiting for data';
+}
