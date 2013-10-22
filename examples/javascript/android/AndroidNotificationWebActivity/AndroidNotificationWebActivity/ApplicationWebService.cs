@@ -87,7 +87,8 @@ namespace foo
 
             var context = getApplicationContext();
 
-            var myIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("http://www.jsc-solutions.net"));
+            var myIntent = new Intent(Intent.ACTION_VIEW, 
+                android.net.Uri.parse("http://www.jsc-solutions.net"));
 
             var pendingIntent = PendingIntent.getActivity(
                 getBaseContext(),
