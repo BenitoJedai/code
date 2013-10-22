@@ -1071,7 +1071,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return x.AsHTMLElement();
         }
 
+        public static implicit operator XElement(IHTMLElement x)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\Test\TestQuerySelectorFromServer\TestQuerySelectorFromServer\Application.cs
 
+            return x.AsXElement();
+        }
 
         [System.Obsolete("experimental")]
         public static implicit operator IHTMLElement(Task<XElement> x)

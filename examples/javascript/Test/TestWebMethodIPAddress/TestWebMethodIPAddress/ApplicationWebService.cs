@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,7 @@ namespace TestWebMethodIPAddress
                 {
                     // the only id we get?
                     h.Context.Request.UserHostAddress,
+                    h.Context.Request.UserAgent,
 
                     //h.Context.Request.ClientCertificate.Subject,
                     //h.Context.Request.ClientCertificate.Cookie,
@@ -54,7 +56,9 @@ namespace TestWebMethodIPAddress
 
 
 
-
+        [EditorBrowsableAttribute(EditorBrowsableState.Never)]
+        [Browsable(false), DesignerSerializationVisibility(
+                               DesignerSerializationVisibility.Hidden)]
         [Obsolete("experimental")]
         public WebServiceHandler h { set; get; }
 

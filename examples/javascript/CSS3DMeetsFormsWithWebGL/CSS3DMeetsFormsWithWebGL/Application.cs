@@ -730,7 +730,7 @@ namespace CSS3DMeetsFormsWithWebGL
 
     sealed class __McKrackenFirstRoom
     {
-        public __McKrackenFirstRoom(global::McKrackenFirstRoom.HTML.Pages.IDefault page)
+        public __McKrackenFirstRoom(global::McKrackenFirstRoom.HTML.Pages.IApp page)
         {
             new global::McKrackenFirstRoom.Application(page);
         }
