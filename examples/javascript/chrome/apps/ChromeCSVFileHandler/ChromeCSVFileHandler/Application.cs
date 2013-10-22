@@ -15,7 +15,9 @@ using ScriptCoreLib.JavaScript.Runtime;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -236,7 +238,7 @@ namespace ChromeCSVFileHandler
                 // http://developer.chrome.com/apps/manifest/file_handlers.html
                 // https://code.google.com/p/chromium/issues/detail?id=192536
                 chrome.app.runtime.Launched +=
-                      e =>
+                      async e =>
                       {
                           var n = new Notification
                            {
@@ -255,66 +257,116 @@ namespace ChromeCSVFileHandler
                                   x.entry.isFile,
                               };
 
-
-                              x.entry.file(
-                                new Action<File>(
-                                    xFile =>
-                                    {
-                                        //var r = new FileReaderSync();
-                                        var r = new FileReader();
-
-                                        r.onload =
-                                            new Action(
-                                                delegate
-                                                {
-                                                    Console.WriteLine(new { r.result });
-                                                }
-                                            );
+                              Action<FileEntry> read = async entry =>
+                              {
+                                  Console.WriteLine("before file");
+                                  var f = await entry.file();
+                                  Console.WriteLine("after file");
 
 
-                                        r.readAsText(xFile, "UTF-8");
+                                  Console.WriteLine("before readAsText");
+                                  var result = await f.readAsText();
+                                  Console.WriteLine("after readAsText");
 
-                                        // faki dudli doo. it works after a few hours.
+                                  Console.WriteLine(new { result });
 
 
-                                        //                                        { result = "Column 1","Column 2",
-                                        //"#0","John Doe, Canada | 600 USD",
-                                        //"#1","John Doe, Canada | 600 USD",
-                                        //"#2","John Doe, Canada | 600 USD",
-                                        //"#3","John Doe, Canada | 600 USD",
-                                        //"#4","John Doe, Canada | 600 USD",
-                                        //"#5","John Doe, Canada | 600 USD",
-                                        //"#6","John Doe, Canada | 600 USD",
-                                        //"#7","John Doe, Canada | 600 USD",
-                                        //"#8","John Doe, Canada | 600 USD",
-                                        //"#9","John Doe, Canada | 600 USD",
-                                        //"#10","John Doe, Canada | 600 USD",
-                                        //"#11","John Doe, Canada | 600 USD",
-                                        //"#12","John Doe, Canada | 600 USD",
-                                        //"#13","John Doe, Canada | 600 USD",
-                                        //"#14","John Doe, Canada | 600 USD",
-                                        //"#15","John Doe, Canada | 600 USD",
-                                        //"#16","John Doe, Canada | 600 USD",
-                                        //"#17","John Doe, Canada | 600 USD",
-                                        //"#18","John Doe, Canada | 600 USD",
-                                        //"#19","John Doe, Canada | 600 USD",
-                                        //"#20","John Doe, Canada | 600 USD",
-                                        //"#21","John Doe, Canada | 600 USD",
-                                        //"#22","John Doe, Canada | 600 USD",
-                                        //"#23","John Doe, Canada | 600 USD",
-                                        //"#24","John Doe, Canada | 600 USD",
-                                        //"#25","John Doe, Canada | 600 USD",
-                                        //"#26","John Doe, Canada | 600 USD",
-                                        //"#27","John Doe, Canada | 600 USD",
-                                        //"#28","John Doe, Canada | 600 USD",
-                                        //"#29","John Doe, Canada | 600 USD",
-                                        //"#30","John Doe, Canada | 600 USD",
-                                        //"#31","John Doe, Canada | 600 USD",
-                                        // } 
+                                  //                                  result = "Column 1","Column 2",
+                                  //"#0","John Doe, Canada | 600 USD",
 
-                                    }
-                                 )
+                                  var data = new DataTable();
+
+                                  var re = new StringReader(result);
+
+
+                                  var Headers = re.ReadLine();
+
+
+                                  ("\"," + Headers + ",\"").Split(new[] { "\",\"" }, StringSplitOptions.None).WithEach(
+                                  ColumnName =>
+                                  {
+                                      data.Columns.Add(
+                                          new DataColumn { ColumnName = ColumnName }
+                                      );
+                                  }
                               );
+
+                                  var Line = re.ReadLine();
+
+                                  while (Line != null)
+                                  {
+                                      var Row = data.NewRow();
+
+                                      ("\"," + Line + ",\"").Split(new[] { "\",\"" }, StringSplitOptions.None).WithEachIndex(
+                                          (value, index) =>
+                                          {
+                                              if (index < data.Columns.Count)
+                                                  Row[index] = value;
+                                          }
+                                     );
+
+                                      data.Rows.Add(Row);
+
+
+
+
+                                      Line = re.ReadLine();
+                                  }
+
+                                  //content
+
+                                  var content = new ApplicationControl();
+
+                                  content.dataGridView1.DataSource = data;
+
+                                  var cf = new Form();
+
+                                  content.Dock = DockStyle.Fill;
+                                  cf.Controls.Add(content);
+
+                                  cf.Show();
+                              };
+
+                              read(x.entry);
+
+
+                              // faki dudli doo. it works after a few hours.
+
+
+                              //                                        { result = "Column 1","Column 2",
+                              //"#0","John Doe, Canada | 600 USD",
+                              //"#1","John Doe, Canada | 600 USD",
+                              //"#2","John Doe, Canada | 600 USD",
+                              //"#3","John Doe, Canada | 600 USD",
+                              //"#4","John Doe, Canada | 600 USD",
+                              //"#5","John Doe, Canada | 600 USD",
+                              //"#6","John Doe, Canada | 600 USD",
+                              //"#7","John Doe, Canada | 600 USD",
+                              //"#8","John Doe, Canada | 600 USD",
+                              //"#9","John Doe, Canada | 600 USD",
+                              //"#10","John Doe, Canada | 600 USD",
+                              //"#11","John Doe, Canada | 600 USD",
+                              //"#12","John Doe, Canada | 600 USD",
+                              //"#13","John Doe, Canada | 600 USD",
+                              //"#14","John Doe, Canada | 600 USD",
+                              //"#15","John Doe, Canada | 600 USD",
+                              //"#16","John Doe, Canada | 600 USD",
+                              //"#17","John Doe, Canada | 600 USD",
+                              //"#18","John Doe, Canada | 600 USD",
+                              //"#19","John Doe, Canada | 600 USD",
+                              //"#20","John Doe, Canada | 600 USD",
+                              //"#21","John Doe, Canada | 600 USD",
+                              //"#22","John Doe, Canada | 600 USD",
+                              //"#23","John Doe, Canada | 600 USD",
+                              //"#24","John Doe, Canada | 600 USD",
+                              //"#25","John Doe, Canada | 600 USD",
+                              //"#26","John Doe, Canada | 600 USD",
+                              //"#27","John Doe, Canada | 600 USD",
+                              //"#28","John Doe, Canada | 600 USD",
+                              //"#29","John Doe, Canada | 600 USD",
+                              //"#30","John Doe, Canada | 600 USD",
+                              //"#31","John Doe, Canada | 600 USD",
+                              // } 
 
 
 
@@ -332,17 +384,7 @@ namespace ChromeCSVFileHandler
                           // http://developer.chrome.com/apps/first_app.html#open
                           // http://stackoverflow.com/questions/19227472/how-to-open-a-chrome-packaged-app-with-a-parameter-on-windows/19446501#19446501
 
-                          n.Clicked +=
-                              delegate
-                              {
-                                  var content = new ApplicationControl();
-                                  var f = new Form();
 
-                                  content.Dock = DockStyle.Fill;
-                                  f.Controls.Add(content);
-
-                                  f.Show();
-                              };
                       };
 
                 return;
