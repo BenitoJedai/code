@@ -1,8 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
-using ScriptCoreLib.Desktop.Forms.Extensions;
 using System;
 
-namespace TestAsyncNET40
+namespace TestQuerySelectorFromServer
 {
     /// <summary>
     /// You can debug your application by hitting F5.
@@ -11,13 +10,7 @@ namespace TestAsyncNET40
     {
         public static void Main(string[] args)
         {
-//#if DEBUG
-//            DesktopFormsExtensions.Launch(
-//                () => new ApplicationControl()
-//            );
-//#else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
-//#endif
         }
 
     }

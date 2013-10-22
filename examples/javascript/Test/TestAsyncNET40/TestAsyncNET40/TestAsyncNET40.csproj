@@ -135,9 +135,6 @@
     <Reference Include="TestAsyncNET40.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\TestAsyncNET40.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Async">
-      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -161,7 +158,6 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

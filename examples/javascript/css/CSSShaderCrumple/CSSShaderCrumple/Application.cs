@@ -26,19 +26,27 @@ namespace ScriptCoreLib.JavaScript.Extensions
                 fs = new CSSShaderCrumple.Shaders.crumpleFragmentShader()
             };
 
-            var c = "styleclass" + new Random().Next();
+            //var c = "styleclass" + new Random().Next();
 
-            e.className += " " + c;
+            //e.className += " " + c;
 
-            (IStyleSheet.Default["." + c].style as dynamic).webkitTransition = "-webkit-filter linear 1.5s";
+            //(IStyleSheet.Default["." + c].style as dynamic).webkitTransition = "-webkit-filter linear 1.5s";
 
 
+            e.css.style.transition = "-webkit-filter linear 1.5s";
 
-            (IStyleSheet.Default["." + c + ":hover"].style as dynamic).webkitFilter =
-                "custom(url(" + crumple.vs.ToDataUrl() + ") mix(url(" + crumple.fs.ToDataUrl() + ") multiply source-atop), 50 50, amount 0, strength 0.2, lightIntensity 1.05, transform rotateX(0deg) translateZ(0px) )";
+            //(IStyleSheet.Default["." + c + ":hover"].style as dynamic)
+            (e.css.hover.style as dynamic)
+                .webkitFilter =
+                    "custom(url(" + crumple.vs.ToDataUrl() + ") mix(url(" + crumple.fs.ToDataUrl() + ") multiply source-atop), 50 50, amount 0, strength 0.2, lightIntensity 1.05, transform rotateX(0deg) translateZ(0px) )";
 
-            (IStyleSheet.Default["." + c].style as dynamic).webkitFilter =
-                "custom(url(" + crumple.vs.ToDataUrl() + ") mix(url(" + crumple.fs.ToDataUrl() + ") multiply source-atop), 50 50, amount 1, strength 0.2, lightIntensity 1.05, transform rotateX(0deg) translateZ(0px) )";
+            //(IStyleSheet.Default["." + c].style as dynamic).webkitFilter =
+            e.css.style.setProperty(
+                "-webkit-filter",
+                 "custom(url(" + crumple.vs.ToDataUrl() + ") mix(url(" + crumple.fs.ToDataUrl() + ") multiply source-atop), 50 50, amount 1, strength 0.2, lightIntensity 1.05, transform rotateX(0deg) translateZ(0px) )",
+                 ""
+                );
+
 
         }
     }
