@@ -12,6 +12,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
     {
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
 
+        public void raise_ColumnChanged(DataColumnChangeEventArgs e)
+        {
+            if (this.ColumnChanged != null)
+                this.ColumnChanged(this, e);
+        }
+
+
+        public event DataColumnChangeEventHandler ColumnChanged;
+        public event DataTableNewRowEventHandler TableNewRow;
+
         public string TableName { get; set; }
 
         public DataColumnCollection Columns { get; internal set; }
@@ -26,7 +36,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         public DataRow NewRow()
         {
-            return new __DataRow();
+            var r = new __DataRow { Table = this };
+
+            if (this.TableNewRow != null)
+                this.TableNewRow(this, new DataTableNewRowEventArgs(r));
+
+            return r;
+        }
+
+        public static implicit operator DataTable(__DataTable x)
+        {
+            return (DataTable)(object)x;
         }
     }
 }

@@ -17,7 +17,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridView))]
-    internal class __DataGridView : __Control, __ISupportInitialize
+    internal partial class __DataGridView : __Control, __ISupportInitialize
     {
         public DataGridViewAutoSizeColumnsMode AutoSizeColumnsMode { get; set; }
 
@@ -1853,86 +1853,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        #region DataSource
-        public event EventHandler DataSourceChanged;
-
-        public object InternalDataSource;
-        public object DataSource
-        {
-            get
-            {
-                return InternalDataSource;
-            }
-            set
-            {
-                this.InternalDataSource = value;
-
-                #region DataTable
-                var DataTable = value as DataTable;
-                if (DataTable != null)
-                {
-                    // now what?
-
-                    // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
-                    // http://stackoverflow.com/questions/6902269/moving-data-from-datatable-to-datagridview-in-c-sharp
-
-                    this.Rows.Clear();
-
-                    while (this.Columns.Count > DataTable.Columns.Count)
-                        this.Columns.RemoveAt(this.Columns.Count - 1);
-
-
-                    var cIndex = 0;
-                    foreach (DataColumn item in DataTable.Columns)
-                    {
-                        if (cIndex < this.Columns.Count)
-                        {
-                            this.Columns[cIndex].HeaderText = item.ColumnName;
-                        }
-                        else
-                        {
-                            this.Columns.Add(
-                                new DataGridViewColumn
-                                {
-                                    HeaderText = item.ColumnName
-                                }
-                            );
-                        }
-
-                        cIndex++;
-                    }
-
-                    foreach (DataRow item in DataTable.Rows)
-                    {
-                        var r = new DataGridViewRow();
-
-                        foreach (DataColumn c in DataTable.Columns)
-                        {
-                            r.Cells.Add(
-                                new DataGridViewTextBoxCell
-                                {
-                                    // two way binding?
-                                    //ReadOnly = true,
-
-                                    Value = item[c]
-                                }
-                            );
-                        }
-
-                        this.Rows.Add(r);
-                    }
-                }
-                #endregion
-
-
-                if (DataSourceChanged != null)
-                    DataSourceChanged(this, new EventArgs());
-
-            }
-        }
-        #endregion
-
-
+    
 
         //script: error JSC1000: No implementation found for this native method, please implement 
         // [System.Windows.Forms.DataGridView.set_AlternatingRowsDefaultCellStyle(System.Windows.Forms.DataGridViewCellStyle)]

@@ -13,6 +13,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         public List<Tuple<DataColumn, object>> InternalData = new List<Tuple<DataColumn, object>>();
 
+        public object this[int column]
+        {
+
+            set
+            {
+                this[this.Table.Columns[column]] = value;
+            }
+        }
         public object this[DataColumn column]
         {
             get
@@ -34,11 +42,23 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
                     InternalData.Remove(x);
                 }
 
-                x = new Tuple<DataColumn, object>(column, value);
+                var args = new DataColumnChangeEventArgs(
+                    this, column,
+                    value
+                );
+
+                Console.WriteLine("before raise_ColumnChanged");
+
+                ((__DataTable)(object)this.Table).raise_ColumnChanged(args);
+
+
+                x = new Tuple<DataColumn, object>(column, args.ProposedValue);
 
                 InternalData.Add(x);
             }
         }
+
+        public DataTable Table { get; set; }
 
         public static implicit operator DataRow(__DataRow x)
         {

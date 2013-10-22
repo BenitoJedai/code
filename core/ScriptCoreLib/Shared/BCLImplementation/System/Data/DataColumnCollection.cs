@@ -38,6 +38,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             return InternalList;
         }
 
+        public DataColumn this[int index]
+        {
+            get
+            {
+                return this.InternalList[index];
+            }
+        }
 
         public static implicit operator DataColumnCollection(__DataColumnCollection x)
         {

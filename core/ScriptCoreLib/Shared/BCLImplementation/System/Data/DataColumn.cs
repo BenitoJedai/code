@@ -11,6 +11,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
     {
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
 
+        // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableNewRow\TestDataTableNewRow\ApplicationWebService.cs
+        public bool ReadOnly { get; set; }
+
         public string ColumnName { get; set; }
     }
 }

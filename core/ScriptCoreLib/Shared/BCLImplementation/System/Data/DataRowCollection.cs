@@ -40,6 +40,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             return InternalList;
         }
 
+        public DataRow this[int index]
+        {
+            get
+            {
+                return this.InternalList[index];
+            }
+        }
 
         public static implicit operator DataRowCollection(__DataRowCollection x)
         {
