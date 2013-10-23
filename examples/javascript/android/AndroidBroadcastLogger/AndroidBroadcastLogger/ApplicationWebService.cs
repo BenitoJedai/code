@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using ScriptCoreLibJava.Extensions;
 
 namespace AndroidBroadcastLogger
 {
@@ -99,7 +100,23 @@ namespace AndroidBroadcastLogger
                             // I/System.Console( 7351): ApplicationWebService cctor: { value = <string c="1">Visit me at 192.168.43.252:25452</string> }
                             ApplicationWebServiceExtensions.History.Add(
                                 xml
-                           );
+                            );
+
+                            var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
+
+                            var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
+
+                            intent.putExtra("data0", "Application");
+
+                            var uri = "http://visit.jsc-solutions.net";
+
+                            if (xml.Value.StartsWith("Visit me at "))
+                                uri = "http://" + xml.Value.Substring("Visit me at ".Length);
+
+
+                            intent.putExtra("data1", uri);
+
+                            c.startService(intent);
                         }
                         catch (Exception ex)
                         {
@@ -110,7 +127,7 @@ namespace AndroidBroadcastLogger
                             );
                         }
 
-                   
+
 
                         // http://grepcode.com/file/repository.springsource.com/org.apache.xalan/com.springsource.org.apache.xml.serializer/2.7.1/org/apache/xml/serializer/ToStream.java#2099
 
