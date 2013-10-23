@@ -35,6 +35,15 @@
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android|x86'">
+    <OutputPath>bin\x86\Android\</OutputPath>
+    <DefineConstants>TRACE;Android</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
@@ -90,9 +99,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibJava">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -154,6 +162,11 @@
     <PostBuildEvent>
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
+		)
+
+
+		if $(ConfigurationName)==Android (
+		start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		            </PreBuildEvent>

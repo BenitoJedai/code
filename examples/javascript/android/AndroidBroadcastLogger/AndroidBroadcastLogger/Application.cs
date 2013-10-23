@@ -38,6 +38,7 @@ namespace AndroidBroadcastLogger
         {
             content.AttachControlToDocument();
 
+            // E/Web Console( 6922): Uncaught Error: SYNTAX_ERR: DOM Exception 12 at http://192.168.43.7:1440/view-source:11710
 
         }
 
