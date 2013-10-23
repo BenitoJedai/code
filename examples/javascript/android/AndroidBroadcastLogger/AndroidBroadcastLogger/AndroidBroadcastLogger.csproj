@@ -129,6 +129,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\java\JVMCLRBroadcastLogger\JVMCLRBroadcastLogger\Library\__AndroidMulticast.cs">
+      <Link>Library\__AndroidMulticast.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
