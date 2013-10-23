@@ -127,6 +127,9 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
+    <Reference Include="AndroidNotificationWebActivity.AssetsLibrary">
+      <HintPath>..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\bin\staging.AssetsLibrary\AndroidNotificationWebActivity.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\..\java\JVMCLRBroadcastLogger\JVMCLRBroadcastLogger\Library\__AndroidMulticast.cs">
@@ -159,6 +162,12 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AndroidNotificationWebActivity\AndroidNotificationWebActivity\AndroidNotificationWebActivity.csproj">
+      <Project>{68616df5-ad84-4d65-85c4-35bb96171391}</Project>
+      <Name>AndroidNotificationWebActivity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

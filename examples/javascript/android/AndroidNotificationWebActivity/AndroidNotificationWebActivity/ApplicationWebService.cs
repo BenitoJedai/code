@@ -69,17 +69,18 @@ namespace foo
 
             var Title = "Notification!";
 
-            var Title1 = "Notification!";
+            var TargetUri = "http://www.jsc-solutions.net";
 
             if (value0.hasExtra("data0"))
                 Title = value0.getStringExtra("data0");
 
             if (value0.hasExtra("data1"))
-                Title1 = value0.getStringExtra("data1");
+                TargetUri = value0.getStringExtra("data1");
 
 
             var myNotification = new Notification(
-                android.R.drawable.star_on,
+                // http://docs.since2006.com/android/2.1-drawables.php
+                android.R.drawable.ic_menu_view,
                 Title,
                 0
                 //java.lang.System.currentTimeMillis()
@@ -87,8 +88,8 @@ namespace foo
 
             var context = getApplicationContext();
 
-            var myIntent = new Intent(Intent.ACTION_VIEW, 
-                android.net.Uri.parse("http://www.jsc-solutions.net"));
+            var myIntent = new Intent(Intent.ACTION_VIEW,
+                android.net.Uri.parse(TargetUri));
 
             var pendingIntent = PendingIntent.getActivity(
                 getBaseContext(),
@@ -100,7 +101,7 @@ namespace foo
             myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
             myNotification.setLatestEventInfo(context,
                     Title,
-                    Title1,
+                    TargetUri,
                pendingIntent);
             notificationManager.notify(1, myNotification);
 
