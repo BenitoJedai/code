@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{681B1DF4-3C01-46E3-A52B-B88523F3B5A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRBroadcastLogger", "..\..\..\java\JVMCLRBroadcastLogger\JVMCLRBroadcastLogger\JVMCLRBroadcastLogger.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -50,6 +52,21 @@ Global
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|Any CPU.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|Mixed Platforms.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|x86.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|x86.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.Build.0 = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|Any CPU.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
