@@ -196,6 +196,24 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\IPHostEntry.cs">
       <Link>BCLImplementation\System\Net\IPHostEntry.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\IPAddressInformation.cs">
+      <Link>BCLImplementation\System\Net\NetworkInformation\IPAddressInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\IPInterfaceProperties.cs">
+      <Link>BCLImplementation\System\Net\NetworkInformation\IPInterfaceProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\NetworkInterface.cs">
+      <Link>BCLImplementation\System\Net\NetworkInformation\NetworkInterface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\PhysicalAddress.cs">
+      <Link>BCLImplementation\System\Net\NetworkInformation\PhysicalAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\UnicastIPAddressInformation.cs">
+      <Link>BCLImplementation\System\Net\NetworkInformation\UnicastIPAddressInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\NetworkInformation\UnicastIPAddressInformationCollection.cs">
+      <Link>BCLImplementation\System\Net\NetworkInformation\UnicastIPAddressInformationCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Net\Sockets\NetworkStream.cs">
       <Link>BCLImplementation\System\Net\Sockets\NetworkStream.cs</Link>
     </Compile>
@@ -561,6 +579,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\HttpURLConnection.cs">
       <Link>java\net\HttpURLConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\Inet4Address.cs">
+      <Link>java\net\Inet4Address.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\Inet6Address.cs">
       <Link>java\net\Inet6Address.cs</Link>
