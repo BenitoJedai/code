@@ -127,6 +127,11 @@
     <Compile Include="BCLImplementation\System\Diagnostics\StackTrace.cs" />
     <Compile Include="BCLImplementation\System\IO\FileStream.cs" />
     <Compile Include="BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs" />
+    <Compile Include="BCLImplementation\System\Net\NetworkInformation\IPAddressInformation.cs" />
+    <Compile Include="BCLImplementation\System\Net\NetworkInformation\UnicastIPAddressInformation.cs" />
+    <Compile Include="BCLImplementation\System\Net\NetworkInformation\UnicastIPAddressInformationCollection.cs" />
+    <Compile Include="BCLImplementation\System\Net\NetworkInformation\IPInterfaceProperties.cs" />
+    <Compile Include="BCLImplementation\System\Net\NetworkInformation\PhysicalAddress.cs" />
     <Compile Include="BCLImplementation\System\Net\WebHeaderCollection.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="BCLImplementation\System\Single.cs" />
