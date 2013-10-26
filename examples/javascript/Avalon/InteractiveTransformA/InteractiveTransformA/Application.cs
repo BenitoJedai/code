@@ -32,7 +32,7 @@ namespace InteractiveTransformA
         {
             content.AttachToContainer(page.Content);
             content.AutoSizeTo(page.ContentSize);
-            @"Hello world".ToDocumentTitle();
+            //@"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             //service.WebMethod2(
             //    @"A string from JavaScript.",

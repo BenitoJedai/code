@@ -9,19 +9,19 @@ namespace RuntimeHTMLDesignMode
 {
     using FooApplicationWebService = ApplicationWebService;
 
-    sealed class FooApplication
+    public sealed class FooApplication
     {
         FooApplicationWebService service = new FooApplicationWebService();
 
         public FooApplication(IFoo foo)
         {
-            Native.Window.alert("hey");
+            Native.window.alert("hey");
 
 
         }
     }
 
-    class FooApplicationFoo
+    public class FooApplicationFoo
     {
         public string ContentKey;
         public string ContentValue;
@@ -30,7 +30,7 @@ namespace RuntimeHTMLDesignMode
         public List<FooApplicationFoo> Children = new List<FooApplicationFoo>();
     }
 
-    class FooApplicationData
+    public class FooApplicationData
     {
         // datasource: FooApplicationData
         // table: foo

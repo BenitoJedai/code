@@ -78,7 +78,7 @@ namespace MatrixTransformC1Example
             var sw = new Stopwatch();
             var x = 0.0;
 
-            t.Tick +=
+           Native.window.onframe +=
                 delegate
                 {
                     sw.Stop();
@@ -144,7 +144,6 @@ namespace MatrixTransformC1Example
 
                 };
 
-            t.StartInterval(1000 / 30);
         }
 
     }
