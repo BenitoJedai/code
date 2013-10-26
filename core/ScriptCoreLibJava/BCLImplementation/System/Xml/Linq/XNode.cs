@@ -60,14 +60,32 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
                 var s = new DOMSource(this.InternalValue);
                 var w = new StringWriter();
+
                 var r = new StreamResult(w);
+
                 var f = TransformerFactory.newInstance();
 
                 f.newTransformer().transform(s, r);
             }
             catch
             {
-                throw;
+                // X:\jsc.svn\examples\javascript\forms\FormsNIC\FormsNIC\ApplicationWebService.cs
+
+
+                //Caused by: java.lang.NullPointerException
+                //       at org.apache.xml.serializer.ToStream.writeAttrString(ToStream.java:2099)
+                //       at org.apache.xml.serializer.ToStream.processAttributes(ToStream.java:2079)
+                //       at org.apache.xml.serializer.ToStream.closeStartTag(ToStream.java:2623)
+                //       at org.apache.xml.serializer.ToStream.characters(ToStream.java:1410)
+                //       at org.apache.xalan.transformer.TransformerIdentityImpl.characters(TransformerIdentityImpl.java:1126)
+                //       at org.apache.xml.serializer.TreeWalker.dispatachChars(TreeWalker.java:246)
+                //       at org.apache.xml.serializer.TreeWalker.startNode(TreeWalker.java:416)
+                //       at org.apache.xml.serializer.TreeWalker.traverse(TreeWalker.java:145)
+                //       at org.apache.xalan.transformer.TransformerIdentityImpl.transform(TransformerIdentityImpl.java:390)
+                //       at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XNode.InternalFixBeforeAdobt(__XNode.java:77)
+                //       ... 25 more
+
+                //throw;
             }
 
         }
@@ -79,6 +97,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
             try
             {
+
+
                 //I/System.Console(12089): Caused by: java.lang.NullPointerException
                 //I/System.Console(12089):        at org.apache.xml.serializer.ToStream.writeAttrString(ToStream.java:2099)
                 //I/System.Console(12089):        at org.apache.xml.serializer.ToStream.processAttributes(ToStream.java:2079)

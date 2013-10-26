@@ -103,8 +103,11 @@ namespace FormsNIC
                             InetAddressesString += "; " + g.Address;
                         }
                     );
+
+
                     row[cGatewayAddresses] = InetAddressesString;
 
+                    Console.WriteLine(new { n.Description, InetAddressesString });
                     table.Rows.Add(row);
 
                 }

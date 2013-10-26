@@ -288,6 +288,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public CSSStyleRule AddRule(string selector, string declaration, int index)
         {
+
             if (Expando.InternalIsMember(this, "insertRule"))
                 this.insertRule(selector + "{" + declaration + "}", index);
             else if (Expando.InternalIsMember(this, "addRule"))
@@ -302,6 +303,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public CSSStyleRule AddRule(string selector)
         {
+            // does webview support this?
             return AddRule(selector, "/**/", this.Rules.Length);
         }
 
