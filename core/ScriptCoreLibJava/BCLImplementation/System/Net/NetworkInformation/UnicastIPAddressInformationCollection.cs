@@ -11,7 +11,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
     [Script(Implements = typeof(global::System.Net.NetworkInformation.UnicastIPAddressInformationCollection))]
     internal class __UnicastIPAddressInformationCollection : IEnumerable<__UnicastIPAddressInformation>
     {
-        public IEnumerable<__UnicastIPAddressInformation> InternalValue;
+        public List<__UnicastIPAddressInformation> InternalValue;
+
+        public virtual int Count
+        {
+            get
+            {
+                return InternalValue.Count;
+            }
+        }
 
         public static implicit operator global::System.Net.NetworkInformation.UnicastIPAddressInformationCollection(__UnicastIPAddressInformationCollection i)
         {

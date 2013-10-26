@@ -791,6 +791,7 @@
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
     <Compile Include="java\lang\reflect\InvocationTargetException.cs" />
     <Compile Include="java\math\BigInteger.cs" />
+    <Compile Include="java\net\Inet4Address.cs" />
     <Compile Include="java\net\MulticastSocket.cs" />
     <Compile Include="java\net\DatagramPacket.cs" />
     <Compile Include="java\net\DatagramSocket.cs" />
