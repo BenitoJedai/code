@@ -59,7 +59,7 @@ namespace SimpleSVGexample
             "h2".AttachToDocument().innerText = "svg + vml example";
 
             if (!ISVGElementBase.Settings.IsSupported)
-                Native.Window.alert("svg not supported in this browser!");
+                Native.window.alert("svg not supported in this browser!");
 
 
             Test1();
