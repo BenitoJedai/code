@@ -19,16 +19,27 @@ namespace FSharpHelloExperiment
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     [<Sealed>]
-    type Application(page : IDefaultPage) as me = 
+    type Application(page : IDefault ) as me = 
         let this = me
         do ()
         do 
             let service = new ApplicationWebService()
 
-            Native.Document.title <- "HelloFSharpTeam2"
+            Native.document.title <- "HelloFSharpTeam2"
 
-            let ApplicationView = Extensions.Extensions.AttachToDocument( new IHTMLDiv())
+            // fck u fsharp
+            // Error	1	A unique overload for method 'AttachToDocument' could not be determined based on type information prior to this program point. A type annotation may be needed. Candidates: Extensions.AttachToDocument<'T when 'T :> INodeConvertible<INode>>(e: 'T) : 'T, Extensions.AttachToDocument<'T when 'T :> INodeConvertible<INode>>(e: Collections.Generic.IEnumerable<'T>) : Collections.Generic.IEnumerable<'T>	X:\jsc.svn\examples\javascript\fsharp\FSharpHelloExperiment\FSharpHelloExperiment\Application.fs	30	35	FSharpHelloExperiment
+
+
+//            let ApplicationView = Extensions.Extensions.AttachToDocument( new IHTMLDiv())
+            let ApplicationView =  new IHTMLDiv()
+
+            do page.body.appendChild(ApplicationView )
+
               
+              // Error	3	Lookup on object of indeterminate type based on information prior to this program point. A type annotation may be needed prior to this program point to constrain the type of the object. This may allow the lookup to be resolved.	X:\jsc.svn\examples\javascript\fsharp\FSharpHelloExperiment\FSharpHelloExperiment\Application.fs	32	13	FSharpHelloExperiment
+
+
             ApplicationView.style.position <- IStyle.PositionEnum.absolute
             ApplicationView.style.width <-"100%"
             ApplicationView.style.height <- "100%"
@@ -67,7 +78,7 @@ namespace FSharpHelloExperiment
 
             text1.add_onclick(
                 fun (e) ->
-                    Native.Window.alert("Howdy")
+                    Native.window.alert("Howdy")
             )
             header.Add(text1)
 
