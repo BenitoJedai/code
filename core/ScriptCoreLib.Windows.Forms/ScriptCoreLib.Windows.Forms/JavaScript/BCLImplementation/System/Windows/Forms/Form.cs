@@ -534,10 +534,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         }
 
                     // { InternalHostHeight = 0, y = 301 } 
-                    var MinimizeY = InternalHostHeight - 26;
+                    //var MinimizeY = InternalHostHeight - 26;
                     var y = InternalCaptionDrag.Position.Y;
-                    Console.WriteLine(new { InternalHostHeight, y });
-                    y = Math.Min(MinimizeY, Math.Max(-4, y));
+                    //Console.WriteLine(new { InternalHostHeight, y });
+                    //y = Math.Min(MinimizeY, Math.Max(-4, y));
+                    y = Math.Max(-4, y);
 
 
                     if (FirstMove)
@@ -573,14 +574,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         CaptionShadow.Show();
                     }
-                    else
-                    {
+                    //else
+                    //{
 
-                        if (y < MinimizeY)
-                            CaptionShadow.Hide();
-                        else
-                            CaptionShadow.Show();
-                    }
+                    //    if (y < MinimizeY)
+                    //        CaptionShadow.Hide();
+                    //    else
+                    //        CaptionShadow.Show();
+                    //}
                 };
             #endregion
 
@@ -598,6 +599,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (!AnyMove)
                         return;
 
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\MatrixTransformBExample\MatrixTransformBExperiment\Application.cs
+
                     //var Location = this.Location;
 
                     //this.Text = new { drag.Position.X, drag.Position.Y }.ToString();
@@ -607,7 +611,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Native.document.body.style.cursor = IStyle.CursorEnum.@default;
 
 
-                    var MinimizeY = InternalHostHeight - 26;
+                    //var MinimizeY = InternalHostHeight - 26;
                     var y = InternalCaptionDrag.Position.Y;
 
                     //if (this.HTMLTarget.parentNode != Native.document.body)
@@ -626,24 +630,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         this.InternalRestoreLocation = new Point(BeforePosition.X, BeforePosition.Y);
                     }
-                    else if (y >= MinimizeY)
-                    {
-                        if (this.WindowState != FormWindowState.Minimized)
-                        {
-                            // do we need this?
+                    //else if (y >= MinimizeY)
+                    //{
+                    //    if (this.WindowState != FormWindowState.Minimized)
+                    //    {
+                    //        // do we need this?
 
-                            var cs = this.ClientSize;
-                            var ll = this.Location;
+                    //        var cs = this.ClientSize;
+                    //        var ll = this.Location;
 
-                            //drag.Position = BeforePosition;
-                            //this.Location = new Point(BeforePosition.X, BeforePosition.Y);
+                    //        //drag.Position = BeforePosition;
+                    //        //this.Location = new Point(BeforePosition.X, BeforePosition.Y);
 
-                            this.WindowState = FormWindowState.Minimized;
+                    //        this.WindowState = FormWindowState.Minimized;
 
-                            //this.InternalRestoreClientSIze = cs;
-                            this.InternalRestoreLocation = ll;
-                        }
-                    }
+                    //        //this.InternalRestoreClientSIze = cs;
+                    //        this.InternalRestoreLocation = ll;
+                    //    }
+                    //}
                     else
                     {
                         //Console.WriteLine("to Normal ? " + new { this.WindowState });

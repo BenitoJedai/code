@@ -15,11 +15,10 @@ namespace FSharpHelloExperiment
         let this = me
         do ()
 
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
+
+        // Attempt by method 'FSharpHelloExperiment.Global.Invoke(ScriptCoreLib.Ultra.WebService.InternalWebMethodInfo)' 
+        // to access field 'FSharpHelloExperiment.ApplicationWebService.init@14' failed.
+
         member this.WebMethod2(e : string, y : Action<string>) =
             // Send it back to the caller.
             let ee = DateTime.Now.ToString() + " " + e
