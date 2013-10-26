@@ -102,6 +102,12 @@ namespace java.net
         }
 
         [ScriptMethodThrows(typeof(SocketException))]
+        public bool isVirtual()
+        {
+            return default(bool);
+        }
+
+        [ScriptMethodThrows(typeof(SocketException))]
         public bool supportsMulticast()
         {
             return default(bool);

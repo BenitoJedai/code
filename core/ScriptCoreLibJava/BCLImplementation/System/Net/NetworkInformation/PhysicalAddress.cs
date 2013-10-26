@@ -33,5 +33,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
         //{
 
         //}
+
+        public static implicit operator global::System.Net.NetworkInformation.PhysicalAddress(__PhysicalAddress i)
+        {
+            return (global::System.Net.NetworkInformation.PhysicalAddress)(object)i;
+        }
     }
 }
