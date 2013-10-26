@@ -41,6 +41,10 @@ namespace JVMCLRBroadcastLogger
 
         private void InitializeThread(Action<string> AtData)
         {
+            // X:\jsc.svn\examples\java\android\LANBroadcastListener\LANBroadcastListener\ApplicationActivity.cs
+
+
+
             var buffer = new byte[0xffff];
 
             // http://stackoverflow.com/questions/12610415/multicast-receiver-malfunction
