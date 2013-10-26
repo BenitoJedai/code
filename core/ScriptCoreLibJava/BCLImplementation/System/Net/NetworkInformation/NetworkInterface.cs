@@ -13,6 +13,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
     {
         public java.net.NetworkInterface InternalValue;
 
+        //Implementation not found for type import :
+        //type: System.Net.NetworkInformation.NetworkInterface
+        //method: System.Net.NetworkInformation.IPInterfaceProperties GetIPProperties()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
 
         public virtual IPInterfaceProperties GetIPProperties()
         {
@@ -117,12 +124,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
             {
                 var current = (java.net.NetworkInterface)i.nextElement();
 
+
                 a.Add(
                     new __NetworkInterface
                     {
                         InternalValue = current
                     }
                 );
+
             }
 
             return a.ToArray();

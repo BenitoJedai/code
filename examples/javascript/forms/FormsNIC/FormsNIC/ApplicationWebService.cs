@@ -81,7 +81,7 @@ namespace FormsNIC
                     row[cSupportsMulticast] = Convert.ToString(n.SupportsMulticast);
 
                     var IPProperties = n.GetIPProperties();
-                    var PhysicalAddress = n.GetPhysicalAddress();
+                    //var PhysicalAddress = n.GetPhysicalAddress();
 
                     var InetAddressesString = "";
 
