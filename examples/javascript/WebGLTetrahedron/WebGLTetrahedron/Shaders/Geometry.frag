@@ -1,5 +1,9 @@
 ﻿  #ifdef GL_ES
-  precision highp float;
+  
+  precision lowp float;
+
+  // fcks up nexus?
+  // precision highp float;
   #endif
 
   varying vec4 vColor;

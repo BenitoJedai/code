@@ -82,8 +82,7 @@ namespace foo
                 // http://docs.since2006.com/android/2.1-drawables.php
                 android.R.drawable.ic_menu_view,
                 Title,
-                0
-                //java.lang.System.currentTimeMillis()
+                java.lang.System.currentTimeMillis()
             );
 
             var context = getApplicationContext();

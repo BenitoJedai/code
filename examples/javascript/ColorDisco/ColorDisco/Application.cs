@@ -36,13 +36,18 @@ namespace ColorDisco
 
         public async void go()
         {
+            //transition: background-color 100ms linear;
+            Native.document.body.style.transition = "background-color 100ms linear";
+
             while (true)
             {
                 await yield();
 
                 Native.document.title = backgroundColor;
 
-                IStyleSheet.Default["body"].style.backgroundColor = backgroundColor;
+                Native.document.body.style.backgroundColor = backgroundColor;
+
+                //IStyleSheet.Default["body"].style.backgroundColor = backgroundColor;
 
                 // tail?
 

@@ -41,7 +41,7 @@ namespace WebGLSpadeWarrior
         public Application(IDefault page = null)
         {
             // works for IE11
-            DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            //DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
             if (Native.window.parent != Native.window.self)

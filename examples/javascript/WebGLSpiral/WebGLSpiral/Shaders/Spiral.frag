@@ -1,6 +1,5 @@
-﻿#ifdef GL_ES
-precision highp float;
-#endif
+﻿precision mediump float;
+
 
 
 uniform float time;

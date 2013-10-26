@@ -30,12 +30,12 @@ namespace ConsoleWorm
         {
             new ConsoleWorm.js.Game();
 
-            @"Console Worm".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"Console Multi Worm",
-                value => value.ToDocumentTitle()
-            );
+            //@"Console Worm".ToDocumentTitle();
+            //// Send data from JavaScript to the server tier
+            //service.WebMethod2(
+            //    @"Console Multi Worm",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }

@@ -1,12 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLHand", "WebGLHand\WebGLHand.csproj", "{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}"
 	ProjectSection(ProjectDependencies) = postProject
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454} = {7C0B6A91-F338-41A2-8879-E2E837D6D454}
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37} = {D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glMatrixLibrary", "..\..\..\market\synergy\javascript\glMatrixLibrary\glMatrixLibrary\glMatrixLibrary.csproj", "{7C0B6A91-F338-41A2-8879-E2E837D6D454}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glMatrixLibrary", "..\..\..\market\synergy\javascript\glMatrixLibrary\glMatrixLibrary\glMatrixLibrary.csproj", "{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{BE49581C-0FEB-4A4C-956A-41FA810A4158}"
 EndProject
@@ -20,15 +22,15 @@ Global
 		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Debug|x86.Build.0 = Debug|x86
 		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Release|x86.ActiveCfg = Release|x86
 		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Release|x86.Build.0 = Release|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.ActiveCfg = Debug|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.Build.0 = Debug|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.ActiveCfg = Release|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.Build.0 = Release|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Debug|x86.ActiveCfg = Debug|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Debug|x86.Build.0 = Debug|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Release|x86.ActiveCfg = Release|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454} = {BE49581C-0FEB-4A4C-956A-41FA810A4158}
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37} = {BE49581C-0FEB-4A4C-956A-41FA810A4158}
 	EndGlobalSection
 EndGlobal

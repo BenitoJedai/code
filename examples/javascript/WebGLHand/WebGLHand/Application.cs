@@ -37,13 +37,13 @@ namespace WebGLHand
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page = null)
+        public Application(IDefault page = null)
         {
 
             var gl_viewportWidth = Native.window.Width;
             var gl_viewportHeight = Native.window.Height;
 
-   
+
 
 
 
@@ -124,31 +124,34 @@ namespace WebGLHand
 
 
 
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
+            //#region createShader
+            //Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
+            //{
+            //    var shader = gl.createShader(src);
 
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader failed");
-                }
+            //    // verify
+            //    if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
+            //    {
+            //        Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+            //        throw new InvalidOperationException("shader failed");
+            //    }
 
-                return shader;
-            };
-            #endregion
+            //    return shader;
+            //};
+            //#endregion
 
             #region shaderProgram
-            var shaderProgram = gl.createProgram();
+            var shaderProgram = gl.createProgram(
+                new GeometryVertexShader(),
+                new GeometryFragmentShader()
+            );
 
-            var vs = createShader(new GeometryVertexShader());
-            var fs = createShader(new GeometryFragmentShader());
+            //var vs = createShader(new GeometryVertexShader());
+            //var fs = createShader(new GeometryFragmentShader());
 
 
-            gl.attachShader(shaderProgram, vs);
-            gl.attachShader(shaderProgram, fs);
+            //gl.attachShader(shaderProgram, vs);
+            //gl.attachShader(shaderProgram, fs);
 
 
             gl.linkProgram(shaderProgram);
@@ -761,7 +764,7 @@ namespace WebGLHand
 
                     }
                 }
-                
+
                 Native.document.title = "" + c;
 
                 drawScene();
@@ -769,7 +772,7 @@ namespace WebGLHand
             };
 
 
-          
+
         }
 
     }
