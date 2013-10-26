@@ -63,7 +63,12 @@ namespace FormsNIC
 
 
 
-            NetworkInterface.GetAllNetworkInterfaces().WithEach(
+            NetworkInterface.GetAllNetworkInterfaces()
+
+                .OrderByDescending(
+                    k => k.GetIPProperties().UnicastAddresses.Count > 0
+                )
+            .WithEach(
                 n =>
                 {
                     var row = table.NewRow();
@@ -71,7 +76,13 @@ namespace FormsNIC
                     //row[column] = n.Id + " | " + n.Name;
                     row[column] = n.Name
                         + " | " + n.Description
-                        + " | " + n.GetPhysicalAddress().GetAddressBytes().ToHexString();
+                        //+ " | " + n.GetPhysicalAddress().GetAddressBytes().ToHexString()
+                        ;
+
+                    //Caused by: java.lang.NullPointerException
+                    //        at ScriptCoreLib.Extensions.StringExtensions.ToHexString(StringExtensions.java:34)
+                    //        at FormsNIC.ApplicationWebService___c__DisplayClass5._GetInterfaces_b__3(ApplicationWebService___c__DisplayClass5.java:45)
+                    //        ... 54 more
 
 
                     //     //{ NetworkInterfaceName = net4, supportsMulticast = true, isUp = true, isVirtual = false, 
@@ -86,10 +97,10 @@ namespace FormsNIC
                     var InetAddressesString = "";
 
                     // Address = {192.168.43.1}
-                    IPProperties.GatewayAddresses.WithEach(
+                    IPProperties.UnicastAddresses.WithEach(
                         g =>
                         {
-                            InetAddressesString += ", " + g.Address;
+                            InetAddressesString += "; " + g.Address;
                         }
                     );
                     row[cGatewayAddresses] = InetAddressesString;

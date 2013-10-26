@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Net;
+using System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
     [Script(Implements = typeof(global::System.Net.IPAddress))]
     internal class __IPAddress
     {
+        public AddressFamily AddressFamily { get; set; }
+
         public string InternalAddressString;
         public global::java.net.InetAddress InternalAddress;
 

@@ -26,11 +26,22 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
                 {
                     var xInetAddress = (java.net.InetAddress)InetAddresses.nextElement();
 
+                    var Address = new __IPAddress { InternalAddress = xInetAddress };
+
+                    if (xInetAddress is java.net.Inet4Address)
+                    {
+                        Address.AddressFamily = global::System.Net.Sockets.AddressFamily.InterNetwork;
+                    }
+                    else
+                    {
+                        Address.AddressFamily = global::System.Net.Sockets.AddressFamily.InterNetworkV6;
+                    }
+
 
                     a.Add(
                         new __UnicastIPAddressInformation
                         {
-                            Address = new __IPAddress { InternalAddress = xInetAddress }
+                            Address = Address
                         }
                     );
                 }
