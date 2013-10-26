@@ -102,11 +102,6 @@ namespace AndroidBroadcastLogger
                                 xml
                             );
 
-                            var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
-
-                            var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
-
-                            intent.putExtra("data0", "Application");
 
                             var uri = "http://visit.jsc-solutions.net";
 
@@ -114,9 +109,19 @@ namespace AndroidBroadcastLogger
                                 uri = "http://" + xml.Value.Substring("Visit me at ".Length);
 
 
+
+                            #region intent
+                            var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
+
+                            var intent = new Intent(c, typeof(foo.NotifyService).ToClass());
+
+                            intent.putExtra("data0", "Another application running");
+
                             intent.putExtra("data1", uri);
 
                             c.startService(intent);
+                            #endregion
+
                         }
                         catch (Exception ex)
                         {

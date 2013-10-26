@@ -24,7 +24,7 @@ namespace WebGLEscherDrosteEffect
     public sealed class Application
         // experimenting base class
 
-        : Default
+        //: Default
     {
         /* Steps taken to create this example port of http://wakaba.c3.cx/w/escher_droste.html
          * 
@@ -63,7 +63,7 @@ namespace WebGLEscherDrosteEffect
 
             // which is it?
             if (page == null)
-                canvas.AttachTo(this.body);
+                canvas.AttachTo(page.body);
             else
             {
                 canvas.AttachTo(page.body);
@@ -99,14 +99,12 @@ namespace WebGLEscherDrosteEffect
             gl.useProgram(program);
 
             #region loadTexture
-            Func<IHTMLImage, WebGLTexture> loadTexture = (image) =>
-            {
+            Action<IHTMLImage, WebGLTexture> loadTexture =
+                 async (image, texture_) =>
+                 {
+                     await image;
 
-                var texture_ = gl.createTexture();
 
-                image.InvokeOnComplete(
-                    delegate
-                    {
 
                         gl.enable(gl.TEXTURE_2D);
                         gl.bindTexture(gl.TEXTURE_2D, texture_);
@@ -120,15 +118,12 @@ namespace WebGLEscherDrosteEffect
                         //gl.bindTexture(gl.TEXTURE_2D, null);
 
 
-                    }
-                );
-
-                return texture_;
-
-            };
+                };
             #endregion
 
-            var texture = loadTexture(new HTML.Images.FromAssets.escher());
+            var texture = gl.createTexture();
+
+            loadTexture(new HTML.Images.FromAssets.escher(), texture);
 
 
 

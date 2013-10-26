@@ -43,20 +43,50 @@ namespace WebGLDopamineMolecule
         public Application(IDefault page = null)
         {
 
+            var prMatrix = new CanvasMatrix4();
 
             var gl_viewportWidth = 500;
             var gl_viewportHeight = 500;
 
-
             var gl = new WebGLRenderingContext();
-
             var canvas = gl.canvas.AttachToDocument();
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.window.Width;
+                    gl_viewportHeight = Native.window.Height;
+
+                    prMatrix = new CanvasMatrix4();
+
+
+                    var aspectRatio =
+                        (f)
+                        gl_viewportWidth
+                        / (f)
+                        gl_viewportHeight
+                            ;
+
+                    prMatrix.perspective(45f,
+                        aspectRatio,
+                        1f, 100f);
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
 
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
-            canvas.width = gl_viewportWidth;
-            canvas.height = gl_viewportHeight;
 
 
 
@@ -149,7 +179,6 @@ namespace WebGLDopamineMolecule
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(ind.ToArray()),
               gl.STATIC_DRAW);
 
-            var prMatrix = new CanvasMatrix4();
             //prMatrix.perspective(45, 1, .1, 100);
             gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
                false, new Float32Array(prMatrix.getAsArray()));
@@ -226,15 +255,15 @@ false, new Float32Array(prMatrix.getAsArray()));
                 #endregion
 
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                
-                rotMat.rotate(xRot / 3, 1, 0, 0); 
+
+                rotMat.rotate(xRot / 3, 1, 0, 0);
                 rotMat.rotate(yRot / 3, 0, 1, 0);
-                
+
                 //yRot = 0; 
                 //xRot = 0;
 
                 rotMat.rotate(__pointer_y * 1.0f, 1, 0, 0);
-                rotMat.rotate(__pointer_x * 1.0f , 0, 1, 0);
+                rotMat.rotate(__pointer_x * 1.0f, 0, 1, 0);
 
                 //__pointer_x = 0;
                 //__pointer_y = 0;
@@ -249,7 +278,7 @@ false, new Float32Array(prMatrix.getAsArray()));
 
                 #region C6H3
                 drawBall_gray(2, -1, 0, 1.5f);
-                
+
                 drawBall_gray(0, -2, 0, 1.5f);
                 drawBall_white(0, -3.5f, 0, 1f);
 
@@ -258,7 +287,7 @@ false, new Float32Array(prMatrix.getAsArray()));
 
                 drawBall_gray(2, 1, 0, 1.5f);
                 drawBall_white(3 + 0.5f, 1.5f + 0.5f, 0, 1f);
-                
+
                 drawBall_gray(0, 2, 0, 1.5f);
                 drawBall_white(0, 3.5f, 0, 1f);
 
@@ -282,7 +311,7 @@ false, new Float32Array(prMatrix.getAsArray()));
                 drawBall_white(8, -2 - 1, 1.5f, 1f);
                 #endregion
 
-             
+
                 gl.flush();
             };
             #endregion
@@ -290,7 +319,7 @@ false, new Float32Array(prMatrix.getAsArray()));
             #region mouse
             canvas.onmousedown += ev =>
             {
-                ev.PreventDefault();
+                ev.preventDefault();
 
                 drag = 1;
                 xOffs = ev.CursorX;
@@ -299,7 +328,7 @@ false, new Float32Array(prMatrix.getAsArray()));
 
             canvas.onmouseup += ev =>
             {
-                ev.PreventDefault();
+                ev.preventDefault();
 
 
                 drag = 0;
@@ -311,7 +340,8 @@ false, new Float32Array(prMatrix.getAsArray()));
             {
                 if (drag == 0)
                     return;
-                ev.PreventDefault();
+
+                ev.preventDefault();
 
                 if (ev.shiftKey)
                 {
@@ -404,29 +434,7 @@ false, new Float32Array(prMatrix.getAsArray()));
 
 
 
-            #region AtResize
-            Action AtResize =
-                delegate
-                {
-                    gl_viewportWidth = Native.window.Width;
-                    gl_viewportHeight = Native.window.Height;
 
-                    prMatrix = new CanvasMatrix4();
-                    prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
-
-                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
-
-                    canvas.width = gl_viewportWidth;
-                    canvas.height = gl_viewportHeight;
-                };
-
-            Native.window.onresize +=
-                e =>
-                {
-                    AtResize();
-                };
-            AtResize();
-            #endregion
 
 
 

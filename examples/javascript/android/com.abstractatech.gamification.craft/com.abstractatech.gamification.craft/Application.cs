@@ -97,7 +97,7 @@ namespace com.abstractatech.gamification.craft
                  {
                      s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-                     var x = new AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
                  };
             #endregion
 

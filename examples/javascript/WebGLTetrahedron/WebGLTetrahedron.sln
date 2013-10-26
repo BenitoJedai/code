@@ -1,12 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLTetrahedron", "WebGLTetrahedron\WebGLTetrahedron.csproj", "{E6FE25E1-547B-47DD-A4D0-F5C6CDB49784}"
 	ProjectSection(ProjectDependencies) = postProject
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454} = {7C0B6A91-F338-41A2-8879-E2E837D6D454}
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37} = {D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glMatrixLibrary", "..\..\..\market\synergy\javascript\glMatrixLibrary\glMatrixLibrary\glMatrixLibrary.csproj", "{7C0B6A91-F338-41A2-8879-E2E837D6D454}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glMatrixLibrary", "..\..\..\market\synergy\javascript\glMatrixLibrary\glMatrixLibrary\glMatrixLibrary.csproj", "{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{1BDBE75C-98F5-487B-8AAE-C6C1B20B70DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +25,17 @@ Global
 		{E6FE25E1-547B-47DD-A4D0-F5C6CDB49784}.Debug|x86.Build.0 = Debug|x86
 		{E6FE25E1-547B-47DD-A4D0-F5C6CDB49784}.Release|x86.ActiveCfg = Release|x86
 		{E6FE25E1-547B-47DD-A4D0-F5C6CDB49784}.Release|x86.Build.0 = Release|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Assets|x86.ActiveCfg = Release|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Assets|x86.Build.0 = Release|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.ActiveCfg = Debug|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.Build.0 = Debug|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.ActiveCfg = Release|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.Build.0 = Release|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Assets|x86.ActiveCfg = Release|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Assets|x86.Build.0 = Release|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Debug|x86.ActiveCfg = Debug|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Debug|x86.Build.0 = Debug|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Release|x86.ActiveCfg = Release|x86
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D69BEEFB-7FB1-4AC7-BF4A-AC3E04DB0E37} = {1BDBE75C-98F5-487B-8AAE-C6C1B20B70DB}
 	EndGlobalSection
 EndGlobal

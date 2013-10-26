@@ -61,12 +61,12 @@ namespace WebGLTunnel
             #endregion
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //@"Hello world".ToDocumentTitle();
+            //// Send data from JavaScript to the server tier
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
         public Action Dispose;
@@ -200,6 +200,8 @@ namespace WebGLTunnel
                 new TunnelFragmentShader()
                 );
 
+            // "WebGL: INVALID_OPERATION: drawElements: attribs not setup correctly", source: http://192.168.43.252:16876/ (0)
+            // I/chromium( 3770): [INFO:CONSOLE(0)] "WebGL: INVALID_OPERATION: useProgram: program not valid", source: http://192.168.43.252:16876/ (0)
 
 
 

@@ -76,36 +76,29 @@ namespace WebGLShaderDisturb
 
 
             #region loadTexture
-            Func<IHTMLImage, WebGLTexture> loadTexture = (image) =>
-            {
-
-                var texture_ = gl.createTexture();
-
-                image.InvokeOnComplete(
-                    delegate
-                    {
-
-                        gl.enable(gl.TEXTURE_2D);
-                        gl.bindTexture(gl.TEXTURE_2D, texture_);
-                        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_LINEAR);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (int)gl.REPEAT);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (int)gl.REPEAT);
-                        gl.generateMipmap(gl.TEXTURE_2D);
-                        gl.bindTexture(gl.TEXTURE_2D, null);
+            Action<IHTMLImage, WebGLTexture> loadTexture =
+                async (image, texture_) =>
+                {
+                    await image;
 
 
-                    }
-                );
+                    gl.enable(gl.TEXTURE_2D);
+                    gl.bindTexture(gl.TEXTURE_2D, texture_);
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (int)gl.REPEAT);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (int)gl.REPEAT);
+                    gl.generateMipmap(gl.TEXTURE_2D);
+                    gl.bindTexture(gl.TEXTURE_2D, null);
 
-                return texture_;
-
-            };
+                };
             #endregion
 
 
-            var texture = loadTexture(new HTML.Images.FromAssets.disturb());
+            var texture = gl.createTexture();
+
+            loadTexture(new HTML.Images.FromAssets.disturb(), texture);
 
 
             var vertexPositionLocation = default(long);
