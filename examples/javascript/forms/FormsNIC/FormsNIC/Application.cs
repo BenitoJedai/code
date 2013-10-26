@@ -36,8 +36,21 @@ namespace FormsNIC
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //I/Web Console(  361): InternalFieldsFromTypeInitializer
+            //I/Web Console(  361):  at http://192.168.43.7:1317/view-source:28802
+            //I/Web Console(  361): Cookie GetValues { value =  }
+            //I/Web Console(  361):  at http://192.168.43.7:1317/view-source:28802
+            //I/Web Console(  361): Time to load fields from the cookie, were they even sent?
+            //I/Web Console(  361):  at http://192.168.43.7:1317/view-source:28802
+            //I/Web Console(  361): DataGridView ready
+            //I/Web Console(  361):  at http://192.168.43.7:1317/view-source:28802
+            //I/Web Console(  361): Time to load fields from the cookie, were they even sent?
+            //I/Web Console(  361):  at http://192.168.43.7:1317/view-source:28802
+            //E/Web Console(  361): Uncaught Error: SYNTAX_ERR: DOM Exception 12 at http://192.168.43.7:1317/view-source:11723
+
+
             content.AttachControlToDocument();
-     
+
         }
 
     }
