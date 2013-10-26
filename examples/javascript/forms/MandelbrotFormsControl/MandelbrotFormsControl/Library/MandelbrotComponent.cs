@@ -116,6 +116,7 @@ namespace MandelbrotFormsControl.Library
                         System.Drawing.Imaging.PixelFormat.Format32bppArgb
                     );
 
+                    // script: error JSC1000: No implementation found for this native method, please implement [static System.Runtime.InteropServices.Marshal.Copy(System.Int32[], System.Int32, System.IntPtr, System.Int32)]
                     Marshal.Copy(task_Result.buffer, 0, data.Scan0, task_Result.buffer.Length);
 
                     //for (int i = 0; i < buffer.Length; i++)

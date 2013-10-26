@@ -29,16 +29,16 @@ namespace MandelbrotFormsControl
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page)
+        public Application(IDefault page)
         {
-            content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            //impl:type: ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing.__Image 8ebb56a7-9ca1-3c92-908a-696d9c757606  - System.Drawing.Image 451dbf16-b46b-3b4f-993c-efd8b01553a0
+            //script: error JSC1000: No implementation found for this native method, please implement [System.Drawing.Image.Dispose()]
+            //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+            //script: error JSC1000: error at MandelbrotFormsControl.Library.MandelbrotComponent+<>c__DisplayClass6.<MandelbrotComponent_Load>b__0,
+
+            content.AttachControlToDocument();
+
+
         }
 
     }
