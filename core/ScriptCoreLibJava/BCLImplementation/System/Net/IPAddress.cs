@@ -69,5 +69,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
             // http://www.devx.com/tips/Tip/24147
             return this.InternalAddress.getHostAddress();
         }
+
+
+        public static implicit operator global::System.Net.IPAddress(__IPAddress i)
+        {
+            return (global::System.Net.IPAddress)(object)i;
+        }
     }
 }
