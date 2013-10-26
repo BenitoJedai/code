@@ -10,7 +10,7 @@ Imports ScriptCoreLib.Archive.ZIP
 ''' <summary>
 ''' Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
 ''' </summary>
-Public NotInheritable Class ApplicationWebService
+Public Class ApplicationWebService
     ''' <summary>
     ''' This Method is a javascript callable method.
     ''' </summary>
@@ -23,21 +23,20 @@ Public NotInheritable Class ApplicationWebService
     Public Sub TransformHTML(ByVal x As XElement, ByVal f As XElementAction)
 
     End Sub
-    Public Sub GetHTML(ByVal f As XElementAction)
+    Public Async Function GetHTML() As Threading.Tasks.Task(Of XElement)
+
 
         'Dim xml = XElement.Parse("<div style='color: blue;'>Google App Engine XElement</div>")
 
         'f(xml)
 
 
+        Return <span style='color: blue;'>
+                   <b>Google App Engine Application</b><span> XElement written in </span><b>Visual Basic</b>
+               </span>
 
 
-        f(
-            <div style='color: blue;'>
-                <b>Google App Engine Application</b><span> XElement written in </span><b>Visual Basic</b>
-            </div>
-        )
-    End Sub
+    End Function
 
     ' this method should not be called from javascript.
     Public Sub DownloadArchive(ByVal e As WebServiceHandler)

@@ -8,7 +8,6 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace MatrixTransformBExample.js
 {
-	[Script]
 	static class Extensions
 	{
 		public static double DegreesToRadians(this int Degrees)

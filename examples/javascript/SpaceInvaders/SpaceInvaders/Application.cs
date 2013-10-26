@@ -29,13 +29,19 @@ namespace SpaceInvadersTemplate
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page)
+        public Application(IDefault page)
         {
             new SpaceInvadersTemplate.Library.Controls.SpaceInvaders();
 
             //style.Content.AttachToHead();
-            @"Space Invaders".ToDocumentTitle();
-     
+
+
+
+            // ! jsc can reorder statements
+            // what if title and dom changes could be lifted back to server ahead of time?
+
+            //@"Space Invaders".ToDocumentTitle();
+
         }
 
     }

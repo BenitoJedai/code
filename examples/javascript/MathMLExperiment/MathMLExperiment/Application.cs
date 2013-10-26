@@ -31,6 +31,8 @@ namespace MathMLExperiment
         {
             // 2013-08-23 Chrome no longer supports mathML?
             // http://en.wikipedia.org/wiki/MathML
+            // http://caniuse.com/mathml
+            // https://groups.google.com/forum/#!topic/mathjax-users/wp6Rhj_4_so
 
             page.InteractiveNumber.innerText = "500";
             page.InteractiveNumber.style.color = JSColor.Red;

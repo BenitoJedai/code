@@ -170,7 +170,7 @@ namespace RuntimeHTMLDesignMode
             var app = h.Applications.Single(k => k.TypeName == "Application");
 
             var originalsource = XElement.Parse(app.PageSource);
-            var path = originalsource.Attribute("data-source");
+            var path = originalsource.Element("body").Attribute("data-source");
 
             #region /view-source
             if (h.Context.Request.Path == "/view-source")

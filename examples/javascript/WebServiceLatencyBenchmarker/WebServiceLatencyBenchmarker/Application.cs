@@ -71,14 +71,14 @@ namespace WebServiceLatencyBenchmarker
                     if (once)
                         return;
                     once = true;
-                    Native.Document.body.requestFullscreen();
+                    Native.document.body.requestFullscreen();
                 };
         }
 
         void WriteLine(string e)
         {
             new IHTMLDiv { innerText = e }.AttachToDocument();
-            Native.window.scrollTo(0, Native.Document.body.clientHeight);
+            Native.window.scrollTo(0, Native.document.body.clientHeight);
         }
 
 
