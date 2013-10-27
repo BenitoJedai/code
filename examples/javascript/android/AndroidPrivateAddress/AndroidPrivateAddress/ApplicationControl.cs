@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.Extensions;
 
 namespace AndroidPrivateAddress
 {
@@ -23,6 +24,19 @@ namespace AndroidPrivateAddress
             this.dataGridView1.DataSource = x;
 
 
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, System.EventArgs e)
+        {
+
+
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            this.applicationWebService1.SelectionChanged(
+                (string)dataGridView1[0, e.RowIndex].Value
+            );
         }
 
     }
