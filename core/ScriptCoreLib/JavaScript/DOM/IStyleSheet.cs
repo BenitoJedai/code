@@ -8,29 +8,6 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    // see: http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
-
-    public enum CSSRuleTypes
-    {
-        UNKNOWN_RULE,
-
-        // CSSStyleRule
-        STYLE_RULE,
-        CHARSET_RULE,
-        IMPORT_RULE,
-        MEDIA_RULE,
-        FONT_FACE_RULE,
-        PAGE_RULE
-    }
-
-    [Script(InternalConstructor = true)]
-    public partial class CSSRule
-    {
-        public readonly CSSRuleTypes type;
-
-        public readonly IStyleSheet parentStyleSheet;
-        public readonly CSSRule parentRule;
-    }
 
 
     // http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration
@@ -65,13 +42,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             static int __style_id = 0;
 
-            [Obsolete("experimental")]
+            [Obsolete("css")]
             public CSSStyleRule stylerule
             {
                 [Script(DefineAsStatic = true)]
                 get
                 {
-                    return IStyleSheet.Default[InternalGetExplicitRuleSelector()];
+                    return css;
                 }
             }
 
@@ -81,7 +58,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 [Script(DefineAsStatic = true)]
                 get
                 {
-                    return IStyleSheet.Default[InternalGetExplicitRuleSelector()];
+                    return IStyleSheet.all[InternalGetExplicitRuleSelector()];
                 }
             }
 
@@ -179,21 +156,52 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         // http://www.w3.org/TR/DOM-Level-2-Style/css.html
 
-        #region Default
-        static IStyleSheet _Default;
+   
 
+        #region print
+        static IStyleSheet _print;
+        public static IStyleSheet print
+        {
+            get
+            {
+                // does this work for android webview?
+                if (_print == null)
+                {
+                    // X:\jsc.svn\examples\javascript\Test\TestCSSPrint\TestCSSPrint\Application.cs
+
+                    _print = new IStyleSheet();
+
+                    // android webview does not respect this
+                    _print.Owner.media = "print";
+                }
+
+                return _print;
+            }
+        }
+        #endregion
+
+        #region all
+        static IStyleSheet _all;
+        public static IStyleSheet all
+        {
+            get
+            {
+                if (_all == null)
+                    _all = new IStyleSheet();
+
+                return _all;
+            }
+        }
+        #endregion
+
+        [Obsolete("all")]
         public static IStyleSheet Default
         {
             get
             {
-                if (_Default == null)
-                    _Default = new IStyleSheet();
-
-
-                return _Default;
+                return all;
             }
         }
-        #endregion
 
 
         public readonly string media;
@@ -288,16 +296,48 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public CSSStyleRule AddRule(string selector, string declaration, int index)
         {
+            // https://developer.mozilla.org/en-US/docs/Web/CSS/@media
+            // http://davidwalsh.name/add-rules-stylesheets
 
             if (Expando.InternalIsMember(this, "insertRule"))
-                this.insertRule(selector + "{" + declaration + "}", index);
-            else if (Expando.InternalIsMember(this, "addRule"))
+            {
+                // I/Web Console(32117): IStyleSheetRule.AddRule error { text = @media print{/**/} }
+
+
+                var text = selector + "{" + declaration + "}";
+
+
+
+
+                try
+                {
+                    this.insertRule(text, index);
+                }
+                catch
+                {
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\Test\TestCSSPrint\TestCSSPrint\Application.cs
+
+
+                    Console.WriteLine("IStyleSheetRule.AddRule error " + new { text });
+                    throw;
+                }
+
+                return this.Rules[index];
+            }
+
+            if (Expando.InternalIsMember(this, "addRule"))
+            {
                 this.addRule(selector, declaration, index);
-            else
-                throw new System.Exception("fault at IStyleSheetRule.AddRule");
+                return this.Rules[index];
+            }
 
 
-            return this.Rules[index];
+
+
+            throw new System.Exception("fault at IStyleSheetRule.AddRule");
+
+
         }
 
         [Script(DefineAsStatic = true)]
@@ -353,7 +393,18 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 var selectorText = "@media " + x;
 
-                return (CSSMediaRule)(object)this.__get_item(selectorText);
+                var value = default(CSSMediaRule);
+
+                try
+                {
+                    value = (CSSMediaRule)(object)this.__get_item(selectorText);
+                }
+                catch
+                {
+                    // android webview does not understand media
+                }
+
+                return value;
             }
         }
 
@@ -362,6 +413,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal DOM.HTML.IHTMLStyle owningElement;
         internal DOM.HTML.IHTMLStyle ownerNode;
 
+        [Obsolete("rename to Node?")]
         public DOM.HTML.IHTMLStyle Owner
         {
             [Script(DefineAsStatic = true)]
