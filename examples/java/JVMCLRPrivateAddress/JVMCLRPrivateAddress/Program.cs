@@ -69,6 +69,8 @@ namespace JVMCLRPrivateAddress
                        let get_IsPrivate = new Func<bool>(
                         delegate
                         {
+                            Console.WriteLine("get_IsPrivate " + new { SupportsMulticast, n.Description, u.Address, IPv4 });
+
                             var AddressBytes = u.Address.GetAddressBytes();
 
                             // should do a full mask check?
@@ -120,6 +122,10 @@ namespace JVMCLRPrivateAddress
                         let get_key = new Func<bool>(
                             delegate
                             {
+                                Console.WriteLine("get_key " + new { x.IsPrivate, x.IsLoopback, x.SupportsMulticast, x.IPv4 });
+
+
+
                                 return x.IsPrivate && !x.IsLoopback && x.SupportsMulticast && x.IPv4;
                             }
                         )
@@ -129,8 +135,11 @@ namespace JVMCLRPrivateAddress
                         // group by missing from scriptcorelib?
 
                         let gkey = new { x.u, x.n.Description, key }
-                        let gvalue = new { key }
-                        group gkey by gvalue;
+                        //let gvalue = new { key }
+
+                        // Caused by: java.lang.RuntimeException: Implement IComparable for __AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_115__82__110_d_1 vs __AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_115__82__110_d_1
+
+                        group gkey by key;
 
 
                 g.Reverse().WithEachIndex(
@@ -170,23 +179,19 @@ namespace JVMCLRPrivateAddress
             // X:\jsc.svn\examples\javascript\android\AndroidPrivateAddress\AndroidPrivateAddress\ApplicationWebService.cs
 
 
-            //          Implementation not found for type import :
-            //type: System.Linq.Enumerable
-            //method: System.Collections.Generic.IEnumerable`1[System.Linq.IGrouping`2[TKey,TElement]] 
-            // GroupBy[TSource,TKey,TElement](
-            // System.Collections.Generic.IEnumerable`1[TSource], 
-            // System.Func`2[TSource,TKey], 
-            // System.Func`2[TSource,TElement])
-            //Did you forget to add the [Script] attribute?
-            //Please double check the signature!
+            //{ Key = true, gi = 0 }
+            //{ Address = 192.168.43.252, Description = Atheros AR9485WB-EG Wireless Network Adapter }
+            //{ Key = false, gi = 1 }
+            //{ Address = 127.0.0.1, Description = Software Loopback Interface 1 }
+            //{ Address = 0:0:0:0:0:0:0:1, Description = Software Loopback Interface 1 }
+            //{ Address = fe80:0:0:0:55cc:63eb:5b4:60b4%11, Description = Atheros AR9485WB-EG Wireless Network Adapter }
+            //{ Address = fe80:0:0:0:81b:4a67:d4b1:2d08%15, Description = TAP-Win32 Adapter V9 }
+            //{ Address = 2001:0:9d38:6ab8:1ca7:8b5:3f57:d403, Description = Teredo Tunneling Pseudo-Interface }
+            //{ Address = fe80:0:0:0:1ca7:8b5:3f57:d403%22, Description = Teredo Tunneling Pseudo-Interface }
+            //{ Address = fe80:0:0:0:0:5efe:c0a8:2bfc%48, Description = Microsoft ISATAP Adapter #6 }
+            //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
 
-            //Did you forget to add the [Script] attribute?
-            //Please double check the signature!
 
-            //assembly: Y:\staging\JVMCLRPrivateAddress__i__d.jvm.exe
-            //type: JVMCLRPrivateAddress.Program, JVMCLRPrivateAddress__i__d.jvm, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-            //offset: 0x025a
-            // method:Void Main(System.String[])
 
             //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
             //{ Key = { key = True }, gi = 0 }
