@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -22,14 +23,83 @@ namespace AndroidPrivateAddress
     {
         public void SelectionChanged(string Address)
         {
+            // https://code.google.com/p/boxeeremote/wiki/AndroidUDP
+
             Console.WriteLine(
                 "SelectionChanged " + new { Address }
                 );
+
+
+
+#if Android // MulticastSend
+            int MulticastSend_c = 0;
+            Action<string, string, string, string> MulticastSend = (string reason, string data, string preview, string nn) =>
+            {
+                /// http://www.daniweb.com/software-development/java/threads/424998/udp-client-server-in-java
+                // http://docs.oracle.com/javase/tutorial/networking/datagrams/broadcasting.html
+
+                MulticastSend_c++;
+
+                //var n = c + " hello world";
+                var message =
+                    new XElement("string",
+                        new XAttribute("reason", reason),
+                        new XAttribute("c", "" + MulticastSend_c),
+                        new XAttribute("preview", preview),
+                        new XAttribute("n", nn),
+                        data
+                    ).ToString();
+
+                Console.WriteLine(new { message });
+
+                new Thread(
+                    delegate()
+                    {
+                        try
+                        {
+                            var socket = new java.net.DatagramSocket(
+                                new Random().Next(16000, 32000),
+                                java.net.InetAddress.getByName(Address)
+                            );
+
+
+
+                            byte[] b = Encoding.UTF8.GetBytes(message.ToString());    //creates a variable b of type byte
+
+                            var dgram = new java.net.DatagramPacket(
+                                (sbyte[])(object)b,
+                                b.Length,
+                                java.net.InetAddress.getByName("239.1.2.3"),
+                                40404);//sends the packet details, length of the packet,destination address and the port number as parameters to the DatagramPacket  
+
+                            socket.send(dgram); //send the datagram packet from this port
+                        }
+                        catch
+                        {
+                            System.Console.WriteLine("server error");
+                        }
+                    }
+                )
+                {
+
+                    Name = "server"
+                }.Start();
+            };
+
+            MulticastSend(
+                "",
+                "Visit me at " + Address + ":" + 666,
+                "",
+                ""
+            );
+#endif
+
 
         }
 
         public Task<DataTable> GetInterfaces()
         {
+            #region NetworkInterfaces
             var data =
                       from n in NetworkInterface.GetAllNetworkInterfaces()
 
@@ -103,6 +173,8 @@ namespace AndroidPrivateAddress
                           u,
                           n
                       };
+            #endregion
+
 
 
             var g = from x in data

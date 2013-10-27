@@ -31,6 +31,9 @@ namespace AndroidBroadcastLogger
 
         // sending field as cookie - cuts of at ; inside xml escapes..
 
+        // http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/net/MulticastSocket.java#MulticastSocket.joinGroup%28java.net.SocketAddress%2Cjava.net.NetworkInterface%29
+        // http://grepcode.com/file/repository.springsource.com/org.apache.xalan/com.springsource.org.apache.xml.serializer/2.7.1/org/apache/xml/serializer/ToStream.java
+
         public Task<MyDataSource> DataSource_poll(MyDataSource DataSource)
         {
             // first timer null
@@ -48,6 +51,17 @@ namespace AndroidBroadcastLogger
 
         public Task DataSource_addfake()
         {
+            //Caused by: java.lang.NullPointerException
+            //       at org.apache.xml.serializer.ToStream.writeAttrString(ToStream.java:2099)
+            //       at org.apache.xml.serializer.ToStream.processAttributes(ToStream.java:2079)
+            //       at org.apache.xml.serializer.ToStream.closeStartTag(ToStream.java:2623)
+            //       at org.apache.xml.serializer.ToStream.startElement(ToStream.java:1927)
+            //       at org.apache.xalan.transformer.TransformerIdentityImpl.startElement(TransformerIdentityImpl.java:1073)
+            //       at org.apache.xml.serializer.TreeWalker.startNode(TreeWalker.java:359)
+            //       at org.apache.xml.serializer.TreeWalker.traverse(TreeWalker.java:145)
+            //       at org.apache.xalan.transformer.TransformerIdentityImpl.transform(TransformerIdentityImpl.java:390)
+            //       at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XNode.InternalToString(__XNode.java:103)
+            //       ... 26 more
 
 
             ApplicationWebServiceExtensions.History.Add(
@@ -60,6 +74,10 @@ namespace AndroidBroadcastLogger
 
         // X:\jsc.svn\examples\javascript\android\AndroidNotificationWebActivity\AndroidNotificationWebActivity\ApplicationWebService.cs
 
+#if Android
+        static WifiManager wifi;
+        static WifiManager.MulticastLock multicastLock;
+#endif
 
         static ApplicationWebService()
         {
@@ -69,13 +87,14 @@ namespace AndroidBroadcastLogger
             if (__AndroidMulticast.value == null)
             {
 
-                WifiManager wifi;
-                WifiManager.MulticastLock multicastLock;
+
 
                 // Acquire multicast lock
                 wifi = (WifiManager)
                     ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.getSystemService(Context.WIFI_SERVICE);
                 multicastLock = wifi.createMulticastLock("multicastLock");
+
+                // ?
                 //multicastLock.setReferenceCounted(true);
                 multicastLock.acquire();
 
@@ -89,6 +108,7 @@ namespace AndroidBroadcastLogger
 
                         );
 
+                        #region NotifyService
                         try
                         {
                             var xml = XElement.Parse(value);
@@ -131,61 +151,13 @@ namespace AndroidBroadcastLogger
                                 new { ex.Message, ex.StackTrace }
                             );
                         }
+                        #endregion
+
 
 
 
                         // http://grepcode.com/file/repository.springsource.com/org.apache.xalan/com.springsource.org.apache.xml.serializer/2.7.1/org/apache/xml/serializer/ToStream.java#2099
 
-
-                        //I/System.Console( 7351): ApplicationWebService cctor: { value = <string c="1">Visit me at 192.168.43.252:24129</string> }
-                        //I/System.Console( 7351): #13 POST /xml?WebMethod=0600000a HTTP/1.1
-                        //D/dalvikvm( 7351): GC_CONCURRENT freed 437K, 7% free 8047K/8644K, paused 4ms+3ms, total 48ms
-                        //I/System.Console( 7351): enter poll { last_id = 8 }
-                        //I/System.Console( 7351): yield { xml = <string c="1">Visit me at 192.168.43.252:24129</string> }
-                        //I/System.Console( 7351): before raise_ColumnChanged
-                        //I/System.Console( 7351): #13 POST /xml?WebMethod=0600000a HTTP/1.1 error:
-                        //I/System.Console( 7351): #13 java.lang.RuntimeException
-                        //I/System.Console( 7351): #13 java.lang.RuntimeException
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XNode.InternalFixBeforeAdobt(__XNode.java:130)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XContainer.Add(__XContainer.java:103)
-                        //I/System.Console( 7351):        at ScriptCoreLib.Library.StringConversionsForDataTable.ConvertToString(StringConversionsForDataTable.java:141)
-                        //I/System.Console( 7351):        at AndroidBroadcastLogger._02000007____ConvertToString_.ConvertToString(_02000007____ConvertToString_.java:41)
-                        //I/System.Console( 7351):        at AndroidBroadcastLogger.Global.Invoke(Global.java:201)
-                        //I/System.Console( 7351):        at ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions.InternalApplication_BeginRequest(InternalGlobalExtensions.java:350)
-                        //I/System.Console( 7351):        at AndroidBroadcastLogger.Global.Application_BeginRequest(Global.java:40)
-                        //I/System.Console( 7351):        at AndroidBroadcastLogger.Activities.ApplicationWebServiceActivity___c__DisplayClass26._CreateServer_b__21(ApplicationWebServiceActivity___c__DisplayClass26.java:348)
-                        //I/System.Console( 7351):        at java.lang.reflect.Method.invokeNative(Native Method)
-                        //I/System.Console( 7351):        at java.lang.reflect.Method.invoke(Method.java:525)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:88)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:68)
-                        //I/System.Console( 7351):        at ScriptCoreLib.Shared.BCLImplementation.System.__Action_2.Invoke(__Action_2.java:27)
-                        //I/System.Console( 7351):        at AndroidBroadcastLogger.Activities.ApplicationWebServiceActivity___c__DisplayClass26___c__DisplayClass2f._CreateServer_b__25(ApplicationWebServiceActivity___c__DisplayClass26___c__DisplayClass2f.java:31)
-                        //I/System.Console( 7351):        at java.lang.reflect.Method.invokeNative(Native Method)
-                        //I/System.Console( 7351):        at java.lang.reflect.Method.invoke(Method.java:525)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:88)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:68)
-                        //I/System.Console( 7351):        at ScriptCoreLib.Shared.BCLImplementation.System.Threading.__ThreadStart.Invoke(__ThreadStart.java:27)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Threading.__Thread___c__DisplayClass3.__ctor_b__1(__Thread___c__DisplayClass3.java:20)
-                        //I/System.Console( 7351):        at java.lang.reflect.Method.invokeNative(Native Method)
-                        //I/System.Console( 7351):        at java.lang.reflect.Method.invoke(Method.java:525)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:88)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:68)
-                        //I/System.Console( 7351):        at ScriptCoreLib.Shared.BCLImplementation.System.__Action.Invoke(__Action.java:27)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Threading.__Thread_RunnableHandler.run(__Thread_RunnableHandler.java:20)
-                        //I/System.Console( 7351):        at java.lang.Thread.run(Thread.java:841)
-                        //I/System.Console( 7351): Caused by: java.lang.NullPointerException
-                        //I/System.Console( 7351):        at org.apache.xml.serializer.ToStream.writeAttrString(ToStream.java:2099)
-                        //I/System.Console( 7351):        at org.apache.xml.serializer.ToStream.processAttributes(ToStream.java:2079)
-                        //I/System.Console( 7351):        at org.apache.xml.serializer.ToStream.closeStartTag(ToStream.java:2623)
-                        //I/System.Console( 7351):        at org.apache.xml.serializer.ToStream.characters(ToStream.java:1410)
-                        //I/System.Console( 7351):        at org.apache.xalan.transformer.TransformerIdentityImpl.characters(TransformerIdentityImpl.java:1126)
-                        //I/System.Console( 7351):        at org.apache.xml.serializer.TreeWalker.dispatachChars(TreeWalker.java:246)
-                        //I/System.Console( 7351):        at org.apache.xml.serializer.TreeWalker.startNode(TreeWalker.java:416)
-                        //I/System.Console( 7351):        at org.apache.xml.serializer.TreeWalker.traverse(TreeWalker.java:145)
-                        //I/System.Console( 7351):        at org.apache.xalan.transformer.TransformerIdentityImpl.transform(TransformerIdentityImpl.java:390)
-                        //I/System.Console( 7351):        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XNode.InternalFixBeforeAdobt(__XNode.java:126)
-                        //I/System.Console( 7351):        ... 26 more
-                        //D/dalvikvm( 7351): GC_CONCURRENT freed 405K, 7% free 8092K/8644K, paused 2ms+1ms, total 21ms
 
 
 

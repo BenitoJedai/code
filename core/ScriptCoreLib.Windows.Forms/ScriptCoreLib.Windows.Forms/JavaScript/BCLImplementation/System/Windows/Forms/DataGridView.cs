@@ -1741,7 +1741,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         Native.window.requestAnimationFrame +=
                             delegate
                             {
-                                this.InternalAutoResizeColumn(this.Columns.Count - 1);
+                                this.AutoResizeColumn(this.Columns.Count - 1);
                             };
                     }
                 };

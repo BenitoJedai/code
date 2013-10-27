@@ -9,7 +9,7 @@ using System.Net.Sockets;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
     [Script(Implements = typeof(global::System.Net.IPAddress))]
-    internal class __IPAddress
+    public class __IPAddress
     {
         public AddressFamily AddressFamily { get; set; }
 
@@ -92,6 +92,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
             return this.InternalAddress.getHostAddress();
         }
 
+
+
+
+        public static implicit operator global::java.net.InetAddress(__IPAddress i)
+        {
+            return i.InternalAddress;
+        }
 
         public static implicit operator global::System.Net.IPAddress(__IPAddress i)
         {

@@ -85,7 +85,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
                 //       at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XNode.InternalFixBeforeAdobt(__XNode.java:77)
                 //       ... 25 more
 
-                //throw;
+                throw;
             }
 
         }
@@ -95,6 +95,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             // http://faq.javaranch.com/java/DocumentToString
             var value = default(string);
 
+            Console.WriteLine("InternalToString " + new { this.InternalValue });
             try
             {
 
