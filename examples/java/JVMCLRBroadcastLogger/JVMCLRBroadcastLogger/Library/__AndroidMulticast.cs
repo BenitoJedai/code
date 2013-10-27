@@ -1,11 +1,15 @@
-﻿using java.net;
+﻿using ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLibJava.BCLImplementation.System.Net;
 
 namespace JVMCLRBroadcastLogger
 {
@@ -16,8 +20,6 @@ namespace JVMCLRBroadcastLogger
 
 
 
-        //WifiManager wifi;
-        //WifiManager.MulticastLock multicastLock;
 
         public __AndroidMulticast(
 
@@ -50,12 +52,7 @@ namespace JVMCLRBroadcastLogger
             // http://stackoverflow.com/questions/12610415/multicast-receiver-malfunction
             // http://answers.unity3d.com/questions/250732/android-build-is-not-receiving-udp-broadcasts.html
 
-            // Acquire multicast lock
-            //wifi = (WifiManager)
-            //    ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.getSystemService(Context.WIFI_SERVICE);
-            //multicastLock = wifi.createMulticastLock("multicastLock");
-            ////multicastLock.setReferenceCounted(true);
-            //multicastLock.acquire();
+
 
             System.Console.WriteLine("LANBroadcastListener ready...");
             try
@@ -76,130 +73,197 @@ namespace JVMCLRBroadcastLogger
                 // http://stackoverflow.com/questions/3947555/java-net-socketexception-unrecognized-windows-sockets-error-0-jvm-bind-jboss
                 // https://forums.oracle.com/message/11027069
 
-                var socket = new MulticastSocket(40404); // must bind receive side
+
+
+
+                #region NetworkInterfaces
+                var data =
+                          from n in NetworkInterface.GetAllNetworkInterfaces()
+
+                          let SupportsMulticast = n.SupportsMulticast
+
+                          from u in n.GetIPProperties().UnicastAddresses
+
+                          let IsLoopback = IPAddress.IsLoopback(u.Address)
+
+                          let IPv4 = u.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
+
+                          // http://compnetworking.about.com/od/workingwithipaddresses/l/aa042400b.htm
+                          // http://ipaddressextensions.codeplex.com/SourceControl/latest#WorldDomination.Net/IPAddressExtensions.cs
+
+
+                          //- javac
+                          //"C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRPrivateAddress\Program.java
+                          //java\JVMCLRPrivateAddress\Program.java:435: <T>Of(T[]) in ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1 
+                          // cannot be applied to <java.lang.Integer>(int[])
+                          //        return  new __AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_82__51__79_6_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_76__48__76_5_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_69__45__73_4_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_64__42__70_3_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_59__39__67_2_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_54__36__64_1_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_11__28__30_0_2<__NetworkInterface, Boolean>, __UnicastIPAddressInformation>, Boolean>, Boolean>, byte[]>, int[]>, Boolean>(__h__TransparentIdentifier5, __Enumerable.<Integer>Contains(__SZArrayEnumerator_1.<Integer>Of(__h__TransparentIdentifier5.get_PrivateAddresses()), (short)(__h__TransparentIdentifier5.get___h__TransparentIdentifier4().get_AddressBytes()[0] & 0xff)));
+                          //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ^
+                          //Note: Some input files use unchecked or unsafe operations.
+                          //Note: Recompile with -Xlint:unchecked for details.
+
+                          let get_IsPrivate = new Func<bool>(
+                           delegate
+                           {
+                               Console.WriteLine("get_IsPrivate " + new { SupportsMulticast, n.Description, u.Address, IPv4 });
+
+                               var AddressBytes = u.Address.GetAddressBytes();
+
+                               // should do a full mask check?
+                               // http://en.wikipedia.org/wiki/IP_address
+                               //var PrivateAddresses = new[] { 10, 172, 192 };
+
+                               //- javac
+                               //"C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRPrivateAddress\Program.java
+                               //Y:\staging\web\java\JVMCLRPrivateAddress\Program___c__DisplayClass2b.java:36: <T>Of(T[]) in ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1 cannot be applied to <java.lang.Integer>(int[])
+                               //        enumerable_11 = __Enumerable.<Integer>AsEnumerable(__SZArrayEnumerator_1.<Integer>Of(new int[] {
+                               //                                                                                ^
+                               //Y:\staging\web\java\JVMCLRPrivateAddress\Program___c__DisplayClass2b.java:38: <TSource>Contains(ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IEnumerable_1<TSource>,TSource) in ScriptCoreLib.
+                               //        return  __Enumerable.<Integer>Contains(enumerable_11, (short)(byteArray0[0] & 0xff));
+                               //                            ^
+
+
+                               //return PrivateAddresses.Contains(AddressBytes[0]);
+
+                               if (AddressBytes[0] == 10)
+                                   return true;
+
+                               if (AddressBytes[0] == 172)
+                                   return true;
+
+                               if (AddressBytes[0] == 192)
+                                   return true;
+
+                               return false;
+
+                           }
+                          )
+
+
+                          let IsPrivate = get_IsPrivate()
+
+                          select new
+                          {
+                              IsPrivate,
+                              IsLoopback,
+                              SupportsMulticast,
+                              IPv4,
+                              u,
+                              n
+                          };
+                #endregion
+
+
+                var socket = new java.net.MulticastSocket(
+                    40404
+                    ); // must bind receive side
+                // X:\jsc.internal.svn\examples\javascript\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+
                 socket.setBroadcast(true);
                 socket.setReuseAddress(true);
+
+                // http://www.oser.org/~hp/ds/node27.html
                 socket.setTimeToLive(30);
-                socket.setReceiveBufferSize(0x100);
+                socket.setReceiveBufferSize(buffer.Length);
+
+                //socket.bind(
+                //    new java.net.InetSocketAddress(
+                //            java.net.Inet4Address.getByName("0.0.0.0"),
+                //            40404
+                //    )
+                //);
 
 
-                var NetworkInterfaces = NetworkInterface.getNetworkInterfaces();
+                #region g
+                var g = from x in data
 
-                var wlan = default(NetworkInterface);
-
-                //I/System.Console( 6922): { NetworkInterfaceName = dummy0 }
-                //I/System.Console( 6922): { NetworkInterfaceName = sit0 }
-                //I/System.Console( 6922): { NetworkInterfaceName = ip6tnl0 }
-                //I/System.Console( 6922): { NetworkInterfaceName = p2p0 }
-                //I/System.Console( 6922): { NetworkInterfaceName = wlan0 }
-                //I/System.Console( 6922): LANBroadcastListener joinGroup...
-                //I/Web Console( 7351): DataGridView ready
-                //I/Web Console( 7351):  at http://192.168.43.7:1440/view-source:28790
-                //I/Web Console( 7351): Time to load fields from the cookie, were they even sent?
-                //I/Web Console( 7351):  at http://192.168.43.7:1440/view-source:28790
-                //E/Web Console( 7351): Uncaught Error: SYNTAX_ERR: DOM Exception 12 at http://192.168.43.7:1440/view-source:11710
-                //I/System.Console( 7351): #4 GET /assets/ScriptCoreLib.Windows.Forms/DataGridNewRow.png HTTP/1.1
-                //D/TilesManager( 7351): Starting TG #0, 0x63c079d0
-                //D/TilesManager( 7351): new EGLContext from framework: 62720e40
-                //D/GLWebViewState( 7351): Reinit shader
-                //D/dalvikvm( 7351): GC_CONCURRENT freed 505K, 7% free 7984K/8552K, paused 2ms+4ms, total 34ms
-                //D/GLWebViewState( 7351): Reinit transferQueue
-                //E/Web Console( 7351): Uncaught TypeError: Cannot call method 'nhwABlgwczGFxMM_a_a0rwGA' of null at http://192.168.43.7:1440/view-source:46281
-                //E/Web Console( 7351): Uncaught TypeError: Cannot call method 'nhwABlgwczGFxMM_a_a0rwGA' of null at http://192.168.43.7:1440/view-source:46281
-                //E/Web Console( 7351): Uncaught TypeError: Cannot call method 'nhwABlgwczGFxMM_a_a0rwGA' of null at http://192.168.43.7:1440/view-source:46281
-
-                while (NetworkInterfaces.hasMoreElements())
-                {
-                    var xNetworkInterface = (NetworkInterface)NetworkInterfaces.nextElement();
-
-                    var isUp = xNetworkInterface.isUp();
-                    var supportsMulticast = xNetworkInterface.supportsMulticast();
-                    var isVirtual = xNetworkInterface.isVirtual();
-                    var DisplayName = xNetworkInterface.getDisplayName();
-                    var NetworkInterfaceName = xNetworkInterface.getName();
-
-
-                    var InetAddresses = xNetworkInterface.getInetAddresses();
-                    var InetAddressesString = "";
-                    while (InetAddresses.hasMoreElements())
-                    {
-                        var xInetAddress = (InetAddress)InetAddresses.nextElement();
-
-
-                        //xInetAddress.metr
-                        InetAddressesString += ", " + xInetAddress;
-
-                        if (!xInetAddress.isLoopbackAddress())
-                            if (xInetAddress is Inet4Address)
+                        let get_key = new Func<bool>(
+                            delegate
                             {
+                                Console.WriteLine("get_key " + new { x.IsPrivate, x.IsLoopback, x.SupportsMulticast, x.IPv4 });
 
 
-                                wlan = xNetworkInterface;
 
-                                Console.WriteLine("selecting: " + xInetAddress);
+                                return x.IsPrivate && !x.IsLoopback && x.SupportsMulticast && x.IPv4;
                             }
-                    }
+                        )
 
-                    Console.WriteLine(new
-                    {
-                        NetworkInterfaceName,
-                        supportsMulticast,
-                        isUp,
-                        isVirtual,
-                        DisplayName,
-                        InetAddressesString
-                    });
-                }
+                        let key = get_key()
+
+                        // group by missing from scriptcorelib?
+
+                        let gkey = new { x.u, x.n.Description, x.SupportsMulticast, key }
+                        //let gvalue = new { key }
+
+                        // Caused by: java.lang.RuntimeException: Implement IComparable for __AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_115__82__110_d_1 vs __AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_115__82__110_d_1
+
+                        group gkey by key;
+                #endregion
 
 
-                //               { NetworkInterfaceName = lo, supportsMulticast = true, isUp = true, isVirtual = false, DisplayName = Software Loopback Interface 1, InetAddressesString = , /127.0.0.1, /0:0:0:0:0:0:0:1 }
-                //{ NetworkInterfaceName = net0, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (SSTP), InetAddressesString =  }
-                //{ NetworkInterfaceName = net1, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (L2TP), InetAddressesString =  }
-                //{ NetworkInterfaceName = net2, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (PPTP), InetAddressesString =  }
-                //{ NetworkInterfaceName = ppp0, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (PPPOE), InetAddressesString =  }
-                //{ NetworkInterfaceName = eth0, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (IPv6), InetAddressesString =  }
-                //{ NetworkInterfaceName = eth1, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (Network Monitor), InetAddressesString =  }
-                //{ NetworkInterfaceName = eth2, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (IP), InetAddressesString =  }
-                //{ NetworkInterfaceName = ppp1, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = RAS Async Adapter, InetAddressesString =  }
-                //{ NetworkInterfaceName = net3, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (IKEv2), InetAddressesString =  }
 
-                //{ NetworkInterfaceName = net4, supportsMulticast = true, isUp = true, isVirtual = false, DisplayName = Atheros AR9485WB-EG Wireless Network Adapter, InetAddressesString = , /192.168.43.252, /fe80:0:0:0:55cc:63eb:5b4:60b4%11 }
-
-                //{ NetworkInterfaceName = net5, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Bluetooth Device (RFCOMM Protocol TDI), InetAddressesString =  }
-
-                //{ NetworkInterfaceName = eth3, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Bluetooth Device (Personal Area Network), InetAddressesString =  }
-                //{ NetworkInterfaceName = net6, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Microsoft Virtual WiFi Miniport Adapter, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth4, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = TAP-Win32 Adapter V9, InetAddressesString = , /fe80:0:0:0:81b:4a67:d4b1:2d08%15 }
-                //{ NetworkInterfaceName = net7, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = HUAWEI Mobile Connect - 3G Network Card, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth5, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = ASIX AX88772B USB2.0 to Fast Ethernet Adapter, InetAddressesString =  }
-                //{ NetworkInterfaceName = net8, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = HUAWEI Mobile Connect - 3G Network Card #2, InetAddressesString =  }
-                //{ NetworkInterfaceName = net9, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Microsoft 6to4 Adapter, InetAddressesString =  }
-                //{ NetworkInterfaceName = net10, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = , InetAddressesString =  }
-                //{ NetworkInterfaceName = net11, supportsMulticast = false, isUp = false, isVirtual = false, DisplayName = Microsoft ISATAP Adapter #5, InetAddressesString =  }
-                //{ NetworkInterfaceName = net12, supportsMulticast = false, isUp = true, isVirtual = false, DisplayName = Teredo Tunneling Pseudo-Interface, InetAddressesString = , /2001:0:9d38:90d7:419:3c33:3f57:d403, /fe80:0:0:0:419:3c33:3f57:d403%22 }
-                //{ NetworkInterfaceName = net13, supportsMulticast = false, isUp = false, isVirtual = false, DisplayName = Microsoft ISATAP Adapter #3, InetAddressesString =  }
-                //{ NetworkInterfaceName = net14, supportsMulticast = false, isUp = false, isVirtual = false, DisplayName = Microsoft ISATAP Adapter #2, InetAddressesString = , /fe80:0:0:0:0:5efe:c0a8:2bfc%24 }
-                //{ NetworkInterfaceName = net15, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Microsoft 6to4 Adapter-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net16, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Microsoft ISATAP Adapter #2-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net17, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Microsoft ISATAP Adapter #3-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net18, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Microsoft ISATAP Adapter #5-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net19, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Teredo Tunneling Pseudo-Interface-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net20, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Atheros AR9485WB-EG Wireless Network Adapter-Native WiFi Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net21, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Atheros AR9485WB-EG Wireless Network Adapter-QoS Packet Scheduler-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net22, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Atheros AR9485WB-EG Wireless Network Adapter-WFP LightWeight Filter-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth6, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (Network Monitor)-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth7, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (Network Monitor)-QoS Packet Scheduler-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth8, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (IP)-QoS Packet Scheduler-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth9, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = WAN Miniport (IPv6)-QoS Packet Scheduler-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth10, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = TAP-Win32 Adapter V9-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth11, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = TAP-Win32 Adapter V9-QoS Packet Scheduler-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = eth12, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = TAP-Win32 Adapter V9-WFP LightWeight Filter-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net23, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Atheros AR9485WB-EG Wireless Network Adapter-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net24, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Atheros AR9485WB-EG Wireless Network Adapter-Virtual WiFi Filter Driver-0000, InetAddressesString =  }
-                //{ NetworkInterfaceName = net25, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Microsoft ISATAP Adapter #4, InetAddressesString =  }
-                //{ NetworkInterfaceName = net26, supportsMulticast = true, isUp = false, isVirtual = false, DisplayName = Microsoft ISATAP Adapter #4-Netmon Lightweight Filter Driver-0000, InetAddressesString =  }
                 //socket.joinGroup(InetAddress.getByName("239.1.2.3"), wlan);
-                socket.joinGroup(InetAddress.getByName("239.1.2.3"));
+
+                data.FirstOrDefault(
+                    x =>
+                    {
+                        return x.IsPrivate && !x.IsLoopback && x.SupportsMulticast && x.IPv4;
+                    }
+                ).With(
+                    x =>
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("");
+                        Console.WriteLine("joinGroup " + new { x.u.Address });
+
+                        //                        pile:
+                        //[javac] Compiling 545 source files to V:\bin\classes
+                        //[javac] V:\src\JVMCLRBroadcastLogger\__AndroidMulticast___c__DisplayClass2d.java:30: unreported exception java.net.SocketException; must be caught or declared to be thrown
+                        //[javac]         this.socket.setNetworkInterface(__NetworkInterface.ToNetworkInterface(__NetworkInterface.Of(x.get_n())));
+                        //[javac]                                        ^
+                        //[javac] Note: Some input files use or override a deprecated API.
+
+
+                        try
+                        {
+
+                            //socket.setNetworkInterface(
+                            //      (__NetworkInterface)x.n
+                            //);
+
+                            // var value_bind = await chrome.socket.bind(socketId, "0.0.0.0", 40404);
+
+
+                            // http://stackoverflow.com/questions/14699249/java-socket-binding-to-local-port
+
+
+                            socket.joinGroup(
+
+                                new java.net.InetSocketAddress(
+                                    java.net.InetAddress.getByName("239.1.2.3"),
+                                    40404
+                                ),
+
+                                (__NetworkInterface)
+                                x.n
+
+                            );
+
+
+
+                        }
+                        catch
+                        {
+                            throw;
+                        }
+                    }
+                );
+
+
+
+
+
+
+
 
                 System.Console.WriteLine("LANBroadcastListener joinGroup...");
 
@@ -207,7 +271,7 @@ namespace JVMCLRBroadcastLogger
                 var forever = true;
                 while (forever)
                 {
-                    DatagramPacket dgram = new DatagramPacket((sbyte[])(object)buffer, buffer.Length);
+                    var dgram = new java.net.DatagramPacket((sbyte[])(object)buffer, buffer.Length);
                     socket.receive(dgram); // blocks until a datagram is received
 
                     var bytes = new MemoryStream((byte[])(object)dgram.getData(), 0, dgram.getLength());

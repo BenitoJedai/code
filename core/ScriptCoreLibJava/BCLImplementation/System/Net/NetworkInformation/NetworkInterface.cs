@@ -9,7 +9,7 @@ using System.Net.NetworkInformation;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
 {
     [Script(Implements = typeof(global::System.Net.NetworkInformation.NetworkInterface))]
-    internal class __NetworkInterface
+    public class __NetworkInterface
     {
         public java.net.NetworkInterface InternalValue;
 
@@ -141,6 +141,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
         public static implicit operator global::System.Net.NetworkInformation.NetworkInterface(__NetworkInterface i)
         {
             return (global::System.Net.NetworkInformation.NetworkInterface)(object)i;
+        }
+
+        public static implicit operator __NetworkInterface(global::System.Net.NetworkInformation.NetworkInterface i)
+        {
+            return (__NetworkInterface)(object)i;
+        }
+
+        public static implicit operator java.net.NetworkInterface(__NetworkInterface i)
+        {
+            return i.InternalValue;
         }
     }
 }

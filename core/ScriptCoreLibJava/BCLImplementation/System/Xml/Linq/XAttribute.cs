@@ -28,10 +28,22 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             set
             {
                 // http://msdn.microsoft.com/en-us/library/system.xml.linq.xattribute.value.aspx
-                this.InternalElement.InternalElement.setAttribute(this.Name.LocalName, value);
+                this.InternalElement.InternalElement.setAttribute(this.Name.LocalName,
+                    __android_workaround(value)
+                );
             }
         }
 
+        static string __android_workaround(string e)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\android\AndroidBroadcastLogger\AndroidBroadcastLogger\ApplicationWebService.cs
+
+            if (null == e)
+                return "";
+
+            return e;
+        }
 
         public __XAttribute()
         {
@@ -42,7 +54,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             this.Name = name;
 
             // android does not like null value while jvm is ok with it..
-            this.InternalValue = "" + value;
+            this.InternalValue = __android_workaround("" + value);
 
         }
 

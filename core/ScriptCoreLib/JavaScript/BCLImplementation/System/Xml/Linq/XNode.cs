@@ -75,7 +75,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
             if (IncomingXElement.InternalValue.ownerDocument == that.InternalValue.ownerDocument)
                 return;
             // due to IE!
-            Console.WriteLine(" ok, force import manually. swap documents");
+            //Console.WriteLine(" ok, force import manually. swap documents");
 
 
             var IncomingXElementAttributes = IncomingXElement.Attributes().Select(a => new { a.Name, a.Value }).ToArray();
@@ -96,7 +96,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
             IncomingXElement.Add(IncomingXElementNodes);
 
-            Console.WriteLine(" ok, force import manually done!");
+            //Console.WriteLine(" ok, force import manually done!");
         }
 
         public void ReplaceWith(object content)
