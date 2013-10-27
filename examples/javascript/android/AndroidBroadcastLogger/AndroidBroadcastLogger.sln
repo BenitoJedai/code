@@ -19,11 +19,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linked References", "Linked
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Drawing", "..\..\..\..\core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.csproj", "{053C4547-E32B-458E-B295-1E3640BE96E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
 		Android|Mixed Platforms = Android|Mixed Platforms
 		Android|x86 = Android|x86
+		Assets|Any CPU = Assets|Any CPU
+		Assets|Mixed Platforms = Assets|Mixed Platforms
+		Assets|x86 = Assets|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
@@ -37,6 +42,11 @@ Global
 		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Android|Mixed Platforms.Build.0 = Android|x86
 		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Android|x86.ActiveCfg = Android|x86
 		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Android|x86.Build.0 = Android|x86
+		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Assets|Any CPU.ActiveCfg = Android|x86
+		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Assets|Mixed Platforms.ActiveCfg = Android|x86
+		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Assets|Mixed Platforms.Build.0 = Android|x86
+		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Assets|x86.ActiveCfg = Android|x86
+		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Assets|x86.Build.0 = Android|x86
 		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{34E50DA4-68B7-460B-8C34-F008927DD5BD}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -50,6 +60,11 @@ Global
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Any CPU.ActiveCfg = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Android|x86.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|Any CPU.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Assets|x86.ActiveCfg = Debug|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -65,6 +80,11 @@ Global
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|Mixed Platforms.Build.0 = Release|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|x86.ActiveCfg = Release|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Android|x86.Build.0 = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|Any CPU.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|Mixed Platforms.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|Mixed Platforms.Build.0 = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|x86.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Assets|x86.Build.0 = Debug|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -80,6 +100,11 @@ Global
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Android|Mixed Platforms.Build.0 = Release|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Android|x86.ActiveCfg = Release|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Android|x86.Build.0 = Release|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Assets|Any CPU.ActiveCfg = Debug|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Assets|Mixed Platforms.ActiveCfg = Debug|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Assets|Mixed Platforms.Build.0 = Debug|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Assets|x86.ActiveCfg = Debug|x86
+		{68616DF5-AD84-4D65-85C4-35BB96171391}.Assets|x86.Build.0 = Debug|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -95,6 +120,11 @@ Global
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Android|Mixed Platforms.Build.0 = Release|Any CPU
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Android|x86.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Assets|x86.ActiveCfg = Release|Any CPU
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -105,6 +135,26 @@ Global
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Android|Any CPU.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Android|Any CPU.Build.0 = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Android|Mixed Platforms.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Android|Mixed Platforms.Build.0 = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Android|x86.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Mixed Platforms.Build.0 = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|x86.ActiveCfg = Assets|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +162,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {681B1DF4-3C01-46E3-A52B-B88523F3B5A5}
 		{053C4547-E32B-458E-B295-1E3640BE96E9} = {681B1DF4-3C01-46E3-A52B-B88523F3B5A5}
+		{132EB43F-19B4-42AC-8025-3249B129867A} = {681B1DF4-3C01-46E3-A52B-B88523F3B5A5}
 		{A0A72609-60E7-42AE-920B-E2A84A340633} = {B1C985F6-1C89-4A15-AEB2-861E37349892}
 		{68616DF5-AD84-4D65-85C4-35BB96171391} = {86C90DBF-6046-4A92-B639-184F503ABC59}
 	EndGlobalSection

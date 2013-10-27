@@ -22,6 +22,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
         public void Add(object content)
         {
+            // tested by
+            // X:\jsc.svn\examples\javascript\forms\FormsNIC\FormsNIC\ApplicationWebService.cs
+
+            Console.WriteLine("__XContainer Add " + new { content });
+
+
             if (content == null)
                 return;
 
@@ -44,13 +50,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
             #region XAttribute
             {
-                var e = (__XAttribute)(object)(content as XAttribute);
-                if (e != null)
+                var SourceAttribute = (__XAttribute)(object)(content as XAttribute);
+                if (SourceAttribute != null)
                 {
-                    var CurrentValue = e.Value;
+                    var SourceAttributeValue = SourceAttribute.Value;
 
-                    e.InternalElement = this;
-                    e.Value = CurrentValue;
+                    Console.WriteLine("__XContainer Add " + new { SourceAttribute.Name, SourceAttributeValue });
+
+                    SourceAttribute.InternalElement = this;
+                    SourceAttribute.Value = SourceAttributeValue;
                     return;
                 }
             }
