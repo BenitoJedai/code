@@ -20,6 +20,14 @@ namespace AndroidPrivateAddress
     /// </summary>
     public partial class ApplicationWebService : Component
     {
+        public void SelectionChanged(string Address)
+        {
+            Console.WriteLine(
+                "SelectionChanged " + new { Address }
+                );
+
+        }
+
         public Task<DataTable> GetInterfaces()
         {
             var data =
@@ -114,7 +122,7 @@ namespace AndroidPrivateAddress
 
                     // group by missing from scriptcorelib?
 
-                    let gkey = new { x.u, x.n.Description, key }
+                    let gkey = new { x.u, x.n.Description, x.SupportsMulticast, key }
                     //let gvalue = new { key }
 
                     // Caused by: java.lang.RuntimeException: Implement IComparable for __AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_115__82__110_d_1 vs __AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_115__82__110_d_1
@@ -172,7 +180,13 @@ namespace AndroidPrivateAddress
                               var row = table.NewRow();
 
                               row[cAddress] = x.u.Address.ToString();
-                              row[cComment] = new { x.key, x.Description }.ToString();
+                              row[cComment] = new
+                              {
+
+                                  x.key,
+                                  x.SupportsMulticast,
+                                  x.Description
+                              }.ToString();
 
                               table.Rows.Add(row);
                           }
