@@ -35,74 +35,151 @@ namespace JVMCLRPrivateAddress
                typeof(object).AssemblyQualifiedName
             );
 
-            //            java.lang.Object, rt
-            //'JVMCLRPrivateAddress.exe' (CLR v4.0.30319: JVMCLRPrivateAddress.exe): Loaded 'X:\jsc.svn\examples\java\JVMCLRPrivateAddress\JVMCLRPrivateAddress\bin\Release\JVMCLRPrivateAddress.exports'. Module was built without symbols.
-            //The program '[12004] JVMCLRPrivateAddress.exe' has exited with code 0 (0x0).
-            //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089   
+            try
+            {
+                //            java.lang.Object, rt
+                //'JVMCLRPrivateAddress.exe' (CLR v4.0.30319: JVMCLRPrivateAddress.exe): Loaded 'X:\jsc.svn\examples\java\JVMCLRPrivateAddress\JVMCLRPrivateAddress\bin\Release\JVMCLRPrivateAddress.exports'. Module was built without symbols.
+                //The program '[12004] JVMCLRPrivateAddress.exe' has exited with code 0 (0x0).
+                //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089   
 
-            var data =
-                   from n in NetworkInterface.GetAllNetworkInterfaces()
+                var data =
+                       from n in NetworkInterface.GetAllNetworkInterfaces()
 
-                   let SupportsMulticast = n.SupportsMulticast
+                       let SupportsMulticast = n.SupportsMulticast
 
-                   from u in n.GetIPProperties().UnicastAddresses
+                       from u in n.GetIPProperties().UnicastAddresses
 
-                   let IsLoopback = IPAddress.IsLoopback(u.Address)
+                       let IsLoopback = IPAddress.IsLoopback(u.Address)
 
-                   let IPv4 = u.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
+                       let IPv4 = u.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork
 
-                   // http://compnetworking.about.com/od/workingwithipaddresses/l/aa042400b.htm
-                   // http://ipaddressextensions.codeplex.com/SourceControl/latest#WorldDomination.Net/IPAddressExtensions.cs
-
-                   let AddressBytes = u.Address.GetAddressBytes()
-
-                   // should do a full mask check?
-                   // http://en.wikipedia.org/wiki/IP_address
-                   let PrivateAddresses = new[] { 10, 172, 192 }
-
-                   let IsPrivate = PrivateAddresses.Contains(AddressBytes[0])
-
-                   select new
-                   {
-                       IsPrivate,
-                       IsLoopback,
-                       SupportsMulticast,
-                       IPv4,
-                       u,
-                       n
-                   };
-
-            var g = from x in data
-
-                    let key = x.IsPrivate && !x.IsLoopback && x.SupportsMulticast && x.IPv4
-
-                    // group by missing from scriptcorelib?
-                    group new { x.u, x.n.Description, key } by new { key };
+                       // http://compnetworking.about.com/od/workingwithipaddresses/l/aa042400b.htm
+                       // http://ipaddressextensions.codeplex.com/SourceControl/latest#WorldDomination.Net/IPAddressExtensions.cs
 
 
-            g.Reverse().WithEachIndex(
-                  (gx, gi) =>
-                  {
+                       //- javac
+                       //"C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRPrivateAddress\Program.java
+                       //java\JVMCLRPrivateAddress\Program.java:435: <T>Of(T[]) in ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1 
+                       // cannot be applied to <java.lang.Integer>(int[])
+                       //        return  new __AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_82__51__79_6_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_76__48__76_5_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_69__45__73_4_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_64__42__70_3_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_59__39__67_2_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_54__36__64_1_2<__AnonymousTypes__JVMCLRPrivateAddress__i__d_jvm.__f__AnonymousType_11__28__30_0_2<__NetworkInterface, Boolean>, __UnicastIPAddressInformation>, Boolean>, Boolean>, byte[]>, int[]>, Boolean>(__h__TransparentIdentifier5, __Enumerable.<Integer>Contains(__SZArrayEnumerator_1.<Integer>Of(__h__TransparentIdentifier5.get_PrivateAddresses()), (short)(__h__TransparentIdentifier5.get___h__TransparentIdentifier4().get_AddressBytes()[0] & 0xff)));
+                       //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ^
+                       //Note: Some input files use unchecked or unsafe operations.
+                       //Note: Recompile with -Xlint:unchecked for details.
 
-                      Console.WriteLine(new { gx.Key, gi });
+                       let get_IsPrivate = new Func<bool>(
+                        delegate
+                        {
+                            var AddressBytes = u.Address.GetAddressBytes();
 
-                      gx.WithEach(
-                            x =>
+                            // should do a full mask check?
+                            // http://en.wikipedia.org/wiki/IP_address
+                            //var PrivateAddresses = new[] { 10, 172, 192 };
+
+                            //- javac
+                            //"C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRPrivateAddress\Program.java
+                            //Y:\staging\web\java\JVMCLRPrivateAddress\Program___c__DisplayClass2b.java:36: <T>Of(T[]) in ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1 cannot be applied to <java.lang.Integer>(int[])
+                            //        enumerable_11 = __Enumerable.<Integer>AsEnumerable(__SZArrayEnumerator_1.<Integer>Of(new int[] {
+                            //                                                                                ^
+                            //Y:\staging\web\java\JVMCLRPrivateAddress\Program___c__DisplayClass2b.java:38: <TSource>Contains(ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IEnumerable_1<TSource>,TSource) in ScriptCoreLib.
+                            //        return  __Enumerable.<Integer>Contains(enumerable_11, (short)(byteArray0[0] & 0xff));
+                            //                            ^
+
+
+                            //return PrivateAddresses.Contains(AddressBytes[0]);
+
+                            if (AddressBytes[0] == 10)
+                                return true;
+
+                            if (AddressBytes[0] == 172)
+                                return true;
+
+                            if (AddressBytes[0] == 192)
+                                return true;
+
+                            return false;
+
+                        }
+                       )
+
+
+                       let IsPrivate = get_IsPrivate()
+
+                       select new
+                       {
+                           IsPrivate,
+                           IsLoopback,
+                           SupportsMulticast,
+                           IPv4,
+                           u,
+                           n
+                       };
+
+
+                var g = from x in data
+
+                        let get_key = new Func<bool>(
+                            delegate
                             {
-                                Console.WriteLine(new { x.u.Address, x.Description });
-
+                                return x.IsPrivate && !x.IsLoopback && x.SupportsMulticast && x.IPv4;
                             }
-                        );
+                        )
 
-                  }
-              );
+                        let key = get_key()
+
+                        // group by missing from scriptcorelib?
+
+                        let gkey = new { x.u, x.n.Description, key }
+                        let gvalue = new { key }
+                        group gkey by gvalue;
+
+
+                g.Reverse().WithEachIndex(
+                      (gx, gi) =>
+                      {
+
+                          Console.WriteLine(new { gx.Key, gi });
+
+                          gx.WithEach(
+                                x =>
+                                {
+                                    Console.WriteLine(new { x.u.Address, x.Description });
+
+                                }
+                            );
+
+                      }
+                  );
+
+
+            }
+            catch (Exception ex)
+            {
+                //                java.lang.Object, rt
+                //{ Message = , StackTrace = java.lang.RuntimeException
+                //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.GroupBy(__Enumerable.java:248)
+                //        at JVMCLRPrivateAddress.Program.main(Program.java:342)
+                // }
+                //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+
+
+                Console.WriteLine(
+                    new { ex.Message, ex.StackTrace }
+                    );
+            }
 
             // X:\jsc.svn\examples\javascript\android\AndroidPrivateAddress\AndroidPrivateAddress\ApplicationWebService.cs
 
 
-            //Implementation not found for type import :
+            //          Implementation not found for type import :
             //type: System.Linq.Enumerable
-            //method: System.Collections.Generic.IEnumerable`1[System.Linq.IGrouping`2[<>f__AnonymousType$100$$63$$91$9`1[System.Boolean],<>f__AnonymousType$104$$65$$93$a`3[System.Net.NetworkInformation.UnicastIPAddressInformation,System.String,System.Boolean]]] GroupBy[<>f__AnonymousType$95$$60$$88$8`2,<>f__AnonymousType$100$$63$$91$9`1,<>f__AnonymousType$104$$65$$93$a`3](System.Collections.Generic.IEnumerable`1[<>f__AnonymousType$95$$60$$88$8`2[<>f__AnonymousType$86$$53$$81$7`6[System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Net.NetworkInformation.UnicastIPAddressInformation,System.Net.NetworkInformation.NetworkInterface],System.Boolean]], System.Func`2[<>f__AnonymousType$95$$60$$88$8`2[<>f__AnonymousType$86$$53$$81$7`6[System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Net.NetworkInformation.UnicastIPAddressInformation,System.Net.NetworkInformation.NetworkInterface],System.Boolean],<>f__AnonymousType$100$$63$$91$9`1[System.Boolean]], System.Func`2[<>f__AnonymousType$95$$60$$88$8`2[<>f__AnonymousType$86$$53$$81$7`6[System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Net.NetworkInformation.UnicastIPAddressInformation,System.Net.NetworkInformation.NetworkInterface],System.Boolean],<>f__AnonymousType$104$$65$$93$a`3[System.Net.NetworkInformation.UnicastIPAddressInformation,System.String,System.Boolean]])
+            //method: System.Collections.Generic.IEnumerable`1[System.Linq.IGrouping`2[TKey,TElement]] 
+            // GroupBy[TSource,TKey,TElement](
+            // System.Collections.Generic.IEnumerable`1[TSource], 
+            // System.Func`2[TSource,TKey], 
+            // System.Func`2[TSource,TElement])
+            //Did you forget to add the [Script] attribute?
+            //Please double check the signature!
+
             //Did you forget to add the [Script] attribute?
             //Please double check the signature!
 

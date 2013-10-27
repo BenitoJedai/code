@@ -126,6 +126,7 @@
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\Task.cs" />
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\IGrouping.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\CancellationToken.cs" />

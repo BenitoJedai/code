@@ -19,6 +19,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
         public static readonly IPAddress Loopback;
         public static readonly IPAddress Any;
 
+
+        public byte[] GetAddressBytes()
+        {
+            return (byte[])(object)this.InternalAddress.getAddress();
+        }
+
+        //Implementation not found for type import :
+        //type: System.Net.IPAddress
+        //method: Byte[] GetAddressBytes()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
         public static bool IsLoopback(IPAddress address)
         {
             __IPAddress a = address;
