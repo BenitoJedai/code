@@ -12,15 +12,16 @@ using System.Text;
 using System.Xml.Linq;
 using TestCSVAsset.Design;
 using TestCSVAsset.HTML.Pages;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TestCSVAsset
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -28,11 +29,14 @@ namespace TestCSVAsset
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+
+
+            GetFoo().ContinueWithResult(
+                data =>
+                {
+                    new DataGridView { DataSource = data }.AttachControlToDocument();
+
+                }
             );
         }
 
