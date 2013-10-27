@@ -58,6 +58,7 @@ namespace AndroidPrivateAddress
 
                     let key = x.IsPrivate && !x.IsLoopback && x.SupportsMulticast && x.IPv4
 
+                    // group by missing from scriptcorelib?
                     group new { x.u, x.n.Description, key } by new { key };
 
 

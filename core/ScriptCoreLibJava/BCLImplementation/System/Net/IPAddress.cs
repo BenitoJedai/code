@@ -19,6 +19,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
         public static readonly IPAddress Loopback;
         public static readonly IPAddress Any;
 
+        public static bool IsLoopback(IPAddress address)
+        {
+            __IPAddress a = address;
+
+            return a.InternalAddress.isLoopbackAddress();
+        }
+
         static __IPAddress()
         {
             // fixme: jsc is too agressive here to inline the static initializer
@@ -77,6 +84,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
         public static implicit operator global::System.Net.IPAddress(__IPAddress i)
         {
             return (global::System.Net.IPAddress)(object)i;
+        }
+
+        public static implicit operator __IPAddress(global::System.Net.IPAddress i)
+        {
+            return (__IPAddress)(object)i;
         }
     }
 }
