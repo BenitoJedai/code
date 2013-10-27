@@ -29,7 +29,24 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // tested by
                 // X:\jsc.svn\examples\javascript\Test\TestInteractiveStyleRule\TestInteractiveStyleRule\Application.cs
 
-                return this.parentStyleSheet[CSSMediaTypes.print][this.selectorText];
+                // android webview gives us trouble
+                // revert to a dedicated stylesheet?
+                // X:\jsc.svn\examples\javascript\Test\TestCSSPrint\TestCSSPrint\Application.cs
+
+                //return IStyleSheet.print[this.selectorText];
+
+                var p = this.parentStyleSheet[CSSMediaTypes.print];
+
+                if (p == null)
+                {
+                    Console.WriteLine("creating a disabled style rule as android webview does not know any better?");
+
+                    var x = new IStyleSheet { disabled = true };
+
+                    return x[selectorText];
+                }
+
+                return p[selectorText];
             }
         }
 

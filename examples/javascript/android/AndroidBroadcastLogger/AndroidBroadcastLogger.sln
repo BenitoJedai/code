@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project References", "Proje
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linked References", "Linked References", "{B1C985F6-1C89-4A15-AEB2-861E37349892}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Drawing", "..\..\..\..\core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.csproj", "{053C4547-E32B-458E-B295-1E3640BE96E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -88,13 +90,29 @@ Global
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Release|Mixed Platforms.Build.0 = Release|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Release|x86.ActiveCfg = Release|x86
 		{68616DF5-AD84-4D65-85C4-35BB96171391}.Release|x86.Build.0 = Release|x86
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Android|Any CPU.Build.0 = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Android|x86.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{053C4547-E32B-458E-B295-1E3640BE96E9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {681B1DF4-3C01-46E3-A52B-B88523F3B5A5}
-		{68616DF5-AD84-4D65-85C4-35BB96171391} = {86C90DBF-6046-4A92-B639-184F503ABC59}
+		{053C4547-E32B-458E-B295-1E3640BE96E9} = {681B1DF4-3C01-46E3-A52B-B88523F3B5A5}
 		{A0A72609-60E7-42AE-920B-E2A84A340633} = {B1C985F6-1C89-4A15-AEB2-861E37349892}
+		{68616DF5-AD84-4D65-85C4-35BB96171391} = {86C90DBF-6046-4A92-B639-184F503ABC59}
 	EndGlobalSection
 EndGlobal
