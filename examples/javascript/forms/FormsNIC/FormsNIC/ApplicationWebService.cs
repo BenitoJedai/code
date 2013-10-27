@@ -97,12 +97,27 @@ namespace FormsNIC
                     var InetAddressesString = "";
 
                     // Address = {192.168.43.1}
-                    IPProperties.UnicastAddresses.WithEach(
+
+
+                    IPProperties.MulticastAddresses.WithEach(
                         g =>
                         {
+                            // IPv4 private addresses
+                            // http://en.wikipedia.org/wiki/IP_address
+
                             InetAddressesString += "; " + g.Address;
                         }
                     );
+
+                    //IPProperties.UnicastAddresses.WithEach(
+                    //    g =>
+                    //    {
+                    //        // IPv4 private addresses
+                    //        // http://en.wikipedia.org/wiki/IP_address
+
+                    //        InetAddressesString += "; " + g.Address;
+                    //    }
+                    //);
 
 
                     row[cGatewayAddresses] = InetAddressesString;
