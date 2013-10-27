@@ -39,8 +39,17 @@ namespace ScriptCoreLib.JavaScript.Extensions
             // http://stackoverflow.com/questions/16649943/css-to-set-a4-paper-size
             // http://jsfiddle.net/2wk6Q/3/
 
+            // http://stackoverflow.com/questions/16649943/css-to-set-a4-paper-size
+
+            //Native.document.body.css.print.style.padding = "0px";
+            //Native.document.body.css.print.style.margin = "0px";
+
+
+            //Native.document.documentElement.css.print.style.padding = "0px";
+            //Native.document.documentElement.css.print.style.margin = "0px";
+
             Native.document.documentElement.css.print.style.width = "21cm";
-            Native.document.documentElement.css.print.style.height = "29.7cm";
+            Native.document.documentElement.css.print.style.height = "27.7cm";
 
             var f = new Form
             {
