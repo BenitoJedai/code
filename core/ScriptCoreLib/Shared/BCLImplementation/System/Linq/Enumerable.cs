@@ -12,6 +12,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
 
 
+        public static IEnumerable<IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        {
+            // X:\jsc.svn\examples\java\JVMCLRPrivateAddress\JVMCLRPrivateAddress\Program.cs
+
+            throw new NotImplementedException();
+        }
 
     }
 
