@@ -753,25 +753,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-        #region ForeColor
 
-        public event EventHandler ForeColorChanged;
-
-        private Color _ForeColor;
-
-        public Color ForeColor
-        {
-            get { return _ForeColor; }
-            set
-            {
-                _ForeColor = value;
-                this.HTMLTargetRef.style.color = value.ToString();
-
-                if (ForeColorChanged != null)
-                    ForeColorChanged(this, new EventArgs());
-            }
-        }
-        #endregion
 
         #region Font
 
@@ -817,6 +799,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.HTMLTargetRef.focus();
             return false;
         }
+
+
+
+
+        #region ForeColor
+
+        public event EventHandler ForeColorChanged;
+
+        private Color _ForeColor;
+
+        protected virtual void InternalSetForeColor(Color value)
+        {
+            this.HTMLTargetRef.style.color = value.ToString();
+        }
+
+        public Color ForeColor
+        {
+            get { return _ForeColor; }
+            set
+            {
+                _ForeColor = value;
+
+                InternalSetForeColor(value);
+
+                if (ForeColorChanged != null)
+                    ForeColorChanged(this, new EventArgs());
+            }
+        }
+        #endregion
 
         #region BackColor
 
