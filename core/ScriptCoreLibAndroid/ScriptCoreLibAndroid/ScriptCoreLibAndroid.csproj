@@ -367,6 +367,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XObject.cs">
       <Link>BCLImplementation\System\Xml\Linq\XObject.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XText.cs">
+      <Link>BCLImplementation\System\Xml\Linq\XText.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\Extensions\BCLImplementationExtensions.cs">
       <Link>Extensions\BCLImplementationExtensions.cs</Link>
     </Compile>

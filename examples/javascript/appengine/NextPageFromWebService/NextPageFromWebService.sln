@@ -7,10 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NextPageFromWebService", "N
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|x86 = Android|x86
+		AppEngine|x86 = AppEngine|x86
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBE8748E-DE5B-49B2-9BF0-8636B5465F3C}.Android|x86.ActiveCfg = Android|x86
+		{EBE8748E-DE5B-49B2-9BF0-8636B5465F3C}.Android|x86.Build.0 = Android|x86
+		{EBE8748E-DE5B-49B2-9BF0-8636B5465F3C}.AppEngine|x86.ActiveCfg = AppEngine|x86
+		{EBE8748E-DE5B-49B2-9BF0-8636B5465F3C}.AppEngine|x86.Build.0 = AppEngine|x86
 		{EBE8748E-DE5B-49B2-9BF0-8636B5465F3C}.Debug|x86.ActiveCfg = Debug|x86
 		{EBE8748E-DE5B-49B2-9BF0-8636B5465F3C}.Debug|x86.Build.0 = Debug|x86
 		{EBE8748E-DE5B-49B2-9BF0-8636B5465F3C}.Release|x86.ActiveCfg = Release|x86

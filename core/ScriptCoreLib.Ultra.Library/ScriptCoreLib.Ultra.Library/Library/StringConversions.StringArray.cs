@@ -344,6 +344,12 @@ namespace ScriptCoreLib.Library
         // have we not written this before?
         public static IEnumerable<string> ParseCSVTokens(string content)
         {
+            // tested by
+            // X:\jsc.svn\examples\javascript\appengine\NextPageFromWebService\NextPageFromWebService\Application.cs
+            var yield = new List<string>();
+
+
+
             // comma shall trigger buffer
 
             var w = new StringBuilder();
@@ -359,27 +365,28 @@ namespace ScriptCoreLib.Library
 
                         q = w;
                         w = null;
-                        continue;
+                        //continue;
                     }
-
-                    if (content[i] == ',')
+                    else if (content[i] == ',')
                     {
-                        yield return w.ToString();
+                        //yield return w.ToString();
+                        yield.Add(w.ToString());
 
                         // script: error JSC1000: No implementation found for this native method, please implement [System.Text.StringBuilder.Clear()]
                         //w.Clear();
                         w = new StringBuilder();
 
-                        continue;
+                        //continue;
                     }
-
-                    if (content[i] == '\r')
+                    else if (content[i] == '\r')
                     {
-                        yield return w.ToString();
+                        //yield return w.ToString();
+                        yield.Add(w.ToString());
                         //w.Clear();
                         w = new StringBuilder();
 
-                        yield return null;
+                        //yield return null;
+                        yield.Add(null);
 
                         if (i + 1 < content.Length)
                         {
@@ -390,10 +397,12 @@ namespace ScriptCoreLib.Library
                             }
                         }
 
-                        continue;
+                        //continue;
                     }
-
-                    w.Append(content[i]);
+                    else
+                    {
+                        w.Append(content[i]);
+                    }
                 }
                 else
                 {
@@ -401,30 +410,38 @@ namespace ScriptCoreLib.Library
                     {
                         // exit q mode?
 
-                        if (i + 1 < content.Length)
+                        var eq = (i + 1 < content.Length) && (content[i + 1] == '\"');
+
+
+                        if (eq)
                         {
                             // aint over yet
-                            if (content[i + 1] == '\"')
-                            {
-                                // escaped quote?
-                                q.Append('\"');
-                                i++;
-                                continue;
-                            }
+                            // escaped quote?
+                            q.Append('\"');
+                            i++;
+                        }
+                        else
+                        {
+
+                            w = q;
+                            q = null;
                         }
 
-                        w = q;
-                        q = null;
-
-                        continue;
+                        //continue;
                     }
-
-                    q.Append(content[i]);
+                    else
+                    {
+                        q.Append(content[i]);
+                    }
 
                 }
             }
 
-            yield return null;
+            //yield return null;
+            yield.Add(null);
+
+
+            return yield;
         }
     }
 }

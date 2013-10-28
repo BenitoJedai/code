@@ -85,6 +85,21 @@ namespace NextPageFromWebService
     {
         public XElement body;
 
+
+        // this wont work and android yet.
+        // are we missing cookies?
+
+        //        #12 POST /xml?WebMethod=06000001 HTTP/1.1 error:
+        //#12 java.lang.RuntimeException
+        //#12 java.lang.RuntimeException
+        //       at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XDocument.Parse(__XDocument.java:59)
+        //       at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XElement.Parse(__XElement.java:200)
+        //       at ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(StringConversions.java:150)
+        //       at NextPageFromWebService.Global.Invoke(Global.java:185)
+        //       at ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions.InternalApplication_BeginRequest(InternalGlobalExtensions.java:350)
+        //       at NextPageFromWebService.Global.Application_BeginRequest(Global.java:39)
+
+
         public Task<DataTable> GoNextPage()
         {
             // slow down
@@ -102,7 +117,12 @@ namespace NextPageFromWebService
 
             var data = foo.GetDataTable();
 
-            return data.ToTaskResult();
+
+            var c = new TaskCompletionSource<DataTable>();
+            c.SetResult(data);
+            return c.Task;
+
+            //return data.ToTaskResult();
         }
     }
 }
