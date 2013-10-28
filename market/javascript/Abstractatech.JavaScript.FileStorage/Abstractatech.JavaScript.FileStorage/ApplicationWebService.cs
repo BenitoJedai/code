@@ -12,16 +12,16 @@ using System.Xml.Linq;
 namespace Abstractatech.JavaScript.FileStorage
 {
     public delegate void AtFile(
-        string ContentKey,
+        long ContentKey,
         string ContentValue,
         string ContentType,
-        string ContentBytesLength
+        long ContentBytesLength
     );
 
-    public interface IApplicationWebService
+    public interface IApplicationWebServiceX
     {
-        void DeleteAsync(string Key, Action done = null);
-        void UpdateAsync(string Key, string Value, Action done = null);
+        void DeleteAsync(long Key, Action done = null);
+        void UpdateAsync(long Key, string Value, Action done = null);
         void EnumerateFilesAsync(AtFile y, Action<string> done = null);
         void GetTransactionKeyAsync(Action<string> done = null);
     }
@@ -29,21 +29,29 @@ namespace Abstractatech.JavaScript.FileStorage
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService : IApplicationWebService
+    public sealed class ApplicationWebService : IApplicationWebServiceX
     {
-        //[javac] S:\src\Abstractatech\JavaScript\FileStorage\ApplicationWebService___c__DisplayClass23.java:30: data_FileStorageLog has private access in Abstractatech.JavaScript.FileStorage.ApplicationWebService
-        //[javac]         this.CS___8__locals22.__4__this.data_FileStorageLog.Insert(insert0, null);
+        //     19e0:01:01 RewriteToAssembly error: System.InvalidOperationException: Sequence contains no elements
+        //at System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+        //at jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.WebServiceForJavaScript.<>c__DisplayClass274.<WriteTypeDefinition>b__269()
 
+        //        [javac] Compiling 592 source files to V:\bin\classes
+        //[javac] V:\src\Abstractatech\JavaScript\FileStorage\ApplicationWebService___c__DisplayClass2b.java:32: data_FileStorageLog has private access in Abstractatech.JavaScript.FileStorage.ApplicationWebService
+        //[javac]         this.CS___8__locals2a.__4__this.data_FileStorageLog.Insert(insert0, null);
+        //[javac]                                        ^
+        //[javac] V:\src\Abstractatech\JavaScript\FileStorage\ApplicationWebService___c__DisplayClass2d.java:136: data_FileStorage has private access in Abstractatech.JavaScript.FileStorage.ApplicationWebService
+        //[javac]             table16 = this.CS___8__locals2a.__4__this.data_FileStorage;
+        //[javac]                                                      ^
 
-        public FileStorageTable data_FileStorage = new FileStorageTable();
-        public FileStorageLogTable data_FileStorageLog = new FileStorageLogTable();
+        FileStorageTable data_FileStorage = new FileStorageTable();
+        FileStorageLogTable data_FileStorageLog = new FileStorageLogTable();
 
-        public void DeleteAsync(string Key, Action done = null)
+        public void DeleteAsync(long Key, Action done = null)
         {
             data_FileStorage.Delete(
                 new FileStorageQueries.Delete
                 {
-                    ContentKey = int.Parse(Key),
+                    ContentKey = (int)(Key),
                 }
             );
 
@@ -56,12 +64,12 @@ namespace Abstractatech.JavaScript.FileStorage
         }
 
 
-        public void UpdateAsync(string Key, string Value, Action done = null)
+        public void UpdateAsync(long Key, string Value, Action done = null)
         {
             data_FileStorage.Update(
                 new FileStorageQueries.Update
                 {
-                    ContentKey = int.Parse(Key),
+                    ContentKey = (int)(Key),
                     ContentValue = Value
                 }
             );
@@ -90,10 +98,10 @@ namespace Abstractatech.JavaScript.FileStorage
 
 
                     y(
-                        ContentKey: "" + ContentKey,
+                        ContentKey: ContentKey,
                         ContentValue: ContentValue,
                         ContentType: ContentType,
-                        ContentBytesLength: "" + ContentBytesLength
+                        ContentBytesLength: ContentBytesLength
                     );
                 }
             );

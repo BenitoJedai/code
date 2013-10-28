@@ -65,7 +65,7 @@ namespace com.abstractatech.scholar
                 {
                     a = s.ElapsedMilliseconds / time.TotalMilliseconds;
 
-                    Native.Window.requestAnimationFrame += loop;
+                    Native.window.requestAnimationFrame += loop;
 
                 }
 
@@ -84,7 +84,7 @@ namespace com.abstractatech.scholar
 
             };
 
-            Native.Window.requestAnimationFrame += loop;
+            Native.window.requestAnimationFrame += loop;
         }
     }
 
@@ -95,7 +95,7 @@ namespace com.abstractatech.scholar
     {
         com.abstractatech.scholar.Assets.Publish ref0;
 
-        public readonly Abstractatech.JavaScript.FileStorage.IApplicationWebService service = new ApplicationWebService();
+        public readonly Abstractatech.JavaScript.FileStorage.IApplicationWebServiceX service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -112,7 +112,7 @@ namespace com.abstractatech.scholar
 
         public ApplicationContent(
             IApp page,
-            Abstractatech.JavaScript.FileStorage.IApplicationWebService service,
+            Abstractatech.JavaScript.FileStorage.IApplicationWebServiceX service,
             bool DisableBackground = false
 
             )
@@ -175,10 +175,10 @@ namespace com.abstractatech.scholar
                     ff.Text = "Navigating";
 
 
-                    if (Native.Window.Width < 1024)
+                    if (Native.window.Width < 1024)
                         // docked?
                         if (ff.GetHTMLTarget().parentNode != null)
-                            Native.Window.scrollTo(ff.Left - 8, ff.Top - 8, TimeSpan.FromMilliseconds(300));
+                            Native.window.scrollTo(ff.Left - 8, ff.Top - 8, TimeSpan.FromMilliseconds(300));
 
                 };
 
@@ -190,7 +190,7 @@ namespace com.abstractatech.scholar
                     if (w.Url.ToString() == "about:blank")
                     {
 
-                        Native.Window.scrollTo(0, 0, TimeSpan.FromMilliseconds(200));
+                        Native.window.scrollTo(0, 0, TimeSpan.FromMilliseconds(200));
 
                         ff.Text = "...";
 
@@ -200,7 +200,7 @@ namespace com.abstractatech.scholar
                     }
 
                     //ff.Text = w.DocumentTitle;
-                    ff.Text = Native.Window.unescape(
+                    ff.Text = Native.window.unescape(
                         w.Url.ToString().SkipUntilLastIfAny("/").TakeUntilLastIfAny(".")
                         );
 
@@ -257,34 +257,34 @@ namespace com.abstractatech.scholar
 
                if (ff.GetHTMLTarget().parentNode == null)
                {
-                   Native.Window.scrollTo(0, 0);
-                   f.MoveTo(8, 8).SizeTo(Native.Window.Width - 16, Native.Window.Height - 16);
+                   Native.window.scrollTo(0, 0);
+                   f.MoveTo(8, 8).SizeTo(Native.window.Width - 16, Native.window.Height - 16);
 
                    return;
                }
 
                if (f.GetHTMLTarget().parentNode == null)
                {
-                   Native.Window.scrollTo(0, 0);
-                   ff.MoveTo(8, 8).SizeTo(Native.Window.Width - 16, Native.Window.Height - 16);
+                   Native.window.scrollTo(0, 0);
+                   ff.MoveTo(8, 8).SizeTo(Native.window.Width - 16, Native.window.Height - 16);
 
                    return;
                }
 
-               if (Native.Window.Width < 1024)
+               if (Native.window.Width < 1024)
                {
-                   Native.Document.body.style.minWidth = (Native.Window.Width * 2) + "px";
+                   Native.Document.body.style.minWidth = (Native.window.Width * 2) + "px";
 
 
-                   f.MoveTo(8, 8).SizeTo(Native.Window.Width - 16, Native.Window.Height - 16);
+                   f.MoveTo(8, 8).SizeTo(Native.window.Width - 16, Native.window.Height - 16);
 
-                   ff.MoveTo(Native.Window.Width + 8, 8).SizeTo(Native.Window.Width - 16, Native.Window.Height - 16);
+                   ff.MoveTo(Native.window.Width + 8, 8).SizeTo(Native.window.Width - 16, Native.window.Height - 16);
 
                    // already scrolled...
                    if (w.Url.ToString() != "about:blank")
                        // docked?
                        if (ff.GetHTMLTarget().parentNode != null)
-                           Native.Window.scrollTo(ff.Left - 8, ff.Top - 8);
+                           Native.window.scrollTo(ff.Left - 8, ff.Top - 8);
 
                    return;
                }
@@ -292,13 +292,13 @@ namespace com.abstractatech.scholar
 
 
 
-               f.MoveTo(16, 64).SizeTo(hh.LeftContainer.clientWidth - 32, Native.Window.Height - 128);
+               f.MoveTo(16, 64).SizeTo(hh.LeftContainer.clientWidth - 32, Native.window.Height - 128);
 
 
                ff.MoveTo(
-                   Native.Window.Width - hh.RightContainer.clientWidth + 16
+                   Native.window.Width - hh.RightContainer.clientWidth + 16
 
-                   , 64).SizeTo(hh.RightContainer.clientWidth - 32, Native.Window.Height - 128);
+                   , 64).SizeTo(hh.RightContainer.clientWidth - 32, Native.window.Height - 128);
 
                //Console.WriteLine("LeftContainer " + new { hh.LeftContainer.clientWidth });
                //Console.WriteLine("RightContainer " + new { hh.RightContainer.clientWidth });
@@ -310,13 +310,13 @@ namespace com.abstractatech.scholar
               AtResize();
           };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
              delegate
              {
                  AtResize();
              };
 
-            Native.Window.requestAnimationFrame +=
+            Native.window.requestAnimationFrame +=
         delegate
         {
             AtResize();

@@ -19,7 +19,7 @@ namespace com.abstractatech.wiki
     /// </summary>
     public sealed class ApplicationWebService :
         // can we do explicit implementations too?
-        Abstractatech.JavaScript.FileStorage.IApplicationWebService
+        Abstractatech.JavaScript.FileStorage.IApplicationWebServiceX
     {
         // jsc does not yet look deep enough
         Type ref0 = typeof(System.Data.SQLite.SQLiteCommand);
@@ -34,11 +34,11 @@ namespace com.abstractatech.wiki
 
 
         #region service
-        public Abstractatech.JavaScript.FileStorage.ApplicationWebService service = new Abstractatech.JavaScript.FileStorage.ApplicationWebService();
+         Abstractatech.JavaScript.FileStorage.ApplicationWebService service = new Abstractatech.JavaScript.FileStorage.ApplicationWebService();
 
 
 
-        public void DeleteAsync(string Key, Action done = null)
+        public void DeleteAsync(long Key, Action done = null)
         {
             service.DeleteAsync(Key, done);
 
@@ -54,7 +54,7 @@ namespace com.abstractatech.wiki
             service.GetTransactionKeyAsync(done);
         }
 
-        public void UpdateAsync(string Key, string Value, Action done = null)
+        public void UpdateAsync(long Key, string Value, Action done = null)
         {
             service.UpdateAsync(Key, Value, done);
         }

@@ -17,12 +17,14 @@ using System.Collections.Generic;
 
 namespace Abstractatech.JavaScript.FileStorage
 {
+    using FileEntry = HTML.Pages.FileEntry;
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     public sealed class Application
     {
-        public readonly IApplicationWebService service = new ApplicationWebService();
+        public readonly IApplicationWebServiceX service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -55,7 +57,7 @@ namespace Abstractatech.JavaScript.FileStorage
 
         public ApplicationContent(
             IApp page = null,
-            IApplicationWebService service = null)
+            IApplicationWebServiceX service = null)
         {
             // need absolute path when docked..
             page.style1.href = page.style1.href;
@@ -114,10 +116,10 @@ namespace Abstractatech.JavaScript.FileStorage
                     service.EnumerateFilesAsync(
                         y:
                         (
-                            string ContentKey,
+                            long ContentKey,
                             string ContentValue,
                             string ContentType,
-                            string ContentBytesLength
+                            long ContentBytesLength
                         ) =>
                         {
                             var e = new FileEntry();

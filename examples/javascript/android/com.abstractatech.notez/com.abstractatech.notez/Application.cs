@@ -118,7 +118,7 @@ namespace com.abstractatech.notez
                     "My Notez".ToDocumentTitle();
                 };
 
-            Native.Window.onbeforeunload +=
+            Native.window.onbeforeunload +=
                 e =>
                 {
                     if (service.ServicePending.IsRunning)
@@ -140,7 +140,7 @@ namespace com.abstractatech.notez
 
             Console.WriteLine("Do we have localStorage? [2]");
 
-            Native.Window.localStorage.With(
+            Native.window.localStorage.With(
                 localStorage =>
                 {
                     Console.WriteLine("This browser has localStorage. Lets sync with that. [2]");
@@ -242,7 +242,7 @@ namespace com.abstractatech.notez
                            }
 
                            //ff.Text = w.DocumentTitle;
-                           f2.Text = Native.Window.unescape(
+                           f2.Text = Native.window.unescape(
                                w.Url.ToString().SkipUntilLastIfAny("/").TakeUntilLastIfAny(".")
                                );
 
@@ -250,7 +250,7 @@ namespace com.abstractatech.notez
 
                        };
 
-                    Native.Window.requestAnimationFrame +=
+                    Native.window.requestAnimationFrame +=
                         delegate
                         {
 
@@ -647,15 +647,15 @@ namespace com.abstractatech.notez
 
 
 
-                        f.MoveTo(16, 16).SizeTo(hh.LeftContainer.clientWidth - 32, Native.Window.Height / 3 - 16 - 4);
-                        f1.MoveTo(16, Native.Window.Height / 3 + 4).SizeTo(hh.LeftContainer.clientWidth - 32, Native.Window.Height / 3 - 8);
-                        f2.MoveTo(16, Native.Window.Height / 3 * 2 + 4).SizeTo(hh.LeftContainer.clientWidth - 32, Native.Window.Height / 3 - 16);
+                        f.MoveTo(16, 16).SizeTo(hh.LeftContainer.clientWidth - 32, Native.window.Height / 3 - 16 - 4);
+                        f1.MoveTo(16, Native.window.Height / 3 + 4).SizeTo(hh.LeftContainer.clientWidth - 32, Native.window.Height / 3 - 8);
+                        f2.MoveTo(16, Native.window.Height / 3 * 2 + 4).SizeTo(hh.LeftContainer.clientWidth - 32, Native.window.Height / 3 - 16);
 
 
                         ff.MoveTo(
-                            Native.Window.Width - hh.RightContainer.clientWidth + 16
+                            Native.window.Width - hh.RightContainer.clientWidth + 16
 
-                            , 16).SizeTo(hh.RightContainer.clientWidth - 32, Native.Window.Height - 32);
+                            , 16).SizeTo(hh.RightContainer.clientWidth - 32, Native.window.Height - 32);
 
                         //Console.WriteLine("LeftContainer " + new { hh.LeftContainer.clientWidth });
                         //Console.WriteLine("RightContainer " + new { hh.RightContainer.clientWidth });
@@ -667,13 +667,13 @@ namespace com.abstractatech.notez
                       AtResize();
                   };
 
-                    Native.Window.onresize +=
+                    Native.window.onresize +=
                      delegate
                      {
                          AtResize();
                      };
 
-                    Native.Window.requestAnimationFrame +=
+                    Native.window.requestAnimationFrame +=
                 delegate
                 {
                     AtResize();
