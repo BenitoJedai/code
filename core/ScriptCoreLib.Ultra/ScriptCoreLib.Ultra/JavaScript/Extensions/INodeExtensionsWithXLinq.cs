@@ -16,7 +16,22 @@ namespace ScriptCoreLib.JavaScript.Extensions
     /// </summary>
     public static class INodeExtensionsWithXLinq
     {
+        public static XElement InternalReplaceAll(XElement value, XElement old)
+        {
+            if (value == null)
+                return old;
 
+            if (old == null)
+                return value;
+
+
+
+            // X:\jsc.svn\examples\javascript\XElementFieldModifiedByWebService\XElementFieldModifiedByWebService\Application.cs
+
+            old.ReplaceAll(value);
+
+            return old;
+        }
 
         /// <summary>
         /// Converts XML to HTML and appends all created nodes to the container.

@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
 {
 	public static class INodeExtensions
 	{
+
+
         //public static T SizeTo<T>(this T e, int w, int h) where T : IHTMLElement
         //{
         //    e.style.width = w + "px";
