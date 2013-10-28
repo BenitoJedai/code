@@ -171,12 +171,13 @@ namespace Abstractatech.JavaScript.FileStorage
                         };
 
 
+                        var loc_data_FileStorageLog = data_FileStorageLog;
                         data_FileStorage.Insert(
                             value: __value,
                             yield:
                             LastInsertRowId =>
                             {
-                                data_FileStorageLog.Insert(
+                                loc_data_FileStorageLog.Insert(
                                     new FileStorageLogQueries.Insert { ContentValue = "added " + new { LastInsertRowId, FileName } }
                                 );
 
@@ -229,6 +230,8 @@ namespace Abstractatech.JavaScript.FileStorage
                 // http://stackoverflow.com/questions/1407442/android-sqlite-and-huge-data-sets
                 // http://stackoverflow.com/questions/11863024/android-cursor-window-is-full
 
+                var loc_data_FileStorage = this.data_FileStorage;
+
                 data_FileStorage.SelectBytes(
                     value: int.Parse(filepath),
                     yield: reader =>
@@ -261,7 +264,7 @@ namespace Abstractatech.JavaScript.FileStorage
                                 };
 
                             // http://stackoverflow.com/questions/5406429/cursor-size-limit-in-android-sqlitedatabase
-                            data_FileStorage.SelectBytesRange(
+                            loc_data_FileStorage.SelectBytesRange(
                                 value: __SelectBytesRange,
                                 yield: rangereader =>
                                 {
