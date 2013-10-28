@@ -1,5 +1,7 @@
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
@@ -47,6 +49,15 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         #endregion
 
+
+
+
+        public static implicit operator IHTMLSpan(XElement x)
+        {
+            // X:\jsc.svn\examples\javascript\XElementFieldModifiedByWebService\XElementFieldModifiedByWebService\Application.cs
+            // what if its not a button?
+            return (IHTMLSpan)x.AsHTMLElement();
+        }
 
         public static implicit operator IHTMLSpan(string innerText)
         {
