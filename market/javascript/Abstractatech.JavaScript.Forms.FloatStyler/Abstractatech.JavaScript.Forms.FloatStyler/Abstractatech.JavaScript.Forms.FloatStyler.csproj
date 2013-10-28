@@ -120,6 +120,7 @@
   <ItemGroup>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="FormStylerLikeFloat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationControl.cs">
       <SubType>UserControl</SubType>
