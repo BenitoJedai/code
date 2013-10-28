@@ -12,12 +12,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ColorDisco;
-using ColorDisco.Design;
-using ColorDisco.HTML.Pages;
-using System.Diagnostics;
+using AsyncTitleElement;
+using AsyncTitleElement.Design;
+using AsyncTitleElement.HTML.Pages;
 
-namespace ColorDisco
+namespace AsyncTitleElement
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -31,32 +30,13 @@ namespace ColorDisco
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // we are not yet merging correctly.
-            // script would be reloaded after await
-            Native.document.body.querySelectorAll("script").WithEach(
-                x => x.Orphanize()
-            );
 
-            go();
+
+            this.title = Native.document.getElementsByTagName("title").First();
+
+
+            this.yield();
         }
 
-        public async void go()
-        {
-            Native.document.body.css.style.transition = "background-color 100ms linear";
-
-            this.body = Native.document.body;
-
-
-            while (true)
-            {
-                i++;
-
-                await yield();
-
-
-                await Task.Delay(333);
-
-            }
-        }
     }
 }

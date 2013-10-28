@@ -1,0 +1,10 @@
+        head, title {
+            display: block;
+        }
+
+
+        title {
+            color: white;
+            background-color: black;
+            padding: 0.2em;
+        }

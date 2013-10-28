@@ -27,6 +27,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 
             // X:\jsc.svn\examples\javascript\XElementFieldModifiedByWebService\XElementFieldModifiedByWebService\Application.cs
+            // X:\jsc.svn\examples\javascript\ColorDisco\ColorDisco\Application.cs
 
             old.ReplaceAll(value);
 
