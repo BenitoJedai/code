@@ -3,40 +3,33 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ColorDisco
+namespace AsyncTitleElement
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
     public class ApplicationWebService
     {
-        public XElement body;
 
-        public int i;
+        public XElement title;
 
 
-        public async Task<string> yield()
+        public Task<string> yield()
         {
 
+            title.Value = "a new title";
 
-            var r = new Random();
-
-            body.Attribute("style").Value = "background-color: " +
-                "rgb(" +
-                    r.NextByte() + "," +
-                    r.NextByte() + "," +
-                    r.NextByte() +
-                ")";
-
-
-            return "ok";
+            return "ok".ToTaskResult();
         }
+
+
+
     }
-
-
 }
