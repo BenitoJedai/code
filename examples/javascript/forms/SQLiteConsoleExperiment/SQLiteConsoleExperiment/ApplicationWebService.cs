@@ -23,7 +23,11 @@ namespace SQLiteConsoleExperiment
 
 
 
-        public Task<DataTable> ExecuteReaderAsync(string sql, Action<string> y, Action<XElement> AtDataGridContent = null)
+        public Task<DataTable> ExecuteReaderAsync(
+            string sql,
+            Action<string> y,
+            Action<XElement> AtDataGridContent = null
+            )
         {
             // when can we have events, out/ref and structs/sealed classes?
 
@@ -47,7 +51,7 @@ namespace SQLiteConsoleExperiment
                 {
                     c.Open();
 
-                   
+
 
                     using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
                     {

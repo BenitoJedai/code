@@ -42,7 +42,7 @@ namespace DropFileIntoSQLite
             // http://html5doctor.com/drag-and-drop-to-server/
 
             #region ondrop
-            Native.Document.body.ondragover +=
+            Native.document.body.ondragover +=
                 evt =>
                 {
                     evt.stopPropagation();
@@ -63,13 +63,13 @@ namespace DropFileIntoSQLite
                 };
 
 
-            Native.Document.body.ondragleave +=
+            Native.document.body.ondragleave +=
                 delegate
                 {
                     page.Header.style.color = JSColor.None;
                 };
 
-            Native.Document.body.ondrop +=
+            Native.document.body.ondrop +=
                 evt =>
                 {
                     //if (evt.dataTransfer == null)
@@ -150,38 +150,51 @@ namespace DropFileIntoSQLite
                                         {
                                             var __ContentKey = (Table1_ContentKey)int.Parse(ContentKey.Value);
 
-                                            var src = "/io/" + ContentKey.Value;
-                                            i.Orphanize();
-
                                             var web = new WebBrowser { Dock = DockStyle.Fill };
 
+                                            web.Hide();
                                             web.AttachTo(ff);
 
+
+                                            var src = "/io/" + ContentKey.Value;
+
+                                            if (i == null)
+                                            {
+                                                web.Show();
+                                            }
+                                            else
+                                            {
+                                                web.Navigated +=
+                                                    delegate
+                                                    {
+                                                        i.Orphanize();
+                                                        web.Show();
+                                                    };
+                                            }
+
                                             web.Navigate(src);
+
 
                                             //if (i != null)
                                             //{
                                             //    i.src = src;
                                             //}
 
-                                            __ContentKey
-                                                     .SetLeft(ff.Left)
-                                                     .SetTop(ff.Top);
+                                            __ContentKey.SetLeft(ff.Left);
+                                            __ContentKey.SetTop(ff.Top);
 
                                             ff.LocationChanged +=
                                                 delegate
                                                 {
-                                                    __ContentKey
-                                                        .SetLeft(ff.Left)
-                                                        .SetTop(ff.Top);
+                                                    __ContentKey.SetLeft(ff.Left);
+                                                    __ContentKey.SetTop(ff.Top);
                                                 };
 
                                             ff.SizeChanged +=
                                                 delegate
                                                 {
-                                                    __ContentKey
-                                                        .SetWidth(ff.Width)
-                                                        .SetHeight(ff.Height);
+                                                    __ContentKey.SetWidth(ff.Width);
+                                                    __ContentKey.SetHeight(ff.Height);
                                                 };
 
                                             ff.FormClosing +=
@@ -192,6 +205,7 @@ namespace DropFileIntoSQLite
                                                 };
 
 
+                                            #region onmousewheel
                                             ff.GetHTMLTarget().With(
                                                 ffh =>
                                                 {
@@ -221,6 +235,8 @@ namespace DropFileIntoSQLite
 
                                                 }
                                             );
+                                            #endregion
+
                                         }
                                     );
                                 }
@@ -242,6 +258,7 @@ namespace DropFileIntoSQLite
                 };
             #endregion
 
+            #region restore
             {
                 var index = 0;
 
@@ -258,10 +275,10 @@ namespace DropFileIntoSQLite
 
                         ff.Show();
 
-                        if (int.Parse(Left) > 0)
+                        if (Left > 0)
                             ff.MoveTo(
-                                int.Parse(Left),
-                                int.Parse(Top)
+                                Left,
+                                Top
                             );
                         else
 
@@ -272,6 +289,7 @@ namespace DropFileIntoSQLite
 
                         index++;
 
+                        #region onmousewheel
                         ff.GetHTMLTarget().With(
                             ffh =>
                             {
@@ -300,6 +318,8 @@ namespace DropFileIntoSQLite
 
                             }
                         );
+                        #endregion
+
 
 
                         var fc = ff.GetHTMLTargetContainer();
@@ -314,10 +334,10 @@ namespace DropFileIntoSQLite
 
                         web.Navigate(src);
 
-                        if (int.Parse(Width) > 0)
+                        if (Width > 0)
                             ff.SizeTo(
-                               int.Parse(Width),
-                               int.Parse(Height)
+                               Width,
+                               Height
                            );
                         //else
                         //    i.InvokeOnComplete(
@@ -333,28 +353,27 @@ namespace DropFileIntoSQLite
                         ff.LocationChanged +=
                             delegate
                             {
-                                __ContentKey
-                                    .SetLeft(ff.Left)
-                                    .SetTop(ff.Top);
+                                __ContentKey.SetLeft(ff.Left);
+                                __ContentKey.SetTop(ff.Top);
                             };
 
                         ff.SizeChanged +=
                             delegate
                             {
-                                __ContentKey
-                                    .SetWidth(ff.Width)
-                                    .SetHeight(ff.Height);
+                                __ContentKey.SetWidth(ff.Width);
+                                __ContentKey.SetHeight(ff.Height);
                             };
 
                         ff.FormClosing +=
                             delegate
                             {
-                                __ContentKey
-                                    .Delete();
+                                __ContentKey.Delete();
                             };
                     }
                 );
             }
+            #endregion
+
 
 
 
@@ -450,6 +469,8 @@ d();
             return Enumerable.Range(0, (int)f.length).Select(k => f[(uint)k]);
         }
 
+
+        [Obsolete("ScriptCoreLib.Async")]
         public static void ToDataURLAsync(this Blob f, Action<string> y)
         {
             var reader = new FileReader();

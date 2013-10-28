@@ -122,6 +122,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         }
 
+        protected override void InternalSetForeColor(global::System.Drawing.Color value)
+        {
+            this.InternalGetTextField().style.color = value.ToString();
+        }
+
+        protected override void InternalSetBackgroundColor(global::System.Drawing.Color value)
+        {
+            this.InternalGetTextField().style.backgroundColor = value.ToString();
+        }
+
         public override void InternalSetFont(global::System.Drawing.Font value)
         {
             this.InternalGetTextField().style.font = this.Font.ToCssString();
@@ -161,6 +171,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             readOnly = this.InternalTextField.readOnly,
                             wrap = "off"
                         };
+
+                        // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
+
+                        //refresh
+                    
                         this.InternalTextField_MultiLine.style.margin = "0";
                         this.InternalTextField_MultiLine.style.paddingTop = "0";
                         this.InternalTextField_MultiLine.style.paddingBottom = "0";
@@ -172,6 +187,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         // http://www.electrictoolbox.com/disable-textarea-resizing-safari-chrome/
 
 
+                        this.BackColor = this.BackColor;
+                        this.ForeColor = this.ForeColor;
+                        this.BorderStyle = this.BorderStyle;
 
 
                         if (InternalUpdateScrollBars != null)
@@ -273,10 +291,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 InternalBorderStyle = value;
 
+                // tested by
+                // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
+
                 if (value == global::System.Windows.Forms.BorderStyle.None)
                 {
-                    this.InternalTextField_MultiLine.style.borderWidth = "0px";
-                    this.InternalTextField_MultiLine.style.padding = "0px";
+                    this.InternalGetTextField().style.borderWidth = "0px";
+                    this.InternalGetTextField().style.padding = "0px";
 
                 }
             }

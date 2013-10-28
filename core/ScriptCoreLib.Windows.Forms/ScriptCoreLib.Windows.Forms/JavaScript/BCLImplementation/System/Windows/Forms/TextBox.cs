@@ -61,12 +61,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         this.InternalGetTextField().style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.scroll;
 
                     }
-                    if (value != ScrollBars.None)
+
+                    if (value == ScrollBars.None)
                     {
                         this.InternalGetTextField().style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
                     }
                     else
+                    {
                         this.InternalGetTextField().style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
+                    }
                 };
 
 

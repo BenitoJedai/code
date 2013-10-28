@@ -9,12 +9,25 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Linq;
 
 namespace DropFileIntoSQLite
 {
     // left, top, width, height, scale
+
+    public delegate void AtFile(
+        /* Table1_ContentKey */
+        Table1_ContentKey ContentKey,
+        long Length,
+
+        int Left,
+        int Top,
+        int Width,
+        int Height
+    );
+
 
     #region Table1Meta_MetaKey
     public enum Table1Meta_MetaKey { };
@@ -25,98 +38,57 @@ namespace DropFileIntoSQLite
     [Description("Client side")]
     public static class Table1AsyncExtensions
     {
-        public static Table1_ContentKey SetLeft(this Table1_ContentKey ContentKey, int value)
+        public static Task<Table1_ContentKey> SetLeft(this Table1_ContentKey ContentKey, int value)
         {
-            new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
-                "" + ContentKey,
+            return new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
+                ContentKey,
                 "Left",
-                "" + value,
-                delegate
-                {
-
-                }
+                "" + value
             );
-
-            return ContentKey;
         }
 
-        public static Table1_ContentKey SetTop(this Table1_ContentKey ContentKey, int value)
+        public static Task<Table1_ContentKey> SetTop(this Table1_ContentKey ContentKey, int value)
         {
-            new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
-                "" + ContentKey,
+            return new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
+                 ContentKey,
                 "Top",
-                "" + value,
-               delegate
-               {
-
-               }
+                "" + value
            );
-
-            return ContentKey;
         }
 
-        public static Table1_ContentKey SetWidth(this Table1_ContentKey ContentKey, int value)
+        public static Task<Table1_ContentKey> SetWidth(this Table1_ContentKey ContentKey, int value)
         {
-            new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
-                "" + ContentKey,
+            return new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
+                 ContentKey,
                 "Width",
-                "" + value,
-               delegate
-               {
-
-               }
+                "" + value
            );
-
-            return ContentKey;
         }
 
-        public static Table1_ContentKey SetHeight(this Table1_ContentKey ContentKey, int value)
+        public static Task<Table1_ContentKey> SetHeight(this Table1_ContentKey ContentKey, int value)
         {
-            new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
-                "" + ContentKey,
+            return new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
+                 ContentKey,
                 "Height",
-                "" + value,
-               delegate
-               {
+                "" + value
 
-               }
            );
-
-            return ContentKey;
         }
 
-        public static Table1_ContentKey Delete(this Table1_ContentKey ContentKey)
+        public static Task<Table1_ContentKey> Delete(this Table1_ContentKey ContentKey)
         {
-            new ApplicationWebService().DeleteFileAsync(
-                "" + ContentKey,
-                delegate
-                {
-
-                }
-            );
-
-            return ContentKey;
+            return new ApplicationWebService().DeleteFileAsync(ContentKey);
         }
 
-        public delegate void AtFile(
-            Table1_ContentKey ContentKey,
-            long Length,
 
-             string Left,
-             string Top,
-             string Width,
-             string Height
-         );
 
         public static Table1_ContentKey WithEach(this Table1_ContentKey x, AtFile y)
         {
-            new ApplicationWebService().EnumerateFilesAsync("",
-                   (ContentKey, ContentBytesLength, Left, Top, Width, Height) =>
-                   {
-                       var __ContentKey = (Table1_ContentKey)int.Parse(ContentKey);
-
-                       y(__ContentKey, int.Parse(ContentBytesLength), Left, Top, Width, Height);
-                   }
+            new ApplicationWebService().EnumerateFilesAsync(
+                (ContentKey, ContentBytesLength, Left, Top, Width, Height) =>
+                {
+                    y(ContentKey, ContentBytesLength, Left, Top, Width, Height);
+                }
             );
 
             return x;
@@ -128,24 +100,36 @@ namespace DropFileIntoSQLite
 
     public partial class ApplicationWebService
     {
-        public void Table1AsyncExtensions_SetMetaValue(
-            string DeclaringType,
+        //        0c38:02:01 007a:005a DropFileIntoSQLite.ApplicationWebService.AndroidActivity create DropFileIntoSQLite.ApplicationWebService::ScriptCoreLib.Ultra.WebService.InternalWebMethodWorker
+        //0c38:02:01 LoaderStrategyImplementation CurrentDomain_AssemblyResolve: DropFileIntoSQLite, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        //0c38:02:01 RewriteToAssembly error: System.IO.FileNotFoundException: Could not load file or assembly 'DropFileIntoSQLite, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+        //File name: 'DropFileIntoSQLite, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+        //   at System.Signature.GetSignature(Void* pCorSig, Int32 cCorSig, RuntimeFieldHandleInternal fieldHandle, IRuntimeMethodInfo methodHandle, RuntimeType declaringType)
+        //   at System.Reflection.RuntimeMethodInfo.FetchNonReturnParameters()
+        //   at System.Reflection.RuntimeMethodInfo.GetParameters()
+        //   at ScriptCoreLib.Extensions.MethodBaseExtensions.GetParameterTypes(MethodBase e) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\MethodBaseExtensions.cs:line 28
+
+        public Task<Table1_ContentKey> Table1AsyncExtensions_SetMetaValue(
+
+            Table1_ContentKey DeclaringType,
+
             string MemberName,
-            string MemberValue,
-            Action<string> yield)
+            string MemberValue)
         {
             new Table1().InsertMeta(
                 new Table1MetaQueries.InsertMeta
                 {
                     MemberName = MemberName,
                     MemberValue = MemberValue,
-                    DeclaringType = int.Parse(DeclaringType)
+                    DeclaringType = (int)DeclaringType
                 }
             );
 
             //Console.WriteLine(new { DeclaringType, MemberName, MemberValue });
 
-            yield("");
+
+
+            return DeclaringType.ToTaskResult();
         }
 
 
@@ -157,17 +141,7 @@ namespace DropFileIntoSQLite
     /// </summary>
     public sealed partial class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            Console.WriteLine("WebMethod2");
-            // Send it back to the caller.
-            y(e);
-        }
+
 
 #if FUTURE
         public void XUpload(Blob f, Action<string> y)
@@ -179,23 +153,26 @@ namespace DropFileIntoSQLite
         //public const string DataSource = "SQLiteWithDataGridView51.sqlite";
         public const string DataSource = "SQLiteWithDataGridView57.sqlite";
 
-        public void DeleteFileAsync(string ContentKey, Action<string, string> y)
+        public Task<Table1_ContentKey> DeleteFileAsync(Table1_ContentKey ContentKey)
         {
-            new Table1().Delete(int.Parse(ContentKey));
+            new Table1().Delete((int)ContentKey);
+
+            return ContentKey.ToTaskResult();
         }
 
-        public void EnumerateFilesAsync(string e, AtFile y)
+        public void EnumerateFilesAsync(AtFile y)
         {
             Console.WriteLine("EnumerateFilesAsync");
 
             new Table1().SelectAll(
                  xx =>
                  {
-                     string
-                         Left = xx.Left,
-                         Top = xx.Top,
-                         Width = xx.Width,
-                         Height = xx.Height;
+
+                     int
+                         Left = int.Parse(xx.Left),
+                         Top = int.Parse(xx.Top),
+                         Width = int.Parse(xx.Width),
+                         Height = int.Parse(xx.Height);
 
                      long
                          ContentKey = xx.ContentKey,
@@ -204,8 +181,8 @@ namespace DropFileIntoSQLite
                      Console.WriteLine(new { ContentKey, Left, Top });
 
                      y(
-                         ContentKey: "" + ContentKey,
-                         Length: "" + ContentBytesLength,
+                         ContentKey: (Table1_ContentKey)ContentKey,
+                         Length: ContentBytesLength,
                          Left: Left,
                          Top: Top,
                          Width: Width,
@@ -218,15 +195,6 @@ namespace DropFileIntoSQLite
 
         }
 
-        public delegate void AtFile(
-            /* Table1_ContentKey */ string ContentKey,
-            /* long */ string Length,
-
-            string Left,
-            string Top,
-            string Width,
-            string Height
-        );
 
         public void InternalHandler(WebServiceHandler h)
         {
