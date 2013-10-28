@@ -7,6 +7,7 @@ using javax.xml.transform;
 using javax.xml.transform.dom;
 using java.io;
 using javax.xml.transform.stream;
+using System.Xml.Linq;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 {
@@ -160,5 +161,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             return value;
         }
 
+        public static implicit operator XNode(__XNode n)
+        {
+            return (XNode)(object)n;
+        }
+        
     }
 }

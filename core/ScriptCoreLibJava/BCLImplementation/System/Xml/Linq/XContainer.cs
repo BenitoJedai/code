@@ -25,13 +25,55 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             // tested by
             // X:\jsc.svn\examples\javascript\forms\FormsNIC\FormsNIC\ApplicationWebService.cs
 
-            Console.WriteLine("__XContainer Add " + new { content });
+            //Console.WriteLine("__XContainer Add " + new { content });
 
 
             if (content == null)
                 return;
 
             InternalEnsureElement();
+
+
+
+            //            0001 02000042 NextPageFromWebService.ApplicationWebService::<module>.SHA1528eebcd6a7f0708c37e60bd499d6140e316862d@1047698586
+            //Y:\NextPageFromWebService.ApplicationWebService\staging.java\web\files
+            //C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe  -encoding UTF-8 -cp Y:\NextPageFromWebService.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.3\lib\impl\*;C:\util\appengine-java-sdk-1.8.3\lib\shared\* -d "Y:\NextPageFromWebService.ApplicationWebService\staging.java\web\release" @"Y:\NextPageFromWebService.ApplicationWebService\staging.java\web\files"
+            //Y:\NextPageFromWebService.ApplicationWebService\staging.java\web\java\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\__XContainer.java:58: illegal generic type for instanceof
+            //        enumerable_10 = ((((Object)content) instanceof  __IEnumerable_1<Object>) ? (__IEnumerable_1<Object>)((Object)content) : (__IEnumerable_1<Object>)null);
+            //                                                                       ^
+
+            #region IEnumerable<object>
+            var __IEnumerable = content as IEnumerable;
+            if (__IEnumerable != null)
+            {
+                foreach (object item in __IEnumerable)
+                {
+                    Add(item);
+                }
+
+                return;
+            }
+            #endregion
+
+
+            //            __XContainer.Add { content =    }
+            //__XContainer.Add Type ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XNode
+            //java.lang.RuntimeException
+            //        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XContainer.Add(__XContainer.java:133)
+
+            #region __XText
+            {
+                var e = content as __XText;
+
+                if (e != null)
+                {
+                    this.InternalValue.appendChild(
+                        this.InternalValue.getOwnerDocument().createTextNode(e.Value)
+                    );
+                    return;
+                }
+            }
+            #endregion
 
             #region string
             {
@@ -55,7 +97,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
                 {
                     var SourceAttributeValue = SourceAttribute.Value;
 
-                    Console.WriteLine("__XContainer Add " + new { SourceAttribute.Name, SourceAttributeValue });
+                    //Console.WriteLine("__XContainer Add " + new { SourceAttribute.Name, SourceAttributeValue });
 
                     SourceAttribute.InternalElement = this;
                     SourceAttribute.Value = SourceAttributeValue;
@@ -198,6 +240,43 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             return this.InternalElement.getElementsByTagName(name).item(0);
         }
 
+
+
+
+
+        //Implementation not found for type import :
+        //type: System.Xml.Linq.XContainer
+        //method: System.Collections.Generic.IEnumerable`1[System.Xml.Linq.XNode] Nodes()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+        public IEnumerable<XNode> Nodes()
+        {
+            // http://publib.boulder.ibm.com/infocenter/domhelp/v8r0/index.jsp?topic=%2Fcom.ibm.designer.domino.api.doc%2Fr_wpdr_dom6_domnode_getnodetype_r.html
+            var DOMElement = 1;
+            var TEXT_NODE = 3;
+
+
+            var a = new List<XNode>();
+
+            var c = this.InternalElement.getChildNodes();
+
+            for (int i = 0; i < c.getLength(); i++)
+            {
+                var InternalValue = c.item(i);
+
+                if (InternalValue.getNodeType() == DOMElement)
+                    a.Add((__XNode)new __XElement { InternalValue = InternalValue });
+                else if (InternalValue.getNodeType() == TEXT_NODE)
+                    a.Add((__XNode)new __XText { InternalValue = InternalValue });
+                else
+                    a.Add(new __XNode { InternalValue = InternalValue });
+            }
+
+            return a;
+        }
+
+
         public void RemoveNodes()
         {
             var InternalElement = this.InternalElement;
@@ -251,6 +330,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 
             return a;
+        }
+
+
+        public void ReplaceNodes(object content)
+        {
+            this.RemoveNodes();
+            this.Add(content);
+
         }
     }
 }

@@ -72,7 +72,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            this.InternalList.clear();
         }
 
         public bool Contains(T item)

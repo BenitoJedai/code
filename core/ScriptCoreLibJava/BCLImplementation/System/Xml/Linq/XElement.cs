@@ -73,11 +73,34 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
         public void ReplaceAll(object content)
         {
-            //this.RemoveAttributes();
+            this.RemoveAttributes();
             this.RemoveNodes();
             this.Add(content);
         }
 
+
+
+        public void ReplaceAttributes(object content)
+        {
+            this.RemoveNodes();
+            this.Add(content);
+
+        }
+
+        public void RemoveAttributes()
+        {
+
+
+
+            foreach (var item in Attributes().ToArray())
+            {
+                this.InternalElement.removeAttribute(
+                    item.Name.LocalName
+                );
+
+            }
+
+        }
 
         public IEnumerable<XAttribute> Attributes()
         {

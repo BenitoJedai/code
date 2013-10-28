@@ -47,7 +47,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
                     value
                 );
 
-                Console.WriteLine("before raise_ColumnChanged");
+                //Console.WriteLine("before raise_ColumnChanged");
 
                 ((__DataTable)(object)this.Table).raise_ColumnChanged(args);
 

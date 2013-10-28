@@ -365,6 +365,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Web\Services\WebService.cs" />
+    <Compile Include="BCLImplementation\System\Xml\Linq\XText.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\XAttribute.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\XContainer.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\XDocument.cs" />
