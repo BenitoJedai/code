@@ -33,58 +33,50 @@ namespace IsometricTycoonViewWithToolbar
         public Application(IDefault page)
         {
 
-            //#region AtFormCreated
-            //FormStyler.AtFormCreated =
-            //     s =>
-            //     {
-
-
-            //         // now shadow
-            //         s.TargetOuterBorder.style.boxShadow = "";
-            //         //s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(0, 122, 0);
-            //         //toolbar_color = Color.FromRGB(0, 0x80, 0)
-            //         Toolbar.JavaScript.Extensions.SetDialogColor(
-            //            s.TargetOuterBorder,
-            //            ScriptCoreLib.Shared.Drawing.Color.FromRGB(0, 0x80, 0),
-            //            true
-            //         );
-
-
-
-            //         s.TargetInnerBorder.style.borderWidth = "0px";
-            //         s.TargetInnerBorder.style.backgroundColor = JSColor.None;
-
-
-            //         s.CloseButton.style.color = JSColor.FromRGB(0, 80, 0);
-            //         s.CloseButton.style.backgroundColor = JSColor.None;
-            //         s.CloseButton.style.borderWidth = "0px";
-            //         s.CloseButtonContent.style.borderWidth = "0px";
-
-            //         s.TargetResizerPadding.style.left = "0px";
-            //         s.TargetResizerPadding.style.top = "0px";
-            //         s.TargetResizerPadding.style.right = "0px";
-            //         s.TargetResizerPadding.style.bottom = "0px";
-
-            //         // browser popup will use this color
-            //         ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(0, 0x80, 0);
-
-            //         s.Caption.style.backgroundColor = JSColor.None;
-
-
-            //         //FormStyler.LikeVisualStudioMetro(s);
-            //     };
-            //#endregion
-
-
-
+            #region AtFormCreated
             FormStyler.AtFormCreated =
-              s =>
-              {
-                  s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                 s =>
+                 {
 
-                  //var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
-                  var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
-              };
+
+                     // now shadow
+                     s.TargetOuterBorder.style.boxShadow = "";
+                     //s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(0, 122, 0);
+                     //toolbar_color = Color.FromRGB(0, 0x80, 0)
+                     Toolbar.JavaScript.Extensions.SetDialogColor(
+                        s.TargetOuterBorder,
+                        ScriptCoreLib.Shared.Drawing.Color.FromRGB(0, 0x80, 0),
+                        true
+                     );
+
+
+
+                     s.TargetInnerBorder.style.borderWidth = "0px";
+                     s.TargetInnerBorder.style.backgroundColor = JSColor.None;
+
+
+                     s.CloseButton.style.color = JSColor.FromRGB(0, 80, 0);
+                     s.CloseButton.style.backgroundColor = JSColor.None;
+                     s.CloseButton.style.borderWidth = "0px";
+                     s.CloseButtonContent.style.borderWidth = "0px";
+
+                     s.TargetResizerPadding.style.left = "0px";
+                     s.TargetResizerPadding.style.top = "0px";
+                     s.TargetResizerPadding.style.right = "0px";
+                     s.TargetResizerPadding.style.bottom = "0px";
+
+                     // browser popup will use this color
+                     ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(0, 0x80, 0);
+
+                     s.Caption.style.backgroundColor = JSColor.None;
+
+
+                     //FormStyler.LikeVisualStudioMetro(s);
+                 };
+            #endregion
+
+
+
 
 
             #region TheServer
@@ -94,6 +86,16 @@ namespace IsometricTycoonViewWithToolbar
 
             if (self_chrome_socket != null)
             {
+
+                FormStyler.AtFormCreated =
+                  s =>
+                  {
+                      s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                      //var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                      var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
+                  };
+
                 chrome.Notification.DefaultTitle = "IsometricTycoonViewWithToolbar";
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
                     DefaultSource.Text,

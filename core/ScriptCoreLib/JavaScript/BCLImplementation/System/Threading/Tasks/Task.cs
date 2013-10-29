@@ -17,6 +17,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal class __Task
     {
+        public Action InternalDispose;
+        public void Dispose()
+        {
+            if (InternalDispose != null)
+                InternalDispose();
+
+        }
+
+
         public void Wait()
         {
             throw new NotImplementedException();
@@ -416,9 +425,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                                  //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
 
+                                 this.InternalDispose = delegate
+                                 {
+                                     Console.WriteLine("at InternalDispose");
+                                     w.terminate();
+                                 };
+
                                  this.InternalSetCompleteAndYield((TResult)value);
 
-                                 Console.WriteLine("terminat thread. will run out of memory otherwise? what about long running tasks?");
+
 
                                  // when to terminate???
                                  //w.terminate();
