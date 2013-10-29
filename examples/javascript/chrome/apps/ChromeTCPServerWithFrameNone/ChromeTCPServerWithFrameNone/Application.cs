@@ -96,10 +96,21 @@ namespace ChromeTCPServer
                        Console.WriteLine("appwindow loading... " + new { xappwindow.contentWindow });
 
                        // our window frame non client area plus inner body margin
-                       xappwindow.resizeTo(
-                        DefaultWidth + 32,
-                        DefaultHeight + 64
-                       );
+
+                       if (that.FormBorderStyle == FormBorderStyle.None)
+                       {
+                           xappwindow.resizeTo(
+                              DefaultWidth,
+                              DefaultHeight
+                             );
+                       }
+                       else
+                       {
+                           xappwindow.resizeTo(
+                            DefaultWidth + 32,
+                            DefaultHeight + 64
+                           );
+                       }
 
                        xappwindow.With(
                            appwindow =>

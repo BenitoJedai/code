@@ -200,10 +200,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(string);
         }
 
-        [Script(OptimizedCode = "return a0+a1")]
+        //[Script(OptimizedCode = "return a0+a1")]
         public static string Concat(object a0, object a1)
         {
-            return default(string);
+            // this fails with 'illegal access' in chrome app 2013-10-29
+            // lets fix it.
+            // whats the performance penalty here?
+
+            if (a0 == null)
+                if (a1 == null)
+                    return null;
+
+            if (a0 == null)
+                return a1.ToString();
+
+            if (a1 == null)
+                return a0.ToString();
+
+
+            var s0 = a0.ToString();
+            var s1 = a1.ToString();
+
+            return s0 + s1;
         }
 
         [Script(OptimizedCode = "return a0+a1+a2")]
@@ -211,6 +229,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             return default(string);
         }
+
+
 
         [Script(OptimizedCode = "return a0+a1")]
         public static string Concat(string a0, string a1)

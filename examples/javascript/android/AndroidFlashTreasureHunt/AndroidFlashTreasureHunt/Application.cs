@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,40 @@ namespace AndroidFlashTreasureHunt
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            FormStyler.AtFormCreated =
+             s =>
+             {
+                 s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                 //var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                 var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
+             };
+
+
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultTitle = "AvalonUgh";
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+
+
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(AppSource.Text,
+                    DefaultWidth: ApplicationSprite.DefaultWidth,
+                    DefaultHeight: ApplicationSprite.DefaultHeight,
+                    AtFormCreated: FormStyler.AtFormCreated
+
+                );
+
+                return;
+            }
+            #endregion
+
+
             //new gong().AttachToDocument().play();
             new ThreeDStuff.js.Tycoon4();
 

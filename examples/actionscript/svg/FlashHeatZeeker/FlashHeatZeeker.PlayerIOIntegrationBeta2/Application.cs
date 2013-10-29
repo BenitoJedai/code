@@ -2,6 +2,7 @@ using Abstractatech.ConsoleFormPackage.Library;
 using Abstractatech.JavaScript.FormAsPopup;
 using chrome;
 using FlashHeatZeeker.PlayerIOIntegrationBeta2.Design;
+using FlashHeatZeeker.PlayerIOIntegrationBeta2.HTML.Images.FromAssets;
 using FlashHeatZeeker.PlayerIOIntegrationBeta2.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -14,6 +15,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,45 +57,44 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            #region AtFormCreated
             // current way
-            FormStyler.AtFormCreated = s =>
-            {
-                // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
-                // X:\jsc.internal.svn\core\com.abstractatech.web\com.abstractatech.web\Domains\discover.xavalon.net\discover_xavalon_net.cs
+            //FormStyler.AtFormCreated = s =>
+            //{
+            //    // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
+            //    // X:\jsc.internal.svn\core\com.abstractatech.web\com.abstractatech.web\Domains\discover.xavalon.net\discover_xavalon_net.cs
 
-                // browser popup will use this color
-                ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(154, 108, 70);
+            //    // browser popup will use this color
+            //    ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(154, 108, 70);
 
-                s.Caption.style.backgroundColor = JSColor.FromRGB(154, 108, 70);
-                s.TargetOuterBorder.style.boxShadow = "rgba(154, 108, 70, 0.3) 0px 0px 6px 3px";
-                s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(154, 108, 70);
+            //    s.Caption.style.backgroundColor = JSColor.FromRGB(154, 108, 70);
+            //    s.TargetOuterBorder.style.boxShadow = "rgba(154, 108, 70, 0.3) 0px 0px 6px 3px";
+            //    s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(154, 108, 70);
 
-                s.TargetInnerBorder.style.borderWidth = "0px";
+            //    s.TargetInnerBorder.style.borderWidth = "0px";
 
-                s.CloseButton.style.color = JSColor.White;
-                s.CloseButton.style.backgroundColor = JSColor.None;
-                s.CloseButton.style.borderWidth = "0px";
-                s.CloseButtonContent.style.borderWidth = "0px";
+            //    s.CloseButton.style.color = JSColor.White;
+            //    s.CloseButton.style.backgroundColor = JSColor.None;
+            //    s.CloseButton.style.borderWidth = "0px";
+            //    s.CloseButtonContent.style.borderWidth = "0px";
 
-                s.TargetResizerPadding.style.left = "0px";
-                s.TargetResizerPadding.style.top = "0px";
-                s.TargetResizerPadding.style.right = "0px";
-                s.TargetResizerPadding.style.bottom = "0px";
+            //    s.TargetResizerPadding.style.left = "0px";
+            //    s.TargetResizerPadding.style.top = "0px";
+            //    s.TargetResizerPadding.style.right = "0px";
+            //    s.TargetResizerPadding.style.bottom = "0px";
 
-            };
+            //};
 
 
             // new way
 
-            //FormStyler.AtFormCreated =
-            //     s =>
-            //     {
-            //         s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            FormStyler.AtFormCreated =
+                 s =>
+                 {
+                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-            //         var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
-            //     };
-            #endregion
+                     //var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                     var x = new AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
+                 };
 
 
 
@@ -104,6 +105,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
             if (self_chrome_socket != null)
             {
+                Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
+
                 chrome.Notification.DefaultTitle = "Operation «Heat Zeeker»";
                 chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
 
@@ -120,6 +123,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
             // Your item is in the process of being published and may take up to 60 minutes to appear in the Chrome Web Store. 
             // https://chrome.google.com/webstore/detail/cpcgbahhjcobocclaolehaffhpfonofe/publish-delayed
+
 
 
             ApplicationSprite sprite = new ApplicationSprite();
@@ -139,6 +143,14 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                            };
                    }
                );
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131029-nuget
+            // wont work yet
+
+            //IStyleSheet.all["*"].style.setProperty(
+            //    //"cursor", "url('" + new _3dgarro().src + "'), auto", ""
+            //    "cursor", "url('" + new cursor().src + "'), auto", ""
+            //);
 
 
             "Operation «Heat Zeeker»".ToDocumentTitle();

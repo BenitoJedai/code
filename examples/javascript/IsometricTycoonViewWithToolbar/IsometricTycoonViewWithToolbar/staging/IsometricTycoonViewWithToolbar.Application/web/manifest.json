@@ -4,7 +4,7 @@
   "name": "IsometricTycoonViewWithToolbar",
   "description": "IsometricTycoonViewWithToolbar",
   "version": "12",
- "minimum_chrome_version": "27",
+ "minimum_chrome_version": "32",
   "offline_enabled": true,
 
   "app": {

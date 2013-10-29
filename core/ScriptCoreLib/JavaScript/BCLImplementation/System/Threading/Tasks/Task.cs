@@ -418,6 +418,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                                  this.InternalSetCompleteAndYield((TResult)value);
 
+                                 Console.WriteLine("terminat thread. will run out of memory otherwise? what about long running tasks?");
+
+                                 // when to terminate???
                                  //w.terminate();
 
                              }

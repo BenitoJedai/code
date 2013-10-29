@@ -388,8 +388,14 @@ namespace ChromeTCPServer
           };
 
 
+
+            //Error in event handler for runtime.onInstalled: undefined 
+
+            Console.WriteLine("before chrome.runtime.Installed");
             chrome.runtime.Installed += delegate
             {
+                Console.WriteLine("at chrome.runtime.Installed");
+
                 new Notification
                 {
                     Message = "Installed!"
@@ -598,7 +604,7 @@ namespace ChromeTCPServer
                 };
             #endregion
 
-
+            // Error in response to socket.getNetworkList: illegal access
             chrome.socket.getNetworkList().ContinueWithResult(
                async
                     n =>
@@ -610,11 +616,11 @@ namespace ChromeTCPServer
                    // Error in response to socket.getNetworkList: TypeError: Cannot read property 'address' of undefined
 
 
-                   //foreach (var item in a)
-                   //{
-                   //    Console.WriteLine(new { item.name, item.address });
+                   foreach (var item in n)
+                   {
+                       Console.WriteLine(new { item.name, item.address });
+                   }
 
-                   //}
                    //a.WithEach(item => Console.WriteLine(new { item.name, item.address }.ToString()));
 
                    // do we even have wifi?
@@ -637,11 +643,35 @@ namespace ChromeTCPServer
                    var uri = "http://" + address + ":" + port;
 
 
-                   var i = await socket.create("tcp", new object { });
+                   // Error in response to socket.create: illegal access
+                   // The uncaught illegal access error usually means you are trying to parse something that is NULL. -edit- IMHO this.end === null over == also. 
+                   // wtf chrome???
 
+                   // http://developer.chrome.com/apps/socket.html
+                   Console.WriteLine("before socket.create");
+                   //var i = await socket.create("tcp", new object { });
+
+                   var ix = await socket.create("tcp", null);
+                   // ix.toString now causes invalid access?
+                   // Error	5	A local variable named 'socket' cannot be declared in this scope because it would give a different meaning to 'socket', which is already used in a 'parent or current' scope to denote something else	X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs	653	24	ChromeTCPServer
+
+                   var isocket = ix.socketId;
+
+                   Console.WriteLine("after socket.create ");
+
+                   // no longer can call implict toString?
+                   Console.WriteLine("after socket.create " + new { isocket }.ToString());
+
+                   // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131029-nuget
                    // https://code.google.com/p/ssh-persistent-tunnel/issues/detail?id=6
                    //var listen = await i.socketId.listen(address, port, 50);
-                   var listen = await i.socketId.listen("0.0.0.0", port, 50);
+
+                   // Error in response to socket.listen: illegal access
+
+                   var host = "0.0.0.0";
+
+                   Console.WriteLine("before socketId.listen " + new { host, port });
+                   var listen = await isocket.listen(host, port, 50);
 
 
                    //Console.WriteLine(new { i.socketId, uri });
@@ -685,7 +715,7 @@ namespace ChromeTCPServer
                        };
                        #endregion
 
-
+                       #region ShowUri
                        Action ShowUri = null;
 
 
@@ -709,9 +739,11 @@ namespace ChromeTCPServer
                        };
 
                        ShowUri();
+                       #endregion
 
 
 
+                       #region Launched
                        chrome.app.runtime.Launched +=
                             async delegate
                             {
@@ -721,6 +753,7 @@ namespace ChromeTCPServer
 
                                 ShowUri();
                             };
+                       #endregion
 
 
                        var forever = true;
@@ -730,7 +763,7 @@ namespace ChromeTCPServer
                        while (forever)
                        {
                            Console.WriteLine("before accept gap: " + new { accept_gap.ElapsedMilliseconds });
-                           var accept = await i.socketId.accept();
+                           var accept = await isocket.accept();
                            accept_gap.Restart();
 
                            // https://code.google.com/p/chromium/issues/detail?id=170595

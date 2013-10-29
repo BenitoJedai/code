@@ -34,6 +34,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\..\..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.NatureBoy", "..\..\..\..\market\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy\Abstractatech.JavaScript.NatureBoy.csproj", "{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\..\chrome\apps\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -152,6 +156,36 @@ Global
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|Mixed Platforms.Build.0 = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.ActiveCfg = Release|x86
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED}.Release|x86.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Any CPU.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|Mixed Platforms.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|x86.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|x86.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.ActiveCfg = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.Build.0 = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Any CPU.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Any CPU.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|Mixed Platforms.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|x86.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Android|x86.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.Build.0 = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|Any CPU.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,5 +197,7 @@ Global
 		{D6904364-3DE3-45CA-A117-EE45F2C1D812} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 		{95EE7DB3-C0CE-4A8C-913D-10C6502F5DED} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {9AF6F28D-49CF-4EB7-ACA9-AE55454B3781}
 	EndGlobalSection
 EndGlobal
