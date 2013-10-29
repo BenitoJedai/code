@@ -128,7 +128,13 @@ namespace chrome
                 iconUrl = DefaultIconUrl;
 
             if (notificationId == null)
-                notificationId = "Notification#" + AllNotifications.Count;
+            {
+
+                //notificationId = "Notification#" + AllNotifications.Count;
+                notificationId = string.Concat(
+                    "Notification#", AllNotifications.Count
+                );
+            }
 
             AllNotifications.Add(this);
 

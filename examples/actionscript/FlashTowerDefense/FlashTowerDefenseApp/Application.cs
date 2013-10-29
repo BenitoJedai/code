@@ -14,6 +14,7 @@ using FlashTowerDefenseApp.Components;
 using FlashTowerDefenseApp.HTML.Pages;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System.Collections.Generic;
 using chrome;
 using System.Windows.Forms;
@@ -33,6 +34,16 @@ namespace FlashTowerDefenseApp
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            FormStyler.AtFormCreated =
+                s =>
+                {
+                    s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                    //var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                    var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
+                };
+
+
             #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
@@ -41,13 +52,17 @@ namespace FlashTowerDefenseApp
             if (self_chrome_socket != null)
             {
                 chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
-                chrome.Notification.DefaultTitle = "FlashTowerDefense for Galaxy Note";
+                //chrome.Notification.DefaultTitle = "FlashTowerDefense for Galaxy Note";
+                chrome.Notification.DefaultTitle = "FlashTowerDefense";
 
 
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
-                    AppSource.Text, 
-                    ApplicationSprite.DefaultWidth ,
-                    ApplicationSprite.DefaultHeight
+                    AppSource.Text,
+                    ApplicationSprite.DefaultWidth,
+
+                    // no border. should be calculate automatically.
+                    ApplicationSprite.DefaultHeight - 30,
+                     FormStyler.AtFormCreated
                 );
 
                 return;

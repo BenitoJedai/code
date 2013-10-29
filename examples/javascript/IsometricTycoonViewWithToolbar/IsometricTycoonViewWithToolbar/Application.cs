@@ -14,6 +14,7 @@ using IsometricTycoonViewWithToolbar.Design;
 using IsometricTycoonViewWithToolbar.HTML.Pages;
 using IsometricTycoonViewWithToolbar.HTML.Audio.FromAssets;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
 namespace IsometricTycoonViewWithToolbar
@@ -32,47 +33,58 @@ namespace IsometricTycoonViewWithToolbar
         public Application(IDefault page)
         {
 
-            #region AtFormCreated
+            //#region AtFormCreated
+            //FormStyler.AtFormCreated =
+            //     s =>
+            //     {
+
+
+            //         // now shadow
+            //         s.TargetOuterBorder.style.boxShadow = "";
+            //         //s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(0, 122, 0);
+            //         //toolbar_color = Color.FromRGB(0, 0x80, 0)
+            //         Toolbar.JavaScript.Extensions.SetDialogColor(
+            //            s.TargetOuterBorder,
+            //            ScriptCoreLib.Shared.Drawing.Color.FromRGB(0, 0x80, 0),
+            //            true
+            //         );
+
+
+
+            //         s.TargetInnerBorder.style.borderWidth = "0px";
+            //         s.TargetInnerBorder.style.backgroundColor = JSColor.None;
+
+
+            //         s.CloseButton.style.color = JSColor.FromRGB(0, 80, 0);
+            //         s.CloseButton.style.backgroundColor = JSColor.None;
+            //         s.CloseButton.style.borderWidth = "0px";
+            //         s.CloseButtonContent.style.borderWidth = "0px";
+
+            //         s.TargetResizerPadding.style.left = "0px";
+            //         s.TargetResizerPadding.style.top = "0px";
+            //         s.TargetResizerPadding.style.right = "0px";
+            //         s.TargetResizerPadding.style.bottom = "0px";
+
+            //         // browser popup will use this color
+            //         ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(0, 0x80, 0);
+
+            //         s.Caption.style.backgroundColor = JSColor.None;
+
+
+            //         //FormStyler.LikeVisualStudioMetro(s);
+            //     };
+            //#endregion
+
+
+
             FormStyler.AtFormCreated =
-                 s =>
-                 {
+              s =>
+              {
+                  s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-
-                     // now shadow
-                     s.TargetOuterBorder.style.boxShadow = "";
-                     //s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(0, 122, 0);
-                     //toolbar_color = Color.FromRGB(0, 0x80, 0)
-                     Toolbar.JavaScript.Extensions.SetDialogColor(
-                        s.TargetOuterBorder,
-                        ScriptCoreLib.Shared.Drawing.Color.FromRGB(0, 0x80, 0),
-                        true
-                     );
-
-
-
-                     s.TargetInnerBorder.style.borderWidth = "0px";
-                     s.TargetInnerBorder.style.backgroundColor = JSColor.None;
-
-
-                     s.CloseButton.style.color = JSColor.FromRGB(0, 80, 0);
-                     s.CloseButton.style.backgroundColor = JSColor.None;
-                     s.CloseButton.style.borderWidth = "0px";
-                     s.CloseButtonContent.style.borderWidth = "0px";
-
-                     s.TargetResizerPadding.style.left = "0px";
-                     s.TargetResizerPadding.style.top = "0px";
-                     s.TargetResizerPadding.style.right = "0px";
-                     s.TargetResizerPadding.style.bottom = "0px";
-
-                     // browser popup will use this color
-                     ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(0, 0x80, 0);
-
-                     s.Caption.style.backgroundColor = JSColor.None;
-
-
-                     //FormStyler.LikeVisualStudioMetro(s);
-                 };
-            #endregion
+                  //var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                  var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
+              };
 
 
             #region TheServer

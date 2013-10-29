@@ -1,20 +1,11 @@
 
 {
 "manifest_version": 2,
-  "name": "Operation \xabHeat Zeeker\xbb",
-  "description": "Operation \xabHeat Zeeker\xbb",
-  "version": "25",
+  "name": "Treasure Castle 0x07",
+  "description": "Treasure Castle 0x07",
+  "version": "12",
  "minimum_chrome_version": "32",
   "offline_enabled": true,
-
-
-  
-     "externally_connectable": {
-    "ids": [
-      "*"
-		]
-	},
-
 
   "app": {
 
@@ -24,13 +15,11 @@
     }
   },
   "icons": {
-    "16": "Preview16.png",
-    "128": "Promotion3D_iso1_tiltshift_128.png"
+		"128": "assets/AndroidFlashTreasureHunt/Preview.png"
   },
   
-  
+
   "permissions": [
-  "<all_urls>",
   "webview",
   "fullscreen",
   "pointerLock",

@@ -1,9 +1,9 @@
 
 {
 "manifest_version": 2,
-  "name": "FlashTowerDefense for Galaxy Note",
-  "description": "FlashTowerDefense for Galaxy Note",
-  "version": "12",
+  "name": "FlashTowerDefense",
+  "description": "FlashTowerDefense",
+  "version": "20",
  "minimum_chrome_version": "32",
   "offline_enabled": true,
 
@@ -20,6 +20,7 @@
   
 
   "permissions": [
+  "<all_urls>",
   "webview",
   "fullscreen",
   "pointerLock",

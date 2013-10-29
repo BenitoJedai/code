@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefense.Assets", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashTowerDefenseApp", "FlashTowerDefenseApp\FlashTowerDefenseApp.csproj", "{1F644ADB-93E1-4611-8AF7-BBF5127219C6}"
 	ProjectSection(ProjectDependencies) = postProject
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {DF763FAD-6D74-47A6-80C3-EA7B444C81BF}
 		{A7DC38D5-05C5-4449-A92C-BD651D67BDF2} = {A7DC38D5-05C5-4449-A92C-BD651D67BDF2}
 	EndProjectSection
 EndProject

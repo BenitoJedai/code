@@ -58,6 +58,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
 
         }
+
+        public void terminate()
+        { 
+        }
     }
 
 
