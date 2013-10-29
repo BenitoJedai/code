@@ -194,6 +194,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\..\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj", "{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "starling", "..\..\..\..\market\synergy\starling\starling\starling.csproj", "{C1F13666-5C65-41F7-8A00-D0F03679931C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {6193012A-2B4F-4FB9-BC0A-42C3D75BF815}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlashHeatZeeker", "FlashHeatZeeker", "{2F51D01E-D4C7-4CA7-A882-E1B98C7E4ED4}"
 EndProject

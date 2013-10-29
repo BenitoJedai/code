@@ -10,6 +10,8 @@ namespace net.hires.debug
         {
 
             // http://www.flare3d.com/support/index.php?topic=1101.0
+            // "X:\jsc.svn\examples\actionscript\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj"
+            // was this dependency built?
             this.addChild(new Stats());
         }
 
