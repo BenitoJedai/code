@@ -494,7 +494,9 @@ namespace ChromeTCPServer
                     var yyy = new TaskCompletionSource<string>();
 
 
-                    Task.Factory.StartNewWithProgress(
+                    var worker = default(Task);
+
+                    worker = Task.Factory.StartNewWithProgress(
                         new x { path = path, PageSource = PageSource, write = default(byte[]) },
 
                         function: z,
@@ -507,6 +509,9 @@ namespace ChromeTCPServer
                                     Console.WriteLine("progress done StartNewWithProgress: " + new { state.path, Thread.CurrentThread.ManagedThreadId });
 
                                     yyy.SetResult(state.path);
+
+                                    worker.Dispose();
+
                                     return;
                                 }
 

@@ -15,6 +15,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.Shared.Windows.Forms;
 using System;
 using System.Collections.Generic;
@@ -165,6 +166,15 @@ namespace MultitouchFingerTools.FlashLAN
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            FormStyler.AtFormCreated =
+               s =>
+               {
+                   s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                   //var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                   var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
+               };
+
             #region TheServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
@@ -180,32 +190,7 @@ namespace MultitouchFingerTools.FlashLAN
                     AppSource.Text,
                     ApplicationSprite.DefaultWidth,
                     ApplicationSprite.DefaultHeight,
-                    AtFormCreated:
-                        s =>
-                        {
-                            // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
-                            // X:\jsc.internal.svn\core\com.abstractatech.web\com.abstractatech.web\Domains\discover.xavalon.net\discover_xavalon_net.cs
-
-                            // browser popup will use this color
-                            ((__Form)s.Context).HTMLTargetContainerRef.style.backgroundColor = JSColor.FromRGB(154, 108, 70);
-
-                            s.Caption.style.backgroundColor = JSColor.FromRGB(154, 108, 70);
-                            s.TargetOuterBorder.style.boxShadow = "rgba(154, 108, 70, 0.3) 0px 0px 6px 3px";
-                            s.TargetOuterBorder.style.borderColor = JSColor.FromRGB(154, 108, 70);
-
-                            s.TargetInnerBorder.style.borderWidth = "0px";
-
-                            s.CloseButton.style.color = JSColor.White;
-                            s.CloseButton.style.backgroundColor = JSColor.None;
-                            s.CloseButton.style.borderWidth = "0px";
-                            s.CloseButtonContent.style.borderWidth = "0px";
-
-                            s.TargetResizerPadding.style.left = "0px";
-                            s.TargetResizerPadding.style.top = "0px";
-                            s.TargetResizerPadding.style.right = "0px";
-                            s.TargetResizerPadding.style.bottom = "0px";
-
-                        }
+                    FormStyler.AtFormCreated
                 );
 
 
