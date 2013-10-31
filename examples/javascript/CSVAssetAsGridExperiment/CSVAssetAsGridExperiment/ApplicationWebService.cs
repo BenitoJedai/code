@@ -21,6 +21,9 @@ namespace CSVAssetAsGridExperiment
         {
             return CSVAssetAsGridExperiment.Design.foo.GetDataTable();
         }
-
+        public async Task<DataTable> GetFoo2()
+        {
+            return CSVAssetAsGridExperiment.Design.foo2.GetDataTable();
+        }
     }
 }

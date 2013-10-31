@@ -26,6 +26,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                var CurrentDataSourceSync = new object();
+                InternalDataSourceSync = CurrentDataSourceSync;
+
                 this.InternalDataSource = value;
 
                 this.Rows.Clear();
@@ -100,12 +103,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 var NewRow = default(DataRow);
 
-                var CurrentDataSourceSync = new object();
-                InternalDataSourceSync = CurrentDataSourceSync;
+         
 
                 this.CellValueChanged +=
                     (_s, _e) =>
                     {
+                        // faulty
+                        // X:\jsc.svn\examples\javascript\CSVAssetAsGridExperiment\CSVAssetAsGridExperiment\Application.cs
+                        //return;
+
                         if (this.InternalDataSourceSync != CurrentDataSourceSync)
                             return;
 
@@ -140,6 +146,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.UserAddedRow +=
                     (_s, _e) =>
                     {
+                        // faulty
+                        // X:\jsc.svn\examples\javascript\CSVAssetAsGridExperiment\CSVAssetAsGridExperiment\Application.cs
+                        //return;
+
                         if (this.InternalDataSourceSync != CurrentDataSourceSync)
                             return;
 
