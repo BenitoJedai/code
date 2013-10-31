@@ -96,7 +96,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             // http://faq.javaranch.com/java/DocumentToString
             var value = default(string);
 
-            Console.WriteLine("InternalToString " + new { this.InternalValue });
+            //Console.WriteLine("InternalToString " + new { this.InternalValue });
             try
             {
 
