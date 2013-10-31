@@ -12,8 +12,21 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
     {
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
         // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationWebService.cs
+        // X:\jsc.svn\examples\javascript\appengine\DataGridWithHeaders\DataGridWithHeaders\ApplicationWebService.cs
 
         public List<DataColumn> InternalList = new List<DataColumn>();
+
+        public DataColumn Add(string column)
+        {
+            var c = new DataColumn
+                {
+                    ColumnName = column
+                };
+
+            this.InternalList.Add(c);
+
+            return c;
+        }
 
         public void Add(DataColumn column)
         {

@@ -16,7 +16,8 @@ namespace ApplicationSnapshotStorage
     public sealed class ApplicationWebService
     {
         // currently created also for handler requests.
-        public AppSnapshot snapshot = new AppSnapshot();
+        //public 
+        AppSnapshot snapshot = new AppSnapshot();
 
 
         [Obsolete("jsc shall generate a callsite like this")]

@@ -38,41 +38,52 @@ namespace DropFileIntoSQLite
     [Description("Client side")]
     public static class Table1AsyncExtensions
     {
-        public static Task<Table1_ContentKey> SetLeft(this Table1_ContentKey ContentKey, int value)
+        public static Task<Table1MetaQueries.InsertMeta> SetLeft(this Table1_ContentKey ContentKey, int value)
         {
             return new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
-                ContentKey,
-                "Left",
-                "" + value
+                new Table1MetaQueries.InsertMeta
+                {
+                    MemberName = "Left",
+                    MemberValue = "" + value,
+                    DeclaringType = (int)ContentKey
+                }
             );
         }
 
-        public static Task<Table1_ContentKey> SetTop(this Table1_ContentKey ContentKey, int value)
+        public static Task<Table1MetaQueries.InsertMeta> SetTop(this Table1_ContentKey ContentKey, int value)
         {
             return new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
-                 ContentKey,
-                "Top",
-                "" + value
-           );
+                new Table1MetaQueries.InsertMeta
+                {
+                    MemberName = "Top",
+                    MemberValue = "" + value,
+                    DeclaringType = (int)ContentKey
+                }
+            );
         }
 
-        public static Task<Table1_ContentKey> SetWidth(this Table1_ContentKey ContentKey, int value)
+        public static Task<Table1MetaQueries.InsertMeta> SetWidth(this Table1_ContentKey ContentKey, int value)
         {
             return new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
-                 ContentKey,
-                "Width",
-                "" + value
-           );
+              new Table1MetaQueries.InsertMeta
+              {
+                  MemberName = "Width",
+                  MemberValue = "" + value,
+                  DeclaringType = (int)ContentKey
+              }
+          );
         }
 
-        public static Task<Table1_ContentKey> SetHeight(this Table1_ContentKey ContentKey, int value)
+        public static Task<Table1MetaQueries.InsertMeta> SetHeight(this Table1_ContentKey ContentKey, int value)
         {
             return new ApplicationWebService().Table1AsyncExtensions_SetMetaValue(
-                 ContentKey,
-                "Height",
-                "" + value
-
-           );
+                new Table1MetaQueries.InsertMeta
+                {
+                    MemberName = "Height",
+                    MemberValue = "" + value,
+                    DeclaringType = (int)ContentKey
+                }
+            );
         }
 
         public static Task<Table1_ContentKey> Delete(this Table1_ContentKey ContentKey)
@@ -109,27 +120,31 @@ namespace DropFileIntoSQLite
         //   at System.Reflection.RuntimeMethodInfo.GetParameters()
         //   at ScriptCoreLib.Extensions.MethodBaseExtensions.GetParameterTypes(MethodBase e) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\MethodBaseExtensions.cs:line 28
 
-        public Task<Table1_ContentKey> Table1AsyncExtensions_SetMetaValue(
+        public Task<Table1MetaQueries.InsertMeta> Table1AsyncExtensions_SetMetaValue(
 
-            Table1_ContentKey DeclaringType,
 
-            string MemberName,
-            string MemberValue)
+             Table1MetaQueries.InsertMeta value
+
+            //Table1_ContentKey DeclaringType,
+
+            //string MemberName,
+            //string MemberValue
+            )
         {
-            new Table1().InsertMeta(
-                new Table1MetaQueries.InsertMeta
-                {
-                    MemberName = MemberName,
-                    MemberValue = MemberValue,
-                    DeclaringType = (int)DeclaringType
-                }
+            return new Table1().InsertMeta(
+
+                value
+
+                //new Table1MetaQueries.InsertMeta
+                //{
+                //    MemberName = MemberName,
+                //    MemberValue = MemberValue,
+                //    DeclaringType = (int)DeclaringType
+                //}
             );
 
             //Console.WriteLine(new { DeclaringType, MemberName, MemberValue });
 
-
-
-            return DeclaringType.ToTaskResult();
         }
 
 
