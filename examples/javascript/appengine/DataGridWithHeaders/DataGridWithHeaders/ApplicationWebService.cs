@@ -22,6 +22,7 @@ namespace DataGridWithHeaders
         [Obsolete("experimental")]
         public WebServiceHandler WebServiceHandler { get; set; }
 
+        // what about returning typeof()?
         public Task<DataTable> Headers
         {
             get
