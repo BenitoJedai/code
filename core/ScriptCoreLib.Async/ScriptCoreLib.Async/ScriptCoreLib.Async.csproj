@@ -132,6 +132,7 @@
     <Compile Include="JavaScript\DOM\FileEntryAsyncExtensions.cs" />
     <Compile Include="JavaScript\DOM\WorkerAsyncExtensions.cs" />
     <Compile Include="JavaScript\Experimental\X.cs" />
+    <Compile Include="JavaScript\Extensions\AsyncDataGridViewExtensions.cs" />
     <Compile Include="JavaScript\Extensions\AsyncJavaScriptStringExtensions.cs" />
     <Compile Include="JavaScript\HistoricAttribute.cs" />
     <Compile Include="Lambda\Int32AsyncExtensions.cs" />

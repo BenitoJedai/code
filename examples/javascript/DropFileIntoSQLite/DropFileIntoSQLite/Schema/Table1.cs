@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DropFileIntoSQLite.Schema
 {
@@ -86,7 +87,7 @@ namespace DropFileIntoSQLite.Schema
            );
         }
 
-        public void InsertMeta(Table1MetaQueries.InsertMeta value)
+        public Task<Table1MetaQueries.InsertMeta> InsertMeta(Table1MetaQueries.InsertMeta value)
         {
             WithConnection(
                 c =>
@@ -94,6 +95,8 @@ namespace DropFileIntoSQLite.Schema
                     value.ExecuteNonQuery(c);
                 }
             );
+
+            return value.ToTaskResult();
         }
     }
 
