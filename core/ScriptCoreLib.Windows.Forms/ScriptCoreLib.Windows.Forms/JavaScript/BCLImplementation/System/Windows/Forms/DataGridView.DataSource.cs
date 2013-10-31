@@ -26,6 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+                // this cost 6h of work to fix the sync timing issue
                 var CurrentDataSourceSync = new object();
                 InternalDataSourceSync = CurrentDataSourceSync;
 
