@@ -32,7 +32,21 @@ namespace CSVAssetAsGridExperiment
         {
             // X:\jsc.svn\examples\javascript\Test\TestCSVAsset\TestCSVAsset\ApplicationWebService.cs
 
-            this.GetFoo().AttachDataGridViewToDocument();
+            this.GetFoo().AttachDataGridViewToDocument().ContinueWithResult(
+                async grid =>
+                {
+                    await Task.Delay(3000);
+
+                    var MoreColumns = await this.GetFoo2();
+
+
+                    grid.DataSource = MoreColumns;
+                }
+            );
+
+
+
+
         }
 
     }

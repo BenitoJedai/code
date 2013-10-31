@@ -129,6 +129,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <None Include="Design\foo2.csv" />
     <None Include="Design\foo.csv" />
     <None Include="packages.config" />
   </ItemGroup>
