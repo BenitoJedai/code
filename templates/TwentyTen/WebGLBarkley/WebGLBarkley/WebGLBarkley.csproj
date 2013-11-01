@@ -115,6 +115,9 @@
     <Reference Include="WebGLBarkley.UltraSource">
       <HintPath>bin\staging.UltraSource\WebGLBarkley.UltraSource.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLBarkley.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebGLBarkley.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.htm" />
@@ -134,12 +137,11 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
  c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
- c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToOrcas:true
 )
 
 if $(ConfigurationName)==Release (
 c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget</PreBuildEvent>
   </PropertyGroup>
 </Project>
