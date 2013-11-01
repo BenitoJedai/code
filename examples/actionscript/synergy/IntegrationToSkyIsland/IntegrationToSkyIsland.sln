@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationToSkyIsland", "IntegrationToSkyIsland\IntegrationToSkyIsland.csproj", "{BEB17A0C-AC77-4C46-AC34-BABFFBF3EFA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEB17A0C-AC77-4C46-AC34-BABFFBF3EFA5}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{BEB17A0C-AC77-4C46-AC34-BABFFBF3EFA5}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{BEB17A0C-AC77-4C46-AC34-BABFFBF3EFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB17A0C-AC77-4C46-AC34-BABFFBF3EFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB17A0C-AC77-4C46-AC34-BABFFBF3EFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB17A0C-AC77-4C46-AC34-BABFFBF3EFA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
