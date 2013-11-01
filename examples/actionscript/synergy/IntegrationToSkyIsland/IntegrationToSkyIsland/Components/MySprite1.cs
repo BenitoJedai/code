@@ -28,10 +28,21 @@ namespace IntegrationToSkyIsland.Components
 
             c.AttachTo(this);
 
+            //        TypeError: Error #1009: Cannot access a property or method of a null object reference.
+            //at Main/frame1()
 
-            Sprite x = Assets.sky_island_10899.Source;
-            x.AttachTo(this).MoveTo(q, 0);
+            Sprite x = null;
 
+
+            try
+            {
+                x = Assets.sky_island_10899.Source;
+                x.AttachTo(this).MoveTo(q, 0);
+            }
+            catch
+            {
+                // can we skip?
+            }
 
 
 
