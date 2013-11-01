@@ -39,7 +39,7 @@ namespace WebGLBarkley
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IXDefaultPage page)
+        public Application(IDefault page)
         {
             int w = 512;
             int h = 512;
@@ -76,7 +76,7 @@ namespace WebGLBarkley
             gl.compileShader(shader);
 
             if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                Native.Window.alert(gl.getShaderInfoLog(shader));
+                Native.window.alert(gl.getShaderInfoLog(shader));
 
             return shader;
         }
@@ -194,7 +194,7 @@ void main(void) {
             // http://wakaba.c3.cx/w/puls.html
             // http://www.ibiblio.org/e-notes/webgl/barkley.html
 
-            Action<string> alert = Native.Window.alert;
+            Action<string> alert = Native.window.alert;
 
             c.style.border = "1px solid yellow";
 
