@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.multiscreen.formsexample", "com.abstractatech.multiscreen.formsexample\com.abstractatech.multiscreen.formsexample.csproj", "{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMazeGenerator", "..\..\forms\SimpleMazeGenerator\SimpleMazeGenerator\SimpleMazeGenerator.csproj", "{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlasmaFormsControl", "..\..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj", "{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandelbrotFormsControl", "..\..\forms\MandelbrotFormsControl\MandelbrotFormsControl\MandelbrotFormsControl.csproj", "{A9164DAC-E538-45BD-A51C-B77C547F276B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{F8332088-47FA-41EB-AAAA-F2647C5EFFF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqToObjects", "..\..\forms\LinqToObjects\LinqToObjects\LinqToObjects.csproj", "{ECD63FF9-A462-4C71-8909-5B2DC7088197}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFormsDatagrid", "..\..\Test\TestFormsDatagrid\TestFormsDatagrid\TestFormsDatagrid.csproj", "{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Avalon.PromotionBrandIntro", "..\..\..\..\market\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro\Abstractatech.Avalon.PromotionBrandIntro.csproj", "{88A6D9ED-9611-4563-9239-3A632CEC6BD9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		PHP|x86 = PHP|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Debug|x86.ActiveCfg = Debug|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Debug|x86.Build.0 = Debug|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.PHP|x86.ActiveCfg = Release|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.PHP|x86.Build.0 = Release|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Release|x86.ActiveCfg = Release|x86
+		{36E56CE8-DF3B-4C28-9A17-C2BF0FDC4E97}.Release|x86.Build.0 = Release|x86
+		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.Debug|x86.ActiveCfg = Debug|x86
+		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.Debug|x86.Build.0 = Debug|x86
+		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.PHP|x86.ActiveCfg = Release|x86
+		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.PHP|x86.Build.0 = Release|x86
+		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.Release|x86.ActiveCfg = Release|x86
+		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF}.Release|x86.Build.0 = Release|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Debug|x86.ActiveCfg = Debug|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Debug|x86.Build.0 = Debug|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.PHP|x86.ActiveCfg = Release|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.PHP|x86.Build.0 = Release|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|x86.ActiveCfg = Release|x86
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82}.Release|x86.Build.0 = Release|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.Debug|x86.ActiveCfg = Debug|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.Debug|x86.Build.0 = Debug|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.PHP|x86.ActiveCfg = Release|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.PHP|x86.Build.0 = Release|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.Release|x86.ActiveCfg = Release|x86
+		{A9164DAC-E538-45BD-A51C-B77C547F276B}.Release|x86.Build.0 = Release|x86
+		{ECD63FF9-A462-4C71-8909-5B2DC7088197}.Debug|x86.ActiveCfg = Debug|x86
+		{ECD63FF9-A462-4C71-8909-5B2DC7088197}.Debug|x86.Build.0 = Debug|x86
+		{ECD63FF9-A462-4C71-8909-5B2DC7088197}.PHP|x86.ActiveCfg = Release|x86
+		{ECD63FF9-A462-4C71-8909-5B2DC7088197}.PHP|x86.Build.0 = Release|x86
+		{ECD63FF9-A462-4C71-8909-5B2DC7088197}.Release|x86.ActiveCfg = Release|x86
+		{ECD63FF9-A462-4C71-8909-5B2DC7088197}.Release|x86.Build.0 = Release|x86
+		{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}.Debug|x86.ActiveCfg = Debug|x86
+		{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}.Debug|x86.Build.0 = Debug|x86
+		{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}.PHP|x86.ActiveCfg = Release|x86
+		{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}.PHP|x86.Build.0 = Release|x86
+		{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}.Release|x86.ActiveCfg = Release|x86
+		{850B98A2-7A5E-4512-B0FF-2411EC3C9A54}.Release|x86.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|x86.ActiveCfg = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Debug|x86.Build.0 = Debug|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.PHP|x86.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.PHP|x86.Build.0 = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|x86.ActiveCfg = Release|x86
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF8CC6E1-E494-4194-9E22-3FEDA8748F82} = {F8332088-47FA-41EB-AAAA-F2647C5EFFF5}
+		{A9164DAC-E538-45BD-A51C-B77C547F276B} = {F8332088-47FA-41EB-AAAA-F2647C5EFFF5}
+		{004F277C-E72A-485A-A4BA-1BDE4B47ACEF} = {F8332088-47FA-41EB-AAAA-F2647C5EFFF5}
+		{ECD63FF9-A462-4C71-8909-5B2DC7088197} = {F8332088-47FA-41EB-AAAA-F2647C5EFFF5}
+		{850B98A2-7A5E-4512-B0FF-2411EC3C9A54} = {F8332088-47FA-41EB-AAAA-F2647C5EFFF5}
+		{88A6D9ED-9611-4563-9239-3A632CEC6BD9} = {F8332088-47FA-41EB-AAAA-F2647C5EFFF5}
+	EndGlobalSection
+EndGlobal

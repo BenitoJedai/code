@@ -36,7 +36,7 @@ namespace WebGLMetaTunnel
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IXDefaultPage page)
+        public Application(IDefault page)
         {
             var c = new IHTMLCanvas();
             c.style.border = "1px solid red";
@@ -54,7 +54,7 @@ namespace WebGLMetaTunnel
         {
             // http://cs.helsinki.fi/u/ilmarihe/metatunnel.html
 
-            Action<string> alert = x => Native.Window.alert(x);
+            Action<string> alert = x => Native.window.alert(x);
 
             c.style.border = "1px solid yellow";
 
