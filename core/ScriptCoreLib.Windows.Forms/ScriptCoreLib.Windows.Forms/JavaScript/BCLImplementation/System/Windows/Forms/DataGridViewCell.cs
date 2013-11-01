@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,5 +92,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return (DataGridViewCell)(object)c;
         }
         #endregion
+    }
+
+
+}
+
+//using ScriptCoreLib.JavaScript.;
+namespace ScriptCoreLib.JavaScript.Extensions
+{
+    [Script]
+    public static class DataGridViewCellExtensions
+    {
+        public static IHTMLDiv AsHTMLElementContainer(this DataGridViewCell c)
+        {
+            __DataGridViewCell x = c;
+
+            return x.InternalContentContainer;
+        }
     }
 }

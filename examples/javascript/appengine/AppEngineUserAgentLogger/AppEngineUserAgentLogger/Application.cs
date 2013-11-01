@@ -39,6 +39,9 @@ namespace AppEngineUserAgentLogger
             );
 
             this.body = Native.document.body;
+
+            Console.WriteLine(new { this.body });
+
             var body_a = this.body.Attributes().ToArray();
             var body_n = this.body.Nodes().ToArray();
 
@@ -51,10 +54,10 @@ namespace AppEngineUserAgentLogger
             page.NextPage.WhenClicked(
                 async delegate
                 {
-                   await this.GoNextPage();
+                    await this.GoNextPage();
                 }
             );
-          
+
         }
 
     }

@@ -103,7 +103,7 @@ namespace NextPageFromWebService
         public Task<DataTable> GoNextPage()
         {
             // slow down
-            Thread.Sleep(500);
+            //Thread.Sleep(500);
 
             var x = XElement.Parse(
                 TheNextPageSource.Text
