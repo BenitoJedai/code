@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.gamification.my.contactz", "com.abstractatech.gamification.my.contactz\com.abstractatech.gamification.my.contactz.csproj", "{BB946822-D306-4488-8F29-349E1687D2D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6F757C18-AB0D-4A49-A3BD-7A0833171309}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "idea-remixer.tumblr.com", "..\..\idea-remixer.tumblr.com\idea-remixer.tumblr.com\idea-remixer.tumblr.com.csproj", "{48A0B7BA-BD8F-49EC-858B-09774A8413B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSShaderGrayScale", "..\..\..\..\..\jsc.svn\examples\javascript\css\CSSShaderGrayScale\CSSShaderGrayScale\CSSShaderGrayScale.csproj", "{BEAA5C6F-9803-48E6-B53E-987F5A983560}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|x86 = Android|x86
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB946822-D306-4488-8F29-349E1687D2D0}.Android|x86.ActiveCfg = Release|x86
+		{BB946822-D306-4488-8F29-349E1687D2D0}.Android|x86.Build.0 = Release|x86
+		{BB946822-D306-4488-8F29-349E1687D2D0}.Debug|x86.ActiveCfg = Debug|x86
+		{BB946822-D306-4488-8F29-349E1687D2D0}.Debug|x86.Build.0 = Debug|x86
+		{BB946822-D306-4488-8F29-349E1687D2D0}.Release|x86.ActiveCfg = Release|x86
+		{BB946822-D306-4488-8F29-349E1687D2D0}.Release|x86.Build.0 = Release|x86
+		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Android|x86.ActiveCfg = Android|x86
+		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Android|x86.Build.0 = Android|x86
+		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Debug|x86.ActiveCfg = Debug|x86
+		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Debug|x86.Build.0 = Debug|x86
+		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Release|x86.ActiveCfg = Release|x86
+		{48A0B7BA-BD8F-49EC-858B-09774A8413B2}.Release|x86.Build.0 = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Android|x86.ActiveCfg = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Android|x86.Build.0 = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Debug|x86.ActiveCfg = Debug|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Debug|x86.Build.0 = Debug|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Release|x86.ActiveCfg = Release|x86
+		{BEAA5C6F-9803-48E6-B53E-987F5A983560}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
