@@ -1,4 +1,5 @@
 using AppEngineUserAgentLogger.HTML.Pages;
+using AppEngineUserAgentLogger.Schema;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -30,14 +31,23 @@ namespace AppEngineUserAgentLogger
 
         public void SetScreenSize(int width, int height)
         {
-            Console.WriteLine("Page size " + width + "x" + height);
-            Console.WriteLine(h.Context.Request.UserAgent);
+            //Console.WriteLine("Page size " + width + "x" + height);
+            //Console.WriteLine(h.Context.Request.UserAgent);
+            new FirstTable().Insert(
+              new FirstTableQueries.InsertMeta
+                {
+                    width = width,
+                    height = height,
+                    ip = h.Context.Request.UserHostAddress,
+                    useragent = h.Context.Request.UserAgent
+                }
+          );
         }
 
         //public Task<DataTable> GoNextPage()
         public async Task GoNextPage()
         {
-            Console.WriteLine(NextPageSource.Text);
+            //Console.WriteLine(NextPageSource.Text);
             var x = XElement.Parse(
                 NextPageSource.Text
             );
@@ -45,9 +55,35 @@ namespace AppEngineUserAgentLogger
             x.Element("body").Element("h4").Value = "This text was set by the server.";
 
 
+            
+
+            Action<string> WriteLine = t => 
+            {
+                var s = new XElement("div");
+                s.Value = t;
+                x.Element("body").Element("output").Add(s);
+            };
+
+            new FirstTable().SelectAll(
+                 xx =>
+                 {
+
+                     long
+                         width = xx.width,
+                         heigth = xx.height;
+
+
+                     string
+                         ip = xx.ip,
+                         useragent = xx.useragent;
+
+                     WriteLine(new { width, heigth, ip, useragent }.ToString());
+                     //Console.WriteLine(new { width, heigth, ip, useragent });
+
+                 });
+
             body.ReplaceAttributes(x.Attributes());
             body.ReplaceNodes(x.Nodes());
-
 
             //var c = new TaskCompletionSource<DataTable>();
             //c.SetResult(data);
