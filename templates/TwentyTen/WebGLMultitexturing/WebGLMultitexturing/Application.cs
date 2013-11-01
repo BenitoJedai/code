@@ -37,7 +37,7 @@ namespace WebGLMultitexturing
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IXDefaultPage page)
+        public Application(IDefault page)
         {
             var c = new IHTMLCanvas();
             c.style.border = "1px solid red";
@@ -55,12 +55,12 @@ namespace WebGLMultitexturing
                 Initialize(c, (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)gl, page);
         }
 
-        private void Initialize(IHTMLCanvas c, WebGLRenderingContext gl, IXDefaultPage page)
+        private void Initialize(IHTMLCanvas c, WebGLRenderingContext gl, IDefault  page)
         {
             // http://cs.helsinki.fi/u/ilmarihe/metatunnel.html
             // http://wakaba.c3.cx/w/puls.html
 
-            Action<string> alert = Native.Window.alert;
+            Action<string> alert = Native.window.alert;
 
             c.style.border = "1px solid yellow";
 
@@ -110,7 +110,7 @@ namespace WebGLMultitexturing
                 // fs: ERROR: 0:1: '' : No precision specified for (float) 
 
                 var error = gl.getShaderInfoLog(xfs);
-                Native.Window.alert("fs: " + error);
+                Native.window.alert("fs: " + error);
                 return;
             }
 
@@ -124,7 +124,7 @@ namespace WebGLMultitexturing
 
 
                 var error = gl.getShaderInfoLog(xvs);
-                Native.Window.alert("vs: " + error);
+                Native.window.alert("vs: " + error);
                 return;
             }
 
@@ -139,7 +139,7 @@ namespace WebGLMultitexturing
             if (linked == null)
             {
                 var error = gl.getProgramInfoLog(shader.program);
-                Native.Window.alert("Error while linking: " + error);
+                Native.window.alert("Error while linking: " + error);
                 return;
             }
 
