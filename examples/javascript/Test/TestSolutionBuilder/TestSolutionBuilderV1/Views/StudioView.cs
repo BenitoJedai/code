@@ -492,8 +492,8 @@ namespace TestSolutionBuilderV1.Views
             Split.Split.LeftScrollable.style.zIndex = 0;
             wLeftScrollable.AttachFormTo(Split.Split.LeftScrollable);
 
-            
-            //wLeftScrollable.PopupInsteadOfClosing();
+
+            wLeftScrollable.PopupInsteadOfClosing();
 
             //Split.Split.LeftScrollable = (IHTMLDiv)(object)SolutionToolbox.body;
             Split.Split.RightScrollable = Viewer.Container;
