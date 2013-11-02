@@ -346,7 +346,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var ZeroHorizontalResizerDrag = new DragHelper(ZeroHorizontalResizer)
             {
-                Position = new Point(95, 0),
+                //
+                Position = new Point(32, 0),
                 Enabled = true
             };
 
