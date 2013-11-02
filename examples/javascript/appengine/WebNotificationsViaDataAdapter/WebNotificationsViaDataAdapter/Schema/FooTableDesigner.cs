@@ -49,6 +49,12 @@ namespace WebNotificationsViaDataAdapter.Schema
 
         private async void FooTableDesigner_Load(object sender, EventArgs e)
         {
+            //at System.Data.SQLite.SQLite3.Open(String strFilename, SQLiteConnectionFlags connectionFlags, SQLiteOpenFlagsEnum openFlags, Int32 maxPoolSize, Boolean usePool)
+            //at System.Data.SQLite.SQLiteConnection.Open()
+            //at WebNotificationsViaDataAdapter.Schema.FooTable.<>c__DisplayClassb.<.ctor>b__1(Action`1 y) in x:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTable.cs:line 34
+            //at WebNotificationsViaDataAdapter.Schema.FooTable..ctor(String DataSource) in x:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTable.cs:line 50
+            //at WebNotificationsViaDataAdapter.ApplicationWebService..ctor() in x:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\ApplicationWebService.cs:line 22 
+
             var xdata = await this.applicationWebService1.__FooTable_Select();
             var data = xdata;
 
@@ -62,7 +68,7 @@ namespace WebNotificationsViaDataAdapter.Schema
                 {
                     this.save.Enabled = false;
 
-                    await this.applicationWebService1.__FooTable_Insert(
+                    var zdata = await this.applicationWebService1.__FooTable_Insert(
                         Enumerable.ToArray(
                             from row in data.Rows.AsEnumerable()
                             let delay = (string)row["delay"]
@@ -76,11 +82,11 @@ namespace WebNotificationsViaDataAdapter.Schema
                             }
                         )
                     );
+                    data = zdata;
 
 
-
+                    this.dataGridView1.DataSource = data;
                     this.save.Enabled = true;
-
                 };
 
         }

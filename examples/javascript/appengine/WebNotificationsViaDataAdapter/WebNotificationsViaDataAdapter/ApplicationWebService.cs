@@ -19,10 +19,12 @@ namespace WebNotificationsViaDataAdapter
     [System.ComponentModel.DesignerCategory("Code")]
     public class ApplicationWebService : Component
     {
-        FooTable rw = new FooTable();
 
-        public Task __FooTable_Insert(FooTable.InsertFoo[] value)
+        public Task<DataTable> __FooTable_Insert(FooTable.InsertFoo[] value)
         {
+            FooTable rw = new FooTable();
+
+
             Console.WriteLine("delete");
             // first delete and then add new content
             rw.Delete();
@@ -35,7 +37,7 @@ namespace WebNotificationsViaDataAdapter
                 }
             );
 
-            return "".ToTaskResult();
+            return __FooTable_Select();
         }
 
         public Task<DataTable> __FooTable_Select()
