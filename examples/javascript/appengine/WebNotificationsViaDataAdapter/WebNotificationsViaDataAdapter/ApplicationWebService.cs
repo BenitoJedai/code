@@ -49,16 +49,26 @@ namespace WebNotificationsViaDataAdapter
 
 
 
-            // 
+            // X:\jsc.svn\examples\java\JVMCLRDataTableMerge\JVMCLRDataTableMerge\Program.cs
             merge.Merge(ro);
 
             if (rw.Rows.Count > 0)
                 merge.Merge(rw);
 
             // merge with ro data
+
+
+            //:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\files
+            //:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe  -encoding UTF-8 -cp V:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.3\lib\impl\*;C:\util\appengine-java-sdk-1.8.3\lib\shared\* -d "V:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\release" @"V:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\files"
+            //:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\java\WebNotificationsViaDataAdapter\ApplicationWebService.java:111: ToTable(boolean,java.lang.String[]) in ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataView cannot be applied to (int,java.lang.String[])
+            //       table3 = view9.ToTable(num8, stringArray10);
+            //                     ^
+
+            var columnNames = merge.Columns.AsEnumerable().Select(k => k.ColumnName).ToArray();
+
             var distinct = merge.DefaultView.ToTable(
                 distinct: true,
-                columnNames: merge.Columns.AsEnumerable().Select(k => k.ColumnName).ToArray()
+                columnNames: columnNames
             );
 
             return distinct.ToTaskResult();
@@ -78,7 +88,7 @@ namespace WebNotificationsViaDataAdapter
                     where !string.IsNullOrEmpty((string)row["delay"])
 
 
-                    let delay = Convert.ToInt64(row["delay"])
+                    let delay = Convert.ToInt64((string)row["delay"])
                     let text = (string)row["text"]
 
                     where delay >= delayfrom

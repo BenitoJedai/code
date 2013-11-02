@@ -75,6 +75,22 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             return a;
         }
 
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.SequenceEqual(System.Collections.Generic.IEnumerable`1[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], System.Collections.Generic.IEnumerable`1[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
+
+
+        public static bool SequenceEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
+        {
+            var a = first.ToArray();
+            var b = second.ToArray();
+
+            if (a.Length != b.Length)
+                return false;
+
+            var comparer = Comparer<TSource>.Default;
+
+            return Enumerable.Range(0, a.Length).All(i => comparer.Compare(a[i], b[i]) == 0);
+
+        }
     }
 
 }
