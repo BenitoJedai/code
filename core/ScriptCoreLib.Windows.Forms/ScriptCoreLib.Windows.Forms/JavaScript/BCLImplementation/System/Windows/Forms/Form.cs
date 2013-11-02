@@ -1447,7 +1447,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.Owner = null;
 
-            this.WindowState = FormWindowState.Normal;
+            // why go normal?
+            // conflict tested by
+            // X:\jsc.svn\examples\javascript\InlinePageActionButtonExperiment\InlinePageActionButtonExperiment\Application.cs
+            //this.WindowState = FormWindowState.Normal;
 
 
             //-webkit-transition: -webkit-transform 200ms linear; transition: -webkit-transform 200ms linear;
