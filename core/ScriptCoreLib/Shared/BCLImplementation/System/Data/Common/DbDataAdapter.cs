@@ -32,60 +32,96 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             // x:\jsc.svn\examples\javascript\dropfileintosqlite\dropfileintosqlite\schema\table1.cs
             // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationWebService.cs
 
-            //            02000012 ScriptCoreLib.Shared.BCLImplementation.System.Data.Common.__DbDataAdapter
-            //script: error JSC1000: Method: Fill, Type: ScriptCoreLib.Shared.BCLImplementation.System.Data.Common.__DbDataAdapter; emmiting failed : System.ArgumentNullException: Value cannot be null.
-            //   at jsc.ILFlowStackItem.InlineLogic(Prestatement p) in x:\jsc.internal.svn\compiler\jsc\CodeModel\ILFlow.cs:line 68
+            //Caused by: java.lang.NullPointerException
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.Common.__DbDataAdapter.Fill(__DbDataAdapter.java:53)
 
             var data = default(DataTable);
+
+            Console.WriteLine("Fill enter " + new { this.InternalSelectCommand });
+
             var reader = this.InternalSelectCommand.ExecuteReader();
+            Console.WriteLine("Fill reader " + new { reader });
+
+            //java.lang.RuntimeException: Sequence contains no elements
+            //        at com.google.appengine.tools.development.JettyContainerService$ApiProxyHandler.handle(JettyContainerService.java:485)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError.NoElements(__DefinedError.java:26)
+            //        at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+            //        at org.mortbay.jetty.Server.handle(Server.java:326)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:1247)
+            //        at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:1223)
+            //        at org.mortbay.jetty.HttpConnection$RequestHandler.content(HttpConnection.java:938)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.set_Item(__DataRow.java:38)
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131101
-            using (reader)
-            {
-
-                while (reader.Read())
+            if (reader != null)
+                using (reader)
                 {
-                    if (data == null)
+
+                    while (reader.Read())
                     {
-                        data = new DataTable();
+                        Console.WriteLine("Fill reader Read");
+                        if (data == null)
+                        {
+                            data = FillColumns(reader);
+                        }
+
+
+                        Console.WriteLine("Fill NewRow ");
+                        var row = data.NewRow();
+                        data.Rows.Add(row);
 
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
                             var n = reader.GetName(i);
+                            var ft = reader.GetFieldType(i);
 
-                            data.Columns.Add(n);
-                        }
-                    }
+                            Console.WriteLine(new { n, ft });
 
+                            if (ft == typeof(string))
+                            {
+                                row[n] = reader.GetString(i);
 
-                    var row = data.NewRow();
-                    data.Rows.Add(row);
-
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        var n = reader.GetName(i);
-                        var ft = reader.GetFieldType(i);
-
-                        if (ft == typeof(string))
-                        {
-                            row[i] = reader.GetString(i);
-
-                        }
-                        else if (ft == typeof(long))
-                        {
-                            row[i] = "" + reader.GetInt64(i);
+                            }
+                            else if (ft == typeof(long))
+                            {
+                                row[n] = "" + reader.GetInt64(i);
+                            }
+                            else if (ft == typeof(int))
+                            {
+                                row[n] = "" + reader.GetInt32(i);
+                            }
                         }
                     }
                 }
-            }
 
 
             if (data == null)
                 return 0;
 
+            Console.WriteLine("Fill Merge ");
             dataTable.Merge(data);
 
             return data.Rows.Count;
+        }
+
+        private static DataTable FillColumns(DbDataReader reader)
+        {
+            var xdata = new DataTable();
+
+            Console.WriteLine("Fill " + new { reader.FieldCount });
+
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                var columName = reader.GetName(i);
+
+                Console.WriteLine(
+                    new { columName }
+                    );
+
+                xdata.Columns.Add(columName);
+            }
+            return xdata;
         }
     }
 }

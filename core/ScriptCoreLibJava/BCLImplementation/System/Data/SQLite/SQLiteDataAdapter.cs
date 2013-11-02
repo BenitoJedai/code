@@ -11,12 +11,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataAdapter))]
     internal class __SQLiteDataAdapter : __DbDataAdapter
     {
-        public __SQLiteDataAdapter(SQLiteCommand SelectCommand)
+        public __SQLiteDataAdapter(SQLiteCommand __SelectCommand)
         {
-            this.SelectCommand = SelectCommand;
+            this.SelectCommand = __SelectCommand;
         }
 
-        public SQLiteCommand SelectCommand
+        public new SQLiteCommand SelectCommand
         {
             get
             {

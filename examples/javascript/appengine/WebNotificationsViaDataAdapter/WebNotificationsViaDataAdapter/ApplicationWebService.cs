@@ -42,6 +42,20 @@ namespace WebNotificationsViaDataAdapter
 
         public Task<DataTable> __FooTable_Select()
         {
+            //java.lang.RuntimeException: Sequence contains no elements
+            //        at com.google.appengine.tools.development.DevAppServerModulesFilter.doDirectRequest(DevAppServerModulesFilter.java:368)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError.NoElements(__DefinedError.java:26)
+            //        at com.google.appengine.tools.development.DevAppServerModulesFilter.doDirectModuleRequest(DevAppServerModulesFilter.java:351)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:1247)
+            //        at com.google.appengine.tools.development.DevAppServerModulesFilter.doFilter(DevAppServerModulesFilter.java:116)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:1223)
+            //        at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.set_Item(__DataRow.java:38)
+            //        at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:388)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataTable.Merge(__DataTable.java:108)
+            //        at org.mortbay.jetty.security.SecurityHandler.handle(SecurityHandler.java:216)
+            //        at WebNotificationsViaDataAdapter.ApplicationWebService.__FooTable_Select(ApplicationWebService.java:82)
+
             var ro = ScriptedNotifications.GetDataTable();
             var rw = new FooTable().Select();
 
@@ -50,10 +64,15 @@ namespace WebNotificationsViaDataAdapter
 
 
             // X:\jsc.svn\examples\java\JVMCLRDataTableMerge\JVMCLRDataTableMerge\Program.cs
+            Console.WriteLine("before Merge ro");
             merge.Merge(ro);
 
             if (rw.Rows.Count > 0)
+            {
+                Console.WriteLine("before Merge rw");
+
                 merge.Merge(rw);
+            }
 
             // merge with ro data
 
