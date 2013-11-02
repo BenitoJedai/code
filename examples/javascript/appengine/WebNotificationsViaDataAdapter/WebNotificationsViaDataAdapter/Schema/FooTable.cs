@@ -58,7 +58,6 @@ namespace WebNotificationsViaDataAdapter.Schema
             {
                 var x = default(long);
 
-
                 WithConnection(
                     c =>
                     {

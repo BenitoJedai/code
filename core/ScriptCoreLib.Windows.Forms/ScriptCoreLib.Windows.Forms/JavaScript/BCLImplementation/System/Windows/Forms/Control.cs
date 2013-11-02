@@ -748,6 +748,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
         public int TabIndex { get; set; }
+        public object Tag { get; set; }
 
         public bool AutoSize { get; set; }
 
