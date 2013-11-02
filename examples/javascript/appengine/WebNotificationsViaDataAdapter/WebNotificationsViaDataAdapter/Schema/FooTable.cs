@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -17,6 +18,8 @@ namespace WebNotificationsViaDataAdapter.Schema
 
         public FooTable(string DataSource = "foo.sqlite")
         {
+            
+
             #region WithConnection
             Action<Action<SQLiteConnection>> WithConnection = y =>
             {
