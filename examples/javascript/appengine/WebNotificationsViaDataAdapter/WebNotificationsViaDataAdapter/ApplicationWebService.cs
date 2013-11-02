@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using WebNotificationsViaDataAdapter.Design;
 
 namespace WebNotificationsViaDataAdapter
 {
@@ -17,15 +18,28 @@ namespace WebNotificationsViaDataAdapter
     /// </summary>
     public class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public Task<string[]> this[long delayfrom, long delayto]
         {
-            // Send it back to the caller.
-            y(e);
+            get
+            {
+                var data = ScriptedNotifications.GetDataTable();
+
+
+                return Enumerable.ToArray(
+                    from row in data.Rows.AsEnumerable()
+
+                    where !string.IsNullOrEmpty((string)row["delay"])
+
+
+                    let delay = Convert.ToInt64(row["delay"])
+                    let text = (string)row["text"]
+
+                    where delay >= delayfrom
+                    where delay <= delayto
+
+                    select text
+                ).ToTaskResult();
+            }
         }
 
     }
