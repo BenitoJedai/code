@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +17,7 @@ using System.Xml.Linq;
 using WebNotificationsViaDataAdapter;
 using WebNotificationsViaDataAdapter.Design;
 using WebNotificationsViaDataAdapter.HTML.Pages;
+using WebNotificationsViaDataAdapter.Schema;
 
 namespace WebNotificationsViaDataAdapter
 {
@@ -32,6 +34,74 @@ namespace WebNotificationsViaDataAdapter
         public Application(IApp page)
         {
             // http://www.paulund.co.uk/playground/demo/html5-notification-api/
+
+            #region FooTableDesigner
+            var zpage = new InlinePageActionButtonExperiment();
+            var zedit = page.EditElement;
+
+
+            page.EditElement.parentNode.replaceChild(
+                zpage.Container,
+                page.EditElement
+            );
+
+            //page.EditElement.ReplaceWith(zpage);
+
+            zpage.edit = zedit;
+
+
+            var content = default(FooTableDesigner);
+            Action onclick =
+           async delegate
+           {
+
+               if (content == null)
+               {
+                   content = new FooTableDesigner();
+
+
+                   zpage.editcontext.style.SetSize(
+                       content.Width,
+                       content.Height
+                   );
+
+                   content.AttachControlTo(zpage.editcontent);
+
+                   // blend with control
+                   var bc = content.BackColor;
+                   zpage.edit.style.backgroundColor = bc.ToString();
+
+
+                   var data = await this.__FooTable_Select();
+
+                   await Native.window.requestAnimationFrameAsync;
+
+
+                   content.dataGridView1.DataSource = data;
+
+
+                   return;
+               }
+
+               content.ParentForm.Close();
+               content = null;
+
+               // blend with DOM
+               zpage.edit.style.backgroundColor = JSColor.Transparent;
+           };
+
+            zpage.edit.onclick += e => { onclick(); e.preventDefault(); };
+            zpage.edit.oncontextmenu += e => { onclick(); e.preventDefault(); };
+
+
+
+            zpage.editcontent.Clear();
+            zpage.editcontent.style.border = "none";
+            #endregion
+
+
+
+
 
             new Stopwatch().With(
                 async s =>

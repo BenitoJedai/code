@@ -3,6 +3,7 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
@@ -15,34 +16,51 @@ using WebNotificationsViaDataAdapter.Schema;
 
 namespace WebNotificationsViaDataAdapter
 {
-    /// <summary>
-    /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
-    /// </summary>
-    public class ApplicationWebService
+    [System.ComponentModel.DesignerCategory("Code")]
+    public class ApplicationWebService : Component
     {
+        public Task<DataTable> __FooTable_Select()
+        {
+            var ro = ScriptedNotifications.GetDataTable();
+            var rw = new FooTable().Select();
+
+            var merge = new DataTable();
+
+
+
+            // 
+            merge.Merge(ro);
+
+            if (rw.Rows.Count > 0)
+                merge.Merge(rw);
+
+            return merge.ToTaskResult();
+        }
+
         public Task<string[]> this[long delayfrom, long delayto]
         {
             get
             {
-                var data = ScriptedNotifications.GetDataTable();
+                var ro = ScriptedNotifications.GetDataTable();
 
 
 
-                var foo = new FooTable();
+                var rw = new FooTable().Select();
 
-                foo.Insert(
-                    new FooTableQueries.InsertFoo { delay = 700, text = "text via db" }
-                );
+                //foo.Insert(
+                //    new FooTableQueries.InsertFoo { delay = 700, text = "text via db" }
+                //);
 
-                var foodata = foo.Select();
 
 
                 var merge = new DataTable();
 
-                merge.Merge(data);
+                merge.Merge(ro);
 
                 //Additional information: <target>.delay and <source>.delay have conflicting properties: DataType property mismatch.
-                merge.Merge(foodata);
+
+                if (rw.Rows.Count > 0)
+                    merge.Merge(rw);
 
                 // !! merge now has a Debug Visualizer, pause here to inspect
                 ////Debugger.Break();
