@@ -93,17 +93,19 @@ namespace WebNotificationsViaDataAdapter.Schema
             #region Select
             this.Select = delegate
             {
-                var t = new DataTable();
+                var t = default(DataTable);
 
 
                 WithConnection(
                   c =>
                   {
-                      var cmd = new SelectAll().Command(c);
-                      Console.WriteLine("before Fill " + new { cmd });
-                      var a = new SQLiteDataAdapter(cmd);
-                      Console.WriteLine("before Fill " + new { a.SelectCommand });
-                      a.Fill(t);
+                      //var cmd = new SelectAll().Command(c);
+                      //var a = new SQLiteDataAdapter(cmd);
+                      //a.Fill(t);
+
+                      t = new SelectAll { }.GetDataTable(c);
+
+
                   }
                 );
 
