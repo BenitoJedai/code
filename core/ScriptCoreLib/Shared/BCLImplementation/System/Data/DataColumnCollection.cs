@@ -46,6 +46,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             }
         }
 
+        public int IndexOf(DataColumn c)
+        {
+            // used by
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.DataSource.cs
+
+
+
+
+            return this.InternalList.IndexOf(c);
+        }
+
         public override IEnumerable GetInternalList()
         {
             return InternalList;

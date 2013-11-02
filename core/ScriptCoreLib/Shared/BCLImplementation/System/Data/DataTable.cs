@@ -21,6 +21,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         public event DataColumnChangeEventHandler ColumnChanged;
         public event DataTableNewRowEventHandler TableNewRow;
+        public event DataRowChangeEventHandler RowDeleted;
+
+
+        public event DataRowChangeEventHandler RowDeleting;
+        public void RaiseRowDeleting(object s, DataRowChangeEventArgs a)
+        {
+            if (RowDeleting != null)
+                RowDeleting(s, a);
+        }
 
         public string TableName { get; set; }
 
@@ -29,7 +38,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         public __DataTable()
         {
             this.Columns = new __DataColumnCollection();
-            this.Rows = new __DataRowCollection();
+            this.Rows = new __DataRowCollection { InternalDataTable = this };
         }
 
         public DataRowCollection Rows { get; internal set; }

@@ -100,6 +100,8 @@
     <Compile Include="JavaScript\DOM\CSSStyleRule.cs" />
     <Compile Include="JavaScript\DOM\FileEntry.cs" />
     <Compile Include="JavaScript\DOM\Storage.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataRowChangeEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataRowChangeEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumnChangeEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataColumnChangeEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataTableNewRowEventArgs.cs" />
