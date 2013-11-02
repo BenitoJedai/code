@@ -9,18 +9,60 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Int32))]
     internal class __Int32
     {
-
+        #region OptimizedCode
         [Script(OptimizedCode = "return parseInt(e);")]
-        static public __Int32 Parse(string e)
+        static public int parseInt(string e)
         {
-            return default(__Int32);
+            return default(int);
+        }
+
+        [Script(OptimizedCode = "return isNaN(d);")]
+        public static bool isNaN(int d)
+        {
+            return default(bool);
+
+        }
+        #endregion
+
+
+        [Script(DefineAsStatic = true)]
+        static public int Parse(string e)
+        {
+            var x = parseInt(e);
+
+            if (isNaN(x))
+                throw new InvalidOperationException();
+
+            return x;
+        }
+
+
+        [Script(DefineAsStatic = true)]
+        static public bool TryParse(string e, out int result)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\forms\FormsDataGridViewDeleteRow\FormsDataGridViewDeleteRow\ApplicationControl.cs
+
+            //parseInt('s')
+            //NaN
+
+
+            var x = parseInt(e);
+            var nan = isNaN(x);
+
+            if (nan)
+                result = 0;
+            else
+                result = x;
+
+            return !nan;
         }
 
         [Script(DefineAsStatic = true)]
         public int CompareTo(__Int32 e)
         {
             return Expando.Compare(this, e);
-           
+
         }
 
         [Script(DefineAsStatic = true)]

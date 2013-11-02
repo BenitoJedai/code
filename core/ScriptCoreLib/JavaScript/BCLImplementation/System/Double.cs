@@ -16,6 +16,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(__Double);
         }
 
+    
+
         [Script(OptimizedCode = "return isNaN(d);")]
         public static bool IsNaN(double d)
         {

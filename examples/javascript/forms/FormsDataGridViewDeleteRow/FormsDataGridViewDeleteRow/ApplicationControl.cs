@@ -42,5 +42,47 @@ namespace FormsDataGridViewDeleteRow
             Console.WriteLine("dataGridView1_CellValueChanged " + new { e.RowIndex });
         }
 
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewCellValidatingEventArgs.get_ColumnIndex()]
+            Console.WriteLine(new { e.ColumnIndex, e.RowIndex });
+
+            if (e.ColumnIndex == 0)
+            {
+                var i = 0;
+
+                // X:\jsc.svn\examples\javascript\Test\TestIntTryParse\TestIntTryParse\Application.cs
+
+                var value =
+                    (string)e.FormattedValue;
+
+                Console.WriteLine(new { e.ColumnIndex, e.RowIndex, value });
+                var ok = int.TryParse(value, out i);
+
+                if (ok)
+                {
+                    this.dataGridView1[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.White;
+
+                    return;
+                }
+
+                Console.WriteLine(new { e.ColumnIndex, e.RowIndex, value, ok });
+
+                // { ColumnIndex = 0, RowIndex = 2, value = u, ok = false } 
+                this.dataGridView1[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Yellow;
+                e.Cancel = true;
+            }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

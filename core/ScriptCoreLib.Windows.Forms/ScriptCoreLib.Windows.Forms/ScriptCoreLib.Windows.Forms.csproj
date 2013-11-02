@@ -67,7 +67,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Application.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BaseCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Button.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\CancelEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\CheckBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ComboBox.cs">
     </Compile>
@@ -75,6 +74,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.DataSource.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellValidatingEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellValidatingEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataVisualization\Charting\Chart.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DateTimePicker.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ScrollProperties.cs" />
