@@ -549,7 +549,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region AtInternalValueChanged
                     Action AtInternalValueChanged = delegate
                     {
-                        InternalContent.innerText = SourceCell.Value.ToString();
+                        var innerText = SourceCell.Value.ToString();
+
+                        Console.WriteLine("AtInternalValueChanged " + new { innerText });
+                        InternalContent.innerText = innerText;
 
                         InternalRaiseCellValueChanged(SourceCell);
 
@@ -669,7 +672,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 };
 
                             var OriginalValue = (string)SourceCell.Value;
-                            EditElement.value = (string)SourceCell.Value;
+                            EditElement.value = OriginalValue;
 
 
                             #region CheckChanges
@@ -677,6 +680,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             {
                                 //if (((string)SourceCell.Value) != EditElement.value)
                                 //{
+
+                                var args = new __DataGridViewCellValidatingEventArgs(
+                                    SourceCell.ColumnIndex,
+                                     SourceRow.Index
+                                )
+                                {
+
+                                    FormattedValue = EditElement.value
+                                };
+
+                                // tested by
+                                // X:\jsc.svn\examples\javascript\forms\FormsDataGridViewDeleteRow\FormsDataGridViewDeleteRow\ApplicationControl.cs
+                                if (this.CellValidating != null)
+                                    this.CellValidating(this, (DataGridViewCellValidatingEventArgs)(object)args);
+
+                                Console.WriteLine("CellValidating " + new { args.Cancel });
+
+                                if (args.Cancel)
+                                {
+                                    Console.WriteLine("CellValidating Cancel " + new { OriginalValue });
+                                    SourceCell.Value = OriginalValue;
+
+                                    return;
+                                }
+
+
                                 SourceCell.Value = EditElement.value;
 
                                 //}
@@ -927,6 +956,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.onkeydown +=
                         ev =>
                         {
+
                             #region KeyNavigateTo
                             Func<Keys, int, int, bool> KeyNavigateTo =
                               (k, x, y) =>
@@ -952,6 +982,45 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                               };
                             #endregion
 
+                            #region Delete
+                            if (this.SelectionMode == DataGridViewSelectionMode.FullRowSelect)
+                            {
+                                if (ev.KeyCode == (int)Keys.Delete)
+                                {
+                                    if (SourceRow == InternalNewRow)
+                                        return;
+
+                                    // tested by
+                                    // X:\jsc.svn\examples\javascript\forms\FormsDataGridViewDeleteRow\FormsDataGridViewDeleteRow\ApplicationControl.cs
+
+
+                                    // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewRowCollection.Remove(System.Windows.Forms.DataGridViewRow)]
+
+                                    var Cell = CellAtOffset(0, 1);
+
+                                    this.Rows.Remove(SourceRow);
+
+                                    if (this.UserDeletedRow != null)
+                                        this.UserDeletedRow(
+                                            this,
+                                            new DataGridViewRowEventArgs(SourceRow)
+                                        );
+
+
+                                    if (Cell != null)
+                                    {
+                                        Cell.InternalContentContainer.focus();
+                                    }
+
+
+
+                                    return;
+                                }
+                            }
+                            #endregion
+
+
+
                             if (KeyNavigateTo(Keys.Right, 1, 0)) return;
                             if (KeyNavigateTo(Keys.Left, -1, 0)) return;
                             if (KeyNavigateTo(Keys.Up, 0, -1)) return;
@@ -959,8 +1028,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             if (ev.IsReturn)
                             {
-                                ev.PreventDefault();
-                                ev.StopPropagation();
+                                ev.preventDefault();
+                                ev.stopPropagation();
 
                                 EnterEditMode();
                                 return;
@@ -1947,8 +2016,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event DataGridViewCellEventHandler CellEndEdit;
         public event DataGridViewCellCancelEventHandler CellBeginEdit;
         public event DataGridViewCellEventHandler CellValueChanged;
+
         public event DataGridViewRowEventHandler UserAddedRow;
         public event DataGridViewRowEventHandler UserDeletedRow;
+
         public event EventHandler SelectionChanged;
         public event DataGridViewCellEventHandler CellEnter;
         public event DataGridViewCellEventHandler CellLeave;
@@ -2058,5 +2129,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalRowHeadersVisibleChanged();
             }
         }
+
+
+        public event DataGridViewCellValidatingEventHandler CellValidating;
     }
 }

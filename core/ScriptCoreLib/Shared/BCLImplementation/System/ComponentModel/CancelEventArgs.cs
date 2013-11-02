@@ -11,6 +11,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
     {
         public bool Cancel { get; set; }
 
+        public __CancelEventArgs()
+        {
 
+        }
+
+        public __CancelEventArgs(bool cancel)
+        {
+            this.Cancel = cancel;
+        }
     }
 }

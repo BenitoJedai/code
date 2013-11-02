@@ -37,6 +37,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.InternalItems.Source.RemoveAt(0);
         }
 
+        public void Remove(DataGridViewRow r)
+        {
+            RemoveAt(r.Index);
+        }
+
         public void RemoveAt(int i)
         {
 
