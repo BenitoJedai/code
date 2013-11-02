@@ -23,6 +23,14 @@ namespace ScriptCoreLib.PHP.Data
                 "PRIMARY KEY AUTO_INCREMENT"
             );
 
+            // int to string
+            // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTable\select all.sql
+            // http://stackoverflow.com/questions/3568779/string-concatenation-does-not-work-in-sqlite
+            sql = sql.Replace(
+              "('' ||",
+              "concat('',"
+            );
+
             // select * from sqlite_master
 
             // SELECT * FROM INFORMATION_SCHEMA.TABLES

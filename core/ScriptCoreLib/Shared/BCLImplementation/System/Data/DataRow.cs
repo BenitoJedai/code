@@ -25,7 +25,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
                 if (c == null)
                 {
-                    this[new DataColumn { ColumnName = column }] = value;
+                    var cc = new DataColumn { ColumnName = column };
+
+                    this[cc] = value;
 
                     return;
                 }
@@ -59,7 +61,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         {
             get
             {
-                var x = InternalData.FirstOrDefault(k => k.Item1 == column);
+                var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column.ColumnName);
 
                 if (x == null)
                     return null;
@@ -69,7 +71,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
             set
             {
-                var x = InternalData.FirstOrDefault(k => k.Item1 == column);
+                var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column.ColumnName);
 
                 if (x != null)
                 {

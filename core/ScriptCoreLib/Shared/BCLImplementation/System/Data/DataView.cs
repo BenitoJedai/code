@@ -28,7 +28,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
             foreach (DataRow SourceRow in this.InternalDataTable.Rows)
             {
-                var any = false;
+                var SequenceEqual = false;
 
                 if (distinct)
                 {
@@ -38,18 +38,35 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
                         var NewCells = columnNames.Select(z => NewRow[z]).ToArray();
 
                         if (SourceCells.SequenceEqual(NewCells))
-                            any = true;
+                            SequenceEqual = true;
                     }
                 }
 
-                if (!any)
+                if (!SequenceEqual)
                 {
                     var NewRow = x.NewRow();
                     x.Rows.Add(NewRow);
 
                     foreach (var c in columnNames)
                     {
-                        NewRow[c] = SourceRow[c];
+                        var value = SourceRow[c];
+
+                        //Console.WriteLine(
+                        //    "ToTable: " +
+                        //    new { c, value }
+                        //    );
+
+
+                        NewRow[c] = value;
+
+
+                        //var xvalue = NewRow[c];
+
+                        //Console.WriteLine(
+                        //    "ToTable: " +
+                        //    new { c, xvalue }
+                        //    );
+
                     }
                 }
             }

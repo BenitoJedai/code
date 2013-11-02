@@ -156,7 +156,7 @@ namespace WebNotificationsViaDataAdapter
 
 
 
-                        await Task.Delay(500);
+                        await Task.Delay(5500);
 
 
                     }

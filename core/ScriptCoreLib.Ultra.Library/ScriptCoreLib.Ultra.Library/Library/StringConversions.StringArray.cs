@@ -174,14 +174,26 @@ namespace ScriptCoreLib.Library
 
                 foreach (DataColumn item in e.Columns)
                 {
+                    var value = row[item.ColumnName];
+
+                    Console.WriteLine(
+                        new { item.ColumnName, value }
+                    );
+
                     var th = new XElement("DataColumn",
                         // is it a string?
-                        row[item]
+
+                        value
                     );
 
                     tr.Add(th);
                 }
             }
+
+            // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\ApplicationWebService.cs
+            Console.WriteLine(
+                new { table }
+                );
 
             return table.ToString();
         }

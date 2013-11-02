@@ -37,21 +37,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 
             var data = default(DataTable);
 
-            Console.WriteLine("Fill enter " + new { this.InternalSelectCommand });
+            //Console.WriteLine("Fill enter " + new { this.InternalSelectCommand });
 
             var reader = this.InternalSelectCommand.ExecuteReader();
-            Console.WriteLine("Fill reader " + new { reader });
+            //Console.WriteLine("Fill reader " + new { reader });
 
-            //java.lang.RuntimeException: Sequence contains no elements
-            //        at com.google.appengine.tools.development.JettyContainerService$ApiProxyHandler.handle(JettyContainerService.java:485)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError.NoElements(__DefinedError.java:26)
-            //        at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
-            //        at org.mortbay.jetty.Server.handle(Server.java:326)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:1247)
-            //        at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:1223)
-            //        at org.mortbay.jetty.HttpConnection$RequestHandler.content(HttpConnection.java:938)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.set_Item(__DataRow.java:38)
+
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131101
             if (reader != null)
@@ -60,14 +51,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 
                     while (reader.Read())
                     {
-                        Console.WriteLine("Fill reader Read");
+                        //Console.WriteLine("Fill reader Read");
                         if (data == null)
                         {
                             data = FillColumns(reader);
                         }
 
 
-                        Console.WriteLine("Fill NewRow ");
+                        //Console.WriteLine("Fill NewRow ");
                         var row = data.NewRow();
                         data.Rows.Add(row);
 
@@ -76,21 +67,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                             var n = reader.GetName(i);
                             var ft = reader.GetFieldType(i);
 
-                            Console.WriteLine(new { n, ft });
+                            // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+                            var value = reader[n];
 
-                            if (ft == typeof(string))
-                            {
-                                row[n] = reader.GetString(i);
+                            Console.WriteLine("Fill " + new { n, ft, value  });
 
-                            }
-                            else if (ft == typeof(long))
-                            {
-                                row[n] = "" + reader.GetInt64(i);
-                            }
-                            else if (ft == typeof(int))
-                            {
-                                row[n] = "" + reader.GetInt32(i);
-                            }
+                            row[n] = value;
                         }
                     }
                 }
