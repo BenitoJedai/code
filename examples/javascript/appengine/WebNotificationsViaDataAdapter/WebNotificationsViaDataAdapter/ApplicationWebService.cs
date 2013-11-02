@@ -42,19 +42,7 @@ namespace WebNotificationsViaDataAdapter
 
         public Task<DataTable> __FooTable_Select()
         {
-            //java.lang.RuntimeException: Sequence contains no elements
-            //        at com.google.appengine.tools.development.DevAppServerModulesFilter.doDirectRequest(DevAppServerModulesFilter.java:368)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError.NoElements(__DefinedError.java:26)
-            //        at com.google.appengine.tools.development.DevAppServerModulesFilter.doDirectModuleRequest(DevAppServerModulesFilter.java:351)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:1247)
-            //        at com.google.appengine.tools.development.DevAppServerModulesFilter.doFilter(DevAppServerModulesFilter.java:116)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:1223)
-            //        at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.set_Item(__DataRow.java:38)
-            //        at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:388)
-            //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataTable.Merge(__DataTable.java:108)
-            //        at org.mortbay.jetty.security.SecurityHandler.handle(SecurityHandler.java:216)
-            //        at WebNotificationsViaDataAdapter.ApplicationWebService.__FooTable_Select(ApplicationWebService.java:82)
+
 
             var ro = ScriptedNotifications.GetDataTable();
             var rw = new FooTable().Select();
@@ -71,17 +59,13 @@ namespace WebNotificationsViaDataAdapter
             {
                 Console.WriteLine("before Merge rw");
 
+
+                // Additional information: <target>.delay and <source>.delay have conflicting properties: DataType property mismatch.
+
                 merge.Merge(rw);
             }
 
             // merge with ro data
-
-
-            //:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\files
-            //:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe  -encoding UTF-8 -cp V:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.3\lib\impl\*;C:\util\appengine-java-sdk-1.8.3\lib\shared\* -d "V:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\release" @"V:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\files"
-            //:\WebNotificationsViaDataAdapter.ApplicationWebService\staging.java\web\java\WebNotificationsViaDataAdapter\ApplicationWebService.java:111: ToTable(boolean,java.lang.String[]) in ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataView cannot be applied to (int,java.lang.String[])
-            //       table3 = view9.ToTable(num8, stringArray10);
-            //                     ^
 
             var columnNames = merge.Columns.AsEnumerable().Select(k => k.ColumnName).ToArray();
 
@@ -89,6 +73,33 @@ namespace WebNotificationsViaDataAdapter
                 distinct: true,
                 columnNames: columnNames
             );
+
+
+            //            ToTable: { c = delay, value = 500 }
+            //ToTable: { c = delay, xvalue = 500 }
+            //ToTable: { c = text, value = howdy! }
+            //ToTable: { c = text, xvalue = howdy! }
+            //ToTable: { c = delay, value = 5000 }
+            //ToTable: { c = delay, xvalue = 5000 }
+            //ToTable: { c = text, value = how can we help you? }
+            //ToTable: { c = text, xvalue = how can we help you? }
+            //ToTable: { c = delay, value = 25000 }
+            //ToTable: { c = delay, xvalue = 25000 }
+            //ToTable: { c = text, value = do you like our site? }
+            //ToTable: { c = text, xvalue = do you like our site? }
+            //__FooTable_Select
+            //{ ColumnName = delay, value =  }
+            //{ ColumnName = text, value =  }
+            //{ ColumnName = delay, value =  }
+            //{ ColumnName = text, value =  }
+            //{ ColumnName = delay, value =  }
+            //{ ColumnName = text, value =  }
+
+            //var xml = ScriptCoreLib.Library.StringConversionsForDataTable.ConvertToString(
+            //    distinct
+            //);
+
+            //Console.WriteLine(new { xml });
 
             return distinct.ToTaskResult();
         }

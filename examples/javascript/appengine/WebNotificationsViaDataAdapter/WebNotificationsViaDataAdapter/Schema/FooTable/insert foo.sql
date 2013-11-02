@@ -1,5 +1,5 @@
 ﻿insert into FooTable (delay, text) 
-values ( @delay /* integer */ ,
+values ( @delay /* bigint */ ,
 @text /* text */ 
 )
 

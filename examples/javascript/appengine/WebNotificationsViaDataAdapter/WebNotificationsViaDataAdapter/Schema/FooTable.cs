@@ -42,6 +42,7 @@ namespace WebNotificationsViaDataAdapter.Schema
                     }
                     catch (Exception ex)
                     {
+                        // ex.Message = "SQL logic error or missing database\r\nno such function: concat"
                         // ex = {"Could not load file or assembly 'System.Data.SQLite, Version=1.0.86.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT:...
                         Console.WriteLine(new { ex.Message, ex.StackTrace });
                         Debugger.Break();

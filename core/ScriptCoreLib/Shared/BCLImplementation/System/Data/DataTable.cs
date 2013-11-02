@@ -32,11 +32,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
             //at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataTable.Merge(__DataTable.java:108)
 
-            Console.WriteLine("Merge");
+            //Console.WriteLine("Merge");
 
             foreach (DataColumn item in table.Columns)
             {
-                Console.WriteLine("Merge " + new { item.ColumnName });
+                //Console.WriteLine("Merge " + new { item.ColumnName });
 
                 if (!this.Columns.Contains(item.ColumnName))
                     this.Columns.Add(item.ColumnName);
@@ -52,7 +52,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
                 {
                     var value = item[c];
 
-                    Console.WriteLine("Merge add " + new { c.ColumnName, value });
+                    //Console.WriteLine("Merge add " + new { c.ColumnName, value });
 
                     r[c.ColumnName] = item[c];
                 }
