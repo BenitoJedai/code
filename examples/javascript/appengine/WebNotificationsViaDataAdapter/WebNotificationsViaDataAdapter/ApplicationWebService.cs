@@ -19,6 +19,25 @@ namespace WebNotificationsViaDataAdapter
     [System.ComponentModel.DesignerCategory("Code")]
     public class ApplicationWebService : Component
     {
+        FooTable rw = new FooTable();
+
+        public Task __FooTable_Insert(FooTable.InsertFoo[] value)
+        {
+            Console.WriteLine("delete");
+            // first delete and then add new content
+            rw.Delete();
+
+            value.WithEach(x =>
+                {
+                    Console.WriteLine("insert " + new { x.delay, x.text });
+
+                    rw.Insert(x);
+                }
+            );
+
+            return "".ToTaskResult();
+        }
+
         public Task<DataTable> __FooTable_Select()
         {
             var ro = ScriptedNotifications.GetDataTable();
@@ -34,36 +53,22 @@ namespace WebNotificationsViaDataAdapter
             if (rw.Rows.Count > 0)
                 merge.Merge(rw);
 
-            return merge.ToTaskResult();
+            // merge with ro data
+            var distinct = merge.DefaultView.ToTable(
+                distinct: true,
+                columnNames: merge.Columns.AsEnumerable().Select(k => k.ColumnName).ToArray()
+            );
+
+            return distinct.ToTaskResult();
         }
 
         public Task<string[]> this[long delayfrom, long delayto]
         {
             get
             {
-                var ro = ScriptedNotifications.GetDataTable();
-
-
-
-                var rw = new FooTable().Select();
-
-                //foo.Insert(
-                //    new FooTableQueries.InsertFoo { delay = 700, text = "text via db" }
-                //);
-
-
-
-                var merge = new DataTable();
-
-                merge.Merge(ro);
-
-                //Additional information: <target>.delay and <source>.delay have conflicting properties: DataType property mismatch.
-
-                if (rw.Rows.Count > 0)
-                    merge.Merge(rw);
+                var merge = __FooTable_Select().Result;
 
                 // !! merge now has a Debug Visualizer, pause here to inspect
-                ////Debugger.Break();
 
                 return Enumerable.ToArray(
                     from row in merge.Rows.AsEnumerable()

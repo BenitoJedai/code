@@ -49,6 +49,8 @@ namespace FormsDataGridViewDeleteRow
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
+            // http://www.codeproject.com/Questions/206915/What-is-the-difference-between-DataTable-DataSet-a
+
             // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewCellValidatingEventArgs.get_ColumnIndex()]
             Console.WriteLine(new { e.ColumnIndex, e.RowIndex });
 

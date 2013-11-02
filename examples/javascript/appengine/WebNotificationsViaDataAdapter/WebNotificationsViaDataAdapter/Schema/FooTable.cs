@@ -13,6 +13,7 @@ namespace WebNotificationsViaDataAdapter.Schema
     {
         public readonly Func<InsertFoo, long> Insert;
         public readonly Func<DataTable> Select;
+        public readonly Action Delete;
 
         public FooTable(string DataSource = "foo.sqlite")
         {
@@ -52,6 +53,20 @@ namespace WebNotificationsViaDataAdapter.Schema
                     new CreateFoo { }.ExecuteNonQuery(c);
                 }
             );
+
+            #region Delete
+            this.Delete = delegate
+            {
+
+                WithConnection(
+                    c =>
+                    {
+                        new Delete().ExecuteNonQuery(c);
+                    }
+                );
+
+            };
+            #endregion
 
             #region Insert
             this.Insert = value =>

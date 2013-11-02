@@ -13,6 +13,28 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         public List<Tuple<DataColumn, object>> InternalData = new List<Tuple<DataColumn, object>>();
 
+        public object this[string column]
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTableDesigner.cs
+
+            set
+            {
+
+                var c = this.InternalData.First(k => k.Item1.ColumnName == column);
+
+                this[c.Item1] = value;
+            }
+
+            get
+            {
+
+                var c = this.InternalData.First(k => k.Item1.ColumnName == column);
+
+                return this[c.Item1];
+            }
+        }
+
         public object this[int column]
         {
 

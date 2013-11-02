@@ -71,14 +71,11 @@ namespace WebNotificationsViaDataAdapter
                    var bc = content.BackColor;
                    zpage.edit.style.backgroundColor = bc.ToString();
 
+                   zpage.edit.style.boxShadow = "black 3px 3px 6px -3px";
+                   zpage.edit.style.borderBottom = "5px solid yellow";
 
-                   var data = await this.__FooTable_Select();
-
-                   await Native.window.requestAnimationFrameAsync;
-
-
-                   content.dataGridView1.DataSource = data;
-
+                   zpage.edit.style.boxShadow = "black 3px 3px 6px -3px";
+                
 
                    return;
                }
