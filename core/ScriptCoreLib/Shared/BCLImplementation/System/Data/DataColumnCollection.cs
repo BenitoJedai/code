@@ -46,6 +46,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             }
         }
 
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataColumnCollection.Contains(System.String)]
+
+        public bool Contains(string c)
+        {
+            return this.InternalList.Any(x => x.ColumnName == c);
+        }
+
         public int IndexOf(DataColumn c)
         {
             // used by
