@@ -18,7 +18,7 @@ namespace WebNotificationsViaDataAdapter.Schema
 
         public FooTable(string DataSource = "foo.sqlite")
         {
-            
+
 
             #region WithConnection
             Action<Action<SQLiteConnection>> WithConnection = y =>
@@ -99,8 +99,9 @@ namespace WebNotificationsViaDataAdapter.Schema
                   c =>
                   {
                       var cmd = new SelectAll().Command(c);
+                      Console.WriteLine("before Fill " + new { cmd });
                       var a = new SQLiteDataAdapter(cmd);
-
+                      Console.WriteLine("before Fill " + new { a.SelectCommand });
                       a.Fill(t);
                   }
                 );

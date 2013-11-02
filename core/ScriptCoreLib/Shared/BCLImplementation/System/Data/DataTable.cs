@@ -30,11 +30,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             // "X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\ApplicationWebService.cs"
 
 
-             //at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataTable.Merge(__DataTable.java:108)
+            //at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataTable.Merge(__DataTable.java:108)
 
+            Console.WriteLine("Merge");
 
             foreach (DataColumn item in table.Columns)
             {
+                Console.WriteLine("Merge " + new { item.ColumnName });
+
                 if (!this.Columns.Contains(item.ColumnName))
                     this.Columns.Add(item.ColumnName);
 
@@ -47,6 +50,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
                 foreach (DataColumn c in table.Columns)
                 {
+                    var value = item[c];
+
+                    Console.WriteLine("Merge add " + new { c.ColumnName, value });
+
                     r[c.ColumnName] = item[c];
                 }
             }

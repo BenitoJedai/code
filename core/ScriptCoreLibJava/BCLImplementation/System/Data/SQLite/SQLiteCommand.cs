@@ -75,6 +75,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                         sql = sql.Replace(p.ParameterName, "?");
                     }
 
+                    Console.WriteLine("InternalCreateStatement " + new { sql });
                     this.InternalPreparedStatement = this.c.InternalConnection.prepareStatement(sql);
 
                     var c = 0;
@@ -145,7 +146,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public __SQLiteParameterCollection InternalParameters;
         public SQLiteParameterCollection Parameters { get; set; }
 
-        public SQLiteDataReader ExecuteReader()
+
+        public override global::System.Data.Common.DbDataReader __DbCommand_ExecuteReader()
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTable.cs
+
+            return this.ExecuteReader();
+        }
+
+        public new SQLiteDataReader ExecuteReader()
         {
             var value = default(SQLiteDataReader);
 
@@ -195,6 +205,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             return value;
         }
 
-     
+
     }
 }

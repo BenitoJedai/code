@@ -13,4 +13,6 @@ FooTableKey INTEGER  NOT NULL  PRIMARY KEY AUTOINCREMENT
 , delay INTEGER 
 , text text not null
 
+
+
 )

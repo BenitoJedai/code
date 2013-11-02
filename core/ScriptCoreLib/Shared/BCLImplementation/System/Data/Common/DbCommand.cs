@@ -10,9 +10,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
     [Script(Implements = typeof(global::System.Data.Common.DbCommand))]
     public abstract class __DbCommand : __Component
     {
-        public virtual DbDataReader ExecuteReader()
+        public virtual DbDataReader __DbCommand_ExecuteReader()
         {
             return null;
+        }
+
+        public DbDataReader ExecuteReader()
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTable.cs
+
+            return __DbCommand_ExecuteReader(); ;
         }
 
         public abstract int ExecuteNonQuery();

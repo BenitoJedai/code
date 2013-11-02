@@ -1,6 +1,9 @@
 ﻿select 
--- we want to merge to our untyped csv dataset that only knows strings now
--- oh and jsc cannot yet serialize typed datatable.. nor typeof, nr generic datatables
-cast( delay as text) as delay, 
+
+-- http://dev.mysql.com/doc/refman/5.0/en/cast-functions.html#function_cast
+-- http://stackoverflow.com/questions/15368753/cast-int-to-varchar
+
+( delay || '') as 'delay', 
 text 
+
  from FooTable

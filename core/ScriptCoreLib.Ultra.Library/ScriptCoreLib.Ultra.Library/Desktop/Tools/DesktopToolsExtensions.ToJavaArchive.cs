@@ -82,7 +82,28 @@ namespace ScriptCoreLib.Desktop.Tools
                 };
 
             if (File.Exists(target))
-                File.Delete(target);
+            {
+                while (true)
+                    try
+                    {
+                        File.Delete(target);
+                        break;
+                    }
+                    catch
+                    {
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131101
+                        if (
+                            MessageBox.Show(
+
+                            "File in use, terminate the process using the file and try again!\n\n" + target,
+                            "jsc", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1
+                        ) == DialogResult.Retry
+                            )
+                            continue;
+
+                        throw;
+                    }
+            }
 
 
             proccess_jar.Start();

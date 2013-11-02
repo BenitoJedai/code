@@ -21,7 +21,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             set
             {
 
-                var c = this.InternalData.First(k => k.Item1.ColumnName == column);
+                var c = this.InternalData.FirstOrDefault(k => k.Item1.ColumnName == column);
+
+                if (c == null)
+                {
+                    this[new DataColumn { ColumnName = column }] = value;
+
+                    return;
+                }
 
                 this[c.Item1] = value;
             }
