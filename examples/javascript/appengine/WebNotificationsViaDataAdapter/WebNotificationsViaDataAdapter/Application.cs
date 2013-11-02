@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -74,11 +75,15 @@ namespace WebNotificationsViaDataAdapter
                    zpage.edit.style.boxShadow = "black 3px 3px 6px -3px";
                    zpage.edit.style.borderBottom = "5px solid yellow";
 
-                   zpage.edit.style.boxShadow = "black 3px 3px 6px -3px";
-                
+                   content.ParentForm.GetHTMLTarget().style.boxShadow = "black 3px 3px 6px -3px";
+
 
                    return;
                }
+
+
+               zpage.edit.style.boxShadow = "";
+               zpage.edit.style.borderBottom = "0px solid yellow";
 
                content.ParentForm.Close();
                content = null;
