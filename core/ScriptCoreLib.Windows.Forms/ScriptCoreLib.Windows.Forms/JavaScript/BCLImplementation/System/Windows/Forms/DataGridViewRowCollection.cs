@@ -14,6 +14,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         public BindingListWithEvents<__DataGridViewRow> InternalItems = new BindingListWithEvents<__DataGridViewRow>();
 
+        public virtual int Add()
+        {
+            var r = new DataGridViewRow();
+
+            return Add(r);
+        }
         public virtual int Add(DataGridViewRow e)
         {
             var x = (__DataGridViewRow)(object)e;

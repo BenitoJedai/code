@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
     [Script(Implements = typeof(global::System.Data.DataRowCollection))]
     public class __DataRowCollection : __InternalDataCollectionBase
     {
+        public __DataTable InternalDataTable;
+
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
         // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationWebService.cs
 
@@ -26,6 +28,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             this.InternalList.AddRange(row);
         }
 
+        public void RemoveAt(int i)
+        {
+            var row = this.InternalList[i];
+
+            this.InternalDataTable.RaiseRowDeleting(
+                this.InternalDataTable,
+                new DataRowChangeEventArgs(row, DataRowAction.Delete)
+            );
+
+            this.InternalList.Remove(row);
+
+
+        }
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRowCollection.RemoveAt(System.Int32)]
 
         public override int Count
         {

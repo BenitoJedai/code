@@ -999,6 +999,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     var Cell = CellAtOffset(0, 1);
 
+
+                                    if (this.InternalBeforeUserDeletedRow != null)
+                                        this.InternalBeforeUserDeletedRow(
+                                            this,
+                                            new DataGridViewRowEventArgs(SourceRow)
+                                        );
+
                                     this.Rows.Remove(SourceRow);
 
                                     if (this.UserDeletedRow != null)
@@ -2019,6 +2026,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event DataGridViewCellEventHandler CellValueChanged;
 
         public event DataGridViewRowEventHandler UserAddedRow;
+
+        public event DataGridViewRowEventHandler InternalBeforeUserDeletedRow;
         public event DataGridViewRowEventHandler UserDeletedRow;
 
         public event EventHandler SelectionChanged;

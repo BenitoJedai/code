@@ -34,9 +34,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
                 return this[c.Item1];
             }
         }
-
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRow.get_Item(System.Int32)]
         public object this[int column]
         {
+            get
+            {
+                return this[this.Table.Columns[column]];
+
+            }
 
             set
             {
