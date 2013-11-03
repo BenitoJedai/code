@@ -40,11 +40,11 @@
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.Green;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(18, 50);
+            this.dataGridView1.Location = new System.Drawing.Point(18, 51);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(552, 269);
+            this.dataGridView1.Size = new System.Drawing.Size(358, 269);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView1_CellValidating);
@@ -63,7 +63,7 @@
             // button1
             // 
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(406, 10);
+            this.button1.Location = new System.Drawing.Point(220, 339);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
@@ -74,7 +74,7 @@
             // save
             // 
             this.save.Enabled = false;
-            this.save.Location = new System.Drawing.Point(487, 10);
+            this.save.Location = new System.Drawing.Point(301, 339);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(75, 23);
             this.save.TabIndex = 2;
@@ -92,7 +92,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "FooTableDesigner";
-            this.Size = new System.Drawing.Size(590, 330);
+            this.Size = new System.Drawing.Size(395, 380);
             this.Load += new System.EventHandler(this.FooTableDesigner_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
