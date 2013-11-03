@@ -175,7 +175,8 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$
 if $(ConfigurationName)==Release (
 start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /xAttachDebugger:true /DisableWebServiceJava:true /DisableWebServiceAndroid:false /FilterTo:$(SolutionDir)
 )
-</PostBuildEvent>
+
+start cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateProjectTemplates</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		</PreBuildEvent>
   </PropertyGroup>
