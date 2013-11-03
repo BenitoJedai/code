@@ -23,6 +23,7 @@ using ScriptCoreLib.Ultra.Studio.StockTypes;
 using TestSolutionBuilderV1.HTML.Pages;
 using TestSolutionBuilderV1.HTML.Images.FromAssets;
 using ScriptCoreLib.JavaScript.Windows.Forms;
+using ScriptCoreLib.JavaScript;
 
 namespace TestSolutionBuilderV1.Views
 {
@@ -1229,7 +1230,37 @@ namespace TestSolutionBuilderV1.Views
             {
                 var _Reference = _References.Add(item);
                 _Reference.IsExpanded = true;
-                _Reference.WithIcon(() => new Assembly());
+
+                if (sln.NuGetReferences.Any(k => k.id == item))
+                {
+                    // nuget pacages are special
+
+                    // cant we have .important rule group?
+                    _Reference.Element.TextArea.css.hover.style.setProperty(
+                        "color", "blue", "important"
+                    );
+
+                    _Reference.Click +=
+                        delegate
+                        {
+                            // go to jsc store
+                            // or id we link up to that other service?
+                            Native.window.open(
+                                "http://my.jsc-solutions.net/#" + item
+                            );
+
+                        };
+
+                    _Reference.WithIcon(() => new MergeAssemblyImage());
+
+                }
+                else
+                {
+                    //_Reference.Element.TextArea.style.color = "gray";
+
+                    _Reference.WithIcon(() => new Assembly());
+
+                }
             }
         }
 

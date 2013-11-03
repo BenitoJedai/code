@@ -11,9 +11,10 @@ using System.Web.UI;
 
 namespace ScriptCoreLib.Ultra.Components
 {
-	internal delegate void StringAction(string e);
+    [Obsolete]
+    internal delegate void StringAction(string e);
 
-
+    [Obsolete]
 	internal sealed class UltraWebService
 	{
 		public void GetTime(string x, StringAction result)

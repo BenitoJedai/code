@@ -154,6 +154,7 @@
     <Compile Include="Views\StudioView.cs" />
     <Content Include="Design\Images\DownloadSDK.png" />
     <Content Include="Design\Images\Glow1.png" />
+    <Content Include="Design\Images\MergeAssemblyImage.png" />
     <Content Include="Design\Images\Spiral.gif" />
     <Content Include="Design\Preview.png" />
   </ItemGroup>

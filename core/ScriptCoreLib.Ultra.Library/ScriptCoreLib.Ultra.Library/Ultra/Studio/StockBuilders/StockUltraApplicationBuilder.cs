@@ -339,6 +339,9 @@ associated with an assembly."
 
             #endregion
 
+
+
+
             #region Application
 
             var ApplicationType = Context.Interactive.ApplicationType;
@@ -358,8 +361,12 @@ associated with an assembly."
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM.HTML");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Components");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Extensions");
+            
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Windows.Forms");
+
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
+
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".Design");
 
