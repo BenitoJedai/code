@@ -21,9 +21,8 @@ namespace SVGGraphExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -148,14 +147,7 @@ namespace SVGGraphExperiment
 
 
                 };
-            // An attempt was made to access a socket in a way forbidden by its access permissions
-
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+    
         }
 
     }

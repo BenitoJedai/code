@@ -16,6 +16,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		// jsc shall ignore img.src and background as it is a placeholder
 		// will not download the referenced source
 		// will not generate types for this image
+        [Obsolete]
 		public const string DataTypeAttribute = "data-jsc-type";
 
 
@@ -56,7 +57,7 @@ namespace ScriptCoreLib.Ultra.Studio
             Initialize();
 
 
-
+            // snippets
 			this.ApplicationYieldToDocumentTitle = new ApplicationYieldToDocumentTitleExpression(this);
 
 			
@@ -75,19 +76,20 @@ namespace ScriptCoreLib.Ultra.Studio
                 Name = "Application",
                 Summary = "Your client side code running inside a web browser as JavaScript.",
 
+                BaseType = this.ApplicationWebServiceType
             };
 
-            this.Application_service = new SolutionProjectLanguageField
-            {
-                FieldType = ApplicationWebServiceType,
-                FieldConstructor = ApplicationWebServiceType.GetDefaultConstructor(),
-                Name = "service",
-                IsReadOnly = true
-            };
+            //this.Application_service = new SolutionProjectLanguageField
+            //{
+            //    FieldType = ApplicationWebServiceType,
+            //    FieldConstructor = ApplicationWebServiceType.GetDefaultConstructor(),
+            //    Name = "service",
+            //    IsReadOnly = true
+            //};
 
-            // we are adding a field. does it show up in the source code later?
-            // SolutionProjectLanguage.WriteType makes it happen!
-            this.ApplicationType.Fields.Add(this.Application_service);
+            //// we are adding a field. does it show up in the source code later?
+            //// SolutionProjectLanguage.WriteType makes it happen!
+            //this.ApplicationType.Fields.Add(this.Application_service);
 
 
             this.ProgramType = new SolutionProjectLanguageType
@@ -130,7 +132,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		}
 
 
-
+        [Obsolete]
         public SolutionProjectLanguageField Application_service;
 
 	}

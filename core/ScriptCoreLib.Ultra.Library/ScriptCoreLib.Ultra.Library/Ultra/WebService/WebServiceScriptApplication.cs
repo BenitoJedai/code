@@ -9,7 +9,9 @@ namespace ScriptCoreLib.Ultra.WebService
 {
     public static class WebApplicationIcon
     {
+        [Obsolete]
         public const string Icon = "assets/ScriptCoreLib/jsc.ico";
+
         public const string Image = "assets/ScriptCoreLib/jsc.png";
     }
 
