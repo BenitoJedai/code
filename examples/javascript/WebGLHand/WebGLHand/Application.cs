@@ -122,37 +122,10 @@ namespace WebGLHand
                 };
             #endregion
 
-
-
-            //#region createShader
-            //Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            //{
-            //    var shader = gl.createShader(src);
-
-            //    // verify
-            //    if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-            //    {
-            //        Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-            //        throw new InvalidOperationException("shader failed");
-            //    }
-
-            //    return shader;
-            //};
-            //#endregion
-
-            #region shaderProgram
             var shaderProgram = gl.createProgram(
                 new GeometryVertexShader(),
                 new GeometryFragmentShader()
             );
-
-            //var vs = createShader(new GeometryVertexShader());
-            //var fs = createShader(new GeometryFragmentShader());
-
-
-            //gl.attachShader(shaderProgram, vs);
-            //gl.attachShader(shaderProgram, fs);
-
 
             gl.linkProgram(shaderProgram);
             gl.useProgram(shaderProgram);
@@ -167,7 +140,6 @@ namespace WebGLHand
 
             var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
             var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-            #endregion
 
 
 
