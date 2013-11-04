@@ -22,6 +22,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using DropFileIntoSQLite.Library;
 using ScriptCoreLib.Library;
+using System.Data;
 
 namespace DropFileIntoSQLite
 {
@@ -127,28 +128,30 @@ namespace DropFileIntoSQLite
                         // X:\jsc.svn\examples\javascript\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile\Application.cs
 
                         evt.dataTransfer.items.AsEnumerable().Where(
-                            x => x.type == "jsc/datatable"
-                        ).WithEach(
                             x =>
+
+                                x.type.ToLower() ==
+
+                                // let jsc type system sort it out?
+                                // how much reflection does jsc give us nowadays?
+                                typeof(DataTable).Name.ToLower()
+
+                        ).WithEach(
+                            async x =>
                             {
                                 // http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dfnReturnLink-0
-                                x.getAsString(
-                                    new Action<string>(
-                                        DataTable_xml =>
-                                        {
-                                            var DataTable = StringConversionsForDataTable.ConvertFromString(DataTable_xml);
+                                var DataTable_xml = await x.getAsString();
 
-                                            var ff = new Form { Text = x.type };
+                                var DataTable = StringConversionsForDataTable.ConvertFromString(DataTable_xml);
 
-                                            var g = new DataGridView { DataSource = DataTable, Dock = DockStyle.Fill };
+                                var ff = new Form { Text = new { typeof(DataTable).Name }.ToString() };
 
-                                            ff.Controls.Add(g);
+                                var g = new DataGridView { DataSource = DataTable, Dock = DockStyle.Fill };
+
+                                ff.Controls.Add(g);
 
 
-                                            ff.Show();
-                                        }
-                                    )
-                                );
+                                ff.Show();
 
                             }
                         );

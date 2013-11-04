@@ -104,7 +104,14 @@ namespace DragDataTableIntoCSVFile
                               // X:\jsc.svn\examples\javascript\DropFileIntoSQLite\DropFileIntoSQLite\Application.cs
                               e.dataTransfer.effectAllowed = "copy";
 
-                              e.dataTransfer.setData("jsc/datatable", DataTable_xml);
+                              e.dataTransfer.setData(
+
+                                   typeof(DataTable).Name
+                                  //"jsc/datatable"
+                                    ,
+                                    DataTable_xml
+
+                              );
 
                               //                              ondragover: { types = 1, items = 1, files = 0 }
                               // view-source:29615
