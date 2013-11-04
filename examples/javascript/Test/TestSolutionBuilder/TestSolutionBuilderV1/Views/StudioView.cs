@@ -225,6 +225,19 @@ namespace TestSolutionBuilderV1.Views
             var items = new StockToolboxTabsForHTMLDocument();
 
             // jsc market components
+
+            vv.Add(
+             new SolutionToolboxListViewTab
+             {
+                 DataType = "DataTable",
+
+                 Name = "DataTable",
+                 Title = "DataTable",
+                 Text = "DataTable",
+                 Icon = new DataTableImage()
+             }
+          );
+
             vv.Add(
                 new SolutionToolboxListViewTab
                 {
