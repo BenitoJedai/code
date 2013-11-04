@@ -25,17 +25,16 @@ interface DataTransferItemList {
   DataTransferItem? add(File data);
 };
 
+// http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dfnReturnLink-0
 interface DataTransferItem {
   readonly attribute DOMString kind;
   readonly attribute DOMString type;
-  void getAsString(FunctionStringCallback? _callback);
+  void getAsString(function<string> callback);
   File? getAsFile();
 };
 
-[Callback, NoInterfaceObject]
-interface FunctionStringCallback {
-  void handleEvent(DOMString data);
-};
+
+
 
 [Constructor(DOMString type)]
 interface DragEvent : MouseEvent {
