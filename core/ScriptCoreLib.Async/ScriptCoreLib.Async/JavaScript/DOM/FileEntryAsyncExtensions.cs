@@ -9,6 +9,22 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     public static class FileEntryAsyncExtensions
     {
+        public static Task<string> getAsString(this DataTransferItem x)
+        {
+            var y = new TaskCompletionSource<string>();
+
+
+            x.getAsString(
+                new Action<string>(
+                    value =>
+                    {
+                        y.SetResult(value);
+                    }
+                )
+            );
+
+            return y.Task;
+        }
 
         public static Task<File> file(this FileEntry f)
         {
