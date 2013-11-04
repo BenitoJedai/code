@@ -21,6 +21,7 @@ using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using DropFileIntoSQLite.Library;
+using ScriptCoreLib.Library;
 
 namespace DropFileIntoSQLite
 {
@@ -53,11 +54,29 @@ namespace DropFileIntoSQLite
 
                     page.Header.style.color = JSColor.Green;
 
-                    Console.WriteLine("ondragover: " + new
+
+                    var types = evt.dataTransfer.types == null ? 0 : evt.dataTransfer.types.Length;
+
+                    if (evt.dataTransfer.types != null)
+                        foreach (var type in evt.dataTransfer.types.AsEnumerable())
+                        {
+                            Console.WriteLine(
+                                new { type }
+                                );
+                        }
+
+                    var items = evt.dataTransfer.items == null ? 0u : evt.dataTransfer.items.length;
+                    var files = evt.dataTransfer.files == null ? 0u : evt.dataTransfer.files.length;
+
+
+
+                    Console.WriteLine("ondragover: " +
+                        new
                         {
 
-                            types = evt.dataTransfer.types.Length,
-                            files = evt.dataTransfer.files.length
+                            types,
+                            items,
+                            files
                         }
                     );
                 };
@@ -75,16 +94,80 @@ namespace DropFileIntoSQLite
                     //if (evt.dataTransfer == null)
                     //    return;
 
+                    var types = evt.dataTransfer.types == null ? 0 : evt.dataTransfer.types.Length;
+
+                    var items = evt.dataTransfer.items == null ? 0u : evt.dataTransfer.items.length;
+                    var files = evt.dataTransfer.files == null ? 0u : evt.dataTransfer.files.length;
+
+
+                    Console.WriteLine("ondrop: " +
+                        new
+                        {
+
+                            types,
+                            items,
+                            files
+                        }
+                    );
 
 
                     page.Header.style.color = JSColor.None;
 
 
+                    var xfiles = evt.dataTransfer.files.AsEnumerable().Concat(
+                        from x in evt.dataTransfer.items.AsEnumerable()
+                        let f = x.getAsFile()
+                        where f != null
+                        select f
+                    );
+
+
+                    if (evt.dataTransfer.items != null)
+                    {
+                        // X:\jsc.svn\examples\javascript\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile\Application.cs
+
+                        evt.dataTransfer.items.AsEnumerable().Where(
+                            x => x.type == "jsc/datatable"
+                        ).WithEach(
+                            x =>
+                            {
+                                // http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dfnReturnLink-0
+                                x.getAsString(
+                                    new Action<string>(
+                                        DataTable_xml =>
+                                        {
+                                            var DataTable = StringConversionsForDataTable.ConvertFromString(DataTable_xml);
+
+                                            var ff = new Form { Text = x.type };
+
+                                            var g = new DataGridView { DataSource = DataTable, Dock = DockStyle.Fill };
+
+                                            ff.Controls.Add(g);
+
+
+                                            ff.Show();
+                                        }
+                                    )
+                                );
+
+                            }
+                        );
+                    }
 
                     #region files
-                    evt.dataTransfer.files.AsEnumerable().WithEachIndex(
+                    xfiles.WithEachIndex(
                         (f, index) =>
                         {
+                            Console.WriteLine(
+                                new
+                                {
+
+                                    f.name,
+                                    f.size,
+                                    f.lastModifiedDate
+                                }
+                            );
+
                             var ff = new Form();
                             ff.PopupInsteadOfClosing(HandleFormClosing: false);
 
@@ -465,6 +548,11 @@ d();
     public static class X
     {
         public static IEnumerable<File> AsEnumerable(this FileList f)
+        {
+            return Enumerable.Range(0, (int)f.length).Select(k => f[(uint)k]);
+        }
+
+        public static IEnumerable<DataTransferItem> AsEnumerable(this DataTransferItemList f)
         {
             return Enumerable.Range(0, (int)f.length).Select(k => f[(uint)k]);
         }

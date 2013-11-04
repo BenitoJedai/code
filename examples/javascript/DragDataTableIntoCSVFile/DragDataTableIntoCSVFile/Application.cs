@@ -17,6 +17,7 @@ using DragDataTableIntoCSVFile.Design;
 using DragDataTableIntoCSVFile.HTML.Pages;
 using System.Windows.Forms;
 using System.Data;
+using ScriptCoreLib.Library;
 
 namespace DragDataTableIntoCSVFile
 {
@@ -39,6 +40,10 @@ namespace DragDataTableIntoCSVFile
                 async delegate
                 {
                     var DataTable = await this.DoEnterData();
+                    var DataTable_xml = StringConversionsForDataTable.ConvertToString(
+                                        DataTable
+                                    );
+
 
                     var grid = new DataGridView { DataSource = DataTable };
 
@@ -69,7 +74,7 @@ namespace DragDataTableIntoCSVFile
                     page.x.download = page.x.title;
 
                     // hide the fact, we are actually using <a>
-                    page.x.Hide();
+                    //page.x.Hide();
 
                     //var iframe = new IHTMLIFrame { name = "y" }.AttachToDocument();
                     //page.x.target = iframe.name;
@@ -92,7 +97,21 @@ namespace DragDataTableIntoCSVFile
                     page.Csv.ondragstart +=
                           e =>
                           {
+                              // public void addElement(IHTMLElement element);
+                              //e.dataTransfer.addElement(
+                              // http://help.dottoro.com/ljxfefku.php
 
+                              // X:\jsc.svn\examples\javascript\DropFileIntoSQLite\DropFileIntoSQLite\Application.cs
+                              e.dataTransfer.effectAllowed = "copy";
+
+                              e.dataTransfer.setData("jsc/datatable", DataTable_xml);
+
+                              //                              ondragover: { types = 1, items = 1, files = 0 }
+                              // view-source:29615
+                              //{ type = jsc/datatable } 
+
+
+                              // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer#setData.28.29
                               e.dataTransfer.setDownloadURL(
                                  page.x.title,
                                   Encoding.UTF8.GetBytes(csv.ToString())
