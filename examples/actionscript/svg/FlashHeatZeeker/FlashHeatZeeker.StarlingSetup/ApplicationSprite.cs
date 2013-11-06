@@ -4,6 +4,24 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
+
+
+
+// wtf. why are we getting missing references?
+// X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.StarlingSetup\ApplicationSprite.cs
+// this project has dependency on 
+// "X:\jsc.svn\market\synergy\starling\starling\bin\staging.AssetsLibrary\starling.AssetsLibrary.dll"
+// which has the swc embedded yet no flash natives.
+// where are they?
+// 213KB
+// "X:\jsc.svn\market\synergy\starling\starling\bin\staging.AssetsLibrary\output.swc\starling.AssetsLibrary.swc.dll"
+// so has a final merge failed?
+// a clean rebuild restores it
+// so at what point will we loose it?
+// doing a clean? no
+
+//Additional information: Could not load file or assembly 'net.hires.debug, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+
 using starling.core;
 using starling.text;
 using starling.utils;

@@ -9,6 +9,7 @@ using System;
 
 namespace FlashHeatZeeker.CorePhysics
 {
+    [Obsolete("jsc should check nuget dependencies!")]
     [SWF(backgroundColor = 0xA26D41)]
     public sealed class ApplicationSprite : Sprite
     {
