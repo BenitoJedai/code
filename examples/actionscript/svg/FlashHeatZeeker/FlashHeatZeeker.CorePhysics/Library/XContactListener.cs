@@ -1,4 +1,13 @@
-﻿using Box2D.Collision;
+﻿
+// wtf
+// X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.CorePhysics\Library\XContactListener.cs
+// box2dflash dependency set?
+// yes
+// 168KB
+// "X:\jsc.svn\market\synergy\box2dflash\box2dflash\bin\staging.AssetsLibrary\box2dflash.AssetsLibrary.dll"
+// again, jsc why did you build us assetslibrary without swc?
+// 220 KB
+using Box2D.Collision;
 using Box2D.Dynamics;
 using Box2D.Dynamics.Contacts;
 using System;
