@@ -72,10 +72,10 @@ namespace HeatZeeker
                 //page.wings.style.transform = " rotate(" + r + "deg)";
                 h.wings.style.transform = " rotate(" + r + "deg)";
 
-                Native.Window.requestAnimationFrame += loop;
+                Native.window.requestAnimationFrame += loop;
             };
 
-            Native.Window.requestAnimationFrame += loop;
+            Native.window.requestAnimationFrame += loop;
 
 
             var tween_worldrotation = NumericEmitter.OfDouble(
