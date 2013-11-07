@@ -25,13 +25,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 e =>
                 {
 
-                    if (SelectedIndexChanged != null)
-                        SelectedIndexChanged(this, new EventArgs());
+                    RaiseSelectedIndexChanged();
                 };
 
             this.Items = new __ObjectCollection { Owner = this };
 
             this.InternalSetDefaultFont();
+        }
+
+        private void RaiseSelectedIndexChanged()
+        {
+            if (SelectedIndexChanged != null)
+                SelectedIndexChanged(this, new EventArgs());
         }
 
         public override IHTMLElement HTMLTargetRef
@@ -52,6 +57,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 HTMLTarget.disabled = !value;
             }
+        }
+
+        public override void InternalSetSelectedIndex(int value)
+        {
+            this.HTMLTarget.selectedIndex = value;
+
+            RaiseSelectedIndexChanged();
+        }
+
+        public override int InternalGetSelectedIndex()
+        {
+            return this.HTMLTarget.selectedIndex;
         }
 
         public override string Text

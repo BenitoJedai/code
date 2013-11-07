@@ -101,6 +101,7 @@
     <Compile Include="JavaScript\DOM\FileEntry.cs" />
     <Compile Include="JavaScript\DOM\Storage.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataTableCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataView.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRowChangeEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRowChangeEventArgs.cs" />
