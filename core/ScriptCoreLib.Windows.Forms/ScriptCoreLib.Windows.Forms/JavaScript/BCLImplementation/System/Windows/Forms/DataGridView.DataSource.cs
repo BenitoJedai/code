@@ -14,6 +14,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event EventHandler DataSourceChanged;
 
+        // X:\jsc.svn\examples\javascript\Forms\FormsDataSet\FormsDataSet\ApplicationControl.cs
+        public string InternalDataMember;
+        public string DataMember
+        {
+            get
+            {
+
+                return InternalDataMember;
+            }
+            set
+            {
+                this.InternalDataMember = value;
+
+                this.InternalSetDataSource(
+                    this.InternalDataSource
+                );
+            }
+        }
+
+
         public object InternalDataSource;
         public object InternalDataSourceSync;
 
@@ -41,6 +61,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.InternalDataSource = value;
 
+
+
+
+
+
+
             this.Rows.Clear();
 
             if (value == null)
@@ -51,64 +77,81 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return;
             }
 
-            #region DataTable
             var SourceDataTable = value as DataTable;
-            if (SourceDataTable != null)
+
+            #region InternalDataMember
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131107/assetslibrary
+            var SourceDataSet = value as DataSet;
+            if (SourceDataSet != null)
             {
-                // now what?
-
-                // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
-                // http://stackoverflow.com/questions/6902269/moving-data-from-datatable-to-datagridview-in-c-sharp
-
-
-                while (this.Columns.Count > SourceDataTable.Columns.Count)
-                    this.Columns.RemoveAt(this.Columns.Count - 1);
-
-
-                var cIndex = 0;
-                foreach (DataColumn item in SourceDataTable.Columns)
+                foreach (DataTable item in SourceDataSet.Tables)
                 {
-                    if (cIndex < this.Columns.Count)
+                    if (item.TableName == this.InternalDataMember)
                     {
+                        SourceDataTable = item;
                     }
-                    else
-                    {
-                        this.Columns.Add(
-                            new DataGridViewColumn
-                            {
-                            }
-                        );
-                    }
-
-                    this.Columns[cIndex].HeaderText = item.ColumnName;
-                    this.Columns[cIndex].ReadOnly = item.ReadOnly;
-
-                    cIndex++;
                 }
-
-                foreach (DataRow item in SourceDataTable.Rows)
-                {
-                    var r = new DataGridViewRow();
-
-                    foreach (DataColumn c in SourceDataTable.Columns)
-                    {
-                        var cc = new DataGridViewTextBoxCell
-                        {
-                            // two way binding?
-                            //ReadOnly = true,
-
-                            Value = item[c]
-                        };
-
-
-                        r.Cells.Add(cc);
-                    }
-
-                    this.Rows.Add(r);
-                }
-
             }
             #endregion
+
+
+            if (SourceDataTable == null)
+            {
+                return;
+            }
+
+            // now what?
+
+            // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
+            // http://stackoverflow.com/questions/6902269/moving-data-from-datatable-to-datagridview-in-c-sharp
+
+
+            while (this.Columns.Count > SourceDataTable.Columns.Count)
+                this.Columns.RemoveAt(this.Columns.Count - 1);
+
+
+            var cIndex = 0;
+            foreach (DataColumn item in SourceDataTable.Columns)
+            {
+                if (cIndex < this.Columns.Count)
+                {
+                }
+                else
+                {
+                    this.Columns.Add(
+                        new DataGridViewColumn
+                        {
+                        }
+                    );
+                }
+
+                this.Columns[cIndex].HeaderText = item.ColumnName;
+                this.Columns[cIndex].ReadOnly = item.ReadOnly;
+
+                cIndex++;
+            }
+
+            foreach (DataRow item in SourceDataTable.Rows)
+            {
+                var r = new DataGridViewRow();
+
+                foreach (DataColumn c in SourceDataTable.Columns)
+                {
+                    var cc = new DataGridViewTextBoxCell
+                    {
+                        // two way binding?
+                        //ReadOnly = true,
+
+                        Value = item[c]
+                    };
+
+
+                    r.Cells.Add(cc);
+                }
+
+                this.Rows.Add(r);
+            }
+
 
             //Console.WriteLine("add CellValueChanged ");
 
