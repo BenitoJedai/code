@@ -93,7 +93,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                      s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
                      //var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
-                     var x = new AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDragWithShadow().AttachTo(s.Context.GetHTMLTarget());
                  };
 
 

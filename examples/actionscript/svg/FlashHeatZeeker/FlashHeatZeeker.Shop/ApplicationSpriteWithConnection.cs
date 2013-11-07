@@ -286,6 +286,13 @@ namespace FlashHeatZeeker.Shop
             );
         }
 
+        // wtf. why is the ref missing?
+        // it is missing any swc.
+        // X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.Shop\ApplicationSpriteWithConnection.cs
+        // why?
+        // 23 KB
+        // "X:\jsc.svn\market\synergy\PlayerIO.GameLibrary\PlayerIO.GameLibrary\bin\staging.AssetsLibrary\PlayerIO.GameLibrary.AssetsLibrary.dll"
+        // was jsc a partial build and then messed up the cache?
         public static global::playerio.Client CurrentClient;
         public static string __gameid = "test-4jazuo9jw0qx0cye9ihrqg";
     }

@@ -51,26 +51,26 @@ namespace AvalonBrowserLogos
 
             bool OtherView = false;
 
-            new { b.step }.With(
-                x =>
-                {
-                    var counter = 0;
+            //new { b.step }.With(
+            //    x =>
+            //    {
+            //        var counter = 0;
 
-                    (1000 / 60).AtIntervalWithTimer(
-                        speedboost =>
-                        {
-                            counter++;
+            //        (1000 / 60).AtIntervalWithTimer(
+            //            speedboost =>
+            //            {
+            //                counter++;
 
-                            b.step = x.step * (1 + counter * 0.1);
+            //                b.step = x.step * (1 + counter * 0.1);
 
-                            if (counter == 60 * 2)
-                                speedboost.Stop();
+            //                if (counter == 60 * 2)
+            //                    speedboost.Stop();
 
-                        }
-                    );
+            //            }
+            //        );
 
-                }
-            );
+            //    }
+            //);
 
             Action ChooseView =
                 delegate

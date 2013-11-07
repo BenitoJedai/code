@@ -5,9 +5,9 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "exceldatareader", "exceldatareader\exceldatareader.csproj", "{20F6E352-3D48-423B-B6DF-C09D4EAE5336}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Excel", "..\..\..\..\..\opensource\codeplex\exceldatareader\Excel\Excel.csproj", "{4CB0690E-3E7A-497C-9116-D52024F63195}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{10AFAA11-4973-49F7-80ED-BEB0E55E8367}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Excel", "external\Excel\Excel.csproj", "{4CB0690E-3E7A-497C-9116-D52024F63195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

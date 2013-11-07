@@ -36,6 +36,7 @@ namespace TestSolutionBuilderV1
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region 2013
             FormStyler.AtFormCreated = s =>
                      {
                          // border> 8E9BBC
@@ -59,6 +60,8 @@ namespace TestSolutionBuilderV1
                          s.Caption.style.backgroundColor = JSColor.FromRGB(77, 96, 130);
                          s.CaptionShadow.style.backgroundColor = JSColor.FromRGB(77, 96, 130);
                      };
+            #endregion
+
 
 
             #region ChromeTCPServer
