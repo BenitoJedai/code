@@ -121,6 +121,8 @@
     <Compile Include="Library\Analytics\StatCounterUriBuilder.cs" />
     <Compile Include="Library\StringConversions.StringArray.cs" />
     <Compile Include="Library\StringConversions.cs" />
+    <Compile Include="Library\StringConversionsForDataSet.cs" />
+    <Compile Include="Library\StringConversionsForDataTable.cs" />
     <Compile Include="Library\ToTouchEvents.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
     <Compile Include="Desktop\Compiler\ISWCNativeTypeBuilder.cs" />
