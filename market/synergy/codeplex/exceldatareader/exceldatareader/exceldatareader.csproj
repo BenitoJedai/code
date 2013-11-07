@@ -5,14 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{114BFC73-7AFD-4FB5-9D7A-F10048D7B55F}</ProjectGuid>
+    <ProjectGuid>{20F6E352-3D48-423B-B6DF-C09D4EAE5336}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WithExcel</RootNamespace>
-    <AssemblyName>WithExcel</AssemblyName>
+    <RootNamespace>exceldatareader</RootNamespace>
+    <AssemblyName>exceldatareader</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WithExcel.Program</StartupObject>
+    <StartupObject>exceldatareader.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,9 +37,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Excel by codeplex">
-      <HintPath>..\packages\Excel.1.0.0.0\lib\Excel by codeplex.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -116,46 +114,32 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WithExcel.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WithExcel.AssetsLibrary.dll</HintPath>
+    <Reference Include="exceldatareader.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\exceldatareader.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ApplicationControl.Designer.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ApplicationWebService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ApplicationWebService.Designer.cs">
-      <DependentUpon>ApplicationWebService.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Application.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Book1.xlsx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\external\Excel\Excel.csproj">
+      <Project>{4cb0690e-3e7a-497c-9116-d52024f63195}</Project>
+      <Name>Excel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-if $(ConfigurationName)==Release (
-rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
-)</PostBuildEvent>
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /AssemblyMerge:Excel.dll /AssemblyMerge:ICSharpCode.SharpZipLib.dll /OutputDirectory:C:\util\jsc\nuget /PackageID:"Excel" /OutputName:"Excel by codeplex"</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
-		</PreBuildEvent>
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>

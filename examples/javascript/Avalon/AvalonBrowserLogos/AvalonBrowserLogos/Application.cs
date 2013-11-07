@@ -32,7 +32,7 @@ namespace AvalonBrowserLogos
         public Application(IDefault page)
         {
             // jsc, can we switch avalon renderer to threejs or starling?
-            content.AttachToContainer(Native.Document.body);
+            content.AttachToContainer(Native.document.body);
 
             Native.window.onresize +=
                 delegate
