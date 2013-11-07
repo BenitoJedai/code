@@ -148,7 +148,12 @@ var PointerLockControls = function (camera, cannonBody) {
         }
 
         // Convert velocity to world coordinates
-        quat.setFromEuler({ x: pitchObject.rotation.x, y: yawObject.rotation.y, z: 0 }, "XYZ");
+        quat.setFromEuler(
+            new THREE.Euler (pitchObject.rotation.x, yawObject.rotation.y, 0
+            )
+        );
+
+            //{ x: pitchObject.rotation.x, y: yawObject.rotation.y, z: 0 }, "XYZ");
         //inputVelocity.applyQuaternion(quat);
         //quat.multiplyVector3(inputVelocity);
 
