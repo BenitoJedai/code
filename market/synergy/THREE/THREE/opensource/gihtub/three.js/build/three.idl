@@ -116,12 +116,12 @@ interface THREE.PerspectiveCamera :  THREE.Camera
 };
 
 [Constructor()]
-interface THREE.Scene 
+interface THREE.Scene  : THREE.Object3D
 { 
 	attribute any         fog;
 	//attribute THREE.Fog         fog;
 
-	attribute THREE.Vector3  position;
+	//attribute THREE.Vector3  position;
 
 
 
@@ -330,6 +330,9 @@ interface THREE.Object3D
 	attribute THREE.Matrix4  matrix;
 	attribute THREE.Matrix4  matrixWorld;
 
+
+
+	attribute THREE.Vector3  scale;
 	attribute THREE.Vector3  position;
 	attribute THREE.Vector3  rotation;
 	attribute THREE.Quaternion  quaternion;
