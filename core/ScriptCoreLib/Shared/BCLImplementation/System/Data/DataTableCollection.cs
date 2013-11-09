@@ -29,5 +29,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         {
             return (DataTableCollection)(object)e;
         }
+
+        public DataTable this[string name]
+        {
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\WebGL\WebGLGoldDropletTransactions\WebGLGoldDropletTransactions\Application.cs
+
+                return this.InternalList.FirstOrDefault(k => k.TableName == name);
+            }
+        }
     }
 }

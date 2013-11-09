@@ -110,6 +110,9 @@
     <Reference Include="THREE">
       <HintPath>..\packages\THREE.1.0.0.0\lib\THREE.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLClouds">
+      <HintPath>..\packages\WebGLClouds.1.0.0.0\lib\WebGLClouds.dll</HintPath>
+    </Reference>
     <Reference Include="WebGLOBJExperiment">
       <HintPath>..\packages\WebGLOBJExperiment.1.0.0.0\lib\WebGLOBJExperiment.dll</HintPath>
     </Reference>
@@ -135,6 +138,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\DropZone.htm" />
     <None Include="Data\Book1.xlsx" />
     <None Include="packages.config" />
   </ItemGroup>

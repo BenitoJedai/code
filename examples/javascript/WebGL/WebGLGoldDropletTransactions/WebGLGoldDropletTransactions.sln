@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLOBJExperiment", "..\We
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{A7926510-AF85-43C3-AA0A-9BA5B3057349}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLClouds", "..\..\WebGLClouds\WebGLClouds\WebGLClouds.csproj", "{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragDataTableIntoCSVFile", "..\..\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile.csproj", "{E5BE3126-E036-4D47-A273-E90B86326471}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -23,11 +27,21 @@ Global
 		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC}.Debug|x86.Build.0 = Debug|x86
 		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC}.Release|x86.ActiveCfg = Release|x86
 		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC}.Release|x86.Build.0 = Release|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|x86.ActiveCfg = Debug|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|x86.Build.0 = Debug|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|x86.ActiveCfg = Release|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|x86.Build.0 = Release|x86
+		{E5BE3126-E036-4D47-A273-E90B86326471}.Debug|x86.ActiveCfg = Debug|x86
+		{E5BE3126-E036-4D47-A273-E90B86326471}.Debug|x86.Build.0 = Debug|x86
+		{E5BE3126-E036-4D47-A273-E90B86326471}.Release|x86.ActiveCfg = Release|x86
+		{E5BE3126-E036-4D47-A273-E90B86326471}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC} = {A7926510-AF85-43C3-AA0A-9BA5B3057349}
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318} = {A7926510-AF85-43C3-AA0A-9BA5B3057349}
+		{E5BE3126-E036-4D47-A273-E90B86326471} = {A7926510-AF85-43C3-AA0A-9BA5B3057349}
 	EndGlobalSection
 EndGlobal
