@@ -158,7 +158,9 @@ namespace WebGLGoldDropletTransactions
                             SelectionBackColor = Color.Black,
                             SelectionForeColor = Color.Yellow,
 
-                            BackColor = Color.Transparent
+                            //BackColor = Color.Transparent
+                            //BackColor = Color.FromArgb(0x05, 0, 0, 0)
+                            BackColor = Color.FromArgb(0x4f, 255, 255, 255)
                         },
 
 
@@ -260,6 +262,7 @@ namespace WebGLGoldDropletTransactions
 
             // "X:\jsc.svn\examples\javascript\DropFileIntoSQLite\DropFileIntoSQLite.sln"
             // X:\jsc.svn\examples\javascript\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile\Application.cs
+            #region ondragstart
             page.header.ondragstart +=
                 e =>
                 {
@@ -296,6 +299,8 @@ namespace WebGLGoldDropletTransactions
                     );
 
                 };
+            #endregion
+
 
             // X:\jsc.svn\market\javascript\Abstractatech.JavaScript.FileStorage\Abstractatech.JavaScript.FileStorage\Application.cs
             var dz = new DropZone();
@@ -308,6 +313,7 @@ namespace WebGLGoldDropletTransactions
                   }
               );
 
+            #region ondragover
             Action<DragEvent> ondragover =
                 evt =>
                 {
@@ -334,6 +340,7 @@ namespace WebGLGoldDropletTransactions
 
             Native.Document.body.ondragover += ondragover;
             dz.Container.ondragover += ondragover;
+            #endregion
 
 
 
@@ -386,6 +393,7 @@ namespace WebGLGoldDropletTransactions
                 };
 
 
+            #region ondrop
             dz.Container.ondrop +=
                 evt =>
                 {
@@ -433,6 +441,8 @@ namespace WebGLGoldDropletTransactions
                         );
                     }
                 };
+            #endregion
+
 
         }
 

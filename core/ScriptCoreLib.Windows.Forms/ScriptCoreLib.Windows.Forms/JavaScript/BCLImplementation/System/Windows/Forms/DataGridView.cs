@@ -43,8 +43,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
         // we do not yet use it.. needs to be tested
+        // used for
+        // SelectionBackColor
+        // tested by
+        // X:\jsc.svn\examples\javascript\Forms\FormsGridCellStyle\FormsGridCellStyle\Application.cs
         public DataGridViewCellStyle DefaultCellStyle { get; set; }
+
         public DataGridViewCellStyle ColumnHeadersDefaultCellStyle { get; set; }
+
         public DataGridViewCellStyle RowHeadersDefaultCellStyle { get; set; }
 
         public Action<int> InternalAutoResizeColumn;
@@ -87,6 +93,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //Console.WriteLine("__DataGridView");
 
             this.DefaultCellStyle = new DataGridViewCellStyle();
+            this.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle();
 
 
             this.InternalColumns = new __DataGridViewColumnCollection();
@@ -496,10 +503,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     SourceCell.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
-                    //if (SourceCell.ColumnIndex == 0)
-                    //    SourceCell.InternalTableColumn.style.backgroundColor = JSColor.Cyan;
-                    //else
-                    SourceCell.InternalTableColumn.style.backgroundColor = JSColor.System.Window;
+
 
                     // this wont work if we have multiple datagrids
                     // can we have a test for it?
@@ -513,7 +517,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.style.height = (SourceRow.Height - 1) + "px";
                     SourceCell.InternalContentContainer.style.font = DefaultFont.ToCssString();
 
-                    SourceCell.InternalTableColumn.style.borderBottom = "1px solid gray";
+                    SourceCell.InternalTableColumn.style.borderBottom = "1px solid rgba(0,0,0, 0.4)";
+
+
+
+                    // should we clone? 
+                    {
+                        var BackColor = this.DefaultCellStyle.BackColor;
+                        SourceCell.InternalStyle.InternalBackColor = BackColor;
+                    }
+
 
 
                     if (SourceRow.Index % 2 == 1)
@@ -650,6 +663,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             SourceCell.InternalContentContainer.Orphanize();
 
                             var EditElement = new IHTMLInput(Shared.HTMLInputTypeEnum.text);
+
+                            EditElement.style.backgroundColor = "transparent";
 
                             EditElement.style.font = this.Font.ToCssString();
 
@@ -1164,6 +1179,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                     SourceCell.InternalContentContainer.style.backgroundColor = SourceCell.InternalStyle.InternalBackColor.ToString();
 
+                    SourceCell.InternalTableColumn.style.backgroundColor = SourceCell.InternalStyle.InternalBackColor.ToString();
+
 
                     if (SourceCell.InternalStyle.Alignment == DataGridViewContentAlignment.MiddleRight)
                         SourceCell.InternalContentContainer.style.textAlign = IStyle.TextAlignEnum.right;
@@ -1312,6 +1329,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c1contentclight.style.height = "10px";
 
                     c1contentclight.style.backgroundColor = JSColor.White;
+
+
+
 
 
                     var c1contentc = new IHTMLDiv { }.AttachTo(c1contentcrel);
@@ -1686,7 +1706,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var c1 = new IHTMLDiv().AttachTo(c1contentcrel);
                     c1.style.position = IStyle.PositionEnum.absolute;
+
                     c1.style.backgroundColor = JSColor.White;
+
+
                     c1.style.left = "0";
                     c1.style.top = "0";
                     c1.style.width = "6px";
@@ -1809,6 +1832,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
+            #region ClientSizeChanged
+            // whatif we are in autosize mode?
             this.ClientSizeChanged +=
                 delegate
                 {
@@ -1822,6 +1847,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             };
                     }
                 };
+            #endregion
 
 
             #region InternalRows

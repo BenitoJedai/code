@@ -20,8 +20,16 @@
 
         <p>You can use your mouse to drag one of the bags above to any of the tabs running this app.</p>
 
+        <style>
+            .foo {
+                border-right: 2px solid rgba(255,255,255,0.3);
+                border-bottom: 2px solid rgba(255,255,255,0.3);
+                border-left: 2px solid rgba(0,0,0,0.3);
+                border-top: 2px solid rgba(0,0,0,0.3);
+            }
+        </style>
         <h1>Assets</h1>
-        <div id="assets" style="border: 1px solid yellow;">
+        <div id="assets" class="foo">
             <textarea rows="20" style="width: 100%; min-width: 100%;  max-width: 100%; ">
                 datagrid for gold inventory data table
             </textarea>
@@ -30,7 +38,7 @@
         <hr />
 
         <h1>Transactions</h1>
-        <div id="transactions" style="border: 1px solid yellow;">
+        <div id="transactions" class="foo">
             <textarea rows="40" style="width: 100%; min-width: 100%;  max-width: 100%; ">
                 datagrid for gold transactions data table
             </textarea>
