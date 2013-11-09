@@ -128,6 +128,8 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="opensource\gihtub\three.js\build\!References.htm" />
+    <Content Include="opensource\gihtub\three.js\build\three.OBJLoader.idl" />
+    <Content Include="opensource\gihtub\three.js\build\three.OBJLoader.js" />
     <Content Include="opensource\gihtub\three.js\build\three.CSS3DRenderer.idl" />
     <Content Include="opensource\gihtub\three.js\build\three.CSS3DRenderer.js" />
     <Content Include="opensource\gihtub\three.js\build\three.FirstPersonControls.idl" />
