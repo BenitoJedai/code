@@ -23,11 +23,37 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             this.InternalList.Add(row);
         }
 
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRowCollection.Add(System.Object[])]
+        public DataRow Add(object[] x)
+        {
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLGoldDropletTransactions\WebGLGoldDropletTransactions\Application.cs
+
+            var row = this.InternalDataTable.NewRow();
+            this.InternalList.Add(row);
+
+            var i = -1;
+            foreach (var item in x)
+            {
+                i++;
+                row[i] = item;
+            }
+
+
+            return row;
+        }
+
         public void AddRange(DataRow[] row)
         {
             this.InternalList.AddRange(row);
         }
 
+        public void Remove(DataRow row)
+        {
+            var i = IndexOf(row);
+
+            RemoveAt(i);
+
+        }
         public void RemoveAt(int i)
         {
             var row = this.InternalList[i];

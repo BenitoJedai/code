@@ -38,6 +38,8 @@ namespace WebGLClouds
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page = null)
         {
+            // used by
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLGoldDropletTransactions\WebGLGoldDropletTransactions\Application.cs
 
 
             if (DisableBackground)
@@ -46,7 +48,9 @@ namespace WebGLClouds
             }
             else
             {
-                Native.document.body.style.backgroundColor = "#4584b4";
+                //page.body.style.backgroundColor = "#4584b4";
+
+                container.style.backgroundColor = "#4584b4";
             }
 
             // Bg gradient
@@ -82,9 +86,11 @@ namespace WebGLClouds
 
             var mouseY = (float)((Native.window.Height * DefaultMouseY - windowHalfY) * 0.15);
 
-            Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            //Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            container.AttachToDocument();
+            //container.AttachToDocument();
+            container.AttachTo(page.body);
+
             container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             //container.style.background = "url(" + canvas.toDataURL("image/png") + ")";
 
@@ -106,7 +112,7 @@ namespace WebGLClouds
 
 
 
-            var camera = new THREE.PerspectiveCamera(30, Native.window.Width / (double)Native.window.Height, 1, 3000);
+            var camera = new THREE.PerspectiveCamera(30, Native.window.aspect, 1, 3000);
             camera.position.z = 6000;
 
             var scene = new THREE.Scene();
@@ -179,7 +185,7 @@ namespace WebGLClouds
                 {
                     container.style.SetSize(Native.window.Width, Native.window.Height);
 
-                    camera.aspect = Native.window.Width / Native.window.Height;
+                    camera.aspect = Native.window.aspect;
                     camera.updateProjectionMatrix();
 
                     renderer.setSize(Native.window.Width, Native.window.Height);
@@ -222,20 +228,20 @@ namespace WebGLClouds
 
 
 
-            #region requestFullscreen
-            Native.document.body.ondblclick +=
-                delegate
-                {
-                    if (IsDisposed)
-                        return;
+            //#region requestFullscreen
+            //Native.document.body.ondblclick +=
+            //    delegate
+            //    {
+            //        if (IsDisposed)
+            //            return;
 
-                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+            //        // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    Native.document.body.requestFullscreen();
+            //        Native.document.body.requestFullscreen();
 
 
-                };
-            #endregion
+            //    };
+            //#endregion
 
         }
         public Action Dispose;
