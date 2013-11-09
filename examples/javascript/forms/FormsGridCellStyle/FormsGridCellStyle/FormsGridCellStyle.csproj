@@ -5,15 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{430967E1-A301-4F2C-9E9F-8FA81B823F73}</ProjectGuid>
+    <ProjectGuid>{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestFormsDataGridFont</RootNamespace>
-    <AssemblyName>TestFormsDataGridFont</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>FormsGridCellStyle</RootNamespace>
+    <AssemblyName>FormsGridCellStyle</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>TestFormsDataGridFont.Program</StartupObject>
-    <TargetFrameworkProfile />
+    <StartupObject>FormsGridCellStyle.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +34,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -116,8 +113,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="TestFormsDataGridFont.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TestFormsDataGridFont.AssetsLibrary.dll</HintPath>
+    <Reference Include="FormsGridCellStyle.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\FormsGridCellStyle.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
@@ -127,37 +124,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="ApplicationControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ApplicationControl.Designer.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ApplicationWebService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ApplicationWebService.Designer.cs">
-      <DependentUpon>ApplicationWebService.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Application.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <None Include="app.config" />
+    <None Include="Book1.xlsx" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ApplicationControl.resx">
-      <DependentUpon>ApplicationControl.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 		if $(ConfigurationName)==Release (
-		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true FilterTo:"$(SolutionDir)"
+		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		            </PreBuildEvent>

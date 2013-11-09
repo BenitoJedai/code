@@ -52,7 +52,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         }
         #endregion
 
-  
+
 
         public int ToArgb()
         {
@@ -65,6 +65,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         public static Color FromArgb(int red, int green, int blue)
         {
             return new __Color { Value = Shared.Drawing.Color.FromRGB(red, green, blue) };
+        }
+
+        public static Color FromArgb(int alpha, int red, int green, int blue)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\Forms\FormsGridCellStyle\FormsGridCellStyle\Application.cs
+
+            return new __Color
+            {
+                Value = Shared.Drawing.Color.FromKnownName(
+                    "rgba(" + red + ", " + green + ", " + blue + ", " + (alpha / 255.0) + ")"
+                )
+            };
         }
 
         static __Color()

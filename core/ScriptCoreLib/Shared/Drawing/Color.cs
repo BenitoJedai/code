@@ -4,6 +4,7 @@ namespace ScriptCoreLib.Shared.Drawing
 
 
     [Script]
+    [System.Obsolete]
     public class Color
     {
         public int R;
