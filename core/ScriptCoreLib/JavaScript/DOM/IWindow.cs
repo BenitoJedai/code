@@ -456,11 +456,28 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+
+        //window.Width / window.innerHeight;
+
+
+        public double aspect
+        {
+            // used by THREE.PerspectiveCamera
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // X:\jsc.svn\examples\javascript\WebGL\WebGLOBJExperiment\WebGLOBJExperiment\Application.cs
+
+                return window.Width / (double)window.Height;
+            }
+        }
+
         /// <summary>
         /// DatabaseName, DatabaseVersion, DisplayName, EstimatedSize
         /// 
         /// see: http://creativepark.net/blog/entry/id/1191
         /// </summary>
+        [System.Obsolete]
         public IFunction openDatabase;
 
 
