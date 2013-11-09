@@ -105,9 +105,121 @@ namespace WebGLOBJExperiment
 
 
 
-            Func<IHTMLImage, string, Task<THREE.Object3D>> obj =
-                async (i, uri) =>
+
+
+
+            new THREE_OBJAsset(
+                 new HTML.Images.FromAssets.texture_palm(),
+                   "assets/WebGLOBJExperiment/palm.obj"
+            ).Source.Task.ContinueWithResult(
+                o =>
                 {
+                    o.position.y = -80;
+                    scene.add(o);
+                    oo.Add(o);
+
+                    o.position.x = -200;
+                    o.scale = new THREE.Vector3(5, 5, 5);
+                }
+            );
+
+            new THREE_OBJAsset(
+                  new HTML.Images.FromAssets.texture_palm(),
+                    "assets/WebGLOBJExperiment/palm.obj"
+             ).Source.Task.ContinueWithResult(
+                 o =>
+                 {
+                     o.position.y = -80;
+                     scene.add(o);
+                     oo.Add(o);
+
+                     o.position.x = 200;
+                     o.scale = new THREE.Vector3(5, 5, 5);
+                 }
+             );
+
+            new THREE_OBJAsset(
+                 new HTML.Images.FromAssets.Fence_texture3(),
+                   "assets/WebGLOBJExperiment/fence.obj"
+            ).Source.Task.ContinueWithResult(
+                o =>
+                {
+                    o.position.y = -80;
+                    scene.add(o);
+                    oo.Add(o);
+
+                    o.position.x = -100;
+                    o.scale = new THREE.Vector3(0.2, 0.2, 0.2);
+                }
+            );
+
+            new sack_of_gold2().Source.Task.ContinueWithResult(
+               o =>
+               {
+                   o.position.y = -80;
+                   scene.add(o);
+                   oo.Add(o);
+
+                   o.position.x = 70;
+                   o.position.z = 100;
+                   o.scale = new THREE.Vector3(0.5, 0.5, 0.5);
+               }
+           );
+
+            new sack_of_gold2().Source.Task.ContinueWithResult(
+          o =>
+          {
+              o.position.y = -80;
+              scene.add(o);
+              oo.Add(o);
+
+              o.position.x = -70;
+              o.position.z = 100;
+              o.scale = new THREE.Vector3(0.5, 0.5, 0.5);
+          }
+      );
+
+            new THREE_OBJAsset(
+              new HTML.Images.FromAssets.ash_uvgrid01(),
+                   "assets/WebGLOBJExperiment/male02.obj"
+            ).Source.Task.ContinueWithResult(
+                o =>
+                {
+                    o.position.y = -80;
+                    scene.add(o);
+                    oo.Add(o);
+
+                    o.position.x = 50;
+                    //o.scale = new THREE.Vector3(5, 5, 5);
+                }
+            );
+        }
+
+    }
+
+
+    public class sack_of_gold2 : THREE_OBJAsset
+    {
+        public sack_of_gold2()
+            : base(
+                new HTML.Images.FromAssets.sack_of_coins___diffuse_512(),
+                "assets/WebGLOBJExperiment/sack_of_gold2.obj"
+                )
+        {
+
+        }
+    }
+
+    public class THREE_OBJAsset
+    {
+        public readonly TaskCompletionSource<THREE.Object3D> Source = new TaskCompletionSource<THREE.Object3D>();
+
+        public THREE_OBJAsset(IHTMLImage i, string uri)
+        {
+            new Action(
+                async delegate
+                {
+
                     await i;
 
                     var texture = new THREE.Texture(
@@ -119,7 +231,6 @@ namespace WebGLOBJExperiment
 
                     // model
 
-                    var s = new TaskCompletionSource<THREE.Object3D>();
 
                     var loader = new THREE.OBJLoader();
                     loader.load(
@@ -152,97 +263,19 @@ namespace WebGLOBJExperiment
                                  );
 
 
-                                o.position.y = -80;
 
 
-                                scene.add(o);
-
-                                oo.Add(o);
-
-                                s.SetResult(o);
+                                this.Source.SetResult(o);
                             }
                         ),
                         null, null
                     );
 
                     //
-                    await s.Task;
-
-                    return s.Task.Result;
-
-                };
-
-
-
-
-            obj(
-                 new HTML.Images.FromAssets.texture_palm(),
-                   "assets/WebGLOBJExperiment/palm.obj"
-            ).ContinueWithResult(
-                o =>
-                {
-                    o.position.x = -200;
-                    o.scale = new THREE.Vector3(5, 5, 5);
+                    //await s.Task;
                 }
-            );
+            )();
 
-            obj(
-                  new HTML.Images.FromAssets.texture_palm(),
-                    "assets/WebGLOBJExperiment/palm.obj"
-             ).ContinueWithResult(
-                 o =>
-                 {
-                     o.position.x = 200;
-                     o.scale = new THREE.Vector3(5, 5, 5);
-                 }
-             );
-
-            obj(
-                 new HTML.Images.FromAssets.Fence_texture3(),
-                   "assets/WebGLOBJExperiment/fence.obj"
-            ).ContinueWithResult(
-                o =>
-                {
-                    o.position.x = -100;
-                    o.scale = new THREE.Vector3(0.2, 0.2, 0.2);
-                }
-            );
-
-            obj(
-                  new HTML.Images.FromAssets.sack_of_coins___diffuse_512(),
-                    "assets/WebGLOBJExperiment/sack_of_gold2.obj"
-             ).ContinueWithResult(
-                 o =>
-                 {
-                     o.position.x = 70;
-                     o.position.z = 100;
-                     o.scale = new THREE.Vector3(0.5, 0.5, 0.5);
-                 }
-             );
-
-            obj(
-             new HTML.Images.FromAssets.sack_of_coins___diffuse_512(),
-               "assets/WebGLOBJExperiment/sack_of_gold2.obj"
-        ).ContinueWithResult(
-            o =>
-            {
-                o.position.x = -70;
-                o.position.z = 100;
-                o.scale = new THREE.Vector3(0.5,0.5,0.5);
-            }
-        );
-
-            obj(
-                new HTML.Images.FromAssets.ash_uvgrid01(),
-                     "assets/WebGLOBJExperiment/male02.obj"
-              ).ContinueWithResult(
-                  o =>
-                  {
-                      o.position.x = 50;
-                      //o.scale = new THREE.Vector3(5, 5, 5);
-                  }
-              );
         }
-
     }
 }
