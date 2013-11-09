@@ -10,11 +10,14 @@ using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using WebGLGoldDropletTransactions;
+using WebGLGoldDropletTransactions.Data;
 using WebGLGoldDropletTransactions.Design;
 using WebGLGoldDropletTransactions.HTML.Pages;
 using WebGLOBJExperiment;
@@ -110,6 +113,57 @@ namespace WebGLGoldDropletTransactions
                 };
 
 
+
+
+            var data = Book1.GetDataSet();
+
+            var g = new DataGridView
+            {
+                BackgroundColor = Color.Transparent,
+
+
+                // does this work?
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+
+                    SelectionBackColor = Color.Yellow,
+
+                    BackColor = Color.Transparent
+                },
+
+
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+
+                AllowUserToAddRows = false,
+                RowHeadersVisible = false,
+
+                ColumnHeadersVisible = false,
+
+                DataSource = data,
+                DataMember = "Assets",
+            };
+
+            // this should be the one that maximizes itself onto the parent which is supposed to be absolute in size
+            g.GetHTMLTargetContainer().With(
+                div =>
+                {
+                    //div.style.reset();
+
+                    // no scrollbars, thanks
+                    div.style.overflow = IStyle.OverflowEnum.hidden;
+                    (div.style as dynamic).zIndex = "";
+
+                    div.style.position = IStyle.PositionEnum.relative;
+                    div.style.left = "";
+                    div.style.top = "";
+                    div.style.right = "";
+                    div.style.bottom = "";
+
+                    page.assets.Clear();
+                    div.AttachTo(page.assets);
+                }
+            );
 
 
             var r = new Random();
