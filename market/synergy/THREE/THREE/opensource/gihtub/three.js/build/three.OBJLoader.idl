@@ -1,0 +1,11 @@
+﻿// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131109-gold
+
+// does jsc do idl inheritance just yet?
+[Constructor(),
+ Constructor(any manager)]
+interface THREE.OBJLoader
+{ 
+
+	void load(string url, function onLoad, function onProgress, function onError);
+	any parse(string text);
+};
