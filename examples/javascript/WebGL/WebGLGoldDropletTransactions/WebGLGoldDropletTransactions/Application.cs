@@ -117,53 +117,71 @@ namespace WebGLGoldDropletTransactions
 
             var data = Book1.GetDataSet();
 
-            var g = new DataGridView
-            {
-                BackgroundColor = Color.Transparent,
-
-
-                // does this work?
-                DefaultCellStyle = new DataGridViewCellStyle
+            #region bind
+            Action<string, IHTMLElement> bind =
+                (DataMember, c) =>
                 {
-
-                    SelectionBackColor = Color.Yellow,
-
-                    BackColor = Color.Transparent
-                },
+                    var g = new DataGridView
+                    {
+                        BackgroundColor = Color.Transparent,
 
 
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                        // does this work?
+                        DefaultCellStyle = new DataGridViewCellStyle
+                        {
 
-                AllowUserToAddRows = false,
-                RowHeadersVisible = false,
+                            SelectionBackColor = Color.Black,
+                            SelectionForeColor = Color.Yellow,
 
-                ColumnHeadersVisible = false,
+                            BackColor = Color.Transparent
+                        },
 
-                DataSource = data,
-                DataMember = "Assets",
-            };
 
-            // this should be the one that maximizes itself onto the parent which is supposed to be absolute in size
-            g.GetHTMLTargetContainer().With(
-                div =>
-                {
-                    //div.style.reset();
+                        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                        AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
 
-                    // no scrollbars, thanks
-                    div.style.overflow = IStyle.OverflowEnum.hidden;
-                    (div.style as dynamic).zIndex = "";
+                        // do we have a test for this?
+                        AllowUserToAddRows = false,
 
-                    div.style.position = IStyle.PositionEnum.relative;
-                    div.style.left = "";
-                    div.style.top = "";
-                    div.style.right = "";
-                    div.style.bottom = "";
+                        //AllowUserToDeleteRows = false,
 
-                    page.assets.Clear();
-                    div.AttachTo(page.assets);
-                }
-            );
+                        RowHeadersVisible = false,
+
+
+                        // cannot hide column headers yet
+                        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_ColumnHeadersVisible(System.Boolean)]
+                        //ColumnHeadersVisible = false,
+
+                        DataSource = data,
+                        DataMember = DataMember,
+                    };
+
+                    // this should be the one that maximizes itself onto the parent which is supposed to be absolute in size
+                    g.GetHTMLTargetContainer().With(
+                        div =>
+                        {
+                            //div.style.reset();
+
+                            // no scrollbars, thanks
+                            div.style.overflow = IStyle.OverflowEnum.hidden;
+                            (div.style as dynamic).zIndex = "";
+
+                            div.style.position = IStyle.PositionEnum.relative;
+                            div.style.left = "";
+                            div.style.top = "";
+                            div.style.right = "";
+                            div.style.bottom = "";
+
+                            c.Clear();
+                            div.AttachTo(c);
+                        }
+                    );
+                };
+            #endregion
+
+
+            bind("Assets", page.assets);
+            bind("Transactions", page.transactions);
 
 
             var r = new Random();
