@@ -35,9 +35,9 @@ namespace WebGLGoldDropletTransactions
             page.header.style.backgroundColor = "";
 
             page.header.css.style.transition = "background-color 200ms linear";
-            page.header.css.style.backgroundColor = "none";
+            page.header.css.style.backgroundColor = "rgba(255, 255, 0, 0.2)";
 
-            page.header.css.hover.style.backgroundColor = "yellow";
+            page.header.css.hover.style.backgroundColor = "rgba(255, 255, 0, 1.0)";
 
 
             var oo = new List<THREE.Object3D>();
@@ -97,15 +97,17 @@ namespace WebGLGoldDropletTransactions
 
                 };
 
-            //Native.window.onresize +=
-            //    delegate
-            //    {
-            //        camera.aspect = window.aspect;
-            //        camera.updateProjectionMatrix();
+            Native.window.onresize +=
+                delegate
+                {
+                    camera.aspect = page.header.clientWidth / (double)page.header.clientHeight;
 
-            //        renderer.setSize(window.Width, window.Height);
+                    camera.updateProjectionMatrix();
 
-            //    };
+                    //renderer.setSize(window.Width, window.Height);
+                    renderer.setSize(page.header.clientWidth, page.header.clientHeight);
+
+                };
 
 
 
