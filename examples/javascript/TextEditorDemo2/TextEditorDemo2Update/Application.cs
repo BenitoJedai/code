@@ -28,7 +28,7 @@ namespace TextEditorDemo2Update
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -109,7 +109,7 @@ namespace TextEditorDemo2Update
             n.Nasa.onclick +=
                 delegate
                 {
-                    text.InnerHTML = new Nasa.XMLSourceSource().Text;
+                    text.InnerHTML =  NasaSource.Text;
 
                 };
 
@@ -124,14 +124,14 @@ namespace TextEditorDemo2Update
             n.CnC.onclick +=
                 delegate
                 {
-                    text.InnerHTML = new CnC.XMLSourceSource().Text;
+                    text.InnerHTML =  CnCSource.Text;
 
                 };
 
             n.Ships.onclick +=
             delegate
             {
-                text.InnerHTML = new Ships.XMLSourceSource().Text;
+                text.InnerHTML = ShipsSource.Text;
             };
 
             //ToPreview(Ships..Images, n.Ships);
