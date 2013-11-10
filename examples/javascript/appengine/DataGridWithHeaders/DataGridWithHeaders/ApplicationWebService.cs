@@ -32,12 +32,7 @@ namespace DataGridWithHeaders
                     TableName = "Headers"
                 };
 
-                //Implementation not found for type import :
-                //type: System.Data.DataColumnCollection
-                //method: System.Data.DataColumn Add(System.String)
-                //Did you forget to add the [Script] attribute?
-                //Please double check the signature!
-
+            
 
                 x.Columns.Add("key");
                 x.Columns.Add("value");
@@ -46,12 +41,10 @@ namespace DataGridWithHeaders
 
                 foreach (var item in h.AllKeys)
                 {
-                    var r = x.NewRow();
-
-                    r[0] = item;
-                    r[1] = h[item];
-
-                    x.Rows.Add(r);
+                    x.Rows.Add(
+                        item,
+                        h[item]
+                    );
 
                 }
 
