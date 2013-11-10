@@ -1,0 +1,24 @@
+﻿// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131109-gold
+
+// does jsc do idl inheritance just yet?
+[Constructor()]
+interface THREE.ColladaLoader
+{ 
+	attribute THREE.ColladaLoaderOptions options;
+
+	void load(string url, function<THREE.ColladaLoaderResult> readyCallback, function progressCallback);
+	void load(string url, function<THREE.ColladaLoaderResult> readyCallback);
+
+	// any parse(string text);
+};
+
+interface THREE.ColladaLoaderOptions
+{ 
+	attribute boolean convertUpAxis;
+};
+
+interface THREE.ColladaLoaderResult
+{ 
+	attribute THREE.Object3D scene;
+};
+
