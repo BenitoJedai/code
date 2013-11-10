@@ -57,6 +57,9 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://code.google.com/p/chromium/issues/detail?can=2&start=0&num=100&q=&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified&groupby=&sort=&id=313673
+            // https://code.google.com/p/chromium/issues/detail?can=2&start=0&num=100&q=&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified&groupby=&sort=&id=317352&thanks=317352&ts=1384094600
+
             // current way
             //FormStyler.AtFormCreated = s =>
             //{

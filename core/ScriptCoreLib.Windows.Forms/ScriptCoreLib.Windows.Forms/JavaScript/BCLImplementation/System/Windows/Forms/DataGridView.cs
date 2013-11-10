@@ -49,6 +49,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // X:\jsc.svn\examples\javascript\Forms\FormsGridCellStyle\FormsGridCellStyle\Application.cs
         public DataGridViewCellStyle DefaultCellStyle { get; set; }
 
+        //public __DataGridViewCellStyle InternalColumnHeadersDefaultCellStyle;
+        // we should start using .css rule binding
         public DataGridViewCellStyle ColumnHeadersDefaultCellStyle { get; set; }
 
         public DataGridViewCellStyle RowHeadersDefaultCellStyle { get; set; }
@@ -93,7 +95,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //Console.WriteLine("__DataGridView");
 
             this.DefaultCellStyle = new DataGridViewCellStyle();
-            this.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle();
+            this.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = global::System.Drawing.SystemColors.ButtonFace
+            };
 
 
             this.InternalColumns = new __DataGridViewColumnCollection();
@@ -219,7 +224,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #region Corner
             var Corner = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
 
-            Corner.style.backgroundColor = JSColor.System.ButtonFace;
+            {
+                var BackColor = this.ColumnHeadersDefaultCellStyle.BackColor;
+                Corner.style.backgroundColor = BackColor.ToString();
+            }
+
             Corner.style.SetLocation(0, 0);
             Corner.style.height = "22px";
 
@@ -1302,7 +1311,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     SourceColumn.InternalTableColumn = __ColumnsTableRow.AddColumn();
 
-                    SourceColumn.InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
+                    {
+                        var BackColor = this.ColumnHeadersDefaultCellStyle.BackColor;
+                        SourceColumn.InternalTableColumn.style.backgroundColor = BackColor.ToString();
+                    }
+
+
                     SourceColumn.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
 
@@ -1320,15 +1334,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c1contentcrel.style.right = "0";
                     c1contentcrel.style.height = "22px";
 
-                    var c1contentclight = new IHTMLDiv { }.AttachTo(c1contentcrel);
-                    c1contentclight.style.overflow = IStyle.OverflowEnum.hidden;
-                    c1contentclight.style.position = IStyle.PositionEnum.absolute;
-                    c1contentclight.style.left = "0";
-                    c1contentclight.style.top = "0";
-                    c1contentclight.style.right = "0";
-                    c1contentclight.style.height = "10px";
 
-                    c1contentclight.style.backgroundColor = JSColor.White;
+                    // gradient effect?
+
+                    //var c1contentclight = new IHTMLDiv { }.AttachTo(c1contentcrel);
+                    //c1contentclight.style.overflow = IStyle.OverflowEnum.hidden;
+                    //c1contentclight.style.position = IStyle.PositionEnum.absolute;
+                    //c1contentclight.style.left = "0";
+                    //c1contentclight.style.top = "0";
+                    //c1contentclight.style.right = "0";
+                    //c1contentclight.style.height = "10px";
+
+                    //c1contentclight.style.backgroundColor = JSColor.White;
 
 
 
@@ -1693,7 +1710,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalTableColumn.style.borderBottom = "1px solid gray";
                     InternalTableColumn.innerText = " ";
                     //c0.style.padding = "4px";
-                    InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
+                    //InternalTableColumn.style.backgroundColor = JSColor.System.ButtonFace;
+
+                    {
+                        // X:\jsc.svn\examples\javascript\forms\FormsGridCellStyle\FormsGridCellStyle\Application.cs
+
+                        var BackColor = this.ColumnHeadersDefaultCellStyle.BackColor;
+                        InternalTableColumn.style.backgroundColor = BackColor.ToString();
+                    }
+
+
+
                     InternalTableColumn.style.width = "100%";
 
                     var c1contentcrel = new IHTMLDiv { }.AttachTo(InternalTableColumn);
@@ -1704,15 +1731,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c1contentcrel.style.height = "21px";
                     c1contentcrel.style.overflow = IStyle.OverflowEnum.hidden;
 
-                    var c1 = new IHTMLDiv().AttachTo(c1contentcrel);
-                    c1.style.position = IStyle.PositionEnum.absolute;
+                    //var c1 = new IHTMLDiv().AttachTo(c1contentcrel);
+                    //c1.style.position = IStyle.PositionEnum.absolute;
 
-                    c1.style.backgroundColor = JSColor.White;
+                    //c1.style.backgroundColor = JSColor.White;
 
 
-                    c1.style.left = "0";
-                    c1.style.top = "0";
-                    c1.style.width = "6px";
+                    //c1.style.left = "0";
+                    //c1.style.top = "0";
+                    //c1.style.width = "6px";
 
                     var c1img = new IHTMLDiv().AttachTo(c1contentcrel);
                     c1img.style.position = IStyle.PositionEnum.absolute;
@@ -1798,7 +1825,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region AtInternalHeightChanged
                     Action AtInternalHeightChanged = delegate
                     {
-                        c1.style.height = (SourceRow.InternalHeight - 1) + "px";
+                        //c1.style.height = (SourceRow.InternalHeight - 1) + "px";
                         c1img.style.height = (SourceRow.InternalHeight - 1) + "px";
                         c2img.style.height = (SourceRow.InternalHeight - 1) + "px";
 

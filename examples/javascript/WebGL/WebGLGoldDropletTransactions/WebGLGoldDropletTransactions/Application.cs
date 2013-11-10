@@ -37,6 +37,41 @@ namespace WebGLGoldDropletTransactions
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+#if chrome_works_again
+            #region AtFormCreated
+            FormStyler.AtFormCreated =
+                 s =>
+                 {
+                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                 };
+            #endregion
+
+
+            // chrome 31 wont load view-source
+            // chrome 33 shows black window. nice.
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultTitle = "Droplet";
+                //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
+                );
+
+                return;
+            }
+            #endregion
+#endif
+
+
             #region clouds
             new WebGLClouds.HTML.Pages.Default().With(
                 layout =>
@@ -160,7 +195,13 @@ namespace WebGLGoldDropletTransactions
 
                             //BackColor = Color.Transparent
                             //BackColor = Color.FromArgb(0x05, 0, 0, 0)
-                            BackColor = Color.FromArgb(0x4f, 255, 255, 255)
+                            BackColor = Color.FromArgb(0x3f, 255, 255, 255)
+                        },
+
+                        ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+                        {
+
+                            BackColor = Color.FromArgb(0x8f, 255, 255, 255)
                         },
 
 
