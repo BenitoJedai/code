@@ -39,6 +39,7 @@ namespace WebGLOBJExperiment
 
             var oo = new List<THREE.Object3D>();
 
+            #region scene
             var window = Native.window;
 
             var camera = new THREE.PerspectiveCamera(
@@ -101,6 +102,8 @@ namespace WebGLOBJExperiment
                     renderer.setSize(window.Width, window.Height);
 
                 };
+            #endregion
+
 
 
 

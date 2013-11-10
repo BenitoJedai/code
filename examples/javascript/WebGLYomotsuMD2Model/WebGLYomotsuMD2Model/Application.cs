@@ -79,8 +79,7 @@ namespace WebGLYomotsuMD2Model
         public Application(IDefault page = null)
         {
             // works on IE11
-
-            DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            //DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
             //var fov = 40;
@@ -106,7 +105,7 @@ namespace WebGLYomotsuMD2Model
 
             var camera = new THREE.PerspectiveCamera(
                 fov,
-                width / height,
+                Native.window.aspect,
                 1,
                 1000
             );
