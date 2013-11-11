@@ -772,7 +772,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         public virtual void InternalSetFont(Font value)
-        { 
+        {
         }
 
         private Font _Font;
@@ -793,6 +793,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
         #endregion
+
+
+
+        public virtual void InternalAddGotFocus(EventHandler e)
+        {
+        }
+
+        public event EventHandler GotFocus
+        {
+            add
+            {
+                InternalAddGotFocus(value);
+            }
+            remove
+            {
+            }
+        }
+
+        public virtual void InternalAddLostFocus(EventHandler e)
+        {
+        }
+
+        public event EventHandler LostFocus
+        {
+            add
+            {
+                InternalAddLostFocus(value);
+            }
+            remove
+            {
+            }
+        }
 
         public bool Focus()
         {
