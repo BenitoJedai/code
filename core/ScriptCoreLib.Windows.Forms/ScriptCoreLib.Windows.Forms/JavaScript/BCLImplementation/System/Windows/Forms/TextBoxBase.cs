@@ -40,6 +40,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
 
+        public override void InternalAddGotFocus(EventHandler e)
+        {
+
+            this.InternalGetTextField().onfocus +=
+                delegate
+                {
+                    e(this, new EventArgs());
+                };
+        }
+
+        public override void InternalAddLostFocus(EventHandler e)
+        {
+
+            this.InternalGetTextField().onblur +=
+                delegate
+                {
+                    e(this, new EventArgs());
+                };
+        }
+
         public __TextBoxBase()
         {
             #region InternalContainer
@@ -175,7 +195,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
 
                         //refresh
-                    
+
                         this.InternalTextField_MultiLine.style.margin = "0";
                         this.InternalTextField_MultiLine.style.paddingTop = "0";
                         this.InternalTextField_MultiLine.style.paddingBottom = "0";

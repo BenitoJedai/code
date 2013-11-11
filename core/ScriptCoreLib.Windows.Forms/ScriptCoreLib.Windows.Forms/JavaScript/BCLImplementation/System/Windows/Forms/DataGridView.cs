@@ -162,6 +162,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 // pstyle
                 //className = "InternalScrollContainerElement"
             }.AttachTo(this.InternalElement);
+
+
+            
+
             //this.InternalScrollContainerElement.style.backgroundColor = JSColor.Gray;
             this.BackgroundColor = global::System.Drawing.SystemColors.AppWorkspace;
 
@@ -2033,6 +2037,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         );
                 };
             #endregion
+
+
+
+
+            this.Height = 400;
 
             Console.WriteLine("DataGridView ready");
         }
