@@ -551,7 +551,7 @@ namespace WebGLYomotsuTPS
 
                                     renderer.setSize(Native.window.Width, Native.window.Height);
 
-                                    camera.projectionMatrix.makePerspective(fov, Native.window.Width / Native.window.Height, 1, 1100);
+                                    camera.projectionMatrix.makePerspective(fov, Native.window.aspect, 1, 1100);
 
                                     //camera.aspect = Native.Window.Width / Native.Window.Height;
                                     //camera.updateProjectionMatrix();

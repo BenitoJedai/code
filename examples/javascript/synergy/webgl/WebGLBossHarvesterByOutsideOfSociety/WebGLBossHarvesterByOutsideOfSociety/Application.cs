@@ -56,7 +56,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             var scene = new THREE.Scene();
             scene.fog = new THREE.Fog(0x000000, 1000, 5000);
 
-            var camera = new THREE.PerspectiveCamera(50, (double)Native.window.Width / (double)Native.window.Height, 1, 10000);
+            var camera = new THREE.PerspectiveCamera(50, Native.window.aspect, 1, 10000);
             camera.position.z = 800;
             camera.position.y = 100;
 
@@ -266,8 +266,9 @@ namespace WebGLBossHarvesterByOutsideOfSociety
 
                 Action AtResize = delegate
                 {
-                    camera.aspect = Native.window.Width / Native.window.Height;
+                    camera.aspect = Native.window.aspect;
                     camera.updateProjectionMatrix();
+
                     renderer.setSize(Native.window.Width, Native.window.Height);
                 };
                 Native.window.onresize +=
@@ -300,12 +301,12 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                              // cant requestFullscreen while pointerLockElement
                              Console.WriteLine("exitPointerLock");
                              Native.document.exitPointerLock();
-                             Native.document.exitFullscreen();
+                             //Native.document.exitFullscreen();
                              return;
                          }
 
                          Console.WriteLine("requestFullscreen");
-                         Native.document.body.requestFullscreen();
+                         //Native.document.body.requestFullscreen();
                          Native.document.body.requestPointerLock();
                          return;
                      }

@@ -50,7 +50,7 @@ namespace WebGLCity
             renderer.domElement.AttachToDocument();
             renderer.domElement.style.SetLocation(0, 0);
 
-            var camera = new THREE.PerspectiveCamera(40, Native.window.Width / Native.window.Height, 1, 3000);
+            var camera = new THREE.PerspectiveCamera(40, Native.window.aspect, 1, 3000);
             camera.position.y = 80;
 
             var scene = new THREE.Scene();
@@ -90,7 +90,9 @@ namespace WebGLCity
             building_geometry.faceVertexUvs[0][2][0].set(0, 0);
             building_geometry.faceVertexUvs[0][2][1].set(0, 0);
             building_geometry.faceVertexUvs[0][2][2].set(0, 0);
-            building_geometry.faceVertexUvs[0][2][3].set(0, 0);
+
+            // Uncaught TypeError: Cannot call method 'set' of undefined view-source:84609
+            //building_geometry.faceVertexUvs[0][2][3].set(0, 0);
 
 
             Func<double> random = new Random().NextDouble;
