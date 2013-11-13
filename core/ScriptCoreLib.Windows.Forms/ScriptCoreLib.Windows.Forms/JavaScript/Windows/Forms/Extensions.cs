@@ -71,6 +71,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
             return new MouseEventArgs(button, clicks, x, y, delta);
         }
 
+        [Obsolete("To be renamed to GetOuterElement")]
         static public IHTMLElement GetHTMLTarget(this Control e)
         {
             __Control x = e;
@@ -83,6 +84,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
             return r;
         }
 
+        [Obsolete("To be renamed to GetInnerElement")]
         static public IHTMLElement GetHTMLTargetContainer(this Control e)
         {
             __Control x = e;
