@@ -71,6 +71,17 @@ namespace WebGLToAnimatedGIFExperiment
             }
             #endregion
 
+            var ani4 = new WebGLColladaExperiment.Application(null);
+
+            ani4.canvas.AttachTo(page.e1);
+
+            // gif needs a bg?
+            //ani4.canvas.style.backgroundColor = "yellow";
+
+            ani4.canvas.style.SetSize(96, 96);
+            ani4.canvas.style.position = IStyle.PositionEnum.relative;
+
+
             var ani3 = new WebGLTetrahedron.Application();
 
             ani3.gl.canvas.AttachTo(page.e1);
@@ -120,9 +131,11 @@ namespace WebGLToAnimatedGIFExperiment
 
 
             #region activate
-            Action<WebGLRenderingContext> activate =
-                context =>
+            Action<IHTMLCanvas> activate =
+                xcanvas =>
                 {
+                    var context = new { canvas = xcanvas };
+
                     context.canvas.style.border = "2px solid yellow";
                     context.canvas.style.cursor = IStyle.CursorEnum.pointer;
 
@@ -190,9 +203,10 @@ namespace WebGLToAnimatedGIFExperiment
             #endregion
 
 
-            activate(gl);
-            activate(ani2.gl);
-            activate(ani3.gl);
+            activate(gl.canvas);
+            activate(ani2.gl.canvas);
+            activate(ani3.gl.canvas);
+            activate(ani4.canvas);
 
 
 

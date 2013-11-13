@@ -14,6 +14,12 @@ interface THREE.ColladaLoader
 
 interface THREE.ColladaLoaderOptions
 { 
+	// jsc doc server
+	// should note when this member
+	// became available, by which dev, and what projects are
+	// using it
+
+	attribute boolean centerGeometry;
 	attribute boolean convertUpAxis;
 };
 

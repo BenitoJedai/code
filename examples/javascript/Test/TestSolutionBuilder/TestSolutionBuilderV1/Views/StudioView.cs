@@ -250,6 +250,23 @@ namespace TestSolutionBuilderV1.Views
                 }
              );
 
+            // can we drag this into 
+            // code ?
+            // msvs gets the image link
+            //http://192.168.43.252:11924/assets/ScriptCoreLib.Ultra.Components/StockToolboxImageTransparent64.png?data-jsc-type=DAETruck
+            vv.Add(
+                  new SolutionToolboxListViewTab
+                  {
+                      DataType = "DAETruck",
+
+                      Name = "DAETruck",
+                      Title = "DAETruck",
+                      Text = "DAETruck",
+                      Icon = new DAETruck()
+                  }
+               );
+
+
 
             items.WithEach(vv.Add);
 
