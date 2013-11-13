@@ -1,31 +1,67 @@
 <html>
-	<head>
-		<title>App</title>
-	</head>
-	<body>
-		<link rel='stylesheet' href='App.css'/>
+<head>
+    <title>App</title>
+</head>
+<body>
+    <link rel='stylesheet' href='App.css' />
 
-        <style>
+    <style>
+    </style>
 
-        </style>
+    <div id="ShakeMe" style="position: fixed; right: 2em; top: 1em;">
 
-        <div style="position: fixed; right: 2em; top: 1em;">
+        <code>400.01 EUR</code>
 
-            <code>400.01 EUR</code>
-        <button id="YellowNotificationElement" style=" text-align: left; padding: 0px; border: none; display: inline-block; overflow: hidden; width: 26px; height: 30px; background-color: yellow; position: relative; ">
-            <img src="youtube.webp" style=" position: absolute; top: -790px; left: -50px; " />
+
+
+        <button id="YellowNotificationElement" class="YellowNotificationElement" style=" text-align: left; padding: 0px; border: none; display: inline-block; width: 26px; height: 30px; background-color: yellow; position: relative; ">
+
+            <div style="overflow: hidden; position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px;">
+                <img src="youtube.webp" style=" position: absolute; top: -790px; left: -50px; " />
+            </div>
+
+
+
+            <style>
+                .YellowNotificationElement  span {
+                    position: absolute;
+                    right: -2px;
+                    top: -2px;
+                    color: #FFF;
+                    padding: 0.5px;
+                    text-align: center;
+                    text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+                    min-width: 12px;
+                    line-height: 14px;
+                    height: 14px;
+                    font-weight: 700;
+                    font-size: 10px;
+                    font-family: "Helvetica Neue",Helvetica,Arial,"segoe ui",tahoma,sans-serif;
+                    border-radius: 2px 2px 2px 2px;
+                    border: medium none;
+                    display: block;
+                    box-shadow: 1px 1px 1.5px rgba(0,0,0,0.6);
+                    -webkit-border-radius: 2px;
+                    background: -webkit-linear-gradient(top,#fa3c45,#dc0d17);
+                    -webkit-font-smoothing: antialiased;
+                }
+                    .YellowNotificationElement  span:empty {
+                        display: none !important;
+                    }
+            </style>
+            <span id="ynadvmenu_NotifyCount">0</span>
         </button>
 
 
 
-              <button id="EditElement" style="
+        <button id="EditElement" style="
 
     text-align: left;
     padding: 0px;
     border: none;
 
     display: inline-block;
-    
+
     overflow: hidden;
 
     width: 26px;
@@ -34,20 +70,20 @@
     position: relative;
     background-color: yellow;">
             <img src="youtube.webp" style="
-    
-position: absolute;    
+
+position: absolute;
     top: -730px;
 left: -32px;
 " />
         </button>
 
 
-            </div>
+    </div>
 
-		<div id='PageContainer'>
-			<h1 id='Header'>JSC - The .NET crosscompiler for web platforms.</h1>
-			<p id='Content' style='padding: 2em;
+    <div id='PageContainer'>
+        <h1 id='Header'>JSC - The .NET crosscompiler for web platforms.</h1>
+        <p id='Content' style='padding: 2em;
 				color: blue;'>Hello world</p>
-		</div>
-	</body>
+    </div>
+</body>
 </html>
