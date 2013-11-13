@@ -120,8 +120,6 @@ namespace WebNotificationsViaDataAdapter
 
                     //page.ynadvmenu_NotifyCount = 0;
 
-                    var cc = 0;
-                    //page.ynadvmenu_NotifyCount.innerText = "";
 
                     Action flash = async delegate
                     {
@@ -162,7 +160,7 @@ namespace WebNotificationsViaDataAdapter
 
                         foreach (var item in n)
                         {
-                            cc++;
+                            // http://stackoverflow.com/questions/5905563/c-sharp-generic-operators
                             page.ynadvmenu_NotifyCount++;
 
                             flash();
