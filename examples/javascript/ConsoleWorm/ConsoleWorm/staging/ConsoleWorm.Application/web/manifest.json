@@ -1,0 +1,35 @@
+
+{
+"manifest_version": 2,
+  "name": "ConsoleWorm",
+  "description": "ConsoleWorm",
+  "version": "12",
+ "minimum_chrome_version": "31",
+  "offline_enabled": true,
+
+  "app": {
+
+	"background": {
+	  "persistent": true,
+      "scripts": ["view-source"]
+    }
+  },
+  "icons": {
+    "128": "assets/ConsoleWorm/Preview.png"
+
+  },
+  
+
+  "permissions": [
+  "webview",
+  "fullscreen",
+  "pointerLock",
+    "unlimitedStorage",
+	    "notifications",
+		    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership", "tcp-connect", "tcp-listen"]
+    }
+  ]
+
+}
