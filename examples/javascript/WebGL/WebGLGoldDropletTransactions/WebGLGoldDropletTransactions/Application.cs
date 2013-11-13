@@ -274,7 +274,7 @@ namespace WebGLGoldDropletTransactions
 
                             o.position.x = r.Next(-250, 250);
                             o.position.z = r.Next(-400, 200);
-                            o.scale = new THREE.Vector3(0.5, 0.5, 0.5);
+                            (o as dynamic).scale = new THREE.Vector3(0.5, 0.5, 0.5);
 
                             data_Assets.RowDeleting +=
                                 (sender, e) =>

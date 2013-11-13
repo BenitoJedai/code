@@ -76,18 +76,17 @@ namespace FlashHeatZeeker.UnitTankSync
         private void InitializeSprites()
         {
             {
-                leftsprite.wmode();
 
                 leftsprite.AttachSpriteToDocument().With(
                        embed =>
                        {
                            embed.style.SetLocation(0, 0);
-                           embed.style.SetSize(Native.Window.Width / 2 - 1, Native.Window.Height);
+                           embed.style.SetSize(Native.window.Width / 2 - 1, Native.window.Height);
 
-                           Native.Window.onresize +=
+                           Native.window.onresize +=
                                delegate
                                {
-                                   embed.style.SetSize(Native.Window.Width / 2 - 1, Native.Window.Height);
+                                   embed.style.SetSize(Native.window.Width / 2 - 1, Native.window.Height);
                                };
                        }
                    );
@@ -95,38 +94,36 @@ namespace FlashHeatZeeker.UnitTankSync
 
             {
 
-                uppersprite.wmode();
 
                 uppersprite.AttachSpriteToDocument().With(
                        embed =>
                        {
-                           embed.style.SetLocation(Native.Window.Width / 2, 0);
-                           embed.style.SetSize(Native.Window.Width / 2, Native.Window.Height / 2 - 1);
+                           embed.style.SetLocation(Native.window.Width / 2, 0);
+                           embed.style.SetSize(Native.window.Width / 2, Native.window.Height / 2 - 1);
 
-                           Native.Window.onresize +=
+                           Native.window.onresize +=
                                delegate
                                {
-                                   embed.style.SetLocation(Native.Window.Width / 2, 0);
-                                   embed.style.SetSize(Native.Window.Width / 2, Native.Window.Height / 2 - 1);
+                                   embed.style.SetLocation(Native.window.Width / 2, 0);
+                                   embed.style.SetSize(Native.window.Width / 2, Native.window.Height / 2 - 1);
                                };
                        }
                    );
             }
 
             {
-                lowersprite.wmode();
 
                 lowersprite.AttachSpriteToDocument().With(
                        embed =>
                        {
-                           embed.style.SetLocation(Native.Window.Width / 2, Native.Window.Height / 2);
-                           embed.style.SetSize(Native.Window.Width / 2, Native.Window.Height / 2);
+                           embed.style.SetLocation(Native.window.Width / 2, Native.window.Height / 2);
+                           embed.style.SetSize(Native.window.Width / 2, Native.window.Height / 2);
 
-                           Native.Window.onresize +=
+                           Native.window.onresize +=
                                delegate
                                {
-                                   embed.style.SetLocation(Native.Window.Width / 2, Native.Window.Height / 2);
-                                   embed.style.SetSize(Native.Window.Width / 2, Native.Window.Height / 2);
+                                   embed.style.SetLocation(Native.window.Width / 2, Native.window.Height / 2);
+                                   embed.style.SetSize(Native.window.Width / 2, Native.window.Height / 2);
                                };
                        }
                    );
@@ -136,24 +133,5 @@ namespace FlashHeatZeeker.UnitTankSync
     }
 
 
-    public static class XX
-    {
-
-
-        public static void wmode(this Sprite s, string value = "direct")
-        {
-            var x = s.ToHTMLElement();
-
-            var p = x.parentNode;
-            if (p != null)
-            {
-                // if we continue, element will be reloaded!
-                return;
-            }
-
-            x.setAttribute("wmode", value);
-
-
-        }
-    }
+  
 }

@@ -21,6 +21,8 @@ namespace GravatarExperiment
         /// <param name="y">A callback to javascript.</param>
         public void Gravatar(string e, Action<string> avatar, Action<string> profile)
         {
+            // http://farazmahmood.wordpress.com/projects/md5-implementation-in-c/
+
             // http://en.gravatar.com/site/implement/hash/
             var hash = Encoding.UTF8.GetBytes(e.ToLower()).ToMD5Bytes().ToHexString();
 

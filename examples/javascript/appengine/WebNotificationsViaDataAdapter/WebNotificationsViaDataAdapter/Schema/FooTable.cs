@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebNotificationsViaDataAdapter.Schema
 {
+    [Obsolete("can we infer this from .csv or .xsls and infer their create insert select commands?")]
     class FooTable : FooTableQueries
     {
         public readonly Func<InsertFoo, long> Insert;

@@ -103,6 +103,8 @@ namespace WebNotificationsViaDataAdapter
 
 
 
+            // clean it
+            page.ynadvmenu_NotifyCount = "";
 
 
             new Stopwatch().With(
@@ -112,8 +114,19 @@ namespace WebNotificationsViaDataAdapter
 
                     // http://www.soundjay.com/phone-sounds-1.html
 
+                    // facebok
+                    // google youtube
+                    // 
+
+                    //page.ynadvmenu_NotifyCount = 0;
+
+                    var cc = 0;
+                    //page.ynadvmenu_NotifyCount.innerText = "";
+
                     Action flash = async delegate
                     {
+
+
                         page.YellowNotificationElement.style.backgroundColor = "yellow";
                         new HTML.Audio.FromAssets.cell_phone_vibrate_1().play();
 
@@ -122,8 +135,9 @@ namespace WebNotificationsViaDataAdapter
 
                         while (v.ElapsedMilliseconds < 1500)
                         {
+                            page.ShakeMe.style.paddingRight = ((v.ElapsedMilliseconds % 3) - 1) + "px";
 
-                            page.YellowNotificationElement.style.marginLeft = ((v.ElapsedMilliseconds % 3) - 1) + "px";
+                            //page.YellowNotificationElement.style.marginLeft = ((v.ElapsedMilliseconds % 3) - 1) + "px";
 
                             await Native.window.requestAnimationFrameAsync;
                         }
@@ -148,6 +162,9 @@ namespace WebNotificationsViaDataAdapter
 
                         foreach (var item in n)
                         {
+                            cc++;
+                            page.ynadvmenu_NotifyCount++;
+
                             flash();
 
 
