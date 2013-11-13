@@ -22,7 +22,7 @@ namespace WebGLEscherDrosteEffect
     /// This type will run as JavaScript.
     /// </summary>
     public sealed class Application
-        // experimenting base class
+    // experimenting base class
 
         //: Default
     {
@@ -63,7 +63,9 @@ namespace WebGLEscherDrosteEffect
 
             // which is it?
             if (page == null)
-                canvas.AttachTo(page.body);
+            {
+                canvas.AttachToDocument();
+            }
             else
             {
                 canvas.AttachTo(page.body);
@@ -106,19 +108,19 @@ namespace WebGLEscherDrosteEffect
 
 
 
-                        gl.enable(gl.TEXTURE_2D);
-                        gl.bindTexture(gl.TEXTURE_2D, texture_);
-                        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_LINEAR);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (int)gl.REPEAT);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (int)gl.REPEAT);
-                        gl.generateMipmap(gl.TEXTURE_2D);
-                        //not needed?
-                        //gl.bindTexture(gl.TEXTURE_2D, null);
+                     gl.enable(gl.TEXTURE_2D);
+                     gl.bindTexture(gl.TEXTURE_2D, texture_);
+                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_LINEAR);
+                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (int)gl.REPEAT);
+                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (int)gl.REPEAT);
+                     gl.generateMipmap(gl.TEXTURE_2D);
+                     //not needed?
+                     //gl.bindTexture(gl.TEXTURE_2D, null);
 
 
-                };
+                 };
             #endregion
 
             var texture = gl.createTexture();

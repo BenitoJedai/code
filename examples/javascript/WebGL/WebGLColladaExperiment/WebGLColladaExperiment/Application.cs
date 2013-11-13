@@ -25,6 +25,8 @@ namespace WebGLColladaExperiment
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        public IHTMLCanvas canvas;
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -57,11 +59,24 @@ namespace WebGLColladaExperiment
             directionalLight.position.set(0, 0, 1);
             scene.add(directionalLight);
 
-            var renderer = new THREE.WebGLRenderer();
+            // WebGLRenderer preserveDrawingBuffer 
+            var renderer = new THREE.WebGLRenderer(
+
+                new
+                {
+                    preserveDrawingBuffer = true
+                }
+            );
+
+            // https://github.com/mrdoob/three.js/issues/3836
+            renderer.setClearColor(0xfffff, 1);
+
             renderer.setSize(window.Width, window.Height);
 
             renderer.domElement.AttachToDocument();
             renderer.domElement.style.SetLocation(0, 0);
+
+            this.canvas = (IHTMLCanvas)renderer.domElement;
 
 
             var mouseX = 0;
@@ -72,10 +87,17 @@ namespace WebGLColladaExperiment
             Native.window.onframe +=
                 delegate
                 {
+                    renderer.clear();
+
+
+                    //camera.aspect = window.aspect;
+                    camera.aspect = canvas.clientWidth / (double)canvas.clientHeight;
+                    camera.updateProjectionMatrix();
+
 
                     oo.WithEach(
                         x =>
-                            x.rotation.y = st.ElapsedMilliseconds * 0.001
+                            x.rotation.y = st.ElapsedMilliseconds * 0.0001
                     );
 
 
@@ -92,32 +114,44 @@ namespace WebGLColladaExperiment
             Native.window.onresize +=
                 delegate
                 {
-                    camera.aspect = window.aspect;
-                    camera.updateProjectionMatrix();
+                    if (canvas.parentNode == Native.document.body)
+                    {
 
-                    renderer.setSize(window.Width, window.Height);
+                        renderer.setSize(window.Width, window.Height);
+                    }
 
                 };
             #endregion
 
 
-            new THREE_ColladaAsset(
-                "assets/WebGLColladaExperiment/truck.dae"
-            ).Source.Task.ContinueWithResult(
+            new truck().Source.Task.ContinueWithResult(
                 dae =>
                 {
 
-                    //o.position.y = -80;
+                    dae.position.y = -80;
+
                     scene.add(dae);
                     oo.Add(dae);
 
-                    dae.scale = new THREE.Vector3(5, 5, 5);
+                    dae.scale = new THREE.Vector3(30, 30, 30);
 
                 }
             );
         }
 
 
+    }
+
+    [Obsolete("jsc should generate this")]
+    class truck : THREE_ColladaAsset
+    {
+        public truck()
+            : base(
+                "assets/WebGLColladaExperiment/truck.dae"
+                )
+        {
+
+        }
     }
 
     public class THREE_ColladaAsset
@@ -129,6 +163,9 @@ namespace WebGLColladaExperiment
             var loader = new THREE.ColladaLoader();
 
             loader.options.convertUpAxis = true;
+
+            // this does NOT work correctly?
+            //loader.options.centerGeometry = true;
 
             loader.load(
                 //"assets/WebGLColladaExperiment/truck.dae",

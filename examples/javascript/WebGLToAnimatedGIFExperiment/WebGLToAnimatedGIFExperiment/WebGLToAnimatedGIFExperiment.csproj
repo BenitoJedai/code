@@ -124,6 +124,12 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="THREE">
+      <HintPath>..\packages\THREE.1.0.0.0\lib\THREE.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLColladaExperiment">
+      <HintPath>..\packages\WebGLColladaExperiment.1.0.0.0\lib\WebGLColladaExperiment.dll</HintPath>
+    </Reference>
     <Reference Include="WebGLEscherDrosteEffect">
       <HintPath>..\packages\WebGLEscherDrosteEffect.1.0.0.0\lib\WebGLEscherDrosteEffect.dll</HintPath>
     </Reference>
