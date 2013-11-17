@@ -17,10 +17,12 @@ using System.IO;
 using System.Text;
 using System.Xml.Linq;
 using FlashHeatZeeker.Shop;
-using System.Windows.Media;
 using playerio;
 using FlashHeatZeeker.PlayerIOIntegrationBeta2.Library;
 using ScriptCoreLib.ActionScript.flash.system;
+using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.flash.events;
 
 namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 {
@@ -42,6 +44,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
     {
         public string Alternate { get; set; }
 
+
         public ApplicationSprite()
         {
 
@@ -53,6 +56,28 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                 {
                     Security.allowDomain("*");
                     Security.allowInsecureDomain("*");
+
+
+                    // we are getting wrong bindings?
+                    // because of older playerglobal?
+
+                    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/events/MouseEvent.html#RIGHT_CLICK
+                    // X:\jsc.svn\examples\actionscript\svg\FlashSVGCursorExperiment\FlashSVGCursorExperiment\ApplicationSprite.cs
+                    CommonExtensions.CombineDelegate(
+                        this.stage,
+                        new System.Action<MouseEvent>(
+                            e =>
+                            {
+                                e.preventDefault();
+
+                            }
+                        )
+                        ,
+                        "rightClick"
+                    );
+
+                    new ActionScript.Images.MyCursor().ToMouseCursor();
+
 
                     var lasterror = 0;
 
@@ -227,4 +252,43 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
 
     }
+
+
+    public static class X
+    {
+        public static void ToMouseCursor(this Sprite c)
+        {
+            // http://www.kirupa.com/forum/showthread.php?274754-bitmapData-transparency
+
+            var u = new BitmapData(32, 32, transparent: true, fillColor: 0x00FFFFFFu);
+
+            var adjustAlpha = new ColorTransform();
+
+            //adjustAlpha.alphaMultiplier = 0.5;
+
+            var m = new Matrix();
+
+            u.draw(c, m, adjustAlpha, BlendMode.NORMAL);
+
+
+            var data = new BitmapData[] {
+                    u
+                };
+
+            // X:\jsc.svn\examples\actionscript\FlashMouseCursorDataExperiment\FlashMouseCursorDataExperiment\ApplicationSprite.cs
+            var cursor = new MouseCursorData
+            {
+                data = data
+            };
+
+            // http://stackoverflow.com/questions/16004940/error-2136-swf-contains-invalid-data
+            //Error: Error #2136: The SWF file file:///X|/jsc.svn/examples/actionscript/svg/FlashSVGCursorExperiment/FlashSVGCursorExperiment/bin/Debug/staging/FlashSVGCursorExperiment.ApplicationSprite/web/FlashSVGCursorExperiment.ApplicationSprite.swf contains invalid data.
+            //    at FlashSVGCursorExperiment::ApplicationSprite()[V:\web\FlashSVGCursorExperiment\ApplicationSprite.as:34]
+
+
+            Mouse.registerCursor("c", cursor);
+            Mouse.cursor = "c";
+        }
+    }
+
 }
