@@ -26,6 +26,7 @@ namespace FlashHeatZeeker.UnitTank.Library
             tanktrackpattern = new_tex_crop("assets/FlashHeatZeeker.UnitTank/tanktrackpattern.svg", innersize: 128);
             greentank_guntower = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_guntower.svg", innersize: 128);
             greentank_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank_shadow.svg", innersize: 128, alpha: 0.3);
+
             greentank = new_tex_crop("assets/FlashHeatZeeker.UnitTank/greentank.svg", innersize: 128);
         }
     }

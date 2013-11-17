@@ -129,21 +129,33 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
 
 
-            ApplicationSprite sprite = new ApplicationSprite();
+            var sprite = new ApplicationSprite();
 
 
 
             sprite.AttachSpriteToDocument().With(
                    embed =>
                    {
-                       embed.style.SetLocation(0, 0);
-                       embed.style.SetSize(Native.window.Width, Native.window.Height);
 
-                       Native.window.onresize +=
+                       // show thumbnail
+                       // or click to enable plugin?
+                       embed.style.SetSize(Native.window.Width, 96);
+
+
+                       sprite.WhenReady(
                            delegate
                            {
+
+                               embed.style.SetLocation(0, 0);
                                embed.style.SetSize(Native.window.Width, Native.window.Height);
-                           };
+
+                               Native.window.onresize +=
+                                   delegate
+                                   {
+                                       embed.style.SetSize(Native.window.Width, Native.window.Height);
+                                   };
+                           }
+                       );
                    }
                );
 

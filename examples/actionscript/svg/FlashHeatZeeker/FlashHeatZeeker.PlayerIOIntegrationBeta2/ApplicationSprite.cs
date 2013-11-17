@@ -44,6 +44,10 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
     {
         public string Alternate { get; set; }
 
+        public void WhenReady(Action yield)
+        {
+            yield();
+        }
 
         public ApplicationSprite()
         {
@@ -93,6 +97,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                        };
 
 
+                    #region keys
                     this.stage.keyUp +=
                        e =>
                        {
@@ -121,6 +126,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                                this.stage.displayState = ScriptCoreLib.ActionScript.flash.display.StageDisplayState.FULL_SCREEN_INTERACTIVE;
                            }
                        };
+                    #endregion
+
                 }
             );
 
@@ -241,6 +248,11 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                             };
 
                         StarlingGameSpriteBeta2.ShopExit += shop.ShopExit;
+
+
+                        // http://www.flare3d.com/support/index.php?topic=1101.0
+
+                        this.addChild(new net.hires.debug.Stats { alpha = 0.7 });
                     };
 
 
@@ -254,7 +266,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
     }
 
 
-    public static class X
+    public static class XToMouseCursor
     {
         public static void ToMouseCursor(this Sprite c)
         {

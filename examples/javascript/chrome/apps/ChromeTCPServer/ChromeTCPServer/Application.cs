@@ -181,6 +181,7 @@ namespace ChromeTCPServer
 
                 // { socketId = 68, bytesWritten = -15 } 
                 var result = await socket.socketId.sendTo(
+                    // ! we need ScriptCoreLib.Redux build here
                     xdata.buffer,
                     "239.1.2.3",
                     40404
