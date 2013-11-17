@@ -608,16 +608,16 @@ namespace SpaceInvadersTemplate.Library.Controls
 
                 double gamma = 0;
 
-                Native.window.ondeviceorientation +=
-                    eventData =>
-                    {
-                        if (eventData.gamma < -50)
-                            gamma = eventData.beta;
-                        else
-                            gamma = eventData.gamma;
+                //Native.window.ondeviceorientation +=
+                //    eventData =>
+                //    {
+                //        if (eventData.gamma < -50)
+                //            gamma = eventData.beta;
+                //        else
+                //            gamma = eventData.gamma;
 
                        
-                    };
+                //    };
 
                 new ScriptCoreLib.JavaScript.Runtime.Timer(
                     t =>
