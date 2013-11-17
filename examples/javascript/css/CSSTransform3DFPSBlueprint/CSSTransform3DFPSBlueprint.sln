@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSTransform3DFPSBlueprint", "CSSTransform3DFPSBlueprint\CSSTransform3DFPSBlueprint.csproj", "{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|Any CPU = Android|Any CPU
+		Android|Mixed Platforms = Android|Mixed Platforms
+		Android|x86 = Android|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Android|Any CPU.ActiveCfg = Android|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Android|Mixed Platforms.ActiveCfg = Android|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Android|Mixed Platforms.Build.0 = Android|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Android|x86.ActiveCfg = Android|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Android|x86.Build.0 = Android|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Debug|x86.ActiveCfg = Debug|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Debug|x86.Build.0 = Debug|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|Any CPU.ActiveCfg = Release|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|x86.ActiveCfg = Release|x86
+		{4A5E7A15-E494-4AF3-B19B-30BBDE78D9C9}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
