@@ -84,6 +84,8 @@ namespace AvalonCloseWindowExperiment
                     // waiting for the fix.
 
                     // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
+                    // http://developer.chrome.com/apps/tags/webview.html
+
                     Native.window.close();
                 };
 
