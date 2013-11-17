@@ -165,7 +165,11 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         #region fontFamily
+
+        // CSSFontFaceRule
+        // X:\jsc.svn\examples\javascript\css\CSSFontFaceExperiment\CSSFontFaceExperiment\Application.cs
         [Script(IsStringEnum = true)]
+        [Obsolete("CSSFontFaceRule")]
         public enum FontFamilyEnum
         {
             Times, Helvetica, /*Zapf-Chancery,*/ Western,

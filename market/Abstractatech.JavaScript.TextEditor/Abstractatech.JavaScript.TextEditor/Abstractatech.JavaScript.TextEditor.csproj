@@ -161,6 +161,9 @@
     <Content Include="Textures\underline.gif" />
     <Content Include="Textures\undo.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Design\BLOKKRegular.ttf" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

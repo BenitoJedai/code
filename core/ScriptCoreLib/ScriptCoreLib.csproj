@@ -96,6 +96,8 @@
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
+    <Compile Include="JavaScript\DOM\CSSFontFaceRule.cs" />
+    <Compile Include="JavaScript\DOM\CSSMediaRule.cs" />
     <Compile Include="JavaScript\DOM\CSSRule.cs" />
     <Compile Include="JavaScript\DOM\CSSStyleRule.cs" />
     <Compile Include="JavaScript\DOM\FileEntry.cs" />

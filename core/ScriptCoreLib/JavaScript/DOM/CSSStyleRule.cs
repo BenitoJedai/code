@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // extensions to a proxy type
         // then we can delay the decsision to use inline style or rule
 
+        #region print
         [Obsolete("experimental")]
         public CSSStyleRule print
         {
@@ -49,6 +50,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return p[selectorText];
             }
         }
+        #endregion
+
 
 
         #region pseudo-classes

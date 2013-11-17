@@ -12,20 +12,20 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Serialized;
 using ScriptCoreLib.Shared.Drawing;
-
+using System.Linq;
+using System;
 //[assembly: ScriptResources("assets/Abstractatech.JavaScript.TextEditor")]
 
 namespace ScriptCoreLib.JavaScript.Controls
 {
     using StringPair = Pair<string, string>;
-    using System.Linq;
-    using System;
+
 
 
 
     public class TextEditor
     {
-
+        // http://demosthenes.info/blog/661/Vengeance-On-Lorem-Ipsum-Three-Draft-Filler-Fonts
 
         // http://download.dojotoolkit.org/release-0.2.2/dojo-0.2.2-widget/demos/widget/Editor.html
         // http://www.dynamicdrive.com/dynamicindex16/richtexteditor/index.htm
@@ -541,7 +541,11 @@ namespace ScriptCoreLib.JavaScript.Controls
                 new StringPair("Ariel", "Ariel"),
                 new StringPair("Tahoma", "Tahoma"),
                 new StringPair("Times New Roman", "Times New Roman"),
-                new StringPair("Verdana", "Verdana")
+                new StringPair("Verdana", "Verdana"),
+
+                // http://demosthenes.info/assets/fonts/BLOKKRegular.ttf
+                // did we define font face?
+                new StringPair("Blokk", "Blokk")
             )
             {
                 Width = "10em",
