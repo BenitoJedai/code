@@ -91,63 +91,6 @@ namespace ScriptCoreLib.JavaScript.DOM
     }
 
 
-    [Script(InternalConstructor = true)]
-    public partial class CSSMediaRule : CSSRule
-    {
-        // http://www.w3.org/TR/1998/REC-CSS2-19980512/media.html#media-types
-        public string[] media;
-
-        // Uncaught TypeError: Cannot read property 'cssRules' of undefined 
-        // not for chrome??
-
-        #region Rules
-        internal CSSStyleRule[] rules;
-        internal CSSStyleRule[] cssRules;
-
-        public CSSStyleRule[] Rules
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-
-
-                if (Expando.InternalIsMember(this, "cssRules"))
-                    return this.cssRules;
-
-                if (Expando.InternalIsMember(this, "rules"))
-                    return this.rules;
-
-                throw new System.Exception("member IStyleSheet.Rules not found");
-            }
-        }
-        #endregion
-
-
-
-        public long insertRule(string rule, long index)
-        {
-            return default(long);
-        }
-
-
-        public CSSStyleRule this[IHTMLElement e]
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[e.InternalGetExplicitRuleSelector()];
-            }
-        }
-
-        public CSSStyleRule this[string selectorText]
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return __IStyleSheet.__get_item(this, selectorText);
-            }
-        }
-    }
 
     // rename to CSSStyleSheet ?
     // too public. collect examples using this type name beforehand
@@ -156,7 +99,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         // http://www.w3.org/TR/DOM-Level-2-Style/css.html
 
-   
+
 
         #region print
         static IStyleSheet _print;
@@ -338,6 +281,23 @@ namespace ScriptCoreLib.JavaScript.DOM
             throw new System.Exception("fault at IStyleSheetRule.AddRule");
 
 
+        }
+
+
+
+        [Script(DefineAsStatic = true)]
+        public CSSFontFaceRule AddFontFaceRule(string fontFamily, string src)
+        {
+            // tested by 
+            // X:\jsc.svn\examples\javascript\css\CSSFontFaceExperiment\CSSFontFaceExperiment\Application.cs
+
+            var r = this.AddRule("@font-face");
+
+            r.style.setProperty("font-family", fontFamily, "");
+            r.style.setProperty("src", "url('" + src + "')", "");
+
+            // crude cast
+            return (CSSFontFaceRule)(object)r;
         }
 
         [Script(DefineAsStatic = true)]
