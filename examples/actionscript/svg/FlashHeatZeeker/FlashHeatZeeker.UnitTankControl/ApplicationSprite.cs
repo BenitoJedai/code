@@ -34,7 +34,7 @@ namespace FlashHeatZeeker.UnitTankControl
 
               //Starling.current.showStats
 
-              s.showStats = true;
+              //s.showStats = true;
 
               #region atresize
               Action atresize = delegate
@@ -82,6 +82,9 @@ namespace FlashHeatZeeker.UnitTankControl
                   };
 
               s.start();
+
+              // http://www.flare3d.com/support/index.php?topic=1101.0
+              this.addChild(new net.hires.debug.Stats());
 
           }
       );
