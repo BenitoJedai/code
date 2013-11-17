@@ -398,7 +398,10 @@ namespace ScriptCoreLib.JavaScript.Controls
         /// spawns a new text editor as a child element
         /// </summary>
         /// <param name="parent">this node must be loaded into dom</param>
-        public TextEditor(IHTMLElement parent)
+        public TextEditor(
+            IHTMLElement parent,
+            CSSFontFaceRule[] fonts = null
+            )
         {
 
             this.TopToolbar = new IHTMLDiv();
@@ -488,30 +491,67 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             Console.WriteLine("DesignMode switched on... for now..");
 
-            Native.window.requestAnimationFrame +=
-                delegate
+
+            #region iframe is in a different scope. need to copy styles
+            if (fonts != null)
+            {
+                Console.WriteLine("will copy fonts...");
+
+                // Uncaught HierarchyRequestError: Failed to execute 'appendChild' on 'Node': Nodes of type 'STYLE' may not be inserted inside nodes of type '#document'.
+                var fontsStyleSheet = new IHTMLStyle().AttachTo(
+                    this.InternalDocument.documentElement
+                ).StyleSheet;
+
+                foreach (var item in fonts)
                 {
-                    var CurrentInternalDocument = this.InternalDocument;
+                    // crude cast
+                    var fontFamily = (string)(object)item.style.fontFamily;
 
-                    Frame.onload +=
-                        delegate
-                        {
-                            InternalDocument.DesignMode = true;
+                    var r = fontsStyleSheet.AddFontFaceRule(fontFamily, "");
+
+                    // Uncaught Error: NotImplementedException: __CallSite.Create
+                    string src = (item.style as dynamic).src;
+
+                    r.style.setProperty(
+                        "src",
+                        src,
+                        ""
+                    );
+
+                    Console.WriteLine(new { fontFamily, src });
+                }
+            }
+            #endregion
+
+            ////Native.window.requestAnimationFrame +=
+            ////    delegate
+            ////    {
+            //        var CurrentInternalDocument = this.InternalDocument;
+
+            //        Console.WriteLine("awaiting onload");
+            //        Frame.onload +=
+            //            delegate
+            //            {
+            //                Console.WriteLine("at onload");
+
+            //                InternalDocument.DesignMode = true;
 
 
 
-                            //Console.WriteLine("onload " + new { Frame.src, Frame.contentWindow.document.location.href, x });
+            //                //Console.WriteLine("onload " + new { Frame.src, Frame.contentWindow.document.location.href, x });
 
 
-                            Native.window.requestAnimationFrame +=
-                               delegate
-                               {
-                                   // restore content
-                                   this.InnerHTML = CurrentInternalDocument.body.innerHTML;
-                                   CurrentInternalDocument = this.InternalDocument;
-                               };
-                        };
-                };
+            //                Native.window.requestAnimationFrame +=
+            //                   delegate
+            //                   {
+            //                       // restore content
+            //                       this.InnerHTML = CurrentInternalDocument.body.innerHTML;
+            //                       CurrentInternalDocument = this.InternalDocument;
+
+
+            //                   };
+            //            };
+            //    //};
 
 
             #region ToolbarButton
@@ -536,7 +576,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             var fontfamily = CreateButton("assets/Abstractatech.JavaScript.TextEditor/icon_font.gif");
 
-            var FontMenu = new PopupMenu(
+            var FontList = new[] {
                 new StringPair("consolas, courier new, courier", "Courier"),
                 new StringPair("Ariel", "Ariel"),
                 new StringPair("Tahoma", "Tahoma"),
@@ -545,8 +585,24 @@ namespace ScriptCoreLib.JavaScript.Controls
 
                 // http://demosthenes.info/assets/fonts/BLOKKRegular.ttf
                 // did we define font face?
-                new StringPair("Blokk", "Blokk")
-            )
+                //new StringPair("Blokk", "Blokk")
+            }.ToList();
+
+            if (fonts != null)
+            {
+                foreach (var item in fonts)
+                {
+                    // crude cast
+                    var fontFamily = (string)(object)item.style.fontFamily;
+
+                    FontList.Add(
+                        new StringPair(fontFamily, fontFamily)
+                    );
+
+                }
+            }
+
+            var FontMenu = new PopupMenu(FontList.ToArray())
             {
                 Width = "10em",
                 PaddingLeft = "24px"
