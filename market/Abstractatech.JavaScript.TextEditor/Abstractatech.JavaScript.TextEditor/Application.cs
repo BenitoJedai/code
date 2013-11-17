@@ -28,14 +28,23 @@ namespace Abstractatech.JavaScript.TextEditor
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            new ScriptCoreLib.JavaScript.Controls.TextEditor(page.body);
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+            new ScriptCoreLib.JavaScript.Controls.TextEditor(
+                page.body,
+
+                fonts:
+                    new[] {
+                        new Fonts.BLOKKRegular().rule,
+                        new Fonts.redacted_script_regular().rule,
+                    }
             );
+
+            //@"Hello world".ToDocumentTitle();
+            //// Send data from JavaScript to the server tier
+            //service.WebMethod2(
+            //    @"A string from JavaScript.",
+            //    value => value.ToDocumentTitle()
+            //);
         }
 
     }
