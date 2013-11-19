@@ -8,16 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DropFileIntoSQLite.Schema
+namespace AppEngineUserAgentLogger.Schema
 {
-    class Table1 : Table1Queries
+    class FirstTable : FirstTableQueries
     {
         //public const string DefaultDataSource = "SQLiteWithDataGridView52.sqlite";
-        public const string DefaultDataSource = @"G:\SQLiteWithDataGridView54.sqlite";
+        public const string DefaultDataSource = "SQLiteWithDataGridView53.sqlite";
 
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
-        public Table1(string DataSource = DefaultDataSource)
+        public FirstTable(string DataSource = DefaultDataSource)
         {
 
             #region abort if in design mode
@@ -37,24 +37,10 @@ namespace DropFileIntoSQLite.Schema
             WithConnection(
                 c =>
                 {
-                    new Create { }.ExecuteNonQuery(c);
-                    new Table1MetaQueries.CreateMeta { }.ExecuteNonQuery(c);
+                    new CreateMeta { }.ExecuteNonQuery(c);
                 }
              );
         }
-
-        // reference to child table?
-
-        public void Delete(Delete value)
-        {
-            WithConnection(
-                c =>
-                {
-                    value.ExecuteNonQuery(c);
-                }
-            );
-        }
-
         public void SelectAll(Action<dynamic> yield)
         {
             WithConnection(
@@ -65,29 +51,7 @@ namespace DropFileIntoSQLite.Schema
             );
         }
 
-        public void SelectBytes(SelectBytes value, Action<IDataReader> yield)
-        {
-            WithConnection(
-               c =>
-               {
-                   value.ExecuteReader(c).WithEachReader(yield);
-               }
-             );
-        }
-
-        public void Insert(Insert value, Action<long> yield)
-        {
-            WithConnection(
-             c =>
-             {
-                 value.ExecuteNonQuery(c);
-
-                 yield(c.LastInsertRowId);
-             }
-           );
-        }
-
-        public Task<Table1MetaQueries.InsertMeta> InsertMeta(Table1MetaQueries.InsertMeta value)
+        public Task<InsertMeta> Insert(InsertMeta value)
         {
             WithConnection(
                 c =>
@@ -98,10 +62,8 @@ namespace DropFileIntoSQLite.Schema
 
             return value.ToTaskResult();
         }
+
     }
-
-
-
 
     public static partial class XX
     {
@@ -172,4 +134,5 @@ namespace DropFileIntoSQLite.Schema
             return c;
         }
     }
+
 }

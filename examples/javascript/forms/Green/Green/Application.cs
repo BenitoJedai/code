@@ -70,22 +70,22 @@ namespace Green
                         //c.as
 
 
-                        var i = new twitter_icon().AttachTo(
-                            c.AsHTMLElementContainer()
-                        );
+                        //var i = new twitter_icon().AttachTo(
+                        //    c.AsHTMLElementContainer()
+                        //);
 
-                        i.style.width = "auto";
-                        i.style.height = "1em";
+                        //i.style.width = "auto";
+                        //i.style.height = "1em";
                         //i.style.Float = IStyle.FloatEnum.left;
 
                         var che = new CheckBox { Text = (string)c.Value, Checked = true };
                         c.Value = "";
 
-                        che.CheckedChanged +=
-                            delegate
-                            {
-                                i.Show(che.Checked);
-                            };
+                        //che.CheckedChanged +=
+                        //    delegate
+                        //    {
+                        //        i.Show(che.Checked);
+                        //    };
 
                         che.GetHTMLTarget().style.display = IStyle.DisplayEnum.inline_block;
 

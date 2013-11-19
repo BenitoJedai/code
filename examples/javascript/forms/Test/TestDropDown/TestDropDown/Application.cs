@@ -39,15 +39,21 @@ namespace TestDropDown
 
             var x = new IHTMLDiv();
 
-            x.style.backgroundColor = "rgba(255,0,0,0.5)";
+            x.style.backgroundColor = "rgba(255,255,255,1.0)";
             x.style.position = IStyle.PositionEnum.absolute;
             x.style.height = "auto";
             x.style.width = "100%";
             x.style.top = "100%";
+            x.style.zIndex = 999;
+
 
             x.AttachTo(content.textBox1.GetHTMLTarget());
 
-
+            x.Hide();
+            Action close = delegate
+            {
+                x.Hide();
+            };
 
             Action<string> add = name =>
                 new Option { name = name }.With(
@@ -56,21 +62,29 @@ namespace TestDropDown
 
                         o.AttachTo(x);
 
-                        o.div.css.hover.style.backgroundColor = "yellow";
+                        o.div.css.hover.style.backgroundColor = "green";
 
                         o.div.onclick +=
                             delegate
                             {
+                                Console.WriteLine(o.name.innerText);
                                 content.textBox1.Text = o.name.innerText;
+                                close();
                                 //content.textBox1.Text = o.name;
                             };
                     }
                 );
 
 
-            content.checkBox1.CheckedChanged += delegate { x.Show(content.checkBox1.Checked); };
+            //content.checkBox1.CheckedChanged += delegate { x.Show(content.checkBox1.Checked); };
+            content.textBox1.GotFocus += delegate
+            {
+                x.Show();
+            };
+
 
             add("foo");
+            add("Marge Simpson");
 
             new TheOtherOption { }.With(
                 o =>
@@ -92,12 +106,24 @@ namespace TestDropDown
 
             add("bar");
 
+            var ls = new Option { name = "Lisa Simpson EUR" }.With(o =>
+            {
+                o.div.css.hover.style.backgroundColor = "rgba(118, 207, 140, 0.7)";
 
+                o.div.onclick +=
+                    delegate
+                    {
+                        content.textBox1.Text = o.name.innerText;
+                        close();
+                    };
+            });
 
             content.textBox2.AddDropDownOptions(
                 new Option { name = "hello" },
                 new TheOtherOption { },
-                new Option { name = "world" }
+                new Option { name = "world" },
+                ls
+
             );
 
         }
@@ -113,11 +139,12 @@ namespace ScriptCoreLib.JavaScript.Extensions
         {
             var x = new IHTMLDiv();
 
-            x.style.backgroundColor = "rgba(255,0,0,0.5)";
+            x.style.backgroundColor = "rgba(255,255,255,1.0)";
             x.style.position = IStyle.PositionEnum.absolute;
             x.style.height = "auto";
             x.style.width = "100%";
             x.style.top = "100%";
+            x.style.zIndex = 999;
 
             var c = that.GetHTMLTarget();
 
@@ -130,7 +157,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
                 x.Show();
             };
 
-            that.LostFocus += delegate
+            that.Leave += delegate
             {
                 x.Hide();
             };
@@ -163,7 +190,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
                         var o = (INodeConvertible<IHTMLDiv>)k;
                         {
                             o.AttachTo(x);
-
+                         
                             //o.div.css.hover.style.backgroundColor = "yellow";
                         }
                     }

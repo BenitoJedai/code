@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebNotificationsViaDataAdapter</RootNamespace>
     <AssemblyName>WebNotificationsViaDataAdapter</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>WebNotificationsViaDataAdapter.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,8 +114,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="System.Data.SQLite">
       <HintPath>..\packages\System.Data.SQLite.x86.1.0.89.0\lib\net45\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite.Linq">
@@ -142,6 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DropDownController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schema\FooTable.cs" />
     <Compile Include="Schema\FooTableDesigner.cs">
@@ -164,6 +165,7 @@
     <Content Include="Schema\FooTable\insert foo.sql" />
     <Content Include="Schema\FooTable\select all.sql" />
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Design\ScriptedNotifications.csv" />
     <None Include="Design\youtube.webp" />
     <None Include="packages.config" />

@@ -38,6 +38,7 @@
             this.userControl11.Name = "userControl11";
             this.userControl11.Size = new System.Drawing.Size(551, 347);
             this.userControl11.TabIndex = 0;
+            this.userControl11.Load += new System.EventHandler(this.userControl11_Load);
             // 
             // Form1
             // 

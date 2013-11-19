@@ -17,7 +17,7 @@ namespace TestClassReferenceInServerSide
     /// </summary>
     public sealed partial class ApplicationWebService : Component
     {
-        SearchComponentClass search = new SearchComponentClass(); 
+       
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
@@ -25,6 +25,7 @@ namespace TestClassReferenceInServerSide
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
+            SearchComponentClass search = new SearchComponentClass(); 
             // Send it back to the caller.
             y(e);
         }

@@ -21,7 +21,5 @@ namespace TestFormsDataGridFont
         {
             this.InitializeComponent();
         }
-
-
     }
 }

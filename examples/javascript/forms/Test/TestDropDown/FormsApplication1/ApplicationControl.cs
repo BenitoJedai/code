@@ -15,5 +15,15 @@ namespace FormsApplication1
             this.InitializeComponent();
         }
 
+        private async void ApplicationControl_Load(object sender, System.EventArgs e)
+        {
+           
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

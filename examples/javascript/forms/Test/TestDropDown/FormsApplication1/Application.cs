@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using TestDropDown;
 
 namespace FormsApplication1
 {
@@ -38,14 +39,72 @@ namespace FormsApplication1
             content.AttachControlToDocument();
 
 
-            content.textBox1.AddDropDownOptions(
-                new DataGridView
+          
+
+            var ss = new DataGridView
                 {
                     DataSource = Book1.GetDataSet(),
                     DataMember = "Assets"
-                }
-            );
+                };
+            content.Controls.Add(ss);
 
+            var x = new IHTMLDiv();
+
+            x.style.backgroundColor = "rgba(255,255,255,1.0)";
+            x.style.position = IStyle.PositionEnum.absolute;
+            x.style.height = "auto";
+            x.style.width = "100%";
+            x.style.top = "100%";
+            x.style.zIndex = 999;
+            var temp = ss.Rows[1];
+            var sss = temp.Cells[0].AsHTMLElementContainer();
+            sss.style.backgroundColor = "red";
+            new TheOtherOption { }.With(
+               o =>
+               {
+                   o.BackColor = Color.White;
+
+                   o.GetHTMLTarget().With(
+                       div =>
+                       {
+                           div.AttachTo(x);
+
+
+                           div.style.position = IStyle.PositionEnum.absolute;
+                       }
+                   );
+
+               }
+           );
+
+
+            x.AttachTo(sss.parentNode);
+            x.Hide();
+
+            sss.onmouseover += delegate
+            {
+                x.Show();
+            };
+
+            sss.onmouseout += delegate
+            {
+                x.Hide();
+            };
+
+
+
+            //that.GotFocus += delegate
+            //{
+            //    x.Show();
+            //};
+
+            //that.Leave += delegate
+            //{
+            //    x.Hide();
+            //};
+
+           
+            
         }
 
     }
