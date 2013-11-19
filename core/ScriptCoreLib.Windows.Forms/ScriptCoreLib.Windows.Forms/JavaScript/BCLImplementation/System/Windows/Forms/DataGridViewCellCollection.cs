@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public BindingListWithEvents<__DataGridViewCell> InternalItemsX = new BindingListWithEvents<__DataGridViewCell>();
         public readonly BindingList<__DataGridViewCell> InternalItems;
 
+        public __DataGridViewRow InternalRow;
 
         public __DataGridViewCellCollection()
         {
@@ -52,6 +53,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
+            }
+        }
+
+        public DataGridViewCell this[string columnName]
+        {
+            get
+            {
+                //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewElement.get_DataGridView()]
+
+                //return this.InternalItems.FirstOrDefault(k => k.OwningRow.DataGridView.Columns[k.ColumnIndex].Name == columnName);
+
+
+                var c = this.InternalRow.InternalContext.InternalColumns.InternalItems.FirstOrDefault(x => x.Name == columnName);
+
+                return this[c.Index];
             }
         }
 

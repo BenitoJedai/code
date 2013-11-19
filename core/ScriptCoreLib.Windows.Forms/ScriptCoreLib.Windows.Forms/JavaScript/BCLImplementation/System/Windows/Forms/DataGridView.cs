@@ -164,7 +164,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }.AttachTo(this.InternalElement);
 
 
-            
+
 
             //this.InternalScrollContainerElement.style.backgroundColor = JSColor.Gray;
             this.BackgroundColor = global::System.Drawing.SystemColors.AppWorkspace;
@@ -578,7 +578,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         var innerText = SourceCell.Value.ToString();
 
-                        Console.WriteLine("AtInternalValueChanged " + new { innerText });
+                        //Console.WriteLine("AtInternalValueChanged " + new { innerText });
                         InternalContent.innerText = innerText;
 
                         InternalRaiseCellValueChanged(SourceCell);
@@ -1272,6 +1272,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 }
                             };
 
+                        ((__DataGridViewCellStyle)SourceRow.DefaultCellStyle).InternalBackColorChanged +=
+                            delegate
+                            {
+                                // when row style is changed, who overriddes who?
+                                SourceCell.Style.BackColor = SourceRow.DefaultCellStyle.BackColor;
+                            };
+
                         if (SourceColumn.DefaultCellStyle != null)
                         {
                             SourceCell.Style.ForeColor = SourceColumn.DefaultCellStyle.ForeColor;
@@ -1653,7 +1660,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             if (WidthByRowsInThisColumn == 0)
                             {
                                 // no DOM?
-                                Console.WriteLine("InternalAutoSize skipped");
+                                //Console.WriteLine("InternalAutoSize skipped");
                             }
                             else
                             {

@@ -38,7 +38,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
         #region BackColor
-        public Action InternalBackColorChanged;
+        public event Action InternalBackColorChanged;
 
         public Color InternalBackColor;
         public Color BackColor
