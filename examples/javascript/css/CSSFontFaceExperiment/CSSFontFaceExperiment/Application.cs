@@ -95,7 +95,7 @@ namespace CSSFontFaceExperiment
 
 
 
-            IStyleSheet.all["p"].style.fontFamily = new FontFaces.BLOKKRegular();
+            IStyleSheet.all["p"].style.fontFamily = new FontFaces.open_sans_regular();
             //IStyleSheet.all["p"].style.fontFamily = new FontFaces.BLOKKRegular("a/xblokk").rule.style.fontFamily;
             //IStyleSheet.all["p"].style.fontFamily = new XBLOKKRegular();
         }
