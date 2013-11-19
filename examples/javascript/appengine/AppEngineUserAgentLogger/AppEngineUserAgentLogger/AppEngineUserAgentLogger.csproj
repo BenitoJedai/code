@@ -140,6 +140,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\jsc.png" />
     <Content Include="Design\NextPage.htm" />
     <Content Include="Schema\FirstTable\create meta.sql" />
     <Content Include="Schema\FirstTable\insert meta.sql" />

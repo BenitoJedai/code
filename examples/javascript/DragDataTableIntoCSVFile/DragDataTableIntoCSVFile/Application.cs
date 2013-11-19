@@ -139,7 +139,7 @@ namespace DragDataTableIntoCSVFile
 
             foreach (DataColumn item in DataTable.Columns)
             {
-                csv.Append("\"" + item.ColumnName + "\",");
+                csv.Append(item.ColumnName + ",");
             }
 
             csv.AppendLine();
@@ -150,9 +150,7 @@ namespace DragDataTableIntoCSVFile
 
                 foreach (DataColumn c in DataTable.Columns)
                 {
-                    csv.Append("\"" + item[c] + "\",");
-
-
+                    csv.Append(item[c] + ",");
                 }
 
                 csv.AppendLine();

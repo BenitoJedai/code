@@ -40,7 +40,6 @@ namespace WebNotificationsViaDataAdapter
             var zpage = new InlinePageActionButtonExperiment();
             var zedit = page.EditElement;
 
-
             page.EditElement.parentNode.replaceChild(
                 zpage.Container,
                 page.EditElement
@@ -52,44 +51,57 @@ namespace WebNotificationsViaDataAdapter
 
 
             var content = default(FooTableDesigner);
+            var c = new DropDownController();
             Action onclick =
            async delegate
            {
-
                if (content == null)
                {
                    content = new FooTableDesigner();
+                   c.AddDropDown(zpage.editcontent, content);
 
-
-                   zpage.editcontext.style.SetSize(
-                       content.Width,
-                       content.Height
-                   );
-
-                   content.AttachControlTo(zpage.editcontent);
-
-                   // blend with control
-                   var bc = content.BackColor;
-                   zpage.edit.style.backgroundColor = bc.ToString();
-
-                   zpage.edit.style.boxShadow = "black 3px 3px 6px -3px";
-                   zpage.edit.style.borderBottom = "5px solid yellow";
-
-                   content.ParentForm.GetHTMLTarget().style.boxShadow = "black 3px 3px 6px -3px";
-
-
-                   return;
                }
+               else
+               {
+                   c.RemoveDropDown(zpage.editcontent, content);
+                   content = null;
+               }
+               
+
+               //if (content == null)
+               //{
+               //    content = new FooTableDesigner();
 
 
-               zpage.edit.style.boxShadow = "";
-               zpage.edit.style.borderBottom = "0px solid yellow";
+               //    zpage.editcontext.style.SetSize(
+               //        content.Width,
+               //        content.Height
+               //    );
 
-               content.ParentForm.Close();
-               content = null;
+               //    content.AttachControlTo(zpage.editcontent);
 
-               // blend with DOM
-               zpage.edit.style.backgroundColor = JSColor.Transparent;
+               //    // blend with control
+               //    var bc = content.BackColor;
+               //    zpage.edit.style.backgroundColor = bc.ToString();
+
+               //    zpage.edit.style.boxShadow = "black 3px 3px 6px -3px";
+               //    zpage.edit.style.borderBottom = "5px solid yellow";
+
+               //    content.ParentForm.GetHTMLTarget().style.boxShadow = "black 3px 3px 6px -3px";
+
+
+               //    return;
+               //}
+
+
+               //zpage.edit.style.boxShadow = "";
+               //zpage.edit.style.borderBottom = "0px solid yellow";
+
+               //content.ParentForm.Close();
+               //content = null;
+
+               //// blend with DOM
+               //zpage.edit.style.backgroundColor = JSColor.Transparent;
            };
 
             zpage.edit.onclick += e => { onclick(); e.preventDefault(); };
@@ -177,7 +189,7 @@ namespace WebNotificationsViaDataAdapter
                     }
                 }
             );
-        }
+        }      
 
     }
 }

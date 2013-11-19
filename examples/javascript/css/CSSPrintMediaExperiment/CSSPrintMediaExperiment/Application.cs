@@ -123,7 +123,7 @@ namespace CSSPrintMediaExperiment
 
 
             //f.FormBorderStyle = FormBorderStyle.None;
-            new Form1().AttachFormTo(page.output);
+            new Form1{FormBorderStyle = FormBorderStyle.None}.AttachFormTo(page.output);
 
             //f.GetHTMLTarget().AttachTo(page.output);
 
@@ -134,8 +134,8 @@ namespace CSSPrintMediaExperiment
 
             IStyleSheet.Default
                 [CSSMediaTypes.print]
-                [Native.document.body].style.overflow =
-                    IStyle.OverflowEnum.hidden;
+                [page.output].style.border = "0px solid black";
+                    //IStyle.OverflowEnum.hidden;
 
 
             page.Print.onclick +=
@@ -156,16 +156,16 @@ namespace CSSPrintMediaExperiment
             // hide it from plain sight
             i.style.display = IStyle.DisplayEnum.none;
 
-            new IHTMLInput { type = ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox }.AttachToDocument().With(
-                x =>
-                {
-                    x.onclick += delegate
-                    {
-                        i.ToggleVisible();
-                    };
+            //new IHTMLInput { type = ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox }.AttachToDocument().With(
+            //    x =>
+            //    {
+            //        x.onclick += delegate
+            //        {
+            //            i.ToggleVisible();
+            //        };
 
-                }
-            );
+            //    }
+            //);
 
 
             // it will never load with out this call!
@@ -194,7 +194,7 @@ namespace CSSPrintMediaExperiment
                 x.StyleSheet[CSSMediaTypes.print][s.Header].style.boxShadow =
                  "inset 0 0 0 10000px red";
 
-
+                s.Header.innerText = "test";
                 x.StyleSheet[CSSMediaTypes.print][s.SpecialText].before.style.content = "'print hello world'";
                 x.StyleSheet[CSSMediaTypes.print][s.SpecialText].before.style.color = "red";
                 x.StyleSheet[CSSMediaTypes.print][s.SpecialText].before.style.borderBottom = "1px solid red";
@@ -212,13 +212,13 @@ namespace CSSPrintMediaExperiment
                 page.PrintFromIframe.onclick +=
                     delegate
                     {
+                       
                         i.contentWindow.print();
                     };
             };
 
+
             i.src = "about:blank";
-
-
         }
 
     }

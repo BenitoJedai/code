@@ -15,5 +15,15 @@ namespace TestDropDown
             this.InitializeComponent();
         }
 
+        private void textBox3_TextChanged(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void ApplicationControl_Load(object sender, System.EventArgs e)
+        {
+            
+        }
+
     }
 }

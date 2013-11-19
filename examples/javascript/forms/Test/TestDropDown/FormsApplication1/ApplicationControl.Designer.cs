@@ -17,23 +17,15 @@ namespace FormsApplication1
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.applicationWebService1 = new FormsApplication1.ApplicationWebService();
             this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(46, 108);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(327, 20);
-            this.textBox1.TabIndex = 0;
             // 
             // ApplicationControl
             // 
-            this.Controls.Add(this.textBox1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(400, 300);
+            this.Size = new System.Drawing.Size(612, 506);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -46,8 +38,7 @@ namespace FormsApplication1
             // Note: This jsc project does not support unmanaged resources.
             base.Dispose(disposing);
         }
-
-        public TextBox textBox1;
+        private ApplicationWebService applicationWebService1;
 
     }
 }

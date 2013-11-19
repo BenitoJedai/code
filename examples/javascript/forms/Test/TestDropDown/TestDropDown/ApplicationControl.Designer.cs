@@ -20,11 +20,15 @@ namespace TestDropDown
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(367, 172);
+            this.textBox1.Location = new System.Drawing.Point(363, 155);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(278, 20);
             this.textBox1.TabIndex = 0;
@@ -46,13 +50,41 @@ namespace TestDropDown
             this.textBox2.Size = new System.Drawing.Size(278, 20);
             this.textBox2.TabIndex = 2;
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(87, 62);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(278, 20);
+            this.textBox3.TabIndex = 3;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(363, 193);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(278, 20);
+            this.textBox4.TabIndex = 4;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(20, 117);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
+            this.dataGridView1.TabIndex = 5;
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.textBox1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(681, 300);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -71,6 +103,9 @@ namespace TestDropDown
         public TextBox textBox1;
         public CheckBox checkBox1;
         public TextBox textBox2;
+        public TextBox textBox3;
+        public TextBox textBox4;
+        private DataGridView dataGridView1;
 
     }
 }

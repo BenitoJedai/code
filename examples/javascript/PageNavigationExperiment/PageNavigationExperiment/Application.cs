@@ -24,7 +24,7 @@ namespace PageNavigationExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public class Application : ApplicationWebService
+    public sealed class Application : ApplicationWebService
     {
         #region /s
         public class SearchPageApplication : ApplicationWebService

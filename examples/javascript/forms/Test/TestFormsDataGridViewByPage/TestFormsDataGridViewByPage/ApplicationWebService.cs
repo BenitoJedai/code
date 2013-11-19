@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using ScriptCoreLib.Extensions;
+using System.Diagnostics;
 
 namespace TestFormsDataGridViewByPage
 {
@@ -29,6 +30,30 @@ namespace TestFormsDataGridViewByPage
         {
             // Send it back to the caller.
             y(e);
+        }
+
+        public Task<int> GetAllQueryCount()
+        {
+            try
+            {
+                SqlConnection conn = new SqlConnection(connString);
+                SqlCommand command = new SqlCommand("Select * From Logs", conn);
+                var dataAdapter = new SqlDataAdapter(command);
+                var table = new DataTable();
+                table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+                dataAdapter.Fill(table);
+                var ret = table.Rows.Count / 100 + 1;
+                var x = new TaskCompletionSource<int>();
+                x.SetResult(ret);
+                return x.Task;
+            }
+            catch
+            {
+                var x = new TaskCompletionSource<int>();
+                x.SetResult(0);
+                return x.Task;
+            }
+            
         }
 
         public Task<int> GetAllItemsCount()
@@ -52,30 +77,34 @@ namespace TestFormsDataGridViewByPage
             var pageNumber = (page-1)*100;
             SqlCommand command = new SqlCommand("Select * From Logs", conn);
             conn.Open();
-
-             var dataAdapter = new SqlDataAdapter(command);
-             var table = new DataTable();
-             table.Locale = System.Globalization.CultureInfo.InvariantCulture;
-             dataAdapter.Fill(table);
+            var reader = command.ExecuteReader();
+            var table = new DataTable();
             var count = 0;
-            var tempList = new List<DataRow>();
-            foreach(DataRow s in table.Rows)
+            var s = new Stopwatch();
+            s.Start();
+            while (reader.Read())
             {
-                if(count < pageNumber) 
+                if (count == 0) 
                 {
-                    tempList.Add(s);
+                    for (var i = 0; i < reader.FieldCount; i++)
+                    {
+                        table.Columns.Add(reader.GetName(i));
+                    }
                 }
-                if (count > pageNumber + 100)
+                if (pageNumber < count && count < pageNumber + 100)
                 {
-                    tempList.Add(s);
+                    var row = table.NewRow();
+                    for (var m = 0; m < table.Columns.Count; m++)
+                    {
+                        row[m] = reader[m].ToString();
+                    }
+                    table.Rows.Add(row);
                 }
                 count++;
             }
-            foreach(DataRow s in tempList)
-            {
-                table.Rows.Remove(s);
-            }
-            table.AcceptChanges();
+            conn.Close();
+            s.Stop();
+            Console.WriteLine(s.ElapsedMilliseconds);
             var x = new TaskCompletionSource<DataTable>();
             x.SetResult(table);
             return x.Task;

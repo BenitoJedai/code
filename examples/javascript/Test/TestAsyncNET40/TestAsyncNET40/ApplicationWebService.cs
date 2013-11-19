@@ -23,11 +23,12 @@ namespace TestAsyncNET40
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public async Task<string> getString()
+        public Task<string> getString()
         {
             var s = "Async string";
-            return s;
+            var x = new TaskCompletionSource<string>();
+            x.SetResult(s);
+            return x.Task;
         }
-
     }
 }

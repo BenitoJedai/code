@@ -25,6 +25,7 @@ namespace AppEngineUserAgentLogger
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        NextPage next;
 
         /// <summary>
         /// This is a javascript application.
