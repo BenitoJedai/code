@@ -162,6 +162,33 @@
     <Reference Include="IsometricTycoonViewWithToolbar.AssetsLibrary">
       <HintPath>..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\bin\staging.AssetsLibrary\IsometricTycoonViewWithToolbar.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Abstractatech.JavaScript.FormAsPopup.AssetsLibrary">
+      <HintPath>..\..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\bin\staging.AssetsLibrary\Abstractatech.JavaScript.FormAsPopup.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonBrowserLogos.AssetsLibrary">
+      <HintPath>..\..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\bin\staging.AssetsLibrary\AvalonBrowserLogos.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="InteractiveTransformA.AssetsLibrary">
+      <HintPath>..\..\..\Avalon\InteractiveTransformA\InteractiveTransformA\bin\staging.AssetsLibrary\InteractiveTransformA.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PlasmaFormsControl.AssetsLibrary">
+      <HintPath>..\..\..\forms\PlasmaFormsControl\PlasmaFormsControl\bin\staging.AssetsLibrary\PlasmaFormsControl.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ImpAdventures.AssetsLibrary">
+      <HintPath>..\..\..\ImpAdventures\ImpAdventures\bin\staging.AssetsLibrary\ImpAdventures.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="IsometricTycoonViewWithToolbar.AssetsLibrary">
+      <HintPath>..\..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\bin\staging.AssetsLibrary\IsometricTycoonViewWithToolbar.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="McKrackenFirstRoom.AssetsLibrary">
+      <HintPath>..\..\..\McKrackenFirstRoom\McKrackenFirstRoom\bin\staging.AssetsLibrary\McKrackenFirstRoom.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson10.AssetsLibrary">
+      <HintPath>..\..\..\WebGLLesson10\WebGLLesson10\bin\staging.AssetsLibrary\WebGLLesson10.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpiral.AssetsLibrary">
+      <HintPath>..\..\..\WebGLSpiral\WebGLSpiral\bin\staging.AssetsLibrary\WebGLSpiral.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\boxf1.png" />
@@ -230,42 +257,46 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj">
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj">
+      <Project>{f32d7675-1193-4da7-98c8-c8b010c608d9}</Project>
+      <Name>Abstractatech.JavaScript.FormAsPopup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj">
       <Project>{1e159c6b-6a83-491d-9b06-00465a5dbb30}</Project>
       <Name>AvalonBrowserLogos</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Avalon\InteractiveTransformA\InteractiveTransformA\InteractiveTransformA.csproj">
+    <ProjectReference Include="..\..\..\Avalon\InteractiveTransformA\InteractiveTransformA\InteractiveTransformA.csproj">
       <Project>{3bd2bd38-102c-4c19-88e1-60522b55403c}</Project>
       <Name>InteractiveTransformA</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj">
+    <ProjectReference Include="..\..\..\forms\PlasmaFormsControl\PlasmaFormsControl\PlasmaFormsControl.csproj">
       <Project>{df8cc6e1-e494-4194-9e22-3feda8748f82}</Project>
       <Name>PlasmaFormsControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ImpAdventures\ImpAdventures\ImpAdventures.csproj">
+    <ProjectReference Include="..\..\..\ImpAdventures\ImpAdventures\ImpAdventures.csproj">
       <Project>{9c79ddc9-74db-4f8a-84e8-91744d007ab4}</Project>
       <Name>ImpAdventures</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar.csproj">
+    <ProjectReference Include="..\..\..\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar.csproj">
       <Project>{a28a2898-d11b-4027-b5fe-2a911cc5d66f}</Project>
       <Name>IsometricTycoonViewWithToolbar</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\McKrackenFirstRoom\McKrackenFirstRoom\McKrackenFirstRoom.csproj">
+    <ProjectReference Include="..\..\..\McKrackenFirstRoom\McKrackenFirstRoom\McKrackenFirstRoom.csproj">
       <Project>{7de9714d-6403-4e7c-a1a1-10e7206df46a}</Project>
       <Name>McKrackenFirstRoom</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\WebGLLesson10\WebGLLesson10\WebGLLesson10.csproj">
+    <ProjectReference Include="..\..\..\WebGLLesson10\WebGLLesson10\WebGLLesson10.csproj">
       <Project>{61cd247e-df04-4627-b884-a628469ced8a}</Project>
       <Name>WebGLLesson10</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\WebGLSpiral\WebGLSpiral\WebGLSpiral.csproj">
+    <ProjectReference Include="..\..\..\WebGLSpiral\WebGLSpiral\WebGLSpiral.csproj">
       <Project>{6be0fe6f-5ea4-40a5-8938-ff7c3b5d0969}</Project>
       <Name>WebGLSpiral</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
