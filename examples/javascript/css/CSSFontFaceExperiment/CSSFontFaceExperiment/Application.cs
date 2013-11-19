@@ -91,10 +91,16 @@ namespace CSSFontFaceExperiment
             //(IStyleSheet.all["*"].style as dynamic).fontFamily = "'Blokk <dynamic>'";
             IStyleSheet.all["*"].style.fontFamily = r.style.fontFamily;
 
+            // X:\jsc.svn\examples\javascript\forms\FormsFontFaceExperiment\FormsFontFaceExperiment\ApplicationControl.Designer.cs
 
+            // http://social.msdn.microsoft.com/Forums/windows/en-US/c870cc7a-4b1f-4572-80d7-0a4834c6f96f/only-truetype-fonts-are-supported-fontdialogrichtextbox-winforms?forum=winforms
+            // http://stackoverflow.com/questions/544590/custom-ttf-fonts-to-use-in-c-sharp-windows-form
+            // installed to
+            // open-sans.regular.ttf
+            // C:\Windows\Fonts
+            // http://www.idautomation.com/kb/TrueTypeErrorDotNet.html
 
-
-
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131119/ttf
             IStyleSheet.all["p"].style.fontFamily = new FontFaces.open_sans_regular();
             //IStyleSheet.all["p"].style.fontFamily = new FontFaces.BLOKKRegular("a/xblokk").rule.style.fontFamily;
             //IStyleSheet.all["p"].style.fontFamily = new XBLOKKRegular();
