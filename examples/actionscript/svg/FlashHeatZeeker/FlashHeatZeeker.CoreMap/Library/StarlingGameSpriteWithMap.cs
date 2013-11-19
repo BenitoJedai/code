@@ -82,7 +82,7 @@ namespace FlashHeatZeeker.CoreMap.Library
     {
         public StarlingGameSpriteWithMap()
         {
-            var textures = new StarlingGameSpriteWithTankTextures(new_tex_crop);
+            var textures = new StarlingGameSpriteWithTankTextures(new_texsprite_crop);
             var textures_map = new StarlingGameSpriteWithMapTextures(new_tex_crop);
             var textures_explosions = new StarlingGameSpriteWithMapExplosionsTextures(new_tex96);
 

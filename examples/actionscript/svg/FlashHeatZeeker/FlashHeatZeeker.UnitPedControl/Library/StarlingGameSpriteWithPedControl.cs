@@ -28,8 +28,11 @@ namespace FlashHeatZeeker.UnitPedControl.Library
         {
             // http://armorgames.com/play/13701/
 
-            var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop);
 
+            var textures_ped = new StarlingGameSpriteWithPedTextures(
+                this.new_tex_crop,
+                this.new_texsprite_crop
+            );
             //this.disablephysicsdiagnostics = true;
 
             this.onbeforefirstframe += (stage, s) =>

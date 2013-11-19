@@ -30,6 +30,15 @@ namespace FlashHeatZeeker.StarlingSetup.Library
         ScriptCoreLib.ActionScript.flash.filters.ColorMatrixFilter filter = null
     );
 
+    public delegate Func<Texture> SpriteToTexture64Constructor(
+        global::ScriptCoreLib.ActionScript.flash.display.Sprite asset,
+        double alpha = 1.0,
+        bool flipx = false,
+        int innersize = 64,
+        ColorTransform adjustAlpha = null,
+        ScriptCoreLib.ActionScript.flash.filters.ColorMatrixFilter filter = null
+    );
+
     public delegate void FrameHandler(ScriptCoreLib.ActionScript.flash.display.Stage stage, Starling starling);
 
 
@@ -53,6 +62,8 @@ namespace FlashHeatZeeker.StarlingSetup.Library
 
         public double internalscale = 0.3;
 
+
+        public SpriteToTexture64Constructor new_texsprite_crop;
         public Texture64Constructor new_tex_crop;
         public TextureFromImage new_tex96;
 
@@ -166,6 +177,18 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             this.new_tex_crop =
                (asset, alpha, flipx, innersize, adjustAlpha, filter) =>
                {
+
+                   var shape = ScriptCoreLib.ActionScript.Extensions.KnownEmbeddedResources.Default[asset].ToSprite();
+
+                   return new_texsprite_crop(shape, alpha, flipx, innersize, adjustAlpha, filter);
+               };
+
+
+            this.new_texsprite_crop =
+               (shape, alpha, flipx, innersize, adjustAlpha, filter) =>
+               {
+
+
                    //var innersize = 64;
                    // outer 400, inner 64
 
@@ -180,7 +203,6 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                    var rect = new Rectangle(Source0TextureLeft, Source0TextureTop, innersize, innersize);
 
                    {
-                       var shape = ScriptCoreLib.ActionScript.Extensions.KnownEmbeddedResources.Default[asset].ToSprite();
 
                        if (filter != null)
                            shape.filters = new[] { filter };

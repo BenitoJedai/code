@@ -152,18 +152,19 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\tracks0.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\greentank_shadow.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\tanktrackpattern.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\greentank_guntower_rank.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\greentank_guntower.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitTank\greentank.svg" />
+    <Content Include="Visuals\tracks0.svg" />
+    <Content Include="Visuals\greentank_shadow.svg" />
+    <Content Include="Visuals\tanktrackpattern.svg" />
+    <Content Include="Visuals\greentank_guntower_rank.svg" />
+    <Content Include="Visuals\greentank_guntower.svg" />
+    <Content Include="Visuals\greentank.svg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Textures\" />
+    <Folder Include="web\assets\FlashHeatZeeker.UnitTank\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

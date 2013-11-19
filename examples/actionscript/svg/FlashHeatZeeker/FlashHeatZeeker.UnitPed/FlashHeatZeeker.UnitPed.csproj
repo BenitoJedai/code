@@ -160,10 +160,10 @@
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_normalstand_walk2.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_normalstand_walk1.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_normalstand.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\hud_look_onlygoggles.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\hud_look_goggles.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\hud_look_building.svg" />
-    <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\hud_look.svg" />
+    <Content Include="Visuals\hud_look_onlygoggles.svg" />
+    <Content Include="Visuals\hud_look_goggles.svg" />
+    <Content Include="Visuals\hud_look_building.svg" />
+    <Content Include="Visuals\hud_look.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_down.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_footprints.svg" />
     <EmbeddedResource Include="web\assets\FlashHeatZeeker.UnitPed\ped_stand_walk3.svg" />
@@ -182,6 +182,7 @@
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget</PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		</PreBuildEvent>
   </PropertyGroup>
 </Project>

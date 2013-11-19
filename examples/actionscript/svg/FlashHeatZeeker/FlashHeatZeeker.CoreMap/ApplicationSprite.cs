@@ -10,7 +10,7 @@ using System;
 
 namespace FlashHeatZeeker.CoreMap
 {
-    [SWF(backgroundColor = 0xB27D51)]
+    [SWF(backgroundColor = 0xB27D51, frameRate = 120)]
     public sealed class ApplicationSprite : Sprite
     {
         public ApplicationSprite()
