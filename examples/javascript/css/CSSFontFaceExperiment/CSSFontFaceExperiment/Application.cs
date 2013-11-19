@@ -102,6 +102,8 @@ namespace CSSFontFaceExperiment
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131119/ttf
             IStyleSheet.all["p"].style.fontFamily = new FontFaces.open_sans_regular();
+            IStyleSheet.all["p"].style.fontFamily = new FontFaces.BLOKKRegular();
+
             //IStyleSheet.all["p"].style.fontFamily = new FontFaces.BLOKKRegular("a/xblokk").rule.style.fontFamily;
             //IStyleSheet.all["p"].style.fontFamily = new XBLOKKRegular();
         }
