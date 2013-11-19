@@ -27,11 +27,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        public override DataGridViewCellStyle DefaultCellStyle { get; set; }
+
         public DOM.HTML.IHTMLTableRow InternalZeroColumnTableRow;
         public DOM.HTML.IHTMLTableRow InternalTableRow;
 
         public __DataGridViewCellCollection InternalCells;
         public DataGridViewCellCollection Cells { get; set; }
+
+
 
         public bool IsNewRow
         {
@@ -59,8 +63,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.Height = 22;
 
-            this.InternalCells = new __DataGridViewCellCollection();
+            this.InternalCells = new __DataGridViewCellCollection {
+            
+                InternalRow = this
+            };
+
             this.Cells = (DataGridViewCellCollection)(object)this.InternalCells;
+            this.DefaultCellStyle = new DataGridViewCellStyle();
 
             this.InternalCells.InternalItems.ListChanged +=
                 (s, e) =>

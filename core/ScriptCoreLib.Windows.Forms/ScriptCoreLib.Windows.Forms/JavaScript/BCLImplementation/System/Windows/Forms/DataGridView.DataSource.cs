@@ -125,7 +125,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     );
                 }
 
+                // X:\jsc.internal.svn\core\com.abstractatech.my.business\com.abstractatech.my.business\Application.cs
+                this.Columns[cIndex].Name = item.ColumnName;
                 this.Columns[cIndex].HeaderText = item.ColumnName;
+
                 this.Columns[cIndex].ReadOnly = item.ReadOnly;
 
                 cIndex++;
@@ -212,7 +215,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //script: error JSC1000: error at ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__DataGridView+<>c__DisplayClass3.<set_DataSource>b__1,
                     // assembly: X:\jsc.svn\examples\javascript\forms\Test\TestDataTableNewRow\TestDataTableNewRow\bin\Release\ScriptCoreLib.Windows.Forms.dll
 
-                    if (CurrentRow[_e.ColumnIndex] == this[_e.ColumnIndex, _e.RowIndex].Value)
+                    if (CurrentRow == null)
+                    {
+                        // not data bound??
+
+                        return;
+                    }
+
+                    var c = this[_e.ColumnIndex, _e.RowIndex];
+
+                    if (c == null)
+                    {
+                        // X:\jsc.internal.svn\core\com.abstractatech.my.business\com.abstractatech.my.business\Application.cs
+                        // ??
+                        return;
+                    }
+
+                    if (CurrentRow[_e.ColumnIndex] == c.Value)
                         return;
 
                     Console.WriteLine("DataSource at CellValueChanged DataTable");
