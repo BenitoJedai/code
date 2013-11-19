@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using FlashHeatZeeker.UnitPed.ActionScript.Images;
 
 namespace FlashHeatZeeker.UnitPed.Library
 {
@@ -50,14 +51,17 @@ namespace FlashHeatZeeker.UnitPed.Library
             ped_walkzombie;
 
 
-        public StarlingGameSpriteWithPedTextures(Texture64Constructor new_tex_crop)
+        public StarlingGameSpriteWithPedTextures(
+            Texture64Constructor new_tex_crop,
+            SpriteToTexture64Constructor new_texsprite_crop
+            )
         {
             //DRW 3
 
-            hud_look = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look.svg", innersize: 128);
-            hud_look_building = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look_building.svg", innersize: 128);
-            hud_look_goggles = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look_goggles.svg", innersize: 128);
-            hud_look_onlygoggles = new_tex_crop("assets/FlashHeatZeeker.UnitPed/hud_look_onlygoggles.svg", innersize: 128);
+            hud_look = new_texsprite_crop(new hud_look(), innersize: 128);
+            hud_look_building = new_texsprite_crop(new hud_look_building(), innersize: 128);
+            hud_look_goggles = new_texsprite_crop(new hud_look_goggles(), innersize: 128);
+            hud_look_onlygoggles = new_texsprite_crop(new hud_look_onlygoggles(), innersize: 128);
 
             ped_shadow = new_tex_crop("assets/FlashHeatZeeker.UnitPed/ped_shadow.svg", alpha: 0.3, innersize: 96);
 
@@ -128,13 +132,16 @@ namespace FlashHeatZeeker.UnitPed.Library
             this.autorotate = true;
 
 
-            var textures = new StarlingGameSpriteWithPedTextures(new_tex_crop);
+            var textures_ped = new StarlingGameSpriteWithPedTextures(
+                this.new_tex_crop,
+                this.new_texsprite_crop
+            );
 
 
 
             this.onbeforefirstframe += delegate
             {
-                var hud = new Image(textures.hud_look_goggles()).AttachTo(this);
+                var hud = new Image(textures_ped.hud_look_goggles()).AttachTo(this);
 
 
                 // 781
@@ -147,7 +154,7 @@ namespace FlashHeatZeeker.UnitPed.Library
                     {
                         var rr = random.Next() % 1024;
 
-                        var visual0 = new VisualPed(textures, this);
+                        var visual0 = new VisualPed(textures_ped, this);
                         visual0.SetPositionAndAngle(
                             i * 128, yi * 128, random.NextDouble() * Math.PI
                             );

@@ -56,7 +56,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
         {
             // http://www.mochigames.com/game/gunship_v838523/
 
-            textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
+            textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop, this.new_texsprite_crop);
 
 
             var textures_map = new StarlingGameSpriteWithMapTextures(new_tex_crop);
@@ -64,7 +64,7 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
 
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
-            var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
+            var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_texsprite_crop);
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
             var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);

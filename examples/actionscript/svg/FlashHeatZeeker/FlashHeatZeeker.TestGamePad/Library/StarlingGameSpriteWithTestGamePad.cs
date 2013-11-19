@@ -31,8 +31,8 @@ namespace FlashHeatZeeker.TestGamePad.Library
 
         public StarlingGameSpriteWithTestGamePad()
         {
-            var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop);
-            var textures_tank = new StarlingGameSpriteWithTankTextures(new_tex_crop);
+            var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop, this.new_texsprite_crop);
+            var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_texsprite_crop);
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(new_tex_crop);
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(new_tex_crop);
