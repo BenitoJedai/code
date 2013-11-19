@@ -1,0 +1,1 @@
+﻿insert into Clients (Username, Password, ScreenHeight, ScreenWidth) values (@Username /* text */, @Password /* text */, @ScreenHeight /* bigint */, @ScreenWidth /* bigint */)

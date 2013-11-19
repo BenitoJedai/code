@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiAppDatabaseExperiment", "MultiAppDatabaseExperiment\MultiAppDatabaseExperiment.csproj", "{385DAA4F-497A-4DA8-B1B5-D76241FBB3EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtherAppDatabaseExperiment", "OtherAppDatabaseExperiment\OtherAppDatabaseExperiment.csproj", "{950E6404-A8A5-49A5-B005-12E152C93E63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiAppDatabase", "MultiAppDatabase\MultiAppDatabase.csproj", "{EFBC5746-C3AB-4075-81B1-C9291991A652}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{385DAA4F-497A-4DA8-B1B5-D76241FBB3EB}.Debug|x86.ActiveCfg = Debug|x86
+		{385DAA4F-497A-4DA8-B1B5-D76241FBB3EB}.Debug|x86.Build.0 = Debug|x86
+		{385DAA4F-497A-4DA8-B1B5-D76241FBB3EB}.Release|x86.ActiveCfg = Release|x86
+		{385DAA4F-497A-4DA8-B1B5-D76241FBB3EB}.Release|x86.Build.0 = Release|x86
+		{950E6404-A8A5-49A5-B005-12E152C93E63}.Debug|x86.ActiveCfg = Debug|x86
+		{950E6404-A8A5-49A5-B005-12E152C93E63}.Debug|x86.Build.0 = Debug|x86
+		{950E6404-A8A5-49A5-B005-12E152C93E63}.Release|x86.ActiveCfg = Release|x86
+		{950E6404-A8A5-49A5-B005-12E152C93E63}.Release|x86.Build.0 = Release|x86
+		{EFBC5746-C3AB-4075-81B1-C9291991A652}.Debug|x86.ActiveCfg = Debug|x86
+		{EFBC5746-C3AB-4075-81B1-C9291991A652}.Debug|x86.Build.0 = Debug|x86
+		{EFBC5746-C3AB-4075-81B1-C9291991A652}.Release|x86.ActiveCfg = Release|x86
+		{EFBC5746-C3AB-4075-81B1-C9291991A652}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
