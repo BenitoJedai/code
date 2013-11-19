@@ -15,5 +15,12 @@ namespace FormsFontFaceExperiment
             this.InitializeComponent();
         }
 
+        private void ApplicationControl_Load(object sender, System.EventArgs e)
+        {
+            label1.Text = label1.Font.Name;
+            label2.Text = label2.Font.Name;
+            label3.Text = label3.Font.Name;
+        }
+
     }
 }
