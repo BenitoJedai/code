@@ -169,22 +169,10 @@ namespace TextRotator.js
                         style.overflow = IStyle.OverflowEnum.hidden;
                     };
 
-            Native.Document.body.style.Aggregate(Apply);
+            Native.document.body.style.Aggregate(Apply);
 
-            try
-            {
-               
-                IStyleSheet.Default.AddRule("html",
-                    r =>
-                    {
-                        r.style.Aggregate(Apply);
-                    }
-                );
-            }
-            catch (System.Exception ex)
-            {
-                Native.Window.alert(ex.ToString());
-            }
+            IStyleSheet.all["html"].style.Aggregate(Apply);
+           
         }
 
         static void DualDump(object left, object right)
