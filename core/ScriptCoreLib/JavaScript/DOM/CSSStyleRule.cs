@@ -123,6 +123,24 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // https://www.w3.org/community/webed/wiki/Advanced_CSS_selectors
 
+        public CSSStyleRule @checked
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":checked"];
+            }
+        }
+
+        public CSSStyleRule disabled
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":disabled"];
+            }
+        }
+
         public CSSStyleRule hover
         {
             [Script(DefineAsStatic = true)]

@@ -52,7 +52,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
             }
 
-            [Obsolete("experimental, is css better than stylerule? should return a proxy object instead of an actual rule a this point")]
+            //[Obsolete("experimental, is css better than stylerule? should return a proxy object instead of an actual rule a this point")]
             public CSSStyleRule css
             {
                 [Script(DefineAsStatic = true)]

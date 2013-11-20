@@ -106,18 +106,23 @@ namespace CSSFontFaceExperiment
 
             // Assembly ScriptCoreLib.Async.dll, v1.0.0.0
             // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\HTML\IHTMLButtonAsyncExtensions.cs
+
             page.HelloWorld.WhenClicked(
                 async button =>
                 {
+                    button.css.style.transition = "color 100ms linear";
+                    button.css.disabled.style.color = "transparent";
 
+                    await Task.Delay(200);
                     page.HelloWorld.style.fontFamily = new FontFaces.open_sans_regular();
-
                     await button;
 
+                    await Task.Delay(200);
                     page.HelloWorld.style.fontFamily = new FontFaces.redacted_script_regular();
-
                     await button;
 
+
+                    await Task.Delay(200);
                     page.HelloWorld.style.fontFamily = new FontFaces.Impact_Label();
                 }
             );
