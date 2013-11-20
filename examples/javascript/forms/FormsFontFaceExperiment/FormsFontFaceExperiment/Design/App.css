@@ -1,5 +1,8 @@
 body {
     background-color: rgb(204, 204, 255);
 }
-label {color: white; text-shadow: black 0.1em 0.1em 0.2em}
+label {
+    color: white;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
 label:first-letter  {color: yellow; font-size: 120%; text-transform: uppercase; }

@@ -133,6 +133,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <None Include="app.config" />
+    <None Include="FontFaces\Fixedsys500c.ttf" />
     <None Include="FontFaces\Impact Label.ttf" />
     <None Include="FontFaces\open-sans.regular.ttf" />
     <None Include="FontFaces\VAGRundschriftD.ttf" />
