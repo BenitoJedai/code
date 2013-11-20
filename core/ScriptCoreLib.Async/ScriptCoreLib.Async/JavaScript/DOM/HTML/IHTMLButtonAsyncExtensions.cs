@@ -17,27 +17,49 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             var y = new TaskCompletionSource<IHTMLButton>();
             //i.InvokeOnComplete(y.SetResult);
 
+            var old = new { i.disabled };
+
+            i.disabled = false;
+
             i.onclick +=
                 delegate
                 {
+                    if (old == null)
+                        return;
+
+                    i.disabled = old.disabled;
+
+                    old = null;
+
                     y.SetResult(i);
                 };
 
             return y.Task.GetAwaiter();
         }
 
+
+
         public static IHTMLButton WhenClicked(this IHTMLButton e, Func<IHTMLButton, Task> h)
         {
+            // tested by
+            // X:\jsc.svn\examples\javascript\css\CSSFontFaceExperiment\CSSFontFaceExperiment\Application.cs
+
+            var busy = false;
+
             e.onclick +=
                 async delegate
                 {
+                    if (busy)
+                        return;
+
+                    busy = true;
 
                     e.disabled = true;
 
                     await h(e);
 
                     e.disabled = false;
-
+                    busy = false;
                 };
 
             return e;

@@ -104,6 +104,27 @@ namespace CSSFontFaceExperiment
             IStyleSheet.all["p"].style.fontFamily = new FontFaces.open_sans_regular();
             IStyleSheet.all["p"].style.fontFamily = new FontFaces.BLOKKRegular();
 
+            // Assembly ScriptCoreLib.Async.dll, v1.0.0.0
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\HTML\IHTMLButtonAsyncExtensions.cs
+            page.HelloWorld.WhenClicked(
+                async button =>
+                {
+
+                    page.HelloWorld.style.fontFamily = new FontFaces.open_sans_regular();
+
+                    await button;
+
+                    page.HelloWorld.style.fontFamily = new FontFaces.redacted_script_regular();
+
+                    await button;
+
+                    page.HelloWorld.style.fontFamily = new FontFaces.Impact_Label();
+                }
+            );
+
+            /// http://www.fontsbase.com/fonts/12286/impact_label.html
+            /// 
+
             //IStyleSheet.all["p"].style.fontFamily = new FontFaces.BLOKKRegular("a/xblokk").rule.style.fontFamily;
             //IStyleSheet.all["p"].style.fontFamily = new XBLOKKRegular();
         }

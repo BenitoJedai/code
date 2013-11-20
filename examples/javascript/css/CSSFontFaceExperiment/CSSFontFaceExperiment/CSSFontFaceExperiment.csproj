@@ -124,14 +124,18 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
-    <Content Include="Design\App.htm" />
+    <Content Include="Design\App.htm">
+      <SubType>Designer</SubType>
+    </Content>
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <None Include="app.config" />
+    <None Include="FontFaces\Impact Label.ttf" />
     <None Include="FontFaces\open-sans.regular.ttf" />
+    <None Include="FontFaces\VAGRundschriftD.ttf" />
     <None Include="packages.config" />
     <None Include="FontFaces\BLOKKRegular.ttf" />
     <None Include="FontFaces\redacted_regular.ttf" />
