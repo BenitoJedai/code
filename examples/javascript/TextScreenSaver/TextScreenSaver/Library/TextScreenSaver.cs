@@ -295,8 +295,8 @@ namespace TextScreenSaver.js
                             drag.DragMove +=
                                 delegate
                                 {
-                                    var w = Native.Window.Width;
-                                    var h = Native.Window.Height;
+                                    var w = Native.window.Width;
+                                    var h = Native.window.Height;
 
 
                                     x = (drag.Position.X * 100 / w);
@@ -374,7 +374,6 @@ namespace TextScreenSaver.js
 
     }
 
-    [Script]
     class KeyboardEvents
     {
         public bool Enabled { get; set; }
