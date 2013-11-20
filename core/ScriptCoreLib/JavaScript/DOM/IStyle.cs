@@ -168,14 +168,26 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // CSSFontFaceRule
         // X:\jsc.svn\examples\javascript\css\CSSFontFaceExperiment\CSSFontFaceExperiment\Application.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131119/ttf
+        // can we type forward this to ScriptCoreLib.Extensions
+        // and list available fonts by popularity in this enum?
+        // with the hint that jsc can auto embed the new fonts as used?
         [Script(IsStringEnum = true)]
-        [Obsolete("CSSFontFaceRule")]
+        [Obsolete(".ttf")]
         public enum FontFamilyEnum
         {
-            Times, Helvetica, /*Zapf-Chancery,*/ Western,
+            Times,
+            Helvetica, /*Zapf-Chancery,*/
+            Western,
+
             [Script(ExternalTarget = "Consolas, Courier New, Courier")]
             Consolas,
-            Courier, Verdana, Tahoma, Arial,
+
+            Courier,
+            Verdana,
+            Tahoma,
+            Arial,
+
             Fixedsys
         }
         public FontFamilyEnum fontFamily;
