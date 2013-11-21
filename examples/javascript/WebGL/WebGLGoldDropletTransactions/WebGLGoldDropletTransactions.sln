@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLGoldDropletTransactions", "WebGLGoldDropletTransactions\WebGLGoldDropletTransactions.csproj", "{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E5BE3126-E036-4D47-A273-E90B86326471} = {E5BE3126-E036-4D47-A273-E90B86326471}
+		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC} = {E17EDF56-36ED-4A1C-BEBE-5E68594253DC}
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318} = {0934D9DD-7E92-4841-B8D6-C7CF77EC5318}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLOBJExperiment", "..\WebGLOBJExperiment\WebGLOBJExperiment\WebGLOBJExperiment.csproj", "{E17EDF56-36ED-4A1C-BEBE-5E68594253DC}"
 EndProject
