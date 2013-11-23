@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fonts\BLOKKRegular.ttf" />
+    <None Include="Fonts\fontawesome-webfont.ttf" />
     <None Include="Fonts\redacted-script-regular.ttf" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

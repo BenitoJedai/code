@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4DF27B22-A416-4BF8-BCB7-2C5982DE621A}</ProjectGuid>
+    <ProjectGuid>{521035CB-F744-4AC4-9FFB-4360B0D901F4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CSSSymbolFontExperiment</RootNamespace>
-    <AssemblyName>TTFSymbolFontExperiment</AssemblyName>
+    <RootNamespace>TTFCurrencyExperment</RootNamespace>
+    <AssemblyName>TTFCurrencyExperment</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>TTFSymbolFontExperiment.Program</StartupObject>
+    <StartupObject>TTFCurrencyExperment.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,32 +113,44 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="TTFCurrencyExperment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TTFCurrencyExperment.AssetsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
-    </Reference>
-    <Reference Include="TTFSymbolFontExperiment.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TTFSymbolFontExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="ApplicationWebService.cs" />
-    <Compile Include="Application.cs" />
-    <Compile Include="Program.cs">
-      <DependentUpon>Application.cs</DependentUpon>
+    <Compile Include="ApplicationControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <None Include="Design\3OF9.TTF" />
-    <None Include="Design\CHEQ_TT.TTF" />
-    <None Include="Design\Code3x.ttf" />
-    <None Include="Design\ElegantIcons.ttf" />
-    <None Include="Design\INVADERS.TTF" />
-    <None Include="Design\QR font tfb.ttf" />
-    <None Include="Design\recreate.ttf" />
-    <None Include="Design\SocialNetworkingSymbols2.ttf" />
-    <None Include="Design\Symbols1.ttf" />
+    <Compile Include="ApplicationControl.Designer.cs">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationWebService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ApplicationWebService.Designer.cs">
+      <DependentUpon>ApplicationWebService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application.cs">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Program.cs">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </Compile>
+    <None Include="Design\fontawesome-webfont.ttf" />
+    <None Include="Design\Treasury.xlsx" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ApplicationControl.resx">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -553,25 +553,52 @@ namespace ScriptCoreLib.JavaScript.Controls
             //            };
             //    //};
 
+            // http://fontawesome.io/cheatsheet/
+            var FontAwesome = new Abstractatech.JavaScript.TextEditor.Fonts.fontawesome_webfont();
+
+            Func<string, string, string, ToolbarButton> AddTTFButton = (uri, entity, cmd) =>
+                {
+                    var x = AddButton(uri, cmd);
+
+
+                    // should we test when the font is actually available?
+                    // what about non ttf devices?
+                    // or should the control let the dev decide?
+                    x.Button.style.fontFamily = FontAwesome;
+                    x.Button.innerHTML = entity;
+
+                    return x;
+                };
 
             #region ToolbarButton
 
-            var bold = AddButton("assets/Abstractatech.JavaScript.TextEditor/bold.gif", "Bold");
-            var underline = AddButton("assets/Abstractatech.JavaScript.TextEditor/underline.gif", "Underline");
-            var strike = AddButton("assets/Abstractatech.JavaScript.TextEditor/strikethrough.gif", "Strikethrough");
-            var italic = AddButton("assets/Abstractatech.JavaScript.TextEditor/italic.gif", "Italic");
-            var justifyleft = AddButton("assets/Abstractatech.JavaScript.TextEditor/justifyleft.gif", "JustifyLeft");
-            var justifycenter = AddButton("assets/Abstractatech.JavaScript.TextEditor/justifycenter.gif", "Justifycenter");
-            var justifyright = AddButton("assets/Abstractatech.JavaScript.TextEditor/justifyright.gif", "Justifyright");
-            var justifyfull = AddButton("assets/Abstractatech.JavaScript.TextEditor/justifyfull.gif", "Justifyfull");
-            var indent = AddButton("assets/Abstractatech.JavaScript.TextEditor/indent.gif", "Indent");
-            var outdent = AddButton("assets/Abstractatech.JavaScript.TextEditor/outdent.gif", "Outdent");
-            var sup = AddButton("assets/Abstractatech.JavaScript.TextEditor/superscript.gif", "Superscript");
-            var sub = AddButton("assets/Abstractatech.JavaScript.TextEditor/sub.gif", "Subscript");
-            var removeformat = AddButton("assets/Abstractatech.JavaScript.TextEditor/removeformat.gif", "Removeformat");
-            var insertorderedlist = AddButton("assets/Abstractatech.JavaScript.TextEditor/numberedlist.gif", "InsertOrderedList");
-            var insertunorderedlist = AddButton("assets/Abstractatech.JavaScript.TextEditor/bulletedlist.gif", "InsertUnorderedList");
-            var undo = AddButton("assets/Abstractatech.JavaScript.TextEditor/undo.gif", "undo");
+            var bold = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/bold.gif", "&#xf032;", "Bold");
+
+
+
+
+            var underline = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/underline.gif", "&#xf0cd;", "Underline");
+            var strike = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/strikethrough.gif", "&#xf0cc;", "Strikethrough");
+
+            var italic = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/italic.gif", "&#xf033;", "Italic");
+
+            var justifyleft = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/justifyleft.gif", "&#xf036;", "JustifyLeft");
+            var justifycenter = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/justifycenter.gif", "&#xf037;", "Justifycenter");
+            var justifyright = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/justifyright.gif", "&#xf038;", "Justifyright");
+            var justifyfull = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/justifyfull.gif", "&#xf039;", "Justifyfull");
+            
+            var indent = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/indent.gif", "&#xf03c;", "Indent");
+            var outdent = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/outdent.gif", "&#xf03b;", "Outdent");
+
+            var sup = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/superscript.gif", "&#xf12b;", "Superscript");
+            var sub = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/sub.gif", "&#xf12c;", "Subscript");
+
+            var removeformat = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/removeformat.gif", "&#xf12d;", "Removeformat");
+
+            var insertorderedlist = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/numberedlist.gif", "&#xf0cb;", "InsertOrderedList");
+            var insertunorderedlist = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/bulletedlist.gif", "&#xf0ca;", "InsertUnorderedList");
+
+            var undo = AddTTFButton("assets/Abstractatech.JavaScript.TextEditor/undo.gif", "&#xf0e2;", "undo");
             var redo = AddButton("assets/Abstractatech.JavaScript.TextEditor/redo.gif", "redo");
 
             var fontfamily = CreateButton("assets/Abstractatech.JavaScript.TextEditor/icon_font.gif");
