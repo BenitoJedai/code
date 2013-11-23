@@ -528,7 +528,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.style.left = "0";
                     SourceCell.InternalContentContainer.style.top = "0";
                     SourceCell.InternalContentContainer.style.height = (SourceRow.Height - 1) + "px";
-                    SourceCell.InternalContentContainer.style.font = DefaultFont.ToCssString();
+                    SourceCell.InternalContentContainer.style.font = this.Font.ToCssString();
 
                     SourceCell.InternalTableColumn.style.borderBottom = "1px solid rgba(0,0,0, 0.4)";
 
@@ -594,7 +594,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (SourceCell is __DataGridViewButtonCell)
                     {
                         var InternalButton = new IHTMLButton().AttachTo(SourceCell.InternalContentContainer);
-                        InternalButton.style.font = DefaultFont.ToCssString();
+
+                        InternalButton.style.font = this.Font.ToCssString();
+
                         InternalButton.style.position = IStyle.PositionEnum.absolute;
                         InternalButton.style.left = "0px";
                         InternalButton.style.top = "0px";
@@ -1374,7 +1376,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     var c1content = new IHTMLSpan { innerText = SourceColumn.HeaderText }.AttachTo(c1contentc);
                     SourceColumn.InternalContent = c1content;
                     c1content.style.marginLeft = "4px";
-                    c1content.style.font = DefaultFont.ToCssString();
+
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\forms\TTFCurrencyExperment\TTFCurrencyExperment\ApplicationControl.cs
+
+                    c1content.style.font = this.Font.ToCssString();
+
+                    // ?
+                    this.FontChanged +=
+                        delegate
+                        {
+                            c1content.style.font = this.Font.ToCssString();
+                        };
+
                     c1content.style.lineHeight = "22px";
                     #endregion
 

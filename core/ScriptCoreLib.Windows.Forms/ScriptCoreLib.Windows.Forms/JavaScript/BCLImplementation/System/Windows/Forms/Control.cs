@@ -771,6 +771,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
+        
         public virtual void InternalSetFont(Font value)
         {
         }
