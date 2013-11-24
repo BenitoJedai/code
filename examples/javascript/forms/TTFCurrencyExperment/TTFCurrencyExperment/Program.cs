@@ -12,9 +12,11 @@ namespace TTFCurrencyExperment
         public static void Main(string[] args)
         {
 #if DEBUG
-			DesktopFormsExtensions.Launch(
-				() => new ApplicationControl()
-			);
+            new ApplicationWebService().WebMethod2("", delegate { });
+
+            DesktopFormsExtensions.Launch(
+                () => new ApplicationControl()
+            );
 #else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
 #endif
