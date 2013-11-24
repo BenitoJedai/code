@@ -88,9 +88,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             var y = new Design.Book1.Sheet2();
 
 
-            #region auto
-            var create2 = new Design.Book1.Sheet2.Queries().WithConnection(c => Design.Book1.Sheet2.Queries.Create(c));
-            #endregion
+            //#region auto
+            //var create2 = new Design.Book1.Sheet2.Queries().WithConnection(c => Design.Book1.Sheet2.Queries.Create(c));
+            //#endregion
 
 
             // we need a diagram showing us
@@ -136,24 +136,24 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
             var x = new Design.Book1.Sheet1();
 
-            #region auto
+            //#region auto
 
-            Console.WriteLine(
-                new
-                {
-                    Design.Book1.Sheet1.Queries.CreateCommandText
-                }
-            );
+            //Console.WriteLine(
+            //    new
+            //    {
+            //        Design.Book1.Sheet1.Queries.CreateCommandText
+            //    }
+            //);
 
 
-            // { CreateCommandText = create table if not exists Sheet1 (Key INTEGER  NOT NULL  PRIMARY KEY AUTOINCREMENT, ScreenWidth text, ScreenHeight text, IPAddress text, ServiceTime text, ClientTime text) }
-            //    Caused by: java.sql.SQLException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INTEGER  NOT NULL  PRIMARY KEY AUTO_INCREMENT, ScreenWidth text, ScreenHeight te' at line 1
-            //at com.google.cloud.sql.jdbc.internal.Exceptions.newSqlException(Exceptions.java:219)
-            //at com.google.cloud.sql.jdbc.internal.SqlProtoClient.check(SqlProtoClient.java:198)
+            //// { CreateCommandText = create table if not exists Sheet1 (Key INTEGER  NOT NULL  PRIMARY KEY AUTOINCREMENT, ScreenWidth text, ScreenHeight text, IPAddress text, ServiceTime text, ClientTime text) }
+            ////    Caused by: java.sql.SQLException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INTEGER  NOT NULL  PRIMARY KEY AUTO_INCREMENT, ScreenWidth text, ScreenHeight te' at line 1
+            ////at com.google.cloud.sql.jdbc.internal.Exceptions.newSqlException(Exceptions.java:219)
+            ////at com.google.cloud.sql.jdbc.internal.SqlProtoClient.check(SqlProtoClient.java:198)
 
-            var create0 = new Design.Book1.Sheet1.Queries().WithConnection(c => Design.Book1.Sheet1.Queries.Create(c));
+            //var create0 = new Design.Book1.Sheet1.Queries().WithConnection(c => Design.Book1.Sheet1.Queries.Create(c));
 
-            #endregion
+            //#endregion
 
             var now = DateTime.Now;
             var ServiceTime = now.ToString();
@@ -169,7 +169,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
 
                     // not available for AppEngine?
-                    //IPAddress = WebServiceHandler.Context.Request.UserHostAddress,
+                    // http://stackoverflow.com/questions/8787463/how-to-identify-ip-address-of-requesting-client
+
+                    IPAddress = WebServiceHandler.Context.Request.UserHostAddress,
 
                     // we are now logging all headers
                     //UserAgent = WebServiceHandler.Context.Request.UserAgent,
@@ -184,9 +186,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             var y = new Design.Book1.Sheet2();
 
 
-            #region auto
-            var create2 = new Design.Book1.Sheet2.Queries().WithConnection(c => Design.Book1.Sheet2.Queries.Create(c));
-            #endregion
+            //#region auto
+            //var create2 = new Design.Book1.Sheet2.Queries().WithConnection(c => Design.Book1.Sheet2.Queries.Create(c));
+            //#endregion
 
             if (this.WebServiceHandler == null)
             {
@@ -228,6 +230,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
             #region auto
             // [FileNotFoundException: Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, C
+            // [FileNotFoundException: Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0,
+            var ref_SQLite = typeof(global::System.Data.SQLite.SQLiteCommand);
+
             var ref_ScriptCoreLib_Extensions = typeof(global_scle::ScriptCoreLib.Extensions.DataExtensions);
             #endregion
 
