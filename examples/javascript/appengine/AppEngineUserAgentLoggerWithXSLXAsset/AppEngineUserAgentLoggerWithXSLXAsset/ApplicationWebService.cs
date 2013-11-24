@@ -79,21 +79,27 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
         public Task<DataTable> GetVisitHeadersFor(Design.Book1Sheet1Key visit)
         {
-            Console.WriteLine(new { visit });
+            //Console.WriteLine(new { visit });
 
             var visitkey = "" + (long)visit;
 
-            Console.WriteLine(new { visitkey });
+            //Console.WriteLine(new { visitkey });
 
             var y = new Design.Book1.Sheet2();
+
+
+            #region auto
+            var create2 = new Design.Book1.Sheet2.Queries().WithConnection(c => Design.Book1.Sheet2.Queries.Create(c));
+            #endregion
+
 
             // we need a diagram showing us
             // how much faster will we make this call if
             // we move the filtering from web app into database
-            //var a = y.SelectAllAsEnumerable().ToArray();
-            var a = y.XSelectAllAsEnumerable().ToArray();
+            var a = y.SelectAllAsEnumerable().ToArray();
+            //var a = y.XSelectAllAsEnumerable().ToArray();
 
-            Console.WriteLine(new { a.Length });
+            //Console.WriteLine(new { a.Length });
 
             //Caused by: java.lang.NullPointerException
             //        at AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService___c__DisplayClass1._GetVisitHeadersFor_b__0(ApplicationWebService___c__DisplayClass1.java:23)
@@ -116,7 +122,14 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
         // Create Partial Type: AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1+Sheet1Key
 
-        public Task<DataTable> Notfiy(Design.Book1Sheet1Key dummy = default(Design.Book1Sheet1Key))
+        public class NotifyTuple
+        {
+            public DataTable DataSource;
+
+            public Design.Book1Sheet1Key visit;
+        }
+
+        public Task<NotifyTuple> Notfiy()
         {
 
             // https://code.google.com/p/googleappengine/issues/detail?id=803
@@ -156,7 +169,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
 
                     // not available for AppEngine?
-                    IPAddress = WebServiceHandler.Context.Request.UserHostAddress,
+                    //IPAddress = WebServiceHandler.Context.Request.UserHostAddress,
 
                     // we are now logging all headers
                     //UserAgent = WebServiceHandler.Context.Request.UserAgent,
@@ -175,21 +188,36 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             var create2 = new Design.Book1.Sheet2.Queries().WithConnection(c => Design.Book1.Sheet2.Queries.Create(c));
             #endregion
 
-
-            var h = this.WebServiceHandler.Context.Request.Headers;
-
-            foreach (var item in h.AllKeys)
+            if (this.WebServiceHandler == null)
             {
                 y.Insert(
-                   new Design.Book1Sheet2Row
-                   {
-                       HeaderKey = item,
-                       HeaderValue = h[item],
+                     new Design.Book1Sheet2Row
+                     {
+                         HeaderKey = "na",
+                         HeaderValue = "na",
 
-                       // can jsc auto bind to key? 
-                       Sheet1 = "" + (long)visit
-                   }
-               );
+                         // can jsc auto bind to key? 
+                         Sheet1 = "" + (long)visit
+                     }
+                 );
+            }
+            else
+            {
+                var h = this.WebServiceHandler.Context.Request.Headers;
+
+                foreach (var item in h.AllKeys)
+                {
+                    y.Insert(
+                       new Design.Book1Sheet2Row
+                       {
+                           HeaderKey = item,
+                           HeaderValue = h[item],
+
+                           // can jsc auto bind to key? 
+                           Sheet1 = "" + (long)visit
+                       }
+                   );
+                }
             }
 
 
@@ -203,7 +231,11 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             var ref_ScriptCoreLib_Extensions = typeof(global_scle::ScriptCoreLib.Extensions.DataExtensions);
             #endregion
 
-            return x.SelectAllAsDataTable().ToTaskResult();
+            return new NotifyTuple
+            {
+                DataSource = x.SelectAllAsDataTable(),
+                visit = visit
+            }.ToTaskResult();
         }
 
     }

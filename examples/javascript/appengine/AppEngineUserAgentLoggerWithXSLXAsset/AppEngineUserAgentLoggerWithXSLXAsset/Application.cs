@@ -40,7 +40,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                 {
                     var g = new DataGridView
                     {
-                        DataSource = data,
+                        DataSource = data.DataSource,
                         ReadOnly = true,
 
                         SelectionMode = DataGridViewSelectionMode.FullRowSelect
