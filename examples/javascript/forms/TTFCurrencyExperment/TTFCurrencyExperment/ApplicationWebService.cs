@@ -155,12 +155,12 @@ namespace TTFCurrencyExperment
             return default(Design.Treasury.Sheet1.Key);
         }
 
-        public static object Select<T>(this _Treasury_Sheet1_Where data, Expression<Func<Design.Treasury.Sheet1.Row, T>> f)
+        public static IEnumerable<Design.Treasury.Sheet1.Row> Select<T>(this _Treasury_Sheet1_Where data, Expression<Func<Design.Treasury.Sheet1.Row, T>> f)
         {
             // which fields do we need? all or specific?
             // or are we doing a join?
 
-            return new object();
+            return null;
         }
 
         public static _Treasury_Sheet1_Where Where(this Design.Treasury.Sheet1 data, Expression<Func<Design.Treasury.Sheet1.Row, bool>> f)
