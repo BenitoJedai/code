@@ -41,11 +41,21 @@ namespace TTFCurrencyExperment
             // X:\jsc.internal.svn\compiler\jsc.internal\jsc.internal\meta\Commands\Reference\ReferenceAssetsLibrary.cs
             var table1 = new Design.Treasury.Sheet1();
 
+            var table1q = new Design.Treasury.Sheet1.Queries();
+
+            // did you add package?
+            // "X:\jsc.svn\examples\javascript\forms\TTFCurrencyExperment\TTFCurrencyExperment\bin\Debug\Treasury.xlsx.sqlite"
+            var create0 = table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.Create(c));
+
+
             // should the keys going to the client side be encrypted?
             // internally in db it shall be 64bit long, yet the client should see something else?
             // or would one time pad be good enough to scramle
             // http://encyclopedia2.thefreedictionary.com/One+time+pad
             // do we need an explicit attribute to tell compiler to encrypt this value for the client?
+            // clientside could use obfucation of whitespaces?
+            // or show the id, yet sign it, so user cannot change it?
+            // signed enums
             var keytype = default(Design.Treasury.Sheet1.Key);
 
 
@@ -58,9 +68,15 @@ namespace TTFCurrencyExperment
                 // data
             };
 
+            var insert0 = table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.Insert(c, row1));
+            var select0 = (Task<DataTable>)table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.SelectAll(c));
+
+
             var k = table1.Insert(
                 row1
             );
+
+
 
             // will this datatable allow to bind back?
             // if it wont allow update or delete, will it allow inserts?
@@ -112,8 +128,29 @@ namespace TTFCurrencyExperment
             // { InsertCommandText = insert into Sheet1 (Currency, Value)  values (@Currency, @Value) }
 
             Console.WriteLine(
-                new { Design.Treasury.Sheet1.Queries.InsertCommandText }
-                );
+                new
+                {
+                    Design.Treasury.Sheet1.Queries.CreateCommandText,
+
+                }
+            );
+
+
+            Console.WriteLine(
+                new
+                {
+                    Design.Treasury.Sheet1.Queries.InsertCommandText,
+                }
+            );
+
+
+            Console.WriteLine(
+                new
+                {
+                    Design.Treasury.Sheet1.Queries.SelectAllCommandText,
+
+                }
+            );
 
             return default(Design.Treasury.Sheet1.Key);
         }
