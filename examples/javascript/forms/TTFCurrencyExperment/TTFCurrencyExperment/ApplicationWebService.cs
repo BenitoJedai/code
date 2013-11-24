@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -14,11 +15,17 @@ using System.Xml.Linq;
 
 namespace TTFCurrencyExperment
 {
+    public class XSheet1
+    {
+        public enum XKey : long { }
+    }
+
 
     [DesignerCategory("code")]
     public partial class ApplicationWebService : Component
     {
         // is bitcoin the internal banking database format?
+
 
         /// <summary>
         /// This Method is a javascript callable method.
@@ -39,6 +46,8 @@ namespace TTFCurrencyExperment
             //var table1type = typeof(Design.Treasury.Sheet1<TCurrency, TValue>);
 
             // X:\jsc.internal.svn\compiler\jsc.internal\jsc.internal\meta\Commands\Reference\ReferenceAssetsLibrary.cs
+
+            // Additional information: Common Language Runtime detected an invalid program.
             var table1 = new Design.Treasury.Sheet1();
 
             var table1q = new Design.Treasury.Sheet1.Queries();
@@ -60,6 +69,7 @@ namespace TTFCurrencyExperment
 
 
             // should this be enought for this obect to be added?
+            // 		Design.Treasury.Sheet1.Key	TTFCurrencyExperment.Design.Treasury.Sheet1.Key	long
             var row1 = new Design.Treasury.Sheet1.Row
             {
                 Currency = "EUR",
@@ -68,20 +78,35 @@ namespace TTFCurrencyExperment
                 // data
             };
 
-            var insert0 = table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.Insert(c, row1));
-            var select0 = (Task<DataTable>)table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.SelectAll(c));
+            var insert0 = (Task<Design.Treasury.Sheet1.Key>)table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.Insert(c, row1));
+            Console.WriteLine(new { insert0.Result });
 
+            //table1.Insert(
 
+            //var select0 = (Task<DataTable>)table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.SelectAllAsDataTable(c));
+            var select0 = (Task<DataTable>)table1q.WithConnection(Design.Treasury.Sheet1.Queries.SelectAllAsDataTable);
+
+            // Additional information: Bad method token.
             var k = table1.Insert(
-                row1
+                 new Design.Treasury.Sheet1.Row
+                 {
+                     Currency = "GBP",
+                     Value = "777"
+
+                     // data
+                 }
             );
+
+            var a = table1.SelectAllAsDataTable();
+            var z =
+                from x in table1.SelectAllAsEnumerable()
+                group x by x.Currency;
 
 
 
             // will this datatable allow to bind back?
             // if it wont allow update or delete, will it allow inserts?
             // would it be secure?
-            var all = table1.GetDataTable();
 
 
             TryExpressions(table1);
@@ -118,42 +143,43 @@ namespace TTFCurrencyExperment
         // what about skip take and order by?
 
         // select all data. expensive
-        public static DataTable GetDataTable(this Design.Treasury.Sheet1 data)
+        public static IEnumerable<Design.Treasury.Sheet1.Row> SelectAllAsEnumerable(this Design.Treasury.Sheet1 data)
         {
-            return null;
+            var x = data.SelectAllAsDataTable();
+
+            return x.Rows.AsEnumerable().Select(
+                r =>
+                    new Design.Treasury.Sheet1.Row
+                    {
+                        Key = (Design.Treasury.Sheet1.Key)r["Key"],
+                        Currency = (string)r["Currency"],
+                        Value = (string)r["Value"]
+                    }
+            );
         }
 
-        public static Design.Treasury.Sheet1.Key Insert(this Design.Treasury.Sheet1 data, Design.Treasury.Sheet1.Row r)
+        class _Insert_closure
         {
-            // { InsertCommandText = insert into Sheet1 (Currency, Value)  values (@Currency, @Value) }
+            public Design.Treasury.Sheet1.Row value;
 
-            Console.WriteLine(
-                new
-                {
-                    Design.Treasury.Sheet1.Queries.CreateCommandText,
+            public Task<Design.Treasury.Sheet1.Key> yield(SQLiteConnection c)
+            {
+                return Design.Treasury.Sheet1.Queries.Insert(
+                    c, value
+                );
 
-                }
-            );
-
-
-            Console.WriteLine(
-                new
-                {
-                    Design.Treasury.Sheet1.Queries.InsertCommandText,
-                }
-            );
-
-
-            Console.WriteLine(
-                new
-                {
-                    Design.Treasury.Sheet1.Queries.SelectAllCommandText,
-
-                }
-            );
-
-            return default(Design.Treasury.Sheet1.Key);
+            }
         }
+
+        //public static Design.Treasury.Sheet1.Key Insert(this Design.Treasury.Sheet1.Queries data, Design.Treasury.Sheet1.Row value)
+        //{
+        //    var loc = new _Insert_closure();
+        //    loc.value = value;
+
+        //    var x = data.WithConnection(loc.yield);
+        //    var y = (Task<Design.Treasury.Sheet1.Key>)x;
+        //    return y.Result;
+        //}
 
         public static IEnumerable<Design.Treasury.Sheet1.Row> Select<T>(this _Treasury_Sheet1_Where data, Expression<Func<Design.Treasury.Sheet1.Row, T>> f)
         {
