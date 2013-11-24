@@ -79,6 +79,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             {
                 var e = content as string;
 
+                if (e == null)
+                {
+                    if (content is int)
+                    {
+                        e = "" + ((int)content);
+                    }
+                }
+
                 if (e != null)
                 {
                     this.InternalValue.appendChild(
@@ -132,6 +140,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
                 }
             }
             #endregion
+
+            //            { ColumnName = Key, value = 12 }
+            //__XContainer.Add { content = 12 }
+            //__XContainer.Add Type java.lang.Integer
+            //java.lang.RuntimeException
+            //        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XContainer.Add(__XContainer.java:148)
+            //        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XElement.<init>(__XElement.java:38)
+            //        at ScriptCoreLib.Library.StringConversionsForDataTable.ConvertToString(StringConversionsForDataTable.java:105)
+
 
             Console.WriteLine("__XContainer.Add " + new { content });
             if (content != null)
