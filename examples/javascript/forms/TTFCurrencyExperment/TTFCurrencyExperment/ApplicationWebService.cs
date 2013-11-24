@@ -98,8 +98,12 @@ namespace TTFCurrencyExperment
             );
 
             var a = table1.SelectAllAsDataTable();
+
+            var zz = table1.SelectAllAsEnumerable();
+            var zza = zz.ToArray();
+
             var z =
-                from x in table1.SelectAllAsEnumerable()
+                from x in table1.XSelectAllAsEnumerable()
                 group x by x.Currency;
 
 
@@ -143,7 +147,7 @@ namespace TTFCurrencyExperment
         // what about skip take and order by?
 
         // select all data. expensive
-        public static IEnumerable<Design.Treasury.Sheet1.Row> SelectAllAsEnumerable(this Design.Treasury.Sheet1 data)
+        public static IEnumerable<Design.Treasury.Sheet1.Row> XSelectAllAsEnumerable(this Design.Treasury.Sheet1 data)
         {
             var x = data.SelectAllAsDataTable();
 
