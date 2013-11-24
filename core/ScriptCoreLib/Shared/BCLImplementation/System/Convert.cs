@@ -100,6 +100,23 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         //    return short.Parse(e);
         //}
 
+//        Implementation not found for type import :
+//type: System.Convert
+//method: Int64 ToInt64(System.Object)
+//Did you forget to add the [Script] attribute?
+//Please double check the signature!
+        public static long ToInt64(object e)
+        {
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+            // X:\jsc.svn\examples\java\Test\JVMCLRTypeOfInt32\JVMCLRTypeOfInt32\Program.cs
+
+            var i32 = e is int;
+            if (i32)
+                return (int)e;
+
+            return (long)e;
+        }
+
         public static long ToInt64(string e)
         {
             return long.Parse(e);

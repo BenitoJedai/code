@@ -164,25 +164,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             if (ColumnType == 4)
             {
-                int int32 = 0;
-                object int32box = int32;
+                //int int32 = 0;
+                //object int32box = int32;
 
-                // why are we using the boxed version of the type?
-                // jsc is giving us the primitive? 
-                return int32box.GetType();
+                //// why are we using the boxed version of the type?
+                //// jsc is giving us the primitive? 
+                //return int32box.GetType();
 
-                //return typeof(int);
+                return typeof(int);
             }
 
             if (ColumnType == -5)
             {
-                long int64 = 0;
-                object int64box = int64;
+                //long int64 = 0;
+                //object int64box = int64;
 
-                return int64box.GetType();
+                //return int64box.GetType();
 
                 // jsc is giving us the primitive? 
-                //return typeof(long);
+                return typeof(long);
             }
 
             // In MySQL 4.1.x, the four TEXT types (TINYTEXT, TEXT, MEDIUMTEXT, and LONGTEXT) return 'blob" as field types, not "string".
