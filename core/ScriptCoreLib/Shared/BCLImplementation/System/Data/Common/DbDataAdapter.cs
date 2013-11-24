@@ -62,6 +62,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                         var row = data.NewRow();
                         data.Rows.Add(row);
 
+                        Console.WriteLine("Fill ");
+
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
                             var n = reader.GetName(i);
@@ -70,7 +72,21 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                             // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
                             var value = reader[n];
 
-                            Console.WriteLine("Fill " + new { n, ft, value  });
+
+                            //                    Caused by: java.lang.NullPointerException
+                            //at ScriptCoreLibJava.BCLImplementation.System.__Type.GetTypeFromValue(__Type.java:505)
+                            //at ScriptCoreLibJava.BCLImplementation.System.__Object.System_Object_GetType_06000007(__Object.java:19)
+                            //at ScriptCoreLib.Shared.BCLImplementation.System.Data.Common.__DbDataAdapter.Fill(__DbDataAdapter.java:71)
+
+                            var valueType = default(string);
+
+                            if (value != null)
+                                valueType = value.GetType().FullName;
+
+                            // tested by
+                            // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+
+                            Console.WriteLine("Fill " + new { n, ft, value, valueType });
 
                             row[n] = value;
                         }
@@ -80,6 +96,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 
             if (data == null)
                 return 0;
+
+
+            // Fill { n = Key, ft = java.lang.Integer, value = 48 }
+            //Fill Merge
+            //Book1Sheet2Key:
+            //{ KeyObject = 48, FullName = java.lang.String }
 
             Console.WriteLine("Fill Merge ");
             dataTable.Merge(data);
@@ -91,14 +113,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         {
             var xdata = new DataTable();
 
-            Console.WriteLine("Fill " + new { reader.FieldCount });
+            Console.WriteLine("FillColumns " + new { reader.FieldCount });
 
             for (int i = 0; i < reader.FieldCount; i++)
             {
                 var columName = reader.GetName(i);
 
-                Console.WriteLine(
-                    new { columName }
+                Console.WriteLine("FillColumns " + new { columName }
                     );
 
                 xdata.Columns.Add(columName);

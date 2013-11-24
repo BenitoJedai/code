@@ -64,7 +64,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
                 var t = this.GetFieldType(i);
 
-                //Console.WriteLine("__SQLiteDataReader get_Item " + new { name, i, t.FullName });
+                var ColumnType = InternalGetColumnType(i);
+
+                Console.WriteLine("__SQLiteDataReader get_Item " + new { name, i, t.FullName, ColumnType });
 
                 if (t == typeof(int))
                     return this.GetInt32(i);
@@ -155,16 +157,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override Type GetFieldType(int ordinal)
         {
-            var ColumnType = default(int);
-
-            try
-            {
-                ColumnType = this.InternalResultSet.getMetaData().getColumnType(ordinal + 1);
-            }
-            catch
-            {
-                throw;
-            }
+            var ColumnType = InternalGetColumnType(ordinal);
 
             // GetFieldType unknown type: 3,
             // http://docs.oracle.com/javase/1.4.2/docs/api/constant-values.html#java.sql
@@ -174,6 +167,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 int int32 = 0;
                 object int32box = int32;
 
+                // why are we using the boxed version of the type?
+                // jsc is giving us the primitive? 
                 return int32box.GetType();
 
                 //return typeof(int);
@@ -221,6 +216,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             var message = "GetFieldType fault: " + new { ColumnType, ordinal, InternalCommand.CommandText };
 
             throw new InvalidOperationException(message);
+        }
+
+        private int InternalGetColumnType(int ordinal)
+        {
+            var ColumnType = default(int);
+
+            try
+            {
+                ColumnType = this.InternalResultSet.getMetaData().getColumnType(ordinal + 1);
+            }
+            catch
+            {
+                throw;
+            }
+            return ColumnType;
         }
 
         public override int FieldCount

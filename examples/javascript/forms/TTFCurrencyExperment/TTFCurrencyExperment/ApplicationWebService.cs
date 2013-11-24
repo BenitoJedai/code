@@ -100,7 +100,17 @@ namespace TTFCurrencyExperment
             var a = table1.SelectAllAsDataTable();
 
             var zz = table1.SelectAllAsEnumerable();
+
+            // fck
+            // Additional information: JIT Compiler encountered an internal limitation.
             var zza = zz.ToArray();
+
+            //Error	6	Child node "2" exited prematurely. Shutting down. Diagnostic information may be found in files in the temporary files directory named MSBuild_*.failure.txt.	TTFCurrencyExperment
+
+
+            var u = from kk in table1
+                    where kk.Currency == "EUR"
+                    select kk;
 
             var z =
                 from x in table1.XSelectAllAsEnumerable()
@@ -113,7 +123,7 @@ namespace TTFCurrencyExperment
             // would it be secure?
 
 
-            TryExpressions(table1);
+            //TryExpressions(table1);
 
 
             // insert row to get new key
@@ -127,15 +137,15 @@ namespace TTFCurrencyExperment
             y(e);
         }
 
-        private static void TryExpressions(Design.Treasury.Sheet1 table1)
-        {
-            var exp1 = table1.Where(x => x.Currency == "EUR");
-            var exp2 = exp1.Select(x => x);
+        //private static void TryExpressions(Design.Treasury.Sheet1 table1)
+        //{
+        //    var exp1 = table1.Where(x => x.Currency == "EUR");
+        //    var exp2 = exp1.Select(x => x);
 
-            var ep3 = from x in table1
-                      where x.Currency == "GBP"
-                      select x;
-        }
+        //    var ep3 = from x in table1
+        //              where x.Currency == "GBP"
+        //              select x;
+        //}
 
     }
 
@@ -147,6 +157,12 @@ namespace TTFCurrencyExperment
         // what about skip take and order by?
 
         // select all data. expensive
+        public static IEnumerable<Design.Treasury.Sheet1.Row> Where(this Design.Treasury.Sheet1 data, Func<Design.Treasury.Sheet1.Row, bool> f)
+        {
+            return data.SelectAllAsEnumerable().Where(f);
+        }
+
+
         public static IEnumerable<Design.Treasury.Sheet1.Row> XSelectAllAsEnumerable(this Design.Treasury.Sheet1 data)
         {
             var x = data.SelectAllAsDataTable();
@@ -185,41 +201,41 @@ namespace TTFCurrencyExperment
         //    return y.Result;
         //}
 
-        public static IEnumerable<Design.Treasury.Sheet1.Row> Select<T>(this _Treasury_Sheet1_Where data, Expression<Func<Design.Treasury.Sheet1.Row, T>> f)
-        {
-            // which fields do we need? all or specific?
-            // or are we doing a join?
+        //public static IEnumerable<Design.Treasury.Sheet1.Row> Select<T>(this _Treasury_Sheet1_Where data, Expression<Func<Design.Treasury.Sheet1.Row, T>> f)
+        //{
+        //    // which fields do we need? all or specific?
+        //    // or are we doing a join?
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        public static _Treasury_Sheet1_Where Where(this Design.Treasury.Sheet1 data, Expression<Func<Design.Treasury.Sheet1.Row, bool>> f)
-        {
-            // X:\jsc.svn\examples\javascript\forms\QueryableWebServiceExperiment\QueryableWebServiceExperiment\System\Linq\LambdaExpressionExtensions.cs
+        //public static _Treasury_Sheet1_Where Where(this Design.Treasury.Sheet1 data, Expression<Func<Design.Treasury.Sheet1.Row, bool>> f)
+        //{
+        //    // X:\jsc.svn\examples\javascript\forms\QueryableWebServiceExperiment\QueryableWebServiceExperiment\System\Linq\LambdaExpressionExtensions.cs
 
-            // jsc compiler shall precompile all variations
-            // on which fields we allow to select.
-            // n x n ?
-            // and then in this method
-            // select the one needed?
-            // how much code bloat will this be?
-            // or 1n?
-            // we can reorder the where selectors
-            // what about expressions to be sent over to sql?
+        //    // jsc compiler shall precompile all variations
+        //    // on which fields we allow to select.
+        //    // n x n ?
+        //    // and then in this method
+        //    // select the one needed?
+        //    // how much code bloat will this be?
+        //    // or 1n?
+        //    // we can reorder the where selectors
+        //    // what about expressions to be sent over to sql?
 
-            // http://csharpeval.codeplex.com/
-            // https://code.google.com/p/expressiontocode/
-            // http://blogs.msdn.com/b/alexj/archive/2010/03/02/creating-a-data-service-provider-part-9-un-typed.aspx
-            // http://blogs.msdn.com/b/mattwar/archive/2007/07/31/linq-building-an-iqueryable-provider-part-ii.aspx
+        //    // http://csharpeval.codeplex.com/
+        //    // https://code.google.com/p/expressiontocode/
+        //    // http://blogs.msdn.com/b/alexj/archive/2010/03/02/creating-a-data-service-provider-part-9-un-typed.aspx
+        //    // http://blogs.msdn.com/b/mattwar/archive/2007/07/31/linq-building-an-iqueryable-provider-part-ii.aspx
 
-            // first iteration
-            // shall enable to do a where by 1 data column only?
-            // can we have the client send in the expression?
-            // would we trust the expression from client?
-            // or would we only ask for a specific parameter for the expression?
+        //    // first iteration
+        //    // shall enable to do a where by 1 data column only?
+        //    // can we have the client send in the expression?
+        //    // would we trust the expression from client?
+        //    // or would we only ask for a specific parameter for the expression?
 
-            return new _Treasury_Sheet1_Where { };
+        //    return new _Treasury_Sheet1_Where { };
 
-        }
+        //}
     }
 }
