@@ -55,9 +55,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                     x.Password
                 );
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                //        Caused by: java.lang.RuntimeException: java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+                //at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteConnection.Open(__SQLiteConnection.java:39)
+                //at ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda___c__DisplayClass2._WithConnection_b__1(WithConnectionLambda___c__DisplayClass2.java:36)
+
+                if (ex.Message.Contains("com.mysql.jdbc.Driver"))
+                {
+                    // "C:\util\appengine-java-sdk-1.8.8\lib\impl\mysql-connector-java-5.1.22-bin.jar"
+
+                    Console.WriteLine("did you set up the mysql jar?");
+                }
+
+                //                C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe  -encoding UTF-8 -cp Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.8\lib\impl\*;C:\util\appengine-java-sdk-1.8.8\lib\shared\* -d "Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\release" @"Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\files"
+
+                //Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\java\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\__SQLiteConnection.java:47: error: unreported exception SQLException; must be caught or declared to be thrown
+                //            throw exception1;
+                //            ^
+                //Note: Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\java\ScriptCoreLibJava\BCLImplementation\System\Threading\__Thread.java uses or overrides a deprecated API.
+
+                throw new InvalidOperationException("__SQLiteConnection " + new { ex.Message, ex.StackTrace });
             }
 
             using (var cmd = new SQLiteCommand(
