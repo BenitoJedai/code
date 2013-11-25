@@ -66,7 +66,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
                 var ColumnType = InternalGetColumnType(i);
 
-                Console.WriteLine("__SQLiteDataReader get_Item " + new { name, i, t.FullName, ColumnType });
+                //Console.WriteLine("__SQLiteDataReader get_Item " + new { name, i, t.FullName, ColumnType });
 
                 if (t == typeof(int))
                     return this.GetInt32(i);

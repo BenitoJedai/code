@@ -56,9 +56,9 @@ namespace ScriptCoreLib.Library
                 {
                     var value = row[item.ColumnName];
 
-                    Console.WriteLine(
-                        new { item.ColumnName, value }
-                    );
+                    //Console.WriteLine(
+                    //    new { item.ColumnName, value }
+                    //);
 
                     var th = new XElement("DataColumn",
                         // is it a string?

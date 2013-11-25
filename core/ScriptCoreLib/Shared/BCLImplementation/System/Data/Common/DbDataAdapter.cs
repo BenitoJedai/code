@@ -62,7 +62,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                         var row = data.NewRow();
                         data.Rows.Add(row);
 
-                        Console.WriteLine("Fill ");
+                        //Console.WriteLine("Fill ");
 
                         for (int i = 0; i < reader.FieldCount; i++)
                         {
@@ -86,7 +86,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                             // tested by
                             // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
 
-                            Console.WriteLine("Fill " + new { n, ft, value, valueType });
+                            //Console.WriteLine("Fill " + new { n, ft, value, valueType });
 
                             row[n] = value;
                         }
@@ -103,7 +103,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             //Book1Sheet2Key:
             //{ KeyObject = 48, FullName = java.lang.String }
 
-            Console.WriteLine("Fill Merge ");
+            //Console.WriteLine("Fill Merge ");
             dataTable.Merge(data);
 
             return data.Rows.Count;
@@ -113,14 +113,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         {
             var xdata = new DataTable();
 
-            Console.WriteLine("FillColumns " + new { reader.FieldCount });
+            //Console.WriteLine("FillColumns " + new { reader.FieldCount });
 
             for (int i = 0; i < reader.FieldCount; i++)
             {
                 var columName = reader.GetName(i);
 
-                Console.WriteLine("FillColumns " + new { columName }
-                    );
+                //Console.WriteLine("FillColumns " + new { columName }
+                //);
 
                 xdata.Columns.Add(columName);
             }
