@@ -81,6 +81,40 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                                 SelectionMode = DataGridViewSelectionMode.FullRowSelect
                             };
 
+                            gg.CellFormatting +=
+                                (ggsender, e) =>
+                                {
+                                    if (e.RowIndex < 0)
+                                        return;
+                                    if (e.ColumnIndex < 0)
+                                        return;
+
+                                    if (e.Value == null)
+                                        return;
+
+                                    if (e.Value is System.DBNull)
+                                        return;
+
+
+
+                                    string stringValue = (string)e.Value;
+
+                                    var i = 0;
+
+                                    if (int.TryParse(stringValue, out i))
+                                    {
+                                        //e.CellStyle.ForeColor = Color.Gray;
+                                        //e.CellStyle.ForeColor = Color.FromArgb(0x808080);
+                                        //e.CellStyle.BackColor = Color.FromArgb(0xa0, 0xa0, 0xa0);
+                                        //e.CellStyle.BackColor = Color.FromArgb(0xf0, 0xf0, 0xf0);
+                                        e.CellStyle.BackColor = SystemColors.ButtonFace;
+                                    }
+                                    else
+                                    {
+                                        e.CellStyle.BackColor = Color.White;
+                                    }
+                                };
+
                             var ff = new Form();
                             ff.Controls.Add(gg);
                             ff.Show();
