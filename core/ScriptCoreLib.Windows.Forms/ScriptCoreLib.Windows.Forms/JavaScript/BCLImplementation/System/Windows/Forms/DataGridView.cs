@@ -769,6 +769,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     return;
 
                                 this.AutoResizeColumn(SourceCell.ColumnIndex);
+
+                                InternalRaiseCellFormatting(SourceCell);
                             };
                             #endregion
 
@@ -1201,6 +1203,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         SourceCell.InternalContentContainer.style.textAlign = IStyle.TextAlignEnum.right;
 
                     #endregion
+
+                    InternalRaiseCellFormatting(SourceCell);
+
 
 
                 };
@@ -2067,6 +2072,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Console.WriteLine("DataGridView ready");
         }
 
+ 
+
 
         public bool MultiSelect { get; set; }
         public bool AllowUserToOrderColumns { get; set; }
@@ -2225,5 +2232,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         public event DataGridViewCellValidatingEventHandler CellValidating;
+
+
+        // tested by
+        // X:\jsc.svn\examples\javascript\forms\Test\TestDataGridViewCellFormattingEven\TestDataGridViewCellFormattingEven\ApplicationControl.cs
+        public event DataGridViewCellFormattingEventHandler CellFormatting;
+
+
+        private void InternalRaiseCellFormatting(__DataGridViewCell SourceCell)
+        {
+            // X:\jsc.svn\examples\javascript\forms\Test\TestDataGridViewCellFormattingEven\TestDataGridViewCellFormattingEven\ApplicationControl.cs
+            // how costly is this? should we call this
+            // only for cells in view?
+            if (this.CellFormatting != null)
+                this.CellFormatting(
+                    this,
+                    new DataGridViewCellFormattingEventArgs(
+                        SourceCell.ColumnIndex,
+                        SourceCell.OwningRow.Index,
+                        SourceCell.Value,
+
+                        // what type do we desire?
+                        typeof(string),
+
+                        SourceCell.InternalStyle
+                    )
+            );
+        }
     }
 }

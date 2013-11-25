@@ -73,6 +73,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellFormattingEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellFormattingEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.DataSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellValidatingEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellValidatingEventArgs.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="JavaScript\Extensions\FormStyler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ConvertEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\IDataObject.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\DragEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\DragEventArgs.cs" />
