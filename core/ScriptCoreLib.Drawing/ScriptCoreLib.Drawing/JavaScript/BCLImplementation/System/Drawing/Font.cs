@@ -41,6 +41,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
             this._gdiCharSet = gdiCharSet;
         }
 
+        public __Font(Font f, FontStyle style)
+        {
+            this.Name = f.Name;
+            this.Size = f.Size;
+            this._style = style;
+            //this._unit = f.Unit;
+            //this._gdiCharSet = f.GdiCharSet;
+
+     
+        }
+
+        public bool Underline { get { return this._style == FontStyle.Underline; } }
+
         #region operators
         static public implicit operator Font(__Font e)
         {

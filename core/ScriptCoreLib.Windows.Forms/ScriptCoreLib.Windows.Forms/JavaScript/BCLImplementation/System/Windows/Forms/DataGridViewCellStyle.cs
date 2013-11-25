@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,7 +12,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewCellStyle))]
     internal class __DataGridViewCellStyle : __DataGridViewElement
     {
-        public Font Font { get; set; }
+        #region Font
+        public Action InternalFontChanged;
+
+        public __Font InternalFont;
+        public Font Font
+        {
+            get { return InternalFont; }
+            set
+            {
+                InternalFont = value;
+                if (InternalFontChanged != null)
+                    InternalFontChanged();
+
+            }
+        }
+        #endregion
 
         public DataGridViewContentAlignment Alignment { get; set; }
 
@@ -67,6 +83,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __DataGridViewCellStyle()
         {
+            this.Font = __Control.DefaultFont;
+
             this.InternalForeColor = SystemColors.WindowText;
             this.InternalBackColor = SystemColors.Window;
 

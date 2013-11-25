@@ -38,9 +38,9 @@ namespace TestDataGridViewCellFormattingEven
             // when will it be null??
             if (e.CellStyle == null)
             {
-                Console.WriteLine(
-                    "dataGridView1_CellFormatting " + new { e.RowIndex, e.ColumnIndex }
-                    );
+                //Console.WriteLine(
+                //    "dataGridView1_CellFormatting " + new { e.RowIndex, e.ColumnIndex }
+                //    );
 
                 return;
             }
@@ -62,6 +62,14 @@ namespace TestDataGridViewCellFormattingEven
                 // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.add_CellFormatting(System.Windows.Forms.DataGridViewCellFormattingEventHandler)]
             }
 
+            if (stringValue.Contains("sans"))
+            {
+                e.CellStyle.Font = this.label1.Font;
+                e.CellStyle.ForeColor = Color.Yellow;
+                e.CellStyle.BackColor = Color.Blue;
+            }
+
+
             var i = 0;
 
             if (int.TryParse(stringValue, out i))
@@ -77,6 +85,39 @@ namespace TestDataGridViewCellFormattingEven
             }
 
         }
+
+        private void dataGridView1_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex < 0)
+                return;
+            if (e.ColumnIndex < 0)
+                return;
+
+            var c = this.dataGridView1[
+                  e.ColumnIndex, e.RowIndex
+              ];
+
+
+            var s = c.Style;
+
+            var old = s.Font;
+
+            s.Font = new Font(s.Font, FontStyle.Underline);
+
+            dataGridView1.CellMouseLeave +=
+                delegate
+                {
+                    if (old == null) return;
+
+                    s.Font = old;
+                    old = null;
+
+                };
+
+        }
+
+
 
     }
 }
