@@ -90,7 +90,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 		}
 
 
-		public static void ReplaceWith(this INode e, Sprite value)
+        public static void ReplaceWith(this IHTMLElement e, Sprite value)
 		{
 			var c = value.ToHTMLElement();
 			// should we do it here? :)

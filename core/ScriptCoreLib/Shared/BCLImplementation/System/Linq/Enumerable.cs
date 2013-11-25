@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
     [Script(Implements = typeof(global::System.Linq.Enumerable))]
     public static partial class __Enumerable
     {
+        //script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Cast(System.Collections.IEnumerable)]
 
+        //public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source)
+        //{
+        //    return 
+        //}
 
         [Script]
         class __XGrouping<TKey, TElement> : IGrouping<TKey, TElement>

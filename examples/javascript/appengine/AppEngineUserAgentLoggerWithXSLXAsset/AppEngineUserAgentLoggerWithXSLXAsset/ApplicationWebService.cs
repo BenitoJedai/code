@@ -77,9 +77,14 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
         public WebServiceHandler WebServiceHandler { set; get; }
         #endregion
 
-        public Task<DataTable> GetVisitHeadersFor(Design.Book1Sheet1Key visit)
+        public Task<DataTable> GetVisitHeadersFor(Design.Book1BSheet1Key visit)
         {
-            var visitkey = "" + (long)visit;
+            return (
+                from k in new Design.Book1B.Sheet2()
+                // .FilterTo(visit)
+                where k.Sheet1 == visit
+                select k
+            ).AsDataTable().ToTaskResult();
 
             // we need a diagram showing us
             // how much faster will we make this call if
@@ -87,18 +92,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
             // y[visitkey].SelectAllAsEnumerable();
 
-            return (
-
-                // if the client side were to do this,
-                // all call sites would need automatically be sent to the server
-                // including the ctor
-
-                from k in new Design.Book1.Sheet2()
-                where k.Sheet1 == visitkey
-                select k
-
-            ).AsDataTable().ToTaskResult();
-
+            // if the client side were to do this,
+            // all call sites would need automatically be sent to the server
+            // including the ctor
         }
 
 
@@ -107,7 +103,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
         {
             public DataTable DataSource;
 
-            public Design.Book1Sheet1Key visit;
+            public Design.Book1BSheet1Key visit;
         }
 
         public Task<NotifyTuple> Notfiy()
@@ -115,7 +111,8 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
             // https://code.google.com/p/googleappengine/issues/detail?id=803
 
-            var x = new Design.Book1.Sheet1();
+            //var ds = Design.Book1.GetDataSet().Tables.
+            var x = new Design.Book1B.Sheet1();
 
 
 
@@ -123,7 +120,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             var ServiceTime = now.ToString();
 
             var visit = x.Insert(
-                new Design.Book1Sheet1Row
+                new Design.Book1BSheet1Row
                 {
                     // jsc experience should auto detect, 
                     // implicit column types
@@ -150,7 +147,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
             //visit.Sheet2().
 
-            var y = new Design.Book1.Sheet2();
+            var y = new Design.Book1B.Sheet2();
 
 
 
@@ -163,7 +160,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             {
                 // InsertRange
                 y.Insert(
-                   new Design.Book1Sheet2Row
+                   new Design.Book1BSheet2Row
                    {
                        HeaderKey = item,
                        HeaderValue = h[item],
@@ -172,7 +169,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                        // what if the sheet we are referring to is in another dll/nuget?
                        // what if there are tuples and triplets that start to bind data for us?
 
-                       Sheet1 = "" + (long)visit
+                       Sheet1 = visit
                    }
                );
             }
@@ -200,9 +197,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 #if DEBUG
 
         //public static IEnumerable<Design.Book1Sheet2Row> Where(this Design.Book1.Sheet2 data, Expression<Func<Design.Book1Sheet2Row, bool>> f)
-        public static IQueryable<Design.Book1Sheet2Row> Where(
-            this Design.Book1.Sheet2 data,
-            Expression<Func<Design.Book1Sheet2Row, bool>> f
+        public static IQueryable<Design.Book1BSheet2Row> Where(
+            this Design.Book1B.Sheet2 data,
+            Expression<Func<Design.Book1BSheet2Row, bool>> f
             )
         {
             // http://www.codeproject.com/Tips/468215/Difference-Between-IEnumerable-and-IQueryable
@@ -219,7 +216,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             return data.SelectAllAsEnumerable().Where(zf).AsQueryable();
         }
 #else
-        public static IEnumerable<Design.Book1Sheet2Row> Where(this Design.Book1.Sheet2 data, Func<Design.Book1Sheet2Row, bool> f)
+        public static IEnumerable<Design.Book1BSheet2Row> Where(this Design.Book1B.Sheet2 data, Func<Design.Book1BSheet2Row, bool> f)
         {
             return data.SelectAllAsEnumerable().Where(f);
         }
@@ -227,7 +224,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
 
 
-        public static IEnumerable<Design.Book1Sheet2Row> XSelectAllAsEnumerable(this Design.Book1.Sheet2 data)
+        public static IEnumerable<Design.Book1BSheet2Row> XSelectAllAsEnumerable(this Design.Book1B.Sheet2 data)
         {
             var x = data.SelectAllAsDataTable();
 
@@ -245,14 +242,15 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                     //            Caused by: java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Long
                     //at AppEngineUserAgentLoggerWithXSLXAsset.X._XSelectAllAsEnumerable_b__1(X.java:69)
 
-                    var Key = (Design.Book1Sheet2Key)Convert.ToInt64(KeyObject);
+                    var Key = (Design.Book1BSheet2Key)Convert.ToInt64(KeyObject);
+                    var Sheet1 = (Design.Book1BSheet1Key)Convert.ToInt64(r["Sheet1"]);
 
-                    return new Design.Book1Sheet2Row
+                    return new Design.Book1BSheet2Row
                     {
                         Key = Key,
                         HeaderKey = (string)r["HeaderKey"],
                         HeaderValue = (string)r["HeaderValue"],
-                        Sheet1 = (string)r["Sheet1"],
+                        Sheet1 = Sheet1,
                     };
                 }
 
@@ -260,7 +258,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
         }
 
-        public static DataTable AsDataTable(this IEnumerable<Design.Book1Sheet2Row> source)
+        public static DataTable AsDataTable(this IEnumerable<Design.Book1BSheet2Row> source)
         {
 
             var x = new DataTable();

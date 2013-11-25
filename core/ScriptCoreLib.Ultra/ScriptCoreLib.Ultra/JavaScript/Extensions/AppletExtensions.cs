@@ -18,7 +18,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return e.AttachAppletTo(Native.Document.body);
 		}
 
-		public static void ReplaceWith(this INode e, Applet value)
+        public static void ReplaceWith(this IHTMLElement e, Applet value)
 		{
 			var c = value.ToHTMLElement();
 			// should we do it here? :)

@@ -90,7 +90,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 
 
-        public static void Clear(this INodeConvertible<INode> ee)
+        public static void Clear(this INodeConvertible<IHTMLElement> ee)
         {
             var e = ee.AsNode();
 
@@ -103,7 +103,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
             }
         }
 
-        public static void ReplaceWith(this INodeConvertible<INode> ee, INodeConvertible<INode> evalue)
+        public static void ReplaceWith(this INodeConvertible<IHTMLElement> ee, INodeConvertible<IHTMLElement> evalue)
         {
             var e = ee.AsNode();
             var value = evalue.AsNode();
@@ -128,8 +128,32 @@ namespace ScriptCoreLib.JavaScript.Extensions
             }
         }
 
+        // jsc eXperience
+        public static IEnumerable<IHTMLElement> Orphanize(this IHTMLElement.HTMLElementEnum className)
+        {
+            return className.AsEnumerable().Orphanize();
+        }
+
+        public static IEnumerable<T> Orphanize<T>(this IEnumerable<T> z)
+            where T : INodeConvertible<IHTMLElement>
+        {
+            // Error	2	The type 'System.Collections.Generic.IEnumerable<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>' cannot be used as type parameter 'T' in the generic type or method 'ScriptCoreLib.JavaScript.Extensions.Extensions.Orphanize<T>(T)'. There is no implicit reference conversion from 'System.Collections.Generic.IEnumerable<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>' to 'ScriptCoreLib.JavaScript.Extensions.INodeConvertible<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement>'.	X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs	53	22	RemoveByQuerySelectorAll
+
+
+            // tested by
+            // X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
+
+
+            foreach (var item in z)
+            {
+                item.Orphanize();
+            }
+
+            return z;
+        }
+
         public static T Orphanize<T>(this T e)
-            where T : INodeConvertible<INode>
+            where T : INodeConvertible<IHTMLElement>
         {
             if (e == null)
                 return e;
@@ -155,7 +179,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 
         public static IEnumerable<T> AttachToDocument<T>(this IEnumerable<T> e)
-       where T : INodeConvertible<INode>
+       where T : INodeConvertible<IHTMLElement>
         {
             if (e != null)
             {
@@ -171,7 +195,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
         // RewriteToAssembly error: System.MissingMethodException: Method not found: '!!0 ScriptCoreLib.JavaScript.Extensions.Extensions.AttachToDocument(!!0)'.
         public static T AttachToDocument<T>(this T e)
-            where T : INodeConvertible<INode>
+            where T : INodeConvertible<IHTMLElement>
         {
             if (e != null)
                 Native.Document.body.appendChild(e.AsNode());
@@ -179,8 +203,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return e;
         }
 
-        public static T AttachTo<T>(this T e, INode c)
-            where T : INodeConvertible<INode>
+        public static T AttachTo<T>(this T e, IHTMLElement c)
+            where T : INodeConvertible<IHTMLElement>
         {
             if (e != null)
                 c.appendChild(e.AsNode());

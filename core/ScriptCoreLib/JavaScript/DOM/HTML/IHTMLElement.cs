@@ -8,17 +8,127 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared.Drawing;
 using System.Xml.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
 
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    [Script]
+    public static class HTMLElementEnumExtensions
+    {
+        // script: error JSC1000: No implementation found for this native method, please implement [static ScriptCoreLib.JavaScript.DOM.HTML.HTMLElementEnumExtensions.AsEnumerable(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement+HTMLElementEnum)]
+
+        //public static IHTMLElement[] querySelectorAll(this ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum selectors)
+        // jsc eXperience naming
+        public static IEnumerable<IHTMLElement> AsEnumerable(this ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum selectors)
+        {
+            var s = selectors;
+
+            // X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
+            #region fixup
+            if ((int)selectors == (int)ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum.button)
+                s = ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum.button;
+
+            if ((int)selectors == (int)ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum.p)
+                s = ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum.p;
+            #endregion
+
+            var a = System.Linq.Enumerable.AsEnumerable(
+                Native.document.documentElement.querySelectorAll(s)
+            );
+
+            return a;
+        }
+
+        public static IEnumerable<T> Select<T>(this ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className, Func<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement, T> selector)
+        {
+            // X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
+
+
+
+            return System.Linq.Enumerable.Select(className.AsEnumerable(), selector);
+        }
+
+        public static IEnumerable<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement> Where(this ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className, Func<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement, bool> f)
+        {
+            // Error	2	The type of the expression in the where clause is incorrect.  Type inference failed in the call to 'Where'.	X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs	51	25	RemoveByQuerySelectorAll
+            // X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
+
+
+
+            //            ---------------------------
+            //Asset Compiler
+            //---------------------------
+            //The Asset Compiler has found a few issues while preparing the assets! 
+
+            //Method 'InternalAsNode' in type 'ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets.JSCSolutionsNETImageOnWhite' from assembly 'ScriptCoreLib.Ultra.Components, Version=4.5.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+
+            //Please fix the issues and try again!
+            //You may need to reconnect your external drive.
+
+            //X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll.csproj
+            //---------------------------
+            //OK   
+            //---------------------------
+
+
+
+            return System.Linq.Enumerable.Where(className.AsEnumerable(), f);
+        }
+
+    }
+
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLElement.idl
     [Script(InternalConstructor = true)]
-    public /* abstract */ partial class IHTMLElement : IElement
+    public /* abstract */ partial class IHTMLElement :
+        IElement,
+
+        // Error	17	'ScriptCoreLib.JavaScript.DOM.INode' does not implement interface member 'ScriptCoreLib.JavaScript.Extensions.INodeConvertible<ScriptCoreLib.JavaScript.DOM.INode>.ToNode()'	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\INode.cs	14	15	ScriptCoreLib
+        // circular ref?
+        INodeConvertible<IHTMLElement>
     {
         // X:\jsc.svn\examples\javascript\Test\TestOwnerDocumentDefaultView\TestOwnerDocumentDefaultView\Application.cs
         public readonly IHTMLDocument ownerDocument;
 
+        [Script(DefineAsStatic = true)]
+        IHTMLElement INodeConvertible<IHTMLElement>.InternalAsNode()
+        {
+            // cannot call this yet via interface invoke!
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/20130720
+            return this;
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void appendChild<T>(INodeConvertible<T> child)
+            where T : IHTMLElement
+        {
+            appendChild((INode)child.AsNode());
+        }
+
+
+        [Script(DefineAsStatic = true)]
+        public IEnumerable<IHTMLElement> querySelectorAll(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum selectors)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
+
+            var n = (IElement)this;
+            var s = (string)(object)selectors;
+
+            // hack cast
+            return (IEnumerable<IHTMLElement>)(System.Linq.Enumerable.AsEnumerable(n.querySelectorAll(s)));
+        }
+
+        [Script(DefineAsStatic = true)]
+        new public IEnumerable<IHTMLElement> querySelectorAll(string selectors)
+        {
+            var n = (IElement)this;
+
+            // hack cast
+            return (IEnumerable<IHTMLElement>)(System.Linq.Enumerable.AsEnumerable(n.querySelectorAll(selectors)));
+        }
 
         // element is like exception. its a base class. not ot be created. not to be thrown.
 

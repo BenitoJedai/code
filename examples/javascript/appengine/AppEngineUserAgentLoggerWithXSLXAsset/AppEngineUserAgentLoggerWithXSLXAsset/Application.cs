@@ -35,6 +35,8 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             var now = DateTime.Now;
             this.ClientTime = now.ToString();
 
+            //Native.document.body.querySelectorAll("script[src='view-source']").WithEach(x => x.Orphanize());
+
             this.Notfiy().ContinueWithResult(
                 data =>
                 {
@@ -84,7 +86,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                             ff.Show();
 
                             var headers = await this.GetVisitHeadersFor(
-                                 (Design.Book1Sheet1Key)Convert.ToInt64(
+                                 (Design.Book1BSheet1Key)Convert.ToInt64(
                                      Key
                                  )
                              );

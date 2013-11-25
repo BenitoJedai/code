@@ -8,8 +8,19 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
+    // Error	16	The type 'ScriptCoreLib.JavaScript.DOM.INode' 
+    // cannot be used as type parameter 'TNode' in the generic type or 
+    // method 'ScriptCoreLib.JavaScript.Extensions.INodeConvertible<TNode>'. 
+    // There is no implicit reference conversion from 'ScriptCoreLib.JavaScript.DOM.INode' 
+    // to 'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement'.	
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\Extensions\INodeConvertible.cs	12	22	ScriptCoreLib
     [Script]
-    public interface INodeConvertible<out TNode> where TNode : INode
+    // IHTMLElementConvertible
+    public interface INodeConvertible<out TNode>
+        //where TNode : INode
+
+        // we are talking about dom nodes
+        where TNode : IHTMLElement
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/20130720
 
@@ -56,7 +67,10 @@ namespace ScriptCoreLib.JavaScript.Extensions
         }
 
         public static TNode AsNode<TNode>(this INodeConvertible<TNode> e)
-            where TNode : INode
+            //where TNode : INode
+
+            // we are talking about dom nodes
+            where TNode : IHTMLElement
         {
             if (e == null)
                 return null;
@@ -74,12 +88,12 @@ namespace ScriptCoreLib.JavaScript.Extensions
         }
 
 
-        public static IEnumerable<IHTMLAudio> AudioElements(this INodeConvertible<IElement> e)
+        public static IEnumerable<IHTMLAudio> AudioElements(this INodeConvertible<IHTMLElement> e)
         {
             return e.AsNode().querySelectorAll(IHTMLElement.HTMLElementEnum.audio).Select(k => (IHTMLAudio)k);
         }
 
-        public static IEnumerable<IHTMLImage> ImageElements(this INodeConvertible<IElement> e)
+        public static IEnumerable<IHTMLImage> ImageElements(this INodeConvertible<IHTMLElement> e)
         {
             return e.AsNode().querySelectorAll(IHTMLElement.HTMLElementEnum.img).Select(k => (IHTMLImage)k);
         }

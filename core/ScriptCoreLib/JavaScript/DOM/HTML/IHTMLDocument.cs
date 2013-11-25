@@ -18,9 +18,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     {
         public IWindow defaultView;
 
+
+
+
         /// <summary>
         /// Enable multitouch in Minefield by setting this field to true.
         /// </summary>
+        [System.Obsolete]
         internal bool multitouchData;
 
         // http://www.w3schools.com/jsref/prop_doc_readystate.asp

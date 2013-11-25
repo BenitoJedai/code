@@ -101,9 +101,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return that;
 		}
 
-	
 
-		public static void ReplaceContentWith(this INode parent, INode value)
+
+        public static void ReplaceContentWith(this IHTMLElement parent, INode value)
 		{
 			parent.Clear();
 			parent.Add(value);
