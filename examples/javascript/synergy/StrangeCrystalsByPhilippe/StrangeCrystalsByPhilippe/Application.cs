@@ -29,11 +29,11 @@ namespace StrangeCrystalsByPhilippe
         public Application(IApp page)
         {
 
-
-            Native.Window.onresize +=
+            // http://www.tamats.com/blog/?p=431#more-431
+            Native.window.onresize +=
                 delegate
                 {
-                    var s = (double)Native.Window.Width / (double)page.c.width;
+                    var s = (double)Native.window.Width / (double)page.c.width;
 
 
                     page.c.style.transform = "scale(" + s + ")";

@@ -65,8 +65,31 @@ namespace ScriptCoreLib.Ultra.WebService
 
             // http://www.w3.org/TR/html5/offline.html
 
-            WriteLine(@"<!DOCTYPE HTML>");
-            WriteLine(@"<!-- Hello curious person, welcome to the source code. I hope you enjoy your time here. Please close the door after you've gone. --> ");
+            // can we detect who is looking at us? is it a 3D view?
+            // https://www.oculusvr.com/order/
+
+            //WriteLine(@"<!DOCTYPE HTML>");
+            //            WriteLine(@"<!-- 
+            //
+            //Hello curious person, welcome to the source code. I hope you enjoy your time here. Please close the door after you've gone. 
+            //
+            //--> ");
+
+            // view-source:http://skycraft.io/
+            WriteLine(@"<!doctype html>
+<!-- 
+
+
+Hi there!
+
+Glad to see you here, we must have some interests in common.
+Welcome to the source code. I hope you enjoy your time here. Please close the door after you've gone. 
+
+Visit http://my.jsc-solutions.net to gear up!
+
+
+--> 
+");
 
 
             // if XElement
