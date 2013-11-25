@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 		/// </summary>
 		/// <param name="that"></param>
 		/// <param name="child"></param>
-		public static void Add(this INode that, Control child)
+        public static void Add(this IHTMLElement that, Control child)
 		{
 			child.GetHTMLTarget().AttachTo(that);
             child.Visible = true;
@@ -35,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 		/// <param name="that"></param>
 		/// <param name="parent"></param>
 		/// <returns></returns>
-		public static T AttachControlTo<T>(this T that, INode parent) where T : Control
+        public static T AttachControlTo<T>(this T that, IHTMLElement parent) where T : Control
 		{
 			parent.Add(that);
             that.Show();

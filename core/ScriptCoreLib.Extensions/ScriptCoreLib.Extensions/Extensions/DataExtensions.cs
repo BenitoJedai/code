@@ -33,5 +33,19 @@ namespace ScriptCoreLib.Extensions
             }
             return a;
         }
+
+        public static IEnumerable<DataTable> AsEnumerable(this DataTableCollection c)
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131125-xslx-key?pageMoved=201311
+
+            var a = new List<DataTable>();
+
+            foreach (DataTable item in c)
+            {
+                a.Add(item);
+            }
+
+            return a;
+        }
     }
 }

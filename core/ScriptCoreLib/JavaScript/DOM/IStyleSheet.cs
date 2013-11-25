@@ -94,8 +94,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // rename to CSSStyleSheet ?
     // too public. collect examples using this type name beforehand
+
     [Script(InternalConstructor = true)]
-    public partial class IStyleSheet
+    public partial class CSSStyleSheet
+    {
+        // http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
+    }
+
+    [Script(InternalConstructor = true)]
+    [Obsolete("CSSStyleSheet")]
+    public partial class IStyleSheet : CSSStyleSheet
     {
         // http://www.w3.org/TR/DOM-Level-2-Style/css.html
 
@@ -333,6 +341,18 @@ namespace ScriptCoreLib.JavaScript.DOM
             get
             {
                 return this[e.InternalGetExplicitRuleSelector()];
+            }
+        }
+
+
+        public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var selectorText = "" + className;
+
+                return this.__get_item(selectorText);
             }
         }
 

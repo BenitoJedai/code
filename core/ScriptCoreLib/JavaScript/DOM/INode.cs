@@ -14,20 +14,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class INode :
         IEventTarget,
-        IEnumerable<INode>,
+        IEnumerable<INode>
 
-        // Error	17	'ScriptCoreLib.JavaScript.DOM.INode' does not implement interface member 'ScriptCoreLib.JavaScript.Extensions.INodeConvertible<ScriptCoreLib.JavaScript.DOM.INode>.ToNode()'	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\INode.cs	14	15	ScriptCoreLib
-        // circular ref?
-        INodeConvertible<INode>
+        
     {
-        [Script(DefineAsStatic = true)]
-        INode INodeConvertible<INode>.InternalAsNode()
-        {
-            // cannot call this yet via interface invoke!
-
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/20130720
-            return this;
-        }
+  
 
         // http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
         // http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/idl-definitions.html
@@ -111,11 +102,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
-        [Script(DefineAsStatic = true)]
-        public void appendChild(INodeConvertible<INode> child)
-        {
-            appendChild(child.AsNode());
-        }
+    
 
         [Script(DefineAsStatic = true)]
         public void appendChild(params INode[] children)

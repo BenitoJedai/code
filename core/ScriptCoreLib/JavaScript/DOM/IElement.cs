@@ -51,9 +51,6 @@ namespace ScriptCoreLib.JavaScript.DOM
             return null;
         }
 
-        public INode[] querySelectorAll(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum selectors)
-        {
-            return null;
-        }
+  
     }
 }

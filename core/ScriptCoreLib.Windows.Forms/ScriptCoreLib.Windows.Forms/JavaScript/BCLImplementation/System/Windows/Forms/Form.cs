@@ -875,7 +875,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 if (that.HTMLTarget.parentNode == null)
                     that.HTMLTarget.AttachTo(
-                        Native.document.body.parentNode
+                        //Native.document.body.parentNode
+                        Native.document.documentElement
                     );
 
                 // animate!
