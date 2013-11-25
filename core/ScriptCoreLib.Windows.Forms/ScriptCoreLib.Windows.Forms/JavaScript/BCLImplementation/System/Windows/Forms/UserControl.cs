@@ -34,6 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget.style.overflow = DOM.IStyle.OverflowEnum.hidden;
 
             //HTMLTarget.style.border = "1px dotted gray";
+            this.InternalSetDefaultFont();
 
             this.Size = new global::System.Drawing.Size(100, 100);
             this.BackColor = SystemColors.ButtonFace;

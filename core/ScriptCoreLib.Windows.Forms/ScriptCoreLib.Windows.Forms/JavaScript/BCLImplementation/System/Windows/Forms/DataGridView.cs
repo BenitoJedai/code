@@ -528,7 +528,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.style.left = "0";
                     SourceCell.InternalContentContainer.style.top = "0";
                     SourceCell.InternalContentContainer.style.height = (SourceRow.Height - 1) + "px";
-                    SourceCell.InternalContentContainer.style.font = this.Font.ToCssString();
 
                     SourceCell.InternalTableColumn.style.borderBottom = "1px solid rgba(0,0,0, 0.4)";
 
@@ -1171,6 +1170,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
                     #endregion
 
+
+                    InternalBindCellMouseEnter(SourceCell);
+
+
+                    SourceCell.InternalContentContainer.style.font = SourceCell.InternalStyle.Font.ToCssString();
+                    SourceCell.InternalStyle.InternalFontChanged +=
+                        delegate
+                        {
+                            if (SourceCell.InternalSelected)
+                                return;
+
+
+                            SourceCell.InternalContentContainer.style.font = SourceCell.InternalStyle.Font.ToCssString();
+
+                            if (SourceCell.InternalStyle.InternalFont.Underline)
+                                SourceCell.InternalContentContainer.style.textDecoration = "underline";
+                            else
+                                SourceCell.InternalContentContainer.style.textDecoration = "";
+                        };
 
                     #region InternalForeColorChanged
                     SourceCell.InternalStyle.InternalForeColorChanged +=
@@ -2072,7 +2090,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Console.WriteLine("DataGridView ready");
         }
 
- 
+        private void InternalBindCellMouseEnter(__DataGridViewCell SourceCell)
+        {
+            SourceCell.InternalContentContainer.onmouseover +=
+                delegate
+                {
+                    if (this.CellMouseEnter != null)
+                        this.CellMouseEnter(
+                            this,
+                            new DataGridViewCellEventArgs(
+                                SourceCell.ColumnIndex,
+                                SourceCell.OwningRow.Index
+                            )
+                        );
+
+                };
+
+            SourceCell.InternalContentContainer.onmouseout +=
+                delegate
+                {
+                    if (this.CellMouseLeave != null)
+                        this.CellMouseLeave(
+                            this,
+                            new DataGridViewCellEventArgs(
+                                SourceCell.ColumnIndex,
+                                SourceCell.OwningRow.Index
+                            )
+                        );
+
+                };
+        }
+
+
 
 
         public bool MultiSelect { get; set; }
@@ -2129,7 +2178,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return (DataGridViewCell)(object)this.InternalRows.InternalItems.Source[rowIndex].InternalCells.InternalItems[columnIndex];
+                return (DataGridViewCell)(object)this
+                    .InternalRows.InternalItems.Source[rowIndex]
+                    .InternalCells.InternalItems[columnIndex];
             }
             set
             {
@@ -2259,5 +2310,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     )
             );
         }
+
+        public event DataGridViewCellEventHandler CellMouseEnter;
+        public event DataGridViewCellEventHandler CellMouseLeave;
     }
 }
