@@ -79,7 +79,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.InternalValue = "";
             this.InternalStyle = new __DataGridViewCellStyle();
-            this.Style = (DataGridViewCellStyle)(object)this.InternalStyle;
         }
 
         #region operators
