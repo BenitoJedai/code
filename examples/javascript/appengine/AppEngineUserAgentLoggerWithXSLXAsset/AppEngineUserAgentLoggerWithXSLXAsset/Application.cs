@@ -69,15 +69,10 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
 
 
-                            var headers = await this.GetVisitHeadersFor(
-                                (Design.Book1Sheet1Key)Convert.ToInt64(
-                                    Key
-                                )
-                            );
+
 
                             var gg = new DataGridView
                             {
-                                DataSource = headers,
                                 ReadOnly = true,
                                 Dock = DockStyle.Fill,
 
@@ -88,6 +83,13 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                             ff.Controls.Add(gg);
                             ff.Show();
 
+                            var headers = await this.GetVisitHeadersFor(
+                                 (Design.Book1Sheet1Key)Convert.ToInt64(
+                                     Key
+                                 )
+                             );
+
+                            gg.DataSource = headers;
 
 
                             //g.DataSource = headers;
