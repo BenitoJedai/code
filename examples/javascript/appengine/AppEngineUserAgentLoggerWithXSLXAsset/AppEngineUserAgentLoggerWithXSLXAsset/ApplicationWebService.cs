@@ -88,9 +88,15 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             // y[visitkey].SelectAllAsEnumerable();
 
             return (
+
+                // if the client side were to do this,
+                // all call sites would need automatically be sent to the server
+                // including the ctor
+
                 from k in new Design.Book1.Sheet2()
                 where k.Sheet1 == visitkey
                 select k
+
             ).AsDataTable().ToTaskResult();
 
         }
@@ -163,6 +169,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                        HeaderValue = h[item],
 
                        // can jsc auto bind to key? 
+                       // what if the sheet we are referring to is in another dll/nuget?
+                       // what if there are tuples and triplets that start to bind data for us?
+
                        Sheet1 = "" + (long)visit
                    }
                );

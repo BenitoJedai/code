@@ -99,13 +99,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
             if (t == FIELD_TYPE_INTEGER)
             {
-                long int64 = 0;
-                object int64box = int64;
-
-                return int64box.GetType();
-
-                // jsc is giving us the primitive? 
-                //return typeof(long);
+                return typeof(long);
             }
 
             if (t == FIELD_TYPE_STRING)
