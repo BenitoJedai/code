@@ -11,7 +11,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
     internal class __HttpRequest
     {
-        public string UserHostAddress { get; set; }
+        public string UserHostAddress
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+                return this.InternalContext.getRemoteAddr();
+            }
+        }
 
         public javax.servlet.http.HttpServletRequest InternalContext;
 

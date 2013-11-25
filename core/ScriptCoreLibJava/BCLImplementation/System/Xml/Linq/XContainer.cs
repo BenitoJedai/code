@@ -85,6 +85,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
                     {
                         e = "" + ((int)content);
                     }
+                    else if (content is long)
+                    {
+                        e = "" + ((long)content);
+                    }
                 }
 
                 if (e != null)
