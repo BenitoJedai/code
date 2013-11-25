@@ -1,5 +1,4 @@
 extern alias global_scle;
-
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,36 +80,22 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
         public Task<DataTable> GetVisitHeadersFor(Design.Book1Sheet1Key visit)
         {
             var visitkey = "" + (long)visit;
-            var y = new Design.Book1.Sheet2();
 
             // we need a diagram showing us
             // how much faster will we make this call if
             // we move the filtering from web app into database
-            var a = y.SelectAllAsEnumerable().ToArray();
-            //var a = y.XSelectAllAsEnumerable().ToArray();
 
-            //Console.WriteLine(new { a.Length });
+            // y[visitkey].SelectAllAsEnumerable();
 
-            //Caused by: java.lang.NullPointerException
-            //        at AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService___c__DisplayClass1._GetVisitHeadersFor_b__0(ApplicationWebService___c__DisplayClass1.java:23)
-
-            return a.Where(
-                k =>
-                {
-                    if (k.Sheet1 == null)
-                    {
-                        Console.WriteLine("got a null, why?");
-                        return false;
-                    }
-
-                    return k.Sheet1 == visitkey;
-                }
+            return (
+                from k in new Design.Book1.Sheet2()
+                where k.Sheet1 == visitkey
+                select k
             ).AsDataTable().ToTaskResult();
 
         }
 
 
-        // Create Partial Type: AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1+Sheet1Key
 
         public class NotifyTuple
         {
@@ -136,6 +122,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                     // jsc experience should auto detect, 
                     // implicit column types
 
+                    // should we infer the type?
+                    // should we use dynamic? dynamic has no intellisense
+
                     ScreenWidth = "" + this.ScreenWidth,
                     ScreenHeight = "" + this.ScreenHeight,
 
@@ -159,42 +148,25 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
 
 
-            if (this.WebServiceHandler == null)
+            //y[visit].Insert();
+            //visit.Sheet2().Insert();
+
+            var h = this.WebServiceHandler.Context.Request.Headers;
+
+            foreach (var item in h.AllKeys)
             {
+                // InsertRange
                 y.Insert(
-                     new Design.Book1Sheet2Row
-                     {
-                         HeaderKey = "na",
-                         HeaderValue = "na",
+                   new Design.Book1Sheet2Row
+                   {
+                       HeaderKey = item,
+                       HeaderValue = h[item],
 
-                         // can jsc auto bind to key? 
-                         Sheet1 = "" + (long)visit
-                     }
-                 );
+                       // can jsc auto bind to key? 
+                       Sheet1 = "" + (long)visit
+                   }
+               );
             }
-            else
-            {
-                var h = this.WebServiceHandler.Context.Request.Headers;
-
-                foreach (var item in h.AllKeys)
-                {
-                    y.Insert(
-                       new Design.Book1Sheet2Row
-                       {
-                           HeaderKey = item,
-                           HeaderValue = h[item],
-
-                           // can jsc auto bind to key? 
-                           Sheet1 = "" + (long)visit
-                       }
-                   );
-                }
-            }
-
-
-
-
-
 
 
             #region auto
@@ -216,6 +188,35 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
     public static class X
     {
+#if DEBUG
+
+        //public static IEnumerable<Design.Book1Sheet2Row> Where(this Design.Book1.Sheet2 data, Expression<Func<Design.Book1Sheet2Row, bool>> f)
+        public static IQueryable<Design.Book1Sheet2Row> Where(
+            this Design.Book1.Sheet2 data,
+            Expression<Func<Design.Book1Sheet2Row, bool>> f
+            )
+        {
+            // http://www.codeproject.com/Tips/468215/Difference-Between-IEnumerable-and-IQueryable
+
+            //.Lambda #Lambda1<System.Func`2[AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1Sheet2Row,System.Boolean]>(AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1Sheet2Row $k)
+            //{
+            //    $k.Sheet1 == .Constant<AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService+<>c__DisplayClass0>(AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService+<>c__DisplayClass0).visitkey
+            //}
+
+            var zf = f.Compile();
+
+            // Error	5	Cannot implicitly convert type 'System.Collections.Generic.IEnumerable<AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1Sheet2Row>' to 'System.Linq.IQueryable<AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1Sheet2Row>'. An explicit conversion exists (are you missing a cast?)	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs	203	20	AppEngineUserAgentLoggerWithXSLXAsset
+
+            return data.SelectAllAsEnumerable().Where(zf).AsQueryable();
+        }
+#else
+        public static IEnumerable<Design.Book1Sheet2Row> Where(this Design.Book1.Sheet2 data, Func<Design.Book1Sheet2Row, bool> f)
+        {
+            return data.SelectAllAsEnumerable().Where(f);
+        }
+#endif
+
+
 
         public static IEnumerable<Design.Book1Sheet2Row> XSelectAllAsEnumerable(this Design.Book1.Sheet2 data)
         {
