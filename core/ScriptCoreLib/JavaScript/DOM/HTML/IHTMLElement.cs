@@ -91,6 +91,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // X:\jsc.svn\examples\javascript\Test\TestOwnerDocumentDefaultView\TestOwnerDocumentDefaultView\Application.cs
         public readonly IHTMLDocument ownerDocument;
 
+
+        public new IHTMLElement parentNode;
+
         [Script(DefineAsStatic = true)]
         IHTMLElement INodeConvertible<IHTMLElement>.InternalAsNode()
         {
