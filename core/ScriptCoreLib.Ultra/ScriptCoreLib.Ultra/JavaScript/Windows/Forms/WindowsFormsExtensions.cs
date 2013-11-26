@@ -11,37 +11,41 @@ using ScriptCoreLib.JavaScript.DOM;
 namespace ScriptCoreLib.JavaScript.Windows.Forms
 {
     // to be moved to ScriptCoreLib.Extensions
-	public static class WindowsFormsExtensions
-	{
-		// extension methods should not implicitly refer to new assemblies
-		// otherwise the compiler will require to add them.
+    public static class WindowsFormsExtensions
+    {
+        // extension methods should not implicitly refer to new assemblies
+        // otherwise the compiler will require to add them.
 
-		/// <summary>
-		/// This method adds a Windows Forms user user control to HTML.
-		/// Supports Collection Initializer pattern.
-		/// </summary>
-		/// <param name="that"></param>
-		/// <param name="child"></param>
+        /// <summary>
+        /// This method adds a Windows Forms user user control to HTML.
+        /// Supports Collection Initializer pattern.
+        /// </summary>
+        /// <param name="that"></param>
+        /// <param name="child"></param>
         public static void Add(this IHTMLElement that, Control child)
-		{
-			child.GetHTMLTarget().AttachTo(that);
+        {
+            child.GetHTMLTarget().AttachTo(that);
             child.Visible = true;
-		}
+        }
 
-		/// <summary>
-		/// This method adds a Windows Forms user user control to HTML.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="that"></param>
-		/// <param name="parent"></param>
-		/// <returns></returns>
-        public static T AttachControlTo<T>(this T that, IHTMLElement parent) where T : Control
-		{
-			parent.Add(that);
+        /// <summary>
+        /// This method adds a Windows Forms user user control to HTML.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="that"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        [Obsolete("ScriptCoreLib.JavaScript.Extensions.FormExtensions")]
+        public static T AttachControlTo<T>(
+            //this 
+            T that, IHTMLElement parent) where T : Control
+        {
+            // X:\jsc.svn\examples\javascript\forms\PlasmaFormsControl\PlasmaFormsControl\Application.cs
+            parent.Add(that);
             that.Show();
 
-			return that;
-		}
+            return that;
+        }
 
         public static T AutoSizeControlTo<T>(this T e, IHTMLElement shadow) where T : Control
         {
@@ -66,5 +70,5 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 
             return e;
         }
-	}
+    }
 }
