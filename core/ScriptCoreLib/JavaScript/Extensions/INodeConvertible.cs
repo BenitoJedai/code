@@ -88,6 +88,12 @@ namespace ScriptCoreLib.JavaScript.Extensions
         }
 
 
+ 
+    }
+
+    [Script]
+    public static class INodeConvertibleExtensionsNamed
+    {
         public static IEnumerable<IHTMLAudio> AudioElements(this INodeConvertible<IHTMLElement> e)
         {
             return e.AsNode().querySelectorAll(IHTMLElement.HTMLElementEnum.audio).Select(k => (IHTMLAudio)k);
