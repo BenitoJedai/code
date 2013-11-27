@@ -108,7 +108,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
                     if (e.parentNode == null)
                         return false;
 
-                    return e.parentNode != Native.Document;
+                    return (INode)e.parentNode != Native.document;
                 }
             }
 

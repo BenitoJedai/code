@@ -31,8 +31,18 @@ namespace PlasmaFormsControl
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefault page)
         {
+            // public static T AttachControlTo<T>(this T that, IHTMLElement parent) where T : Control;
+            // Error	1	The call is ambiguous between the following methods or properties: 
+            // 'ScriptCoreLib.JavaScript.Windows.Forms.WindowsFormsExtensions.AttachControlTo<PlasmaFormsControl.ApplicationControl>(PlasmaFormsControl.ApplicationControl, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement)' and
+            // 'ScriptCoreLib.JavaScript.Extensions.FormExtensions.AttachControlTo<PlasmaFormsControl.ApplicationControl>(PlasmaFormsControl.ApplicationControl, ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement)'	
+            // X:\jsc.svn\examples\javascript\forms\PlasmaFormsControl\PlasmaFormsControl\Application.cs	36	13	PlasmaFormsControl
+
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\JavaScript\Windows\Forms\WindowsFormsExtensions.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\Extensions\FormExtensions.cs
+
+
             content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+            //content.AutoSizeControlTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(

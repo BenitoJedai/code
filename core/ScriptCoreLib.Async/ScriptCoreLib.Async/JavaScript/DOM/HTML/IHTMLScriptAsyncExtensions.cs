@@ -30,7 +30,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return y.Task;
         }
 
-        public static IEnumerable<IHTMLScript> ScriptElements(this IElement i)
+        public static IEnumerable<IHTMLScript> ScriptElements(this IHTMLElement i)
         {
             return i.querySelectorAll(IHTMLElement.HTMLElementEnum.script).Select(k => (IHTMLScript)k);
         }
