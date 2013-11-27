@@ -35,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
         /// <param name="that"></param>
         /// <param name="parent"></param>
         /// <returns></returns>
-        [Obsolete("ScriptCoreLib.JavaScript.Extensions.FormExtensions")]
+        [Obsolete("ScriptCoreLib.JavaScript.Extensions.FormExtensions.AttachControlTo")]
         public static T AttachControlTo<T>(
             //this 
             T that, IHTMLElement parent) where T : Control
@@ -47,7 +47,10 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
             return that;
         }
 
-        public static T AutoSizeControlTo<T>(this T e, IHTMLElement shadow) where T : Control
+        [Obsolete("ScriptCoreLib.JavaScript.Extensions.FormExtensions.AttachControlTo")]
+        public static T AutoSizeControlTo<T>(
+            //this 
+            T e, IHTMLElement shadow) where T : Control
         {
             Action Update =
                 delegate

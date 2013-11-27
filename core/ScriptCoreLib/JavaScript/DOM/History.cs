@@ -11,6 +11,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public readonly object state;
 
+        public void back()
+        {
+        }
+
         public void pushState(object data)
         {
 
@@ -29,7 +33,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class HistoryScope
     {
         public static Stack<Func<bool>> inline_unwind = new Stack<Func<bool>>();
-    
+
     }
 
     [Obsolete("This class should live in ScriptCoreLib.Extensions, yet for now it has to stay here to keep identity between applications...")]

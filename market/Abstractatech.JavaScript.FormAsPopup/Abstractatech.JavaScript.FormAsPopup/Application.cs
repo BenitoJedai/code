@@ -342,8 +342,8 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                 //var w = new IWindow();
 
-                var HTMLTargetContainer_parent = content.f.GetHTMLTargetContainer().parentNode;
-                var HTMLTarget_parent = content.f.GetHTMLTarget().parentNode;
+                var HTMLTargetContainer_parent = (IHTMLElement)content.f.GetHTMLTargetContainer().parentNode;
+                var HTMLTarget_parent = (IHTMLElement)content.f.GetHTMLTarget().parentNode;
 
                 //Native.Window.onbeforeunload +=
                 // chrome webview only supports onunload
@@ -379,7 +379,7 @@ namespace Abstractatech.JavaScript.FormAsPopup
 
                         __Form ff = content.f;
 
-                        var ff_TargetOuterBorder_parent = ff.TargetOuterBorder.parentNode;
+                        var ff_TargetOuterBorder_parent = (IHTMLElement)ff.TargetOuterBorder.parentNode;
 
                         if (FormAsPopupExtensionsForConsoleFormPackageMediator.InternalPopupHasFrame)
                         {
@@ -715,9 +715,10 @@ namespace Abstractatech.JavaScript.FormAsPopup
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+            //content.AttachControlTo(page.Content);
+            //content.AutoSizeControlTo(page.ContentSize);
 
+            content.AttachControlToDocument();
 
             content.f.PopupInsteadOfClosing(
                 HandleFormClosing: false
