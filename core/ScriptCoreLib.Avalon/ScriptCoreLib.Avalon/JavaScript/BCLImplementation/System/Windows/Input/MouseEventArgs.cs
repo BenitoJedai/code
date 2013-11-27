@@ -88,7 +88,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
                 var x = 0;
                 var y = 0;
 
-                while (e.parentNode != Native.Document)
+                while ((INode)e.parentNode != Native.Document)
                 {
                     x += e.offsetLeft;
                     y += e.offsetTop;

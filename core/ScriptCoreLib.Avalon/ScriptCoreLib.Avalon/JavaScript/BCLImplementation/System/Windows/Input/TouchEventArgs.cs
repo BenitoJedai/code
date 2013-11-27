@@ -155,7 +155,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
                 if (e.parentNode == null)
                     return false;
 
-                return e.parentNode != Native.Document;
+                return (INode)e.parentNode != Native.Document;
             }
         }
     }
