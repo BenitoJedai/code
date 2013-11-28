@@ -8,8 +8,11 @@ using System.Text;
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
-    internal class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
+    public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131128-nuget
+        // X:\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\com.abstractatech.analytics\ApplicationWebService.cs
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
 
         public string DataSource { get; set; }
@@ -22,12 +25,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public string InternalHost { get; set; }
         public string InternalInstanceName { get; set; }
 
+        public static string InternalDefaultInternalInstanceName = "instance_name";
 
         public __SQLiteConnectionStringBuilder()
         {
             this.InternalUser = "root";
             this.InternalHost = "localhost";
-            this.InternalInstanceName = "instance_name";
+            this.InternalInstanceName = InternalDefaultInternalInstanceName;
             this.Password = "";
         }
 

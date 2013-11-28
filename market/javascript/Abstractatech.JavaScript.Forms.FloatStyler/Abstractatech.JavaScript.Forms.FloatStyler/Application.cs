@@ -38,7 +38,7 @@ namespace Abstractatech.JavaScript.Forms.FloatStyler
         public Application(IApp page)
         {
             content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+            //content.AutoSizeControlTo(page.ContentSize);
 
             FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
 

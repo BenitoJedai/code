@@ -33,7 +33,8 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CanvasMatrixLibrary">
+    <Reference Include="CanvasMatrixLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CanvasMatrixLibrary.1.0.0.0\lib\CanvasMatrixLibrary.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
