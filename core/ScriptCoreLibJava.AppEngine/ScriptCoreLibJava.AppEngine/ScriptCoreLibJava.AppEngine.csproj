@@ -67,6 +67,13 @@
     <Compile Include="Extensions\memcache\MemcacheCollection.cs" />
     <Compile Include="Extensions\memcache\MemcacheEntry.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="javax\mail\Address.cs" />
+    <Compile Include="javax\mail\Authenticator.cs" />
+    <Compile Include="javax\mail\internet\InternetAddress.cs" />
+    <Compile Include="javax\mail\internet\Message.cs" />
+    <Compile Include="javax\mail\internet\MimeMessage.cs" />
+    <Compile Include="javax\mail\Session.cs" />
+    <Compile Include="javax\mail\Transport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
