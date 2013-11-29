@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -918,6 +919,40 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         };
                     #endregion
+
+                    #region  android has long taps
+
+                    var TouchstartWatch = new Stopwatch();
+
+                    SourceCell.InternalContentContainer.ontouchstart +=
+                        delegate
+                        {
+                            Console.WriteLine("SourceCell.InternalContentContainer.ontouchstart");
+                            TouchstartWatch.Restart();
+                        };
+
+                    SourceCell.InternalContentContainer.ontouchend +=
+                        delegate
+                        {
+                            Console.WriteLine("SourceCell.InternalContentContainer.ontouchend");
+
+                            if (TouchstartWatch.ElapsedMilliseconds > 300)
+                            {
+                                if (this.CellDoubleClick != null)
+                                    this.CellDoubleClick(
+                                        this, new DataGridViewCellEventArgs(SourceColumn.Index, SourceRow.Index)
+                                    );
+
+                                EnterEditMode();
+                            }
+
+                            // script: error JSC1000: No implementation found for this native method, please implement [System.Diagnostics.Stopwatch.Reset()]
+                            //TouchstartWatch.Reset();
+
+                            TouchstartWatch = new Stopwatch();
+                        };
+                    #endregion
+
 
                     #region onmousedown
                     SourceCell.InternalContentContainer.onmousedown +=

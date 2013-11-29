@@ -15,14 +15,14 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     {
         // see also: X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
 
-        public __SQLiteConnection c;
+        public __SQLiteConnection InternalConnection;
         public override string CommandText { get; set; }
 
-        
+
 
         public __SQLiteCommand(string sql, SQLiteConnection c)
         {
-            this.c = (__SQLiteConnection)(object)c;
+            this.InternalConnection = (__SQLiteConnection)(object)c;
             this.CommandText = sql;
 
             this.InternalParameters = new __SQLiteParameterCollection { };
@@ -61,7 +61,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             // http://stackoverflow.com/questions/9341204/android-sqlite-rawquery-parameters
             // http://stackoverflow.com/questions/3672933/sqlite-inserting-a-string-with-newlines-into-database-from-csv-file
 
-            var db = c.db;
+            var db = InternalConnection.db;
 
             Func<int> ExecuteNonQuery = delegate
            {
@@ -117,13 +117,26 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
         public override int ExecuteNonQuery()
         {
+            Console.WriteLine("__SQLiteCommand.ExecuteNonQuery " + new { this.CommandText, this.InternalConnection.InternalReadOnly });
+
             return InternalCreateStatement().ExecuteNonQuery();
         }
 
-        public __SQLiteDataReader ExecuteReader()
+        #region ExecuteReader
+        public override global::System.Data.Common.DbDataReader __DbCommand_ExecuteReader()
         {
-            return InternalCreateStatement().ExecuteReader();
+            // this took a few hous to figure out!
+            return this.ExecuteReader();
         }
+
+        public new SQLiteDataReader ExecuteReader()
+        {
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+            Console.WriteLine("__SQLiteCommand.ExecuteReader " + new { this.CommandText, this.InternalConnection.InternalReadOnly });
+
+            return (SQLiteDataReader)(object)InternalCreateStatement().ExecuteReader();
+        }
+        #endregion
 
         public __SQLiteParameterCollection InternalParameters;
         public SQLiteParameterCollection Parameters { get; set; }

@@ -100,11 +100,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         //    return short.Parse(e);
         //}
 
-//        Implementation not found for type import :
-//type: System.Convert
-//method: Int64 ToInt64(System.Object)
-//Did you forget to add the [Script] attribute?
-//Please double check the signature!
+        //        Implementation not found for type import :
+        //type: System.Convert
+        //method: Int64 ToInt64(System.Object)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
         public static long ToInt64(object e)
         {
             // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
@@ -113,6 +113,35 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             var i32 = e is int;
             if (i32)
                 return (int)e;
+
+
+            // I/System.Console( 4611): getType is unavailable at API 8
+            // either this is ok, or xlsx assets library has to use 
+            // a wiser method to cope with android api8 limits
+            var s = e as string;
+            if (s != null)
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+
+                var x = default(long);
+
+                try
+                {
+                    x = long.Parse(s);
+                }
+                catch
+                {
+                    // ???
+                }
+
+                return x;
+            }
+
+            //Caused by: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Long
+            //       at ScriptCoreLib.Shared.BCLImplementation.System.__Convert.ToInt64(__Convert.java:105)
+            //       at AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B_Sheet2__SelectAllAsEnumerable_closure.yield(Book1B_Sheet2__SelectAllAsEnumerable_closure.java:27)
+            //       ... 34 more
 
             return (long)e;
         }
@@ -295,7 +324,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         }
 
-    
+
 
         public static float ToSingle(string value)
         {

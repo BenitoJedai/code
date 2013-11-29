@@ -108,6 +108,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
         public Task<NotifyTuple> Notfiy()
         {
+            Console.WriteLine("server in Notify");
 
             // https://code.google.com/p/googleappengine/issues/detail?id=803
 
@@ -119,6 +120,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             var now = DateTime.Now;
             var ServiceTime = now.ToString();
 
+            Console.WriteLine("server in Notify, Insert");
             var visit = x.Insert(
                 new Design.Book1BSheet1Row
                 {
@@ -145,8 +147,11 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                 }
             );
 
+            Console.WriteLine(new { visit });
+
             //visit.Sheet2().
 
+            #region Headers
             var y = new Design.Book1B.Sheet2();
 
 
@@ -173,6 +178,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                    }
                );
             }
+            #endregion
 
 
             #region auto
@@ -183,9 +189,15 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             var ref_ScriptCoreLib_Extensions = typeof(global_scle::ScriptCoreLib.Extensions.DataExtensions);
             #endregion
 
+            var DataSource = x.SelectAllAsDataTable();
+
+            Console.WriteLine("server in Notify, DataSource " + new { DataSource.Rows.Count });
+
+            Console.WriteLine("server in Notify, exiting");
+
             return new NotifyTuple
             {
-                DataSource = x.SelectAllAsDataTable(),
+                DataSource = DataSource,
                 visit = visit
             }.ToTaskResult();
         }
