@@ -37,17 +37,29 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
             //Native.document.body.querySelectorAll("script[src='view-source']").WithEach(x => x.Orphanize());
 
+            Console.WriteLine("before notify");
             this.Notfiy().ContinueWithResult(
                 data =>
                 {
+                    Console.WriteLine("");
+                    Console.WriteLine("at notify");
+                    Console.WriteLine(new { data.visit, data.DataSource.Rows.Count });
+
+                    //                    I/chromium( 2322): ", source: http://192.168.43.7:3678/view-source (29877)
+                    //I/chromium( 2322): [INFO:CONSOLE(29877)] "{ visit = 4, Count = 0 }", source: http://192.168.43.7:3678/view-source (29877)
+
                     var g = new DataGridView
                     {
-                        DataSource = data.DataSource,
                         ReadOnly = true,
 
-                        SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+
+                        DataSource = data.DataSource,
                     }.AttachControlToDocument();
 
+                    Console.WriteLine("before CellDoubleClick");
+
+                    #region CellDoubleClick
                     g.CellDoubleClick +=
                         async (sender, args) =>
                         {
@@ -134,6 +146,8 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                             //    new { args.RowIndex, Key }
                             //    );
                         };
+                    #endregion
+
 
                 }
             );

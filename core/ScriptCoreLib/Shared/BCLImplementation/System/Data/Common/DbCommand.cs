@@ -19,8 +19,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         {
             // tested by
             // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTable.cs
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
 
-            return __DbCommand_ExecuteReader(); ;
+            return __DbCommand_ExecuteReader();
         }
 
         public abstract int ExecuteNonQuery();

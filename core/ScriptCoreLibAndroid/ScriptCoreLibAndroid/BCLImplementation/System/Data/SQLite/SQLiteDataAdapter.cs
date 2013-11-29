@@ -12,6 +12,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     {
         public __SQLiteDataAdapter(SQLiteCommand __SelectCommand)
         {
+            Console.WriteLine("__SQLiteDataAdapter  " + new { __SelectCommand.CommandText });
+
+
             this.SelectCommand = __SelectCommand;
         }
 
