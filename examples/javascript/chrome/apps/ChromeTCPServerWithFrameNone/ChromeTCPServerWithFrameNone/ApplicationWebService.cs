@@ -12,6 +12,10 @@ namespace ChromeTCPServerWithFrameNone
     /// </summary>
     public sealed class ApplicationWebService
     {
+        //Error	4	The task factory "CodeTaskFactory" could not be loaded from the assembly "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Build.Tasks.v4.0.dll".
+        // Could not load file or assembly 'file:///C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Build.Tasks.v4.0.dll' or one of its dependencies. The system cannot find the file specified.	ChromeTCPServerWithFrameNone
+
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>

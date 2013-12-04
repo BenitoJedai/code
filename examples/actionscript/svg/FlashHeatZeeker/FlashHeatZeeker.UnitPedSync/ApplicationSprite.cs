@@ -23,7 +23,13 @@ namespace FlashHeatZeeker.UnitPedSync
     [SWF(backgroundColor = 0x006D00)]
     public sealed class ApplicationSprite : Sprite
     {
-       
+        //V:\web\FlashHeatZeeker\UnitPedSync\ApplicationSprite___proxy0_Action_1.as(27): col: 97 Error: Implicit coercion of a value of type FlashHeatZeeker.UnitPedSync:ApplicationSprite to an unrelated type String.
+
+        //            this.context.__out_Method_02c4ede0__02a0f918_0600011c_356fe95b_06000002(this._this, _arg0);
+        //                                                                                                ^
+
+        //        [Obsolete("future feature?")]
+        //        public event Action<ApplicationSprite> AtMulticastConnection;
 
 
         Action<Action<string>, Action<string>> AtInitializeConsoleFormWriter;
