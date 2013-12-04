@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using FBLibrary;
 using FBLibrary.Design;
 using FBLibrary.HTML.Pages;
+using FaceBook.API;
 
 namespace FBLibrary
 {
@@ -35,14 +36,20 @@ namespace FBLibrary
             #region hosts file
             new IHTMLAnchor
             {
-                href = "http://local.xfb.xavalon.com"
+                //href = "http://local.xfb.xavalon.com"
+
+
+                // 127.0.0.1   local.xfbintegrationservice.appspot.com
+                href = "http://local.xfbintegrationservice.appspot.com"
                     + ":" + Native.document.location.host.SkipUntilIfAny(":")
 
                 ,
-                innerText = "local.xfb.xavalon.com"
+                //innerText = "local.xfb.xavalon.com"
+                innerText = "local.xfbintegrationservice.appspot.com vis hosts file"
+
             }.AttachToDocument();
             #endregion
-
+            
             new { appId = "766655520014699" }.With(
                 async a =>
                 {
@@ -111,8 +118,8 @@ namespace FBLibrary
                     };
 
                     // { status = unknown }
-                    //if (status == FB.LoginStatusEnum.connected)
-                    if (status == "connected")
+                    if (status == FBLoginStatusEnum.connected)
+                    //if (status == "connected")
                     {
                         AtConnected();
                     }
@@ -125,8 +132,8 @@ namespace FBLibrary
                                 var loginstatus = await FB.login();
                                 new IHTMLPre { innerText = new { loginstatus }.ToString() }.AttachToDocument();
 
-                                //if (s == FB.LoginStatusEnum.connected)
-                                if (loginstatus == "connected")
+                                if (loginstatus == FBLoginStatusEnum.connected)
+                                //if (loginstatus == "connected")
                                 {
                                     button.Orphanize();
 

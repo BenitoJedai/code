@@ -15,6 +15,17 @@ using FaceBook.API;
 
 namespace FaceBook.API
 {
+    [Script(IsStringEnum = true)]
+    public enum FBLoginStatusEnum
+    {
+        unknown,
+
+        connected,
+        not_authorized,
+        not_logged_in,
+    }
+
+
     [Obsolete("if this class is used in java, it cannot be without namespace")]
     public sealed class FBUserProperties
     {
@@ -152,15 +163,8 @@ public class FB
     //response.status === 'not_authorized' is true whenever the User viewing the page is logged into Facebook, but has not yet authorized the current app. In this case, the FB.login() code shown in Step 4 can be used to prompt them to authenticate.
     //   // not_logged_in
 
-    [Script(IsStringEnum = true)]
-    public enum LoginStatusEnum
-    {
-        connected,
-        not_authorized,
-        not_logged_in
-    }
 
-    public static async Task<string> getLoginStatus()
+    public static async Task<FBLoginStatusEnum> getLoginStatus()
     {
         Console.WriteLine("enter FB.getLoginStatus ");
 
@@ -169,14 +173,15 @@ public class FB
         //await WhenReady();
 
 
-        var x = new TaskCompletionSource<string>();
+        var x = new TaskCompletionSource<FBLoginStatusEnum>();
 
         Action<dynamic> AtLoginStatus =
             response =>
             {
                 string status = response.status;
 
-                x.SetResult(status);
+                var xstatus = (FBLoginStatusEnum)(object)status;
+                x.SetResult(xstatus);
             };
 
         Console.WriteLine("before getLoginStatus...");
@@ -196,9 +201,9 @@ public class FB
     }
 
 
-    public static async Task<string> login()
+    public static async Task<FBLoginStatusEnum> login()
     {
-        var x = new TaskCompletionSource<string>();
+        var x = new TaskCompletionSource<FBLoginStatusEnum>();
 
         Action<dynamic> AtLogin =
             response =>
@@ -210,11 +215,13 @@ public class FB
 
                 Console.WriteLine("AtLogin: " + new { authResponse });
                 string status = response.status;
-                Console.WriteLine("AtLogin: " + new { status });
+                var xstatus = (FBLoginStatusEnum)(object)status;
+
+                Console.WriteLine("AtLogin: " + new { xstatus });
 
 
 
-                x.SetResult(status);
+                x.SetResult(xstatus);
 
             };
 
