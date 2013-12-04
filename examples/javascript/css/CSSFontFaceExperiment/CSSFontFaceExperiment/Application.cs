@@ -121,12 +121,6 @@ namespace CSSFontFaceExperiment
                     page.HelloWorld.style.fontFamily = new FontFaces.redacted_script_regular();
                     await button;
 
-                    // this will not work, why?
-                    //await Task.Delay(200);
-                    //page.HelloWorld.style.fontFamily = new FontFaces.Fixedsys500c();
-                    //await button;
-
-
                     await Task.Delay(200);
                     page.HelloWorld.style.fontFamily = new FontFaces.Impact_Label();
                 }

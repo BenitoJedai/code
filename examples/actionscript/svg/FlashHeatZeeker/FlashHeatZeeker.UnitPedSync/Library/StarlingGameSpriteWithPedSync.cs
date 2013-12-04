@@ -35,7 +35,7 @@ namespace FlashHeatZeeker.UnitPedSync.Library
 
         public StarlingGameSpriteWithPedSync()
         {
-            var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop);
+            var textures_ped = new StarlingGameSpriteWithPedTextures(new_tex_crop, new_texsprite_crop);
 
 
             this.onbeforefirstframe += (stage, s) =>

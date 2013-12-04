@@ -31,7 +31,7 @@ namespace AsyncButtonSequence
         public Application(IApp page)
         {
 
-            page.Button1.With(
+            page.Button1.WhenClicked(
                 async delegate
                 {
                     page.Button1.style.color = "red";

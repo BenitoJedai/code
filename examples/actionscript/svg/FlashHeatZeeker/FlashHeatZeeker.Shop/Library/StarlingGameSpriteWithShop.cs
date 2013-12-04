@@ -31,7 +31,7 @@ namespace FlashHeatZeeker.Shop.Library
         public StarlingGameSpriteWithShop()
         {
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
-            var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
+            var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop, this.new_texsprite_crop);
 
             this.disablephysicsdiagnostics = true;
 

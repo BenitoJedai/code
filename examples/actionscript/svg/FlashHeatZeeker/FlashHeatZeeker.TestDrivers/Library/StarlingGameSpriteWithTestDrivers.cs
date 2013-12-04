@@ -37,10 +37,16 @@ namespace FlashHeatZeeker.TestDrivers.Library
 
         public StarlingGameSpriteWithTestDrivers()
         {
-            var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
+            var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop, this.new_texsprite_crop);
+            // ??
+            //<Reference Include="FlashHeatZeeker.UnitHindControl">
+            //  <HintPath>..\packages\FlashHeatZeeker.UnitHindControl.1.0.0.0\lib\FlashHeatZeeker.UnitHindControl.dll</HintPath>
+            //</Reference>
+            // "X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\packages\FlashHeatZeeker.UnitHindControl.1.0.0.0\lib\FlashHeatZeeker.UnitHindControl.dll"
+            // "X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\packages\FlashHeatZeeker.UnitHind.1.0.0.0\lib\FlashHeatZeeker.UnitHind.dll"
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
-            var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_tex_crop);
+            var textures_tank = new StarlingGameSpriteWithTankTextures(this.new_texsprite_crop);
             var textures_cannon = new StarlingGameSpriteWithCannonTextures(this.new_tex_crop);
             var textures_bunker = new StarlingGameSpriteWithBunkerTextures(this.new_tex_crop);
             var textures_map = new StarlingGameSpriteWithMapTextures(new_tex_crop);

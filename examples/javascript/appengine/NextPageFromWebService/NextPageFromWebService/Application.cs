@@ -35,9 +35,9 @@ namespace NextPageFromWebService
         {
             // we are not yet merging correctly.
             // script would be reloaded after await
-            Native.document.body.querySelectorAll("script").WithEach(
-                x => x.Orphanize()
-            );
+            //Native.document.body.querySelectorAll("script").WithEach(
+            //    x => x.Orphanize()
+            //);
 
             this.body = Native.document.body;
 

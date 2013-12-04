@@ -139,15 +139,19 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
                        // show thumbnail
                        // or click to enable plugin?
+                       embed.style.SetLocation(0, 0);
                        embed.style.SetSize(Native.window.Width, 96);
 
+                       embed.style.transition = "height 200ms linear";
 
                        sprite.WhenReady(
                            delegate
                            {
 
-                               embed.style.SetLocation(0, 0);
                                embed.style.SetSize(Native.window.Width, Native.window.Height);
+
+
+                               embed.style.transition = "";
 
                                Native.window.onresize +=
                                    delegate
