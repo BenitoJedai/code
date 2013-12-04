@@ -630,7 +630,7 @@ namespace CSS3DMeetsFormsWithWebGL
                 Container.style.bottom = "0px";
 
                 control.AttachControlTo(Container);
-                control.AutoSizeControlTo(ContainerShadow);
+                //control.AutoSizeControlTo(ContainerShadow);
             }
 
 

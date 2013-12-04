@@ -145,7 +145,7 @@ namespace FlashHeatZeeker.UnitPedSync
         private void InitializeSprites()
         {
             {
-                leftsprite.wmode();
+                //leftsprite.wmode();
 
                 leftsprite.AttachSpriteToDocument().With(
                        embed =>
@@ -164,7 +164,7 @@ namespace FlashHeatZeeker.UnitPedSync
 
             {
 
-                uppersprite.wmode();
+                //uppersprite.wmode();
 
                 uppersprite.AttachSpriteToDocument().With(
                        embed =>
@@ -183,7 +183,7 @@ namespace FlashHeatZeeker.UnitPedSync
             }
 
             {
-                lowersprite.wmode();
+                //lowersprite.wmode();
 
                 lowersprite.AttachSpriteToDocument().With(
                        embed =>
@@ -205,24 +205,5 @@ namespace FlashHeatZeeker.UnitPedSync
     }
 
 
-    public static class XX
-    {
 
-
-        public static void wmode(this Sprite s, string value = "direct")
-        {
-            var x = s.ToHTMLElement();
-
-            var p = x.parentNode;
-            if (p != null)
-            {
-                // if we continue, element will be reloaded!
-                return;
-            }
-
-            x.setAttribute("wmode", value);
-
-
-        }
-    }
 }
