@@ -62,6 +62,7 @@
     <Compile Include="API\memcache\Expiration.cs" />
     <Compile Include="API\memcache\MemcacheService.cs" />
     <Compile Include="API\memcache\MemcacheServiceFactory.cs" />
+    <Compile Include="BCLImplementation\System\Net\Mail\SmtpClient.cs" />
     <Compile Include="com\google\appengine\api\rdbms\AppEngineDriver.cs" />
     <Compile Include="com\google\apphosting\api\ApiProxy.cs" />
     <Compile Include="Extensions\memcache\MemcacheCollection.cs" />
