@@ -79,7 +79,8 @@
     <Reference Include="Chrome Web Server">
       <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
     </Reference>
-    <Reference Include="Chrome Web Server Styled Form">
+    <Reference Include="Chrome Web Server Styled Form, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Chrome.Web.Server.StyledForm.1.0.0.0\lib\Chrome Web Server Styled Form.dll</HintPath>
     </Reference>
     <Reference Include="Chrome Web Store">
