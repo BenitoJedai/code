@@ -12,27 +12,17 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // tested by
         // X:\jsc.svn\examples\javascript\AsyncButtonSequence\AsyncButtonSequence\Application.cs
 
-        public static TaskAwaiter<IHTMLButton> GetAwaiter(this IHTMLButton i)
+        [Obsolete("use button.async.onclick instead?")]
+        public static TaskAwaiter<IHTMLButton> GetAwaiter(this IHTMLButton button)
         {
             var y = new TaskCompletionSource<IHTMLButton>();
-            //i.InvokeOnComplete(y.SetResult);
 
-            var old = new { i.disabled };
-
-            i.disabled = false;
-
-            i.onclick +=
-                delegate
+            button.async.onclick.ContinueWith(
+                t =>
                 {
-                    if (old == null)
-                        return;
-
-                    i.disabled = old.disabled;
-
-                    old = null;
-
-                    y.SetResult(i);
-                };
+                    y.SetResult(button);
+                }
+            );
 
             return y.Task.GetAwaiter();
         }

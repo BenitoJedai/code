@@ -1211,5 +1211,44 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             return s;
         }
+
+
+        #region async
+        [Script]
+        public new class Tasks<TElement> where TElement : IHTMLElement
+        {
+            internal TElement that;
+
+            [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
+            public virtual Task<IEvent> onclick
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IEvent>();
+
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+                    that.onclick +=
+                        e =>
+                        {
+                            x.SetResult(e);
+                        };
+
+                    return x.Task;
+                }
+            }
+        }
+
+        [System.Obsolete("is this the best way to expose events as async?")]
+        public new Tasks<IHTMLElement> async
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new Tasks<IHTMLElement> { that = this };
+            }
+        }
+        #endregion
     }
 }

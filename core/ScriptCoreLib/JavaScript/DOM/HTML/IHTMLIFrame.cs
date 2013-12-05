@@ -4,6 +4,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
@@ -92,5 +93,42 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
 
+        #region async
+        [Script]
+        public new class Tasks
+        {
+            internal IHTMLIFrame that_IHTMLIFrame;
+
+            [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
+            public Task<IEvent> onload
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IEvent>();
+
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+                    that_IHTMLIFrame.onload +=
+                        e =>
+                        {
+                            x.SetResult(e);
+                        };
+
+                    return x.Task;
+                }
+            }
+        }
+
+        [System.Obsolete("is this the best way to expose events as async?")]
+        public new Tasks async
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new Tasks { that_IHTMLIFrame = this };
+            }
+        }
+        #endregion
     }
 }

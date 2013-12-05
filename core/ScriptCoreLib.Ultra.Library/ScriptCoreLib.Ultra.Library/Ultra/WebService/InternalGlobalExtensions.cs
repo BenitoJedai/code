@@ -417,6 +417,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
                 // tested by
                 // X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\ApplicationWebService.cs
+                #region DiagnosticsMakeItSlowAndAddSalt
                 if (app.DiagnosticsMakeItSlowAndAddSalt)
                 {
                     Console.WriteLine("enter DiagnosticsMakeItSlowAndAddSalt");
@@ -548,6 +549,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     return;
                 }
+                #endregion
 
 
                 #region GZipAssemblyFile
