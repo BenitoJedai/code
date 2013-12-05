@@ -109,6 +109,18 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+
+        public string encodeURIComponent(string e)
+        {
+            return default(string);
+        }
+
+        public string decodeURIComponent(string e)
+        {
+            return default(string);
+        }
+
+
         public string escape(string e)
         {
             return default(string);
