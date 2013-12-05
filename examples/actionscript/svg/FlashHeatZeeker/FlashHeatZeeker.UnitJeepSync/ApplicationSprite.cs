@@ -131,6 +131,7 @@ namespace FlashHeatZeeker.UnitJeepSync
                   // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
                   Starling.handleLostContext = true;
 
+                  // Error	7	'.ctor' is not supported by the language	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitJeepSync\ApplicationSprite.cs	134	27	FlashHeatZeeker.UnitJeepSync
                   var s = new Starling(
                       typeof(StarlingGameSpriteWithJeepSync).ToClassToken(),
                       this.stage
