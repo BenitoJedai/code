@@ -19,11 +19,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
                 w.Append(__String.FromCharCode(bytes[i]));
             }
 
-            return w.ToString();
+            var s = w.ToString();
+
+            return Native.window.decodeURIComponent(
+                Native.window.escape(s)
+            );
+
         }
 
-        public override byte[] GetBytes(string s)
+        public override byte[] GetBytes(string e)
         {
+            // http://ecmanaut.blogspot.com/2006/07/encoding-decoding-utf8-in-javascript.html
+            // http://msdn.microsoft.com/en-us/library/ie/aeh9cef7(v=vs.94).aspx
+            // X:\jsc.svn\examples\javascript\Test\TestUTF8StringToService\TestUTF8StringToService\ApplicationWebService.cs
+
+            var s = Native.window.unescape(
+                Native.window.encodeURIComponent(e)
+            );
+
+            // unescape(encodeURIComponent("€")) === "\xE2\x82\xAC" and 
+            //decodeURIComponent(escape("\xE2\x82\xAC")) === "€" both return true, as they they are supposed to.
+
             var a = new MemoryStream();
 
             for (int i = 0; i < s.Length; i++)
