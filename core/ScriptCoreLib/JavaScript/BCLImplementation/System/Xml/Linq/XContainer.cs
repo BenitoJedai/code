@@ -37,27 +37,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public void Add(object content)
         {
-            if (this.InternalValue == null)
-            {
-                if (Native.window == null)
-                {
-
-                    // what if we are running in a web worker?
-                    // then we dont have the DOM xml available!
-                    // tested by
-                    // X:\jsc.svn\examples\javascript\Test\TestSolutionBuilder\TestSolutionBuilderV1\Application.cs
-                }
-                else
-                {
-
-
-
-                    var doc = new IXMLDocument(this.InternalElementName.LocalName);
-
-
-                    this.InternalValue = doc.documentElement;
-                }
-            }
+            InternalValueInitialize();
 
             #region string
             {
@@ -197,6 +177,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
             // what is it?
             throw new NotImplementedException();
+        }
+
+
+        public override void InternalValueInitialize()
+        {
+            if (this.InternalValue == null)
+            {
+                if (Native.window == null)
+                {
+
+                    // what if we are running in a web worker?
+                    // then we dont have the DOM xml available!
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\Test\TestSolutionBuilder\TestSolutionBuilderV1\Application.cs
+                }
+                else
+                {
+
+
+
+                    var doc = new IXMLDocument(this.InternalElementName.LocalName);
+
+
+                    this.InternalValue = doc.documentElement;
+                }
+            }
         }
 
 

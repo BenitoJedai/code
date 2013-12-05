@@ -18,8 +18,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         [Obsolete("not available for web workers?")]
         internal INode InternalValue;
 
+        public virtual void InternalValueInitialize()
+        {
+ 
+        }
+
         public override string ToString()
         {
+            InternalValueInitialize();
+
             return IXMLDocument.ToXMLString(InternalValue);
         }
 
