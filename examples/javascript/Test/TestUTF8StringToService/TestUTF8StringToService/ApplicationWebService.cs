@@ -24,6 +24,8 @@ namespace TestUTF8StringToService
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
+            // http://msdn.microsoft.com/en-us/library/system.console.outputencoding(v=vs.110).aspx
+            Console.OutputEncoding = Encoding.UTF8;
             Console.WriteLine(new { e });
 
 
