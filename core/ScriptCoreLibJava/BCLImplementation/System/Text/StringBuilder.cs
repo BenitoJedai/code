@@ -45,7 +45,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 
         public __StringBuilder Append(string e)
         {
-            InternalBuffer.append(e);
+            // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Web\HttpCookie.cs
+            // X:\jsc.svn\examples\javascript\Test\TestServiceNullStringField\TestServiceNullStringField\ApplicationWebService.cs
+
+            if (!string.IsNullOrEmpty(e))
+                InternalBuffer.append(e);
 
             return this;
         }

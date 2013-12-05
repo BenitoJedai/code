@@ -349,9 +349,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             var b = new global::java.lang.StringBuffer();
 
-            foreach (object v in e)
+            foreach (string v in e)
             {
-                b.append(v);
+                if (!string.IsNullOrEmpty(v))
+                    b.append(v);
             }
 
             return b.ToString();
@@ -396,27 +397,35 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return a.ToString() + b.ToString();
         }
 
-        [Script(
-            StringConcatOperator = "+"
-            )]
+        //[Script(
+        //    StringConcatOperator = "+"
+        //    )]
         public static string Concat(string a, string b)
         {
-            return default(string);
+            // X:\jsc.svn\examples\java\CLRJVMNullString\CLRJVMNullString\Program.cs
+
+            return __String.Concat(
+                e: new string[] { a, b }
+            );
         }
 
-        [Script(
-            StringConcatOperator = "+"
-            )]
+        //[Script(
+        //    StringConcatOperator = "+"
+        //    )]
         public static string Concat(string a, string b, string c)
         {
-            return default(string);
+            return __String.Concat(
+                 e: new string[] { a, b, c }
+            );
         }
 
-        [Script(
-            StringConcatOperator = "+")]
+        //[Script(
+        //    StringConcatOperator = "+")]
         public static string Concat(string a, string b, string c, string d)
         {
-            return default(string);
+            return __String.Concat(
+                    e: new string[] { a, b, c, d }
+             );
         }
 
         [Script(

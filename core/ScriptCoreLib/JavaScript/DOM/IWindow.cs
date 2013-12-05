@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -38,6 +39,47 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IWindow top;
         public IWindow self;
         public IWindow window;
+
+        #region async
+        [Script]
+        public new class Tasks
+        {
+            internal IWindow that;
+
+            [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
+            public Task<MessageEvent> onmessage
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<MessageEvent>();
+
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+                    that.onmessage +=
+                        e =>
+                        {
+                            x.SetResult(e);
+                        };
+
+                    return x.Task;
+                }
+            }
+        }
+
+        [System.Obsolete("is this the best way to expose events as async?")]
+        public new Tasks async
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new Tasks { that = this };
+            }
+        }
+        #endregion
+
+
+
 
         #region event onmessage
         public event System.Action<MessageEvent> onmessage
@@ -580,6 +622,56 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 throw new System.NotSupportedException();
             }
+        }
+
+
+
+
+        public void postMessage(object message, string targetOrigin = "*", params object[] transfer)
+        {
+
+        }
+
+        [Script(DefineAsStatic = true)]
+        public Task<XElement> postXElementAsync(XElement message, string targetOrigin = "*")
+        {
+            var outdata = message.ToString();
+            var x = new TaskCompletionSource<XElement>();
+
+            this.postMessageAsync(outdata, targetOrigin).ContinueWith(
+                t =>
+                {
+                    var indata = (string)t.Result.data;
+                    var inxml = XElement.Parse(indata);
+                    x.SetResult(inxml);
+                }
+            );
+            return x.Task;
+        }
+
+        [Script(DefineAsStatic = true)]
+        public Task<MessageEvent> postMessageAsync(object message, string targetOrigin = "*")
+        {
+            var x = new TaskCompletionSource<MessageEvent>();
+
+            var c = new MessageChannel();
+
+            c.port1.onmessage +=
+                e =>
+                {
+                    x.SetResult(e);
+                };
+
+            c.port1.start();
+            c.port2.start();
+
+            this.postMessage(message,
+                targetOrigin,
+                c.port2
+            );
+
+
+            return x.Task;
         }
     }
 }
