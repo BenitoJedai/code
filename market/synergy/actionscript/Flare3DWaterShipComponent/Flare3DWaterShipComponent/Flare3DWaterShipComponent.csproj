@@ -14,7 +14,6 @@
     <FileAlignment>512</FileAlignment>
     <StartupObject>Flare3DWaterShipComponent.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\..\..\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -146,5 +145,4 @@
 		
 		</PreBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

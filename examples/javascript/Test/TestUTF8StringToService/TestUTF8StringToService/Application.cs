@@ -1,4 +1,4 @@
-using ScriptCoreLib;
+﻿using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -31,7 +31,7 @@ namespace TestUTF8StringToService
         public Application(IApp page)
         {
             this.WebMethod2(
-                "�",
+                "£ ß 𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡",
                 value => value.ToDocumentTitle()
             );
         }
