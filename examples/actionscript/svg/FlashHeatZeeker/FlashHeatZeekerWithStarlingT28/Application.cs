@@ -33,18 +33,17 @@ namespace FlashHeatZeekerWithStarlingT28
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            sprite.wmode();
 
             sprite.AttachSpriteToDocument().With(
                    embed =>
                    {
                        embed.style.SetLocation(0, 0);
-                       embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                       embed.style.SetSize(Native.window.Width, Native.window.Height);
 
-                       Native.Window.onresize +=
+                       Native.window.onresize +=
                            delegate
                            {
-                               embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                               embed.style.SetSize(Native.window.Width, Native.window.Height);
                            };
                    }
                );
@@ -57,13 +56,13 @@ namespace FlashHeatZeekerWithStarlingT28
 
             con.Show();
 
-            con.Left = Native.Window.Width - con.Width;
+            con.Left = Native.window.Width - con.Width;
             con.Top = 0;
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                   delegate
                   {
-                      con.Left = Native.Window.Width - con.Width;
+                      con.Left = Native.window.Width - con.Width;
                       con.Top = 0;
                   };
 
@@ -82,18 +81,18 @@ namespace FlashHeatZeekerWithStarlingT28
                        Console.WriteLine
                    );
 
-            Native.Window.onmessage +=
+            Native.window.onmessage +=
               e =>
               {
                   sprite.game_postMessage(XElement.Parse((string)e.data));
               };
 
-            if (Native.Window.opener != null)
+            if (Native.window.opener != null)
             {
                 sprite.context_onmessage +=
                     e =>
                     {
-                        Native.Window.opener.postMessage(e.ToString());
+                        Native.window.opener.postMessage(e.ToString());
                     };
             }
             else
@@ -109,7 +108,7 @@ namespace FlashHeatZeekerWithStarlingT28
                         connect.Click +=
                             delegate
                             {
-                                var w = Native.Window.open(Native.Document.location.href, "_blank", 600, 600, false);
+                                var w = Native.window.open(Native.Document.location.href, "_blank", 600, 600, false);
 
 
                                 w.onload +=
@@ -117,7 +116,7 @@ namespace FlashHeatZeekerWithStarlingT28
                                     {
                                         Console.WriteLine("loaded: " + w.document.location.href);
 
-                                        Native.Window.onmessage +=
+                                        Native.window.onmessage +=
                                              e =>
                                              {
                                                  if (e.source == w)

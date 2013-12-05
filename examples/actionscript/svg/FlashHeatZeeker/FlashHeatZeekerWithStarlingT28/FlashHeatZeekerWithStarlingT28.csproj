@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FlashHeatZeekerWithStarlingT28</RootNamespace>
     <AssemblyName>FlashHeatZeekerWithStarlingT28</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>FlashHeatZeekerWithStarlingT28.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Abstractatech.ActionScript.Audio">
@@ -124,9 +127,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashHeatZeekerWithStarling.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashHeatZeekerWithStarling.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="FlashHeatZeekerWithStarlingT28.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\FlashHeatZeekerWithStarlingT28.AssetsLibrary.dll</HintPath>
     </Reference>
@@ -169,6 +169,7 @@
     <EmbeddedResource Include="web\assets\FlashHeatZeekerWithStarlingT28\greentank.svg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

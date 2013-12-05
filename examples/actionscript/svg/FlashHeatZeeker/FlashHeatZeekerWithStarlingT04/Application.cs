@@ -38,18 +38,17 @@ namespace FlashHeatZeekerWithStarlingT04
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            sprite.wmode();
 
             sprite.AttachSpriteToDocument().With(
                    embed =>
                    {
                        embed.style.SetLocation(0, 0);
-                       embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                       embed.style.SetSize(Native.window.Width, Native.window.Height);
 
-                       Native.Window.onresize +=
+                       Native.window.onresize +=
                            delegate
                            {
-                               embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                               embed.style.SetSize(Native.window.Width, Native.window.Height);
                            };
                    }
                );
@@ -63,13 +62,13 @@ namespace FlashHeatZeekerWithStarlingT04
             con.Show();
 
             con.Height = 150;
-            con.Left = Native.Window.Width - con.Width;
+            con.Left = Native.window.Width - con.Width;
             con.Top = 0;
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                   delegate
                   {
-                      con.Left = Native.Window.Width - con.Width;
+                      con.Left = Native.window.Width - con.Width;
                       con.Top = 0;
                   };
 
@@ -102,7 +101,7 @@ namespace FlashHeatZeekerWithStarlingT04
 
                     remotegame_con.Show();
                     remotegame_con.Left = 0;
-                    remotegame_con.Top = Native.Window.Height - remotegame_con.Height;
+                    remotegame_con.Top = Native.window.Height - remotegame_con.Height;
 
                     remotegame_con.Opacity = 0.5;
 
@@ -184,11 +183,11 @@ namespace FlashHeatZeekerWithStarlingT04
                     Console.WriteLine("new FrameDiagnostics Show, can you see it?");
 
 
-                    Native.Window.onresize +=
+                    Native.window.onresize +=
                       delegate
                       {
-                          x.Left = Native.Window.Width - x.Width;
-                          x.Top = Native.Window.Height - x.Height;
+                          x.Left = Native.window.Width - x.Width;
+                          x.Top = Native.window.Height - x.Height;
                       };
 
 
@@ -231,7 +230,7 @@ namespace FlashHeatZeekerWithStarlingT04
                             #endregion
 
                             f.Show();
-                            f.PopupInsteadOfClosing();
+                            //f.PopupInsteadOfClosing();
 
                             // do events break if popup mode is changed?
                             fsprite.fps +=
