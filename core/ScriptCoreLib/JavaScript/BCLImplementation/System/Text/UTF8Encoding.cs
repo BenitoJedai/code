@@ -21,9 +21,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 
             var s = w.ToString();
 
-            return Native.window.decodeURIComponent(
-                Native.window.escape(s)
-            );
+            if (string.IsNullOrEmpty(s))
+                return s;
+
+            var ss = Native.escape(s);
+
+            return Native.decodeURIComponent(ss);
 
         }
 
@@ -33,18 +36,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
             // http://msdn.microsoft.com/en-us/library/ie/aeh9cef7(v=vs.94).aspx
             // X:\jsc.svn\examples\javascript\Test\TestUTF8StringToService\TestUTF8StringToService\ApplicationWebService.cs
 
-            var s = Native.window.unescape(
-                Native.window.encodeURIComponent(e)
-            );
-
-            // unescape(encodeURIComponent("€")) === "\xE2\x82\xAC" and 
-            //decodeURIComponent(escape("\xE2\x82\xAC")) === "€" both return true, as they they are supposed to.
-
             var a = new MemoryStream();
 
-            for (int i = 0; i < s.Length; i++)
+            if (!string.IsNullOrEmpty(e))
             {
-                a.WriteByte((byte)s[i]);
+                var ss = Native.encodeURIComponent(e);
+                var s = Native.unescape(ss);
+
+                // unescape(encodeURIComponent("€")) === "\xE2\x82\xAC" and 
+                //decodeURIComponent(escape("\xE2\x82\xAC")) === "€" both return true, as they they are supposed to.
+
+
+                for (int i = 0; i < s.Length; i++)
+                {
+                    a.WriteByte((byte)s[i]);
+                }
             }
 
             return a.ToArray();

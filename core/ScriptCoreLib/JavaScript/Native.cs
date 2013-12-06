@@ -254,7 +254,45 @@ namespace ScriptCoreLib.JavaScript
             Native.worker.clearInterval(i);
         }
 
+        public static string encodeURIComponent(string i)
+        {
+            if (Native.window != null)
+            {
+                return Native.window.encodeURIComponent(i);
+            }
 
+            return Native.worker.encodeURIComponent(i);
+        }
+
+        public static string decodeURIComponent(string i)
+        {
+            if (Native.window != null)
+            {
+                return Native.window.decodeURIComponent(i);
+            }
+
+            return Native.worker.decodeURIComponent(i);
+        }
+
+        public static string escape(string i)
+        {
+            if (Native.window != null)
+            {
+                return Native.window.escape(i);
+            }
+
+            return Native.worker.escape(i);
+        }
+
+        public static string unescape(string i)
+        {
+            if (Native.window != null)
+            {
+                return Native.window.unescape(i);
+            }
+
+            return Native.worker.unescape(i);
+        }
     }
 
 
