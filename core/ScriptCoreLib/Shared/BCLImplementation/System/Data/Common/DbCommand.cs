@@ -15,6 +15,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             return null;
         }
 
+//        Implementation not found for type import :
+//type: System.Data.Common.DbCommand
+//method: System.Object ExecuteScalar()
+//Did you forget to add the [Script] attribute?
+//Please double check the signature!
+
+        public virtual object ExecuteScalar()
+        {
+            return null;
+        }
+
         public DbDataReader ExecuteReader()
         {
             // tested by
