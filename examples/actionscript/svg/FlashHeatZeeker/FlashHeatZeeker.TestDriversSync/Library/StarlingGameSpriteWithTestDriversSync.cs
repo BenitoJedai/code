@@ -50,9 +50,9 @@ namespace FlashHeatZeeker.TestDriversSync.Library
         {
             var textures_map = new StarlingGameSpriteWithMapTextures(new_tex_crop);
 
-            var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop);
+            var textures_ped = new StarlingGameSpriteWithPedTextures(this.new_tex_crop, this.new_texsprite_crop);
             var textures_jeep = new StarlingGameSpriteWithJeepTextures(this.new_tex_crop);
-            var textures_tank = new StarlingGameSpriteWithTankTextures(new_tex_crop);
+            var textures_tank = new StarlingGameSpriteWithTankTextures(new_texsprite_crop);
             var textures_hind = new StarlingGameSpriteWithHindTextures(this.new_tex_crop);
             var textures_rocket = new StarlingGameSpriteWithRocketTextures(this.new_tex_crop);
 

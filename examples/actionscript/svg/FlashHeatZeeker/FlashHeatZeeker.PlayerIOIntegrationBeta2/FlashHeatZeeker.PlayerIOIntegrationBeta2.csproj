@@ -86,6 +86,12 @@
     <Reference Include="Chrome Web Store">
       <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
     </Reference>
+    <Reference Include="Facebook API">
+      <HintPath>..\packages\Facebook.API.1.0.0.0\lib\Facebook API.dll</HintPath>
+    </Reference>
+    <Reference Include="FaceBook API Service">
+      <HintPath>..\packages\FaceBook.API.Service.1.0.0.0\lib\FaceBook API Service.dll</HintPath>
+    </Reference>
     <Reference Include="FlashHeatZeeker.Core">
       <HintPath>..\packages\FlashHeatZeeker.Core.1.0.0.0\lib\FlashHeatZeeker.Core.dll</HintPath>
     </Reference>
@@ -259,6 +265,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\TitleElement.htm" />
     <Content Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.Application\web\Promotion3D_iso1_tiltshift_128.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

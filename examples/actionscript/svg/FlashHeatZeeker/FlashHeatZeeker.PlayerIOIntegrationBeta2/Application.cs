@@ -142,22 +142,35 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                        embed.style.SetLocation(0, 0);
                        embed.style.SetSize(Native.window.Width, 96);
 
-                       embed.style.transition = "height 200ms linear";
+                       //embed.style.transition = "height 200ms linear";
 
                        sprite.WhenReady(
-                           delegate
+                           async delegate
                            {
 
                                embed.style.SetSize(Native.window.Width, Native.window.Height);
 
 
-                               embed.style.transition = "";
+                               //embed.style.transition = "";
+
 
                                Native.window.onresize +=
                                    delegate
                                    {
                                        embed.style.SetSize(Native.window.Width, Native.window.Height);
                                    };
+
+                               // this will not work if offline or lan only
+                               // chrome webview needs to allow new window
+                               // in order to log in. { loginstatus = unknown }
+                               var user = await FaceBook.API.Spy.GetCurrentUser();
+
+                               new TitleElement { }.AttachToDocument().Container.innerText = user.name;
+
+
+                               //new IHTMLDiv { innerText = user.name }.AttachToDocument().style.SetLocation(64, 8);
+
+
                            }
                        );
                    }
