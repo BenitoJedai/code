@@ -155,6 +155,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             return this.ExecuteReader();
         }
 
+        public object ExecuteScalar()
+        {
+            var r = ExecuteReader();
+            var value = default(object);
+            if (r.Read())
+            {
+                value = r[0];
+            }
+            r.Dispose();
+            return value;
+
+        }
+
         public new SQLiteDataReader ExecuteReader()
         {
             var value = default(SQLiteDataReader);
