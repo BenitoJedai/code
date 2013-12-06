@@ -12,6 +12,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         public abstract bool Read();
 
         public abstract object this[string name] { get; }
+        public virtual object this[int i] { get { return null; } }
 
         public abstract int GetOrdinal(string name);
         public abstract string GetString(int i);

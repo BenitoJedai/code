@@ -55,13 +55,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             return value;
         }
 
-        public override object this[string name]
+        public override object this[int i]
         {
             get
             {
-
-                var i = this.GetOrdinal(name);
-
                 var t = this.GetFieldType(i);
 
                 var ColumnType = InternalGetColumnType(i);
@@ -76,6 +73,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
 
                 return this.GetString(i);
+            }
+        }
+
+        public override object this[string name]
+        {
+            get
+            {
+
+                var i = this.GetOrdinal(name);
+
+
+                return this[i];
             }
         }
 
