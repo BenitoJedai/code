@@ -91,7 +91,39 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // http://www.webreference.com/js/column12/crossbrowser.html
 
         //interface HTMLDocument : Document {
+
         public string title;
+
+        public event System.Action ontitlechanged
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                var x = title;
+
+                this.defaultView.onframe +=
+                    delegate
+                    {
+                        if (this.title == x)
+                            return;
+
+
+                        value();
+
+                        x = title;
+                    };
+
+            }
+
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+
+            }
+        }
+
+
+
         public readonly string referrer;
         public readonly string domain;
         public readonly string URL;

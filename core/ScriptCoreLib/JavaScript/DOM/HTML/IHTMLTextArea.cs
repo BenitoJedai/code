@@ -3,157 +3,190 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-	[Script(InternalConstructor = true)]
-	public class IHTMLTextArea : IHTMLElement
-	{
+    [Script(InternalConstructor = true)]
+    public class IHTMLTextArea : IHTMLElement
+    {
 
-		public IArray<string> Lines
-		{
-			[Script(DefineAsStatic = true)]
-			get
-			{
-				return IArray<string>.SplitLines(value);
-			}
-		}
+        public IArray<string> Lines
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return IArray<string>.SplitLines(value);
+            }
+        }
 
-		public string value;
-		public bool disabled;
-		public bool readOnly;
-		public int rows;
-		public int cols;
-		public string wrap;
+        public string value;
 
-		#region constructors
-		public IHTMLTextArea() { }
-		public IHTMLTextArea(string value) { }
+        public event System.Action onvaluechanged
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\appengine\AppEngineImplicitDataRow\AppEngineImplicitDataRow\Application.cs
 
-		internal static IHTMLTextArea InternalConstructor()
-		{
-			return (IHTMLTextArea)((object)new IHTMLElement(HTMLElementEnum.textarea));
-		}
+                var x = this.value;
 
-		internal static IHTMLTextArea InternalConstructor(string value)
-		{
-			IHTMLTextArea n = new IHTMLTextArea();
-
-			n.value = value;
-
-			return n;
-		}
+                this.ownerDocument.defaultView.onframe +=
+                    delegate
+                    {
+                        if (this.value == x)
+                            return;
 
 
-		#endregion
+                        value();
 
-		public int SelectionStart
-		{
-			// see:
-			// http://blog.vishalon.net/index.php/javascript-getting-and-setting-caret-position-in-textarea/
-			// http://demo.vishalon.net/getset.htm
-			// http://stackoverflow.com/questions/263743/how-to-get-cursor-position-in-textarea
-			// http://the-stickman.com/web-development/javascript/finding-selection-cursor-position-in-a-textarea-in-internet-explorer/
+                        x = this.value;
+                    };
 
-			[Script(DefineAsStatic = true)]
-			get
-			{
-				var value = 0;
+            }
 
-				if (Expando.InternalIsMember(Native.Document, "selection"))
-				{
-					this.focus();
+            [Script(DefineAsStatic = true)]
+            remove
+            {
 
-					var selection = Expando.InternalGetMember(Native.Document, "selection");
-					var createRange = IFunction.Of(selection, "createRange");
+            }
+        }
 
-					var r = (ITextRange)createRange.apply(selection);
+        public bool disabled;
+        public bool readOnly;
+        public int rows;
+        public int cols;
+        public string wrap;
 
-					
-					var createTextRange = IFunction.Of(this, "createTextRange");
-					if (createTextRange != null)
-					{
-						var re = (ITextRange)createTextRange.apply(this);
-						var rc = re.duplicate();
+        #region constructors
+        public IHTMLTextArea() { }
+        public IHTMLTextArea(string value) { }
 
-						re.moveToBookmark(r.getBookmark());
-						rc.setEndPoint("EndToStart", re);
+        internal static IHTMLTextArea InternalConstructor()
+        {
+            return (IHTMLTextArea)((object)new IHTMLElement(HTMLElementEnum.textarea));
+        }
 
-						value = rc.text.Length;
-					}
-				}
+        internal static IHTMLTextArea InternalConstructor(string value)
+        {
+            IHTMLTextArea n = new IHTMLTextArea();
 
-				if (Expando.InternalIsMember(this, "selectionStart"))
-				{
-					value = (int)Expando.InternalGetMember(this, "selectionStart");
-				}
+            n.value = value;
 
-				return value;
-			}
-			[Script(DefineAsStatic = true)]
-			set
-			{
-				var setSelectionRange = IFunction.Of(this, "setSelectionRange");
-				if (setSelectionRange != null)
-				{
-					this.focus();
+            return n;
+        }
 
-					setSelectionRange.apply(this, value, value);
-					return;
-				}
 
-				var createTextRange = IFunction.Of(this, "createTextRange");
-				if (createTextRange != null)
-				{
-					var r = (ITextRange)createTextRange.apply(this);
+        #endregion
 
-					r.collapse(true);
-					r.moveEnd("character", value);
-					r.moveStart("character", value);
-					r.select();
-				}
-			}
-		}
-	}
+        [System.Obsolete("rename to selectionStart")]
+        public int SelectionStart
+        {
+            // see:
+            // http://blog.vishalon.net/index.php/javascript-getting-and-setting-caret-position-in-textarea/
+            // http://demo.vishalon.net/getset.htm
+            // http://stackoverflow.com/questions/263743/how-to-get-cursor-position-in-textarea
+            // http://the-stickman.com/web-development/javascript/finding-selection-cursor-position-in-a-textarea-in-internet-explorer/
 
-	[Script(InternalConstructor = true)]
-	internal class ITextRange
-	{
-		// http://msdn.microsoft.com/en-us/library/ms536401(VS.85).aspx
-		public void collapse(bool e)
-		{
-		}
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var value = 0;
 
-		public void moveEnd(string e, int pos)
-		{
+                if (Expando.InternalIsMember(Native.Document, "selection"))
+                {
+                    this.focus();
 
-		}
+                    var selection = Expando.InternalGetMember(Native.Document, "selection");
+                    var createRange = IFunction.Of(selection, "createRange");
 
-		public void moveStart(string e, int pos)
-		{
+                    var r = (ITextRange)createRange.apply(selection);
 
-		}
 
-		public void select()
-		{
+                    var createTextRange = IFunction.Of(this, "createTextRange");
+                    if (createTextRange != null)
+                    {
+                        var re = (ITextRange)createTextRange.apply(this);
+                        var rc = re.duplicate();
 
-		}
+                        re.moveToBookmark(r.getBookmark());
+                        rc.setEndPoint("EndToStart", re);
 
-		public string text;
+                        value = rc.text.Length;
+                    }
+                }
 
-		public ITextRange duplicate()
-		{
-			return default(ITextRange);
-		}
+                if (Expando.InternalIsMember(this, "selectionStart"))
+                {
+                    value = (int)Expando.InternalGetMember(this, "selectionStart");
+                }
 
-		public string getBookmark()
-		{
-			return default(string);
-		}
+                return value;
+            }
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                var setSelectionRange = IFunction.Of(this, "setSelectionRange");
+                if (setSelectionRange != null)
+                {
+                    this.focus();
 
-		public void moveToBookmark(string p)
-		{
-		}
+                    setSelectionRange.apply(this, value, value);
+                    return;
+                }
 
-		public void setEndPoint(string p, ITextRange re)
-		{
-		}
-	}
+                var createTextRange = IFunction.Of(this, "createTextRange");
+                if (createTextRange != null)
+                {
+                    var r = (ITextRange)createTextRange.apply(this);
+
+                    r.collapse(true);
+                    r.moveEnd("character", value);
+                    r.moveStart("character", value);
+                    r.select();
+                }
+            }
+        }
+    }
+
+    [Script(InternalConstructor = true)]
+    internal class ITextRange
+    {
+        // http://msdn.microsoft.com/en-us/library/ms536401(VS.85).aspx
+        public void collapse(bool e)
+        {
+        }
+
+        public void moveEnd(string e, int pos)
+        {
+
+        }
+
+        public void moveStart(string e, int pos)
+        {
+
+        }
+
+        public void select()
+        {
+
+        }
+
+        public string text;
+
+        public ITextRange duplicate()
+        {
+            return default(ITextRange);
+        }
+
+        public string getBookmark()
+        {
+            return default(string);
+        }
+
+        public void moveToBookmark(string p)
+        {
+        }
+
+        public void setEndPoint(string p, ITextRange re)
+        {
+        }
+    }
 }
