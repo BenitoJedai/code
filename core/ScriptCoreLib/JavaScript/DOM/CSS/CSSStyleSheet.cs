@@ -54,13 +54,14 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
 
             //[Obsolete("experimental, is css better than stylerule? should return a proxy object instead of an actual rule a this point")]
-            public new CSSStyleRule<IHTMLElement> css
+
+            public CSSStyleRule css
             {
                 [Script(DefineAsStatic = true)]
                 get
                 {
                     return
-                        (CSSStyleRule<IHTMLElement>)
+                        (CSSStyleRule)
                         (object)IStyleSheet.all[InternalGetExplicitRuleSelector()];
                 }
             }
