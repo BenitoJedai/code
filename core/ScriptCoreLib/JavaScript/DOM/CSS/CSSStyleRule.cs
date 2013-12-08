@@ -53,6 +53,17 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
+        public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // child nodes?
+                var selectorText = ">" + className;
+
+                return this[selectorText];
+            }
+        }
 
         #region pseudo-classes
         // http://www.w3.org/TR/CSS2/selector.html
@@ -215,7 +226,40 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         //{ cssText =  } 
         //public string cssText;
+
+
+        public CSSStyleRule_nthChild nthChild
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new CSSStyleRule_nthChild { rule = this };
+            }
+        }
+
+        public string content
+        {
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                this.style.content = "'" + value.Replace("'", "\'") + "'";
+
+            }
+        }
     }
 
+    [Script]
+    public sealed class CSSStyleRule_nthChild
+    {
+        public CSSStyleRule rule;
+
+        public CSSStyleRule this[int index]
+        {
+            get
+            {
+                return rule[">:nth-child(" + index + ")"];
+            }
+        }
+    }
 
 }

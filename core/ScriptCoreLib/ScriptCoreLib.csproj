@@ -96,10 +96,10 @@
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
-    <Compile Include="JavaScript\DOM\CSSFontFaceRule.cs" />
-    <Compile Include="JavaScript\DOM\CSSMediaRule.cs" />
-    <Compile Include="JavaScript\DOM\CSSRule.cs" />
-    <Compile Include="JavaScript\DOM\CSSStyleRule.cs" />
+    <Compile Include="JavaScript\DOM\CSS\CSSFontFaceRule.cs" />
+    <Compile Include="JavaScript\DOM\CSS\CSSMediaRule.cs" />
+    <Compile Include="JavaScript\DOM\CSS\CSSRule.cs" />
+    <Compile Include="JavaScript\DOM\CSS\CSSStyleRule.cs" />
     <Compile Include="JavaScript\DOM\FileEntry.cs" />
     <Compile Include="JavaScript\DOM\Storage.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
@@ -133,6 +133,9 @@
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\Task.cs" />
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\LambdaExpression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ParameterExpression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MemberExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\IGrouping.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\ICredentialsByHost.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\NetworkCredential.cs" />
