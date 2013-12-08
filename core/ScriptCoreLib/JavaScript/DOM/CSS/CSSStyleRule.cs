@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
@@ -228,6 +230,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         //public string cssText;
 
 
+
         public CSSStyleRule_nthChild nthChild
         {
             [Script(DefineAsStatic = true)]
@@ -244,6 +247,29 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 this.style.content = "'" + value.Replace("'", "\'") + "'";
 
+            }
+        }
+
+
+        public new CSSStyleRule this[Expression<Func<IHTMLElement, bool>> f]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[IStyleSheet.GetAttributeSelectorText(f)];
+            }
+        }
+    }
+
+    [Script(InternalConstructor = true)]
+    public partial class CSSStyleRule<TElement> : CSSStyleRule where TElement : IHTMLElement
+    {
+        public new CSSStyleRule this[Expression<Func<TElement, bool>> f]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[IStyleSheet.GetAttributeSelectorText(f)];
             }
         }
     }

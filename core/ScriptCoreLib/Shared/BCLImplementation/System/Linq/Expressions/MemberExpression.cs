@@ -12,12 +12,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
 
-        public Expression expression;
+        public Expression Expression { get; set; }
         public MemberInfo Member { get; set; }
 
         public override string ToString()
         {
-            return "MemberExpression " + new { expression, field = Member }.ToString();
+            return "MemberExpression " + new { expression = Expression, field = Member }.ToString();
         }
     }
 

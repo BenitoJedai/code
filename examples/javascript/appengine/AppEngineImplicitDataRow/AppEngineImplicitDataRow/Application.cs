@@ -81,9 +81,14 @@ namespace AppEngineImplicitDataRow
                     xxx.OrphanizeRule();
                 };
 
+            var w = new Stopwatch();
+
             page.content.onmousemove +=
                 e =>
                 {
+                    w.Restart();
+
+
                     // Uncaught TypeError: Cannot read property 'layerY' of null
                     y = e.OffsetY + page.content.scrollTop;
 
@@ -114,9 +119,9 @@ namespace AppEngineImplicitDataRow
                     xxx.OrphanizeRule();
                     xxx = page.contentinfo.css.nthChild[i + 1];
                     xxx.style.backgroundColor = "lightgray";
+                    w.Stop();
                 };
 
-            var w = new Stopwatch();
 
             Native.window.onframe +=
                 delegate
@@ -160,16 +165,20 @@ namespace AppEngineImplicitDataRow
                 // IStyleSheetRule.AddRule error { text = [style-id="0"] > li > span[title='']{/**/} }
 
                 // { ch = 92, byAttr = [title='\'] } 
-                var byAttr = "[title='" + new string(ch, 1)
-                    .Replace("\\", "\\\\")
-                    .Replace("'", "\\'")
-                    + "']";
 
-                Console.WriteLine(new { ch, byAttr });
+                var charAsString = new string(ch, 1);
 
-                page.contentinfo.css[IHTMLElement.HTMLElementEnum.li][IHTMLElement.HTMLElementEnum.span][
-                    byAttr
-                    ].before.style.color = color;
+                //var byAttr = "[title='" + new string(ch, 1)
+                //    .Replace("\\", "\\\\")
+                //    .Replace("'", "\\'")
+                //    + "']";
+
+                Console.WriteLine(new { ch, charAsString });
+
+                page.contentinfo.css
+                    [IHTMLElement.HTMLElementEnum.li]
+                    [IHTMLElement.HTMLElementEnum.span]
+                    [span => span.title == charAsString].before.style.color = color;
             }
             #endregion
 
