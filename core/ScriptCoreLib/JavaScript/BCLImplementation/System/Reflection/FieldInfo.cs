@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
@@ -12,6 +13,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         public override string Name
         {
             get { return _Name; }
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
 
         public object GetValue(object obj)

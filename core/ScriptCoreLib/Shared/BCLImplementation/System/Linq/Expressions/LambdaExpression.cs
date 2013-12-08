@@ -13,6 +13,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
 
 
+        public Expression Body { get; set; }
     }
 
 }
