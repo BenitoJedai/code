@@ -69,6 +69,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return new IHTMLSpan { innerText = "" + innerText };
         }
 
+        public static implicit operator IHTMLSpan(char innerText)
+        {
+            return new IHTMLSpan { innerText = new string(innerText, 1) };
+        }
+
         public static implicit operator int(IHTMLSpan x)
         {
             // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Application.cs
