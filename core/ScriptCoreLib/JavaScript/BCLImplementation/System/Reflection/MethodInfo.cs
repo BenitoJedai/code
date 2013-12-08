@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public override string Name
         {
-            get { throw new NotImplementedException(); }
+            get { return MethodToken; }
         }
 
         public override object[] GetCustomAttributes(Type x, bool inherit)
@@ -54,6 +54,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             return InternalMethodReference.apply(obj, parameters);
         }
 
+        //script: error JSC1000: No implementation found for this native method, please implement [static System.Reflection.MethodInfo.op_Equality(System.Reflection.MethodInfo, System.Reflection.MethodInfo)]
+
+
+
+        public static bool operator !=(__MethodInfo left, __MethodInfo right)
+        {
+            return left.Name != right.Name;
+        }
+
+        public static bool operator ==(__MethodInfo left, __MethodInfo right)
+        {
+            return left.Name == right.Name;
+        }
 
 
         public static implicit operator MethodInfo(__MethodInfo e)

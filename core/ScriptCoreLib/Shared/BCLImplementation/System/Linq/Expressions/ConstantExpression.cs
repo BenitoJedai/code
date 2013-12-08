@@ -7,18 +7,20 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
-    [Script(Implements = typeof(global::System.Linq.Expressions.MemberExpression))]
-    internal class __MemberExpression : __Expression
+    [Script(Implements = typeof(global::System.Linq.Expressions.ConstantExpression))]
+    internal class __ConstantExpression : __Expression
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
 
-        public Expression expression;
-        public MemberInfo Member { get; set; }
+        public object Value { get; set; }
+        public Type type;
 
         public override string ToString()
         {
-            return "MemberExpression " + new { expression, field = Member }.ToString();
+            // 
+            return "Constant " + new { value = Value, type }.ToString();
         }
+
     }
 
 }

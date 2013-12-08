@@ -7,10 +7,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     using Reflection;
     using ScriptCoreLib.JavaScript.Runtime;
     using ScriptCoreLib.JavaScript.DOM;
+    using System.Reflection;
 
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
+
+        public override string ToString()
+        {
+            if (IsNative)
+                return "[native] " + this.Name;
+
+            return this.FullName;
+        }
+
         [Script]
         internal sealed class __AttributeReflection
         {
@@ -36,6 +47,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+        public bool IsNative
+        {
+            get
+            {
+                return (bool)Expando.InternalIsMember(AsExpando().constructor, "IsNative");
+            }
+        }
+
+
+
         private RuntimeTypeHandle _TypeHandle;
 
         public RuntimeTypeHandle TypeHandle
@@ -45,9 +67,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
 
+
+
+
         public __FieldInfo GetField(string name)
         {
             __FieldInfo r = null;
+
+
+            if (this.IsNative)
+            {
+                // we do not have the type information. behave as if dynamic
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+                return r = new __FieldInfo { _Name = name };
+            }
 
             foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value).GetFields())
             {
