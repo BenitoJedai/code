@@ -10,6 +10,18 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public class IHTMLInput : IHTMLElement
     {
+
+        public new CSSStyleRule<IHTMLInput> css
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return
+                    (CSSStyleRule<IHTMLInput>)
+                    (object)IStyleSheet.all[InternalGetExplicitRuleSelector()];
+            }
+        }
+
         public string alt;
         public string src;
 

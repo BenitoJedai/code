@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.Linq.Expressions;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -53,12 +54,14 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
 
             //[Obsolete("experimental, is css better than stylerule? should return a proxy object instead of an actual rule a this point")]
-            public CSSStyleRule css
+            public new CSSStyleRule<IHTMLElement> css
             {
                 [Script(DefineAsStatic = true)]
                 get
                 {
-                    return IStyleSheet.all[InternalGetExplicitRuleSelector()];
+                    return
+                        (CSSStyleRule<IHTMLElement>)
+                        (object)IStyleSheet.all[InternalGetExplicitRuleSelector()];
                 }
             }
 
@@ -355,6 +358,117 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return this.__get_item(selectorText);
             }
         }
+
+        [Obsolete("assigned by InternalApplicationBootstrap since ScriptCoreLib does not simplfy code yet")]
+        public static Expression<Func<string, string, bool>> __String_op_Equality;
+        //public static Expression<Func<string, string, bool>> __String_op_Equality = (y, z) => y == z;
+
+        public CSSStyleRule this[Expression<Func<IHTMLElement, bool>> f]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[GetAttributeSelectorText<IHTMLElement>(f)];
+            }
+        }
+
+        //TElement> : CSSStyleRule where TElement : IHTMLElement
+        //public static string GetAttributeSelectorText(Expression<Func<IHTMLElement, bool>> f)
+        public static string GetAttributeSelectorText<TElement>(Expression<Func<TElement, bool>> f)
+         where TElement : IHTMLElement
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestCSSAttrExpression\TestCSSAttrExpression\Application.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+            var right_value = "";
+
+            var selector = "[title='?']";
+
+            var equal = (f.Body as BinaryExpression);
+            {
+                #region right_value
+                var right_Constant = equal.Right as ConstantExpression;
+                var right_Member = equal.Right as MemberExpression;
+
+                if (right_Constant != null)
+                    right_value = global::System.Convert.ToString(right_Constant.Value);
+
+                // { right_Constant = , right_Member =
+                // MemberExpression { 
+                //      expression = Constant { value = [object Object], type =  }, 
+                // field = findme1 } }
+
+                //Console.WriteLine(new { right_Constant, right_Member });
+
+                if (right_Member != null)
+                {
+                    var right_Member_Constant = right_Member.Expression as ConstantExpression;
+
+
+                    if (right_Member_Constant != null)
+                    {
+                        var ff = right_Member_Constant.Value.GetType().GetField(
+                            right_Member.Member.Name
+                        );
+
+                        right_value = global::System.Convert.ToString(
+                            ff.GetValue(right_Member_Constant.Value)
+                            );
+
+                    }
+                }
+                #endregion
+
+                //Console.WriteLine(new { right_Constant, right_Member, right_value });
+
+                //return;
+
+                var left = equal.Left as MemberExpression;
+
+                var Method = equal.Method;
+
+                // { right = Constant { value = findme, type = [native] String }, 
+                // left = MemberExpression { expression = { type = [native] IHTMLElement, name = x }, field = title }, 
+                // Method = { MethodToken = __bRoABtNdQz66ZYUODttTfw } }
+
+
+
+                //{ Value = findme, Member = title, Method = { MethodToken = __bxoABtNdQz66ZYUODttTfw }, 
+                // __String_op_Equality = { 
+                //  Body = BinaryExpression { 
+                //      left = ParameterExpression { type = [native] String, name = y },
+                //      right = ParameterExpression { type = [native] String, name = z },
+                //      liftToNull = 0,
+                //      method = { MethodToken = __bxoABtNdQz66ZYUODttTfw } 
+                // }, 
+                // parameters = ParameterExpression { type = [native] String, name = y },ParameterExpression { type = [native] String, name = z } } }
+
+
+                var __String_op_Equality_method = ((BinaryExpression)__String_op_Equality.Body).Method;
+
+                var e = equal.Method == __String_op_Equality_method;
+
+                //new IHTMLPre
+                //{
+                //    innerText = new { right.Value, left.Member, e, Method, __String_op_Equality_method }.ToString()
+                //}.AttachToDocument();
+
+                // { Value = findme, Member = title, e = true, Method = { MethodToken = ARsABtNdQz66ZYUODttTfw }, __String_op_Equality_method = { MethodToken = ARsABtNdQz66ZYUODttTfw } }
+
+                if (e)
+                {
+                    selector = "[" + left.Member + "='" +
+
+                        right_value
+                             .Replace("\\", "\\\\")
+                            .Replace("'", "\\'")
+
+                        + "']";
+
+                }
+            }
+            return selector;
+        }
+
 
         public CSSStyleRule this[string selectorText]
         {

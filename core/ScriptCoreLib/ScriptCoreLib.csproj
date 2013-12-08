@@ -207,7 +207,7 @@
     <Compile Include="Shared\BCLImplementation\System\Tuple.cs" />
     <Compile Include="Shared\BCLImplementation\System\ValueType.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
-    <Compile Include="JavaScript\DOM\IStyleSheet.cs" />
+    <Compile Include="JavaScript\DOM\CSS\CSSStyleSheet.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGPathElement.cs" />
     <Compile Include="PHP\Data\SQLiteToMySQLConversion.cs" />
     <Compile Include="PHP\BCLImplementation\System\Web\Services\WebService.cs" />

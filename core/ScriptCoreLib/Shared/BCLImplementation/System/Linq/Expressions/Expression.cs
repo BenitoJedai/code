@@ -15,6 +15,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
 
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object, System.Type)]
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object)]
+
+        public static ConstantExpression Constant(object value)
+        {
+            Console.WriteLine("Constant " + new { value });
+
+            return
+                (ConstantExpression)(object)
+                new __ConstantExpression
+                {
+                    Value = value,
+                };
+        }
+
         public static ConstantExpression Constant(object value, Type type)
         {
             Console.WriteLine("Constant " + new { value, type });
@@ -55,7 +69,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 (MemberExpression)(object)
                 new __MemberExpression
                 {
-                    expression = expression,
+                    Expression = expression,
                     Member = field
                 };
 

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -34,7 +35,38 @@ namespace TestCSSAttrExpression
 
         static void test()
         {
-            var x = by(a => a.title == "foo");
+            var findme1_text = "findme1_text";
+            var findme1_number = 1;
+            var findme1 = findme1_text + findme1_number;
+
+
+
+            //Parameter { type = [native] IHTMLElement, name = a }
+            //Field { expression = ParameterExpression { type = [native] IHTMLElement, name = a }, field = title }
+
+            //Constant { value = [object Object] }
+            //Field { expression = Constant { value = [object Object], type =  }, field = findme1 }
+
+            //Equal { left = MemberExpression { expression = ParameterExpression { type = [native] IHTMLElement, name = a }, field = title }, right = MemberExpression { expression = Constant { value = [object Object], type =  }, field = findme1 }, liftToNull = 0, method = { MethodToken = AxsABtNdQz66ZYUODttTfw } }
+            //Lambda { body = BinaryExpression { left = MemberExpression { expression = ParameterExpression { type = [native] IHTMLElement,
+            // name = a },
+            // field = title },
+            // right = MemberExpression { expression = Constant { value = [object Object],
+            // type =  },
+            // field = findme1 },
+            // liftToNull = 0,
+            // method = { MethodToken = AxsABtNdQz66ZYUODttTfw } }, parameters = ParameterExpression { type = [native] IHTMLElement, name = a } }
+
+            //{ f = { Body = BinaryExpression { left = MemberExpression { expression = ParameterExpression { type = [native] IHTMLElement,
+            // name = a },
+            // field = title },
+            // right = MemberExpression { expression = Constant { value = [object Object],
+            // type =  },
+            // field = findme1 },
+            // liftToNull = 0,
+            // method = { MethodToken = AxsABtNdQz66ZYUODttTfw } }, parameters = ParameterExpression { type = [native] IHTMLElement, name = a } } } 
+
+            var x = by(a => a.title == findme1);
 
         }
 
@@ -69,21 +101,52 @@ namespace TestCSSAttrExpression
             //Console.WriteLine(new { x.Method });
 
             test();
+            //return;
 
-            var css = this[f: x => x.title == "findme"];
+            //var css = this[f: x => x.title == "findme"];
+            //css.style.color = "cyan";
 
-            //page.With(
-            //     delegate
-            //     {
-            //         css.style.color = "cyan";
+            var findme1_text = "findme";
+            var findme1_number = 1;
+
+            // field.const
+            var findme1 = findme1_text + findme1_number;
+
+            this[f: x => x.title == findme1].style.color = "red";
+
+            var findme3 = findme1_text + "3";
 
 
-            //         //set_style_color(x => x.title == "findme", "red");
-            //         set_style_color(x => x.title == "findme1", "green");
-            //         set_style_color(x => x.title == "findme2", "blue");
-            //     }
-            //);
+            IStyleSheet.all[x => x.title == findme3].style.color = "purple";
+            IStyleSheet.all[x => x.title == findme3].style.backgroundColor = "yellow";
 
+
+            this[x => x.title == "findme2"].style.color = "blue";
+
+            //css.style.color = "cyan";
+            page.With(
+                 async delegate
+                 {
+                     //css.style.color = "cyan";
+
+
+                     ////set_style_color(x => x.title == "findme", "red");
+                     //set_style_color(x => x.title == "findme1", "green");
+                     //set_style_color(x => x.title == "findme2", "blue");
+
+
+                     this[x => x.title == "findme2"].style.color = "blue";
+
+                     await Task.Delay(200);
+
+                     this[x => x.title == "findme2"].style.backgroundColor = "yellow";
+
+
+                 }
+            );
+
+
+            page.foo.css[input => input.value == "foo"].style.color = "red";
 
             //xx.style.color = "red";
         }
@@ -92,12 +155,52 @@ namespace TestCSSAttrExpression
         {
             get
             {
-                var selector = "[title='findme']";
+                // X:\jsc.svn\examples\javascript\Test\TestCSSAttrExpression\TestCSSAttrExpression\Application.cs
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+                var right_value = "";
+
+                var selector = "[title='?']";
 
                 (f.Body as BinaryExpression).With(
                     equal =>
                     {
-                        var right = equal.Right as ConstantExpression;
+                        #region right_value
+                        var right_Constant = equal.Right as ConstantExpression;
+                        var right_Member = equal.Right as MemberExpression;
+
+                        if (right_Constant != null)
+                            right_value = Convert.ToString(right_Constant.Value);
+
+                        // { right_Constant = , right_Member =
+                        // MemberExpression { 
+                        //      expression = Constant { value = [object Object], type =  }, 
+                        // field = findme1 } }
+
+                        //Console.WriteLine(new { right_Constant, right_Member });
+
+                        if (right_Member != null)
+                        {
+                            var right_Member_Constant = right_Member.Expression as ConstantExpression;
+
+
+                            if (right_Member_Constant != null)
+                            {
+                                var ff = right_Member_Constant.Value.GetType().GetField(
+                                    right_Member.Member.Name
+                                );
+
+                                right_value = Convert.ToString(
+                                    ff.GetValue(right_Member_Constant.Value)
+                                    );
+
+                            }
+                        }
+                        #endregion
+
+                        //Console.WriteLine(new { right_Constant, right_Member, right_value });
+
+                        //return;
+
                         var left = equal.Left as MemberExpression;
 
                         var Method = equal.Method;
@@ -132,7 +235,7 @@ namespace TestCSSAttrExpression
 
                         if (e)
                         {
-                            selector = "[" + left.Member + "='" + right.Value + "']";
+                            selector = "[" + left.Member + "='" + right_value + "']";
 
                         }
                     }
