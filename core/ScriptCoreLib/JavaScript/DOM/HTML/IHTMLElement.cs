@@ -1238,6 +1238,28 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     return x.Task;
                 }
             }
+
+            public virtual Task<IEvent> onmouseover
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IEvent>();
+                    that.onmouseover += x.SetResult;
+                    return x.Task;
+                }
+            }
+
+            public virtual Task<IEvent> onmouseout
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IEvent>();
+                    that.onmouseout += x.SetResult;
+                    return x.Task;
+                }
+            }
         }
 
         [System.Obsolete("is this the best way to expose events as async?")]

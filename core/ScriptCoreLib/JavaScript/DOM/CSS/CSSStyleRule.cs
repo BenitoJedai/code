@@ -145,6 +145,15 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        public CSSStyleRule @unchecked
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":not(:checked)"];
+            }
+        }
+
         public CSSStyleRule disabled
         {
             [Script(DefineAsStatic = true)]
@@ -229,6 +238,27 @@ namespace ScriptCoreLib.JavaScript.DOM
         //{ cssText =  } 
         //public string cssText;
 
+        // adjacent-sibling selector
+
+        // http://meyerweb.com/eric/articles/webrev/200007a.html
+        public CSSStyleRuleSiblingCombinator adjacentSibling
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new CSSStyleRuleSiblingCombinator { rule = this };
+            }
+        }
+
+        // http://www.w3.org/TR/css3-selectors/#general-sibling-combinators
+        public CSSStyleRuleSiblingCombinator siblings
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new CSSStyleRuleSiblingCombinator { rule = this, op = "~" };
+            }
+        }
 
 
         public CSSStyleRule_nthChild nthChild
@@ -245,7 +275,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             set
             {
-                this.style.content = "'" + value.Replace("'", "\'") + "'";
+                this.style.content = "'" +
+                    value
+                        .Replace("\\", "\\\\")
+                        .Replace("'", "\\'")
+
+                    + "'";
 
             }
         }
@@ -275,6 +310,42 @@ namespace ScriptCoreLib.JavaScript.DOM
     }
 
     [Script]
+    public sealed class CSSStyleRuleSiblingCombinator
+    {
+        // http://www.w3.org/TR/css3-selectors/#adjacent-sibling-combinators
+
+        public CSSStyleRule rule;
+
+        public string op = "+";
+
+        public CSSStyleDeclaration style
+        {
+            get
+            {
+                return this["*"].style;
+            }
+        }
+
+        public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+        {
+            get
+            {
+                var selectorText = "" + className;
+
+                return rule[this.op + selectorText];
+            }
+        }
+
+        public CSSStyleRule this[string selectorText]
+        {
+            get
+            {
+                return rule[this.op + selectorText];
+            }
+        }
+    }
+
+    [Script]
     public sealed class CSSStyleRule_nthChild
     {
         public CSSStyleRule rule;
@@ -287,5 +358,6 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
     }
+
 
 }
