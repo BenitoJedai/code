@@ -17,6 +17,21 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object, System.Type)]
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object)]
 
+        //method: System.Linq.Expressions.MethodCallExpression Call(System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.Expression[])
+        public static MethodCallExpression Call(Expression instance, MethodInfo method, params Expression[] arguments)
+        {
+            Console.WriteLine("Call " + new { instance, method, arguments });
+
+            return
+                (MethodCallExpression)(object)
+                new __MethodCallExpression
+                {
+                    Object = instance,
+                    Method = method,
+                    arguments = arguments
+                };
+        }
+
         public static ConstantExpression Constant(object value)
         {
             Console.WriteLine("Constant " + new { value });

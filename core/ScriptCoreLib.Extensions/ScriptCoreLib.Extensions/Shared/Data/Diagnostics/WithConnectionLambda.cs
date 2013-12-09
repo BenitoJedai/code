@@ -11,6 +11,16 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     public static class WithConnectionLambda
     {
 
+        public static object ConvertDBNullToNullIfAny(object e)
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-dbnull
+
+            if (e is DBNull)
+                return null;
+
+            return e;
+        }
+
 
         public static Func<Func<SQLiteConnection, Task>, Task> WithConnection(string DataSource)
         {
