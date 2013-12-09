@@ -10,6 +10,7 @@ namespace AppEngineImplicitDataRow
     {
         public static void Main(string[] args)
         {
+            new ApplicationWebService().WebMethod2("", null);
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

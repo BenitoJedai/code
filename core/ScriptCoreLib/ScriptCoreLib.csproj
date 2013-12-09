@@ -135,6 +135,7 @@
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\BinaryExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ConstantExpression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MethodCallExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\LambdaExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ParameterExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MemberExpression.cs" />
