@@ -96,6 +96,8 @@
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="JavaScript\DOM\CSS\CSSFontFaceRule.cs" />
     <Compile Include="JavaScript\DOM\CSS\CSSMediaRule.cs" />
     <Compile Include="JavaScript\DOM\CSS\CSSRule.cs" />
@@ -1036,7 +1038,6 @@
     <Folder Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
-    <Folder Include="JavaScript\BCLImplementation\System\Data\" />
     <Folder Include="PHP\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />
