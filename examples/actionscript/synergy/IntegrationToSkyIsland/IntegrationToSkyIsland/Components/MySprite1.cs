@@ -31,6 +31,14 @@ namespace IntegrationToSkyIsland.Components
             //        TypeError: Error #1009: Cannot access a property or method of a null object reference.
             //at Main/frame1()
 
+            //V:\web\IntegrationToSkyIsland\Assets\sky_island_10899.as(10): col: 9: Error: unable to resolve '/assets/IntegrationToSkyIsland/sky-island-10899.swf' for transcoding
+
+            //        [Embed(source = "/assets/IntegrationToSkyIsland/sky-island-10899.swf", mimeType = "application/x-shockwave-flash")]
+            //        ^
+
+            //V:\web\IntegrationToSkyIsland\Assets\sky_island_10899.as(10): col: 9: Error: Unable to transcode /assets/IntegrationToSkyIsland/sky-island-10899.swf.
+
+
             Sprite x = null;
 
 
