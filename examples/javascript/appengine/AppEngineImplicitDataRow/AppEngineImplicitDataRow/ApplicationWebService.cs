@@ -58,7 +58,8 @@ namespace AppEngineImplicitDataRow
 
             var xx =
                 from k in new AppEngineImplicitDataRow.Data.Book1.Sheet1()
-                where k.Title == "foo"
+                //where k.Title == "foo"
+                orderby k.Title
                 select k;
 
             var xxx = xx.ToArray();
@@ -69,6 +70,16 @@ namespace AppEngineImplicitDataRow
 
     public static class X
     {
+        // Error	3	Could not find an implementation of the query pattern for source type 
+        // 'AppEngineImplicitDataRow.Data.Book1.Sheet1'.  'OrderBy' not found.
+        // X:\jsc.svn\examples\javascript\appengine\AppEngineImplicitDataRow\AppEngineImplicitDataRow\ApplicationWebService.cs	60	27	AppEngineImplicitDataRow
+
+
+        public static IEnumerable<Data.Book1Sheet1Row> OrderBy(this AppEngineImplicitDataRow.Data.Book1.Sheet1 x, Expression<Func<Data.Book1Sheet1Row, string>> filter)
+        {
+            return Enumerable.OrderBy(x.SelectAllAsEnumerable(), k => k.Title);
+        }
+
         public static IEnumerable<Data.Book1Sheet1Row> Where(this AppEngineImplicitDataRow.Data.Book1.Sheet1 x, Expression<Func<Data.Book1Sheet1Row, bool>> filter)
         {
 

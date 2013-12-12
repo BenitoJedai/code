@@ -1,8 +1,10 @@
 ﻿using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
@@ -85,49 +87,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        // http://www.w3schools.com/cssref/sel_firstchild.asp
-        // http://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class/8539107#8539107
-        // jsc can you collect anwsers from users and notify?
-        [Obsolete("should we rename this to firstElement or keep css naming? ")]
-        public CSSStyleRule firstChild
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[">:first-child"];
-            }
-        }
 
-
-
-        /// <summary>
-        /// This modifies the first line of ? elements. There's no real DOM element that is selected, that is why it is a pseudo-element.
-        /// </summary>
-        public CSSStyleRule firstLine
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-
-                // http://stackoverflow.com/questions/11359728/what-does-this-operator-in-css-mean
-                return this["::first-line"];
-            }
-        }
-
-
-
-        public CSSStyleRule firstLetter
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-
-                //http://www.w3.org/TR/selectors/#pseudo-elements
-                // X:\jsc.svn\examples\javascript\Test\TestFirstLine\TestFirstLine\Application.cs
-
-                return this["::first-letter"];
-            }
-        }
 
 
 
@@ -238,37 +198,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         //{ cssText =  } 
         //public string cssText;
 
-        // adjacent-sibling selector
-
-        // http://meyerweb.com/eric/articles/webrev/200007a.html
-        public CSSStyleRuleSiblingCombinator adjacentSibling
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return new CSSStyleRuleSiblingCombinator { rule = this };
-            }
-        }
-
-        // http://www.w3.org/TR/css3-selectors/#general-sibling-combinators
-        public CSSStyleRuleSiblingCombinator siblings
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return new CSSStyleRuleSiblingCombinator { rule = this, op = "~" };
-            }
-        }
 
 
-        public CSSStyleRule_nthChild nthChild
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return new CSSStyleRule_nthChild { rule = this };
-            }
-        }
+
 
         public string content
         {
@@ -309,55 +241,507 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
     }
 
-    [Script]
-    public sealed class CSSStyleRuleSiblingCombinator
-    {
-        // http://www.w3.org/TR/css3-selectors/#adjacent-sibling-combinators
 
+
+
+
+    [Script]
+    public class CSSStyleRuleMonkier
+    {
+        #region rule
         public CSSStyleRule rule;
 
-        public string op = "+";
+        public static implicit operator CSSStyleRuleMonkier(CSSStyleRule rule)
+        {
+            return new CSSStyleRuleMonkier { rule = rule };
+        }
+        #endregion
+
+        public CSSStyleRuleMonkier parent;
 
         public CSSStyleDeclaration style
         {
             get
             {
-                return this["*"].style;
+                return this.rule.style;
             }
         }
 
-        public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+
+        #region selectorText
+        public event Action selectorTextChanged;
+
+        string __selectorText;
+        public string selectorText
+        {
+            get { return __selectorText; }
+            set
+            {
+                __selectorText = value;
+
+                //rule = rule[selectorText],
+                if (this.rule == null)
+                {
+                    this.rule = this.parent.rule[__selectorText];
+                }
+                else
+                {
+                    this.rule.selectorText = this.parent.rule.selectorText + __selectorText;
+                }
+
+                if (selectorTextChanged != null)
+                    selectorTextChanged();
+            }
+        }
+        #endregion
+
+        #region [selectorText]
+        public CSSStyleRuleMonkier this[string selectorText]
         {
             get
             {
-                var selectorText = "" + className;
+                var rp = new CSSStyleRuleMonkier
+                {
+                    parent = this,
+                    selectorText = selectorText
+                };
 
-                return rule[this.op + selectorText];
+                this.selectorTextChanged +=
+                    delegate
+                    {
+                        // force refresh
+                        rp.selectorText = selectorText;
+                    };
+
+                return rp;
+            }
+        }
+        #endregion
+
+        #region >:nth-child
+        [Script]
+        public sealed class CSSStyleRuleMonkier_nthChild_index : CSSStyleRuleMonkier
+        {
+            public string op = ">:nth-child";
+
+            int __index;
+            public int index
+            {
+                get { return __index; }
+                set
+                {
+                    __index = value;
+
+                    // c# 0 based, css is 1 based?
+
+                    this.selectorText = op + "(" + (__index + 1) + ")";
+                }
             }
         }
 
-        public CSSStyleRule this[string selectorText]
+        [Script]
+        public sealed class CSSStyleRuleMonkier_nthChild
+        {
+            public string op = ">:nth-child";
+
+            public CSSStyleRuleMonkier parent;
+
+            public CSSStyleRuleMonkier odd
+            {
+                get
+                {
+                    return
+                         new CSSStyleRuleMonkier
+                         {
+                             parent = parent,
+                             selectorText = op + "(odd)"
+                         };
+                }
+            }
+
+            public CSSStyleRuleMonkier even
+            {
+                get
+                {
+                    return
+                         new CSSStyleRuleMonkier
+                         {
+                             parent = parent,
+                             selectorText = op + "(even)"
+                         };
+                }
+            }
+
+            public CSSStyleRuleMonkier_nthChild_index this[int index]
+            {
+                get
+                {
+                    return
+                        new CSSStyleRuleMonkier_nthChild_index
+                        {
+                            op = op,
+                            parent = parent,
+                            index = index,
+                        };
+                }
+            }
+
+
+            public CSSStyleRuleMonkier_nthChild_index this[Expression<Func<int>> yindexer]
+            {
+                get
+                {
+
+                    #region i4
+                    Func<int> i4 = delegate
+                    {
+                        var i4_value = 0;
+
+                        var w = new Stopwatch();
+                        w.Start();
+
+                        #region LambdaExpression
+                        var lambda = yindexer as LambdaExpression;
+                        if (lambda != null)
+                        {
+                            var member = lambda.Body as MemberExpression;
+                            if (member != null)
+                            {
+                                // { yindexer = { Body = MemberExpression { expression = Constant { value = [object Object], type =  }, field = yindexer_index }, parameters =  } } 
+
+                                var member_field0 = member.Member as FieldInfo;
+
+                                var member_constant0 = member.Expression as ConstantExpression;
+                                if (member_constant0 != null)
+                                {
+                                    var field0_value = member_field0.GetValue(member_constant0.Value);
+                                    i4_value = (int)field0_value;
+                                }
+
+                                var membermember = member.Expression as MemberExpression;
+                                if (membermember != null)
+                                {
+                                    var membermember_field1 = membermember.Member as FieldInfo;
+                                    var membermember_constant = membermember.Expression as ConstantExpression;
+
+                                    if (membermember_constant != null)
+                                    {
+                                        var field1_value = membermember_field1.GetValue(membermember_constant.Value);
+                                        var field0_value = member_field0.GetValue(field1_value);
+
+                                        i4_value = (int)field0_value;
+
+                                    }
+                                }
+
+                            }
+                        }
+                        #endregion
+
+                        w.Stop();
+
+                        return i4_value;
+                    };
+                    #endregion
+
+
+                    var i = i4();
+
+                    // http://www.w3schools.com/cssref/sel_nth-child.asp
+                    //var selectorText = ">:nth-child(" + i + ")";
+                    var rp = this[i];
+
+                    #region bind
+                    Native.window.onframe += delegate
+                    {
+                        var ii = i4();
+                        if (ii == rp.index)
+                            return;
+
+                        rp.index = ii;
+                    };
+                    #endregion
+
+
+                    return rp;
+                }
+            }
+
+        }
+
+        public CSSStyleRuleMonkier_nthChild nthChild
         {
             get
             {
-                return rule[this.op + selectorText];
+                return new CSSStyleRuleMonkier_nthChild { parent = this };
+            }
+        }
+
+        internal bool nthChildInlineMode;
+
+        public CSSStyleRuleMonkier odd
+        {
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\css\CSSnthSelectorByExpression\CSSnthSelectorByExpression\Application.cs
+                var n = new CSSStyleRuleMonkier_nthChild { parent = this };
+
+                if (this.nthChildInlineMode)
+                {
+                    n.op = ":nth-child";
+                }
+
+                return n.odd;
+            }
+        }
+
+        public CSSStyleRuleMonkier even
+        {
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\css\CSSnthSelectorByExpression\CSSnthSelectorByExpression\Application.cs
+                var n = new CSSStyleRuleMonkier_nthChild { parent = this };
+
+                if (this.nthChildInlineMode)
+                {
+                    n.op = ":nth-child";
+                }
+
+                return n.even;
+            }
+        }
+
+        public CSSStyleRuleMonkier_nthChild_index this[Expression<Func<int>> yindexer]
+        {
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\css\CSSnthSelectorByExpression\CSSnthSelectorByExpression\Application.cs
+                var n = new CSSStyleRuleMonkier_nthChild { parent = this };
+
+                if (this.nthChildInlineMode)
+                {
+                    n.op = ":nth-child";
+                }
+
+                return n[yindexer];
+            }
+        }
+
+        public CSSStyleRuleMonkier_nthChild_index this[int index]
+        {
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\css\CSSnthSelector\CSSnthSelector\Application.cs
+
+                var n = new CSSStyleRuleMonkier_nthChild { parent = this };
+
+                if (this.nthChildInlineMode)
+                {
+                    n.op = ":nth-child";
+                }
+
+                return n[index];
+            }
+        }
+
+
+        #endregion
+
+
+
+
+        public CSSStyleRuleMonkier hover
+        {
+            get
+            {
+                return this[":hover"];
+            }
+        }
+
+        public CSSStyleRuleMonkier before
+        {
+            get
+            {
+                return this[":before"];
+            }
+        }
+
+        public CSSStyleRuleMonkier after
+        {
+            get
+            {
+                return this[":after"];
+            }
+        }
+
+        public string content
+        {
+            set
+            {
+                this.style.content = "'" +
+                    value
+                        .Replace("\\", "\\\\")
+                        .Replace("'", "\\'")
+
+                    + "'";
+
+            }
+        }
+
+
+
+        #region first
+
+        [Script]
+        public sealed class CSSStyleRuleMonkier_first
+        {
+            public CSSStyleRuleMonkier parent;
+
+            // http://www.w3schools.com/cssref/sel_firstchild.asp
+            // http://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class/8539107#8539107
+            // jsc can you collect anwsers from users and notify?
+            //[Obsolete("should we rename this to firstElement or keep css naming? ")]
+            public CSSStyleRuleMonkier child
+            {
+                get
+                {
+                    // isnt this like nth child?
+                    return parent[">:first-child"];
+                }
+            }
+
+            /// <summary>
+            /// This modifies the first line of ? elements. There's no real DOM element that is selected, that is why it is a pseudo-element.
+            /// </summary>
+            public CSSStyleRuleMonkier line
+            {
+                get
+                {
+
+                    // http://stackoverflow.com/questions/11359728/what-does-this-operator-in-css-mean
+                    return parent["::first-line"];
+                }
+            }
+
+
+            public CSSStyleRuleMonkier letter
+            {
+                get
+                {
+
+                    //http://www.w3.org/TR/selectors/#pseudo-elements
+                    // X:\jsc.svn\examples\javascript\Test\TestFirstLine\TestFirstLine\Application.cs
+
+                    return parent["::first-letter"];
+                }
+            }
+        }
+
+
+        public CSSStyleRuleMonkier_first first
+        {
+            get
+            {
+
+                //http://www.w3.org/TR/selectors/#pseudo-elements
+                // X:\jsc.svn\examples\javascript\Test\TestFirstLine\TestFirstLine\Application.cs
+
+                return new CSSStyleRuleMonkier_first { parent = this };
+            }
+        }
+
+
+
+
+
+
+
+        #endregion
+
+
+        // adjacent-sibling selector
+
+        #region siblings
+        [Script]
+        public sealed class CSSStyleRuleMonkier_siblings
+        {
+            // http://www.w3.org/TR/css3-selectors/#adjacent-sibling-combinators
+
+            public CSSStyleRuleMonkier parent;
+
+            public string op = "+";
+
+            public CSSStyleDeclaration style
+            {
+                get
+                {
+                    return this["*"].style;
+                }
+            }
+
+            public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+            {
+                get
+                {
+                    var selectorText = "" + className;
+
+                    return parent[this.op + selectorText];
+                }
+            }
+
+            public CSSStyleRuleMonkier this[string selectorText]
+            {
+                get
+                {
+                    return parent[this.op + selectorText];
+                }
+            }
+        }
+
+        // http://meyerweb.com/eric/articles/webrev/200007a.html
+        public CSSStyleRuleMonkier_siblings adjacentSibling
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new CSSStyleRuleMonkier_siblings { parent = this, op = "+" };
+            }
+        }
+
+        // http://www.w3.org/TR/css3-selectors/#general-sibling-combinators
+        public CSSStyleRuleMonkier_siblings siblings
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new CSSStyleRuleMonkier_siblings { parent = this, op = "~" };
+            }
+        }
+        #endregion
+
+
+
+
+
+        public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // child nodes?
+                var selectorText = ">" + className;
+
+                var z = this[selectorText];
+
+                // this is like type of nth?
+                z.nthChildInlineMode = true;
+
+                return z;
             }
         }
     }
-
-    [Script]
-    public sealed class CSSStyleRule_nthChild
-    {
-        public CSSStyleRule rule;
-
-        public CSSStyleRule this[int index]
-        {
-            get
-            {
-                return rule[">:nth-child(" + index + ")"];
-            }
-        }
-    }
-
-
 }
