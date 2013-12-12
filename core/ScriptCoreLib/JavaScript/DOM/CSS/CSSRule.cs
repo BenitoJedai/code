@@ -34,7 +34,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public static class CSSRuleExtensions
     {
         // C# generic overload does not work correctly, as such explcitly say whats the function about
-        public static TRule OrphanizeRule<TRule>(this TRule x) where TRule : CSSRule
+        public static CSSRule OrphanizeRule(this CSSRule x)
         //public static CSSStyleRule Orphanize<TRule>(this CSSStyleRule x)
         {
             // http://css-tricks.com/a-call-for-nth-everything/
@@ -54,6 +54,19 @@ namespace ScriptCoreLib.JavaScript.DOM
                         }
                     }
                 }
+            }
+
+            return x;
+        }
+
+        public static CSSStyleRuleMonkier OrphanizeRule(this CSSStyleRuleMonkier x)
+        //public static CSSStyleRule Orphanize<TRule>(this CSSStyleRule x)
+        {
+            // http://css-tricks.com/a-call-for-nth-everything/
+
+            if (x != null)
+            {
+                OrphanizeRule((CSSRule)x.rule);
             }
 
             return x;

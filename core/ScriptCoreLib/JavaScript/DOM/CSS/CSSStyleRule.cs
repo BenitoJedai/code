@@ -24,37 +24,6 @@ namespace ScriptCoreLib.JavaScript.DOM
         // extensions to a proxy type
         // then we can delay the decsision to use inline style or rule
 
-        #region print
-        [Obsolete("experimental")]
-        public CSSStyleRule print
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                // tested by
-                // X:\jsc.svn\examples\javascript\Test\TestInteractiveStyleRule\TestInteractiveStyleRule\Application.cs
-
-                // android webview gives us trouble
-                // revert to a dedicated stylesheet?
-                // X:\jsc.svn\examples\javascript\Test\TestCSSPrint\TestCSSPrint\Application.cs
-
-                //return IStyleSheet.print[this.selectorText];
-
-                var p = this.parentStyleSheet[CSSMediaTypes.print];
-
-                if (p == null)
-                {
-                    Console.WriteLine("creating a disabled style rule as android webview does not know any better?");
-
-                    var x = new IStyleSheet { disabled = true };
-
-                    return x[selectorText];
-                }
-
-                return p[selectorText];
-            }
-        }
-        #endregion
 
 
         public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
@@ -94,105 +63,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        // https://www.w3.org/community/webed/wiki/Advanced_CSS_selectors
 
-        public CSSStyleRule @checked
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":checked"];
-            }
-        }
-
-        public CSSStyleRule @unchecked
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":not(:checked)"];
-            }
-        }
-
-        public CSSStyleRule disabled
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":disabled"];
-            }
-        }
-
-        public CSSStyleRule hover
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":hover"];
-            }
-        }
-
-
-        public CSSStyleRule focus
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":focus"];
-            }
-        }
-
-        public CSSStyleRule before
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":before"];
-            }
-        }
-
-        public CSSStyleRule after
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":after"];
-            }
-        }
-
-
-        /// <summary>
-        /// The :empty pseudo-class represents any element that has no children at all. 
-        /// Only element nodes and text (including whitespace) are considered. 
-        /// Comments or processing instructions do not affect whether an element is considered empty or not.
-        /// </summary>
-        public CSSStyleRule empty
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":emprty"];
-            }
-        }
-
-        public CSSStyleRule visited
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":visited"];
-            }
-        }
-
-
-        public CSSStyleRule link
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[":link"];
-            }
-        }
         #endregion
 
         //{ cssText =  } 
@@ -202,36 +73,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        public string content
-        {
-            [Script(DefineAsStatic = true)]
-            set
-            {
-                this.style.content = "'" +
-                    value
-                        .Replace("\\", "\\\\")
-                        .Replace("'", "\\'")
-
-                    + "'";
-
-            }
-        }
-
-
-        public new CSSStyleRule this[Expression<Func<IHTMLElement, bool>> f]
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return this[IStyleSheet.GetAttributeSelectorText(f)];
-            }
-        }
     }
 
     [Script(InternalConstructor = true)]
-    public partial class CSSStyleRule<TElement> : CSSStyleRule where TElement : IHTMLElement
+    public partial class CSSStyleRule<TElement> : CSSStyleRuleMonkier where TElement : IHTMLElement
     {
-        public new CSSStyleRule this[Expression<Func<TElement, bool>> f]
+        public new CSSStyleRuleMonkier this[Expression<Func<TElement, bool>> f]
         {
             [Script(DefineAsStatic = true)]
             get
@@ -266,6 +113,50 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return this.rule.style;
             }
         }
+
+
+
+        public new CSSStyleRuleMonkier this[Expression<Func<IHTMLElement, bool>> f]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[IStyleSheet.GetAttributeSelectorText(f)];
+            }
+        }
+
+
+        #region print
+        //[Obsolete("experimental")]
+        public CSSStyleRule print
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\Test\TestInteractiveStyleRule\TestInteractiveStyleRule\Application.cs
+
+                // android webview gives us trouble
+                // revert to a dedicated stylesheet?
+                // X:\jsc.svn\examples\javascript\Test\TestCSSPrint\TestCSSPrint\Application.cs
+
+                //return IStyleSheet.print[this.selectorText];
+
+                var p = this.rule.parentStyleSheet[CSSMediaTypes.print];
+
+                if (p == null)
+                {
+                    Console.WriteLine("creating a disabled style rule as android webview does not know any better?");
+
+                    var x = new IStyleSheet { disabled = true };
+
+                    return x[selectorText];
+                }
+
+                return p[selectorText];
+            }
+        }
+        #endregion
 
 
         #region selectorText
@@ -391,6 +282,11 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 get
                 {
+                    Console.WriteLine(
+
+
+                        new { yindexer }
+                        );
 
                     #region i4
                     Func<int> i4 = delegate
@@ -418,16 +314,28 @@ namespace ScriptCoreLib.JavaScript.DOM
                                     i4_value = (int)field0_value;
                                 }
 
+
+                                // { yindexer = { Body = MemberExpression { expression = MemberExpression { 
+                                // expression = Constant { value = [object Object], type =  }, field = SelectedRowIndex }, 
+                                // field = index }, parameters =  } } 
+
                                 var membermember = member.Expression as MemberExpression;
                                 if (membermember != null)
                                 {
                                     var membermember_field1 = membermember.Member as FieldInfo;
-                                    var membermember_constant = membermember.Expression as ConstantExpression;
 
+                                    var membermember_constant = membermember.Expression as ConstantExpression;
                                     if (membermember_constant != null)
                                     {
+                                        //Console.WriteLine(new { membermember_constant });
+
                                         var field1_value = membermember_field1.GetValue(membermember_constant.Value);
+
+                                        //Console.WriteLine(new { field1_value });
+
                                         var field0_value = member_field0.GetValue(field1_value);
+
+                                        //Console.WriteLine(new { field0_value });
 
                                         i4_value = (int)field0_value;
 
@@ -575,6 +483,81 @@ namespace ScriptCoreLib.JavaScript.DOM
             get
             {
                 return this[":after"];
+            }
+        }
+
+        // https://www.w3.org/community/webed/wiki/Advanced_CSS_selectors
+
+        public CSSStyleRuleMonkier @checked
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":checked"];
+            }
+        }
+
+        public CSSStyleRuleMonkier @unchecked
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":not(:checked)"];
+            }
+        }
+
+        public CSSStyleRuleMonkier disabled
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":disabled"];
+            }
+        }
+
+
+
+        public CSSStyleRuleMonkier focus
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":focus"];
+            }
+        }
+
+
+
+        /// <summary>
+        /// The :empty pseudo-class represents any element that has no children at all. 
+        /// Only element nodes and text (including whitespace) are considered. 
+        /// Comments or processing instructions do not affect whether an element is considered empty or not.
+        /// </summary>
+        public CSSStyleRuleMonkier empty
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":empty"];
+            }
+        }
+
+        public CSSStyleRuleMonkier visited
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":visited"];
+            }
+        }
+
+
+        public CSSStyleRuleMonkier link
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":link"];
             }
         }
 
