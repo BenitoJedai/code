@@ -104,7 +104,24 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-        public CSSStyleRuleMonkier parent;
+        CSSStyleRuleMonkier __parent;
+        public CSSStyleRuleMonkier parent
+        {
+            get { return __parent; }
+            set
+            {
+                __parent = value;
+
+                __parent.selectorTextChanged +=
+                    delegate
+                    {
+                        //Console.WriteLine("__parent.selectorTextChanged " + new { __parent = __parent.selectorText, child = selectorText });
+
+                        // force refresh
+                        this.selectorText = this.selectorText;
+                    };
+            }
+        }
 
         public CSSStyleDeclaration style
         {
@@ -191,20 +208,15 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             get
             {
-                var rp = new CSSStyleRuleMonkier
+                var child = new CSSStyleRuleMonkier
                 {
                     parent = this,
                     selectorText = selectorText
                 };
 
-                this.selectorTextChanged +=
-                    delegate
-                    {
-                        // force refresh
-                        rp.selectorText = selectorText;
-                    };
 
-                return rp;
+
+                return child;
             }
         }
         #endregion

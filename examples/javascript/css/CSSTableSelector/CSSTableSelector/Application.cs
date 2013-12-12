@@ -43,7 +43,8 @@ namespace CSSTableSelector
                     //tbody.css.first.child.adjacentSibling["*"].style.backgroundColor = "red";
 
 
-                    tbody.css[IHTMLElement.HTMLElementEnum.tr][() => selectedRow][IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "yellow";
+                    //tbody.css[IHTMLElement.HTMLElementEnum.tr][() => selectedRow][IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "yellow";
+                    tbody.css[() => selectedRow][IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "yellow";
 
                     //tbody.css[() => selectedRow][IHTMLElement.HTMLElementEnum.td].siblings.style.backgroundColor = "green";
                     //tbody.css[() => selectedRow][IHTMLElement.HTMLElementEnum.td].adjacentSibling.style.backgroundColor = "red";
@@ -60,7 +61,10 @@ namespace CSSTableSelector
                     tbody.css[0][IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "gray";
 
                     tbody.css[0][0].style.backgroundColor = "red";
-                    tbody.css[1][1].style.backgroundColor = "red";
+
+
+
+                    tbody.css[() => selectedRow][() => selectedColumn].style.backgroundColor = "red";
 
 
                     tbody.css.odd.style.backgroundColor = "cyan";
