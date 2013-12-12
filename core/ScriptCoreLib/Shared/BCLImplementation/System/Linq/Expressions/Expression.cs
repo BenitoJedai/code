@@ -34,7 +34,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
         public static ConstantExpression Constant(object value)
         {
-            Console.WriteLine("Constant " + new { value });
+            //Console.WriteLine("Constant " + new { value });
 
             return
                 (ConstantExpression)(object)

@@ -25,6 +25,11 @@ namespace AppEngineImplicitDataRow
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        sealed class IntBox
+        {
+            public int index;
+        }
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -72,7 +77,7 @@ namespace AppEngineImplicitDataRow
 
             // http://www.w3schools.com/cssref/tryit.asp?filename=trycss3_nth-child_formula
 
-            var xxx = default(CSSStyleRule);
+            var xxx = default(CSSStyleRuleMonkier);
             //var xxxi = -1;
 
             page.content.onmouseout +=
@@ -83,53 +88,50 @@ namespace AppEngineImplicitDataRow
 
             var w = new Stopwatch();
 
-            page.content.onmousemove +=
-                e =>
-                {
-                    w.Restart();
+            //#region onmousemove
+            //page.content.onmousemove +=
+            //    e =>
+            //    {
+            //        w.Restart();
 
 
-                    // Uncaught TypeError: Cannot read property 'layerY' of null
-                    y = e.OffsetY + page.content.scrollTop;
+            //        // Uncaught TypeError: Cannot read property 'layerY' of null
+            //        y = e.OffsetY + page.content.scrollTop;
 
-                    if (page.fs.@checked)
-                    {
-                        y += page.content.parentNode.offsetTop;
-                    }
+            //        if (page.fs.@checked)
+            //        {
+            //            y += page.content.parentNode.offsetTop;
+            //        }
 
-                    var hit =
-                        from x in page.contentinfo.childNodes
-                        where x.nodeType == INode.NodeTypeEnum.ElementNode
-                        let u = (IHTMLElement)x
-                        select u;
-
-
-                    hit.WithEachIndex(
-                        (u, index) =>
-                        {
-
-                            if (y > u.offsetTop)
-                                if (y < (u.offsetTop + u.offsetHeight))
-                                {
-                                    i = index;
-                                }
-                        }
-                    );
-
-                    xxx.OrphanizeRule();
-                    xxx = page.contentinfo.css.nthChild[i + 1];
-                    xxx.style.backgroundColor = "lightgray";
-                    w.Stop();
-                };
+            //        var hit =
+            //            from x in page.contentinfo.childNodes
+            //            where x.nodeType == INode.NodeTypeEnum.ElementNode
+            //            let u = (IHTMLElement)x
+            //            select u;
 
 
-            Native.window.onframe +=
-                delegate
-                {
-                    var lines = page.content.Lines.ToArray();
+            //        hit.WithEachIndex(
+            //            (u, index) =>
+            //            {
 
-                    Native.document.title = new { y = y, i, lines.Length, page.content.SelectionStart, w.ElapsedMilliseconds }.ToString();
-                };
+            //                if (y > u.offsetTop)
+            //                    if (y < (u.offsetTop + u.offsetHeight))
+            //                    {
+            //                        i = index;
+            //                    }
+            //            }
+            //        );
+
+            //        xxx.OrphanizeRule();
+            //        xxx = page.contentinfo.css.nthChild[i + 1];
+            //        xxx.style.backgroundColor = "lightgray";
+            //        w.Stop();
+            //    };
+            //#endregion
+
+
+
+
 
             //page.content.onsel
 
@@ -173,7 +175,7 @@ namespace AppEngineImplicitDataRow
                 //    .Replace("'", "\\'")
                 //    + "']";
 
-                Console.WriteLine(new { ch, charAsString });
+                //Console.WriteLine(new { ch, charAsString });
 
                 page.contentinfo.css
                     [IHTMLElement.HTMLElementEnum.li]
@@ -206,14 +208,26 @@ namespace AppEngineImplicitDataRow
 
 
             // { selectorText = [style-id="0"] > li > :nth-child(3) > span::before } 
-            var xs = page.contentinfo.css.nthChild[1].nthChild[2];
+
+            var SelectedRowIndex = new IntBox { index = 1 };
+
+            var xs = page.contentinfo.css[() => SelectedRowIndex.index];
+            //var xs = page.contentinfo.css[() => SelectedRowIndex.index][0];
+
+            xs.style.backgroundColor = "black";
+            xs.style.color = "white";
+
+            //xs.first.child.style.backgroundColor = "red";
+            xs[1].style.backgroundColor = "red";
+
             //[IHTMLElement.HTMLElementEnum.span]
             //.before;
 
-            Console.WriteLine(new { xs.selectorText });
+            //Console.WriteLine(new { xs.selectorText });
 
-            xs.style.backgroundColor = "cyan";
+            //xs.style.backgroundColor = "cyan";
 
+            #region onvaluechanged
             Action onvaluechanged = delegate
             {
                 w.Restart();
@@ -257,13 +271,13 @@ namespace AppEngineImplicitDataRow
                                 {
                                     var prev1 = prev[0];
 
-                                    Console.WriteLine(
-                                        new { prev1 = prev1.title, current = current.title }
-                                        );
+                                    //Console.WriteLine(
+                                    //    new { prev1 = prev1.title, current = current.title }
+                                    //    );
 
 
 
-                                    dynamic current_data = current;
+                                    //dynamic current_data = current;
 
 
 
@@ -315,6 +329,8 @@ namespace AppEngineImplicitDataRow
                 w.Stop();
 
             };
+            #endregion
+
 
             page.content.onvaluechanged += onvaluechanged;
 
@@ -323,6 +339,29 @@ namespace AppEngineImplicitDataRow
             onvaluechanged();
 
 
+
+            Native.window.onframe +=
+                delegate
+                {
+                    SelectedRowIndex.index = page.content.value.Substring(0, page.content.SelectionStart).ToCharArray().Where(x => x == '\n').Count();
+
+
+
+                    var lines = page.content.Lines.ToArray();
+
+                    Native.document.title = new
+                    {
+                        y = y,
+                        i,
+                        lines.Length,
+
+                        SelectedRowIndex.index,
+
+                        page.content.SelectionStart,
+
+                        w.ElapsedMilliseconds
+                    }.ToString();
+                };
         }
 
     }
