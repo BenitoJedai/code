@@ -97,6 +97,26 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             return Enumerable.Range(0, a.Length).All(i => comparer.Compare(a[i], b[i]) == 0);
 
         }
+
+
+
+        public static IEnumerable<TSource> TakeWhile<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var c = true;
+
+            // naive mplementation
+            return source.Where(
+                x =>
+                {
+                    if (c)
+                    {
+                        c = predicate(x);
+                    }
+
+                    return c;
+                }
+            );
+        }
     }
 
 }

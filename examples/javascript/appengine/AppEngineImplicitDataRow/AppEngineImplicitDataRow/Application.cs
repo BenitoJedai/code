@@ -137,8 +137,7 @@ namespace AppEngineImplicitDataRow
 
             // Uncaught SyntaxError: An invalid or illegal string was specified. 
 
-            page.contentinfo.css[IHTMLElement.HTMLElementEnum.li].after.content = "¶";
-            page.contentinfo.css[IHTMLElement.HTMLElementEnum.li].after.style.color = "gray";
+
 
             //Uncaught SyntaxError: An invalid or illegal string was specified. 
             //page.contentinfo.css[IHTMLElement.HTMLElementEnum.li][">span:contains('<')"].style.color = "red";
@@ -181,9 +180,27 @@ namespace AppEngineImplicitDataRow
                     [IHTMLElement.HTMLElementEnum.li]
                     [IHTMLElement.HTMLElementEnum.span]
                     [span => span.title == charAsString].before.style.color = color;
+
             }
             #endregion
 
+            // .before.style.color = color;
+            //page.contentinfo.css[IHTMLElement.HTMLElementEnum.li]
+            var charAsString_n = "\\n";
+
+            page.contentinfo.css
+                  [IHTMLElement.HTMLElementEnum.li]
+                  [IHTMLElement.HTMLElementEnum.span]
+                  [span => span.title == charAsString_n].With(
+                    n =>
+                    {
+                        n.before.content = "¶";
+                        n.before.style.color = "gray";
+                    }
+            );
+
+
+            //page.contentinfo.css[IHTMLElement.HTMLElementEnum.li].after.style.color = "gray";
 
 
             page.contentinfo.css
@@ -210,15 +227,27 @@ namespace AppEngineImplicitDataRow
             // { selectorText = [style-id="0"] > li > :nth-child(3) > span::before } 
 
             var SelectedRowIndex = new IntBox { index = 1 };
+            var SelectedColumnIndex = new IntBox { index = 1 };
 
             var xs = page.contentinfo.css[() => SelectedRowIndex.index];
-            //var xs = page.contentinfo.css[() => SelectedRowIndex.index][0];
 
-            xs.style.backgroundColor = "black";
-            xs.style.color = "white";
+            xs.style.backgroundColor = "lightgray";
 
-            //xs.first.child.style.backgroundColor = "red";
-            xs[1].style.backgroundColor = "red";
+
+            xs[() => SelectedColumnIndex.index].With(
+                async xss =>
+                {
+                    while (true)
+                    {
+                        xss.style.backgroundColor = "red";
+                        await Task.Delay(300);
+
+                        xss.style.backgroundColor = "";
+                        await Task.Delay(100);
+                    }
+                }
+            );
+
 
             //[IHTMLElement.HTMLElementEnum.span]
             //.before;
@@ -250,15 +279,26 @@ namespace AppEngineImplicitDataRow
 
                                 IHTMLSpan span = item;
 
+
+
+                                //span.title = " " + item;
                                 span.title = span.innerText;
                                 span.Clear();
 
+                                //if (item == '\n')
+                                //{
+                                //    span.title = "\\n";
+                                //    span.style.backgroundColor = "red";
+                                //}
 
                                 span.AttachTo(li);
 
                                 return span;
                             }
                         ).ToArray();
+
+                        new IHTMLSpan { title = "\\n" }.AttachTo(li);
+
 
                         // make css happy by pre indexing 
                         // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Aggregate(
@@ -345,6 +385,12 @@ namespace AppEngineImplicitDataRow
                 {
                     SelectedRowIndex.index = page.content.value.Substring(0, page.content.SelectionStart).ToCharArray().Where(x => x == '\n').Count();
 
+                    // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.TakeWhile(System.Collections.Generic.IEnumerable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
+                    var reverse = page.content.value.Substring(0, page.content.SelectionStart).ToCharArray().Reverse();
+
+
+                    SelectedColumnIndex.index = reverse.TakeWhile(x => x != '\n').Count();
+
 
 
                     var lines = page.content.Lines.ToArray();
@@ -353,11 +399,12 @@ namespace AppEngineImplicitDataRow
                     {
                         y = y,
                         i,
-                        lines.Length,
 
-                        SelectedRowIndex.index,
+                        row = SelectedRowIndex.index,
+                        col = SelectedColumnIndex.index,
 
                         page.content.SelectionStart,
+                        lines.Length,
 
                         w.ElapsedMilliseconds
                     }.ToString();
