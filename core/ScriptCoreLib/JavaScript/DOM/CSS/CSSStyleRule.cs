@@ -238,6 +238,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                     // c# 0 based, css is 1 based?
 
                     this.selectorText = op + "(" + (__index + 1) + ")";
+
+
+                    Console.WriteLine(new { this.rule.selectorText });
                 }
             }
         }
@@ -443,7 +446,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 if (this.nthChildInlineMode)
                 {
-                    n.op = ":nth-child";
+                    n.op = ":nth-of-type";
                 }
 
                 return n[yindexer];
@@ -461,7 +464,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 if (this.nthChildInlineMode)
                 {
-                    n.op = ":nth-child";
+                    n.op = ":nth-of-type";
                 }
 
                 return n[index];
