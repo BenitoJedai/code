@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         //method: System.Linq.Expressions.MethodCallExpression Call(System.Linq.Expressions.Expression, System.Reflection.MethodInfo, System.Linq.Expressions.Expression[])
         public static MethodCallExpression Call(Expression instance, MethodInfo method, params Expression[] arguments)
         {
-            Console.WriteLine("Call " + new { instance, method, arguments });
+            //Console.WriteLine("Call " + new { instance, method, arguments });
 
             return
                 (MethodCallExpression)(object)
@@ -46,7 +46,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
         public static ConstantExpression Constant(object value, Type type)
         {
-            Console.WriteLine("Constant " + new { value, type });
+            //Console.WriteLine("Constant " + new { value, type });
 
             return
                 (ConstantExpression)(object)
@@ -60,7 +60,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         public static BinaryExpression Equal(Expression left, Expression right, bool liftToNull, MethodInfo method)
         {
 
-            Console.WriteLine("Equal " + new { left, right, liftToNull, method });
+            //Console.WriteLine("Equal " + new { left, right, liftToNull, method });
 
             return
                 (BinaryExpression)(object)
@@ -78,7 +78,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
             // ParameterExpression
 
 
-            Console.WriteLine("Field " + new { expression, field });
+            //Console.WriteLine("Field " + new { expression, field });
 
             return
                 (MemberExpression)(object)
@@ -92,7 +92,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
         public static ParameterExpression Parameter(Type type, string name)
         {
-            Console.WriteLine("Parameter " + new { type, name });
+            //Console.WriteLine("Parameter " + new { type, name });
 
             return
                 (ParameterExpression)(object)
@@ -109,7 +109,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
             // MemberExpression
 
 
-            Console.WriteLine("Lambda " + new { body, parameters });
+            //Console.WriteLine("Lambda " + new { body, parameters });
 
 
             return

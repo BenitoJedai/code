@@ -177,7 +177,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 
 
-
+        #region AttachToDocument
         public static IEnumerable<T> AttachToDocument<T>(this IEnumerable<T> e)
        where T : INodeConvertible<IHTMLElement>
         {
@@ -202,16 +202,35 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             return e;
         }
+        #endregion
+
+
+        #region AttachTo
+        public static IEnumerable<T> AttachTo<T>(this IEnumerable<T> e, IHTMLElement c)
+            where T : INodeConvertible<IHTMLElement>
+        {
+            if (e != null)
+            {
+                foreach (var item in e)
+                {
+                    item.AttachTo(c);
+                }
+            }
+
+            return e;
+        }
 
         public static T AttachTo<T>(this T e, IHTMLElement c)
-            where T : INodeConvertible<IHTMLElement>
+       where T : INodeConvertible<IHTMLElement>
         {
             if (e != null)
                 c.appendChild(e.AsNode());
 
             return e;
         }
+        #endregion
 
+        #region Obsolete
         [Obsolete]
         public static T Deserialize<T>(this IXMLDocument e, object[] k)
                     where T : class, new()
@@ -294,6 +313,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
                 }
             );
         }
+        #endregion
+
 
 
     }

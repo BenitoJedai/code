@@ -32,8 +32,8 @@ namespace TestFirstLine
         public Application(IApp page)
         {
 
-            page.body.css.firstLine.style.color = "red";
-            page.body.css.firstLetter.style.fontSize = "3em";
+            page.body.css.first.line.style.color = "red";
+            page.body.css.first.letter.style.fontSize = "3em";
         }
 
     }

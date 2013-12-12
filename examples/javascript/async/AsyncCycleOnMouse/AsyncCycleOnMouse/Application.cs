@@ -37,7 +37,7 @@ namespace AsyncCycleOnMouse
 
             //page.Header.css.hover.siblings["*"].nthChild[3].style.borderRight = "3px solid red";
 
-            page.Header.parentNode.css.firstChild.style.borderLeft = "1px solid blue";
+            page.Header.parentNode.css.first.child.style.borderLeft = "1px solid blue";
 
             //(page.Header.parentNode.firstChild as IHTMLElement).css.siblings["h1"].style.borderRight = "1px solid blue";
 

@@ -41,26 +41,29 @@ namespace ScriptCoreLib.JavaScript.DOM
             //   [SameObject, PutForwards=cssText] readonly attribute CSSStyleDeclaration style;
             public readonly CSSStyleDeclaration style;
 
+
+            // should we use className instead?
             static int __style_id = 0;
 
-            [Obsolete("css")]
-            public CSSStyleRule stylerule
-            {
-                [Script(DefineAsStatic = true)]
-                get
-                {
-                    return css;
-                }
-            }
+            //[Obsolete("css")]
+            //public CSSStyleRule stylerule
+            //{
+            //    [Script(DefineAsStatic = true)]
+            //    get
+            //    {
+            //        return css;
+            //    }
+            //}
 
             //[Obsolete("experimental, is css better than stylerule? should return a proxy object instead of an actual rule a this point")]
 
-            public CSSStyleRule css
+            public CSSStyleRuleMonkier css
             {
                 [Script(DefineAsStatic = true)]
                 get
                 {
                     return
+                        (CSSStyleRuleMonkier)
                         (CSSStyleRule)
                         (object)IStyleSheet.all[InternalGetExplicitRuleSelector()];
                 }

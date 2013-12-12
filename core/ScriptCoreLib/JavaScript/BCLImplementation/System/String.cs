@@ -171,8 +171,33 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public char get_Chars(int i)
         {
+            // is this called by AsEnumerable correctly?
+            // X:\jsc.svn\examples\javascript\css\CSSnthSelector\CSSnthSelector\Application.cs
+
             return (char)GetCharCodeAt((string)(object)this, i);
         }
+
+        [Script(DefineAsStatic = true)]
+        public char[] ToCharArray()
+        {
+            string v = (string)(object)this;
+
+            var text_ToChar = new List<char>();
+
+            foreach (var item in v)
+            {
+
+                text_ToChar.Add(item);
+            }
+
+
+            // tested by
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineImplicitDataRow\AppEngineImplicitDataRow\Application.cs
+
+            return text_ToChar.ToArray();
+        }
+
+
 
         [Script(DefineAsStatic = true)]
         public bool Contains(string a)

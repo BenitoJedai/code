@@ -183,6 +183,37 @@ namespace AppEngineImplicitDataRow
             #endregion
 
 
+
+            page.contentinfo.css
+                 [IHTMLElement.HTMLElementEnum.li]
+                 [IHTMLElement.HTMLElementEnum.span]
+                 ["[data-prev1='j']"]
+                 ["[data-next1='c']"]
+                 [span => span.title == "s"].before.style.backgroundColor = "yellow";
+
+            page.contentinfo.css
+               [IHTMLElement.HTMLElementEnum.li]
+               [IHTMLElement.HTMLElementEnum.span]
+               ["[data-prev2='js']"]
+               [span => span.title == "c"].before.style.backgroundColor = "yellow";
+
+
+            page.contentinfo.css
+               [IHTMLElement.HTMLElementEnum.li]
+               [IHTMLElement.HTMLElementEnum.span]
+               ["[data-next1='s']"]
+               [span => span.title == "j"].before.style.backgroundColor = "yellow";
+
+
+            // { selectorText = [style-id="0"] > li > :nth-child(3) > span::before } 
+            var xs = page.contentinfo.css.nthChild[1].nthChild[2];
+            //[IHTMLElement.HTMLElementEnum.span]
+            //.before;
+
+            Console.WriteLine(new { xs.selectorText });
+
+            xs.style.backgroundColor = "cyan";
+
             Action onvaluechanged = delegate
             {
                 w.Restart();
@@ -197,16 +228,84 @@ namespace AppEngineImplicitDataRow
                     {
                         var li = new IHTMLListItem();
 
-                        foreach (var item in text)
-                        {
-                            IHTMLSpan span = item;
-
-                            span.title = span.innerText;
-                            span.Clear();
 
 
-                            span.AttachTo(li);
-                        }
+                        var spans = text.ToCharArray().AsEnumerable().Select(item =>
+                            {
+                                //Console.WriteLine(new { item });
+
+                                IHTMLSpan span = item;
+
+                                span.title = span.innerText;
+                                span.Clear();
+
+
+                                span.AttachTo(li);
+
+                                return span;
+                            }
+                        ).ToArray();
+
+                        // make css happy by pre indexing 
+                        // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Aggregate(
+                        // { x = , yy =  } 
+                        spans.Aggregate(
+                            seed: new List<IHTMLSpan>(),
+                            func: (prev, current) =>
+                            {
+                                if (prev.Count > 0)
+                                {
+                                    var prev1 = prev[0];
+
+                                    Console.WriteLine(
+                                        new { prev1 = prev1.title, current = current.title }
+                                        );
+
+
+
+                                    dynamic current_data = current;
+
+
+
+                                    current.setAttribute("data-prev1", prev1.title);
+
+                                    prev1.setAttribute("data-next1", current.title);
+
+
+                                    if (prev.Count > 1)
+                                    {
+                                        var prev2 = prev[1];
+
+                                        current.setAttribute("data-prev2", prev2.title + prev1.title);
+                                    }
+                                }
+
+                                var list = new List<IHTMLSpan>();
+
+                                list.Add(current);
+
+
+                                list.AddRange(
+                                    prev
+                                );
+
+
+
+                                return list;
+                            }
+                        );
+
+
+                        //foreach (var item in text)
+                        //{
+                        //    IHTMLSpan span = item;
+
+                        //    span.title = span.innerText;
+                        //    span.Clear();
+
+
+                        //    span.AttachTo(li);
+                        //}
 
 
                         li.AttachTo(page.contentinfo);
