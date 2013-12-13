@@ -18,11 +18,15 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridView))]
-    internal partial class __DataGridView : __Control, __ISupportInitialize
+    public partial class __DataGridView : __Control, __ISupportInitialize
     {
         public DataGridViewAutoSizeColumnsMode AutoSizeColumnsMode { get; set; }
 
         public bool AllowUserToAddRows { get; set; }
+
+        public IHTMLTable __ContentTable;
+        public IHTMLTable __ColumnsTable;
+        public IHTMLTable __RowsTable;
 
         public IHTMLDiv InternalElement;
         public IHTMLDiv InternalScrollContainerElement;
@@ -193,7 +197,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             var __ContentTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
-            IHTMLTable __ContentTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ContentTableContainer);
+            this.__ContentTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ContentTableContainer);
             __ContentTable.style.paddingTop = "22px";
 
             IHTMLTableBody __ContentTableBody = __ContentTable.AddBody();
@@ -206,7 +210,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRows.InternalItems.Source.Add(InternalNewRow);
 
             var __ColumnsTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
-            IHTMLTable __ColumnsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ColumnsTableContainer);
+            this.__ColumnsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ColumnsTableContainer);
             IHTMLTableRow __ColumnsTableRow = null;
 
             __ColumnsTableContainer.style.SetLocation(0, 0);
@@ -218,7 +222,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __RowsTableContainer.style.SetLocation(0, 0);
 
 
-            IHTMLTable __RowsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__RowsTableContainer);
+            this.__RowsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__RowsTableContainer);
             __RowsTable.style.paddingTop = "22px";
             IHTMLTableBody __RowsTableBody = __RowsTable.AddBody();
 
@@ -2348,5 +2352,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event DataGridViewCellEventHandler CellMouseEnter;
         public event DataGridViewCellEventHandler CellMouseLeave;
+
+
+        public static implicit operator __DataGridView(DataGridView g)
+        {
+            return (__DataGridView)(object)g;
+        }
     }
 }

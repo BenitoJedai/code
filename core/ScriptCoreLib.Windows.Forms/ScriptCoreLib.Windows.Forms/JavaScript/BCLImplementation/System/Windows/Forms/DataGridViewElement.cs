@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewElement))]
-    internal class __DataGridViewElement 
+    public class __DataGridViewElement 
     {
     }
 }

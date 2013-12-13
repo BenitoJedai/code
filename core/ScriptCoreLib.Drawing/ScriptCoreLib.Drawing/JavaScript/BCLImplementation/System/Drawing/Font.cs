@@ -6,7 +6,7 @@ using System.Drawing;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
 {
     [Script(Implements = typeof(global::System.Drawing.Font))]
-    internal class __Font
+    public class __Font
     {
         public string Name { get; set; }
         public float Size { get; set; }

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewColumn))]
-    internal class __DataGridViewColumn : __DataGridViewBand
+    public class __DataGridViewColumn : __DataGridViewBand
     {
         public IHTMLTableColumn InternalTableColumn;
         public DragHelper InternalHorizontalDrag;

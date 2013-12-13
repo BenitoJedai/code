@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewRow))]
-    internal class __DataGridViewRow : __DataGridViewBand
+    public class __DataGridViewRow : __DataGridViewBand
     {
         #region Height
         public int InternalHeight;

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewCellStyle))]
-    internal class __DataGridViewCellStyle : __DataGridViewElement
+    public class __DataGridViewCellStyle : __DataGridViewElement
     {
         #region Font
         public Action InternalFontChanged;

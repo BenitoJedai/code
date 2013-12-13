@@ -40,5 +40,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
                 return this.InternalList.FirstOrDefault(k => k.TableName == name);
             }
         }
+
+        public DataTable this[int index]
+        {
+            get
+            {
+                return this.InternalList[index];
+            }
+        }
+
     }
 }

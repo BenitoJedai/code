@@ -744,5 +744,11 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return z;
             }
         }
+
+
+        public override string ToString()
+        {
+            return new { this.rule.selectorText }.ToString();
+        }
     }
 }

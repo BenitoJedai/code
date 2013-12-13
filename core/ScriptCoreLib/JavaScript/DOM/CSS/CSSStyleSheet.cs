@@ -62,10 +62,15 @@ namespace ScriptCoreLib.JavaScript.DOM
                 [Script(DefineAsStatic = true)]
                 get
                 {
-                    return
-                        (CSSStyleRuleMonkier)
-                        (CSSStyleRule)
-                        (object)IStyleSheet.all[InternalGetExplicitRuleSelector()];
+                    var selectorText = InternalGetExplicitRuleSelector();
+
+                    Console.WriteLine(".css " + new { selectorText });
+
+                    var value = IStyleSheet.all[selectorText];
+
+                    Console.WriteLine(".css " + new { value });
+
+                    return value;
                 }
             }
 
