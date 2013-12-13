@@ -2362,7 +2362,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-
+            this.GridColor = global::System.Drawing.Color.FromArgb(0xa0, 0xa0, 0xa0);
             this.Height = 400;
 
             Console.WriteLine("DataGridView ready");
