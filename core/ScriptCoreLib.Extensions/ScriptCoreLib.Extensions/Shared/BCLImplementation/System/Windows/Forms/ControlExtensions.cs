@@ -29,5 +29,10 @@ namespace System.Windows.Forms
 
             return e;
         }
+
+        public static IEnumerable<Control> AsEnumerable(this  Control.ControlCollection c)
+        {
+            return Enumerable.Range(0, c.Count).Select(i => c[i]);
+        }
     }
 }

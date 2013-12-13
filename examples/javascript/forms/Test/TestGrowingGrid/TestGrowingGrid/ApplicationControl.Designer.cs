@@ -21,6 +21,9 @@ namespace TestGrowingGrid
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -35,7 +38,7 @@ namespace TestGrowingGrid
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(27, 276);
+            this.button1.Location = new System.Drawing.Point(27, 269);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(523, 23);
             this.button1.TabIndex = 1;
@@ -64,8 +67,37 @@ namespace TestGrowingGrid
             this.panel1.Size = new System.Drawing.Size(506, 139);
             this.panel1.TabIndex = 3;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(316, 250);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "label2";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(413, 250);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.TabIndex = 5;
+            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(319, 310);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(181, 20);
+            this.textBox1.TabIndex = 6;
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
@@ -93,6 +125,9 @@ namespace TestGrowingGrid
         private Button button1;
         private DataGridView dataGridView1;
         private Panel panel1;
+        private Label label2;
+        private CheckBox checkBox1;
+        private TextBox textBox1;
 
     }
 }
