@@ -56,6 +56,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public object Invoke(Delegate method)
         {
+            // or are we being called by a webworker?
+            // if so we have to find ourself on the other side, DOM world and reinvoke the delegate.
+
             // multithreading!
             ((Action)method)();
 
@@ -309,6 +312,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        public virtual Size GetPreferredSize(Size proposedSize)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\forms\Test\TestGrowingGrid\TestGrowingGrid\ApplicationControl.cs
+
+            return this.Size;
+        }
+
+        public Size PreferredSize
+        {
+            get
+            {
+                var proposedSize = new Size(0, 0);
+
+                return GetPreferredSize(proposedSize);
+            }
+        }
 
         public int Bottom
         {
@@ -771,7 +791,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-        
+
         public virtual void InternalSetFont(Font value)
         {
         }

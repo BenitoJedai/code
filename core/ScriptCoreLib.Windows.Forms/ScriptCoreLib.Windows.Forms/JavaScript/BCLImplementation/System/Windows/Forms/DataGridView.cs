@@ -24,7 +24,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public bool AllowUserToAddRows { get; set; }
 
-        public IHTMLDiv Corner;
+        public IHTMLDiv __Corner;
 
         public IHTMLTable __ContentTable;
         public CSSStyleRuleMonkier __ContentTable_css_td;
@@ -53,6 +53,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 return this.InternalScrollContainerElement;
             }
+        }
+
+        public override global::System.Drawing.Size GetPreferredSize(global::System.Drawing.Size proposedSize)
+        {
+            var x = new global::System.Drawing.Size();
+
+            if (this.ScrollBars == global::System.Windows.Forms.ScrollBars.None)
+            {
+                x.Width = this.__ContentTable.clientWidth + 16;
+                x.Height = this.__ContentTable.clientHeight + 16;
+
+            }
+            else
+            {
+                x.Width = this.__ContentTable.clientWidth + 32;
+                x.Height = this.__ContentTable.clientHeight + 32;
+            }
+
+            return x;
         }
 
         // we do not yet use it.. needs to be tested
@@ -162,7 +181,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     var BackColor = this.ColumnHeadersDefaultCellStyle.BackColor;
                     this.__ColumnsTable_css_td.style.backgroundColor = BackColor.ToString();
 
-                    this.Corner.style.backgroundColor = BackColor.ToString();
+                    this.__Corner.style.backgroundColor = BackColor.ToString();
                 };
 
                 this.InternalColumnHeadersDefaultCellStyle.InternalBackColorChanged += delegate { y(); };
@@ -249,8 +268,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.__ColumnsTable_css_td.style.borderBottom = "1px solid " + value.ToString();
 
 
-                this.Corner.style.borderRight = "1px solid " + value.ToString();
-                this.Corner.style.borderBottom = "1px solid " + value.ToString();
+                this.__Corner.style.borderRight = "1px solid " + value.ToString();
+                this.__Corner.style.borderBottom = "1px solid " + value.ToString();
             }
         }
         #endregion
@@ -430,12 +449,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             #region Corner
-            this.Corner = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
+            this.__Corner = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
 
 
 
-            Corner.style.SetLocation(0, 0);
-            Corner.style.height = "22px";
+            __Corner.style.SetLocation(0, 0);
+            __Corner.style.height = "22px";
 
             #endregion
 
@@ -638,7 +657,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     value = 4;
 
 
-                Corner.style.width = (value - 1) + "px";
+                __Corner.style.width = (value - 1) + "px";
 
                 __ColumnsTable.style.paddingLeft = value + "px";
                 __ContentTable.style.paddingLeft = value + "px";
@@ -712,7 +731,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                    __RowsTableContainer.style.SetLocation(this.InternalScrollContainerElement.scrollLeft, 0);
                    __ColumnsTableContainer.style.SetLocation(0, this.InternalScrollContainerElement.scrollTop);
 
-                   Corner.style.SetLocation(
+                   __Corner.style.SetLocation(
                      this.InternalScrollContainerElement.scrollLeft,
                      this.InternalScrollContainerElement.scrollTop
                  );
@@ -800,6 +819,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     AtInternalWidthChanged();
 
                     SourceColumn.InternalWidthChanged += AtInternalWidthChanged;
+
+                    SourceColumn.InternalWidthChanged +=
+                        delegate
+                        {
+                            // tested by
+                            // X:\jsc.svn\examples\javascript\forms\Test\TestGrowingGrid\TestGrowingGrid\ApplicationControl.cs
+
+                            if (this.ColumnWidthChanged != null)
+                                this.ColumnWidthChanged(this,
+                                    new DataGridViewColumnEventArgs(SourceColumn)
+                                   );
+
+
+                        };
+
                     #endregion
 
                     SourceCell.InternalContent = new IHTMLSpan { };
@@ -2433,10 +2467,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public Action<__DataGridViewCell> InternalRaiseCellValueChanged;
 
 
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.add_ColumnWidthChanged(System.Windows.Forms.DataGridViewColumnEventHandler)]
+
+
+
+        public event DataGridViewColumnEventHandler ColumnWidthChanged;
+        public event DataGridViewColumnEventHandler ColumnAdded;
 
         public event DataGridViewCellEventHandler CellDoubleClick;
-
-        public event DataGridViewColumnEventHandler ColumnAdded;
         public event DataGridViewCellEventHandler CellContentClick;
         public event DataGridViewCellEventHandler CellEndEdit;
         public event DataGridViewCellCancelEventHandler CellBeginEdit;

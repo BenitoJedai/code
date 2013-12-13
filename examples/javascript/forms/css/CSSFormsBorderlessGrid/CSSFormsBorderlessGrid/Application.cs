@@ -80,6 +80,7 @@ namespace CSSFormsBorderlessGrid
 
                     g.AttachControlToDocument();
 
+                    #region css
                     __DataGridView gg = g;
 
                     gg.__ColumnsTable_css_td.style.textTransform = IStyle.TextTransformEnum.uppercase;
@@ -95,6 +96,8 @@ namespace CSSFormsBorderlessGrid
                     gg.__ContentTable_css_td.style.fontWeight = "bold";
                     gg.__ContentTable_css_td.style.paddingTop = "1em";
                     gg.__ContentTable_css_td.style.paddingBottom = "1em";
+                    #endregion
+
 
                 }
             );
