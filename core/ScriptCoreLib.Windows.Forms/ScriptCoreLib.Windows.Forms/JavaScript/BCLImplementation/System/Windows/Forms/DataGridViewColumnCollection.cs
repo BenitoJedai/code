@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewColumnCollection))]
-    internal class __DataGridViewColumnCollection : __BaseCollection
+    public class __DataGridViewColumnCollection : __BaseCollection
     {
         public readonly BindingListWithEvents<__DataGridViewColumn> InternalItemsX = new BindingListWithEvents<__DataGridViewColumn>();
 

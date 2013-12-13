@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewSelectedCellCollection))]
-    internal class __DataGridViewSelectedCellCollection : __BaseCollection, IEnumerable, ICollection, IList
+    public class __DataGridViewSelectedCellCollection : __BaseCollection, IEnumerable, ICollection, IList
     {
         public BindingList<__DataGridViewCell> InternalItems = new BindingList<__DataGridViewCell>();
 

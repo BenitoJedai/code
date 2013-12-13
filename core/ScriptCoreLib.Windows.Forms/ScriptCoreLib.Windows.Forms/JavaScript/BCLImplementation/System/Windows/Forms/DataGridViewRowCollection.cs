@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewRowCollection))]
-    internal class __DataGridViewRowCollection : __BaseCollection, IEnumerable
+    public class __DataGridViewRowCollection : __BaseCollection, IEnumerable
     {
         public BindingListWithEvents<__DataGridViewRow> InternalItems = new BindingListWithEvents<__DataGridViewRow>();
 
