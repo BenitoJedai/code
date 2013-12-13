@@ -415,7 +415,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 if (this.nthChildInlineMode)
                 {
-                    n.op = ":nth-child";
+                    //n.op = ":nth-child";
+                    n.op = ":nth-of-type";
                 }
 
                 return n.odd;
@@ -432,7 +433,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 if (this.nthChildInlineMode)
                 {
-                    n.op = ":nth-child";
+                    //n.op = ":nth-child";
+                    n.op = ":nth-of-type";
                 }
 
                 return n.even;
