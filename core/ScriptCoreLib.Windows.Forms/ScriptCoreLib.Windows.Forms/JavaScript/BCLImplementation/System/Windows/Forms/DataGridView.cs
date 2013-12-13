@@ -25,7 +25,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public bool AllowUserToAddRows { get; set; }
 
         public IHTMLTable __ContentTable;
+
         public IHTMLTable __ColumnsTable;
+        public CSSStyleRuleMonkier __ColumnsTable_css_td;
+
         public IHTMLTable __RowsTable;
 
         public IHTMLDiv InternalElement;
@@ -54,9 +57,47 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // X:\jsc.svn\examples\javascript\Forms\FormsGridCellStyle\FormsGridCellStyle\Application.cs
         public DataGridViewCellStyle DefaultCellStyle { get; set; }
 
-        //public __DataGridViewCellStyle InternalColumnHeadersDefaultCellStyle;
-        // we should start using .css rule binding
-        public DataGridViewCellStyle ColumnHeadersDefaultCellStyle { get; set; }
+        #region ColumnHeadersDefaultCellStyle
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131213-forms-css
+
+        public __DataGridViewCellStyle InternalColumnHeadersDefaultCellStyle;
+        public DataGridViewCellStyle ColumnHeadersDefaultCellStyle
+        {
+            get
+            {
+                return this.InternalColumnHeadersDefaultCellStyle;
+            }
+            set
+            {
+                this.InternalColumnHeadersDefaultCellStyle = value;
+
+
+                Action y = delegate
+                {
+                    if ((object)this.InternalColumnHeadersDefaultCellStyle != value)
+                        return;
+
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131213-forms-css
+                    {
+                        var BackColor = this.ColumnHeadersDefaultCellStyle.BackColor;
+
+                        this.__ColumnsTable_css_td.style.backgroundColor = BackColor.ToString();
+                    }
+
+                };
+
+
+                this.InternalColumnHeadersDefaultCellStyle.InternalBackColorChanged += delegate
+                {
+                    y();
+                };
+
+                y();
+            }
+        }
+        #endregion
+
 
         public DataGridViewCellStyle RowHeadersDefaultCellStyle { get; set; }
 
@@ -100,10 +141,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //Console.WriteLine("__DataGridView");
 
             this.DefaultCellStyle = new DataGridViewCellStyle();
-            this.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
-            {
-                BackColor = global::System.Drawing.SystemColors.ButtonFace
-            };
+
+
 
 
             this.InternalColumns = new __DataGridViewColumnCollection();
@@ -210,7 +249,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRows.InternalItems.Source.Add(InternalNewRow);
 
             var __ColumnsTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131213-forms-css
             this.__ColumnsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ColumnsTableContainer);
+            this.__ColumnsTable_css_td = this.__ColumnsTable.css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
+
             IHTMLTableRow __ColumnsTableRow = null;
 
             __ColumnsTableContainer.style.SetLocation(0, 0);
@@ -227,7 +270,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             IHTMLTableBody __RowsTableBody = __RowsTable.AddBody();
 
 
-
+            this.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+            {
+                BackColor = global::System.Drawing.SystemColors.ButtonFace
+            };
 
 
             #region Corner
@@ -1370,6 +1416,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.ColumnHorizontalResizer.Orphanize();
                 };
 
+
+
+
+
+
             this.InternalColumns.InternalItemsX.Added +=
                 (SourceColumn, NewIndex) =>
                 {
@@ -1386,10 +1437,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     SourceColumn.InternalTableColumn = __ColumnsTableRow.AddColumn();
 
-                    {
-                        var BackColor = this.ColumnHeadersDefaultCellStyle.BackColor;
-                        SourceColumn.InternalTableColumn.style.backgroundColor = BackColor.ToString();
-                    }
 
 
                     SourceColumn.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
