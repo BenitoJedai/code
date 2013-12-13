@@ -48,7 +48,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
-        public CSSStyleRule this[IHTMLElement e]
+        public CSSStyleRuleMonkier this[IHTMLElement e]
         {
             [Script(DefineAsStatic = true)]
             get
@@ -57,7 +57,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        public CSSStyleRule this[string selectorText]
+        public CSSStyleRuleMonkier this[string selectorText]
         {
             [Script(DefineAsStatic = true)]
             get

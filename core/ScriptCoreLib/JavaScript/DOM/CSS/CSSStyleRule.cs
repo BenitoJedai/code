@@ -49,10 +49,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                 var p = this.parentRule;
                 if (p != null)
                     if (p.type == CSSRuleTypes.MEDIA_RULE)
-                        return ((CSSMediaRule)p)[x];
+                        return ((CSSMediaRule)p)[x].rule;
 
 
-                return this.parentStyleSheet[x];
+                return this.parentStyleSheet[x].rule;
             }
         }
 
@@ -104,6 +104,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        #region parent
         CSSStyleRuleMonkier __parent;
         public CSSStyleRuleMonkier parent
         {
@@ -122,6 +123,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                     };
             }
         }
+        #endregion
+
 
         public CSSStyleDeclaration style
         {
@@ -145,7 +148,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         #region print
         //[Obsolete("experimental")]
-        public CSSStyleRule print
+        public CSSStyleRuleMonkier print
         {
             [Script(DefineAsStatic = true)]
             get

@@ -342,7 +342,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
-        public CSSStyleRule this[IHTMLElement e]
+        public CSSStyleRuleMonkier this[IHTMLElement e]
         {
             [Script(DefineAsStatic = true)]
             get
@@ -352,7 +352,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
-        public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+        public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
         {
             [Script(DefineAsStatic = true)]
             get
@@ -367,7 +367,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         public static Expression<Func<string, string, bool>> __String_op_Equality;
         //public static Expression<Func<string, string, bool>> __String_op_Equality = (y, z) => y == z;
 
-        public CSSStyleRule this[Expression<Func<IHTMLElement, bool>> f]
+        public CSSStyleRuleMonkier this[Expression<Func<IHTMLElement, bool>> f]
         {
             [Script(DefineAsStatic = true)]
             get
@@ -474,7 +474,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
-        public CSSStyleRule this[string selectorText]
+        public CSSStyleRuleMonkier this[string selectorText]
         {
             [Script(DefineAsStatic = true)]
             get
@@ -484,18 +484,18 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
-        public CSSMediaRule this[CSSMediaTypes x]
+        public CSSStyleRuleMonkier this[CSSMediaTypes x]
         {
             [Script(DefineAsStatic = true)]
             get
             {
                 var selectorText = "@media " + x;
 
-                var value = default(CSSMediaRule);
+                var value = default(CSSStyleRuleMonkier);
 
                 try
                 {
-                    value = (CSSMediaRule)(object)this.__get_item(selectorText);
+                    value = (CSSStyleRuleMonkier)(object)this.__get_item(selectorText);
                 }
                 catch
                 {
@@ -543,24 +543,24 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     internal static class __IStyleSheet
     {
-        public static CSSStyleRule __get_item(this IStyleSheet e, string selectorText)
+        public static CSSStyleRuleMonkier __get_item(this IStyleSheet e, string selectorText)
         {
-            var a = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
+            var rule = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
 
-            if (a == null)
+            if (rule == null)
             {
-                a = e.AddRule(selectorText);
+                rule = e.AddRule(selectorText);
             }
 
-            return a;
+            return rule;
         }
 
-        public static CSSStyleRule __get_item(this CSSMediaRule e, string selectorText)
+        public static CSSStyleRuleMonkier __get_item(this CSSMediaRule e, string selectorText)
         {
             // IE not supported?
-            var a = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
+            var rule = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
 
-            if (a == null)
+            if (rule == null)
             {
                 //   this.insertRule(selector + "{" + declaration + "}", index);
                 var i = e.insertRule(
@@ -568,10 +568,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                     e.cssRules.Length
                 );
 
-                a = e.Rules[i];
+                rule = e.Rules[i];
             }
 
-            return a;
+            return rule;
         }
     }
 }
