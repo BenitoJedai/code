@@ -216,8 +216,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_GridColor(System.Drawing.Color)]
-        public global::System.Drawing.Color GridColor { get; set; }
+        #region GridColor
+        public CSSStyleRuleMonkier InternalGridColor_css;
+
+        global::System.Drawing.Color InternalGridColor;
+        public global::System.Drawing.Color GridColor
+        {
+            get
+            {
+                return InternalGridColor;
+            }
+            set
+            {
+                this.InternalGridColor = value;
+
+                //l.style.backgroundColor
+
+                // we could use a group style instead?
+
+                //InternalGridColor_css.style.backgroundColor = value.ToString();
+
+                ////SourceCell.InternalTableColumn.style.borderBottom = "1px solid rgba(0,0,0, 0.4)";
+                //SourceCell.InternalTableColumn.style.borderBottom = "2px solid red";
+
+                this.__ContentTable_css_td.style.borderBottom = "1px solid " + value.ToString();
+                this.__ContentTable_css_td.style.borderRight = "1px solid " + value.ToString();
+
+                this.__RowsTable_css_td.style.borderBottom = "1px solid " + value.ToString();
+                this.__RowsTable_css_td.style.borderRight = "1px solid " + value.ToString();
+
+                this.__ColumnsTable_css_td.style.borderRight = "1px solid " + value.ToString();
+                this.__ColumnsTable_css_td.style.borderBottom = "1px solid " + value.ToString();
+
+
+                this.Corner.style.borderRight = "1px solid " + value.ToString();
+                this.Corner.style.borderBottom = "1px solid " + value.ToString();
+            }
+        }
+        #endregion
 
         #region BackgroundColor
         //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.set_BackgroundColor(System.Drawing.Color)]
@@ -419,6 +455,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 BackColor = global::System.Drawing.SystemColors.ButtonFace
             };
 
+            this.InternalGridColor_css = this.InternalScrollContainerElement.css[" *[data-resizer='resizer']"];
+
+
 
             #region CreateVerticalResizer --
             Func<IHTMLDiv> CreateVerticalResizer =
@@ -441,14 +480,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     l.style.left = "0px";
                     l.style.right = "0px";
 
-                    l.style.backgroundColor = this.InternalBackgroundColor.ToString();
-                    //l.style.backgroundColor = "yellow";
+                    //l.style.backgroundColor = this.InternalBackgroundColor.ToString();
+                    ////l.style.backgroundColor = "yellow";
 
-                    InternalBackgroundColorChanged +=
-                        delegate
-                        {
-                            l.style.backgroundColor = this.InternalBackgroundColor.ToString();
-                        };
+                    //InternalBackgroundColorChanged +=
+                    //    delegate
+                    //    {
+                    //        l.style.backgroundColor = this.InternalBackgroundColor.ToString();
+                    //    };
+
+
+                    l.setAttribute("data-resizer", "resizer");
+
+                    //this.InternalGridColorTargets.Add(
+                    //     l.css
+                    // );
 
 
 
@@ -498,15 +544,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     _HorizontalResizerLine.style.top = "0px";
                     _HorizontalResizerLine.style.bottom = "0px";
 
-                    #region InternalBackgroundColor
-                    _HorizontalResizerLine.style.backgroundColor = this.InternalBackgroundColor.ToString();
-                    //_HorizontalResizerLine.style.backgroundColor = "yellow";
-                    InternalBackgroundColorChanged +=
-                        delegate
-                        {
-                            _HorizontalResizerLine.style.backgroundColor = this.InternalBackgroundColor.ToString();
-                        };
-                    #endregion
+
+                    _HorizontalResizerLine.setAttribute("data-resizer", "resizer");
+
+
+                    //this.InternalGridColorTargets.Add(
+                    //    _HorizontalResizerLine.css
+                    //);
+
+                    //#region InternalBackgroundColor
+                    //_HorizontalResizerLine.style.backgroundColor = this.InternalBackgroundColor.ToString();
+                    ////_HorizontalResizerLine.style.backgroundColor = "yellow";
+                    //InternalBackgroundColorChanged +=
+                    //    delegate
+                    //    {
+                    //        _HorizontalResizerLine.style.backgroundColor = this.InternalBackgroundColor.ToString();
+                    //    };
+                    //#endregion
 
                     //this.InternalColumns
 
@@ -577,13 +631,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #region UpdateToHorizontalResizerDrag
             Action UpdateToHorizontalResizerDrag = delegate
             {
+                //var value = (ZeroHorizontalResizerDrag.Position.X + 4);
                 var value = (ZeroHorizontalResizerDrag.Position.X + 4);
 
                 if (!this.InternalRowHeadersVisible)
                     value = 4;
 
 
-                Corner.style.width = value + "px";
+                Corner.style.width = (value - 1) + "px";
 
                 __ColumnsTable.style.paddingLeft = value + "px";
                 __ContentTable.style.paddingLeft = value + "px";
@@ -628,7 +683,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                  delegate
                  {
                      Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
-                     ((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
+                     //((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
+                     ((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = "";
                      //((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = "yellow";
 
                      UpdateToHorizontalResizerDrag();
@@ -715,7 +771,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceCell.InternalContentContainer.style.top = "0";
                     SourceCell.InternalContentContainer.style.height = (SourceRow.Height - 1) + "px";
 
-                    SourceCell.InternalTableColumn.style.borderBottom = "1px solid rgba(0,0,0, 0.4)";
+                    ////SourceCell.InternalTableColumn.style.borderBottom = "1px solid rgba(0,0,0, 0.4)";
+                    //SourceCell.InternalTableColumn.style.borderBottom = "2px solid red";
 
 
 
@@ -1640,8 +1697,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action AtInternalWidthChanged =
                         delegate
                         {
-                            SourceColumn.InternalTableColumn.style.width = SourceColumn.Width + "px";
-                            SourceColumn.InternalTableColumn.style.minWidth = SourceColumn.Width + "px";
+                            var w = SourceColumn.Width;
+
+                            SourceColumn.InternalTableColumn.style.width = w + "px";
+                            SourceColumn.InternalTableColumn.style.minWidth = w + "px";
                         };
 
 
@@ -1760,14 +1819,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action Reposition =
                         delegate
                         {
-                            var x = ZeroHorizontalResizerDrag.Position.X;
+                            var x = ZeroHorizontalResizerDrag.Position.X - 1;
 
                             if (!this.InternalRowHeadersVisible)
                                 x = 0;
 
                             for (int i = 0; i <= NewIndex; i++)
                             {
-                                x += this.InternalColumns.InternalItems[i].Width;
+                                //x += this.InternalColumns.InternalItems[i].Width;
+                                x += this.InternalColumns.InternalItems[i].Width + 1;
                             }
 
                             ColumnHorizontalResizerDrag.Position = new Point(x, 0);
@@ -1825,7 +1885,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     //{ Width = 1045, cwidth = 1975 } 
 
                                     Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
-                                    ((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
+                                    //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
+                                    ((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "";
                                     //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "yellow";
                                     //SourceColumn.ColumnHorizontalResizer.style.backgroundColor = "red";
 
@@ -1971,7 +2032,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     var InternalTableColumn = __tr.AddColumn();
 
                     // who controls ?
-                    InternalTableColumn.style.borderBottom = "1px solid gray";
+                    //InternalTableColumn.style.borderBottom = "2px solid red";
 
                     InternalTableColumn.innerText = " ";
                     //c0.style.padding = "4px";

@@ -80,6 +80,7 @@ namespace FormsGridCellStyle
                 },
 
 
+                GridColor = Color.FromArgb(0x7f, 0, 0, 0),
 
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
