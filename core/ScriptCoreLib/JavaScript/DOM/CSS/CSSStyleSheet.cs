@@ -83,8 +83,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                 //    "[style-id='45']"
 
 
+                IHTMLElement that = this;
 
-                var x = (string)this.getAttribute("style-id");
+                if (that == null)
+                    throw new InvalidOperationException();
+
+
+                var x = (string)that.getAttribute("style-id");
 
                 if (string.IsNullOrEmpty(x))
                 {
