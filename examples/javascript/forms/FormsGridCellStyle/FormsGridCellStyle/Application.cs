@@ -72,6 +72,12 @@ namespace FormsGridCellStyle
                     ForeColor = Color.Black
                 },
 
+                RowHeadersDefaultCellStyle = new DataGridViewCellStyle
+                {
+                    //BackColor = Color.Yellow,
+                    BackColor = Color.FromArgb(0x7f, 255, 255, 255),
+                    ForeColor = Color.Black
+                },
 
 
 

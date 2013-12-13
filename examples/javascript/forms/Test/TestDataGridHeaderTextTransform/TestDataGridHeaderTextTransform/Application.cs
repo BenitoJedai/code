@@ -94,16 +94,22 @@ namespace TestDataGridHeaderTextTransform
                     {
                         await Task.Delay(500);
                         g.ColumnHeadersDefaultCellStyle.BackColor = Color.Green;
+                        g.RowHeadersDefaultCellStyle.BackColor = Color.Green;
+
                         g.AlternatingRowsDefaultCellStyle.BackColor = Color.Yellow;
                         g.DefaultCellStyle.BackColor = Color.White;
 
                         await Task.Delay(500);
                         g.ColumnHeadersDefaultCellStyle.BackColor = Color.Yellow;
+                        g.RowHeadersDefaultCellStyle.BackColor = Color.Yellow;
+
                         g.AlternatingRowsDefaultCellStyle.BackColor = Color.Blue;
                         g.DefaultCellStyle.BackColor = Color.FromArgb(0xef, 0xef, 0xef);
 
                         await Task.Delay(500);
                         g.ColumnHeadersDefaultCellStyle.BackColor = Color.Blue;
+                        g.RowHeadersDefaultCellStyle.BackColor = Color.Blue;
+
                         g.AlternatingRowsDefaultCellStyle.BackColor = Color.Green;
                         g.DefaultCellStyle.BackColor = Color.FromArgb(0xdf, 0xdf, 0xdf);
                     }
