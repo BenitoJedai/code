@@ -27,9 +27,12 @@ namespace TestInterfaceCrudeCast
         {
             var layout0 = new AppFromDocument();
 
+
             // Additional information: Unable to 
             // cast object of type 'TestInterfaceCrudeCast.AppFromDocument' 
             // to type 'TestInterfaceCrudeCast.IConceptX'.
+
+            //Bug report https://connect.microsoft.com/VisualStudio/feedback/details/811506/compiler-doesnt-report-casting-issue
 
             var layout = (IConceptX)layout0;
         }
