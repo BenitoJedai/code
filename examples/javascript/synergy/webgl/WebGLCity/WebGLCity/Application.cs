@@ -30,7 +30,7 @@ namespace WebGLCity
         {
             InitializeComponent();
 
-            DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            //DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
             // decent simcity comes to mind
@@ -75,7 +75,6 @@ namespace WebGLCity
 
 
 
-            var lastTime = Native.window.performance.now() / 1000;
 
 
 
@@ -196,6 +195,9 @@ namespace WebGLCity
                 lookSpeed = 0.05,
                 lookVertical = true
             };
+
+
+            var lastTime = Native.window.performance.now() / 1000;
 
             Native.window.onframe +=
                 delegate

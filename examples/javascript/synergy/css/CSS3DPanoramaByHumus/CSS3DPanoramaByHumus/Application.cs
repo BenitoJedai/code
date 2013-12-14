@@ -38,7 +38,7 @@ namespace CSS3DPanoramaByHumus
         {
             // view-source:file:///X:/opensource/github/three.js/examples/css3d_panorama.html
 
-            var camera = new THREE.PerspectiveCamera(75, (double)Native.window.Width / Native.window.Height, 1, 1000);
+            var camera = new THREE.PerspectiveCamera(75, Native.window.aspect, 1, 1000);
             var scene = new THREE.Scene();
 
             var renderer = new THREE.CSS3DRenderer();
@@ -111,7 +111,7 @@ namespace CSS3DPanoramaByHumus
             Native.window.onresize +=
                 delegate
                 {
-                    camera.aspect = (double)Native.window.Width / Native.window.Height;
+                    camera.aspect = Native.window.aspect;
                     camera.updateProjectionMatrix();
 
                     renderer.setSize(Native.window.Width, Native.window.Height);
@@ -127,7 +127,7 @@ namespace CSS3DPanoramaByHumus
 
 
 
-      
+
 
             var drag = false;
 

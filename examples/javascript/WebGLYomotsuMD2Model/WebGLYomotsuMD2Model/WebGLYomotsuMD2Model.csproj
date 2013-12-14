@@ -134,7 +134,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\droid.js" />
+    <Content Include="Design\tris.md2.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
