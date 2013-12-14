@@ -114,12 +114,15 @@ fieldset > ol {
 
     cursor: default;
     -webkit-user-select: none !important;
-    position: absolute;
+
     text-align: left;
+
+    position: absolute;
     bottom: 0;
     right: 0;
     left: 0;
     top: 3.4em;
+
     /*top: 0;*/
     z-index: 7;
 
@@ -127,6 +130,9 @@ fieldset > ol {
     padding: 0em;
     padding-left: 0;
 }
+
+
+
 
     fieldset > ol > li {
         border-left: 0.5em solid yellow;
