@@ -17,5 +17,12 @@ namespace ScriptCoreLib.Extensions
             r.setSize(w.Width, w.Height);
 
         }
+
+        public static T AttachTo<T>(this T r, THREE.Object3D c) where T : THREE.Object3D
+        {
+            c.add(r);
+
+            return r;
+        }
     }
 }

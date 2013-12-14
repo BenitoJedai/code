@@ -138,7 +138,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="Models\harvester.js" />
+    <Content Include="Models\harvester.md5mesh.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

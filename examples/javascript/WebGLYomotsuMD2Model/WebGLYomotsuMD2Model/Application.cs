@@ -108,9 +108,10 @@ namespace WebGLYomotsuMD2Model
                 Native.window.aspect,
                 1,
                 1000
-            );
+            ).AttachTo(scene);
 
-            scene.add(camera);
+            //camera.AttachTo(scene);
+            //scene.add(camera);
 
 
 
@@ -176,7 +177,7 @@ namespace WebGLYomotsuMD2Model
             #endregion
 
             new THREE.JSONLoader().load(
-                new global::WebGLYomotsuMD2Model.Design.droid().Content.src,
+                new global::WebGLYomotsuMD2Model.Design.tris_md2().Content.src,
                 new Action<object>(
                     geometry =>
                     {
@@ -208,6 +209,7 @@ namespace WebGLYomotsuMD2Model
                         #endregion
 
 
+                        //player_mesh.att
                         scene.add(player_mesh);
 
                         var theta = 0;

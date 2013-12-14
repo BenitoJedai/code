@@ -22,9 +22,8 @@ namespace WebGLBossHarvesterByOutsideOfSociety
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -32,17 +31,17 @@ namespace WebGLBossHarvesterByOutsideOfSociety
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLMD2MorphtargetExample\WebGLMD2MorphtargetExample\Application.cs
+
             Console.WriteLine("before three");
 
             // fails with gallery? why?
-            Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            //Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
             Console.WriteLine("InitializeContent");
             // http://oos.moxiecode.com/js_webgl/md5_test/
 
-            var has_gl = false;
-            THREE.WebGLRenderer renderer = null;
 
             var oldTime = 0L;
 
@@ -70,226 +69,209 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             floor.rotation.x = -Math.PI / 2;
             scene.add(floor);
 
-            // model
-            var loader = new THREE.JSONLoader();
+            // renderer
+            var renderer = new THREE.WebGLRenderer(new { antialias = true });
+            renderer.setClearColorHex(0x000000);
 
+            renderer.domElement.AttachToDocument();
 
 
+            new THREE.JSONLoader().load(
+                new WebGLBossHarvesterByOutsideOfSociety.Models.harvester_md5mesh().Content.src,
+                (Action<dynamic>)
+                    (geometry =>
+                    {
+                        Console.WriteLine("geometry ready!");
 
-            var harvesterLoaded = IFunction.OfDelegate(
-                new Action<dynamic>(
-                     (geometry) =>
-                     {
-                         Console.WriteLine("geometry ready!");
+                        //console.log("Number of bones: "+geometry.bones.length);
 
-                         //console.log("Number of bones: "+geometry.bones.length);
+                        var material = new THREE.MeshBasicMaterial(new
+                        {
+                            color = 0xffffff,
+                            wireframe = true,
+                            opacity = 0.25,
+                            transparent = true,
+                            skinning = true
+                        });
 
-                         var material = new THREE.MeshBasicMaterial(new
-                         {
-                             color = 0xffffff,
-                             wireframe = true,
-                             opacity = 0.25,
-                             transparent = true,
-                             skinning = true
-                         });
+                        object geometry_object = geometry;
+                        var skin = new THREE.SkinnedMesh(geometry_object, material);
+                        scene.add(skin);
 
-                         object geometry_object = geometry;
-                         var skin = new THREE.SkinnedMesh(geometry_object, material);
-                         scene.add(skin);
 
+                        object geometry_animation = geometry.animation;
+                        THREE.AnimationHandler.add(geometry_animation);
 
-                         object geometry_animation = geometry.animation;
-                         THREE.AnimationHandler.add(geometry_animation);
+                        var animation = new THREE.Animation(skin, "walk1");
+                        animation.play();
 
-                         var animation = new THREE.Animation(skin, "walk1");
-                         animation.play();
+                        skin.rotation.x = -Math.PI / 2;
+                        skin.rotation.z = -Math.PI / 2;
 
-                         skin.rotation.x = -Math.PI / 2;
-                         skin.rotation.z = -Math.PI / 2;
 
+                        var boneArray = new Dictionary<int, THREE.Mesh>();
 
 
+                        var boneContainer = new THREE.Object3D();
 
+                        boneContainer.rotation.x = -Math.PI / 2;
+                        boneContainer.rotation.z = -Math.PI / 2;
 
-                         var boneArray = new Dictionary<int, THREE.Mesh>();
+                        scene.add(boneContainer);
 
+                        var index = 0;
+                        var pmaterial = new THREE.MeshPhongMaterial(new { color = 0xff0000 });
 
-                         var boneContainer = new THREE.Object3D();
+                        for (var b = 1; b != skin.bones.Length; b++)
+                        {
 
-                         boneContainer.rotation.x = -Math.PI / 2;
-                         boneContainer.rotation.z = -Math.PI / 2;
+                            var bone = skin.bones[b];
 
-                         scene.add(boneContainer);
+                            var nc = bone.children.Length;
 
-                         var index = 0;
-                         var pmaterial = new THREE.MeshPhongMaterial(new { color = 0xff0000 });
+                            for (var c = 0; c != nc; c++)
+                            {
+                                var child = bone.children[c];
 
-                         for (var b = 1; b != skin.bones.Length; b++)
-                         {
+                                var size = Math.Min(child.position.length() * 0.05, 8);
 
-                             var bone = skin.bones[b];
+                                var cylinder = new THREE.CylinderGeometry(size, 0.1, child.position.length(), 6);
 
-                             var nc = bone.children.Length;
+                                // ERROR: Matrix's .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.
+                                cylinder.applyMatrix(
+                                    new THREE.Matrix4().makeRotationFromEuler(
+                                       new THREE.Euler(Math.PI / 2, 0, 0)
+                                    )
+                                );
 
-                             for (var c = 0; c != nc; c++)
-                             {
-                                 var child = bone.children[c];
+                                cylinder.applyMatrix(new THREE.Matrix4().setPosition(new THREE.Vector3(0, 0, 0.5 * child.position.length())));
+                                var mesh = new THREE.Mesh(cylinder, pmaterial);
 
-                                 var size = Math.Min(child.position.length() * 0.05, 8);
+                                boneArray[child.id] = mesh;
+                                boneContainer.add(mesh);
+                            }
 
-                                 var cylinder = new THREE.CylinderGeometry(size, 0.1, child.position.length(), 6);
+                        }
 
-                                 // ERROR: Matrix's .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.
-                                 cylinder.applyMatrix(
-                                     new THREE.Matrix4().makeRotationFromEuler(
-                                        new THREE.Euler(Math.PI / 2, 0, 0)
-                                     )
-                                 );
 
-                                 cylinder.applyMatrix(new THREE.Matrix4().setPosition(new THREE.Vector3(0, 0, 0.5 * child.position.length())));
-                                 var mesh = new THREE.Mesh(cylinder, pmaterial);
 
-                                 boneArray[child.id] = mesh;
-                                 boneContainer.add(mesh);
-                             }
 
-                         }
+                        #region render
 
 
+                        Native.window.onframe += delegate
+                        {
+                            Func<long> Date_now = () => (long)new IFunction("return Date.now();").apply(null);
 
+                            var time = Date_now();
+                            double delta = time - oldTime;
 
-                         #region render
 
+                            if (oldTime == 0)
+                            {
+                                delta = 1000 / 60.0;
+                            }
 
-                         Native.window.onframe += delegate
-                         {
-                             Func<long> Date_now = () => (long)new IFunction("return Date.now();").apply(null);
+                            oldTime = time;
 
-                             var time = Date_now();
-                             double delta = time - oldTime;
 
 
-                             if (oldTime == 0)
-                             {
-                                 delta = 1000 / 60.0;
-                             }
 
-                             oldTime = time;
+                            THREE.AnimationHandler.update(delta / 1000.0);
 
 
 
 
-                             THREE.AnimationHandler.update(delta / 1000.0);
+                            for (var b = 1; b != skin.bones.Length; b++)
+                            {
 
+                                var bone = skin.bones[b];
+                                var nc = bone.children.Length;
 
+                                for (var c = 0; c != nc; c++)
+                                {
 
+                                    var child = bone.children[c];
+                                    var child_bone = (THREE.Bone)(object)child;
+                                    var id = child.id;
+                                    var mesh = boneArray[id];
 
-                             for (var b = 1; b != skin.bones.Length; b++)
-                             {
+                                    positionVector.getPositionFromMatrix(child_bone.skinMatrix);
+                                    mesh.position.copy(positionVector);
 
-                                 var bone = skin.bones[b];
-                                 var nc = bone.children.Length;
+                                    var child_parent_bone = (THREE.Bone)(object)child.parent;
+                                    lookVector.getPositionFromMatrix(child_parent_bone.skinMatrix);
+                                    mesh.lookAt(lookVector);
 
-                                 for (var c = 0; c != nc; c++)
-                                 {
+                                }
 
-                                     var child = bone.children[c];
-                                     var child_bone = (THREE.Bone)(object)child;
-                                     var id = child.id;
-                                     var mesh = boneArray[id];
+                            }
 
-                                     positionVector.getPositionFromMatrix(child_bone.skinMatrix);
-                                     mesh.position.copy(positionVector);
 
-                                     var child_parent_bone = (THREE.Bone)(object)child.parent;
-                                     lookVector.getPositionFromMatrix(child_parent_bone.skinMatrix);
-                                     mesh.lookAt(lookVector);
+                            boneContainer.position.z = skin.position.z;
 
-                                 }
+                            var frame = (int)Math.Floor(animation.currentTime * 24.0);
 
-                             }
+                            if (frame >= 0 && lastframe > frame)
+                            {
+                                skin.position.z += 304.799987793; // got that from the root bone, total movement of one walk cycle
+                            }
+                            lastframe = frame;
 
+                            var speed = delta * 0.131;
 
-                             boneContainer.position.z = skin.position.z;
+                            cameraTarget.z += speed;
 
-                             var frame = (int)Math.Floor(animation.currentTime * 24.0);
+                            if (skin.position.z > floor.position.z + 1000.0)
+                            {
+                                floor.position.z += 1000.0;
+                            };
 
-                             if (frame >= 0 && lastframe > frame)
-                             {
-                                 skin.position.z += 304.799987793; // got that from the root bone, total movement of one walk cycle
-                             }
-                             lastframe = frame;
 
-                             var speed = delta * 0.131;
+                            camera.position.x = 800.0 * Math.Sin(time / 3000.0);
+                            camera.position.z = cameraTarget.z + 800.0 * Math.Cos(time / 3000.0);
 
-                             cameraTarget.z += speed;
+                            camera.lookAt(cameraTarget);
 
-                             if (skin.position.z > floor.position.z + 1000.0)
-                             {
-                                 floor.position.z += 1000.0;
-                             };
 
+                            renderer.render(scene, camera);
 
-                             camera.position.x = 800.0 * Math.Sin(time / 3000.0);
-                             camera.position.z = cameraTarget.z + 800.0 * Math.Cos(time / 3000.0);
+                        };
+                        #endregion
 
-                             camera.lookAt(cameraTarget);
+                    }
+               )
+           );
 
-                             if (has_gl)
-                             {
-                                 renderer.render(scene, camera);
-                             }
+            //var harvester_src = new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src;
 
-                         };
-                         #endregion
-
-                     }
-                )
-            );
-
-            var harvester_src = new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src;
-
-            Console.WriteLine("before harvester " + new { harvester_src });
-            loader.load(harvester_src, harvesterLoaded);
+            //Console.WriteLine("before harvester " + new { harvester_src });
+            //loader.load(harvester_src, harvesterLoaded);
 
             // lights
             var pointLight = new THREE.PointLight(0xffffff, 1.0, z: 0);
             camera.add(pointLight);
 
-            try
+
+
+            #region AtResize
+            Action AtResize = delegate
             {
-                // renderer
-                renderer = new THREE.WebGLRenderer(new { antialias = true });
-                renderer.setClearColorHex(0x000000);
+                camera.aspect = Native.window.aspect;
+                camera.updateProjectionMatrix();
 
-                renderer.domElement.AttachToDocument();
+                renderer.setSize(Native.window.Width, Native.window.Height);
+            };
+            Native.window.onresize +=
+              delegate
+              {
+                  AtResize();
+              };
 
-                Action AtResize = delegate
-                {
-                    camera.aspect = Native.window.aspect;
-                    camera.updateProjectionMatrix();
+            AtResize();
+            #endregion
 
-                    renderer.setSize(Native.window.Width, Native.window.Height);
-                };
-                Native.window.onresize +=
-                  delegate
-                  {
-                      AtResize();
-                  };
-
-                AtResize();
-
-                has_gl = true;
-
-                Console.WriteLine("renderer ready!");
-            }
-            catch
-            {
-
-            }
-
-
-
+            Console.WriteLine("renderer ready!");
 
             Native.document.onmousedown +=
                  e =>
