@@ -71,6 +71,7 @@ namespace AppEngineImplicitDataRow
                 };
             #endregion
 
+            var yx = 0;
             var y = 0;
             var i = -1;
 
@@ -88,46 +89,120 @@ namespace AppEngineImplicitDataRow
 
             var w = new Stopwatch();
 
-            //#region onmousemove
-            //page.content.onmousemove +=
-            //    e =>
-            //    {
-            //        w.Restart();
+            #region onmousemove
+
+         
+
+            bool skip = false;
+
+            page.content.style.backgroundColor = "rgba(0,0,0,0.1)";
+            page.content.onmousemove +=
+                e =>
+                {
+                    if (skip)
+                        return;
+
+                    w.Restart();
+
+                    //// Uncaught TypeError: Cannot read property 'layerY' of null
+                    y = e.OffsetY;
+
+                    // the padding
+                    yx = e.OffsetX - 128;
+
+                    if (page.fs.@checked)
+                    {
+                        // ??? magic!
+                        //y += page.topic.clientHeight;
+                    }
+
+                    y = (int)Math.Floor((double)y / ((IHTMLElement)page.contentinfo.firstChild).clientHeight);
+
+                    page.content.style.cursor = IStyle.CursorEnum.text;
+                    page.content.title = "";
 
 
-            //        // Uncaught TypeError: Cannot read property 'layerY' of null
-            //        y = e.OffsetY + page.content.scrollTop;
+                    page.contentinfo.childNodes.ElementAtOrDefault(y).With(
+                        li =>
+                        {
+                            // how many chars until the outer right is more than y?
 
-            //        if (page.fs.@checked)
-            //        {
-            //            y += page.content.parentNode.offsetTop;
-            //        }
+                            // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Cast(System.Collections.IEnumerable)]
+                            i = li.childNodes.AsEnumerable().Select(z => (IHTMLSpan)z).TakeWhile(span => span.offsetLeft < yx).Count();
 
-            //        var hit =
-            //            from x in page.contentinfo.childNodes
-            //            where x.nodeType == INode.NodeTypeEnum.ElementNode
-            //            let u = (IHTMLElement)x
-            //            select u;
+                            // cant be less than 0 yet can be more than visible chars
+                            li.childNodes.AsEnumerable().Select(z => (IHTMLSpan)z).ElementAtOrDefault(i).With(
+                                 async span =>
+                                 {
+
+                                     if (span.title == "c")
+                                         if ((string)span.getAttribute("data-prev2") == "js")
+                                         {
+
+                                             // reveal
+                                             //page.content.style.visibility = IStyle.VisibilityEnum.hidden;
 
 
-            //        hit.WithEachIndex(
-            //            (u, index) =>
-            //            {
+                                             // upgrade
+                                             span.style.cursor = IStyle.CursorEnum.pointer;
+                                             //span.title = "jsc";
 
-            //                if (y > u.offsetTop)
-            //                    if (y < (u.offsetTop + u.offsetHeight))
-            //                    {
-            //                        i = index;
-            //                    }
-            //            }
-            //        );
+                                             // once
+                                             span.onclick +=
+                                                 ee =>
+                                                 {
+                                                     e.preventDefault();
+                                                     e.stopPropagation();
 
-            //        xxx.OrphanizeRule();
-            //        xxx = page.contentinfo.css.nthChild[i + 1];
-            //        xxx.style.backgroundColor = "lightgray";
-            //        w.Stop();
-            //    };
-            //#endregion
+                                                     Native.window.alert("jsc");
+                                                 };
+
+                                             span.onmouseout +=
+                                                 delegate
+                                                 {
+
+                                                     page.content.style.zIndex = 10;
+                                                     skip = false;
+                                                 };
+
+                                             skip = true;
+                                             page.content.style.zIndex = -10;
+                                             await Native.window.requestAnimationFrameAsync;
+
+
+                                             span.ondragstart +=
+                                                 async ee =>
+                                                 {
+                                                     //ee.preventDefault();
+                                                     //ee.stopPropagation();
+
+                                                     Console.WriteLine("dragstart!");
+
+                                                     ee.dataTransfer.setData("text/uri-list", "http://my.jsc-solutions.net");
+
+                                                     await Native.window.requestAnimationFrameAsync;
+                                                     page.content.style.zIndex = 10;
+                                                     skip = false;
+
+                                                     // revert, stop events
+                                                     //page.content.style.visibility = IStyle.VisibilityEnum.visible;
+                                                 };
+
+
+                                             return;
+                                         }
+
+
+                                 }
+                            );
+                        }
+                    );
+
+
+
+                    w.Stop();
+                };
+            #endregion
 
 
 
@@ -214,7 +289,16 @@ namespace AppEngineImplicitDataRow
                [IHTMLElement.HTMLElementEnum.li]
                [IHTMLElement.HTMLElementEnum.span]
                ["[data-prev2='js']"]
-               [span => span.title == "c"].before.style.backgroundColor = "yellow";
+               [span => span.title == "c"].With(__c =>
+                   {
+                       __c.before.style.backgroundColor = "black";
+                       __c.before.style.color = "yellow";
+                       __c.before.style.textDecoration = "underline";
+
+                       // make clickable
+                       __c.style.zIndex = 200;
+                   }
+            );
 
 
             page.contentinfo.css
@@ -229,25 +313,28 @@ namespace AppEngineImplicitDataRow
             var SelectedRowIndex = new IntBox { index = 1 };
             var SelectedColumnIndex = new IntBox { index = 1 };
 
-            var xs = page.contentinfo.css[() => SelectedRowIndex.index];
+            var xs_focus = page.contentinfo.css[() => SelectedRowIndex.index];
+            xs_focus.style.backgroundColor = "rgba(0,0,0,0.2)";
 
-            xs.style.backgroundColor = "lightgray";
+            var xs_hover = page.contentinfo.css[() => y];
+
+            xs_hover.style.backgroundColor = "rgba(0,0,0,0.1)";
 
 
-            xs[() => SelectedColumnIndex.index].With(
-                async xss =>
+            xs_focus[() => SelectedColumnIndex.index].before.With(
+                async blinker =>
                 {
                     while (true)
                     {
-                        xss.style.backgroundColor = "red";
+                        blinker.style.backgroundColor = "red";
                         await Task.Delay(300);
 
-                        xss.style.backgroundColor = "";
+                        blinker.style.backgroundColor = "";
                         await Task.Delay(100);
                     }
                 }
             );
-
+            xs_hover[() => i].before.style.backgroundColor = "cyan";
 
             //[IHTMLElement.HTMLElementEnum.span]
             //.before;
@@ -367,7 +454,8 @@ namespace AppEngineImplicitDataRow
                 );
 
                 w.Stop();
-
+                page.content.style.zIndex = 10;
+                skip = false;
             };
             #endregion
 
@@ -378,6 +466,7 @@ namespace AppEngineImplicitDataRow
 
             onvaluechanged();
 
+            page.content.value += "\n\n hover, click or drag jsc <--";
 
 
             Native.window.onframe +=
@@ -397,7 +486,8 @@ namespace AppEngineImplicitDataRow
 
                     Native.document.title = new
                     {
-                        y = y,
+                        y,
+                        yx,
                         i,
 
                         row = SelectedRowIndex.index,

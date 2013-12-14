@@ -36,6 +36,9 @@ namespace CSSTableSelector
                 {
                     var tbody = table.AddBody();
 
+                    var selectedRow_plus_2 = 0;
+                    var selectedRow_minus_2 = 0;
+
                     var selectedRow = 0;
                     var selectedColumn = 0;
 
@@ -45,6 +48,7 @@ namespace CSSTableSelector
 
                     //tbody.css[IHTMLElement.HTMLElementEnum.tr][() => selectedRow][IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "yellow";
                     tbody.css[() => selectedRow][IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "yellow";
+
 
                     //tbody.css[() => selectedRow][IHTMLElement.HTMLElementEnum.td].siblings.style.backgroundColor = "green";
                     //tbody.css[() => selectedRow][IHTMLElement.HTMLElementEnum.td].adjacentSibling.style.backgroundColor = "red";
@@ -69,6 +73,12 @@ namespace CSSTableSelector
 
                     tbody.css.odd.style.backgroundColor = "cyan";
 
+                    var tbody_css_selectedRow_minus_2 = tbody.css[() => selectedRow_minus_2];
+                    var tbody_css_selectedRow_plus_2 = tbody.css[() => selectedRow_plus_2];
+
+                    (tbody_css_selectedRow_minus_2 | tbody_css_selectedRow_plus_2)[IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "gray";
+
+
                     //tbody.css[1][1].siblings["(:nth-child(8))"].style.backgroundColor = "red";
 
                     //tbody.css[1][IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "gray";
@@ -91,6 +101,9 @@ namespace CSSTableSelector
                                     Native.document.title = p.ToString();
 
                                     selectedRow = p.y;
+                                    selectedRow_minus_2 = p.y - 2;
+                                    selectedRow_plus_2 = p.y + 2;
+
                                     selectedColumn = p.x;
                                 };
                         }
