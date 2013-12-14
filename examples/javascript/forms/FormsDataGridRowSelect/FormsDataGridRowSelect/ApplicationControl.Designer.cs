@@ -46,6 +46,7 @@ namespace FormsDataGridRowSelect
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.Yellow;

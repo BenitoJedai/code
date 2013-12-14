@@ -125,6 +125,47 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        #region [selectorText]
+        public CSSStyleRuleMonkier this[string selectorText]
+        {
+            get
+            {
+                var child = new CSSStyleRuleMonkier
+                {
+                    parent = this,
+                    selectorText = selectorText
+                };
+
+
+
+                return child;
+            }
+        }
+        #endregion
+
+        //public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
+        public static CSSStyleRuleMonkier operator |(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
+        {
+            // tested by
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs
+
+            var rule = IStyleSheet.all[parent1.rule.selectorText + "," + parent2.rule.selectorText];
+
+            parent1.selectorTextChanged +=
+                delegate
+                {
+                    rule.selectorText = parent1.rule.selectorText + "," + parent2.rule.selectorText;
+                };
+
+
+            parent2.selectorTextChanged +=
+                delegate
+                {
+                    rule.selectorText = parent1.rule.selectorText + "," + parent2.rule.selectorText;
+                };
+
+            return rule;
+        }
 
         public CSSStyleDeclaration style
         {
@@ -190,14 +231,20 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 __selectorText = value;
 
-                //rule = rule[selectorText],
-                if (this.rule == null)
+                if (this.parent == null)
                 {
-                    this.rule = this.parent.rule[__selectorText];
+                    this.rule.selectorText = __selectorText;
                 }
                 else
                 {
-                    this.rule.selectorText = this.parent.rule.selectorText + __selectorText;
+                    if (this.rule == null)
+                    {
+                        this.rule = this.parent.rule[__selectorText];
+                    }
+                    else
+                    {
+                        this.rule.selectorText = this.parent.rule.selectorText + __selectorText;
+                    }
                 }
 
                 if (selectorTextChanged != null)
@@ -206,23 +253,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-        #region [selectorText]
-        public CSSStyleRuleMonkier this[string selectorText]
-        {
-            get
-            {
-                var child = new CSSStyleRuleMonkier
-                {
-                    parent = this,
-                    selectorText = selectorText
-                };
 
-
-
-                return child;
-            }
-        }
-        #endregion
 
         #region >:nth-child
         [Script]
@@ -752,5 +783,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             return new { this.rule.selectorText }.ToString();
         }
+
+
+
     }
 }

@@ -73,6 +73,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellFormattingEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellFormattingEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.DataSource.cs" />

@@ -64,11 +64,11 @@ namespace ScriptCoreLib.JavaScript.DOM
                 {
                     var selectorText = InternalGetExplicitRuleSelector();
 
-                    Console.WriteLine(".css " + new { selectorText });
+                    //Console.WriteLine(".css " + new { selectorText });
 
                     var value = IStyleSheet.all[selectorText];
 
-                    Console.WriteLine(".css " + new { value });
+                    //Console.WriteLine(".css " + new { value });
 
                     return value;
                 }
