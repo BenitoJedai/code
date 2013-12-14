@@ -104,6 +104,7 @@ namespace FormsGridCellStyle
 
             g.AttachControlToDocument();
 
+
             (g.Parent as Form).GetHTMLTarget().style.margin = "3em";
 
         }

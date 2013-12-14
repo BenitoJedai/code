@@ -146,17 +146,17 @@ namespace DiagnosticsConsole
                     AtKeyCode(e.KeyCode);
                 };
 
-            Native.window.onorientationchange +=
-                delegate
-                {
-                    if (Native.window.orientation == 90)
-                        Show();
-                    else if (Native.window.orientation == -90)
-                        Show();
-                    else
-                        Hide();
+            //Native.window.onorientationchange +=
+            //    delegate
+            //    {
+            //        if (Native.window.orientation == 90)
+            //            Show();
+            //        else if (Native.window.orientation == -90)
+            //            Show();
+            //        else
+            //            Hide();
 
-                };
+            //    };
             return Toggle;
         }
 

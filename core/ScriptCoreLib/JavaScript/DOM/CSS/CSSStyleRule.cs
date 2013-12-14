@@ -148,6 +148,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             // tested by
             // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs
+            // X:\jsc.svn\examples\javascript\css\CSSTableSelector\CSSTableSelector\Application.cs
 
             var rule = IStyleSheet.all[parent1.rule.selectorText + "," + parent2.rule.selectorText];
 

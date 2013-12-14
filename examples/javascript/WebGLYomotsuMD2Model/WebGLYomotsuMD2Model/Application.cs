@@ -160,7 +160,7 @@ namespace WebGLYomotsuMD2Model
 
                 renderer.setSize(Native.window.Width, Native.window.Height);
 
-                camera.projectionMatrix.makePerspective(fov, Native.window.Width / Native.window.Height, 1, 1100);
+                camera.projectionMatrix.makePerspective(fov, Native.window.aspect, 1, 1100);
 
                 //camera.aspect = Native.Window.Width / Native.Window.Height;
                 //camera.updateProjectionMatrix();
@@ -175,174 +175,147 @@ namespace WebGLYomotsuMD2Model
             AtResize();
             #endregion
 
-            #region requestFullscreen
-            Native.Document.body.ondblclick +=
-                delegate
-                {
-                    if (IsDisposed)
-                        return;
-
-                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
-
-                    Native.Document.body.requestFullscreen();
-
-                    //AtResize();
-                };
-            #endregion
-
-
-
-            var loader = new THREE.JSONLoader();
-
-            loader.load(
+            new THREE.JSONLoader().load(
                 new global::WebGLYomotsuMD2Model.Design.droid().Content.src,
-                    IFunction.OfDelegate(
-                        new Action<object>(
-                            geometry =>
+                new Action<object>(
+                    geometry =>
+                    {
+                        var player_mesh = new THREE.MorphAnimMesh(geometry, material);
+
+                        player_mesh.rotation.y = (float)(-Math.PI / 2);
+                        player_mesh.scale.set(2, 2, 2);
+                        player_mesh.castShadow = true;
+                        player_mesh.receiveShadow = false;
+
+                        #region player_motion
+                        var player_motion = default(motion);
+                        Action<motion> player_changeMotion = motion =>
+                        {
+                            player_motion = motion;
+
+                            //    player.state = md2frames[motion][3].state;
+
+                            var animMin = motion.min;
+                            var animMax = motion.max;
+                            var animFps = motion.fps;
+
+                            player_mesh.time = 0;
+                            player_mesh.duration = 1000 * ((animMax - animMin) / animFps);
+                            player_mesh.setFrameRange(animMin, animMax);
+                        };
+
+                        player_changeMotion(md2frames.stand);
+                        #endregion
+
+
+                        scene.add(player_mesh);
+
+                        var theta = 0;
+
+                        //var clock = new THREE.Clock();
+
+                        var clock = new Stopwatch();
+                        clock.Start();
+
+                        #region loop
+
+
+                        Native.window.onframe += delegate
+                        {
+                            var delta = clock.ElapsedMilliseconds * 0.001;
+                            clock.Restart();
+
+                            var isEndFleame = (player_motion.max == player_mesh.currentKeyframe);
+                            var isAction = player_motion.action;
+
+                            var x = (isAction && !isEndFleame);
+
+                            if (!isAction || x)
                             {
 
-
-
-
-
-
-
-
-                                var player_mesh = new THREE.MorphAnimMesh(geometry, material);
-
-                                player_mesh.rotation.y = (float)(-Math.PI / 2);
-                                player_mesh.scale.set(2, 2, 2);
-                                player_mesh.castShadow = true;
-                                player_mesh.receiveShadow = false;
-
-                                #region player_motion
-                                var player_motion = default(motion);
-                                Action<motion> player_changeMotion = motion =>
-                                {
-                                    player_motion = motion;
-
-                                    //    player.state = md2frames[motion][3].state;
-
-                                    var animMin = motion.min;
-                                    var animMax = motion.max;
-                                    var animFps = motion.fps;
-
-                                    player_mesh.time = 0;
-                                    player_mesh.duration = 1000 * ((animMax - animMin) / animFps);
-                                    player_mesh.setFrameRange(animMin, animMax);
-                                };
-
-                                player_changeMotion(md2frames.stand);
-                                #endregion
-
-
-                                scene.add(player_mesh);
-
-                                var theta = 0;
-
-                                //var clock = new THREE.Clock();
-
-                                var clock = new Stopwatch();
-                                clock.Start();
-
-                                #region loop
-
-
-                                Native.window.onframe += delegate
-                                {
-                                    var delta = clock.ElapsedMilliseconds * 0.001;
-                                    clock.Restart();
-
-                                    var isEndFleame = (player_motion.max == player_mesh.currentKeyframe);
-                                    var isAction = player_motion.action;
-
-                                    var x = (isAction && !isEndFleame);
-
-                                    if (!isAction || x)
-                                    {
-
-                                        player_mesh.updateAnimation(1000 * delta);
-
-                                    }
-                                    else if (player_motion.state == "freeze")
-                                    {
-
-                                        //dead...
-
-                                    }
-                                    else
-                                    {
-
-                                        player_changeMotion(player_motion);
-
-                                    }
-
-
-                                    camera.position.x = (float)(150 * Math.Sin(theta / 2 * Math.PI / 360));
-                                    camera.position.y = (float)(150 * Math.Sin(theta / 2 * Math.PI / 360));
-                                    camera.position.z = (float)(150 * Math.Cos(theta / 2 * Math.PI / 360));
-
-                                    camera.lookAt(scene.position);
-
-                                    theta++;
-
-
-
-                                    renderer.render(scene, camera);
-
-
-                                };
-
-                                #endregion
-
-
-                                var toolbar = new Toolbar();
-
-                                if (page != null)
-                                {
-                                    toolbar.Container.style.Opacity = 0.7;
-                                    toolbar.Container.AttachToDocument();
-                                    toolbar.Container.style.position = IStyle.PositionEnum.absolute;
-                                    toolbar.Container.style.right = "0";
-                                    toolbar.Container.style.bottom = "0";
-
-                                    toolbar.HideButton.onclick +=
-                                         delegate
-                                         {
-                                             // ScriptCoreLib.Extensions
-                                             toolbar.HideTarget.ToggleVisible();
-                                         };
-
-
-                                    Action<IHTMLButton, motion> bind =
-                                        (btn, value) => btn.onclick += delegate { player_changeMotion(value); };
-
-                                    bind(toolbar.Stand, md2frames.stand);
-                                    bind(toolbar.Run, md2frames.run);
-                                    bind(toolbar.Attack, md2frames.attack);
-                                    bind(toolbar.Pain1, md2frames.pain1);
-                                    bind(toolbar.Pain2, md2frames.pain2);
-                                    bind(toolbar.Pain3, md2frames.pain3);
-                                    bind(toolbar.Jump, md2frames.jump);
-                                    bind(toolbar.Flip, md2frames.flip);
-                                    bind(toolbar.Salute, md2frames.salute);
-                                    bind(toolbar.Taunt, md2frames.taunt);
-                                    bind(toolbar.Wave, md2frames.wave);
-                                    bind(toolbar.Point, md2frames.point);
-                                    bind(toolbar.Crstand, md2frames.crstand);
-                                    bind(toolbar.Crwalk, md2frames.crwalk);
-                                    bind(toolbar.Crattack, md2frames.crattack);
-                                    bind(toolbar.Crpain, md2frames.crpain);
-                                    bind(toolbar.Crdeath, md2frames.crdeath);
-                                    bind(toolbar.Death1, md2frames.death1);
-                                    bind(toolbar.Death2, md2frames.death2);
-                                    bind(toolbar.Death3, md2frames.death3);
-                                }
-
+                                player_mesh.updateAnimation(1000 * delta);
 
                             }
-                        )
-                    )
+                            else if (player_motion.state == "freeze")
+                            {
+
+                                //dead...
+
+                            }
+                            else
+                            {
+
+                                player_changeMotion(player_motion);
+
+                            }
+
+
+                            camera.position.x = (float)(150 * Math.Sin(theta / 2 * Math.PI / 360));
+                            camera.position.y = (float)(150 * Math.Sin(theta / 2 * Math.PI / 360));
+                            camera.position.z = (float)(150 * Math.Cos(theta / 2 * Math.PI / 360));
+
+                            camera.lookAt(scene.position);
+
+                            theta++;
+
+
+
+                            renderer.render(scene, camera);
+
+
+                        };
+
+                        #endregion
+
+                        #region Toolbar
+                        var toolbar = new Toolbar();
+
+                        if (page != null)
+                        {
+                            toolbar.Container.style.Opacity = 0.7;
+                            toolbar.Container.AttachToDocument();
+                            toolbar.Container.style.position = IStyle.PositionEnum.absolute;
+                            toolbar.Container.style.right = "0";
+                            toolbar.Container.style.bottom = "0";
+
+                            toolbar.HideButton.onclick +=
+                                    delegate
+                                    {
+                                        // ScriptCoreLib.Extensions
+                                        toolbar.HideTarget.ToggleVisible();
+                                    };
+
+
+                            Action<IHTMLButton, motion> bind =
+                                (btn, value) => btn.onclick += delegate { player_changeMotion(value); };
+
+                            bind(toolbar.Stand, md2frames.stand);
+                            bind(toolbar.Run, md2frames.run);
+                            bind(toolbar.Attack, md2frames.attack);
+                            bind(toolbar.Pain1, md2frames.pain1);
+                            bind(toolbar.Pain2, md2frames.pain2);
+                            bind(toolbar.Pain3, md2frames.pain3);
+                            bind(toolbar.Jump, md2frames.jump);
+                            bind(toolbar.Flip, md2frames.flip);
+                            bind(toolbar.Salute, md2frames.salute);
+                            bind(toolbar.Taunt, md2frames.taunt);
+                            bind(toolbar.Wave, md2frames.wave);
+                            bind(toolbar.Point, md2frames.point);
+                            bind(toolbar.Crstand, md2frames.crstand);
+                            bind(toolbar.Crwalk, md2frames.crwalk);
+                            bind(toolbar.Crattack, md2frames.crattack);
+                            bind(toolbar.Crpain, md2frames.crpain);
+                            bind(toolbar.Crdeath, md2frames.crdeath);
+                            bind(toolbar.Death1, md2frames.death1);
+                            bind(toolbar.Death2, md2frames.death2);
+                            bind(toolbar.Death3, md2frames.death3);
+                        }
+                        #endregion
+
+
+
+                    }
+                )
             );
 
 

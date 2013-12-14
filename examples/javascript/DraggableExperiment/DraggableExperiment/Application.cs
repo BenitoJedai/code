@@ -38,7 +38,7 @@ namespace DraggableExperiment
 
             //if (page == null)
             //{
-            Native.Window.alert("DraggableExperiment");
+            Native.window.alert("DraggableExperiment");
             //    return;
             //}
 
