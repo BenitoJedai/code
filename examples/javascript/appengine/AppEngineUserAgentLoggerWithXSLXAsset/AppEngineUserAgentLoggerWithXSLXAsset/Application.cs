@@ -57,6 +57,26 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                         DataSource = data.DataSource,
                     }.AttachControlToDocument();
 
+                    var reset = new IHTMLButton { "reset" }.AttachToDocument();
+
+                    reset.style.position = IStyle.PositionEnum.absolute;
+                    reset.style.right = "1em";
+                    reset.style.top = "1em";
+                    reset.style.zIndex = 100;
+
+                    reset.WhenClicked(
+                        async delegate
+                        {
+                            await this.Reset();
+
+                            Native.document.documentElement.Clear();
+
+                            Native.window.alert("reload");
+
+                            Native.document.location.reload();
+                        }
+                    );
+
                     Console.WriteLine("before CellDoubleClick");
 
                     #region CellDoubleClick
