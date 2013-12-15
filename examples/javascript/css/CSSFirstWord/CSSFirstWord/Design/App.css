@@ -1,0 +1,11 @@
+
+
+div[data-before-lastSpace][data-after-lastSpace]:before {
+    content: attr(data-before-lastSpace) ' ';
+    color: red;
+}
+
+div[data-before-lastSpace][data-after-lastSpace]:after {
+    content: attr(data-after-lastSpace);
+    color: blue;
+}
