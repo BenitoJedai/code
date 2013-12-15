@@ -114,8 +114,8 @@ namespace ScriptCoreLib.JavaScript.Components
                     // firefox will drag this?
 					var ItemCenterImageContainer = new IHTMLDiv().AttachTo(ItemCenterContainer);
 
-					ItemCenterImageContainer.stylerule.style.SetLocation(-1, -1);
-					ItemCenterImageContainer.stylerule.style.SetSize(400, 300);
+					ItemCenterImageContainer.css.style.SetLocation(-1, -1);
+					ItemCenterImageContainer.css.style.SetSize(400, 300);
 
 
 					var ItemImage = new StockToolboxImageTransparent64().AttachTo(ItemCenterImageContainer);

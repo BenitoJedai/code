@@ -12,10 +12,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     public class __ScrollableControl : __Control
     {
         public HScrollProperties HorizontalScroll { get; set; }
+        public VScrollProperties VerticalScroll { get; set; }
+
+        // ScrollableControl.get_VerticalScroll
 
         public __ScrollableControl()
         {
             this.HorizontalScroll = (HScrollProperties)(object)new __HScrollProperties();
+            this.VerticalScroll = (VScrollProperties)(object)new __VScrollProperties();
 
 
         }

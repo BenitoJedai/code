@@ -34,6 +34,17 @@ namespace ScriptCoreLib.JavaScript.Extensions
             //where T : ScrollableControl
             where T : Control
         {
+            if (content is Form)
+            {
+                // Error	76	Cannot convert type 'T' to 'System.Windows.Forms.Form'	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\Extensions\FormExtensions.cs	40	21	ScriptCoreLib.Extensions
+
+                AttachFormTo(
+                   (Form)(Control)content,
+                   c
+               );
+
+                return content;
+            }
             // X:\jsc.svn\examples\javascript\forms\FormsProjectTemplateExperiment\FormsProjectTemplateExperiment\Application.cs
 
             // http://stackoverflow.com/questions/16649943/css-to-set-a4-paper-size

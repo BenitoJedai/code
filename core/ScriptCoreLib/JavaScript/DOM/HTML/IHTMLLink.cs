@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 	[Script(InternalConstructor = true)]
 	public class IHTMLLink : IHTMLElement
 	{
+        
 		public string rel;
 		public string href;
 		public string type;
@@ -43,6 +44,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #region StyleSheet
         internal IStyleSheet sheet;
         internal IStyleSheet styleSheet;
+
+        // sheet: CSSStyleSheet
 
         public IStyleSheet StyleSheet
         {

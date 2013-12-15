@@ -11,7 +11,7 @@ namespace MSVSFormStyle
     {
         public static void Main(string[] args)
         {
-
+            // { Message = Method 'InternalAsNode' in type 'Abstractatech.JavaScript.FormAsPopup.HTML.Images.FromAssets.Preview' from assembly 'Abstractatech.JavaScript.FormAsPopup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation. }
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

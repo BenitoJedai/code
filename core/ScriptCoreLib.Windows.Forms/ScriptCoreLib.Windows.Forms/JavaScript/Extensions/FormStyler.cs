@@ -19,7 +19,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public IHTMLDiv CloseButton;
 
         public IHTMLDiv Caption;
-        public IHTMLDiv CaptionContent;
+
+        public IHTMLElement CaptionContent;
+
         public IHTMLDiv CaptionShadow;
 
         public IHTMLDiv TargetOuterBorder;
