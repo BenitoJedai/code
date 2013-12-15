@@ -105,7 +105,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //caption.style.backgroundColor = JSColor.System.ActiveCaption;
             Caption.style.backgroundColor = JSColor.FromRGB(0x08, 0x24, 0x6B);
 
-
+            Caption.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            Caption.style.left = 0 + "px";
+            Caption.style.top = 0 + "px";
+            Caption.style.right = 0 + "px";
+            Caption.style.height = "26px";
+            Caption.style.margin = "0px";
 
             //Caption.style.paddingTop = "6px";
             //Caption.style.paddingLeft = "26px";
@@ -126,11 +131,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             CaptionContent.style.right = 0 + "px";
             CaptionContent.style.height = "26px";
             CaptionContent.style.margin = "0px";
-            CaptionContent.style.fontSize = "normal";
+
+            CaptionContent.style.fontSize = "1em";
+            CaptionContent.style.fontWeight = "100";
 
             CaptionContent.style.backgroundColor = JSColor.None;
 
+            CaptionContent.style.font = DefaultFont.ToCssString();
+
             (CaptionContent.style as dynamic).textOverflow = "ellipsis";
+
+
 
             //CaptionContent.style.WithDynamic(
             //    style => style.textOverflow = "ellipsis"
@@ -278,8 +289,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
               };
             #endregion
 
-            //HTMLTarget.style.backgroundColor = "#B0B0B0";
-            this.BackColor = Color.FromArgb(0xD6, 0xD3, 0xCE);
+
 
             #region CloseButton
             InternalCloseButton = new IHTMLDiv { name = "CloseButton" };
@@ -399,6 +409,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var DragStartMaximized = false;
             var DragStartMaximizedY = 0;
+
+
+
+            this.MaximizeBox = true;
+            this.InternalControlBox = true;
 
             #region DragStart
             InternalCaptionDrag.DragStartValidate +=
@@ -672,7 +687,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
 
-            this.Size = new Size(400, 400);
+
+
+
+
 
             this.InternalStyler = new FormStyler
             {
@@ -692,6 +710,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 TargetResizerPadding = TargetResizerPadding
             };
+
+
+            //HTMLTarget.style.backgroundColor = "#B0B0B0";
+            this.BackColor = Color.FromArgb(0xD6, 0xD3, 0xCE);
+
+            this.Size = new Size(400, 400);
+
 
             FormStyler.RaiseAtFormCreated(
                 this.InternalStyler

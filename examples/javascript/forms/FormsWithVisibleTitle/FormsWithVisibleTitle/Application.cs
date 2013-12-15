@@ -222,7 +222,7 @@ namespace FormsWithVisibleTitle
                                     //BackColor = Color.FromArgb(20, 255, 255, 255)
                                 };
 
-                        
+
                                 __Form ff = f.AttachControlTo(page.content);
 
 
@@ -247,7 +247,9 @@ namespace FormsWithVisibleTitle
                                 ff.InternalStyler.Caption.style.backgroundColor = "";
 
                                 // make it large. how large?
-                                //ff.InternalStyler.CaptionContent.style.fontSize = "22pt";
+                                // liberation of inline style
+                                ff.InternalStyler.CaptionContent.style.font = "";
+                                ff.InternalStyler.CaptionContent.style.fontSize = "";
                                 ff.InternalStyler.CaptionContent.style.lineHeight = "";
 
                                 // magic

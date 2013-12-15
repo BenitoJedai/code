@@ -71,6 +71,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected override void InternalSetBackgroundColor(Color value)
         {
+            InternalStyler.TargetInnerBorder.style.backgroundColor = value.ToString();
             ContentContainerPadding.style.backgroundColor = value.ToString();
 
             //TargetOuterBorder.style.backgroundColor = value.ToString();

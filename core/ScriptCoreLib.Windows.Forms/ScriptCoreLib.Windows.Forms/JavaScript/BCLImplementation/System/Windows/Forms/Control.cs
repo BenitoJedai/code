@@ -178,7 +178,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-      
+
         protected void UpdateStyles()
         {
         }
@@ -585,14 +585,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 Console.WriteLine("InternalChildrenAnchorUpdate: DockStyle.Fill");
                 //c.SetBounds(0, 0, width, height);
 
-                __c.outer_style.width = "";
-                __c.outer_style.height = "";
 
                 __c.outer_style.left = "0px";
                 __c.outer_style.top = "0px";
 
-                __c.outer_style.right = "0px";
-                __c.outer_style.bottom = "0px";
+                //__c.HTMLTargetRef.setAttribute("hint-Dock", "DockStyle.Fill " + new { c.GetHTMLTarget().nodeName });
+                // hint-dock="DockStyle.Fill { nodeName = IFRAME }"
+
+                if (c.GetHTMLTarget().nodeName.ToLower() == "iframe")
+                {
+                    // iframes are special?
+                    // X:\jsc.svn\examples\javascript\forms\MSVSFormStyle\MSVSFormStyle\ApplicationControl.cs
+
+                    __c.outer_style.width = "100%";
+                    __c.outer_style.height = "100%";
+                }
+                else
+                {
+
+                    __c.outer_style.width = "";
+                    __c.outer_style.height = "";
+
+
+                    __c.outer_style.right = "0px";
+                    __c.outer_style.bottom = "0px";
+                }
 
                 // X:\jsc.svn\examples\javascript\forms\FormsWithVisibleTitle\FormsWithVisibleTitle\Application.cs
 
