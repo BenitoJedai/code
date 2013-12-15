@@ -23,9 +23,8 @@ namespace MSVSFormStyle
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationControl content = new ApplicationControl();
 
@@ -236,7 +235,7 @@ namespace MSVSFormStyle
 
 
 
-
+            // this wont work
             Native.document.getElementsByTagName("script")
                 .Select(k => (IHTMLScript)k)
                 .FirstOrDefault(k => k.src.EndsWith("/view-source"))

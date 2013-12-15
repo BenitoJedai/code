@@ -282,13 +282,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 this.__RowsTable_css_td.style.borderBottom = "1px solid " + value.ToString();
                 this.__RowsTable_css_td.style.borderRight = "1px solid " + value.ToString();
+                this.__RowsTable_css_td.style.borderLeft = "1px solid " + value.ToString();
 
                 this.__ColumnsTable_css_td.style.borderRight = "1px solid " + value.ToString();
                 this.__ColumnsTable_css_td.style.borderBottom = "1px solid " + value.ToString();
+                this.__ColumnsTable_css_td.style.borderTop = "1px solid " + value.ToString();
 
 
-                this.__Corner.style.borderRight = "1px solid " + value.ToString();
-                this.__Corner.style.borderBottom = "1px solid " + value.ToString();
+                this.__Corner.style.border = "1px solid " + value.ToString();
             }
         }
         #endregion

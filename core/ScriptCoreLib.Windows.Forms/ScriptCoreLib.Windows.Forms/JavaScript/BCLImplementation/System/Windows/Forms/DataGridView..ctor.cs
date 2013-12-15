@@ -392,8 +392,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 if (!this.InternalRowHeadersVisible)
                     value = 4;
 
-
-                __Corner.style.width = (value - 1) + "px";
+                // has 2 borders
+                __Corner.style.width = (value - 2) + "px";
 
                 __ColumnsTable.style.paddingLeft = value + "px";
                 __ContentTable.style.paddingLeft = value + "px";

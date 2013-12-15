@@ -73,6 +73,10 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.GetPreferredSize.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.Layout.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form..ctor.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\VScrollProperties.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellFormattingEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridViewCellFormattingEventArgs.cs" />
@@ -100,6 +104,8 @@
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ConvertEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\LayoutEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\LayoutEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\IDataObject.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\DragEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\DragEventArgs.cs" />

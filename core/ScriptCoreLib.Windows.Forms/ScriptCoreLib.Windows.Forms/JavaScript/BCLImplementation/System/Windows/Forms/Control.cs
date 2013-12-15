@@ -44,9 +44,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
-    public class __Control : __Component
+    public partial class __Control : __Component
     {
-
+        public IStyle outer_style
+        {
+            get { return this.HTMLTargetRef.style; }
+        }
 
         public bool Capture { get; set; }
 
@@ -175,24 +178,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-        public void PerformLayout()
-        {
-
-        }
-
-        bool InternalLayoutSuspended;
-
-        public void SuspendLayout()
-        {
-            InternalLayoutSuspended = true;
-
-        }
-
-        public void ResumeLayout(bool b)
-        {
-            InternalLayoutSuspended = false;
-
-        }
+      
         protected void UpdateStyles()
         {
         }
@@ -312,23 +298,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-        public virtual Size GetPreferredSize(Size proposedSize)
-        {
-            // tested by
-            // X:\jsc.svn\examples\javascript\forms\Test\TestGrowingGrid\TestGrowingGrid\ApplicationControl.cs
 
-            return this.Size;
-        }
-
-        public Size PreferredSize
-        {
-            get
-            {
-                var proposedSize = new Size(0, 0);
-
-                return GetPreferredSize(proposedSize);
-            }
-        }
 
         public int Bottom
         {
@@ -521,7 +491,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 //throw new Exception("Html element not set: " + this.Name);
 
-                this.HTMLTargetRef.style.SetSize(width, height);
+                var this_as_Form = this as __Form;
+                if ((this_as_Form != null) && this_as_Form.WindowState == FormWindowState.Maximized)
+                {
+                    // X:\jsc.svn\examples\javascript\forms\FormsWithVisibleTitle\FormsWithVisibleTitle\Application.cs
+                    // skip it for now
+                }
+                else
+                {
+                    this.HTMLTargetRef.style.SetSize(width, height);
+                }
 
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131005-chrome-frame-server
                 // chrome app? may not have render frames
@@ -593,6 +572,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void InternalChildrenAnchorUpdate(int width, int height, int dx, int dy, Control c)
         {
+            __Control __c = c;
+
             dx = width - InternalChildrenAnchorUpdate_width;
             dy = height - InternalChildrenAnchorUpdate_height;
 
@@ -601,8 +582,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (c.Dock == DockStyle.Fill)
             {
-                //Console.WriteLine("InternalChildrenAnchorUpdate: " + new { c, width, height });
-                c.SetBounds(0, 0, width, height);
+                Console.WriteLine("InternalChildrenAnchorUpdate: DockStyle.Fill");
+                //c.SetBounds(0, 0, width, height);
+
+                __c.outer_style.width = "";
+                __c.outer_style.height = "";
+
+                __c.outer_style.left = "0px";
+                __c.outer_style.top = "0px";
+
+                __c.outer_style.right = "0px";
+                __c.outer_style.bottom = "0px";
+
+                // X:\jsc.svn\examples\javascript\forms\FormsWithVisibleTitle\FormsWithVisibleTitle\Application.cs
+
+                // do we have a test
+                // to go back from fill, and what about events?
+
                 return;
             }
 
@@ -1608,6 +1604,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         protected virtual void SetClientSizeCore(Size s)
         {
             this.Size = this.SizeFromClientSize(s);
+
             this.clientWidth = x;
             this.clientHeight = y;
             this.OnClientSizeChanged(null /* bug */);

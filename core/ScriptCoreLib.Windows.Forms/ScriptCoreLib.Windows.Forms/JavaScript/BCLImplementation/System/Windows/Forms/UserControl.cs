@@ -16,6 +16,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLDiv HTMLTarget { get; set; }
 
+        [Obsolete("rename to outerNode?")]
         public override IHTMLElement HTMLTargetRef
         {
             get
@@ -27,11 +28,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __UserControl()
         {
-            HTMLTarget = new IHTMLDiv();
+            this.HTMLTarget = new IHTMLDiv();
 
-			// Are we being inserted to HTML?
-			HTMLTarget.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
-            HTMLTarget.style.overflow = DOM.IStyle.OverflowEnum.hidden;
+            // X:\jsc.svn\examples\javascript\forms\FormsWithVisibleTitle\FormsWithVisibleTitle\Application.cs
+            // Are we being inserted to HTML?
+            this.outer_style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            this.outer_style.overflow = DOM.IStyle.OverflowEnum.hidden;
 
             //HTMLTarget.style.border = "1px dotted gray";
             this.InternalSetDefaultFont();
@@ -91,6 +93,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event EventHandler Load;
         #endregion
 
-
+    
     }
 }

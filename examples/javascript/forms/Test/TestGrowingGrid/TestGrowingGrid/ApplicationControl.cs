@@ -38,11 +38,19 @@ namespace TestGrowingGrid
                  );
 
 
-                this.panel1.Size = this.dataGridView1.PreferredSize;
-                this.dataGridView1.Size = this.dataGridView1.PreferredSize;
+                var p = this.dataGridView1.PreferredSize;
+
+                // ? grow only?
+                //p.Width = Math.Max(this.Width - this.dataGridView1.Left - 3, p.Width);
+                p.Width = Math.Max(300, p.Width);
+
+                this.panel1.Size = p;
+
+                this.dataGridView1.Size = this.panel1.Size;
 
                 this.button1.Text = new { data.Rows.Count, this.panel1.Size }.ToString();
 
+                this.SuspendLayout();
                 ControlsBelowThisPoint.WithEach(
                     x =>
                     {
@@ -50,7 +58,10 @@ namespace TestGrowingGrid
                     }
                 );
 
+                // by now our PreferredSize has changed.
 
+                this.ResumeLayout(performLayout: true);
+                //this.PerformLayout();
             };
 
             dataGridView1.ColumnWidthChanged +=
