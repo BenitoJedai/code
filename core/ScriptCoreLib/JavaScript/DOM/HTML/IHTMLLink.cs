@@ -46,7 +46,6 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         internal IStyleSheet styleSheet;
 
         // sheet: CSSStyleSheet
-
         public IStyleSheet StyleSheet
         {
             [Script(DefineAsStatic = true)]
