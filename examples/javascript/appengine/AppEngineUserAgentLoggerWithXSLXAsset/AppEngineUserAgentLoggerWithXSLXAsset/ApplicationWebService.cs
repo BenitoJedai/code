@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -104,6 +105,23 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             public DataTable DataSource;
 
             public Design.Book1BSheet1Key visit;
+        }
+
+        public Task Reset()
+        {
+            Console.WriteLine("Reset");
+
+            return new AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet1.Queries().WithConnection(
+                c =>
+                {
+
+                    // http://www.w3schools.com/sql/sql_drop.asp
+                    var _Sheet1 = new SQLiteCommand("drop table `" + AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet1.Queries.QualifiedTableName + "`", c).ExecuteNonQuery();
+                    var _Sheet2 = new SQLiteCommand("drop table `" + AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet2.Queries.QualifiedTableName + "`", c).ExecuteNonQuery();
+
+                    return default(object).ToTaskResult();
+                }
+            );
         }
 
         public Task<NotifyTuple> Notfiy()
