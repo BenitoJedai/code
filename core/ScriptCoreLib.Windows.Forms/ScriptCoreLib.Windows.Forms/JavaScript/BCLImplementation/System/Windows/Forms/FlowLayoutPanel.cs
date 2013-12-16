@@ -88,7 +88,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             var x = item.GetHTMLTarget();
 
-            x.style.verticalAlign = "top";
+            // counter productive?
+            //x.style.verticalAlign = "top";
 
             if (FlowDirection == global::System.Windows.Forms.FlowDirection.LeftToRight)
             {
