@@ -391,6 +391,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event DataGridViewCellEventHandler CellDoubleClick;
         public event DataGridViewCellEventHandler CellContentClick;
+        public event DataGridViewCellEventHandler CellClick;
         public event DataGridViewCellEventHandler CellEndEdit;
         public event DataGridViewCellCancelEventHandler CellBeginEdit;
         public event DataGridViewCellEventHandler CellValueChanged;

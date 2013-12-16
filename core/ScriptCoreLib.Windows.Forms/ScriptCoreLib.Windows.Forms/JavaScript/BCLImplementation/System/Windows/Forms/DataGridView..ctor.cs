@@ -1013,7 +1013,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             if (!ev.ctrlKey)
                                 if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
                                 {
-                                    ev.PreventDefault();
+                                    ev.preventDefault();
+
+                                    if (this.CellClick != null)
+                                        this.CellClick(this, new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index));
+
+
 
                                     SourceCell.InternalContentContainer.focus();
 
