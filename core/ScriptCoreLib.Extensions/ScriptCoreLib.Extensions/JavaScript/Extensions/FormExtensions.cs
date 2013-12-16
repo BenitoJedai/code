@@ -14,14 +14,25 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public static T AttachFormTo<T>(this T f, IHTMLElement c)
             where T : System.Windows.Forms.Form
         {
+            // tested by
+            // X:\jsc.svn\examples\javascript\Test\TestSolutionBuilder\TestSolutionBuilderV1\Views\StudioView.cs
+
+            // we need internal method to prevent a glitch. why is the glitch??
+            InternalAttachFormTo(f, c);
+
+            return f;
+        }
+
+        static void InternalAttachFormTo(this System.Windows.Forms.Form f, IHTMLElement c)
+        {
 
             f.GetHTMLTarget().AttachTo(c);
 
             f.Show();
             f.WindowState = FormWindowState.Maximized;
 
-            return f;
         }
+
 
         public static T AttachControlToDocument<T>(this T content)
             //where T : ScrollableControl
@@ -38,7 +49,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
             {
                 // Error	76	Cannot convert type 'T' to 'System.Windows.Forms.Form'	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\Extensions\FormExtensions.cs	40	21	ScriptCoreLib.Extensions
 
-                AttachFormTo(
+                InternalAttachFormTo(
                    (Form)(Control)content,
                    c
                );

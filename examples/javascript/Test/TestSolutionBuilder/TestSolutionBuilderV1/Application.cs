@@ -1,11 +1,4 @@
-// For more information visit:
-// http://studio.jsc-solutions.net
-
-// View as Visual Basic project
-// http://do.jsc-solutions.net/View-as-Visual-Basic-project
-
-// View as Visual FSharp project
-// http://do.jsc-solutions.net/View-as-Visual-FSharp-project
+// #define FEATURE_CHROME
 
 using System;
 using System.Text;
@@ -63,6 +56,20 @@ namespace TestSolutionBuilderV1
             #endregion
 
 
+            //---------------------------
+            //Microsoft Visual Studio Express 2012 for Windows Desktop
+            //---------------------------
+            //An exception has been encountered. This may be caused by an extension.
+
+
+
+            //You can get more information by examining the file 'C:\Users\Arvo\AppData\Roaming\Microsoft\WDExpress\11.0\ActivityLog.xml'.
+            //---------------------------
+            //OK   
+            //---------------------------
+
+
+#if FEATURE_CHROME
 
             #region ChromeTCPServer
             dynamic self = Native.self;
@@ -108,6 +115,8 @@ namespace TestSolutionBuilderV1
                 }
             }
             #endregion
+#endif
+
 
             //page.Content = new StudioView(null).Content;
             new StudioView(null).Content.AttachToDocument();
