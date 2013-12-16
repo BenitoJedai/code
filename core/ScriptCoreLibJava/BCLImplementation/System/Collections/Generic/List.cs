@@ -50,7 +50,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            this.InternalList.remove(index);
         }
 
         public T this[int index]
@@ -100,7 +100,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            return this.InternalList.remove(item);
         }
 
         public List<T>.Enumerator GetEnumerator()

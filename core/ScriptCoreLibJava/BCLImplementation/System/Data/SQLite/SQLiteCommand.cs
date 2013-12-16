@@ -8,6 +8,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using ScriptCoreLibJava.Extensions;
+using System.Threading;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
@@ -75,7 +76,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                         sql = sql.Replace(p.ParameterName, "?");
                     }
 
-                    Console.WriteLine("InternalCreateStatement " + new { sql });
+                    Console.WriteLine("InternalCreateStatement " + new { Thread.CurrentThread.ManagedThreadId, sql });
                     this.InternalPreparedStatement = this.c.InternalConnection.prepareStatement(sql);
 
                     var c = 0;
