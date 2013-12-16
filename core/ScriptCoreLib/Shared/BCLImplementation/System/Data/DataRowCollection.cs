@@ -35,7 +35,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             foreach (var item in x)
             {
                 i++;
-                row[i] = item;
+
+                var item_ToString = Convert.ToString(item);
+                row[i] = item_ToString;
             }
 
 
