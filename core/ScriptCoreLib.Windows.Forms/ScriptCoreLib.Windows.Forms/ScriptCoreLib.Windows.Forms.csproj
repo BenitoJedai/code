@@ -75,6 +75,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.GetPreferredSize.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.Layout.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\FlowLayoutPanel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form..ctor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\VScrollProperties.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs" />
