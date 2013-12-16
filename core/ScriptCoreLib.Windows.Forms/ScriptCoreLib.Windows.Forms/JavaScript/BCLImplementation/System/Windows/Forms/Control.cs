@@ -98,13 +98,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
+        //System.Windows.Forms.Control.set_Margin(System.Windows.Forms.Padding)]
 
-        private Padding padding;
+        #region Margin
+        public event EventHandler MarginChanged;
+
+        public Padding InternalMargin;
+        public Padding Margin
+        {
+            get
+            {
+                return InternalMargin;
+            }
+            set
+            {
+                this.InternalMargin = value;
+                if (MarginChanged != null)
+                    MarginChanged(this, new EventArgs());
+
+            }
+        }
+        #endregion
+
+
+
+        #region Padding
+        public event EventHandler PaddingChanged;
+
+        private Padding InternalPadding;
         public Padding Padding
         {
-            get { return padding; }
-            set { padding = value; }
+            get { return InternalPadding; }
+            set
+            {
+                InternalPadding = value;
+
+                if (PaddingChanged != null)
+                    PaddingChanged(this, new EventArgs());
+
+            }
         }
+        #endregion
+
 
 
         #region __ControlCollection
@@ -131,10 +166,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 var bg = this.Owner.GetHTMLTargetContainer();
 
-                if (bg.firstChild == null)
-                    bg.appendChild(e.GetHTMLTarget());
-                else
-                    bg.insertBefore(e.GetHTMLTarget(), bg.firstChild);
+                // why would we want to do the reverse here?
+                //if (bg.firstChild == null)
+                bg.appendChild(e.GetHTMLTarget());
+                //else
+                //bg.insertBefore(e.GetHTMLTarget(), bg.firstChild);
 
                 var c = (__Control)e;
 
@@ -480,8 +516,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (flag)
             {
-                this.HTMLTargetRef.style.SetLocation(x, y);
-
+                if (this.Parent is FlowLayoutPanel)
+                {
+                    // X:\jsc.svn\examples\javascript\forms\Test\TestLinearFlow\TestLinearFlow\ApplicationControl.cs
+                    // auto flow
+                }
+                else
+                {
+                    this.HTMLTargetRef.style.SetLocation(x, y);
+                }
 
                 this.OnLocationChanged(null);
             }
