@@ -10,6 +10,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public class IHTMLInput : IHTMLElement
     {
+        // http://true-coder.ru/html/trackbar-html5-i-ego-ispolzovanie.html
+        [System.Obsolete("available for [type=range], change type if used?")]
+        public int min;
+        public int max;
+
+
 
         public new CSSStyleRule<IHTMLInput> css
         {
