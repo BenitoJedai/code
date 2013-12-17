@@ -9,10 +9,22 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
 {
     [Script(Implements = typeof(global::System.Drawing.Bitmap))]
-    internal class __Bitmap : __Image
+    public class __Bitmap : __Image
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131217-picturebox
+
+        // just a snapshot
+        public IHTMLImage InternalImage;
+
+        // the editable
         public IHTMLCanvas InternalCanvas;
+
         public CanvasRenderingContext2D InternalContext;
+
+        public __Bitmap()
+        {
+
+        }
 
         public __Bitmap(int width, int height)
         {
@@ -28,7 +40,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
             this.InternalContext = (CanvasRenderingContext2D)this.InternalCanvas.getContext("2d");
         }
 
-        public __BitmapData InternalBitmapData;
+        internal __BitmapData InternalBitmapData;
 
         public BitmapData LockBits(Rectangle rect, ImageLockMode flags, PixelFormat format)
         {
