@@ -54,5 +54,22 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             return e;
         }
+
+        [Obsolete("experimental, what about reentry? signal the previous via scope?")]
+        public static IHTMLAnchor Historic(this IHTMLAnchor e, Action<HistoryScope<object>> yield)
+        {
+            e.onclick +=
+                delegate
+                {
+                    Native.window.history.pushState(
+                        state: new object(),
+                        url: "/#/" + e.innerText.Replace(" ", "+").ToLower(),
+                        yield: yield
+                    );
+                };
+
+
+            return e;
+        }
     }
 }
