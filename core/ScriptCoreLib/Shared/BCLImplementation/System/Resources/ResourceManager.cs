@@ -25,7 +25,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Resources
 
         }
 
-        public static Func<string, Assembly, string, object> InternalGetObject;
+        public static event Action<string, Assembly, string, Action<object>> InternalGetObject;
 
         public virtual object GetObject(string name, CultureInfo culture)
         {
@@ -34,11 +34,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Resources
             var value = default(object);
 
             if (InternalGetObject != null)
-                value = InternalGetObject(
+            {
+                InternalGetObject(
                     this.__baseName,
                     this.__assembly,
-                    name
+                    name,
+                    y => value = y
                 );
+            }
 
 
             //object obj = ResourceManager.GetObject("debitcard", resourceCulture);

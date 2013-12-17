@@ -234,6 +234,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         }
 
+        public static bool InternalDisableSelection = true;
+
+
         bool InternalInitializeContextMenuStripOnce = false;
         public void InternalInitializeContextMenuStrip()
         {
@@ -242,51 +245,54 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InternalInitializeContextMenuStripOnce = true;
 
+            if (InternalDisableSelection)
+            {
+                this.HTMLTargetRef.onselectstart +=
+                    ev =>
+                    {
+                        ev.stopPropagation();
 
-            this.HTMLTargetRef.onselectstart +=
-                ev =>
-                {
-                    ev.stopPropagation();
+                        if (this is __TextBoxBase)
+                            return;
 
-                    if (this is __TextBoxBase)
-                        return;
+                        ev.preventDefault();
+                    };
 
-                    ev.preventDefault();
-                };
+                // how much will this slow us down?
+                this.HTMLTargetRef.oncontextmenu +=
+                     e =>
+                     {
+                         e.stopPropagation();
 
-            // how much will this slow us down?
-            this.HTMLTargetRef.oncontextmenu +=
-                 e =>
-                 {
-                     e.stopPropagation();
+                         if (this is __TextBoxBase)
+                             return;
 
-                     if (this is __TextBoxBase)
-                         return;
+                         e.preventDefault();
 
-                     e.preventDefault();
+                         if (this.ContextMenuStrip == null)
+                             return;
 
-                     if (this.ContextMenuStrip == null)
-                         return;
+                         var m = (__ContextMenuStrip)(object)this.ContextMenuStrip;
 
-                     var m = (__ContextMenuStrip)(object)this.ContextMenuStrip;
+                         var div = m.HTMLTargetRef.AttachToDocument();
 
-                     var div = m.HTMLTargetRef.AttachToDocument();
+                         div.style.SetLocation(
+                             e.CursorX,
+                             e.CursorY
+                         );
 
-                     div.style.SetLocation(
-                         e.CursorX,
-                         e.CursorY
-                     );
+                         div.tabIndex = 0;
 
-                     div.tabIndex = 0;
+                         div.onblur +=
+                             delegate
+                             {
+                                 div.Orphanize();
+                             };
 
-                     div.onblur +=
-                         delegate
-                         {
-                             div.Orphanize();
-                         };
+                         div.focus();
+                     };
+            }
 
-                     div.focus();
-                 };
         }
 
         protected int x;
