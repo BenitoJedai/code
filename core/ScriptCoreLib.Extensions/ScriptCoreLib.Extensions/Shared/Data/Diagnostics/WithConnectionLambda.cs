@@ -11,6 +11,16 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     public static class WithConnectionLambda
     {
 
+        public static long GetInt64OrDefault(System.Data.DataRow e, string ColumnName, long defaultValue)
+        {
+            if (e.Table.Columns.Contains(ColumnName))
+            {
+                return Convert.ToInt64(e[ColumnName]);
+            }
+
+            return defaultValue;
+        }
+
         public static object ConvertDBNullToNullIfAny(object e)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-dbnull

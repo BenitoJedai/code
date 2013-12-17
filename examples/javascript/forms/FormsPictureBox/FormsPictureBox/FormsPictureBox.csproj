@@ -151,7 +151,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="web\assets\FormsPictureBox\debitcard.jpg" />
+    <Content Include="__Resources_AssetsLibrary__\debitcard.jpg" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

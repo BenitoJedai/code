@@ -31,22 +31,13 @@ namespace FormsPictureBox
         static Application()
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131217-picturebox
-            ScriptCoreLib.Shared.BCLImplementation.System.Resources.__ResourceManager.InternalGetObject =
-                (string baseName, Assembly assembly, string name) =>
-                {
-                    var x = default(object);
-
-                    // this is what jsc should we for us
-                    if (name == "debitcard")
-                    {
-                        x = new ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing.__Bitmap
-                        {
-                            InternalImage = new IHTMLImage("assets/FormsPictureBox/debitcard.jpg")
-                        };
-                    }
-
-                    return x;
-                };
+            // this is what jsc should we for us
+            ScriptCoreLib.Shared.BCLImplementation.System.Resources.__ResourceManager.InternalGetObject +=
+                (string baseName, Assembly assembly, string name, Action<object> yield) =>
+                     new HTML.Pages._ResourcesAssetsLibraryImages().ImageElements()
+                     .Where(guess => guess.src.Contains("/" + name + "."))
+                     .Select(x => (ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing.__Bitmap)x)
+                     .WithEach(yield);
         }
 
         /// <summary>

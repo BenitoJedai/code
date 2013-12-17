@@ -16,6 +16,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         // just a snapshot
         public IHTMLImage InternalImage;
 
+        public static implicit operator __Bitmap(IHTMLImage x)
+        {
+            // Error	5	The type 'System.Xml.Linq.XElement' is defined in an assembly that is not referenced. You must add a reference to assembly 'System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.	X:\jsc.svn\core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\JavaScript\BCLImplementation\System\Drawing\Bitmap.cs	21	13	ScriptCoreLib.Drawing
+            if (x == null)
+                return null;
+
+            return new __Bitmap { InternalImage = x };
+        }
+
         // the editable
         public IHTMLCanvas InternalCanvas;
 
