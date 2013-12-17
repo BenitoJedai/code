@@ -53,11 +53,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalElement.style.setProperty("-webkit-appearance", "none", "");
             this.InternalElement.style.setProperty("-moz-apperance", "none", "");
 
+            this.InternalElement.onchange +=
+                delegate
+                {
+                    if (ValueChanged != null)
+                        ValueChanged(this, new EventArgs());
+                };
+
 
             this.Size = new global::System.Drawing.Size(80, 20);
         }
 
-
+        public event EventHandler ValueChanged;
+        public int Value
+        {
+            get { return Convert.ToInt32(this.InternalElement.value); }
+            set
+            {
+                (this.InternalElement as dynamic).value = value;
+                if (ValueChanged != null)
+                    ValueChanged(this, new EventArgs());
+            }
+        }
 
         public int Maximum
         {
