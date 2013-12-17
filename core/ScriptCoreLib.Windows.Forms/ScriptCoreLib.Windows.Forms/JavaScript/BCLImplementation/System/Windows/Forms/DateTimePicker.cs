@@ -13,8 +13,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         public IHTMLInput HTMLTarget { get; set; }
 
-        internal IHTMLInput datePicker;
-
         public override IHTMLElement HTMLTargetRef
         {
             get
@@ -25,8 +23,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __DateTimePicker()
         {
-            HTMLTarget = new IHTMLInput();
-            HTMLTarget.type = Shared.HTMLInputTypeEnum.date;
+            this.HTMLTarget = new IHTMLInput
+            {
+                type = Shared.HTMLInputTypeEnum.date
+            };
+
             this.Size = new global::System.Drawing.Size(80, 20);
         }
 
