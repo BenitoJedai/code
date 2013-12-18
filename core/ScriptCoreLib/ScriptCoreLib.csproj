@@ -89,6 +89,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Int64.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodBase.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="ActionScript\flash\system\WorkerDomain.cs" />
