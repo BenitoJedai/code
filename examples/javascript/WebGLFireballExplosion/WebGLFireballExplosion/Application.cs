@@ -87,7 +87,7 @@ namespace WebGLFireballExplosion
             var scene = new THREE.Scene();
             var bkgScene = new THREE.Scene();
 
-            var camera = new THREE.PerspectiveCamera(fov, Native.window.Width / Native.window.Height, 1, 10000);
+            var camera = new THREE.PerspectiveCamera(fov, Native.window.aspect, 1, 10000);
             camera.position.z = 100;
             //camera.target = new THREE.Vector3(0, 0, 0);
 
@@ -172,22 +172,8 @@ namespace WebGLFireballExplosion
 
             container.appendChild(renderer.domElement);
 
-            //    container.addEventListener( 'mousedown', onMouseDown, false );
-            //    container.addEventListener( 'mousemove', onMouseMove, false );
-            //    container.addEventListener( 'mouseup', onMouseUp, false );
-            //    container.addEventListener( 'mousewheel', onMouseWheel, false );
-            //    container.addEventListener( 'DOMMouseScroll', onMouseWheel, false);
-            //    window.addEventListener( 'resize', onWindowResize, false );
-
-            //    stats = new Stats();
-            //    stats.domElement.style.position = 'absolute';
-            //    stats.domElement.style.top = '0px';
-            //    //container.appendChild( stats.domElement );
-
-            //var onMouseDownMouseX = 0, onMouseDownMouseY = 0,
+          
             var lon = 0.0;
-            // onMouseDownLon = 0,
-            // onMouseDownLat = 0,
             var phi = 0.0;
             var theta = 0.0;
             var lat = 15.0;
@@ -229,73 +215,6 @@ namespace WebGLFireballExplosion
             #endregion
 
 
-            //function onWindowResize() {
-            //    renderer.setSize( window.innerWidth, window.innerHeight );
-            //    camera.projectionMatrix.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-            //}
-
-            //function onMouseWheel( event ) {
-
-            //    // WebKit
-
-            //    if ( event.wheelDeltaY ) {
-
-            //        fov -= event.wheelDeltaY * 0.01;
-
-            //    // Opera / Explorer 9
-
-            //    } else if ( event.wheelDelta ) {
-
-            //        fov -= event.wheelDelta * 0.05;
-
-            //    // Firefox
-
-            //    } else if ( event.detail ) {
-
-            //        fov += event.detail * 1.0;
-
-            //    }
-
-            //    camera.projectionMatrix.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-
-            //}
-
-
-
-            //function onMouseDown( event ) {
-
-            //    event.preventDefault();
-
-            //    isUserInteracting = true;
-
-            //    onPointerDownPointerX = event.clientX;
-            //    onPointerDownPointerY = event.clientY;
-
-            //    onPointerDownLon = lon;
-            //    onPointerDownLat = lat;
-
-            //}
-
-            //function onMouseMove( e ) {
-
-            //    if ( isUserInteracting ) {
-
-            //        lon = ( e.clientX - onPointerDownPointerX ) * 0.1 + onPointerDownLon;
-            //        lat = ( e.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
-
-            //    }
-
-            //    //material.uniforms[ 'weight' ].value = e.pageX * 10.0 / window.innerWidth;;
-
-            //}
-
-            //function onMouseUp( event ) {
-
-            //    isUserInteracting = false;
-
-            //}
-
-
 
             #region IsDisposed
 
@@ -324,13 +243,13 @@ namespace WebGLFireballExplosion
 
                 renderer.setSize(Native.window.Width, Native.window.Height);
 
-                camera.projectionMatrix.makePerspective(fov, Native.window.Width / Native.window.Height, 1, 1100);
+                camera.projectionMatrix.makePerspective(fov, Native.window.aspect, 1, 1100);
 
                 //camera.aspect = Native.Window.Width / Native.Window.Height;
                 //camera.updateProjectionMatrix();
             };
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();
@@ -339,20 +258,7 @@ namespace WebGLFireballExplosion
             AtResize();
             #endregion
 
-            #region requestFullscreen
-            Native.Document.body.ondblclick +=
-                delegate
-                {
-                    if (IsDisposed)
-                        return;
 
-                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
-
-                    Native.Document.body.requestFullscreen();
-
-                    //AtResize();
-                };
-            #endregion
 
 
 

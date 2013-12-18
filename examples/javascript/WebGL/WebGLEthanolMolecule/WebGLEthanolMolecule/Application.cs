@@ -188,7 +188,7 @@ namespace WebGLEthanolMolecule
             #region drawScene
             Action drawScene = delegate
             {
-                gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
+                gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
 
                 #region prMatrix
                 gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
@@ -340,7 +340,7 @@ false, new Float32Array(prMatrix.getAsArray()));
                     gl_viewportHeight = Native.window.Height;
 
                     prMatrix = new CanvasMatrix4();
-                    prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
+                    prMatrix.perspective(45f, (f)Native.window.aspect, 1f, 100f);
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
