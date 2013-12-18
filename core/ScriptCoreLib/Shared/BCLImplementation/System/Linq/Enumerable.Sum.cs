@@ -8,11 +8,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
 
 
-     static partial class __Enumerable
+    static partial class __Enumerable
     {
         public static int Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
         {
             var r = default(int);
+
+            foreach (var i in source.AsEnumerable()) r += selector(i);
+
+            return r;
+        }
+
+        public static float Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, float> selector)
+        {
+            var r = default(float);
 
             foreach (var i in source.AsEnumerable()) r += selector(i);
 
