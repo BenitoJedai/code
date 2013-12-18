@@ -188,35 +188,6 @@ namespace ScriptCoreLib.Ultra.WebService
             #endregion
 
 
-            #region favicon
-            if (Path == "/favicon.ico")
-            {
-                Context.Response.WriteFile("assets/ScriptCoreLib/jsc.ico");
-
-                that.CompleteRequest();
-                return;
-            }
-            #endregion
-
-
-
-            #region robots
-            if (Path == "/robots.txt")
-            {
-                Context.Response.StatusCode = 404;
-                that.CompleteRequest();
-                return;
-            }
-            #endregion
-
-            #region crossdomain
-            if (Path == "/crossdomain.xml")
-            {
-                Context.Response.StatusCode = 404;
-                that.CompleteRequest();
-                return;
-            }
-            #endregion
 
 
             StringAction Write =
@@ -233,13 +204,6 @@ namespace ScriptCoreLib.Ultra.WebService
                     Write(e + Environment.NewLine);
                 };
 
-            #region WriteCacheManifest
-            if (Path == "/" + WebApplicationCacheManifest.ManifestName)
-            {
-                WriteCacheManifest(g, that, WriteLine);
-                return;
-            }
-            #endregion
 
 
 
@@ -671,6 +635,45 @@ namespace ScriptCoreLib.Ultra.WebService
                 return;
 
 
+            #region /favicon.ico
+            if (Path == "/favicon.ico")
+            {
+                Context.Response.WriteFile("assets/ScriptCoreLib/jsc.ico");
+
+                that.CompleteRequest();
+                return;
+            }
+            #endregion
+
+
+
+            #region /robots.txt
+            if (Path == "/robots.txt")
+            {
+                Context.Response.StatusCode = 404;
+                that.CompleteRequest();
+                return;
+            }
+            #endregion
+
+            #region /crossdomain.xml
+            if (Path == "/crossdomain.xml")
+            {
+                Context.Response.StatusCode = 404;
+                that.CompleteRequest();
+                return;
+            }
+            #endregion
+
+            #region WriteCacheManifest
+            if (Path == "/" + WebApplicationCacheManifest.ManifestName)
+            {
+                WriteCacheManifest(g, that, WriteLine);
+                return;
+            }
+            #endregion
+
+
 
             if (that.Request.Path == "/jsc")
             {
@@ -693,6 +696,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 return;
             }
             #endregion
+
 
             if (handler.IsDefaultPath)
             {
