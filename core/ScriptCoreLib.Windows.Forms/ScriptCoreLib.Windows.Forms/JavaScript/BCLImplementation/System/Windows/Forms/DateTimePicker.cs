@@ -27,6 +27,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 type = Shared.HTMLInputTypeEnum.date
             };
+            this.HTMLTarget.style.border = "1px solid gray";
 
             this.Size = new global::System.Drawing.Size(80, 20);
         }

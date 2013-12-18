@@ -8,7 +8,7 @@ using System.Windows.Forms.VisualStyles;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ButtonBase))]
-    internal class __ButtonBase : __Control
+    public class __ButtonBase : __Control
     {
         public FlatButtonAppearance FlatAppearance { get; set; }
         public bool UseVisualStyleBackColor { get; set; }

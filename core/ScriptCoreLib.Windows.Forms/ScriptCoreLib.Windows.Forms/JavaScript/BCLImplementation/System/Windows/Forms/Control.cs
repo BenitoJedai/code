@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.Drawing;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+using ScriptCoreLib.JavaScript.Drawing;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -1680,6 +1681,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual void OnClientSizeChanged(EventArgs e)
         {
+            // are we supposed to honor anchors here?
+            // X:\jsc.svn\examples\javascript\forms\FormsCentering\FormsCentering\ApplicationControl.cs
+
             InternalRaiseClientSizeChanged(e);
         }
 

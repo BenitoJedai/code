@@ -3,41 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using System.Drawing;
+using ScriptCoreLib.JavaScript.Drawing;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    using ScriptCoreLib.JavaScript.DOM.HTML;
-    using System.Drawing;
+
 
     [Script(Implements = typeof(global::System.Windows.Forms.Button))]
-    internal class __Button : __ButtonBase
+    public class __Button : __ButtonBase
     {
         object __ButtonTypeHint;
 
-        public IHTMLButton HTMLTarget { get; set; }
+        public IHTMLButton InternalButton;
 
-        public __Button()
-        {
-            HTMLTarget = new IHTMLButton();
-            HTMLTarget.style.padding = "0";
-
-            this.InternalSetDefaultFont();
-
-            var FlatAppearance = new __FlatButtonAppearance();
-            FlatAppearance.InternalBorderColorChanged +=
-                delegate
-                {
-                    var a = this.FlatAppearance;
-                    var BorderColor = a.BorderColor;
-
-                    this.HTMLTarget.style.borderBottomColor = BorderColor.ToString();
-                    this.HTMLTarget.style.borderStyle = "solid";
-                    this.HTMLTarget.style.borderWidth = "1px";
-                };
-            this.FlatAppearance = (FlatButtonAppearance)(object)FlatAppearance;
-
-        }
-
+        public IHTMLDiv HTMLTarget { get; set; }
 
         public override IHTMLElement HTMLTargetRef
         {
@@ -47,31 +29,70 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public __Button()
+        {
+            this.HTMLTarget = new IHTMLDiv { };
+            this.HTMLTarget.style.display = DOM.IStyle.DisplayEnum.inline_block;
+
+            this.InternalButton = new IHTMLButton().AttachTo(this.HTMLTarget);
+            this.InternalButton.style.padding = "0";
+
+            this.InternalButton.style.position = DOM.IStyle.PositionEnum.absolute;
+            this.InternalButton.style.left = "0";
+            this.InternalButton.style.top = "0";
+
+            // button is special like iframe??
+            // width: 40px;
+            this.InternalButton.style.width = "100%";
+            this.InternalButton.style.height = "100%";
+
+
+            this.InternalButton.style.font = DefaultFont.ToCssString();
+
+
+            var FlatAppearance = new __FlatButtonAppearance();
+            FlatAppearance.InternalBorderColorChanged +=
+                delegate
+                {
+                    var a = this.FlatAppearance;
+                    var BorderColor = a.BorderColor;
+
+                    this.InternalButton.style.borderBottomColor = BorderColor.ToString();
+                    this.InternalButton.style.borderStyle = "solid";
+                    this.InternalButton.style.borderWidth = "1px";
+                };
+            this.FlatAppearance = (FlatButtonAppearance)(object)FlatAppearance;
+
+        }
+
+
+
+
         public override bool Enabled
         {
             get
             {
-                return !HTMLTarget.disabled;
+                return !InternalButton.disabled;
             }
             set
             {
-                HTMLTarget.disabled = !value;
+                InternalButton.disabled = !value;
             }
         }
         public override string Text
         {
             get
             {
-                return HTMLTarget.innerText;
+                return InternalButton.innerText;
             }
             set
             {
-                HTMLTarget.innerText = value;
+                InternalButton.innerText = value;
             }
         }
 
 
-      
+
 
         #region operators
         static public implicit operator Button(__Button e)
