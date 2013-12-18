@@ -60,15 +60,9 @@ namespace WebGLDopamineMolecule
                     prMatrix = new CanvasMatrix4();
 
 
-                    var aspectRatio =
-                        (f)
-                        gl_viewportWidth
-                        / (f)
-                        gl_viewportHeight
-                            ;
 
                     prMatrix.perspective(45f,
-                        aspectRatio,
+                        (f)Native.window.aspect,
                         1f, 100f);
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
@@ -247,7 +241,7 @@ namespace WebGLDopamineMolecule
               drawBall(x, y, z, .3f, .3f, .3f, _scale);
                 #endregion
 
-                gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
+                gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
 
                 #region prMatrix
                 gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
