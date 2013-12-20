@@ -23,7 +23,7 @@ namespace FlashHeatZeeker.UnitPedControlTimetravel.Library
 
         public StarlingGameSpriteWithPedControlTimetravel()
         {
-            var textures = new StarlingGameSpriteWithPedTextures(new_tex_crop);
+            var textures = new StarlingGameSpriteWithPedTextures(new_tex_crop, new_texsprite_crop);
 
 
 
