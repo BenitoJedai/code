@@ -9,6 +9,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     [Script(Implements = typeof(global::System.Convert))]
     internal static class __Convert
     {
+        //        Implementation not found for type import :
+        //type: System.Convert
+        //method: Int64 ToInt64(Boolean)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+        public static long ToInt64(bool value)
+        {
+            if (value)
+                return 1;
+
+
+            return 0;
+        }
 
 
         public static long ToInt64(double value)
@@ -69,6 +83,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         {
             return "" + value;
         }
+
+
+
 
 
         //        Implementation not found for type import :
@@ -333,6 +350,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         }
 
         public static bool ToBoolean(int value)
+        {
+            return value != 0;
+        }
+
+        public static bool ToBoolean(long value)
         {
             return value != 0;
         }
