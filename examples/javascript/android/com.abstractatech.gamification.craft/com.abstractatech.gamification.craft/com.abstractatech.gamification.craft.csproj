@@ -144,7 +144,9 @@
     <Content Include="Audio\orc\Opissed6.wav" />
     <Content Include="Audio\orc\Opissed7.wav" />
     <Content Include="Design\App.css" />
-    <Content Include="Design\App.htm" />
+    <Content Include="Design\App.htm">
+      <SubType>Designer</SubType>
+    </Content>
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">

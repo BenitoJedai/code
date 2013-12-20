@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FlashHeatZeeker.TestDriversTouch</RootNamespace>
     <AssemblyName>FlashHeatZeeker.TestDriversTouch</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>FlashHeatZeeker.TestDriversTouch.Program</StartupObject>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,6 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Abstractatech.ActionScript.Audio">
@@ -222,6 +225,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhztd-build.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -242,10 +246,6 @@
 if $(ConfigurationName)==Release (
 rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true
 )</PostBuildEvent>
-    <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
-
-            </PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget</PreBuildEvent>
   </PropertyGroup>
 </Project>
