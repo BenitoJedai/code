@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3B8EDB04-A029-4510-A14C-2506671C6786}</ProjectGuid>
+    <ProjectGuid>{243246C3-A1B7-4793-A46D-210FFB6F716A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebNotificationsViaDataAdapter</RootNamespace>
-    <AssemblyName>WebNotificationsViaDataAdapter</AssemblyName>
+    <RootNamespace>WebServiceReturningInterface</RootNamespace>
+    <AssemblyName>WebServiceReturningInterface</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebNotificationsViaDataAdapter.Program</StartupObject>
+    <StartupObject>WebServiceReturningInterface.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -35,24 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AppEngine|x86'">
-    <OutputPath>bin\x86\AppEngine\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Android|x86'">
-    <OutputPath>bin\x86\Android\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -109,17 +93,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\packages\System.Data.SQLite.x86.1.0.89.0\lib\net45\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\packages\System.Data.SQLite.x86.1.0.89.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
@@ -134,24 +116,15 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebNotificationsViaDataAdapter.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebNotificationsViaDataAdapter.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebServiceReturningInterface.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebServiceReturningInterface.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DropDownController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Schema\FooTable.cs" />
-    <Compile Include="Schema\FooTableDesigner.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Schema\FooTableDesigner.Designer.cs">
-      <DependentUpon>FooTableDesigner.cs</DependentUpon>
-    </Compile>
-    <Content Include="Audio\cell-phone-vibrate-1.mp3" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
@@ -159,36 +132,14 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\InlinePageActionButtonExperiment.htm" />
-    <Content Include="Schema\FooTable\create foo.sql" />
-    <Content Include="Schema\FooTable\delete.sql" />
-    <Content Include="Schema\FooTable\insert foo.sql" />
-    <Content Include="Schema\FooTable\select all.sql" />
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="Design\ScriptedNotifications.csv" />
-    <None Include="Design\ScriptedNotificationsV2.xlsx" />
-    <None Include="Design\youtube.webp" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Schema\FooTableDesigner.resx">
-      <DependentUpon>FooTableDesigner.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
-		)
-
-		if $(ConfigurationName)==AppEngine (
-		start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:false /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true 
-		)
-
-		if $(ConfigurationName)==Android (
-		start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:false /DisableWebServiceChrome:true 
 		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		            </PreBuildEvent>

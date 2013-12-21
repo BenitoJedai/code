@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
+using WebNotificationsViaDataAdapter.Design;
 
 namespace WebNotificationsViaDataAdapter.Schema
 {
@@ -71,11 +72,16 @@ namespace WebNotificationsViaDataAdapter.Schema
                     var zdata = await this.applicationWebService1.__FooTable_Insert(
                         Enumerable.ToArray(
                             from row in data.Rows.AsEnumerable()
+
+                            // V2 can we use it yet?
+                            //where row.RowState == DataRowState.Added
+
                             let delay = (string)row["delay"]
                             let text = (string)row["text"]
                             where !string.IsNullOrEmpty(delay)
                             where !string.IsNullOrEmpty(text)
-                            select new FooTable.InsertFoo
+                            //select new FooTable.InsertFoo
+                            select new ScriptedNotificationsV2ScriptedNotificationsRow
                             {
                                 delay = int.Parse(delay),
                                 text = text
