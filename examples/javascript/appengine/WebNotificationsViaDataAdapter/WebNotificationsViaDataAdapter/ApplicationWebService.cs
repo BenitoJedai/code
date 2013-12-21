@@ -19,7 +19,20 @@ namespace WebNotificationsViaDataAdapter
     [System.ComponentModel.DesignerCategory("Code")]
     public class ApplicationWebService : Component
     {
+        public Task<DataTable> __FooTable_Insert(
+            ScriptedNotificationsV2ScriptedNotificationsRow[] value
+            )
+        {
+            value.Select(
+                new ScriptedNotificationsV2.ScriptedNotifications().Insert
+            ).ToArray();
 
+
+            return __FooTable_Select();
+        }
+
+
+#if V1
         public Task<DataTable> __FooTable_Insert(FooTable.InsertFoo[] value)
         {
             FooTable rw = new FooTable();
@@ -39,11 +52,27 @@ namespace WebNotificationsViaDataAdapter
 
             return __FooTable_Select();
         }
+#endif
 
+        // called by FooTableDesigner_Load
         public Task<DataTable> __FooTable_Select()
         {
+            var n = new ScriptedNotificationsV2.ScriptedNotifications();
+
+            #region auto reset and reinit?
+            if (n.Count() == 0)
+            {
+                ScriptedNotificationsV2.GetDataSet().Tables[0].Rows.AsEnumerable().WithEach(
+                    x => n.Insert(x)
+                );
+            }
+            #endregion
 
 
+            return n.SelectAllAsDataTable().ToTaskResult();
+
+
+#if V1
             var ro = ScriptedNotifications.GetDataTable();
             var rw = new FooTable().Select();
 
@@ -102,12 +131,40 @@ namespace WebNotificationsViaDataAdapter
             //Console.WriteLine(new { xml });
 
             return distinct.ToTaskResult();
+#endif
+
         }
 
         public Task<string[]> this[long delayfrom, long delayto]
         {
             get
             {
+                var n = new ScriptedNotificationsV2.ScriptedNotifications();
+
+                #region auto reset and reinit?
+                if (n.Count() == 0)
+                {
+                    ScriptedNotificationsV2.GetDataSet().Tables[0].Rows.AsEnumerable().WithEach(
+                        x => n.Insert(x)
+                    );
+                }
+                #endregion
+
+                return Enumerable.ToArray(
+
+                    from row in n.SelectAllAsEnumerable()
+
+                    let delay = row.delay
+
+                    where delay >= delayfrom
+                    where delay <= delayto
+
+                    select row.text
+                ).ToTaskResult();
+
+
+
+#if V1
                 var merge = __FooTable_Select().Result;
 
                 // !! merge now has a Debug Visualizer, pause here to inspect
@@ -126,6 +183,8 @@ namespace WebNotificationsViaDataAdapter
 
                     select text
                 ).ToTaskResult();
+#endif
+
             }
         }
 

@@ -65,8 +65,8 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
         #endregion
 
-        public int ScreenWidth;
-        public int ScreenHeight;
+        public long ScreenWidth;
+        public long ScreenHeight;
 
         public string ClientTime;
 
@@ -148,8 +148,8 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                     // should we infer the type?
                     // should we use dynamic? dynamic has no intellisense
 
-                    ScreenWidth = "" + this.ScreenWidth,
-                    ScreenHeight = "" + this.ScreenHeight,
+                    ScreenWidth = this.ScreenWidth,
+                    ScreenHeight = this.ScreenHeight,
 
 
                     // not available for AppEngine?
