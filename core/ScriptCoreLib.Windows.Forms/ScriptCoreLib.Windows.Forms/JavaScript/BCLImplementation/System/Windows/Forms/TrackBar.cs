@@ -24,6 +24,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.TrackBar.set_TickStyle(System.Windows.Forms.TickStyle)]
+        // X:\jsc.svn\examples\javascript\css\CSSTransform\CSSTransform\Application.cs
+        public TickStyle TickStyle { get; set; }
+
         public __TrackBar()
         {
             // http://stackoverflow.com/questions/18389224/how-to-style-html5-range-input-to-have-different-color-before-and-after-slider
@@ -53,6 +57,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalElement.style.setProperty("-webkit-appearance", "none", "");
             this.InternalElement.style.setProperty("-moz-apperance", "none", "");
 
+            this.Minimum = 0;
+            this.Maximum = 10;
+
             this.InternalElement.onchange +=
                 delegate
                 {
@@ -78,21 +85,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public int Maximum
         {
-            get { return this.InternalElement.min; }
+            get { return this.InternalElement.max; }
             set
             {
-                this.InternalElement.min = value;
+                this.InternalElement.max = value;
             }
         }
         public int Minimum
         {
             get
             {
-                return this.InternalElement.max;
+                return this.InternalElement.min;
             }
             set
             {
-                this.InternalElement.max = value;
+                this.InternalElement.min = value;
             }
         }
 
