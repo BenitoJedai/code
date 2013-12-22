@@ -16,6 +16,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     public partial class __Form
     {
+        public CSSStyleRuleMonkier outer_css;
+
         public __Form()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -32,6 +34,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             TargetElement.style.top = "0px";
 
             HTMLTarget = TargetElement;
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131222-form
+            outer_css = TargetElement.css;
 
             #region TargetOuterBorder
             TargetOuterBorder = new IHTMLDiv().AttachTo(TargetElement);
@@ -377,11 +382,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             TargetNoBorder.appendChild(
 
-                ContentContainerPadding, InternalCloseButton,
+                ContentContainerPadding,
+
 
 
                  Caption, CaptionShadow, CaptionContent,
                 icon, CaptionForeground
+
+                , InternalCloseButton
+
             );
 
             CaptionForeground.oncontextmenu +=
