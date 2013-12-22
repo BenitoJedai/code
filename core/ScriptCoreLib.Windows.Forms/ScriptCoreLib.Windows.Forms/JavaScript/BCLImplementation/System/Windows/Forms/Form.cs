@@ -936,6 +936,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // allow animation to be skipped by custom hosts
                     // like chrom AppWindow
                     // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
+                    // X:\jsc.svn\examples\javascript\forms\FormsAnimation\FormsAnimation\Application.cs
                     if (Animate)
                     {
                         // http://www.w3schools.com/css3/css3_transitions.asp
