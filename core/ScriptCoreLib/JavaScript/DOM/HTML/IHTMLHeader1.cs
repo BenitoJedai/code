@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // chrome calls this HTMLHeadingElement
     [Script(InternalConstructor = true)]
     public class IHTMLHeader1 : IHTMLElement
     {
