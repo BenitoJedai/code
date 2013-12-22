@@ -36,7 +36,8 @@ namespace AsyncButtonSequence
                 {
                     page.Button1.style.color = "red";
 
-                    await page.Button1;
+                    await page.Button1.async.onclick;
+                    //await page.Button1;
 
                     page.Button1.style.color = "blue";
                     page.Button2.style.color = "red";

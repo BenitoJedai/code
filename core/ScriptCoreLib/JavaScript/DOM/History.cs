@@ -32,7 +32,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public class HistoryScope
     {
+        // tested by
+        // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+
         public static Stack<Func<bool>> inline_unwind = new Stack<Func<bool>>();
+        public static Stack<object> inline_unwind_data = new Stack<object>();
 
     }
 
