@@ -104,10 +104,13 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewSelectedCellCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewTextBoxCell.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewTextBoxColumn.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.InternalBeforeVisibleChanged.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.Close.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form..ctor.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PictureBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TrackBar.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\FlowLayoutPanel.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form..ctor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\VScrollProperties.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataVisualization\Charting\Chart.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DateTimePicker.cs" />
@@ -148,7 +151,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabel.Link.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursors.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\IButtonControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabelLinkClickedEventArgs.cs" />
@@ -194,6 +196,7 @@
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\App.ico" />
     <Content Include="docs\description.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
