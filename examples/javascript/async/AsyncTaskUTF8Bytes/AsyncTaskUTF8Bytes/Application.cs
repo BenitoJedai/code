@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using AsyncTaskUTF8Bytes;
 using AsyncTaskUTF8Bytes.Design;
 using AsyncTaskUTF8Bytes.HTML.Pages;
+using System.Threading;
 
 namespace AsyncTaskUTF8Bytes
 {
@@ -43,12 +44,12 @@ namespace AsyncTaskUTF8Bytes
                         w += "0x" + item.ToString("x2") + " ";
                     }
 
-                    return w;
+                    return w + new { Thread.CurrentThread.ManagedThreadId };
                 }
             ).ContinueWithResult(
                 r =>
                 {
-                    new IHTMLPre { r }.AttachToDocument();
+                    new IHTMLPre { r + new { Thread.CurrentThread.ManagedThreadId } }.AttachToDocument();
                 }
             );
 

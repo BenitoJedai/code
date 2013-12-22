@@ -774,9 +774,23 @@ namespace ScriptCoreLib.Ultra.WebService
                 if (Command.EndsWith(".swf"))
                     w.AppendLine(Command);
 
+                // There’s no technical benefit to WOFF over TTF.
+                if (Command.EndsWith(".ttf"))
+                    w.AppendLine(Command);
             }
 
             w.AppendLine("");
+
+
+            // what about fake pages used by historic api?
+            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+            //w.AppendLine("FALLBACK:");
+            //w.AppendLine("/fake-right /#/fake-right");
+
+            // Application Cache Error event: Resource fetch failed (-1) http://192.168.43.252:30821/fake-right 
+            // http://alistapart.com/article/application-cache-is-a-douchebag
+
+
             w.AppendLine("SETTINGS:");
             w.AppendLine("prefer-online");
 

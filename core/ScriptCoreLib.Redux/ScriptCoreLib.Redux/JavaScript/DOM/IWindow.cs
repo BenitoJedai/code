@@ -8,11 +8,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class IWindow : IEventTarget
     {
 
-   
+
 
         // http://caniuse.com/#search=hash
 
-        #region event onpopstate
+        #region event onhashchange
         public event System.Action<HashChangeEvent> onhashchange
         {
             [Script(DefineAsStatic = true)]
@@ -29,6 +29,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         #region event onpopstate
+        [Obsolete(@"handled by X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\HistoryExtensions.cs")]
         public event System.Action<PopStateEvent> onpopstate
         {
             [Script(DefineAsStatic = true)]
@@ -45,7 +46,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
- 
+
 
         public void postMessage(object message, object[] transfer, string targetOrigin = "*")
         {
@@ -55,7 +56,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public void postMessage(object message, string targetOrigin = "*", params object[] transfer)
         {
-            
+
             // http://www.whatwg.org/specs/web-apps/current-work/#the-window-object
         }
 

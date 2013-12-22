@@ -15,10 +15,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class INode :
         IEventTarget,
         IEnumerable<INode>
-
-        
     {
-  
+
 
         // http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
         // http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/idl-definitions.html
@@ -102,7 +100,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
-    
+
 
         [Script(DefineAsStatic = true)]
         public void appendChild(params INode[] children)
@@ -232,6 +230,17 @@ namespace ScriptCoreLib.JavaScript.DOM
             // http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
             this.appendChild(new ITextNode(e));
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void Add(object e)
+        {
+            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+
+            // Implementing Collection Initializers
+            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+            this.appendChild(new ITextNode("" + e));
         }
     }
 }
