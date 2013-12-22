@@ -941,12 +941,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         // http://www.w3schools.com/css3/css3_transitions.asp
                         // X:\jsc.svn\examples\javascript\css\CSSShaderGrayScale\CSSShaderGrayScale\Application.cs
 
-                        this.HTMLTarget.style.transition = "none";
+                        outer_css.style.transition = "none";
 
-                        var old_webkitFilter = (this.HTMLTarget.style as dynamic).webkitFilter;
+                        var old_webkitFilter = (outer_css.style as dynamic).webkitFilter;
 
-                        (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(0.1)";
-                        (this.HTMLTarget.style as dynamic).webkitTransform = " scale(0.9)";
+                        (outer_css.style as dynamic).webkitFilter = " opacity(0.1)";
+                        outer_css.style.transform = " scale(0.9)";
 
 
                         new ScriptCoreLib.JavaScript.Runtime.Timer(
@@ -955,18 +955,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 // InternalBeforeVisibleChanged before requestAnimationFrame { node = [object HTMLDocument], ownerDocument = [object HTMLDocument], same = true }
                                 Console.WriteLine("InternalBeforeVisibleChanged after requestAnimationFrame");
 
-                                this.HTMLTarget.style.transition = "-webkit-transform 150ms linear, -webkit-filter 150ms linear";
+                                outer_css.style.transition = "-webkit-transform 150ms linear, -webkit-filter 150ms linear";
 
-                                (this.HTMLTarget.style as dynamic).webkitFilter = " opacity(1.0)";
-                                (this.HTMLTarget.style as dynamic).webkitTransform = " scale(1.0)";
+                                (outer_css.style as dynamic).webkitFilter = " opacity(1.0)";
+                                outer_css.style.transform = " scale(1.0)";
 
                                 new ScriptCoreLib.JavaScript.Runtime.Timer(
                                     delegate
                                     {
-                                        this.HTMLTarget.style.transition = "none";
+                                        outer_css.style.transition = "none";
 
-                                        (this.HTMLTarget.style as dynamic).webkitFilter = old_webkitFilter;
-                                        (this.HTMLTarget.style as dynamic).webkitTransform = "";
+                                        (outer_css.style as dynamic).webkitFilter = old_webkitFilter;
+                                        outer_css.style.transform = "";
                                     }
                                 ).StartTimeout(150);
                             }
