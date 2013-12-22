@@ -1,0 +1,12 @@
+h1 {
+    color: blue;
+}
+
+a {
+    color: blue;
+    cursor: pointer;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }

@@ -72,9 +72,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             var url = "#";
 
 
-            //if (string.IsNullOrEmpty(e.href))
+            if (string.IsNullOrEmpty(e.href))
             {
-                url += "/" + e.innerText.Replace(" ", "+").ToLower();
+                var z = e.innerText;
+
+                url += "/" + z.Replace(" ", "+").ToLower().Trim();
 
                 // enable new tab click
                 // start from root
@@ -82,14 +84,18 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             }
 
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
-            //else
-            //{
-            //    // reusing jsc server redirector
-            //    // Historic enter. activate? { url = #/http://192.168.43.252:19360, length = 1, hash = #/fake-right }
+            else
+            {
+                // reusing jsc server redirector
+                // Historic enter. activate? { url = #/http://192.168.43.252:19360, length = 1, hash = #/fake-right }
+                //Console.WriteLine(
+                //    new { e.href, location = Native.document.location.href }
+                //);
 
-            //    // will this support offline reload?
-            //    url += "/" + e.href.SkipUntilLastOrEmpty("/");
-            //}
+                // will this support offline reload?
+                // { href = http://192.168.43.252:22188/#/zTop, location = http://192.168.43.252:22188/ }
+                url += "/" + e.href.SkipUntilLastOrEmpty("/");
+            }
 
             Console.WriteLine("Historic enter. activate? " + new { url, Native.window.history.length, Native.document.location.hash });
 

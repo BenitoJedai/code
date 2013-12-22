@@ -14,12 +14,14 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         static void location_reload()
         {
-            Native.document.title = "manual reload";
-            Native.document.body.style.backgroundColor = "gray";
+            //Native.document.title = "manual reload";
+            //Native.document.body.style.backgroundColor = "gray";
 
             //since we do not know how to unwind, restart the engines
             // unless that stat tells us that it can unwind!
-            //Native.document.location.reload();
+
+            // a slow down may also cause this?
+            Native.document.location.reload();
         }
 
         class __entry
