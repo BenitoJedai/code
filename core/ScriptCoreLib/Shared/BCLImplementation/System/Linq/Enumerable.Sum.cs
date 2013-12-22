@@ -10,6 +10,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
     static partial class __Enumerable
     {
+        public static long Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, long> selector)
+        {
+            var r = default(long);
+
+            foreach (var i in source.AsEnumerable()) r += selector(i);
+
+            return r;
+        }
+
         public static int Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
         {
             var r = default(int);
