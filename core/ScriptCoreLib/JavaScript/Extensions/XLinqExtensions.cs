@@ -15,11 +15,19 @@ namespace ScriptCoreLib.JavaScript.Extensions
     {
         public static IHTMLElement AsHTMLElement(this XElement value)
         {
+            // X:\jsc.svn\examples\javascript\appengine\StopwatchTimetravelExperiment\StopwatchTimetravelExperiment\Application.cs
+
+            var __XElement = (__XElement)value;
+
             var c = new IHTMLDiv();
 
             c.innerHTML = value.ToString();
 
-            return ((IHTMLElement)c.firstChild);
+            var firstChild = ((IHTMLElement)c.firstChild);
+
+            __XElement.InternalValue = firstChild;
+
+            return firstChild;
         }
 
         public static XDocument ToXDocument(this IXMLDocument doc)
@@ -32,7 +40,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return (XElement)(object)new __XElement((XName)null) { InternalValue = e };
         }
 
-      
+
         public static IXMLDocument AsIXMLDocument(this XDocument doc)
         {
             return ((__XDocument)(object)doc).InternalDocument;

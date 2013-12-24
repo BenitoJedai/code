@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Query;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Threading.Tasks;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -241,6 +243,107 @@ namespace ScriptCoreLib.JavaScript.DOM
             // http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
             this.appendChild(new ITextNode("" + e));
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void Add(System.Func<object> e)
+        {
+            // what about implicit operators for other elements?
+            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+
+            // Implementing Collection Initializers
+            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+            var x = e().ToString();
+            var text = new ITextNode(x);
+
+            this.appendChild(text);
+
+            new Timer(
+                t =>
+                {
+                    if (text.parentNode == null)
+                    {
+                        System.Console.WriteLine("INode.Add timer stopped");
+                        t.Stop();
+                        return;
+                    }
+
+                    var y = e().ToString();
+                    if (y != text.nodeValue)
+                    {
+                        text.nodeValue = y;
+
+                        return;
+                    }
+
+                    // how many iterations before we stop the timer?
+                },
+
+                // time to attach to DOM
+                duetime: 33,
+                interval: 1000 / 15
+            );
+
+
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void Add(System.Func<Task<object>> e)
+        {
+            // what about implicit operators for other elements?
+            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+
+            // Implementing Collection Initializers
+            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+            var text = new ITextNode("");
+
+            this.appendChild(text);
+
+            new Timer(
+                t =>
+                {
+                    if (text.parentNode == null)
+                    {
+                        System.Console.WriteLine("INode.Add timer stopped");
+                        t.Stop();
+                        return;
+                    }
+
+                    t.Enabled = false;
+
+                    e().ContinueWith(
+                        x =>
+                        {
+                            var xx = (__Task<object>)x;
+
+                            var Result = xx.Result;
+
+
+                            var y = System.Convert.ToString(
+                                xx.Result
+                            );
+
+                            if (y != text.nodeValue)
+                            {
+                                text.nodeValue = y;
+                            }
+
+                            t.Enabled = true;
+                        }
+                    );
+
+
+                    // how many iterations before we stop the timer?
+                },
+
+                // time to attach to DOM
+                duetime: 33,
+                interval: 1000 / 15
+            );
+
+
         }
     }
 }

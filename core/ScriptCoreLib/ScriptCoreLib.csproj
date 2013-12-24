@@ -501,6 +501,7 @@
     <Compile Include="Shared\BCLImplementation\System\Uri.cs" />
     <Compile Include="Shared\Drawing\Rectangle.cs" />
     <Compile Include="JavaScript\Runtime\Timer.cs" />
+    <Compile Include="System\Diagnostics\StopwatchExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Array.cs" />
@@ -1042,6 +1043,7 @@
     <Folder Include="JavaScript\BCLImplementation\System\Collections\ObjectModel\" />
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
+    <Folder Include="JavaScript\DOM\HTML\Elements\" />
     <Folder Include="PHP\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />

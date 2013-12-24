@@ -41,6 +41,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public static string ToString(bool value)
         {
+            // CLR is using True and False?
             if (value)
                 return "true";
 
@@ -48,8 +49,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         }
         public static bool ToBoolean(string value)
         {
-            if ("true" == value)
-                return true;
+            // X:\jsc.svn\examples\javascript\appengine\StopwatchTimetravelExperiment\StopwatchTimetravelExperiment\Application.cs
+
+            if (value != null)
+                if ("true" == value.ToLower())
+                    return true;
 
             return false;
         }

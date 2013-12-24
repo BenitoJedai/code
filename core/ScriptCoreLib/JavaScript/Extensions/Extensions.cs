@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
@@ -202,6 +203,15 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             return e;
         }
+
+        public static IHTMLElement AttachToDocument(this XElement e)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\appengine\StopwatchTimetravelExperiment\StopwatchTimetravelExperiment\Application.cs
+
+            return e.AsHTMLElement().AttachToDocument();
+        }
+
         #endregion
 
 

@@ -30,6 +30,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
+        public static IHTMLButton WhenClicked(this IHTMLButton e, Func<Task> h)
+        {
+            // X:\jsc.svn\examples\javascript\appengine\StopwatchTimetravelExperiment\StopwatchTimetravelExperiment\Application.cs
+            return e.WhenClicked(button => h());
+        }
+
         public static IHTMLButton WhenClicked(this IHTMLButton e, Func<IHTMLButton, Task> h)
         {
             // tested by
@@ -97,7 +103,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 url += "/" + e.href.SkipUntilLastOrEmpty("/");
             }
 
-            Console.WriteLine("Historic enter. activate? " + new { url, Native.window.history.length, Native.document.location.hash });
+            //Console.WriteLine("Historic enter. activate? " + new { url, Native.window.history.length, Native.document.location.hash });
 
 
 
@@ -116,7 +122,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                             xreplace = true;
 
 
-                        Console.WriteLine("Historic onclick " + new { url, Native.window.history.length, Native.document.location.hash });
+                        //Console.WriteLine("Historic onclick " + new { url, Native.window.history.length, Native.document.location.hash });
 
                         if (xreplace)
                         {
