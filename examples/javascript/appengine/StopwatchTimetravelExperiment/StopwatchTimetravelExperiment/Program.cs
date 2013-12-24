@@ -10,6 +10,11 @@ namespace StopwatchTimetravelExperiment
     {
         public static void Main(string[] args)
         {
+            var z=System.Diagnostics.StopwatchExtensions.CreateStopwatchAtElapsed(
+                TimeSpan.FromMilliseconds(212)
+            );
+
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

@@ -56,6 +56,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
             // X:\jsc.svn\examples\javascript\XElementFieldModifiedByWebService\XElementFieldModifiedByWebService\Application.cs
             // what if its not a button?
+            // ScriptCoreLib.JavaScript.Extensions
             return (IHTMLSpan)x.AsHTMLElement();
         }
 

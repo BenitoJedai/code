@@ -28,19 +28,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             InternalValue = new IDate(ms);
         }
 
+
+
+
+        // whoa. time travel? :)
+        public const long TicksPerMillisecond = 10000;
+        public const long ticks_1970_1_1 = 621355968000000000;
+
+
         public long Ticks
         {
             get
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131224
                 // conversion needed
 
-                var ms = this.InternalValue.getTime();
+                var TotalMilliseconds = this.InternalValue.getTime();
 
-                return ms * TicksPerMillisecond + ticks_1970_1_1;
+                return TotalMilliseconds * __DateTime.TicksPerMillisecond + __DateTime.ticks_1970_1_1;
             }
         }
 
-        public const long ticks_1970_1_1 = 621355968000000000;
 
 
         public __DateTime(int year, int month, int day)
@@ -76,9 +84,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
-        // whoa. time travel? :)
-        private const long TicksPerMillisecond = 10000;
-
 
         public int Millisecond
         {
@@ -87,6 +92,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 return this.InternalValue.getMilliseconds();
             }
         }
+
 
         public int Second
         {
