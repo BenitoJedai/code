@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System
+namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.TimeSpan))]
     internal class __TimeSpan
@@ -12,13 +12,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         }
 
+        public const long TicksPerMillisecond = 10000;
+
         public long Ticks
         {
             get
             {
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131224
 
-                return (long)(TotalMilliseconds * __DateTime.TicksPerMillisecond);
+                return (long)(TotalMilliseconds * TicksPerMillisecond);
             }
         }
 
@@ -37,6 +39,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static TimeSpan FromMilliseconds(double value)
         {
             return new __TimeSpan { TotalMilliseconds = value };
+        }
+
+        public static TimeSpan FromTicks(long value)
+        {
+            return new __TimeSpan { TotalMilliseconds = value / TicksPerMillisecond };
         }
 
         public static implicit operator TimeSpan(__TimeSpan e)

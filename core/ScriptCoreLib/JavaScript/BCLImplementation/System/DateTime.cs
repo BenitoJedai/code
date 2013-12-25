@@ -230,12 +230,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return w.ToString();
         }
 
-        public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
+        public static TimeSpan operator -(__DateTime d1, __DateTime d2)
         {
-            return new __TimeSpan
-            {
-                TotalMilliseconds = d1.InternalValue.getTime() - d2.InternalValue.getTime()
-            };
+            return TimeSpan.FromMilliseconds(
+                d1.InternalValue.getTime() - d2.InternalValue.getTime()
+            );
         }
 
     }
