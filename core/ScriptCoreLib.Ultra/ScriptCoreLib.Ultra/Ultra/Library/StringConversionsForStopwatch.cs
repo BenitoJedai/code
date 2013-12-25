@@ -28,7 +28,7 @@ namespace ScriptCoreLib.Library
 
             );
 
-            //Console.WriteLine("StringConversionsForStopwatch.ConvertToString " + new { e.ElapsedMilliseconds, e.IsRunning });
+            Console.WriteLine("StringConversionsForStopwatch.ConvertToString " + new { e.ElapsedMilliseconds, e.IsRunning });
 
             return x.ToString();
         }

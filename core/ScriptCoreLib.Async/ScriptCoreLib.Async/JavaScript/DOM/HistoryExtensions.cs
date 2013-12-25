@@ -178,7 +178,11 @@ namespace ScriptCoreLib.JavaScript.DOM
                     history = new { state = x_history_state.Count },
 
                     //previous_Count,
-                    HistoryScope.inline_unwind.Count
+                    HistoryScope.inline_unwind.Count,
+
+                    // X:\jsc.svn\examples\javascript\Test\TestNavigationTiming\TestNavigationTiming\Application.cs
+                    Native.window.performance.navigation.redirectCount,
+                    Native.window.performance.navigation.type
                 }
             );
 
@@ -237,7 +241,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 // Application onpopstate { e = { state = 0 }, history = { state = 1 }, Count = 0 }
 
-
+                //  Native.window.performance.navigation.type,
                 Console.WriteLine(" did we just move backward?");
 
                 var unwind_data = (HistoryDetails)HistoryScope.inline_unwind_data.Pop();

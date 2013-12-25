@@ -1,8 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
-using System.Xml.Linq;
 
-namespace StopwatchTimetravelExperiment
+namespace SVGNavigationTiming
 {
     /// <summary>
     /// You can debug your application by hitting F5.
@@ -11,13 +10,6 @@ namespace StopwatchTimetravelExperiment
     {
         public static void Main(string[] args)
         {
-            //XElement x = new Design.Book1Sheet1Row();
-
-            var z = System.Diagnostics.StopwatchExtensions.CreateStopwatchAtElapsed(
-                TimeSpan.FromMilliseconds(212)
-            );
-
-
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

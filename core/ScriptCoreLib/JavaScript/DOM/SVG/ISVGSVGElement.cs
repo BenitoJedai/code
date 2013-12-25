@@ -15,7 +15,11 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
 
         internal static ISVGSVGElement InternalConstructor()
         {
-            var c = (ISVGSVGElement)new ISVGElementBase("svg") { type = ISVGElementBase.Settings.MimeType };
+            var c = (ISVGSVGElement)new ISVGElementBase(SVGElementNames.svg)
+            {
+                type = ISVGElementBase.Settings.MimeType
+            };
+
 
             //c.setAttribute("xmlns", "http://www.w3.org/2000/svg");
             //c.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");

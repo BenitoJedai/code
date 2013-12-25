@@ -36,7 +36,7 @@ namespace AsyncImageTask
                 async btn =>
                 {
                     // slow it down
-                   await Task.Delay(333);
+                    await Task.Delay(333);
 
                     var i = new HTML.Images.FromAssets.jsc();
 
@@ -57,7 +57,12 @@ namespace AsyncImageTask
                     await i;
 
 
-
+                    Native.window.performance.getEntries().WithEach(
+                        e =>
+                        {
+                            new IHTMLPre { new { e.name, e.entryType, e.duration, e.startTime } }.AttachToDocument();
+                        }
+                    );
                 }
             );
         }

@@ -27,14 +27,17 @@ namespace TestNavigationTiming
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
-            var timing = Native.Window.performance.timing;
+            var timing = Native.window.performance.timing;
             new IHTMLPre
             {
 
                 innerText = new
                 {
+                    Native.window.performance.navigation.redirectCount,
+                    Native.window.performance.navigation.type,
+
                     timing.connectEnd,
                     timing.connectStart,
                     timing.domainLookupEnd,
