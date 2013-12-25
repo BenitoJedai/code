@@ -6,18 +6,32 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.SVG
 {
+    // ISVGElement : IElement ?
     [Script(InternalConstructor = true)]
-    public class ISVGElementBase : IHTMLElement
+    public class ISVGElementBase
+        // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Reference\ReferenceJavaScriptDocument.DefinePageElement.cs
+        : IHTMLElement
+    //: IElement
     {
         [Script(IsStringEnum = true)]
         public enum SVGElementNames
         {
+            svg,
+
+            g,
+
             path,
             line,
+
+
             text,
+
+            // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Design\App.htm
+            tspan,
+
             rect,
             image
-            
+
         }
 
 
@@ -83,7 +97,8 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
             }
         }
 
-        public static readonly string NS = "http://www.w3.org/2000/svg";
+        //public static readonly string NS = "http://www.w3.org/2000/svg";
+        public const string NS = "http://www.w3.org/2000/svg";
 
         public string type;
         public ISVGElementBase ownerSVGElement;
@@ -107,7 +122,7 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
             var n = (string)(object)tag;
 
             return (ISVGElementBase)(object) //null;
-                Native.Document.createElementNS(NS, n);
+                Native.document.createElementNS(NS, n);
         }
 
         public ISVGElementBase(string tag)
@@ -118,7 +133,7 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
         {
 
             return (ISVGElementBase)(object) //null;
-                Native.Document.createElementNS(NS, tag);
+                Native.document.createElementNS(NS, tag);
         }
 
     }

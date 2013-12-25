@@ -1,4 +1,6 @@
-﻿interface PerformanceTiming {
+﻿// http://www.w3.org/TR/navigation-timing/
+
+interface PerformanceTiming {
   readonly attribute unsigned long long navigationStart;
   readonly attribute unsigned long long unloadEventStart;
   readonly attribute unsigned long long unloadEventEnd;
@@ -23,6 +25,8 @@
 };
 
 interface PerformanceNavigation {
+	// does jsc support enums yet?
+
   const unsigned short TYPE_NAVIGATE = 0;
   const unsigned short TYPE_RELOAD = 1;
   const unsigned short TYPE_BACK_FORWARD = 2;
@@ -31,6 +35,18 @@ interface PerformanceNavigation {
   readonly attribute unsigned short redirectCount;
 };
 
+//typedef sequence<PerformanceEntry> PerformanceEntryList;
+
+// http://www.w3.org/TR/performance-timeline/#performanceentry
+interface PerformanceEntry {
+  readonly attribute DOMString name;
+  readonly attribute DOMString entryType;
+  readonly attribute DOMHighResTimeStamp startTime;
+  readonly attribute DOMHighResTimeStamp duration;
+};
+
+typedef double DOMHighResTimeStamp;
+
 interface Performance {
   readonly attribute PerformanceTiming timing;
   readonly attribute PerformanceNavigation navigation;
@@ -38,5 +54,36 @@ interface Performance {
   // http://msdn.microsoft.com/en-us/library/ie/hh973355(v=vs.85).aspx
   // https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/HighResolutionTime/Overview.html
   // http://updates.html5rocks.com/2012/08/When-milliseconds-are-not-enough-performance-now
-  double now();
+  DOMHighResTimeStamp now();
+
+
+  // http://www.w3.org/TR/resource-timing/#performanceresourcetiming
+   void clearResourceTimings();
+  void setResourceTimingBufferSize(unsigned long maxSize);
+
+  attribute Function onresourcetimingbufferfull;
+
+
+  // http://www.w3.org/TR/performance-timeline/#performanceentry
+  sequence<PerformanceResourceTiming> getEntries();
+  sequence<PerformanceResourceTiming> getEntriesByType(DOMString entryType);
+  sequence<PerformanceResourceTiming> getEntriesByName(DOMString name, optional DOMString entryType);
+};
+
+
+interface PerformanceResourceTiming : PerformanceEntry {
+  readonly attribute DOMString initiatorType; 
+  // "css", "embed", "img", "link", "object", "script", "subdocument", "svg", "xmlhttprequest", "other"
+  
+  readonly attribute DOMHighResTimeStamp redirectStart;
+  readonly attribute DOMHighResTimeStamp redirectEnd;
+  readonly attribute DOMHighResTimeStamp fetchStart;
+  readonly attribute DOMHighResTimeStamp domainLookupStart;
+  readonly attribute DOMHighResTimeStamp domainLookupEnd;
+  readonly attribute DOMHighResTimeStamp connectStart;
+  readonly attribute DOMHighResTimeStamp connectEnd;
+  readonly attribute DOMHighResTimeStamp secureConnectionStart;
+  readonly attribute DOMHighResTimeStamp requestStart;
+  readonly attribute DOMHighResTimeStamp responseStart;
+  readonly attribute DOMHighResTimeStamp responseEnd;
 };

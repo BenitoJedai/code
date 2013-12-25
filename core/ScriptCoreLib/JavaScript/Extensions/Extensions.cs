@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
@@ -116,16 +117,29 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             // tested by
             // X:\jsc.svn\examples\javascript\appengine\RemainingMillisExperiment\RemainingMillisExperiment\Application.cs
+            // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Application.cs
+
+
+            var old = e.attributes.Select(x => new { x.name, x.value }).ToArray();
+
             var old_id = ((IHTMLElement)e).id;
 
             e.parentNode.replaceChild(value, e);
 
+
+            // merge attributes
+            foreach (var item in old)
+            {
+                if (!value.hasAttribute(item.name))
+                    value.setAttribute(item.name, item.value);
+            }
+
             if (!string.IsNullOrEmpty(old_id))
             {
-                ((IHTMLElement)value).id = old_id;
+                //((IHTMLElement)value).id = old_id;
 
                 // we just swapped out id's. make the old element forget its id
-                ((IHTMLElement)e).id = "";
+                e.id = "";
             }
         }
 

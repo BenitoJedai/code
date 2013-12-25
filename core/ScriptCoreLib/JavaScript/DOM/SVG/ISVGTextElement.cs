@@ -21,5 +21,15 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
         {
             return (ISVGTextElement)new ISVGElementBase(SVGElementNames.text);
         }
+
+
+
+
+
+
+        public static implicit operator ISVGTextElement(string innerText)
+        {
+            return new ISVGTextElement { textContent = innerText };
+        }
     }
 }
