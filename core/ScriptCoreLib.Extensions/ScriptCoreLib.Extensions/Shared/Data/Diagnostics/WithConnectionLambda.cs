@@ -61,7 +61,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                         // ex.Message = "SQL logic error or missing database\r\nno such table: Sheet2"
                         // table Book1.Sheet1 has no column named Sheet2
                         //Console.WriteLine(new { ex.Message, ex.StackTrace });
-                        Console.WriteLine(new { ex.Message });
+                        Console.WriteLine("WithConnectionLambda.WithConnection error: " + new { ex.Message, ex });
                         Debugger.Break();
                     }
                 }

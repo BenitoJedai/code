@@ -75,13 +75,25 @@ namespace StopwatchTimetravelExperiment
                     }
             );
 
-            this.output.RemoveNodes();
 
-            new StopwatchTimetravelExperiment.Design.Book1.Sheet1().Insert(
-               new Design.Book1Sheet1Row { Sessionwatch = this.Sessionwatch }
+
+            //            { insert = 0, <Stopwatch ElapsedMilliseconds="1712" IsRunning="true"/> }
+            //StringConversionsForStopwatch.ConvertToString { ElapsedMilliseconds = 2349, IsRunning = true }
+            //InternalCreateStatement { ManagedThreadId = 14, sql = insert into `Book1.Sheet1` (`Sessionwatch`)  values (?) }
+            //{ Message =  }
+            //java.lang.NullPointerException
+            //        at StopwatchTimetravelExperiment.Design.Book1_Sheet1.Insert(Book1_Sheet1.java:65)
+
+            var insert = new Design.BookG1Sheet1Row { Sessionwatch = this.Sessionwatch };
+            Console.WriteLine(new { insert });
+            new StopwatchTimetravelExperiment.Design.BookG1.Sheet1().Insert(
+               insert
            );
 
-            new StopwatchTimetravelExperiment.Design.Book1.Sheet1().SelectAllAsEnumerable().WithEach(
+
+            #region output
+            this.output.RemoveNodes();
+            new StopwatchTimetravelExperiment.Design.BookG1.Sheet1().SelectAllAsEnumerable().WithEach(
                 x =>
                 {
                     var li = new XElement("li", new { x.Sessionwatch.ElapsedMilliseconds }.ToString());
@@ -93,6 +105,7 @@ namespace StopwatchTimetravelExperiment
             Console.WriteLine(
                 new { this.output }
             );
+            #endregion
 
             return "ok".ToTaskResult();
         }
