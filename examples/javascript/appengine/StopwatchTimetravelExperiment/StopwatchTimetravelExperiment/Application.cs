@@ -34,7 +34,20 @@ namespace StopwatchTimetravelExperiment
         {
             // should jsc autobind these? which way?
             page.output = this.output;
-            this.head = page.head;
+            //this.head = page.head;
+
+            //[Fatal Error] :6:56: The element type "meta" must be terminated by the matching end-tag "</meta>".
+            //java.lang.RuntimeException
+            //        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XDocument.Parse(__XDocument.java:59)
+            //        at ScriptCoreLibJava.BCLImplementation.System.Xml.Linq.__XElement.Parse(__XElement.java:200)
+            //        at ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(StringConversions.java:49)
+            //        at StopwatchTimetravelExperiment.Global.Invoke(Global.java:266)
+            //        at ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions.InternalApplication_BeginRequest(InternalGlobalExtensions.java:319)
+
+            // where is that coming from??
+            Native.document.documentElement.querySelectorAll(IHTMLElement.HTMLElementEnum.meta).Orphanize();
+
+            this.head = Native.document.documentElement.querySelectorAll(IHTMLElement.HTMLElementEnum.head).First().AsXElement();
             //this.title = page.title;
 
 
@@ -92,6 +105,8 @@ namespace StopwatchTimetravelExperiment
             new IHTMLButton { "click" }.AttachToDocument().WhenClicked(
                 delegate
                 {
+                    Console.WriteLine("at click");
+
                     new Stopwatch().With(
                         async Watch1 =>
                         {
