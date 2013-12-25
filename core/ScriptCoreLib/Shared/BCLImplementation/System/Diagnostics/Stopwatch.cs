@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 {
@@ -33,7 +34,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
             InternalStop = DateTime.Now;
         }
 
-        
+
         public void Restart()
         {
             Stop();
@@ -63,6 +64,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
         public override string ToString()
         {
             return this.Elapsed.ToString();
+        }
+
+        public static Stopwatch StartNew()
+        {
+            var x = new Stopwatch();
+
+            x.Start();
+
+            return x;
         }
     }
 }

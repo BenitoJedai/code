@@ -62,29 +62,29 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
         public static DateTime Now
         {
             get
-			{
+            {
                 var InternalTotalSeconds = Native.API.microtime(true);
 
 
-				var v = new __DateTime
-				{
+                var v = new __DateTime
+                {
                     InternalTotalSeconds = InternalTotalSeconds,
-					InternalTicks = (long)Math.Floor(
-					    ticks_1970_1_1 + InternalTotalSeconds * 100 * TicksPerMillisecond
-					)
-				};
+                    InternalTicks = (long)Math.Floor(
+                        ticks_1970_1_1 + InternalTotalSeconds * 100 * TicksPerMillisecond
+                    )
+                };
 
 
-				return (DateTime)(object)v;
-			}
+                return (DateTime)(object)v;
+            }
         }
 
         internal const long ticks_1970_1_1 = 621355968000000000;
         internal const long TicksPerMillisecond = 0x10000;
 
-        public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
+        public static TimeSpan operator -(__DateTime d1, __DateTime d2)
         {
-            return new __TimeSpan { InternalTotalSeconds = d1.InternalTotalSeconds - d2.InternalTotalSeconds };
+            return TimeSpan.FromSeconds(d1.InternalTotalSeconds - d2.InternalTotalSeconds);
         }
 
         public __DateTime AddMinutes(double value)

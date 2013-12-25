@@ -11,11 +11,7 @@ namespace StopwatchTimetravelExperiment
     {
         public static void Main(string[] args)
         {
-            //XElement x = new Design.Book1Sheet1Row();
-
-            var z = System.Diagnostics.StopwatchExtensions.CreateStopwatchAtElapsed(
-                TimeSpan.FromMilliseconds(212)
-            );
+            
 
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
