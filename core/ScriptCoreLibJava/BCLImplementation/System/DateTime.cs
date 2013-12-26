@@ -9,7 +9,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(Implements = typeof(global::System.DateTime))]
     internal class __DateTime
     {
-        internal global::java.util.Calendar InternalValue;
+        public global::java.util.Calendar InternalValue;
+
+        public DateTimeKind Kind { get; set; }
+
 
         public __DateTime()
             : this(-1, -1, -1, -1, -1, -1)
@@ -30,6 +33,40 @@ namespace ScriptCoreLibJava.BCLImplementation.System
                 this.InternalValue.set(year, month - 1, day, hour, minute, second);
             }
         }
+
+        public __DateTime(long ticks)
+            : this(ticks, DateTimeKind.Local)
+        {
+
+        }
+
+        public __DateTime(long ticks, DateTimeKind kind)
+        {
+            this.InternalValue = global::java.util.Calendar.getInstance();
+            this.InternalValue.setTimeInMillis((ticks - ticks_1970_1_1) / TimeSpan.TicksPerMillisecond);
+
+        }
+
+
+        public static implicit operator DateTime(__DateTime e)
+        {
+            return (DateTime)(object)e;
+        }
+        public static implicit operator __DateTime(DateTime e)
+        {
+            return (__DateTime)(object)e;
+        }
+
+        public DateTime ToLocalTime()
+        {
+            return TimeZone.CurrentTimeZone.ToLocalTime(this);
+        }
+
+        public DateTime ToUniversalTime()
+        {
+            return TimeZone.CurrentTimeZone.ToUniversalTime(this);
+        }
+
 
         public static DateTime Now
         {
@@ -62,12 +99,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
         }
 
-        public __DateTime(long ticks)
-        {
-            this.InternalValue = global::java.util.Calendar.getInstance();
-            this.InternalValue.setTimeInMillis((ticks - ticks_1970_1_1) / TimeSpan.TicksPerMillisecond);
 
-        }
 
 
         public static TimeSpan operator -(__DateTime d1, __DateTime d2)
