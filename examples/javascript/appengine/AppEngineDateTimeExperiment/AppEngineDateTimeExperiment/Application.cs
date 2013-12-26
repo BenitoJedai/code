@@ -30,37 +30,38 @@ namespace AppEngineDateTimeExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            var now = DateTime.Now;
-            var utc = now.ToUniversalTime();
-            var loc = utc.ToLocalTime();
+            {
+                var now = DateTime.Now;
+                var utc = now.ToUniversalTime();
+                var loc = utc.ToLocalTime();
 
-            var z = TimeZone.CurrentTimeZone.GetUtcOffset(now);
+                var z = TimeZone.CurrentTimeZone.GetUtcOffset(now);
 
-            new IHTMLPre {
+                new IHTMLPre {
                 new {
                     z.Ticks, z, utc, loc
                 }
             }.AttachToDocument();
 
 
-            new IHTMLPre {
+                new IHTMLPre {
                 new {
                    now, now.Kind, DateTimeKind.Unspecified
                 }
             }.AttachToDocument();
 
-            new IHTMLPre {
+                new IHTMLPre {
                 new {
                    utc, utc.Kind, DateTimeKind.Utc
                 }
             }.AttachToDocument();
 
-            new IHTMLPre {
+                new IHTMLPre {
                 new {
                    loc, loc.Kind, DateTimeKind.Local
                 }
             }.AttachToDocument();
-
+            }
 
             this.WebMethod2(
                 DateTime.Now
@@ -70,9 +71,13 @@ namespace AppEngineDateTimeExperiment
                     new IHTMLPre { new { value } }.AttachToDocument();
                 }
             ).ContinueWithResult(
-                value =>
+                utc =>
                 {
-                    new IHTMLPre { new { value } }.AttachToDocument();
+                    new IHTMLPre { new { utc, utc.Kind } }.AttachToDocument();
+
+                    var loc = utc.ToLocalTime();
+
+                    new IHTMLPre { new { loc, loc.Kind } }.AttachToDocument();
                 }
             );
 
