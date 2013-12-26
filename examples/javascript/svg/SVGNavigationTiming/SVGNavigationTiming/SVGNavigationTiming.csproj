@@ -140,16 +140,16 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\PerformanceResourceTimingElement.htm" />
-    <None Include="Design\PerformanceResourceTimingData.xlsx" />
+    <None Include="Design\PerformanceResourceTimingData2.xlsx" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
       if $(ConfigurationName)==Release (
-      rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
+      start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:false /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /xFilterTo:"$(SolutionDir)"
       )
-    </PostBuildEvent>
+</PostBuildEvent>
     <PreBuildEvent>
       start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
     </PreBuildEvent>

@@ -89,13 +89,13 @@ namespace SVGNavigationTiming
         public Task<DataTable> GetApplicationPerformance()
         {
             //Task.FromResult
-            return new Design.PerformanceResourceTimingData.ApplicationPerformance().SelectAllAsDataTable().AsResult();
+            return new Design.PerformanceResourceTimingData2.ApplicationPerformance().SelectAllAsDataTable().AsResult();
         }
 
-        public Task<DataTable> GetApplicationResourcePerformance(Design.PerformanceResourceTimingDataApplicationPerformanceKey k)
+        public Task<DataTable> GetApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceKey k)
         {
             //Task.FromResult
-            return new Design.PerformanceResourceTimingData.ApplicationResourcePerformance()
+            return new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
                 .SelectAllAsEnumerable()
 
                 .Where(z => z.ApplicationPerformance == k)
@@ -105,37 +105,45 @@ namespace SVGNavigationTiming
                 .AsResult();
         }
 
-        public Design.PerformanceResourceTimingDataApplicationPerformanceKey CurrentApplicationPerformance;
+        public Design.PerformanceResourceTimingData2ApplicationPerformanceKey CurrentApplicationPerformance;
 
 
         public const long TicksPerMillisecond = 10000;
         public const long ticks_1970_1_1 = 621355968000000000;
 
-        public Task AtApplicationPerformance(Design.PerformanceResourceTimingDataApplicationPerformanceRow value)
+        public Task AtApplicationPerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceRow value)
         {
             //var ticks = DateTime.Now.Ticks;
             //var ms = (ticks - ticks_1970_1_1) / TicksPerMillisecond;
 
-            value.Timestamp = DateTime.Now;
+            //value.Timestamp = DateTime.Now;
+            //value.Timestamp = new DateTime(year: 2005, month: 2, day: 2);
 
-            CurrentApplicationPerformance = new Design.PerformanceResourceTimingData.ApplicationPerformance().Insert(value);
+            CurrentApplicationPerformance = new Design.PerformanceResourceTimingData2.ApplicationPerformance().Insert(value);
 
             return "ok".AsResult();
         }
 
-        public Task AtApplicationResourcePerformance(Design.PerformanceResourceTimingDataApplicationResourcePerformanceRow value)
+        public Task AtApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow value)
         {
             //var ticks = TotalMilliseconds * __DateTime.TicksPerMillisecond + __DateTime.ticks_1970_1_1; 
 
             //var ticks = DateTime.Now.Ticks;
             //var ms = (ticks - ticks_1970_1_1) / TicksPerMillisecond;
 
-            value.Timestamp = DateTime.Now;
+            //            Implementation not found for type import :
+            //type: System.DateTime
+            //method: Void .ctor(Int32, Int32, Int32)
+            //Did you forget to add the [Script] attribute?
+            //Please double check the signature!
+
+
+            //            value.Timestamp = new DateTime(year: 2005, month: 2, day: 2);
 
             // check sig to prevent client side tamper
             value.ApplicationPerformance = this.CurrentApplicationPerformance;
 
-            new Design.PerformanceResourceTimingData.ApplicationResourcePerformance().Insert(value);
+            new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance().Insert(value);
 
             return "ok".AsResult();
         }
@@ -143,7 +151,7 @@ namespace SVGNavigationTiming
 
     public static class X
     {
-        public static DataTable AsDataTable(this IEnumerable<Design.PerformanceResourceTimingDataApplicationResourcePerformanceRow> source)
+        public static DataTable AsDataTable(this IEnumerable<Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow> source)
         {
             var x = new DataTable();
 

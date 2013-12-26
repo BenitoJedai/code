@@ -359,6 +359,7 @@
     <Compile Include="BCLImplementation\System\TimeSpan.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\TimeZone.cs" />
     <Compile Include="BCLImplementation\System\Type.cs">
       <SubType>Code</SubType>
     </Compile>

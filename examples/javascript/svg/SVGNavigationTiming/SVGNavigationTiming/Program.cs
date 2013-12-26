@@ -10,6 +10,9 @@ namespace SVGNavigationTiming
     {
         public static void Main(string[] args)
         {
+
+
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

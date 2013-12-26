@@ -83,7 +83,7 @@ namespace SVGNavigationTiming
                         // IXMLHttpRequestActivity.onopen { url = /xml?WebMethod=06000003&c=1 }
 
                         await this.AtApplicationPerformance(
-                            new PerformanceResourceTimingDataApplicationPerformanceRow
+                            new PerformanceResourceTimingData2ApplicationPerformanceRow
                             {
                                 Timestamp = DateTime.Now,
 
@@ -140,7 +140,7 @@ namespace SVGNavigationTiming
                                         "CellContentClick" + new { RowIndex }
                                         );
 
-                                    PerformanceResourceTimingDataApplicationPerformanceRow x = data.Rows[RowIndex];
+                                    PerformanceResourceTimingData2ApplicationPerformanceRow x = data.Rows[RowIndex];
 
                                     f.Hide();
 
@@ -230,7 +230,7 @@ namespace SVGNavigationTiming
 
                                     // how not to report on report?
                                     await this.AtApplicationResourcePerformance(
-                                      new PerformanceResourceTimingDataApplicationResourcePerformanceRow
+                                      new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                                       {
                                           Timestamp = DateTime.Now,
 
