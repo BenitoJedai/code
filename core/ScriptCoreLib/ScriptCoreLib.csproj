@@ -100,6 +100,7 @@
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\TimeZone.cs" />
     <Compile Include="JavaScript\DOM\IXMLHttpRequest.open.cs" />
     <Compile Include="JavaScript\DOM\CSS\CSSFontFaceRule.cs" />
     <Compile Include="JavaScript\DOM\CSS\CSSMediaRule.cs" />
