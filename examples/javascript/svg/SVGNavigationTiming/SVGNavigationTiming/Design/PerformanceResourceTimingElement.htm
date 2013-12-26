@@ -1,149 +1,183 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="942" height="501" style="display: block; margin: auto">
-    <defs>
-        <marker refX="0" refY="0" orient="auto" id="Arrow2Mend" style="overflow: visible">
-            <path d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z" transform="scale(-0.6,-0.6)" id="path4234" style="fill-rule: evenodd; stroke-width: 0.625; stroke-linejoin: round"></path>
-        </marker>
-    </defs>
-    <style type="text/css">
-        path {
-            fill: none;
-            stroke: #000080;
-            stroke-width: 1.5;
-            stroke-opacity: 1;
-            stroke-dasharray: none;
-            marker-end: url(#Arrow2Mend);
+<div>
+    <style scoped="scoped">
+        /*Indicates that the specified style information is meant to 
+            apply only to the style element’s parent element, and that element’s 
+            child nodes. Otherwise, the specified styles are meant to apply to the 
+            entire document.*/
+
+        label {
+            cursor:pointer;
         }
 
-        rect {
-            fill: #00ffff;
-            fill-opacity: 1;
-            stroke: #0000ff;
-            stroke-width: 2;
-        }
+    
+         label > input ~ div {
+               transition: all 300ms linear;
+            -webkit-transform: scale(1.0);
+            -webkit-transform-origin: left top;
+            height: 33em;
+         }
 
-        text {
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            fill: #000000;
-            fill-opacity: 1;
-            stroke: none;
-            font-family: monospace;
-        }
-
-        .middle {
-            text-anchor: middle;
-        }
-
-        .end {
-            text-anchor: end;
-        }
-
-        .highlight {
-            font-style: italic;
+        label > input:not(:checked) ~ div {
+            -webkit-transform: scale(0.2);
+            height: 7em;
         }
     </style>
-    <g transform="translate(-4.3,-477.125)">
-        <rect width="80" height="80" x="10" y="702"></rect>
-        <rect width="70" height="80" x="100" y="702"></rect>
-        <rect width="59.999966" height="79.999962" x="880" y="702"></rect>
-        <rect width="210" height="80" x="660" y="702"></rect>
-        <rect width="90" height="80" x="560" y="702"></rect>
-        <rect width="90" height="80" x="470" y="702"></rect>
-        <rect width="60" height="80" x="400" y="702"></rect>
-        <rect width="50" height="80" x="340" y="702"></rect>
-        <rect width="60" height="80" x="270" y="702"></rect>
-        <rect width="80" height="80" x="180" y="702"></rect>
-        <rect width="160" height="50" x="690" y="762"></rect>
-        <rect width="80" height="50" x="200" y="762"></rect>
-       
 
-        <text x="219.94189" y="747.12683" class="middle">
-            <tspan>redirect</tspan>
-        </text>
-        <text class="middle">
-            <tspan x="299.95557" y="738">App</tspan>
-            <tspan x="300" y="755.7572">cache</tspan>
-        </text>
-        <text x="365.25977" y="745" class="middle">
+    <label>
+       
+        <input type="checkbox" />  <code id="text">?</code>
+
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="942" height="501" style="display: block; margin: auto">
+                <defs>
+                    <marker refX="0" refY="0" orient="auto" id="Arrow2Mend" style="overflow: visible">
+                        <path d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z" transform="scale(-0.6,-0.6)" id="path4234" style="fill-rule: evenodd; stroke-width: 0.625; stroke-linejoin: round"></path>
+                    </marker>
+                </defs>
+                <style type="text/css">
+                    path {
+                        fill: none;
+                        stroke: #000080;
+                        stroke-width: 1.5;
+                        stroke-opacity: 1;
+                        stroke-dasharray: none;
+                        marker-end: url(#Arrow2Mend);
+                    }
+
+                    rect {
+                        fill: #00ffff;
+                        fill-opacity: 1;
+                        stroke: #0000ff;
+                        stroke-width: 2;
+                    }
+
+                    text {
+                        font-size: 12px;
+                        font-weight: bold;
+                        text-align: center;
+                        fill: #000000;
+                        fill-opacity: 1;
+                        stroke: none;
+                        font-family: monospace;
+                    }
+
+                    .middle {
+                        text-anchor: middle;
+                    }
+
+                    .end {
+                        text-anchor: end;
+                    }
+
+                    .highlight {
+                        font-style: italic;
+                    }
+                </style>
+                <g transform="translate(-4.3,-477.125)">
+                    <rect width="80" height="80" x="10" y="702"></rect>
+                    <rect width="70" height="80" x="100" y="702"></rect>
+                    <rect width="59.999966" height="79.999962" x="880" y="702"></rect>
+                    <rect width="210" height="80" x="660" y="702"></rect>
+                    <rect width="90" height="80" x="560" y="702"></rect>
+                    <rect width="90" height="80" x="470" y="702"></rect>
+                    <rect width="60" height="80" x="400" y="702"></rect>
+                    <rect width="50" height="80" x="340" y="702"></rect>
+                    <rect width="60" height="80" x="270" y="702"></rect>
+                    <rect width="80" height="80" x="180" y="702"></rect>
+                    <rect width="160" height="50" x="690" y="762"></rect>
+                    <rect width="80" height="50" x="200" y="762"></rect>
+
+
+                    <text x="219.94189" y="747.12683" class="middle">
+                        <tspan>redirect</tspan>
+                    </text>
+                    <text class="middle">
+                        <tspan x="299.95557" y="738">App</tspan>
+                        <tspan x="300" y="755.7572">cache</tspan>
+                    </text>
+                    <text x="365.25977" y="745" class="middle">
                     DNS
                 </text>
-        <text x="430.0376" y="745" class="middle">
+                    <text x="430.0376" y="745" class="middle">
                     TCP
                 </text>
-        <text x="514.8667" y="745" class="middle">
-            <tspan>Request</tspan>
-        </text>
-        <text x="605.0752" y="745" class="middle">
-            <tspan>Response</tspan>
-        </text>
-     
-      
-        <text x="490.49219" y="491.88022" class="highlight">
-            <tspan>startTime</tspan>
-        </text>
-  
-        <text x="490" y="552.60315" class="highlight">
-            <tspan>redirectStart</tspan>
-        </text>
-        <text x="490" y="593.08502">
-            <tspan>fetchStart</tspan>
-        </text>
-        <text x="490" y="572.84412" class="highlight">
-            <tspan>redirectEnd</tspan>
-        </text>
-        <text x="490" y="613.32599">
-            <tspan>domainLookupStart</tspan>
-        </text>
-        <text x="490" y="633.56696">
-            <tspan>domainLookupEnd</tspan>
-        </text>
-        <text id="connectStart" x="490" y="653.56866">
-            <tspan>connectStart</tspan>
-        </text>
-        <text x="490" y="674.04889">
-            <tspan>(secureConnectionStart)</tspan>
-        </text>
-        <text id="connectEnd" x="490" y="694.28986">
-            <tspan>connectEnd</tspan>
-        </text>
-        <text x="440.20801" y="812" class="end">
-            <tspan>requestStart</tspan>
-        </text>
-        <text x="440.20801" y="838.98895" class="end">
-            <tspan>responseStart</tspan>
-        </text>
-        <text x="440.20801" y="865.85504" class="end">
-            <tspan>responseEnd</tspan>
-        </text>
-   
-       
-      
+                    <text x="514.8667" y="745" class="middle">
+                        <tspan>Request</tspan>
+                    </text>
+                    <text x="605.0752" y="745" class="middle">
+                        <tspan>Response</tspan>
+                    </text>
 
-        <path d="M 480,40 150,40 90,250" transform="translate(0,452)"></path>
 
-        <path d="m 480,512 -310,0 -70,190"></path>
-        <path d="m 480,532 -280,0 -30,170"></path>
-        <path d="m 480,552 -270,0 -30,150"></path>
-        <path d="m 480,572 -200,0 -20,130"></path>
-        <path d="m 480,592 -180,0 -30,110"></path>
-        <path d="m 480,612 -110,0 -30,90"></path>
-        <path d="m 480,632 -70,0 -20,70"></path>
-        <path d="m 480,652 -50,0 -30,50"></path>
-        <path d="m 480,672 -40,0 -20,30"></path>
-        <path d="m 480,692 -10,0 -10,10"></path>
-        <path d="m 450,812 10,0 10,-30"></path>
-        <path d="m 450,832 50,0 60,-50"></path>
-        <path d="m 450,862 100,0 100,-80"></path>
-        <path d="m 450,892 140,0 80,-110"></path>
-        <path d="m 450,922 150,0 80,-120"></path>
-        <path d="m 450,942 190,0 50,-130"></path>
-        <path d="m 450,972 220,0 180,-160"></path>
-        <path d="m 870,952 50,0 -60,-160"></path>
-        <path d="m 860,642 10,0 10,60"></path>
-        <path d="m 860,612 40,0 40,90"></path>
-        <path d="m 150,842 30,0 20,-30"></path>
-        <path d="m 150,872 80,0 50,-60"></path>
-    </g>
-</svg>
+                    <text x="490.49219" y="491.88022" class="highlight">
+                        <tspan>startTime</tspan>
+                    </text>
 
+                    <text x="490" y="552.60315" class="highlight">
+                        <tspan>redirectStart</tspan>
+                    </text>
+                    <text x="490" y="593.08502">
+                        <tspan>fetchStart</tspan>
+                    </text>
+                    <text x="490" y="572.84412" class="highlight">
+                        <tspan>redirectEnd</tspan>
+                    </text>
+                    <text x="490" y="613.32599">
+                        <tspan>domainLookupStart</tspan>
+                    </text>
+                    <text x="490" y="633.56696">
+                        <tspan>domainLookupEnd</tspan>
+                    </text>
+                    <text id="connectStart" x="490" y="653.56866">
+                        <tspan>connectStart</tspan>
+                    </text>
+                    <text x="490" y="674.04889">
+                        <tspan>(secureConnectionStart)</tspan>
+                    </text>
+                    <text id="connectEnd" x="490" y="694.28986">
+                        <tspan>connectEnd</tspan>
+                    </text>
+                    <text x="440.20801" y="812" class="end">
+                        <tspan>requestStart</tspan>
+                    </text>
+                    <text x="440.20801" y="838.98895" class="end">
+                        <tspan>responseStart</tspan>
+                    </text>
+                    <text x="440.20801" y="865.85504" class="end">
+                        <tspan>responseEnd</tspan>
+                    </text>
+
+
+
+
+                    <path d="M 480,40 150,40 90,250" transform="translate(0,452)"></path>
+
+                    <path d="m 480,512 -310,0 -70,190"></path>
+                    <path d="m 480,532 -280,0 -30,170"></path>
+                    <path d="m 480,552 -270,0 -30,150"></path>
+                    <path d="m 480,572 -200,0 -20,130"></path>
+                    <path d="m 480,592 -180,0 -30,110"></path>
+                    <path d="m 480,612 -110,0 -30,90"></path>
+                    <path d="m 480,632 -70,0 -20,70"></path>
+                    <path d="m 480,652 -50,0 -30,50"></path>
+                    <path d="m 480,672 -40,0 -20,30"></path>
+                    <path d="m 480,692 -10,0 -10,10"></path>
+                    <path d="m 450,812 10,0 10,-30"></path>
+                    <path d="m 450,832 50,0 60,-50"></path>
+                    <path d="m 450,862 100,0 100,-80"></path>
+                    <path d="m 450,892 140,0 80,-110"></path>
+                    <path d="m 450,922 150,0 80,-120"></path>
+                    <path d="m 450,942 190,0 50,-130"></path>
+                    <path d="m 450,972 220,0 180,-160"></path>
+                    <path d="m 870,952 50,0 -60,-160"></path>
+                    <path d="m 860,642 10,0 10,60"></path>
+                    <path d="m 860,612 40,0 40,90"></path>
+                    <path d="m 150,842 30,0 20,-30"></path>
+                    <path d="m 150,872 80,0 50,-60"></path>
+                </g>
+            </svg>
+        </div>
+    </label>
+
+    <hr />
+</div>

@@ -12,7 +12,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     public class IHTMLStyle : IHTMLElement
     {
         // http://dev.w3.org/csswg/cssom/
+        // http://www.w3.org/TR/html-markup/style.html
 
+        public bool disabled;
+
+        // tested by
+        // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Design\PerformanceResourceTimingElement.htm
+
+        public bool scoped;
         public string media;
         public string type;
 

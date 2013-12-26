@@ -9,6 +9,12 @@ namespace System.Threading.Tasks
 {
     public static class TaskAsyncExtensions
     {
+        public static Task<TSource> AsResult<TSource>(this TSource source)
+        {
+            return Task.FromResult(source);
+        }
+
+        [Obsolete("AsResult")]
         public static Task<TSource> ToTaskResult<TSource>(this TSource source)
         {
             return Task.FromResult(source);
