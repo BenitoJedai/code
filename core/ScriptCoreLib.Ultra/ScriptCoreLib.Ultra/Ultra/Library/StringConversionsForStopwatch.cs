@@ -48,7 +48,7 @@ namespace ScriptCoreLib.Library
 
         public static long DateTimeConvertToInt64(DateTime e)
         {
-            var ticks = e.Ticks;
+            var ticks = e.ToUniversalTime().Ticks;
 
             // for SQLite
             var TotalMilliseconds = (long)(
@@ -75,7 +75,7 @@ namespace ScriptCoreLib.Library
             // for SQLite
             var ticks = TotalMilliseconds * TicksPerMillisecond + ticks_1970_1_1;
 
-            var value = new DateTime(ticks: ticks, kind: DateTimeKind.Local);
+            var value = new DateTime(ticks: ticks, kind: DateTimeKind.Utc);
 
             Console.WriteLine("DateTimeConvertFromInt64 " + new { value.Kind, value });
 
