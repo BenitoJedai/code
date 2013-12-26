@@ -13,7 +13,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
     // http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
     [Script(InternalConstructor = true)]
-    public class IXMLHttpRequest : IEventTarget
+    public partial class IXMLHttpRequest : IEventTarget
     {
         // http://src.chromium.org/viewvc/blink/trunk/Source/core/xml/XMLHttpRequest.idl?pathrev=156290
         // http://src.chromium.org/viewvc/blink/trunk/Source/core/xml/XMLHttpRequest.cpp?pathrev=156290
@@ -224,17 +224,6 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        public void open(HTTPMethodEnum method, string url)
-        {
-        }
-
-        public void open(HTTPMethodEnum method, string url, bool @async)
-        {
-        }
-
-        public void open(HTTPMethodEnum method, string url, bool @async, string name, string pass)
-        {
-        }
 
         // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest?redirectlocale=en-US&redirectslug=DOM%2FXMLHttpRequest#overrideMimeType()
         public void setRequestHeader(string key, string value)
@@ -430,6 +419,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        [Obsolete]
         public bool IsOffline
         {
             [Script(DefineAsStatic = true)]
@@ -452,7 +442,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-
+        [Obsolete]
         [Script(DefineAsStatic = true)]
         public TType ToJSON<TType>()
         {

@@ -36,7 +36,7 @@ namespace ScriptCoreLib.JavaScript.Experimental
             Console.WriteLine("eval total " + new { e.source.Length });
 
 
-            var blob = new Blob(new [] {e.source});
+            var blob = new Blob(new[] { e.source });
 
             var src = blob.ToObjectURL();
 
@@ -301,8 +301,8 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
                         x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, src,
                             async: true,
-                            name: "public",
-                            pass: "key1555555"
+                            user: "public",
+                            password: "key1555555"
                         );
 
                         // Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.

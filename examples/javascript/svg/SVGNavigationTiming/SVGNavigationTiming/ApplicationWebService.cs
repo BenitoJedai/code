@@ -1,3 +1,5 @@
+#define SQLite
+
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -18,18 +20,167 @@ namespace SVGNavigationTiming
     /// </summary>
     public class ApplicationWebService
     {
+        // wthflip?
+        // http://stackoverflow.com/questions/1606867/how-to-prevent-a-net-application-to-use-an-assembly-from-the-gac
+
+        //Cannot process request because the process (1044) has exited.
+
+        //   at System.Diagnostics.Process.GetProcessHandle(Int32 access, Boolean throwIfExited)
+        //   at System.Diagnostics.Process.Kill()
+        //   at jsc.meta.Commands.Configuration.ConfigurationDisposeSubst.<>c__DisplayClass2.<Monitor>b__1()
+        //   at jsc.meta.Library.VolumeFunctions.VolumeFunctionsExtensions.ToVirtualDriveToDirectory.Dispose()
+        //   at jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch()
+        //   at jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(Type PrimaryApplication)
+        //   at SVGNavigationTiming.Program.Main(String[] args) in x:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Program.cs:line 13
+
+        // Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
+        // can jsc security analyzer go one level deeper? atleast on [script] [merge] assemblies?
+        public ApplicationWebService()
+        {
+#if SQLite
+            //1a60:01:01 RewriteToAssembly error: System.IO.FileNotFoundException: Could not load file or assembly 'System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
+            //File name: 'System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' ---> System.IO.FileNotFoundException: Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
+            //File name: 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139'
+
+            //=== Pre-bind state information ===
+            //LOG: DisplayName = System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139
+            // (Fully-specified)
+            //LOG: Appbase = file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/
+            //LOG: Initial PrivatePath = NULL
+            //Calling assembly : jsc.meta, Version=0.86.0.518, Culture=neutral, PublicKeyToken=null.
+            //===
+            //LOG: This bind starts in default load context.
+            //LOG: Using application configuration file: X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\Debug\SVGNavigationTiming.exe.Config
+            //LOG: Using host configuration file:
+            //LOG: Using machine configuration file from C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config.
+            //LOG: Redirect found in application configuration file: 1.0.89.0 redirected to 1.0.90.0.
+            //LOG: Post-policy reference: System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139
+            //LOG: Attempting download of new URL file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/System.Data.SQLite.DLL.
+            //LOG: Attempting download of new URL file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/System.Data.SQLite/System.Data.SQLite.DLL.
+            //LOG: Attempting download of new URL file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/System.Data.SQLite.EXE.
+            //LOG: Attempting download of new URL file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/System.Data.SQLite/System.Data.SQLite.EXE.
+
+            { var r = typeof(global::System.Data.SQLite.SQLiteCommand); }
+            { var r = typeof(global::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda); }
+#endif
+        }
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public Task WebMethod2()
+        public Task WebMethod2500()
         {
 
             Thread.Sleep(2500);
 
-            return "ok".ToTaskResult();
+            return "ok".AsResult();
         }
 
+        public Task WebMethod500()
+        {
+
+            Thread.Sleep(500);
+
+            return "ok".AsResult();
+        }
+
+        public Task<DataTable> GetApplicationPerformance()
+        {
+            //Task.FromResult
+            return new Design.PerformanceResourceTimingData.ApplicationPerformance().SelectAllAsDataTable().AsResult();
+        }
+
+        public Task<DataTable> GetApplicationResourcePerformance(Design.PerformanceResourceTimingDataApplicationPerformanceKey k)
+        {
+            //Task.FromResult
+            return new Design.PerformanceResourceTimingData.ApplicationResourcePerformance()
+                .SelectAllAsEnumerable()
+
+                .Where(z => z.ApplicationPerformance == k)
+
+                .AsDataTable()
+
+                .AsResult();
+        }
+
+        public Design.PerformanceResourceTimingDataApplicationPerformanceKey CurrentApplicationPerformance;
+
+
+        public const long TicksPerMillisecond = 10000;
+        public const long ticks_1970_1_1 = 621355968000000000;
+
+        public Task AtApplicationPerformance(Design.PerformanceResourceTimingDataApplicationPerformanceRow value)
+        {
+            var ticks = DateTime.Now.Ticks;
+            var ms = (ticks - ticks_1970_1_1) / TicksPerMillisecond;
+
+            value.Timestamp = ms;
+
+            CurrentApplicationPerformance = new Design.PerformanceResourceTimingData.ApplicationPerformance().Insert(value);
+
+            return "ok".AsResult();
+        }
+
+        public Task AtApplicationResourcePerformance(Design.PerformanceResourceTimingDataApplicationResourcePerformanceRow value)
+        {
+            //var ticks = TotalMilliseconds * __DateTime.TicksPerMillisecond + __DateTime.ticks_1970_1_1; 
+
+            var ticks = DateTime.Now.Ticks;
+            var ms = (ticks - ticks_1970_1_1) / TicksPerMillisecond;
+
+            value.Timestamp = ms;
+
+            // check sig to prevent client side tamper
+            value.ApplicationPerformance = this.CurrentApplicationPerformance;
+
+            new Design.PerformanceResourceTimingData.ApplicationResourcePerformance().Insert(value);
+
+            return "ok".AsResult();
+        }
+    }
+
+    public static class X
+    {
+        public static DataTable AsDataTable(this IEnumerable<Design.PerformanceResourceTimingDataApplicationResourcePerformanceRow> source)
+        {
+            var x = new DataTable();
+
+            // Column 'Key' does not belong to table .
+
+            x.Columns.Add("Key");
+            x.Columns.Add("connectEnd");
+            x.Columns.Add("connectStart");
+            x.Columns.Add("duration");
+            x.Columns.Add("entryType");
+            x.Columns.Add("name");
+            x.Columns.Add("requestStart");
+            x.Columns.Add("responseEnd");
+            x.Columns.Add("responseStart");
+            x.Columns.Add("startTime");
+            x.Columns.Add("Timestamp");
+
+            foreach (var item in source)
+            {
+                var n = x.NewRow();
+
+                n["Key"] = item.Key;
+                n["connectEnd"] = item.connectEnd;
+                n["connectStart"] = item.connectStart;
+                n["duration"] = item.duration;
+                n["entryType"] = item.entryType;
+                n["name"] = item.name;
+                n["requestStart"] = item.requestStart;
+                n["responseEnd"] = item.responseEnd;
+                n["responseStart"] = item.responseStart;
+                n["startTime"] = item.startTime;
+                n["Timestamp"] = item.Timestamp;
+
+                x.Rows.Add(n);
+            }
+
+            return x;
+        }
     }
 }
