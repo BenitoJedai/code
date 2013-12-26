@@ -85,6 +85,8 @@ namespace SVGNavigationTiming
                         await this.AtApplicationPerformance(
                             new PerformanceResourceTimingDataApplicationPerformanceRow
                             {
+                                Timestamp = DateTime.Now,
+
                                 connectStart = (long)t.connectStart,
                                 connectEnd = (long)t.connectEnd,
                                 requestStart = (long)t.requestStart,
@@ -210,6 +212,7 @@ namespace SVGNavigationTiming
                                      Request = "Request " + (long)(t.responseStart - t.requestStart),
                                      Response = "Response " + (long)(t.responseEnd - t.responseStart)
 
+
                                  }.AttachToDocument();
 
                                 if (t.name.Contains("AtApplicationResourcePerformance"))
@@ -229,7 +232,11 @@ namespace SVGNavigationTiming
                                     await this.AtApplicationResourcePerformance(
                                       new PerformanceResourceTimingDataApplicationResourcePerformanceRow
                                       {
+                                          Timestamp = DateTime.Now,
+
                                           startTime = (long)t.startTime,
+
+                                          duration = (long)t.duration,
 
                                           entryType = t.entryType,
                                           name = t.name,
