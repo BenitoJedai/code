@@ -33,6 +33,56 @@ namespace ScriptCoreLib.Library
             return x.ToString();
         }
 
+
+        public static string DateTimeConvertToString(DateTime e)
+        {
+            Console.WriteLine("DateTimeConvertToString " + new { e });
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131226-datetime
+            return "" + DateTimeConvertToInt64(e);
+        }
+
+        public const long TicksPerMillisecond = 10000;
+        public const long ticks_1970_1_1 = 621355968000000000;
+
+
+        public static long DateTimeConvertToInt64(DateTime e)
+        {
+            var ticks = e.Ticks;
+
+            // for SQLite
+            var TotalMilliseconds = (long)(
+                // jsc, why dont i get just the long
+                (ticks - ticks_1970_1_1) / (double)TicksPerMillisecond
+                );
+
+
+            return TotalMilliseconds;
+        }
+
+        public static DateTime DateTimeConvertFromString(string e)
+        {
+            Console.WriteLine("DateTimeConvertFromString " + new { e });
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131226-datetime
+            return DateTimeConvertFromInt64(
+                long.Parse(e)
+            );
+        }
+
+        public static DateTime DateTimeConvertFromInt64(long TotalMilliseconds)
+        {
+            // for SQLite
+            var ticks = TotalMilliseconds * TicksPerMillisecond + ticks_1970_1_1;
+
+            var value = new DateTime(ticks: ticks, kind: DateTimeKind.Local);
+
+            Console.WriteLine("DateTimeConvertFromInt64 " + new { value.Kind, value });
+
+            return value;
+        }
+
+
         public static Stopwatch ConvertFromString(string e)
         {
             if (string.IsNullOrEmpty(e))

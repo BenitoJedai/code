@@ -11,12 +11,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     {
         public IDate InternalValue;
 
+        public DateTimeKind Kind { get; set; }
+
         public __DateTime()
         {
-
+            this.Kind = DateTimeKind.Local;
         }
 
-        public __DateTime(long ticks)
+        public __DateTime(long ticks, DateTimeKind kind)
         {
             //if ((ticks < 0L) || (ticks > 3155378975999999999L))
             //{
@@ -25,10 +27,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             var ms = (ticks - ticks_1970_1_1) / TicksPerMillisecond;
 
-            InternalValue = new IDate(ms);
+            this.InternalValue = new IDate(ms);
+            this.Kind = kind;
+        }
+
+        public __DateTime(long ticks)
+            : this(ticks, DateTimeKind.Local)
+        {
+
         }
 
 
+
+        public static implicit operator DateTime(__DateTime e)
+        {
+            return (DateTime)(object)e;
+        }
+        public static implicit operator __DateTime(DateTime e)
+        {
+            return (__DateTime)(object)e;
+        }
+
+        public DateTime ToLocalTime()
+        {
+            return TimeZone.CurrentTimeZone.ToLocalTime(this);
+        }
+
+        public DateTime ToUniversalTime()
+        {
+            return TimeZone.CurrentTimeZone.ToUniversalTime(this);
+        }
 
 
         // whoa. time travel? :)
