@@ -119,6 +119,18 @@ namespace SVGNavigationTiming
             //value.Timestamp = DateTime.Now;
             //value.Timestamp = new DateTime(year: 2005, month: 2, day: 2);
 
+            //xQueries_Insert
+            //xQueries_Insert { ColumnName = connectStart }
+            //xQueries_Insert { ColumnName = connectEnd }
+            //xQueries_Insert { ColumnName = requestStart }
+            //xQueries_Insert { ColumnName = responseStart }
+            //xQueries_Insert { ColumnName = responseEnd }
+            //xQueries_Insert { ColumnName = domLoading }
+            //xQueries_Insert { ColumnName = domComplete }
+            //xQueries_Insert { ColumnName = loadEventStart }
+            //xQueries_Insert { ColumnName = loadEventEnd }
+            //xQueries_Insert { ColumnName = Timestamp }
+
             CurrentApplicationPerformance = new Design.PerformanceResourceTimingData2.ApplicationPerformance().Insert(value);
 
             return "ok".AsResult();
