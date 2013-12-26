@@ -36,7 +36,8 @@ namespace ScriptCoreLib.Library
 
         public static string DateTimeConvertToString(DateTime e)
         {
-            Console.WriteLine("DateTimeConvertToString " + new { e });
+            var x = e;
+            Console.WriteLine("DateTimeConvertToString " + new { x });
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131226-datetime
             return "" + DateTimeConvertToInt64(e);
