@@ -337,6 +337,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\TimeSpan.cs">
       <Link>BCLImplementation\System\TimeSpan.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\TimeZone.cs">
+      <Link>BCLImplementation\System\TimeZone.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Type.cs">
       <Link>BCLImplementation\System\Type.cs</Link>
     </Compile>
