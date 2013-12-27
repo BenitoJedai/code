@@ -19,6 +19,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
+        public string StackTrace
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+                return Expando<string, string>.Of(this)["stack"];
+            }
+        }
+
         #region Constructor
 
         public __Exception(string message) { }

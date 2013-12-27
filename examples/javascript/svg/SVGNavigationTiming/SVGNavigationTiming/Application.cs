@@ -54,6 +54,8 @@ namespace SVGNavigationTiming
                     });
                 };
 
+            new IHTMLButton { "Reset" }.AttachToDocument().WhenClicked(this.Reset);
+
             Native.window.requestAnimationFrame +=
                 async delegate
                 {
