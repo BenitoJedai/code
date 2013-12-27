@@ -111,6 +111,43 @@ namespace SVGNavigationTiming
         public const long TicksPerMillisecond = 10000;
         public const long ticks_1970_1_1 = 621355968000000000;
 
+        public Task Reset()
+        {
+
+
+            return new Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries().WithConnection(
+                c =>
+                {
+                    #region drop
+                    Action<string> drop = QualifiedTableName =>
+                    {
+                        Console.WriteLine("drop " + new { QualifiedTableName });
+                        try
+                        {
+
+                            var xvalue = new System.Data.SQLite.SQLiteCommand("drop table `" + QualifiedTableName + "`", c).ExecuteNonQuery();
+                            Console.WriteLine(new { QualifiedTableName, xvalue });
+
+                            Console.WriteLine("ok " + new { QualifiedTableName });
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("nok " + new { QualifiedTableName });
+
+                            //Console.WriteLine(new { QualifiedTableName, e.Message, e.StackTrace });
+                            Console.WriteLine(new { QualifiedTableName, e.Message });
+                        }
+                    };
+                    #endregion
+
+                    drop(Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries.QualifiedTableName);
+                    drop(Design.PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries.QualifiedTableName);
+
+                    return "".AsResult();
+                }
+            );
+        }
+
         public Task AtApplicationPerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceRow value)
         {
             //var ticks = DateTime.Now.Ticks;
@@ -130,6 +167,11 @@ namespace SVGNavigationTiming
             //xQueries_Insert { ColumnName = loadEventStart }
             //xQueries_Insert { ColumnName = loadEventEnd }
             //xQueries_Insert { ColumnName = Timestamp }
+
+            //Caused by: java.lang.RuntimeException: Data truncation: Out of range value for column 'connectStart' at row 1
+            //        at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteCommand.ExecuteNonQuery(__SQLiteCommand.java:277)
+
+            // http://dev.mysql.com/doc/refman/5.0/en/integer-types.html
 
             CurrentApplicationPerformance = new Design.PerformanceResourceTimingData2.ApplicationPerformance().Insert(value);
 

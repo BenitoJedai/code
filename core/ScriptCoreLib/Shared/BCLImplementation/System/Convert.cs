@@ -7,7 +7,7 @@ using System.IO;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Convert))]
-    internal static class __Convert
+    internal static partial class __Convert
     {
         //        Implementation not found for type import :
         //type: System.Convert
@@ -169,6 +169,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public static long ToInt64(string e)
         {
+            // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
+
+            if (string.IsNullOrEmpty(e))
+                return 0;
+
             return long.Parse(e);
         }
 

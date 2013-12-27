@@ -10,8 +10,13 @@ namespace SVGNavigationTiming
     {
         public static void Main(string[] args)
         {
+            //java.lang.NumberFormatException: null
+            //        at java.lang.Long.parseLong(Unknown Source)
+            //        at java.lang.Long.parseLong(Unknown Source)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.__Convert.ToInt64(__Convert.java:144)
 
 
+            var z = Convert.ToInt64(default(string));
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }

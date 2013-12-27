@@ -34,6 +34,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
         public static Func<Func<SQLiteConnection, Task>, Task> WithConnection(string DataSource)
         {
+            // ScriptCoreLib.Extensions
             var csb = new SQLiteConnectionStringBuilder
             {
                 DataSource = DataSource,
@@ -61,8 +62,22 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                         // ex.Message = "SQL logic error or missing database\r\nno such table: Sheet2"
                         // table Book1.Sheet1 has no column named Sheet2
                         //Console.WriteLine(new { ex.Message, ex.StackTrace });
-                        Console.WriteLine("WithConnectionLambda.WithConnection error: " + new { ex.Message, ex });
+
+                        Console.WriteLine();
+                        // script: error JSC1000: No implementation found for this native method, please implement [System.Exception.get_StackTrace()]
+                        var text = "ScriptCoreLib.Extensions::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda.WithConnection error: "
+                            + new
+                            {
+                                ex.Message,
+                                ex,
+                                ex.StackTrace
+                            };
+
+                        Console.WriteLine(text);
+
                         Debugger.Break();
+
+                        throw new InvalidOperationException(text);
                     }
                 }
 
