@@ -71,6 +71,28 @@ namespace ScriptCoreLib.Library
             );
         }
 
+        public static DateTime DateTimeConvertFromObject(object e)
+        {
+            Console.WriteLine("DateTimeConvertFromObject " + new { e });
+
+            //        Convert.ToInt64("0")	0	long
+            //        Convert.ToInt64(default(string))	0	long
+            //+		Convert.ToInt64("")	'Convert.ToInt64("")' threw an exception of type 'System.FormatException'	long {System.FormatException}
+
+            if (e == null)
+                return DateTime.Now;
+
+            var s = e as string;
+
+            if (s != null)
+            {
+                if (s == "")
+                    return DateTime.Now;
+            }
+
+            return DateTimeConvertFromInt64(Convert.ToInt64(s));
+        }
+
         public static DateTime DateTimeConvertFromInt64(long TotalMilliseconds)
         {
             // for SQLite
