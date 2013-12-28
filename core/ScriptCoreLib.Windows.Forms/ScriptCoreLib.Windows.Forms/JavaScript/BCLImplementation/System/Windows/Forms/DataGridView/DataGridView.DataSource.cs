@@ -134,10 +134,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 cIndex++;
             }
 
-            foreach (DataRow item in SourceDataTable.Rows)
+            foreach (DataRow DataBoundItem in SourceDataTable.Rows)
             {
-                var r = new DataGridViewRow();
+                var r = new __DataGridViewRow
+                {
+                    DataBoundItem = DataBoundItem
+                };
 
+                
                 foreach (DataColumn c in SourceDataTable.Columns)
                 {
                     var cc = new DataGridViewTextBoxCell
@@ -145,7 +149,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         // two way binding?
                         //ReadOnly = true,
 
-                        Value = item[c]
+                        Value = DataBoundItem[c]
                     };
 
 
@@ -241,7 +245,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-
+            #region TableNewRow
             SourceDataTable.TableNewRow +=
                 (s, e) =>
                 {
@@ -254,7 +258,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.Rows.Add();
                     this.InternalDataSourceSync = CurrentDataSourceSync;
                 };
+            #endregion
 
+
+            #region UserAddedRow
             this.UserAddedRow +=
                 (_s, _e) =>
                 {
@@ -285,6 +292,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                 };
+            #endregion
+
 
             #region RemoveAt
             this.InternalBeforeUserDeletedRow +=

@@ -27,6 +27,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+        public object DataBoundItem { get; set; }
+
         public override DataGridViewCellStyle DefaultCellStyle { get; set; }
 
         public DOM.HTML.IHTMLTableRow InternalZeroColumnTableRow;

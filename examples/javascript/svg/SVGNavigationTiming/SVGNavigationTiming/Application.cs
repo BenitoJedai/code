@@ -17,6 +17,7 @@ using SVGNavigationTiming;
 using SVGNavigationTiming.Design;
 using SVGNavigationTiming.HTML.Pages;
 using System.Windows.Forms;
+using System.Data;
 
 namespace SVGNavigationTiming
 {
@@ -114,15 +115,29 @@ namespace SVGNavigationTiming
 
                             var g = new DataGridView
                             {
+                                ScrollBars = System.Windows.Forms.ScrollBars.None,
+                                AllowUserToAddRows = false,
+
                                 DataSource = data,
                                 Dock = DockStyle.Fill,
                                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                                 ReadOnly = true,
-                                AllowUserToAddRows = false
                             };
 
 
                             var f = new Form();
+
+
+
+
+                            f.Load +=
+                                delegate
+                                {
+                                    //await Native.window.requestAnimationFrameAsync;
+                                    //await Native.window.requestAnimationFrameAsync;
+
+                                    f.ClientSize = g.PreferredSize;
+                                };
 
                             g.AttachTo(f);
 
@@ -150,6 +165,9 @@ namespace SVGNavigationTiming
 
                                     var kg = new DataGridView
                                     {
+                                        ScrollBars = System.Windows.Forms.ScrollBars.None,
+                                        AllowUserToAddRows = false,
+
                                         DataSource = kdata,
                                         Dock = DockStyle.Fill,
                                         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
@@ -159,8 +177,65 @@ namespace SVGNavigationTiming
 
                                     var kf = new Form();
 
+                                    kf.ClientSize = kg.PreferredSize;
                                     kg.AttachTo(kf);
 
+                                    kf.Load +=
+                                      delegate
+                                      {
+
+                                          kf.ClientSize = kg.PreferredSize;
+
+                                      };
+
+                                    kg.CellClick +=
+                                        delegate
+                                        {
+                                            kg.SelectedRows.AsEnumerable().Select(
+                                                row => (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)row.DataBoundItem
+                                            ).FirstOrDefault().With(
+                                                async row =>
+                                                {
+                                                    // 150, http://192.168.43.252:17461/assets/ScriptCoreLib.Windows.Forms/FormResizeGrip.png, resource, 17, 9120, 9123, 9123, 9123, 9136, 9138, 20, 01.01.1970 02:00:00
+
+                                                    //MessageBox.Show(
+                                                    //    text: "" + (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)row.DataBoundItem
+                                                    //    );
+
+
+
+                                                    var kkf = new Form { Owner = kf };
+
+                                                    var kkg = new DataGridView
+                                                    {
+                                                        ScrollBars = System.Windows.Forms.ScrollBars.None,
+                                                        AllowUserToAddRows = false,
+
+                                                        //DataSource = kdata,
+                                                        Dock = DockStyle.Fill,
+                                                        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                                                        ReadOnly = true
+                                                    }.AttachTo(kkf);
+
+                                                    kkf.Load +=
+                                                        async delegate
+                                                        {
+                                                            //kkg.DataSource = await this.GetSimilarApplicationResourcePerformance(row);
+
+                                                            var xdata = await this.GetSimilarApplicationResourcePerformance(row);
+
+                                                            kkg.DataSource = xdata;
+                                                        };
+
+                                                    kf.Hide();
+
+                                                    await kkf.ShowAsync();
+
+                                                    kf.Show();
+
+                                                }
+                                            );
+                                        };
 
                                     await kf.ShowAsync();
 

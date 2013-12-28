@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 // whats the activating namespace?
 //namespace System.Data
@@ -22,6 +23,9 @@ namespace ScriptCoreLib.Extensions
             }
             return a;
         }
+
+
+
 
         public static IEnumerable<DataColumn> AsEnumerable(this DataColumnCollection c)
         {
