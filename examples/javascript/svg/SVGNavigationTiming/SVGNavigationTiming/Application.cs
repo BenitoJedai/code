@@ -18,6 +18,7 @@ using SVGNavigationTiming.Design;
 using SVGNavigationTiming.HTML.Pages;
 using System.Windows.Forms;
 using System.Data;
+using System.Drawing;
 
 namespace SVGNavigationTiming
 {
@@ -125,6 +126,27 @@ namespace SVGNavigationTiming
                                 ReadOnly = true,
                             }.AttachTo(f);
 
+                            g.CellFormatting +=
+                                (sender, e) =>
+                                {
+                                    var SourceCell = g[e.ColumnIndex, e.RowIndex];
+                                    var IsSelected = SourceCell.Selected;
+
+
+                                    if (SourceCell.OwningColumn.Name == "Timestamp" && !SourceCell.IsInEditMode)
+                                    {
+                                        e.FormattingApplied = true;
+
+                                        var t = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(SourceCell.Value);
+
+                                        e.Value = t.ToString();
+                                        //e.CellStyle.BackColor = g.RowHeadersDefaultCellStyle.BackColor;
+                                        e.CellStyle.ForeColor = Color.Gray;
+
+                                        return;
+                                    }
+                                };
+
                             CSSDataGridView.__ContentTable_css_tr.hover.style.textDecoration = "underline";
                             CSSDataGridView.__ContentTable_css_tr.hover.style.cursor = IStyle.CursorEnum.pointer;
                             CSSDataGridView.__ContentTable_css_tr.hover.style.color = "blue";
@@ -180,6 +202,69 @@ namespace SVGNavigationTiming
                                         ReadOnly = true
                                     }.AttachTo(kf);
 
+
+                                    #region CellFormatting
+                                    kg.CellFormatting +=
+                                        (sender, e) =>
+                                        {
+                                            var SourceCell = kg[e.ColumnIndex, e.RowIndex];
+                                            var IsSelected = SourceCell.Selected;
+
+
+                                            if (SourceCell.OwningColumn.Name == "Timestamp" && !SourceCell.IsInEditMode)
+                                            {
+                                                e.FormattingApplied = true;
+
+                                                var t = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(SourceCell.Value);
+
+                                                e.Value = t.ToString();
+                                                //e.CellStyle.BackColor = kkg.RowHeadersDefaultCellStyle.BackColor;
+                                                e.CellStyle.ForeColor = Color.Gray;
+
+                                                return;
+                                            }
+
+                                            #region duration
+                                            if (SourceCell.OwningColumn.Name == "duration" && !SourceCell.IsInEditMode)
+                                            {
+                                                e.FormattingApplied = true;
+
+                                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
+
+
+                                                var t = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(SourceCell.Value);
+
+
+                                                e.Value = crow.duration + "ms";
+
+                                                var rows =
+                                                    kg.Rows.AsEnumerable().Where(xx => xx.DataBoundItem != null).Select(
+                                                         xrow => ((PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)xrow.DataBoundItem)
+                                                    );
+
+                                                var min = rows.Min(
+                                                    xx => xx.duration
+                                                    );
+                                                var max = rows.Max(
+                                                    xx => xx.duration
+                                                    );
+
+                                                var red = (int)(((crow.duration - min) * 255) / (max - min));
+
+                                                e.CellStyle.ForeColor = Color.FromArgb(
+                                                    red: red,
+                                                    green: 0,
+                                                    blue: 255 - red
+                                                );
+                                                e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                                                return;
+                                            }
+                                            #endregion
+                                        };
+                                    #endregion
+
+
                                     kf.Load +=
                                       async delegate
                                       {
@@ -189,6 +274,7 @@ namespace SVGNavigationTiming
                                           kf.ClientSize = kg.PreferredSize;
 
                                       };
+
 
                                     kg.CellClick +=
                                         delegate
@@ -210,6 +296,67 @@ namespace SVGNavigationTiming
                                                         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                                                         ReadOnly = true
                                                     }.AttachTo(kkf);
+
+
+                                                    kkg.CellFormatting +=
+                                                        (sender, e) =>
+                                                        {
+                                                            var SourceCell = kkg[e.ColumnIndex, e.RowIndex];
+                                                            var IsSelected = SourceCell.Selected;
+
+
+                                                            if (SourceCell.OwningColumn.Name == "Timestamp" && !SourceCell.IsInEditMode)
+                                                            {
+                                                                e.FormattingApplied = true;
+
+                                                                var t = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(SourceCell.Value);
+
+                                                                e.Value = t.ToString();
+                                                                //e.CellStyle.BackColor = kkg.RowHeadersDefaultCellStyle.BackColor;
+                                                                e.CellStyle.ForeColor = Color.Gray;
+
+                                                                return;
+                                                            }
+
+                                                            #region duration
+                                                            if (SourceCell.OwningColumn.Name == "duration" && !SourceCell.IsInEditMode)
+                                                            {
+                                                                e.FormattingApplied = true;
+
+                                                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
+
+
+                                                                var t = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(SourceCell.Value);
+
+
+                                                                e.Value = crow.duration + "ms";
+
+                                                                var rows =
+                                                                    kkg.Rows.AsEnumerable().Where(xx => xx.DataBoundItem != null).Select(
+                                                                         xrow => ((PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)xrow.DataBoundItem)
+                                                                    );
+
+                                                                var min = rows.Min(
+                                                                    xx => xx.duration
+                                                                    );
+                                                                var max = rows.Max(
+                                                                    xx => xx.duration
+                                                                    );
+
+                                                                var red = (int)(((crow.duration - min) * 255) / (max - min));
+
+                                                                e.CellStyle.ForeColor = Color.FromArgb(
+                                                                    red: red,
+                                                                    green: 0,
+                                                                    blue: 255 - red
+                                                                );
+                                                                e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+
+                                                                return;
+                                                            }
+                                                            #endregion
+                                                        };
 
                                                     kkf.Load +=
                                                         async delegate

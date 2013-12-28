@@ -1,5 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
+using SVGNavigationTiming.Design;
 using System;
+using System.Linq;
 
 namespace SVGNavigationTiming
 {
@@ -16,7 +18,13 @@ namespace SVGNavigationTiming
             //        at ScriptCoreLib.Shared.BCLImplementation.System.__Convert.ToInt64(__Convert.java:144)
 
 
-            var z = Convert.ToInt64(default(string));
+            new PerformanceResourceTimingData2.ApplicationPerformance().Insert(
+                new PerformanceResourceTimingData2ApplicationPerformanceRow { }
+            );
+
+            var x = new PerformanceResourceTimingData2.ApplicationPerformance().SelectAllAsDataTable();
+            var y = new PerformanceResourceTimingData2.ApplicationPerformance().SelectAllAsEnumerable();
+            var yy = y.ToArray();
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }

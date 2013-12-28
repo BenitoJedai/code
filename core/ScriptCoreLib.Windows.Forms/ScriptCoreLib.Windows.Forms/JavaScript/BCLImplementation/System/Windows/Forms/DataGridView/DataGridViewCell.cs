@@ -11,6 +11,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewCell))]
     public abstract class __DataGridViewCell : __DataGridViewElement
     {
+
+        // X:\jsc.svn\examples\javascript\forms\Test\TestDataGridViewCellFormattingEven\TestDataGridViewCellFormattingEven\ApplicationControl.cs
+        public bool IsInEditMode { get; set; }
         public virtual bool ReadOnly { get; set; }
 
 
@@ -18,6 +21,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLDiv InternalContentContainer;
         public IHTMLTableColumn InternalTableColumn;
+
+        public object FormattedValue { get; set; }
 
         #region Value
         public object InternalValue;
@@ -46,6 +51,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __DataGridViewRow InternalOwningRow;
         public DataGridViewRow OwningRow { get { return InternalOwningRow; } }
 
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewCell.get_OwningColumn()]
+
         public int ColumnIndex
         {
             get
@@ -54,6 +61,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     return -1;
 
                 return InternalOwningRow.InternalCells.InternalItems.IndexOf(this);
+            }
+        }
+
+        public DataGridViewColumn OwningColumn
+        {
+            get
+            {
+                // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewElement.get_DataGridView()]
+
+                return InternalOwningRow.InternalContext.Columns[ColumnIndex];
             }
         }
 

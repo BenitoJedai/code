@@ -508,20 +508,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // X:\jsc.svn\examples\javascript\forms\Test\TestDataGridViewCellFormattingEven\TestDataGridViewCellFormattingEven\ApplicationControl.cs
             // how costly is this? should we call this
             // only for cells in view?
+
+            var a = new DataGridViewCellFormattingEventArgs(
+                SourceCell.ColumnIndex,
+                SourceCell.OwningRow.Index,
+                SourceCell.Value,
+
+                // what type do we desire?
+                typeof(string),
+
+                SourceCell.InternalStyle
+            );
+
             if (this.CellFormatting != null)
                 this.CellFormatting(
                     this,
-                    new DataGridViewCellFormattingEventArgs(
-                        SourceCell.ColumnIndex,
-                        SourceCell.OwningRow.Index,
-                        SourceCell.Value,
+                   a
+                );
 
-                        // what type do we desire?
-                        typeof(string),
 
-                        SourceCell.InternalStyle
-                    )
-            );
+            SourceCell.FormattedValue = a.Value;
+
+            Console.WriteLine("InternalRaiseCellFormatting " + new { SourceCell.FormattedValue });
         }
         #endregion
 

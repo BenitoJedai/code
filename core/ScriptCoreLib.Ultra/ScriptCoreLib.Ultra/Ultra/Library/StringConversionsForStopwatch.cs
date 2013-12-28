@@ -82,6 +82,13 @@ namespace ScriptCoreLib.Library
             if (e == null)
                 return DateTime.Now;
 
+            if (e is long)
+            {
+                // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
+
+                return DateTimeConvertFromInt64((long)(e));
+            }
+
             var s = e as string;
 
             if (s != null)
@@ -98,6 +105,9 @@ namespace ScriptCoreLib.Library
             // for SQLite
             var ticks = TotalMilliseconds * TicksPerMillisecond + ticks_1970_1_1;
 
+            //Additional information: Ticks must be between DateTime.MinValue.Ticks and DateTime.MaxValue.Ticks.
+
+            //if (DateTime.MaxValue.Ticks)
             var value = new DateTime(ticks: ticks, kind: DateTimeKind.Utc);
 
             Console.WriteLine("DateTimeConvertFromInt64 " + new { value.Kind, value });
