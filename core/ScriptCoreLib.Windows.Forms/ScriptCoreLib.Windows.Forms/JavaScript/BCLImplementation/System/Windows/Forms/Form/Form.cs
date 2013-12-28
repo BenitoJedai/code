@@ -190,36 +190,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        public List<Form> InternalOwnedForms = new List<Form>();
-
-        public Form[] OwnedForms
-        {
-            get
-            {
-                return InternalOwnedForms.ToArray();
-            }
-        }
-
-        #region Owner
-        public __Form InternalOwner;
-        public Form Owner
-        {
-            get { return InternalOwner; }
-            set
-            {
-                if (InternalOwner != null)
-                    InternalOwner.InternalOwnedForms.Remove(this);
-
-                InternalOwner = value;
-
-                if (InternalOwner != null)
-                {
-                    InternalOwner.InternalOwnedForms.Add(this);
-                    InternalOwner.InternalUpdateZIndex();
-                }
-            }
-        }
-        #endregion
+     
 
         #region Opacity
         public double InternalOpacity;
@@ -252,20 +223,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         #region Load
 
-        // allow to create system window and attach to that instead
-        // see also: X:\jsc.svn\examples\javascript\chrome\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
-        public static Action<__Form, Action<bool>> InternalHTMLTargetAttachToDocument =
-            (that, yield) =>
-            {
-                if (that.HTMLTarget.parentNode == null)
-                    that.HTMLTarget.AttachTo(
-                        //Native.document.body.parentNode
-                        Native.document.documentElement
-                    );
-
-                // animate!
-                yield(true);
-            };
 
         public int InternalHostWidth
         {

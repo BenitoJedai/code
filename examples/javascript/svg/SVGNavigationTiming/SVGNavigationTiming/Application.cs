@@ -110,36 +110,46 @@ namespace SVGNavigationTiming
                     new IHTMLButton { "GetApplicationPerformance" }.AttachToDocument().WhenClicked(
                         async button =>
                         {
-                            var data0 = await this.GetApplicationPerformance();
-                            var data = data0;
+
+
+                            var f = new Form { Text = "GetApplicationPerformance" };
 
                             var g = new DataGridView
                             {
-                                ScrollBars = System.Windows.Forms.ScrollBars.None,
+                                ScrollBars = System.Windows.Forms.ScrollBars.Vertical,
+
                                 AllowUserToAddRows = false,
 
-                                DataSource = data,
                                 Dock = DockStyle.Fill,
                                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                                 ReadOnly = true,
-                            };
+                            }.AttachTo(f);
 
-
-                            var f = new Form();
-
-
-
+                            CSSDataGridView.__ContentTable_css_tr.hover.style.textDecoration = "underline";
+                            CSSDataGridView.__ContentTable_css_tr.hover.style.cursor = IStyle.CursorEnum.pointer;
+                            CSSDataGridView.__ContentTable_css_tr.hover.style.color = "blue";
 
                             f.Load +=
-                                delegate
+                                async delegate
                                 {
                                     //await Native.window.requestAnimationFrameAsync;
                                     //await Native.window.requestAnimationFrameAsync;
 
-                                    f.ClientSize = g.PreferredSize;
+                                    var data0 = await this.GetApplicationPerformance();
+                                    g.DataSource = data0;
+
+
+
+                                    var p = g.PreferredSize;
+
+                                    if (p.Height > 400)
+                                        p.Height = 400;
+
+                                    f.ClientSize = p;
+
+
                                 };
 
-                            g.AttachTo(f);
 
 
                             // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.add_CellContentDoubleClick(System.Windows.Forms.DataGridViewCellEventHandler)]
@@ -149,40 +159,32 @@ namespace SVGNavigationTiming
                             //g.CellContentDoubleClick +=
                             //g.CellMouseClick +=
                             g.CellClick +=
-                                async (sender, args) =>
+                                async delegate
                                 {
-                                    var RowIndex = args.RowIndex;
 
-                                    Console.WriteLine(
-                                        "CellContentClick" + new { RowIndex }
-                                        );
+                                    PerformanceResourceTimingData2ApplicationPerformanceRow x = g.SelectedRows.AsEnumerable().Select(
+                                                row => (PerformanceResourceTimingData2ApplicationPerformanceRow)(DataRow)row.DataBoundItem
+                                            ).FirstOrDefault();
 
-                                    PerformanceResourceTimingData2ApplicationPerformanceRow x = data.Rows[RowIndex];
 
-                                    f.Hide();
 
-                                    var kdata = await this.GetApplicationResourcePerformance(x);
 
+                                    var kf = new Form { Owner = f, Text = "GetApplicationResourcePerformance" };
                                     var kg = new DataGridView
                                     {
                                         ScrollBars = System.Windows.Forms.ScrollBars.None,
                                         AllowUserToAddRows = false,
 
-                                        DataSource = kdata,
                                         Dock = DockStyle.Fill,
                                         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                                         ReadOnly = true
-                                    };
-
-
-                                    var kf = new Form();
-
-                                    kf.ClientSize = kg.PreferredSize;
-                                    kg.AttachTo(kf);
+                                    }.AttachTo(kf);
 
                                     kf.Load +=
-                                      delegate
+                                      async delegate
                                       {
+                                          var kdata = await this.GetApplicationResourcePerformance(x);
+                                          kg.DataSource = kdata;
 
                                           kf.ClientSize = kg.PreferredSize;
 
@@ -196,19 +198,11 @@ namespace SVGNavigationTiming
                                             ).FirstOrDefault().With(
                                                 async row =>
                                                 {
-                                                    // 150, http://192.168.43.252:17461/assets/ScriptCoreLib.Windows.Forms/FormResizeGrip.png, resource, 17, 9120, 9123, 9123, 9123, 9136, 9138, 20, 01.01.1970 02:00:00
-
-                                                    //MessageBox.Show(
-                                                    //    text: "" + (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)row.DataBoundItem
-                                                    //    );
-
-
-
-                                                    var kkf = new Form { Owner = kf };
+                                                    var kkf = new Form { Owner = kf, Text = "GetSimilarApplicationResourcePerformance" };
 
                                                     var kkg = new DataGridView
                                                     {
-                                                        ScrollBars = System.Windows.Forms.ScrollBars.None,
+                                                        ScrollBars = System.Windows.Forms.ScrollBars.Vertical,
                                                         AllowUserToAddRows = false,
 
                                                         //DataSource = kdata,
@@ -225,24 +219,34 @@ namespace SVGNavigationTiming
                                                             var xdata = await this.GetSimilarApplicationResourcePerformance(row);
 
                                                             kkg.DataSource = xdata;
+
+                                                            var p = kkg.PreferredSize;
+                                                            p.Height = p.Height.Min(400);
+
+                                                            kkf.ClientSize = p;
                                                         };
 
-                                                    kf.Hide();
+                                                    //kf.Hide();
 
-                                                    await kkf.ShowAsync();
+                                                    Native.document.title = "kkf";
+                                                    await kkf.ShowAsync(hideOwner: true);
 
-                                                    kf.Show();
+                                                    //kf.Show();
+
+                                                    Native.document.title = "kf";
 
                                                 }
                                             );
                                         };
 
-                                    await kf.ShowAsync();
+                                    Native.document.title = "kf";
+                                    await kf.ShowAsync(hideOwner: true);
+                                    Native.document.title = "f";
 
-                                    f.Show();
 
                                 };
 
+                            Native.document.title = "f";
                             await f.ShowAsync();
 
                         }

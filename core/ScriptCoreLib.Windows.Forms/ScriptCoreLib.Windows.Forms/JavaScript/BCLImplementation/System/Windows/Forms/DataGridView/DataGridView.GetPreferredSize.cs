@@ -25,14 +25,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (this.ScrollBars == global::System.Windows.Forms.ScrollBars.None)
             {
-                x.Width = this.__ContentTable.scrollWidth + 16 + 2;
-                x.Height = this.__ContentTable.scrollHeight + 16 + 2;
+                x.Width = this.__ContentTable.scrollWidth + 16 + 4;
+                x.Height = this.__ContentTable.scrollHeight + 16 + 4;
 
             }
             else
             {
-                x.Width = this.__ContentTable.scrollWidth + 32 + 2;
-                x.Height = this.__ContentTable.scrollHeight + 32 + 2;
+                x.Width = this.__ContentTable.scrollWidth + 32 + 4;
+                x.Height = this.__ContentTable.scrollHeight + 32 + 4;
             }
 
             return x;

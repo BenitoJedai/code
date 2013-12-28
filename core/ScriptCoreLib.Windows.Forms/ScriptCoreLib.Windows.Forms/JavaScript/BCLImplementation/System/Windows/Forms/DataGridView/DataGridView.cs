@@ -46,6 +46,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public IHTMLDiv __Corner;
 
         public IHTMLTable __ContentTable;
+        public static string __ContentTable_className = "__ContentTable";
+
         public CSSStyleRuleMonkier __ContentTable_css_td;
         public CSSStyleRuleMonkier __ContentTable_css_alt_td;
 
@@ -471,29 +473,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public DataGridViewHeaderBorderStyle ColumnHeadersBorderStyle { get; set; }
 
 
-        #region ScrollBars
-        public ScrollBars InternalScrollBars;
-        public ScrollBars ScrollBars
-        {
-            get
-            {
-                return InternalScrollBars;
-            }
-            set
-            {
-                InternalScrollBars = value;
-
-                if (value == global::System.Windows.Forms.ScrollBars.None)
-                {
-                    this.InternalScrollContainerElement.style.overflow = IStyle.OverflowEnum.hidden;
-                }
-                else
-                {
-                    this.InternalScrollContainerElement.style.overflow = IStyle.OverflowEnum.auto;
-                }
-            }
-        }
-        #endregion
 
         #region RowHeadersVisible
         public event Action InternalRowHeadersVisibleChanged;

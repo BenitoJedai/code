@@ -495,6 +495,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalUpdateBounds(x, y, width, height);
         }
 
+
+        public virtual void InternalUpdateBoundsSetLocation(int x, int y)
+        {
+            this.HTMLTargetRef.style.SetLocation(x, y);
+        }
+
         protected void InternalUpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
         {
 
@@ -530,7 +536,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 else
                 {
-                    this.HTMLTargetRef.style.SetLocation(x, y);
+                    InternalUpdateBoundsSetLocation(x, y);
                 }
 
                 this.OnLocationChanged(null);

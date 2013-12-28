@@ -125,7 +125,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var __ContentTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
 
-            this.__ContentTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ContentTableContainer);
+            this.__ContentTable = new IHTMLTable
+            {
+                className = __ContentTable_className,
+                cellPadding = 0,
+                cellSpacing = 0
+            }.AttachTo(__ContentTableContainer);
 
             // X:\jsc.svn\examples\javascript\css\CSSOdd\CSSOdd\Application.cs
 

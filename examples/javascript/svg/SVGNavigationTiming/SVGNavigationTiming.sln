@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVGNavigationTiming", "SVGNavigationTiming\SVGNavigationTiming.csproj", "{243246C3-A1B7-4793-A46D-210FFB6F716A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {B8D28279-57CD-4163-86F9-1DFDF540B58B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibA", "..\..\..\..\compiler\ScriptCoreLibA\ScriptCoreLibA.csproj", "{477C5608-F5CD-436F-935D-66675988F1D9}"
 EndProject
