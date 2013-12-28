@@ -16,6 +16,46 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     public partial class __Form
     {
+        // allow to create system window and attach to that instead
+        // see also: X:\jsc.svn\examples\javascript\chrome\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
+        public static Action<__Form, Action<bool>> InternalHTMLTargetAttachToDocument =
+            (that, yield) =>
+            {
+                if (that.HTMLTarget.parentNode == null)
+                {
+                    // are we supposed to add the jsc experience?
+
+                    // we do not want the document scrollbars on top of us?
+                    // cannot do that yet. 20131228 as body scrollTop will not work then.
+
+                    that.HTMLTarget.AttachTo(
+                        //Native.document.body.parentNode
+                        Native.document.documentElement
+                    );
+
+
+
+
+                }
+
+                // animate!
+                yield(true);
+            };
+
+        public override void InternalUpdateBoundsSetLocation(int x, int y)
+        {
+            if (this.HTMLTarget.parentNode == Native.document.documentElement)
+            {
+                // could we dock to center?
+
+                this.HTMLTarget.style.position = IStyle.PositionEnum.@fixed;
+                this.HTMLTarget.style.left = x + "px";
+                this.HTMLTarget.style.top = y + "px";
+                return;
+            }
+
+            this.HTMLTarget.style.SetLocation(x, y);
+        }
 
         bool InternalBeforeVisibleChangedDone = false;
         public override void InternalBeforeVisibleChanged(Action yield)

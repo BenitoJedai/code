@@ -13,8 +13,72 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+namespace System.Linq
+{
+    public static class Average
+    {
+        public static long Median<T>(this IEnumerable<T> list, Func<T, long> s)
+        {
+            return (long)list.Select(s).Median();
+        }
+
+        public static long Median(this IEnumerable<long> list)
+        {
+            return (long)list.Select(x => (double)x).Median();
+        }
+
+        public static double Median(this IEnumerable<double> list)
+        {
+            List<double> orderedList = list
+                .OrderBy(numbers => numbers)
+                .ToList();
+
+            int listSize = orderedList.Count;
+            double result;
+
+            if (listSize % 2 == 0) // even
+            {
+                int midIndex = listSize / 2;
+                result = ((orderedList.ElementAt(midIndex - 1) +
+                           orderedList.ElementAt(midIndex)) / 2);
+            }
+            else // odd
+            {
+                double element = (double)listSize / 2;
+                element = Math.Round(element, MidpointRounding.AwayFromZero);
+
+                result = orderedList.ElementAt((int)(element - 1));
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<double> Modes(this IEnumerable<double> list)
+        {
+            var modesList = list
+                .GroupBy(values => values)
+                .Select(valueCluster =>
+                        new
+                        {
+                            Value = valueCluster.Key,
+                            Occurrence = valueCluster.Count(),
+                        })
+                .ToList();
+
+            int maxOccurrence = modesList
+                .Max(g => g.Occurrence);
+
+            return modesList
+                .Where(x => x.Occurrence == maxOccurrence && maxOccurrence > 1) // Thanks Rui!
+                .Select(x => x.Value);
+        }
+    }
+}
+
 namespace SVGNavigationTiming
 {
+    // http://www.remondo.net/calculate-mean-median-mode-averages-csharp/
+
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
@@ -94,14 +158,50 @@ namespace SVGNavigationTiming
 
         public Task<DataTable> GetSimilarApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k)
         {
-            return new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+            var data = new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
              .SelectAllAsEnumerable()
 
              .Where(
                 // host:port will differ
                 z => z.name.SkipUntilIfAny("//").SkipUntilIfAny("/") == k.name.SkipUntilIfAny("//").SkipUntilIfAny("/"))
 
-             // can we generate this yet? can we do this on the client instead?
+
+             .ToList();
+
+
+            data.AddRange(
+                new[] {
+                    new Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+                    {
+                        name = "Average", duration = (long)data.Average(x => x.duration)
+                    },
+
+                    new Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+                    {
+                        name = "Min", duration = (long)data.Min(x => x.duration)
+                    },
+
+                    new Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+                    {
+                        name = "Max", duration = (long)data.Max(x => x.duration)
+                    },
+
+                        new Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+                    {
+                        // http://www.remondo.net/calculate-mean-median-mode-averages-csharp/
+                        name = "Median", duration = (long)data.Median(x => x.duration)
+                    },
+                }
+            );
+
+
+            return
+
+                data
+                .AsEnumerable()
+                .Reverse()
+
+                // can we generate this yet? can we do this on the client instead?
              .AsDataTable()
 
              .AsResult();

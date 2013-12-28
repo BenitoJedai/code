@@ -75,6 +75,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.GetPreferredSize.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.Layout.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.ScrollBars.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewSelectedRowCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.GetPreferredSize.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView..ctor.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewSelectedCellCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewTextBoxCell.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewTextBoxColumn.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.Owner.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.InternalBeforeVisibleChanged.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.Close.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form..ctor.cs" />
