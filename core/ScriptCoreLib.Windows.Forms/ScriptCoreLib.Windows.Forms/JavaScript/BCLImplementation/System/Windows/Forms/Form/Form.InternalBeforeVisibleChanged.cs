@@ -37,23 +37,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this,
                 Animate =>
                 {
-
-                    #region CenterScreen
-                    if (this.WindowState == FormWindowState.Normal)
-                        if (this.StartPosition == FormStartPosition.CenterScreen)
-                        {
-                            this.Width = Math.Min(InternalHostWidth, this.Width);
-                            this.Height = Math.Min(InternalHostHeight, this.Height);
-
-                            //Console.WriteLine(new { this.height, host_Bounds });
-
-                            this.Location = new Point
+                    Action DoCenterScreen = delegate
+                    {
+                        #region CenterScreen
+                        if (this.WindowState == FormWindowState.Normal)
+                            if (this.StartPosition == FormStartPosition.CenterScreen)
                             {
-                                X = (InternalHostWidth - this.Width) / 2,
-                                Y = Math.Max(0, (InternalHostHeight - this.Height) / 2)
-                            };
-                        }
-                    #endregion
+                                this.Width = Math.Min(InternalHostWidth, this.Width);
+                                this.Height = Math.Min(InternalHostHeight, this.Height);
+
+                                //Console.WriteLine(new { this.height, host_Bounds });
+
+                                this.Location = new Point
+                                {
+                                    X = (InternalHostWidth - this.Width) / 2,
+                                    Y = Math.Max(0, (InternalHostHeight - this.Height) / 2)
+                                };
+                            }
+                        #endregion
+
+                    };
+
+
+                    DoCenterScreen();
+
 
                     #region fadein
 
@@ -100,36 +107,54 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
-                    Console.WriteLine("InternalRaiseLoad");
-                    InternalRaiseLoad();
-
-                    InternalUpdateZIndex(HTMLTarget);
-
-                    Console.WriteLine("InternalRaiseShown");
-                    InternalRaiseShown();
-
-                    // let child controls know
-                    yield();
-
-
-                    #region Focus
-                    var length = this.Controls.Count;
-
-                    for (int i = 0; i < length; i++)
-                    {
-                        var item = this.Controls[i];
-
-                        if (item.TabIndex == 0)
-                            item.Focus();
-                    }
-                    #endregion
-
-
                     this.HTMLTarget.requestAnimationFrame +=
                         delegate
                         {
-                            InternalWindowStateAnimated = true;
+                            this.HTMLTarget.requestAnimationFrame +=
+                                 delegate
+                                 {
+
+                                     this.SizeChanged +=
+                                         delegate
+                                         {
+                                             // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Application.cs
+                                             if (DoCenterScreen != null)
+                                                 DoCenterScreen();
+                                         };
+
+                                     Console.WriteLine("InternalRaiseLoad");
+                                     InternalRaiseLoad();
+
+                                     DoCenterScreen = null;
+
+
+                                     InternalUpdateZIndex(HTMLTarget);
+
+                                     Console.WriteLine("InternalRaiseShown");
+                                     InternalRaiseShown();
+
+                                     // let child controls know
+                                     yield();
+
+
+                                     #region Focus
+                                     var length = this.Controls.Count;
+
+                                     for (int i = 0; i < length; i++)
+                                     {
+                                         var item = this.Controls[i];
+
+                                         if (item.TabIndex == 0)
+                                             item.Focus();
+                                     }
+                                     #endregion
+
+
+
+                                     InternalWindowStateAnimated = true;
+                                 };
                         };
+
 
                 }
             );

@@ -70,14 +70,14 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                             {
                                 ex.Message,
                                 ex,
-                                ex.StackTrace
+                                //ex.StackTrace
                             };
 
                         Console.WriteLine(text);
 
                         Debugger.Break();
 
-                        throw new InvalidOperationException(text);
+                        //throw new InvalidOperationException(text);
                     }
                 }
 

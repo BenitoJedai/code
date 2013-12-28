@@ -143,14 +143,14 @@ namespace ScriptCoreLib
                         {
                             //Additional information: Could not load file or assembly 'System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)
 
-                            var LocalCopyHint = new FileInfo(a.Location).Directory + "/" + k.Name + ".dll";
+                            //var LocalCopyHint = new FileInfo(a.Location).Directory + "/" + k.Name + ".dll";
 
-                            if (File.Exists(LocalCopyHint))
-                            {
-                                // 20131226
+                            //if (File.Exists(LocalCopyHint))
+                            //{
+                            //    // 20131226
 
-                                return Assembly.LoadFrom(LocalCopyHint);
-                            }
+                            //    return Assembly.LoadFrom(LocalCopyHint);
+                            //}
 
                             return AppDomain.CurrentDomain.Load(k);
                         }

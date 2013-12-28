@@ -74,24 +74,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        public override global::System.Drawing.Size GetPreferredSize(global::System.Drawing.Size proposedSize)
-        {
-            var x = new global::System.Drawing.Size();
-
-            if (this.ScrollBars == global::System.Windows.Forms.ScrollBars.None)
-            {
-                x.Width = this.__ContentTable.scrollWidth + 16;
-                x.Height = this.__ContentTable.scrollHeight + 16;
-
-            }
-            else
-            {
-                x.Width = this.__ContentTable.scrollWidth + 32;
-                x.Height = this.__ContentTable.scrollHeight + 32;
-            }
-
-            return x;
-        }
 
         // we do not yet use it.. needs to be tested
         // used for
@@ -358,6 +340,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __DataGridViewSelectedCellCollection InternalSelectedCells { get; set; }
         public DataGridViewSelectedCellCollection SelectedCells { get; set; }
 
+        public DataGridViewSelectedRowCollection SelectedRows
+        {
+            get
+            {
+                var x = new __DataGridViewSelectedRowCollection();
+
+                // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Distinct(System.Collections.Generic.IEnumerable`1[[System.Windows.Forms.DataGridViewRow, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
+
+                foreach (var item in InternalSelectedCells.InternalItems)
+                {
+                    if (!x.InternalItems.InternalList.Contains(item.OwningRow))
+                        x.InternalItems.InternalList.Add(item.OwningRow);
+
+                }
+
+
+                return (DataGridViewSelectedRowCollection)(object)x;
+            }
+        }
 
         //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridView.get_SelectedRows()]
 

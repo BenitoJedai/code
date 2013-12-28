@@ -92,6 +92,21 @@ namespace SVGNavigationTiming
             return new Design.PerformanceResourceTimingData2.ApplicationPerformance().SelectAllAsDataTable().AsResult();
         }
 
+        public Task<DataTable> GetSimilarApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k)
+        {
+            return new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+             .SelectAllAsEnumerable()
+
+             .Where(
+                // host:port will differ
+                z => z.name.SkipUntilIfAny("//").SkipUntilIfAny("/") == k.name.SkipUntilIfAny("//").SkipUntilIfAny("/"))
+
+             // can we generate this yet? can we do this on the client instead?
+             .AsDataTable()
+
+             .AsResult();
+        }
+
         public Task<DataTable> GetApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceKey k)
         {
             //Task.FromResult
@@ -111,6 +126,7 @@ namespace SVGNavigationTiming
         public const long TicksPerMillisecond = 10000;
         public const long ticks_1970_1_1 = 621355968000000000;
 
+        #region Reset
         public Task Reset()
         {
 
@@ -119,34 +135,36 @@ namespace SVGNavigationTiming
                 c =>
                 {
                     #region drop
-                    Action<string> drop = QualifiedTableName =>
-                    {
-                        Console.WriteLine("drop " + new { QualifiedTableName });
-                        try
+                    Action<string, string> drop =
+                        (QualifiedTableName, sql) =>
                         {
+                            Console.WriteLine("drop " + new { QualifiedTableName });
+                            try
+                            {
 
-                            var xvalue = new System.Data.SQLite.SQLiteCommand("drop table `" + QualifiedTableName + "`", c).ExecuteNonQuery();
-                            Console.WriteLine(new { QualifiedTableName, xvalue });
+                                var xvalue = new System.Data.SQLite.SQLiteCommand(sql, c).ExecuteNonQuery();
+                                Console.WriteLine(new { QualifiedTableName, xvalue });
 
-                            Console.WriteLine("ok " + new { QualifiedTableName });
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("nok " + new { QualifiedTableName });
+                                Console.WriteLine("ok " + new { QualifiedTableName });
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("nok " + new { QualifiedTableName });
 
-                            //Console.WriteLine(new { QualifiedTableName, e.Message, e.StackTrace });
-                            Console.WriteLine(new { QualifiedTableName, e.Message });
-                        }
-                    };
+                                //Console.WriteLine(new { QualifiedTableName, e.Message, e.StackTrace });
+                                Console.WriteLine(new { QualifiedTableName, e.Message });
+                            }
+                        };
                     #endregion
 
-                    drop(Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries.QualifiedTableName);
-                    drop(Design.PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries.QualifiedTableName);
+                    drop(Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries.QualifiedTableName, Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries.DropCommandText);
+                    drop(Design.PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries.QualifiedTableName, Design.PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries.DropCommandText);
 
                     return "".AsResult();
                 }
             );
         }
+        #endregion
 
         public Task AtApplicationPerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceRow value)
         {
@@ -221,6 +239,7 @@ namespace SVGNavigationTiming
             x.Columns.Add("responseEnd");
             x.Columns.Add("responseStart");
             x.Columns.Add("startTime");
+            x.Columns.Add("ApplicationPerformance");
             x.Columns.Add("Timestamp");
 
             // The runtime has encountered a fatal error. The address of the error was at 0x715f4ba0, on thread 0x2290. The error code is 0xc0000005. This error may be a bug in the CLR or in the unsafe or non-verifiable portions of user code. 
@@ -241,7 +260,10 @@ namespace SVGNavigationTiming
                 n["responseEnd"] = item.responseEnd;
                 n["responseStart"] = item.responseStart;
                 n["startTime"] = item.startTime;
-                n["Timestamp"] = item.Timestamp;
+                n["ApplicationPerformance"] = item.ApplicationPerformance;
+
+                // Uncaught Error: InvalidOperationException: parseInt failed for 1/1/1970 12:00:00 AM
+                n["Timestamp"] = 0;
 
                 x.Rows.Add(n);
             }
