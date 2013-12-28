@@ -363,7 +363,9 @@ namespace SVGNavigationTiming
                 n["ApplicationPerformance"] = item.ApplicationPerformance;
 
                 // Uncaught Error: InvalidOperationException: parseInt failed for 1/1/1970 12:00:00 AM
-                n["Timestamp"] = 0;
+                n["Timestamp"] = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertToString(item.Timestamp);
+                
+
 
                 x.Rows.Add(n);
             }

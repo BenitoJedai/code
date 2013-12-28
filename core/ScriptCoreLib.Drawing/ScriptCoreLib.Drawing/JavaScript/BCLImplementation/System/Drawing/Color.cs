@@ -97,6 +97,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         static public __Color Transparent { get { return Shared.Drawing.Color.Transparent; } }
         static public __Color Navy { get { return 0x000080; } }
         static public __Color Silver { get { return 0xC0C0C0; } }
+        static public __Color Gray { get { return 0x808080; } }
 
 
 

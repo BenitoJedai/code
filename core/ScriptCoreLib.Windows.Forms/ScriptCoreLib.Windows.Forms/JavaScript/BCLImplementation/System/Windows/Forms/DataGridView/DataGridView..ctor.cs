@@ -583,7 +583,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region AtInternalValueChanged
                     Action AtInternalValueChanged = delegate
                     {
-                        var innerText = SourceCell.Value.ToString();
+                        InternalRaiseCellFormatting(SourceCell);
+
+                        //var innerText = SourceCell.Value.ToString();
+                        var innerText = SourceCell.FormattedValue.ToString();
 
                         //Console.WriteLine("AtInternalValueChanged " + new { innerText });
                         InternalContent.innerText = innerText;
@@ -680,6 +683,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             if (!ExitEditModeDone)
                                 return;
 
+
+                            SourceCell.IsInEditMode = true;
                             ExitEditModeDone = false;
 
                             SourceCell.InternalContentContainer.Orphanize();
@@ -758,6 +763,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             {
                                 if (ExitEditModeDone) return;
                                 ExitEditModeDone = true;
+                                SourceCell.IsInEditMode = false;
 
 
                                 EditElement.Orphanize();
@@ -779,7 +785,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                 this.AutoResizeColumn(SourceCell.ColumnIndex);
 
-                                InternalRaiseCellFormatting(SourceCell);
+                                //InternalRaiseCellFormatting(SourceCell);
+
+                                Console.WriteLine("ExitEditMode AtInternalValueChanged");
+                                AtInternalValueChanged();
                             };
                             #endregion
 
@@ -793,6 +802,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     EditElement.select();
                                 };
                             EditElement.focus();
+
+                            InternalRaiseCellFormatting(SourceCell);
 
                             InternalRaiseCellBeginEdit(SourceCell);
 
@@ -1272,7 +1283,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     #endregion
 
-                    InternalRaiseCellFormatting(SourceCell);
 
 
 
