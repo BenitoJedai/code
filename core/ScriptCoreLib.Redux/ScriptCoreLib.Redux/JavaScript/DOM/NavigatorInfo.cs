@@ -1,4 +1,6 @@
-﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+﻿extern alias core;
+
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,13 +61,30 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     that.getUserMedia(
                         successCallback:
-                        stream =>
-                        {
-                            var v = new IHTMLVideo { src = stream.ToObjectURL() };
-                            x.SetResult(v);
+                         stream =>
+                         {
+                             var src = stream.ToObjectURL();
 
-                            // stop video once removed from DOM?
-                        }
+                             var v = new IHTMLVideo { src = src };
+                             x.SetResult(v);
+
+                             // http://stackoverflow.com/questions/11642926/stop-close-webcam-which-is-opened-by-navigator-getusermedia
+
+                             var w = (core::ScriptCoreLib.JavaScript.DOM.IWindow)(object)Native.window;
+
+                             w.onframe +=
+                                 delegate
+                                 {
+                                     if (stream == null)
+                                         return;
+
+                                     if (v.src == src)
+                                         return;
+
+                                     stream.stop();
+                                     stream = null;
+                                 };
+                         }
                        );
 
                     return x.Task;
