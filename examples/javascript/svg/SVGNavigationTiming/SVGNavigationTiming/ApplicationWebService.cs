@@ -3,6 +3,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using SVGNavigationTiming.Design;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -186,11 +187,12 @@ namespace SVGNavigationTiming
                         name = "Max", duration = (long)data.Max(x => x.duration)
                     },
 
-                        new Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+                        new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                     {
                         // http://www.remondo.net/calculate-mean-median-mode-averages-csharp/
                         name = "Median", duration = (long)data.Median(x => x.duration)
                     },
+
                 }
             );
 
@@ -202,7 +204,8 @@ namespace SVGNavigationTiming
                 .Reverse()
 
                 // can we generate this yet? can we do this on the client instead?
-             .AsDataTable()
+                //.AsDataTable()
+             .XAsDataTable()
 
              .AsResult();
         }
@@ -216,6 +219,7 @@ namespace SVGNavigationTiming
                 .Where(z => z.ApplicationPerformance == k)
 
                 .AsDataTable()
+                //.XAsDataTable()
 
                 .AsResult();
         }
@@ -323,7 +327,7 @@ namespace SVGNavigationTiming
 
     public static class X
     {
-        public static DataTable AsDataTable(this IEnumerable<Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow> source)
+        public static DataTable XAsDataTable(this IEnumerable<Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow> source)
         {
             var x = new DataTable();
 
@@ -345,30 +349,33 @@ namespace SVGNavigationTiming
             // The runtime has encountered a fatal error. The address of the error was at 0x715f4ba0, on thread 0x2290. The error code is 0xc0000005. This error may be a bug in the CLR or in the unsafe or non-verifiable portions of user code. 
             // Common sources of this bug include user marshaling errors for COM-interop or PInvoke, which may corrupt the stack.
 
+            source.WithEach(
+                item =>
+                {
+                    var n = x.NewRow();
 
-            foreach (var item in source)
-            {
-                var n = x.NewRow();
+                    n["Key"] = item.Key;
 
-                n["Key"] = item.Key;
-                n["connectEnd"] = item.connectEnd;
-                n["connectStart"] = item.connectStart;
-                n["duration"] = item.duration;
-                n["entryType"] = item.entryType;
-                n["name"] = item.name;
-                n["requestStart"] = item.requestStart;
-                n["responseEnd"] = item.responseEnd;
-                n["responseStart"] = item.responseStart;
-                n["startTime"] = item.startTime;
-                n["ApplicationPerformance"] = item.ApplicationPerformance;
+                    n["connectEnd"] = item.connectEnd;
+                    n["connectStart"] = item.connectStart;
+                    n["duration"] = item.duration;
+                    n["entryType"] = item.entryType;
+                    n["name"] = item.name;
+                    n["requestStart"] = item.requestStart;
+                    n["responseEnd"] = item.responseEnd;
+                    n["responseStart"] = item.responseStart;
+                    n["startTime"] = item.startTime;
+                    n["ApplicationPerformance"] = item.ApplicationPerformance;
 
-                // Uncaught Error: InvalidOperationException: parseInt failed for 1/1/1970 12:00:00 AM
-                n["Timestamp"] = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertToString(item.Timestamp);
-                
+                    // Uncaught Error: InvalidOperationException: parseInt failed for 1/1/1970 12:00:00 AM
+                    n["Timestamp"] = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertToString(item.Timestamp);
 
 
-                x.Rows.Add(n);
-            }
+
+                    x.Rows.Add(n);
+                }
+            );
+
 
             return x;
         }
