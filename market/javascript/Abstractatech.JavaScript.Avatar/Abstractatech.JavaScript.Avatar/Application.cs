@@ -35,6 +35,8 @@ namespace Abstractatech.JavaScript.Avatar
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131229-avatar
 
+            Native.document.body.Clear();
+            Native.document.body.style.backgroundColor = "black";
 
             new IHTMLDiv { }.AttachToDocument().With(
                 async c =>
@@ -44,19 +46,22 @@ namespace Abstractatech.JavaScript.Avatar
                     c.css[">*"].style.SetLocation(0, 0);
 
                     c.style.position = IStyle.PositionEnum.relative;
-                    c.style.backgroundColor = "black";
 
-                    c.style.width = (640 + 96) + "px";
-                    c.style.height = 480 + "px";
+
+                    c.style.width = (640) + "px";
+                    c.style.height = (480 + 96) + "px";
+
+                    // centerize
+                    c.style.margin = "auto";
 
                     var css = c.css.empty.before;
 
                     css.content = "either drag a picture here -or- click here to use your webcam";
                     css.style.textAlign = IStyle.TextAlignEnum.center;
                     css.style.display = IStyle.DisplayEnum.block;
-                    css.style.width = (640 + 96) + "px";
+                    css.style.width = (640) + "px";
                     css.style.color = "white";
-                    css.style.paddingTop = 200 + "px";
+                    css.style.paddingTop = 300 + "px";
 
 
                     c.css.hover.empty.before.style.color = "yellow";
@@ -71,7 +76,7 @@ namespace Abstractatech.JavaScript.Avatar
                     v.AttachTo(c);
                     v.play();
 
-                    var size = 320;
+                    var size = 400;
 
                     var mask_css = c.css[IHTMLElement.HTMLElementEnum.canvas];
 
@@ -86,8 +91,8 @@ namespace Abstractatech.JavaScript.Avatar
                                 (640 - size) / 2,
                                 (480 - size) / 2,
 
-                                size,
-                                size
+                                size - 2,
+                                size - 2
                             );
 
                             var s = Stopwatch.StartNew();
@@ -114,12 +119,14 @@ namespace Abstractatech.JavaScript.Avatar
 
                     z.canvas.AttachTo(c);
                     z.canvas.style.backgroundColor = "gray";
-                    z.canvas.style.SetLocation(640, 480, 96, 96);
+                    z.canvas.style.SetLocation(96 * 5, 480);
 
 
 
                     #region mask
-                    var mask = new CanvasRenderingContext2D(640, 480);
+                    var mask = new CanvasRenderingContext2D(640, 480 + 96);
+
+                    mask.canvas.style.zIndex = 100;
 
                     //mask.drawImage(
                     //    v, 0, 0,
@@ -128,12 +135,12 @@ namespace Abstractatech.JavaScript.Avatar
                     //    mask.canvas.height
                     //);
 
-                    mask.fillStyle = "rgba(0,0,0, 0.5)";
+                    mask.fillStyle = "rgba(0,0,0, 0.8)";
                     mask.fillRect(
                            0, 0,
 
                            640,
-                           480
+                           480 + 96
                        );
 
 
@@ -155,17 +162,16 @@ namespace Abstractatech.JavaScript.Avatar
 
                     var frames = new List<IHTMLImage>();
 
-                    c.css[IHTMLElement.HTMLElementEnum.img][0].style.SetLocation(640, 96 * 0);
-                    c.css[IHTMLElement.HTMLElementEnum.img][1].style.SetLocation(640, 96 * 1);
-                    c.css[IHTMLElement.HTMLElementEnum.img][2].style.SetLocation(640, 96 * 2);
-                    c.css[IHTMLElement.HTMLElementEnum.img][3].style.SetLocation(640, 96 * 3);
-                    c.css[IHTMLElement.HTMLElementEnum.img][4].style.SetLocation(640, 96 * 4);
+                    c.css[IHTMLElement.HTMLElementEnum.img][0].style.SetLocation(96 * 0, 480);
+                    c.css[IHTMLElement.HTMLElementEnum.img][1].style.SetLocation(96 * 1, 480);
+                    c.css[IHTMLElement.HTMLElementEnum.img][2].style.SetLocation(96 * 2, 480);
+                    c.css[IHTMLElement.HTMLElementEnum.img][3].style.SetLocation(96 * 3, 480);
+                    c.css[IHTMLElement.HTMLElementEnum.img][4].style.SetLocation(96 * 4, 480);
 
-                    //await 1000;
-                    while (true)
+                    var ok = c.async.onclick;
+
+                    while (!ok.IsCompleted)
                     {
-                        //c.css.style
-
 
                         z.drawImage(
                             image: v,
@@ -193,6 +199,11 @@ namespace Abstractatech.JavaScript.Avatar
                         await (1000 / 15);
                     }
 
+
+                    //v.pause();
+                    v.src = "";
+
+                    //v.Orphanize();
                 }
             );
 
