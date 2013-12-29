@@ -19,6 +19,7 @@ using SVGNavigationTiming.HTML.Pages;
 using System.Windows.Forms;
 using System.Data;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace SVGNavigationTiming
 {
@@ -126,6 +127,7 @@ namespace SVGNavigationTiming
                                 ReadOnly = true,
                             }.AttachTo(f);
 
+                            #region CellFormatting
                             g.CellFormatting +=
                                 (sender, e) =>
                                 {
@@ -146,6 +148,7 @@ namespace SVGNavigationTiming
                                         return;
                                     }
                                 };
+                            #endregion
 
                             CSSDataGridView.__ContentTable_css_tr.hover.style.textDecoration = "underline";
                             CSSDataGridView.__ContentTable_css_tr.hover.style.cursor = IStyle.CursorEnum.pointer;
@@ -156,8 +159,10 @@ namespace SVGNavigationTiming
                                 {
                                     //await Native.window.requestAnimationFrameAsync;
                                     //await Native.window.requestAnimationFrameAsync;
-
+                                    var s = Stopwatch.StartNew();
                                     var data0 = await this.GetApplicationPerformance();
+                                    f.Text += " " + s.ElapsedMilliseconds + "ms";
+
                                     g.DataSource = data0;
 
 
@@ -268,7 +273,10 @@ namespace SVGNavigationTiming
                                     kf.Load +=
                                       async delegate
                                       {
+                                          var s = Stopwatch.StartNew();
                                           var kdata = await this.GetApplicationResourcePerformance(x);
+                                          kf.Text += " " + s.ElapsedMilliseconds + "ms";
+
                                           kg.DataSource = kdata;
 
                                           kf.ClientSize = kg.PreferredSize;
@@ -298,6 +306,7 @@ namespace SVGNavigationTiming
                                                     }.AttachTo(kkf);
 
 
+                                                    #region CellFormatting
                                                     kkg.CellFormatting +=
                                                         (sender, e) =>
                                                         {
@@ -357,13 +366,18 @@ namespace SVGNavigationTiming
                                                             }
                                                             #endregion
                                                         };
+                                                    #endregion
+
 
                                                     kkf.Load +=
                                                         async delegate
                                                         {
                                                             //kkg.DataSource = await this.GetSimilarApplicationResourcePerformance(row);
 
+                                                            var s = Stopwatch.StartNew();
+
                                                             var xdata = await this.GetSimilarApplicationResourcePerformance(row);
+                                                            kkf.Text += " " + s.ElapsedMilliseconds + "ms";
 
                                                             kkg.DataSource = xdata;
 
