@@ -136,6 +136,8 @@ namespace WebCamToGIFAnimation
 
 
                            btn.disabled = false;
+
+
                            btn.title = new { e.Elapsed, src.Length }.ToString();
 
                        }
