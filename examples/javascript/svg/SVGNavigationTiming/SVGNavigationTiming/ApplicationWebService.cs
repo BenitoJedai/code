@@ -46,7 +46,10 @@ namespace System.Linq
             else // odd
             {
                 double element = (double)listSize / 2;
-                element = Math.Round(element, MidpointRounding.AwayFromZero);
+
+                // http://stackoverflow.com/questions/311696/why-does-net-use-bankers-rounding-as-default
+                element = Math.Round(element);
+                //element = Math.Round(element, MidpointRounding.AwayFromZero);
 
                 result = orderedList.ElementAt((int)(element - 1));
             }
@@ -159,6 +162,8 @@ namespace SVGNavigationTiming
 
         public Task<DataTable> GetSimilarApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k)
         {
+            // http://msdn.microsoft.com/en-us/library/aa287599(v=vs.71).aspx
+
             var data = new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
              .SelectAllAsEnumerable()
 
@@ -202,10 +207,7 @@ namespace SVGNavigationTiming
                 data
                 .AsEnumerable()
                 .Reverse()
-
-                // can we generate this yet? can we do this on the client instead?
-                //.AsDataTable()
-             .XAsDataTable()
+             .AsDataTable()
 
              .AsResult();
         }
@@ -219,7 +221,6 @@ namespace SVGNavigationTiming
                 .Where(z => z.ApplicationPerformance == k)
 
                 .AsDataTable()
-                //.XAsDataTable()
 
                 .AsResult();
         }
@@ -327,6 +328,13 @@ namespace SVGNavigationTiming
 
     public static class X
     {
+        //public static DataTable WithoutColumn(this DataTable x, string columnName)
+        //{
+        //    x.Columns.Remove(columnName);
+
+        //    return x;
+        //}
+
         public static DataTable XAsDataTable(this IEnumerable<Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow> source)
         {
             var x = new DataTable();

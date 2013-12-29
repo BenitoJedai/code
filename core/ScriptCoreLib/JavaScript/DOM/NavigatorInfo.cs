@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         // see also:
         // X:\jsc.svn\examples\javascript\Test\TestMediaCaptureAPI\TestMediaCaptureAPI\Application.cs
+        // X:\jsc.svn\market\javascript\Abstractatech.JavaScript.Avatar\Abstractatech.JavaScript.Avatar\Application.cs
+        // X:\jsc.svn\examples\javascript\WebCamToGIFAnimation\WebCamToGIFAnimation\Application.cs
 
         // http://www.whatwg.org/specs/web-apps/current-work/multipage/offline.html#dfnReturnLink-0
         public bool onLine;

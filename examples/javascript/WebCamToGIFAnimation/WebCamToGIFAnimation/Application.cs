@@ -79,9 +79,11 @@ namespace WebCamToGIFAnimation
 
 
                            btn.innerText = "rec " + new { frames.Count }.ToString();
-                           while (frames.Count < 60)
+                           //while (frames.Count < 60)
+
+                           while (frames.Count < 20)
                            {
-                               await Task.Delay(1000 / 15);
+                               await Task.Delay(1000 / 5);
 
                                btn.innerText = new { frames.Count }.ToString();
 
@@ -134,7 +136,7 @@ namespace WebCamToGIFAnimation
 
 
                            btn.disabled = false;
-                           btn.title = new { e.Elapsed }.ToString();
+                           btn.title = new { e.Elapsed, src.Length }.ToString();
 
                        }
                        );
