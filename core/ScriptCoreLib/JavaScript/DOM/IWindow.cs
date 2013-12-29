@@ -65,6 +65,25 @@ namespace ScriptCoreLib.JavaScript.DOM
                     return x.Task;
                 }
             }
+
+            public Task<IEvent> onresize
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IEvent>();
+
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+                    that.onresize +=
+                        e =>
+                        {
+                            x.SetResult(e);
+                        };
+
+                    return x.Task;
+                }
+            }
         }
 
         [System.Obsolete("is this the best way to expose events as async?")]
