@@ -1,5 +1,6 @@
 #define SQLite
 
+using Abstractatech.JavaScript.ApplicationPerformance;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -86,7 +87,7 @@ namespace SVGNavigationTiming
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public class ApplicationWebService
+    public partial class ApplicationWebService
     {
         // wthflip?
         // http://stackoverflow.com/questions/1606867/how-to-prevent-a-net-application-to-use-an-assembly-from-the-gac
@@ -154,6 +155,56 @@ namespace SVGNavigationTiming
             return "ok".AsResult();
         }
 
+
+
+        public const long TicksPerMillisecond = 10000;
+        public const long ticks_1970_1_1 = 621355968000000000;
+
+        #region Reset
+        public Task Reset()
+        {
+
+
+            return new Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries().WithConnection(
+                c =>
+                {
+                    #region drop
+                    Action<string, string> drop =
+                        (QualifiedTableName, sql) =>
+                        {
+                            Console.WriteLine("drop " + new { QualifiedTableName });
+                            try
+                            {
+
+                                var xvalue = new System.Data.SQLite.SQLiteCommand(sql, c).ExecuteNonQuery();
+                                Console.WriteLine(new { QualifiedTableName, xvalue });
+
+                                Console.WriteLine("ok " + new { QualifiedTableName });
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("nok " + new { QualifiedTableName });
+
+                                //Console.WriteLine(new { QualifiedTableName, e.Message, e.StackTrace });
+                                Console.WriteLine(new { QualifiedTableName, e.Message });
+                            }
+                        };
+                    #endregion
+
+                    drop(Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries.QualifiedTableName, Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries.DropCommandText);
+                    drop(Design.PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries.QualifiedTableName, Design.PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries.DropCommandText);
+
+                    return "".AsResult();
+                }
+            );
+        }
+        #endregion
+
+    }
+
+    #region IExploreApplicationPerformance
+    public partial class ApplicationWebService : IExploreApplicationPerformance
+    {
         public Task<DataTable> GetApplicationPerformance()
         {
             //Task.FromResult
@@ -257,51 +308,14 @@ namespace SVGNavigationTiming
         }
 
 
-
-        public const long TicksPerMillisecond = 10000;
-        public const long ticks_1970_1_1 = 621355968000000000;
-
-        #region Reset
-        public Task Reset()
-        {
+    }
 
 
-            return new Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries().WithConnection(
-                c =>
-                {
-                    #region drop
-                    Action<string, string> drop =
-                        (QualifiedTableName, sql) =>
-                        {
-                            Console.WriteLine("drop " + new { QualifiedTableName });
-                            try
-                            {
+    #endregion
 
-                                var xvalue = new System.Data.SQLite.SQLiteCommand(sql, c).ExecuteNonQuery();
-                                Console.WriteLine(new { QualifiedTableName, xvalue });
-
-                                Console.WriteLine("ok " + new { QualifiedTableName });
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("nok " + new { QualifiedTableName });
-
-                                //Console.WriteLine(new { QualifiedTableName, e.Message, e.StackTrace });
-                                Console.WriteLine(new { QualifiedTableName, e.Message });
-                            }
-                        };
-                    #endregion
-
-                    drop(Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries.QualifiedTableName, Design.PerformanceResourceTimingData2.ApplicationPerformance.Queries.DropCommandText);
-                    drop(Design.PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries.QualifiedTableName, Design.PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries.DropCommandText);
-
-                    return "".AsResult();
-                }
-            );
-        }
-        #endregion
-
-        //public  CurrentApplicationPerformance;
+    #region IUpstreamApplicationPerformance
+    public partial class ApplicationWebService : IUpstreamApplicationPerformance
+    {
         public Task<Design.PerformanceResourceTimingData2ApplicationPerformanceKey> AtApplicationPerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceRow value)
         {
             //var ticks = DateTime.Now.Ticks;
@@ -330,8 +344,7 @@ namespace SVGNavigationTiming
             return new Design.PerformanceResourceTimingData2.ApplicationPerformance().Insert(value).AsResult();
         }
 
-        public Task AtApplicationResourcePerformance(
-            Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow value)
+        public Task<PerformanceResourceTimingData2ApplicationResourcePerformanceKey> AtApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow value)
         {
             //var ticks = TotalMilliseconds * __DateTime.TicksPerMillisecond + __DateTime.ticks_1970_1_1; 
 
@@ -350,11 +363,17 @@ namespace SVGNavigationTiming
             // check sig to prevent client side tamper
             //value.ApplicationPerformance = this.CurrentApplicationPerformance;
 
-            new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance().Insert(value);
-
-            return "ok".AsResult();
+            return new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance().Insert(value).AsResult();
         }
     }
+
+
+
+    #endregion
+
+
+
+
 
     public static class X
     {
@@ -417,5 +436,21 @@ namespace SVGNavigationTiming
 
             return x;
         }
+    }
+}
+
+namespace Abstractatech.JavaScript.ApplicationPerformance
+{
+    public interface IUpstreamApplicationPerformance
+    {
+        Task<PerformanceResourceTimingData2ApplicationPerformanceKey> AtApplicationPerformance(PerformanceResourceTimingData2ApplicationPerformanceRow value);
+        Task<PerformanceResourceTimingData2ApplicationResourcePerformanceKey> AtApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationResourcePerformanceRow value);
+    }
+
+    public interface IExploreApplicationPerformance
+    {
+        Task<DataTable> GetApplicationPerformance();
+        Task<DataTable> GetSimilarApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationResourcePerformanceRow k);
+        Task<DataTable> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey k);
     }
 }
