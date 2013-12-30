@@ -40,35 +40,10 @@ namespace Abstractatech.JavaScript.Avatar
             Native.document.body.style.margin = "0px";
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            new IHTMLDiv { }.AttachToDocument().With(
+            new IHTMLDiv { }.AttachToDocument()
+                .With(
                 async c =>
                 {
-                    var localStorageKeys = new
-                    {
-
-                        img640x480 = new { img = "avatar", w = 640, h = 480 },
-                        img96gif = new { img = "avatar", w = 96, h = 96 },
-
-                        frames = new[] {
-                            new { index= 0, img = "avatar", w = 96, h = 96 },
-                            new { index= 1, img = "avatar", w = 96, h = 96 },
-                            new { index= 2, img = "avatar", w = 96, h = 96 },
-                            new { index= 3, img = "avatar", w = 96, h = 96 },
-                        }
-                    };
-
-
-                    //c.css.children
-                    c.css[">*"].style.SetLocation(0, 0);
-
-                    c.style.position = IStyle.PositionEnum.relative;
-
-
-
-                    c.style.width = (640) + "px";
-                    c.style.height = (480 + 96) + "px";
-                    c.css.hover.style.cursor = IStyle.CursorEnum.pointer;
-
                     #region onresize
                     Native.window.With(
                         async window =>
@@ -106,294 +81,331 @@ namespace Abstractatech.JavaScript.Avatar
                         }
                     );
                     #endregion
+                }
+            ).With(ApplicationImplementation.MakeCamGrabber);
 
 
+        }
+    }
 
+    public static class ApplicationImplementation
+    {
+        public static async void MakeCamGrabber(IHTMLDiv c)
+        {
+            c.style.backgroundColor = "black";
 
+            #region localStorageKeys
+            var localStorageKeys = new
+            {
 
+                img640x480 = new { img = "avatar", w = 640, h = 480 },
+                img96gif = new { img = "avatar", w = 96, h = 96 },
 
-                    // centerize
-                    //c.style.margin = "auto";
-
-                    #region empty
-                    var css = c.css.empty.before;
-
-                    css.style.textAlign = IStyle.TextAlignEnum.center;
-                    css.style.display = IStyle.DisplayEnum.block;
-                    css.style.width = (640) + "px";
-                    css.style.color = "white";
-                    css.style.paddingTop = 300 + "px";
-
-
-                    c.css.hover.empty.before.style.color = "yellow";
-                    #endregion
-
-
-                retry:
-                    css.content = "either drag a picture here -or- click here to use your webcam";
-
-                    var snapshot = new CanvasRenderingContext2D(640, 480);
-
-                    var frames = new List<IHTMLImage>();
-
-                    c.css[IHTMLElement.HTMLElementEnum.img][0].style.SetLocation(96 * 0, 480);
-                    c.css[IHTMLElement.HTMLElementEnum.img][1].style.SetLocation(96 * 1, 480);
-                    c.css[IHTMLElement.HTMLElementEnum.img][2].style.SetLocation(96 * 2, 480);
-                    c.css[IHTMLElement.HTMLElementEnum.img][3].style.SetLocation(96 * 3, 480);
-                    c.css[IHTMLElement.HTMLElementEnum.img][4].style.SetLocation(96 * 4, 480);
-                    c.css[IHTMLElement.HTMLElementEnum.img][5].style.SetLocation(96 * 5, 480);
-
-                    var size = 400;
-
-                    #region newmask
-                    Action newmask = delegate
-                    {
-                        #region grid
-                        new IHTMLDiv
-                        {
-
-                        }.AttachTo(c).With(
-                            async grid =>
-                            {
-                                grid.style.SetLocation(
-                                    (640 - size) / 2,
-                                    (480 - size) / 2,
-
-                                    size - 2,
-                                    size - 2
-                                );
-
-                                var s = Stopwatch.StartNew();
-
-                                while (true)
-                                {
-                                    await Native.window.requestAnimationFrameAsync;
-
-                                    var a = (Math.Cos(s.ElapsedMilliseconds * 0.001) + 1) / 2.0;
-
-                                    grid.style.border = "1px dotted rgba(255,255,255, "
-                                        + (1.0 - a)
-                                        + ")";
-
-                                    //mask_css.style.Opacity = a;
-
-                                }
-                            }
-                        );
-                        #endregion
-
-                        #region mask
-                        var mask = new CanvasRenderingContext2D(640, 480 + 96);
-
-                        mask.canvas.style.zIndex = 100;
-
-                        //mask.drawImage(
-                        //    v, 0, 0,
-
-                        //    mask.canvas.width,
-                        //    mask.canvas.height
-                        //);
-
-                        mask.fillStyle = "rgba(0,0,0, 0.8)";
-                        mask.fillRect(
-                               0, 0,
-
-                               640,
-                               480 + 96
-                           );
-
-
-                        mask.clearRect(
-                              (640 - size) / 2,
-                                (480 - size) / 2,
-
-                                size,
-                                size
-                        );
-
-
-
-                        //var bytes = i.bytes;
-
-                        mask.canvas.AttachTo(c);
-                        #endregion
-
-
-                    };
-                    #endregion
-
-
-                    #region localStorage
-                    var base64 = Native.window.localStorage[localStorageKeys.img640x480];
-                    if (base64 != null)
-                    {
-                        var base64image = new IHTMLImage { src = base64 };
-
-                        await base64image;
-
-                        snapshot.drawImage(base64image, 0, 0, 640, 480);
-                        snapshot.canvas.AttachTo(c);
-
-
-                        for (int i = 0; i < 5; i++)
-                        {
-                            var base64f = Native.window.localStorage[localStorageKeys.frames[
-                                localStorageKeys.frames.Length - i - 1]];
-
-                            if (base64f != null)
-                            {
-                                var newframe = new IHTMLImage { src = base64f };
-                                newframe.AttachTo(c);
-                                frames.Add(newframe);
-                            }
+                frames = new[] {
+                            new { index= 0, img = "avatar", w = 96, h = 96 },
+                            new { index= 1, img = "avatar", w = 96, h = 96 },
+                            new { index= 2, img = "avatar", w = 96, h = 96 },
+                            new { index= 3, img = "avatar", w = 96, h = 96 },
                         }
+            };
+            #endregion
 
 
 
-                        newmask();
+            //c.css.children
+            c.css.children.style.SetLocation(0, 0);
 
-                        var base64gif = Native.window.localStorage[localStorageKeys.img96gif];
-
-                        #region atgif
-                        Action<string> atgif =
-                            gif =>
-                            {
-                                Native.document.title = new { gif.Length }.ToString();
-
-                                var newframe = new IHTMLImage { src = gif };
-
-                                newframe.style.zIndex = 300;
-
-                                newframe.AttachTo(c);
-                                frames.Add(newframe);
-
-                                //if (frames.Count > 5)
-                                //    frames.Remove(frames[0].Orphanize());
-                            };
-                        #endregion
-
-
-                        if (base64gif != null)
-                            atgif(base64gif);
-                        else
-                            new GIFEncoderWorker(
-                                 96,
-                                 96,
-                                     delay: 1000 / 10,
-                                 frames: frames.Select(x => x.bytes.Result),
-                                 AtFrame:
-                                  async index =>
-                                  {
-
-                                      Native.document.title = new { index }.ToString();
-                                  }
-
-
-                             ).Task.ContinueWithResult(
-                                gif =>
-                                {
-                                    Native.window.localStorage[localStorageKeys.img96gif] = gif;
-
-                                    atgif(gif);
-                                }
-                                );
-
-                    }
-                    #endregion
-
-
-                    await c.async.onclick;
-                    c.Clear();
-
-                    css.content = "awaiting for video";
+            c.style.position = IStyle.PositionEnum.relative;
+            c.style.width = (640) + "px";
+            c.style.height = (480 + 96) + "px";
 
 
 
 
-                    var v = await Native.window.navigator.async.onvideo;
 
 
-                    v.AttachTo(c);
-                    v.play();
+            c.css.hover.style.cursor = IStyle.CursorEnum.pointer;
+
+            #region empty
+            var css = c.css.empty.before;
+
+            css.style.textAlign = IStyle.TextAlignEnum.center;
+            css.style.display = IStyle.DisplayEnum.block;
+            css.style.width = (640) + "px";
+            css.style.color = "white";
+            css.style.paddingTop = 300 + "px";
 
 
-                    var mask_css = c.css[IHTMLElement.HTMLElementEnum.canvas];
+            c.css.hover.empty.before.style.color = "yellow";
+            #endregion
 
 
+        retry:
+            css.content = "either drag a picture here -or- click here to use your webcam";
 
-                    newmask();
+            var snapshot = new CanvasRenderingContext2D(640, 480);
 
-                    var z96 = new CanvasRenderingContext2D(96, 96);
+            var frames = new List<IHTMLImage>();
 
-                    z96.canvas.AttachTo(c);
-                    z96.canvas.style.backgroundColor = "gray";
-                    z96.canvas.style.SetLocation(96 * 5, 480);
+            c.css[IHTMLElement.HTMLElementEnum.img][0].style.SetLocation(96 * 0, 480);
+            c.css[IHTMLElement.HTMLElementEnum.img][1].style.SetLocation(96 * 1, 480);
+            c.css[IHTMLElement.HTMLElementEnum.img][2].style.SetLocation(96 * 2, 480);
+            c.css[IHTMLElement.HTMLElementEnum.img][3].style.SetLocation(96 * 3, 480);
+            c.css[IHTMLElement.HTMLElementEnum.img][4].style.SetLocation(96 * 4, 480);
+            c.css[IHTMLElement.HTMLElementEnum.img][5].style.SetLocation(96 * 5, 480);
 
-                    z96.canvas.style.zIndex = 300;
+            var size = 400;
 
+            #region newmask
+            Action newmask = delegate
+            {
+                #region grid
+                new IHTMLDiv
+                {
 
-                    var ok = c.async.onclick;
-
-                    #region frames
-
-
-
-                    while (!ok.IsCompleted)
+                }.AttachTo(c).With(
+                    async grid =>
                     {
+                        grid.style.SetLocation(
+                            (640 - size) / 2,
+                            (480 - size) / 2,
 
-                        z96.drawImage(
-                            image: v,
-                            sx: (640 - size) / 2,
-                            sy: (480 - size) / 2,
-
-                            sw: size,
-                            sh: size,
-                            dx: 0,
-                            dy: 0,
-                            dw: 96,
-                            dh: 96
+                            size - 2,
+                            size - 2
                         );
 
-                        var newframe = new IHTMLImage { src = z96.canvas.toDataURL() };
+                        var s = Stopwatch.StartNew();
+
+                        while (true)
+                        {
+                            await Native.window.requestAnimationFrameAsync;
+
+                            var a = (Math.Cos(s.ElapsedMilliseconds * 0.001) + 1) / 2.0;
+
+                            grid.style.border = "1px dotted rgba(255,255,255, "
+                                + (1.0 - a)
+                                + ")";
+
+                            //mask_css.style.Opacity = a;
+
+                        }
+                    }
+                );
+                #endregion
+
+                #region mask
+                var mask = new CanvasRenderingContext2D(640, 480 + 96);
+
+                mask.canvas.style.zIndex = 100;
+
+                //mask.drawImage(
+                //    v, 0, 0,
+
+                //    mask.canvas.width,
+                //    mask.canvas.height
+                //);
+
+                mask.fillStyle = "rgba(0,0,0, 0.8)";
+                mask.fillRect(
+                       0, 0,
+
+                       640,
+                       480 + 96
+                   );
+
+
+                mask.clearRect(
+                      (640 - size) / 2,
+                        (480 - size) / 2,
+
+                        size,
+                        size
+                );
+
+
+
+                //var bytes = i.bytes;
+
+                mask.canvas.AttachTo(c);
+                #endregion
+
+
+            };
+            #endregion
+
+
+            #region localStorage
+            var base64 = Native.window.localStorage[localStorageKeys.img640x480];
+            if (base64 != null)
+            {
+                var base64image = new IHTMLImage { src = base64 };
+
+                await base64image;
+
+                snapshot.drawImage(base64image, 0, 0, 640, 480);
+                snapshot.canvas.AttachTo(c);
+
+
+                for (int i = 0; i < 5; i++)
+                {
+                    var base64f = Native.window.localStorage[localStorageKeys.frames[
+                        localStorageKeys.frames.Length - i - 1]];
+
+                    if (base64f != null)
+                    {
+                        var newframe = new IHTMLImage { src = base64f };
+                        newframe.AttachTo(c);
+                        frames.Add(newframe);
+                    }
+                }
+
+
+
+                newmask();
+
+                var base64gif = Native.window.localStorage[localStorageKeys.img96gif];
+
+                #region atgif
+                Action<string> atgif =
+                    gif =>
+                    {
+                        Native.document.title = new { gif.Length }.ToString();
+
+                        var newframe = new IHTMLImage { src = gif };
+
+                        newframe.style.zIndex = 300;
+
                         newframe.AttachTo(c);
                         frames.Add(newframe);
 
-                        if (frames.Count > 5)
-                            frames.Remove(frames[0].Orphanize());
+                        //if (frames.Count > 5)
+                        //    frames.Remove(frames[0].Orphanize());
+                    };
+                #endregion
 
 
-                        await (1000 / 15);
-                    }
-                    #endregion
+                if (base64gif != null)
+                    atgif(base64gif);
+                else
+                {
+                    var bytes = frames.Select(x => x.bytes.Result).ToArray().AsEnumerable();
 
-                    snapshot.drawImage(v, 0, 0, 640, 480);
-                    Native.window.localStorage[localStorageKeys.img640x480] = snapshot.canvas.toDataURL();
+                    //bytes = bytes.Concat(bytes.Skip(1).Reverse().Skip(1)).ToArray().AsEnumerable();
+
+                    new GIFEncoderWorker(
+                         96,
+                         96,
+                             delay: 1000 / 10,
+                         frames: bytes,
+                         AtFrame:
+                          async index =>
+                          {
+
+                              Native.document.title = new { index }.ToString();
+                          }
 
 
-                    frames.WithEachIndex(
-                        (k, index) =>
+                     ).Task.ContinueWithResult(
+                        gif =>
                         {
-                            Native.window.localStorage[localStorageKeys.frames[index]] = k.src;
+                            Native.window.localStorage[localStorageKeys.img96gif] = gif;
+
+                            atgif(gif);
                         }
-                    );
+                        );
+                }
 
-                    Native.window.localStorage.removeItem(localStorageKeys.img96gif);
-
-                    //v.pause();
-                    v.src = "";
-                    c.Clear();
-
-                    //css.content = "1%";
-                    //await 555;
+            }
+            #endregion
 
 
-                    goto retry;
+            await c.async.onclick;
+            c.Clear();
 
-                    //v.Orphanize();
+            css.content = "awaiting for video";
+
+
+
+
+            var v = await Native.window.navigator.async.onvideo;
+
+
+            v.AttachTo(c);
+            v.play();
+
+
+            var mask_css = c.css[IHTMLElement.HTMLElementEnum.canvas];
+
+
+
+            newmask();
+
+            var z96 = new CanvasRenderingContext2D(96, 96);
+
+            z96.canvas.AttachTo(c);
+            //z96.canvas.style.backgroundColor = "gray";
+            z96.canvas.style.SetLocation(96 * 5, 480);
+
+            z96.canvas.style.zIndex = 300;
+
+
+            var ok = c.async.onclick;
+
+            #region frames
+
+
+
+            while (!ok.IsCompleted)
+            {
+
+                z96.drawImage(
+                    image: v,
+                    sx: (640 - size) / 2,
+                    sy: (480 - size) / 2,
+
+                    sw: size,
+                    sh: size,
+                    dx: 0,
+                    dy: 0,
+                    dw: 96,
+                    dh: 96
+                );
+
+                var newframe = new IHTMLImage { src = z96.canvas.toDataURL() };
+                newframe.AttachTo(c);
+                frames.Add(newframe);
+
+                if (frames.Count > 5)
+                    frames.Remove(frames[0].Orphanize());
+
+
+                await (1000 / 15);
+            }
+            #endregion
+
+            snapshot.drawImage(v, 0, 0, 640, 480);
+
+            #region localStorage
+            Native.window.localStorage[localStorageKeys.img640x480] = snapshot.canvas.toDataURL();
+
+
+            frames.WithEachIndex(
+                (k, index) =>
+                {
+                    Native.window.localStorage[localStorageKeys.frames[index]] = k.src;
                 }
             );
 
+            Native.window.localStorage.removeItem(localStorageKeys.img96gif);
+            #endregion
 
+
+            v.src = "";
+            c.Clear();
+
+
+
+            goto retry;
         }
 
     }

@@ -141,6 +141,7 @@
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Average.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Max.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Min.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\BinaryExpression.cs" />

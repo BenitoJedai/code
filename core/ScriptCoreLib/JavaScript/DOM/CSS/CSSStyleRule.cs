@@ -760,6 +760,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+        public CSSStyleRuleMonkier children
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // X:\jsc.svn\market\javascript\Abstractatech.JavaScript.Avatar\Abstractatech.JavaScript.Avatar\Application.cs
+                return this[">*"];
+            }
+        }
 
 
         public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]

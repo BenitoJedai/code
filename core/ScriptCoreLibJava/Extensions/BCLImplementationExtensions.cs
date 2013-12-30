@@ -30,15 +30,23 @@ namespace ScriptCoreLibJava.Extensions
 
         public static FileInfo GetDeclaringFile(this Class cls)
         {
+            //Console.WriteLine("enter GetDeclaringFile");
             // for some reason void cannot be resolved...
             if (cls.getName() == "void")
                 cls = typeof(object).ToClass();
 
 
             // http://stackoverflow.com/questions/5726930/location-of-javaagent-jar-in-bootclasspath
-            var r = cls.getName().Replace(".", "/") + ".class";
 
+            //Console.WriteLine("GetDeclaringFile before Replace");
+            var r0 = cls.getName();
+            //Console.WriteLine(r0);
 
+            var r = r0.Replace(".", "/") + ".class";
+
+            //Console.WriteLine(r);
+
+            //Console.WriteLine("GetDeclaringFile getClassLoader");
             var cl = cls.getClassLoader();
 
             if (cl == null)
@@ -70,7 +78,10 @@ namespace ScriptCoreLibJava.Extensions
 
 
             // spaces are urlencoded?
-            var ff = loc.getFile().Replace("%20", " ");
+            var ff0 = loc.getFile();
+            //Console.WriteLine(ff0);
+            var ff = ff0.Replace("%20", " ");
+            //Console.WriteLine(ff);
 
             {
                 var prefix = "file:/";

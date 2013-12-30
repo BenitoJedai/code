@@ -110,8 +110,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 #endif
         public string Replace(string what, string with)
         {
+            // tested by
+            // X:\jsc.svn\core\ScriptCoreLibJava\Extensions\BCLImplementationExtensions.cs
+
+            //Console.WriteLine("enter Replace");
+            //Console.WriteLine("what: " + what);
+            //Console.WriteLine("with: " + with);
+
             //return Convert.ReplaceString((string)(object)this, a, b);
             var whom = (string)(object)this;
+
+            //Console.WriteLine("whom: " + whom);
 
             int j = -1;
             int i = whom.IndexOf(what);
@@ -119,25 +128,49 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             if (i == -1)
                 return whom;
 
-            var b = "";
+            var output = "";
 
 
-
+            //enter Replace
+            //what: .
+            //with: /
+            //whom: ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared.__PlatformInvocationServices_Func
+            //i: 17
+            //output: ScriptCoreLibJava/
+            //i: 35
+            //java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 
             while (i > -1)
             {
+                //Console.WriteLine("i: " + i);
+
                 if (j < 0)
-                    b += whom.Substring(0, i) + with;
+                {
+                    output += whom.Substring(0, i) + with;
+                    //Console.WriteLine("output: " + output);
+                }
                 else
-                    b += whom.Substring(j + what.Length, i - j - what.Length) + with;
+                {
+                    //Console.WriteLine("j: " + j);
+
+                    var startIndex = j + what.Length;
+                    var length = i - j - what.Length;
+
+                    //Console.WriteLine("startIndex: " + startIndex);
+                    //Console.WriteLine("length: " + length);
+
+                    output += whom.Substring(startIndex, length) + with;
+                    //Console.WriteLine("output: " + output);
+                }
 
                 j = i;
                 i = whom.IndexOf(what, i + what.Length);
             }
 
-            b += whom.Substring(j + what.Length);
+            //Console.WriteLine("j: " + j);
+            output += whom.Substring(j + what.Length);
 
-            return b;
+            return output;
         }
 
         [Script(ExternalTarget = "replace")]
@@ -338,7 +371,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
             foreach (object v in e)
             {
-                b.append(v);
+                if (v != null)
+                    b.append(v);
             }
 
             return b.ToString();
@@ -375,8 +409,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return a.ToString();
         }
 
-        [Script(
-            StringConcatOperator = "+")]
+        //[Script(
+        //    StringConcatOperator = "+")]
         public static string Concat(object a, object b)
         {
             if (a == null)
@@ -394,7 +428,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 
 
-            return a.ToString() + b.ToString();
+            return __String.Concat(
+                 e: new object[] { a, b }
+          );
         }
 
         //[Script(
@@ -408,6 +444,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
                 e: new string[] { a, b }
             );
         }
+
+
 
         //[Script(
         //    StringConcatOperator = "+"
@@ -428,11 +466,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System
              );
         }
 
-        [Script(
-            StringConcatOperator = "+")]
+        //[Script(
+        //    StringConcatOperator = "+")]
         public static string Concat(object a, object b, object c)
         {
-            return default(string);
+            return __String.Concat(
+                         e: new object[] { a, b, c }
+                  );
         }
 
 

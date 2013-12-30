@@ -9,33 +9,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
      static partial class __Enumerable
     {
-        public static double Average<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
-        {
-            return source.Select<TSource, int>(selector).Average();
-        }
-
-
-
-        public static double Average(this IEnumerable<int> source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            long num = 0L;
-            long num2 = 0L;
-            foreach (int num3 in source.AsEnumerable())
-            {
-                num += num3;
-                num2 += 1L;
-            }
-            if (num2 <= 0L)
-            {
-                throw __DefinedError.NoElements();
-            }
-            return (((double)num) / ((double)num2));
-        }
-
+        
 
  
 

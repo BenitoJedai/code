@@ -174,6 +174,29 @@ namespace SVGNavigationTiming
 
              .ToList();
 
+            //Y:\SVGNavigationTiming.ApplicationWebService\staging.java\web\java\SVGNavigationTiming\ApplicationWebService.java:114: error: no suitable method found for Average(__List_1<PerformanceResourceTimingData2ApplicationResourcePerformanceRow>,__Func_2<PerformanceResourceTimingData2ApplicationResourcePerformanceRow,Long>)
+            //        row1.duration = ((long)(__Enumerable.<PerformanceResourceTimingData2ApplicationResourcePerformanceRow>Average(list_10, ApplicationWebService.CS___9__CachedAnonymousMethodDelegate7)));
+            //                                            ^
+            //    method __Enumerable.Average(__IEnumerable_1<Integer>) is not applicable
+            //      (actual and formal argument lists differ in length)
+            //    method __Enumerable.<TSource>Average(__IEnumerable_1<TSource>,__Func_2<TSource,Integer>) is not applicable
+            //      (actual argument __Func_2<PerformanceResourceTimingData2ApplicationResourcePerformanceRow,Long> cannot be converted to __Func_2<PerformanceResourceTimingData2ApplicationResourcePerformanceRow,Integer> by method invocation conversion)
+            //  where TSource is a type-variable:
+            //    TSource extends Object declared in method <TSource>Average(__IEnumerable_1<TSource>,__Func_2<TSource,Integer>)
+
+            //Y:\SVGNavigationTiming.ApplicationWebService\staging.java\web\java\ScriptCoreLib\Shared\BCLImplementation\System\Linq\__Enumerable.java:1720: error: inconvertible types
+            //                num2 = ((int)(enumerator_15.System_Collections_Generic_IEnumerator_1_get_Current()));
+            //                             ^
+            //  required: int
+            //  found:    Double
+            //Y:\SVGNavigationTiming.ApplicationWebService\staging.java\web\java\ScriptCoreLib\Shared\BCLImplementation\System\Linq\__Enumerable.java:1769: error: inconvertible types
+            //                num2 = ((int)(enumerator_15.System_Collections_Generic_IEnumerator_1_get_Current()));
+            //                             ^
+            //  required: int
+            //  found:    Long
+            //Y:\SVGNavigationTiming.ApplicationWebService\staging.java\web\java\SVGNavigationTiming\ApplicationWebService.java:114: error: method Average_0600046d in class __Enumerable cannot be applied to given types;
+            //        row1.duration = ((long)(__Enumerable.<PerformanceResourceTimingData2ApplicationResourcePerformanceRow>Average_0600046d(list_10, ApplicationWebService.CS___9__CachedAnonymousMethodDelegate7)));
+            //                                            ^
 
             data.AddRange(
                 new[] {
@@ -192,14 +215,22 @@ namespace SVGNavigationTiming
                         name = "Max", duration = (long)data.Max(x => x.duration)
                     },
 
-                        new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
-                    {
-                        // http://www.remondo.net/calculate-mean-median-mode-averages-csharp/
-                        name = "Median", duration = (long)data.Median(x => x.duration)
-                    },
+
+ //                    Implementation not found for type import :
+ //type: System.Linq.Enumerable
+ //method: System.Collections.Generic.IEnumerable`1[System.Linq.IGrouping`2[TKey,TSource]] GroupBy[TSource,TKey](System.Collections.Generic.IEnumerable`1[TSource], System.Func`2[TSource,TKey])
+ //Did you forget to add the [Script] attribute?
+ //Please double check the signature!
+
+                    //    new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+                    //{
+                    //    // http://www.remondo.net/calculate-mean-median-mode-averages-csharp/
+                    //    name = "Median", duration = (long)data.Median(x => x.duration)
+                    //},
 
                 }
             );
+
 
 
             return
@@ -225,7 +256,6 @@ namespace SVGNavigationTiming
                 .AsResult();
         }
 
-        public Design.PerformanceResourceTimingData2ApplicationPerformanceKey CurrentApplicationPerformance;
 
 
         public const long TicksPerMillisecond = 10000;
@@ -271,7 +301,8 @@ namespace SVGNavigationTiming
         }
         #endregion
 
-        public Task AtApplicationPerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceRow value)
+        //public  CurrentApplicationPerformance;
+        public Task<Design.PerformanceResourceTimingData2ApplicationPerformanceKey> AtApplicationPerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceRow value)
         {
             //var ticks = DateTime.Now.Ticks;
             //var ms = (ticks - ticks_1970_1_1) / TicksPerMillisecond;
@@ -296,12 +327,11 @@ namespace SVGNavigationTiming
 
             // http://dev.mysql.com/doc/refman/5.0/en/integer-types.html
 
-            CurrentApplicationPerformance = new Design.PerformanceResourceTimingData2.ApplicationPerformance().Insert(value);
-
-            return "ok".AsResult();
+            return new Design.PerformanceResourceTimingData2.ApplicationPerformance().Insert(value).AsResult();
         }
 
-        public Task AtApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow value)
+        public Task AtApplicationResourcePerformance(
+            Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow value)
         {
             //var ticks = TotalMilliseconds * __DateTime.TicksPerMillisecond + __DateTime.ticks_1970_1_1; 
 
@@ -318,7 +348,7 @@ namespace SVGNavigationTiming
             //            value.Timestamp = new DateTime(year: 2005, month: 2, day: 2);
 
             // check sig to prevent client side tamper
-            value.ApplicationPerformance = this.CurrentApplicationPerformance;
+            //value.ApplicationPerformance = this.CurrentApplicationPerformance;
 
             new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance().Insert(value);
 

@@ -10,34 +10,39 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
     static partial class __Enumerable
     {
-        #region Min
-        public static TResult Min<TSource>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        #region Average
+        public static double Average<TSource>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            var value = default(TResult);
-            var dirty = false;
+            //public static <TSource> double Average_0600046d(__IEnumerable_1<TSource> source, __Func_2<TSource, Double> selector)
+            //{
+            //    return  __Enumerable.Average_060004a3(__Enumerable.<TSource, Double>Select(source, selector));
+            //}
 
-            foreach (var v in source.AsEnumerable())
+            return source.Select<TSource, TResult>(selector).Average();
+        }
+
+        public static double Average(this IEnumerable<TResult> source)
+        {
+            if (source == null)
             {
-                var x = selector(v);
-
-                if (dirty)
-                {
-                    if (value > x)
-                        value = x;
-                }
-                else
-                {
-                    dirty = true;
-                    value = x;
-                }
+                throw new ArgumentNullException("source");
             }
-
-            if (!dirty)
+            var num = default(double);
+            var num2 = 0;
+            foreach (var num3 in source.AsEnumerable())
+            {
+                num += num3;
+                num2++;
+            }
+            if (num2 <= 0)
+            {
                 throw __DefinedError.NoElements();
-
-            return value;
+            }
+            return (((double)num) / ((double)num2));
         }
         #endregion
+
+
     }
 }
 
@@ -47,34 +52,34 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
     static partial class __Enumerable
     {
-        #region Min
-        public static TResult Min<TSource>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        #region Average
+        public static double Average<TSource>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            var value = default(TResult);
-            var dirty = false;
+            return source.Select<TSource, TResult>(selector).Average();
+        }
 
-            foreach (var v in source.AsEnumerable())
+        public static double Average(this IEnumerable<TResult> source)
+        {
+            if (source == null)
             {
-                var x = selector(v);
-
-                if (dirty)
-                {
-                    if (value > x)
-                        value = x;
-                }
-                else
-                {
-                    dirty = true;
-                    value = x;
-                }
+                throw new ArgumentNullException("source");
             }
-
-            if (!dirty)
+            long num = 0L;
+            long num2 = 0L;
+            foreach (var num3 in source.AsEnumerable())
+            {
+                num += num3;
+                num2 += 1L;
+            }
+            if (num2 <= 0L)
+            {
                 throw __DefinedError.NoElements();
-
-            return value;
+            }
+            return (((double)num) / ((double)num2));
         }
         #endregion
+
+
     }
 }
 
@@ -84,34 +89,34 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
     static partial class __Enumerable
     {
-        #region Min
-        public static TResult Min<TSource>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        #region Average
+        public static double Average<TSource>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            var value = default(TResult);
-            var dirty = false;
+            return source.Select<TSource, TResult>(selector).Average();
+        }
 
-            foreach (var v in source.AsEnumerable())
+        public static double Average(this IEnumerable<TResult> source)
+        {
+            if (source == null)
             {
-                var x = selector(v);
-
-                if (dirty)
-                {
-                    if (value > x)
-                        value = x;
-                }
-                else
-                {
-                    dirty = true;
-                    value = x;
-                }
+                throw new ArgumentNullException("source");
             }
-
-            if (!dirty)
+            long num = 0L;
+            long num2 = 0L;
+            foreach (var num3 in source.AsEnumerable())
+            {
+                num += num3;
+                num2 += 1L;
+            }
+            if (num2 <= 0L)
+            {
                 throw __DefinedError.NoElements();
-
-            return value;
+            }
+            return (((double)num) / ((double)num2));
         }
         #endregion
+
+
     }
 }
 
