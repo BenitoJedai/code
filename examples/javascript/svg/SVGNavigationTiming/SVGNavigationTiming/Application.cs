@@ -62,48 +62,48 @@ namespace SVGNavigationTiming
             Native.window.requestAnimationFrame +=
                 async delegate
                 {
-                    {
-                        var t = Native.window.performance.timing;
+                    var timing = Native.window.performance.timing;
 
 
-                        // SVGTSpanElement
-                        page.connectEnd = new { t.connectEnd }.ToString();
-                        page.connectStart = new { t.connectStart }.ToString();
-                        page.TCP = "TCP " + (t.connectEnd - t.connectStart);
+                    // SVGTSpanElement
+                    page.connectEnd = new { timing.connectEnd }.ToString();
+                    page.connectStart = new { timing.connectStart }.ToString();
+                    page.TCP = "TCP " + (timing.connectEnd - timing.connectStart);
 
-                        page.RequestStart = new { t.requestStart }.ToString();
-                        page.ResponseStart = new { t.responseStart }.ToString();
-                        page.ResponseEnd = new { t.responseEnd }.ToString();
-                        page.Request = "Request " + (t.responseStart - t.requestStart);
-                        page.Response = "Response " + (t.responseEnd - t.responseStart);
+                    page.RequestStart = new { timing.requestStart }.ToString();
+                    page.ResponseStart = new { timing.responseStart }.ToString();
+                    page.ResponseEnd = new { timing.responseEnd }.ToString();
+                    page.Request = "Request " + (timing.responseStart - timing.requestStart);
+                    page.Response = "Response " + (timing.responseEnd - timing.responseStart);
 
-                        page.DomLoading = new { t.domLoading }.ToString();
-                        page.DomComplete = new { t.domComplete }.ToString();
-                        page.Processing = "Processing " + (t.domComplete - t.domLoading);
+                    page.DomLoading = new { timing.domLoading }.ToString();
+                    page.DomComplete = new { timing.domComplete }.ToString();
+                    page.Processing = "Processing " + (timing.domComplete - timing.domLoading);
 
-                        page.LoadEventEnd = new { t.loadEventEnd }.ToString();
-                        page.LoadEventStart = new { t.loadEventStart }.ToString();
-                        page.Load = "Load " + (t.loadEventEnd - t.loadEventStart);
+                    page.LoadEventEnd = new { timing.loadEventEnd }.ToString();
+                    page.LoadEventStart = new { timing.loadEventStart }.ToString();
+                    page.Load = "Load " + (timing.loadEventEnd - timing.loadEventStart);
 
-                        // IXMLHttpRequestActivity.onopen { url = /xml?WebMethod=06000003&c=1 }
+                    // IXMLHttpRequestActivity.onopen { url = /xml?WebMethod=06000003&c=1 }
 
-                        await this.AtApplicationPerformance(
-                            new PerformanceResourceTimingData2ApplicationPerformanceRow
-                            {
-                                Timestamp = DateTime.Now,
+                    var CurrentApplicationPerformance0 =
+                                    await this.AtApplicationPerformance(
+                                        new PerformanceResourceTimingData2ApplicationPerformanceRow
+                                        {
+                                            Timestamp = DateTime.Now,
 
-                                connectStart = (long)t.connectStart,
-                                connectEnd = (long)t.connectEnd,
-                                requestStart = (long)t.requestStart,
-                                responseStart = (long)t.responseStart,
-                                responseEnd = (long)t.responseEnd,
-                                domLoading = (long)t.domLoading,
-                                domComplete = (long)t.domComplete,
-                                loadEventStart = (long)t.loadEventStart,
-                                loadEventEnd = (long)t.loadEventEnd,
-                            }
-                         );
-                    }
+                                            connectStart = (long)timing.connectStart,
+                                            connectEnd = (long)timing.connectEnd,
+                                            requestStart = (long)timing.requestStart,
+                                            responseStart = (long)timing.responseStart,
+                                            responseEnd = (long)timing.responseEnd,
+                                            domLoading = (long)timing.domLoading,
+                                            domComplete = (long)timing.domComplete,
+                                            loadEventStart = (long)timing.loadEventStart,
+                                            loadEventEnd = (long)timing.loadEventEnd,
+                                        }
+                                     );
+                    var CurrentApplicationPerformance = CurrentApplicationPerformance0;
 
                     new IHTMLButton { "WebMethod2500" }.AttachToDocument().WhenClicked(this.WebMethod2500);
                     new IHTMLButton { "WebMethod500" }.AttachToDocument().WhenClicked(this.WebMethod500);
@@ -474,6 +474,9 @@ namespace SVGNavigationTiming
                                     await this.AtApplicationResourcePerformance(
                                       new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                                       {
+                                          // a signed key, can we check it?
+                                          ApplicationPerformance = CurrentApplicationPerformance,
+
                                           Timestamp = DateTime.Now,
 
                                           startTime = (long)t.startTime,
