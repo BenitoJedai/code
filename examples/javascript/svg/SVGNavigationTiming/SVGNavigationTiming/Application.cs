@@ -65,19 +65,19 @@ namespace SVGNavigationTiming
 
             #region GetApplicationPerformance
             new IHTMLButton { "GetApplicationPerformance" }.AttachToDocument().WhenClicked(
-                           async button =>
-                           {
+                async button =>
+                {
 
 
-                               var f = new ApplicationPerformanceForm(this);
+                    var f = new ApplicationPerformanceForm(this);
 
 
 
-                               //Native.document.title = "f";
-                               await f.ShowAsync();
+                    //Native.document.title = "f";
+                    await f.ShowAsync();
 
-                           }
-                       );
+                }
+            );
             #endregion
 
 
