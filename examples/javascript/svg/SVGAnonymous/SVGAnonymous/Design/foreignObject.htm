@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<body style="margin: 0;">
+    <svg id="svg" xmlns='http://www.w3.org/2000/svg' width='200' height='200'>
+        <foreignObject>
+        <div xmlns='http://www.w3.org/1999/xhtml' id="div" style="width: 200px; height: 200px;">
+        <style scoped="scoped">
+      
+            div {
+
+                padding: 0;
+                background-color: black;
+                text-align: center;
+                position: fixed;
+                -webkit-perspective: 600px;
+                -moz-perspective: 500px;
+                -o-perspective: 500px;
+                -ms-perspective: 500px;
+                perspective: 500px;
+
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+
+                 img {
+                width: 100%;
+                height: 100%;
+                }
+
+                     img:nth-of-type(1) {
+                        position: absolute;
+                        top: 0;
+                    }
+
+            @-webkit-keyframes spin {
+                0% {
+                    -webkit-transform: rotateY(-180deg);
+                }
+
+                50% {
+                    -webkit-transform: rotateY(0deg);
+                }
+
+                100% {
+                    -webkit-transform: rotateY(180deg);
+                }
+            }
+
+             img:nth-of-type(2)  {
+                -webkit-animation: spin 10s infinite linear;
+                -moz-animation: spin 10s infinite linear;
+                -o-animation: spin 10s infinite linear;
+                -ms-animation: spin 10s infinite linear;
+                animation: spin 10s infinite linear;
+                animation: spin 10s infinite linear;
+
+            }
+        </style>
+        <img id="Anonymous_LogosSingleNoWings" src="Anonymous_LogosSingleNoWings.svg" />
+        <img src="Anonymous_LogosSingleWings.svg" />
+    </div>
+        </foreignObject>
+    </svg>;
+</body>
