@@ -177,6 +177,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return long.Parse(e);
         }
 
+
         // what about this : public static int ToInt32(int e)
 
         public static int ToInt32(uint e)

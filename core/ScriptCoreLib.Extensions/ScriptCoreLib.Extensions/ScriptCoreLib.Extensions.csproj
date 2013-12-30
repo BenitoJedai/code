@@ -12,7 +12,7 @@
     <AssemblyName>ScriptCoreLib.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\examples\javascript\AccountExperiment\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -69,11 +69,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\jsc.internal.svn\compiler\jsc.internal\packages\System.Data.SQLite.x86.1.0.89.0\lib\net40\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\packages\System.Data.SQLite.x86.1.0.89.0\lib\net40\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\jsc.internal.svn\compiler\jsc.internal\packages\System.Data.SQLite.x86.1.0.89.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+      <HintPath>..\packages\System.Data.SQLite.x86.1.0.89.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />

@@ -171,7 +171,7 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
 
                         // http://helpx.adobe.com/flash-player/release-note/fp_114_air_34_release_notes.html
                         // · Mouse Lock feature disabled after entering Full Screen Interactive mode(3174344)
-                        stage.mouseLock = true;
+                        //stage.mouseLock = true;
 
                     };
 
@@ -227,8 +227,8 @@ namespace FlashHeatZeeker.UnitHindWeaponized.Library
                          //double movementY = ee.movementY;
 
                          // http://www.levelxgames.com/2012/11/how-to-overlay-abode-air-sdk-over-flex-sdk/
-                         dx += e.movementX;
-                         dy += e.movementY;
+                         //dx += e.movementX;
+                         //dy += e.movementY;
                      };
 
                 onsyncframe +=

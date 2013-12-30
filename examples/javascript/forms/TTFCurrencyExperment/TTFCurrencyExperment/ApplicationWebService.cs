@@ -65,12 +65,12 @@ namespace TTFCurrencyExperment
             // clientside could use obfucation of whitespaces?
             // or show the id, yet sign it, so user cannot change it?
             // signed enums
-            var keytype = default(Design.Treasury.Sheet1.Key);
+            var keytype = default(Design.TreasurySheet1Key);
 
 
             // should this be enought for this obect to be added?
             // 		Design.Treasury.Sheet1.Key	TTFCurrencyExperment.Design.Treasury.Sheet1.Key	long
-            var row1 = new Design.Treasury.Sheet1.Row
+            var row1 = new Design.TreasurySheet1Row
             {
                 Currency = "EUR",
                 Value = "456"
@@ -78,7 +78,7 @@ namespace TTFCurrencyExperment
                 // data
             };
 
-            var insert0 = (Task<Design.Treasury.Sheet1.Key>)table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.Insert(c, row1));
+            var insert0 = (Task<Design.TreasurySheet1Key>)table1q.WithConnection(c => Design.Treasury.Sheet1.Queries.Insert(c, row1));
             Console.WriteLine(new { insert0.Result });
 
             //table1.Insert(
@@ -88,7 +88,7 @@ namespace TTFCurrencyExperment
 
             // Additional information: Bad method token.
             var k = table1.Insert(
-                 new Design.Treasury.Sheet1.Row
+                 new Design.TreasurySheet1Row
                  {
                      Currency = "GBP",
                      Value = "777"
@@ -157,39 +157,39 @@ namespace TTFCurrencyExperment
         // what about skip take and order by?
 
         // select all data. expensive
-        public static IEnumerable<Design.Treasury.Sheet1.Row> Where(this Design.Treasury.Sheet1 data, Func<Design.Treasury.Sheet1.Row, bool> f)
+        public static IEnumerable<Design.TreasurySheet1Row> Where(this Design.Treasury.Sheet1 data, Func<Design.TreasurySheet1Row, bool> f)
         {
             return data.SelectAllAsEnumerable().Where(f);
         }
 
 
-        public static IEnumerable<Design.Treasury.Sheet1.Row> XSelectAllAsEnumerable(this Design.Treasury.Sheet1 data)
-        {
-            var x = data.SelectAllAsDataTable();
+        //public static IEnumerable<Design.TreasurySheet1Row> XSelectAllAsEnumerable(this Design.Treasury.Sheet1 data)
+        //{
+        //    var x = data.SelectAllAsDataTable();
 
-            return x.Rows.AsEnumerable().Select(
-                r =>
-                    new Design.Treasury.Sheet1.Row
-                    {
-                        Key = (Design.Treasury.Sheet1.Key)r["Key"],
-                        Currency = (string)r["Currency"],
-                        Value = (string)r["Value"]
-                    }
-            );
-        }
+        //    return x.Rows.AsEnumerable().Select(
+        //        r =>
+        //            new Design.Treasury.Sheet1.Row
+        //            {
+        //                Key = (Design.Treasury.Sheet1.Key)r["Key"],
+        //                Currency = (string)r["Currency"],
+        //                Value = (string)r["Value"]
+        //            }
+        //    );
+        //}
 
-        class _Insert_closure
-        {
-            public Design.Treasury.Sheet1.Row value;
+        //class _Insert_closure
+        //{
+        //    public Design.TreasurySheet1Row value;
 
-            public Task<Design.Treasury.Sheet1.Key> yield(SQLiteConnection c)
-            {
-                return Design.Treasury.Sheet1.Queries.Insert(
-                    c, value
-                );
+        //    public Task<Design.Treasury.Sheet1.Key> yield(SQLiteConnection c)
+        //    {
+        //        return Design.Treasury.Sheet1.Queries.Insert(
+        //            c, value
+        //        );
 
-            }
-        }
+        //    }
+        //}
 
         //public static Design.Treasury.Sheet1.Key Insert(this Design.Treasury.Sheet1.Queries data, Design.Treasury.Sheet1.Row value)
         //{
