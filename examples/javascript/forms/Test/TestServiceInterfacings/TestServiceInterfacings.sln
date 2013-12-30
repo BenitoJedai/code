@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestServiceInterfacings", "TestServiceInterfacings\TestServiceInterfacings.csproj", "{EF54A2F6-7F03-4D37-8C92-659ACDD8DF6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{6480E96C-F6A3-4537-9E58-F53E1AD045CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF54A2F6-7F03-4D37-8C92-659ACDD8DF6D}.Debug|x86.ActiveCfg = Debug|x86
+		{EF54A2F6-7F03-4D37-8C92-659ACDD8DF6D}.Debug|x86.Build.0 = Debug|x86
+		{EF54A2F6-7F03-4D37-8C92-659ACDD8DF6D}.Release|x86.ActiveCfg = Release|x86
+		{EF54A2F6-7F03-4D37-8C92-659ACDD8DF6D}.Release|x86.Build.0 = Release|x86
+		{6480E96C-F6A3-4537-9E58-F53E1AD045CF}.Debug|x86.ActiveCfg = Debug|x86
+		{6480E96C-F6A3-4537-9E58-F53E1AD045CF}.Debug|x86.Build.0 = Debug|x86
+		{6480E96C-F6A3-4537-9E58-F53E1AD045CF}.Release|x86.ActiveCfg = Release|x86
+		{6480E96C-F6A3-4537-9E58-F53E1AD045CF}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
