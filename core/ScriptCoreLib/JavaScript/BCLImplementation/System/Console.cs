@@ -200,7 +200,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             Out.Write(e + Environment.NewLine);
         }
-
+        public static void WriteLine(Int64 e)
+        {
+            Out.Write(e + Environment.NewLine);
+        }
         public static void WriteLine()
         {
             Out.WriteLine("");

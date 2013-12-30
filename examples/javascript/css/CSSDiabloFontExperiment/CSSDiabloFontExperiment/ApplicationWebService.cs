@@ -17,16 +17,7 @@ namespace CSSDiabloFontExperiment
     /// </summary>
     public class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
+
 
     }
 }

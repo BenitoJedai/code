@@ -250,11 +250,16 @@ namespace AppEngineImplicitDataRow
                 //    + "']";
 
                 //Console.WriteLine(new { ch, charAsString });
-
-                page.contentinfo.css
+                var s = page.contentinfo.css
                     [IHTMLElement.HTMLElementEnum.li]
                     [IHTMLElement.HTMLElementEnum.span]
-                    [span => span.title == charAsString].before.style.color = color;
+                    [span => span.title == charAsString];
+                
+                //li span [title=?] {  }
+            
+                Console.WriteLine(new { s.selectorText });
+
+                s.before.style.color = color;
 
             }
             #endregion
