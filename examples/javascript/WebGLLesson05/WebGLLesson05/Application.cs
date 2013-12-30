@@ -27,7 +27,7 @@ namespace WebGLLesson05
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=370 by Giles
          * 
@@ -36,22 +36,13 @@ namespace WebGLLesson05
          * 03. initShaders
          */
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
-
         public Action Dispose;
 
-
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault page = null)
+         public Application(IDefault page = null)
         {
             var size = 500;
 
-
             var gl = new WebGLRenderingContext();
-
 
             var canvas = gl.canvas.AttachToDocument();
 
@@ -118,22 +109,7 @@ namespace WebGLLesson05
 
 
 
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-                    throw new InvalidOperationException("shader failed");
-
-                }
-
-                return shader;
-            };
-            #endregion
+ 
 
             #region initShaders
             var shaderProgram = gl.createProgram(
@@ -406,7 +382,7 @@ namespace WebGLLesson05
                     {
                         c++;
 
-                        Native.Document.title = "" + c;
+                        Native.document.title = "" + c;
 
                         drawScene();
                         animate();

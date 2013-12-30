@@ -136,6 +136,9 @@
     <Reference Include="WebGLSpiral">
       <HintPath>..\packages\WebGLSpiral.1.0.0.0\lib\WebGLSpiral.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLSVGAnonymous">
+      <HintPath>..\packages\WebGLSVGAnonymous.1.0.0.0\lib\WebGLSVGAnonymous.dll</HintPath>
+    </Reference>
     <Reference Include="WebGLTetrahedron">
       <HintPath>..\packages\WebGLTetrahedron.1.0.0.0\lib\WebGLTetrahedron.dll</HintPath>
     </Reference>
@@ -155,7 +158,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Textures\white-jsc.png" />
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">

@@ -22,6 +22,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
             public bool alpha;
             public bool preserveDrawingBuffer;
+            public bool antialias;
+
         }
 
 
@@ -51,7 +53,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
         public WebGLRenderingContext(
             bool alpha = false,
-            bool preserveDrawingBuffer = false
+            bool preserveDrawingBuffer = false,
+            bool antialias = false
             )
         {
             // InternalConstructor
@@ -60,16 +63,25 @@ namespace ScriptCoreLib.JavaScript.WebGL
         static WebGLRenderingContext InternalConstructor(
 
              bool alpha,
-            bool preserveDrawingBuffer
+            bool preserveDrawingBuffer,
+            bool antialias = false
+
 
             )
         {
             // tested by X:\jsc.svn\examples\javascript\ImageCachedIntoLocalStorageExperiment\ImageCachedIntoLocalStorageExperiment\Application.cs
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLSVGAnonymous\WebGLSVGAnonymous\Application.cs
 
             var canvas = new IHTMLCanvas();
             var context = (WebGLRenderingContext)canvas.getContext("experimental-webgl",
 
-                new __preserveDrawingBuffer { alpha = alpha, preserveDrawingBuffer = preserveDrawingBuffer }
+                new __preserveDrawingBuffer
+                {
+                    alpha = alpha,
+                    preserveDrawingBuffer = preserveDrawingBuffer,
+                    antialias = antialias
+
+                }
                 );
 
             return context;
