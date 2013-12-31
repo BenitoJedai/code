@@ -11,14 +11,14 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     public static class WithConnectionLambda
     {
 
-        public static long GetInt64OrDefault(System.Data.DataRow e, string ColumnName, long defaultValue)
+        public static long GetInt64OrDefault(System.Data.DataRow e, string ColumnName)
         {
             if (e.Table.Columns.Contains(ColumnName))
             {
                 return Convert.ToInt64(e[ColumnName]);
             }
 
-            return defaultValue;
+            return default(long);
         }
 
         public static object ConvertDBNullToNullIfAny(object e)
