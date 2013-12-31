@@ -6,15 +6,14 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.Lambda
 {
-
+   
 
     [Script]
     public class BindingListWithEvents<T> : IDisposable
     {
         // used by
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.cs
-
-        public BindingList<T> InternalList;
+        BindingList<T> InternalList;
 
         public BindingList<T> Source
         {
