@@ -350,10 +350,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.Distinct(System.Collections.Generic.IEnumerable`1[[System.Windows.Forms.DataGridViewRow, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
 
+                //JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.cs(355,42): error CS1061: 'ScriptCoreLib.Shared.Lambda.BindingListWithEvents<ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__DataGridViewRow>' does not contain a definition for 'InternalList' and no extension method 'InternalList' accepting a first argument of type 'ScriptCoreLib.Shared.Lambda.BindingListWithEvents<ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__DataGridViewRow>' could be found (are you missing a using directive or an assembly reference?) [Z:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj]
+                //JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.cs(356,41): error CS1061: 'ScriptCoreLib.Shared.Lambda.BindingListWithEvents<ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__DataGridViewRow>' does not contain a definition for 'InternalList' and no extension method 'InternalList' accepting a first argument of type 'ScriptCoreLib.Shared.Lambda.BindingListWithEvents<ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__DataGridViewRow>' could be found (are you missing a using directive or an assembly reference?) [Z:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj]
+
+                // X:\jsc.svn\core\ScriptCoreLib\Shared\Lambda\BindingListWithEvents.cs
+
                 foreach (var item in InternalSelectedCells.InternalItems)
                 {
-                    if (!x.InternalItems.InternalList.Contains(item.OwningRow))
-                        x.InternalItems.InternalList.Add(item.OwningRow);
+                    if (!x.InternalItems.Source.Contains(item.OwningRow))
+                        x.InternalItems.Source.Add(item.OwningRow);
 
                 }
 
