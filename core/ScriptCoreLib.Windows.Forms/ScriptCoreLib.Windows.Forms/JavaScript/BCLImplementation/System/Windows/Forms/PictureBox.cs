@@ -12,7 +12,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [ScriptCoreLib.Script(Implements = typeof(global::System.Windows.Forms.PictureBox))]
-    internal class __PictureBox : __Control, __ISupportInitialize
+    public class __PictureBox : __Control, __ISupportInitialize
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131217-picturebox
 
