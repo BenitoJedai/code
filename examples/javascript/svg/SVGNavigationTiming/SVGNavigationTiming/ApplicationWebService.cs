@@ -89,6 +89,19 @@ namespace SVGNavigationTiming
     /// </summary>
     public partial class ApplicationWebService
     {
+
+        //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2::GetDataSet][offset 0x00000005] Unable to resolve token.
+        //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2+ApplicationPerformance+Queries::Create]  [HRESULT 0x80070002] - The system cannot find the file specified.
+
+        //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2ApplicationPerformanceRow::ToString][offset 0x0000011F][found value 'System.DateTime'][expected ref 'System.Object'] Unexpected type on the stack.
+        //3 Error(s) Verifying X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll
+
+
+
+
+
+
+
         // wthflip?
         // http://stackoverflow.com/questions/1606867/how-to-prevent-a-net-application-to-use-an-assembly-from-the-gac
 
@@ -155,6 +168,13 @@ namespace SVGNavigationTiming
             return "ok".AsResult();
         }
 
+        public Task<string> WebMethod22()
+        {
+
+            Thread.Sleep(22);
+
+            return "ok".AsResult();
+        }
 
 
         public const long TicksPerMillisecond = 10000;
