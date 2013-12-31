@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{40709C6A-7676-4F51-B6DA-AC1DF629684C}</ProjectGuid>
+    <ProjectGuid>{D05E3814-F763-46B0-955C-B27D7B5F034D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech.JavaScript.Avatar</RootNamespace>
