@@ -62,6 +62,15 @@ namespace SVGNavigationTiming
 
             new IHTMLButton { "WebMethod2500" }.AttachToDocument().WhenClicked(this.WebMethod2500);
             new IHTMLButton { "WebMethod500" }.AttachToDocument().WhenClicked(this.WebMethod500);
+            new IHTMLButton { "x22" }.AttachToDocument().WhenClicked(
+                async button =>
+                {
+                    var a = Enumerable.Range(0, 22).Select(i => this.WebMethod22());
+
+                    // script: error JSC1000: method was found, but too late: [WhenAll]
+                    await Task.WhenAll(a);
+                }
+                );
 
             #region GetApplicationPerformance
             new IHTMLButton { "GetApplicationPerformance" }.AttachToDocument().WhenClicked(
@@ -472,10 +481,22 @@ namespace ScriptCoreLib.JavaScript.DOM
                    Native.window.performance.With(
                        async p =>
                        {
+                           p.onresourcetimingbufferfull =
+                               IFunction.OfDelegate(
+                                    new Action(
+                                    delegate
+                                    {
+                                        Console.WriteLine("onresourcetimingbufferfull " + p.getEntries().Length);
+                                    }
+                                ));
+
+                           // http://docs.webplatform.org/wiki/apis/resource_timing/Performance/setResourceTimingBufferSize
+                           // Object #<Performance> has no method 'setResourceTimingBufferSize
+                           //p.setResourceTimingBufferSize(96);
 
                            for (int i = 0; ; i++)
                            {
-                               Native.document.title = new { i }.ToString();
+                               Native.document.title = new { i, p.getEntries().Length }.ToString();
 
                                // wait for more
                                while (!(i < p.getEntries().Length))
@@ -493,66 +514,77 @@ namespace ScriptCoreLib.JavaScript.DOM
                                // 'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButtonAsyncExtensions.WhenClicked(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButton, System.Func<System.Threading.Tasks.Task>)'	X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Application.cs	108	33	SVGNavigationTiming
 
 
-                               var e = new PerformanceResourceTimingElement
-                               {
-                                   text = new IHTMLCode { new { t.name, t.entryType, t.duration } },
+                               #region PerformanceResourceTimingElement
+                               var e = default(PerformanceResourceTimingElement);
 
-                                   StartTime = new { t.startTime }.ToString(),
-
-                                   connectEnd = new { t.connectEnd }.ToString(),
-                                   connectStart = new { t.connectStart }.ToString(),
-                                   TCP = "TCP " + (long)(t.connectEnd - t.connectStart),
-
-                                   RequestStart = new { t.requestStart }.ToString(),
-                                   ResponseStart = new { t.responseStart }.ToString(),
-                                   ResponseEnd = new { t.responseEnd }.ToString(),
-
-                                   Request = "Request " + (long)(t.responseStart - t.requestStart),
-                                   Response = "Response " + (long)(t.responseEnd - t.responseStart)
-
-                               };
-
-
-                               // are we supposed to show it?
                                if (page != null)
+                               {
+
+                                   e = new PerformanceResourceTimingElement
+                                  {
+                                      text = new IHTMLCode { new { t.name, t.entryType, t.duration } },
+
+                                      StartTime = new { t.startTime }.ToString(),
+
+                                      connectEnd = new { t.connectEnd }.ToString(),
+                                      connectStart = new { t.connectStart }.ToString(),
+                                      TCP = "TCP " + (long)(t.connectEnd - t.connectStart),
+
+                                      RequestStart = new { t.requestStart }.ToString(),
+                                      ResponseStart = new { t.responseStart }.ToString(),
+                                      ResponseEnd = new { t.responseEnd }.ToString(),
+
+                                      Request = "Request " + (long)(t.responseStart - t.requestStart),
+                                      Response = "Response " + (long)(t.responseEnd - t.responseStart)
+
+                                  };
+
+
+                                   // are we supposed to show it?
                                    e.AttachToDocument();
+                               }
+                               #endregion
+
+
 
                                if (t.name.Contains("AtApplicationResourcePerformance"))
                                {
-                                   e.text.style.color = "gray";
-                                   return;
+                                   if (page != null)
+                                       e.text.style.color = "gray";
                                }
+                               else
+                               {
+                                   //e.text.style.color = "blue";
 
-                               e.text.style.color = "blue";
+                                   // cookie conflict?
+                                   await Task.Delay(200);
 
-                               // cookie conflict?
-                               await Task.Delay(200);
+                                   //e.text.style.color = "black";
 
-                               e.text.style.color = "black";
+                                   // how not to report on report?
+                                   await service.AtApplicationResourcePerformance(
+                                     new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+                                     {
+                                         // a signed key, can we check it?
+                                         ApplicationPerformance = CurrentApplicationPerformance,
 
-                               // how not to report on report?
-                               await service.AtApplicationResourcePerformance(
-                                 new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
-                                 {
-                                     // a signed key, can we check it?
-                                     ApplicationPerformance = CurrentApplicationPerformance,
+                                         Timestamp = DateTime.Now,
 
-                                     Timestamp = DateTime.Now,
+                                         startTime = (long)t.startTime,
 
-                                     startTime = (long)t.startTime,
+                                         duration = (long)t.duration,
 
-                                     duration = (long)t.duration,
+                                         entryType = t.entryType,
+                                         name = t.name,
 
-                                     entryType = t.entryType,
-                                     name = t.name,
-
-                                     connectStart = (long)t.connectStart,
-                                     connectEnd = (long)t.connectEnd,
-                                     requestStart = (long)t.requestStart,
-                                     responseStart = (long)t.responseStart,
-                                     responseEnd = (long)t.responseEnd,
-                                 }
-                              );
+                                         connectStart = (long)t.connectStart,
+                                         connectEnd = (long)t.connectEnd,
+                                         requestStart = (long)t.requestStart,
+                                         responseStart = (long)t.responseStart,
+                                         responseEnd = (long)t.responseEnd,
+                                     }
+                                  );
+                               }
 
 
 
