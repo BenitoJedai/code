@@ -40,49 +40,7 @@ namespace Abstractatech.JavaScript.Avatar
             Native.document.body.style.margin = "0px";
             Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            new IHTMLDiv { }.AttachToDocument()
-                .With(
-                async c =>
-                {
-                    #region onresize
-                    Native.window.With(
-                        async window =>
-                        {
-                            while (true)
-                            {
-                                c.style.transformOrigin = "0% 0%";
-
-                                var scale =
-
-                                    Native.window.Height / (double)(480 + 96);
-
-                                if (Native.window.Height > Native.window.Width)
-                                    scale = Native.window.Width / (double)(640);
-
-
-                                c.style.transform = "scale("
-                                    + scale
-                                    + ")";
-
-                                var w = (int)(scale * (640));
-                                var h = (int)(scale * (480 + 96));
-
-
-                                c.style.width = w + "px";
-                                c.style.height = h + "px";
-
-                                c.style.SetLocation(
-                                    (Native.window.Width - w) / 2,
-                                    (Native.window.Height - h) / 2
-                                );
-
-                                await window.async.onresize;
-                            }
-                        }
-                    );
-                    #endregion
-                }
-            ).With(ApplicationImplementation.MakeCamGrabber);
+            new IHTMLDiv { }.AttachToDocument().With(x => ApplicationImplementation.MakeCamGrabber(x, sizeToWindow: true));
 
 
         }
@@ -90,8 +48,50 @@ namespace Abstractatech.JavaScript.Avatar
 
     public static class ApplicationImplementation
     {
-        public static async void MakeCamGrabber(IHTMLDiv c)
+        public static async void MakeCamGrabber(IHTMLDiv c, bool sizeToWindow = false, Action<WebCamAvatarsSheet1Row> yield = null)
         {
+            if (sizeToWindow)
+            {
+                #region onresize
+                Native.window.With(
+                    async window =>
+                    {
+                        while (true)
+                        {
+                            c.style.transformOrigin = "0% 0%";
+
+                            var scale =
+
+                                Native.window.Height / (double)(480 + 96);
+
+                            if (Native.window.Height > Native.window.Width)
+                                scale = Native.window.Width / (double)(640);
+
+
+                            c.style.transform = "scale("
+                                + scale
+                                + ")";
+
+                            var w = (int)(scale * (640));
+                            var h = (int)(scale * (480 + 96));
+
+
+                            c.style.width = w + "px";
+                            c.style.height = h + "px";
+
+                            c.style.SetLocation(
+                                (Native.window.Width - w) / 2,
+                                (Native.window.Height - h) / 2
+                            );
+
+                            await window.async.onresize;
+                        }
+                    }
+                );
+                #endregion
+
+            }
+
             c.style.backgroundColor = "black";
 
             #region localStorageKeys
@@ -309,6 +309,17 @@ namespace Abstractatech.JavaScript.Avatar
                         gif =>
                         {
                             Native.window.localStorage[localStorageKeys.img96gif] = gif;
+
+                            if (yield != null)
+                                yield(
+                                    new WebCamAvatarsSheet1Row
+                                    {
+                                        Avatar640x480 = base64,
+                                        // do we want to report frames?
+                                        Avatar96gif = gif
+                                    }
+                                );
+
 
                             atgif(gif);
                         }
