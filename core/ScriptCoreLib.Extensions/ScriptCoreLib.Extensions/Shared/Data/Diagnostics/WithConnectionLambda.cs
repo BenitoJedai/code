@@ -64,20 +64,22 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                         //Console.WriteLine(new { ex.Message, ex.StackTrace });
 
                         Console.WriteLine();
+
                         // script: error JSC1000: No implementation found for this native method, please implement [System.Exception.get_StackTrace()]
-                        var text = "ScriptCoreLib.Extensions::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda.WithConnection error: "
+                        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140101
+                        var text = "ScriptCoreLib.Extensions::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda.WithConnection\n\n error: "
                             + new
                             {
                                 ex.Message,
                                 ex,
-                                //ex.StackTrace
+                                ex.StackTrace
                             };
 
                         Console.WriteLine(text);
 
                         Debugger.Break();
 
-                        //throw new InvalidOperationException(text);
+                        throw new InvalidOperationException(text);
                     }
                 }
 

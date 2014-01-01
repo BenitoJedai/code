@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -26,7 +27,7 @@ namespace WebCamAvatarsExperiment
 
         public void Insert(Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row y)
         {
-            Console.WriteLine("Insert");
+            Console.WriteLine("Insert!!");
 
             //DateTimeConvertFromString { e = 1388579900081 }
             //DateTimeConvertFromInt64 { Kind = Utc, value = 1/1/2014 12:38:20 PM }
@@ -34,6 +35,23 @@ namespace WebCamAvatarsExperiment
 
             if (y.Avatar96gif != null)
                 Console.WriteLine(new { y.Avatar96gif.Length });
+
+            try
+            {
+                var avatars = new global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1();
+                var key = avatars.Insert(y);
+
+                var c = avatars.Count();
+
+                Console.WriteLine(
+                    new { c }
+                    );
+            }
+            catch
+            {
+                // what the flip
+                Debugger.Break();
+            }
 
             //          about to load params for { WebMethod = { IsConstructor = false, MetadataToken = 06000002, Name = Insert, TypeFullName = WebCamAvatarsExperiment.ApplicationWebService, Parameters = 1 } }
             //enter invoke { WebMethod = { IsConstructor = false, MetadataToken = 06000002, Name = Insert, TypeFullName = WebCamAvatarsExperiment.ApplicationWebService, Parameters = 1 } }
