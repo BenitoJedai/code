@@ -15,6 +15,7 @@ using System;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     [Script]
+    // move to own file
     public static class HTMLElementEnumExtensions
     {
         // script: error JSC1000: No implementation found for this native method, please implement [static ScriptCoreLib.JavaScript.DOM.HTML.HTMLElementEnumExtensions.AsEnumerable(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement+HTMLElementEnum)]

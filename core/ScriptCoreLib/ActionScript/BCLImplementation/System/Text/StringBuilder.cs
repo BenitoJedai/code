@@ -8,6 +8,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Text
     [Script(Implements = typeof(global::System.Text.StringBuilder))]
     internal class __StringBuilder
     {
+        public virtual int Capacity
+        {
+            get
+            {
+                return _Value.Length;
+
+            }
+            set
+            {
+
+            }
+        }
+
         public __StringBuilder()
         {
 

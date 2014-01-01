@@ -64,7 +64,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
 		public static MemoryStream ToMemoryStream(this ByteArray e)
 		{
 
-			return (MemoryStream)(object)new __MemoryStream { Buffer = e };
+			return (MemoryStream)(object)new __MemoryStream { InternalBuffer = e };
 		}
 
 		public static ByteArray ToByteArray(this Stream s)
@@ -85,7 +85,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
 		{
 			var x = (__MemoryStream)(object)m;
 
-			return x.Buffer;
+			return x.InternalBuffer;
 		}
 
 

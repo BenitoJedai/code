@@ -17,13 +17,33 @@ namespace ScriptCoreLib.Library
 
         public static string UTF8FromBase64StringOrDefault(string e)
         {
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140101
+
+            var o = default(string);
+
+            Console.WriteLine("enter UTF8FromBase64StringOrDefault");
+
+            //before call NewGlobalInvokeMethod { Name = Insert }
+            //enter { ConvertTypeName = Abstractatech.JavaScript.Avatar.ConvertToString$2$<0200001c> }
+            //before xml parse { ConvertTypeName = Abstractatech.JavaScript.Avatar.ConvertToString$2$<0200001c> }
+            //before ElementsToFields { ConvertTypeName = Abstractatech.JavaScript.Avatar.ConvertToString$2$<0200001c> }
+            //ElementsToFields { Name = Key }
+            //ElementsToFields { Name = Avatar640x480 }
+            //enter UTF8FromBase64StringOrDefault
+
             // allow 0 char do be sent
-            if (e == null)
-                return null;
+            if (e != null)
+            {
+                Console.WriteLine("before Convert.FromBase64String");
+                var bytes = Convert.FromBase64String(e);
 
-            var bytes = Convert.FromBase64String(e);
+                Console.WriteLine("before Encoding.UTF8.GetString");
+                o = Encoding.UTF8.GetString(bytes);
+            }
 
-            return Encoding.UTF8.GetString(bytes);
+            Console.WriteLine("exit UTF8FromBase64StringOrDefault");
+
+            return o;
         }
 
         public static string UTF8ToBase64StringOrDefault(string e)

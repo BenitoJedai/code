@@ -15,6 +15,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
         // InputStream
         // http://www.koders.com/java/fidF990D954151F15A618183172871A1403F719D971.aspx
         byte[] InternalBuffer = new byte[0];
+
         long InternalPosition;
         long InternalLength;
 
@@ -78,7 +79,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            InternalEnsureCapacity(Capacity + count);
+            InternalEnsureCapacity(InternalPosition + count);
 
             // java does not support long array copy?
 
@@ -89,7 +90,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
         public override void WriteByte(byte value)
         {
-            InternalEnsureCapacity(Capacity + 1);
+            // 2013-01-01 wow this problem was expensive to find
+            InternalEnsureCapacity(InternalPosition + 1);
 
             InternalBuffer[InternalPosition] = value;
             InternalPosition++;
@@ -106,7 +108,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
         {
             get
             {
+                // X:\jsc.svn\examples\java\JVMCLRBase64\JVMCLRBase64\Program.cs
+
                 if (InternalBuffer == null)
+                    // so we are fast until 0x1000 then we become really slow?
                     Capacity = 0x1000;
 
                 return InternalBuffer.Length;

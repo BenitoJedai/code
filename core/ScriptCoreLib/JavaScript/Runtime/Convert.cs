@@ -157,6 +157,10 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         public static string FromBase64String(string input)
         {
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140101
+
+            //Console.WriteLine("enter FromBase64String");
+
             string output = "";
 
             int chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -185,6 +189,8 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 {
                     output += __String.FromCharCode(chr3);
                 }
+
+                //Console.WriteLine("FromBase64String loop " + new { i, input.Length, enc1, enc2, enc3, enc4 });
 
                 b = i < input.Length;
             }

@@ -109,6 +109,8 @@
     <Compile Include="JavaScript\DOM\FileEntry.cs" />
     <Compile Include="JavaScript\DOM\Storage.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGTSpanElement.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Convert.FromBase64String.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Convert.ToBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataTableCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataView.cs" />

@@ -30,6 +30,10 @@ namespace WebCamAvatarsExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // test it
+            //base.Insert(
+            //    new Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row()
+            //    );
 
 
             page.NewImage.WhenClicked(
@@ -58,8 +62,12 @@ namespace WebCamAvatarsExperiment
                             overlay.Orphanize();
                             css.style.display = IStyle.DisplayEnum.empty;
 
-                            new IHTMLImage { src = y.Avatar640x480 }.AttachToDocument();
-                            new IHTMLImage { src = y.Avatar96gif }.AttachToDocument();
+                            new IHTMLImage { y.Avatar640x480 }.AttachToDocument();
+                            new IHTMLImage { y.Avatar96gif }.AttachToDocument();
+
+                            //  method:Void <.ctor>b__3(Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row), ex = System.InvalidOperationException: Unable to change after type has been created.
+                            //base.Insert(y.Avatar96gif);
+                            base.Insert(y);
                         }
 
                    );
@@ -67,6 +75,8 @@ namespace WebCamAvatarsExperiment
             );
 
         }
+
+
 
     }
 }

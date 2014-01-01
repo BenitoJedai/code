@@ -16,6 +16,8 @@ namespace ScriptCoreLib.Ultra.WebService
         public static string QueryKey = "WebMethod";
 
         public string MethodName;
+
+        // DeclaringType
         public string TypeFullName;
 
         public string MetadataToken;
@@ -96,7 +98,17 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public override string ToString()
         {
-            return new { IsConstructor, MetadataToken, Name = MethodName, TypeFullName }.ToString();
+            return new
+            {
+
+                IsConstructor,
+                MetadataToken,
+                Name = MethodName,
+                TypeFullName,
+
+                Parameters = this.Parameters.Length
+
+            }.ToString();
         }
 
         public string ToQueryString()
