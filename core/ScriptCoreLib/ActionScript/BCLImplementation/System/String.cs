@@ -13,6 +13,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     internal class __String
     {
 
+       
+
 		[Script(DefineAsStatic = true)]
 		public string PadRight(int total)
 		{

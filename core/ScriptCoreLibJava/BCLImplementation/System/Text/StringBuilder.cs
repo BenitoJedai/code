@@ -10,6 +10,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
     {
         global::java.lang.StringBuffer InternalBuffer;
 
+        public int Capacity
+        {
+            // http://docs.oracle.com/javase/7/docs/api/java/lang/StringBuffer.html#setLength(int)
+            // X:\jsc.svn\examples\java\JVMCLRBase64\JVMCLRBase64\Program.cs
+            set
+            {
+                this.InternalBuffer.ensureCapacity(value);
+            }
+            get
+            {
+                return this.InternalBuffer.capacity();
+            }
+        }
+
         public __StringBuilder()
         {
             InternalBuffer = new global::java.lang.StringBuffer();

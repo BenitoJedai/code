@@ -17,7 +17,21 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // http://www.w3schools.com/tags/tag_IMG.asp
 
         public string alt;
+
         public string src;
+
+        [Script(DefineAsStatic = true)]
+        public virtual void Add(string e)
+        {
+            // X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\Application.cs
+
+            // what about multiple sources being added this way?
+            // make them a gif? :)
+            // animate them?
+
+            this.src = e;
+        }
+
         public int border;
 
         public bool complete;

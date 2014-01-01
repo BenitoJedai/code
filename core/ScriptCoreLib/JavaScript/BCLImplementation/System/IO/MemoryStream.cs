@@ -8,118 +8,136 @@ using System.IO;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
-	[Script(Implements = typeof(global::System.IO.MemoryStream))]
-	internal class __MemoryStream : __Stream
-	{
+    [Script(Implements = typeof(global::System.IO.MemoryStream))]
+    internal class __MemoryStream : __Stream
+    {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+
         // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\UCLImplementation\AvalonExtensions.cs
         // soon to be out of date?
-		internal string InternalBuffer = "";
+        internal string InternalBuffer = "";
 
-		public __MemoryStream()
-			: this(null)
-		{
+        //script: error JSC1000: No implementation found for this native method, please implement [System.IO.MemoryStream.set_Capacity(System.Int32)]
+        // X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\ApplicationWebService.cs
 
-		}
+        public virtual int Capacity
+        {
+            get
+            {
+                return InternalBuffer.Length;
 
-		public __MemoryStream(byte[] buffer)
-		{
-			if (buffer != null)
-			{
-				this.Write(buffer, 0, buffer.Length);
+            }
+            set
+            {
 
-				Position = 0;
-			}
-		}
+            }
+        }
 
-		public override int ReadByte()
-		{
-			if (this.Position < 0)
-				return -1;
+        public __MemoryStream()
+            : this(null)
+        {
 
-			if (this.Position >= this.Length)
-				return -1;
+        }
 
-			var x = (byte)(this.InternalBuffer[(int)this.Position] & 0xff);
+        public __MemoryStream(byte[] buffer)
+        {
+            if (buffer != null)
+            {
+                this.Write(buffer, 0, buffer.Length);
 
-			this.Position++;
+                Position = 0;
+            }
+        }
 
-			return x;
-		}
+        public override int ReadByte()
+        {
+            if (this.Position < 0)
+                return -1;
 
-		public override void WriteByte(byte value)
-		{
-			if (this.Position < this.Length)
-				throw new NotImplementedException();
+            if (this.Position >= this.Length)
+                return -1;
 
+            var x = (byte)(this.InternalBuffer[(int)this.Position] & 0xff);
 
-			this.InternalBuffer += __String.FromCharCode(value & 0xff);
-			this.Position++;
+            this.Position++;
 
-		}
+            return x;
+        }
 
-		public override int Read(byte[] buffer, int offset, int count)
-		{
-			var c = 0;
-			var p = (int)this.Position;
-
-			for (int i = 0; i < count; i++)
-			{
-				if (i >= this.Length)
-					break;
-
-				buffer[i + offset] = (byte)(this.InternalBuffer[i + p] & 0xff);
-
-				c++;
-			}
-
-			this.Position += c;
-
-			return c;
-		}
+        public override void WriteByte(byte value)
+        {
+            if (this.Position < this.Length)
+                throw new NotImplementedException();
 
 
-		public override void Write(byte[] buffer, int offset, int count)
-		{
-			if (this.Position < this.Length)
-				throw new NotImplementedException();
+            this.InternalBuffer += __String.FromCharCode(value & 0xff);
+            this.Position++;
 
-			for (int i = 0; i < count; i++)
-			{
-				this.InternalBuffer += __String.FromCharCode(buffer[offset + i]);
-			}
+        }
 
-			this.Position += count;
-		}
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            var c = 0;
+            var p = (int)this.Position;
 
-		public virtual byte[] ToArray()
-		{
-			var a = new byte[this.Length];
+            for (int i = 0; i < count; i++)
+            {
+                if (i >= this.Length)
+                    break;
 
-			for (int i = 0; i < this.Length; i++)
-			{
-				a[i] = (byte)(this.InternalBuffer[i] & 0xff);
-			}
+                buffer[i + offset] = (byte)(this.InternalBuffer[i + p] & 0xff);
 
-			return a;
-		}
+                c++;
+            }
 
-		public override long Length
-		{
-			get { return InternalBuffer.Length; }
-		}
+            this.Position += c;
 
-		public override long Position { get; set; }
+            return c;
+        }
 
-		public void WriteTo(Stream s)
-		{
-			//var b = new byte[s.Length];
 
-			//s.Read(b, 0, b.Length);
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            if (this.Position < this.Length)
+                throw new NotImplementedException();
 
-			//this.Write(b, 0, b.Length);
+            for (int i = 0; i < count; i++)
+            {
+                this.InternalBuffer += __String.FromCharCode(buffer[offset + i]);
+            }
 
-			throw new NotSupportedException();
+            this.Position += count;
+        }
 
-		}
-	}
+        public virtual byte[] ToArray()
+        {
+            var a = new byte[this.Length];
+
+            for (int i = 0; i < this.Length; i++)
+            {
+                a[i] = (byte)(this.InternalBuffer[i] & 0xff);
+            }
+
+            return a;
+        }
+
+        public override long Length
+        {
+            get { return InternalBuffer.Length; }
+        }
+
+        public override long Position { get; set; }
+
+        public void WriteTo(Stream s)
+        {
+            //var b = new byte[s.Length];
+
+            //s.Read(b, 0, b.Length);
+
+            //this.Write(b, 0, b.Length);
+
+            throw new NotSupportedException();
+
+        }
+    }
 }

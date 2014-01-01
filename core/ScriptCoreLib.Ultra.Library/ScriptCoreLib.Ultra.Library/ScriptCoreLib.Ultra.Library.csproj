@@ -210,6 +210,7 @@
     <Compile Include="Ultra\Tier.cs" />
     <Compile Include="Ultra\TierAttribute.cs" />
     <Compile Include="Ultra\TierEnum.cs" />
+    <Compile Include="Ultra\WebService\InternalGlobalExtensions.InternalApplication_BeginRequest.cs" />
     <Compile Include="Ultra\WebService\InternalFileInfo.cs" />
     <Compile Include="Ultra\WebService\InternalGlobal.cs" />
     <Compile Include="Ultra\WebService\InternalGlobalExtensions.cs" />

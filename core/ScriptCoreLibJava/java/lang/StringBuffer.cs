@@ -7,6 +7,7 @@ namespace java.lang
     [Script(IsNative = true)]
     public sealed class StringBuffer
     {
+
         // Constructor Summary
         /// <summary>
         /// Constructs a string buffer with no characters in it and an initial capacity of 16 characters.

@@ -83,6 +83,8 @@ namespace ScriptCoreLib.Desktop.Tools
 
             if (File.Exists(target))
             {
+                // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140101
+
                 while (true)
                     try
                     {

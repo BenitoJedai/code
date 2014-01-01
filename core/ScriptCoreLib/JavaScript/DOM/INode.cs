@@ -226,7 +226,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public void Add(string e)
+        public virtual void Add(string e)
         {
             // Implementing Collection Initializers
             // http://msdn.microsoft.com/en-us/library/bb384062.aspx
