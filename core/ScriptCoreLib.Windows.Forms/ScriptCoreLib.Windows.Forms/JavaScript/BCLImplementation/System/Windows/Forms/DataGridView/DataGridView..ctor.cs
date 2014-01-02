@@ -1770,7 +1770,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 // extra padding?
                                 WidthByRowsInThisColumn += 8 + 24;
 
-                                Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
+                                //Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
 
                                 __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByRowsInThisColumn - SourceColumn.Width);
                                 SourceColumn.Width = Math.Max(20, WidthByRowsInThisColumn);
