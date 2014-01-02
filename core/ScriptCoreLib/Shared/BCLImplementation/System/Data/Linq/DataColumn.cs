@@ -9,6 +9,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Linq
     [Script(Implements = typeof(global::System.Data.Linq.DataContext))]
     internal class __DataContext : IDisposable
     {
+        // where is this used?
+
+
         public void Dispose()
         {
         }
