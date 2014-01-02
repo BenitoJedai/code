@@ -14,71 +14,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SVGNAvigationTiming;
 
-namespace System.Linq
-{
-    public static class Average
-    {
-        public static long Median<T>(this IEnumerable<T> list, Func<T, long> s)
-        {
-            return (long)list.Select(s).Median();
-        }
-
-        public static long Median(this IEnumerable<long> list)
-        {
-            return (long)list.Select(x => (double)x).Median();
-        }
-
-        public static double Median(this IEnumerable<double> list)
-        {
-            List<double> orderedList = list
-                .OrderBy(numbers => numbers)
-                .ToList();
-
-            int listSize = orderedList.Count;
-            double result;
-
-            if (listSize % 2 == 0) // even
-            {
-                int midIndex = listSize / 2;
-                result = ((orderedList.ElementAt(midIndex - 1) +
-                           orderedList.ElementAt(midIndex)) / 2);
-            }
-            else // odd
-            {
-                double element = (double)listSize / 2;
-
-                // http://stackoverflow.com/questions/311696/why-does-net-use-bankers-rounding-as-default
-                element = Math.Round(element);
-                //element = Math.Round(element, MidpointRounding.AwayFromZero);
-
-                result = orderedList.ElementAt((int)(element - 1));
-            }
-
-            return result;
-        }
-
-        public static IEnumerable<double> Modes(this IEnumerable<double> list)
-        {
-            var modesList = list
-                .GroupBy(values => values)
-                .Select(valueCluster =>
-                        new
-                        {
-                            Value = valueCluster.Key,
-                            Occurrence = valueCluster.Count(),
-                        })
-                .ToList();
-
-            int maxOccurrence = modesList
-                .Max(g => g.Occurrence);
-
-            return modesList
-                .Where(x => x.Occurrence == maxOccurrence && maxOccurrence > 1) // Thanks Rui!
-                .Select(x => x.Value);
-        }
-    }
-}
 
 namespace SVGNavigationTiming
 {
@@ -236,11 +173,11 @@ namespace SVGNavigationTiming
             // http://msdn.microsoft.com/en-us/library/aa287599(v=vs.71).aspx
 
             var data = new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
-             .SelectAllAsEnumerable()
+             .SelectAllAsEnumerableByPath(k.path)
 
-             .Where(
-                // host:port will differ
-                z => z.name.SkipUntilIfAny("//").SkipUntilIfAny("/") == k.name.SkipUntilIfAny("//").SkipUntilIfAny("/"))
+             //.Where(
+                //   // host:port will differ
+                //   z => z.name.SkipUntilIfAny("//").SkipUntilIfAny("/") == k.name.SkipUntilIfAny("//").SkipUntilIfAny("/"))
 
 
              .ToList();
@@ -314,13 +251,14 @@ namespace SVGNavigationTiming
              .AsResult();
         }
 
-        public Task<DataTable> GetApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceKey k)
+        public Task<DataTable> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey k)
         {
             //Task.FromResult
-            return new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                .SelectAllAsEnumerable()
+            return new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance().SelectAllAsEnumerableByApplicationPerformance(k)
 
-                .Where(z => z.ApplicationPerformance == k)
+                //.SelectAllAsEnumerable()
+
+                //.Where(z => z.ApplicationPerformance == k)
 
                 .AsDataTable()
 
@@ -382,6 +320,8 @@ namespace SVGNavigationTiming
 
             // check sig to prevent client side tamper
             //value.ApplicationPerformance = this.CurrentApplicationPerformance;
+
+            value.path = value.name.SkipUntilIfAny("//").SkipUntilIfAny("/");
 
             return new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance().Insert(value).AsResult();
         }
@@ -458,6 +398,72 @@ namespace SVGNavigationTiming
         }
     }
 }
+
+#region PerformanceResourceTimingData2.ApplicationResourcePerformance
+namespace SVGNAvigationTiming
+{
+    using System.Data.SQLite;
+    using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
+    using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
+
+    public static partial class __generated
+    {
+        public static IEnumerable<TRow> SelectAllAsEnumerableByApplicationPerformance(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, PerformanceResourceTimingData2ApplicationPerformanceKey ApplicationPerformance)
+        {
+            var fast = ((Task<DataTable>)new TQueries().WithConnection(
+               c =>
+               {
+                   var cmd = new SQLiteCommand(TQueries.SelectAllCommandText.TakeUntilIfAny("order") + " where  `ApplicationPerformance` = @ApplicationPerformance", c);
+                   cmd.Parameters.AddWithValue("ApplicationPerformance", (long)ApplicationPerformance);
+
+                   var t = new DataTable();
+                   var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd);
+                   a.Fill(t);
+
+                   return t.AsResult();
+               }
+           )).Result;
+
+            return fast.Rows.AsEnumerable().Select(xx => (TRow)xx);
+        }
+
+    }
+}
+#endregion
+
+
+#region PerformanceResourceTimingData2.ApplicationResourcePerformance
+namespace SVGNAvigationTiming
+{
+    using System.Data.SQLite;
+    using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
+    using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
+
+    public static partial class __generated
+    {
+        public static IEnumerable<TRow> SelectAllAsEnumerableByPath(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, string path)
+        {
+            var fast = ((Task<DataTable>)new TQueries().WithConnection(
+               c =>
+               {
+                   var cmd = new SQLiteCommand(TQueries.SelectAllCommandText.TakeUntilIfAny("order") + " where  `path` = @path", c);
+                   cmd.Parameters.AddWithValue("path", (string)path);
+
+                   var t = new DataTable();
+                   var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd);
+                   a.Fill(t);
+
+                   return t.AsResult();
+               }
+           )).Result;
+
+            return fast.Rows.AsEnumerable().Select(xx => (TRow)xx);
+        }
+
+    }
+}
+#endregion
+
 
 namespace Abstractatech.JavaScript.ApplicationPerformance
 {
