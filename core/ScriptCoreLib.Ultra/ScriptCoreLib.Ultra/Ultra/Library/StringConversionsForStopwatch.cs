@@ -28,7 +28,7 @@ namespace ScriptCoreLib.Library
 
             );
 
-            Console.WriteLine("StringConversionsForStopwatch.ConvertToString " + new { e.ElapsedMilliseconds, e.IsRunning });
+            //Console.WriteLine("StringConversionsForStopwatch.ConvertToString " + new { e.ElapsedMilliseconds, e.IsRunning });
 
             return x.ToString();
         }
@@ -37,7 +37,7 @@ namespace ScriptCoreLib.Library
         public static string DateTimeConvertToString(DateTime e)
         {
             var x = e;
-            Console.WriteLine("DateTimeConvertToString " + new { x });
+            //Console.WriteLine("DateTimeConvertToString " + new { x });
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131226-datetime
             return "" + DateTimeConvertToInt64(e);
@@ -63,7 +63,7 @@ namespace ScriptCoreLib.Library
 
         public static DateTime DateTimeConvertFromString(string e)
         {
-            Console.WriteLine("DateTimeConvertFromString " + new { e });
+            //Console.WriteLine("DateTimeConvertFromString " + new { e });
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131226-datetime
             return DateTimeConvertFromInt64(
@@ -73,7 +73,7 @@ namespace ScriptCoreLib.Library
 
         public static DateTime DateTimeConvertFromObject(object e)
         {
-            Console.WriteLine("DateTimeConvertFromObject " + new { e });
+            //Console.WriteLine("DateTimeConvertFromObject " + new { e });
 
             //        Convert.ToInt64("0")	0	long
             //        Convert.ToInt64(default(string))	0	long
@@ -110,7 +110,7 @@ namespace ScriptCoreLib.Library
             //if (DateTime.MaxValue.Ticks)
             var value = new DateTime(ticks: ticks, kind: DateTimeKind.Utc);
 
-            Console.WriteLine("DateTimeConvertFromInt64 " + new { value.Kind, value });
+            //Console.WriteLine("DateTimeConvertFromInt64 " + new { value.Kind, value });
 
             return value;
         }
@@ -160,7 +160,7 @@ namespace ScriptCoreLib.Library
         {
             // enter StringConversionsForStopwatchExtensions.StopwatchAtElapsed
 
-            Console.WriteLine("enter __StopwatchExtensions.StopwatchAtElapsed");
+            //Console.WriteLine("enter __StopwatchExtensions.StopwatchAtElapsed");
 
             //enter __StopwatchExtensions.StopwatchAtElapsed
             //__StopwatchExtensions.StopwatchAtElapsed { InternalStart = 24.12.2013 12:13:45, t = 0.00:00:00 }

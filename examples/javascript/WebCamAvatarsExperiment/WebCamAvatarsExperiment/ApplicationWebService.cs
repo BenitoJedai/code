@@ -18,11 +18,52 @@ namespace WebCamAvatarsExperiment
     /// </summary>
     public class ApplicationWebService
     {
+        public ApplicationWebService()
+        {
+            // +		$exception	{"Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"}	System.Exception {System.IO.FileNotFoundException}
 
+            { Type sqlLitec = typeof(System.Data.SQLite.SQLiteConnection); }
+            { Type ext = typeof(System.Data.SQLite.SQLiteConnectionStringBuilderExtensions); }
+        }
         public void Insert0(string base64)
         {
             Console.WriteLine(new { base64.Length });
             // { Length = 52398 }
+        }
+
+        //+		$exception	{"Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.":"System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139"}	System.Exception {System.IO.FileNotFoundException}
+
+
+        // ctor shall be invoked for page builder
+        // add a new button
+        // add onclick
+
+        public void Reset()
+        {
+            new global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1.Queries().WithConnection(
+                c =>
+                {
+                    #region drop
+                    Action<string> dropsql = sql =>
+                    {
+                        try
+                        {
+                            Console.WriteLine(new { sql });
+                            var xvalue = new System.Data.SQLite.SQLiteCommand(sql, c).ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                        }
+                    };
+                    #endregion
+
+
+                    dropsql(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1.Queries.DropCommandText);
+
+                    return "".AsResult();
+                }
+            );
+
         }
 
         public void Insert(Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row y)
@@ -34,11 +75,34 @@ namespace WebCamAvatarsExperiment
             //{ Length = 58370 }
 
             if (y.Avatar96gif != null)
-                Console.WriteLine(new { y.Avatar96gif.Length });
+                Console.WriteLine(new { Avatar96gif = y.Avatar96gif.Length });
+
+
+            // http://dev.mysql.com/doc/refman/5.0/en/storage-requirements.html
+            if (y.Avatar640x480 != null)
+                Console.WriteLine(new { Avatar640x480 = y.Avatar640x480.Length });
+
+            //Insert!!
+            //{ Avatar96gif = 48946 }
+            //{ Avatar640x480 = 566890 }
+
+            // 566890 bytes needs a blob!
+            y.Avatar640x480 = null;
+
+            //X:\jsc.svn\examples\javascript\DropFileIntoSQLite\DropFileIntoSQLite\Schema\Table1\create.sql
 
             try
             {
+                // Caused by: java.lang.RuntimeException: Unknown column 'Tag' in 'field list'
+                //at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteCommand.ExecuteNonQuery(__SQLiteCommand.java:277)
+                //at Abstractatech.JavaScript.Avatar.Design.WebCamAvatars_Sheet1_Queries.Insert(WebCamAvatars_Sheet1_Queries.java:68)
+                //at Abstractatech.JavaScript.Avatar.Design.WebCamAvatars_Sheet1__Insert_closure.yield(WebCamAvatars_Sheet1__Insert_closure.java:25)
+
+                // Caused by: java.sql.SQLException: Data truncation: Data too long for column 'Avatar640x480' at row 1
+
                 var avatars = new global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1();
+
+
                 var key = avatars.Insert(y);
 
                 var c = avatars.Count();
