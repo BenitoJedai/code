@@ -333,9 +333,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
 
                                                 var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
 
-
                                                 var t = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(SourceCell.Value);
-
 
                                                 e.Value = crow.duration + "ms";
 

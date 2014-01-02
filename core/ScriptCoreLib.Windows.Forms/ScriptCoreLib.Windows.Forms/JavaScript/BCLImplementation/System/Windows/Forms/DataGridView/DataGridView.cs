@@ -534,7 +534,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             SourceCell.FormattedValue = a.Value;
 
-            Console.WriteLine("InternalRaiseCellFormatting " + new { SourceCell.FormattedValue });
+            //Console.WriteLine("InternalRaiseCellFormatting " + new { SourceCell.FormattedValue });
         }
         #endregion
 
