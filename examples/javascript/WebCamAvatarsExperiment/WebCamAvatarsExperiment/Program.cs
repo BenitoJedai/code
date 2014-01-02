@@ -10,9 +10,9 @@ namespace WebCamAvatarsExperiment
     {
         public static void Main(string[] args)
         {
-            new ApplicationWebService().Insert(
-                new Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row()
-            );
+            //new ApplicationWebService().Insert(
+            //    new Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row()
+            //);
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }

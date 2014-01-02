@@ -35,6 +35,12 @@ namespace WebCamAvatarsExperiment
             //    new Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row()
             //    );
 
+            page.Reset.WhenClicked(
+                delegate
+                {
+                    this.Reset();
+                }
+            );
 
             page.NewImage.WhenClicked(
                 async button =>

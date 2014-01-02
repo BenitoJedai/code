@@ -17,7 +17,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public static string ToBase64String(byte[] input)
         {
-            Console.WriteLine("enter ToBase64String");
+            //Console.WriteLine("enter ToBase64String");
             var ToBase64String_while_timeout = Stopwatch.StartNew();
 
             var capacity = 3 * input.Length / 4;

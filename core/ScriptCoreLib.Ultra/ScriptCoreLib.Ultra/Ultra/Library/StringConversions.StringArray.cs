@@ -21,7 +21,7 @@ namespace ScriptCoreLib.Library
 
             var o = default(string);
 
-            Console.WriteLine("enter UTF8FromBase64StringOrDefault");
+            //Console.WriteLine("enter UTF8FromBase64StringOrDefault");
 
             //before call NewGlobalInvokeMethod { Name = Insert }
             //enter { ConvertTypeName = Abstractatech.JavaScript.Avatar.ConvertToString$2$<0200001c> }
@@ -34,14 +34,14 @@ namespace ScriptCoreLib.Library
             // allow 0 char do be sent
             if (e != null)
             {
-                Console.WriteLine("before Convert.FromBase64String");
+                //Console.WriteLine("before Convert.FromBase64String");
                 var bytes = Convert.FromBase64String(e);
 
-                Console.WriteLine("before Encoding.UTF8.GetString");
+                //Console.WriteLine("before Encoding.UTF8.GetString");
                 o = Encoding.UTF8.GetString(bytes);
             }
 
-            Console.WriteLine("exit UTF8FromBase64StringOrDefault");
+            //Console.WriteLine("exit UTF8FromBase64StringOrDefault");
 
             return o;
         }
