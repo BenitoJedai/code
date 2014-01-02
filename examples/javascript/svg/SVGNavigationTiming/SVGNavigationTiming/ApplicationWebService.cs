@@ -406,15 +406,15 @@ namespace SVGNAvigationTiming
     using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
 
-    public static partial class __generated
+    public static partial class __generatedPerformanceResourceTimingData2
     {
         public static IEnumerable<TRow> SelectAllAsEnumerableByApplicationPerformance(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, PerformanceResourceTimingData2ApplicationPerformanceKey ApplicationPerformance)
         {
             var fast = ((Task<DataTable>)new TQueries().WithConnection(
                c =>
                {
-                   var cmd = new SQLiteCommand(TQueries.SelectAllCommandText.TakeUntilIfAny("order") + " where  `ApplicationPerformance` = @ApplicationPerformance", c);
-                   cmd.Parameters.AddWithValue("ApplicationPerformance", (long)ApplicationPerformance);
+                   var cmd = new SQLiteCommand(TQueries.SelectAllCommandText.TakeUntilIfAny("order") + " where  `ApplicationPerformance` = @ParameterApplicationPerformance", c);
+                   cmd.Parameters.AddWithValue("@ParameterApplicationPerformance", (long)ApplicationPerformance);
 
                    var t = new DataTable();
                    var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd);
@@ -439,15 +439,15 @@ namespace SVGNAvigationTiming
     using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
 
-    public static partial class __generated
+    public static partial class __generatedPerformanceResourceTimingData2
     {
         public static IEnumerable<TRow> SelectAllAsEnumerableByPath(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, string path)
         {
             var fast = ((Task<DataTable>)new TQueries().WithConnection(
                c =>
                {
-                   var cmd = new SQLiteCommand(TQueries.SelectAllCommandText.TakeUntilIfAny("order") + " where  `path` = @path", c);
-                   cmd.Parameters.AddWithValue("path", (string)path);
+                   var cmd = new SQLiteCommand(TQueries.SelectAllCommandText.TakeUntilIfAny("order") + " where  `path` = @Parameterpath", c);
+                   cmd.Parameters.AddWithValue("@Parameterpath", (string)path);
 
                    var t = new DataTable();
                    var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd);
