@@ -594,15 +594,49 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        public CSSStyleRuleMonkier required
+        {
+            //[Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":required"];
+            }
+        }
+
+        public CSSStyleRuleMonkier optional
+        {
+            //[Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":optional"];
+            }
+        }
+
         public CSSStyleRuleMonkier visited
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 return this[":visited"];
             }
         }
 
+        public CSSStyleRuleMonkier valid
+        {
+            //[Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":valid"];
+            }
+        }
+
+        public CSSStyleRuleMonkier invalid
+        {
+            //[Script(DefineAsStatic = true)]
+            get
+            {
+                return this[":invalid"];
+            }
+        }
 
         public CSSStyleRuleMonkier link
         {

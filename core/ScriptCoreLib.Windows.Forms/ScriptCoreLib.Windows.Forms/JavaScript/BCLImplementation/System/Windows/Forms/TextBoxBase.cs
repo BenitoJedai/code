@@ -15,7 +15,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
     [Script(Implements = typeof(global::System.Windows.Forms.TextBoxBase))]
-    internal class __TextBoxBase : __Control
+    public class __TextBoxBase : __Control
     {
         // see also:
         // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\BCLImplementation\System\Windows\Controls\TextBox.cs
@@ -96,6 +96,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
 
             }.AttachTo(this.InternalContainer);
+
+            //Need to test/document
+            this.InternalNameChanged += delegate { 
+                this.InternalTextField.name = InternalName;
+                if(InternalName.ToUpper().Contains(("email").ToUpper()))
+                    this.InternalTextField.type = Shared.HTMLInputTypeEnum.email;
+                if (InternalName.ToUpper().Contains(("phone").ToUpper()))
+                    this.InternalTextField.type = Shared.HTMLInputTypeEnum.tel;
+            };
 
             this.InternalSetDefaultFont();
 
