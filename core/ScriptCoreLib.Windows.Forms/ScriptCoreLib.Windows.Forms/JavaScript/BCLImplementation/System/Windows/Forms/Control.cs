@@ -47,6 +47,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     public partial class __Control : __Component
     {
+        #region name
+        public string InternalName;
+        public string Name { get { return InternalName; } set { InternalName = value; if (InternalNameChanged != null)InternalNameChanged(); } }
+
+        public event Action InternalNameChanged;
+        #endregion
+
         public IStyle outer_style
         {
             get { return this.HTMLTargetRef.style; }
@@ -818,7 +825,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         public Control.ControlCollection Controls { get; set; }
-        public string Name { get; set; }
+        
 
         #region Text
         string _text;

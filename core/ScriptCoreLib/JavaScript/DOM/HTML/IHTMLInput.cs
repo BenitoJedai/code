@@ -30,6 +30,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public string alt;
         public string src;
+        public string autocomplete;
 
         public int maxLength;
         public int size;

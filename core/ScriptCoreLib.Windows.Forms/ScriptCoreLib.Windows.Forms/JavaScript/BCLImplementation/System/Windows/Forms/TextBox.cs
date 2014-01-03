@@ -7,14 +7,33 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.TextBox))]
-    internal class __TextBox : __TextBoxBase
+    public class __TextBox : __TextBoxBase
     {
         // should we listen for enter key?
         public bool AcceptsReturn { get; set; }
 
+        #region AutoCompleteMode
+        public AutoCompleteMode InternalAutoCompleteMode;
+        public AutoCompleteMode AutoCompleteMode { get { return InternalAutoCompleteMode; } set { InternalAutoCompleteMode = value; if (InternalAutoCompleteModeChanged != null)InternalAutoCompleteModeChanged(); } }
+        public event Action InternalAutoCompleteModeChanged;
+        #endregion
+
+        #region AutoCompleteSource
+        public AutoCompleteSource InternalAutoCompleteSource;
+        public AutoCompleteSource AutoCompleteSource { get { return InternalAutoCompleteSource; } set { InternalAutoCompleteSource = value; if (InternalAutoCompleteSourceChanged != null)InternalAutoCompleteSourceChanged(); } }
+        public event Action InternalAutoCompleteSourceChanged;
+        #endregion
+
         public __TextBox()
         {
             this.ScrollBars = global::System.Windows.Forms.ScrollBars.None;
+            this.InternalAutoCompleteModeChanged += delegate
+            {
+                if (this.InternalAutoCompleteMode == global::System.Windows.Forms.AutoCompleteMode.None)
+                    this.InternalTextField.autocomplete = "off";
+                else
+                    this.InternalTextField.autocomplete = "on";
+            };
         }
 
         private HorizontalAlignment _TextAlign;

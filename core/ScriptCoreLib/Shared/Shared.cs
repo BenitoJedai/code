@@ -231,6 +231,8 @@ namespace ScriptCoreLib.Shared
         image, 
         button, 
         date,
+        email,
+        tel,
 
 
         // X:\jsc.svn\examples\javascript\forms\FormsTrackBar\FormsTrackBar\ApplicationControl.cs
