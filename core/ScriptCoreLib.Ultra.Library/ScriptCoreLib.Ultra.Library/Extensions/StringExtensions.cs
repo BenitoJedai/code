@@ -58,6 +58,22 @@ namespace ScriptCoreLib.Extensions
             return e.Substring(i + u.Length);
         }
 
+        public static string SkipUntilBeforeOrEmpty(this string e, string u)
+        {
+            if (null == e)
+                return "";
+
+            if (u == null)
+                return "";
+
+
+            var i = e.IndexOf(u);
+
+            if (i < 0)
+                return "";
+
+            return e.Substring(i);
+        }
 
         public static string SkipUntilOrEmpty(this string e, string u)
         {
