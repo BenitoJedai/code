@@ -37,10 +37,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
             get
             {
+                //InternalHandler { path = /xml }
+                //java.lang.RuntimeException: Sequence contains no elements
+                //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError.NoElements(__DefinedError.java:27)
+                //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:462)
+                //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:438)
+                //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.get_Item(__DataRow.java:105)
+                //        at ScriptCoreLib.Library.StringConversionsForDataTable.ConvertToString(StringConversionsForDataTable.java:168)
 
-                var c = this.InternalData.First(k => k.Item1.ColumnName == column);
+                var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column);
 
-                return this[c.Item1];
+                if (x == null)
+                    return null;
+
+                return x.Item2;
             }
         }
         //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRow.get_Item(System.Int32)]

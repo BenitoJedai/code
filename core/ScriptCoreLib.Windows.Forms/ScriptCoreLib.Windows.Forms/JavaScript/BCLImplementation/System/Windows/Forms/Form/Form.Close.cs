@@ -16,6 +16,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     public partial class __Form
     {
+        public bool InternalClosed;
+
         #region Close
         public void Close()
         {
@@ -39,6 +41,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (a.Cancel)
                 return;
+
+            // stop any load/shown events from now on
+            InternalClosed = true;
 
             foreach (var item in this.OwnedForms)
             {

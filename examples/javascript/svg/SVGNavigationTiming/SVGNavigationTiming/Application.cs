@@ -101,6 +101,10 @@ namespace SVGNavigationTiming
 
 namespace Abstractatech.JavaScript.ApplicationPerformance
 {
+    // Error	14	The type or namespace name '?Attribute' could not be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Application.cs	104	5	SVGNavigationTiming
+
+    //[MonitoringDescription]
+    [System.ComponentModel.DesignerCategory("code")]
     public class ApplicationPerformanceForm : Form
     {
         public ApplicationPerformanceForm(IExploreApplicationPerformance service)
@@ -198,7 +202,9 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                     var kf = new Form { Owner = f, Text = "GetApplicationResourcePerformance" };
                     var kg = new DataGridView
                     {
-                        ScrollBars = System.Windows.Forms.ScrollBars.None,
+
+                        ScrollBars = System.Windows.Forms.ScrollBars.Vertical, // while not maximized
+
                         AllowUserToAddRows = false,
 
                         Dock = DockStyle.Fill,
@@ -234,11 +240,6 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                 e.FormattingApplied = true;
 
                                 var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
-
-
-                                var t = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(SourceCell.Value);
-
-
                                 e.Value = crow.duration + "ms";
 
                                 var rows =
@@ -252,6 +253,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                 var max = rows.Max(
                                     xx => xx.duration
                                     );
+                                SourceCell.ToolTipText = new { crow.duration, min, max }.ToString();
 
                                 var red = (int)(((crow.duration - min) * 255) / (max - min));
 
@@ -261,6 +263,23 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                     blue: 255 - red
                                 );
                                 e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                                return;
+                            }
+                            #endregion
+
+                            #region path
+                            if (SourceCell.OwningColumn.Name == "path" && !SourceCell.IsInEditMode)
+                            {
+                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
+
+                                var red = crow.path.Contains("xml?") ? 255 : 0;
+
+                                e.CellStyle.ForeColor = Color.FromArgb(
+                                    red: red,
+                                    green: 0,
+                                    blue: 255 - red
+                                );
 
                                 return;
                             }
@@ -332,9 +351,6 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                                 e.FormattingApplied = true;
 
                                                 var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
-
-                                                var t = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(SourceCell.Value);
-
                                                 e.Value = crow.duration + "ms";
 
                                                 var rows =
@@ -349,6 +365,9 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                                     xx => xx.duration
                                                     );
 
+                                                SourceCell.ToolTipText = new { crow.duration, min, max }.ToString();
+
+
                                                 var red = (int)(((crow.duration - min) * 255) / (max - min));
 
                                                 e.CellStyle.ForeColor = Color.FromArgb(
@@ -358,6 +377,24 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                                 );
                                                 e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
+
+                                                return;
+                                            }
+                                            #endregion
+
+
+                                            #region path
+                                            if (SourceCell.OwningColumn.Name == "path" && !SourceCell.IsInEditMode)
+                                            {
+                                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
+
+                                                var red = crow.path.Contains("xml?") ? 255 : 0;
+
+                                                e.CellStyle.ForeColor = Color.FromArgb(
+                                                    red: red,
+                                                    green: 0,
+                                                    blue: 255 - red
+                                                );
 
                                                 return;
                                             }
@@ -494,7 +531,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                            for (int i = 0; ; i++)
                            {
-                               Native.document.title = new { i, p.getEntries().Length }.ToString();
+                               if (page != null)
+                                   Native.document.title = new { i, p.getEntries().Length }.ToString();
 
                                // wait for more
                                while (!(i < p.getEntries().Length))
@@ -560,6 +598,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                                    //e.text.style.color = "black";
 
                                    // how not to report on report?
+                                   // why not report in batch?
                                    await service.AtApplicationResourcePerformance(
                                      new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                                      {

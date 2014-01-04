@@ -190,7 +190,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-     
+
 
         #region Opacity
         public double InternalOpacity;
@@ -510,7 +510,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         //this.HTMLTarget.style.position = IStyle.PositionEnum.absolute;
 
                         // do InternalMaximizedForms { Location = [object Object], ClientSize = [object Object] }
-                        Console.WriteLine("WindowState do InternalMaximizedForms " + new { this.Location, this.ClientSize });
+                        //Console.WriteLine("WindowState do InternalMaximizedForms " + new { this.Location, this.ClientSize });
 
                         //this.internalre
                         //this.ResizeGripDrag.Enabled = false;
@@ -758,7 +758,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-  
+
 
 
 

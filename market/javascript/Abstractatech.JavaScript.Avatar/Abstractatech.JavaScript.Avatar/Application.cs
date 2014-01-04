@@ -48,7 +48,11 @@ namespace Abstractatech.JavaScript.Avatar
 
     public static class ApplicationImplementation
     {
-        public static async void MakeCamGrabber(IHTMLDiv c, bool sizeToWindow = false, Action<WebCamAvatarsSheet1Row> yield = null)
+        public static async void MakeCamGrabber(
+            IHTMLDiv c,
+            bool sizeToWindow = false,
+            Action<WebCamAvatarsSheet1Row> yield = null
+            )
         {
             if (sizeToWindow)
             {
@@ -269,7 +273,7 @@ namespace Abstractatech.JavaScript.Avatar
                 Action<string> atgif =
                     gif =>
                     {
-                        Native.document.title = new { gif.Length }.ToString();
+                        //Native.document.title = new { gif.Length }.ToString();
 
                         var newframe = new IHTMLImage { src = gif };
 
@@ -309,6 +313,18 @@ namespace Abstractatech.JavaScript.Avatar
                         gif =>
                         {
                             Native.window.localStorage[localStorageKeys.img96gif] = gif;
+
+
+                            // report sizes. smaller is better if db
+                            Console.WriteLine(
+                                // { Avatar640x480 = 54843, Avatar96gif = 54734 } 
+                                new
+                                {
+                                    Avatar640x480 = base64.Length,
+                                    Avatar96gif = gif.Length
+                                }
+                            );
+
 
                             if (yield != null)
                                 yield(
@@ -397,7 +413,13 @@ namespace Abstractatech.JavaScript.Avatar
             snapshot.drawImage(v, 0, 0, 640, 480);
 
             #region localStorage
-            Native.window.localStorage[localStorageKeys.img640x480] = snapshot.canvas.toDataURL();
+
+            // https://developer.mozilla.org/en/docs/Web/API/HTMLCanvasElement
+            Native.window.localStorage[localStorageKeys.img640x480] = snapshot.canvas.toDataURL(
+
+                // shall we use enum
+                type: "image/jpeg"
+                );
 
 
             frames.WithEachIndex(

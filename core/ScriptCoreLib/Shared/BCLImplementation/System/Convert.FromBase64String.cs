@@ -56,7 +56,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             // X:\jsc.svn\examples\java\JVMCLRBase64\JVMCLRBase64\Program.cs
 
             // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140101
-            Console.WriteLine("enter FromBase64String!");
+            //Console.WriteLine("enter FromBase64String!");
 
             var FromBase64String_while_timeout = Stopwatch.StartNew();
 

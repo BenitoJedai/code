@@ -29,6 +29,13 @@ namespace ScriptCoreLib.Library
                 new XAttribute("TableName", e.TableName)
             );
 
+            //java.lang.RuntimeException: Sequence contains no elements
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError.NoElements(__DefinedError.java:27)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:462)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:438)
+            //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.get_Item(__DataRow.java:105)
+            //        at ScriptCoreLib.Library.StringConversionsForDataTable.ConvertToString(StringConversionsForDataTable.java:168)
+
             {
                 var tr = new XElement("Columns");
                 table.Add(tr);

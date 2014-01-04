@@ -60,7 +60,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         bool InternalBeforeVisibleChangedDone = false;
         public override void InternalBeforeVisibleChanged(Action yield)
         {
-            Console.WriteLine("__Form.InternalBeforeVisibleChanged");
+            //Console.WriteLine("__Form.InternalBeforeVisibleChanged");
 
             if (InternalBeforeVisibleChangedDone)
             {
@@ -125,7 +125,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             delegate
                             {
                                 // InternalBeforeVisibleChanged before requestAnimationFrame { node = [object HTMLDocument], ownerDocument = [object HTMLDocument], same = true }
-                                Console.WriteLine("InternalBeforeVisibleChanged after requestAnimationFrame");
+                                //Console.WriteLine("InternalBeforeVisibleChanged after requestAnimationFrame");
 
                                 outer_css.style.transition = "-webkit-transform 150ms linear, -webkit-filter 150ms linear";
 
@@ -153,6 +153,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             this.HTMLTarget.requestAnimationFrame +=
                                  delegate
                                  {
+                                     // we were closed before we were shown
+                                     if (this.InternalClosed)
+                                         return;
 
                                      this.SizeChanged +=
                                          delegate
@@ -162,7 +165,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                                  DoCenterScreen();
                                          };
 
-                                     Console.WriteLine("InternalRaiseLoad");
+                                     //Console.WriteLine("InternalRaiseLoad");
                                      InternalRaiseLoad();
 
                                      DoCenterScreen = null;
@@ -170,7 +173,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                      InternalUpdateZIndex(HTMLTarget);
 
-                                     Console.WriteLine("InternalRaiseShown");
+                                     //Console.WriteLine("InternalRaiseShown");
                                      InternalRaiseShown();
 
                                      // let child controls know
