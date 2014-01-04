@@ -199,7 +199,16 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
 
 
 
-                    var kf = new Form { Owner = f, Text = "GetApplicationResourcePerformance" };
+                    var kf = new Form
+                    {
+                        Owner = f,
+                        Text = "GetApplicationResourcePerformance",
+
+                        StartPosition = FormStartPosition.Manual,
+                        Left = f.Left,
+                        Top = f.Top,
+                    };
+
                     var kg = new DataGridView
                     {
 
@@ -209,7 +218,10 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
 
                         Dock = DockStyle.Fill,
                         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                        ReadOnly = true
+                        ReadOnly = true,
+
+
+
                     }.AttachTo(kf);
 
 
@@ -310,7 +322,16 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                             ).FirstOrDefault().With(
                                 async row =>
                                 {
-                                    var kkf = new Form { Owner = kf, Text = "GetSimilarApplicationResourcePerformance" };
+                                    var kkf = new Form
+                                    {
+                                        Owner = kf,
+                                        Text = "GetSimilarApplicationResourcePerformance",
+                                        StartPosition = FormStartPosition.Manual,
+
+                                        // centerparent!
+                                        Left = kf.Left,
+                                        Top = kf.Top,
+                                    };
 
                                     var kkg = new DataGridView
                                     {
