@@ -304,8 +304,7 @@ namespace Abstractatech.JavaScript.Avatar
                          AtFrame:
                           async index =>
                           {
-
-                              Native.document.title = new { index }.ToString();
+                              //Native.document.title = new { index }.ToString();
                           }
 
 
