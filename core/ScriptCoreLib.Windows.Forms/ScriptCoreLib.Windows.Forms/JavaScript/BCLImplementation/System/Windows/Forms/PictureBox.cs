@@ -62,7 +62,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             get { return this.InternalImage; }
             set
             {
-                Console.WriteLine("__PictureBox set_Image" + new { value });
+                //Console.WriteLine("__PictureBox set_Image" + new { value });
 
                 this.InternalImage = value;
 
@@ -72,7 +72,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     if (i.InternalImage != null)
                     {
-                        Console.WriteLine("__PictureBox set_Image" + new { i.InternalImage.src });
+                        //Console.WriteLine("__PictureBox set_Image" + new { i.InternalImage.src });
 
                         this.InternalElement.src = i.InternalImage.src;
 

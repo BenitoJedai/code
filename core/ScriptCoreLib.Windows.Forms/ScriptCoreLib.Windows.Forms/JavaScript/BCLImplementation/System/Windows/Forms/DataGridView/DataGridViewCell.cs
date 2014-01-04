@@ -53,6 +53,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewCell.get_OwningColumn()]
 
+        public string InternalToolTipText;
+        public event Action InternalToolTipTextChanged;
+        public string ToolTipText
+        {
+            get { return InternalToolTipText; }
+            set
+            {
+                InternalToolTipText = value;
+                if (InternalToolTipTextChanged != null)
+                    InternalToolTipTextChanged();
+            }
+        }
+
+
         public int ColumnIndex
         {
             get

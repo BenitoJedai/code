@@ -593,11 +593,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         InternalRaiseCellValueChanged(SourceCell);
 
-
+                        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140104-deploy
+                        InternalContent.title = SourceCell.InternalToolTipText;
                     };
 
                     AtInternalValueChanged();
                     SourceCell.InternalValueChanged += AtInternalValueChanged;
+                    SourceCell.InternalToolTipTextChanged += AtInternalValueChanged;
                     #endregion
 
                     #region __DataGridViewButtonCell

@@ -405,8 +405,8 @@ namespace SVGNAvigationTiming
     using System.Data.SQLite;
     using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
-
-    public static partial class __generatedPerformanceResourceTimingData2
+    // why the f cant appengine load this?
+    public static partial class generatedPerformanceResourceTimingData2
     {
         public static IEnumerable<TRow> SelectAllAsEnumerableByApplicationPerformance(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, PerformanceResourceTimingData2ApplicationPerformanceKey ApplicationPerformance)
         {
@@ -439,7 +439,7 @@ namespace SVGNAvigationTiming
     using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
 
-    public static partial class __generatedPerformanceResourceTimingData2
+    public static partial class generatedPerformanceResourceTimingData2
     {
         public static IEnumerable<TRow> SelectAllAsEnumerableByPath(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, string path)
         {
