@@ -27,7 +27,7 @@ namespace SVGNavigationTiming
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application : ApplicationWebService
+    public sealed class Application : XApplicationPerformanceWebService
     {
         /// <summary>
         /// This is a javascript application.

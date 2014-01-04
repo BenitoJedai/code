@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using SVGNAvigationTiming;
+using SVGNavigationTiming;
 
 
 namespace SVGNavigationTiming
@@ -24,7 +24,7 @@ namespace SVGNavigationTiming
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public partial class ApplicationWebService
+    public partial class XApplicationPerformanceWebService
     {
 
         //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2::GetDataSet][offset 0x00000005] Unable to resolve token.
@@ -54,7 +54,7 @@ namespace SVGNavigationTiming
 
         // Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
         // can jsc security analyzer go one level deeper? atleast on [script] [merge] assemblies?
-        public ApplicationWebService()
+        public XApplicationPerformanceWebService()
         {
 #if SQLite
             //1a60:01:01 RewriteToAssembly error: System.IO.FileNotFoundException: Could not load file or assembly 'System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
@@ -160,7 +160,7 @@ namespace SVGNavigationTiming
     }
 
     #region IExploreApplicationPerformance
-    public partial class ApplicationWebService : IExploreApplicationPerformance
+    public partial class XApplicationPerformanceWebService : IExploreApplicationPerformance
     {
         public Task<DataTable> GetApplicationPerformance()
         {
@@ -272,7 +272,7 @@ namespace SVGNavigationTiming
     #endregion
 
     #region IUpstreamApplicationPerformance
-    public partial class ApplicationWebService : IUpstreamApplicationPerformance
+    public partial class XApplicationPerformanceWebService : IUpstreamApplicationPerformance
     {
         public Task<Design.PerformanceResourceTimingData2ApplicationPerformanceKey> AtApplicationPerformance(Design.PerformanceResourceTimingData2ApplicationPerformanceRow value)
         {
@@ -400,14 +400,21 @@ namespace SVGNavigationTiming
 }
 
 #region PerformanceResourceTimingData2.ApplicationResourcePerformance
-namespace SVGNAvigationTiming
+namespace SVGNavigationTiming
 {
     using System.Data.SQLite;
     using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
-    // why the f cant appengine load this?
-    public static partial class generatedPerformanceResourceTimingData2
+    // why the f cant appengine load this? too long?
+    //public static partial class ClassDefgeneratedPerformanceResourceTimingData2
+    public static partial class ClassDefGPRFK
     {
+//GetApplicationResourcePerformance
+//java.lang.NoClassDefFoundError: SVGNAvigationTiming/generatedPerformanceResourceTimingData2
+//        at SVGNavigationTiming.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:200)
+//        at xmoneseservicesweb.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:750)
+//        at xmoneseservicesweb.Global.Invoke(Global.java:1472)
+
         public static IEnumerable<TRow> SelectAllAsEnumerableByApplicationPerformance(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, PerformanceResourceTimingData2ApplicationPerformanceKey ApplicationPerformance)
         {
             var fast = ((Task<DataTable>)new TQueries().WithConnection(
@@ -434,13 +441,13 @@ namespace SVGNAvigationTiming
 
 
 #region PerformanceResourceTimingData2.ApplicationResourcePerformance
-namespace SVGNAvigationTiming
+namespace SVGNavigationTiming
 {
     using System.Data.SQLite;
     using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
 
-    public static partial class generatedPerformanceResourceTimingData2
+    public static partial class ClassDefGPRFK
     {
         public static IEnumerable<TRow> SelectAllAsEnumerableByPath(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, string path)
         {
