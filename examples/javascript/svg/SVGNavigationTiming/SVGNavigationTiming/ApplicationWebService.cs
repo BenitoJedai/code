@@ -424,7 +424,8 @@ namespace SVGNAvigationTiming
                }
            )).Result;
 
-            return fast.Rows.AsEnumerable().Select(xx => (TRow)xx);
+            return fast.Rows.AsEnumerable().Select(xx => (TRow)xx)
+                .OrderBy(xx => xx.path);
         }
 
     }
