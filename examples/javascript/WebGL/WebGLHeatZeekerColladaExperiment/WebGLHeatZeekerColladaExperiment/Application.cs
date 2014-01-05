@@ -104,10 +104,10 @@ namespace WebGLHeatZeekerColladaExperiment
             new WebGLColladaExperiment.THREE_ColladaAsset(
 
                 // we get purple small thingy
-                //"assets/WebGLHeatZeekerColladaExperiment/Promotion3D_daytime.dae"
+                "assets/WebGLHeatZeekerColladaExperiment/Promotion3D_daytime.dae"
 
                 // maybe sketchup doesnt know how to export colors?
-                "assets/WebGLHeatZeekerColladaExperiment/sam_site.dae"
+                //"assets/WebGLHeatZeekerColladaExperiment/sam_site.dae"
             ).Source.Task.ContinueWithResult(
                 dae =>
                 {

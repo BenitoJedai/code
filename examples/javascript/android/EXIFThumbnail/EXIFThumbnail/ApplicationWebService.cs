@@ -40,7 +40,12 @@ namespace EXIFThumbnail
             Console.WriteLine("before listFiles " + new { s.Elapsed });
 
             //  { Elapsed = 14595.0ms }
-            var files = dir.listFiles();
+            var files = dir.listFiles()
+                .AsEnumerable()
+                .Where(x =>
+                    x.getName().ToLower().EndsWith(".png")
+                    || x.getName().ToLower().EndsWith(".jpg")).ToArray();
+
             Console.WriteLine("before ordering " + new { s.Elapsed, files.Length });
             var a = files.OrderByDescending(k => (double)k.lastModified()).Take(10).ToArray();
 
@@ -51,6 +56,9 @@ namespace EXIFThumbnail
                 {
                     //y(f.getName());
 
+                    var name = f.getName();
+
+                    Console.WriteLine(new { name });
 
 
                     try
@@ -123,6 +131,7 @@ namespace EXIFThumbnail
                     }
                     catch
                     {
+                        //  Caused by: java.lang.RuntimeException: File format is not supported
                         throw;
                     }
                 }
