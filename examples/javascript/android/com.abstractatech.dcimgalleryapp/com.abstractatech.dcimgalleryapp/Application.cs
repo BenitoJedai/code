@@ -12,29 +12,30 @@ using System.Text;
 using System.Xml.Linq;
 using com.abstractatech.dcimgalleryapp.Design;
 using com.abstractatech.dcimgalleryapp.HTML.Pages;
+using ScriptCoreLib.JavaScript.Runtime;
+using DiagnosticsConsole;
+using ScriptCoreLib.Ultra.WebService;
 
 namespace com.abstractatech.dcimgalleryapp
 {
     using ystring = Action<string>;
-    using ScriptCoreLib.JavaScript.Runtime;
-    using DiagnosticsConsole;
-    using ScriptCoreLib.Ultra.WebService;
+    using System.Threading.Tasks;
+
 
 
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        com.abstractatech.dcimgalleryapp.Assets.Publish ref0;
+        //com.abstractatech.dcimgalleryapp.Assets.Publish ref0;
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             // does not work for android 2.2?
             //Action Toggle = ApplicationContent.BindKeyboardToDiagnosticsConsole();
@@ -54,10 +55,6 @@ namespace com.abstractatech.dcimgalleryapp
 
             // see also. http://en.wikipedia.org/wiki/Design_rule_for_Camera_File_system
 
-            ystring ydirectory = path =>
-            {
-
-            };
 
             var container = new IHTMLCenter().AttachToDocument();
 
@@ -90,7 +87,7 @@ namespace com.abstractatech.dcimgalleryapp
                                                  div.style.display = IStyle.DisplayEnum.block;
 
                                                  p = new IHTMLPre { }.AttachTo(div);
-                                                 service.GetEXIF("/io/" + path,
+                                                 GetEXIF("/io/" + path,
                                                      x =>
                                                      {
                                                          p.innerText = x;
@@ -122,6 +119,7 @@ namespace com.abstractatech.dcimgalleryapp
                 };
             #endregion
 
+            #region yfile
             ystring yfile = path =>
             {
                 new IHTMLDiv { innerText = path }.With(
@@ -142,15 +140,16 @@ namespace com.abstractatech.dcimgalleryapp
                     }
                 );
             };
+            #endregion
 
-            var skip = 0;
-            var take = 30;
 
+
+            #region TakePicture
             page.icon.style.cursor = IStyle.CursorEnum.pointer;
             page.icon.onclick +=
                 delegate
                 {
-                    service.TakePicture("",
+                    this.TakePicture("",
                         path =>
                         {
                             Console.WriteLine(new { path });
@@ -179,64 +178,39 @@ namespace com.abstractatech.dcimgalleryapp
                     );
 
                 };
+            #endregion
+
 
 
             new IHTMLButton { innerText = "more" }.AttachToDocument().With(
-                more =>
+                async more =>
                 {
-                    Action MoveNext = delegate
+                    more.style.margin = "1em";
+
+                    while (true)
                     {
+
+
                         more.disabled = true;
                         more.innerText = "checking for more...";
 
-                        ystring done = delegate
-                        {
-                            more.innerText = "more";
-                            more.disabled = false;
 
-                        };
-
-                        service.File_list("",
-                            ydirectory: ydirectory,
-                            yfile: yfile,
-                            sskip: skip.ToString(),
-                            stake: take.ToString(),
-                            done: done
+                        await this.File_list(
+                            yfile: yfile
                         );
 
-                        skip += take;
+                        this.skip += this.take;
+                        more.innerText = "more " + new { this.skip };
+                        more.disabled = false;
 
-                    };
+                        #region either onclick or onscrollToBottom
+                        await Task.WhenAny(
+                            Native.window.async.onscrollToBottom,
+                            more.async.onclick
+                        );
+                        #endregion
 
-
-                    MoveNext();
-
-                    more.onclick += delegate
-                    {
-                        MoveNext();
-                    };
-
-
-
-                    Native.Window.onscroll +=
-                          e =>
-                          {
-
-                              Native.Document.body.With(
-                                  body =>
-                                  {
-                                      if (more.disabled)
-                                          return;
-
-                                      if (body.scrollHeight - 1 <= Native.Window.Height + body.scrollTop)
-                                      {
-                                          MoveNext();
-                                      }
-
-                                  }
-                            );
-
-                          };
+                    }
                 }
             );
 
@@ -276,6 +250,7 @@ namespace com.abstractatech.dcimgalleryapp
                 return;
             }
 
+#if HASPublish
             var p = new com.abstractatech.dcimgalleryapp.Assets.Publish();
             //var p2 = new WithClickOnceLANLauncher.Assets.Publish2();
 
@@ -299,7 +274,6 @@ namespace com.abstractatech.dcimgalleryapp
                 h.CompleteRequest();
                 return;
             }
-
 
 
             //if (path == "/download/jsc-web-installer.exe")
@@ -398,7 +372,7 @@ namespace com.abstractatech.dcimgalleryapp
 
 
             }
-
+#endif
 
 
 

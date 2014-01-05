@@ -16,10 +16,13 @@ using java.net;
 using java.io;
 using android.net.wifi;
 using android.content;
+using ScriptCoreLibJava.Extensions;
 
 namespace com.abstractatech.dcimgalleryapp
 {
     using ystring = Action<string>;
+    using System.ComponentModel;
+    using System.Threading.Tasks;
 
 
     class f : java.lang.Runnable
@@ -224,7 +227,7 @@ namespace com.abstractatech.dcimgalleryapp
                                    //  the nexus 7 and droid x both don't support the passing of a dummy surfaceview to a camera object. Your response that all camera things must created in the activity is false. I was able to instantiate a camera within a thread by passing it a view just fine. 
 
                                    // here, the unused surface view and holder
-                                   var dummy = new SurfaceView(aa);
+                                   var SurfaceView = new SurfaceView(aa);
 
                                    // missing for android 2.2
                                    //dummy.setScaleX(0f);
@@ -235,7 +238,7 @@ namespace com.abstractatech.dcimgalleryapp
                                    // https://groups.google.com/forum/#!topic/android-developers/JLVnKdsAKeg
                                    // http://grokbase.com/t/gg/android-developers/11bvbr8jp8/surfaceholder-callback-surfacecreated-not-being-triggered-when-surface-is-re-created
                                    // https://code.google.com/p/android/issues/detail?id=28238
-                                   var h = dummy.getHolder();
+                                   var h = SurfaceView.getHolder();
 
                                    // http://developer.android.com/reference/android/view/SurfaceHolder.html#SURFACE_TYPE_PUSH_BUFFERS
                                    var SURFACE_TYPE_PUSH_BUFFERS = 0x00000003;
@@ -243,6 +246,7 @@ namespace com.abstractatech.dcimgalleryapp
 
                                    System.Console.WriteLine("before yield_surfaceCreated");
 
+                                   #region yield_surfaceCreated
                                    h.addCallback(
                                        new XSurfaceHolder_Callback
                                        {
@@ -268,17 +272,25 @@ namespace com.abstractatech.dcimgalleryapp
                                            }
                                        }
                                    );
+                                   #endregion
+
 
                                    //h.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
                                    System.Console.WriteLine("before addContentView");
 
-                                   aa.addContentView(dummy, new global::android.widget.LinearLayout.LayoutParams(
+                                   // http://developer.android.com/reference/android/app/Activity.html
+                                   aa.addContentView(
+                                       SurfaceView,
+
+                                       new global::android.widget.LinearLayout.LayoutParams(
                                      global::android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
                                      global::android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
                                      )
                                    );
 
+                                   //SurfaceView.getParent().r
+                                   //aa.getChangingConfigurations
                                    done = delegate
                                    {
                                        aa.runOnUiThread(
@@ -287,9 +299,24 @@ namespace com.abstractatech.dcimgalleryapp
                                               y = delegate
                                               {
                                                   // https://groups.google.com/forum/?fromgroups#!topic/android-developers/liph4z9LnFA
+                                                  // http://stackoverflow.com/questions/3080577/removing-a-view-from-an-activity
 
                                                   // how to Orphanize??
-                                                  dummy.setVisibility(View.GONE);
+                                                  //SurfaceView.setVisibility(View.GONE);
+                                                  System.Console.WriteLine("time to remove SurfaceView");
+
+                                                  //[javac] Compiling 589 source files to V:\bin\classes
+                                                  //[javac] V:\src\com\abstractatech\dcimgalleryapp\foo___c__DisplayClass13___c__DisplayClass15___c__DisplayClass17.java:90: error: ';' expected
+                                                  //[javac]     private static ViewGroup _<InternalTakePicture>b__b_Isinst_0017(Object _0017)
+                                                  //[javac]                               ^
+                                                  //[javac] V:\src\com\abstractatech\dcimgalleryapp\foo___c__DisplayClass13___c__DisplayClass15___c__DisplayClass17.java:90: error: invalid method declaration; return type required
+                                                  //[javac]     private static ViewGroup _<InternalTakePicture>b__b_Isinst_0017(Object _0017)
+                                                  //[javac]                                                    ^
+                                                  //[javac] 2 errors
+
+                                                  SurfaceView.Orphanize();
+
+
 
                                               }
                                           }
@@ -487,7 +514,7 @@ namespace com.abstractatech.dcimgalleryapp
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public class ApplicationWebService
     {
         public void TakePicture(string e, Action<string> y)
         {
@@ -516,17 +543,23 @@ namespace com.abstractatech.dcimgalleryapp
 
         }
 
-        public void File_list(
-            string path,
-            ystring ydirectory,
-            ystring yfile,
-            string sskip = "0",
-            string stake = "10",
-            ystring done = null)
+
+
+        public int skip = 0;
+        public int take = 8;
+
+        public Task File_list(
+            // jsc, can we have events yet, thanks
+            ystring yfile
+            )
         {
+            var skip = this.skip;
+            var take = this.take;
+
+
             var DIRECTORY_DCIM = global::android.os.Environment.DIRECTORY_DCIM;
 
-            path = global::android.os.Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getAbsolutePath();
+            var path = global::android.os.Environment.getExternalStoragePublicDirectory(DIRECTORY_DCIM).getAbsolutePath();
             path += "/Camera";
 
             var f = new File(path);
@@ -543,8 +576,6 @@ namespace com.abstractatech.dcimgalleryapp
             //        ydirectory(path + "/" + item);
             //}
 
-            int skip = int.Parse(sskip);
-            int take = int.Parse(stake);
 
             foreach (var item in a)
             {
@@ -569,7 +600,7 @@ namespace com.abstractatech.dcimgalleryapp
                 }
             }
 
-            done("");
+            return "".AsResult();
         }
 
         const string thumb = "/thumb";
@@ -668,27 +699,62 @@ namespace com.abstractatech.dcimgalleryapp
 
             if (thumb)
             {
-                // http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
-                int THUMBNAIL_HEIGHT = 96;
+                // X:\jsc.svn\examples\javascript\android\EXIFThumbnail\EXIFThumbnail\ApplicationWebService.cs
 
-                //int THUMBNAIL_WIDTH = 66;
+                //                [javac] V:\src\com\abstractatech\dcimgalleryapp\ApplicationWebService.java:263: error: unreported exception ImageProcessingException; must be caught or declared to be thrown
+                //[javac]             metadata1 = ImageMetadataReader.readMetadata(new File(filepath));
 
-                var imageBitmap = BitmapFactory.decodeByteArray(mImageData, 0, mImageData.Length);
-                float width = imageBitmap.getWidth();
-                float height = imageBitmap.getHeight();
-                float ratio = width / height;
-                imageBitmap = Bitmap.createScaledBitmap(imageBitmap, (int)(THUMBNAIL_HEIGHT * ratio), THUMBNAIL_HEIGHT, false);
+                try
+                {
+                    var m = ImageMetadataReader.readMetadata(new File(filepath));
 
-                //int padding = (THUMBNAIL_WIDTH - imageBitmap.getWidth()) / 2;
-                //imageView.setPadding(padding, 0, padding, 0);
-                //imageView.setImageBitmap(imageBitmap);
+                    // http://stackoverflow.com/questions/10166373/metadata-extraction-java
+
+                    var t = typeof(com.drew.metadata.exif.ExifThumbnailDirectory).ToClass();
+                    if (m.containsDirectory(t))
+                    {
+                        var x = (com.drew.metadata.exif.ExifThumbnailDirectory)m.getDirectory(t);
+
+                        System.Console.WriteLine(
+                           filepath
+                        );
+
+                        mImageData = x.getThumbnailData();
+
+                    }
+                }
+                catch
+                {
+                    // skip
+                }
+
+
+                if (mImageData == null)
+                {
+
+
+                    // http://stackoverflow.com/questions/2577221/android-how-to-create-runtime-thumbnail
+                    int THUMBNAIL_HEIGHT = 96;
+
+                    //int THUMBNAIL_WIDTH = 66;
+
+                    var imageBitmap = BitmapFactory.decodeByteArray(mImageData, 0, mImageData.Length);
+                    float width = imageBitmap.getWidth();
+                    float height = imageBitmap.getHeight();
+                    float ratio = width / height;
+                    imageBitmap = Bitmap.createScaledBitmap(imageBitmap, (int)(THUMBNAIL_HEIGHT * ratio), THUMBNAIL_HEIGHT, false);
+
+                    //int padding = (THUMBNAIL_WIDTH - imageBitmap.getWidth()) / 2;
+                    //imageView.setPadding(padding, 0, padding, 0);
+                    //imageView.setImageBitmap(imageBitmap);
 
 
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                // http://developer.android.com/reference/android/graphics/Bitmap.html
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, baos);
-                mImageData = baos.toByteArray();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    // http://developer.android.com/reference/android/graphics/Bitmap.html
+                    imageBitmap.compress(Bitmap.CompressFormat.PNG, 0, baos);
+                    mImageData = baos.toByteArray();
+                }
 
             }
 
@@ -747,8 +813,8 @@ namespace com.abstractatech.dcimgalleryapp
 
 
 
-
-
+    [Obsolete("every jsc application is now adevertising")]
+    [DesignerCategory("code")]
     class AndroidApplicationWebServiceMulticast : System.ComponentModel.Component
     {
         WifiManager wifi;
@@ -898,6 +964,16 @@ namespace com.abstractatech.dcimgalleryapp
 
     public static class X
     {
+        public static void Orphanize(this View SurfaceView)
+        {
+            (SurfaceView.getParent() as ViewGroup).With(
+                vg =>
+                {
+                    vg.removeView(SurfaceView);
+                }
+            );
+        }
+
         public static void print(this File file, ystring yield)
         {
             // https://code.google.com/p/metadata-extractor/wiki/GettingStarted

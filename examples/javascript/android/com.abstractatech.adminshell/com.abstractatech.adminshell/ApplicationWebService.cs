@@ -314,6 +314,7 @@ namespace com.abstractatech.adminshell
 
     }
 
+    [DesignerCategory("code")]
     class AndroidApplicationWebServiceMulticast : Component
     {
         // 2890:02:01 RewriteToAssembly error: System.TypeLoadException: Method 'onBind' in type 'foo.NotifyService'

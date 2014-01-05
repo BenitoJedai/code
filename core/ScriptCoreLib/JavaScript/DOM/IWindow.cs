@@ -10,21 +10,10 @@ using System.Xml.Linq;
 namespace ScriptCoreLib.JavaScript.DOM
 {
 
-    [Script(HasNoPrototype = true, ExternalTarget = "URL")]
-    // static class?
-    public class URL
-    {
-        // http://dev.w3.org/2006/webapi/FileAPI/#url
 
-        [Script(ExternalTarget = "URL.createObjectURL")]
-        public static string createObjectURL(Blob blob)
-        {
-            return default(string);
-        }
-    }
 
     [Script(InternalConstructor = true)]
-    public class IWindow : IEventTarget
+    public partial class IWindow : IEventTarget
     {
         public Storage sessionStorage;
         public Storage localStorage;
@@ -40,64 +29,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IWindow self;
         public IWindow window;
 
-        #region async
-        [Script]
-        public new class Tasks
-        {
-            internal IWindow that;
-
-            [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
-            public Task<MessageEvent> onmessage
-            {
-                [Script(DefineAsStatic = true)]
-                get
-                {
-                    var x = new TaskCompletionSource<MessageEvent>();
-
-                    // tested by
-                    // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
-                    that.onmessage +=
-                        e =>
-                        {
-                            x.SetResult(e);
-                        };
-
-                    return x.Task;
-                }
-            }
-
-            public Task<IEvent> onresize
-            {
-                [Script(DefineAsStatic = true)]
-                get
-                {
-                    var x = new TaskCompletionSource<IEvent>();
-
-                    // tested by
-                    // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
-                    that.onresize +=
-                        e =>
-                        {
-                            x.SetResult(e);
-                        };
-
-                    return x.Task;
-                }
-            }
-        }
-
-        [System.Obsolete("is this the best way to expose events as async?")]
-        public new Tasks async
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return new Tasks { that = this };
-            }
-        }
-        #endregion
-
-
+  
 
 
         #region event onmessage
@@ -455,6 +387,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/Window.scrollTo
         public void scrollTo(int x, int y)
         {
         }
