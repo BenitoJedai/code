@@ -29,9 +29,19 @@ interface HTMLCanvasElement : HTMLElement {
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public string toDataURL(string type = "image/png")
+        public string toDataURL(string type)
         {
             return default(string);
+        }
+        public string toDataURL(string type = "image/jpeg", double quality = 1.0)
+        {
+            return default(string);
+        }
+        [Script(DefineAsStatic = true)]
+        public string toDataURL()
+        {
+            //https://developer.mozilla.org/en/docs/Web/API/HTMLCanvasElement
+            return toDataURL("image/png");
         }
 
 

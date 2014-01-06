@@ -414,11 +414,25 @@ namespace Abstractatech.JavaScript.Avatar
             #region localStorage
 
             // https://developer.mozilla.org/en/docs/Web/API/HTMLCanvasElement
-            Native.window.localStorage[localStorageKeys.img640x480] = snapshot.canvas.toDataURL(
+            //Native.window.localStorage[localStorageKeys.img640x480] = 
 
-                // shall we use enum
-                type: "image/jpeg"
-                );
+            var firstTry = snapshot.canvas.toDataURL(
+
+            // shall we use enum
+            type: "image/jpeg"
+            );
+            if (firstTry.Length >= (1024 * 64))
+            {
+                Console.WriteLine("Reducing quality");
+                firstTry = snapshot.canvas.toDataURL(
+
+            // shall we use enum
+            type: "image/jpeg",
+            quality: 0.5
+            );
+            }
+            Native.window.localStorage[localStorageKeys.img640x480] = firstTry;
+
 
 
             frames.WithEachIndex(
