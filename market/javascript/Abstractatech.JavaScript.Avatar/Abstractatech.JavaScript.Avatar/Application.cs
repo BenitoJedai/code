@@ -330,6 +330,7 @@ namespace Abstractatech.JavaScript.Avatar
                                     new WebCamAvatarsSheet1Row
                                     {
                                         Avatar640x480 = base64,
+                                        Avatar96frame1 = Native.window.localStorage[localStorageKeys.frames[0]],
                                         // do we want to report frames?
                                         Avatar96gif = gif
                                     }
