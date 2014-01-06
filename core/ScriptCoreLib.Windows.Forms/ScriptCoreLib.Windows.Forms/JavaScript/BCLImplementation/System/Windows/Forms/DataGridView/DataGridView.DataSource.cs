@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.Data;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -138,7 +139,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 var r = new __DataGridViewRow
                 {
-                    DataBoundItem = DataBoundItem
+
+                    DataBoundItem = new __DataRowView { Row = DataBoundItem }
                 };
 
                 
