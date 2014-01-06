@@ -31,7 +31,7 @@ namespace SQLiteConsoleExperiment
         public Application(IApp page)
         {
             content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+            //content.AutoSizeControlTo(page.ContentSize);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
 
