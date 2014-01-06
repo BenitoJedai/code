@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}</ProjectGuid>
+    <ProjectGuid>{6743CD12-F62A-4863-8660-669415976A77}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CSSMinimizeFormToSidebar</RootNamespace>
