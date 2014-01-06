@@ -114,6 +114,7 @@
     <Compile Include="Shared\BCLImplementation\System\Convert.FromBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.ToBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\DataRowView.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataTableCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataView.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRowChangeEventHandler.cs" />
