@@ -193,7 +193,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                 {
 
                     PerformanceResourceTimingData2ApplicationPerformanceRow x = g.SelectedRows.AsEnumerable().Select(
-                                row => (PerformanceResourceTimingData2ApplicationPerformanceRow)(DataRow)row.DataBoundItem
+                                row => (PerformanceResourceTimingData2ApplicationPerformanceRow)((DataRowView)row.DataBoundItem).Row
                             ).FirstOrDefault();
 
 
@@ -251,12 +251,12 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                             {
                                 e.FormattingApplied = true;
 
-                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
+                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)((DataRowView)SourceCell.OwningRow.DataBoundItem).Row;
                                 e.Value = crow.duration + "ms";
 
                                 var rows =
                                     kg.Rows.AsEnumerable().Where(xx => xx.DataBoundItem != null).Select(
-                                         xrow => ((PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)xrow.DataBoundItem)
+                                         xrow => ((PerformanceResourceTimingData2ApplicationResourcePerformanceRow)((DataRowView)xrow.DataBoundItem).Row)
                                     );
 
                                 var min = rows.Min(
@@ -283,7 +283,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                             #region path
                             if (SourceCell.OwningColumn.Name == "path" && !SourceCell.IsInEditMode)
                             {
-                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
+                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)((DataRowView)SourceCell.OwningRow.DataBoundItem).Row;
 
                                 var red = crow.path.Contains("xml?") ? 255 : 0;
 
@@ -371,12 +371,12 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                             {
                                                 e.FormattingApplied = true;
 
-                                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
+                                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)((DataRowView)SourceCell.OwningRow.DataBoundItem).Row;
                                                 e.Value = crow.duration + "ms";
 
                                                 var rows =
                                                     kkg.Rows.AsEnumerable().Where(xx => xx.DataBoundItem != null).Select(
-                                                         xrow => ((PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)xrow.DataBoundItem)
+                                                         xrow => ((PerformanceResourceTimingData2ApplicationResourcePerformanceRow)((DataRowView)xrow.DataBoundItem).Row)
                                                     );
 
                                                 var min = rows.Min(
@@ -407,7 +407,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                             #region path
                                             if (SourceCell.OwningColumn.Name == "path" && !SourceCell.IsInEditMode)
                                             {
-                                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)SourceCell.OwningRow.DataBoundItem;
+                                                var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)((DataRowView)SourceCell.OwningRow.DataBoundItem).Row;
 
                                                 var red = crow.path.Contains("xml?") ? 255 : 0;
 
