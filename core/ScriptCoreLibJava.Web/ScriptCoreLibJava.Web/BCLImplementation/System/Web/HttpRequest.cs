@@ -40,6 +40,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
             }
         }
 
+        public Uri Url
+        {
+            get
+            {
+                return
+                    new Uri(
+                        this.InternalContext.getRequestURL().toString()
+                    );
+
+            }
+        }
+
         #region Form
         NameValueCollection InternalForm;
 
