@@ -318,7 +318,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                         delegate
                         {
                             kg.SelectedRows.AsEnumerable().Select(
-                                row => (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)(DataRow)row.DataBoundItem
+                                row => (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)((DataRowView)row.DataBoundItem).Row
                             ).FirstOrDefault().With(
                                 async row =>
                                 {
