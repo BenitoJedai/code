@@ -21,8 +21,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class Worker : IEventTarget
     {
         // http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
-
+        // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
         public const string ScriptApplicationSource = "view-source";
+
+
         //public const string ScriptApplicationSourceForInlineWorker = ScriptApplicationSource + "#worker";
 
 
@@ -60,7 +62,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         public void terminate()
-        { 
+        {
         }
     }
 
@@ -73,6 +75,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
+        public static string ScriptApplicationSourceForInlineWorker = Worker.ScriptApplicationSource;
+
         // capture early.
         //public static string ScriptApplicationSourceForInlineWorker = GetScriptApplicationSourceForInlineWorker();
 
@@ -81,7 +85,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             // ncaught TypeError: Cannot use 'in' operator to search for 'InternalScriptApplicationSource' in null 
 
-            var value = Worker.ScriptApplicationSource;
+            var value = ScriptApplicationSourceForInlineWorker;
 
             //if (ScriptApplicationSourceForInlineWorker == null)
             {
@@ -106,11 +110,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-                value = value + "#worker";
+                value += "#worker";
 
             }
 
-            Console.WriteLine("GetScriptApplicationSourceForInlineWorker " + new { value });
+            Console.WriteLine("GetScriptApplicationSourceForInlineWorker "
+                + new { value });
 
             return value;
         }
@@ -183,11 +188,17 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker
-        public static global::ScriptCoreLib.JavaScript.DOM.Worker InternalConstructor(Action<DedicatedWorkerGlobalScope> yield)
+        public static global::ScriptCoreLib.JavaScript.DOM.Worker InternalConstructor(
+            Action<DedicatedWorkerGlobalScope> yield
+            )
         {
             var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
 
-            Console.WriteLine("InternalInlineWorker InternalConstructor " + new { MethodToken, InternalThreadCounter });
+            Console.WriteLine("InternalInlineWorker InternalConstructor " + new
+            {
+                MethodToken,
+                InternalThreadCounter
+            });
 
             // discard params
 

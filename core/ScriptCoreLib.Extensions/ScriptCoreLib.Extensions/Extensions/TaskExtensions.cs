@@ -47,7 +47,9 @@ namespace System.Threading.Tasks
 
         public static Task<TResult> StartNew<TSource, TResult>(this TaskFactory that,
             TSource state,
-            Func<TSource, TResult> function) where TSource : class
+            Func<TSource, TResult> function
+
+            ) where TSource : class
         {
             if (function == null)
                 throw new Exception("function missing");
@@ -55,10 +57,12 @@ namespace System.Threading.Tasks
             // tested by
             // X:\jsc.svn\examples\javascript\forms\TaskRunExperiment\TaskRunExperiment\ApplicationControl.cs
             // X:\jsc.svn\examples\javascript\WebCamToGIFAnimation\WebCamToGIFAnimation\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
 
             var x = new InternalTaskExtensionsScope<TSource, TResult> { InternalTaskExtensionsScope_function = function };
 
-            return Task<TResult>.Factory.StartNew(x.f, (object)state);
+            //return Task<TResult>.Factory.StartNew(x.f, (object)state);
+            return Task.Factory.StartNew<TResult>(x.f, (object)state);
         }
 
         //cancellationToken: default(CancellationToken),
