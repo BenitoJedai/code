@@ -70,23 +70,44 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             )
         {
             // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+            //X:\jsc.svn\examples\javascript\Test\TestHistoricWithBaseElement\TestHistoricWithBaseElement\Application.cs
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131222-form
 
             //var url = "/#/" + e.innerText.Replace(" ", "+").ToLower();
 
-            var url = "#";
 
+            // Historic: { domain = 192.168.1.75, baseURI = http://otherhost/, href = http://192.168.1.75:10007/ }
+
+
+            // http://otherhost/http://192.168.1.75:24121/#/click+to+enter+a+new+historic+state
+            var url = "";
+
+
+            Console.WriteLine(
+                "Historic: " + new
+                {
+                    Native.document.domain,
+                    Native.document.baseURI,
+                    location = Native.document.location.href,
+                    a = e.href
+                }
+            );
+
+
+            // http://otherhost/#/click+to+enter+a+new+historic+state
 
             if (string.IsNullOrEmpty(e.href))
             {
                 var z = e.innerText;
 
-                url += "/" + z.Replace(" ", "+").ToLower().Trim();
+                // http://192.168.1.75:22130/#/click+to+enter+a+new+historic+state
+
+                url = Native.document.location.href + "#/" + z.Replace(" ", "+").ToLower().Trim();
 
                 // enable new tab click
                 // start from root
-                e.href = "/" + url;
+                e.href = url;
             }
 
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
@@ -100,8 +121,15 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
                 // will this support offline reload?
                 // { href = http://192.168.43.252:22188/#/zTop, location = http://192.168.43.252:22188/ }
-                url += "/" + e.href.SkipUntilLastOrEmpty("/");
+
+                // http://otherhost/#/pre
+                url = Native.document.location.href + e.href.SkipUntilLastOrEmpty(Native.document.baseURI);
+                e.href = url;
             }
+
+            url = url.SkipUntilBeforeOrEmpty("#");
+
+            e.title = url;
 
             //Console.WriteLine("Historic enter. activate? " + new { url, Native.window.history.length, Native.document.location.hash });
 

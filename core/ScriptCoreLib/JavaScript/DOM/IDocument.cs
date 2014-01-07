@@ -13,7 +13,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         readonly internal IDOMImplementation implementation;
 
-  
+
+        // http://www.w3schools.com/jsref/prop_doc_baseuri.asp
+        public string baseURI;
+
   
 
         [Script(DefineAsStatic = true)]
