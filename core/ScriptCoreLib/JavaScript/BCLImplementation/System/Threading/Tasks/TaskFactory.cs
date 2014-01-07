@@ -23,7 +23,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
 
-
+        #region ContinueWhenAll
         public Task<TResult> ContinueWhenAll<TAntecedentResult, TResult>(
             Task<TAntecedentResult>[] tasks,
             Func<Task<TAntecedentResult>[], TResult> continuationFunction)
@@ -108,10 +108,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 }
                 #endregion
 
-
+                // is this correct?
                 var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
                     InternalInlineWorker.GetScriptApplicationSourceForInlineWorker()
-                       //global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
+                    //global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
                    );
 
                 var TaskArray = tasks.Select(k => new { k.Result }).ToArray();
@@ -257,13 +257,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             return t;
         }
+        #endregion
+
+
+        public Task<TResult> StartNew<TResult>(
+            Func<object, TResult> function,
+            object state
+            )
+        {
+            if (state == null)
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+                // what happened? also, as interface cannot handle ull yet
+                Debugger.Break();
+            }
+
+            //Console.WriteLine("__TaskFactory<TResult>.StartNew");
+
+            var x = new __Task<TResult>(function, state);
+
+            x.Start();
+
+            return x;
+        }
     }
 
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskFactory<>))]
     internal class __TaskFactory<TResult>
     {
-        public Task<TResult> StartNew(Func<object, TResult> function, object state)
+
+        // public Task<TResult> StartNew<TResult>(Func<object, TResult> function, object state);
+        public Task<TResult> StartNew(
+            Func<object, TResult> function,
+            object state
+            )
         {
+            if (state == null)
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+                // what happened? also, as interface cannot handle ull yet
+                Debugger.Break();
+            }
+
             //Console.WriteLine("__TaskFactory<TResult>.StartNew");
 
             var x = new __Task<TResult>(function, state);
@@ -273,13 +308,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             return x;
         }
 
-        public Task<TResult> StartNew(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
+        public Task<TResult> StartNew(
+            Func<object, TResult> function,
+            object state,
+            CancellationToken c,
+            TaskCreationOptions o,
+            TaskScheduler s)
         {
+            if (state == null)
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+                // what happened? also, as interface cannot handle ull yet
+                Debugger.Break();
+            }
+
             //Console.WriteLine("__TaskFactory<TResult>.StartNew");
             var x = new __Task<TResult>();
 
             x.InternalInitializeInlineWorker(
-                function, state, c, o, s
+                function,
+                state,
+                c,
+                o,
+                s
             );
 
 

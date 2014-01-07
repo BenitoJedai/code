@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading;
 using System.Linq;
 using ScriptCoreLib.Shared.BCLImplementation.System;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
@@ -328,8 +329,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
              );
         }
 
-        public void InternalInitializeInlineWorker(Func<object, TResult> function, object state, CancellationToken c, TaskCreationOptions o, TaskScheduler s)
+        public void InternalInitializeInlineWorker(
+            Func<object, TResult> function,
+            object state,
+            CancellationToken c,
+            TaskCreationOptions o,
+            TaskScheduler s)
         {
+            if (state == null)
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+                // what happened? also, as interface cannot handle ull yet
+                Debugger.Break();
+            }
 
             // what if this is a GUI task?
 
@@ -351,7 +363,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 }
             #endregion
 
-            this.InternalStart = delegate
+
+
+            #region CreateWorker
+            Action<string> CreateWorker = u =>
             {
                 #region xdata___string
                 dynamic xdata___string = new object();
@@ -368,7 +383,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                 var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
-                    InternalInlineWorker.GetScriptApplicationSourceForInlineWorker()
+                    u
+                    //InternalInlineWorker.GetScriptApplicationSourceForInlineWorker()
                     //global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
                    );
 
@@ -532,6 +548,50 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                 InternalInlineWorker.InternalThreadCounter++;
             };
+            #endregion
+
+            this.InternalStart = delegate
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+
+                var u = InternalInlineWorker.GetScriptApplicationSourceForInlineWorker();
+
+                //GetScriptApplicationSourceForInlineWorker { value = view-source#worker }
+
+                if (u == Worker.ScriptApplicationSource + "#worker")
+                {
+                    Console.WriteLine("will prepare /view-source for Worker...");
+
+                    new IXMLHttpRequest(
+                       ScriptCoreLib.Shared.HTTPMethodEnum.GET,
+                       Worker.ScriptApplicationSource,
+                       r =>
+                       {
+                           //new IHTMLPre { new { r.responseType } }.AttachToDocument();
+                           //new IHTMLPre { new { r.responseText.Length } }.AttachToDocument();
+
+                           var aFileParts = new[] { r.responseText };
+                           var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
+
+
+                           var url = oMyBlob.ToObjectURL();
+
+                           InternalInlineWorker.ScriptApplicationSourceForInlineWorker = url;
+
+                           u = InternalInlineWorker.GetScriptApplicationSourceForInlineWorker();
+
+                           CreateWorker(u);
+
+                           //new IHTMLPre { new { InternalInlineWorker.ScriptApplicationSourceForInlineWorker } }.AttachToDocument();
+                       }
+
+                   );
+
+                    return;
+                }
+
+                CreateWorker(u);
+            };
         }
 
         public Task ContinueWith(Action<Task<TResult>> continuationAction)
@@ -622,6 +682,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     #endregion
 
 
+                    // dont think this is correct?
                     var w = new global::ScriptCoreLib.JavaScript.DOM.Worker(
                     InternalInlineWorker.GetScriptApplicationSourceForInlineWorker()
                         //global::ScriptCoreLib.JavaScript.DOM.Worker.ScriptApplicationSourceForInlineWorker
