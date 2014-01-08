@@ -24,6 +24,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
             }
         }
 
+
+        //Implementation not found for type import :
+        //type: System.Collections.Generic.Queue`1[[System.Data.SQLite.SQLiteConnectionStringBuilderExtensions+StillUseableForSomeTime, xmoneseshiny.ApplicationWebService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+        //method: Int32 get_Count()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+        public int Count
+        {
+            get
+            {
+                return this.InternalList.size();
+            }
+        }
+
         public void Enqueue(T item)
         {
             this.InternalList.add(item);
