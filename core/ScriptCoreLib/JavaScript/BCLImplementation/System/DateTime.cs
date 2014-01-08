@@ -265,5 +265,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             );
         }
 
+        public static DateTime operator +(__DateTime d, TimeSpan t)
+        {
+            var ms = d.InternalValue.getTime() + t.TotalMilliseconds;
+
+            return new __DateTime
+            {
+                InternalValue = new IDate(ms),
+                Kind = d.Kind
+            };
+        }
+
+        public DateTime AddDays(double value)
+        {
+            return this + TimeSpan.FromDays(value);
+        }
+
     }
 }

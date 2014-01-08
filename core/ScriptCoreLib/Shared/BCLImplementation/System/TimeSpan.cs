@@ -51,6 +51,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return (TimeSpan)(object)e;
         }
 
+        public static TimeSpan FromMinutes(double value)
+        {
+            return new __TimeSpan { TotalMilliseconds = value * 1000 * 60 };
+        }
+
+        public static TimeSpan FromHours(double value)
+        {
+            return new __TimeSpan { TotalMilliseconds = value * 1000 * 60 * 60 };
+        }
+
+        public static TimeSpan FromDays(double value)
+        {
+            return new __TimeSpan { TotalMilliseconds = value * 1000 * 60 * 60 * 24};
+        }
 
         public override string ToString()
         {
