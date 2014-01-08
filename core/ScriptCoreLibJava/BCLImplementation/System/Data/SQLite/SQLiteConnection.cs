@@ -18,10 +18,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
         // X:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
 
+        public override string ConnectionString { get; set; }
+
         public __SQLiteConnection(string connectionstring)
         {
             // should parse instead
             InternalConnectionString = __SQLiteConnectionStringBuilder.InternalConnectionString;
+            ConnectionString = connectionstring;
         }
 
 
