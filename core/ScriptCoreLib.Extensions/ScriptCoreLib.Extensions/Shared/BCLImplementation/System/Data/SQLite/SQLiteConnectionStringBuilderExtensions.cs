@@ -7,6 +7,7 @@ namespace System.Data.SQLite
 {
     public static class SQLiteConnectionStringBuilderExtensions
     {
+        public static long Counter = 0;
 
         public static Action<Action<SQLiteConnection>> AsWithConnection(this SQLiteConnectionStringBuilder csb,
             Action<SQLiteConnection> Initializer = null
@@ -27,10 +28,13 @@ namespace System.Data.SQLite
 
                 //Console.WriteLine("AsWithConnection... invoke");
 
+                var ccc = Counter++;
+
                 using (var c = new SQLiteConnection(csb.ConnectionString))
                 {
+                    Console.WriteLine("open SQLiteConnection " + new { ccc });
                     c.Open();
-                    //Console.WriteLine("open SQLiteConnection");
+
                     cc = c;
 
                     try
@@ -54,7 +58,7 @@ namespace System.Data.SQLite
                     }
                     cc = null;
                 }
-                //Console.WriteLine("close SQLiteConnection");
+                Console.WriteLine("close SQLiteConnection or pool it?  " + new { ccc });
             };
         }
 

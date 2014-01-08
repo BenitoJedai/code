@@ -47,7 +47,11 @@ namespace ScriptCoreLib.Ultra.WebService
         public bool DiagnosticsMakeItSlowAndAddSalt;
 
 
-        public void WriteTo(StringAction Write, bool CacheManifest = true)
+
+        public string baseURI;
+
+        public void WriteTo(
+            StringAction Write, bool CacheManifest = true)
         {
             var app = this;
 
@@ -104,6 +108,20 @@ Visit http://my.jsc-solutions.net to gear up!
                 //html.SetAttributeValue("manifest", WebApplicationCacheManifest.ManifestName);
 
                 //  method: Void SetAttributeValue(System.Xml.Linq.XName, System.Object)
+            }
+
+            if (!string.IsNullOrEmpty(baseURI))
+            {
+                // X:\jsc.smokescreen.svn\market\appengine\xmoneseservicesweb\xmoneseserviceswebredirector\ApplicationWebService.cs
+
+                var head = html.Elements("head").FirstOrDefault();
+                if (head != null)
+                    head.Add(
+                        new XElement("base",
+                            new XAttribute("href", baseURI)
+                        )
+                    );
+
             }
 
             // add first not yet available!
