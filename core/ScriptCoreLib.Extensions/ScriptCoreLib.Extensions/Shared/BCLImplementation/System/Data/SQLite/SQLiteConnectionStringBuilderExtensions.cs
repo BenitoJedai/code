@@ -101,7 +101,7 @@ namespace System.Data.SQLite
             Action<SQLiteConnection> Initializer = null
             )
         {
-            Console.WriteLine("enter SQLiteConnection " + new { Thread.CurrentThread.ManagedThreadId, StillUseableForSomeTime.OpenCounter });
+            //Console.WriteLine("enter SQLiteConnection " + new { Thread.CurrentThread.ManagedThreadId, StillUseableForSomeTime.OpenCounter });
             // we a re missing :memory: as used in multimon svg draw experiment
 
             var cc = default(SQLiteConnection);
@@ -109,11 +109,11 @@ namespace System.Data.SQLite
 
             return y =>
             {
-                Console.WriteLine("at SQLiteConnection");
+                //Console.WriteLine("at SQLiteConnection");
 
                 if (cc != null)
                 {
-                    Console.WriteLine("reopen SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                    //Console.WriteLine("reopen SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
 
                     // reenty!
                     y(cc);
@@ -129,7 +129,7 @@ namespace System.Data.SQLite
                 var c = StillUseableForSomeTime.Open(csb);
 
                 {
-                    Console.WriteLine("open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                    //Console.WriteLine("open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
 
                     cc = c;
 
@@ -183,7 +183,7 @@ namespace System.Data.SQLite
                     cc = null;
                 }
 
-                Console.WriteLine("close SQLiteConnection or pool it for a few seconds?  " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                //Console.WriteLine("close SQLiteConnection or pool it for a few seconds?  " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
                 StillUseableForSomeTime.Dispose(c);
 
 
