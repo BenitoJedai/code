@@ -17,6 +17,9 @@ namespace ScriptCoreLib.Ultra.WebService
     {
         public static void InternalApplication_BeginRequest(InternalGlobal g)
         {
+            var BeginRequestStopwatch = Stopwatch.StartNew();
+
+
             var that = g.InternalApplication;
             var Context = that.Context;
 
@@ -141,9 +144,11 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     //Implementation not found for type import :
 
-                    foreach (string item in x.InternalFields.Keys.ToArray())
+                    foreach (string InternalFieldName in x.InternalFields.Keys.ToArray())
                     {
-                        c[item] = x.InternalFields[item];
+                        Console.WriteLine(new { InternalFieldName });
+
+                        c[InternalFieldName] = x.InternalFields[InternalFieldName];
                     }
 
                     // Set-Cookie:InternalFields=field_Foo=7; path=/
@@ -502,7 +507,15 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     // where is the code gen?
                     // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WebService.cs
+
+                    // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140107-dev/test
+                    var WebMethodStopwatch = Stopwatch.StartNew();
                     g.Invoke(handler.WebMethod);
+
+                    // BeginRequestStopwatch
+                    that.Response.AddHeader("X-BeginRequestStopwatch", "" + BeginRequestStopwatch.ElapsedMilliseconds);
+                    that.Response.AddHeader("X-WebMethodStopwatch", "" + WebMethodStopwatch.ElapsedMilliseconds);
+
                     //}
                     //catch (Exception err)
                     //{
