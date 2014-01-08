@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 
@@ -17,24 +18,16 @@ namespace System.Data.SQLite
             public SQLiteConnection c;
             public readonly Stopwatch w = Stopwatch.StartNew();
 
-            public static object SyncLock = new object();
+            //public static object SyncLock = new object();
 
             public static long OpenCounter = 0L;
 
+            [MethodImpl(MethodImplOptions.Synchronized)]
             public static SQLiteConnection Open(SQLiteConnectionStringBuilder csb)
             {
                 var c = default(SQLiteConnection);
 
-                lock (SyncLock)
-                {
-                    c = InternalOpen(csb, c);
-                }
 
-                return c;
-            }
-
-            private static SQLiteConnection InternalOpen(SQLiteConnectionStringBuilder csb, SQLiteConnection c)
-            {
                 Action restore = delegate { };
 
                 while (lookup.Count > 0)
@@ -67,16 +60,26 @@ namespace System.Data.SQLite
 
                 restore();
 
-                c = new SQLiteConnection(csb.ConnectionString);
-                OpenCounter++;
+                if (c == null)
+                {
+                    c = new SQLiteConnection(csb.ConnectionString);
+                    c.Open();
+                    OpenCounter++;
+                }
+
                 return c;
             }
 
+            // http://msdn.microsoft.com/en-us/library/7977ey2c(v=vs.110).aspx
+            // To allow the collection to be accessed by multiple threads for reading and writing, you must implement your own synchronization.
+            [Obsolete("only to be accessed by methods with [MethodImpl(MethodImplOptions.Synchronized)]")]
             static readonly Queue<StillUseableForSomeTime> lookup = new Queue<StillUseableForSomeTime>();
 
+            // http://stackoverflow.com/questions/6140048/difference-between-manual-locking-and-synchronized-methods
+            [MethodImpl(MethodImplOptions.Synchronized)]
             public static void Dispose(SQLiteConnection c)
             {
-                lock (SyncLock)
+                //lock (SyncLock)
                 {
                     lookup.Enqueue(
                         new StillUseableForSomeTime { c = c }
@@ -123,7 +126,6 @@ namespace System.Data.SQLite
 
                 {
                     Console.WriteLine("open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
-                    c.Open();
 
                     cc = c;
 

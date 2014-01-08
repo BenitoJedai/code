@@ -15,6 +15,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         public mysqli InternalConnection;
 
+        public override string ConnectionString { get; set; }
+
         public __SQLiteConnection(string connectionstring)
         {
         }

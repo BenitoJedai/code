@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
     [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
     public class __SQLiteConnection : __DbConnection
     {
+        public override string ConnectionString { get; set; }
+
         public __SQLiteConnection(string connectionstring)
         {
         }
