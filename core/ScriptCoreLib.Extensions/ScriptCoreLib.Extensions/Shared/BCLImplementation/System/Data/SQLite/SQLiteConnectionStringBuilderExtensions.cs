@@ -73,7 +73,11 @@ namespace System.Data.SQLite
             // http://msdn.microsoft.com/en-us/library/7977ey2c(v=vs.110).aspx
             // To allow the collection to be accessed by multiple threads for reading and writing, you must implement your own synchronization.
             [Obsolete("only to be accessed by methods with [MethodImpl(MethodImplOptions.Synchronized)]")]
-            static readonly Queue<StillUseableForSomeTime> lookup = new Queue<StillUseableForSomeTime>();
+            public static readonly Queue<StillUseableForSomeTime> lookup = new Queue<StillUseableForSomeTime>();
+
+            //    Y:\xmoneseservicesweb.ApplicationWebService\staging.java\web\java\System\Data\SQLite\SQLiteConnectionStringBuilderExtensions_StillUseableForSomeTime___c__DisplayClass7.java:22: error: lookup has private access in SQLiteConnectionStringBuilderExtensions_StillUseableForSomeTime
+            //SQLiteConnectionStringBuilderExtensions_StillUseableForSomeTime.lookup.Enqueue(this.candidate);
+            //                                                               ^
 
             // http://stackoverflow.com/questions/6140048/difference-between-manual-locking-and-synchronized-methods
             [MethodImpl(MethodImplOptions.Synchronized)]
