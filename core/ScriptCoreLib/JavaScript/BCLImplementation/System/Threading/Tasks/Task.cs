@@ -560,10 +560,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                 if (u == Worker.ScriptApplicationSource + "#worker")
                 {
-                    Console.WriteLine("will prepare /view-source for Worker...");
+                    var GET = ScriptCoreLib.Shared.HTTPMethodEnum.GET;
+                    Console.WriteLine("will prepare /view-source for Worker... " + new { GET });
 
                     new IXMLHttpRequest(
-                       ScriptCoreLib.Shared.HTTPMethodEnum.GET,
+                       GET,
                        Worker.ScriptApplicationSource,
                        r =>
                        {
