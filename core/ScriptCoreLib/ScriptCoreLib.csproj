@@ -157,6 +157,8 @@
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ParameterExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MemberExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\IGrouping.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Net\UploadValuesCompletedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Net\UploadValuesCompletedEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\ICredentialsByHost.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\NetworkCredential.cs" />
     <Compile Include="Shared\BCLImplementation\System\Resources\ResourceManager.cs" />

@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.Extensions;
 using System;
 using System.Net;
+using System.Text;
 
 namespace TestWebClient
 {
@@ -17,29 +18,62 @@ namespace TestWebClient
 
             var t = new TextField
             {
-                autoSize = TextFieldAutoSize.LEFT
+                autoSize = TextFieldAutoSize.LEFT,
+                text = "...",
+
+                multiline = true
             }.AttachTo(this);
 
             var w = new WebClient();
 
-            w.DownloadStringCompleted +=
+            //w.DownloadStringCompleted +=
+            //    (sender, args) =>
+            //    {
+            //        if (args.Error != null)
+            //        {
+            //            t.text = "DownloadStringAsync error " + new { args.Error }.ToString();
+
+            //            return;
+            //        }
+
+            //        // DownloadStringAsync { Length = 2822 }
+            //        t.text = "DownloadStringAsync " + new { args.Result.Length }.ToString();
+            //    };
+
+            //w.DownloadStringAsync(
+            //    new Uri("/jsc", UriKind.Relative)
+            //    );
+
+
+            w.UploadValuesCompleted +=
                 (sender, args) =>
                 {
                     if (args.Error != null)
                     {
-                        t.text = "DownloadStringAsync error " + new { args.Error }.ToString();
+                        t.text = "UploadValuesCompleted error " + new { args.Error }.ToString();
 
                         return;
                     }
 
                     // DownloadStringAsync { Length = 2822 }
-                    t.text = "DownloadStringAsync " + new { args.Result.Length }.ToString();
+
+                    var data = Encoding.UTF8.GetString(args.Result);
+                    // 
+                    t.text = "UploadValuesCompleted " + new { args.Result.Length }.ToString() + "\n\n" + data;
                 };
 
-            t.text = "DownloadStringAsync";
-            w.DownloadStringAsync(
-                new Uri("/jsc", UriKind.Relative)
-                );
+            var _06000010_username = "";
+
+            //UploadValuesCompleted { Length = 77 }
+            //<document><TaskComplete><TaskResult>13</TaskResult></TaskComplete></document>
+
+            w.UploadValuesAsync(
+                new Uri("/xml?WebMethod=06000002&n=WebMethod2", UriKind.Relative),
+                   data: new System.Collections.Specialized.NameValueCollection { 
+                        { "_06000002_username", _06000010_username},
+                        { "_06000002_psw", ""}
+                    }
+            );
 
             //await w.DownloadStringTaskAsync("/jsc"
         }

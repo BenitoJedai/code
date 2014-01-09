@@ -30,7 +30,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override void Open()
         {
-            Console.WriteLine("__SQLiteConnection.Open");
+            //Console.WriteLine("__SQLiteConnection.Open");
 
             try
             {
@@ -89,6 +89,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 cmd.ExecuteNonQuery();
             }
 
+
+            // http://stackoverflow.com/questions/1675333/php-mysql-joins-across-databases
             using (var cmd = new SQLiteCommand("USE `" + this.InternalConnectionString.DataSource + "`", (SQLiteConnection)(object)this))
             {
                 cmd.ExecuteNonQuery();
@@ -98,7 +100,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override void Close()
         {
-            Console.WriteLine("__SQLiteConnection.Close");
+            //Console.WriteLine("__SQLiteConnection.Close");
 
             try
             {
