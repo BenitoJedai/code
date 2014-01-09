@@ -3,6 +3,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
@@ -45,17 +46,37 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 this.InternalInstanceName = (string)value;
         }
 
-        public static __SQLiteConnectionStringBuilder InternalConnectionString;
+
 
         public override string InternalGetConnectionString()
         {
-            var r = "";
+            var key = new { DataSource, ReadOnly, InternalUser, InternalHost, InternalInstanceName }.ToString();
 
-            // we should serialize to string here
-            // this will break once multiple connections are needed!
-            InternalConnectionString = this;
+            InterlockedInternalGetConnectionString(key, this);
 
-            return r;
+            return key;
         }
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public static __SQLiteConnectionStringBuilder InterlockedInternalGetConnectionString(
+            string key,
+            __SQLiteConnectionStringBuilder value = null
+            )
+        {
+            if (value != null)
+            {
+                lookup[key] = value;
+            }
+
+            return lookup[key];
+        }
+
+        public static __SQLiteConnectionStringBuilder InternalGetConnectionString(string key)
+        {
+            return InterlockedInternalGetConnectionString(key);
+        }
+
+        public static Dictionary<string, __SQLiteConnectionStringBuilder> lookup = new Dictionary<string, __SQLiteConnectionStringBuilder>();
     }
 }

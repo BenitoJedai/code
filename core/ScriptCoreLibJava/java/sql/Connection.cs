@@ -14,5 +14,8 @@ namespace java.sql
         PreparedStatement prepareStatement(string sql);
 
         void close();
+
+        bool isReadOnly();
+        bool isValid(int timeout);
     }
 }

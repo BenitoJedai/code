@@ -23,8 +23,12 @@ namespace System.Data.SQLite
 
             public static long OpenCounter = 0L;
 
-            [MethodImpl(MethodImplOptions.Synchronized)]
             public static SQLiteConnection Open(SQLiteConnectionStringBuilder csb)
+            {
+                return InterlockedOpenOrDispose(close: null, open: csb);
+            }
+
+            public static SQLiteConnection InternalOpen(SQLiteConnectionStringBuilder csb)
             {
                 var c = default(SQLiteConnection);
 
@@ -46,7 +50,7 @@ namespace System.Data.SQLite
                     {
                         // doe the dbs match?
                         Console.WriteLine(new { candidate.c.ConnectionString, csbconn = csb.ConnectionString });
-                        var flag = candidate.c.ConnectionString == csb.ConnectionString && candidate.ThreadID == Thread.CurrentThread.ManagedThreadId;
+                        var flag = candidate.c.ConnectionString == csb.ConnectionString; // && candidate.ThreadID == Thread.CurrentThread.ManagedThreadId;
                         if (flag)
                         {
                             c = candidate.c;
@@ -66,6 +70,9 @@ namespace System.Data.SQLite
                 {
                     c = new SQLiteConnection(csb.ConnectionString);
                     c.Open();
+
+                    // http://devcon5.blogspot.com/2012/09/threadsafe-in-appengine-gaej.html
+
                     OpenCounter++;
                 }
 
@@ -81,18 +88,24 @@ namespace System.Data.SQLite
             //SQLiteConnectionStringBuilderExtensions_StillUseableForSomeTime.lookup.Enqueue(this.candidate);
             //                                                               ^
 
-            // http://stackoverflow.com/questions/6140048/difference-between-manual-locking-and-synchronized-methods
             [MethodImpl(MethodImplOptions.Synchronized)]
-            public static void Dispose(SQLiteConnection c)
+            static SQLiteConnection InterlockedOpenOrDispose(SQLiteConnection close, SQLiteConnectionStringBuilder open)
             {
-                //lock (SyncLock)
+                if (close != null)
                 {
                     lookup.Enqueue(
-                        new StillUseableForSomeTime { c = c, ThreadID = Thread.CurrentThread.ManagedThreadId }
+                        new StillUseableForSomeTime { c = close, ThreadID = Thread.CurrentThread.ManagedThreadId }
                     );
+                    return null;
                 }
 
-                //c.Dispose();
+                return InternalOpen(open);
+            }
+
+            // http://stackoverflow.com/questions/6140048/difference-between-manual-locking-and-synchronized-methods
+            public static void Dispose(SQLiteConnection c)
+            {
+                InterlockedOpenOrDispose(close: c, open: null);
             }
         }
 
@@ -115,7 +128,8 @@ namespace System.Data.SQLite
 
                 if (cc != null)
                 {
-                    Console.WriteLine("reopen SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                    Console.WriteLine(
+                        "AsWithConnection reopen SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
 
                     // reenty!
                     y(cc);
@@ -131,7 +145,8 @@ namespace System.Data.SQLite
                 var c = StillUseableForSomeTime.Open(csb);
 
                 {
-                    Console.WriteLine("open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                    Console.WriteLine(
+                        "AsWithConnection open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId, csb.ConnectionString });
 
                     cc = c;
 
@@ -185,7 +200,7 @@ namespace System.Data.SQLite
                     cc = null;
                 }
 
-                //Console.WriteLine("close SQLiteConnection or pool it for a few seconds?  " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                Console.WriteLine("AsWithConnection close SQLiteConnection or pool it for a few seconds?  " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
                 StillUseableForSomeTime.Dispose(c);
 
 

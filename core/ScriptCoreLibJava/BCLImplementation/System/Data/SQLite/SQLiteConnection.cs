@@ -23,13 +23,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public __SQLiteConnection(string connectionstring)
         {
             // should parse instead
-            InternalConnectionString = __SQLiteConnectionStringBuilder.InternalConnectionString;
+            InternalConnectionString = __SQLiteConnectionStringBuilder.InternalGetConnectionString(connectionstring);
             ConnectionString = connectionstring;
         }
 
 
         public override void Open()
         {
+            Console.WriteLine("__SQLiteConnection.Open");
+
             try
             {
                 var x = new
@@ -96,10 +98,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override void Close()
         {
+            Console.WriteLine("__SQLiteConnection.Close");
+
             try
             {
                 if (this.InternalConnection != null)
+                {
                     this.InternalConnection.close();
+                    this.InternalConnection = null;
+
+                }
 
             }
             catch

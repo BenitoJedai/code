@@ -51,12 +51,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             if (this.InternalStatement != null)
                 return;
 
+            var sql = this.CommandText;
+
             try
             {
                 // http://www.javaworld.com/javaworld/jw-04-2007/jw-04-jdbc.html
                 if (this.InternalParameters.InternalParameters.Count > 0)
                 {
-                    var sql = this.CommandText;
 
                     //Console.WriteLine("we have InternalParameters for " + sql);
 
@@ -76,7 +77,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                         sql = sql.Replace(p.ParameterName, "?");
                     }
 
-                    Console.WriteLine("InternalCreateStatement " + new { Thread.CurrentThread.ManagedThreadId, sql });
                     this.InternalPreparedStatement = this.c.InternalConnection.prepareStatement(sql);
 
                     var c = 0;
@@ -118,6 +118,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             catch
             {
                 throw;
+            }
+
+            try
+            {
+                Console.WriteLine("__SQLiteCommand.InternalCreateStatement " + new
+                {
+
+                    CurrentThreadID = Thread.CurrentThread.ManagedThreadId,
+                    CurrentThreadHashCode = Thread.CurrentThread.GetHashCode(),
+                    sql,
+                    isReadOnly = this.c.InternalConnection.isReadOnly(),
+
+                    //  If the timeout period expires before the operation completes, this method returns false. A value of 0 indicates a timeout is not applied to the database operation.
+                    isValid = this.c.InternalConnection.isValid(0)
+
+                });
+            }
+            catch
+            {
+
             }
         }
 
