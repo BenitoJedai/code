@@ -15,6 +15,7 @@ namespace System.Data.SQLite
 
         public class StillUseableForSomeTime
         {
+            public long ThreadID;
             public SQLiteConnection c;
             public readonly Stopwatch w = Stopwatch.StartNew();
 
@@ -44,8 +45,9 @@ namespace System.Data.SQLite
                     else
                     {
                         // doe the dbs match?
-
-                        if (candidate.c.ConnectionString == csb.ConnectionString)
+                        Console.WriteLine(new { candidate.c.ConnectionString, csbconn = csb.ConnectionString });
+                        var flag = candidate.c.ConnectionString == csb.ConnectionString && candidate.ThreadID == Thread.CurrentThread.ManagedThreadId;
+                        if (flag)
                         {
                             c = candidate.c;
                             break;
@@ -86,7 +88,7 @@ namespace System.Data.SQLite
                 //lock (SyncLock)
                 {
                     lookup.Enqueue(
-                        new StillUseableForSomeTime { c = c }
+                        new StillUseableForSomeTime { c = c, ThreadID = Thread.CurrentThread.ManagedThreadId }
                     );
                 }
 
