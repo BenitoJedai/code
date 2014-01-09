@@ -51,11 +51,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             //E:\jsc.svn\examples\javascript\Test\TestToStringCurrencyFormat\TestToStringCurrencyFormat\Application.cs
             if (format == "0.00")
             {
-                var cent = value % 100;
-                var t = value - cent;
-                var to = t / 100;
-                var total = to + "." + cent.ToString().PadLeft(2, '0');
-                return total;
+                if (value < 0)
+                {
+                    value = Math.Abs(value);
+                    var cent = value % 100;
+                    var t = value - cent;
+                    var to = t / 100;
+                    var total = "-" + to + "." + cent.ToString().PadLeft(2, '0');
+                    return total;
+                }
+                else
+                {
+                    var cent = value % 100;
+                    var t = value - cent;
+                    var to = t / 100;
+                    var total = to + "." + cent.ToString().PadLeft(2, '0');
+                    return total;
+                }
             }
 
             if (format != "x8")
