@@ -37,7 +37,7 @@ namespace System.Data.SQLite
                     var candidate = lookup.Dequeue();
 
                     // the pool timeout
-                    if (candidate.w.ElapsedMilliseconds > 5000)
+                    if (candidate.w.ElapsedMilliseconds > 2000)
                     {
                         candidate.c.Dispose();
                     }
