@@ -12,6 +12,8 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative=true)]
     public class LoaderInfo : EventDispatcher
     {
+        public UncaughtErrorEvents uncaughtErrorEvents { get; private set; }
+
         #region Properties
         /// <summary>
         /// [read-only] The ActionScript version of the loaded SWF file.
