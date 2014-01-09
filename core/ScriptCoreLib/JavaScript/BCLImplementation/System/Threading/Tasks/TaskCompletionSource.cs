@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks

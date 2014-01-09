@@ -100,6 +100,7 @@
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\TimeZone.cs" />
     <Compile Include="JavaScript\DOM\IWindow.async.cs" />
     <Compile Include="JavaScript\DOM\URL.cs" />
@@ -224,7 +225,7 @@
     <Compile Include="Shared\BCLImplementation\System\Threading\ParameterizedThreadStart.cs" />
     <Compile Include="Shared\BCLImplementation\System\Tuple.cs" />
     <Compile Include="Shared\BCLImplementation\System\ValueType.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\DOM\CSS\CSSStyleSheet.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGPathElement.cs" />
     <Compile Include="PHP\Data\SQLiteToMySQLConversion.cs" />

@@ -36,8 +36,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         {
         }
 
+
+        UriKind InternalUriKind;
+
         public __Uri(string uriString, UriKind kind)
         {
+            this.InternalUriKind = kind;
             this.OriginalString = uriString;
 
             // http://localhost/jsc/zmovies
@@ -189,19 +193,24 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
             var w = new StringBuilder();
 
-            w.Append(this.Scheme);
-            w.Append(":");
-
-            if (!string.IsNullOrEmpty(Host))
+            if (InternalUriKind == UriKind.Absolute)
             {
-                w.Append("//");
-                w.Append(this.Host);
-            }
+                // what if we do not have these details?
 
-            if (Port >= 0)
-            {
+                w.Append(this.Scheme);
                 w.Append(":");
-                w.Append(this.Port);
+
+                if (!string.IsNullOrEmpty(Host))
+                {
+                    w.Append("//");
+                    w.Append(this.Host);
+                }
+
+                if (Port >= 0)
+                {
+                    w.Append(":");
+                    w.Append(this.Port);
+                }
             }
 
             if (string.IsNullOrEmpty(this.PathAndQuery))

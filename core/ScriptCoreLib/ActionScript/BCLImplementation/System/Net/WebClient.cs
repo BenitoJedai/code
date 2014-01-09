@@ -5,44 +5,53 @@ using System.Text;
 using ScriptCoreLib.ActionScript.flash.net;
 using System.Net;
 using ScriptCoreLib.Shared.BCLImplementation.System.Net;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
 {
-	[Script(Implements = typeof(global::System.Net.WebClient))]
-	internal class __WebClient
-	{
-		public event DownloadStringCompletedEventHandler DownloadStringCompleted;
+    [Script(Implements = typeof(global::System.Net.WebClient))]
+    internal class __WebClient : __Component
+    {
+        public event DownloadStringCompletedEventHandler DownloadStringCompleted;
 
-		public void DownloadStringAsync(Uri address)
-		{
-			var request = new URLRequest(address.ToString());
-			request.method = URLRequestMethod.GET;
+        public void DownloadStringAsync(Uri address)
+        {
+            // testedby
+            // X:\jsc.svn\examples\actionscript\Test\TestWebClient\TestWebClient\ApplicationSprite.cs
 
-			var loader = new URLLoader();
-			loader.complete +=
-				args =>
-				{
-					var e = new __DownloadStringCompletedEventArgs { Result = "" + loader.data };
+            var request = new URLRequest(address.ToString());
+            request.method = URLRequestMethod.GET;
 
-					DownloadStringCompleted(null, (DownloadStringCompletedEventArgs)(object)e);
-				};
+            var loader = new URLLoader();
+            loader.complete +=
+                args =>
+                {
+                    var e = new __DownloadStringCompletedEventArgs { Result = "" + loader.data };
 
-			loader.ioError +=
-				args =>
-				{
-					var e = new __DownloadStringCompletedEventArgs { Error = new Exception("ioError") };
-					DownloadStringCompleted(null, (DownloadStringCompletedEventArgs)(object)e);
-				};
+                    DownloadStringCompleted(this, (DownloadStringCompletedEventArgs)(object)e);
+                };
+
+            loader.ioError +=
+                args =>
+                {
+                    var e = new __DownloadStringCompletedEventArgs { Error = new Exception("ioError") };
+                    DownloadStringCompleted(this, (DownloadStringCompletedEventArgs)(object)e);
+                };
 
 
-			loader.securityError +=
-				args =>
-				{
-					var e = new __DownloadStringCompletedEventArgs { Error = new Exception("securityError") };
-					DownloadStringCompleted(null, (DownloadStringCompletedEventArgs)(object)e);
-				};
+            loader.securityError +=
+                args =>
+                {
+                    var e = new __DownloadStringCompletedEventArgs
+                    {
+                        Error = new Exception(
+                            "securityError " + new { args.errorID, args.text }
+                            )
+                    };
+                    DownloadStringCompleted(this, (DownloadStringCompletedEventArgs)(object)e);
+                };
 
-			loader.load(request);
-		}
-	}
+            loader.load(request);
+        }
+    }
 }

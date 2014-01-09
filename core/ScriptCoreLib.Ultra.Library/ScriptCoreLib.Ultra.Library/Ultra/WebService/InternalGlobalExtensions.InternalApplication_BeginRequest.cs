@@ -588,7 +588,18 @@ namespace ScriptCoreLib.Ultra.WebService
             #region /crossdomain.xml
             if (Path == "/crossdomain.xml")
             {
-                Context.Response.StatusCode = 404;
+                // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.InternalApplication_BeginRequest.cs
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140109-webclient
+                // http://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
+                // X:\jsc.smokescreen.svn\market\appengine\xmoneseAIR\xmoneseAIR\ApplicationCanvas.cs
+                Context.Response.Write(@"<?xml version='1.0'?>
+<!-- http://www.osmf.org/crossdomain.xml -->
+<!DOCTYPE cross-domain-policy SYSTEM 'http://www.adobe.com/xml/dtds/cross-domain-policy.dtd'>
+<cross-domain-policy>
+    <allow-access-from domain='*' />
+    <site-control permitted-cross-domain-policies='all'/>
+</cross-domain-policy>");
+
                 that.CompleteRequest();
                 return;
             }
