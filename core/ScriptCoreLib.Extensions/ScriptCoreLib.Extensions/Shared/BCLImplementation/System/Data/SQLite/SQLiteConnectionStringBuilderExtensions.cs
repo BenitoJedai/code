@@ -113,7 +113,7 @@ namespace System.Data.SQLite
 
                 if (cc != null)
                 {
-                    //Console.WriteLine("reopen SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                    Console.WriteLine("reopen SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
 
                     // reenty!
                     y(cc);
@@ -129,7 +129,7 @@ namespace System.Data.SQLite
                 var c = StillUseableForSomeTime.Open(csb);
 
                 {
-                    //Console.WriteLine("open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                    Console.WriteLine("open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
 
                     cc = c;
 
