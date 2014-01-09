@@ -38,6 +38,40 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             return value;
         }
         #endregion
+
+        #region Max(IEnumerable<TResult>)
+
+
+
+        public static TResult Max(this IEnumerable<TResult> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            var num2 = default(TResult);
+            bool flag2 = false;
+            foreach (TResult num3 in source.AsEnumerable())
+            {
+                if (flag2)
+                {
+                    if (num3 > num2)
+                    {
+                        num2 = num3;
+                    }
+                    continue;
+                }
+                num2 = num3;
+                flag2 = true;
+            }
+            if (!flag2)
+            {
+                throw __DefinedError.NoElements();
+            }
+            return num2;
+        }
+        #endregion
+
     }
 }
 
@@ -75,6 +109,40 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             return value;
         }
         #endregion
+
+        #region Max(IEnumerable<TResult>)
+
+
+
+        public static TResult Max(this IEnumerable<TResult> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            var num2 = default(TResult);
+            bool flag2 = false;
+            foreach (TResult num3 in source.AsEnumerable())
+            {
+                if (flag2)
+                {
+                    if (num3 > num2)
+                    {
+                        num2 = num3;
+                    }
+                    continue;
+                }
+                num2 = num3;
+                flag2 = true;
+            }
+            if (!flag2)
+            {
+                throw __DefinedError.NoElements();
+            }
+            return num2;
+        }
+        #endregion
+
     }
 }
 
@@ -112,6 +180,41 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             return value;
         }
         #endregion
+
+
+        #region Max(IEnumerable<TResult>)
+
+
+
+        public static TResult Max(this IEnumerable<TResult> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException("source");
+            }
+            var num2 = default(TResult);
+            bool flag2 = false;
+            foreach (TResult num3 in source.AsEnumerable())
+            {
+                if (flag2)
+                {
+                    if (num3 > num2)
+                    {
+                        num2 = num3;
+                    }
+                    continue;
+                }
+                num2 = num3;
+                flag2 = true;
+            }
+            if (!flag2)
+            {
+                throw __DefinedError.NoElements();
+            }
+            return num2;
+        }
+        #endregion
+
     }
 }
 
