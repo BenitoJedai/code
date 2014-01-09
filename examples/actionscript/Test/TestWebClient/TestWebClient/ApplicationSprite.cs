@@ -1,3 +1,4 @@
+using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
@@ -23,6 +24,15 @@ namespace TestWebClient
 
                 multiline = true
             }.AttachTo(this);
+
+            this.root.loaderInfo.uncaughtErrorEvents.uncaughtError +=
+                e =>
+                {
+                    // TypeError: Error #1034
+                    t.text = "error: " + new { e.errorID, e.text, e.error } + "\n\n"
+                        + ((Error)e.error).getStackTrace() + "";
+
+                };
 
             var w = new WebClient();
 
@@ -67,13 +77,22 @@ namespace TestWebClient
             //UploadValuesCompleted { Length = 77 }
             //<document><TaskComplete><TaskResult>13</TaskResult></TaskComplete></document>
 
+            // UploadValuesCompleted error { Error = Error: securityError { errorID = 2048, text = Error #2048 } }
             w.UploadValuesAsync(
-                new Uri("/xml?WebMethod=06000002&n=WebMethod2", UriKind.Relative),
-                   data: new System.Collections.Specialized.NameValueCollection { 
-                        { "_06000002_username", _06000010_username},
-                        { "_06000002_psw", ""}
-                    }
+                address: new Uri("http://my.monese.com/xml?WebMethod=06000010&n=GetUserID"),
+                    data: new System.Collections.Specialized.NameValueCollection { 
+                                { "_06000010_username", _06000010_username},
+                                { "_06000010_psw", ""}
+                            }
             );
+
+            //w.UploadValuesAsync(
+            //    new Uri("/xml?WebMethod=06000002&n=WebMethod2", UriKind.Relative),
+            //       data: new System.Collections.Specialized.NameValueCollection { 
+            //            { "_06000002_username", _06000010_username},
+            //            { "_06000002_psw", ""}
+            //        }
+            //);
 
             //await w.DownloadStringTaskAsync("/jsc"
         }

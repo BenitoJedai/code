@@ -93,6 +93,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="ActionScript\flash\events\UncaughtErrorEvent.cs" />
+    <Compile Include="ActionScript\flash\events\UncaughtErrorEvents.cs" />
     <Compile Include="ActionScript\flash\system\WorkerDomain.cs" />
     <Compile Include="ActionScript\flash\system\Worker.cs" />
     <Compile Include="Extensions\CoreStringExtensions.cs" />

@@ -41,11 +41,26 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
             // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/URLLoaderDataFormat.html
             //loader.dataFormat = URLLoaderDataFormat.Binary;
             loader.dataFormat = "binary";
+            // http://stackoverflow.com/questions/7816231/how-to-use-as3-to-load-binary-data-from-web-server
 
             loader.complete +=
                 args =>
                 {
-                    // If the dataFormat property is URLLoaderDataFormat.BINARY, the received data is a ByteArray object containing the raw binary data.
+                    // If the dataFormat property is URLLoaderDataFormat.BINARY, the received data is a ByteArray object 
+                    // containing the raw binary data.
+
+                    //                TypeError: Error #1034: Type Coercion failed: cannot convert ScriptCoreLib.Shared.BCLImplementation.System.Net::__DownloadStringCompletedEventArgs@5422ad9 to ScriptCoreLib.Shared.BCLImplementation.System.Net.__UploadValuesCompletedEventArgs.
+                    //at ScriptCoreLib.ActionScript.BCLImplementation.System.Net::__WebClient/_UploadValuesAsync_b__7_4ebbe596_06000fb2()[V:\web\ScriptCoreLib\ActionScript\BCLImplementation\System\Net\__WebClient.as:143]
+                    //at flash.events::EventDispatcher/dispatchEventFunction()
+                    //at flash.events::EventDispatcher/dispatchEvent()
+                    //at flash.net::URLLoader/redirectEvent()
+
+                    // TypeError: Error #1034: Type Coercion failed: cannot convert ScriptCoreLib.Shared.BCLImplementation.System.Net::__DownloadStringCompletedEventArgs@53686e9 to ScriptCoreLib.Shared.BCLImplementation.System.Net.__UploadValuesCompletedEventArgs.
+
+                    //throw new Exception(
+                    //    new { loader.data, loader.dataFormat, t = loader.data.GetType() }.ToString()
+                    //);
+
                     var bytes = (ByteArray)loader.data;
                     var e = new __UploadValuesCompletedEventArgs { Result = (byte[])bytes.ToArray() };
 
@@ -65,7 +80,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
             loader.securityError +=
                 args =>
                 {
-                    var e = new __DownloadStringCompletedEventArgs
+                    var e = new __UploadValuesCompletedEventArgs
                     {
                         Error = new Exception(
                             "securityError " + new { args.errorID, args.text }

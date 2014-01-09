@@ -5,21 +5,27 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows.Threading
 {
-	[Script(Implements = typeof(global::System.Windows.Threading.Dispatcher))]
-	public class __Dispatcher
-	{
-		public object Invoke(Delegate method, params object[] args)
-		{
-			// http://msdn.microsoft.com/en-us/library/cc647509.aspx
+    [Script(Implements = typeof(global::System.Windows.Threading.Dispatcher))]
+    public class __Dispatcher
+    {
+        // 4.5
+        public void Invoke(Action callback)
+        {
+            Invoke(method: callback);
+        }
 
-			if (method is Action)
-			{
-				((Action)method)();
+        public object Invoke(Delegate method, params object[] args)
+        {
+            // http://msdn.microsoft.com/en-us/library/cc647509.aspx
 
-				return null;
-			}
+            if (method is Action)
+            {
+                ((Action)method)();
 
-			throw new NotSupportedException();
-		}
-	}
+                return null;
+            }
+
+            throw new NotSupportedException();
+        }
+    }
 }
