@@ -76,7 +76,9 @@ namespace TestWebClient
 
             //UploadValuesCompleted { Length = 77 }
             //<document><TaskComplete><TaskResult>13</TaskResult></TaskComplete></document>
-
+            // crossdomain.xml	
+            //GET
+            //404
             // UploadValuesCompleted error { Error = Error: securityError { errorID = 2048, text = Error #2048 } }
             w.UploadValuesAsync(
                 address: new Uri("http://my.monese.com/xml?WebMethod=06000010&n=GetUserID"),
