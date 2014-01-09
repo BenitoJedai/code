@@ -22,10 +22,11 @@ namespace TestWebClient
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public Task<long> WebMethod2(string username, string psw)
         {
-            // Send it back to the caller.
-            y(e);
+            Console.WriteLine("at WebMethod2");
+
+            return 13L.AsResult();
         }
 
     }
