@@ -286,6 +286,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     internal class __TaskFactory<TResult>
     {
 
+
+        public Task<TResult> StartNew(
+            Func<TResult> function
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+
         // public Task<TResult> StartNew<TResult>(Func<object, TResult> function, object state);
         public Task<TResult> StartNew(
             Func<object, TResult> function,

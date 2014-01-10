@@ -15,6 +15,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
     [Script(Implements = typeof(global::System.Net.WebClient))]
     internal class __WebClient : __Component
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
+
         #region UploadValuesAsync
         public event UploadValuesCompletedEventHandler UploadValuesCompleted;
 
@@ -140,6 +143,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Net
             loader.load(request);
         }
         #endregion
+
 
     }
 }

@@ -513,8 +513,11 @@ namespace ScriptCoreLib.Ultra.WebService
                     g.Invoke(handler.WebMethod);
 
                     // BeginRequestStopwatch
-                    that.Response.AddHeader("X-BeginRequestStopwatch", "" + BeginRequestStopwatch.ElapsedMilliseconds);
+                    //that.Response.AddHeader("X-BeginRequestStopwatch", "" + BeginRequestStopwatch.ElapsedMilliseconds);
+
+                    // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140110-stats
                     that.Response.AddHeader("X-WebMethodStopwatch", "" + WebMethodStopwatch.ElapsedMilliseconds);
+                    //that.Response.AddHeader("X-WebMethodStopwatch", "" + SQLiteConnectionStringBuilderExtensions.ElapsedMilliseconds);
 
                     //}
                     //catch (Exception err)
