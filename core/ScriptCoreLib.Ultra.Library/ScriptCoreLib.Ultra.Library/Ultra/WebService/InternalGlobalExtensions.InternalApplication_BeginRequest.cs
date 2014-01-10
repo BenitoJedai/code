@@ -468,10 +468,16 @@ namespace ScriptCoreLib.Ultra.WebService
             {
                 // tested by
                 // X:\jsc.svn\examples\javascript\Test\TestWebMethodIPAddress\TestWebMethodIPAddress\ApplicationWebService.cs
+                // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\JavaScript\InternalWebMethodRequest.cs
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140110-xml
+
+                //var WebMethodMetadataToken = Context.Request.QueryString[InternalWebMethodInfo.QueryKey];
+                var WebMethodMetadataToken = Context.Request.Form["WebMethodMetadataToken"];
+                //var value_Form = that.InternalContext.Request.Form[key];
 
                 handler.WebMethod = InternalWebMethodInfo.First(
                     WebMethods,
-                    Context.Request.QueryString[InternalWebMethodInfo.QueryKey]
+                   WebMethodMetadataToken
                 );
             }
 
@@ -527,7 +533,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     //Console.WriteLine("exit invoke " + new { handler.WebMethod });
 
-                    if (that.Context.Request.Path == "/xml")
+                    //if (that.Context.Request.Path == "/xml")
+                    if (that.Context.Request.Path != "/jsc")
                     {
 
                         WriteInternalFields(handler.WebMethod);

@@ -13,6 +13,7 @@ namespace ScriptCoreLib.Ultra.WebService
     {
         // whats up with const support jsc.meta?
 
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140110-xml
         public static string QueryKey = "WebMethod";
 
         public string MethodName;

@@ -180,6 +180,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://jibbering.com/2002/4/httprequest.html
         // http://www.xulplanet.com/references/objref/XMLHttpRequest.html#method_getAllResponseHeaders
 
+        [Obsolete]
         public Task<byte[]> bytes
         {
             [Script(DefineAsStatic = true)]
