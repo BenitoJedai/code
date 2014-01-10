@@ -80,21 +80,26 @@ namespace TestWebClient
             //GET
             //404
             // UploadValuesCompleted error { Error = Error: securityError { errorID = 2048, text = Error #2048 } }
-            w.UploadValuesAsync(
-                address: new Uri("http://my.monese.com/xml?WebMethod=06000010&n=GetUserID"),
-                    data: new System.Collections.Specialized.NameValueCollection { 
-                                { "_06000010_username", _06000010_username},
-                                { "_06000010_psw", ""}
-                            }
-            );
-
             //w.UploadValuesAsync(
-            //    new Uri("/xml?WebMethod=06000002&n=WebMethod2", UriKind.Relative),
-            //       data: new System.Collections.Specialized.NameValueCollection { 
-            //            { "_06000002_username", _06000010_username},
-            //            { "_06000002_psw", ""}
-            //        }
+            //    address: new Uri("http://my.monese.com/xml?WebMethod=06000010&n=GetUserID"),
+            //        data: new System.Collections.Specialized.NameValueCollection { 
+            //                    { "_06000010_username", _06000010_username},
+            //                    { "_06000010_psw", ""}
+            //                }
             //);
+
+
+
+            w.UploadValuesAsync(
+                //new Uri("/xml?WebMethod=06000002&n=WebMethod2", UriKind.Relative),
+                new Uri("/xml/WebMethod2", UriKind.Relative),
+                   data: new System.Collections.Specialized.NameValueCollection { 
+                        { "_06000002_username", _06000010_username},
+                        { "_06000002_psw", ""},
+                        { "WebMethodMetadataToken", "06000002"},
+                        { "WebMethodMetadataName", "WebMethod2"}
+                    }
+            );
 
             //await w.DownloadStringTaskAsync("/jsc"
         }

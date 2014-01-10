@@ -21,6 +21,21 @@ namespace ScriptCoreLib.JavaScript
 
             dynamic self = Native.self;
 
+            if (ScriptCoreLib.JavaScript.Runtime.Expando.Of(Native.self).Contains("Uint8Array"))
+            {
+                // IE its 2014! where is Uint8ClampedArray ???
+                // tested by
+                // X:\jsc.svn\examples\javascript\Test\TestUploadValuesAsync\TestUploadValuesAsync\Application.cs
+                // http://connect.microsoft.com/IE/feedback/details/781386/typed-array-support-is-incomplete-missing-uint8clampedarray-important-for-canvas
+
+                Console.WriteLine("Uint8ClampedArray not available. while Uint8Array seems to be.");
+
+                self.Uint8ClampedArray = self.Uint8Array;
+                return;
+            }
+
+
+            // ArrayBuffer cannot be used with array can it?
             self.Uint8ClampedArray = self.Array;
         }
 

@@ -8,6 +8,6 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [Script(HasNoPrototype = true, ExternalTarget = "ArrayBuffer")]
     public class ArrayBuffer
     {
-    
+        public long byteLength;
     }
 }

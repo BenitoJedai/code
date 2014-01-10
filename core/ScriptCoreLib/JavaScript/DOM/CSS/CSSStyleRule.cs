@@ -275,7 +275,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     this.selectorText = op + "(" + (__index + 1) + ")";
 
 
-                    Console.WriteLine(new { this.rule.selectorText });
+                    //Console.WriteLine(new { this.rule.selectorText });
                 }
             }
         }
