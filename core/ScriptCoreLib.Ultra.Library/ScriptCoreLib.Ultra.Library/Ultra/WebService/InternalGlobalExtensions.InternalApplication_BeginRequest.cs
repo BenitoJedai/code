@@ -463,7 +463,7 @@ namespace ScriptCoreLib.Ultra.WebService
             #endregion
 
 
-
+            #region WebMethodMetadataToken
             if (Context.Request.HttpMethod == "POST")
             {
                 // tested by
@@ -480,6 +480,7 @@ namespace ScriptCoreLib.Ultra.WebService
                    WebMethodMetadataToken
                 );
             }
+            #endregion
 
 
             g.Serve(handler);
@@ -516,13 +517,20 @@ namespace ScriptCoreLib.Ultra.WebService
 
                     // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140107-dev/test
                     var WebMethodStopwatch = Stopwatch.StartNew();
+
+
                     g.Invoke(handler.WebMethod);
+
 
                     // BeginRequestStopwatch
                     //that.Response.AddHeader("X-BeginRequestStopwatch", "" + BeginRequestStopwatch.ElapsedMilliseconds);
 
                     // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140110-stats
-                    that.Response.AddHeader("X-WebMethodStopwatch", "" + WebMethodStopwatch.ElapsedMilliseconds);
+                    that.Response.AddHeader("X-ElapsedMilliseconds", "" + WebMethodStopwatch.ElapsedMilliseconds);
+
+                    if (handler.WebMethod.AtElapsedMilliseconds != null)
+                        handler.WebMethod.AtElapsedMilliseconds(WebMethodStopwatch.ElapsedMilliseconds);
+
                     //that.Response.AddHeader("X-WebMethodStopwatch", "" + SQLiteConnectionStringBuilderExtensions.ElapsedMilliseconds);
 
                     //}

@@ -661,6 +661,18 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        public IHTMLImage contentImage
+        {
+            set
+            {
+                this.style.content = "url('" +
+                    value.src
+                    + "')";
+
+            }
+        }
+
+
 
 
         #region first
