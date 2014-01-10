@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ScriptCoreLibJava.AppEngine.BCLImplementation.System.Net.Mail
 {
     [Script(Implements = typeof(global::System.Net.Mail.SmtpClient))]
-    internal class __SmtpClient : IDisposable
+    public class __SmtpClient : IDisposable
     {
         public __SmtpClient(string host, int port)
         {

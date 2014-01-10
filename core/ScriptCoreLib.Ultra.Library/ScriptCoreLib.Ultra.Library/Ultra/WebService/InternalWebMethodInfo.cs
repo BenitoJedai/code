@@ -34,6 +34,9 @@ namespace ScriptCoreLib.Ultra.WebService
         // to be called for field init a /view-source
         public bool IsConstructor;
 
+
+        public Action<long> AtElapsedMilliseconds;
+
         public static void AddField(InternalWebMethodInfo that, string FieldName, string FieldValue)
         {
             if (that.InternalFields == null)
