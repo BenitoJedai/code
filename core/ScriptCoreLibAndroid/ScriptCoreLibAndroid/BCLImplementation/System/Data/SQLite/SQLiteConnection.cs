@@ -41,9 +41,20 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                 );
             }
         }
+
+
+
+        public override string ConnectionString
+        {
+            get;
+            set;
+        }
+
         public __SQLiteConnection(string connectionstring)
         {
             this.InternalConnectionString = connectionstring;
+            this.ConnectionString = connectionstring;
+
 
             //Console.WriteLine(
             //    new
@@ -88,7 +99,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         public class LocalSQLiteOpenHelper : SQLiteOpenHelper
         {
 
-            public LocalSQLiteOpenHelper(Context context, string name, 
+            public LocalSQLiteOpenHelper(Context context, string name,
                 SQLiteDatabase.CursorFactory factory = null, int version = 1)
                 : base(context, name, factory, version)
             {
@@ -138,6 +149,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                 return -1;
             }
         }
+
     }
 
 
