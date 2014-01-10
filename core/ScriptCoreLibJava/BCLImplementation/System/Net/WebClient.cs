@@ -13,6 +13,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 	[Script(Implements = typeof(global::System.Net.WebClient))]
 	internal class __WebClient : __Component
 	{
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
+
         public Encoding Encoding { get; set; }
 
         public WebHeaderCollection Headers { get; set; }

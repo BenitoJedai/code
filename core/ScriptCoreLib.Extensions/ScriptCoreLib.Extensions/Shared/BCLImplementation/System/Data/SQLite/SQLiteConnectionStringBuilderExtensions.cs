@@ -49,7 +49,7 @@ namespace System.Data.SQLite
                     else
                     {
                         // doe the dbs match?
-                        Console.WriteLine(new { candidate.c.ConnectionString, csbconn = csb.ConnectionString });
+                        //Console.WriteLine(new { candidate.c.ConnectionString, csbconn = csb.ConnectionString });
                         var flag = candidate.c.ConnectionString == csb.ConnectionString; // && candidate.ThreadID == Thread.CurrentThread.ManagedThreadId;
                         if (flag)
                         {
@@ -93,6 +93,8 @@ namespace System.Data.SQLite
             {
                 if (close != null)
                 {
+                    DisposeCounter++;
+
                     lookup.Enqueue(
                         new StillUseableForSomeTime { c = close, ThreadID = Thread.CurrentThread.ManagedThreadId }
                     );
@@ -101,6 +103,9 @@ namespace System.Data.SQLite
 
                 return InternalOpen(open);
             }
+
+            // will different appengine instance start from 0?
+            public static long DisposeCounter;
 
             // http://stackoverflow.com/questions/6140048/difference-between-manual-locking-and-synchronized-methods
             public static void Dispose(SQLiteConnection c)
@@ -128,8 +133,8 @@ namespace System.Data.SQLite
 
                 if (cc != null)
                 {
-                    Console.WriteLine(
-                        "AsWithConnection reopen SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                    //Console.WriteLine(
+                    //    "AsWithConnection reopen SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
 
                     // reenty!
                     y(cc);
@@ -145,8 +150,8 @@ namespace System.Data.SQLite
                 var c = StillUseableForSomeTime.Open(csb);
 
                 {
-                    Console.WriteLine(
-                        "AsWithConnection open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId, csb.ConnectionString });
+                    //Console.WriteLine(
+                    //    "AsWithConnection open SQLiteConnection " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId, csb.ConnectionString });
 
                     cc = c;
 
@@ -200,7 +205,7 @@ namespace System.Data.SQLite
                     cc = null;
                 }
 
-                Console.WriteLine("AsWithConnection close SQLiteConnection or pool it for a few seconds?  " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
+                //Console.WriteLine("AsWithConnection close SQLiteConnection or pool it for a few seconds?  " + new { StillUseableForSomeTime.OpenCounter, Thread.CurrentThread.ManagedThreadId });
                 StillUseableForSomeTime.Dispose(c);
 
 

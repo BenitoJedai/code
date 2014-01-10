@@ -294,7 +294,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        public const int DefaultInterval = 500;
+        //public const int DefaultInterval = 500;
+        public const int DefaultInterval = 50;
 
         [Script(DefineAsStatic = true)]
         public void InvokeOnComplete(Action<IXMLHttpRequest> e)

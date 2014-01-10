@@ -11,6 +11,7 @@ using System.Threading;
 using System.Linq;
 using ScriptCoreLib.Shared.BCLImplementation.System;
 using System.Diagnostics;
+using System.Net;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
@@ -560,35 +561,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                 if (u == Worker.ScriptApplicationSource + "#worker")
                 {
-                    var GET = ScriptCoreLib.Shared.HTTPMethodEnum.GET;
-                    Console.WriteLine("will prepare /view-source for Worker... " + new { GET });
+                    if (Native.document.baseURI == Native.document.location.href)
+                    {
+                        // X:\jsc.svn\examples\javascript\async\Test\TestDownloadStringTaskAsync\TestDownloadStringTaskAsync\Application.cs
 
-                    new IXMLHttpRequest(
-                       GET,
-                       Worker.ScriptApplicationSource,
-                       r =>
-                       {
-                           //new IHTMLPre { new { r.responseType } }.AttachToDocument();
-                           //new IHTMLPre { new { r.responseText.Length } }.AttachToDocument();
+                        Console.WriteLine("Document base not redirected...");
 
-                           var aFileParts = new[] { r.responseText };
-                           var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
+                    }
+                    else
+                    {
+                        Console.WriteLine("Document base redirected...");
+
+                        var w = new WebClient();
+
+                        w.DownloadStringCompleted +=
+                            (sender, args) =>
+                            {
+
+                                var aFileParts = new[] { args.Result };
+                                var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
 
 
-                           var url = oMyBlob.ToObjectURL();
+                                var url = oMyBlob.ToObjectURL();
 
-                           InternalInlineWorker.ScriptApplicationSourceForInlineWorker = url;
+                                InternalInlineWorker.ScriptApplicationSourceForInlineWorker = url;
 
-                           u = InternalInlineWorker.GetScriptApplicationSourceForInlineWorker();
+                                u = InternalInlineWorker.GetScriptApplicationSourceForInlineWorker();
 
-                           CreateWorker(u);
+                                CreateWorker(u);
+                            };
 
-                           //new IHTMLPre { new { InternalInlineWorker.ScriptApplicationSourceForInlineWorker } }.AttachToDocument();
-                       }
+                        // Failed to load resource: the server responded with a status of 400 (Bad Request) http://192.168.1.75:24275/:view-source
+                        w.DownloadStringAsync(
+                            new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
+                        );
 
-                   );
-
-                    return;
+                        return;
+                    }
                 }
 
                 CreateWorker(u);
