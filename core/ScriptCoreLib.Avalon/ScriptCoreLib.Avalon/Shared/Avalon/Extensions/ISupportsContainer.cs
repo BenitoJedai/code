@@ -358,8 +358,9 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
             if (e == null)
                 return e;
 
+            
             UIElement x = e;
-
+            
             c.AddChild(x);
 
             return e;
