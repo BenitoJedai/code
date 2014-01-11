@@ -343,16 +343,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return default(string);
         }
 
-        [Script(ExternalTarget = "equals", DefineAsInstance = true)]
+        //[Script(ExternalTarget = "equals", DefineAsInstance = true)]
         public static bool operator ==(__String a, __String b)
         {
-            return default(bool);
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery
+
+            return Equals((string)(object)a, (string)(object)b);
         }
 
 
         public static bool operator !=(__String a, __String b)
         {
-            return !(a == b);
+            return !Equals((string)(object)a, (string)(object)b);
         }
 
         public int Length
