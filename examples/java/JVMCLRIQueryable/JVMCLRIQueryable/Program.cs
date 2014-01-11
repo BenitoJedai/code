@@ -38,6 +38,13 @@ namespace JVMCLRIQueryable
                typeof(object).AssemblyQualifiedName
             );
 
+            InternalTry();
+
+            CLRProgram.CLRMain();
+        }
+
+        private static void InternalTry()
+        {
             try
             {
                 Expression<Func<Book1Sheet1Row, bool>> where =
@@ -89,8 +96,6 @@ namespace JVMCLRIQueryable
                     new { ex.Message, ex.StackTrace }
                     );
             }
-
-            CLRProgram.CLRMain();
         }
 
 

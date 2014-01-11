@@ -313,10 +313,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public static bool Equals(string e, string f)
         {
-            if (e == null)
-                return null == f;
+            if ((object)e == null)
+                return null == (object)f;
 
-            return e == f;
+            return InternalEquals(e, f);
+        }
+
+        [Script(ExternalTarget = "equals", DefineAsInstance = true)]
+        public static bool InternalEquals(string e, string f)
+        {
+            return default(bool);
         }
 
         [Script(ExternalTarget = "equals")]
@@ -343,7 +349,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return default(string);
         }
 
-        //[Script(ExternalTarget = "equals", DefineAsInstance = true)]
         public static bool operator ==(__String a, __String b)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery

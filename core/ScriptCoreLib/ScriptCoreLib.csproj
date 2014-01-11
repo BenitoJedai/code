@@ -114,6 +114,7 @@
     <Compile Include="JavaScript\DOM\FileEntry.cs" />
     <Compile Include="JavaScript\DOM\Storage.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGTSpanElement.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\ObjectModel\ReadOnlyCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.FromBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.ToBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Min.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\BinaryExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ConstantExpression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\NewExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MethodCallExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\LambdaExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ParameterExpression.cs" />

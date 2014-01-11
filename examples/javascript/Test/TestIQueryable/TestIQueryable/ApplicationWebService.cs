@@ -28,18 +28,34 @@ namespace TestIQueryable
 
         public void WebMethod2()
         {
-            //var x = new Book1Sheet1();
+            new ApplicationWebServiceImplementation().MoveNext();
+        }
 
-            //var f = x.Where(k => k.Foo == "xxx");
-            //var g = f.Where(k => k.Foo == "xxx");
+    }
 
-            var xx =
-                from k in new Book1Sheet1()
-                where k.Foo == "xxx"
-                where k.Goo == "xxx"
-                orderby k.Timestamp descending
-                select k;
+    public interface IAsyncStateMachine { }
+
+    public class ApplicationWebServiceImplementation // : IAsyncStateMachine
+    {
+        public void MoveNext()
+        {
+            var xx = new Book1Sheet1()
+                .Where(k => string.Equals(k.Foo, "xxx"))
+                .Where(k => string.Equals(k.Goo, "xxx"))
+                .OrderByDescending(k => k.Timestamp);
+
+
+            //var xx =
+            //    from k in new Book1Sheet1()
+            //    where string.Equals(k.Foo, "xxx")
+            //    //where k.Foo == "xxx"
+            //    where string.Equals(k.Goo, "xxx")
+            //    //where k.Goo == "xxx"
+            //    orderby k.Timestamp descending
+            //    select k;
             //select k.Key;
+
+            // jsc wont work with this yet?
             //select new { k.Key, k.Foo };
 
             // http://stackoverflow.com/questions/10591010/remove-orderby-from-an-iqueryablet
@@ -69,6 +85,7 @@ namespace TestIQueryable
             // }
 
             foreach (var item in xx.Take(10))
+            //foreach (var item in xx.Take(10).AsEnumerable().ToArray())
             {
 
             }
@@ -77,8 +94,6 @@ namespace TestIQueryable
         }
 
     }
-
-
 
     public class Book1Sheet1Row
     {
@@ -119,7 +134,13 @@ namespace TestIQueryable
 
         public IBook1Sheet1Queryable Where(Expression<Func<Book1Sheet1Row, bool>> f)
         {
-            Console.WriteLine("IBook1Sheet1Queryable.Where");
+            var f_Body_as_MethodCallExpression = ((MethodCallExpression)f.Body);
+            //Console.WriteLine("IBook1Sheet1Queryable.Where");
+
+            var f_Body_Left_as_MemberExpression = (MemberExpression)f_Body_as_MethodCallExpression.Arguments[0];
+            var f_Body_Right_as_ConstantExpression = (ConstantExpression)f_Body_as_MethodCallExpression.Arguments[1];
+
+            Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_MethodCallExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
 
             // we are like a stringbuilder
             // like dynamic keyword support 
@@ -148,13 +169,15 @@ namespace TestIQueryable
                     //        ((FieldExpression)((MethodBinaryExpression)f.Body).Left).Member.Name	"Foo"	string
 
                     //var f_Body_as_MethodBinaryExpression = ((MethodBinaryExpression)f.Body);
-                    var f_Body_as_BinaryExpression = ((BinaryExpression)f.Body);
+
+                    // for op_Equals
+                    //var f_Body_as_BinaryExpression = ((BinaryExpression)f.Body);
 
                     // http://stackoverflow.com/questions/9241607/whats-wrong-with-system-linq-expressions-logicalbinaryexpression-class
-                    var f_Body_Left_as_MemberExpression = (MemberExpression)f_Body_as_BinaryExpression.Left;
-                    var f_Body_Right_as_ConstantExpression = (ConstantExpression)f_Body_as_BinaryExpression.Right;
+                    //var f_Body_Left_as_MemberExpression = (MemberExpression)f_Body_as_BinaryExpression.Left;
+                    //var f_Body_Right_as_ConstantExpression = (ConstantExpression)f_Body_as_BinaryExpression.Right;
 
-                    Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_BinaryExpression.Method });
+                    //Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_BinaryExpression.Method });
 
                     x.WhereCommand += " where " + f_Body_Left_as_MemberExpression.Member.Name + " = " + f_Body_Right_as_ConstantExpression.Value;
 
