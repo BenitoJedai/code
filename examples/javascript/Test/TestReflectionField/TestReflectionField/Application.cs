@@ -46,6 +46,7 @@ namespace TestReflectionField
 
             Console.WriteLine(new { fields.Length });
 
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery/new
             fields.WithEach(x => Console.WriteLine(x.Name));
 
             // Uncaught TypeError: Cannot call method '_2QAABvEJMzKFrGX3QxjvzA' of null 

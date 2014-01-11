@@ -32,8 +32,10 @@ namespace ScriptCoreLib.Avalon
 
         public static T WithSomeMarginBelow<T>(this T e) where T : FrameworkElement
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery/new
+
             if (e != null)
-                e.Margin = new Thickness(0, 0, 0, 4);
+                e.Margin = new Thickness(0, 0, 0, 6);
 
             return e;
         }

@@ -35,6 +35,8 @@ namespace TestCSSAttrExpression
 
         static void test()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+
             var findme1_text = "findme1_text";
             var findme1_number = 1;
             var findme1 = findme1_text + findme1_number;
@@ -151,7 +153,7 @@ namespace TestCSSAttrExpression
             //xx.style.color = "red";
         }
 
-        public CSSStyleRule this[Expression<Func<IHTMLElement, bool>> f]
+        public CSSStyleRuleMonkier this[Expression<Func<IHTMLElement, bool>> f]
         {
             get
             {
