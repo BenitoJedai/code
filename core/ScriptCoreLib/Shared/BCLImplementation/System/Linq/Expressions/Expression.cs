@@ -10,9 +10,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     [Script(Implements = typeof(global::System.Linq.Expressions.Expression))]
     internal abstract class __Expression
     {
+        public virtual ExpressionType NodeType { get; set; }
+
         // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\ApplicationWebService.cs
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121101/20121127
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery
 
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object, System.Type)]
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object)]
@@ -26,12 +29,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 (MethodCallExpression)(object)
                 new __MethodCallExpression
                 {
+                    NodeType = ExpressionType.Call,
+
                     Object = instance,
                     Method = method,
                     arguments = arguments
                 };
         }
 
+        #region Constant
         public static ConstantExpression Constant(object value)
         {
             //Console.WriteLine("Constant " + new { value });
@@ -40,6 +46,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 (ConstantExpression)(object)
                 new __ConstantExpression
                 {
+                    NodeType = ExpressionType.Constant,
+
                     Value = value,
                 };
         }
@@ -52,10 +60,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 (ConstantExpression)(object)
                 new __ConstantExpression
                 {
+                    NodeType = ExpressionType.Constant,
+
                     Value = value,
                     type = type,
                 };
         }
+        #endregion
 
         public static BinaryExpression Equal(Expression left, Expression right, bool liftToNull, MethodInfo method)
         {
@@ -66,6 +77,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 (BinaryExpression)(object)
                 new __BinaryExpression
                 {
+                    // when is this used?
+                    NodeType = ExpressionType.Equal,
+
                     Left = left,
                     Right = right,
                     liftToNull = liftToNull,
@@ -84,6 +98,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 (MemberExpression)(object)
                 new __MemberExpression
                 {
+                    NodeType = ExpressionType.MemberAccess,
+
+
                     Expression = expression,
                     Member = field
                 };
@@ -98,6 +115,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 (ParameterExpression)(object)
                 new __ParameterExpression
                 {
+                    NodeType = ExpressionType.Parameter,
+
                     type = type,
                     name = name
                 };
@@ -116,6 +135,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                  (Expression<TDelegate>)(object)
                  new __Expression<TDelegate>
                  {
+                     NodeType = ExpressionType.Lambda,
+
                      Body = body,
                      parameters = parameters
                  };
