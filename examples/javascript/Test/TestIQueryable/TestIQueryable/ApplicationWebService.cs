@@ -39,24 +39,24 @@ namespace TestIQueryable
     {
         public void MoveNext()
         {
-            var xx = new Book1Sheet1()
-                .Where(k => string.Equals(k.Foo, "xxx"))
-                .Where(k => string.Equals(k.Goo, "xxx"))
-                .OrderByDescending(k => k.Timestamp);
+            //var xx = new Book1Sheet1()
+            //    .Where(k => string.Equals(k.Foo, "xxx"))
+            //    .Where(k => string.Equals(k.Goo, "xxx"))
+            //    .OrderByDescending(k => k.Timestamp);
 
 
-            //var xx =
-            //    from k in new Book1Sheet1()
-            //    where string.Equals(k.Foo, "xxx")
-            //    //where k.Foo == "xxx"
-            //    where string.Equals(k.Goo, "xxx")
-            //    //where k.Goo == "xxx"
-            //    orderby k.Timestamp descending
-            //    select k;
-            //select k.Key;
+            var xx =
+                from k in new Book1Sheet1()
+                where string.Equals(k.Foo, "xxx LINQ")
+                //where k.Foo == "xxx"
+                where string.Equals(k.Goo, "xxx LINQ")
+                //where k.Goo == "xxx"
+                orderby k.Timestamp descending
+                //select k;
+                //select k.Key;
 
-            // jsc wont work with this yet?
-            //select new { k.Key, k.Foo };
+                // jsc wont work with this yet?
+                select new { k.Key, k.Foo };
 
             // http://stackoverflow.com/questions/10591010/remove-orderby-from-an-iqueryablet
             // Error	3	foreach statement cannot operate on variables of type 'TestIQueryable.IBook1Sheet1Queryable'
