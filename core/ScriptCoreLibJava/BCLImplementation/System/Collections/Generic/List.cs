@@ -220,7 +220,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         {
             get
             {
-                throw new NotImplementedException();
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery
+                return this[index];
             }
             set
             {

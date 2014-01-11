@@ -8,7 +8,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
     [Script(Implements = typeof(global::System.Linq.Expressions.Expression))]
-    internal abstract class __Expression
+    internal abstract partial class __Expression
     {
         public virtual ExpressionType NodeType { get; set; }
 
@@ -16,6 +16,26 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121101/20121127
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery
+
+
+        public static NewExpression New(ConstructorInfo constructor, IEnumerable<Expression> arguments, params MemberInfo[] members)
+        {
+
+            return
+                (NewExpression)(object)
+                new __NewExpression
+                {
+                    NodeType = ExpressionType.New,
+
+                    Constructor = constructor,
+                    Arguments = new global::System.Collections.ObjectModel.ReadOnlyCollection<Expression>(arguments.ToList()),
+                    Members = new global::System.Collections.ObjectModel.ReadOnlyCollection<MemberInfo>(members.ToList()),
+
+                };
+        }
+
+
+
 
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object, System.Type)]
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object)]
@@ -33,7 +53,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
                     Object = instance,
                     Method = method,
-                    arguments = arguments
+                    Arguments = new global::System.Collections.ObjectModel.ReadOnlyCollection<Expression>(arguments.ToList())
                 };
         }
 
