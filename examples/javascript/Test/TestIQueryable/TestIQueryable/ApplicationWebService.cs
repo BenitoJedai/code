@@ -55,6 +55,10 @@ namespace TestIQueryable
                 //select k;
                 //select k.Key;
 
+                // will we support nested queries?
+                //let z = new Book1Sheet1().Where(x => x.Foo == k.Foo).Count()
+                //Error	2	'TestIQueryable.Book1Sheet1Row' does not contain a definition for 'k' and no extension method 'k' accepting a first argument of type 'TestIQueryable.Book1Sheet1Row' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\javascript\Test\TestIQueryable\TestIQueryable\ApplicationWebService.cs	62	30	TestIQueryable
+
                 // jsc wont work with this yet?
                 select new { k.Key, k.Foo };
 
@@ -83,6 +87,8 @@ namespace TestIQueryable
             //order by Timestamp descending
             //limit 10
             // }
+
+            var Count = xx.Count();
 
             foreach (var item in xx.Take(10))
             //foreach (var item in xx.Take(10).AsEnumerable().ToArray())
@@ -269,6 +275,36 @@ namespace TestIQueryable
             };
         }
         #endregion
+
+
+
+        public long Count()
+        {
+            Console.WriteLine("IBook1Sheet1Queryable.Count");
+
+            var z = new IBook1Sheet1Queryable
+            {
+                Context = this,
+                ApplySelect =
+                x =>
+                {
+
+                    x.SelectCommand = "select count (*) ";
+
+
+
+                }
+            };
+
+            var sql = ToSQL(z);
+
+            Console.WriteLine();
+            Console.WriteLine(new { sql });
+
+            return 10;
+        }
+
+
 
         //Error	2	Could not find an implementation of the query pattern for source type 'TestIQueryable.IBook1Sheet1Queryable'.  
         // 'Select' not found.	X:\jsc.svn\examples\javascript\Test\TestIQueryable\TestIQueryable\ApplicationWebService.cs	37	27	TestIQueryable

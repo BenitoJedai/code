@@ -480,6 +480,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             Native.window.requestAnimationFrame +=
                async delegate
                {
+                   // need a redux build
                    var timing = Native.window.performance.timing;
 
                    #region page
