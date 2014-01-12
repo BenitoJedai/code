@@ -334,7 +334,7 @@ namespace SVGNavigationTiming
 
 
 
-
+    [Obsolete]
     public static class X
     {
         //public static DataTable WithoutColumn(this DataTable x, string columnName)
@@ -409,11 +409,11 @@ namespace SVGNavigationTiming
     //public static partial class ClassDefgeneratedPerformanceResourceTimingData2
     public static partial class ClassDefGPRFK
     {
-//GetApplicationResourcePerformance
-//java.lang.NoClassDefFoundError: SVGNAvigationTiming/generatedPerformanceResourceTimingData2
-//        at SVGNavigationTiming.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:200)
-//        at xmoneseservicesweb.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:750)
-//        at xmoneseservicesweb.Global.Invoke(Global.java:1472)
+        //GetApplicationResourcePerformance
+        //java.lang.NoClassDefFoundError: SVGNAvigationTiming/generatedPerformanceResourceTimingData2
+        //        at SVGNavigationTiming.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:200)
+        //        at xmoneseservicesweb.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:750)
+        //        at xmoneseservicesweb.Global.Invoke(Global.java:1472)
 
         public static IEnumerable<TRow> SelectAllAsEnumerableByApplicationPerformance(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, PerformanceResourceTimingData2ApplicationPerformanceKey ApplicationPerformance)
         {
