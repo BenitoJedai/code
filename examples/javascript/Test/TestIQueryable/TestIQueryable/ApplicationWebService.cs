@@ -47,10 +47,10 @@ namespace TestIQueryable
 
             var xx =
                 from k in new Book1Sheet1()
-                where string.Equals(k.Foo, "xxx LINQ")
-                //where k.Foo == "xxx"
-                where string.Equals(k.Goo, "xxx LINQ")
-                //where k.Goo == "xxx"
+                //where string.Equals(k.Foo, "xxx LINQ")
+                where k.Foo == "xxx"
+                //where string.Equals(k.Goo, "xxx LINQ")
+                where k.Goo == "xxx"
                 orderby k.Timestamp descending
                 //select k;
                 //select k.Key;
@@ -134,13 +134,34 @@ namespace TestIQueryable
 
         public IBook1Sheet1Queryable Where(Expression<Func<Book1Sheet1Row, bool>> f)
         {
-            var f_Body_as_MethodCallExpression = ((MethodCallExpression)f.Body);
-            //Console.WriteLine("IBook1Sheet1Queryable.Where");
+            //            { Message = ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions.__BinaryExpression cannot be cast to ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions.__MethodCallExpression, StackTrace = java.lang.ClassCastException: ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions.__BinaryExpression cannot be cast to ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions.__MethodCallExpression
+            //        at TestIQueryable.IBook1Sheet1Queryable.Where(IBook1Sheet1Queryable.java:53)
+            //        at TestIQueryable.ApplicationWebServiceImplementation.MoveNext(ApplicationWebServiceImplementation.java:76)
+            //        at TestIQueryable.ApplicationWebService.WebMethod2(ApplicationWebService.java:21)
+            //        at JVMCLRIQueryable.Program.InternalTry(Program.java:70)
+            //        at JVMCLRIQueryable.Program.main(Program.java:36)
+            // }
+            //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
 
-            var f_Body_Left_as_MemberExpression = (MemberExpression)f_Body_as_MethodCallExpression.Arguments[0];
-            var f_Body_Right_as_ConstantExpression = (ConstantExpression)f_Body_as_MethodCallExpression.Arguments[1];
 
-            Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_MethodCallExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
+
+            // for op_Equals
+            var f_Body_as_BinaryExpression = ((BinaryExpression)f.Body);
+
+            // http://stackoverflow.com/questions/9241607/whats-wrong-with-system-linq-expressions-logicalbinaryexpression-class
+            var f_Body_Left_as_MemberExpression = (MemberExpression)f_Body_as_BinaryExpression.Left;
+            var f_Body_Right_as_ConstantExpression = (ConstantExpression)f_Body_as_BinaryExpression.Right;
+
+
+            // for non op_Equals
+            //var f_Body_as_MethodCallExpression = ((MethodCallExpression)f.Body);
+            ////Console.WriteLine("IBook1Sheet1Queryable.Where");
+
+            //var f_Body_Left_as_MemberExpression = (MemberExpression)f_Body_as_MethodCallExpression.Arguments[0];
+            //var f_Body_Right_as_ConstantExpression = (ConstantExpression)f_Body_as_MethodCallExpression.Arguments[1];
+
+            //Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_MethodCallExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
+            Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_BinaryExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
 
             // we are like a stringbuilder
             // like dynamic keyword support 
@@ -170,12 +191,6 @@ namespace TestIQueryable
 
                     //var f_Body_as_MethodBinaryExpression = ((MethodBinaryExpression)f.Body);
 
-                    // for op_Equals
-                    //var f_Body_as_BinaryExpression = ((BinaryExpression)f.Body);
-
-                    // http://stackoverflow.com/questions/9241607/whats-wrong-with-system-linq-expressions-logicalbinaryexpression-class
-                    //var f_Body_Left_as_MemberExpression = (MemberExpression)f_Body_as_BinaryExpression.Left;
-                    //var f_Body_Right_as_ConstantExpression = (ConstantExpression)f_Body_as_BinaryExpression.Right;
 
                     //Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_BinaryExpression.Method });
 
