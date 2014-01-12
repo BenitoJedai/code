@@ -91,7 +91,7 @@ namespace AppEngineWhereOperator
                     new Book1Sheet1Row
                     {
                         Goo = Goo,
-                        Value = new { TotalCount }.ToString()
+                        Value = new { TotalCount, GooCount }.ToString()
                     }
                 );
 
@@ -145,6 +145,13 @@ namespace AppEngineWhereOperator
                     }
                 )).Result;
 
+                var nice = from q in new Book1.Sheet1()
+                           where q.Key == k
+                           select q;
+
+                var one = nice.Count();
+
+
                 Console.WriteLine(new { fastwatch = fastwatch.ElapsedMilliseconds, fastwatch.ElapsedTicks, fast });
 
             }
@@ -155,18 +162,5 @@ namespace AppEngineWhereOperator
 
     }
 
-    static class X
-    {
-        public static Book1.Sheet1 XWhere<TResult>(this Book1.Sheet1 that, Expression<Func<Book1Sheet1Row, TResult>> f)
-        {
-
-            return that;
-        }
-
-        public static long XCount<TResult>(this Book1.Sheet1 that, Expression<Func<Book1Sheet1Row, TResult>> f)
-        {
-            return 0;
-        }
-    }
 }
 
