@@ -110,6 +110,7 @@
     <Compile Include="Shared\Components\ApplicationWebServiceComponent.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Shared\Data\Diagnostics\QueryStrategyExtensions.cs" />
     <Compile Include="Shared\Data\Diagnostics\WithConnectionLambda.cs" />
     <Compile Include="Shared\Data\DynamicDataReader.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDataReaderExtensions.cs" />
