@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,12 +70,28 @@ namespace AppEngineWhereOperator
 
                 var insertwatch = Stopwatch.StartNew();
 
+                //Book1Extensions
+                var TotalCount = new Book1.Sheet1().Count();
+                var Goo = "Goo" + i;
+
+                //var GooCount = new Book1.Sheet1().XXCount(x => x.Goo == Goo);
+                //  public static long Where(this Book1Sheet1Strategy value, Expression<Func<object, object>> value);
+
+                // what about where x or y?
+                var GooCountStrategy = new Book1.Sheet1().Where(x => x.Goo == Goo);
+
+                // show me the sql damit
+                ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions.AsCommandBuilder(GooCountStrategy);
+
+                var GooCount = new Book1.Sheet1().Count(x => x.Goo == Goo);
+                var GooCount1 = new Book1.Sheet1().Where(x => x.Goo == Goo).Count();
+
 
                 var k = new Book1.Sheet1().Insert(
                     new Book1Sheet1Row
                     {
-                        Goo = "Goo",
-                        Value = "Count:" + new Book1.Sheet1().Count()
+                        Goo = Goo,
+                        Value = new { TotalCount }.ToString()
                     }
                 );
 
@@ -84,34 +101,47 @@ namespace AppEngineWhereOperator
                 if (i % len != 0)
                     continue;
 
-                Console.WriteLine(new { insertwatch = insertwatch.ElapsedMilliseconds });
+                Console.WriteLine(new { insertwatch = insertwatch.ElapsedMilliseconds, TotalCount, GooCount });
 
 
-                var slowwatch = Stopwatch.StartNew();
-                var slow = new Book1.Sheet1().SelectAllAsEnumerable(
 
-                ).ToArray().FirstOrDefault(x => x.Key == k);
+                //var slowwatch = Stopwatch.StartNew();
+                //var slow = new Book1.Sheet1().SelectAllAsEnumerable(
 
-                Console.WriteLine(new { slowwatch = slowwatch.ElapsedMilliseconds, slowwatch.ElapsedTicks, slow });
+                //).ToArray().FirstOrDefault(x => x.Key == k);
+
+                //Console.WriteLine(new { slowwatch = slowwatch.ElapsedMilliseconds, slowwatch.ElapsedTicks, slow });
 
                 var fastwatch = Stopwatch.StartNew();
                 var fast = ((Task<DataTable>)new Book1.Sheet1.Queries().WithConnection(
                     c =>
                     {
-
-                        var cmd = new SQLiteCommand(Book1.Sheet1.Queries.SelectAllCommandText.TakeUntilIfAny("order") + " where Key = @Key", c);
-                        cmd.Parameters.AddWithValue("Key", (long)k);
-
-                        //var r = cmd.ExecuteReader();
+                        var CommandText = Book1.Sheet1.Queries.SelectAllCommandText.TakeUntilIfAny("order") + " where Key = @Key";
 
 
-                        var t = new DataTable();
 
-                        var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd);
+                        {
+                            var cmd0 = new SQLiteCommand("explain query plan " + CommandText, c);
+                            cmd0.Parameters.AddWithValue("Key", (long)k);
 
-                        a.Fill(t);
+                            // ex = {"unknown error\r\nInsufficient parameters supplied to the command"}
 
-                        return t.AsResult();
+                            var t = new DataTable();
+                            var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd0);
+                            a.Fill(t);
+                            //return t.AsResult();
+                        }
+
+                        {
+                            var cmd0 = new SQLiteCommand(CommandText, c);
+                            cmd0.Parameters.AddWithValue("Key", (long)k);
+
+
+                            var t = new DataTable();
+                            var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd0);
+                            a.Fill(t);
+                            return t.AsResult();
+                        }
                     }
                 )).Result;
 
@@ -119,7 +149,24 @@ namespace AppEngineWhereOperator
 
             }
 
+
         }
 
+
+    }
+
+    static class X
+    {
+        public static Book1.Sheet1 XWhere<TResult>(this Book1.Sheet1 that, Expression<Func<Book1Sheet1Row, TResult>> f)
+        {
+
+            return that;
+        }
+
+        public static long XCount<TResult>(this Book1.Sheet1 that, Expression<Func<Book1Sheet1Row, TResult>> f)
+        {
+            return 0;
+        }
     }
 }
+

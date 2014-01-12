@@ -68,6 +68,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Windows.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
@@ -181,12 +184,6 @@
     <Content Include="Shared\comments.txt" />
     <Content Include="Ultra\comments.txt" />
     <Content Include="Ultra\Library\comments.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj">
-      <Project>{132EB43F-19B4-42AC-8025-3249B129867A}</Project>
-      <Name>ScriptCoreLib.Ultra.Library</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Android\" />

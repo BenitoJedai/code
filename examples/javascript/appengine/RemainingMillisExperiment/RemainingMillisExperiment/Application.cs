@@ -37,9 +37,11 @@ namespace RemainingMillisExperiment
 
             this.counter = 333;
 
+            //Error	2	The call is ambiguous between the following methods or properties: 'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButtonExtensions.WhenClicked(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButton, System.Action<ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButton>)' and 'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButtonAsyncExtensions.WhenClicked(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButton, System.Func<System.Threading.Tasks.Task>)'	X:\jsc.svn\examples\javascript\appengine\RemainingMillisExperiment\RemainingMillisExperiment\Application.cs	41	13	RemainingMillisExperiment
+
 
             new IHTMLButton { innerText = "RemainingMillis" }.AttachToDocument().WhenClicked(
-                async delegate
+                async button =>
                 {
                     page.Content = "?";
                     //page.ContentContainer.AsXElement().Element("span").Add(new XAttribute("id", "Content"));
