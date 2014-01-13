@@ -43,7 +43,9 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         // SQLite.Linq reference implementation
         // when can we have immutable version?
 
+        // http://msdn.microsoft.com/en-us/library/bb310804.aspx
 
+        #region where
         // behave like StringBuilder where core data is mutable?
         public static void MutableWhere(IQueryStrategy that, LambdaExpression filter)
         {
@@ -153,6 +155,23 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     );
                 }
             );
+        }
+
+        #endregion
+
+        public static void MutableOrderBy(IQueryStrategy that, Expression selector)
+        {
+            Console.WriteLine("MutableOrderBy " + new { selector });
+        }
+
+        public static void MutableOrderByDescending(IQueryStrategy that, Expression selector)
+        {
+            Console.WriteLine("MutableOrderByDescending " + new { selector });
+        }
+
+        public static void MutableTake(IQueryStrategy that, long count)
+        {
+            Console.WriteLine("MutableTake " + new { count });
         }
 
         public class CommandBuilderState

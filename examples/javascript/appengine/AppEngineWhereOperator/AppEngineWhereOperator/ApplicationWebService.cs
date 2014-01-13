@@ -144,6 +144,7 @@ namespace AppEngineWhereOperator
                         }
                     }
                 )).Result;
+                Console.WriteLine(new { fastwatch = fastwatch.ElapsedMilliseconds, fastwatch.ElapsedTicks, fast });
 
                 var nice = from q in new Book1.Sheet1()
                            where q.Key == k
@@ -154,12 +155,30 @@ namespace AppEngineWhereOperator
                 var onerow = nice.AsDataTable();
                 var onerows = nice.AsEnumerable();
 
-                
-                 //new Book1.Sheet1().AsE
+                // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
+                Console.WriteLine("tenPrevious");
+                //                tenPrevious
+                //MutableWhere { Method = , NodeType = LessThan, ColumnName = Key, Right = 2453 }
+                //MutableOrderByDescending { selector = q => Convert(q.Key) }
+                //MutableTake { count = 5 }
+
+
+                var tenPrevious = (
+                    from q in new Book1.Sheet1()
+                    where q.Key < k
+
+                    // Error	5	Could not find an implementation of the query pattern for source type 'AppEngineWhereOperator.Design.Book1Sheet1Strategy'.  'OrderByDescending' not found.	X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs	159	31	AppEngineWhereOperator
+                    orderby q.Key descending
+
+                    select q
+                ).Take(5);
+
+
+                Debugger.Break();
+                //new Book1.Sheet1().AsE
                 //nice.AsDataTable();
 
 
-                Console.WriteLine(new { fastwatch = fastwatch.ElapsedMilliseconds, fastwatch.ElapsedTicks, fast });
 
             }
 
