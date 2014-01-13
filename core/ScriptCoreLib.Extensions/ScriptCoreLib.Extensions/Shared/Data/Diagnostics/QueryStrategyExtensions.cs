@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
@@ -200,6 +201,35 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                     var s = new TaskCompletionSource<long>();
                     s.SetResult((long)cmd.ExecuteScalar());
+
+                    return s.Task;
+                }
+            )).Result;
+        }
+
+        public static DataTable AsDataTable(IQueryStrategy Strategy)
+        {
+            return ((Task<DataTable>)Strategy.GetDescriptor().GetWithConnection()(
+                c =>
+                {
+                    var state = AsCommandBuilder(Strategy);
+
+                    var cmd = new SQLiteCommand(state.ToString(), c);
+
+                    foreach (var item in state.ApplyParameter)
+                    {
+                        item(cmd);
+                    }
+
+                    var t = new DataTable();
+
+                    var a = new SQLiteDataAdapter(cmd);
+
+                    a.Fill(t);
+
+
+                    var s = new TaskCompletionSource<DataTable>();
+                    s.SetResult(t);
 
                     return s.Task;
                 }
