@@ -151,6 +151,13 @@ namespace AppEngineWhereOperator
 
                 var one = nice.Count();
 
+                var onerow = nice.AsDataTable();
+                var onerows = nice.AsEnumerable();
+
+                
+                 //new Book1.Sheet1().AsE
+                //nice.AsDataTable();
+
 
                 Console.WriteLine(new { fastwatch = fastwatch.ElapsedMilliseconds, fastwatch.ElapsedTicks, fast });
 
