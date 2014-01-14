@@ -67,46 +67,57 @@ namespace AppEngineWhereOperator
             var len = 32;
             for (int i = 0; i < len * 8; i++)
             {
-
-                var insertwatch = Stopwatch.StartNew();
-
-                //Book1Extensions
-                var TotalCount = new Book1.Sheet1().Count();
-                var Goo = "Goo" + i;
-
-                //var GooCount = new Book1.Sheet1().XXCount(x => x.Goo == Goo);
-                //  public static long Where(this Book1Sheet1Strategy value, Expression<Func<object, object>> value);
-
-                // what about where x or y?
-                var GooCountStrategy = new Book1.Sheet1().Where(x => x.Goo == Goo);
-
-                // show me the sql damit
-                ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions.AsCommandBuilder(GooCountStrategy);
-
-                var GooCount = new Book1.Sheet1().Count(x => x.Goo == Goo);
-                var GooCount1 = new Book1.Sheet1().Where(x => x.Goo == Goo).Count();
+                WithinForLoopExpressionRewrite(len, i);
 
 
-                var k = new Book1.Sheet1().Insert(
-                    new Book1Sheet1Row
-                    {
-                        Goo = Goo,
-                        Value = new { TotalCount, GooCount }.ToString()
-                    }
-                );
 
-                //Book1.Sheet2.Insert(Deposit: 1);
+            }
 
-                var z = new Book1.Sheet2().Insert(
-                    //Deposit: 1
-                    new Book1Sheet2Row { Deposit = 33 }
-                );
 
-                //                { insertwatch = 12 }
-                //{ slowwatch = 13, ElapsedTicks = 23492, slow = 96, Goo, Count:95, , 1/2/2014 2:01:36 PM }
+        }
 
-                if (i % len != 0)
-                    continue;
+        private static void WithinForLoopExpressionRewrite(int len, int i)
+        {
+            #region within for loop
+            var insertwatch = Stopwatch.StartNew();
+
+            //Book1Extensions
+            var TotalCount = new Book1.Sheet1().Count();
+            var Goo = "Goo" + i;
+
+            //var GooCount = new Book1.Sheet1().XXCount(x => x.Goo == Goo);
+            //  public static long Where(this Book1Sheet1Strategy value, Expression<Func<object, object>> value);
+
+            // what about where x or y?
+            var GooCountStrategy = new Book1.Sheet1().Where(x => x.Goo == Goo);
+
+            // show me the sql damit
+            ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions.AsCommandBuilder(GooCountStrategy);
+
+            var GooCount = new Book1.Sheet1().Count(x => x.Goo == Goo);
+            var GooCount1 = new Book1.Sheet1().Where(x => x.Goo == Goo).Count();
+
+
+            var k = new Book1.Sheet1().Insert(
+                new Book1Sheet1Row
+                {
+                    Goo = Goo,
+                    Value = new { TotalCount, GooCount }.ToString()
+                }
+            );
+
+            //Book1.Sheet2.Insert(Deposit: 1);
+
+            var z = new Book1.Sheet2().Insert(
+                //Deposit: 1
+                new Book1Sheet2Row { Deposit = 33 }
+            );
+
+            //                { insertwatch = 12 }
+            //{ slowwatch = 13, ElapsedTicks = 23492, slow = 96, Goo, Count:95, , 1/2/2014 2:01:36 PM }
+
+            if (i % len == 0)
+            {
 
                 Console.WriteLine(new { insertwatch = insertwatch.ElapsedMilliseconds, TotalCount, GooCount });
 
@@ -231,6 +242,18 @@ namespace AppEngineWhereOperator
                     ;
                 // can we also sum?
 
+
+                //Y:\AppEngineWhereOperator.ApplicationWebService\staging.java\web\java\AppEngineWhereOperator\Design\Book1Extensions.java:82: error: incompatible types
+                //        return QueryStrategyExtensions.Sum(_arg0, _arg1);
+                //                                          ^
+                //  required: Book1Sheet1Strategy
+                //  found:    long
+                //Y:\AppEngineWhereOperator.ApplicationWebService\staging.java\web\java\AppEngineWhereOperator\Design\Book1Extensions.java:167: error: incompatible types
+                //        return QueryStrategyExtensions.Sum(_arg0, _arg1);
+                //                                          ^
+                //  required: Book1Sheet2Strategy
+                //  found:    long
+
                 var sum0 = new Book1.Sheet2().AsEnumerable().Sum(x => x.Deposit);
                 var sum1 = new Book1.Sheet2().Sum(x => x.Deposit);
 
@@ -243,14 +266,10 @@ namespace AppEngineWhereOperator
 
                 //Console.WriteLine()
                 Debugger.Break();
-                //new Book1.Sheet1().AsE
-                //nice.AsDataTable();
-
-
-
             }
-
-
+            //new Book1.Sheet1().AsE
+            //nice.AsDataTable();
+            #endregion
         }
 
 

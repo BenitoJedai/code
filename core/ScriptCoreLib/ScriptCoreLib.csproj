@@ -155,6 +155,7 @@
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Min.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\BinaryExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ConstantExpression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\UnaryExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\NewExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MethodCallExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\LambdaExpression.cs" />
