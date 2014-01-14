@@ -95,6 +95,13 @@ namespace AppEngineWhereOperator
                     }
                 );
 
+                //Book1.Sheet2.Insert(Deposit: 1);
+
+                var z = new Book1.Sheet2().Insert(
+                    //Deposit: 1
+                    new Book1Sheet2Row { Deposit = 33 }
+                );
+
                 //                { insertwatch = 12 }
                 //{ slowwatch = 13, ElapsedTicks = 23492, slow = 96, Goo, Count:95, , 1/2/2014 2:01:36 PM }
 
@@ -162,18 +169,69 @@ namespace AppEngineWhereOperator
                 //MutableOrderByDescending { selector = q => Convert(q.Key) }
                 //MutableTake { count = 5 }
 
+                //select `Key`, `Goo`, `Value`, `Tag`, `Timestamp`
+                //from `Book1.Sheet1`
+                // where `Key` = @arg0
+                //order by `Key`
+                //limit @arg1
+
 
                 var tenPrevious = (
+                    // jsc itself needs to use this knowledge
+                    // based on excel simulator
+                    // can we start to deatch datamining like this?
+                    // can we introduce new LINQ keywords in C# 6 as we did with extension methods?
                     from q in new Book1.Sheet1()
                     where q.Key < k
 
                     // Error	5	Could not find an implementation of the query pattern for source type 'AppEngineWhereOperator.Design.Book1Sheet1Strategy'.  'OrderByDescending' not found.	X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs	159	31	AppEngineWhereOperator
+                    //orderby q.Key descending
+
+                    //+		[0]	{1, Goo, Count:0, , 1/2/2014 1:55:28 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+                    //+		[1]	{2, Goo, Count:1, , 1/2/2014 1:55:28 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+                    //+		[2]	{3, Goo, Count:2, , 1/2/2014 1:55:28 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+                    //+		[3]	{4, Goo, Count:3, , 1/2/2014 1:55:29 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+                    //+		[4]	{5, Goo, Count:4, , 1/2/2014 1:55:29 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+
+                    // first five
+                    //orderby q.Key
+
+                    // last five
                     orderby q.Key descending
 
                     select q
-                ).Take(5);
+
+                )
+
+                .Take(5);
+
+                // what if we did a reverse here and want to run it on db layer?
+                // the above query would become the subquery?
+                // what about sharding?
+                // a webservice is a huge stored proc.
 
 
+                //+		[0]	{2461, Goo0, { TotalCount = 2460, GooCount = 26 }, , 1/14/2014 1:50:39 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+                //+		[1]	{2462, Goo0, { TotalCount = 2461, GooCount = 27 }, , 1/14/2014 1:52:03 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+                //+		[2]	{2463, Goo0, { TotalCount = 2462, GooCount = 28 }, , 1/14/2014 1:57:17 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+                //+		[3]	{2464, Goo0, { TotalCount = 2463, GooCount = 29 }, , 1/14/2014 2:01:18 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+                //+		[4]	{2465, Goo0, { TotalCount = 2464, GooCount = 30 }, , 1/14/2014 2:02:50 PM}	AppEngineWhereOperator.Design.Book1Sheet1Row
+
+                // what about anonymous types and tuples, vec3. foo.xy = 4  
+                // what about linq to css
+                var tenPr = tenPrevious.AsEnumerable()
+                    //.Reverse()
+                    ;
+                // can we also sum?
+
+                var sum0 = new Book1.Sheet2().AsEnumerable().Sum(x => x.Deposit);
+                var sum1 = new Book1.Sheet2().Sum(x => x.Deposit);
+
+                // should we reuse ScriptCoreLib.Query namespace and make it a nuget?
+                // we could move all code to ScriptCoreLib.Shared and mark the shared namespace as "semi merge within script"
+                // would we also need be able to provide encrypted async key selector for the client side?
+
+                //Console.WriteLine()
                 Debugger.Break();
                 //new Book1.Sheet1().AsE
                 //nice.AsDataTable();
