@@ -176,6 +176,13 @@ namespace AppEngineWhereOperator
                 //limit @arg1
 
 
+                //Implementation not found for type import :
+                //type: System.Linq.Expressions.Expression
+                //method: System.Linq.Expressions.UnaryExpression Convert(System.Linq.Expressions.Expression, System.Type)
+                //Did you forget to add the [Script] attribute?
+                //Please double check the signature!
+
+
                 var tenPrevious = (
                     // jsc itself needs to use this knowledge
                     // based on excel simulator
@@ -230,6 +237,9 @@ namespace AppEngineWhereOperator
                 // should we reuse ScriptCoreLib.Query namespace and make it a nuget?
                 // we could move all code to ScriptCoreLib.Shared and mark the shared namespace as "semi merge within script"
                 // would we also need be able to provide encrypted async key selector for the client side?
+                // this would require us to serialize the Expression between Applcation and WebApplication
+                // jsc needs to pay attention on the referenced typesystem and include missing types.
+
 
                 //Console.WriteLine()
                 Debugger.Break();
