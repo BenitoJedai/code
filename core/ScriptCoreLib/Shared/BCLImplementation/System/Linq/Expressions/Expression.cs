@@ -10,6 +10,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     [Script(Implements = typeof(global::System.Linq.Expressions.Expression))]
     internal abstract partial class __Expression
     {
+        public virtual Type Type { get; set; }
+
         public virtual ExpressionType NodeType { get; set; }
 
         // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\ApplicationWebService.cs
@@ -36,6 +38,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
 
 
+
+        //method: System.Linq.Expressions.UnaryExpression Convert(System.Linq.Expressions.Expression, System.Type)
+        //public static UnaryExpression Convert(Expression expression, Type type, MethodInfo method);
+        public static UnaryExpression Convert(Expression expression, Type type)
+        {
+            return
+
+                (UnaryExpression)(object)
+                new __UnaryExpression
+            {
+                Type = type,
+                Operand = expression
+            };
+        }
 
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object, System.Type)]
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object)]
@@ -87,6 +103,65 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 };
         }
         #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+        public static BinaryExpression GreaterThan(Expression left, Expression right)
+        {
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs
+            return
+                 (BinaryExpression)(object)
+                 new __BinaryExpression
+                 {
+                     NodeType = ExpressionType.GreaterThan,
+
+                     Left = left,
+                     Right = right,
+                 };
+        }
+
+
+
+        public static BinaryExpression LessThan(Expression left, Expression right)
+        {
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs
+            return
+                 (BinaryExpression)(object)
+                 new __BinaryExpression
+                 {
+                     NodeType = ExpressionType.LessThan,
+
+                     Left = left,
+                     Right = right,
+                 };
+        }
+
+
+        //method: System.Linq.Expressions.BinaryExpression Equal(System.Linq.Expressions.Expression, System.Linq.Expressions.Expression)
+        public static BinaryExpression Equal(Expression left, Expression right)
+        {
+            return
+                 (BinaryExpression)(object)
+                 new __BinaryExpression
+                 {
+                     // when is this used?
+                     NodeType = ExpressionType.Equal,
+
+                     Left = left,
+                     Right = right,
+                     //liftToNull = liftToNull,
+                     //Method = method
+                 };
+        }
 
         public static BinaryExpression Equal(Expression left, Expression right, bool liftToNull, MethodInfo method)
         {
