@@ -57,7 +57,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
         {
             get
             {
+
                 return Convert.ToInt64(Elapsed.TotalMilliseconds);
+            }
+        }
+
+        public const long TicksPerMillisecond = 10000;
+
+        public long ElapsedTicks
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs
+
+                return ElapsedMilliseconds * TicksPerMillisecond;
             }
         }
 
