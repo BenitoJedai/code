@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,6 +39,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         // Stack<Apply>
     }
 
+    [Obsolete("we need to refactor this into a jsc market nuget. can this nuget also embedd the asset compiler for jsc?")]
     public static class QueryStrategyExtensions
     {
         // SQLite.Linq reference implementation
@@ -142,7 +144,22 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                     var n = "@arg" + state.ApplyParameter.Count;
 
-                    state.WhereCommand = " where `" + ColumnName + "` = " + n;
+                    // what about multple where clauses, what about sub queries?
+                    state.WhereCommand = " where `" + ColumnName + "` ";
+
+                    // like we do in jsc. this is the opcode
+                    //OpCodes.Ceq
+                    if (body.NodeType == ExpressionType.Equal)
+                        state.WhereCommand += "=";
+                    else if (body.NodeType == ExpressionType.LessThan)
+                        state.WhereCommand += "<";
+                    else if (body.NodeType == ExpressionType.GreaterThan)
+                        state.WhereCommand += ">";
+                    else
+                        Debugger.Break();
+
+
+                    state.WhereCommand += n;
 
 
                     state.ApplyParameter.Add(
@@ -159,47 +176,147 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
         #endregion
 
+
+
+
+        [Obsolete("this is somewhat like select foo and then sum, or like orderby. what about summing vec3"
+            )]
+        public static long Sum(IQueryStrategy Strategy, Expression selector)
+        {
+            // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
+            // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm
+            //throw new NotImplementedException("sqlite does not have it yet");
+            // http://sqlite.1065341.n5.nabble.com/SUM-and-NULL-values-td2257.html
+
+            var body = ((MemberExpression)((LambdaExpression)selector).Body);
+
+            // do we need to check our db schema or is reflection the schema for us?
+            #region ColumnName
+            var ColumnName = "";
+
+            ColumnName = body.Member.Name;
+            #endregion
+
+
+
+            return ((Task<long>)Strategy.GetDescriptor().GetWithConnection()(
+                c =>
+                {
+                    var state = AsCommandBuilder(Strategy);
+
+                    // override
+                    state.SelectCommand = "select sum(`" + ColumnName + "`) ";
+
+                    var cmd = new SQLiteCommand(state.ToString(), c);
+
+                    foreach (var item in state.ApplyParameter)
+                    {
+                        item(cmd);
+                    }
+
+                    var s = new TaskCompletionSource<long>();
+
+
+                    s.SetResult(
+                    (long)cmd.ExecuteScalar()
+                    );
+
+                    //var r = cmd.ExecuteReader();
+
+                    //if (r.NextResult())
+                    //{
+                    //    //ex = {"No current row"}
+                    //    s.SetResult(
+                    //        r.GetInt64(0)
+                    //    );
+                    //}
+
+                    return s.Task;
+                }
+            )).Result;
+        }
+
+
         public static void MutableOrderBy(IQueryStrategy that, Expression selector)
         {
-            Console.WriteLine("MutableOrderBy " + new { selector });
+            var body = ((UnaryExpression)((LambdaExpression)selector).Body);
+
+            // do we need to check our db schema or is reflection the schema for us?
+            #region ColumnName
+            var ColumnName = "";
+
+            ColumnName = ((MemberExpression)(body).Operand).Member.Name;
+            #endregion
+
+            Console.WriteLine("MutableOrderBy " + new { ColumnName });
+
+            that.GetCommandBuilder().Add(
+             state =>
+             {
+                 //MutableWhere { Method = Boolean op_Equality(System.String, System.String), Left = Goo, Right = Goo0 }
+
+                 var n = "@arg" + state.ApplyParameter.Count;
+
+                 state.OrderByCommand = "order by `" + ColumnName + "`";
+             }
+            );
         }
 
         public static void MutableOrderByDescending(IQueryStrategy that, Expression selector)
         {
-            Console.WriteLine("MutableOrderByDescending " + new { selector });
+            var body = ((UnaryExpression)((LambdaExpression)selector).Body);
+
+            // do we need to check our db schema or is reflection the schema for us?
+            #region ColumnName
+            var ColumnName = "";
+
+            ColumnName = ((MemberExpression)(body).Operand).Member.Name;
+            #endregion
+
+            Console.WriteLine("MutableOrderByDescending " + new { ColumnName });
+
+            that.GetCommandBuilder().Add(
+             state =>
+             {
+                 //MutableWhere { Method = Boolean op_Equality(System.String, System.String), Left = Goo, Right = Goo0 }
+
+                 var n = "@arg" + state.ApplyParameter.Count;
+
+                 state.OrderByCommand = "order by `" + ColumnName + "` desc";
+             }
+            );
         }
 
+        [Obsolete("caller has the option to clone the state before calling this function. should jsc add static expression pooling/caching like c# compiler does for lambdas?")]
         public static void MutableTake(IQueryStrategy that, long count)
         {
+            // should the caller take care of cloning the instance?
+            // should we start using Trace for logging?
             Console.WriteLine("MutableTake " + new { count });
+
+            that.GetCommandBuilder().Add(
+             state =>
+             {
+                 //MutableWhere { Method = Boolean op_Equality(System.String, System.String), Left = Goo, Right = Goo0 }
+
+                 var n = "@arg" + state.ApplyParameter.Count;
+
+                 state.LimitCommand = "limit " + n;
+
+
+
+                 state.ApplyParameter.Add(
+                     c =>
+                     {
+                         // either the actualt command or the explain command?
+
+                         c.Parameters.AddWithValue(n, count);
+                     }
+                 );
+             }
+            );
         }
 
-        public class CommandBuilderState
-        {
-            public IQueryStrategy Strategy;
-
-
-            public string SelectCommand;
-            public string FromCommand;
-            public string WhereCommand;
-
-            public List<Action<SQLiteCommand>> ApplyParameter = new List<Action<SQLiteCommand>>();
-
-            public override string ToString()
-            {
-                var w = new StringBuilder();
-
-                w.AppendLine(this.SelectCommand);
-                w.AppendLine(this.FromCommand);
-                w.AppendLine(this.WhereCommand);
-
-                //w.AppendLine(c.OrderByCommand);
-                //w.AppendLine(c.LimitCommand);
-
-                return w.ToString();
-
-            }
-        }
 
         public static long Count(IQueryStrategy Strategy)
         {
@@ -225,6 +342,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 }
             )).Result;
         }
+
 
         public static DataTable AsDataTable(IQueryStrategy Strategy)
         {
@@ -253,6 +371,36 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     return s.Task;
                 }
             )).Result;
+        }
+
+
+        public class CommandBuilderState
+        {
+            public IQueryStrategy Strategy;
+
+
+            public string SelectCommand;
+            public string FromCommand;
+            public string WhereCommand;
+            public string OrderByCommand;
+            public string LimitCommand;
+
+            public List<Action<SQLiteCommand>> ApplyParameter = new List<Action<SQLiteCommand>>();
+
+            public override string ToString()
+            {
+                var w = new StringBuilder();
+
+                w.AppendLine(this.SelectCommand);
+                w.AppendLine(this.FromCommand);
+                w.AppendLine(this.WhereCommand);
+
+                w.AppendLine(this.OrderByCommand);
+                w.AppendLine(this.LimitCommand);
+
+                return w.ToString();
+
+            }
         }
 
         public static CommandBuilderState AsCommandBuilder(IQueryStrategy Strategy)
