@@ -173,38 +173,12 @@ namespace SVGNavigationTiming
             // http://msdn.microsoft.com/en-us/library/aa287599(v=vs.71).aspx
 
             var data = new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
-             .SelectAllAsEnumerableByPath(k.path)
 
-             //.Where(
-                //   // host:port will differ
-                //   z => z.name.SkipUntilIfAny("//").SkipUntilIfAny("/") == k.name.SkipUntilIfAny("//").SkipUntilIfAny("/"))
+                .Where(x => x.path == k.path)
+                .OrderBy(x => x.duration)
+                .AsEnumerable()
+                .ToList();
 
-
-             .ToList();
-
-            //Y:\SVGNavigationTiming.ApplicationWebService\staging.java\web\java\SVGNavigationTiming\ApplicationWebService.java:114: error: no suitable method found for Average(__List_1<PerformanceResourceTimingData2ApplicationResourcePerformanceRow>,__Func_2<PerformanceResourceTimingData2ApplicationResourcePerformanceRow,Long>)
-            //        row1.duration = ((long)(__Enumerable.<PerformanceResourceTimingData2ApplicationResourcePerformanceRow>Average(list_10, ApplicationWebService.CS___9__CachedAnonymousMethodDelegate7)));
-            //                                            ^
-            //    method __Enumerable.Average(__IEnumerable_1<Integer>) is not applicable
-            //      (actual and formal argument lists differ in length)
-            //    method __Enumerable.<TSource>Average(__IEnumerable_1<TSource>,__Func_2<TSource,Integer>) is not applicable
-            //      (actual argument __Func_2<PerformanceResourceTimingData2ApplicationResourcePerformanceRow,Long> cannot be converted to __Func_2<PerformanceResourceTimingData2ApplicationResourcePerformanceRow,Integer> by method invocation conversion)
-            //  where TSource is a type-variable:
-            //    TSource extends Object declared in method <TSource>Average(__IEnumerable_1<TSource>,__Func_2<TSource,Integer>)
-
-            //Y:\SVGNavigationTiming.ApplicationWebService\staging.java\web\java\ScriptCoreLib\Shared\BCLImplementation\System\Linq\__Enumerable.java:1720: error: inconvertible types
-            //                num2 = ((int)(enumerator_15.System_Collections_Generic_IEnumerator_1_get_Current()));
-            //                             ^
-            //  required: int
-            //  found:    Double
-            //Y:\SVGNavigationTiming.ApplicationWebService\staging.java\web\java\ScriptCoreLib\Shared\BCLImplementation\System\Linq\__Enumerable.java:1769: error: inconvertible types
-            //                num2 = ((int)(enumerator_15.System_Collections_Generic_IEnumerator_1_get_Current()));
-            //                             ^
-            //  required: int
-            //  found:    Long
-            //Y:\SVGNavigationTiming.ApplicationWebService\staging.java\web\java\SVGNavigationTiming\ApplicationWebService.java:114: error: method Average_0600046d in class __Enumerable cannot be applied to given types;
-            //        row1.duration = ((long)(__Enumerable.<PerformanceResourceTimingData2ApplicationResourcePerformanceRow>Average_0600046d(list_10, ApplicationWebService.CS___9__CachedAnonymousMethodDelegate7)));
-            //                                            ^
 
             data.AddRange(
                 new[] {
@@ -251,14 +225,21 @@ namespace SVGNavigationTiming
              .AsResult();
         }
 
-        public Task<DataTable> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey k)
+        public Task<DataTable> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey key)
         {
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
+
             //Task.FromResult
-            return new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance().SelectAllAsEnumerableByApplicationPerformance(k)
+            return (
+                // can we make it autoconvert?
+                from k in new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                where k.ApplicationPerformance == key
+                orderby k.path descending
+                select k
+                )
 
-                //.SelectAllAsEnumerable()
-
-                //.Where(z => z.ApplicationPerformance == k)
+                // public static DataTable AsDataTable(this PerformanceResourceTimingData2ApplicationResourcePerformanceStrategy value);
 
                 .AsDataTable()
 

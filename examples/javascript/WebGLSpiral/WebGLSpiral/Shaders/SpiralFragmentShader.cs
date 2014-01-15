@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.GLSL;
 using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace WebGLSpiral.Shaders
 {
@@ -38,4 +39,7 @@ namespace WebGLSpiral.Shaders
             }
         }
     }
+
+  
 }
+

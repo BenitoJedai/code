@@ -54,6 +54,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             // to make it immutable, we would need to have Clone method
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140112/count
             // X:\jsc.svn\examples\javascript\Test\TestIQueryable\TestIQueryable\ApplicationWebService.cs
+            // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
 
 
             // for op_Equals
@@ -85,10 +86,33 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                 //+		(new System.Linq.Expressions.Expression.ConstantExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy(f_Body_Right as System.Linq.Expressions.FieldExpression)).Expression as System.Linq.Expressions.ConstantExpression)).Value	{AppEngineWhereOperator.ApplicationWebService.}	object {AppEngineWhereOperator.ApplicationWebService.}
 
-                var f_Body_Right_Expression = (ConstantExpression)f_Body_Right.Expression;
+                // +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(f_Body_Right.Expression as System.Linq.Expressions.FieldExpression)).Member	{SVGNavigationTiming.Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k}	System.Reflection.MemberInfo {System.Reflection.RtFieldInfo}
 
-                var f_Body_Right_Expression_Value = f_Body_Right_Expression.Value;
-                r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+
+
+                var f_Body_Right_as_ConstantExpression = f_Body_Right.Expression as ConstantExpression;
+                var f_Body_Right_as_MemberExpression = f_Body_Right.Expression as MemberExpression;
+                if (f_Body_Right_as_ConstantExpression != null)
+                {
+
+                    var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
+                    r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                }
+                else if (f_Body_Right_as_MemberExpression != null)
+                {
+                    // we are doing a where against object field passed method argument
+
+                    var z = (FieldInfo)f_Body_Right_as_MemberExpression.Member;
+
+                    var zE = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
+
+                    var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
+
+
+                    r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                }
+                else Debugger.Break();
+
             }
             else if (body.Left is UnaryExpression)
             {
@@ -239,13 +263,24 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
         public static void MutableOrderBy(IQueryStrategy that, Expression selector)
         {
-            var body = ((UnaryExpression)((LambdaExpression)selector).Body);
-
-            // do we need to check our db schema or is reflection the schema for us?
             #region ColumnName
             var ColumnName = "";
 
-            ColumnName = ((MemberExpression)(body).Operand).Member.Name;
+            // +		Member	{System.String path}	System.Reflection.MemberInfo {System.Reflection.RtFieldInfo}
+            var body = ((LambdaExpression)selector).Body;
+
+            // unpack the convert?
+            var body_as_UnaryExpression = body as UnaryExpression;
+            var body_as_MemberExpression = body as MemberExpression;
+            if (body_as_UnaryExpression != null)
+            {
+                ColumnName = ((MemberExpression)(body_as_UnaryExpression).Operand).Member.Name;
+            }
+            else if (body_as_MemberExpression != null)
+            {
+                ColumnName = body_as_MemberExpression.Member.Name;
+            }
+            else Debugger.Break();
             #endregion
 
             Console.WriteLine("MutableOrderBy " + new { ColumnName });
@@ -263,13 +298,27 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
         public static void MutableOrderByDescending(IQueryStrategy that, Expression selector)
         {
-            var body = ((UnaryExpression)((LambdaExpression)selector).Body);
+
 
             // do we need to check our db schema or is reflection the schema for us?
             #region ColumnName
             var ColumnName = "";
 
-            ColumnName = ((MemberExpression)(body).Operand).Member.Name;
+            // +		Member	{System.String path}	System.Reflection.MemberInfo {System.Reflection.RtFieldInfo}
+            var body = ((LambdaExpression)selector).Body;
+
+            // unpack the convert?
+            var body_as_UnaryExpression = body as UnaryExpression;
+            var body_as_MemberExpression = body as MemberExpression;
+            if (body_as_UnaryExpression != null)
+            {
+                ColumnName = ((MemberExpression)(body_as_UnaryExpression).Operand).Member.Name;
+            }
+            else if (body_as_MemberExpression != null)
+            {
+                ColumnName = body_as_MemberExpression.Member.Name;
+            }
+            else Debugger.Break();
             #endregion
 
             Console.WriteLine("MutableOrderByDescending " + new { ColumnName });
@@ -345,6 +394,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
         public static DataTable AsDataTable(IQueryStrategy Strategy)
         {
+            Console.WriteLine("AsDataTable");
+
             return ((Task<DataTable>)Strategy.GetDescriptor().GetWithConnection()(
                 c =>
                 {
@@ -397,7 +448,11 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 w.AppendLine(this.OrderByCommand);
                 w.AppendLine(this.LimitCommand);
 
-                return w.ToString();
+                var x = w.ToString();
+
+                Console.WriteLine(x);
+
+                return x;
 
             }
         }
