@@ -11,8 +11,8 @@ namespace AppEngineWhereOperator
     {
         public static void Main(string[] args)
         {
-            new ApplicationWebService().WebMethod2();
-            Debugger.Break();
+            //new ApplicationWebService().WebMethod2();
+            //Debugger.Break();
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
