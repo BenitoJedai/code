@@ -202,11 +202,12 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                     var kf = new Form
                     {
                         Owner = f,
-                        Text = "GetApplicationResourcePerformance",
+                        Text = "/GetApplicationResourcePerformance",
 
                         StartPosition = FormStartPosition.Manual,
                         Left = f.Left,
                         Top = f.Top,
+                        Width = f.Width
                     };
 
                     var kg = new DataGridView
@@ -311,6 +312,13 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
 
                           kf.ClientSize = kg.PreferredSize;
 
+                          // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewColumnCollection.get_Item(System.String)]
+
+                          // when is it ready?
+
+                          await Task.Delay(2);
+                          kg.Columns["name"].Width = 8;
+
                       };
 
 
@@ -331,6 +339,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                         // centerparent!
                                         Left = kf.Left,
                                         Top = kf.Top,
+                                        Width = kf.Width
                                     };
 
                                     var kkg = new DataGridView
