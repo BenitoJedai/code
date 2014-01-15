@@ -71,5 +71,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return this.InternalItems[index];
             }
         }
+
+        public DataGridViewColumn this[string c]
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Application.cs
+
+                return this.InternalItems.FirstOrDefault(x => x.Name == c);
+            }
+        }
     }
 }
