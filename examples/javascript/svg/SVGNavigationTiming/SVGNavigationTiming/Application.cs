@@ -173,7 +173,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                         p.Height = 400;
 
                     f.ClientSize = p;
-
+                    f.Left = (Native.window.Width - f.Width) / 2;
 
                 };
             #endregion

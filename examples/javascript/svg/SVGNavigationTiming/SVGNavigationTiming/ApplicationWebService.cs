@@ -164,14 +164,24 @@ namespace SVGNavigationTiming
     {
         public Task<DataTable> GetApplicationPerformance()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
+
             //Task.FromResult
-            return new Design.PerformanceResourceTimingData2.ApplicationPerformance().SelectAllAsDataTable().AsResult();
+
+            // autoconvert?
+            return new Design.PerformanceResourceTimingData2.ApplicationPerformance()
+
+                //.SelectAllAsDataTable().AsResult();
+                .AsDataTable().AsResult();
         }
 
+        [Obsolete("we could allow the client tell use, by which parameter to order by")]
         public Task<DataTable> GetSimilarApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
             // http://msdn.microsoft.com/en-us/library/aa287599(v=vs.71).aspx
 
+            // autoconvert?
             var data = new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
 
                 .Where(x => x.path == k.path)
@@ -184,6 +194,7 @@ namespace SVGNavigationTiming
                 new[] {
                     new Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                     {
+                        // move to sql?
                         name = "Average", duration = (long)data.Average(x => x.duration)
                     },
 
@@ -224,6 +235,7 @@ namespace SVGNavigationTiming
 
              .AsResult();
         }
+
 
         public Task<DataTable> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey key)
         {
@@ -388,6 +400,7 @@ namespace SVGNavigationTiming
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
     // why the f cant appengine load this? too long?
     //public static partial class ClassDefgeneratedPerformanceResourceTimingData2
+    [Obsolete]
     public static partial class ClassDefGPRFK
     {
         //GetApplicationResourcePerformance
@@ -396,7 +409,9 @@ namespace SVGNavigationTiming
         //        at xmoneseservicesweb.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:750)
         //        at xmoneseservicesweb.Global.Invoke(Global.java:1472)
 
-        public static IEnumerable<TRow> SelectAllAsEnumerableByApplicationPerformance(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, PerformanceResourceTimingData2ApplicationPerformanceKey ApplicationPerformance)
+        public static IEnumerable<TRow> SelectAllAsEnumerableByApplicationPerformance(
+            //this 
+            PerformanceResourceTimingData2.ApplicationResourcePerformance x, PerformanceResourceTimingData2ApplicationPerformanceKey ApplicationPerformance)
         {
             var fast = ((Task<DataTable>)new TQueries().WithConnection(
                c =>
@@ -428,9 +443,12 @@ namespace SVGNavigationTiming
     using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
 
+    //[Obsolete]
     public static partial class ClassDefGPRFK
     {
-        public static IEnumerable<TRow> SelectAllAsEnumerableByPath(this PerformanceResourceTimingData2.ApplicationResourcePerformance x, string path)
+        public static IEnumerable<TRow> SelectAllAsEnumerableByPath(
+            //this 
+            PerformanceResourceTimingData2.ApplicationResourcePerformance x, string path)
         {
             var fast = ((Task<DataTable>)new TQueries().WithConnection(
                c =>
