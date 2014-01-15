@@ -285,7 +285,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                             {
                                 var crow = (PerformanceResourceTimingData2ApplicationResourcePerformanceRow)((DataRowView)SourceCell.OwningRow.DataBoundItem).Row;
 
-                                var red = crow.path.Contains("xml?") ? 255 : 0;
+                                var red = crow.path.Contains("xml/") ? 255 : 0;
 
                                 e.CellStyle.ForeColor = Color.FromArgb(
                                     red: red,
