@@ -82,35 +82,35 @@ namespace AppEngineWhereOperator
             var insertwatch = Stopwatch.StartNew();
 
             //Book1Extensions
-            var TotalCount = new Book1.Sheet1().Count();
+            var TotalCount = new Book18.Sheet1().Count();
             var Goo = "Goo" + i;
 
             //var GooCount = new Book1.Sheet1().XXCount(x => x.Goo == Goo);
             //  public static long Where(this Book1Sheet1Strategy value, Expression<Func<object, object>> value);
 
             // what about where x or y?
-            var GooCountStrategy = new Book1.Sheet1().Where(x => x.Goo == Goo);
+            var GooCountStrategy = new Book18.Sheet1().Where(x => x.Goo == Goo);
 
             // show me the sql damit
             ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions.AsCommandBuilder(GooCountStrategy);
 
-            var GooCount = new Book1.Sheet1().Count(x => x.Goo == Goo);
-            var GooCount1 = new Book1.Sheet1().Where(x => x.Goo == Goo).Count();
+            var GooCount = new Book18.Sheet1().Count(x => x.Goo == Goo);
+            var GooCount1 = new Book18.Sheet1().Where(x => x.Goo == Goo).Count();
 
 
-            var k = new Book1.Sheet1().Insert(
-                new Book1Sheet1Row
+            var k = new Book18.Sheet1().Insert(
+                new Book18Sheet1Row
                 {
                     Goo = Goo,
                     Value = new { TotalCount, GooCount }.ToString()
                 }
             );
 
-            //Book1.Sheet2.Insert(Deposit: 1);
+            //Book18.Sheet2.Insert(Deposit: 1);
 
-            var z = new Book1.Sheet2().Insert(
+            var z = new Book18.Sheet2().Insert(
                 //Deposit: 1
-                new Book1Sheet2Row { Deposit = 33 }
+                new Book18Sheet2Row { Deposit = 33 }
             );
 
             //                { insertwatch = 12 }
@@ -124,47 +124,47 @@ namespace AppEngineWhereOperator
 
 
                 //var slowwatch = Stopwatch.StartNew();
-                //var slow = new Book1.Sheet1().SelectAllAsEnumerable(
+                //var slow = new Book18.Sheet1().SelectAllAsEnumerable(
 
                 //).ToArray().FirstOrDefault(x => x.Key == k);
 
                 //Console.WriteLine(new { slowwatch = slowwatch.ElapsedMilliseconds, slowwatch.ElapsedTicks, slow });
 
-                var fastwatch = Stopwatch.StartNew();
-                var fast = ((Task<DataTable>)new Book1.Sheet1.Queries().WithConnection(
-                    c =>
-                    {
-                        var CommandText = Book1.Sheet1.Queries.SelectAllCommandText.TakeUntilIfAny("order") + " where Key = @Key";
+                //var fastwatch = Stopwatch.StartNew();
+                //var fast = ((Task<DataTable>)new Book18.Sheet1.Queries().WithConnection(
+                //    c =>
+                //    {
+                //        var CommandText = Book18.Sheet1.Queries.SelectAllCommandText.TakeUntilIfAny("order") + " where Key = @Key";
 
 
 
-                        {
-                            var cmd0 = new SQLiteCommand("explain query plan " + CommandText, c);
-                            cmd0.Parameters.AddWithValue("Key", (long)k);
+                //        {
+                //        //    var cmd0 = new SQLiteCommand("explain query plan " + CommandText, c);
+                //        //    cmd0.Parameters.AddWithValue("Key", (long)k);
 
-                            // ex = {"unknown error\r\nInsufficient parameters supplied to the command"}
+                //        //    // ex = {"unknown error\r\nInsufficient parameters supplied to the command"}
 
-                            var t = new DataTable();
-                            var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd0);
-                            a.Fill(t);
-                            //return t.AsResult();
-                        }
+                //        //    var t = new DataTable();
+                //        //    var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd0);
+                //        //    a.Fill(t);
+                //        //    //return t.AsResult();
+                //        //}
 
-                        {
-                            var cmd0 = new SQLiteCommand(CommandText, c);
-                            cmd0.Parameters.AddWithValue("Key", (long)k);
+                //        {
+                //            var cmd0 = new SQLiteCommand(CommandText, c);
+                //            cmd0.Parameters.AddWithValue("Key", (long)k);
 
 
-                            var t = new DataTable();
-                            var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd0);
-                            a.Fill(t);
-                            return t.AsResult();
-                        }
-                    }
-                )).Result;
-                Console.WriteLine(new { fastwatch = fastwatch.ElapsedMilliseconds, fastwatch.ElapsedTicks, fast });
+                //            var t = new DataTable();
+                //            var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd0);
+                //            a.Fill(t);
+                //            return t.AsResult();
+                //        }
+                //    }
+                //)).Result;
+                //Console.WriteLine(new { fastwatch = fastwatch.ElapsedMilliseconds, fastwatch.ElapsedTicks, fast });
 
-                var nice = from q in new Book1.Sheet1()
+                var nice = from q in new Book18.Sheet1()
                            where q.Key == k
                            select q;
 
@@ -181,7 +181,7 @@ namespace AppEngineWhereOperator
                 //MutableTake { count = 5 }
 
                 //select `Key`, `Goo`, `Value`, `Tag`, `Timestamp`
-                //from `Book1.Sheet1`
+                //from `Book18.Sheet1`
                 // where `Key` = @arg0
                 //order by `Key`
                 //limit @arg1
@@ -199,7 +199,7 @@ namespace AppEngineWhereOperator
                     // based on excel simulator
                     // can we start to deatch datamining like this?
                     // can we introduce new LINQ keywords in C# 6 as we did with extension methods?
-                    from q in new Book1.Sheet1()
+                    from q in new Book18.Sheet1()
                     where q.Key < k
 
                     // Error	5	Could not find an implementation of the query pattern for source type 'AppEngineWhereOperator.Design.Book1Sheet1Strategy'.  'OrderByDescending' not found.	X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs	159	31	AppEngineWhereOperator
@@ -238,8 +238,15 @@ namespace AppEngineWhereOperator
                 // what about anonymous types and tuples, vec3. foo.xy = 4  
                 // what about linq to css
                 var tenPr = tenPrevious.AsEnumerable()
+
+
                     //.Reverse()
                     ;
+
+                foreach (var item in tenPr)
+                {
+                    Console.WriteLine(item);
+                }
                 // can we also sum?
 
 
@@ -248,14 +255,14 @@ namespace AppEngineWhereOperator
                 //                                          ^
                 //  required: Book1Sheet1Strategy
                 //  found:    long
-                //Y:\AppEngineWhereOperator.ApplicationWebService\staging.java\web\java\AppEngineWhereOperator\Design\Book1Extensions.java:167: error: incompatible types
+                //Y:\AppEngineWhereOperator.ApplicationWebService\staging.java\web\java\AppEngineWhereOperator\Design\Book18Extensions.java:167: error: incompatible types
                 //        return QueryStrategyExtensions.Sum(_arg0, _arg1);
                 //                                          ^
-                //  required: Book1Sheet2Strategy
+                //  required: Book18Sheet2Strategy
                 //  found:    long
 
-                var sum0 = new Book1.Sheet2().AsEnumerable().Sum(x => x.Deposit);
-                var sum1 = new Book1.Sheet2().Sum(x => x.Deposit);
+                var sum0 = new Book18.Sheet2().AsEnumerable().Sum(x => x.Deposit);
+                var sum1 = new Book18.Sheet2().Sum(x => x.Deposit);
 
                 // should we reuse ScriptCoreLib.Query namespace and make it a nuget?
                 // we could move all code to ScriptCoreLib.Shared and mark the shared namespace as "semi merge within script"
@@ -264,8 +271,24 @@ namespace AppEngineWhereOperator
                 // jsc needs to pay attention on the referenced typesystem and include missing types.
 
 
+                //Caused by: java.lang.RuntimeException: { Message = Parameter index out of range (3 > number of parameters, which is 2)., StackTrace = java.sql.SQLException: Parameter index out of range (3 > number of parameters, which is 2).
+                //        at com.google.cloud.sql.jdbc.internal.Exceptions.newSqlException(Exceptions.java:219)
+                //        at com.google.cloud.sql.jdbc.internal.SqlProtoClient.check(SqlProtoClient.java:198)
+                //        at com.google.cloud.sql.jdbc.internal.SqlProtoClient.executeSql(SqlProtoClient.java:87)
+                //        at com.google.cloud.sql.jdbc.Connection.executeSql(Connection.java:561)
+                //java.lang.RuntimeException
+                //        at com.google.cloud.sql.jdbc.PreparedStatement.executeSqlImpl(PreparedStatement.java:143)
+                //        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo.InternalInvoke(__MethodInfo.java:93)
+                //        at com.google.cloud.sql.jdbc.Statement.executeImpl(Statement.java:154)
+                //        at ScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodBase.Invoke(__MethodBase.java:69)
+                //        at com.google.cloud.sql.jdbc.Statement.executeQuery(Statement.java:327)
+                //        at ScriptCoreLib.Shared.BCLImplementation.System.__Func_2.Invoke(__Func_2.java:28)
+                //        at com.google.cloud.sql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:128)
+                //        at AppEngineWhereOperator.ApplicationWebService.WithinForLoopExpressionRewrite(ApplicationWebService.java:181)
+
+
                 //Console.WriteLine()
-                Debugger.Break();
+                //Debugger.Break();
             }
             //new Book1.Sheet1().AsE
             //nice.AsDataTable();

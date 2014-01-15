@@ -255,7 +255,6 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
              {
                  //MutableWhere { Method = Boolean op_Equality(System.String, System.String), Left = Goo, Right = Goo0 }
 
-                 var n = "@arg" + state.ApplyParameter.Count;
 
                  state.OrderByCommand = "order by `" + ColumnName + "`";
              }

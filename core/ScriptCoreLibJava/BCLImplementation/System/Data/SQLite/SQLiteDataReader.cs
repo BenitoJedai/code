@@ -183,14 +183,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 return typeof(int);
             }
 
+            if (ColumnType == 3)
+            {
+                // X:\jsc.svn\examples\javascript\appengine\AppEngineWhereOperator\AppEngineWhereOperator\ApplicationWebService.cs
+                return typeof(long);
+            }
+
             if (ColumnType == -5)
             {
-                //long int64 = 0;
-                //object int64box = int64;
-
-                //return int64box.GetType();
-
-                // jsc is giving us the primitive? 
                 return typeof(long);
             }
 
