@@ -268,20 +268,11 @@ namespace SVGNavigationTiming
             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
 
-            //Task.FromResult
-            return (Design.PerformanceResourceTimingData2.ApplicationResourcePerformance)(
-                // can we make it autoconvert?
+            return
                 from k in new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
                 where k.ApplicationPerformance == key
                 orderby k.path descending
-                select k
-                );
-
-            // public static DataTable AsDataTable(this PerformanceResourceTimingData2ApplicationResourcePerformanceStrategy value);
-
-            //.AsDataTable()
-
-            //.AsResult();
+                select k;
         }
 
 
