@@ -13,11 +13,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TesctCurrencyWebService;
-using TesctCurrencyWebService.Design;
-using TesctCurrencyWebService.HTML.Pages;
+using TestInputDateOperator;
+using TestInputDateOperator.Design;
+using TestInputDateOperator.HTML.Pages;
 
-namespace TesctCurrencyWebService
+namespace TestInputDateOperator
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -30,18 +30,19 @@ namespace TesctCurrencyWebService
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            Action getCurrency = async delegate
+            var b = new IHTMLButton { innerText = "Button"};
+            b.AttachToDocument();
+            page.datepicker.onchange += delegate
             {
-                var c = await this.GetConversionRate();
-                if (c.ContainsKey("GBP"))
-                {
-                    Console.WriteLine(c["GBP"].ToString());
-                }
-                Console.WriteLine(c.ToString());
-                var p = new IHTMLPre { innerText = c["GBP"].ToString()};
-                p.AttachTo(page.body);
+                DateTime d = page.datepicker;
+                new IHTMLPre { innerText = d.ToString() }.AttachToDocument();
+                
             };
-            getCurrency();
+            b.onclick += delegate
+            {
+                DateTime d = page.datepicker;
+                new IHTMLPre { innerText = d.ToString() }.AttachToDocument();
+            };
         }
 
     }

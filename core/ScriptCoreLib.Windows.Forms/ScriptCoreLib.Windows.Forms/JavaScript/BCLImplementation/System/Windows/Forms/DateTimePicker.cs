@@ -44,6 +44,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 OnTextChanged(this, new EventArgs());
             }
         }
+        //valueAsNumber: 1390003200000
+
+        public DateTime Value { get { return this.HTMLTarget; } set { throw new NotImplementedException(); } }
 
         public override bool Enabled
         {

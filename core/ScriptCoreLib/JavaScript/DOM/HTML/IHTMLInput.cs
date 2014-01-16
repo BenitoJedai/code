@@ -1,4 +1,5 @@
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.BCLImplementation.System;
 using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
@@ -37,6 +38,21 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public HTMLInputTypeEnum type;
         public string value;
+
+        [System.Obsolete("Need to test Browsers")]
+        public long valueAsNumber;
+        public IDate valueAsDate;
+
+        [Script(DefineAsStatic = true)]
+        public System.DateTime GetDateTime()
+        {
+            //Tested by chrome android
+            //Tested by: E:\jsc.svn\examples\javascript\Test\TestInputDateOperator\TestInputDateOperator\Application.cs
+            if (valueAsDate == null)
+                return System.DateTime.Now;
+            return new __DateTime { InternalValue = valueAsDate, Kind = System.DateTimeKind.Local };
+        }
+
 
         public bool disabled;
         public bool @checked;
@@ -194,6 +210,16 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             }
 
             return false;
+        }
+
+        public static implicit operator System.DateTime(IHTMLInput i)
+        {
+            if (i.type == HTMLInputTypeEnum.date)
+            {
+                return i.GetDateTime();
+            }
+
+            return System.DateTime.Now;
         }
     }
 }
