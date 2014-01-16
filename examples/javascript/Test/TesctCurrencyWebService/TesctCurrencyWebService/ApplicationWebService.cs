@@ -22,7 +22,7 @@ namespace TesctCurrencyWebService
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public Task<double> GetConversionRate()
+        public Task<Dictionary<string, double>> GetConversionRate()
         {
 
             //<endpoint address="http://www.webservicex.net/CurrencyConvertor.asmx"
@@ -32,6 +32,7 @@ namespace TesctCurrencyWebService
             //http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml
             //Daily updated GetConversionRate rates
             var res = 0.00;
+            var dict = new Dictionary<string, double>();
             
             string url = @"http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
             var xDoc = XDocument.Load(url);
@@ -49,10 +50,7 @@ namespace TesctCurrencyWebService
             foreach (var result in cubes)
             {
                 Console.WriteLine(new { result.Currency, result.Rate });
-                if (result.Currency == "GBP")
-                {
-                    res = result.Rate;
-                }
+                dict.Add(result.Currency, result.Rate);
             }
 
 
@@ -62,7 +60,7 @@ namespace TesctCurrencyWebService
             //exchangevalue = exchangerate.ConversionRate(CurrencyExchange.Currency.GBP, CurrencyExchange.Currency.EUR);
             //exchangerate.Close();
 
-            return res.AsResult();
+            return dict.AsResult();
         }
 
     }
