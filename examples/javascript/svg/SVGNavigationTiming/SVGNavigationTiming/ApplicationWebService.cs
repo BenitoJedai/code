@@ -26,6 +26,32 @@ namespace SVGNavigationTiming
     /// </summary>
     public partial class XApplicationPerformanceWebService
     {
+        // wtf?
+
+        //1b5c:02:01 RewriteToAssembly error: System.ArgumentNullException: Value cannot be null.
+        //Parameter name: parameterTypes
+        //   at System.Reflection.Emit.MethodBuilder.Init(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type, Boolean bIsGlobalMethod)
+        //   at System.Reflection.Emit.MethodBuilder..ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type, Boolean bIsGlobalMethod)
+        //   at System.Reflection.Emit.TypeBuilder.DefineMethodNoLock(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers)
+        //   at System.Reflection.Emit.TypeBuilder.DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers)
+        //   at System.Reflection.Emit.TypeBuilder.DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] parameterTypes)
+        //   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.daac.haac.ehdgb(ProjectFileInfo )
+        //   at ScriptCoreLib.Extensions.LinqExtensions.With[T](T e, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 21
+        //   at ScriptCoreLib.Extensions.LinqExtensions.InternalWithEach[T](IEnumerable`1 collection, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 162
+        //   at ScriptCoreLib.Extensions.LinqExtensions.WithEach[T](IEnumerable`1 collection, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 134
+        //   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.daac.fccgb(AssemblyRewriteArguments )
+        //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.InternalInvoke()
+        //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.InternalInvokeWithCache()
+        //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.Invoke()
+        //System.ArgumentNullException: Value cannot be null.
+        //Parameter name: parameterTypes
+        //   at System.Reflection.Emit.MethodBuilder.Init(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type, Boolean bIsGlobalMethod)
+        //   at System.Reflection.Emit.MethodBuilder..ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type, Boolean bIsGlobalMethod)
+        //   at System.Reflection.Emit.TypeBuilder.DefineMethodNoLock(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers)
+        //   at System.Reflection.Emit.TypeBuilder.DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers)
+        //   at System.Reflection.Emit.TypeBuilder.DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] parameterTypes)
+        //   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.daac.haac.ehdgb(ProjectFileInfo )
+        //   at ScriptCoreLib.Extensions.LinqExtensions.With[T](T e, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 21
 
         //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2::GetDataSet][offset 0x00000005] Unable to resolve token.
         //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2+ApplicationPerformance+Queries::Create]  [HRESULT 0x80070002] - The system cannot find the file specified.
@@ -169,10 +195,10 @@ namespace SVGNavigationTiming
             //Task.FromResult
 
             // autoconvert?
-            return new Design.PerformanceResourceTimingData2.ApplicationPerformance()
+            return new Design.PerformanceResourceTimingData2.ApplicationPerformance();
 
-                //.SelectAllAsDataTable().AsResult();
-                .AsDataTable().AsResult();
+            //.SelectAllAsDataTable().AsResult();
+            //.AsDataTable().AsResult();
         }
 
         [Obsolete("we could allow the client tell use, by which parameter to order by")]
@@ -243,19 +269,19 @@ namespace SVGNavigationTiming
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
 
             //Task.FromResult
-            return (
+            return (Design.PerformanceResourceTimingData2.ApplicationResourcePerformance)(
                 // can we make it autoconvert?
                 from k in new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
                 where k.ApplicationPerformance == key
                 orderby k.path descending
                 select k
-                )
+                );
 
-                // public static DataTable AsDataTable(this PerformanceResourceTimingData2ApplicationResourcePerformanceStrategy value);
+            // public static DataTable AsDataTable(this PerformanceResourceTimingData2ApplicationResourcePerformanceStrategy value);
 
-                .AsDataTable()
+            //.AsDataTable()
 
-                .AsResult();
+            //.AsResult();
         }
 
 
