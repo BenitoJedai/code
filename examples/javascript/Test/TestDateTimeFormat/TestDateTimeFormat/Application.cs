@@ -33,6 +33,10 @@ namespace TestDateTimeFormat
             var now = DateTime.Now;
             new IHTMLPre { innerText = now.ToString("ddMMMyyyyHHmmss") }.AttachToDocument();
             new IHTMLPre { innerText = now.ToString("ddMMMMyyyyHHmmss") }.AttachToDocument();
+            new IHTMLPre { innerText = now.ToString("ddMMMyyyy") }.AttachToDocument();
+            new IHTMLPre { innerText = now.ToString("ddMMMMyyyy") }.AttachToDocument();
+            new IHTMLPre { innerText = now.ToString("MMM") }.AttachToDocument();
+            new IHTMLPre { innerText = now.ToString("MMMM") }.AttachToDocument();
         }
 
     }
