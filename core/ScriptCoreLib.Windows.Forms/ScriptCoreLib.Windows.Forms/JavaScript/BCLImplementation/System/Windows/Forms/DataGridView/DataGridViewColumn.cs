@@ -101,6 +101,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.HeaderText = "Column";
             this.Width = 100;
+            this.AutoSizeMode = DataGridViewAutoSizeColumnMode.NotSet;
         }
 
         #region operators
