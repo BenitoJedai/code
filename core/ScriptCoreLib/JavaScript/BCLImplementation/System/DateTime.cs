@@ -258,6 +258,51 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return w.ToString();
         }
 
+        //Tested by E:\jsc.svn\examples\javascript\Test\TestDateTimeFormat\TestDateTimeFormat\Application.cs
+        public string ToString(string format)
+        {
+            if (format == "ddMMMyyyyHHmmss")
+            {
+                var w = new StringBuilder();
+
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(".");
+                w.Append(GetMonthString(this.Month).Substring(0, 3).PadLeft(3, '0'));
+                w.Append(".");
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(" ");
+                w.Append(this.Hour.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Minute.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Second.ToString().PadLeft(2, '0'));
+
+                return w.ToString();
+            }
+            else if (format == "ddMMMMyyyyHHmmss") 
+            {
+                var w = new StringBuilder();
+
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(".");
+                w.Append(GetMonthString(this.Month));
+                w.Append(".");
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(" ");
+                w.Append(this.Hour.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Minute.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Second.ToString().PadLeft(2, '0'));
+                 return w.ToString();
+            }
+            else
+            {
+                return ToString();
+            }
+        }
+
+
         public static TimeSpan operator -(__DateTime d1, __DateTime d2)
         {
             return TimeSpan.FromMilliseconds(
@@ -320,5 +365,58 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return false;
         }
         #endregion
+
+        private string GetMonthString(int month)
+        {
+            if (month == 1)
+            {
+                return "January";
+            }
+            else if(month == 2)
+            {
+                return "February";
+            }
+            else if (month == 3)
+            {
+                return "March";
+            }
+            else if (month == 4)
+            {
+                return "April";
+            }
+            else if (month == 5)
+            {
+                return "May";
+            }
+            else if (month == 6)
+            {
+                return "June";
+            }
+            else if (month == 7)
+            {
+                return "July";
+            }
+            else if (month == 8)
+            {
+                return "August";
+            }
+            else if (month == 9)
+            {
+                return "September";
+            }
+            else if (month == 10)
+            {
+                return "October";
+            }
+            else if (month == 11)
+            {
+                return "November";
+            }
+            else if (month == 12)
+            {
+                return "December";
+            }
+            return "";
+        }
     }
 }

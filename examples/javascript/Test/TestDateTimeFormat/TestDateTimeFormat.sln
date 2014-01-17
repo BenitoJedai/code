@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDateTimeFormat", "TestDateTimeFormat\TestDateTimeFormat.csproj", "{A1996919-D071-41C7-A9C0-BDB88A0946D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1996919-D071-41C7-A9C0-BDB88A0946D7}.Debug|x86.ActiveCfg = Debug|x86
+		{A1996919-D071-41C7-A9C0-BDB88A0946D7}.Debug|x86.Build.0 = Debug|x86
+		{A1996919-D071-41C7-A9C0-BDB88A0946D7}.Release|x86.ActiveCfg = Release|x86
+		{A1996919-D071-41C7-A9C0-BDB88A0946D7}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
