@@ -553,6 +553,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         SourceCell.InternalTableColumn.style.width = SourceColumn.Width + "px";
                         SourceCell.InternalTableColumn.style.minWidth = SourceColumn.Width + "px";
+                        Console.WriteLine(new { SourceColumn.Name, width = SourceColumn.Width });
                         //c1.style.backgroundColor = JSColor.Red;
                         //c1content.innerText = "@" + InternalColumn.HeaderText + ":" + InternalColumn.Width;
                     };
@@ -1713,7 +1714,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                         //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex });
-
+                        #region Fill last column
                         if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
                             if (cindex == this.Columns.Count - 1)
                             {
@@ -1745,39 +1746,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                 return;
                             }
+                        #endregion
 
-                        if (cindex >= 0)
+                        if (cindex < 0) return;
+
+                        if (SourceColumn.AutoSizeMode == DataGridViewAutoSizeColumnMode.None) return;
+
+                        #region SetColumnWidth
+                        var WidthByRowsInThisColumn = rows.Max(
+                            rr =>
+                            {
+                                __DataGridViewCell cc = rr.Cells[cindex];
+
+
+                                //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex, cc.InternalContent.offsetWidth });
+
+                                return cc.InternalContent.offsetWidth;
+                            }
+                        );
+
+                        WidthByRowsInThisColumn = Math.Max(WidthByRowsInThisColumn, this.InternalColumns.InternalItems[cindex].InternalContent.offsetWidth);
+                        if (WidthByRowsInThisColumn == 0)
                         {
-                            var WidthByRowsInThisColumn = rows.Max(
-                                rr =>
-                                {
-                                    __DataGridViewCell cc = rr.Cells[cindex];
-
-
-                                    //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex, cc.InternalContent.offsetWidth });
-
-                                    return cc.InternalContent.offsetWidth;
-                                }
-                            );
-
-                            WidthByRowsInThisColumn = Math.Max(WidthByRowsInThisColumn, this.InternalColumns.InternalItems[cindex].InternalContent.offsetWidth);
-                            if (WidthByRowsInThisColumn == 0)
-                            {
-                                // no DOM?
-                                //Console.WriteLine("InternalAutoSize skipped");
-                            }
-                            else
-                            {
-
-                                // extra padding?
-                                WidthByRowsInThisColumn += 8 + 24;
-
-                                //Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
-
-                                __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByRowsInThisColumn - SourceColumn.Width);
-                                SourceColumn.Width = Math.Max(20, WidthByRowsInThisColumn);
-                            }
+                            // no DOM?
+                            //Console.WriteLine("InternalAutoSize skipped");
                         }
+                        else
+                        {
+
+                            // extra padding?
+                            WidthByRowsInThisColumn += 8 + 24;
+
+                            //Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
+
+                            __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByRowsInThisColumn - SourceColumn.Width);
+                            SourceColumn.Width = Math.Max(20, WidthByRowsInThisColumn);
+                        }
+                        #endregion
+
                     };
 
                     SourceColumn.ColumnHorizontalResizer.onmousedown +=

@@ -47,10 +47,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 InternalSetDataSource(value);
-
-                if (DataSourceChanged != null)
-                    DataSourceChanged(this, new EventArgs());
-
+                Native.window.requestAnimationFrame += delegate {
+                    if (DataSourceChanged != null)
+                        DataSourceChanged(this, new EventArgs());
+                };
             }
         }
 
