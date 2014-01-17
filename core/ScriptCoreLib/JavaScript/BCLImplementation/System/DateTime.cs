@@ -281,5 +281,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return this + TimeSpan.FromDays(value);
         }
 
+        //Tested by : E:\jsc.svn\examples\javascript\Test\TestDateTimeOperators\TestDateTimeOperators\Application.cs
+        #region Compare
+        public static bool operator <= (__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTime() <= b.InternalValue.getTime())
+                return true;
+            return false;
+        }
+        public static bool operator >= (__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTime() >= b.InternalValue.getTime())
+                return true;
+            return false;
+        }
+        public static bool operator == (__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTime() == b.InternalValue.getTime())
+                return true;
+            return false;
+        }
+        public static bool operator !=(__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTime() != b.InternalValue.getTime())
+                return true;
+            return false;
+        }
+        public static bool operator > (__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTime() > b.InternalValue.getTime())
+                return true;
+            return false;
+        }
+        public static bool operator < (__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTime() < b.InternalValue.getTime())
+                return true;
+            return false;
+        }
+        #endregion
     }
 }
