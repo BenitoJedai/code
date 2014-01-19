@@ -22,6 +22,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
         public void UploadValuesAsync(Uri address, NameValueCollection data)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140119
+
             var x = new IXMLHttpRequest();
 
             x.open(Shared.HTTPMethodEnum.POST, address.ToString(), async: true);
@@ -43,7 +45,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
                     // UploadValuesAsync { status = 204, responseType = arraybuffer, response = [object Uint8ClampedArray] }
 
 
-                    Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType });
+                    //Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType });
 
 
                     if (x.response != null)
@@ -52,7 +54,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
                         var a = (ArrayBuffer)x.response;
 
-                        Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType, a.byteLength });
+                        //Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType, a.byteLength });
 
                         // IE?
                         //var u8 = new Uint8Array(array: a);
@@ -61,7 +63,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
                         response = u8c;
                     }
 
-                    Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType, response });
+                    //Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType, response });
 
                     var e = new __UploadValuesCompletedEventArgs { Result = response };
 
