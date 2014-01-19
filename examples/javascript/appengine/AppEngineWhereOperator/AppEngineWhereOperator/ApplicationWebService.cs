@@ -193,6 +193,36 @@ namespace AppEngineWhereOperator
                 //Did you forget to add the [Script] attribute?
                 //Please double check the signature!
 
+                //Task<Book18Sheet1Row> __implicit_FirstOrDefault =
+                //(Task<Book18Sheet1Row>) 
+
+
+                Console.WriteLine("\n__FirstOrDefault");
+
+                Book18Sheet1Row __FirstOrDefault =
+                    (
+                    from q in new Book18.Sheet1()
+                    where q.Key == k
+                    select q
+                    ).FirstOrDefault();
+
+                Console.WriteLine(new { __FirstOrDefault });
+
+                Task<Book18Sheet1Row> __implicit_FirstOrDefault =
+                    from q in new Book18.Sheet1()
+                    where q.Key == k
+                    select q;
+
+
+                Console.WriteLine(new { __implicit_FirstOrDefault = __implicit_FirstOrDefault.Result });
+
+                Task<Book18Sheet1Key> __implicit_Key_FirstOrDefault =
+                    from q in new Book18.Sheet1()
+                    where q.Key == k
+                    select q;
+
+                Console.WriteLine(new { __implicit_Key_FirstOrDefault = __implicit_Key_FirstOrDefault.Result });
+
 
                 var tenPrevious = (
                     // jsc itself needs to use this knowledge

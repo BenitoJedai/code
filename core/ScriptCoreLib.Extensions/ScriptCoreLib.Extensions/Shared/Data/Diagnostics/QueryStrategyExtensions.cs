@@ -114,8 +114,10 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 else Debugger.Break();
 
             }
-            else if (body.Left is UnaryExpression)
+            else if (body.Right is UnaryExpression)
             {
+                // casting enum to long?
+
                 var f_Body_Right = (MemberExpression)((UnaryExpression)body.Right).Operand;
 
 
@@ -183,8 +185,10 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                         Debugger.Break();
 
 
+                    state.WhereCommand += " ";
                     state.WhereCommand += n;
 
+                    Console.WriteLine("MutableWhere " + new { n, r });
 
                     state.ApplyParameter.Add(
                         c =>
@@ -349,8 +353,11 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                  var n = "@arg" + state.ApplyParameter.Count;
 
+                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140119
+                 // limit 0?
                  state.LimitCommand = "limit " + n;
 
+                 Console.WriteLine("MutableTake " + new { n, count });
 
 
                  state.ApplyParameter.Add(
