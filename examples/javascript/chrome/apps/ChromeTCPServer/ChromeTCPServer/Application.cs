@@ -558,7 +558,7 @@ namespace ChromeTCPServer
 
 
 
-                    var u = new Uint8ClampedArray(read.data, 0, read.data.byteLength);
+                    var u = new Uint8ClampedArray(read.data, 0, (uint)read.data.byteLength);
                     var input = Encoding.UTF8.GetString(u);
 
                     Console.WriteLine(new { input });
