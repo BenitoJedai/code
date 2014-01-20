@@ -143,7 +143,7 @@ namespace System.Data.SQLite
 
                 //Console.WriteLine("AsWithConnection... invoke");
 
-
+                // X:\jsc.svn\examples\rewrite\Test\TestInlineIncrement\TestInlineIncrement\Program.cs
                 ccc = Counter++;
 
 

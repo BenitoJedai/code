@@ -157,10 +157,13 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
             f.Load +=
                 async delegate
                 {
+                    Console.WriteLine("enter f.Load");
+
                     //await Native.window.requestAnimationFrameAsync;
                     //await Native.window.requestAnimationFrameAsync;
                     var s = Stopwatch.StartNew();
                     var data0 = await service.GetApplicationPerformance();
+                    Console.WriteLine("got data0 at f.Load");
                     f.Text += " " + s.ElapsedMilliseconds + "ms";
 
                     g.DataSource = data0;
@@ -304,8 +307,11 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                     kf.Load +=
                       async delegate
                       {
+                          Console.WriteLine("enter kf.Load");
+
                           var s = Stopwatch.StartNew();
                           var kdata = await service.GetApplicationResourcePerformance(x);
+                          Console.WriteLine("got kdata at kf.Load");
                           kf.Text += " " + s.ElapsedMilliseconds + "ms";
 
                           kg.DataSource = kdata;
@@ -436,11 +442,13 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                     kkf.Load +=
                                         async delegate
                                         {
+                                            Console.WriteLine("enter kkf.Load");
                                             //kkg.DataSource = await this.GetSimilarApplicationResourcePerformance(row);
 
                                             var s = Stopwatch.StartNew();
 
                                             var xdata = await service.GetSimilarApplicationResourcePerformance(row);
+                                            Console.WriteLine("got xdata at kkf.Load");
                                             kkf.Text += " " + s.ElapsedMilliseconds + "ms";
 
                                             kkg.DataSource = xdata;
