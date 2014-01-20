@@ -11,7 +11,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         public DOM.IStyle.CursorEnum Value;
 
-
+        public static Cursor Current
+        {
+            get { return Cursors.Default; }
+            set
+            {
+                __Cursor cursor = value;
+                Native.document.documentElement.style.cursor = cursor.Value;
+            }
+        }
 
         #region
         static public implicit operator Cursor(__Cursor e)
