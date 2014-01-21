@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestORExpression", "TestORE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestANDExpression", "..\TestANDExpression\TestANDExpression\TestANDExpression.csproj", "{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -61,6 +63,26 @@ Global
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Android|Any CPU.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Android|Mixed Platforms.Build.0 = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Android|x86.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Android|x86.Build.0 = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Debug|x86.ActiveCfg = Debug|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Debug|x86.Build.0 = Debug|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.PHP|Any CPU.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.PHP|x86.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.PHP|x86.Build.0 = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Release|Any CPU.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Release|x86.ActiveCfg = Release|x86
+		{C46BC2E6-6BC1-4C46-9EFD-064AD160779E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

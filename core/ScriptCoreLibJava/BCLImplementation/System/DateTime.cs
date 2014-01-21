@@ -125,17 +125,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public DateTime AddMinutes(double value)
         {
-            return new DateTime((long)Math.Floor(this.Ticks + TimeSpan.TicksPerMinute * value));
+            long ticks = TimeSpan.TicksPerMinute;
+            return new DateTime((long)Math.Floor(this.Ticks + ticks * value));
         }
 
         public DateTime AddDays(double value)
         {
-            return new DateTime((long)Math.Floor(this.Ticks + TimeSpan.TicksPerDay * value));
+            long ticks = TimeSpan.TicksPerDay;
+            return new DateTime((long)Math.Floor(this.Ticks + ticks * value));
         }
 
         public DateTime AddMonths(int value)
         {
-            return new DateTime((long)Math.Floor(this.Ticks + (double)DateTime.DaysInMonth(this.Year, this.Month) * TimeSpan.TicksPerDay));
+            long ticks = TimeSpan.TicksPerDay;
+            return new DateTime((long)Math.Floor(this.Ticks + (double)DateTime.DaysInMonth(this.Year, this.Month) * ticks));
         }
 
         #region Operators
