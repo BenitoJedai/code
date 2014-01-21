@@ -41,17 +41,17 @@ namespace javax.common.runtime
             return p + " " + u[x];
         }
 
-        public static string ToHexString(string e)
-        {
-            string z = "";
+        //public static string ToHexString(string e)
+        //{
+        //    string z = "";
 
-            foreach (char var in e)
-            {
-                z += ToHexString(var);
-            }
+        //    foreach (char var in e)
+        //    {
+        //        z += ToHexString(var);
+        //    }
 
-            return z;
-        }
+        //    return z;
+        //}
 
         public static int[] ToInt32(sbyte[] e)
         {
@@ -103,56 +103,56 @@ namespace javax.common.runtime
             return b & 0xFF;
         }
 
-        public static string ToHexString(long e)
-        {
-            return ToHexString(Convert.ToByteArray(e));
-        }
+        //public static string ToHexString(long e)
+        //{
+        //    return ToHexString(Convert.ToByteArray(e));
+        //}
 
-        public static string ToHexString(int e, bool LeadingZero)
-        {
-            string z = Integer.toHexString(e);
+        //public static string ToHexString(int e, bool LeadingZero)
+        //{
+        //    string z = Integer.toHexString(e);
 
-            if (LeadingZero)
-                if (z.Length % 2 == 1)
-                    return "0" + z;
+        //    if (LeadingZero)
+        //        if (z.Length % 2 == 1)
+        //            return "0" + z;
 
-            return z;
-        }
+        //    return z;
+        //}
 
-        /// <summary>
-        /// converts int to a hexstring, and adds padding zeros if uneven number
-        /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        public static string ToHexString(int e)
-        {
-            return ToHexString(e, true);
-        }
+        ///// <summary>
+        ///// converts int to a hexstring, and adds padding zeros if uneven number
+        ///// </summary>
+        ///// <param name="e"></param>
+        ///// <returns></returns>
+        //public static string ToHexString(int e)
+        //{
+        //    return ToHexString(e, true);
+        //}
 
 
-        public static string ToHexString(long pi, int length)
-        {
-            string e = ToHexString(pi);
+        //public static string ToHexString(long pi, int length)
+        //{
+        //    string e = ToHexString(pi);
 
-            int z = length - e.Length;
+        //    int z = length - e.Length;
 
-            while (z-- > 0)
-                e = "0" + e;
+        //    while (z-- > 0)
+        //        e = "0" + e;
 
-            return e;
-        }
+        //    return e;
+        //}
 
-        public static string ToHexString(int pi, int length)
-        {
-            string e = ToHexString(pi);
+        //public static string ToHexString(int pi, int length)
+        //{
+        //    string e = ToHexString(pi);
 
-            int z = length - e.Length;
+        //    int z = length - e.Length;
 
-            while (z-- > 0)
-                e = "0" + e;
+        //    while (z-- > 0)
+        //        e = "0" + e;
 
-            return e;
-        }
+        //    return e;
+        //}
 
   
 
@@ -217,24 +217,24 @@ namespace javax.common.runtime
             return u;
         }
 
-        public static string ToHexString(sbyte[] e)
-        {
-            if (e == null)
-                return null;
+        //public static string ToHexString(sbyte[] e)
+        //{
+        //    if (e == null)
+        //        return null;
 
-            return ToHexString(e, 0, e.Length);
-        }
-        public static string ToHexString(sbyte[] e, int offset, int length)
-        {
-            string x = "";
+        //    return ToHexString(e, 0, e.Length);
+        //}
+        //public static string ToHexString(sbyte[] e, int offset, int length)
+        //{
+        //    string x = "";
 
-            for (int i = offset; i < offset + length; i++)
-            {
-                x += ToHexString(Convert.ToInt32(e[i]));
-            }
+        //    for (int i = offset; i < offset + length; i++)
+        //    {
+        //        x += ToHexString(Convert.ToInt32(e[i]));
+        //    }
 
-            return x;
-        }
+        //    return x;
+        //}
 
         public static sbyte[] ToByteArray(params int[] e)
         {
