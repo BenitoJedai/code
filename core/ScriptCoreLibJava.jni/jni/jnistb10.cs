@@ -323,7 +323,7 @@ namespace jni
 
         public string PointerToHexString()
         {
-            return "0x" + Convert.ToHexString(this.Pointer, 8);
+            return "0x" + this.Pointer.ToString("x8");
         }
 
         public long ToInt64()
@@ -459,7 +459,8 @@ namespace jni
         public static void ReportNonZero(string methodname, int p)
         {
             if (p != 0)
-                throw new System.InvalidOperationException("function '" + methodname + "' returned 0x" + Convert.ToHexString(p, 4) + " (" + p + ")");
+                throw new System.InvalidOperationException(
+                    "function '" + methodname + "' returned 0x" + p.ToString("x4") + " (" + p + ")");
             //throw new csharp.RuntimeException("function '" + methodname + "' returned 0x" + Convert.ToHexString(p, 4) + " (" + p + ")");
 
         }
@@ -501,7 +502,9 @@ namespace jni
             {
                 if (IsVerbose)
                 {
-                    global::System.Console.WriteLine("memc: " + Size + " bytes + " + m.Size + " bytes at  0x" + Convert.ToHexString(m.Pointer, 8));
+                    global::System.Console.WriteLine("memc: " + Size + " bytes + " + m.Size + " bytes at  0x"
+                        + m.Pointer.ToString("x8")
+                        );
                 }
 
                 list.add(m);
@@ -742,21 +745,23 @@ namespace jni
         //    Console.WriteHexDump(this.Bytes);
         //}
 
-        public string ToHexString()
-        {
-            return Convert.ToHexString(this.Bytes);
-        }
+        //public string ToHexString()
+        //{
+        //    return m.Pointer.ToString("x8");
+
+        //    return Convert.ToHexString(this.Bytes);
+        //}
 
 
 
-        public string ToHexString(int offset, int length)
-        {
-            sbyte[] n = new sbyte[length];
+        //public string ToHexString(int offset, int length)
+        //{
+        //    sbyte[] n = new sbyte[length];
 
-            copyOut(0, n, 0, length);
+        //    copyOut(0, n, 0, length);
 
-            return Convert.ToHexString(n);
-        }
+        //    return Convert.ToHexString(n);
+        //}
     }
 
 }
