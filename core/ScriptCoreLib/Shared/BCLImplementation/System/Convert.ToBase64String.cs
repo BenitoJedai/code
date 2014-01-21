@@ -17,6 +17,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public static string ToBase64String(byte[] input)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestBase64\TestBase64\Application.cs
+
             //Console.WriteLine("enter ToBase64String");
             var ToBase64String_while_timeout = Stopwatch.StartNew();
 
@@ -40,6 +42,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             {
                 enc3 = 64;
                 enc4 = 64;
+
+                //m = (m++ + 1);
+                //f = b[m++];
 
                 chr1 = input[i++];
                 enc1 = chr1 >> 2;
