@@ -13,6 +13,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public DateTimeKind Kind { get; set; }
 
+        public DayOfWeek DayOfWeek
+        {
+            get
+            {
+                return (DayOfWeek)(InternalValue.get(global::java.util.Calendar.DAY_OF_WEEK) - 1);
+            }
+        }
 
         public __DateTime()
             : this(-1, -1, -1, -1, -1, -1)
