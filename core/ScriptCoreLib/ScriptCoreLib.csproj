@@ -148,6 +148,7 @@
     <Compile Include="Java\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\Task.cs" />
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
+    <Compile Include="Shared\BCLImplementation\System\DateTimeDaysInMonth.cs" />
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Average.cs" />
