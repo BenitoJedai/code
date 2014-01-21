@@ -82,19 +82,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
                 StartTime = IDate.Now;
 
-                WriteIdent();
+                //WriteIdent();
                 WriteLine("<" + _task + ">");
 
                 _ident++;
             }
 
-            void WriteIdent()
-            {
-                int i = _ident;
+            //void WriteIdent()
+            //{
+            //    int i = _ident;
 
-                while (i-- > 0)
-                    Write(" ");
-            }
+            //    while (i-- > 0)
+            //        Write(" ");
+            //}
 
 
 
@@ -151,7 +151,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
                 var end = IDate.Now - StartTime;
 
-                WriteIdent();
+                //WriteIdent();
                 WriteLine("</" + _task + " - " + end + "ms >");
             }
 
