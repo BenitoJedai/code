@@ -13,7 +13,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public DateTimeKind Kind { get; set; }
 
-        public DayOfWeek DayOfWeek { get; set; }
 
         public __DateTime()
             : this(-1, -1, -1, -1, -1, -1)
@@ -100,8 +99,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
         }
 
+        public static int DaysInMonth(int year, int month)
+        {
+            return ScriptCoreLib.Shared.BCLImplementation.System.DateTimeDaysInMonth.DaysInMonth(year, month);           
+        }
 
-
+        public static bool IsLeapYear(int year)
+        {
+            return ScriptCoreLib.Shared.BCLImplementation.System.DateTimeDaysInMonth.IsLeapYear(year);           
+        }
 
         public static TimeSpan operator -(__DateTime d1, __DateTime d2)
         {
@@ -115,35 +121,142 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return new DateTime((long)Math.Floor(this.Ticks + TimeSpan.TicksPerMinute * value));
         }
 
-        public DateTime AddHours(double value)
-        {
-            return AddMinutes(value * 60);
-        }
-
         public DateTime AddDays(double value)
         {
-            return AddHours(value * 24);
+            return new DateTime((long)Math.Floor(this.Ticks + TimeSpan.TicksPerDay * value));
         }
 
         public DateTime AddMonths(int value)
         {
-            // ?
-            return AddDays(value * 28);
+            return new DateTime((long)Math.Floor(this.Ticks + (double)DateTime.DaysInMonth(this.Year, this.Month) * TimeSpan.TicksPerDay));
         }
 
-//        Implementation not found for type import :
-//type: System.DateTime
-//method: System.DateTime AddMonths(Int32)
-//Did you forget to add the [Script] attribute?
-//Please double check the signature!
+        #region Operators
+        public static bool operator <=(__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTimeInMillis() <= b.InternalValue.getTimeInMillis())
+                return true;
+            return false;
+        }
+        public static bool operator >=(__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTimeInMillis() >= b.InternalValue.getTimeInMillis())
+                return true;
+            return false;
+        }
+        public static bool operator ==(__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTimeInMillis() == b.InternalValue.getTimeInMillis())
+                return true;
+            return false;
+        }
+        public static bool operator !=(__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTimeInMillis() != b.InternalValue.getTimeInMillis())
+                return true;
+            return false;
+        }
+        public static bool operator >(__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTimeInMillis() > b.InternalValue.getTimeInMillis())
+                return true;
+            return false;
+        }
+        public static bool operator <(__DateTime a, __DateTime b)
+        {
+            if (a.InternalValue.getTimeInMillis() < b.InternalValue.getTimeInMillis())
+                return true;
+            return false;
+        }
+        #endregion
 
-        //Implementation not found for type import :
-        //type: System.DateTime
-        //method: System.DateTime AddDays(Double)
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
 
+        public string ToString(string format)
+        {
+            if (format == "ddMMMyyyyHHmmss")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(".");
+                w.Append(GetMonthString(this.Month).Substring(0, 3).PadLeft(3, '0'));
+                w.Append(".");
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(" ");
+                w.Append(this.Hour.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Minute.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Second.ToString().PadLeft(2, '0'));
 
+                return w.ToString();
+            }
+            else if (format == "ddMMyyyyHHmmss")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(".");
+                w.Append(this.Month.ToString().PadLeft(2, '0'));
+                w.Append(".");
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(" ");
+                w.Append(this.Hour.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Minute.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Second.ToString().PadLeft(2, '0'));
+                return w.ToString();
+            }
+            else if (format == "ddMMMMyyyyHHmmss")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(".");
+                w.Append(GetMonthString(this.Month));
+                w.Append(".");
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(" ");
+                w.Append(this.Hour.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Minute.ToString().PadLeft(2, '0'));
+                w.Append(":");
+                w.Append(this.Second.ToString().PadLeft(2, '0'));
+                return w.ToString();
+            }
+            else if (format == "ddMMMMyyyy")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(".");
+                w.Append(GetMonthString(this.Month));
+                w.Append(".");
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(" ");
+                return w.ToString();
+            }
+            else if (format == "ddMMMyyyy")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(".");
+                w.Append(GetMonthString(this.Month).Substring(0, 3).PadLeft(3, '0'));
+                w.Append(".");
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(" ");
+                return w.ToString();
+            }
+            else if (format == "MMMM")
+            {
+                return GetMonthString(this.Month);
+            }
+            else if (format == "MMM")
+            {
+                return GetMonthString(this.Month).Substring(0, 3);
+            }
+            else
+            {
+                return ToString();
+            }
+        }
 
         public override string ToString()
         {
@@ -163,5 +276,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
             return w.ToString();
         }
+
+        private string GetMonthString(int month)
+        {
+            if (month < 1)
+                throw new Exception("ArgumentOutOfRange_Month");
+            if (month > 12)
+                throw new Exception("ArgumentOutOfRange_Month");
+
+            var arr = new[] {
+                "January", "February", "March", "April", "May", "June", "July", "August", "September",
+                "October","November","December"
+                };
+            return arr[month - 1];
+        }
+
     }
 }
