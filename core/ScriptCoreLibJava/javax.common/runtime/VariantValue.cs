@@ -11,25 +11,25 @@ namespace javax.common.runtime.types
 	[System.Obsolete]
 	public sealed class VariantValue
     {
-        public static VariantValue OfHexValue(string hex)
-        {
-            VariantValue n = new VariantValue();
+        //public static VariantValue OfHexValue(string hex)
+        //{
+        //    VariantValue n = new VariantValue();
 
-            n.HexValue = hex;
+        //    n.HexValue = hex;
 
-            return n;
-        }
+        //    return n;
+        //}
 
 
 
-        public string HexValue
-        {
-            get { return Convert.ToHexString(_bytes); }
-            set
-            {
-                _bytes = Convert.FromHexString(value);
-            }
-        }
+        //public string HexValue
+        //{
+        //    get { return Convert.ToHexString(_bytes); }
+        //    set
+        //    {
+        //        _bytes = Convert.FromHexString(value);
+        //    }
+        //}
 
         sbyte[] _bytes;
 

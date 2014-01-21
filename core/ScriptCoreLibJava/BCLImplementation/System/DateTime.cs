@@ -13,6 +13,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public DateTimeKind Kind { get; set; }
 
+        public DayOfWeek DayOfWeek { get; set; }
 
         public __DateTime()
             : this(-1, -1, -1, -1, -1, -1)
@@ -113,6 +114,34 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             return new DateTime((long)Math.Floor(this.Ticks + TimeSpan.TicksPerMinute * value));
         }
+
+        public DateTime AddHours(double value)
+        {
+            return AddMinutes(value * 60);
+        }
+
+        public DateTime AddDays(double value)
+        {
+            return AddHours(value * 24);
+        }
+
+        public DateTime AddMonths(int value)
+        {
+            // ?
+            return AddDays(value * 28);
+        }
+
+//        Implementation not found for type import :
+//type: System.DateTime
+//method: System.DateTime AddMonths(Int32)
+//Did you forget to add the [Script] attribute?
+//Please double check the signature!
+
+        //Implementation not found for type import :
+        //type: System.DateTime
+        //method: System.DateTime AddDays(Double)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
 
 
 
