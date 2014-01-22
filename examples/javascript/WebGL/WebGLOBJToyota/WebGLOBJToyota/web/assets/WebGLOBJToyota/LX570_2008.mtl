@@ -1,0 +1,58 @@
+#Exported from SketchUp with ZbylsXExporter
+
+newmtl __0136_Charcoal_
+   Ka 1.000000 1.000000 1.000000
+   Kd   0.1373   0.1373   0.1373
+   Tr 1.0
+   Ks 1.000000 1.000000 1.000000
+   Ns   3.2000
+   
+
+newmtl _TLC200_Windshield_TLC200_Windshield_89pc_jpg
+   Ka 1.000000 1.000000 1.000000
+   Kd   1.0000   1.0000   1.0000
+   Tr 1.0
+   Ks 1.000000 1.000000 1.000000
+   Ns   3.2000
+      map_Kd TLC200_Windshield_89pc.jpg
+
+newmtl _TLC200_Bumper_TLC200_Bumperl_89pc_jpg
+   Ka 1.000000 1.000000 1.000000
+   Kd   1.0000   1.0000   1.0000
+   Tr 1.0
+   Ks 1.000000 1.000000 1.000000
+   Ns   3.2000
+      map_Kd TLC200_Bumperl_89pc.jpg
+
+newmtl _TLC200_Rear_door_TLC200_Rear_door_89pc_jpg
+   Ka 1.000000 1.000000 1.000000
+   Kd   1.0000   1.0000   1.0000
+   Tr 1.0
+   Ks 1.000000 1.000000 1.000000
+   Ns   3.2000
+      map_Kd TLC200_Rear_door_89pc.jpg
+
+newmtl _TLC200_Grill_TLC200_Grill_89pc_jpg
+   Ka 1.000000 1.000000 1.000000
+   Kd   1.0000   1.0000   1.0000
+   Tr 1.0
+   Ks 1.000000 1.000000 1.000000
+   Ns   3.2000
+      map_Kd TLC200_Grill_89pc.jpg
+
+newmtl _TLC200_Side_TLC200_Side_89pc_jpg
+   Ka 1.000000 1.000000 1.000000
+   Kd   1.0000   1.0000   1.0000
+   Tr 1.0
+   Ks 1.000000 1.000000 1.000000
+   Ns   3.2000
+      map_Kd TLC200_Side_89pc.jpg
+
+newmtl _TLC200_Rear_bumper_TLC200_Rear_bumper_89pc_jpg
+   Ka 1.000000 1.000000 1.000000
+   Kd   1.0000   1.0000   1.0000
+   Tr 1.0
+   Ks 1.000000 1.000000 1.000000
+   Ns   3.2000
+      map_Kd TLC200_Rear_bumper_89pc.jpg
+
