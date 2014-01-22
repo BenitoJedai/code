@@ -31,6 +31,8 @@ namespace WebGLOBJExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://forums.newtek.com/showthread.php?139633-how-to-convert-sketchup-files-into-OBJ-without-the-PRO-version
+
             // http://www.gameartmarket.com/details?id=ag9zfmRhZGEtM2RtYXJrZXRyMgsSBFVzZXIiE3BpZXJ6YWtAcGllcnphay5jb20MCxIKVXNlclVwbG9hZBjc_5ik8ycM
             // http://www.gameartmarket.com/details?id=ag9zfmRhZGEtM2RtYXJrZXRyMgsSBFVzZXIiE3BpZXJ6YWtAcGllcnphay5jb20MCxIKVXNlclVwbG9hZBjXwOHe-icM
             // http://scfreak.0catch.com/dlindex.html
