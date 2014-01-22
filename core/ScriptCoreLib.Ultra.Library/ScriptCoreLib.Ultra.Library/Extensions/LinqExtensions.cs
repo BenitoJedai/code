@@ -92,6 +92,7 @@ namespace ScriptCoreLib.Extensions
             return e;
         }
 
+        [Obsolete]
         [System.Diagnostics.DebuggerStepThrough]
         public static T When<T>(this T e, Func<T, bool> h) where T : class
         {

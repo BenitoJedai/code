@@ -31,12 +31,6 @@ namespace ColorDisco
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // we are not yet merging correctly.
-            // script would be reloaded after await
-            //Native.document.body.querySelectorAll("script").WithEach(
-            //    x => x.Orphanize()
-            //);
-
             go();
         }
 
