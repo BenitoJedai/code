@@ -16,6 +16,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public __DateTime()
         {
             this.Kind = DateTimeKind.Local;
+            // fix for default(DateTime).ToString
+            // X:\jsc.svn\examples\javascript\Test\TestDateTime\TestDateTime\Program.cs
+            this.InternalValue = new IDate();
+
         }
 
         public __DateTime(long ticks, DateTimeKind kind)
