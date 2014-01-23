@@ -30,6 +30,8 @@ namespace TestDateTime
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\rewrite\Test\TestDateTimeStruct\TestDateTimeStruct\Class1.cs
+
             var s = 946764000000;
             // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Ultra\Library\StringConversionsForStopwatch.cs
             var sdate = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromInt64(946764000000);
