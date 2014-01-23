@@ -498,7 +498,15 @@ namespace ScriptCoreLib.JavaScript.DOM
                async delegate
                {
                    // need a redux build
-                   var timing = Native.window.performance.timing;
+                   var performance = Native.window.performance;
+
+                   if (performance == null)
+                   {
+                       Console.WriteLine("current user agent (like Safari) does not support performance API..");
+                       return;
+                   }
+
+                   var timing = performance.timing;
 
                    #region page
                    if (page != null)
