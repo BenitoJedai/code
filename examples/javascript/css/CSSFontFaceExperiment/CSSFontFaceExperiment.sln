@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSFontFaceExperiment", "CSSFontFaceExperiment\CSSFontFaceExperiment.csproj", "{25F67FEE-3581-43FB-AADE-73969269B146}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
@@ -26,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{25F67FEE-3581-43FB-AADE-73969269B146} = {D4382CE7-98AA-461F-AF70-52D82EE90698}
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {D4382CE7-98AA-461F-AF70-52D82EE90698}
 	EndGlobalSection
 EndGlobal

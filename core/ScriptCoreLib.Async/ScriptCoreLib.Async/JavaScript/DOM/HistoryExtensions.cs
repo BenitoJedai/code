@@ -181,8 +181,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                     HistoryScope.inline_unwind.Count,
 
                     // X:\jsc.svn\examples\javascript\Test\TestNavigationTiming\TestNavigationTiming\Application.cs
-                    Native.window.performance.navigation.redirectCount,
-                    Native.window.performance.navigation.type
+                    // not available for safari!
+                    //Native.window.performance.navigation.redirectCount,
+                    //Native.window.performance.navigation.type
                 }
             );
 
