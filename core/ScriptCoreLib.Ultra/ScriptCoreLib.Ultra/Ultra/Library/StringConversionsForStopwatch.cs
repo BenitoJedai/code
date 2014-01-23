@@ -108,7 +108,10 @@ namespace ScriptCoreLib.Library
             //Additional information: Ticks must be between DateTime.MinValue.Ticks and DateTime.MaxValue.Ticks.
 
             //if (DateTime.MaxValue.Ticks)
-            var value = new DateTime(ticks: ticks, kind: DateTimeKind.Utc);
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140123
+            //var value = new DateTime(ticks: ticks, kind: DateTimeKind.Utc);
+            var value = new DateTime(ticks, DateTimeKind.Utc);
 
             //Console.WriteLine("DateTimeConvertFromInt64 " + new { value.Kind, value });
 
