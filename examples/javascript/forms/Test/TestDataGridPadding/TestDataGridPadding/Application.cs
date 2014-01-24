@@ -67,10 +67,35 @@ namespace TestDataGridPadding
             //tdf.style.paddingLeft = "3em";
 
             //.FirstOfType<>();
-            gg.__ContentTable.css[IHTMLElement.HTMLElementEnum.tr].first[IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "red";
+
+            // 
+            //var radio = IStyleSheet.all["input[type='radio']"][x => x.name == "group1"];
+            //var radio = IStyleSheet.all["input[type='radio']"]["[name='group1']"];
+
+            gg.__ContentTable.css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr]
+                .first[IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "red";
 
 
+            gg.__ContentTable.css
+                [IHTMLElement.HTMLElementEnum.tbody]
+                [IHTMLElement.HTMLElementEnum.tr]
+                .first.child
+                [IHTMLElement.HTMLElementEnum.div]
+                [IHTMLElement.HTMLElementEnum.span].style.paddingLeft = "3em";
 
+
+            //// hide Tag?
+            //gg.__ColumnsTable.css
+            // [IHTMLElement.HTMLElementEnum.tbody]
+            // [IHTMLElement.HTMLElementEnum.tr]
+            // [IHTMLElement.HTMLElementEnum.td]
+            // [3].style.display = IStyle.DisplayEnum.none;
+
+            //gg.__ContentTable.css
+            // [IHTMLElement.HTMLElementEnum.tbody]
+            // [IHTMLElement.HTMLElementEnum.tr]
+            // [IHTMLElement.HTMLElementEnum.td]
+            // [3].style.display = IStyle.DisplayEnum.none;
 
         }
 

@@ -549,12 +549,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region AtInternalWidthChanged
                     Action AtInternalWidthChanged = delegate
                     {
-                        SourceCell.InternalContentContainer.style.width = SourceColumn.Width + "px";
+                        // !!!
+
+                        //SourceCell.InternalContentContainer.style.width = SourceColumn.Width + "px";
 
 
-                        SourceCell.InternalTableColumn.style.width = SourceColumn.Width + "px";
-                        SourceCell.InternalTableColumn.style.minWidth = SourceColumn.Width + "px";
-                        Console.WriteLine(new { SourceColumn.Name, width = SourceColumn.Width });
+                        //SourceCell.InternalTableColumn.style.width = SourceColumn.Width + "px";
+                        //SourceCell.InternalTableColumn.style.minWidth = SourceColumn.Width + "px";
+
+                        //Console.WriteLine(new { SourceColumn.Name, width = SourceColumn.Width });
                         //c1.style.backgroundColor = JSColor.Red;
                         //c1content.innerText = "@" + InternalColumn.HeaderText + ":" + InternalColumn.Width;
                     };
@@ -1239,6 +1242,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalBindCellMouseEnter(SourceCell);
 
 
+                    #region Font
                     SourceCell.InternalContentContainer.style.font = SourceCell.InternalStyle.Font.ToCssString();
                     SourceCell.InternalStyle.InternalFontChanged +=
                         delegate
@@ -1254,6 +1258,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             else
                                 SourceCell.InternalContentContainer.style.textDecoration = "";
                         };
+                    #endregion
 
                     #region InternalForeColorChanged
                     SourceCell.InternalStyle.InternalForeColorChanged +=
@@ -1493,8 +1498,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             var w = SourceColumn.Width;
 
-                            SourceColumn.InternalTableColumn.style.width = w + "px";
-                            SourceColumn.InternalTableColumn.style.minWidth = w + "px";
+                            // !!!
+                            // setting the size for the headers on top
+
+
+                            // update the designer style
+                            this.__ColumnsTable_css_td[SourceColumn.Index].style.width = w + "px";
+                            this.__ContentTable_css_td[SourceColumn.Index].style.width = w + "px";
+
+                            //SourceColumn.InternalTableColumn.style.width = w + "px";
+                            //SourceColumn.InternalTableColumn.style.minWidth = w + "px";
                         };
 
 
@@ -1621,7 +1634,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             for (int i = 0; i <= NewIndex; i++)
                             {
                                 //x += this.InternalColumns.InternalItems[i].Width;
-                                x += this.InternalColumns.InternalItems[i].Width + 1;
+
+                                var c = this.InternalColumns.InternalItems[i];
+
+
+                                // X:\jsc.svn\examples\javascript\forms\Test\TestDataGridPadding\TestDataGridPadding\ApplicationControl.cs
+                                if (c.Visible)
+                                    x += c.Width + 1;
                             }
 
                             ColumnHorizontalResizerDrag.Position = new Point(x, 0);
@@ -1702,90 +1721,95 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                     #region InternalAutoSize
-                    this.InternalAutoResizeColumn += cindex =>
-                    {
-                        if (cindex != SourceColumn.Index)
-                            return;
-
-
-
-                        var rows = this.InternalRows.InternalItems.Source;
-
-                        // InternalAutoSize { Count = 33, cindex = -1 }
-
-
-                        //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex });
-                        #region Fill last column
-                        if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
-                            if (cindex == this.Columns.Count - 1)
-                            {
-                                var w = Enumerable.Range(0, cindex).Select(
-                                    c => this.Columns[c].Width
-                                ).Sum();
-
-                                var value = (ZeroHorizontalResizerDrag.Position.X + 4);
-
-                                if (!this.InternalRowHeadersVisible)
-                                    value = 4;
-
-
-                                // { cindex = 0, w = 0, all = 1600, WidthByFill = 1600 } 
-
-                                var all = this.InternalScrollContainerElement.scrollWidth;
-
-                                var WidthByFill = all - w - value - 8;
-
-                                Console.WriteLine(
-                                    new { cindex, w, value, all, WidthByFill }
-
-                                    );
-
-                                //{ cindex = 0, w = 0, value = 99, all = 753, WidthByFill = 654 } 
-
-                                __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByFill - SourceColumn.Width);
-                                SourceColumn.Width = Math.Max(20, WidthByFill);
-
+                    this.InternalAutoResizeColumn +=
+                        (cindex, ObeyAutoSizeMode) =>
+                        {
+                            if (cindex != SourceColumn.Index)
                                 return;
-                            }
-                        #endregion
 
-                        if (cindex < 0) return;
 
-                        if (SourceColumn.AutoSizeMode == DataGridViewAutoSizeColumnMode.None) return;
 
-                        #region SetColumnWidth
-                        var WidthByRowsInThisColumn = rows.Max(
-                            rr =>
+                            var rows = this.InternalRows.InternalItems.Source;
+
+                            // InternalAutoSize { Count = 33, cindex = -1 }
+
+
+                            //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex });
+                            #region Fill last column
+                            if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
+                                if (cindex == this.Columns.Count - 1)
+                                {
+                                    var w = Enumerable.Range(0, cindex).Select(
+                                        c => this.Columns[c].Width
+                                    ).Sum();
+
+                                    var value = (ZeroHorizontalResizerDrag.Position.X + 4);
+
+                                    if (!this.InternalRowHeadersVisible)
+                                        value = 4;
+
+
+                                    // { cindex = 0, w = 0, all = 1600, WidthByFill = 1600 } 
+
+                                    var all = this.InternalScrollContainerElement.scrollWidth;
+
+                                    var WidthByFill = all - w - value - 8;
+
+                                    Console.WriteLine(
+                                        new { cindex, w, value, all, WidthByFill }
+
+                                        );
+
+                                    //{ cindex = 0, w = 0, value = 99, all = 753, WidthByFill = 654 } 
+
+                                    __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByFill - SourceColumn.Width);
+                                    SourceColumn.Width = Math.Max(20, WidthByFill);
+
+                                    return;
+                                }
+                            #endregion
+
+                            if (cindex < 0) return;
+
+                            if (SourceColumn.AutoSizeMode == DataGridViewAutoSizeColumnMode.None)
                             {
-                                __DataGridViewCell cc = rr.Cells[cindex];
-
-
-                                //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex, cc.InternalContent.offsetWidth });
-
-                                return cc.InternalContent.offsetWidth;
+                                if (ObeyAutoSizeMode)
+                                    return;
                             }
-                        );
 
-                        WidthByRowsInThisColumn = Math.Max(WidthByRowsInThisColumn, this.InternalColumns.InternalItems[cindex].InternalContent.offsetWidth);
-                        if (WidthByRowsInThisColumn == 0)
-                        {
-                            // no DOM?
-                            //Console.WriteLine("InternalAutoSize skipped");
-                        }
-                        else
-                        {
+                            #region SetColumnWidth
+                            var WidthByRowsInThisColumn = rows.Max(
+                                rr =>
+                                {
+                                    __DataGridViewCell cc = rr.Cells[cindex];
 
-                            // extra padding?
-                            WidthByRowsInThisColumn += 8 + 24;
 
-                            //Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
+                                    //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex, cc.InternalContent.offsetWidth });
 
-                            __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByRowsInThisColumn - SourceColumn.Width);
-                            SourceColumn.Width = Math.Max(20, WidthByRowsInThisColumn);
-                        }
-                        #endregion
+                                    return cc.InternalContent.offsetWidth;
+                                }
+                            );
 
-                    };
+                            WidthByRowsInThisColumn = Math.Max(WidthByRowsInThisColumn, this.InternalColumns.InternalItems[cindex].InternalContent.offsetWidth);
+                            if (WidthByRowsInThisColumn == 0)
+                            {
+                                // no DOM?
+                                //Console.WriteLine("InternalAutoSize skipped");
+                            }
+                            else
+                            {
+
+                                // extra padding?
+                                WidthByRowsInThisColumn += 8 + 24;
+
+                                //Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
+
+                                __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByRowsInThisColumn - SourceColumn.Width);
+                                SourceColumn.Width = Math.Max(20, WidthByRowsInThisColumn);
+                            }
+                            #endregion
+
+                        };
 
                     SourceColumn.ColumnHorizontalResizer.onmousedown +=
                         e =>
@@ -1795,7 +1819,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 e.preventDefault();
                                 e.stopPropagation();
 
-                                this.InternalAutoResizeColumn(SourceColumn.Index);
+                                this.AutoResizeColumn(SourceColumn.Index, ObeyAutoSizeMode: false);
 
 
                             }
@@ -1804,7 +1828,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.ColumnHorizontalResizer.ondblclick +=
                         delegate
                         {
-                            this.InternalAutoResizeColumn(SourceColumn.Index);
+                            this.AutoResizeColumn(SourceColumn.Index, ObeyAutoSizeMode: false);
                         };
                     #endregion
 
@@ -1979,7 +2003,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     foreach (var item in this.InternalColumns.InternalItems)
                     {
-                        this.InternalAutoResizeColumn(item.Index);
+                        this.AutoResizeColumn(item.Index);
                     }
                 };
             #endregion

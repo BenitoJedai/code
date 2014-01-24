@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib.JavaScript.Controls;
+using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLSpan InternalContent;
 
-
+        #region DefaultCellStyle
         public DataGridViewCellStyle InternalDefaultCellStyle;
         public event Action InternalDefaultCellStyleChanged;
         public override DataGridViewCellStyle DefaultCellStyle
@@ -29,9 +30,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalDefaultCellStyleChanged();
             }
         }
+        #endregion
 
         public override bool ReadOnly { get; set; }
 
+        public bool InternalVisible = true;
+
+        public override bool Visible
+        {
+            get
+            {
+                // https://developer.mozilla.org/en/docs/Web/API/window.getComputedStyle
+
+                return InternalVisible;
+            }
+            set
+            {
+                InternalVisible = value;
+
+                var gg = this.InternalContext;
+                var i = this.Index;
+
+                // hide Tag?
+                gg.__ColumnsTable.css
+                 [IHTMLElement.HTMLElementEnum.tbody]
+                 [IHTMLElement.HTMLElementEnum.tr]
+                 [IHTMLElement.HTMLElementEnum.td]
+                 [i].style.display = IStyle.DisplayEnum.none;
+
+                gg.__ContentTable.css
+                 [IHTMLElement.HTMLElementEnum.tbody]
+                 [IHTMLElement.HTMLElementEnum.tr]
+                 [IHTMLElement.HTMLElementEnum.td]
+                 [i].style.display = IStyle.DisplayEnum.none;
+            }
+        }
         #region HeaderText
         public string InternalHeaderText;
         public event Action InternalHeaderTextChanged;
