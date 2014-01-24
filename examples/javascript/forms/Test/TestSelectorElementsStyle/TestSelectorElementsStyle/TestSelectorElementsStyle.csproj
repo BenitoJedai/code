@@ -143,6 +143,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
+    <None Include="Design\ElegantIcons.ttf" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
