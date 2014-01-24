@@ -173,6 +173,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             get
             {
+                Console.WriteLine("css.style " + new { this.rule.selectorText });
+
+
                 return this.rule.style;
             }
         }
@@ -721,9 +724,29 @@ namespace ScriptCoreLib.JavaScript.DOM
                     return parent["::first-letter"];
                 }
             }
+
+            [Obsolete("when can we also do typeof(div) ?")]
+            public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    // child nodes?
+                    var selectorText = ">" + className + ":first-of-type";
+
+                    var z = this.parent[selectorText];
+
+                    // this is like type of nth?
+                    z.nthChildInlineMode = true;
+
+                    return z;
+                }
+            }
+
         }
 
 
+        // see also even
         public CSSStyleRuleMonkier_first first
         {
             get
