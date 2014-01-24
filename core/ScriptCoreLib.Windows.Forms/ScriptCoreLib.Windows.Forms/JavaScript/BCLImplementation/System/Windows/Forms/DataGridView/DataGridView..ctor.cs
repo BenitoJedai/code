@@ -193,6 +193,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRows.InternalItems.Source.Add(InternalNewRow);
 
             // http://www.w3schools.com/cssref/sel_last-of-type.asp
+            // dont we have lastOfType available yet?
             var InternalNewRow_content_css = __ContentTableBody.css[IHTMLElement.HTMLElementEnum.tr][":last-of-type"];
             var InternalNewRow_header_css = __RowsTableBody.css[IHTMLElement.HTMLElementEnum.tr][":last-of-type"];
             var InternalNewRow_css = InternalNewRow_content_css | InternalNewRow_header_css;

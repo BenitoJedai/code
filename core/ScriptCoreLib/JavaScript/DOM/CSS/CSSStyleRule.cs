@@ -92,6 +92,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+    [Obsolete("is it a good name?")]
     [Script]
     public class CSSStyleRuleMonkier
     {
@@ -817,6 +818,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+
+        [Obsolete("when can we also do typeof(div) ?")]
         public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
         {
             [Script(DefineAsStatic = true)]
@@ -833,6 +836,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return z;
             }
         }
+
 
 
         public override string ToString()

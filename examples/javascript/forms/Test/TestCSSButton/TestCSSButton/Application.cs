@@ -42,6 +42,15 @@ namespace TestCSSButton
                 @"A string from JavaScript.",
                 value => value.ToDocumentTitle()
             );
+
+            // IStyleSheetRule.AddRule error { text = .<Namespace>.Button{/**/} }
+            //IStyleSheet.all["." + typeof(Button)].style.borderLeft = "1em solid black";
+            // http://mathiasbynens.be/notes/css-escapes
+            //IStyleSheet.all["." + typeof(Button).Name].style.borderLeft = "1em solid black";
+
+
+            IStyleSheet.all[typeof(Button)].style.borderLeft = "1em solid black";
+
         }
 
     }

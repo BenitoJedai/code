@@ -352,6 +352,28 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
+
+
+
+        public CSSStyleRuleMonkier this[Type t]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // child nodes?
+                var selectorText = "." + t.Name;
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140124
+                var z = this[selectorText];
+
+                // this is like type of nth?
+                // dont know
+                //z.nthChildInlineMode = true;
+
+                return z;
+            }
+        }
+
         public CSSStyleRuleMonkier this[IHTMLElement e]
         {
             [Script(DefineAsStatic = true)]
