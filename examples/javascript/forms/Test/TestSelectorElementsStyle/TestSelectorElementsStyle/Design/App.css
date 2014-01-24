@@ -1,1 +1,62 @@
 h1 { color: blue; }
+
+button {
+	display: inline-block;
+	background: #f2f5f3;
+	border-radius: 4px;
+	border: solid 1px #f2f5f3;
+	border-bottom-color: #e1e5e3;
+	vertical-align: middle;
+	padding: 5px 10px;
+	color: #333333;
+}
+
+select  {
+	margin: 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	color: #257796;
+	overflow: hidden;
+	text-indent: 0.01px;
+	text-overflow: '';
+	font-size: 14px;
+	border-radius: 4px;
+	border: solid 1px #f2f5f3;
+	border-bottom-color: #e1e5e3;
+	padding: 5px 10px 5px 10px;
+	width: 80px;
+	height: 31px;
+	vertical-align: middle;
+	font-family: open_sansregular, Arial, sans-serif;
+}
+
+div[name="CSSComboBox"] div:after {
+				content:'C';
+                position:absolute;
+                top:0.1em;
+                right:0.1em;
+                font-family:ElegantIcons;
+}
+div[name='CSSComboBox'] select{
+	background-color:transparent;
+}
+
+input[type="text"]{
+	border: solid 1px #f2f5f3;
+	background: #f2f5f3;
+	padding: 6px 10px 7px 10px;
+	border-bottom-color: #e1e5e3;
+	border-radius: 4px;
+	vertical-align: middle;
+	color: #257796;
+	font-size: 14px;
+	font-family: open_sansregular, Arial, sans-serif;
+}
+
+input[type="radio"]{
+	margin: 3px 0.5ex;
+	padding: initial;
+	background-color: initial;
+	border: initial;
+}

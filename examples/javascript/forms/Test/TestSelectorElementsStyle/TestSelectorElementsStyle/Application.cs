@@ -41,6 +41,7 @@ namespace TestSelectorElementsStyle
             IStyleSheet.all[IHTMLElement.HTMLElementEnum.button].style.border = "5px solid green";
             IStyleSheet.all[IHTMLElement.HTMLElementEnum.input].style.border = "5px solid green";
 
+            { var ref0 = new ElegantIcons(); }
 
         }
 

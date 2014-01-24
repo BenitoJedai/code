@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -16,12 +17,70 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         public event EventHandler SelectedIndexChanged;
 
-        public IHTMLSelect HTMLTarget { get; set; }
+        public IHTMLSelect InternalElement;
+        public IHTMLDiv InternalContainer;
+        public IHTMLDiv InternalShadow;
+
+
+        public override IHTMLElement HTMLTargetRef
+        {
+            get
+            {
+                return InternalContainer;
+            }
+        }
+
+        //public override IHTMLElement HTMLTargetContainerRef
+        //{
+        //    get
+        //    {
+        //        return InternalContainer;
+        //    }
+        //}
 
         public __ComboBox()
         {
-            this.HTMLTarget = new IHTMLSelect();
-            this.HTMLTarget.onchange +=
+            //Changes made due to select after not working
+            //http://stackoverflow.com/questions/3532649/problem-with-select-and-after-with-css-in-webkit
+
+            //Size comes from Control size
+            #region InternalContainer
+            this.InternalContainer = new IHTMLDiv();
+
+            this.InternalContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            this.InternalContainer.name = "CSSComboBox";
+
+            this.InternalContainer.style.left = "0px";
+            this.InternalContainer.style.top = "0px";
+            #endregion
+
+            #region InternalContainer
+            this.InternalShadow = new IHTMLDiv();
+            
+
+            this.InternalShadow.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+            this.InternalShadow.name = "CSSComboBoxAfter";
+
+            this.InternalShadow.style.left = "0px";
+            this.InternalShadow.style.top = "0px";
+            this.InternalShadow.style.right = "0px";
+            this.InternalShadow.style.bottom = "0px";
+            #endregion
+
+            this.InternalShadow.AttachTo(InternalContainer);
+
+
+            this.InternalElement = new IHTMLSelect().AttachTo(InternalContainer);
+            this.InternalElement.style.left = "0px";
+            this.InternalElement.style.top = "0px";
+            this.InternalElement.style.width = "100%";
+            this.InternalElement.style.height = "100%";
+            this.InternalElement.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+
+
+
+
+            this.InternalElement.onchange +=
                 e =>
                 {
 
@@ -39,36 +98,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 SelectedIndexChanged(this, new EventArgs());
         }
 
-        public override IHTMLElement HTMLTargetRef
-        {
-            get
-            {
-                return HTMLTarget;
-            }
-        }
 
         public override bool Enabled
         {
             get
             {
-                return !HTMLTarget.disabled;
+                return !InternalElement.disabled;
             }
             set
             {
-                HTMLTarget.disabled = !value;
+                InternalElement.disabled = !value;
             }
         }
 
         public override void InternalSetSelectedIndex(int value)
         {
-            this.HTMLTarget.selectedIndex = value;
+            this.InternalElement.selectedIndex = value;
 
             RaiseSelectedIndexChanged();
         }
 
         public override int InternalGetSelectedIndex()
         {
-            return this.HTMLTarget.selectedIndex;
+            return this.InternalElement.selectedIndex;
         }
 
         public override string Text
@@ -76,11 +128,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             get
             {
                 // IE8 forced us to use this:
-                return this.HTMLTarget[this.HTMLTarget.selectedIndex].value;
+                return this.InternalElement[this.InternalElement.selectedIndex].value;
             }
             set
             {
-                this.HTMLTarget.value = value;
+                this.InternalElement.value = value;
             }
         }
         [Script(Implements = typeof(global::System.Windows.Forms.ComboBox.ObjectCollection))]
@@ -90,7 +142,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             public int Add(object e)
             {
-                Owner.HTMLTarget.Add(e.ToString());
+                Owner.InternalElement.Add(e.ToString());
 
                 return 0;
             }
