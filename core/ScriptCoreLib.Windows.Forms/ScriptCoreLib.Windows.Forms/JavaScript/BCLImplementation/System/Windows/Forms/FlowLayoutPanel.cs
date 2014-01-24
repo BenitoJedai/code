@@ -12,6 +12,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.FlowLayoutPanel))]
     internal class __FlowLayoutPanel : __Panel
     {
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.FlowLayoutPanel.SetFlowBreak(System.Windows.Forms.Control, System.Boolean)]
+        [Obsolete("nice, extension properties for component designer?")]
+        public void SetFlowBreak(Control control, bool value)
+        {
+        }
+
+        #region FlowDirection
         public event Action InternalFlowDirectionChanged;
         public FlowDirection InternalFlowDirection;
         public FlowDirection FlowDirection
@@ -25,6 +32,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             }
         }
+        #endregion
+
 
         public bool WrapContents { get; set; }
 
