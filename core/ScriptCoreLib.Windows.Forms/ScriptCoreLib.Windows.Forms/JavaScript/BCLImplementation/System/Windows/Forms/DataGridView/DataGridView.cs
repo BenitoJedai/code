@@ -235,7 +235,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
 
-
+        #region AutoResizeColumn
         public Action<int, bool> InternalAutoResizeColumn;
 
         public void AutoResizeColumn(int columnIndex)
@@ -248,6 +248,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (InternalAutoResizeColumn != null)
                 InternalAutoResizeColumn(columnIndex, ObeyAutoSizeMode);
         }
+        #endregion
 
 
         #region GridColor

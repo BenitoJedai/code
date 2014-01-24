@@ -71,11 +71,11 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ComboBox.cs">
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.GetPreferredSize.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.Layout.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control.Visible.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.GetPreferredSize.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.Layout.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.Visible.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.ScrollBars.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewSelectedRowCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.GetPreferredSize.cs" />
@@ -201,9 +201,7 @@
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\App.ico" />
     <Content Include="docs\description.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
