@@ -42,31 +42,35 @@ namespace TestDataGridPadding
             #region css
             __DataGridView gg = content.dataGridView1;
 
-            gg.__ColumnsTable_css_td.style.textTransform = IStyle.TextTransformEnum.uppercase;
-            gg.__ColumnsTable_css_td.style.color = "gray";
+            //gg.__ColumnsTable_css_td.style.textTransform = IStyle.TextTransformEnum.uppercase;
+            //gg.__ColumnsTable_css_td.style.color = "gray";
 
-            gg.__ContentTable_css_td.hover.style.cursor = IStyle.CursorEnum.pointer;
+            //gg.__ContentTable_css_td.hover.style.cursor = IStyle.CursorEnum.pointer;
 
-            gg.__ContentTable_css_td.hover.style.color = "blue";
+            //gg.__ContentTable_css_td.hover.style.color = "blue";
 
-            //gg.__ContentTable.css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr].hover[IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "yellow";
+            ////gg.__ContentTable.css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr].hover[IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "yellow";
 
-            gg.__ContentTable_css_td.hover.style.textDecoration = "underline";
+            //gg.__ContentTable_css_td.hover.style.textDecoration = "underline";
 
-            gg.__ContentTable_css_td.style.fontWeight = "bold";
-            gg.__ContentTable_css_td.style.paddingTop = "1em";
-            gg.__ContentTable_css_td.style.paddingBottom = "1em";
+            //gg.__ContentTable_css_td.style.fontWeight = "bold";
+            //gg.__ContentTable_css_td.style.paddingTop = "1em";
+            //gg.__ContentTable_css_td.style.paddingBottom = "1em";
             #endregion
 
-            var tdf = gg.__ContentTable.css[IHTMLElement.HTMLElementEnum.tr].nthChild[1];
+            //var tdf = gg.__ContentTable.css[IHTMLElement.HTMLElementEnum.tr].nthChild[1];
 
-            // { selectorText = >:nth-child(2) } 
-            // { selectorText = >:nth-child(2), parent = >tr } 
-            Console.WriteLine(new { tdf.selectorText, parent = tdf.parent.selectorText });
+            //// { selectorText = >:nth-child(2) } 
+            //// { selectorText = >:nth-child(2), parent = >tr } 
+            //Console.WriteLine(new { tdf.selectorText, parent = tdf.parent.selectorText });
 
             //tdf.style.paddingLeft = "3em";
 
-            gg.__ContentTable.css[IHTMLElement.HTMLElementEnum.tr][0].style.paddingLeft = "3em";
+            //.FirstOfType<>();
+            gg.__ContentTable.css[IHTMLElement.HTMLElementEnum.tr].first[IHTMLElement.HTMLElementEnum.td].style.backgroundColor = "red";
+
+
+
 
         }
 
