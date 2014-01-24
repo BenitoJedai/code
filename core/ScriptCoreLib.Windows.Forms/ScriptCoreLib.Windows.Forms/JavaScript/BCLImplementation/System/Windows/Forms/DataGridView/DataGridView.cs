@@ -235,13 +235,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-
-        public Action<int> InternalAutoResizeColumn;
+        public Action<int, bool> InternalAutoResizeColumn;
 
         public void AutoResizeColumn(int columnIndex)
         {
+            AutoResizeColumn(columnIndex, true);
+        }
+
+        public void AutoResizeColumn(int columnIndex, bool ObeyAutoSizeMode)
+        {
             if (InternalAutoResizeColumn != null)
-                InternalAutoResizeColumn(columnIndex);
+                InternalAutoResizeColumn(columnIndex, ObeyAutoSizeMode);
         }
 
 

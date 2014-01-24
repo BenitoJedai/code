@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         public virtual DataGridViewCellStyle DefaultCellStyle { get; set; }
         public virtual bool ReadOnly { get; set; }
+        public virtual bool Visible { get; set; }
 
         public virtual int InternalGetIndex()
         {
@@ -27,5 +28,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __DataGridView InternalContext;
 
+
+        //t [System.Windows.Forms.DataGridViewBand.set_Visible(System.Boolean)]
     }
 }
