@@ -137,7 +137,21 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // element is like exception. its a base class. not ot be created. not to be thrown.
 
         public string id;
-        public string name;
+
+
+        public string name
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return (string)this.getAttribute("name");
+            }
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                this.setAttribute("name", value);
+            }
+        }
 
         public int tabIndex;
 
