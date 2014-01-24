@@ -140,6 +140,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.__ContentTable_css_alt_td = this.__ContentTable.css
                 [IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr].even[IHTMLElement.HTMLElementEnum.td];
 
+            this.__ContentTable_css_odd_td = this.__ContentTable.css
+                [IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr].odd[IHTMLElement.HTMLElementEnum.td];
+
 
             __ContentTable.style.paddingTop = "22px";
 

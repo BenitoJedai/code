@@ -55,6 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public CSSStyleRuleMonkier __ContentTable_css_td;
         public CSSStyleRuleMonkier __ContentTable_css_alt_td;
+        public CSSStyleRuleMonkier __ContentTable_css_odd_td;
 
         public IHTMLTable __ColumnsTable;
         public CSSStyleRuleMonkier __ColumnsTable_css_td;
