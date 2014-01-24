@@ -80,6 +80,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
+                // will this cause
+                // system ttf to be packaged
+                // with the app?
                 return new global::System.Drawing.Font("Microsoft Sans Serif", 8.25F, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, ((byte)(186)));
             }
         }
@@ -89,6 +92,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Font = DefaultFont;
         }
 
+        [Obsolete("rename to InternalVirtual* ?")]
         public virtual DOM.HTML.IHTMLElement HTMLTargetRef
         {
             get
@@ -176,7 +180,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 // why would we want to do the reverse here?
                 //if (bg.firstChild == null)
-                bg.appendChild(e.GetHTMLTarget());
+
+
+                var ChildElement = e.GetHTMLTarget();
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140124
+                // let the DOM know about our pseudo shadow DOM
+                // we do expect the reflection to give us the .net name
+                // of the control here.
+                //var ContextTypeName = this.Owner.GetType().Name;
+                var ChildElementTypeName = e.GetType().Name;
+
+                // do we want to help css selectors to know
+                // who is the parent? 
+                //bg.className += " ContextOf" + ContextTypeName;
+
+                // what about being added multiple times?
+                ChildElement.className += " " + ChildElementTypeName;
+
+                bg.appendChild(ChildElement);
+
                 //else
                 //bg.insertBefore(e.GetHTMLTarget(), bg.firstChild);
 
