@@ -31,7 +31,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __Button()
         {
-            this.HTMLTarget = new IHTMLDiv { };
+            this.HTMLTarget = new IHTMLDiv
+            {
+
+                // name: "CSSButton"
+                // it works, yet does not apply css
+                name = "CSSButton"
+                //className = "CSSButton"
+            };
+
+            //this.HTMLTarget.setAttribute("name", "CSSButton");
+
+            //this.HTMLTarget.setAttribute("style-id", x);
+            //this.
+
             this.HTMLTarget.style.display = DOM.IStyle.DisplayEnum.inline_block;
 
             this.InternalButton = new IHTMLButton().AttachTo(this.HTMLTarget);
