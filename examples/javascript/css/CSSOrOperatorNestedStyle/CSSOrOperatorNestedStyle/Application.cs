@@ -39,6 +39,7 @@ namespace CSSOrOperatorNestedStyle
 
             //  f.OgEABmASXzSNfpl_bHJLUOA(g).HwEABmASXzSNfpl_bHJLUOA().EQEABmASXzSNfpl_bHJLUOA().color = 'red';
             page.foo.css.hover[page.fragment, page.sibling].after.style.color = "red";
+            page.foo.css.hover[page.fragment, page.sibling].first.style.backgroundColor = "yellow";
 
 
         }
