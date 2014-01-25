@@ -59,6 +59,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             public CSSStyleRuleMonkier css
             {
+                // could we send the monkier to web worker for additional manipulation?
                 [Script(DefineAsStatic = true)]
                 get
                 {
@@ -66,10 +67,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     //Console.WriteLine(".css " + new { selectorText });
 
+                    // how fast is the selection?
                     var value = IStyleSheet.all[selectorText];
 
                     //Console.WriteLine(".css " + new { value });
 
+                    // should we cache the monkier on the element?
                     return value;
                 }
             }
@@ -89,20 +92,50 @@ namespace ScriptCoreLib.JavaScript.DOM
                     throw new InvalidOperationException();
 
 
+
+                #region style-id
                 var x = (string)that.getAttribute("style-id");
+
 
                 if (string.IsNullOrEmpty(x))
                 {
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140125/speed
+                    // localName: "div"
+
+                    //x = this.tagName + __style_id;
+                    // localName: "div"
+                    // tagName: "DIV"
+                    // className: ""
+                    // lassList: DOMTokenList
+
+                    // are we building an Expression<> here?
+                    //x = this.localName + "." + this.classList.FirstOrDefault() + "[" + __style_id + "]";
                     x = "" + __style_id;
+                    this.setAttribute("style-id", x);
+
+                    // 95ms css.style { selectorText = [style-id="table.__ContentTable[2]"] > tbody > tr > td } 
 
                     __style_id++;
                 }
-
-                this.setAttribute("style-id", x);
-
+                #endregion
 
 
-                return "[style-id='" + x + "']";
+                #region selectorText
+                var selectorText = this.localName;
+
+                // looks like cookie api access. lets talk to only the primary class thp
+                var className = this.classList.FirstOrDefault();
+                if (className != null)
+                {
+                    // do we need to do css escape?
+                    selectorText += "." + className;
+                }
+
+                selectorText += "[style-id='" + x + "']";
+                #endregion
+
+
+                return selectorText;
             }
         }
     }

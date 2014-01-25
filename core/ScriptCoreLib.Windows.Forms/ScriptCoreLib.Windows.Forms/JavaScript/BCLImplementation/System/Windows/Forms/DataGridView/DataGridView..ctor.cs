@@ -19,12 +19,53 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     partial class __DataGridView
     {
+        public Stopwatch DataGridViewConstructorStopwatch = Stopwatch.StartNew();
+
+
+        public IHTMLTable __ContentTable;
+
+
+        // typeof(__DataGridView) InternalElement 
+        // name as OuterElement or InternalOuterElement?
+        public readonly CSSStyleRuleMonkier css;
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140124
+        // X:\jsc.svn\examples\javascript\forms\Test\TestCSSButton\TestCSSButton\Application.cs
+        // cant we use typeof here?
+        public static string __ContentTable_className = "__DataGridViewContentTable";
+        public static string __ColumnsTable_className = "__DataGridViewColumnsTable";
+        public static string __RowsTable_className = "__DataGridViewRowsTable";
+
+        public readonly CSSStyleRuleMonkier __ContentTable_css;
+        public CSSStyleRuleMonkier __ContentTable_css_td;
+        public CSSStyleRuleMonkier __ContentTable_css_alt_td;
+        public CSSStyleRuleMonkier __ContentTable_css_odd_td;
+
+        public IHTMLTable __ColumnsTable;
+        public CSSStyleRuleMonkier __ColumnsTable_css;
+        public CSSStyleRuleMonkier __ColumnsTable_css_td;
+
+        public IHTMLTable __RowsTable;
+        public CSSStyleRuleMonkier __RowsTable_css;
+        public CSSStyleRuleMonkier __RowsTable_css_td;
+
 
         public __DataGridView()
         {
-            //Console.WriteLine("__DataGridView");
+            Console.WriteLine("enter DataGridView .ctor");
 
+            this.InternalElement = new IHTMLDiv
+            {
 
+                // do this ahead of time
+                className = typeof(DataGridView).Name
+            };
+
+            // add the rule to current document.
+            // what happens if we do popup?
+            this.css = this.InternalElement.css;
+
+            this.InternalElement.style.overflow = DOM.IStyle.OverflowEnum.hidden;
 
 
 
@@ -81,11 +122,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.MultiSelect = true;
 
-            this.InternalElement = new IHTMLDiv();
 
-
-
-            this.InternalElement.style.overflow = DOM.IStyle.OverflowEnum.hidden;
 
             this.InternalSetDefaultFont();
 
@@ -125,6 +162,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var __ContentTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
 
+            // 116ms css.style { selectorText = table.__ContentTable[style-id="2"] > tbody > tr > td } 
             this.__ContentTable = new IHTMLTable
             {
                 className = __ContentTable_className,
@@ -134,13 +172,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // X:\jsc.svn\examples\javascript\css\CSSOdd\CSSOdd\Application.cs
 
-            this.__ContentTable_css_td = this.__ContentTable.css
+            //this.__ContentTable_css = css.descendants[className];
+            //this.__ContentTable_css = css[this.__ContentTable];
+            //css.adjacentSibling[]
+            //css.siblings
+
+            // the hacky way:
+            this.__ContentTable_css = css[" table." + this.__ContentTable.className];
+
+            this.__ContentTable_css_td = this.__ContentTable_css
                 [IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
 
-            this.__ContentTable_css_alt_td = this.__ContentTable.css
+            this.__ContentTable_css_alt_td = this.__ContentTable_css
                 [IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr].even[IHTMLElement.HTMLElementEnum.td];
 
-            this.__ContentTable_css_odd_td = this.__ContentTable.css
+            this.__ContentTable_css_odd_td = this.__ContentTable_css
                 [IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr].odd[IHTMLElement.HTMLElementEnum.td];
 
 
@@ -151,7 +197,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var __ColumnsTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131213-forms-css
-            this.__ColumnsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__ColumnsTableContainer);
+            this.__ColumnsTable = new IHTMLTable
+            {
+                className = __ColumnsTable_className,
+
+                cellPadding = 0,
+                cellSpacing = 0
+            }.AttachTo(__ColumnsTableContainer);
             this.__ColumnsTable_css_td = this.__ColumnsTable.css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
 
             IHTMLTableRow __ColumnsTableRow = null;
@@ -165,7 +217,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __RowsTableContainer.style.SetLocation(0, 0);
 
 
-            this.__RowsTable = new IHTMLTable { cellPadding = 0, cellSpacing = 0 }.AttachTo(__RowsTableContainer);
+            this.__RowsTable = new IHTMLTable
+            {
+                className = __RowsTable_className,
+                cellPadding = 0,
+                cellSpacing = 0
+            }.AttachTo(__RowsTableContainer);
+
+            // should we make the monkier a bit lazier?
             this.__RowsTable_css_td = this.__RowsTable.css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
 
             __RowsTable.style.paddingTop = "22px";
@@ -197,8 +256,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // http://www.w3schools.com/cssref/sel_last-of-type.asp
             // dont we have lastOfType available yet?
-            var InternalNewRow_content_css = __ContentTableBody.css[IHTMLElement.HTMLElementEnum.tr][":last-of-type"];
-            var InternalNewRow_header_css = __RowsTableBody.css[IHTMLElement.HTMLElementEnum.tr][":last-of-type"];
+            var InternalNewRow_content_css = __ContentTableBody.css.last[IHTMLElement.HTMLElementEnum.tr];
+            var InternalNewRow_header_css = __RowsTableBody.css.last[IHTMLElement.HTMLElementEnum.tr];
             var InternalNewRow_css = InternalNewRow_content_css | InternalNewRow_header_css;
 
             //var InternalNewRow_css = IStyleSheet.all[
@@ -2212,7 +2271,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.GridColor = global::System.Drawing.Color.FromArgb(0xa0, 0xa0, 0xa0);
             this.Height = 400;
 
-            Console.WriteLine("DataGridView ready");
+
+            Console.WriteLine("exit DataGridView .ctor " + new { DataGridViewConstructorStopwatch.ElapsedMilliseconds });
         }
 
 

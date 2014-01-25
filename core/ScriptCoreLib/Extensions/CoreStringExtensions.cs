@@ -7,6 +7,7 @@ using System.Text;
 // namespace used by ScriptTypeFilter
 namespace ScriptCoreLib.Extensions
 {
+    [Obsolete("why not move to Shared or System namespace?")]
     [Script]
     public static class CoreStringExtensions
     {
