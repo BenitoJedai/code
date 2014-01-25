@@ -98,9 +98,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }.AttachTo(this.InternalContainer);
 
             //Need to test/document
-            this.InternalNameChanged += delegate { 
+            this.InternalNameChanged += delegate
+            {
                 this.InternalTextField.name = InternalName;
-                if(InternalName.ToUpper().Contains(("email").ToUpper()))
+                if (InternalName.ToUpper().Contains(("email").ToUpper()))
                     this.InternalTextField.type = Shared.HTMLInputTypeEnum.email;
                 if (InternalName.ToUpper().Contains(("phone").ToUpper()))
                     this.InternalTextField.type = Shared.HTMLInputTypeEnum.tel;
@@ -112,9 +113,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalTextField.style.margin = "0";
             this.InternalTextField.style.paddingTop = "0";
             this.InternalTextField.style.paddingBottom = "0";
-            this.InternalTextField.style.border = "1px solid gray";
+
+            // what about inheritance chain?
+            // X:\jsc.svn\examples\javascript\forms\Test\CSSLastTextBox\CSSLastTextBox\Application.cs
+            IStyleSheet.all[typeof(TextBox)][IHTMLElement.HTMLElementEnum.input].style.border = "1px solid gray";
             #endregion
 
+            // what about padding?
             this.InternalTextField.style.width = "100%";
             this.InternalTextField.style.height = "100%";
 

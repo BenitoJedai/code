@@ -45,23 +45,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLDiv __Corner;
 
-        public IHTMLTable __ContentTable;
 
-
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140124
-        // X:\jsc.svn\examples\javascript\forms\Test\TestCSSButton\TestCSSButton\Application.cs
-        // cant we use typeof here?
-        public static string __ContentTable_className = "__ContentTable";
-
-        public CSSStyleRuleMonkier __ContentTable_css_td;
-        public CSSStyleRuleMonkier __ContentTable_css_alt_td;
-        public CSSStyleRuleMonkier __ContentTable_css_odd_td;
-
-        public IHTMLTable __ColumnsTable;
-        public CSSStyleRuleMonkier __ColumnsTable_css_td;
-
-        public IHTMLTable __RowsTable;
-        public CSSStyleRuleMonkier __RowsTable_css_td;
 
         // naming convention
         public IHTMLDiv InternalElement;

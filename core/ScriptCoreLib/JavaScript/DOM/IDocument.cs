@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://www.w3schools.com/jsref/prop_doc_baseuri.asp
         public string baseURI;
 
-  
+
 
         [Script(DefineAsStatic = true)]
         public new void appendChild<TChild>(TChild e)
@@ -82,6 +82,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class IDocument<DOMElement> : IDocument
         where DOMElement : IElement
     {
+        public DOMElement[] querySelectorAll(string selectors)
+        {
+            // http://www.w3.org/TR/selectors-api/
+            return null;
+        }
+
         internal DOMElement createElementNS(string ns, string tag)
         {
             return default(DOMElement);

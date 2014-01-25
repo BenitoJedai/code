@@ -16,7 +16,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     public partial class __Form
     {
+        [Obsolete("pending css guidline review")]
         public CSSStyleRuleMonkier outer_css;
+
+        public Stopwatch FormConstructorStopwatch = Stopwatch.StartNew();
 
         public __Form()
         {
@@ -730,8 +733,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             FormStyler.RaiseAtFormCreated(
                 this.InternalStyler
             );
+
+
+            this.ControlAdded +=
+                (sender, args) =>
+                {
+                    if (InternalTrackInitializeComponents)
+                    {
+
+                        // report what controls are being added and 
+
+                        Console.WriteLine("at Form ControlAdded " + new
+                        {
+                            FormConstructorStopwatch,
+                            Control = args.Control.GetType().Name,
+                            this.GetType().Name
+                        });
+                    }
+                };
+
+            Console.WriteLine("exit Form .ctor " + new { FormConstructorStopwatch, this.GetType().Name });
         }
 
+        public bool InternalTrackInitializeComponents = true;
+
+        public override void InternalResumeLayout(bool performLayout)
+        {
+            InternalTrackInitializeComponents = false;
+
+            Console.WriteLine("at Form InternalResumeLayout " + new { FormConstructorStopwatch, this.GetType().Name });
+        }
     }
 
 

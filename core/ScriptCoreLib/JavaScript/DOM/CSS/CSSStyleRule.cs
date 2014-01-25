@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -105,32 +106,28 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-        #region parent
-        CSSStyleRuleMonkier __parent;
-        public CSSStyleRuleMonkier parent
-        {
-            get { return __parent; }
-            set
-            {
-                __parent = value;
 
-                __parent.selectorTextChanged +=
-                    delegate
-                    {
-                        //Console.WriteLine("__parent.selectorTextChanged " + new { __parent = __parent.selectorText, child = selectorText });
-
-                        // force refresh
-                        this.selectorText = this.selectorText;
-                    };
-            }
-        }
-        #endregion
 
         #region [selectorText]
         public CSSStyleRuleMonkier this[string selectorText]
         {
             get
             {
+                if (this.parents.Count > 0)
+                {
+                    Console.WriteLine("css regroup");
+
+                    var p = default(CSSStyleRuleMonkier);
+
+                    foreach (var item in this.parents)
+                    {
+                        var pp = item[selectorText];
+                        p |= pp;
+                    }
+
+                    return p;
+                }
+
                 var child = new CSSStyleRuleMonkier
                 {
                     parent = this,
@@ -144,30 +141,6 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-        //public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
-        public static CSSStyleRuleMonkier operator |(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
-        {
-            // tested by
-            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs
-            // X:\jsc.svn\examples\javascript\css\CSSTableSelector\CSSTableSelector\Application.cs
-
-            var rule = IStyleSheet.all[parent1.rule.selectorText + "," + parent2.rule.selectorText];
-
-            parent1.selectorTextChanged +=
-                delegate
-                {
-                    rule.selectorText = parent1.rule.selectorText + "," + parent2.rule.selectorText;
-                };
-
-
-            parent2.selectorTextChanged +=
-                delegate
-                {
-                    rule.selectorText = parent1.rule.selectorText + "," + parent2.rule.selectorText;
-                };
-
-            return rule;
-        }
 
         public CSSStyleDeclaration style
         {
@@ -651,6 +624,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+
+        #region content
         public string content
         {
             set
@@ -675,6 +650,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             }
         }
+        #endregion
 
 
 
@@ -686,6 +662,19 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             public CSSStyleRuleMonkier parent;
 
+            // default provider
+            public CSSStyleDeclaration style
+            {
+                get
+                {
+                    //Console.WriteLine("css.style " + new { this.rule.selectorText });
+
+
+                    return this.child.style;
+                }
+            }
+
+
             // http://www.w3schools.com/cssref/sel_firstchild.asp
             // http://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class/8539107#8539107
             // jsc can you collect anwsers from users and notify?
@@ -694,6 +683,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 get
                 {
+                    // should this be the default?
+
                     // isnt this like nth child?
                     return parent[">:first-child"];
                 }
@@ -717,11 +708,14 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 get
                 {
+                    Console.WriteLine(":first-letter");
 
                     //http://www.w3.org/TR/selectors/#pseudo-elements
                     // X:\jsc.svn\examples\javascript\Test\TestFirstLine\TestFirstLine\Application.cs
+                    // http://stackoverflow.com/questions/14075274/issue-with-css-first-of-type-first-letter
 
-                    return parent["::first-letter"];
+                    //return parent["::first-letter"];
+                    return parent[":first-letter"];
                 }
             }
 
@@ -767,6 +761,71 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         #endregion
 
+        #region last
+
+        [Script]
+        public sealed class CSSStyleRuleMonkier_last
+        {
+            public CSSStyleRuleMonkier parent;
+
+            // http://www.w3schools.com/cssref/sel_firstchild.asp
+            // http://stackoverflow.com/questions/2717480/css-selector-for-first-element-with-class/8539107#8539107
+            // jsc can you collect anwsers from users and notify?
+            //[Obsolete("should we rename this to firstElement or keep css naming? ")]
+            public CSSStyleRuleMonkier child
+            {
+                get
+                {
+                    // isnt this like nth child?
+                    return parent[">:last-child"];
+                }
+            }
+
+
+            [Obsolete("when can we also do typeof(div) ?")]
+            public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    // child nodes?
+                    var selectorText = ">" + className + ":last-of-type";
+
+                    var z = this.parent[selectorText];
+
+                    // this is like type of nth?
+                    z.nthChildInlineMode = true;
+
+                    return z;
+                }
+            }
+
+        }
+
+
+        // see also even
+        public CSSStyleRuleMonkier_last last
+        {
+            get
+            {
+
+                //http://www.w3.org/TR/selectors/#pseudo-elements
+                // X:\jsc.svn\examples\javascript\Test\TestFirstLine\TestFirstLine\Application.cs
+
+                return new CSSStyleRuleMonkier_last { parent = this };
+            }
+        }
+
+
+
+
+
+
+
+        #endregion
+
+
+
 
         // adjacent-sibling selector
 
@@ -794,7 +853,12 @@ namespace ScriptCoreLib.JavaScript.DOM
                 {
                     var selectorText = "" + className;
 
-                    return parent[this.op + selectorText];
+                    // tested by
+                    // X:\jsc.svn\examples\javascript\CSS\CSSSpecificDescendant\CSSSpecificDescendant\Application.cs
+
+                    var x = parent[this.op + selectorText];
+                    x.nthChildInlineMode = true;
+                    return x;
                 }
             }
 
@@ -842,6 +906,178 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+
+
+        public override string ToString()
+        {
+            return new { this.rule.selectorText }.ToString();
+        }
+
+
+
+        #region parent
+        CSSStyleRuleMonkier __parent;
+        [Obsolete("what about multiple parents, when  | operator is used?")]
+        public CSSStyleRuleMonkier parent
+        {
+            get { return __parent; }
+            set
+            {
+                __parent = value;
+
+                __parent.selectorTextChanged +=
+                    delegate
+                    {
+                        //Console.WriteLine("__parent.selectorTextChanged " + new { __parent = __parent.selectorText, child = selectorText });
+
+                        // force refresh
+                        this.selectorText = this.selectorText;
+                    };
+            }
+        }
+        #endregion
+
+
+        public BindingList<CSSStyleRuleMonkier> parents = new BindingList<CSSStyleRuleMonkier>();
+
+        public CSSStyleRuleMonkier()
+        {
+            // X:\jsc.svn\examples\javascript\CSS\CSSOrOperatorNestedStyle\CSSOrOperatorNestedStyle\Application.cs
+
+            parents.AddingNew +=
+                (sender, args) =>
+                {
+                    // do we allow to remove parents?
+
+                    var parent1 = (CSSStyleRuleMonkier)args.NewObject;
+
+                    parent1.selectorTextChanged +=
+                       delegate
+                       {
+                           var selectorText = GetSelectorTextFromParents(parents.ToArray());
+
+                           this.rule.selectorText = selectorText;
+                       };
+
+                };
+        }
+
+        private static string GetSelectorTextFromParents(CSSStyleRuleMonkier[] parents)
+        {
+            var w = new StringBuilder();
+
+            for (int i = 0; i < parents.Length; i++)
+            {
+                if (i > 0)
+                    w.Append(",");
+
+                w.Append(parents[i].rule.selectorText);
+            }
+
+            var selectorText = w.ToString();
+            return selectorText;
+        }
+
+        //public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
+        public static CSSStyleRuleMonkier operator |(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
+        {
+            if (parent1 == null)
+                return parent2;
+
+            if (parent2 == null)
+                return parent1;
+
+            // tested by
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs
+            // X:\jsc.svn\examples\javascript\css\CSSTableSelector\CSSTableSelector\Application.cs
+
+            var collection = new List<CSSStyleRuleMonkier>();
+
+            // what about group of groups?
+            collection.Add(parent1);
+            collection.Add(parent2);
+
+            var rule = IStyleSheet.all[GetSelectorTextFromParents(collection.ToArray())];
+
+            foreach (var item in collection)
+            {
+                rule.parents.Add(item);
+            }
+
+
+            return rule;
+        }
+
+
+        // Error	4	The call is ambiguous between the following methods or properties: 'ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier.this[int]' and 'ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier.this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement]'	X:\jsc.svn\examples\javascript\CSS\CSSSpecificDescendant\CSSSpecificDescendant\Application.cs	44	13	CSSSpecificDescendant
+        // span has conficting operators?
+        public CSSStyleRuleMonkier this[IHTMLSpan e]
+        {
+            get
+            {
+                return this[(IHTMLElement)e];
+            }
+        }
+
+        public CSSStyleRuleMonkier this[IHTMLElement e]
+        {
+            get
+            {
+                Console.WriteLine(" either a sibling or a decendant. our task is to find the location and remember it");
+
+
+                // could this be the + operator?
+
+                var p = new List<CSSStyleRuleMonkier>();
+
+
+                // X:\jsc.svn\examples\javascript\CSS\CSSSpecificDescendant\CSSSpecificDescendant\Application.cs
+
+
+
+                var withoutpseudo = this;
+
+                if (this.selectorText == ":hover")
+                {
+                    // we need to go one level up
+
+                    withoutpseudo = this.parent;
+                }
+
+                var collection = Native.document.querySelectorAll(withoutpseudo.rule.selectorText);
+
+                foreach (var item in collection)
+                {
+                    Console.WriteLine("found source ...");
+
+                    var pp = GetRelativeSelector(this, item, e);
+
+                    if (pp != null)
+                    {
+                        p.Add(pp);
+                    }
+                }
+
+                return p.FirstOrDefault();
+            }
+        }
+
+        public CSSStyleRuleMonkier this[params IHTMLElement[] collection]
+        {
+            get
+            {
+                var p = default(CSSStyleRuleMonkier);
+
+                foreach (var item in collection)
+                {
+                    p |= this[item];
+                }
+
+                return p;
+            }
+        }
+
+
         [Obsolete("when can we also do typeof(div) ?")]
         public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
         {
@@ -861,13 +1097,48 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
-
-        public override string ToString()
+        public static CSSStyleRuleMonkier GetRelativeSelector(CSSStyleRuleMonkier css, IHTMLElement source, IHTMLElement target)
         {
-            return new { this.rule.selectorText }.ToString();
+            if (source.parentNode == target.parentNode)
+            {
+                Console.WriteLine(" ah. we are talking about a direct sibling? if so, whats the index?");
+
+                var yindex = source.parentNode.childNodes
+                    .AsEnumerable()
+                    .Where(x => x.nodeType == target.nodeType)
+                    .Where(x => x.nodeName == target.nodeName)
+                    .TakeWhile(x => x != target)
+                    .Count();
+
+                Console.WriteLine(new { yindex });
+
+                var z = css["~" + target.localName];
+                z.nthChildInlineMode = true;
+                return z[yindex];
+            }
+
+            if (source == target.parentNode)
+            {
+                Console.WriteLine(" ah. direct descendant.");
+
+                var yindex = source.childNodes
+                    .AsEnumerable()
+                    .Where(x => x.nodeType == target.nodeType)
+                    .Where(x => x.nodeName == target.nodeName)
+                    .TakeWhile(x => x != target)
+                    .Count();
+
+                Console.WriteLine(new { yindex });
+
+                var z = css[">" + target.localName];
+                z.nthChildInlineMode = true;
+                return z[yindex];
+            }
+
+            Console.WriteLine(" parents do not match yet ");
+
+
+            return null;
         }
-
-
-
     }
 }

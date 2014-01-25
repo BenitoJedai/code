@@ -47,7 +47,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 
 
 
-
+        public event AddingNewEventHandler AddingNew;
 
         public event ListChangedEventHandler ListChanged;
 
@@ -60,6 +60,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
             //{
             //    this.HookPropertyChanged(item);
             //}
+
+            if (AddingNew != null)
+                AddingNew(this, new AddingNewEventArgs(item));
+
             this.FireListChanged(ListChangedType.ItemAdded, index);
         }
 

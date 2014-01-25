@@ -40,9 +40,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalLayoutSuspended = false;
         }
 
+        public virtual void InternalResumeLayout(bool performLayout)
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140125/speed
+
+        }
+
         public void ResumeLayout(bool performLayout)
         {
             InternalLayoutSuspended = false;
+
+            InternalResumeLayout(performLayout);
 
             if (performLayout)
                 PerformLayout();

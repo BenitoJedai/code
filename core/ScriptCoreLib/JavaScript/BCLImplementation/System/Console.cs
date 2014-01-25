@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using System.Media;
 using System.IO;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -198,11 +199,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void WriteLine(string e)
         {
-            Out.Write(e + Environment.NewLine);
+            Out.WriteLine(e);
         }
-        public static void WriteLine(Int64 e)
+        public static void WriteLine(long e)
         {
-            Out.Write(e + Environment.NewLine);
+            Out.WriteLine("" + e);
         }
         public static void WriteLine()
         {
@@ -211,6 +212,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void WriteLine(string e, object x)
         {
+            // ?
             Out.WriteLine(string.Format(e, x));
         }
 
@@ -254,11 +256,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script]
         class __OutWriter : TextWriter
         {
+            Stopwatch w = Stopwatch.StartNew();
+
+            string href;
+
+            string GetPrefix()
+            {
+                // what about web workers?
+                if (Native.document != null)
+                    if (href != Native.document.location.href)
+                    {
+                        w = Stopwatch.StartNew();
+                        href = Native.document.location.href;
+                    }
+
+                return w.ElapsedMilliseconds + "ms ";
+            }
+
             public override void Write(object value)
             {
                 __BrowserConsole.Write(value);
             }
-
 
             public override void Write(string value)
             {
@@ -267,12 +285,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             public override void WriteLine(string value)
             {
-                __BrowserConsole.WriteLine(value);
+                __BrowserConsole.WriteLine(GetPrefix() + value);
             }
 
             public override void WriteLine(object value)
             {
-                __BrowserConsole.WriteLine(value);
+                __BrowserConsole.WriteLine(GetPrefix() + value);
 
             }
 

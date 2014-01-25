@@ -417,7 +417,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // this is special
         public string className;
 
+        // see also
+        // InternalGetExplicitRuleSelector
+        // what spec defines this?
+        public string[] classList;
 
+        // what spec defines this?
+        public string localName;
 
         public readonly int offsetLeft;
         public readonly int offsetTop;
@@ -949,6 +955,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
 
+        [Obsolete("documentation shall also mention radio button groups and .css")]
         public static int NextID = 0;
 
         [Script(DefineAsStatic = true)]
