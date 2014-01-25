@@ -531,6 +531,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
+                // what about providing .not also? prefix or suffix?
                 return this[":not(:checked)"];
             }
         }
@@ -1099,6 +1100,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static CSSStyleRuleMonkier GetRelativeSelector(CSSStyleRuleMonkier css, IHTMLElement source, IHTMLElement target)
         {
+            // if the target element has style id then should we use it?
+            // or us it if the source is document element?
+            // this would allow document level attributes to work
+            // as filters for state
+
             if (source.parentNode == target.parentNode)
             {
                 Console.WriteLine(" ah. we are talking about a direct sibling? if so, whats the index?");
@@ -1135,8 +1141,30 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return z[yindex];
             }
 
-            Console.WriteLine(" parents do not match yet ");
+            Console.WriteLine(" lets check the parent as a link ");
 
+            // what about different documents?
+            if (target.parentNode != null)
+            {
+                var p = GetRelativeSelector(css, source, target.parentNode);
+                if (p != null)
+                {
+                    var yindex = target.parentNode.childNodes
+                     .AsEnumerable()
+                     .Where(x => x.nodeType == target.nodeType)
+                     .Where(x => x.nodeName == target.nodeName)
+                     .TakeWhile(x => x != target)
+                     .Count();
+
+                    Console.WriteLine(new { yindex });
+
+                    var z = p[">" + target.localName];
+                    z.nthChildInlineMode = true;
+                    return z[yindex];
+                }
+            }
+
+            Console.WriteLine(" parents do not match yet ");
 
             return null;
         }
