@@ -73,6 +73,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public override global::System.Drawing.Size GetPreferredSize(global::System.Drawing.Size proposedSize)
+        {
+            return
+                new global::System.Drawing.Size(
+                    this.HTMLTarget.scrollWidth,
+                    this.HTMLTarget.scrollHeight
+                );
+        }
         // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.Label.set_TextAlign(System.Drawing.ContentAlignment)]
         public global::System.Drawing.ContentAlignment InternalTextAlign;
 

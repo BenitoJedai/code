@@ -36,6 +36,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             };
         }
 
+        #region CharacterCasing
+        CharacterCasing InternalCharacterCasing;
+        public CharacterCasing CharacterCasing
+        {
+            // X:\jsc.svn\examples\javascript\forms\Test\TestTextBoxPadding\TestTextBoxPadding\Application.cs
+
+            set
+            {
+                InternalCharacterCasing = value;
+
+                if (InternalCharacterCasing == global::System.Windows.Forms.CharacterCasing.Upper)
+                    this.InternalGetTextField().style.textTransform = DOM.IStyle.TextTransformEnum.uppercase;
+                else if (InternalCharacterCasing == global::System.Windows.Forms.CharacterCasing.Lower)
+                    this.InternalGetTextField().style.textTransform = DOM.IStyle.TextTransformEnum.lowercase;
+                else if (InternalCharacterCasing == global::System.Windows.Forms.CharacterCasing.Normal)
+                    this.InternalGetTextField().style.textTransform = DOM.IStyle.TextTransformEnum.none;
+            }
+            get
+            {
+                return InternalCharacterCasing;
+            }
+        }
+        #endregion
+
         private HorizontalAlignment _TextAlign;
 
         public HorizontalAlignment TextAlign
