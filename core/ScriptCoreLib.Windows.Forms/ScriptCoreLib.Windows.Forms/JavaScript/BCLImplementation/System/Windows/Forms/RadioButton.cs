@@ -106,7 +106,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
 
 
-            Console.WriteLine("checked: " + old_checked);
+            //Console.WriteLine("checked: " + old_checked);
         }
 
 
