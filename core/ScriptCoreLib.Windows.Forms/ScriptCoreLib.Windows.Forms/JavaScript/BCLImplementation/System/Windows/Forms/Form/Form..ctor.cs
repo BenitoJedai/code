@@ -745,14 +745,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         Console.WriteLine("at Form ControlAdded " + new
                         {
-                            FormConstructorStopwatch,
+                            FormConstructorStopwatch.ElapsedMilliseconds,
                             Control = args.Control.GetType().Name,
                             this.GetType().Name
                         });
                     }
                 };
 
-            Console.WriteLine("exit Form .ctor " + new { FormConstructorStopwatch, this.GetType().Name });
+            //312ms at Form InternalResumeLayout { FormConstructorStopwatch = 0.00:00:00, Name = FooActivity } 
+            Console.WriteLine("exit Form .ctor " + new { FormConstructorStopwatch.ElapsedMilliseconds, this.GetType().Name });
         }
 
         public bool InternalTrackInitializeComponents = true;
@@ -761,7 +762,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             InternalTrackInitializeComponents = false;
 
-            Console.WriteLine("at Form InternalResumeLayout " + new { FormConstructorStopwatch, this.GetType().Name });
+            Console.WriteLine("at Form InternalResumeLayout " + new { FormConstructorStopwatch.ElapsedMilliseconds, this.GetType().Name });
         }
     }
 

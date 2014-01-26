@@ -1074,7 +1074,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 // X:\jsc.svn\examples\javascript\CSS\CSSDetatchedSiblingOperator\CSSDetatchedSiblingOperator\Application.cs
 
-                Console.WriteLine(" either a sibling or a decendant. our task is to find the location and remember it");
+                //Console.WriteLine(" either a sibling or a decendant. our task is to find the location and remember it");
 
 
                 // could this be the + operator?
@@ -1090,7 +1090,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // this rule is a group!
                 if (this.parents.Count > 0)
                 {
-                    Console.WriteLine("lets look at each parent separatly as they form the or operator");
+                    //Console.WriteLine("lets look at each parent separatly as they form the or operator");
 
                     SourceRules.AddRange(
                         this.parents
@@ -1105,7 +1105,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 foreach (var SourceRule in SourceRules)
                 {
-                    Console.WriteLine("looking at " + new { SourceRule.rule.selectorText, SourceRule.IsPseudoSelector, SourceRule.selectorElement });
+                    //Console.WriteLine("looking at " + new { SourceRule.rule.selectorText, SourceRule.IsPseudoSelector, SourceRule.selectorElement });
 
                     var withoutpseudo = SourceRule;
 
@@ -1113,14 +1113,14 @@ namespace ScriptCoreLib.JavaScript.DOM
                     // what about multilevel pseudos?
                     while (withoutpseudo.IsPseudoSelector)
                     {
-                        Console.WriteLine(" we need to go one level up");
+                        //Console.WriteLine(" we need to go one level up");
                         withoutpseudo = withoutpseudo.parent;
                     }
 
                     // um what if the source element is not yet attached?
                     var collection = default(IHTMLElement[]);
 
-                    Console.WriteLine(new { withoutpseudo });
+                    //Console.WriteLine(new { withoutpseudo });
 
                     if (withoutpseudo.selectorElement == null)
                     {
@@ -1135,7 +1135,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     foreach (var item in collection)
                     {
-                        Console.WriteLine("before GetRelativeSelector " + new { SourceRule });
+                        //Console.WriteLine("before GetRelativeSelector " + new { SourceRule });
 
                         var pp = GetRelativeSelector(SourceRule, item, target);
 
@@ -1209,7 +1209,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             if (source.parentNode == target.parentNode)
             {
-                Console.WriteLine(" ah. we are talking about a direct sibling? if so, whats the index?");
+                //Console.WriteLine(" ah. we are talking about a direct sibling? if so, whats the index?");
 
                 var yindex = source.parentNode.childNodes
                     .AsEnumerable()
@@ -1218,7 +1218,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     .TakeWhile(x => x != target)
                     .Count();
 
-                Console.WriteLine(new { yindex });
+                //Console.WriteLine(new { yindex });
 
                 var z = css["~" + target.localName];
                 z.nthChildInlineMode = true;
@@ -1227,7 +1227,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             if (source == target.parentNode)
             {
-                Console.WriteLine(" ah. direct descendant.");
+                //Console.WriteLine(" ah. direct descendant.");
 
                 var yindex = source.childNodes
                     .AsEnumerable()
@@ -1236,14 +1236,14 @@ namespace ScriptCoreLib.JavaScript.DOM
                     .TakeWhile(x => x != target)
                     .Count();
 
-                Console.WriteLine(new { yindex });
+                //Console.WriteLine(new { yindex });
 
                 var z = css[">" + target.localName];
                 z.nthChildInlineMode = true;
                 return z[yindex];
             }
 
-            Console.WriteLine(" lets check the parent as a link ");
+            //Console.WriteLine(" lets check the parent as a link ");
 
             // what about different documents?
             if (target.parentNode != null)
@@ -1258,7 +1258,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                      .TakeWhile(x => x != target)
                      .Count();
 
-                    Console.WriteLine(new { yindex });
+                    //Console.WriteLine(new { yindex });
 
                     var z = p[">" + target.localName];
                     z.nthChildInlineMode = true;

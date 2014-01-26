@@ -169,7 +169,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         public static NameValueCollection GetValues(string value)
         {
-            Console.WriteLine("Cookie GetValues " + new { value });
+            //Console.WriteLine("Cookie GetValues " + new { value });
 
             // 
             var n = new NameValueCollection();

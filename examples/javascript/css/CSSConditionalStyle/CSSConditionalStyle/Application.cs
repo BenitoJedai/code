@@ -73,7 +73,17 @@ namespace CSSConditionalStyle
             //(page.c1.css & page.c2.css).@checked[
             (page.c1.css.@checked & page.c2.css.@checked)[
                 page.PageContainer
-            ].style.borderBottom = "1em solid red";
+            ].style.borderTop = "1em solid red";
+
+            // ordering is important for now
+            (page.c1.css.@checked & page.c2.css.@checked & page.c3.css.@checked)[
+                    page.PageContainer
+                ].style.borderBottom = "1em solid blue";
+
+            // ordering is important for now
+            ((page.c1.css.@checked & page.c2.css.@checked) | (page.c3.css.@checked & page.c4.css.@checked))[
+                    page.PageContainer
+                ].style.borderBottom = "1em solid purple";
         }
 
     }
