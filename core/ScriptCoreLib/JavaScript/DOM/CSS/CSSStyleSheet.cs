@@ -70,7 +70,17 @@ namespace ScriptCoreLib.JavaScript.DOM
                     // how fast is the selection?
                     var value = IStyleSheet.all[selectorText];
 
-                    //Console.WriteLine(".css " + new { value });
+                    value.selectorElement = this;
+
+                    //Console.WriteLine(".css " + new { value, @this = this });
+
+                    //32ms css.style { selectorText = input[style-id="0"]:checked ~ div:nth-of-type(1), input[style-id="1"]:checked ~ div:nth-of-type(1) } view-source:34910
+
+                    // view-source:34910
+                    //33ms { right_withElement = { selectorText = input[style-id="1"], selectorElement =  } } view-source:34910
+
+                    // view-source:34910
+                    //34ms { right = { selectorText = input[style-id="1"]:checked, selectorElement =  } } 
 
                     // should we cache the monkier on the element?
                     return value;

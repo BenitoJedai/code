@@ -173,12 +173,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // X:\jsc.svn\examples\javascript\css\CSSOdd\CSSOdd\Application.cs
 
             //this.__ContentTable_css = css.descendants[className];
-            //this.__ContentTable_css = css[this.__ContentTable];
+            this.__ContentTable_css = css[this.__ContentTable];
+
             //css.adjacentSibling[]
             //css.siblings
 
+            //92ms css.style { selectorText = div.DataGridView[style-id="2"] table.__DataGridViewContentTable > tbody > tr > td } view-source:34816
+
+            // view-source:34816
+            //92ms css.style { selectorText = table.__DataGridViewColumnsTable[style-id="3"] > tbody > tr > td } 
+
             // the hacky way:
-            this.__ContentTable_css = css[" table." + this.__ContentTable.className];
+            //this.__ContentTable_css = css[" table." + this.__ContentTable.className];
 
             this.__ContentTable_css_td = this.__ContentTable_css
                 [IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
@@ -204,7 +210,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 cellPadding = 0,
                 cellSpacing = 0
             }.AttachTo(__ColumnsTableContainer);
-            this.__ColumnsTable_css_td = this.__ColumnsTable.css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
+
+            this.__ColumnsTable_css = css[this.__ColumnsTable];
+            this.__ColumnsTable_css_td = this.__ColumnsTable_css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
 
             IHTMLTableRow __ColumnsTableRow = null;
 
@@ -225,7 +233,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }.AttachTo(__RowsTableContainer);
 
             // should we make the monkier a bit lazier?
-            this.__RowsTable_css_td = this.__RowsTable.css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
+            this.__RowsTable_css = css[this.__RowsTable];
+            this.__RowsTable_css_td = this.__RowsTable_css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
 
             __RowsTable.style.paddingTop = "22px";
             IHTMLTableBody __RowsTableBody = __RowsTable.AddBody();

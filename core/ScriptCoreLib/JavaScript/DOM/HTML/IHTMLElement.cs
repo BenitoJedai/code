@@ -404,7 +404,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-
+        [Obsolete("do we use it, what about .css?")]
         [Script(DefineAsStatic = true)]
         public static implicit operator IStyle(IHTMLElement e)
         {
