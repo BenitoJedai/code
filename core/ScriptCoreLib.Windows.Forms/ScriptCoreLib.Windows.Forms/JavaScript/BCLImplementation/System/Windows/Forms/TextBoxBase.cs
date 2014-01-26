@@ -120,8 +120,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
             // what about padding?
+            // X:\jsc.svn\examples\javascript\forms\Test\TestTextBoxPadding\TestTextBoxPadding\Application.cs
+            // http://stackoverflow.com/questions/628500/can-i-stop-100-width-text-boxes-from-extending-beyond-their-containers/628912#628912
+
+            //box-sizing: border-box;
+            (this.InternalTextField.style as dynamic).boxSizing = "border-box";
+            //this.InternalTextField.style.boxSizing = "border-box";
             this.InternalTextField.style.width = "100%";
             this.InternalTextField.style.height = "100%";
+
+            //this.ClientSizeChanged +=
+            //    delegate
+            //    {
+            //        this.InternalTextField.style.width = this.ClientSize.Width + "px";
+            //        this.InternalTextField.style.height = this.ClientSize.Height + "px";
+            //    };
 
             #region InternalRaiseTextChanged
             Action InternalAutoSizeUpdate =

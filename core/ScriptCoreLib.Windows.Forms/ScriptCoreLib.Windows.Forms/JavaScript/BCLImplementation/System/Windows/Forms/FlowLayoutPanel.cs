@@ -54,6 +54,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
 
 
+            #region ControlAdded
             this.ControlAdded +=
                 (s, e) =>
                 {
@@ -80,6 +81,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             x.style.marginBottom = e.Control.Margin.Bottom + "px";
                         };
                 };
+            #endregion
 
 
             this.InternalFlowDirectionChanged +=
