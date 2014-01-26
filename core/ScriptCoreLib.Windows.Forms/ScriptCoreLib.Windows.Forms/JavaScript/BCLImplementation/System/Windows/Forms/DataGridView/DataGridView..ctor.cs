@@ -1564,9 +1564,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action AtInternalWidthChanged =
                         delegate
                         {
-                            var w = SourceColumn.Width;
+                            var SourceColumnWidth = SourceColumn.Width;
 
-                            Console.WriteLine("InternalColumns InternalWidthChanged " + new { SourceColumn.Index, w });
+                            var WidthChangedStopwatch = Stopwatch.StartNew();
+
+                            Console.WriteLine(
+                                new { this.Name }
+                                + "InternalColumns InternalWidthChanged "
+                                + new { SourceColumn.Index, SourceColumnWidth }
+                                );
 
                             // tested by
                             // X:\jsc.svn\examples\javascript\forms\Test\TestGrowingGrid\TestGrowingGrid\ApplicationControl.cs
@@ -1577,13 +1583,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                             // update the designer style
-                            this.__ColumnsTable_css_td[SourceColumn.Index].style.width = w + "px";
-                            this.__ColumnsTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div].style.width = w + "px";
+                            this.__ColumnsTable_css_td[SourceColumn.Index].style.width = SourceColumnWidth + "px";
+                            this.__ColumnsTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div].style.width = SourceColumnWidth + "px";
                             // table wants to squeeshe the columns, prevent it
                             //this.__ColumnsTable_css_td[SourceColumn.Index].style.minWidth = w + "px";
 
-                            this.__ContentTable_css_td[SourceColumn.Index].style.width = w + "px";
-                            this.__ContentTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div].style.width = w + "px";
+                            this.__ContentTable_css_td[SourceColumn.Index].style.width = SourceColumnWidth + "px";
+                            this.__ContentTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div].style.width = SourceColumnWidth + "px";
 
 
                             Console.WriteLine("raise ColumnWidthChanged " + new { SourceColumn.Index });
@@ -1592,6 +1598,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 this.ColumnWidthChanged(this,
                                     new DataGridViewColumnEventArgs(SourceColumn)
                                    );
+
+
+                            Console.WriteLine(
+                                 new { this.Name }
+                                 + "InternalColumns InternalWidthChanged done "
+                                 + new { WidthChangedStopwatch.ElapsedMilliseconds }
+                                 );
+
 
                             //SourceColumn.InternalTableColumn.style.width = w + "px";
                             //SourceColumn.InternalTableColumn.style.minWidth = w + "px";
