@@ -97,6 +97,40 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public class CSSStyleRuleMonkier
     {
+        //[Script]
+        //public class PseudoSelector : CSSStyleRuleMonkier
+        //{
+        //    // allows us to check if this vesion of the monkier is a pseudo selector
+        //    // this wont work if the selector is changed in the fly tho
+        //}
+
+        [Obsolete("when can we do 'x is pseudo selector', c# 6?")]
+        public bool IsPseudoSelector
+        {
+            get
+            {
+                // 27ms looking at { selectorText = input[style-id="1"]:checked ~ input:nth-of-type(2):checked, IsPseudoSelector = true, selectorElement =  } 
+
+                if (this.selectorText == null)
+                    return false;
+
+                // :nth-of-type(2)
+                // is not a pseudo selector in that sense, since it selects another element
+
+                if (this.selectorText == ":checked")
+                    return true;
+
+                if (this.selectorText == ":hover")
+                    return true;
+
+                return false;
+            }
+        }
+
+
+        // http://www.w3schools.com/cssref/sel_target.asp
+        public IHTMLElement target;
+
         #region rule
         public CSSStyleRule rule;
 
@@ -115,7 +149,14 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 if (this.parents.Count > 0)
                 {
-                    Console.WriteLine("css regroup");
+                    // 32ms { withoutPseudoSelector = 
+                    // { selectorText = input[style-id="1"]:checked ~ input:nth-of-type(2), selectorElement = [object HTMLInputElement] } }
+                    // 33ms looking at 
+                    // { selectorText = input[style-id="1"]:checked ~ input:nth-of-type(2):checked, IsPseudoSelector = true, selectorElement =  }
+                    // 33ms { withoutpseudo = 
+                    // { selectorText = input[style-id="1"]:checked ~ input:nth-of-type(2), selectorElement =  } } 
+
+                    Console.WriteLine("css regroup " + new { this.parents.Count, selectorText });
 
                     var p = default(CSSStyleRuleMonkier);
 
@@ -146,7 +187,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             get
             {
-                Console.WriteLine("css.style " + new { this.rule.selectorText });
+                //Console.WriteLine("css.style " + new { this.rule.selectorText });
 
 
                 return this.rule.style;
@@ -197,6 +238,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        // once set, this monkier is supposed to target this element
+        // should we be able to modify this element later?
+        // set by .css
+        public IHTMLElement selectorElement;
 
         #region selectorText
         public event Action selectorTextChanged;
@@ -911,7 +956,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public override string ToString()
         {
-            return new { this.rule.selectorText }.ToString();
+            return new { this.rule.selectorText, this.selectorElement }.ToString();
         }
 
 
@@ -979,6 +1024,21 @@ namespace ScriptCoreLib.JavaScript.DOM
             return selectorText;
         }
 
+        // Error	55	'ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier.implicit operator ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier(System.Collections.Generic.IEnumerable<ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier>)': user-defined conversions to or from an interface are not allowed	X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\CSS\CSSStyleRule.cs	1010	23	ScriptCoreLib
+        //public static implicit operator CSSStyleRuleMonkier(IEnumerable<CSSStyleRuleMonkier> parents)
+        public static implicit operator CSSStyleRuleMonkier(CSSStyleRuleMonkier[] collection)
+        {
+            // what about group of groups?
+            var rule = IStyleSheet.all[GetSelectorTextFromParents(collection.ToArray())];
+
+            foreach (var item in collection)
+            {
+                rule.parents.Add(item);
+            }
+
+            return rule;
+        }
+
         //public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
         public static CSSStyleRuleMonkier operator |(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
         {
@@ -992,21 +1052,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs
             // X:\jsc.svn\examples\javascript\css\CSSTableSelector\CSSTableSelector\Application.cs
 
-            var collection = new List<CSSStyleRuleMonkier>();
-
-            // what about group of groups?
-            collection.Add(parent1);
-            collection.Add(parent2);
-
-            var rule = IStyleSheet.all[GetSelectorTextFromParents(collection.ToArray())];
-
-            foreach (var item in collection)
-            {
-                rule.parents.Add(item);
-            }
-
-
-            return rule;
+            return new[] { parent1, parent2 };
         }
 
 
@@ -1020,46 +1066,99 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        public CSSStyleRuleMonkier this[IHTMLElement e]
+
+
+        public CSSStyleRuleMonkier this[IHTMLElement target]
         {
             get
             {
+                // X:\jsc.svn\examples\javascript\CSS\CSSDetatchedSiblingOperator\CSSDetatchedSiblingOperator\Application.cs
+
                 Console.WriteLine(" either a sibling or a decendant. our task is to find the location and remember it");
 
 
                 // could this be the + operator?
 
-                var p = new List<CSSStyleRuleMonkier>();
+                var TargetRules = new List<CSSStyleRuleMonkier>();
 
 
                 // X:\jsc.svn\examples\javascript\CSS\CSSSpecificDescendant\CSSSpecificDescendant\Application.cs
+                // X:\jsc.svn\examples\javascript\CSS\CSSConditionalStyle\CSSConditionalStyle\Application.cs
 
+                var SourceRules = new List<CSSStyleRuleMonkier>();
 
-
-                var withoutpseudo = this;
-
-                if (this.selectorText == ":hover")
+                // this rule is a group!
+                if (this.parents.Count > 0)
                 {
-                    // we need to go one level up
+                    Console.WriteLine("lets look at each parent separatly as they form the or operator");
 
-                    withoutpseudo = this.parent;
+                    SourceRules.AddRange(
+                        this.parents
+                    );
+                }
+                else
+                {
+                    SourceRules.Add(
+                        this
+                    );
                 }
 
-                var collection = Native.document.querySelectorAll(withoutpseudo.rule.selectorText);
-
-                foreach (var item in collection)
+                foreach (var SourceRule in SourceRules)
                 {
-                    Console.WriteLine("found source ...");
+                    Console.WriteLine("looking at " + new { SourceRule.rule.selectorText, SourceRule.IsPseudoSelector, SourceRule.selectorElement });
 
-                    var pp = GetRelativeSelector(this, item, e);
+                    var withoutpseudo = SourceRule;
 
-                    if (pp != null)
+                    // what about other pseudo selectors?
+                    // what about multilevel pseudos?
+                    while (withoutpseudo.IsPseudoSelector)
                     {
-                        p.Add(pp);
+                        Console.WriteLine(" we need to go one level up");
+                        withoutpseudo = withoutpseudo.parent;
+                    }
+
+                    // um what if the source element is not yet attached?
+                    var collection = default(IHTMLElement[]);
+
+                    Console.WriteLine(new { withoutpseudo });
+
+                    if (withoutpseudo.selectorElement == null)
+                    {
+                        // well, lets ast the document. which document? :P
+                        // what about popups and iframes?
+                        collection = Native.document.querySelectorAll(withoutpseudo.rule.selectorText);
+                    }
+                    else
+                    {
+                        collection = new[] { withoutpseudo.selectorElement };
+                    }
+
+                    foreach (var item in collection)
+                    {
+                        Console.WriteLine("before GetRelativeSelector " + new { SourceRule });
+
+                        var pp = GetRelativeSelector(SourceRule, item, target);
+
+                        if (pp == null)
+                        {
+                            Console.WriteLine("path not found!");
+                        }
+                        else
+                        {
+                            TargetRules.Add(pp);
+                        }
                     }
                 }
 
-                return p.FirstOrDefault();
+                // fail?
+                if (TargetRules.Count == 0)
+                    return null;
+
+                if (TargetRules.Count == 1)
+                    return TargetRules[0];
+
+                // more tests needed
+                return TargetRules.ToArray();
             }
         }
 
@@ -1100,6 +1199,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static CSSStyleRuleMonkier GetRelativeSelector(CSSStyleRuleMonkier css, IHTMLElement source, IHTMLElement target)
         {
+            if (target == null)
+                throw new InvalidOperationException();
+
             // if the target element has style id then should we use it?
             // or us it if the source is document element?
             // this would allow document level attributes to work
@@ -1168,5 +1270,64 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             return null;
         }
+
+
+
+        [Obsolete("experimental")]
+        public static CSSStyleRuleMonkier operator &(CSSStyleRuleMonkier left, CSSStyleRuleMonkier right)
+        {
+            // op_BitwiseAnd
+
+            Console.WriteLine("enter css op_BitwiseAnd \n"
+             + new
+             {
+                 left,
+                 right,
+                 right.IsPseudoSelector,
+                 right.selectorElement,
+                 right.selectorText
+             });
+
+            // X:\jsc.svn\examples\javascript\CSS\CSSConditionalStyle\CSSConditionalStyle\Application.cs
+
+            //       page.c1.css.@checked[page.c2].@checked[
+            //    page.PageContainer
+            //].style.borderBottom = "1em solid red";
+
+            // for now lets assume the other rule is about checkbox too..
+
+
+            // escape 1 level
+            if (right.IsPseudoSelector)
+            {
+                // 28ms { left = { selectorText = input[style-id="0"]:checked }, 
+                // right = { selectorText = input[style-id="1"]:checked }, 
+                //  IsPseudoSelector = true, selectorElement = , selectorText = :checked } 
+                //Console.WriteLine(new { right.parent });
+                //Console.WriteLine(new { right.parent.selectorElement });
+
+                var withoutPseudoSelector = left[right.parent.selectorElement];
+                withoutPseudoSelector.selectorElement = right.parent.selectorElement;
+
+
+                Console.WriteLine(new { withoutPseudoSelector });
+
+                var withPseudoSelector = withoutPseudoSelector[right.selectorText];
+                //Console.WriteLine(new { withPseudoSelector });
+
+                // 27ms { withPseudoSelector = { selectorText = input[style-id="1"]:checked ~ input:nth-of-type(2):checked, selectorElement =  } } 
+                //Console.WriteLine(" ah. lets remember the element,");
+
+                // we the query will not work with all those
+                // checked pseudoselectors already attached
+
+
+                return withPseudoSelector;
+
+            }
+
+            return left[right.selectorElement];
+        }
+
     }
 }

@@ -18,16 +18,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-        public new CSSStyleRule<IHTMLInput> css
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return
-                    (CSSStyleRule<IHTMLInput>)
-                    (object)IStyleSheet.all[InternalGetExplicitRuleSelector()];
-            }
-        }
+ 
 
         public string alt;
         public string src;
