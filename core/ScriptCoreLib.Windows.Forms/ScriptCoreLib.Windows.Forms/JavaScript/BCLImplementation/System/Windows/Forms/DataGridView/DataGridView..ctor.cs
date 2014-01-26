@@ -52,7 +52,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __DataGridView()
         {
-            Console.WriteLine("enter DataGridView .ctor");
+            //Console.WriteLine("enter DataGridView .ctor");
 
             this.InternalElement = new IHTMLDiv
             {
@@ -1475,10 +1475,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     //var SourceColumn = this.InternalColumns.InternalItems[_e.NewIndex];
 
+                    var SourceColumnStopwatch = Stopwatch.StartNew();
+
                     SourceColumn.InternalContext = this;
 
 
-                    Console.WriteLine("InternalColumns Added " + new { SourceColumn.Index });
+                    //Console.WriteLine(
+                    //    new { this.Name }
+                    //    + " InternalColumns Added " + new { SourceColumn.Index });
 
 
                     //if (c is __DataGridViewButtonColumn)
@@ -1488,9 +1492,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                     SourceColumn.InternalTableColumn = __ColumnsTableRow.AddColumn();
-
-
-
                     SourceColumn.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
 
@@ -1560,62 +1561,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             c1content.innerText = SourceColumn.HeaderText;
                         };
 
+
+
+                    // setting the size for the headers on top
+
+                    var SourceColumnWidth_css =
+                          this.__ColumnsTable_css_td[SourceColumn.Index] |
+                          this.__ColumnsTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div] |
+                          this.__ContentTable_css_td[SourceColumn.Index] |
+                          this.__ContentTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div];
+
+                    //154572ms { Name = dataGridView1 } InternalColumns InternalWidthChanged done { ElapsedMilliseconds = 1 } 
+
+
+
                     #region AtInternalWidthChanged
                     Action AtInternalWidthChanged =
                         delegate
                         {
                             var SourceColumnWidth = SourceColumn.Width;
 
-                            var WidthChangedStopwatch = Stopwatch.StartNew();
-
-                            Console.WriteLine(
-                                new { this.Name }
-                                + "InternalColumns InternalWidthChanged "
-                                + new { SourceColumn.Index, SourceColumnWidth }
-                                );
-
                             // tested by
                             // X:\jsc.svn\examples\javascript\forms\Test\TestGrowingGrid\TestGrowingGrid\ApplicationControl.cs
 
-
-                            // !!!
-                            // setting the size for the headers on top
-
-
                             // update the designer style
-                            this.__ColumnsTable_css_td[SourceColumn.Index].style.width = SourceColumnWidth + "px";
-                            this.__ColumnsTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div].style.width = SourceColumnWidth + "px";
-                            // table wants to squeeshe the columns, prevent it
-                            //this.__ColumnsTable_css_td[SourceColumn.Index].style.minWidth = w + "px";
+                            SourceColumnWidth_css.style.width = SourceColumnWidth + "px";
+                            //// table wants to squeeshe the columns, prevent it
 
-                            this.__ContentTable_css_td[SourceColumn.Index].style.width = SourceColumnWidth + "px";
-                            this.__ContentTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div].style.width = SourceColumnWidth + "px";
-
-
-                            Console.WriteLine("raise ColumnWidthChanged " + new { SourceColumn.Index });
 
                             if (this.ColumnWidthChanged != null)
                                 this.ColumnWidthChanged(this,
                                     new DataGridViewColumnEventArgs(SourceColumn)
                                    );
-
-
-                            Console.WriteLine(
-                                 new { this.Name }
-                                 + "InternalColumns InternalWidthChanged done "
-                                 + new { WidthChangedStopwatch.ElapsedMilliseconds }
-                                 );
-
-
-                            //SourceColumn.InternalTableColumn.style.width = w + "px";
-                            //SourceColumn.InternalTableColumn.style.minWidth = w + "px";
                         };
 
 
 
                     SourceColumn.InternalWidthChanged += AtInternalWidthChanged;
 
-                    Console.WriteLine("InternalColumns call AtInternalWidthChanged " + new { SourceColumn.Index });
                     AtInternalWidthChanged();
                     #endregion
 
@@ -1805,10 +1788,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "yellow";
                                     //SourceColumn.ColumnHorizontalResizer.style.backgroundColor = "red";
 
-                                    var cwidth = SourceColumn.Width + ColumnHorizontalResizerDrag.Position.X - __DragStartX;
-                                    Console.WriteLine(new { SourceColumn.Width, cwidth });
+                                    var ColumnHorizontalResizerDragNewValue = SourceColumn.Width + ColumnHorizontalResizerDrag.Position.X - __DragStartX;
+                                    Console.WriteLine(new { SourceColumn.Width, ColumnHorizontalResizerDragNewValue });
 
-                                    SourceColumn.Width = cwidth;
+                                    SourceColumn.Width = ColumnHorizontalResizerDragNewValue;
                                 };
                     }
 
@@ -1824,21 +1807,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     #region InternalAutoSize
                     this.InternalAutoResizeColumn +=
-                        (cindex, ObeyAutoSizeMode) =>
+                        (SourceColumnIndex, ObeyAutoSizeMode) =>
                         {
-                            if (cindex != SourceColumn.Index)
+                            if (SourceColumnIndex != SourceColumn.Index)
                                 return;
 
                             var rows = this.InternalRows.InternalItems.Source;
 
+                            var InternalAutoResizeColumnStopwatch = Stopwatch.StartNew();
+
                             // InternalAutoSize { Count = 33, cindex = -1 }
-                            Console.WriteLine("InternalAutoResizeColumn " + new { rows.Count, cindex });
+                            //Console.WriteLine(
+                            //    new { this.Name }
+                            //    + " InternalAutoResizeColumn "
+                            //    + new
+                            //    {
+                            //        RowCount = rows.Count,
+                            //        SourceColumnIndex,
+
+                            //        // are we even supposed to do autoresize?
+                            //        SourceColumn.AutoSizeMode
+                            //    }
+                            //);
 
                             #region Fill last column
                             if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
-                                if (cindex == this.Columns.Count - 1)
+                                if (SourceColumnIndex == this.Columns.Count - 1)
                                 {
-                                    var w = Enumerable.Range(0, cindex).Select(
+                                    var w = Enumerable.Range(0, SourceColumnIndex).Select(
                                         c => this.Columns[c].Width
                                     ).Sum();
 
@@ -1855,7 +1851,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     var WidthByFill = all - w - value - 8;
 
                                     Console.WriteLine(
-                                        new { cindex, w, value, all, WidthByFill }
+                                        new { cindex = SourceColumnIndex, w, value, all, WidthByFill }
 
                                         );
 
@@ -1868,7 +1864,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 }
                             #endregion
 
-                            if (cindex < 0)
+                            if (SourceColumnIndex < 0)
                                 return;
 
                             if (SourceColumn.AutoSizeMode == DataGridViewAutoSizeColumnMode.None)
@@ -1883,7 +1879,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             var WidthByRowsInThisColumn = rows.Max(
                                 rr =>
                                 {
-                                    __DataGridViewCell cc = rr.Cells[cindex];
+                                    __DataGridViewCell cc = rr.Cells[SourceColumnIndex];
 
 
                                     //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex, cc.InternalContent.offsetWidth });
@@ -1892,27 +1888,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 }
                             );
 
-                            WidthByRowsInThisColumn = Math.Max(WidthByRowsInThisColumn, this.InternalColumns.InternalItems[cindex].InternalContent.offsetWidth);
+                            WidthByRowsInThisColumn = Math.Max(WidthByRowsInThisColumn, this.InternalColumns.InternalItems[SourceColumnIndex].InternalContent.offsetWidth);
                             if (WidthByRowsInThisColumn == 0)
                             {
                                 // no DOM?
                                 //Console.WriteLine("InternalAutoSize skipped");
+                                return;
                             }
-                            else
-                            {
 
-                                // extra padding?
-                                WidthByRowsInThisColumn += 8 + 24;
+                            // extra padding?
+                            WidthByRowsInThisColumn += 8 + 24;
 
-                                //Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
+                            //Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
 
-                                __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByRowsInThisColumn - SourceColumn.Width);
-                                var NewWidth = Math.Max(20, WidthByRowsInThisColumn);
+                            __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByRowsInThisColumn - SourceColumn.Width);
+                            var NewWidth = Math.Max(20, WidthByRowsInThisColumn);
 
-                                Console.WriteLine("InternalAutoResizeColumn " + new { rows.Count, cindex, NewWidth });
 
-                                SourceColumn.Width = NewWidth;
-                            }
+
+                            // 15248ms { Name = dataGridView2 }InternalAutoResizeColumn { RowCount = 2, SourceColumnIndex = 0, NewWidth = 154, ElapsedMilliseconds = 2 } 
+                            // 14818ms { Name = dataGridView2 } InternalAutoResizeColumn { RowCount = 2, SourceColumnIndex = 2, NewWidth = 120, ElapsedMilliseconds = 1 } 
+
+                            //Console.WriteLine(
+                            //    new { this.Name }
+                            //    + " InternalAutoResizeColumn " + new
+                            //    {
+                            //        RowCount = rows.Count,
+                            //        SourceColumnIndex,
+                            //        NewWidth,
+                            //        InternalAutoResizeColumnStopwatch.ElapsedMilliseconds
+                            //    });
+
+                            SourceColumn.Width = NewWidth;
                             #endregion
 
                         };
@@ -1943,6 +1950,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     if (ColumnAdded != null)
                         ColumnAdded(this, new DataGridViewColumnEventArgs((DataGridViewColumn)(object)SourceColumn));
+
+                    Console.WriteLine(
+                        new { this.Name }
+                        + " InternalColumns Added " + new { SourceColumn.Index, SourceColumnStopwatch.ElapsedMilliseconds });
 
                 };
 
@@ -2105,12 +2116,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             t.Tick +=
                 delegate
                 {
+                    // 15245ms will do autoresize? 
+
+                    var AutoResizeColumnStopwatch = Stopwatch.StartNew();
+
+                    //Console.WriteLine(new { this.Name } + " autoresize ");
+
                     t.Stop();
 
                     foreach (var item in this.InternalColumns.InternalItems)
                     {
                         this.AutoResizeColumn(item.Index);
                     }
+
+
+                    // how is it possible that
+                    // the code itself takes 2ms, calling handlers 400ms and all in total 3sec?
+                    // does the delegate calling code need to be optimized?
+
+                    //13674ms { Name = dataGridView1 } InternalAutoResizeColumn { RowCount = 3, SourceColumnIndex = 7, NewWidth = 81, ElapsedMilliseconds = 1 } view-source:35271
+                    //14048ms { Name = dataGridView1 } exit AutoResizeColumn { ElapsedMilliseconds = 375, columnIndex = 7 } 
+
+                    // 14049ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 3020 } 
+                    // 16697ms { Name = dataGridView2 } autoresize done { ElapsedMilliseconds = 2630 } 
+                    Console.WriteLine(new { this.Name } + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
                 };
             #endregion
 
@@ -2125,6 +2154,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         Native.window.requestAnimationFrame +=
                             delegate
                             {
+                                // tested by?
+                                Console.WriteLine("ClientSizeChanged Fill AutoResizeColumn");
+
                                 this.AutoResizeColumn(this.Columns.Count - 1);
                             };
                     }
@@ -2166,6 +2198,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                       if (!InternalSkipAutoSize)
                           if (this.AutoSizeColumnsMode != DataGridViewAutoSizeColumnsMode.None)
                           {
+                              Console.WriteLine("a new row was added, auto resize?");
+                              t.Stop();
                               t.Start();
                           }
 

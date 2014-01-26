@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -47,7 +48,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 InternalSetDataSource(value);
-                Native.window.requestAnimationFrame += delegate {
+
+                Native.window.requestAnimationFrame += delegate
+                {
                     if (DataSourceChanged != null)
                         DataSourceChanged(this, new EventArgs());
                 };
@@ -56,16 +59,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         private void InternalSetDataSource(object value)
         {
+            var stopwatch = Stopwatch.StartNew();
+
+            Console.WriteLine(
+                new { Name, stopwatch.ElapsedMilliseconds }
+                + " enter InternalSetDataSource"
+             );
+
             // this cost 6h of work to fix the sync timing issue
             var CurrentDataSourceSync = new object();
             InternalDataSourceSync = CurrentDataSourceSync;
 
             this.InternalDataSource = value;
-
-
-
-
-
 
 
             this.Rows.Clear();
@@ -106,7 +111,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
             // http://stackoverflow.com/questions/6902269/moving-data-from-datatable-to-datagridview-in-c-sharp
 
+            Console.WriteLine(
+                new { Name, stopwatch.ElapsedMilliseconds }
+                + " before Columns"
+             );
 
+
+            #region Columns
             while (this.Columns.Count > SourceDataTable.Columns.Count)
                 this.Columns.RemoveAt(this.Columns.Count - 1);
 
@@ -135,6 +146,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 cIndex++;
             }
 
+            #endregion
+
+            Console.WriteLine(
+                new { Name, stopwatch.ElapsedMilliseconds }
+                + " InternalSetDataSource before Rows"
+             );
+
+
+            #region Rows
             foreach (DataRow DataBoundItem in SourceDataTable.Rows)
             {
                 var r = new __DataGridViewRow
@@ -143,7 +163,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     DataBoundItem = new __DataRowView { Row = DataBoundItem }
                 };
 
-                
+
                 foreach (DataColumn c in SourceDataTable.Columns)
                 {
                     var cc = new DataGridViewTextBoxCell
@@ -160,6 +180,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 this.Rows.Add(r);
             }
+            #endregion
+
+            Console.WriteLine(
+                new { Name, stopwatch.ElapsedMilliseconds }
+                + " InternalSetDataSource after Rows"
+             );
 
 
             //Console.WriteLine("add CellValueChanged ");
@@ -335,6 +361,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.InternalDataSourceSync = CurrentDataSourceSync;
                 };
             #endregion
+
+
+            Console.WriteLine(
+                new { Name, stopwatch.ElapsedMilliseconds }
+                + " exit InternalSetDataSource"
+             );
+
 
         }
 
