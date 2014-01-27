@@ -236,13 +236,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // 19238ms { Name = dataGridView1, ElapsedMilliseconds = 370 } exit AutoResizeColumn  
             // 18436ms { Name = dataGridView2 } exit AutoResizeColumn { ElapsedMilliseconds = 391, columnIndex = 6 } 
-            
+            // 590530ms { Name = dataGridView1 } exit AutoResizeColumn { ElapsedMilliseconds = 127, columnIndex = 4 } 
+            // close the console!
 
-            Console.WriteLine(
-                new { Name }
-                + " exit AutoResizeColumn "
-                + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, columnIndex }
-                );
+            //Console.WriteLine(
+            //    new { Name }
+            //    + " exit AutoResizeColumn "
+            //    + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, columnIndex }
+            //    );
         }
         #endregion
 

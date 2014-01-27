@@ -84,15 +84,15 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             var url = "";
 
 
-            Console.WriteLine(
-                "Historic: " + new
-                {
-                    Native.document.domain,
-                    Native.document.baseURI,
-                    location = Native.document.location.href,
-                    a = e.href
-                }
-            );
+            //Console.WriteLine(
+            //    "Historic: " + new
+            //    {
+            //        Native.document.domain,
+            //        Native.document.baseURI,
+            //        location = Native.document.location.href,
+            //        a = e.href
+            //    }
+            //);
 
 
             // http://otherhost/#/click+to+enter+a+new+historic+state
@@ -140,6 +140,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 {
                     if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
                     {
+                        // tested by
+                        // X:\jsc.svn\examples\javascript\Test\TestImplicitTimelineRecordingEvents\TestImplicitTimelineRecordingEvents\Application.cs
+
+                        Console.WriteLine("event: " + new { e.href });
 
                         ev.preventDefault();
 
@@ -184,6 +188,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 //    {
                 Console.WriteLine("activate! " + new { Native.document.location.hash, url });
 
+                // safari?
                 e.click();
                 //    }
                 //);

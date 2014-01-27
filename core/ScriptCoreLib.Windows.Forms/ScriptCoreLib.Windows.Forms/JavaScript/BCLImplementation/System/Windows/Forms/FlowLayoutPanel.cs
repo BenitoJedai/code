@@ -6,12 +6,16 @@ using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.FlowLayoutPanel))]
     internal class __FlowLayoutPanel : __Panel
     {
+        public Stopwatch ConstructorStopwatch = Stopwatch.StartNew();
+
+
         //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.FlowLayoutPanel.SetFlowBreak(System.Windows.Forms.Control, System.Boolean)]
         [Obsolete("nice, extension properties for component designer?")]
         public void SetFlowBreak(Control control, bool value)
@@ -53,16 +57,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.HTMLTargetContainerRef.style.paddingBottom = this.Padding.Bottom + "px";
                 };
 
+            // 1917ms { Name =  } ControlAdded { Width = 150, Height = 150 }
+            // 2599ms { Name =  } ControlAdded { Width = 100, Height = 18 } 
+
+            // it takes 600 seconds to add controls to flow?
 
             #region ControlAdded
             this.ControlAdded +=
                 (s, e) =>
                 {
-                    Console.WriteLine(
-                        new { this.Name }
-                        + " ControlAdded "
-                        + new { e.Control.Width, e.Control.Height }
-                    );
+                    //Console.WriteLine(
+                    //    new { this.Name, this.Controls.Count }
+                    //    + " FlowLayoutPanel ControlAdded "
+                    //    + new
+                    //    {
+                    //        e.Control.Width,
+                    //        e.Control.Height,
+                    //        e.Control.Name,
+                    //        ControlTypeName = e.Control.GetType().Name
+                    //    }
+                    //);
 
                     var x = e.Control.GetHTMLTarget();
 
@@ -97,6 +111,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
 
                 };
+
+
+        }
+
+        public bool InternalTrackInitializeComponents = true;
+
+        public override void InternalResumeLayout(bool performLayout)
+        {
+            if (InternalTrackInitializeComponents)
+            {
+                InternalTrackInitializeComponents = false;
+
+                //var old = new { Console.BackgroundColor };
+                //Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("at FlowLayoutPanel InternalResumeLayout "
+                    + new
+                    {
+                        ConstructorStopwatch.ElapsedMilliseconds,
+                        this.Name,
+                        Controls = this.Controls.Count
+                    });
+                //Console.BackgroundColor = old.BackgroundColor;
+            }
         }
 
         private void ApplyFlowDirection(Control item)

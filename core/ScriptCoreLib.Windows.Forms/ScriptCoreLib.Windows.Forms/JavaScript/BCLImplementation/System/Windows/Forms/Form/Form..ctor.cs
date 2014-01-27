@@ -19,13 +19,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         [Obsolete("pending css guidline review")]
         public CSSStyleRuleMonkier outer_css;
 
-        public Stopwatch FormConstructorStopwatch = Stopwatch.StartNew();
+        public Stopwatch ConstructorStopwatch = Stopwatch.StartNew();
 
         public __Form()
         {
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            var TargetElement = new IHTMLDiv();
+            var TargetElement = new IHTMLDiv
+            {
+
+                // do this ahead of time
+                // type inheritance?
+                className = typeof(Form).Name + " " + this.GetType().Name
+            };
 
             // thanks host, but we do our own resizers
             // http://stackoverflow.com/questions/13224184/css-resize-handles-with-resize-both-property
@@ -735,25 +741,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             );
 
 
-            this.ControlAdded +=
-                (sender, args) =>
-                {
-                    if (InternalTrackInitializeComponents)
-                    {
+            //this.ControlAdded +=
+            //    (sender, args) =>
+            //    {
+            //        if (InternalTrackInitializeComponents)
+            //        {
 
-                        // report what controls are being added and 
+            //            // report what controls are being added and 
 
-                        Console.WriteLine("at Form ControlAdded " + new
-                        {
-                            FormConstructorStopwatch.ElapsedMilliseconds,
-                            Control = args.Control.GetType().Name,
-                            this.GetType().Name
-                        });
-                    }
-                };
+            //            Console.WriteLine("at Form ControlAdded " + new
+            //            {
+            //                ConstructorStopwatch.ElapsedMilliseconds,
+            //                Control = args.Control.GetType().Name,
+            //                this.GetType().Name
+            //            });
+            //        }
+            //    };
 
             //312ms at Form InternalResumeLayout { FormConstructorStopwatch = 0.00:00:00, Name = FooActivity } 
-            Console.WriteLine("exit Form .ctor " + new { FormConstructorStopwatch.ElapsedMilliseconds, this.GetType().Name });
+            //Console.WriteLine("exit Form .ctor " + new { ConstructorStopwatch.ElapsedMilliseconds, this.GetType().Name });
         }
 
         public bool InternalTrackInitializeComponents = true;
@@ -762,7 +768,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             InternalTrackInitializeComponents = false;
 
-            Console.WriteLine("at Form InternalResumeLayout " + new { FormConstructorStopwatch.ElapsedMilliseconds, this.GetType().Name });
+            ConstructorStopwatch.Stop();
+
+            var old = new { Console.BackgroundColor };
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("new " + new { this.GetType().Name } + " InternalResumeLayout " + new { ConstructorStopwatch.ElapsedMilliseconds });
+
+            Console.BackgroundColor = old.BackgroundColor;
+
+            //474ms new { Name = FooActivity } InternalResumeLayout { ElapsedMilliseconds = 464 } 
+
+            this.HTMLTargetRef.setAttribute(
+                "ConstructorStopwatch",
+                new { ConstructorStopwatch.ElapsedMilliseconds }.ToString()
+            );
+
         }
     }
 

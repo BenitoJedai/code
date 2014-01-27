@@ -1951,9 +1951,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (ColumnAdded != null)
                         ColumnAdded(this, new DataGridViewColumnEventArgs((DataGridViewColumn)(object)SourceColumn));
 
-                    Console.WriteLine(
-                        new { this.Name }
-                        + " InternalColumns Added " + new { SourceColumn.Index, SourceColumnStopwatch.ElapsedMilliseconds });
+                    //Console.WriteLine(
+                    //    new { this.Name }
+                    //    + " InternalColumns Added " + new { SourceColumn.Index, SourceColumnStopwatch.ElapsedMilliseconds });
 
                 };
 

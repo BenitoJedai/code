@@ -61,10 +61,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             var stopwatch = Stopwatch.StartNew();
 
-            Console.WriteLine(
-                new { Name, stopwatch.ElapsedMilliseconds }
-                + " enter InternalSetDataSource"
-             );
+            //Console.WriteLine(
+            //    new { Name, stopwatch.ElapsedMilliseconds }
+            //    + " enter InternalSetDataSource"
+            // );
 
             // this cost 6h of work to fix the sync timing issue
             var CurrentDataSourceSync = new object();
@@ -111,10 +111,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
             // http://stackoverflow.com/questions/6902269/moving-data-from-datatable-to-datagridview-in-c-sharp
 
-            Console.WriteLine(
-                new { Name, stopwatch.ElapsedMilliseconds }
-                + " before Columns"
-             );
+            //Console.WriteLine(
+            //    new { Name, stopwatch.ElapsedMilliseconds }
+            //    + " before Columns"
+            // );
 
 
             #region Columns
@@ -149,8 +149,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
             Console.WriteLine(
-                new { Name, stopwatch.ElapsedMilliseconds }
-                + " InternalSetDataSource before Rows"
+                new { Name }
+                + " InternalSetDataSource Columns done at "
+                + new { stopwatch.ElapsedMilliseconds }
              );
 
 
@@ -182,10 +183,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             #endregion
 
+
             Console.WriteLine(
-                new { Name, stopwatch.ElapsedMilliseconds }
-                + " InternalSetDataSource after Rows"
+                new { Name }
+                + " InternalSetDataSource Rows done at "
+                + new { stopwatch.ElapsedMilliseconds }
              );
+
 
 
             //Console.WriteLine("add CellValueChanged ");
@@ -364,8 +368,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             Console.WriteLine(
-                new { Name, stopwatch.ElapsedMilliseconds }
+                new { Name }
                 + " exit InternalSetDataSource"
+                + new { stopwatch.ElapsedMilliseconds }
              );
 
 
