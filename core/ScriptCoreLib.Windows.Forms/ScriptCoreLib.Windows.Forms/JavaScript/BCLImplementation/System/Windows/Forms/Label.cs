@@ -64,7 +64,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             if (this.HTMLTarget.scrollWidth == 0)
                             {
-                                Console.WriteLine(new { this.Name } + " set_Text unable to set Size");
+                                // not attached yet?
+                                //Console.WriteLine(new { this.Name } + " set_Text unable to set Size");
                                 return;
                             }
 
