@@ -679,22 +679,27 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class InternalInlineWorkerTextWriter : TextWriter
     {
         public Action<string> AtWrite;
-        public Action<string> AtWriteLine;
+        //public Action<string> AtWriteLine;
 
         public override void Write(object value)
         {
-            AtWrite("" + value);
+            if (AtWrite != null)
+                AtWrite("" + value);
         }
 
 
         public override void Write(string value)
         {
-            AtWrite(value);
+            if (AtWrite != null)
+                AtWrite(value);
         }
 
         public override void WriteLine(string value)
         {
-            AtWriteLine(value);
+            // why would it be null?
+
+            if (AtWrite != null)
+                AtWrite(value + "\n");
 
         }
 
