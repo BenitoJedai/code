@@ -46,12 +46,28 @@ namespace TestFlowDataGridPadding
 
                     __DataGridView gg = content.f.dataGridView1;
 
+
+
+                    (
+                        gg.__ColumnsTable.css
+                       [IHTMLElement.HTMLElementEnum.tbody]
+                       [IHTMLElement.HTMLElementEnum.tr]
+                       .first.child
+                       [IHTMLElement.HTMLElementEnum.div]
+                       [IHTMLElement.HTMLElementEnum.div]
+                       [IHTMLElement.HTMLElementEnum.span]
+
+                       |
+
                     gg.__ContentTable.css
                         [IHTMLElement.HTMLElementEnum.tbody]
                         [IHTMLElement.HTMLElementEnum.tr]
+                        // what about first visible column instead?
                         .first.child
                         [IHTMLElement.HTMLElementEnum.div]
-                        [IHTMLElement.HTMLElementEnum.span].style.paddingLeft = content.trackBar1.Value + "px";
+                        [IHTMLElement.HTMLElementEnum.span]
+
+                    ).style.paddingLeft = content.trackBar1.Value + "px";
                 };
         }
 

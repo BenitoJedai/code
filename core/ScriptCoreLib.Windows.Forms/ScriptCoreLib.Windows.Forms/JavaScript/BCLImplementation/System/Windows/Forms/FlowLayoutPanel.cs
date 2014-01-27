@@ -58,7 +58,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.ControlAdded +=
                 (s, e) =>
                 {
-                    //Console.WriteLine("__FlowLayoutPanel ControlAdded");
+                    Console.WriteLine(
+                        new { this.Name }
+                        + " ControlAdded "
+                        + new { e.Control.Width, e.Control.Height }
+                    );
 
                     var x = e.Control.GetHTMLTarget();
 

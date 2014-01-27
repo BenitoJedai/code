@@ -2139,7 +2139,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // 14049ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 3020 } 
                     // 16697ms { Name = dataGridView2 } autoresize done { ElapsedMilliseconds = 2630 } 
+
+                    // X:\jsc.svn\examples\javascript\forms\Test\TestFlowDataGridPadding\TestFlowDataGridPadding\Application.cs
                     Console.WriteLine(new { this.Name } + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
+
+                    // 16011ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 39, Count = 5 } 
                 };
             #endregion
 
