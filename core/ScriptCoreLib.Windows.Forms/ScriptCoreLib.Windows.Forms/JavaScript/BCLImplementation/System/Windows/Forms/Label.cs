@@ -62,6 +62,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.HTMLTarget.requestAnimationFrame +=
                         delegate
                         {
+                            if (this.HTMLTarget.scrollWidth == 0)
+                            {
+                                Console.WriteLine(new { this.Name } + " set_Text unable to set Size");
+                                return;
+                            }
+
                             this.Size = new global::System.Drawing.Size(
 
                             //this.HTMLTargetContainer.style.SetSize(
@@ -81,6 +87,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.HTMLTarget.scrollHeight
                 );
         }
+
         // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.Label.set_TextAlign(System.Drawing.ContentAlignment)]
         public global::System.Drawing.ContentAlignment InternalTextAlign;
 
