@@ -54,6 +54,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event Action InternalNameChanged;
         #endregion
 
+        [Obsolete("css")]
         public IStyle outer_style
         {
             get { return this.HTMLTargetRef.style; }
@@ -1851,5 +1852,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201305/2130522-forms-drag
         public virtual bool AllowDrop { get; set; }
+
+
+        public Form FindForm()
+        {
+            var p = (Control)this;
+
+            while (p.Parent != null)
+                p = p.Parent;
+
+            return p as Form;
+        }
     }
 }

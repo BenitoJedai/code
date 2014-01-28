@@ -1906,18 +1906,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                         var WidthByFill = all - SourceColumnLeft - ZeroRight - 9;
 
-                                        Console.WriteLine(
-                                            " InternalAutoResizeColumn Fill "
-                                            + new
-                                            {
-                                                SourceColumnIndex,
-                                                SourceColumnLeft,
-                                                value = ZeroRight,
-                                                all,
-                                                WidthByFill
-                                            }
+                                        //Console.WriteLine(
+                                        //    " InternalAutoResizeColumn Fill "
+                                        //    + new
+                                        //    {
+                                        //        SourceColumnIndex,
+                                        //        SourceColumnLeft,
+                                        //        value = ZeroRight,
+                                        //        all,
+                                        //        WidthByFill
+                                        //    }
 
-                                            );
+                                        //    );
 
                                         //{ cindex = 0, w = 0, value = 99, all = 753, WidthByFill = 654 } 
 
@@ -2186,34 +2186,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             t.Tick +=
                 delegate
                 {
-                    // 15245ms will do autoresize? 
-
-                    var AutoResizeColumnStopwatch = Stopwatch.StartNew();
-
-                    //Console.WriteLine(new { this.Name } + " autoresize ");
-
                     t.Stop();
 
-                    foreach (var item in this.InternalColumns.InternalItems)
-                    {
-                        this.AutoResizeColumn(item.Index);
-                    }
-
-
-                    // how is it possible that
-                    // the code itself takes 2ms, calling handlers 400ms and all in total 3sec?
-                    // does the delegate calling code need to be optimized?
-
-                    //13674ms { Name = dataGridView1 } InternalAutoResizeColumn { RowCount = 3, SourceColumnIndex = 7, NewWidth = 81, ElapsedMilliseconds = 1 } view-source:35271
-                    //14048ms { Name = dataGridView1 } exit AutoResizeColumn { ElapsedMilliseconds = 375, columnIndex = 7 } 
-
-                    // 14049ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 3020 } 
-                    // 16697ms { Name = dataGridView2 } autoresize done { ElapsedMilliseconds = 2630 } 
-
-                    // X:\jsc.svn\examples\javascript\forms\Test\TestFlowDataGridPadding\TestFlowDataGridPadding\Application.cs
-                    Console.WriteLine(new { this.Name } + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
-
-                    // 16011ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 39, Count = 5 } 
+                    InternalAutoResizeAll();
                 };
             #endregion
 
@@ -2229,13 +2204,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             delegate
                             {
                                 // tested by?
-                                Console.WriteLine("ClientSizeChanged Fill AutoResizeColumn");
+                                //Console.WriteLine("ClientSizeChanged Fill AutoResizeColumn");
 
                                 this.AutoResizeColumn(this.Columns.Count - 1);
                             };
                     }
                 };
             #endregion
+
 
 
             #region InternalRows
@@ -2270,12 +2246,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                       CreateMissingCells(SourceRow);
 
                       if (!InternalSkipAutoSize)
-                          if (this.AutoSizeColumnsMode != DataGridViewAutoSizeColumnsMode.None)
-                          {
-                              Console.WriteLine("a new row was added, auto resize?");
-                              t.Stop();
-                              t.Start();
-                          }
+                          if (!InternalDataSourceBusy)
+                              if (this.AutoSizeColumnsMode != DataGridViewAutoSizeColumnsMode.None)
+                              {
+                                  Console.WriteLine("a new row was added, auto resize?");
+                                  t.Stop();
+                                  t.Start();
+                              }
 
 
 
@@ -2404,6 +2381,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             Console.WriteLine("exit DataGridView .ctor " + new { DataGridViewConstructorStopwatch.ElapsedMilliseconds });
+        }
+
+
+        private void InternalAutoResizeAll()
+        {
+
+            // 15245ms will do autoresize? 
+
+            var AutoResizeColumnStopwatch = Stopwatch.StartNew();
+
+            //Console.WriteLine(new { this.Name } + " autoresize ");
+
+
+            foreach (var item in this.InternalColumns.InternalItems)
+            {
+                this.AutoResizeColumn(item.Index, ObeyAutoSizeMode: true);
+            }
+
+
+            // how is it possible that
+            // the code itself takes 2ms, calling handlers 400ms and all in total 3sec?
+            // does the delegate calling code need to be optimized?
+
+            //13674ms { Name = dataGridView1 } InternalAutoResizeColumn { RowCount = 3, SourceColumnIndex = 7, NewWidth = 81, ElapsedMilliseconds = 1 } view-source:35271
+            //14048ms { Name = dataGridView1 } exit AutoResizeColumn { ElapsedMilliseconds = 375, columnIndex = 7 } 
+
+            // 14049ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 3020 } 
+            // 16697ms { Name = dataGridView2 } autoresize done { ElapsedMilliseconds = 2630 } 
+
+            // X:\jsc.svn\examples\javascript\forms\Test\TestFlowDataGridPadding\TestFlowDataGridPadding\Application.cs
+
+            var gg = (DataGridView)this;
+
+            Console.WriteLine(
+                new { Form = gg.FindForm().Name, this.Name } 
+                + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
+
+            // 16011ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 39, Count = 5 } 
         }
 
 
