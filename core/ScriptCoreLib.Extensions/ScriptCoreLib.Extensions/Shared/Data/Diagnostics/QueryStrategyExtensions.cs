@@ -120,11 +120,34 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                 var f_Body_Right = (MemberExpression)((UnaryExpression)body.Right).Operand;
 
+                var f_Body_Right_as_ConstantExpression = f_Body_Right.Expression as ConstantExpression;
+                var f_Body_Right_as_MemberExpression = f_Body_Right.Expression as MemberExpression;
 
-                var f_Body_Right_Expression = (ConstantExpression)f_Body_Right.Expression;
+                //var f_Body_Right_Expression = (ConstantExpression)f_Body_Right.Expression;
 
-                var f_Body_Right_Expression_Value = f_Body_Right_Expression.Value;
-                r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                //var f_Body_Right_Expression_Value = f_Body_Right_Expression.Value;
+                //r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+
+                if (f_Body_Right_as_ConstantExpression != null)
+                {
+
+                    var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
+                    r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                }
+                else if (f_Body_Right_as_MemberExpression != null)
+                {
+                    // we are doing a where against object field passed method argument
+
+                    var z = (FieldInfo)f_Body_Right_as_MemberExpression.Member;
+
+                    var zE = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
+
+                    var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
+
+
+                    r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                }
+                else Debugger.Break();
             }
             else
             {
