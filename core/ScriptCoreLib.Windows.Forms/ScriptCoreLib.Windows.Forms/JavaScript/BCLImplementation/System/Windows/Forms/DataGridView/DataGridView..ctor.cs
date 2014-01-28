@@ -63,6 +63,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // add the rule to current document.
             // what happens if we do popup?
+            // wha about scoped style?
             this.css = this.InternalElement.css;
 
             this.InternalElement.style.overflow = DOM.IStyle.OverflowEnum.hidden;
@@ -129,7 +130,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalScrollContainerElement = new IHTMLDiv
             {
                 // pstyle
-                //className = "InternalScrollContainerElement"
+                className = "InternalScrollContainerElement"
             }.AttachTo(this.InternalElement);
 
 
@@ -159,8 +160,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalScrollContainerElement.style.right = "0px";
             this.InternalScrollContainerElement.style.bottom = "0px";
 
+            this.InternalGridColor_css = this.InternalScrollContainerElement.css[" *[data-resizer='resizer']"];
 
-            var __ContentTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
+            var __ContentTableContainer = new IHTMLDiv { className = "__ContentTableContainer" }.AttachTo(InternalScrollContainerElement);
 
             // 116ms css.style { selectorText = table.__ContentTable[style-id="2"] > tbody > tr > td } 
             this.__ContentTable = new IHTMLTable
@@ -200,7 +202,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-            var __ColumnsTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
+            var __ColumnsTableContainer = new IHTMLDiv
+            {
+                className = "__ColumnsTableContainer"
+            }.AttachTo(InternalScrollContainerElement);
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131213-forms-css
             this.__ColumnsTable = new IHTMLTable
@@ -209,20 +214,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 cellPadding = 0,
                 cellSpacing = 0
-            }.AttachTo(__ColumnsTableContainer);
+            }.AttachTo(
+            __ColumnsTableContainer);
 
             this.__ColumnsTable_css = css[this.__ColumnsTable];
             this.__ColumnsTable_css_td = this.__ColumnsTable_css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
 
             IHTMLTableRow __ColumnsTableRow = null;
 
-            __ColumnsTableContainer.style.SetLocation(0, 0);
+            //__ColumnsTableContainer.style.SetLocation(0, 0);
+            __ColumnsTableContainer.style.position = IStyle.PositionEnum.absolute;
+            __ColumnsTableContainer.style.left = "0px";
+
             __ColumnsTableRow = __ColumnsTable.AddBody().AddRow();
             __ColumnsTableRow.style.height = "22px";
 
 
-            var __RowsTableContainer = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
-            __RowsTableContainer.style.SetLocation(0, 0);
+            var __RowsTableContainer = new IHTMLDiv
+            {
+                className = "__RowsTableContainer"
+            }.AttachTo(InternalScrollContainerElement);
+
+            //__RowsTableContainer.style.SetLocation(0, 0);
+            __RowsTableContainer.style.position = IStyle.PositionEnum.absolute;
+            __RowsTableContainer.style.top = "0px";
 
 
             this.__RowsTable = new IHTMLTable
@@ -234,7 +249,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // should we make the monkier a bit lazier?
             this.__RowsTable_css = css[this.__RowsTable];
+
+            // 139ms { __RowsTable_css = { selectorText = div.DataGridView[style-id="2"] > div:nth-of-type(1) > div:nth-of-type(3) > table:nth-of-type(1), selectorElement =  } } 
+            Console.WriteLine(new { this.__RowsTable_css });
             this.__RowsTable_css_td = this.__RowsTable_css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
+            this.__RowsTable_css_td.style.backgroundColor = "cyan";
+
 
             __RowsTable.style.paddingTop = "22px";
             IHTMLTableBody __RowsTableBody = __RowsTable.AddBody();
@@ -244,13 +264,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.__Corner = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
 
 
-
-            __Corner.style.SetLocation(0, 0);
+            __Corner.style.position = IStyle.PositionEnum.absolute;
+            //__Corner.style.SetLocation(0, 0);
             __Corner.style.height = "22px";
 
             #endregion
 
 
+            var css_fixed_left =
+                __RowsTableContainer.css
+                | __Corner.css;
+
+            var css_fixed_top =
+               __ColumnsTableContainer.css
+               | __Corner.css;
+
+            Action onscroll = delegate
+            {
+                css_fixed_left.style.left = this.InternalScrollContainerElement.scrollLeft + "px";
+                css_fixed_top.style.top = this.InternalScrollContainerElement.scrollTop + "px";
+            };
 
             IHTMLTableBody __ContentTableBody = __ContentTable.AddBody();
 
@@ -265,20 +298,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // http://www.w3schools.com/cssref/sel_last-of-type.asp
             // dont we have lastOfType available yet?
-            var InternalNewRow_content_css = __ContentTableBody.css.last[IHTMLElement.HTMLElementEnum.tr];
-            var InternalNewRow_header_css = __RowsTableBody.css.last[IHTMLElement.HTMLElementEnum.tr];
-            var InternalNewRow_css = InternalNewRow_content_css | InternalNewRow_header_css;
+            var InternalNewRow_content_css = __ContentTable_css
+                [IHTMLElement.HTMLElementEnum.tbody].last[IHTMLElement.HTMLElementEnum.tr];
 
-            //var InternalNewRow_css = IStyleSheet.all[
-            //    InternalNewRow_content_css.rule.selectorText
-            //    + ", "
-            //    + InternalNewRow_header_css.rule.selectorText
-            //];
+            var InternalNewRow_header_css = __RowsTable_css
+                [IHTMLElement.HTMLElementEnum.tbody].last[IHTMLElement.HTMLElementEnum.tr];
+
+            var InternalNewRow_css = InternalNewRow_content_css | InternalNewRow_header_css;
 
 
             this.AllowUserToAddRowsChanged +=
                 delegate
                 {
+                    // conditional css?
                     if (this.AllowUserToAddRows)
                         InternalNewRow_css.style.display = IStyle.DisplayEnum.empty;
                     else
@@ -301,7 +333,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 BackColor = global::System.Drawing.SystemColors.ButtonFace
             };
 
-            this.InternalGridColor_css = this.InternalScrollContainerElement.css[" *[data-resizer='resizer']"];
 
 
 
@@ -309,7 +340,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Func<IHTMLDiv> CreateVerticalResizer =
                 () =>
                 {
-                    var r = new IHTMLDiv();
+                    var r = new IHTMLDiv { className = "VerticalResizer" };
 
                     r.style.position = DOM.IStyle.PositionEnum.absolute;
                     r.style.height = "9px";
@@ -373,13 +404,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Func<IHTMLDiv> CreateHorizontalResizer =
                 () =>
                 {
-                    var _HorizontalResizer = new IHTMLDiv();
+                    var _HorizontalResizer = new IHTMLDiv { className = "HorizontalResizer" };
+
+                    // what about older rules?
+                    // shall they stop existing once the new once is used?
+                    css_fixed_top |= _HorizontalResizer.css;
+
+                    onscroll();
 
                     _HorizontalResizer.style.position = DOM.IStyle.PositionEnum.absolute;
                     _HorizontalResizer.style.width = "9px";
-                    _HorizontalResizer.style.top = "0px";
-                    _HorizontalResizer.style.height = "44px";
-                    //HorizontalResizer.style.backgroundColor = JSColor.Red;
+
+                    _HorizontalResizer.css.style.height = "22px";
+                    _HorizontalResizer.css.hover.style.height = "100%";
+                    _HorizontalResizer.css.active.style.height = "100%";
+
                     _HorizontalResizer.style.cursor = DOM.IStyle.CursorEnum.move;
 
                     var _HorizontalResizerLine = new IHTMLDiv().AttachTo(_HorizontalResizer);
@@ -390,32 +429,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     _HorizontalResizerLine.style.top = "0px";
                     _HorizontalResizerLine.style.bottom = "0px";
 
+                    //_HorizontalResizer.css.active.first.style.color = "blue";
+                    //_HorizontalResizer.css.style.backgroundColor = "yellow";
+                    //_HorizontalResizer.css.active.style.backgroundColor = "cyan";
+                    _HorizontalResizer.css.hover.first.style.backgroundColor = "black";
+                    _HorizontalResizer.css.active.first.style.backgroundColor = "blue";
 
                     _HorizontalResizerLine.setAttribute("data-resizer", "resizer");
-
-
-
-
-                    this.ClientSizeChanged +=
-                       delegate
-                       {
-                           _HorizontalResizer.style.height = "44px";
-                           //_HorizontalResizer.Hide();
-
-                           Native.window.requestAnimationFrame +=
-                               //new ScriptCoreLib.JavaScript.Runtime.Timer(
-                               delegate
-                               {
-                                   _HorizontalResizer.style.height = this.InternalScrollContainerElement.clientHeight + "px";
-                                   //_HorizontalResizerLine.style.backgroundColor = "red";
-                                   //_HorizontalResizer.Show();
-
-                               }
-                           ;
-                           //).StartTimeout(200);
-                       };
-
-
 
                     return _HorizontalResizer;
                 };
@@ -434,7 +454,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var ZeroHorizontalResizerDrag = new DragHelper(ZeroHorizontalResizer)
             {
-                //
+                // why cant I see it?
                 Position = new Point(32, 0),
                 Enabled = true
             };
@@ -506,7 +526,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 delegate
                 {
                     Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.move;
-                    ((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
+                    //((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
                 };
 
 
@@ -516,7 +536,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                  {
                      Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
                      //((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
-                     ((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = "";
+                     //((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = "";
                      //((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = "yellow";
 
                      UpdateToHorizontalResizerDrag();
@@ -534,6 +554,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             #endregion
 
+
+
+            onscroll();
+
             #region onscroll
             this.InternalScrollContainerElement.onscroll +=
                e =>
@@ -541,13 +565,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                    UpdateToVerticalResizerScroll();
                    UpdateToHorizontalResizerScroll();
 
-                   __RowsTableContainer.style.SetLocation(this.InternalScrollContainerElement.scrollLeft, 0);
-                   __ColumnsTableContainer.style.SetLocation(0, this.InternalScrollContainerElement.scrollTop);
+                   onscroll();
 
-                   __Corner.style.SetLocation(
-                     this.InternalScrollContainerElement.scrollLeft,
-                     this.InternalScrollContainerElement.scrollTop
-                 );
                };
             #endregion
 
@@ -1565,11 +1584,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // setting the size for the headers on top
 
-                    var SourceColumnWidth_css =
-                          this.__ColumnsTable_css_td[SourceColumn.Index] |
-                          this.__ColumnsTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div] |
-                          this.__ContentTable_css_td[SourceColumn.Index] |
-                          this.__ContentTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div];
+                    var SourceColumnWidth_css = default(CSSStyleRuleMonkier);
+
+                    if (SourceColumn.Index == -1)
+                    {
+                        // scoped style?
+
+                        SourceColumnWidth_css =
+                            this.__RowsTable_css;
+
+
+                    }
+                    else
+                    {
+                        SourceColumnWidth_css =
+                                          this.__ColumnsTable_css_td[SourceColumn.Index] |
+                                          this.__ColumnsTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div] |
+                                          this.__ContentTable_css_td[SourceColumn.Index] |
+                                          this.__ContentTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div];
+
+                    }
 
                     //154572ms { Name = dataGridView1 } InternalColumns InternalWidthChanged done { ElapsedMilliseconds = 1 } 
 
@@ -1583,6 +1617,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             // tested by
                             // X:\jsc.svn\examples\javascript\forms\Test\TestGrowingGrid\TestGrowingGrid\ApplicationControl.cs
+                            // X:\jsc.svn\examples\javascript\forms\Test\TestFlowDataGridPadding\TestFlowDataGridPadding\Application.cs
 
                             // update the designer style
                             SourceColumnWidth_css.style.width = SourceColumnWidth + "px";
@@ -1604,8 +1639,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     #region InternalHorizontalDrag
                     SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
+                    //SourceColumn.ColumnHorizontalResizer.AttachTo(__ColumnsTableContainer);
+                    SourceColumn.ColumnHorizontalResizer.AttachTo(InternalScrollContainerElement);
 
-                    __ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
+                    //__ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
 
                     var ColumnHorizontalResizerDrag = new DragHelper(SourceColumn.ColumnHorizontalResizer)
                     {
@@ -1621,21 +1658,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         var x = ColumnHorizontalResizerDrag.Position.X;
 
-                        var scrollHeight = this.InternalScrollContainerElement.scrollHeight;
-                        if (scrollHeight < 44)
-                            scrollHeight = 44;
+                        //var scrollHeight = this.InternalScrollContainerElement.scrollHeight;
+                        //if (scrollHeight < 44)
+                        //    scrollHeight = 44;
 
 
 
                         //Console.WriteLine("ColumnUpdateToHorizontalResizerScroll " + new { x, scrollHeight });
-                        SourceColumn.ColumnHorizontalResizer.style.SetLocation(
-                                    x,
-                                    0
-                            //this.InternalContainerElement.scrollTop
-                            );
+                        SourceColumn.ColumnHorizontalResizer.style.left = x + "px";
+
+                        //SourceColumn.ColumnHorizontalResizer.style.SetLocation(
+                        //            x,
+                        //            0
+                        //    //this.InternalContainerElement.scrollTop
+                        //    );
 
 
-                        SourceColumn.ColumnHorizontalResizer.style.height = scrollHeight + "px";
+                        //SourceColumn.ColumnHorizontalResizer.style.height = scrollHeight + "px";
                     };
                     #endregion
 
@@ -1714,7 +1753,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             var x = ZeroHorizontalResizerDrag.Position.X - 1;
 
                             if (!this.InternalRowHeadersVisible)
-                                x = 0;
+                                x = -1;
 
                             for (int i = 0; i <= NewIndex; i++)
                             {
@@ -1767,7 +1806,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             {
 
                                 Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.move;
-                                ((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
+                                //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
 
                                 __DragStartX = ColumnHorizontalResizerDrag.Position.X;
                             };
@@ -1784,7 +1823,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
                                     //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
-                                    ((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "";
+                                    //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "";
                                     //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "yellow";
                                     //SourceColumn.ColumnHorizontalResizer.style.backgroundColor = "red";
 
@@ -1804,11 +1843,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
 
 
+                    bool InternalAutoResizeColumnBuzy = false;
 
                     #region InternalAutoSize
                     this.InternalAutoResizeColumn +=
                         (SourceColumnIndex, ObeyAutoSizeMode) =>
                         {
+                            if (InternalAutoResizeColumnBuzy)
+                                return;
+
+
                             if (SourceColumnIndex != SourceColumn.Index)
                                 return;
 
@@ -1830,39 +1874,57 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             //    }
                             //);
 
+
+
                             #region Fill last column
                             if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
                                 if (SourceColumnIndex == this.Columns.Count - 1)
                                 {
-                                    var w = Enumerable.Range(0, SourceColumnIndex).Select(
+                                    var FillColumn = this.Columns[this.Columns.Count - 1];
+
+                                    //SourceColumn.le
+                                    var SourceColumnLeft = Enumerable.Range(0, SourceColumnIndex).Select(
                                         c => this.Columns[c].Width
                                     ).Sum();
 
-                                    var value = (ZeroHorizontalResizerDrag.Position.X + 4);
+                                    var ZeroRight = (ZeroHorizontalResizerDrag.Position.X + 4);
 
                                     if (!this.InternalRowHeadersVisible)
-                                        value = 4;
+                                        ZeroRight = 4;
 
 
                                     // { cindex = 0, w = 0, all = 1600, WidthByFill = 1600 } 
 
-                                    var all = this.InternalScrollContainerElement.scrollWidth;
+                                    var all = this.InternalScrollContainerElement.clientWidth;
 
-                                    var WidthByFill = all - w - value - 8;
+                                    var WidthByFill = all - SourceColumnLeft - ZeroRight - 9;
 
                                     Console.WriteLine(
-                                        new { cindex = SourceColumnIndex, w, value, all, WidthByFill }
+                                        " InternalAutoResizeColumn Fill "
+                                        + new
+                                        {
+                                            SourceColumnIndex,
+                                            SourceColumnLeft,
+                                            value = ZeroRight,
+                                            all,
+                                            WidthByFill
+                                        }
 
                                         );
 
                                     //{ cindex = 0, w = 0, value = 99, all = 753, WidthByFill = 654 } 
 
                                     __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByFill - SourceColumn.Width);
+
+                                    InternalAutoResizeColumnBuzy = true;
                                     SourceColumn.Width = Math.Max(20, WidthByFill);
+                                    InternalAutoResizeColumnBuzy = false;
 
                                     return;
                                 }
                             #endregion
+
+
 
                             if (SourceColumnIndex < 0)
                                 return;

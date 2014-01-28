@@ -208,7 +208,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var BackColor = this.InternalRowHeadersDefaultCellStyle.BackColor;
                     this.__RowsTable_css_td.style.backgroundColor = BackColor.ToString();
-
                 };
 
                 this.InternalRowHeadersDefaultCellStyle.InternalBackColorChanged += delegate { y(); };
