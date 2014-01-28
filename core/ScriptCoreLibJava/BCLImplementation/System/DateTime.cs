@@ -187,6 +187,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             {
                 var w = new StringBuilder();
                 w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(GetMonthString(this.Month).Substring(0, 3).PadLeft(3, '0'));
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(this.Hour.ToString().PadLeft(2, '0'));
+                w.Append(this.Minute.ToString().PadLeft(2, '0'));
+                w.Append(this.Second.ToString().PadLeft(2, '0'));
+
+                return w.ToString();
+            }
+            else if (format == "dd.MMM.yyyy HH:mm:ss")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
                 w.Append(".");
                 w.Append(GetMonthString(this.Month).Substring(0, 3).PadLeft(3, '0'));
                 w.Append(".");
@@ -201,6 +213,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System
                 return w.ToString();
             }
             else if (format == "ddMMyyyyHHmmss")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(this.Month.ToString().PadLeft(2, '0'));
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(this.Hour.ToString().PadLeft(2, '0'));
+                w.Append(this.Minute.ToString().PadLeft(2, '0'));
+                w.Append(this.Second.ToString().PadLeft(2, '0'));
+                return w.ToString();
+            }
+            else if (format == "dd.MM.yyyy HH:mm:ss")
             {
                 var w = new StringBuilder();
                 w.Append(this.Day.ToString().PadLeft(2, '0'));
@@ -220,6 +243,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             {
                 var w = new StringBuilder();
                 w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(GetMonthString(this.Month));
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                w.Append(this.Hour.ToString().PadLeft(2, '0'));
+                w.Append(this.Minute.ToString().PadLeft(2, '0'));
+                w.Append(this.Second.ToString().PadLeft(2, '0'));
+                return w.ToString();
+            }
+            else if (format == "dd.MMMM.yyyy HH:mm:ss")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
                 w.Append(".");
                 w.Append(GetMonthString(this.Month));
                 w.Append(".");
@@ -236,14 +270,29 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             {
                 var w = new StringBuilder();
                 w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(GetMonthString(this.Month));
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                return w.ToString();
+            }
+            else if (format == "dd.MMMM.yyyy")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
                 w.Append(".");
                 w.Append(GetMonthString(this.Month));
                 w.Append(".");
                 w.Append(this.Year.ToString().PadLeft(4, '0'));
-                w.Append(" ");
                 return w.ToString();
             }
             else if (format == "ddMMMyyyy")
+            {
+                var w = new StringBuilder();
+                w.Append(this.Day.ToString().PadLeft(2, '0'));
+                w.Append(GetMonthString(this.Month).Substring(0, 3).PadLeft(3, '0'));
+                w.Append(this.Year.ToString().PadLeft(4, '0'));
+                return w.ToString();
+            }
+            else if (format == "dd.MMM.yyyy")
             {
                 var w = new StringBuilder();
                 w.Append(this.Day.ToString().PadLeft(2, '0'));
@@ -251,7 +300,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System
                 w.Append(GetMonthString(this.Month).Substring(0, 3).PadLeft(3, '0'));
                 w.Append(".");
                 w.Append(this.Year.ToString().PadLeft(4, '0'));
-                w.Append(" ");
                 return w.ToString();
             }
             else if (format == "MMMM")
