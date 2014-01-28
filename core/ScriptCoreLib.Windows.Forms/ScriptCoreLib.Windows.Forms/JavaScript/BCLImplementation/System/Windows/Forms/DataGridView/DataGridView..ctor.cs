@@ -1878,50 +1878,58 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             #region Fill last column
                             if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
-                                if (SourceColumnIndex == this.Columns.Count - 1)
-                                {
-                                    var FillColumn = this.Columns[this.Columns.Count - 1];
+                            {
+                                var FillColumn = Enumerable.Range(0, this.Columns.Count)
+                                        .Where(c => this.Columns[c].Visible)
+                                        .Select(c => this.Columns[c])
+                                        .LastOrDefault();
 
-                                    //SourceColumn.le
-                                    var SourceColumnLeft = Enumerable.Range(0, SourceColumnIndex).Select(
-                                        c => this.Columns[c].Width
-                                    ).Sum();
+                                if (FillColumn != null)
+                                    if (SourceColumnIndex == FillColumn.Index)
+                                    {
 
-                                    var ZeroRight = (ZeroHorizontalResizerDrag.Position.X + 4);
+                                        //SourceColumn.le
+                                        var SourceColumnLeft = Enumerable.Range(0, FillColumn.Index)
+                                            .Where(c => this.Columns[c].Visible)
+                                            .Select(c => this.Columns[c].Width)
+                                            .Sum();
 
-                                    if (!this.InternalRowHeadersVisible)
-                                        ZeroRight = 4;
+                                        var ZeroRight = (ZeroHorizontalResizerDrag.Position.X + 4);
+
+                                        if (!this.InternalRowHeadersVisible)
+                                            ZeroRight = 4;
 
 
-                                    // { cindex = 0, w = 0, all = 1600, WidthByFill = 1600 } 
+                                        // { cindex = 0, w = 0, all = 1600, WidthByFill = 1600 } 
 
-                                    var all = this.InternalScrollContainerElement.clientWidth;
+                                        var all = this.InternalScrollContainerElement.clientWidth;
 
-                                    var WidthByFill = all - SourceColumnLeft - ZeroRight - 9;
+                                        var WidthByFill = all - SourceColumnLeft - ZeroRight - 9;
 
-                                    Console.WriteLine(
-                                        " InternalAutoResizeColumn Fill "
-                                        + new
-                                        {
-                                            SourceColumnIndex,
-                                            SourceColumnLeft,
-                                            value = ZeroRight,
-                                            all,
-                                            WidthByFill
-                                        }
+                                        Console.WriteLine(
+                                            " InternalAutoResizeColumn Fill "
+                                            + new
+                                            {
+                                                SourceColumnIndex,
+                                                SourceColumnLeft,
+                                                value = ZeroRight,
+                                                all,
+                                                WidthByFill
+                                            }
 
-                                        );
+                                            );
 
-                                    //{ cindex = 0, w = 0, value = 99, all = 753, WidthByFill = 654 } 
+                                        //{ cindex = 0, w = 0, value = 99, all = 753, WidthByFill = 654 } 
 
-                                    __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByFill - SourceColumn.Width);
+                                        __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByFill - SourceColumn.Width);
 
-                                    InternalAutoResizeColumnBuzy = true;
-                                    SourceColumn.Width = Math.Max(20, WidthByFill);
-                                    InternalAutoResizeColumnBuzy = false;
+                                        InternalAutoResizeColumnBuzy = true;
+                                        SourceColumn.Width = Math.Max(20, WidthByFill);
+                                        InternalAutoResizeColumnBuzy = false;
 
-                                    return;
-                                }
+                                        return;
+                                    }
+                            }
                             #endregion
 
 
