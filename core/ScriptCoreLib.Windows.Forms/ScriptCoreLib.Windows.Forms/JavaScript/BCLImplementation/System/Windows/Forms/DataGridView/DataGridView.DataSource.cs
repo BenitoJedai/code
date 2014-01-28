@@ -39,6 +39,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public object InternalDataSource;
         public object InternalDataSourceSync;
 
+        public bool InternalDataSourceBusy;
+
         public object DataSource
         {
             get
@@ -51,14 +53,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 Native.window.requestAnimationFrame += delegate
                 {
+
+
                     if (DataSourceChanged != null)
                         DataSourceChanged(this, new EventArgs());
+
                 };
             }
         }
 
         private void InternalSetDataSource(object value)
         {
+            InternalDataSourceBusy = true;
             var stopwatch = Stopwatch.StartNew();
 
             //Console.WriteLine(
@@ -122,10 +128,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.Columns.RemoveAt(this.Columns.Count - 1);
 
 
-            var cIndex = 0;
+            var ColumnIndex = 0;
             foreach (DataColumn item in SourceDataTable.Columns)
             {
-                if (cIndex < this.Columns.Count)
+                var ColumnStopwatch = Stopwatch.StartNew();
+
+                if (ColumnIndex < this.Columns.Count)
                 {
                 }
                 else
@@ -138,26 +146,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
 
                 // X:\jsc.internal.svn\core\com.abstractatech.my.business\com.abstractatech.my.business\Application.cs
-                this.Columns[cIndex].Name = item.ColumnName;
-                this.Columns[cIndex].HeaderText = item.ColumnName;
+                this.Columns[ColumnIndex].Name = item.ColumnName;
+                this.Columns[ColumnIndex].HeaderText = item.ColumnName;
 
-                this.Columns[cIndex].ReadOnly = item.ReadOnly;
+                this.Columns[ColumnIndex].ReadOnly = item.ReadOnly;
 
-                cIndex++;
+                ColumnIndex++;
+
+
+                Console.WriteLine(
+                    new { Name, cIndex = ColumnIndex }
+                    + " InternalSetDataSource a Column done at "
+                    + new { ColumnStopwatch.ElapsedMilliseconds }
+                 );
+
             }
 
             #endregion
-
-            Console.WriteLine(
-                new { Name }
-                + " InternalSetDataSource Columns done at "
-                + new { stopwatch.ElapsedMilliseconds }
-             );
 
 
             #region Rows
             foreach (DataRow DataBoundItem in SourceDataTable.Rows)
             {
+                var RowStopwatch = Stopwatch.StartNew();
+
                 var r = new __DataGridViewRow
                 {
 
@@ -179,16 +191,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     r.Cells.Add(cc);
                 }
 
+
+                Console.WriteLine(
+                    new { Name }
+                    + " InternalSetDataSource a Row done at "
+                    + new { RowStopwatch.ElapsedMilliseconds }
+                 );
+
                 this.Rows.Add(r);
             }
             #endregion
 
-
-            Console.WriteLine(
-                new { Name }
-                + " InternalSetDataSource Rows done at "
-                + new { stopwatch.ElapsedMilliseconds }
-             );
+            // 5908ms { Name = dataGridView1 } InternalSetDataSource Rows done at { ElapsedMilliseconds = 669 } 
 
 
 
@@ -208,13 +222,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // keep up!
 
                     // script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataColumnCollection.IndexOf(System.Data.DataColumn)]
-                    var ColumnIndex = SourceDataTable.Columns.IndexOf(x.Column);
+                    var xColumnIndex = SourceDataTable.Columns.IndexOf(x.Column);
                     var RowIndex = SourceDataTable.Rows.IndexOf(x.Row);
 
-                    if (this[ColumnIndex, RowIndex].Value == x.ProposedValue)
+                    if (this[xColumnIndex, RowIndex].Value == x.ProposedValue)
                         return;
 
-                    this[ColumnIndex, RowIndex].Value = x.ProposedValue;
+                    this[xColumnIndex, RowIndex].Value = x.ProposedValue;
                 };
 
 
@@ -367,12 +381,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
 
+            //886ms { Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 369 } 
+
+            InternalAutoResizeAll();
+
+            InternalDataSourceBusy = false;
+
+            var old = new { Console.BackgroundColor };
+            Console.BackgroundColor = ConsoleColor.Yellow;
             Console.WriteLine(
-                new { Name }
+                new { Form = this.FindForm().Name, this.Name }
                 + " exit InternalSetDataSource"
                 + new { stopwatch.ElapsedMilliseconds }
              );
 
+            // 4069ms { Form = Form1, Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 2027 } 
+
+            Console.BackgroundColor = old.BackgroundColor;
 
         }
 
