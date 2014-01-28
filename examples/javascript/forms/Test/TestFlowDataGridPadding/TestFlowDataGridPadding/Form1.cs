@@ -20,6 +20,7 @@ namespace TestFlowDataGridPadding
         private void Form1_Load(object sender, EventArgs e)
         {
             dataGridView1.DataSource = Book1.GetDataSet().Tables[0];
+            dataGridView1.Width = this.ClientSize.Width;
 
         }
 
@@ -32,6 +33,10 @@ namespace TestFlowDataGridPadding
             }
 
             dataGridView1.Width = this.ClientSize.Width;
+        }
+
+        private void Form1_ClientSizeChanged(object sender, EventArgs e)
+        {
         }
     }
 }

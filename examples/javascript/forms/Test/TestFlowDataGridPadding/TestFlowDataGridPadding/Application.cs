@@ -37,22 +37,15 @@ namespace TestFlowDataGridPadding
         public Application(IApp page)
         {
             content.AttachControlToDocument();
+            __DataGridView gg = content.f.dataGridView1;
 
-            content.trackBar1.ValueChanged +=
-                delegate
-                {
-
-                    content.f.dataGridView1.GetHTMLTarget().style.marginLeft = -content.trackBar1.Value + "px";
-
-                    __DataGridView gg = content.f.dataGridView1;
-
-
-
+            var css_padding =
                     (
                         gg.__ColumnsTable.css
                        [IHTMLElement.HTMLElementEnum.tbody]
                        [IHTMLElement.HTMLElementEnum.tr]
-                       .first.child
+                       [IHTMLElement.HTMLElementEnum.td]
+                       [0]
                        [IHTMLElement.HTMLElementEnum.div]
                        [IHTMLElement.HTMLElementEnum.div]
                        [IHTMLElement.HTMLElementEnum.span]
@@ -62,12 +55,22 @@ namespace TestFlowDataGridPadding
                     gg.__ContentTable.css
                         [IHTMLElement.HTMLElementEnum.tbody]
                         [IHTMLElement.HTMLElementEnum.tr]
-                        // what about first visible column instead?
-                        .first.child
+                       [IHTMLElement.HTMLElementEnum.td]
+                        [0]
                         [IHTMLElement.HTMLElementEnum.div]
                         [IHTMLElement.HTMLElementEnum.span]
 
-                    ).style.paddingLeft = content.trackBar1.Value + "px";
+                    );
+
+            content.trackBar1.ValueChanged +=
+                delegate
+                {
+
+                    content.f.dataGridView1.GetHTMLTarget().style.marginLeft = -content.trackBar1.Value + "px";
+
+
+
+                    css_padding.style.paddingLeft = content.trackBar1.Value + "px";
                 };
         }
 

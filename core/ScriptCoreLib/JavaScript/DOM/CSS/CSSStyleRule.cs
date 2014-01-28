@@ -534,7 +534,15 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
+        public CSSStyleRuleMonkier active
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\CSS\CSSActivePseudoSelector\CSSActivePseudoSelector\Application.cs
 
+                return this[":active"];
+            }
+        }
 
         public CSSStyleRuleMonkier hover
         {
