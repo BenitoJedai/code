@@ -469,6 +469,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 if (value == global::System.Windows.Forms.BorderStyle.FixedSingle)
                 {
                     // a border here will make us bigger if we are dock fill
+                    // add css boxSizing
                     this.InternalScrollContainerElement.style.border = "1px solid gray";
                 }
                 else
@@ -488,23 +489,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-        #region RowHeadersVisible
-        public event Action InternalRowHeadersVisibleChanged;
-        public bool InternalRowHeadersVisible = true;
-        public bool RowHeadersVisible
-        {
-            get
-            {
-                return InternalRowHeadersVisible;
-            }
-            set
-            {
-                InternalRowHeadersVisible = value;
-                if (InternalRowHeadersVisibleChanged != null)
-                    InternalRowHeadersVisibleChanged();
-            }
-        }
-        #endregion
+     
 
 
 

@@ -58,19 +58,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return global::System.Convert.ToBoolean(
-                    this.AllowUserToResizeColumnsAttribute.Value
-                );
+                return (bool)this.AllowUserToResizeColumnsAttribute;
             }
             set
             {
-                AllowUserToResizeColumnsAttribute.Value = global::System.Convert.ToString(
-                    value
-                );
+                AllowUserToResizeColumnsAttribute.Value = "" + value;
+
             }
         }
         #endregion
 
+        #region RowHeadersVisible
+        public event Action InternalRowHeadersVisibleChanged;
+        public XAttribute RowHeadersVisibleAttribute;
+        public bool RowHeadersVisible
+        {
+            get
+            {
+                return (bool)this.RowHeadersVisibleAttribute;
+            }
+            set
+            {
+                RowHeadersVisibleAttribute.Value = "" + value;
+
+                // event managed by css instead?
+                if (InternalRowHeadersVisibleChanged != null)
+                    InternalRowHeadersVisibleChanged();
+            }
+        }
+        #endregion
 
         public __DataGridView()
         {
@@ -80,10 +96,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
 
                 // do this ahead of time
+                // when can we have a special type for a classname string?
                 className = typeof(DataGridView).Name
             };
 
+            // can jsc help us here and via [HTMLAttribute] redirect the data to html attribute?
             this.AllowUserToResizeColumnsAttribute = new XAttribute("AllowUserToResizeColumns", "").AttachTo(this.InternalElement);
+            this.RowHeadersVisibleAttribute = new XAttribute("RowHeadersVisible", "true").AttachTo(this.InternalElement);
 
 
             // add the rule to current document.
@@ -277,7 +296,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.__RowsTable_css = css[this.__RowsTable];
 
             // 139ms { __RowsTable_css = { selectorText = div.DataGridView[style-id="2"] > div:nth-of-type(1) > div:nth-of-type(3) > table:nth-of-type(1), selectorElement =  } } 
-            Console.WriteLine(new { this.__RowsTable_css });
+            //Console.WriteLine(new { this.__RowsTable_css });
             this.__RowsTable_css_td = this.__RowsTable_css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
             this.__RowsTable_css_td.style.backgroundColor = "cyan";
 
@@ -440,7 +459,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // what about older rules?
                     // shall they stop existing once the new once is used?
-                    css_fixed_top |= _HorizontalResizer.css;
+                    //css_fixed_top |= _HorizontalResizer.css;
 
                     onscroll();
 
@@ -464,9 +483,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //_HorizontalResizer.css.active.first.style.color = "blue";
                     //_HorizontalResizer.css.style.backgroundColor = "yellow";
                     //_HorizontalResizer.css.active.style.backgroundColor = "cyan";
+
+                    // debug
+                    //_HorizontalResizer.css.first.style.backgroundColor = "cyan";
+
                     _HorizontalResizer.css.hover.first.style.backgroundColor = "black";
                     _HorizontalResizer.css.active.first.style.backgroundColor = "blue";
 
+
+                    // used by?
                     _HorizontalResizerLine.setAttribute("data-resizer", "resizer");
 
                     return _HorizontalResizer;
@@ -506,11 +531,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action UpdateToHorizontalResizerScroll = delegate
             {
                 ZeroHorizontalResizer.style.SetLocation(
-                        this.InternalScrollContainerElement.scrollLeft + ZeroHorizontalResizerDrag.Position.X,
+                        this.InternalScrollContainerElement.scrollLeft + ZeroHorizontalResizerDrag.Position.X - 1,
                         this.InternalScrollContainerElement.scrollTop
                     );
             };
             #endregion
+
+            // what if the the value is changed in the inspector/
+            // will our control survive the change? as we dont get any events for that.
+            // almost. the Fill will not be recalculate just yet tho
+            // tested by
+            // X:\jsc.svn\examples\javascript\forms\Test\TestFlowDataGridPadding\TestFlowDataGridPadding\Application.cs
+            css[new XAttribute("RowHeadersVisible", "false")][__ColumnsTable, __ContentTable].style.paddingLeft = "1px";
+            var css_RowHeadersVisible_true = css[new XAttribute("RowHeadersVisible", "true")][__ColumnsTable, __ContentTable];
+
+
+
 
             #region UpdateToHorizontalResizerDrag
             Action UpdateToHorizontalResizerDrag = delegate
@@ -518,36 +554,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //var value = (ZeroHorizontalResizerDrag.Position.X + 4);
                 var value = (ZeroHorizontalResizerDrag.Position.X + 4);
 
-                if (!this.InternalRowHeadersVisible)
-                    value = 4;
+                // no we want it completly gone, not just at 4px
+                if (this.RowHeadersVisible)
+                {
 
-                // has 2 borders
-                __Corner.style.width = (value - 2) + "px";
+                    __Corner.style.width = (value - 2) + "px";
 
-                __ColumnsTable.style.paddingLeft = value + "px";
-                __ContentTable.style.paddingLeft = value + "px";
+                    __RowsTable.style.width = value + "px";
+                    __RowsTable.style.minWidth = value + "px";
 
-                __RowsTable.style.width = value + "px";
-                __RowsTable.style.minWidth = value + "px";
+                    // has 2 borders
+                }
 
+                css_RowHeadersVisible_true.style.paddingLeft = value + "px";
             };
+
+            #endregion
+
+            // when this.RowHeadersVisible == false
+            css[new XAttribute("RowHeadersVisible", "false")]
+                [ZeroHorizontalResizer,
+                __Corner,
+                __RowsTable]
+                .style.display = IStyle.DisplayEnum.none;
 
             UpdateToHorizontalResizerScroll();
             UpdateToHorizontalResizerDrag();
-            #endregion
 
-
-            ZeroHorizontalResizer.Show(this.InternalRowHeadersVisible);
             InternalRowHeadersVisibleChanged +=
               delegate
               {
                   // tested by
                   // X:\jsc.svn\examples\javascript\Test\TestNoZeroColumnHeaderNoScrollbarDateDataGrid\TestNoZeroColumnHeaderNoScrollbarDateDataGrid\ApplicationControl.cs
-
-
-                  ZeroHorizontalResizer.Show(this.InternalRowHeadersVisible);
-
-
                   UpdateToHorizontalResizerDrag();
                   UpdateToHorizontalResizerScroll();
               };
@@ -572,6 +610,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                      //((IHTMLElement)ZeroHorizontalResizer.firstChild).style.backgroundColor = "yellow";
 
                      UpdateToHorizontalResizerDrag();
+                     InternalAutoSizeWhenFill();
                  };
 
 
@@ -1637,6 +1676,39 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     }
 
+
+                    // hide Tag?
+                    //var css = (gg.__ColumnsTable.css | gg.__ContentTable.css)
+                    // [IHTMLElement.HTMLElementEnum.tbody]
+                    // [IHTMLElement.HTMLElementEnum.tr]
+                    // [IHTMLElement.HTMLElementEnum.td]
+                    // [i];
+
+
+                    var SourceColumnVisible__ColumnsTable_css = __ColumnsTable_css
+                     [IHTMLElement.HTMLElementEnum.tbody]
+                     [IHTMLElement.HTMLElementEnum.tr]
+                     [IHTMLElement.HTMLElementEnum.td]
+                     [NewIndex];
+
+                    var SourceColumnVisible__ContentTable_css = __ContentTable_css
+                     [IHTMLElement.HTMLElementEnum.tbody]
+                     [IHTMLElement.HTMLElementEnum.tr]
+                     [IHTMLElement.HTMLElementEnum.td]
+                     [NewIndex];
+
+                    var SourceColumnVisible_css = SourceColumnVisible__ColumnsTable_css | SourceColumnVisible__ContentTable_css;
+
+                    SourceColumn.InternalVisibleChanged +=
+                        delegate
+                        {
+                            if (SourceColumn.Visible)
+                                SourceColumnVisible_css.style.display = IStyle.DisplayEnum.empty;
+                            else
+                                SourceColumnVisible_css.style.display = IStyle.DisplayEnum.none;
+                        };
+
+
                     //154572ms { Name = dataGridView1 } InternalColumns InternalWidthChanged done { ElapsedMilliseconds = 1 } 
 
 
@@ -1672,7 +1744,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region InternalHorizontalDrag
                     SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
                     //SourceColumn.ColumnHorizontalResizer.AttachTo(__ColumnsTableContainer);
-                    SourceColumn.ColumnHorizontalResizer.AttachTo(InternalScrollContainerElement);
+                    //SourceColumn.ColumnHorizontalResizer.AttachTo(InternalScrollContainerElement);
+                    SourceColumn.ColumnHorizontalResizer.AttachTo(InternalElement);
 
                     //__ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
 
@@ -1784,8 +1857,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             var x = ZeroHorizontalResizerDrag.Position.X - 1;
 
-                            if (!this.InternalRowHeadersVisible)
-                                x = -1;
+                            if (!this.RowHeadersVisible)
+                            {
+                                x = -4;
+                            }
+
+                            x -= this.InternalScrollContainerElement.scrollLeft;
 
                             for (int i = 0; i <= NewIndex; i++)
                             {
@@ -1805,6 +1882,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
 
                     Reposition();
+
+                    this.InternalScrollContainerElement.onscroll +=
+                      e =>
+                      {
+                          Reposition();
+                      };
 
                     // tested by
                     // X:\jsc.svn\examples\javascript\Test\TestNoZeroColumnHeaderNoScrollbarDateDataGrid\TestNoZeroColumnHeaderNoScrollbarDateDataGrid\ApplicationControl.cs
@@ -1863,6 +1946,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     Console.WriteLine(new { SourceColumn.Width, ColumnHorizontalResizerDragNewValue });
 
                                     SourceColumn.Width = ColumnHorizontalResizerDragNewValue;
+                                    InternalAutoSizeWhenFill();
                                 };
                     }
 
@@ -1877,7 +1961,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     bool InternalAutoResizeColumnBuzy = false;
 
-                    #region InternalAutoSize
+                    #region InternalAutoResizeColumn
                     this.InternalAutoResizeColumn +=
                         (SourceColumnIndex, ObeyAutoSizeMode) =>
                         {
@@ -1911,32 +1995,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             #region Fill last column
                             if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
                             {
-                                var FillColumn = Enumerable.Range(0, this.Columns.Count)
-                                        .Where(c => this.Columns[c].Visible)
-                                        .Select(c => this.Columns[c])
-                                        .LastOrDefault();
+                                var FillColumn = InternalGetVisibleColumns().LastOrDefault();
 
                                 if (FillColumn != null)
                                     if (SourceColumnIndex == FillColumn.Index)
                                     {
+                                        //Console.WriteLine("InternalAutoResizeColumn " + new { FillColumn.Index, FillColumn.Name });
 
                                         //SourceColumn.le
-                                        var SourceColumnLeft = Enumerable.Range(0, FillColumn.Index)
-                                            .Where(c => this.Columns[c].Visible)
-                                            .Select(c => this.Columns[c].Width)
+                                        var SourceColumnLeft = InternalGetVisibleColumns()
+                                            .Where(c => c.Index < FillColumn.Index)
+                                            .Select(c => c.Width)
                                             .Sum();
 
                                         var ZeroRight = (ZeroHorizontalResizerDrag.Position.X + 4);
 
-                                        if (!this.InternalRowHeadersVisible)
-                                            ZeroRight = 4;
+                                        if (!this.RowHeadersVisible)
+                                            ZeroRight = 1;
 
 
                                         // { cindex = 0, w = 0, all = 1600, WidthByFill = 1600 } 
 
                                         var all = this.InternalScrollContainerElement.clientWidth;
 
-                                        var WidthByFill = all - SourceColumnLeft - ZeroRight - 9;
+                                        var WidthByFill = all - SourceColumnLeft - ZeroRight - 5;
 
                                         //Console.WriteLine(
                                         //    " InternalAutoResizeColumn Fill "
@@ -2025,6 +2107,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             #endregion
 
                         };
+                    #endregion
 
                     SourceColumn.ColumnHorizontalResizer.onmousedown +=
                         e =>
@@ -2035,7 +2118,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 e.stopPropagation();
 
                                 this.AutoResizeColumn(SourceColumn.Index, ObeyAutoSizeMode: false);
-
+                                InternalAutoSizeWhenFill();
 
                             }
                         };
@@ -2044,8 +2127,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         delegate
                         {
                             this.AutoResizeColumn(SourceColumn.Index, ObeyAutoSizeMode: false);
+                            InternalAutoSizeWhenFill();
                         };
-                    #endregion
 
 
                     #endregion
@@ -2224,23 +2307,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
+            this.InternalRowHeadersVisibleChanged +=
+                delegate
+                {
+                    InternalAutoSizeWhenFill();
+                };
+
             #region ClientSizeChanged
             // whatif we are in autosize mode?
             this.ClientSizeChanged +=
                 delegate
                 {
 
-                    if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
-                    {
-                        Native.window.requestAnimationFrame +=
-                            delegate
-                            {
-                                // tested by?
-                                //Console.WriteLine("ClientSizeChanged Fill AutoResizeColumn");
-
-                                this.AutoResizeColumn(this.Columns.Count - 1);
-                            };
-                    }
+                    InternalAutoSizeWhenFill();
                 };
             #endregion
 
@@ -2412,7 +2491,33 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Height = 400;
 
 
+            // 2901ms exit DataGridView .ctor { ElapsedMilliseconds = 923 } 
             Console.WriteLine("exit DataGridView .ctor " + new { DataGridViewConstructorStopwatch.ElapsedMilliseconds });
+        }
+
+        public IEnumerable<DataGridViewColumn> InternalGetVisibleColumns()
+        {
+            return Enumerable.Range(0, this.Columns.Count).Select(x => this.Columns[x]).Where(x => x.Visible);
+        }
+
+        private void InternalAutoSizeWhenFill()
+        {
+            if (this.AutoSizeColumnsMode == DataGridViewAutoSizeColumnsMode.Fill)
+            {
+                Native.window.requestAnimationFrame +=
+                    delegate
+                    {
+                        // tested by?
+
+                        var x = InternalGetVisibleColumns().LastOrDefault();
+                        if (x != null)
+                        {
+                            //Console.WriteLine("InternalAutoSizeWhenFill " + new { x.Index, x.Name });
+
+                            this.AutoResizeColumn(x.Index);
+                        }
+                    };
+            }
         }
 
 

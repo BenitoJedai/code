@@ -35,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public override bool ReadOnly { get; set; }
 
         public bool InternalVisible = true;
-
+        public event Action InternalVisibleChanged;
         public override bool Visible
         {
             get
@@ -48,21 +48,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 InternalVisible = value;
 
-                var gg = this.InternalContext;
-                var i = this.Index;
 
-                // hide Tag?
-                gg.__ColumnsTable.css
-                 [IHTMLElement.HTMLElementEnum.tbody]
-                 [IHTMLElement.HTMLElementEnum.tr]
-                 [IHTMLElement.HTMLElementEnum.td]
-                 [i].style.display = IStyle.DisplayEnum.none;
-
-                gg.__ContentTable.css
-                 [IHTMLElement.HTMLElementEnum.tbody]
-                 [IHTMLElement.HTMLElementEnum.tr]
-                 [IHTMLElement.HTMLElementEnum.td]
-                 [i].style.display = IStyle.DisplayEnum.none;
+                if (InternalVisibleChanged != null)
+                    InternalVisibleChanged();
             }
         }
         #region HeaderText
