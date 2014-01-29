@@ -53,5 +53,20 @@ namespace TestFlowDataGridPadding
 
         }
 
+        private void checkBox3_CheckedChanged(object sender, System.EventArgs e)
+        {
+            f.dataGridView1.Columns[
+                f.dataGridView1.Columns.Count - 1
+            ].Visible = checkBox3.Checked;
+        }
+
+        private void checkBox4_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (checkBox4.Checked)
+                f.dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            else
+                f.dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        }
+
     }
 }

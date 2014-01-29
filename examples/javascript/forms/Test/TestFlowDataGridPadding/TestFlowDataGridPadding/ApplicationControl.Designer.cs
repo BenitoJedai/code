@@ -23,6 +23,8 @@ namespace TestFlowDataGridPadding
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,8 +85,32 @@ namespace TestFlowDataGridPadding
             this.button2.Text = "button1";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(60, 297);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(65, 17);
+            this.checkBox3.TabIndex = 5;
+            this.checkBox3.Text = "hide last";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(60, 332);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(38, 17);
+            this.checkBox4.TabIndex = 6;
+            this.checkBox4.Text = "Fill";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.checkBox4);
+            this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.button2);
@@ -93,7 +119,7 @@ namespace TestFlowDataGridPadding
             this.Controls.Add(this.trackBar1);
             this.Name = "ApplicationControl";
             this.Padding = new System.Windows.Forms.Padding(20);
-            this.Size = new System.Drawing.Size(400, 300);
+            this.Size = new System.Drawing.Size(400, 397);
             this.Load += new System.EventHandler(this.ApplicationControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
@@ -117,6 +143,8 @@ namespace TestFlowDataGridPadding
         private CheckBox checkBox2;
         private Label label1;
         private Button button2;
+        private CheckBox checkBox3;
+        private CheckBox checkBox4;
 
     }
 }
