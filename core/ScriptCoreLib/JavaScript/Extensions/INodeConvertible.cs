@@ -94,11 +94,13 @@ namespace ScriptCoreLib.JavaScript.Extensions
     [Script]
     public static class INodeConvertibleExtensionsNamed
     {
+        [Obsolete]
         public static IEnumerable<IHTMLAudio> AudioElements(this INodeConvertible<IHTMLElement> e)
         {
             return e.AsNode().querySelectorAll(IHTMLElement.HTMLElementEnum.audio).Select(k => (IHTMLAudio)k);
         }
 
+        [Obsolete]
         public static IEnumerable<IHTMLImage> ImageElements(this INodeConvertible<IHTMLElement> e)
         {
             return e.AsNode().querySelectorAll(IHTMLElement.HTMLElementEnum.img).Select(k => (IHTMLImage)k);

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -196,9 +197,27 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+        public new CSSStyleRuleMonkier this[XAttribute x]
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\CSS\CSSXAttributeAsConditional\CSSXAttributeAsConditional\Application.cs
+
+
+                var selector = "[" + x.Name.LocalName + "='" +
+
+                   x.Value
+                        .Replace("\\", "\\\\")
+                       .Replace("'", "\\'")
+
+                   + "']";
+
+                return this[selector];
+            }
+        }
+
         public new CSSStyleRuleMonkier this[Expression<Func<IHTMLElement, bool>> f]
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 return this[IStyleSheet.GetAttributeSelectorText(f)];
@@ -704,6 +723,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             }
         }
+
+        public XAttribute contentXAttribute
+        {
+            set
+            {
+                // X:\jsc.svn\examples\javascript\CSS\CSSXAttributeAsConditional\CSSXAttributeAsConditional\Application.cs
+                this.style.content = "attr(" + value.Name.LocalName + ")";
+            }
+        }
         #endregion
 
 
@@ -959,6 +987,17 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+        public CSSStyleRuleMonkier descendant
+        {
+            get
+            {
+                var x = this[""];
+
+                x.descendantMode = true;
+
+                return x;
+            }
+        }
 
 
 
@@ -1119,7 +1158,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     // what about other pseudo selectors?
                     // what about multilevel pseudos?
-                    while (withoutpseudo.IsPseudoSelector)
+                    //while (withoutpseudo.IsPseudoSelector)
+                    while (withoutpseudo.selectorElement == null)
                     {
                         //Console.WriteLine(" we need to go one level up");
                         withoutpseudo = withoutpseudo.parent;
@@ -1134,7 +1174,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                     {
                         // well, lets ast the document. which document? :P
                         // what about popups and iframes?
-                        collection = Native.document.querySelectorAll(withoutpseudo.rule.selectorText);
+                        //collection = Native.document.querySelectorAll(withoutpseudo.rule.selectorText);
+
+                        throw new InvalidOperationException("selectorElement == null");
                     }
                     else
                     {
@@ -1185,6 +1227,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        internal bool descendantMode;
+
 
         [Obsolete("when can we also do typeof(div) ?")]
         public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
@@ -1194,6 +1238,9 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 // child nodes?
                 var selectorText = ">" + className;
+
+                if (descendantMode)
+                    selectorText = " " + className;
 
                 var z = this[selectorText];
 

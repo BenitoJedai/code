@@ -96,6 +96,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                 //    "[style-id='45']"
 
 
+                // there can be only one body it seems.
+                if (this.localName == "body")
+                    return this.localName;
+
                 IHTMLElement that = this;
 
                 if (that == null)
