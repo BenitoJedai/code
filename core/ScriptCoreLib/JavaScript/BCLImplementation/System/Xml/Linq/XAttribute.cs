@@ -41,5 +41,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 		{
 			return (XAttribute)(object)a;
 		}
+
+        public static implicit operator __XAttribute(XAttribute a)
+        {
+            return (__XAttribute)(object)a;
+        }
 	}
 }

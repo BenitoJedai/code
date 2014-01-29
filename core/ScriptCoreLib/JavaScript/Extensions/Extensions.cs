@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using System.Xml.Linq;
 using System.Linq;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
@@ -230,6 +231,16 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 
         #region AttachTo
+
+        public static XAttribute AttachTo(this XAttribute e, IHTMLElement c)
+        {
+            // tested by
+
+            c.AsXElement().Add(e);
+
+            return e;
+        }
+
         public static IEnumerable<T> AttachTo<T>(this IEnumerable<T> e, IHTMLElement c)
             where T : INodeConvertible<IHTMLElement>
         {

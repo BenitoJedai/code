@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.JavaScript.Extensions;
 using System.Diagnostics;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -42,19 +43,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public bool WrapContents { get; set; }
 
 
-
+        public CSSStyleRuleMonkier InternalPadding_css;
 
         public __FlowLayoutPanel()
         {
+            InternalPadding_css = this.HTMLTargetContainerRef.css;
 
             this.PaddingChanged +=
                 delegate
                 {
 
-                    this.HTMLTargetContainerRef.style.paddingLeft = this.Padding.Left + "px";
-                    this.HTMLTargetContainerRef.style.paddingTop = this.Padding.Top + "px";
-                    this.HTMLTargetContainerRef.style.paddingRight = this.Padding.Right + "px";
-                    this.HTMLTargetContainerRef.style.paddingBottom = this.Padding.Bottom + "px";
+                    this.InternalPadding_css.style.paddingLeft = this.Padding.Left + "px";
+                    this.InternalPadding_css.style.paddingTop = this.Padding.Top + "px";
+                    this.InternalPadding_css.style.paddingRight = this.Padding.Right + "px";
+                    this.InternalPadding_css.style.paddingBottom = this.Padding.Bottom + "px";
                 };
 
             // 1917ms { Name =  } ControlAdded { Width = 150, Height = 150 }

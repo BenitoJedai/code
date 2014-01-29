@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -49,6 +50,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public CSSStyleRuleMonkier __RowsTable_css;
         public CSSStyleRuleMonkier __RowsTable_css_td;
 
+        // lets make this the first property
+        // to live in the DOM world instead
+        #region AllowUserToResizeColumns
+        public XAttribute AllowUserToResizeColumnsAttribute;
+        public bool AllowUserToResizeColumns
+        {
+            get
+            {
+                return global::System.Convert.ToBoolean(
+                    this.AllowUserToResizeColumnsAttribute.Value
+                );
+            }
+            set
+            {
+                AllowUserToResizeColumnsAttribute.Value = global::System.Convert.ToString(
+                    value
+                );
+            }
+        }
+        #endregion
+
 
         public __DataGridView()
         {
@@ -61,11 +83,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 className = typeof(DataGridView).Name
             };
 
+            this.AllowUserToResizeColumnsAttribute = new XAttribute("AllowUserToResizeColumns", "").AttachTo(this.InternalElement);
+
+
             // add the rule to current document.
             // what happens if we do popup?
             // wha about scoped style?
             this.css = this.InternalElement.css;
 
+            // do we need this?
             this.InternalElement.style.overflow = DOM.IStyle.OverflowEnum.hidden;
 
 
@@ -398,6 +424,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     return r;
                 };
             #endregion
+
+
+            //css[(dynamic x) => x.AllowUserToResizeColumns == false][" .HorizontalResizer"].style.display = IStyle.DisplayEnum.none;
+            //css[x => x.getAttribute("AllowUserToResizeColumns") == false][" .HorizontalResizer"].style.display = IStyle.DisplayEnum.none;
+
+            css[new XAttribute("AllowUserToResizeColumns", "false")][" .HorizontalResizer"].style.display = IStyle.DisplayEnum.none;
 
 
             #region CreateHorizontalResizer |
@@ -2415,7 +2447,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var gg = (DataGridView)this;
 
             Console.WriteLine(
-                new { Form = gg.FindForm().Name, this.Name } 
+                new { Form = gg.FindForm().Name, this.Name }
                 + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
 
             // 16011ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 39, Count = 5 } 
