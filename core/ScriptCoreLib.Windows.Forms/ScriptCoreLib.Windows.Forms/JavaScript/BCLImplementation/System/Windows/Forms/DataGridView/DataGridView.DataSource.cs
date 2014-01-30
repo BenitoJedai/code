@@ -6,6 +6,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.Extensions;
+
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -131,18 +134,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var ColumnIndex = 0;
             foreach (DataColumn item in SourceDataTable.Columns)
             {
-                var ColumnStopwatch = Stopwatch.StartNew();
 
                 if (ColumnIndex < this.Columns.Count)
                 {
                 }
                 else
                 {
+                    var ColumnStopwatch = Stopwatch.StartNew();
+
                     this.Columns.Add(
                         new DataGridViewColumn
                         {
                         }
                     );
+
+
+                    // 793192ms { Name = dataGridView2, cIndex = 1 } InternalSetDataSource a Column done at { ElapsedMilliseconds = 935 } 
+
+                    // Console.WriteLine(
+                    //   new { Name, cIndex = ColumnIndex }
+                    //   + " InternalSetDataSource a Column done at "
+                    //   + new { ColumnStopwatch.ElapsedMilliseconds }
+                    //);
                 }
 
                 // X:\jsc.internal.svn\core\com.abstractatech.my.business\com.abstractatech.my.business\Application.cs
@@ -154,11 +167,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 ColumnIndex++;
 
 
-                Console.WriteLine(
-                    new { Name, cIndex = ColumnIndex }
-                    + " InternalSetDataSource a Column done at "
-                    + new { ColumnStopwatch.ElapsedMilliseconds }
-                 );
+
 
             }
 
@@ -191,12 +200,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     r.Cells.Add(cc);
                 }
 
+                // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140130-build-server/trace
+                if (RowStopwatch.ElapsedMilliseconds > 10)
+                {
+                    // report slowdowns only.
 
-                Console.WriteLine(
-                    new { Name }
-                    + " InternalSetDataSource a Row done at "
-                    + new { RowStopwatch.ElapsedMilliseconds }
-                 );
+                    Console.WriteLine(
+                        new { Name }
+                        + " InternalSetDataSource a Row done at "
+                        + new { RowStopwatch.ElapsedMilliseconds }
+                     );
+                }
 
                 this.Rows.Add(r);
             }
@@ -398,6 +412,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // 4069ms { Form = Form1, Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 2027 } 
 
             Console.BackgroundColor = old.BackgroundColor;
+
+
+            new XAttribute(
+               "Stopwatch",
+               new { stopwatch.ElapsedMilliseconds }.ToString()
+           ).AttachTo(this.HTMLTargetRef);
 
         }
 

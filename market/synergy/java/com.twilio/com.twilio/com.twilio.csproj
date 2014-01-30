@@ -130,17 +130,11 @@
   <PropertyGroup>
     <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /AssemblyMerge:Twilio.Api.dll /AssemblyMerge:RestSharp.dll /AssemblyMerge:Newtonsoft.Json.dll /DiscardAttributesForAssembly:Newtonsoft.Json.dll  /OutputDirectory:C:\util\jsc\nuget  /PackageID:"Twilio.SMS.API" /OutputName:"Twilio SMS API"
 
-
-
-
 if $(ConfigurationName)==Debug (
 start /WAIT c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToDev11:true
 )
 
-
-start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath)
-
-</PostBuildEvent>
+start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

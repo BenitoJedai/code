@@ -1555,20 +1555,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.ColumnHorizontalResizer.Orphanize();
                 };
 
-
-
-
-
-
             this.InternalColumns.InternalItemsX.Added +=
                 (SourceColumn, NewIndex) =>
                 {
+                    // jsc why is this function slow?
+
                     //var SourceColumn = this.InternalColumns.InternalItems[_e.NewIndex];
 
                     var SourceColumnStopwatch = Stopwatch.StartNew();
 
                     SourceColumn.InternalContext = this;
-
 
                     //Console.WriteLine(
                     //    new { this.Name }
@@ -1599,23 +1595,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     c1contentcrel.style.right = "0";
                     c1contentcrel.style.height = "22px";
 
-
-                    // gradient effect?
-
-                    //var c1contentclight = new IHTMLDiv { }.AttachTo(c1contentcrel);
-                    //c1contentclight.style.overflow = IStyle.OverflowEnum.hidden;
-                    //c1contentclight.style.position = IStyle.PositionEnum.absolute;
-                    //c1contentclight.style.left = "0";
-                    //c1contentclight.style.top = "0";
-                    //c1contentclight.style.right = "0";
-                    //c1contentclight.style.height = "10px";
-
-                    //c1contentclight.style.backgroundColor = JSColor.White;
-
-
-
-
-
                     var c1contentc = new IHTMLDiv { }.AttachTo(c1contentcrel);
                     c1contentc.style.overflow = IStyle.OverflowEnum.hidden;
                     c1contentc.style.position = IStyle.PositionEnum.absolute;
@@ -1634,7 +1613,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     c1content.style.font = this.Font.ToCssString();
 
-                    // ?
+                    // ? we should use .css here
                     this.FontChanged +=
                         delegate
                         {
@@ -1648,6 +1627,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.InternalHeaderTextChanged +=
                         delegate
                         {
+                            // would we be better off using :after:content attr()
                             c1content.innerText = SourceColumn.HeaderText;
                         };
 
@@ -1741,7 +1721,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     AtInternalWidthChanged();
                     #endregion
 
-                    #region InternalHorizontalDrag
+                    #region ColumnHorizontalResizer CreateHorizontalResizer
+                    // should we delay this until resize is enabled?
                     SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
                     //SourceColumn.ColumnHorizontalResizer.AttachTo(__ColumnsTableContainer);
                     //SourceColumn.ColumnHorizontalResizer.AttachTo(InternalScrollContainerElement);
@@ -1758,28 +1739,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
-                    #region ColumnUpdateToHorizontalResizerScroll
+                    #region ColumnUpdateToHorizontalResizerScroll left
                     Action ColumnUpdateToHorizontalResizerScroll = delegate
                     {
                         var x = ColumnHorizontalResizerDrag.Position.X;
-
-                        //var scrollHeight = this.InternalScrollContainerElement.scrollHeight;
-                        //if (scrollHeight < 44)
-                        //    scrollHeight = 44;
-
-
-
-                        //Console.WriteLine("ColumnUpdateToHorizontalResizerScroll " + new { x, scrollHeight });
+              
                         SourceColumn.ColumnHorizontalResizer.style.left = x + "px";
-
-                        //SourceColumn.ColumnHorizontalResizer.style.SetLocation(
-                        //            x,
-                        //            0
-                        //    //this.InternalContainerElement.scrollTop
-                        //    );
-
-
-                        //SourceColumn.ColumnHorizontalResizer.style.height = scrollHeight + "px";
                     };
                     #endregion
 
@@ -1795,26 +1760,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         };
 
-                    //this.InternalScrollContainerElement.onresize +=
-                    //    delegate
-                    //    {
-                    //        //SourceColumn.ColumnHorizontalResizer.Hide();
-                    //        SourceColumn.ColumnHorizontalResizer.style.backgroundColor = "red";
-
-                    //        //Native.window.requestAnimationFrame += delegate
-                    //        //{
-                    //        //    ColumnUpdateToHorizontalResizerScroll();
-
-                    //        //    Native.window.requestAnimationFrame += delegate
-                    //        //       {
-                    //        //           SourceColumn.ColumnHorizontalResizer.Show();
-                    //        //       };
-
-                    //        //};
-
-
-                    //    };
-
                     this.InternalAtAfterVisibleChanged +=
                         delegate
                         {
@@ -1827,7 +1772,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
                     #endregion
 
-                    #region CompensateFor
+                    #region CompensateFor ZeroHorizontalResizerDrag DragStop
                     Action<DragHelper> CompensateFor =
                         Target =>
                         {
@@ -1868,12 +1813,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             {
                                 //x += this.InternalColumns.InternalItems[i].Width;
 
-                                var c = this.InternalColumns.InternalItems[i];
+                                var CandidateColumn = this.InternalColumns.InternalItems[i];
 
 
                                 // X:\jsc.svn\examples\javascript\forms\Test\TestDataGridPadding\TestDataGridPadding\ApplicationControl.cs
-                                if (c.Visible)
-                                    x += c.Width + 1;
+                                if (CandidateColumn.Visible)
+                                    x += CandidateColumn.Width + 1;
                             }
 
                             ColumnHorizontalResizerDrag.Position = new Point(x, 0);
@@ -1909,13 +1854,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
                     #endregion
 
-                    #region Drag
+                    #region ColumnHorizontalResizerDrag
                     var __DragStartX = 0;
 
                     {
-
-
-
                         ColumnHorizontalResizerDrag.DragStart +=
                             delegate
                             {
@@ -1925,8 +1867,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                 __DragStartX = ColumnHorizontalResizerDrag.Position.X;
                             };
-
-
 
                         ColumnHorizontalResizerDrag.DragStop +=
                                 delegate
@@ -2136,9 +2076,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (ColumnAdded != null)
                         ColumnAdded(this, new DataGridViewColumnEventArgs((DataGridViewColumn)(object)SourceColumn));
 
-                    //Console.WriteLine(
-                    //    new { this.Name }
-                    //    + " InternalColumns Added " + new { SourceColumn.Index, SourceColumnStopwatch.ElapsedMilliseconds });
+                    Console.WriteLine(
+                        new { this.Name }
+                        + " InternalColumns Added " + new
+                        {
+                            SourceColumn.Index,
+
+                            SourceColumnStopwatch = SourceColumnStopwatch.ElapsedMilliseconds
+                        });
 
                 };
 
