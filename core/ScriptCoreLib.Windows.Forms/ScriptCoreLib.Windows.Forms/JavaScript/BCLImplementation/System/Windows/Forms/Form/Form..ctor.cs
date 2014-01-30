@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -772,16 +773,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var old = new { Console.BackgroundColor };
             Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("new " + new { this.GetType().Name } + " InternalResumeLayout " + new { ConstructorStopwatch.ElapsedMilliseconds });
+            Console.WriteLine("event: new " + new { this.GetType().Name } + " InternalResumeLayout " + new { ConstructorStopwatch.ElapsedMilliseconds });
 
             Console.BackgroundColor = old.BackgroundColor;
 
             //474ms new { Name = FooActivity } InternalResumeLayout { ElapsedMilliseconds = 464 } 
 
-            this.HTMLTargetRef.setAttribute(
+
+            new XAttribute(
                 "ConstructorStopwatch",
                 new { ConstructorStopwatch.ElapsedMilliseconds }.ToString()
-            );
+            ).AttachTo(this.HTMLTargetRef);
 
         }
     }

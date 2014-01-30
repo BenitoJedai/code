@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>App</title>
+</head>
+<body>
+
+    <style>
+        /*input {
+            z-index: 2;
+            position: absolute;
+        }*/
+        div input:before {
+            position: absolute;
+            display: block;
+            left: 0.5em;
+            top: -1em;
+            right: -1em;
+            bottom: -1em;
+            background-color: yellow;
+            content: "";
+
+            /*z-index: 1;*/
+        }
+
+        div input:checked:before {
+            background-color: cyan;
+        }
+    </style>
+
+    <div style="width: 18px; height: 18px; left: 8em; top: 8em; display: inline-block; xbackground: cyan; position: absolute;">
+            <input type="checkbox" />
+    </div>
+
+
+</body>
+</html>
