@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>App</title>
+	</head>
+  <style>
+    <!--div input[type="radio"]:before {
+    content: "";
+    position: absolute;
+    display: block;
+    --><!--background: transparent url('radio.png') 0 50% no-repeat;--><!--
+    background-color: cyan;
+    z-index: -1;
+    top: -1em;
+    right: -1em;
+    bottom: -1em;
+    left:0.5em;
+    }
+    div input[type="radio"]{
+    display:none;
+    }
+
+
+    div input[type="radio"]:checked:before {
+    content: "";
+    z-index: -1;
+    --><!--background: transparent url('checked.png') 0 50% no-repeat;--><!--
+    background-color:yellow;
+    }-->
+    div input:before {
+    position: absolute;
+    display: block;
+    left: 0.5em;
+    top: -1em;
+    right: -1em;
+    bottom: -1em;
+    background-color: yellow;
+    /*!!!*/
+    content: "";
+    z-index: -1;
+    }
+
+    div input:checked:before {
+    background-color: cyan;
+    }
+  </style>
+	<body style='overflow: hidden;'>
+      
+	</body>
+</html>
