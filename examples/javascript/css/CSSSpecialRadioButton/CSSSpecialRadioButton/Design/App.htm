@@ -6,10 +6,6 @@
 <body>
 
     <style>
-        /*input {
-            z-index: 2;
-            position: absolute;
-        }*/
         div input:before {
             position: absolute;
             display: block;
@@ -18,9 +14,9 @@
             right: -1em;
             bottom: -1em;
             background-color: yellow;
+            /*!!!*/
             content: "";
-
-            /*z-index: 1;*/
+            z-index: -1;
         }
 
         div input:checked:before {
@@ -29,7 +25,7 @@
     </style>
 
     <div style="width: 18px; height: 18px; left: 8em; top: 8em; display: inline-block; xbackground: cyan; position: absolute;">
-            <input type="checkbox" />
+        <input type="checkbox" />
     </div>
 
 
