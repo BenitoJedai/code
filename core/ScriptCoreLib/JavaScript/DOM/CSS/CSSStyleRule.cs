@@ -28,45 +28,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                // child nodes?
-                var selectorText = ">" + className;
-
-                return this[selectorText];
-            }
-        }
-
-        #region pseudo-classes
-        // http://www.w3.org/TR/CSS2/selector.html
-        public CSSStyleRule this[string pseudoSelector]
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                var x = selectorText + pseudoSelector;
-                var p = this.parentRule;
-                if (p != null)
-                    if (p.type == CSSRuleTypes.MEDIA_RULE)
-                        return ((CSSMediaRule)p)[x].rule;
 
 
-                return this.parentStyleSheet[x].rule;
-            }
-        }
-
-
-
-
-
-
-
-
-
-        #endregion
 
         //{ cssText =  } 
         //public string cssText;
@@ -77,6 +40,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     }
 
+    [Obsolete("are we using this?")]
     [Script(InternalConstructor = true)]
     public partial class CSSStyleRule<TElement> : CSSStyleRuleMonkier where TElement : IHTMLElement
     {
@@ -92,7 +56,97 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+    [Script]
+    public class CSSStyleRuleProxy
+    {
+        // since creating actual rules is slow.
+        // we need to refrain from creating in flight rules
+        // and wait the .style property to be accessed to build it
 
+
+        protected CSSStyleRule __rule;
+
+        public string selectorText;
+
+
+        public CSSStyleDeclaration style
+        {
+            get
+            {
+                return ((CSSStyleRule)this).style;
+            }
+        }
+
+        internal IStyleSheet __parentStyleSheet;
+
+        public IStyleSheet parentStyleSheet
+        {
+            get
+            {
+                if (__parentStyleSheet == null)
+                {
+                    __parentStyleSheet = ((CSSStyleRule)this).parentStyleSheet;
+                }
+
+                return __parentStyleSheet;
+            }
+        }
+
+        #region pseudo-classes
+        // http://www.w3.org/TR/CSS2/selector.html
+        public CSSStyleRuleProxy this[string pseudoSelector]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var x = this.selectorText + pseudoSelector;
+
+                if (this.__rule == null)
+                    return new CSSStyleRuleProxy
+                    {
+                        selectorText = x,
+
+                        // remember our stylesheet
+                        __parentStyleSheet = __parentStyleSheet
+                    };
+
+
+
+                // no longer a proxy, are we a media rule?
+
+                var p = this.__rule.parentRule;
+                if (p != null)
+                    if (p.type == CSSRuleTypes.MEDIA_RULE)
+                        return ((CSSMediaRule)p)[x].rule;
+
+                // when, how oftern is this used?
+                return this.__rule.parentStyleSheet[x].rule;
+
+
+
+            }
+        }
+        #endregion
+
+
+        public static implicit operator CSSStyleRuleProxy(CSSStyleRule rule)
+        {
+            return new CSSStyleRuleProxy { __rule = rule };
+        }
+
+        public static explicit operator CSSStyleRule(CSSStyleRuleProxy rule)
+        {
+            if (rule.__rule == null)
+            {
+
+                // its time to build the rule!
+                rule.__rule = rule.__parentStyleSheet.AddRule(rule.selectorText);
+
+            }
+
+            return rule.__rule;
+        }
+    }
 
     [Obsolete("is it a good name?")]
     [Script]
@@ -105,39 +159,44 @@ namespace ScriptCoreLib.JavaScript.DOM
         //    // this wont work if the selector is changed in the fly tho
         //}
 
-        [Obsolete("when can we do 'x is pseudo selector', c# 6?")]
-        public bool IsPseudoSelector
-        {
-            get
-            {
-                // 27ms looking at { selectorText = input[style-id="1"]:checked ~ input:nth-of-type(2):checked, IsPseudoSelector = true, selectorElement =  } 
+        //[Obsolete("when can we do 'x is pseudo selector', c# 6?")]
+        //public bool IsPseudoSelector
+        //{
+        //    get
+        //    {
+        //        // 27ms looking at { selectorText = input[style-id="1"]:checked ~ input:nth-of-type(2):checked, IsPseudoSelector = true, selectorElement =  } 
 
-                if (this.selectorText == null)
-                    return false;
+        //        if (this.selectorText == null)
+        //            return false;
 
-                // :nth-of-type(2)
-                // is not a pseudo selector in that sense, since it selects another element
+        //        // :nth-of-type(2)
+        //        // is not a pseudo selector in that sense, since it selects another element
 
-                if (this.selectorText == ":checked")
-                    return true;
+        //        if (this.selectorText == ":checked")
+        //            return true;
 
-                if (this.selectorText == ":hover")
-                    return true;
+        //        if (this.selectorText == ":hover")
+        //            return true;
 
-                return false;
-            }
-        }
+        //        return false;
+        //    }
+        //}
 
 
         // http://www.w3schools.com/cssref/sel_target.asp
-        public IHTMLElement target;
+        //public IHTMLElement target;
 
         #region rule
-        public CSSStyleRule rule;
+        public CSSStyleRuleProxy rule;
+
+        public static implicit operator CSSStyleRuleMonkier(CSSStyleRuleProxy rule)
+        {
+            return new CSSStyleRuleMonkier { rule = rule };
+        }
 
         public static implicit operator CSSStyleRuleMonkier(CSSStyleRule rule)
         {
-            return new CSSStyleRuleMonkier { rule = rule };
+            return (CSSStyleRuleProxy)rule;
         }
         #endregion
 
@@ -148,6 +207,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             get
             {
+                #region regroup
                 if (this.parents.Count > 0)
                 {
                     // 32ms { withoutPseudoSelector = 
@@ -169,14 +229,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     return p;
                 }
+                #endregion
 
                 var child = new CSSStyleRuleMonkier
                 {
                     parent = this,
                     selectorText = selectorText
                 };
-
-
 
                 return child;
             }
@@ -188,6 +247,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             get
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140131
+
                 //Console.WriteLine("css.style " + new { this.rule.selectorText });
 
 
@@ -216,6 +277,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        [Obsolete("what about .getAttribute vs dynamic")]
         public new CSSStyleRuleMonkier this[Expression<Func<IHTMLElement, bool>> f]
         {
             get
@@ -226,10 +288,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region print
-        //[Obsolete("experimental")]
+        [Obsolete("print is special, it will regroup the selector into a special group")]
         public CSSStyleRuleMonkier print
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 // tested by
@@ -241,12 +302,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 //return IStyleSheet.print[this.selectorText];
 
+
                 var p = this.rule.parentStyleSheet[CSSMediaTypes.print];
 
                 if (p == null)
                 {
                     Console.WriteLine("creating a disabled style rule as android webview does not know any better?");
 
+                    // there can be only 31 per IE?
                     var x = new IStyleSheet { disabled = true };
 
                     return x[selectorText];
@@ -591,7 +654,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier @checked
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 return this[":checked"];
@@ -600,7 +662,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier @unchecked
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 // what about providing .not also? prefix or suffix?
@@ -610,7 +671,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier disabled
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 return this[":disabled"];
@@ -621,7 +681,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier focus
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 return this[":focus"];
@@ -637,7 +696,6 @@ namespace ScriptCoreLib.JavaScript.DOM
         /// </summary>
         public CSSStyleRuleMonkier empty
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 return this[":empty"];
@@ -646,7 +704,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier required
         {
-            //[Script(DefineAsStatic = true)]
             get
             {
                 return this[":required"];
@@ -655,7 +712,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier optional
         {
-            //[Script(DefineAsStatic = true)]
             get
             {
                 return this[":optional"];
@@ -672,7 +728,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier valid
         {
-            //[Script(DefineAsStatic = true)]
             get
             {
                 return this[":valid"];
@@ -681,7 +736,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier invalid
         {
-            //[Script(DefineAsStatic = true)]
             get
             {
                 return this[":invalid"];
@@ -690,7 +744,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public CSSStyleRuleMonkier link
         {
-            [Script(DefineAsStatic = true)]
             get
             {
                 return this[":link"];
@@ -699,10 +752,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region content
+        // contentString
         public string content
         {
             set
             {
+                // does this need to be set for :after element to appear at all?
                 this.style.content = "'" +
                     value
                         .Replace("\\", "\\\\")
@@ -728,6 +783,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             set
             {
+                // what about multiple attributes?
+
                 // X:\jsc.svn\examples\javascript\CSS\CSSXAttributeAsConditional\CSSXAttributeAsConditional\Application.cs
                 this.style.content = "attr(" + value.Name.LocalName + ")";
             }
@@ -1230,6 +1287,18 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal bool descendantMode;
 
 
+        //public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+        //{
+        //    [Script(DefineAsStatic = true)]
+        //    get
+        //    {
+        //        // child nodes?
+        //        var selectorText = ">" + className;
+
+        //        return this[selectorText];
+        //    }
+        //}
+
         [Obsolete("when can we also do typeof(div) ?")]
         public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
         {
@@ -1338,7 +1407,7 @@ namespace ScriptCoreLib.JavaScript.DOM
              {
                  left,
                  right,
-                 right.IsPseudoSelector,
+                 //right.IsPseudoSelector,
                  right.selectorElement,
                  right.selectorText
              });
@@ -1353,7 +1422,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
             // escape 1 level
-            if (right.IsPseudoSelector)
+            if (right.selectorElement == null)
             {
                 // 28ms { left = { selectorText = input[style-id="0"]:checked }, 
                 // right = { selectorText = input[style-id="1"]:checked }, 

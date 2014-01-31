@@ -65,7 +65,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 {
                     var selectorText = InternalGetExplicitRuleSelector();
 
-                    //Console.WriteLine(".css " + new { selectorText });
+                    Console.WriteLine(".css " + new { selectorText });
 
                     // how fast is the selection?
                     var value = IStyleSheet.all[selectorText];
@@ -294,12 +294,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         #region AddRule
-        internal object addRule(string s, string d, int i)
+        protected object addRule(string s, string d, int i)
         {
             return null;
         }
 
-        internal object insertRule(string r, int i)
+        protected object insertRule(string r, int i)
         {
             return null;
         }
@@ -373,10 +373,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public CSSStyleRule AddRule(string selector)
+        public CSSStyleRule AddRule(string selectorText)
         {
+            Console.WriteLine("AddRule " + new { selectorText, this.Rules.Length });
+
+
             // does webview support this?
-            var r = this.AddRule(selector, "/**/", this.Rules.Length);
+            var r = this.AddRule(selectorText, "/**/", this.Rules.Length);
 
             // Uncaught TypeError: Cannot call method 'setAttribute' of undefined
             //this.owningElement.setAttribute("Count", this.Rules.Length);
@@ -565,7 +568,16 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
-                return this.__get_item(selectorText);
+                // called by .css
+
+                //return this.__get_item(selectorText);
+
+                return new CSSStyleRuleProxy
+                {
+                    selectorText = selectorText,
+
+                    __parentStyleSheet = this
+                };
             }
         }
 
@@ -631,33 +643,40 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public static CSSStyleRuleMonkier __get_item(this IStyleSheet e, string selectorText)
         {
-            var rule = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
+            Console.WriteLine("__get_item IStyleSheet " + new { selectorText });
 
-            if (rule == null)
-            {
-                rule = e.AddRule(selectorText);
-            }
+            // its expensive to do a look up here
+            //var rule = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
+
+            //if (rule == null)
+            //{
+            var rule = e.AddRule(selectorText);
+            //}
 
             return rule;
         }
 
         public static CSSStyleRuleMonkier __get_item(this CSSMediaRule e, string selectorText)
         {
+            Console.WriteLine("__get_item CSSMediaRule " + new { selectorText });
+
             // IE not supported?
-            var rule = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
+            //var rule = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);
 
-            if (rule == null)
-            {
-                //   this.insertRule(selector + "{" + declaration + "}", index);
-                var i = e.insertRule(
-                    selectorText + " { /**/ }",
-                    e.cssRules.Length
-                );
+            //if (rule == null)
+            //{
+            //   this.insertRule(selector + "{" + declaration + "}", index);
+            var i = e.insertRule(
+                selectorText + " { /**/ }",
+                e.cssRules.Length
+            );
 
-                rule = e.Rules[i];
-            }
-
+            var rule = e.Rules[i];
             return rule;
+
+            //}
+
+            //return rule;
         }
     }
 }
