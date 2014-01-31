@@ -32,7 +32,10 @@ namespace com.abstractatech.adminshell
     public sealed class Application
     {
         HTML.Images.FromAssets.Preview ref0;
+
+#if FEATURE_CLRINSTALL
         com.abstractatech.adminshell.Assets.Publish publish0;
+#endif
 
         // type is loaded before virtual console is loaded
         FormAsPopupExtensionsForConsoleFormPackageMediator ref_allow_webview_to_talk;
@@ -201,6 +204,7 @@ example:
                 return;
             }
 
+#if FEATURE_CLRINSTALL
             var p = new com.abstractatech.adminshell.Assets.Publish();
             //var p2 = new WithClickOnceLANLauncher.Assets.Publish2();
 
@@ -323,6 +327,7 @@ example:
 
 
             }
+#endif
 
 
 
