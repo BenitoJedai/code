@@ -376,7 +376,14 @@ namespace ScriptCoreLib.JavaScript.DOM
         public CSSStyleRule AddRule(string selector)
         {
             // does webview support this?
-            return AddRule(selector, "/**/", this.Rules.Length);
+            var r = this.AddRule(selector, "/**/", this.Rules.Length);
+
+            // Uncaught TypeError: Cannot call method 'setAttribute' of undefined
+            //this.owningElement.setAttribute("Count", this.Rules.Length);
+
+            Native.document.body.setAttribute("CSSCount", this.Rules.Length);
+
+            return r;
         }
 
         [Script(DefineAsStatic = true)]

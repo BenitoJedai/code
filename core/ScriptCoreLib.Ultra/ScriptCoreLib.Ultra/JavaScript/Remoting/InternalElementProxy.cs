@@ -8,6 +8,8 @@ using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.Remoting
 {
+    // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\JavaScript\Remoting\InternalElementProxy.cs
+    // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WriteInitialization.cs
 	public abstract class __InternalElementProxy
 	{
 		public IHTMLElement __InternalElement;
