@@ -400,12 +400,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalAutoResizeAll();
 
             InternalDataSourceBusy = false;
+            stopwatch.Stop();
+
+            // 111485ms { Form = ExampleForm, Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 2775 } 
 
             var old = new { Console.BackgroundColor };
             Console.BackgroundColor = ConsoleColor.Yellow;
             Console.WriteLine(
-                new { Form = this.FindForm().Name, this.Name }
-                + " exit InternalSetDataSource"
+                this.FindForm().Name + "." + this.Name
+                + " set DataSource"
                 + new { stopwatch.ElapsedMilliseconds }
              );
 
