@@ -375,7 +375,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public CSSStyleRule AddRule(string selectorText)
         {
-            Console.WriteLine("AddRule " + new { selectorText, this.Rules.Length });
+            //Console.WriteLine("AddRule " + new { selectorText, this.Rules.Length });
 
 
             // does webview support this?
