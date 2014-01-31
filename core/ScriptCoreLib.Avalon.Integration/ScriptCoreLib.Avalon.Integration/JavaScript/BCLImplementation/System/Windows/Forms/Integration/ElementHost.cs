@@ -5,7 +5,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.Integration
 {
     [Script(Implements = typeof(global::System.Windows.Forms.Integration.ElementHost))]
-    internal class __ElementHost : __Control
+    public class __ElementHost : __Control
     {
         public IHTMLDiv InternalElement { get; set; }
 

@@ -22,6 +22,19 @@ using ScriptCoreLib.Extensions;
 
 //Additional information: Could not load file or assembly 'net.hires.debug, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
 
+//updated { id = FlashHeatZeeker.Core }
+//{ FixupHintPath = X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\packages\net.hires.debug.1.0.0.0 }
+//will need to find package  { id = net.hires.debug }
+//will find package  { id = net.hires.debug }
+//updating { id = net.hires.debug }
+//{ FixupHintPath = X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\packages\starling.1.0.0.0 }
+//will need to find package  { id = starling }
+//will find package  { id = starling }
+//updating { id = starling }
+
+// http://my.jsc-solutions.net/?s=starling
+// what if the package was not found?
+
 using starling.core;
 using starling.text;
 using starling.utils;
