@@ -773,22 +773,32 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             set
             {
+                //Console.WriteLine("enter contentImage");
                 // tested by?
 
-                this.style.content = "url('" +
-                    value.src
-                    + "')";
+                value.InvokeOnComplete(
+                    i =>
+                    {
+                        // X:\jsc.svn\examples\javascript\svg\SVGHTMLElement\SVGHTMLElement\Application.cs
+                        //Console.WriteLine("yield contentImage");
+
+                        this.style.content = "url('" +
+                            i.src
+                            + "')";
+                    }
+                );
+
 
             }
         }
 
-        public ISVGSVGElement contentSVGElement
-        {
-            set 
-            {
-                this.contentImage = value;
-            }
-        }
+        //public ISVGSVGElement contentSVGElement
+        //{
+        //    set 
+        //    {
+        //        this.contentImage = value;
+        //    }
+        //}
 
         public XAttribute contentXAttribute
         {
