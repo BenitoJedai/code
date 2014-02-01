@@ -86,14 +86,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-        //public static implicit operator ISVGSVGElement(IHTMLDiv div)
-        //{
-        //    System.Console.WriteLine("ISVGSVGElement <- IHTMLDiv");
-        //    Task<ISVGSVGElement> x = div;
+        public static explicit operator ISVGSVGElement(IHTMLDiv div)
+        {
+            System.Console.WriteLine("ISVGSVGElement <- IHTMLDiv");
+            Task<ISVGSVGElement> x = div;
 
-        //    // are we ready?
-        //    return x.Result;
-        //}
+            // are we ready?
+            return x.Result;
+        }
 
         public static implicit operator Task<ISVGSVGElement>(IHTMLDiv div)
         {
@@ -137,21 +137,19 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             foreach (var q in div.ImageElements())
             {
                 var ix = new TaskCompletionSource<IHTMLImage>();
+                Console.WriteLine("await " + new { q.src, q.complete });
 
                 q.InvokeOnComplete(
                     qq =>
                     {
+                        Console.WriteLine("await done " + new { q.src });
                         q.src = q.toDataURL();
-                        Native.window.requestAnimationFrame +=
-                            delegate
-                            {
-                                ix.SetResult(q);
-                            };
-
+                        ix.SetResult(q);
                     }
                 );
 
-                i.Add(ix.Task);
+                if (!ix.Task.IsCompleted)
+                    i.Add(ix.Task);
             }
 
             Action yield = delegate
