@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using System.Xml.Linq;
 using System.Linq;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq;
+using ScriptCoreLib.JavaScript.DOM.SVG;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
@@ -255,8 +256,31 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return e;
         }
 
+        // 
+
+        public static T AttachTo<T>(this T e, ISVGElementBase c)
+            where T : INodeConvertible<IHTMLElement>
+        {
+            if (e != null)
+            {
+                var n = e.AsNode();
+
+                if (c.localName == "foreignObject")
+                {
+                    //xmlns='http://www.w3.org/1999/xhtml'
+                    // X:\jsc.svn\examples\javascript\svg\SVGCSSContent\SVGCSSContent\Application.cs
+                    n.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns", "http://www.w3.org/1999/xhtml");
+                }
+
+                c.appendChild(n);
+            }
+
+            return e;
+        }
+
+
         public static T AttachTo<T>(this T e, IHTMLElement c)
-       where T : INodeConvertible<IHTMLElement>
+            where T : INodeConvertible<IHTMLElement>
         {
             if (e != null)
                 c.appendChild(e.AsNode());
