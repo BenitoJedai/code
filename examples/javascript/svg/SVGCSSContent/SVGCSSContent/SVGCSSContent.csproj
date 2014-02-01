@@ -129,6 +129,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\StockToolboxImageForWebGLComponent.png" />
     <Content Include="Textures\Anonymous_LogosSingle.svg" />
     <None Include="packages.config" />
   </ItemGroup>

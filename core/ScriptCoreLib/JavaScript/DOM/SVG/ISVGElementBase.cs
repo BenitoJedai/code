@@ -30,8 +30,11 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
             tspan,
 
             rect,
-            image
+            image,
 
+
+            // X:\jsc.svn\examples\javascript\svg\SVGCSSContent\SVGCSSContent\Application.cs
+            foreignObject
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.DOM.SVG;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -772,10 +773,20 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             set
             {
+                // tested by?
+
                 this.style.content = "url('" +
                     value.src
                     + "')";
 
+            }
+        }
+
+        public ISVGSVGElement contentSVGElement
+        {
+            set 
+            {
+                this.contentImage = value;
             }
         }
 
