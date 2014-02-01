@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using ScriptCoreLib.JavaScript.DOM.SVG;
 
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
@@ -410,6 +411,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
             return e.style;
         }
+
+     
 
         public int height;
         public int width;
@@ -1260,6 +1263,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     return x.Task;
                 }
             }
+
+      
 
             public virtual Task<IEvent> onmouseover
             {

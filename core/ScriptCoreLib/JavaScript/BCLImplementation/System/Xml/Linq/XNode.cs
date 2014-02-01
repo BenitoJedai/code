@@ -27,6 +27,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             InternalValueInitialize();
 
+            // X:\jsc.svn\examples\javascript\svg\SVGCSSContent\SVGCSSContent\Application.cs
+
             return IXMLDocument.ToXMLString(InternalValue);
         }
 
