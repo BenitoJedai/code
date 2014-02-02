@@ -1,5 +1,6 @@
 ﻿using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.SVG;
+using ScriptCoreLib.JavaScript.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -975,6 +976,17 @@ namespace ScriptCoreLib.JavaScript.DOM
             set
             {
                 // what about multiple attributes?
+
+                if (this.parent != null)
+                    if (this.parent.selectorElement != null)
+                    {
+                        if (!this.parent.selectorElement.hasAttribute(value.Name.LocalName))
+                        {
+                            // X:\jsc.svn\examples\javascript\Test\TestManyTableRowsFromDataTable\TestManyTableRowsFromDataTable\Application.cs
+
+                            value.AttachTo(this.parent.selectorElement);
+                        }
+                    }
 
                 // X:\jsc.svn\examples\javascript\CSS\CSSXAttributeAsConditional\CSSXAttributeAsConditional\Application.cs
                 this.style.content = "attr(" + value.Name.LocalName + ")";

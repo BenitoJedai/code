@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -67,3 +68,4 @@ namespace TestManyTableRows
 
     }
 }
+

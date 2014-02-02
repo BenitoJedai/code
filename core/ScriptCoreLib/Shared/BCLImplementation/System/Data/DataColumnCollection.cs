@@ -54,6 +54,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             return this.InternalList.Any(x => x.ColumnName == c);
         }
 
+
+        public int IndexOf(string columnName)
+        {
+            var c = this[columnName];
+
+            return this.InternalList.IndexOf(c);
+        }
+
         public int IndexOf(DataColumn c)
         {
             // used by
@@ -68,6 +76,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         public override IEnumerable GetInternalList()
         {
             return InternalList;
+        }
+
+        public DataColumn this[string name]
+        {
+            get
+            {
+                return this.InternalList.FirstOrDefault(x => x.ColumnName == name);
+            }
         }
 
         public DataColumn this[int index]
