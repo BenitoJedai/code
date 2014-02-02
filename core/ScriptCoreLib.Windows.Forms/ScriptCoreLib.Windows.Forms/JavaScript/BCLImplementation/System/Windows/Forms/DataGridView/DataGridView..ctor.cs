@@ -315,19 +315,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             #endregion
 
+            // too slow for onscroll
+            //var css_fixed_left =
+            //    __RowsTableContainer.css
+            //    | __Corner.css;
 
-            var css_fixed_left =
-                __RowsTableContainer.css
-                | __Corner.css;
-
-            var css_fixed_top =
-               __ColumnsTableContainer.css
-               | __Corner.css;
+            //var css_fixed_top =
+            //   __ColumnsTableContainer.css
+            //   | __Corner.css;
 
             Action onscroll = delegate
             {
-                css_fixed_left.style.left = this.InternalScrollContainerElement.scrollLeft + "px";
-                css_fixed_top.style.top = this.InternalScrollContainerElement.scrollTop + "px";
+                // perhaps we should only use .css for static styles?
+
+                // how much faster are we if we skip .css ?
+                __Corner.style.top = this.InternalScrollContainerElement.scrollTop + "px";
+                __ColumnsTableContainer.style.top = this.InternalScrollContainerElement.scrollTop + "px";
+
+                __Corner.style.left = this.InternalScrollContainerElement.scrollLeft + "px";
+                __RowsTableContainer.style.left = this.InternalScrollContainerElement.scrollLeft + "px";
+
+
+                //css_fixed_left.style.left = this.InternalScrollContainerElement.scrollLeft + "px";
+                //css_fixed_top.style.top = this.InternalScrollContainerElement.scrollTop + "px";
             };
 
             IHTMLTableBody __ContentTableBody = __ContentTable.AddBody();
@@ -633,16 +643,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalScrollContainerElement.onscroll +=
                e =>
                {
-                   var s = Stopwatch.StartNew();
+                   // onscroll is high performance.
+                   // using .css will slow us down 10x?
+
+                   //var s = Stopwatch.StartNew();
 
                    UpdateToVerticalResizerScroll();
                    UpdateToHorizontalResizerScroll();
 
-                   // 153209ms DataGridView onscroll { ElapsedMilliseconds = 13 }
-                   //onscroll();
 
+                   // 153209ms DataGridView onscroll { ElapsedMilliseconds = 13 }
+                   // should jsc inline for performance?
+                   onscroll();
+
+                   // 35418ms DataGridView onscroll { ElapsedMilliseconds = 20 }
                    // 234208ms DataGridView onscroll { ElapsedMilliseconds = 120 } 
-                   Console.WriteLine("DataGridView onscroll " + new { s.ElapsedMilliseconds });
+                   // 10468ms DataGridView onscroll { ElapsedMilliseconds = 27 } 
+                   //Console.WriteLine("DataGridView onscroll " + new { s.ElapsedMilliseconds });
                };
             #endregion
 
@@ -2275,7 +2292,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-            #region InternalRows
+            #region InternalRows.Added
 
             this.InternalRows.InternalItems.Added +=
                   (SourceRow, CurrentRowIndex) =>
@@ -2285,8 +2302,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                       if (InternalNewRow != null)
                       {
+                          // how much time are we spending per row?
+                          // what about bulk entry?
+                          // could we adapt a preexisting table?
+
+                          // how much time do we spend on moving the new row thingy?
                           InternalNewRow.InternalTableRow.Orphanize();
                           InternalNewRow.InternalZeroColumnTableRow.Orphanize();
+
                           this.InternalRows.InternalItems.Source.Remove(InternalNewRow);
                           this.InternalRows.InternalItems.Source.Add(InternalNewRow);
                       }
