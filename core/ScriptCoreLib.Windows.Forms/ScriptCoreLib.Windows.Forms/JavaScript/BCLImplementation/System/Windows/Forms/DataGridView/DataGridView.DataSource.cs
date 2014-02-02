@@ -175,9 +175,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             #region Rows
+            var SourceRowIndex = -1;
+            var RowStopwatch = Stopwatch.StartNew();
+
             foreach (DataRow DataBoundItem in SourceDataTable.Rows)
             {
-                var RowStopwatch = Stopwatch.StartNew();
+                SourceRowIndex++;
+
 
                 var r = new __DataGridViewRow
                 {
@@ -204,12 +208,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 if (RowStopwatch.ElapsedMilliseconds > 10)
                 {
                     // report slowdowns only.
+                    //35224ms { Name =  } InternalSetDataSource add Row { SourceRowIndex = 64, ElapsedMilliseconds = 396 } view-source:35785
+                    //35634ms { Name =  } InternalSetDataSource add Row { SourceRowIndex = 65, ElapsedMilliseconds = 409 } 
 
                     Console.WriteLine(
                         new { Name }
-                        + " InternalSetDataSource a Row done at "
-                        + new { RowStopwatch.ElapsedMilliseconds }
+                        + " InternalSetDataSource add Row "
+                        + new { SourceRowIndex, RowStopwatch.ElapsedMilliseconds }
                      );
+
+                    RowStopwatch.Restart();
                 }
 
                 this.Rows.Add(r);
@@ -255,7 +263,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (this.InternalDataSourceSync != CurrentDataSourceSync)
                         return;
 
-                    Console.WriteLine("DataSource at CellValueChanged " + new { _e.RowIndex, NewRow, SourceDataTable.Rows.Count });
+                    // who changed it?
+
+                    Console.WriteLine(
+                        "DataSource at CellValueChanged " + new
+                        {
+                            _e.RowIndex,
+                            NewRow,
+                            SourceDataTable.Rows.Count
+                        }
+                    );
 
 
                     // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableNewRow\TestDataTableNewRow\ApplicationWebService.cs

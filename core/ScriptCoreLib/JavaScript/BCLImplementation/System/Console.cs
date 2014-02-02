@@ -126,11 +126,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 {
                     // he console.timeStamp() method only functions while a Timeline recording is in progress.
 
+                    var old = new { Console.BackgroundColor };
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+
                     new IFunction("text", "if (this.console && this.console.timeStamp) this.console.timeStamp(text);").apply(
                          Native.window,
                          value
                      );
+
+                    __BrowserConsole.WriteLine(GetPrefix() + value);
+
+
+                    Console.BackgroundColor = old.BackgroundColor;
+
+                    return;
                 }
+
 
                 __BrowserConsole.WriteLine(GetPrefix() + value);
             }
