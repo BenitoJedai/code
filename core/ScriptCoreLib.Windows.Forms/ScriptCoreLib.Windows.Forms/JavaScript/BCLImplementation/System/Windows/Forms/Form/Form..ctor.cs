@@ -773,7 +773,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var old = new { Console.BackgroundColor };
             Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("event: new " + new { this.GetType().Name } + " InternalResumeLayout " + new { ConstructorStopwatch.ElapsedMilliseconds });
+            //Console.WriteLine("event: new " + new { this.GetType().Name } + " InternalResumeLayout " + new { ConstructorStopwatch.ElapsedMilliseconds });
+            Console.WriteLine("event: new " + this.GetType().Name + "() " + new { ConstructorStopwatch.ElapsedMilliseconds });
 
             Console.BackgroundColor = old.BackgroundColor;
 
