@@ -63,13 +63,15 @@ namespace ScriptCoreLib.JavaScript.DOM
                 [Script(DefineAsStatic = true)]
                 get
                 {
+
                     var selectorText = InternalGetExplicitRuleSelector();
 
-                    //Console.WriteLine(".css " + new { selectorText });
+                    Console.WriteLine(".css " + new { selectorText });
 
                     // how fast is the selection?
                     var value = IStyleSheet.all[selectorText];
 
+                    value.selectorText = selectorText;
                     value.selectorElement = this;
 
                     //Console.WriteLine(".css " + new { value, @this = this });
@@ -309,8 +311,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://www.susaaland.dk/sharedoc/kdelibs-devel-3/khtml/html/classDOM_1_1CSSStyleSheet.html#a9
         // http://www.javascriptkit.com/domref/stylesheet.shtml
         [Script(DefineAsStatic = true)]
-        public CSSStyleRule AddRule(string selector, string declaration, int index)
+        public CSSStyleRule AddRule(string selectorText, string declaration, int index)
         {
+            //34ms __get_item IStyleSheet { selectorText = @media print } view-source:35342
+            //35ms AddRule { selectorText = @media print, Length = 0 } view-source:35342
+            //38ms AddRule { selectorText = 0, Length = 1 } view-source:35342
+            //39ms IStyleSheetRule.AddRule error { text = 0{/**/} } 
+
             // https://developer.mozilla.org/en-US/docs/Web/CSS/@media
             // http://davidwalsh.name/add-rules-stylesheets
 
@@ -319,7 +326,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // I/Web Console(32117): IStyleSheetRule.AddRule error { text = @media print{/**/} }
 
 
-                var text = selector + "{" + declaration + "}";
+                var text = selectorText + "{" + declaration + "}";
 
 
 
@@ -343,7 +350,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             if (Expando.InternalIsMember(this, "addRule"))
             {
-                this.addRule(selector, declaration, index);
+                this.addRule(selectorText, declaration, index);
                 return this.Rules[index];
             }
 
@@ -375,7 +382,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public CSSStyleRule AddRule(string selectorText)
         {
-            //Console.WriteLine("AddRule " + new { selectorText, this.Rules.Length });
+            //34ms __get_item IStyleSheet { selectorText = @media print } view-source:35342
+            //35ms AddRule { selectorText = @media print, Length = 0 } view-source:35342
+            //38ms AddRule { selectorText = 0, Length = 1 } view-source:35342
+            //39ms IStyleSheetRule.AddRule error { text = 0{/**/} } 
+
+            //Console.WriteLine("AddRule " + new { selectorText });
 
 
             // does webview support this?
@@ -396,7 +408,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             return this.AddRule(r.Key, r.Value);
 
         }
-
+        
+        [Obsolete]
         [Script(DefineAsStatic = true)]
         public CSSStyleRule AddRule(string selector, System.Action<CSSStyleRule> r)
         {
@@ -572,6 +585,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 //return this.__get_item(selectorText);
 
+                //Console.WriteLine("IStyleSheet CSSStyleRuleMonkier this[string selectorText]" + new { selectorText });
+
+
                 return new CSSStyleRuleProxy
                 {
                     selectorText = selectorText,
@@ -588,6 +604,14 @@ namespace ScriptCoreLib.JavaScript.DOM
             get
             {
                 var selectorText = "@media " + x;
+
+                //17ms .css { selectorText = div[style-id='0'] } view-source:35339
+                //18ms enter print { selectorText =  } view-source:35339
+                //18ms enter parentStyleSheet view-source:35339
+                //18ms IStyleSheet[CSSMediaTypes] { selectorText = @media print } view-source:35339
+                //20ms IStyleSheetRule.AddRule error { text = 0{/**/} } 
+
+                //Console.WriteLine("IStyleSheet[CSSMediaTypes] " + new { selectorText });
 
                 var value = default(CSSStyleRuleMonkier);
 
@@ -609,7 +633,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal DOM.HTML.IHTMLStyle owningElement;
         internal DOM.HTML.IHTMLStyle ownerNode;
 
-        [Obsolete("rename to Node?")]
+        [Obsolete("rename to Node? AsNode?")]
         public DOM.HTML.IHTMLStyle Owner
         {
             [Script(DefineAsStatic = true)]

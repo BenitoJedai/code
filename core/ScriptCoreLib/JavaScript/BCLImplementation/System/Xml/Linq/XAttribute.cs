@@ -52,5 +52,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             return Convert.ToBoolean(attribute.Value);
         }
+
+        public override string ToString()
+        {
+            // X:\jsc.svn\examples\javascript\CSS\CSSConditionalScroll\CSSConditionalScroll\Application.cs
+            return this.Value;
+        }
     }
 }
