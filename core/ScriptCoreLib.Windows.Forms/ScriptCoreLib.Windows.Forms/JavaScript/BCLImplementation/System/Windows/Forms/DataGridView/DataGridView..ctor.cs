@@ -1585,6 +1585,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //var SourceColumn = this.InternalColumns.InternalItems[_e.NewIndex];
 
                     var SourceColumnStopwatch = Stopwatch.StartNew();
+                    // 1250ms { Name = dataGridView1 } InternalColumns Added { Index = 29, SourceColumnStopwatch = 41 } 
 
                     SourceColumn.InternalContext = this;
 
@@ -1602,11 +1603,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.InternalTableColumn = __ColumnsTableRow.AddColumn();
                     SourceColumn.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
-
-                    foreach (var SourceRow in this.InternalRows.InternalItems.Source)
-                    {
-                        CreateMissingCells(SourceRow);
-                    }
+                    if (this.InternalRows.Count > 0)
+                        foreach (var SourceRow in this.InternalRows.InternalItems.Source)
+                        {
+                            CreateMissingCells(SourceRow);
+                        }
 
 
                     #region c1contentcrel
@@ -1633,6 +1634,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // tested by
                     // X:\jsc.svn\examples\javascript\forms\TTFCurrencyExperment\TTFCurrencyExperment\ApplicationControl.cs
 
+#if FHR
                     c1content.style.font = this.Font.ToCssString();
 
                     // ? we should use .css here
@@ -1641,6 +1643,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         {
                             c1content.style.font = this.Font.ToCssString();
                         };
+#endif
 
                     c1content.style.lineHeight = "22px";
                     #endregion
@@ -1687,28 +1690,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // [i];
 
 
-                    var SourceColumnVisible__ColumnsTable_css = __ColumnsTable_css
-                     [IHTMLElement.HTMLElementEnum.tbody]
-                     [IHTMLElement.HTMLElementEnum.tr]
-                     [IHTMLElement.HTMLElementEnum.td]
-                     [NewIndex];
 
-                    var SourceColumnVisible__ContentTable_css = __ContentTable_css
-                     [IHTMLElement.HTMLElementEnum.tbody]
-                     [IHTMLElement.HTMLElementEnum.tr]
-                     [IHTMLElement.HTMLElementEnum.td]
-                     [NewIndex];
 
-                    var SourceColumnVisible_css = SourceColumnVisible__ColumnsTable_css | SourceColumnVisible__ContentTable_css;
-
-                    SourceColumn.InternalVisibleChanged +=
-                        delegate
-                        {
-                            if (SourceColumn.Visible)
-                                SourceColumnVisible_css.style.display = IStyle.DisplayEnum.empty;
-                            else
-                                SourceColumnVisible_css.style.display = IStyle.DisplayEnum.none;
-                        };
 
 
                     //154572ms { Name = dataGridView1 } InternalColumns InternalWidthChanged done { ElapsedMilliseconds = 1 } 
@@ -1743,13 +1726,42 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     AtInternalWidthChanged();
                     #endregion
 
+                    //Console.WriteLine("resizeable?");
+
+#if FHR
+                    #region InternalVisibleChanged
+                    var SourceColumnVisible__ColumnsTable_css = __ColumnsTable_css
+                     [IHTMLElement.HTMLElementEnum.tbody]
+                     [IHTMLElement.HTMLElementEnum.tr]
+                     [IHTMLElement.HTMLElementEnum.td]
+                     [NewIndex];
+
+                    var SourceColumnVisible__ContentTable_css = __ContentTable_css
+                     [IHTMLElement.HTMLElementEnum.tbody]
+                     [IHTMLElement.HTMLElementEnum.tr]
+                     [IHTMLElement.HTMLElementEnum.td]
+                     [NewIndex];
+
+                    // xattribute instead?
+                    var SourceColumnVisible_css = SourceColumnVisible__ColumnsTable_css | SourceColumnVisible__ContentTable_css;
+
+                    SourceColumn.InternalVisibleChanged +=
+                        delegate
+                        {
+                            if (SourceColumn.Visible)
+                                SourceColumnVisible_css.style.display = IStyle.DisplayEnum.empty;
+                            else
+                                SourceColumnVisible_css.style.display = IStyle.DisplayEnum.none;
+                        };
+                    #endregion
+
                     #region ColumnHorizontalResizer CreateHorizontalResizer
                     // should we delay this until resize is enabled?
+
                     SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
                     //SourceColumn.ColumnHorizontalResizer.AttachTo(__ColumnsTableContainer);
                     //SourceColumn.ColumnHorizontalResizer.AttachTo(InternalScrollContainerElement);
                     SourceColumn.ColumnHorizontalResizer.AttachTo(InternalElement);
-
                     //__ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
 
                     var ColumnHorizontalResizerDrag = new DragHelper(SourceColumn.ColumnHorizontalResizer)
@@ -1771,16 +1783,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
                     #region ColumnUpdateToHorizontalResizerScroll
-                    this.InternalRows.InternalItems.Added +=
-                        delegate
-                        {
-                            this.HTMLTargetRef.requestAnimationFrame +=
-                                delegate
-                                {
-                                    ColumnUpdateToHorizontalResizerScroll();
-                                };
+                    // do we need this?
+                    //this.InternalRows.InternalItems.Added +=
+                    //    delegate
+                    //    {
+                    //        this.HTMLTargetRef.requestAnimationFrame +=
+                    //            delegate
+                    //            {
+                    //                ColumnUpdateToHorizontalResizerScroll();
+                    //            };
 
-                        };
+                    //    };
 
                     this.InternalAtAfterVisibleChanged +=
                         delegate
@@ -1879,38 +1892,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region ColumnHorizontalResizerDrag
                     var __DragStartX = 0;
 
-                    {
-                        ColumnHorizontalResizerDrag.DragStart +=
+                    ColumnHorizontalResizerDrag.DragStart +=
+                        delegate
+                        {
+
+                            Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.move;
+                            //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
+
+                            __DragStartX = ColumnHorizontalResizerDrag.Position.X;
+                        };
+
+                    ColumnHorizontalResizerDrag.DragStop +=
                             delegate
                             {
+                                //                                 { Width = 115, cwidth = 1045 } view-source:27892
 
-                                Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.move;
-                                //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = JSColor.Blue;
+                                // view-source:27892
+                                //{ Width = 1045, cwidth = 1975 } 
 
-                                __DragStartX = ColumnHorizontalResizerDrag.Position.X;
+                                Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
+                                //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
+                                //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "";
+                                //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "yellow";
+                                //SourceColumn.ColumnHorizontalResizer.style.backgroundColor = "red";
+
+                                var ColumnHorizontalResizerDragNewValue = SourceColumn.Width + ColumnHorizontalResizerDrag.Position.X - __DragStartX;
+                                Console.WriteLine(new { SourceColumn.Width, ColumnHorizontalResizerDragNewValue });
+
+                                SourceColumn.Width = ColumnHorizontalResizerDragNewValue;
+                                InternalAutoSizeWhenFill();
                             };
-
-                        ColumnHorizontalResizerDrag.DragStop +=
-                                delegate
-                                {
-                                    //                                 { Width = 115, cwidth = 1045 } view-source:27892
-
-                                    // view-source:27892
-                                    //{ Width = 1045, cwidth = 1975 } 
-
-                                    Native.Document.body.style.cursor = DOM.IStyle.CursorEnum.auto;
-                                    //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = this.InternalBackgroundColor.ToString();
-                                    //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "";
-                                    //((IHTMLElement)SourceColumn.ColumnHorizontalResizer.firstChild).style.backgroundColor = "yellow";
-                                    //SourceColumn.ColumnHorizontalResizer.style.backgroundColor = "red";
-
-                                    var ColumnHorizontalResizerDragNewValue = SourceColumn.Width + ColumnHorizontalResizerDrag.Position.X - __DragStartX;
-                                    Console.WriteLine(new { SourceColumn.Width, ColumnHorizontalResizerDragNewValue });
-
-                                    SourceColumn.Width = ColumnHorizontalResizerDragNewValue;
-                                    InternalAutoSizeWhenFill();
-                                };
-                    }
 
 
                     ColumnHorizontalResizerDrag.DragMove +=
@@ -1919,7 +1930,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             ColumnUpdateToHorizontalResizerScroll();
 
                         };
+                    #endregion
 
+
+                    #region AutoResizeColumn
+                    SourceColumn.ColumnHorizontalResizer.onmousedown +=
+                        e =>
+                        {
+                            if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                            {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                this.AutoResizeColumn(SourceColumn.Index, ObeyAutoSizeMode: false);
+                                InternalAutoSizeWhenFill();
+
+                            }
+                        };
+
+                    SourceColumn.ColumnHorizontalResizer.ondblclick +=
+                        delegate
+                        {
+                            this.AutoResizeColumn(SourceColumn.Index, ObeyAutoSizeMode: false);
+                            InternalAutoSizeWhenFill();
+                        };
+                    #endregion
+#endif
 
                     bool InternalAutoResizeColumnBuzy = false;
 
@@ -1997,7 +2033,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                         //{ cindex = 0, w = 0, value = 99, all = 753, WidthByFill = 654 } 
 
+#if FHR
                                         __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByFill - SourceColumn.Width);
+#endif
 
                                         InternalAutoResizeColumnBuzy = true;
                                         SourceColumn.Width = Math.Max(20, WidthByFill);
@@ -2047,7 +2085,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             //Console.WriteLine("InternalAutoSize" + new { SourceColumn.Width, cwidth = WidthByRowsInThisColumn });
 
+#if FHR
                             __DragStartX = ColumnHorizontalResizerDrag.Position.X + (WidthByRowsInThisColumn - SourceColumn.Width);
+#endif
+
                             var NewWidth = Math.Max(20, WidthByRowsInThisColumn);
 
 
@@ -2071,32 +2112,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
                     #endregion
 
-                    SourceColumn.ColumnHorizontalResizer.onmousedown +=
-                        e =>
-                        {
-                            if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
-                            {
-                                e.preventDefault();
-                                e.stopPropagation();
-
-                                this.AutoResizeColumn(SourceColumn.Index, ObeyAutoSizeMode: false);
-                                InternalAutoSizeWhenFill();
-
-                            }
-                        };
-
-                    SourceColumn.ColumnHorizontalResizer.ondblclick +=
-                        delegate
-                        {
-                            this.AutoResizeColumn(SourceColumn.Index, ObeyAutoSizeMode: false);
-                            InternalAutoSizeWhenFill();
-                        };
 
 
-                    #endregion
 
+
+#if FHR
                     if (ColumnAdded != null)
                         ColumnAdded(this, new DataGridViewColumnEventArgs((DataGridViewColumn)(object)SourceColumn));
+#endif
+
+                    // 1135ms { Name = dataGridView1 } InternalColumns Added { Index = 29, SourceColumnStopwatch = 7 } 
 
                     Console.WriteLine(
                         new { this.Name }
