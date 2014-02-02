@@ -47,7 +47,15 @@ namespace CSSConditionalScroll
             //Native.document.body.css.before.contentXAttribute = scrollTop;
             Native.document.body.css.before.contentXAttribute = status;
             Native.document.body.css.before.style.position = IStyle.PositionEnum.@fixed;
-            Native.document.body.css.before.style.background = "cyan";
+
+
+            Native.document.body.css.orientation.landscape.before.style.background = "cyan";
+            Native.document.body.css.orientation.portrait.before.style.background = "blue";
+
+            //Native.document.body.css.before.style.background = "cyan";
+
+            Native.document.body.css.before.style.bottom = "0";
+
 
 
             //Native.document.body.style.overflow = IStyle.OverflowEnum.auto;
@@ -61,6 +69,18 @@ namespace CSSConditionalScroll
             Native.document.body.css.style.borderLeft = "1em solid green";
             Native.document.body.css[scrollBottom].style.borderLeft = "1em solid red";
             Native.document.body.css[scrollTop].style.borderLeft = "1em solid yellow";
+
+            //21ms this.rule = this.parent.rule[__selectorText]; 
+            // { parent = { selectorElement = , rule = { 
+            // selectorText = @media all and (orientation: landscape) , type = 4 } },
+            // __selectorText = body } 
+
+            // http://stackoverflow.com/questions/15172520/drawback-of-css-displayinline-block-vs-floatleft
+            // 41ms IStyleSheetRule.AddRule error { text = >div{/**/} } 
+            //Native.document.body.css.orientation.portrait[" div"].style.display = IStyle.DisplayEnum.inline_block;
+            //Native.document.body.css.orientation.portrait.style.whiteSpace = IStyle.WhiteSpaceEnum.nowrap;
+
+
 
             Native.window.onscroll +=
                 delegate
