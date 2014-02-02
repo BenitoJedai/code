@@ -137,6 +137,14 @@ namespace ScriptCoreLib.JavaScript
 
         }
 
+        public static CSSStyleRuleMonkier css
+        {
+            get
+            {
+                return Native.document.documentElement.css;
+            }
+        }
+
         [System.Obsolete]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static void Spawn(params SpawnItem[] e)

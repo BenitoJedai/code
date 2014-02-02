@@ -11,7 +11,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
     {
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
 
-        public List<Tuple<DataColumn, object>> InternalData = new List<Tuple<DataColumn, object>>();
+        // 10000: 308ms data to html table: 6684ms
+        // X:\jsc.svn\examples\javascript\Test\TestManyTableRowsFromDataTable\TestManyTableRowsFromDataTable\Application.cs
+
+        // max columns 32? last element shall be the default value for non existant row?
+        public object[] InternalDataArray = new object[32];
+
+        //public List<Tuple<DataColumn, object>> InternalData = new List<Tuple<DataColumn, object>>();
+
 
         public object this[string column]
         {
@@ -21,36 +28,32 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             set
             {
 
-                var c = this.InternalData.FirstOrDefault(k => k.Item1.ColumnName == column);
+                //var c = this.InternalData.FirstOrDefault(k => k.Item1.ColumnName == column);
 
-                if (c == null)
-                {
-                    var cc = new DataColumn { ColumnName = column };
+                //if (c == null)
+                //{
+                //    var cc = new DataColumn { ColumnName = column };
 
-                    this[cc] = value;
+                //    this[cc] = value;
 
-                    return;
-                }
+                //    return;
+                //}
 
-                this[c.Item1] = value;
+                this[this.Table.Columns.IndexOf(column)] = value;
             }
 
             get
             {
-                //InternalHandler { path = /xml }
-                //java.lang.RuntimeException: Sequence contains no elements
-                //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError.NoElements(__DefinedError.java:27)
-                //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:462)
-                //        at ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable.First(__Enumerable.java:438)
-                //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.get_Item(__DataRow.java:105)
-                //        at ScriptCoreLib.Library.StringConversionsForDataTable.ConvertToString(StringConversionsForDataTable.java:168)
 
-                var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column);
+                return this[this.Table.Columns.IndexOf(column)];
 
-                if (x == null)
-                    return null;
 
-                return x.Item2;
+                //var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column);
+
+                //if (x == null)
+                //    return null;
+
+                //return x.Item2;
             }
         }
         //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRow.get_Item(System.Int32)]
@@ -58,49 +61,57 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         {
             get
             {
-                return this[this.Table.Columns[column]];
-
+                //return this[this.Table.Columns[column]];
+                return this.InternalDataArray[column];
             }
 
             set
             {
-                this[this.Table.Columns[column]] = value;
+                this.InternalDataArray[column] = value;
+                // X:\jsc.svn\examples\javascript\Test\TestManyTableRowsFromDataTable\TestManyTableRowsFromDataTable\Application.cs
+                // you better not reorder or reindex the columns!
+
+                //this[this.Table.Columns[column]] = value;
             }
         }
         public object this[DataColumn column]
         {
             get
             {
-                var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column.ColumnName);
+                return this[this.Table.Columns.IndexOf(column)];
 
-                if (x == null)
-                    return null;
 
-                return x.Item2;
+                //var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column.ColumnName);
+
+                //if (x == null)
+                //    return null;
+
+                //return x.Item2;
             }
 
             set
             {
-                var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column.ColumnName);
+                this[this.Table.Columns.IndexOf(column)] = value;
+                //var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column.ColumnName);
 
-                if (x != null)
-                {
-                    InternalData.Remove(x);
-                }
+                //if (x != null)
+                //{
+                //    InternalData.Remove(x);
+                //}
 
-                var args = new DataColumnChangeEventArgs(
-                    this, column,
-                    value
-                );
+                //var args = new DataColumnChangeEventArgs(
+                //    this, column,
+                //    value
+                //);
 
-                //Console.WriteLine("before raise_ColumnChanged");
+                ////Console.WriteLine("before raise_ColumnChanged");
 
-                ((__DataTable)(object)this.Table).raise_ColumnChanged(args);
+                //((__DataTable)(object)this.Table).raise_ColumnChanged(args);
 
 
-                x = new Tuple<DataColumn, object>(column, args.ProposedValue);
+                //x = new Tuple<DataColumn, object>(column, args.ProposedValue);
 
-                InternalData.Add(x);
+                //InternalData.Add(x);
             }
         }
 
