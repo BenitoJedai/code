@@ -408,7 +408,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             return this.AddRule(r.Key, r.Value);
 
         }
-        
+
         [Obsolete]
         [Script(DefineAsStatic = true)]
         public CSSStyleRule AddRule(string selector, System.Action<CSSStyleRule> r)
@@ -682,7 +682,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static CSSStyleRuleMonkier __get_item(this CSSMediaRule e, string selectorText)
         {
-            //Console.WriteLine("__get_item CSSMediaRule " + new { selectorText });
+            Console.WriteLine("__get_item CSSMediaRule " + new { selectorText });
 
             // IE not supported?
             //var rule = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);

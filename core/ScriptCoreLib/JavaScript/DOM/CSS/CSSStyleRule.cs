@@ -100,6 +100,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 if (__parentStyleSheet == null)
                 {
                     __parentStyleSheet = ((CSSStyleRule)this).parentStyleSheet;
+
                 }
 
                 return __parentStyleSheet;
@@ -118,15 +119,15 @@ namespace ScriptCoreLib.JavaScript.DOM
                 //19ms CSSStyleRuleProxy this[string subselectorText] { rule = { selectorText = , type = 4 }, newselectorText = div[style-id='0'] } view-source:35383
                 //19ms parent rule is null
 
-                //Console.WriteLine(
-                //    "CSSStyleRuleProxy this[string subselectorText] " + new
-                //    {
-                //        // type4?
-                //        rule = this,
+                Console.WriteLine(
+                    "CSSStyleRuleProxy this[string subselectorText] " + new
+                    {
+                        // type4?
+                        rule = this,
 
-                //        newselectorText
-                //    }
-                //);
+                        newselectorText
+                    }
+                );
 
 
 
@@ -146,14 +147,30 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 // no longer a proxy, are we a media rule?
 
-                var p = this.__rule.parentRule;
                 // tested by
                 // X:\jsc.svn\examples\javascript\CSS\Test\CSSPrint\CSSPrint\Application.cs
 
+                Console.WriteLine(new { this.__rule.type, CSSRuleTypes.MEDIA_RULE });
                 if (this.__rule.type == CSSRuleTypes.MEDIA_RULE)
                 {
+                    // 24ms { type = 4, MEDIA_RULE = 4 } 
+
+                    var mediaRule = ((CSSMediaRule)(CSSRule)this.__rule);
+
+                    // 24ms will create { mediaRule = [object CSSMediaRule], newselectorText = @media all and (orientation: landscape) body } 
+
+                    Console.WriteLine("will create " + new { mediaRule, subselectorText });
+
+                    var mediaRuleSub = mediaRule[subselectorText];
+
+                    Console.WriteLine("did create" + new { mediaRuleSub });
+
+                    return
+                         mediaRuleSub.rule;
+
+
                     //Console.WriteLine("rule MEDIA_RULE");
-                    return ((CSSMediaRule)(CSSRule)this.__rule)[newselectorText].rule;
+                    //return [newselectorText].rule;
                 }
 
 
@@ -335,6 +352,73 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+
+
+
+
+
+
+
+        [Script]
+        public sealed class CSSStyleRuleMonkier_orientation
+        {
+            public CSSStyleRuleMonkier parent;
+
+            // @media all and (orientation: landscape)
+            public CSSStyleRuleMonkier landscape
+            {
+                get
+                {
+                    var landscape_rule = parent.rule.parentStyleSheet["@media all and (orientation: landscape) "];
+                    var landscape_rule_baked = (CSSStyleRule)landscape_rule.rule;
+
+                    // 652ms { landscape_rule = { selectorElement = , rule = { selectorText = @media all and (orientation: landscape), rule = null } } } 
+
+                    Console.WriteLine(new { landscape_rule });
+                    var z = landscape_rule[parent.selectorText];
+                    //var zstylebaked = z.style;
+
+                    //17ms  its time to build the rule! { selectorText = @media all and (orientation: landscape)body 
+
+                    return z;
+                }
+            }
+
+            public CSSStyleRuleMonkier portrait
+            {
+                get
+                {
+                    var portrait_rule = parent.rule.parentStyleSheet["@media all  and (orientation: portrait) "];
+                    var portrait_rule_baked = (CSSStyleRule)portrait_rule.rule;
+
+                    // lets modify the partial rule
+
+                    Console.WriteLine(new { portrait_rule });
+                    var z = portrait_rule[parent.selectorText];
+                    //var zstylebaked = z.style;
+
+                    //17ms  its time to build the rule! { selectorText = @media all and (orientation: landscape)body 
+
+                    return z;
+                }
+            }
+        }
+
+        public CSSStyleRuleMonkier_orientation orientation
+        {
+            get
+            {
+                var o = new CSSStyleRuleMonkier_orientation
+                {
+                    parent = this
+                };
+
+                return o;
+            }
+        }
+
+
+
         #region print
         [Obsolete("print is special, it will regroup the selector into a special group")]
         public CSSStyleRuleMonkier print
@@ -349,7 +433,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // X:\jsc.svn\examples\javascript\Test\TestCSSPrint\TestCSSPrint\Application.cs
                 // X:\jsc.svn\examples\javascript\CSS\Test\CSSPrint\CSSPrint\Application.cs
 
-                Console.WriteLine("enter print " + new { this.selectorText, rule });
+                //Console.WriteLine("enter print " + new { this.selectorText, rule });
 
                 //29ms enter print { selectorText = div[style-id='0'], rule = { selectorText = div[style-id='0'] } } view-source:35374
                 //29ms enter parentStyleSheet view-source:35374
@@ -363,13 +447,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                 if (printRule != null)
                 {
                     // wtf.
-                    Console.WriteLine(
-                        "did we not just create a new print style with the same sheet, and now we are about to reselect the rule. "
-                        + new
-                        {
-                            this.selectorText,
-                            printRule
-                        });
+                    //Console.WriteLine(
+                    //    "did we not just create a new print style with the same sheet, and now we are about to reselect the rule. "
+                    //    + new
+                    //    {
+                    //        this.selectorText,
+                    //        printRule
+                    //    });
 
                     //20ms AddRule { selectorText = @media print } view-source:35383
                     //22ms did we not just create a new print style with the same sheet, and now we are about to reselect the rule. { selectorText = div[style-id='0'], printRule = { selectorElement = , rule = { selectorText = , type = 4 } } } 
@@ -378,7 +462,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     return printRule[this.selectorText];
                 }
 
-                Console.WriteLine("creating a disabled style rule as android webview does not know any better?");
+                //Console.WriteLine("creating a disabled style rule as android webview does not know any better?");
 
                 // there can be only 31 per IE?
                 var x = new IStyleSheet { disabled = true };
@@ -400,7 +484,14 @@ namespace ScriptCoreLib.JavaScript.DOM
         string __selectorText;
         public string selectorText
         {
-            get { return __selectorText; }
+            get
+            {
+                //if (this.rule != null)
+                //    if (__selectorText == null)
+                //        return this.rule.selectorText;
+
+                return __selectorText;
+            }
             set
             {
                 // 23ms set selectorText { value = div[style-id='0'] } 
@@ -417,6 +508,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     if (this.rule == null)
                     {
                         // 23ms this.rule = this.parent.rule[__selectorText]; 
+                        // 21ms this.rule = this.parent.rule[__selectorText]; { parent = { selectorElement = , rule = { selectorText = @media all and (orientation: landscape) , type = 4 } }, __selectorText = body } 
                         Console.WriteLine("this.rule = this.parent.rule[__selectorText]; " + new { this.parent, __selectorText });
 
                         this.rule = this.parent.rule[__selectorText];
@@ -1061,6 +1153,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #endregion
+
+
+
 
 
 
