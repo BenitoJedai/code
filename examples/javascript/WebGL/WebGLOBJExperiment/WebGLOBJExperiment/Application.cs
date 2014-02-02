@@ -25,6 +25,8 @@ namespace WebGLOBJExperiment
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        THREE.Texture ref0;
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>

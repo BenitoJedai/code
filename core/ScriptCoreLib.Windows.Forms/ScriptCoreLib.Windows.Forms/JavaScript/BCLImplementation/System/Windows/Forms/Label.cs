@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         public IHTMLDiv HTMLTargetContainer;
 
-        public IHTMLLabel HTMLTarget { get; set; }
+        public IHTMLElement HTMLTarget { get; set; }
 
         public override IHTMLElement HTMLTargetRef
         {
@@ -27,21 +27,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public IHTMLLabel InternalLabel;
 
         public __Label()
         {
             this.HTMLTargetContainer = new IHTMLDiv();
 
-            this.HTMLTarget = new IHTMLLabel().AttachTo(this.HTMLTargetContainer);
+            this.InternalLabel = new IHTMLLabel().AttachTo(this.HTMLTargetContainer);
 
-            this.HTMLTarget.style.position = IStyle.PositionEnum.absolute;
-            this.HTMLTarget.style.left = "0";
-            this.HTMLTarget.style.right = "0";
-            this.HTMLTarget.style.bottom = "0";
-            this.HTMLTarget.style.top = "0";
+            this.InternalLabel.style.position = IStyle.PositionEnum.absolute;
+            this.InternalLabel.style.left = "0";
+            this.InternalLabel.style.right = "0";
+            this.InternalLabel.style.bottom = "0";
+            this.InternalLabel.style.top = "0";
 
-            this.HTMLTarget.style.whiteSpace = DOM.IStyle.WhiteSpaceEnum.pre;
-            this.HTMLTarget.style.display = IStyle.DisplayEnum.inline_block;
+            this.InternalLabel.style.whiteSpace = DOM.IStyle.WhiteSpaceEnum.pre;
+            this.InternalLabel.style.display = IStyle.DisplayEnum.inline_block;
+
+            this.HTMLTarget = this.InternalLabel;
 
             this.Size = new global::System.Drawing.Size(100, 18);
             this.InternalSetDefaultFont();

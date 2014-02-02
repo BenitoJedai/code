@@ -93,7 +93,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Font = DefaultFont;
         }
 
-        [Obsolete("rename to InternalVirtual* ?")]
+        [Obsolete("InternalElement")]
         public virtual DOM.HTML.IHTMLElement HTMLTargetRef
         {
             get
@@ -102,6 +102,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        [Obsolete("InternalElementContentContainer")]
         public virtual DOM.HTML.IHTMLElement HTMLTargetContainerRef
         {
             get
