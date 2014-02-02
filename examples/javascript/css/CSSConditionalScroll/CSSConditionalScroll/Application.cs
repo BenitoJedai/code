@@ -41,6 +41,7 @@ namespace CSSConditionalScroll
 
             var status = new XAttribute("status", "?").AttachTo(Native.document.body);
 
+            // can we send attributes to the server? can we send a list of attributes?
             var scrollBottom = new XAttribute("scrollBottom", "0").AttachTo(Native.document.body);
             var scrollTop = new XAttribute("scrollTop", "0").AttachTo(Native.document.body);
 
@@ -66,9 +67,9 @@ namespace CSSConditionalScroll
             //var loc0 = 0;
             //Native.document.body.css[e => loc0 == 0].style
 
-            Native.document.body.css.style.borderLeft = "1em solid green";
+            Native.document.body.css.style.borderLeft = "1em solid yellow";
             Native.document.body.css[scrollBottom].style.borderLeft = "1em solid red";
-            Native.document.body.css[scrollTop].style.borderLeft = "1em solid yellow";
+            Native.document.body.css[scrollTop].style.borderLeft = "1em solid green";
 
             //21ms this.rule = this.parent.rule[__selectorText]; 
             // { parent = { selectorElement = , rule = { 
@@ -80,6 +81,20 @@ namespace CSSConditionalScroll
             //Native.document.body.css.orientation.portrait[" div"].style.display = IStyle.DisplayEnum.inline_block;
             //Native.document.body.css.orientation.portrait.style.whiteSpace = IStyle.WhiteSpaceEnum.nowrap;
 
+            //Native.document.body.css[page.scrollheader].style.position = IStyle.PositionEnum.@fixed;
+            Native.document.body.css[page.scrollheader].style.top = "-5em";
+            Native.document.body.css[page.scrollheader].style.transition = "top 300ms linear";
+
+            Native.document.body.css[scrollTop][page.scrollheader].style.backgroundColor = "green";
+            Native.document.body.css[scrollTop][page.scrollheader].style.top = "0em";
+
+
+            //Native.document.body.css[page.scrollfooter].style.position = IStyle.PositionEnum.@fixed;
+            Native.document.body.css[page.scrollfooter].style.left = "-100%";
+            Native.document.body.css[page.scrollfooter].style.transition = "left 300ms linear";
+
+            Native.document.body.css[scrollBottom][page.scrollfooter].style.backgroundColor = "red";
+            Native.document.body.css[scrollBottom][page.scrollfooter].style.left = "0em";
 
 
             Native.window.onscroll +=
