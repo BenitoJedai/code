@@ -177,6 +177,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #region Rows
             var SourceRowIndex = -1;
             var RowStopwatch = Stopwatch.StartNew();
+            
+            // X:\jsc.svn\examples\javascript\Test\TestManyTableRows\TestManyTableRows\Application.cs
 
             foreach (DataRow DataBoundItem in SourceDataTable.Rows)
             {
@@ -205,11 +207,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
 
                 // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140130-build-server/trace
-                if (RowStopwatch.ElapsedMilliseconds > 10)
+                if (RowStopwatch.ElapsedMilliseconds > 30)
                 {
                     // report slowdowns only.
                     //35224ms { Name =  } InternalSetDataSource add Row { SourceRowIndex = 64, ElapsedMilliseconds = 396 } view-source:35785
                     //35634ms { Name =  } InternalSetDataSource add Row { SourceRowIndex = 65, ElapsedMilliseconds = 409 } 
+
+                    //4415ms { Name =  } InternalSetDataSource add Row { SourceRowIndex = 65, ElapsedMilliseconds = 14 } view-source:35785
+                    //4434ms event:  set DataSource{ ElapsedMilliseconds = 1153 }
 
                     Console.WriteLine(
                         new { Name }
@@ -421,8 +426,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // 111485ms { Form = ExampleForm, Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 2775 } 
 
-            var old = new { Console.BackgroundColor };
-            Console.BackgroundColor = ConsoleColor.Yellow;
+            //var old = new { Console.BackgroundColor };
+            //Console.BackgroundColor = ConsoleColor.Yellow;
 
 
             //
@@ -430,14 +435,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 "event: "
                 // what if there is no form?
                 //+ this.FindForm().Name + "." 
+                // what if there is no name?
                 + this.Name
                 + " set DataSource"
-                + new { stopwatch.ElapsedMilliseconds }
+                + new { SourceRowIndex, stopwatch.ElapsedMilliseconds }
              );
 
             // 4069ms { Form = Form1, Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 2027 } 
 
-            Console.BackgroundColor = old.BackgroundColor;
+            //Console.BackgroundColor = old.BackgroundColor;
 
 
             new XAttribute(

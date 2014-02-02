@@ -461,7 +461,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // offsetWidth: 1045
 
-                    Console.WriteLine(new { BeforePosition, DragStartMaximized });
+                    //Console.WriteLine(new { BeforePosition, DragStartMaximized });
 
                     Capture = true;
                     InternalMouseCapured();
@@ -544,7 +544,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //if (Native.Document.fullscreenElement == TargetNoBorder)
                     this.Location = new Point(InternalCaptionDrag.Position.X, y);
 
-                    Console.WriteLine(new { Location });
+                    //Console.WriteLine(new { Location });
 
                     if (y < 0)
                     {
