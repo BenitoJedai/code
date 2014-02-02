@@ -37,7 +37,7 @@ namespace DragDataTableIntoCSVFile
             // X:\jsc.svn\examples\javascript\DragIntoCRX\DragIntoCRX\Application.cs
 
             page.Data.WhenClicked(
-                async delegate
+                async button =>
                 {
                     var DataTable = await this.DoEnterData();
                     var DataTable_xml = StringConversionsForDataTable.ConvertToString(

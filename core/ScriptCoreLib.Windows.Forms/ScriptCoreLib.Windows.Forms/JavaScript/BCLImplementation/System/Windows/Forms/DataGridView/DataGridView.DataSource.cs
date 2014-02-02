@@ -406,9 +406,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var old = new { Console.BackgroundColor };
             Console.BackgroundColor = ConsoleColor.Yellow;
+
+
+            //
             Console.WriteLine(
-                "event: " +
-                this.FindForm().Name + "." + this.Name
+                "event: "
+                // what if there is no form?
+                //+ this.FindForm().Name + "." 
+                + this.Name
                 + " set DataSource"
                 + new { stopwatch.ElapsedMilliseconds }
              );
