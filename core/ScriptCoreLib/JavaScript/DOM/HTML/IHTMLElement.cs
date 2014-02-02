@@ -412,7 +412,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return e.style;
         }
 
-     
+
 
         public int height;
         public int width;
@@ -439,6 +439,21 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public int scrollLeft;
         public int scrollTop;
+
+        public int scrollBottom
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // X:\jsc.svn\examples\javascript\CSS\CSSConditionalScroll\CSSConditionalScroll\Application.cs
+
+                // body seems to be special
+                if (this.localName == "body")
+                    return this.scrollHeight - this.parentNode.clientHeight - this.scrollTop;
+
+                return this.scrollHeight - this.clientHeight - this.scrollTop;
+            }
+        }
 
         public readonly int scrollWidth;
         public readonly int scrollHeight;
@@ -1264,7 +1279,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 }
             }
 
-      
+
 
             public virtual Task<IEvent> onmouseover
             {

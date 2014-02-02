@@ -65,10 +65,19 @@ namespace ScriptCoreLib.JavaScript.DOM
         // and wait the .style property to be accessed to build it
 
 
+        // CSSRule, what if this is a media rule?
         protected CSSStyleRule __rule;
 
+        // what if the rule was created?
         public string selectorText;
 
+        public override string ToString()
+        {
+            if (this.__rule == null)
+                return new { selectorText, rule = "null" }.ToString();
+
+            return new { selectorText, __rule.type }.ToString();
+        }
 
         public CSSStyleDeclaration style
         {
@@ -78,12 +87,16 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        internal CSSRule __parentRule;
+
         internal IStyleSheet __parentStyleSheet;
 
         public IStyleSheet parentStyleSheet
         {
             get
             {
+                //Console.WriteLine("enter parentStyleSheet");
+
                 if (__parentStyleSheet == null)
                 {
                     __parentStyleSheet = ((CSSStyleRule)this).parentStyleSheet;
@@ -93,41 +106,70 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        #region pseudo-classes
         // http://www.w3.org/TR/CSS2/selector.html
-        public CSSStyleRuleProxy this[string pseudoSelector]
+        public CSSStyleRuleProxy this[string subselectorText]
         {
             [Script(DefineAsStatic = true)]
             get
             {
-                var x = this.selectorText + pseudoSelector;
+                // 23ms CSSStyleRuleProxy this[string pseudoSelector] { selectorText = , pseudoSelector = div[style-id='0'], x = div[style-id='0'] } 
+                var newselectorText = this.selectorText + subselectorText;
+
+                //19ms CSSStyleRuleProxy this[string subselectorText] { rule = { selectorText = , type = 4 }, newselectorText = div[style-id='0'] } view-source:35383
+                //19ms parent rule is null
+
+                //Console.WriteLine(
+                //    "CSSStyleRuleProxy this[string subselectorText] " + new
+                //    {
+                //        // type4?
+                //        rule = this,
+
+                //        newselectorText
+                //    }
+                //);
+
+
 
                 if (this.__rule == null)
+                {
+                    //Console.WriteLine("new CSSStyleRuleProxy " + new { newselectorText });
                     return new CSSStyleRuleProxy
                     {
-                        selectorText = x,
+                        selectorText = newselectorText,
 
                         // remember our stylesheet
                         __parentStyleSheet = __parentStyleSheet
                     };
+                }
 
 
 
                 // no longer a proxy, are we a media rule?
 
                 var p = this.__rule.parentRule;
-                if (p != null)
-                    if (p.type == CSSRuleTypes.MEDIA_RULE)
-                        return ((CSSMediaRule)p)[x].rule;
+                // tested by
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSPrint\CSSPrint\Application.cs
+
+                if (this.__rule.type == CSSRuleTypes.MEDIA_RULE)
+                {
+                    //Console.WriteLine("rule MEDIA_RULE");
+                    return ((CSSMediaRule)(CSSRule)this.__rule)[newselectorText].rule;
+                }
+
+
+
+                //Console.WriteLine("this.__rule.parentStyleSheet[x].rule");
 
                 // when, how oftern is this used?
-                return this.__rule.parentStyleSheet[x].rule;
+                var z = this.__rule.parentStyleSheet[newselectorText];
+
+
+                return z.rule;
 
 
 
             }
         }
-        #endregion
 
 
         public static implicit operator CSSStyleRuleProxy(CSSStyleRule rule)
@@ -140,7 +182,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             if (rule.__rule == null)
             {
 
-                // its time to build the rule!
+                Console.WriteLine(" its time to build the rule! " + new { rule.selectorText });
+
                 rule.__rule = rule.__parentStyleSheet.AddRule(rule.selectorText);
 
             }
@@ -204,7 +247,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region [selectorText]
-        public CSSStyleRuleMonkier this[string selectorText]
+        public CSSStyleRuleMonkier this[string subselectorText]
         {
             get
             {
@@ -218,13 +261,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                     // 33ms { withoutpseudo = 
                     // { selectorText = input[style-id="1"]:checked ~ input:nth-of-type(2), selectorElement =  } } 
 
-                    Console.WriteLine("css regroup " + new { this.parents.Count, selectorText });
+                    Console.WriteLine("css regroup " + new { this.parents.Count, selectorText = subselectorText });
 
                     var p = default(CSSStyleRuleMonkier);
 
                     foreach (var item in this.parents)
                     {
-                        var pp = item[selectorText];
+                        var pp = item[subselectorText];
                         p |= pp;
                     }
 
@@ -232,10 +275,14 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
                 #endregion
 
+                // 22ms css sub { selectorText = , subselectorText = div[style-id='0'] } 
+                Console.WriteLine("css sub " + new { rule = this, subselectorText });
+
                 var child = new CSSStyleRuleMonkier
                 {
                     parent = this,
-                    selectorText = selectorText
+
+                    selectorText = subselectorText
                 };
 
                 return child;
@@ -300,23 +347,44 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // android webview gives us trouble
                 // revert to a dedicated stylesheet?
                 // X:\jsc.svn\examples\javascript\Test\TestCSSPrint\TestCSSPrint\Application.cs
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSPrint\CSSPrint\Application.cs
 
-                //return IStyleSheet.print[this.selectorText];
+                Console.WriteLine("enter print " + new { this.selectorText, rule });
 
+                //29ms enter print { selectorText = div[style-id='0'], rule = { selectorText = div[style-id='0'] } } view-source:35374
+                //29ms enter parentStyleSheet view-source:35374
+                //29ms IStyleSheet[CSSMediaTypes] { selectorText = @media print } view-source:35374
+                //30ms __get_item IStyleSheet { selectorText = @media print } view-source:35374
+                //30ms AddRule { selectorText = @media print } view-source:35374
+                //33ms css sub { selectorText = , subselectorText = div[style-id='0'] } 
 
-                var p = this.rule.parentStyleSheet[CSSMediaTypes.print];
+                var printRule = this.rule.parentStyleSheet[CSSMediaTypes.print];
 
-                if (p == null)
+                if (printRule != null)
                 {
-                    Console.WriteLine("creating a disabled style rule as android webview does not know any better?");
+                    // wtf.
+                    Console.WriteLine(
+                        "did we not just create a new print style with the same sheet, and now we are about to reselect the rule. "
+                        + new
+                        {
+                            this.selectorText,
+                            printRule
+                        });
 
-                    // there can be only 31 per IE?
-                    var x = new IStyleSheet { disabled = true };
+                    //20ms AddRule { selectorText = @media print } view-source:35383
+                    //22ms did we not just create a new print style with the same sheet, and now we are about to reselect the rule. { selectorText = div[style-id='0'], printRule = { selectorElement = , rule = { selectorText = , type = 4 } } } 
 
-                    return x[selectorText];
+
+                    return printRule[this.selectorText];
                 }
 
-                return p[selectorText];
+                Console.WriteLine("creating a disabled style rule as android webview does not know any better?");
+
+                // there can be only 31 per IE?
+                var x = new IStyleSheet { disabled = true };
+
+                return x[this.selectorText];
+
             }
         }
         #endregion
@@ -335,21 +403,31 @@ namespace ScriptCoreLib.JavaScript.DOM
             get { return __selectorText; }
             set
             {
+                // 23ms set selectorText { value = div[style-id='0'] } 
+                Console.WriteLine("set selectorText " + new { value });
                 __selectorText = value;
 
                 if (this.parent == null)
                 {
+                    Console.WriteLine("rule.selectorText = __selectorText");
                     this.rule.selectorText = __selectorText;
                 }
                 else
                 {
                     if (this.rule == null)
                     {
+                        // 23ms this.rule = this.parent.rule[__selectorText]; 
+                        Console.WriteLine("this.rule = this.parent.rule[__selectorText]; " + new { this.parent, __selectorText });
+
                         this.rule = this.parent.rule[__selectorText];
                     }
                     else
                     {
+                        Console.WriteLine("set selectorText " + new { this.parent.rule.selectorText, __selectorText });
+
                         this.rule.selectorText = this.parent.rule.selectorText + __selectorText;
+
+                        Console.WriteLine("set selectorText done " + new { this.rule.selectorText });
                     }
                 }
 
@@ -1081,7 +1159,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public override string ToString()
         {
-            return new { this.rule.selectorText, this.selectorElement }.ToString();
+            return new
+            {
+                this.selectorElement,
+                this.rule
+            }.ToString();
         }
 
 

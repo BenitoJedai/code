@@ -225,7 +225,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(string);
         }
 
-        //[Script(OptimizedCode = "return a0+a1")]
+        [Script(OptimizedCode = "return [a0,a1].join('')")]
         public static string Concat(object a0, object a1)
         {
             // this fails with 'illegal access' in chrome app 2013-10-29
@@ -249,33 +249,37 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return s0 + s1;
         }
 
-        [Script(OptimizedCode = "return a0+a1+a2")]
+        [Script(OptimizedCode = "return [a0,a1,a2].join('')")]
         public static string Concat(object a0, object a1, object a2)
         {
             return default(string);
         }
 
 
-
-        [Script(OptimizedCode = "return a0+a1")]
+        // X:\jsc.svn\examples\javascript\Test\TestNullStringConcat\TestNullStringConcat\Application.cs
+        [Script(OptimizedCode = "return [a0,a1].join('');")]
         public static string Concat(string a0, string a1)
         {
             return default(string);
         }
 
-        [Script(OptimizedCode = "return a0+a1+a2")]
+        [Script(OptimizedCode = "return [a0,a1,a2].join('');")]
         public static string Concat(string a0, string a1, string a2)
         {
             return default(string);
         }
 
-        [Script(OptimizedCode = "return a0+a1+a2+a3")]
+        [Script(OptimizedCode = "return [a0,a1,a2,a3].join('');")]
         public static string Concat(string a0, string a1, string a2, string a3)
         {
             return default(string);
         }
 
         #endregion
+
+
+
+
         [Script(DefineAsStatic = true, OptimizedCode = "return a0.split(a1).join(a2)")]
         internal object InternalReplace(object a0, object a1, object a2)
         {
