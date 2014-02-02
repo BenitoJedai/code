@@ -225,25 +225,27 @@ namespace WebGLGoldDropletTransactions
                     };
 
                     // this should be the one that maximizes itself onto the parent which is supposed to be absolute in size
-                    g.GetHTMLTargetContainer().With(
-                        div =>
-                        {
-                            //div.style.reset();
+                    //g.GetHTMLTarget().With(
+                    //    div =>
+                    //    {
+                    //        //div.style.reset();
 
-                            // no scrollbars, thanks
-                            div.style.overflow = IStyle.OverflowEnum.hidden;
-                            (div.style as dynamic).zIndex = "";
+                    //        // no scrollbars, thanks
+                    //        div.style.overflow = IStyle.OverflowEnum.hidden;
+                    //        (div.style as dynamic).zIndex = "";
 
-                            div.style.position = IStyle.PositionEnum.relative;
-                            div.style.left = "";
-                            div.style.top = "";
-                            div.style.right = "";
-                            div.style.bottom = "";
+                    //        div.style.position = IStyle.PositionEnum.relative;
+                    //        div.style.left = "";
+                    //        div.style.top = "";
+                    //        div.style.right = "";
+                    //    }
+                    //);
 
-                            c.Clear();
-                            div.AttachTo(c);
-                        }
-                    );
+                   c.style.position = IStyle.PositionEnum.relative;
+                    c.style.height = "20em";
+
+                    c.Clear();
+                    g.AttachControlTo(c);
 
                     return g;
                 };
