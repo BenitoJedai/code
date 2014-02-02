@@ -2496,9 +2496,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var gg = (DataGridView)this;
 
-            Console.WriteLine(
-                new { Form = gg.FindForm().Name, this.Name }
-                + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
+            //Console.WriteLine(
+            //    new { Form = gg.FindForm().Name, this.Name }
+            //    + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
 
             // 16011ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 39, Count = 5 } 
         }

@@ -863,6 +863,8 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             var value = InternalDocument.body.innerHTML;
 
+            // we do the same for svg
+
             // can we tity it? 
             value = value.Replace("<br>", "<br />");
             value = value.Replace("<hr>", "<hr />");
