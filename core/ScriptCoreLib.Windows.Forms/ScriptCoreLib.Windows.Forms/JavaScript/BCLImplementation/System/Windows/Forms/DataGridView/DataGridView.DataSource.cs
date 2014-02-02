@@ -177,7 +177,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #region Rows
             var SourceRowIndex = -1;
             var RowStopwatch = Stopwatch.StartNew();
-            
+
             // X:\jsc.svn\examples\javascript\Test\TestManyTableRows\TestManyTableRows\Application.cs
 
             foreach (DataRow DataBoundItem in SourceDataTable.Rows)
@@ -437,8 +437,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //+ this.FindForm().Name + "." 
                 // what if there is no name?
                 + this.Name
-                + " set DataSource"
-                + new { SourceRowIndex, stopwatch.ElapsedMilliseconds }
+                + " set DataSource "
+                + new
+                {
+                    SourceRowIndex,
+                    stopwatch.ElapsedMilliseconds,
+                    a = stopwatch.ElapsedMilliseconds / (SourceRowIndex + 1)
+                }
              );
 
             // 4069ms { Form = Form1, Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 2027 } 
