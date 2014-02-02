@@ -633,11 +633,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalScrollContainerElement.onscroll +=
                e =>
                {
+                   var s = Stopwatch.StartNew();
+
                    UpdateToVerticalResizerScroll();
                    UpdateToHorizontalResizerScroll();
 
-                   onscroll();
+                   // 153209ms DataGridView onscroll { ElapsedMilliseconds = 13 }
+                   //onscroll();
 
+                   // 234208ms DataGridView onscroll { ElapsedMilliseconds = 120 } 
+                   Console.WriteLine("DataGridView onscroll " + new { s.ElapsedMilliseconds });
                };
             #endregion
 
@@ -1743,7 +1748,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action ColumnUpdateToHorizontalResizerScroll = delegate
                     {
                         var x = ColumnHorizontalResizerDrag.Position.X;
-              
+
                         SourceColumn.ColumnHorizontalResizer.style.left = x + "px";
                     };
                     #endregion
@@ -2437,7 +2442,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             // 2901ms exit DataGridView .ctor { ElapsedMilliseconds = 923 } 
-            Console.WriteLine("exit DataGridView .ctor " + new { DataGridViewConstructorStopwatch.ElapsedMilliseconds });
+            Console.WriteLine("event: exit DataGridView .ctor " + new { DataGridViewConstructorStopwatch.ElapsedMilliseconds });
         }
 
         public IEnumerable<DataGridViewColumn> InternalGetVisibleColumns()

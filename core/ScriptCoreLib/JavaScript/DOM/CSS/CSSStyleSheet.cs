@@ -66,7 +66,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     var selectorText = InternalGetExplicitRuleSelector();
 
-                    Console.WriteLine(".css " + new { selectorText });
+                    //Console.WriteLine(".css " + new { selectorText });
 
                     // how fast is the selection?
                     var value = IStyleSheet.all[selectorText];
@@ -682,7 +682,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static CSSStyleRuleMonkier __get_item(this CSSMediaRule e, string selectorText)
         {
-            Console.WriteLine("__get_item CSSMediaRule " + new { selectorText });
+            //Console.WriteLine("__get_item CSSMediaRule " + new { selectorText });
 
             // IE not supported?
             //var rule = e.Rules.FirstOrDefault(k => k.selectorText == selectorText);

@@ -119,15 +119,15 @@ namespace ScriptCoreLib.JavaScript.DOM
                 //19ms CSSStyleRuleProxy this[string subselectorText] { rule = { selectorText = , type = 4 }, newselectorText = div[style-id='0'] } view-source:35383
                 //19ms parent rule is null
 
-                Console.WriteLine(
-                    "CSSStyleRuleProxy this[string subselectorText] " + new
-                    {
-                        // type4?
-                        rule = this,
+                //Console.WriteLine(
+                //    "CSSStyleRuleProxy this[string subselectorText] " + new
+                //    {
+                //        // type4?
+                //        rule = this,
 
-                        newselectorText
-                    }
-                );
+                //        newselectorText
+                //    }
+                //);
 
 
 
@@ -150,7 +150,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // tested by
                 // X:\jsc.svn\examples\javascript\CSS\Test\CSSPrint\CSSPrint\Application.cs
 
-                Console.WriteLine(new { this.__rule.type, CSSRuleTypes.MEDIA_RULE });
+                //Console.WriteLine(new { this.__rule.type, CSSRuleTypes.MEDIA_RULE });
                 if (this.__rule.type == CSSRuleTypes.MEDIA_RULE)
                 {
                     // 24ms { type = 4, MEDIA_RULE = 4 } 
@@ -159,11 +159,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     // 24ms will create { mediaRule = [object CSSMediaRule], newselectorText = @media all and (orientation: landscape) body } 
 
-                    Console.WriteLine("will create " + new { mediaRule, subselectorText });
+                    //Console.WriteLine("will create " + new { mediaRule, subselectorText });
 
                     var mediaRuleSub = mediaRule[subselectorText];
 
-                    Console.WriteLine("did create" + new { mediaRuleSub });
+                    //Console.WriteLine("did create" + new { mediaRuleSub });
 
                     return
                          mediaRuleSub.rule;
@@ -199,7 +199,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             if (rule.__rule == null)
             {
 
-                Console.WriteLine(" its time to build the rule! " + new { rule.selectorText });
+                //Console.WriteLine(" its time to build the rule! " + new { rule.selectorText });
 
                 rule.__rule = rule.__parentStyleSheet.AddRule(rule.selectorText);
 
@@ -293,7 +293,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 #endregion
 
                 // 22ms css sub { selectorText = , subselectorText = div[style-id='0'] } 
-                Console.WriteLine("css sub " + new { rule = this, subselectorText });
+                //Console.WriteLine("css sub " + new { rule = this, subselectorText });
 
                 var child = new CSSStyleRuleMonkier
                 {
@@ -495,12 +495,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             set
             {
                 // 23ms set selectorText { value = div[style-id='0'] } 
-                Console.WriteLine("set selectorText " + new { value });
+                //Console.WriteLine("set selectorText " + new { value });
                 __selectorText = value;
 
                 if (this.parent == null)
                 {
-                    Console.WriteLine("rule.selectorText = __selectorText");
+                    //Console.WriteLine("rule.selectorText = __selectorText");
                     this.rule.selectorText = __selectorText;
                 }
                 else
@@ -509,17 +509,17 @@ namespace ScriptCoreLib.JavaScript.DOM
                     {
                         // 23ms this.rule = this.parent.rule[__selectorText]; 
                         // 21ms this.rule = this.parent.rule[__selectorText]; { parent = { selectorElement = , rule = { selectorText = @media all and (orientation: landscape) , type = 4 } }, __selectorText = body } 
-                        Console.WriteLine("this.rule = this.parent.rule[__selectorText]; " + new { this.parent, __selectorText });
+                        //Console.WriteLine("this.rule = this.parent.rule[__selectorText]; " + new { this.parent, __selectorText });
 
                         this.rule = this.parent.rule[__selectorText];
                     }
                     else
                     {
-                        Console.WriteLine("set selectorText " + new { this.parent.rule.selectorText, __selectorText });
+                        //Console.WriteLine("set selectorText " + new { this.parent.rule.selectorText, __selectorText });
 
                         this.rule.selectorText = this.parent.rule.selectorText + __selectorText;
 
-                        Console.WriteLine("set selectorText done " + new { this.rule.selectorText });
+                        //Console.WriteLine("set selectorText done " + new { this.rule.selectorText });
                     }
                 }
 
