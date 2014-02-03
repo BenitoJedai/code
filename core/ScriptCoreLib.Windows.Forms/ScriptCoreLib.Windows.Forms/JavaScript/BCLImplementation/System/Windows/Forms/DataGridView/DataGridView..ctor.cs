@@ -93,7 +93,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-        __DataGridViewRow InternalNewRow;
+        public __DataGridViewRow InternalNewRow;
 
         public __DataGridView()
         {
@@ -126,7 +126,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Columns = (DataGridViewColumnCollection)(object)this.InternalColumns;
 
             #region InternalRows
-            this.InternalRows = new __DataGridViewRowCollection();
+            this.InternalRows = new __DataGridViewRowCollection
+            {
+                InternalContext = this
+            };
             this.Rows = (DataGridViewRowCollection)(object)this.InternalRows;
 
             this.InternalRows.InternalItems.Added +=
@@ -513,15 +516,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
-            var ZeroVerticalResizer = CreateVerticalResizer().AttachTo(InternalScrollContainerElement);
+            //var ZeroVerticalResizer = CreateVerticalResizer().AttachTo(InternalElement);
 
-            ZeroVerticalResizer.style.SetLocation(0, 22 - 5);
+            //ZeroVerticalResizer.style.SetLocation(0, 22 - 5);
 
 
 
 
             #region ZeroHorizontalResizer
 
+            //var ZeroHorizontalResizer = CreateHorizontalResizer().AttachTo(InternalElement);
             var ZeroHorizontalResizer = CreateHorizontalResizer().AttachTo(InternalScrollContainerElement);
 
             var ZeroHorizontalResizerDrag = new DragHelper(ZeroHorizontalResizer)
@@ -534,10 +538,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             Action UpdateToVerticalResizerScroll = delegate
             {
-                ZeroVerticalResizer.style.SetLocation(
-                    this.InternalScrollContainerElement.scrollLeft,
-                    this.InternalScrollContainerElement.scrollTop + (22 - 5)
-                );
+                //ZeroVerticalResizer.style.SetLocation(
+                //    this.InternalScrollContainerElement.scrollLeft,
+                //    this.InternalScrollContainerElement.scrollTop + (22 - 5)
+                //);
             };
 
 
@@ -705,9 +709,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __ContentTable_css_td_empty_before.style.right = "0";
 
             // ready to be made interactive
-            __ContentTable_css_td["[data]"].empty.style.backgroundColor = "yellow";
+            __ContentTable_css_td["[data]"].empty.style.color = "red";
             // ah a place holder?
-            __ContentTable_css_td[":not([data])"].empty.style.backgroundColor = "cyan";
+            __ContentTable_css_td[":not([data])"].empty.style.backgroundColor = "yellow";
 
             #region InitializeCell
             Action<__DataGridViewCell, __DataGridViewRow> InitializeMissingCell =
@@ -1790,8 +1794,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // should we delay this until resize is enabled?
 
                     SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
-                    //SourceColumn.ColumnHorizontalResizer.AttachTo(__ColumnsTableContainer);
-                    //SourceColumn.ColumnHorizontalResizer.AttachTo(InternalScrollContainerElement);
                     SourceColumn.ColumnHorizontalResizer.AttachTo(InternalElement);
                     //__ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
 
@@ -2174,6 +2176,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             __RowsTable_css_td.style.width = "100%";
             __RowsTable_css_td.style.height = "21px";
+            __RowsTable_css_td.style.position = IStyle.PositionEnum.relative;
+
+
+            var __RowsTable_css_td_before = __RowsTable_css_td.before;
+            var __RowsTable_css_td_after = __RowsTable_css_td.after;
+
+
+            __RowsTable_css_td_after.style.position = IStyle.PositionEnum.absolute;
+            __RowsTable_css_td_after.style.left = "12px";
+            __RowsTable_css_td_after.style.top = "0px";
+            __RowsTable_css_td_after.style.right = "0";
+            __RowsTable_css_td_after.style.height = "21px";
+            __RowsTable_css_td_after.content = "";
+            __RowsTable_css_td_after.style.backgroundPosition = "left center";
+            DataGridEditRow.ToBackground(__RowsTable_css_td_after.style, false);
+            
+            __RowsTable_css_td_before.style.position = IStyle.PositionEnum.absolute;
+            __RowsTable_css_td_before.style.left = "4px";
+            __RowsTable_css_td_before.style.top = "0px";
+            __RowsTable_css_td_before.style.right = "0";
+            __RowsTable_css_td_before.style.height = "21px";
+            __RowsTable_css_td_before.content = "";
+            __RowsTable_css_td_before.style.backgroundPosition = "left center";
+            DataGridFocusRow.ToBackground(__RowsTable_css_td_before.style, false);
+
 
             #region InitializeZeroColumnCell
 
@@ -2181,21 +2208,39 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action<__DataGridViewRow> InitializeZeroColumnCell =
                 SourceRow =>
                 {
-                    var __tr = new IHTMLTableRow { };
+                    #region InternalTableColumn
+                    var __tr = default(IHTMLTableRow);
 
-                    if (InternalNewRow != null)
+
+                    if (InternalPrerenderZeroRows.Count > 0)
                     {
-                        __RowsTableBody.insertBefore(__tr, InternalNewRow.InternalZeroColumnTableRow);
+                        // datasource already prepped a row for us
+                        __tr = InternalPrerenderZeroRows.Dequeue();
+                        __tr.Clear();
                     }
                     else
                     {
-                        __RowsTableBody.appendChild(__tr);
+                        __tr = new IHTMLTableRow { };
+
+                        // Failed to execute 'insertBefore' on 'Node': The new child element is null. 
+                        if (InternalNewRow != null)
+                        {
+                            __RowsTableBody.insertBefore(__tr, InternalNewRow.InternalZeroColumnTableRow);
+                        }
+                        else
+                        {
+                            __RowsTableBody.appendChild(__tr);
+                        }
                     }
+
+                    SourceRow.InternalZeroColumnTableRow = __tr;
+
 
                     //var __tr = __RowsTableBody.AddRow();
                     var InternalTableColumn = __tr.AddColumn();
+                    #endregion
 
-                    SourceRow.InternalZeroColumnTableRow = __tr;
+
 
 
                     // X:\jsc.svn\examples\javascript\forms\FormsGridCellStyle\FormsGridCellStyle\Application.cs
@@ -2274,42 +2319,42 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     AtEndEdit();
                     #endregion
 
-                    #region DataGridFocusRow
-                    this.CellEnter +=
-                        (s, e) =>
-                        {
-                            if (e.RowIndex == SourceRow.Index)
-                            {
-                                DataGridFocusRow.ToBackground(c1img, false);
-                                //c1img.style.backgroundPosition = "left center";
-                            }
-                        };
+                    //#region DataGridFocusRow
+                    //this.CellEnter +=
+                    //    (s, e) =>
+                    //    {
+                    //        if (e.RowIndex == SourceRow.Index)
+                    //        {
+                    //            DataGridFocusRow.ToBackground(c1img, false);
+                    //            //c1img.style.backgroundPosition = "left center";
+                    //        }
+                    //    };
 
-                    this.CellLeave +=
-                        (s, e) =>
-                        {
-                            if (e.RowIndex == SourceRow.Index)
-                            {
-                                c1img.style.backgroundImage = "";
-                            }
-                        };
-                    #endregion
+                    //this.CellLeave +=
+                    //    (s, e) =>
+                    //    {
+                    //        if (e.RowIndex == SourceRow.Index)
+                    //        {
+                    //            c1img.style.backgroundImage = "";
+                    //        }
+                    //    };
+                    //#endregion
 
 
-                    #region AtInternalHeightChanged
-                    Action AtInternalHeightChanged = delegate
-                    {
-                        //c1.style.height = (SourceRow.InternalHeight - 1) + "px";
-                        c1img.style.height = (SourceRow.InternalHeight - 1) + "px";
-                        c2img.style.height = (SourceRow.InternalHeight - 1) + "px";
+                    //#region AtInternalHeightChanged
+                    //Action AtInternalHeightChanged = delegate
+                    //{
+                    //    //c1.style.height = (SourceRow.InternalHeight - 1) + "px";
+                    //    c1img.style.height = (SourceRow.InternalHeight - 1) + "px";
+                    //    c2img.style.height = (SourceRow.InternalHeight - 1) + "px";
 
-                        c1contentcrel.style.height = (SourceRow.InternalHeight - 1) + "px";
-                        __tr.style.height = SourceRow.InternalHeight + "px";
-                    };
+                    //    c1contentcrel.style.height = (SourceRow.InternalHeight - 1) + "px";
+                    //    __tr.style.height = SourceRow.InternalHeight + "px";
+                    //};
 
-                    AtInternalHeightChanged();
-                    SourceRow.InternalHeightChanged += AtInternalHeightChanged;
-                    #endregion
+                    //AtInternalHeightChanged();
+                    //SourceRow.InternalHeightChanged += AtInternalHeightChanged;
+                    //#endregion
 
 
                 };
@@ -2353,10 +2398,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRows.InternalItems.Added +=
                   (SourceRow, CurrentRowIndex) =>
                   {
+                      if (SourceRow == InternalNewRow)
+                      {
+                          // do we have a test for readding rows?
+
+                          SourceRow.InternalTableRow.AttachTo(__ContentTableBody);
+                          SourceRow.InternalZeroColumnTableRow.AttachTo(__RowsTableBody);
+
+                      }
+
                       if (SourceRow.InternalTableRow != null)
                           return;
 
-                      if (InternalNewRow != null)
+                      //Console.WriteLine("InternalRows Added");
+
+                      if (InternalNewRow == null)
+                      {
+                          // when is this happening?
+                          SourceRow.InternalTableRow = __ContentTableBody.AddRow();
+                      }
+                      else
                       {
                           // how much time are we spending per row?
                           // what about bulk entry?
@@ -2365,35 +2426,45 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           // how much time do we spend on moving the new row thingy?
 
 
+
+
+                          if (InternalPrerenderRows.Count > 0)
+                          {
+                              // datasource already prepped a row for us
+                              SourceRow.InternalTableRow = InternalPrerenderRows.Dequeue();
+                              SourceRow.InternalTableRow.Clear();
+                          }
+                          else
+                          {
+                              SourceRow.InternalTableRow = new IHTMLTableRow();
+
+
+                              // Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node. 
+                              if (InternalNewRow.InternalTableRow.parentNode == null)
+                              {
+                                  // where is our new row?
+                                  __ContentTableBody.appendChild(InternalNewRow.InternalTableRow);
+                                  InternalNewRow.InternalZeroColumnTableRow.AttachTo(__RowsTableBody);
+                              }
+
+
+                              __ContentTableBody.insertBefore(
+                                  // is it part of the rows still?
+                                  SourceRow.InternalTableRow,
+                                  InternalNewRow.InternalTableRow
+
+                                );
+                          }
+
+                          //Console.WriteLine("InternalRows reposition InternalNewRow");
+
                           // make sure the RowIndex -1 is the last element
                           this.InternalRows.InternalItems.Source.Remove(InternalNewRow);
                           this.InternalRows.InternalItems.Source.Add(InternalNewRow);
 
-                          SourceRow.InternalTableRow = new IHTMLTableRow();
-
-
-                          // Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node. 
-                          if (InternalNewRow.InternalTableRow.parentNode == null)
-                          {
-                              // where is our new row?
-                              __ContentTableBody.appendChild(InternalNewRow.InternalTableRow);
-                              InternalNewRow.InternalZeroColumnTableRow.AttachTo(__RowsTableBody);
-                          }
-
-
-                          __ContentTableBody.insertBefore(
-                              // is it part of the rows still?
-                              SourceRow.InternalTableRow,
-                              InternalNewRow.InternalTableRow
-
-                            );
-
+                          //Console.WriteLine("InternalRows reposition InternalNewRow done");
                       }
-                      else
-                      {
-                          // when is this happening?
-                          SourceRow.InternalTableRow = __ContentTableBody.AddRow();
-                      }
+
 
 
                       // disabled for now, until we get a newer test
@@ -2434,6 +2505,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRows.InternalItems.Removed +=
                 (SourceRow, i) =>
                 {
+                    //Console.WriteLine("InternalRows Removed");
+
                     SourceRow.InternalTableRow.Orphanize();
                     SourceRow.InternalZeroColumnTableRow.Orphanize();
 
