@@ -75,7 +75,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return this.InternalItems[index];
+                //Console.WriteLine("enter get DataGridViewCell");
+                var value = this.InternalItems[index];
+                //Console.WriteLine("exit get DataGridViewCell");
+                return value;
             }
         }
     }

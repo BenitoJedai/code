@@ -1,4 +1,4 @@
-﻿#define FBINDING
+﻿#define xFBINDING
 #define FPRERENDER
 
 using ScriptCoreLib.Shared.BCLImplementation.System.Data;
@@ -63,14 +63,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalSetDataSource(value);
 
 
-                Native.window.requestAnimationFrame += delegate
-                {
-
-
-                    if (DataSourceChanged != null)
-                        DataSourceChanged(this, new EventArgs());
-
-                };
             }
         }
 
@@ -139,6 +131,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return;
             }
 
+
+            //Console.WriteLine(
+            //    "event: "
+            //    + this.Name
+            //    + " set DataSource clear done "
+            //    + new
+            //    {
+
+            //    }
+            // );
+
             // now what?
 
             // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableToJavascript\TestDataTableToJavascript\ApplicationControl.cs
@@ -150,6 +153,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // );
 
             var SourceDataTableColumnCount = SourceDataTable.Columns.Count;
+            var cstopwatch = Stopwatch.StartNew();
 
 
             #region Columns
@@ -206,11 +210,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Console.WriteLine(
                     "event: "
                     + this.Name
-                    + " set DataSource "
+                    + " set DataSource columns "
                     + new
                     {
                         SourceDataTableColumnCount,
-                        stopwatch.ElapsedMilliseconds,
+                        cstopwatch.ElapsedMilliseconds,
                     }
             );
 
@@ -219,6 +223,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 //return;
 
+                #region PrerenderStopwatch
                 var PrerenderStopwatch = Stopwatch.StartNew();
 
                 // X:\jsc.svn\examples\javascript\Test\TestManyTableRows\TestManyTableRows\Application.cs
@@ -230,6 +235,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     var DataBoundItem = SourceDataTable.Rows[i];
 
+                    // what the hell. safari and chrome show ok.
+                    // ie and ff show empty cells. why?
 
                     #region prerender
                     // 2096ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 998, ElapsedMilliseconds = 1793, a = 1.7947947947947949 }
@@ -260,6 +267,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // http://www.w3.org/TR/html5/tabular-data.html#the-table-element
 
+                    var PrerenderData = (PrerenderStopwatch.ElapsedMilliseconds < 50);
 
                     for (int ic = 0; ic < SourceDataTableColumnCount; ic++)
                     {
@@ -272,9 +280,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-                        if (PrerenderStopwatch.ElapsedMilliseconds < 50)
+                        if (PrerenderData)
                         {
-                            td.setAttribute("data", data);
+                            // X:\jsc.svn\examples\javascript\Test\TestManyTableRows\TestManyTableRows\Application.cs
+                            // we need a special div to play relative 
+                            var td_div = new IHTMLDiv { }.AttachTo(td);
+
+                            td_div.setAttribute("data", data);
                         }
                         else
                         {
@@ -284,6 +296,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
 
                     #endregion
+
+
 
                     // 6881ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 998, ElapsedMilliseconds = 6590, a = 6.596596596596597 } 
 
@@ -302,69 +316,75 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         }
                 );
 
+                #endregion
+
 
                 var AddRowsStopwatch = Stopwatch.StartNew();
 
                 #region Rows
-                var RowStopwatch = Stopwatch.StartNew();
 
-                for (int i = 0; i < SourceDataTableRowCount; i++)
+
+                var AddRowAction = Enumerable.Range(0, SourceDataTableRowCount).Select(
+                    i =>
+                        new Action(
+                            delegate
+                            {
+                                var RowStopwatch = Stopwatch.StartNew();
+
+                                var DataBoundItem = SourceDataTable.Rows[i];
+
+                                var r = new __DataGridViewRow
+                                {
+                                    DataBoundItem = new __DataRowView { Row = DataBoundItem }
+                                };
+
+                                foreach (DataColumn c in SourceDataTable.Columns)
+                                {
+                                    var cc = new DataGridViewTextBoxCell
+                                    {
+                                        // two way binding?
+                                        //ReadOnly = true,
+
+                                        Value = DataBoundItem[c]
+                                    };
+
+
+                                    r.Cells.Add(cc);
+                                }
+
+                                // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140130-build-server/trace
+
+
+                                this.Rows.Add(r);
+
+
+                                if (RowStopwatch.ElapsedMilliseconds > 30)
+                                {
+                                    // report slowdowns only.
+
+                                    Console.WriteLine(
+                                        new { Name }
+                                        + " InternalSetDataSource add row "
+                                        + new { i, RowStopwatch.ElapsedMilliseconds }
+                                     );
+                                }
+
+                            }
+                        )
+                    ).GetEnumerator();
+
+
+
+                while (AddRowAction.MoveNext())
                 {
-                    //break;
+                    AddRowAction.Current();
 
-                    var DataBoundItem = SourceDataTable.Rows[i];
-
-                    var r = new __DataGridViewRow
-                    {
-                        DataBoundItem = new __DataRowView { Row = DataBoundItem }
-                    };
-
-                    foreach (DataColumn c in SourceDataTable.Columns)
-                    {
-                        var cc = new DataGridViewTextBoxCell
-                        {
-                            // two way binding?
-                            //ReadOnly = true,
-
-                            Value = DataBoundItem[c]
-                        };
-
-
-                        r.Cells.Add(cc);
-                    }
-
-                    // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140130-build-server/trace
-                    //if (RowStopwatch.ElapsedMilliseconds > 30)
-                    {
-                        // report slowdowns only.
-                        //35224ms { Name =  } InternalSetDataSource add Row { SourceRowIndex = 64, ElapsedMilliseconds = 396 } view-source:35785
-                        //35634ms { Name =  } InternalSetDataSource add Row { SourceRowIndex = 65, ElapsedMilliseconds = 409 } 
-
-                        //4415ms { Name =  } InternalSetDataSource add Row { SourceRowIndex = 65, ElapsedMilliseconds = 14 } view-source:35785
-                        //4434ms event:  set DataSource{ ElapsedMilliseconds = 1153 }
-
-
-                    }
-
-                    this.Rows.Add(r);
-
-                    Console.WriteLine(
-                        new { Name }
-                        + " InternalSetDataSource add row "
-                        + new { i, RowStopwatch.ElapsedMilliseconds }
-                     );
-
+                    // 3145ms { Name = dataGridView1 } InternalSetDataSource add row { i = 7, ElapsedMilliseconds = 13 } view-source:35829
                     if (AddRowsStopwatch.ElapsedMilliseconds > 100)
                     {
                         // continue later?
                         break;
                     }
-
-
-                    // 6881ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 998, ElapsedMilliseconds = 6590, a = 6.596596596596597 } 
-
-
-                    RowStopwatch.Restart();
                 }
                 #endregion
 
@@ -381,7 +401,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
               );
 
 
-                stopwatch.Restart();
+                //stopwatch.Restart();
 
 #if FBINDING
                 var NewRow = default(DataRow);
@@ -568,16 +588,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 #endif
 
                 // do we still have time for this?
-                InternalAutoResizeAll();
+                // 23230ms event: { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 2761, Count = 6 } 
+                // 23229ms got offsetWidth in { ElapsedMilliseconds = 397 } 
 
-                InternalDataSourceBusy = false;
-                stopwatch.Stop();
+
+                // 3644ms event: { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 2275, Count = 6 } 
+                // do we want to autoresize if it takes up to 2500 ms?
+                // InternalAutoResizeAll();
+
+                //stopwatch.Stop();
 
                 // 111485ms { Form = ExampleForm, Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 2775 } 
 
                 // 2281ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 998, ElapsedMilliseconds = 1908, a = 1.90990990990991 } 
                 //2136ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 998, ElapsedMilliseconds = 1788, a = 1.7897897897897899 } 
                 // 750ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 998, ElapsedMilliseconds = 435, a = 0.43543543543543545 }
+                // 9710ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 1000, ElapsedMilliseconds = 1333 } 
 
                 // 079ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 100, ElapsedMilliseconds = 564 } 
                 Console.WriteLine(
@@ -586,7 +612,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //+ this.FindForm().Name + "." 
                     // what if there is no name?
                     + this.Name
-                    + " set DataSource "
+                    + " set DataSource almost done "
                     + new
                     {
                         SourceDataTableColumnCount,
@@ -598,11 +624,87 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 // 4069ms { Form = Form1, Name = dataGridView1 } exit InternalSetDataSource{ ElapsedMilliseconds = 2027 } 
 
 
+                // 371ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 32, ElapsedMilliseconds = 188 } 
+                // 1182ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 1000, ElapsedMilliseconds = 901 }
 
-                new XAttribute(
-                   "Stopwatch",
-                   new { stopwatch.ElapsedMilliseconds }.ToString()
-               ).AttachTo(this.HTMLTargetRef);
+
+                Action yield = null;
+
+                yield = delegate
+                {
+                    var CStopwatch = Stopwatch.StartNew();
+
+                    while (AddRowAction.MoveNext())
+                    {
+                        AddRowAction.Current();
+
+                        if (CStopwatch.ElapsedMilliseconds > 300)
+                        {
+
+                            break;
+                        }
+                    }
+
+                    if (CStopwatch.ElapsedMilliseconds > 300)
+                    {
+                        Console.WriteLine(
+                            "event: "
+                            // what if there is no form?
+                            //+ this.FindForm().Name + "." 
+                            // what if there is no name?
+                            + this.Name
+                            + " set DataSource yield "
+                            + new
+                            {
+                                //SourceDataTableColumnCount,
+
+                                InternalPrerenderRows.Count
+
+                                ,
+
+                                stopwatch.ElapsedMilliseconds
+                            }
+                         );
+                        Native.window.requestAnimationFrame += yield;
+                        return;
+                    }
+
+
+                    //584ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 1000, ElapsedMilliseconds = 313 } 
+
+                    new XAttribute(
+                        "Stopwatch",
+                        new { stopwatch.ElapsedMilliseconds }.ToString()
+                    ).AttachTo(this.HTMLTargetRef);
+
+
+
+                    Console.WriteLine(
+                          "event: "
+                        // what if there is no form?
+                        //+ this.FindForm().Name + "." 
+                        // what if there is no name?
+                          + this.Name
+                          + " DataSourceChanged "
+                          + new
+                          {
+                              SourceDataTableColumnCount,
+                              SourceDataTableRowCount,
+                              stopwatch.ElapsedMilliseconds
+                          }
+                       );
+
+                    InternalDataSourceBusy = false;
+
+                    InternalAutoSizeWhenFill();
+
+                    if (DataSourceChanged != null)
+                        DataSourceChanged(this, new EventArgs());
+                };
+
+                Native.window.requestAnimationFrame += yield;
+
+
             };
 
         }
