@@ -43,7 +43,7 @@ namespace TestLargeDataTable
             var c0 = table.Columns.Add("Column0");
 
             //var columns = 30;
-            var columns = 2;
+            var columns = 6;
 
             for (int i = 1; i < columns; i++)
             {
@@ -56,7 +56,12 @@ namespace TestLargeDataTable
 
             //tbody.css.odd.style.backgroundColor = "gray";
             //var count = 40000;
-            var count = 10;
+            //var count = 1000;
+
+            //var count = 10000;
+            var count = 32;
+
+            // 455ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 8, ElapsedMilliseconds = 168, a = 18.666666666666668 } 
 
             for (int i = 0; i < count; i++)
             {
@@ -73,24 +78,44 @@ namespace TestLargeDataTable
 
 
             //this.bindingSource1.DataSource = table;
-            this.dataGridView1.DataSource = table;
             //this.dataGridView1.Refresh();
 
-            s.Stop();
+            this.dataGridView1.DataSourceChanged +=
+                delegate
+                {
+                    s.Stop();
+
+                    // 541ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 29, ElapsedMilliseconds = 280, a = 9.333333333333334 } 
+                    // 890ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 98, ElapsedMilliseconds = 606, a = 6.121212121212121 } 
+                    // 1029ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 98, ElapsedMilliseconds = 741, a = 7.484848484848484 } 
+                    // 6566ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 998, ElapsedMilliseconds = 6252, a = 6.258258258258258 } 
+
+                    // 293ms event: dataGridView1 set DataSource{ SourceRowIndex = 9, ElapsedMilliseconds = 129 }
+                    // 663ms event: dataGridView1 set DataSource{ SourceRowIndex = 99, ElapsedMilliseconds = 498 } 
+                    // 689ms event: dataGridView1 set DataSource { SourceRowIndex = 99, ElapsedMilliseconds = 533, a = 5.33 } 
+                    // 4550ms event: dataGridView1 set DataSource { SourceRowIndex = 999, ElapsedMilliseconds = 4357, a = 4.357 } 
+
+                    // 1899ms event: dataGridView1 set DataSource { SourceRowIndex = 9, ElapsedMilliseconds = 1720, a = 172 } 
+
+                    // 281ms event: dataGridView1 set DataSource { SourceRowIndex = 9, ElapsedMilliseconds = 110, a = 11 } 
+                    // 519ms event: dataGridView1 set DataSource { SourceRowIndex = 99, ElapsedMilliseconds = 307, a = 3.07 }
+                    // 2625ms event: dataGridView1 set DataSource { SourceRowIndex = 999, ElapsedMilliseconds = 2421, a = 2.421 } 
+                    // 2862ms event: dataGridView1 set DataSource { ColumnIndex = 3, SourceRowIndex = 999, ElapsedMilliseconds = 2654, a = 2.654 }
+                    // 2841ms event: dataGridView1 set DataSource { ColumnIndex = 3, SourceRowIndex = 999, ElapsedMilliseconds = 2615, a = 2.615 }
+                    // 2605ms event: dataGridView1 set DataSource { ColumnIndex = 3, SourceRowIndex = 999, ElapsedMilliseconds = 2390, a = 2.39 } 
+                    // 2582ms event: dataGridView1 set DataSource { ColumnIndex = 3, SourceRowIndex = 999, ElapsedMilliseconds = 2375, a = 2.375 } 
+                    // 386ms event: dataGridView1 set DataSource { ColumnIndex = 3, SourceRowIndex = 15, ElapsedMilliseconds = 212, a = 13.25 } 
+                    // 476ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 8, ElapsedMilliseconds = 307, a = 34.111111111111114 } 
+                    // 420ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 8, ElapsedMilliseconds = 244, a = 27.11111111111111 } 
+
+                    // 1412ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 8, ElapsedMilliseconds = 702, a = 78 } 
+
+                    // 10: 6ms
+                    this.ParentForm.Text = (count + ": " + s.ElapsedMilliseconds + "ms");
+                };
 
 
-            // 293ms event: dataGridView1 set DataSource{ SourceRowIndex = 9, ElapsedMilliseconds = 129 }
-            // 663ms event: dataGridView1 set DataSource{ SourceRowIndex = 99, ElapsedMilliseconds = 498 } 
-            // 689ms event: dataGridView1 set DataSource { SourceRowIndex = 99, ElapsedMilliseconds = 533, a = 5.33 } 
-            // 4550ms event: dataGridView1 set DataSource { SourceRowIndex = 999, ElapsedMilliseconds = 4357, a = 4.357 } 
-
-            // 1899ms event: dataGridView1 set DataSource { SourceRowIndex = 9, ElapsedMilliseconds = 1720, a = 172 } 
-            
-            // 281ms event: dataGridView1 set DataSource { SourceRowIndex = 9, ElapsedMilliseconds = 110, a = 11 } 
-
-            // 10: 6ms
-            this.ParentForm.Text = (count + ": " + s.ElapsedMilliseconds + "ms");
-
+            this.dataGridView1.DataSource = table;
 
         }
 

@@ -45,6 +45,23 @@ namespace TestManyTableRows
             var tbody = table.AddBody();
 
             tbody.css.odd.style.backgroundColor = "gray";
+            tbody.css[IHTMLElement.HTMLElementEnum.tr].hover.style.textDecoration = "underline";
+
+            // http://www.joepettersson.com/demo/the-outline-property/
+
+            var cssf = tbody.css[IHTMLElement.HTMLElementEnum.tr].children.focus;
+
+            cssf.style.color = "red";
+
+            //var cssf = tbody.css[IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.div].outli;
+
+            //tbody.onclick +=
+            //    delegate
+            //    {
+            //        ("onclick").ToDocumentTitle();
+
+            //    };
+
             var count = 10000;
 
             for (int i = 0; i < count; i++)
@@ -52,7 +69,24 @@ namespace TestManyTableRows
                 var tr = tbody.AddRow();
                 var td = tr.AddColumn();
 
-                td.innerText = new { i }.ToString();
+                //var label = new IHTMLLabel { new { i } }.AttachTo(td);
+                var label = new IHTMLAnchor { new { i } }.AttachTo(td);
+
+                label.href = "#";
+
+                //label.onfocus +=
+                //    delegate
+                //    {
+
+                //    };
+
+                //td.innerText = new { i }.ToString();
+
+                // If you use label markup, as recommendable for usability and accessibility, e.g.
+                // http://www.coderanch.com/t/597537/HTML-CSS-JavaScript/td-focus
+                // As it is not a focusable element, no, it does not. And because focus events do not bubble, there's no way that a focus event can trigger for a non-focusable element.
+                //label.tabIndex = i;
+
             }
 
             // attach to DOM only now?
@@ -63,7 +97,7 @@ namespace TestManyTableRows
             // 1000: 18ms
             // 10000: 109ms
             // 10000: 116ms
-            (count + ": " + s.ElapsedMilliseconds + "ms").ToDocumentTitle();
+            new { count, s.ElapsedMilliseconds, cssf }.ToString().ToDocumentTitle();
         }
 
     }
