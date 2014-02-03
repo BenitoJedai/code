@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewRowCollection))]
     public class __DataGridViewRowCollection : __BaseCollection, IEnumerable
     {
+        public __DataGridView InternalContext;
+
         public BindingListWithEvents<__DataGridViewRow> InternalItems = new BindingListWithEvents<__DataGridViewRow>();
 
         public virtual int Add()
@@ -41,6 +43,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // keep newrow
             while (this.Count > 1)
                 this.InternalItems.Source.RemoveAt(0);
+
+            //this.int
+
+            InternalContext.__ContentTableBody.appendChild(InternalContext.InternalNewRow.InternalTableRow);
+
         }
 
         public void Remove(DataGridViewRow r)

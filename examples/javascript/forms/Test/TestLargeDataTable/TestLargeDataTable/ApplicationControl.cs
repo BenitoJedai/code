@@ -57,9 +57,16 @@ namespace TestLargeDataTable
             //tbody.css.odd.style.backgroundColor = "gray";
             //var count = 40000;
             //var count = 1000;
+            // 1423ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 1000, ElapsedMilliseconds = 1010, a = 1.008991008991009 } 
 
             //var count = 10000;
-            var count = 32;
+            // 8465ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 10000, ElapsedMilliseconds = 7765, a = 0.7764223577642235 } 
+
+            //var count = 32;
+            var count = 100;
+
+            // 655ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 100, ElapsedMilliseconds = 305, a = 3.01980198019802 } 
+            // 4928ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 100, ElapsedMilliseconds = 352, a = 3.485148514851485 } 
 
             // 455ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 8, ElapsedMilliseconds = 168, a = 18.666666666666668 } 
 
