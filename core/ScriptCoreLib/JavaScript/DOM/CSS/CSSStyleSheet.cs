@@ -74,7 +74,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     value.selectorText = selectorText;
                     value.selectorElement = this;
 
-                    //Console.WriteLine(".css " + new { value, @this = this });
+                    //Console.WriteLine(".css " + new { value });
 
                     //32ms css.style { selectorText = input[style-id="0"]:checked ~ div:nth-of-type(1), input[style-id="1"]:checked ~ div:nth-of-type(1) } view-source:34910
 

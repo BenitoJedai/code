@@ -237,12 +237,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // 18436ms { Name = dataGridView2 } exit AutoResizeColumn { ElapsedMilliseconds = 391, columnIndex = 6 } 
             // 590530ms { Name = dataGridView1 } exit AutoResizeColumn { ElapsedMilliseconds = 127, columnIndex = 4 } 
             // close the console!
+            
+            // 1628ms { Name = dataGridView1 } exit AutoResizeColumn { ElapsedMilliseconds = 1106, columnIndex = 0 } 
 
-            //Console.WriteLine(
-            //    new { Name }
-            //    + " exit AutoResizeColumn "
-            //    + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, columnIndex }
-            //    );
+            Console.WriteLine(
+                new { Name }
+                + " exit AutoResizeColumn "
+                + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, columnIndex }
+                );
         }
         #endregion
 
@@ -489,7 +491,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-     
+
 
 
 

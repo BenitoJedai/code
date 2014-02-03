@@ -62,8 +62,8 @@ namespace TestLargeDataTable
             //var count = 10000;
             // 8465ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 10000, ElapsedMilliseconds = 7765, a = 0.7764223577642235 } 
 
-            //var count = 32;
-            var count = 1000;
+            var count = 32;
+            //var count = 1000;
 
             // 655ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 100, ElapsedMilliseconds = 305, a = 3.01980198019802 } 
             // 4928ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 100, ElapsedMilliseconds = 352, a = 3.485148514851485 } 

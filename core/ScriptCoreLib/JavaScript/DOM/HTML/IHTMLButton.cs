@@ -56,16 +56,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #endregion
 
 
-        public new CSSStyleRule<IHTMLButton> css
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return
-                    (CSSStyleRule<IHTMLButton>)
-                    (object)IStyleSheet.all[InternalGetExplicitRuleSelector()];
-            }
-        }
+   
 
 
 

@@ -975,18 +975,28 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             set
             {
+                // X:\jsc.svn\examples\javascript\css\Test\CSSButtonContent\CSSButtonContent\Application.cs
+
                 // what about multiple attributes?
 
+                Console.WriteLine("set contentXAttribute " + new { this.parent });
+
                 if (this.parent != null)
+                {
+                    Console.WriteLine("set contentXAttribute " + new { this.parent.selectorElement });
+
                     if (this.parent.selectorElement != null)
                     {
                         if (!this.parent.selectorElement.hasAttribute(value.Name.LocalName))
                         {
                             // X:\jsc.svn\examples\javascript\Test\TestManyTableRowsFromDataTable\TestManyTableRowsFromDataTable\Application.cs
 
+                            Console.WriteLine("set contentXAttribute " + new { value });
+
                             value.AttachTo(this.parent.selectorElement);
                         }
                     }
+                }
 
                 // X:\jsc.svn\examples\javascript\CSS\CSSXAttributeAsConditional\CSSXAttributeAsConditional\Application.cs
                 this.style.content = "attr(" + value.Name.LocalName + ")";

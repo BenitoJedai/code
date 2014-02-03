@@ -35,6 +35,12 @@ namespace CSSButtonContent
 
             new IHTMLButton { }.AttachToDocument().css.before.content = "hi, can not be selected";
 
+            var x = new IHTMLButton { }.AttachToDocument();
+
+            // works in ff
+            x.css.before.contentXAttribute = new XAttribute("data", "by attribute");
+
+
         }
 
     }

@@ -62,6 +62,45 @@ namespace TestManyTableRows
 
             //    };
 
+            var a = tbody.css[IHTMLElement.HTMLElementEnum.tr]
+                [IHTMLElement.HTMLElementEnum.td]
+                // ie, firefox workround.
+                // chrome does not need that div!
+                [IHTMLElement.HTMLElementEnum.div];
+
+
+
+            a.style.position = IStyle.PositionEnum.relative;
+            a.style.width = "100%";
+            a.style.height = "100%";
+
+            tbody.css[IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td].style.width = "10em";
+            tbody.css[IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td].style.height = "22px";
+
+            var div = tbody.css
+                [IHTMLElement.HTMLElementEnum.tr]
+                [IHTMLElement.HTMLElementEnum.td]
+                [IHTMLElement.HTMLElementEnum.div]
+                .before;
+
+            //[IHTMLElement.HTMLElementEnum.div];
+            div.style.position = IStyle.PositionEnum.absolute;
+
+            div.style.left = "0px";
+            div.style.top = "0px";
+
+            div.style.right = "0px";
+            div.style.bottom = "0px";
+
+            div.style.border = "1px solid red";
+
+            //div.style.width = "100%";
+            //div.style.height = "100%";
+
+
+            div.contentXAttribute = new XAttribute("data", "");
+
+
             var count = 10000;
 
             for (int i = 0; i < count; i++)
@@ -69,10 +108,17 @@ namespace TestManyTableRows
                 var tr = tbody.AddRow();
                 var td = tr.AddColumn();
 
-                //var label = new IHTMLLabel { new { i } }.AttachTo(td);
-                var label = new IHTMLAnchor { new { i } }.AttachTo(td);
+                //td.style.position = IStyle.PositionEnum.relative;
 
-                label.href = "#";
+                //var label = new IHTMLLabel { new { i } }.AttachTo(td);
+                var label = new IHTMLDiv { }.AttachTo(td);
+
+
+                label.setAttribute("data", new { i });
+                //td.setAttribute("data", new { i });
+
+
+                //label.href = "#";
 
                 //label.onfocus +=
                 //    delegate

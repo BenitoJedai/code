@@ -693,9 +693,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //__ContentTable_css_td.style.height = "22px";
             __ContentTable_css_td.style.height = "21px";
             __ContentTable_css_td.style.lineHeight = "21px";
-            __ContentTable_css_td.style.position = IStyle.PositionEnum.relative;
 
-            var __ContentTable_css_td_empty_before = __ContentTable_css_td.empty.before;
+            // this wont work for ff, ie
+            //__ContentTable_css_td.style.position = IStyle.PositionEnum.relative;
+
+
+
+
+            // IE, ff workaround. need a div to play relative
+            var __ContentTable_css_td_relative = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div];
+
+            __ContentTable_css_td_relative.style.position = IStyle.PositionEnum.relative;
+            __ContentTable_css_td_relative.style.width = "100%";
+            __ContentTable_css_td_relative.style.height = "100%";
+
+
+            // ready to be made interactive
+            //__ContentTable_css_td_relative["[data]"].empty.first.letter.style.color = "red";
+            __ContentTable_css_td_relative["[data]"].empty.style.color = "red";
+            // ah a place holder?
+            // X:\jsc.svn\examples\javascript\forms\Test\TestLargeDataTable\TestLargeDataTable\ApplicationControl.cs
+            __ContentTable_css_td_relative[":not([data])"].empty.style.backgroundColor = "yellow";
+
+
+            var __ContentTable_css_td_empty_before = __ContentTable_css_td_relative.empty.before;
 
             __ContentTable_css_td_empty_before.contentXAttribute = new XAttribute("data", "");
             __ContentTable_css_td_empty_before.style.paddingLeft = "4px";
@@ -709,26 +730,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __ContentTable_css_td_empty_before.style.bottom = "0";
             __ContentTable_css_td_empty_before.style.right = "0";
 
-            // ready to be made interactive
-            __ContentTable_css_td["[data]"].empty.style.color = "red";
-            // ah a place holder?
-            // X:\jsc.svn\examples\javascript\forms\Test\TestLargeDataTable\TestLargeDataTable\ApplicationControl.cs
-            __ContentTable_css_td[":not([data])"].empty.style.backgroundColor = "yellow";
 
-            var __ContentTable_css_td_div = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div];
+
+
+            var __ContentTable_css_td_div_div = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div][IHTMLElement.HTMLElementEnum.div];
+
 
             // http://stackoverflow.com/questions/6601697/restore-webkits-css-outline-on-input-field
-            __ContentTable_css_td_div.style.outline = "none";
+            __ContentTable_css_td_div_div.style.outline = "none";
 
-            __ContentTable_css_td_div.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
-            __ContentTable_css_td_div.style.overflow = IStyle.OverflowEnum.hidden;
-            __ContentTable_css_td_div.style.position = IStyle.PositionEnum.absolute;
-            __ContentTable_css_td_div.style.left = "0";
-            __ContentTable_css_td_div.style.top = "0";
-            __ContentTable_css_td_div.style.bottom = "0";
-            __ContentTable_css_td_div.style.right = "0";
+            __ContentTable_css_td_div_div.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
+            __ContentTable_css_td_div_div.style.overflow = IStyle.OverflowEnum.hidden;
+            __ContentTable_css_td_div_div.style.position = IStyle.PositionEnum.absolute;
+            __ContentTable_css_td_div_div.style.left = "0";
+            __ContentTable_css_td_div_div.style.top = "0";
+            __ContentTable_css_td_div_div.style.bottom = "0";
+            __ContentTable_css_td_div_div.style.right = "0";
 
-            var __ContentTable_css_td_div_span = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div][IHTMLElement.HTMLElementEnum.span];
+            var __ContentTable_css_td_div_span = __ContentTable_css_td_div_div[IHTMLElement.HTMLElementEnum.span];
 
             __ContentTable_css_td_div_span.style.marginLeft = "4px";
             __ContentTable_css_td_div_span.style.marginRight = "4px";
@@ -769,10 +788,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // can we have a test for it?
                     // this div is needed for UI activities?
                     // like :before
+
+                    var InternalTableColumn_relative = new IHTMLDiv
+                    {
+                    }.AttachTo(SourceCell.InternalTableColumn);
+
                     SourceCell.InternalTableColumn_div = new IHTMLDiv
                     {
                         tabIndex = (((SourceRow.Index + 1) << 16) + (SourceCell.ColumnIndex + 1))
-                    }.AttachTo(SourceCell.InternalTableColumn);
+                    }.AttachTo(InternalTableColumn_relative);
 
                     SourceCell.InternalTableColumn_div_span = new IHTMLSpan
                     {
@@ -812,7 +836,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-                    // with 9 , 12, 15, 12
+                    // with 9 , 12, 15, 12, 6
                     // without 16, 32, 27,25, 30
 #if FCELLEVENTS
                     #region AtInternalValueChanged
@@ -909,7 +933,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             EditElement.style.width = (SourceColumn.Width - 4) + "px";
                             EditElement.style.height = (SourceRow.Height - 1) + "px";
 
-                            EditElement.AttachTo(SourceCell.InternalTableColumn);
+                            //EditElement.AttachTo(SourceCell.InternalTableColumn);
+                            EditElement.AttachTo(InternalTableColumn_relative);
 
                             SourceCell.InternalStyle.InternalForeColorChanged +=
                                 delegate
@@ -921,7 +946,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             EditElement.value = OriginalValue;
 
 
-                    #region CheckChanges
+                            #region CheckChanges
                             Action CheckChanges = delegate
                             {
                                 //if (((string)SourceCell.Value) != EditElement.value)
@@ -941,11 +966,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 if (this.CellValidating != null)
                                     this.CellValidating(this, (DataGridViewCellValidatingEventArgs)(object)args);
 
-                                Console.WriteLine("CellValidating " + new { args.Cancel });
+                                //Console.WriteLine("CellValidating " + new { args.Cancel });
 
                                 if (args.Cancel)
                                 {
-                                    Console.WriteLine("CellValidating Cancel " + new { OriginalValue });
+                                    //Console.WriteLine("CellValidating Cancel " + new { OriginalValue });
                                     SourceCell.Value = OriginalValue;
 
                                     return;
@@ -957,9 +982,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 //}
 
                             };
-                    #endregion
+                            #endregion
 
-                    #region ExitEditMode
+                            #region ExitEditMode
                             Action ExitEditMode = delegate
                             {
                                 if (ExitEditModeDone) return;
@@ -968,7 +993,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                                 EditElement.Orphanize();
-                                SourceCell.InternalTableColumn_div.AttachTo(SourceCell.InternalTableColumn);
+                                SourceCell.InternalTableColumn_div.AttachTo(InternalTableColumn_relative);
 
                                 //SourceCell.InternalStyle.InternalForeColorChanged +=
                                 //    delegate
@@ -991,11 +1016,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 Console.WriteLine("ExitEditMode AtInternalValueChanged");
                                 AtInternalValueChanged();
                             };
-                    #endregion
+                            #endregion
 
 
 
-                    #region CellBeginEdit
+                            #region CellBeginEdit
                             EditElement.onfocus +=
                                 delegate
                                 {
@@ -1008,10 +1033,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             InternalRaiseCellBeginEdit(SourceCell);
 
-                    #endregion
+                            #endregion
 
 
-                    #region onblur
+                            #region onblur
                             EditElement.onblur +=
                                delegate
                                {
@@ -1025,16 +1050,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                                };
-                    #endregion
+                            #endregion
 
 
                             var __selectionStart = -1;
                             var __selectionEnd = -1;
-                    #region onkeyup
+                            #region onkeyup
                             EditElement.onkeyup +=
                               _ev =>
                               {
-                    #region Focus
+                                  #region Focus
                                   Action<__DataGridViewCell> Focus =
                                       Cell =>
                                       {
@@ -1046,7 +1071,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                               Cell.InternalTableColumn_div.focus();
                                           }
                                       };
-                    #endregion
+                                  #endregion
 
                                   if (_ev.IsEscape)
                                   {
@@ -1093,10 +1118,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                   __selectionEnd = EditElement.selectionEnd;
                                   __selectionStart = EditElement.selectionStart;
                               };
-                    #endregion
+                            #endregion
 
 
-                    #region onkeypress
+                            #region onkeypress
                             EditElement.onkeypress +=
                                 _ev =>
                                 {
@@ -1115,7 +1140,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     }
 
                                 };
-                    #endregion
+                            #endregion
 
 
 
@@ -1246,7 +1271,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         ev =>
                         {
 
-                    #region KeyNavigateTo
+                            #region KeyNavigateTo
                             Func<Keys, int, int, bool> KeyNavigateTo =
                               (k, x, y) =>
                               {
@@ -1269,9 +1294,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                   }
                                   return false;
                               };
-                    #endregion
+                            #endregion
 
-                    #region FullRowSelect Delete
+                            #region FullRowSelect Delete
                             if (this.SelectionMode == DataGridViewSelectionMode.FullRowSelect)
                             {
                                 if (ev.KeyCode == (int)Keys.Delete)
@@ -1313,7 +1338,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     return;
                                 }
                             }
-                    #endregion
+                            #endregion
 
 
 
@@ -1691,6 +1716,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action AtInternalWidthChanged =
                         delegate
                         {
+                            var SourceColumnWidthStopwatch = Stopwatch.StartNew();
                             var SourceColumnWidth = SourceColumn.Width;
 
                             // tested by
@@ -1706,6 +1732,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 this.ColumnWidthChanged(this,
                                     new DataGridViewColumnEventArgs(SourceColumn)
                                    );
+
+                            //Console.WriteLine("event: AtInternalWidthChanged " + new { SourceColumnWidthStopwatch.ElapsedMilliseconds });
+
                         };
 
 
@@ -1822,6 +1851,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Action Reposition =
                         delegate
                         {
+                            var RepositionStopwatch = Stopwatch.StartNew();
+
+
                             var x = ZeroHorizontalResizerDrag.Position.X - 1;
 
                             if (!this.RowHeadersVisible)
@@ -1846,6 +1878,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             ColumnHorizontalResizerDrag.Position = new Point(x, 0);
 
                             ColumnUpdateToHorizontalResizerScroll();
+
+                            // what takes here half a sec?
+                            // 1737ms event: Reposition { Index = 0, ElapsedMilliseconds = 447 } 
+
+                            // report slow
+                            if (RepositionStopwatch.ElapsedMilliseconds > 10)
+                                Console.WriteLine("event: Reposition " + new { SourceColumn.Index, RepositionStopwatch.ElapsedMilliseconds });
                         };
 
                     Reposition();
@@ -1871,7 +1910,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         item.InternalWidthChanged +=
                             delegate
                             {
+                                if (InternalDataSourceBusy)
+                                    return;
+
                                 Reposition();
+
                             };
                     }
                     #endregion
@@ -1947,9 +1990,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     bool InternalAutoResizeColumnBuzy = false;
 
                     #region InternalAutoResizeColumn
+
+                    //Console.WriteLine("add InternalAutoResizeColumn");
                     this.InternalAutoResizeColumn +=
                         (SourceColumnIndex, ObeyAutoSizeMode) =>
                         {
+                            //Console.WriteLine("at InternalAutoResizeColumn");
+
                             if (InternalAutoResizeColumnBuzy)
                                 return;
 
@@ -2005,6 +2052,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                         var WidthByFill = all - SourceColumnLeft - ZeroRight - 5;
 
+                                        WidthByFill -= 1;
+
                                         //Console.WriteLine(
                                         //    " InternalAutoResizeColumn Fill "
                                         //    + new
@@ -2045,19 +2094,50 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             }
 
 
-
+                            //Console.WriteLine("before max");
                             #region SetColumnWidth
-                            var WidthByRowsInThisColumn = rows.Max(
+
+                            //1268ms before max view-source:35829
+                            //1707ms after max 
+
+                            // we should only look at currently visible rows?
+                            var WidthByRowsInThisColumn = rows.Take(16).Max(
                                 rr =>
                                 {
+                                    //1774ms at rr view-source:35829
+                                    //2273ms at rr 
+
+                                    //Console.WriteLine("enter rr");
+
+                                    //                                    33736ms before max view-source:35829
+                                    //33736ms enter rr view-source:35829
+                                    //34202ms exit rr { value = 228 } 
+
                                     __DataGridViewCell cc = rr.Cells[SourceColumnIndex];
 
+                                    //Console.WriteLine("got cc");
 
                                     //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex, cc.InternalContent.offsetWidth });
 
-                                    return cc.InternalTableColumn_div_span.offsetWidth;
+                                    //2717ms got cc view-source:35829
+                                    //3165ms exit rr { value = 228 } 
+
+                                    var s = Stopwatch.StartNew();
+
+                                    // !!! accessing DOM is expensive!
+                                    var value = cc.InternalTableColumn_div_span.offsetWidth;
+
+                                    //2717ms got cc view-source:35829
+                                    //3165ms exit rr { value = 228 } 
+
+                                    if (s.ElapsedMilliseconds > 10)
+                                        Console.WriteLine("got offsetWidth in " + new { s.ElapsedMilliseconds });
+
+                                    return value;
                                 }
                             );
+                            //Console.WriteLine("after max");
+
 
                             WidthByRowsInThisColumn = Math.Max(WidthByRowsInThisColumn, this.InternalColumns.InternalItems[SourceColumnIndex].InternalContent.offsetWidth);
                             if (WidthByRowsInThisColumn == 0)
@@ -2083,16 +2163,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             // 15248ms { Name = dataGridView2 }InternalAutoResizeColumn { RowCount = 2, SourceColumnIndex = 0, NewWidth = 154, ElapsedMilliseconds = 2 } 
                             // 14818ms { Name = dataGridView2 } InternalAutoResizeColumn { RowCount = 2, SourceColumnIndex = 2, NewWidth = 120, ElapsedMilliseconds = 1 } 
 
-                            //Console.WriteLine(
-                            //    new { this.Name }
-                            //    + " InternalAutoResizeColumn " + new
-                            //    {
-                            //        RowCount = rows.Count,
-                            //        SourceColumnIndex,
-                            //        NewWidth,
-                            //        InternalAutoResizeColumnStopwatch.ElapsedMilliseconds
-                            //    });
+                            // 1745ms event: { Name = dataGridView1 } InternalAutoResizeColumn { RowCount = 9, SourceColumnIndex = 1, NewWidth = 260, ElapsedMilliseconds = 447 } 
 
+                            Console.WriteLine(
+                                "event: " +
+                                new { this.Name }
+                                + " InternalAutoResizeColumn " + new
+                                {
+                                    RowCount = rows.Count,
+                                    SourceColumnIndex,
+                                    NewWidth,
+                                    InternalAutoResizeColumnStopwatch.ElapsedMilliseconds
+                                });
+
+                            // why does this cost us 600ms?
                             SourceColumn.Width = NewWidth;
                             #endregion
 
@@ -2425,7 +2509,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalRaiseCellBeginEdit =
                 (SourceCell) =>
                 {
-                    Console.WriteLine("InternalRaiseCellBeginEdit " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
+                    //Console.WriteLine("InternalRaiseCellBeginEdit " + new { SourceCell.ColumnIndex, SourceCell.OwningRow.Index });
 
                     var SourceRow = SourceCell.InternalOwningRow;
 
@@ -2559,10 +2643,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             //Console.WriteLine(new { this.Name } + " autoresize ");
 
-
-            foreach (var item in this.InternalColumns.InternalItems)
+            for (int i = 0; i < this.InternalColumns.Count; i++)
             {
-                this.AutoResizeColumn(item.Index, ObeyAutoSizeMode: true);
+                this.AutoResizeColumn(i, ObeyAutoSizeMode: true);
             }
 
 
@@ -2580,9 +2663,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var gg = (DataGridView)this;
 
-            //Console.WriteLine(
-            //    new { Form = gg.FindForm().Name, this.Name }
-            //    + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
+            // 4206ms event: { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 3548, Count = 6 } 
+
+            Console.WriteLine(
+                "event: " +
+                new { this.Name }
+                + " autoresize done " + new { AutoResizeColumnStopwatch.ElapsedMilliseconds, this.InternalColumns.Count });
 
             // 16011ms { Name = dataGridView1 } autoresize done { ElapsedMilliseconds = 39, Count = 5 } 
         }
