@@ -1197,7 +1197,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     ev.PreventDefault();
 
-                                    if (SourceCell.InternalSelected)
+                                    if (SourceCell.Selected)
                                         EnterEditMode();
                                     else
                                         SourceCell.InternalContentContainer.focus();
@@ -1379,7 +1379,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 //SourceCell.InternalTableColumn.onblur +=
                                 ev =>
                                 {
-                                    SourceCell.InternalSelected = false;
+                                    SourceCell.InternalSetSelected(false);
 
                                     if (!ev.ctrlKey)
                                     {
@@ -1412,7 +1412,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 //SourceCell.InternalTableColumn.onfocus +=
                                 ev =>
                                 {
-                                    SourceCell.InternalSelected = true;
+                                    SourceCell.InternalSetSelected(true);
 
                                     ev.preventDefault();
                                     ev.stopPropagation();
@@ -1457,7 +1457,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             SourceCell.InternalStyle.InternalFontChanged +=
                                 delegate
                                 {
-                                    if (SourceCell.InternalSelected)
+                                    if (SourceCell.Selected)
                                         return;
 
 
@@ -1474,7 +1474,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             SourceCell.InternalStyle.InternalForeColorChanged +=
                                delegate
                                {
-                                   if (SourceCell.InternalSelected)
+                                   if (SourceCell.Selected)
                                        return;
 
 
@@ -1484,7 +1484,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             SourceCell.InternalStyle.InternalBackColorChanged +=
                                  delegate
                                  {
-                                     if (SourceCell.InternalSelected)
+                                     if (SourceCell.Selected)
                                          return;
 
 
@@ -2169,9 +2169,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             #endregion
 
-            var DataGridFocusRow = new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridFocusRow.png");
-            var DataGridNewRow = new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridNewRow.png");
-            var DataGridEditRow = new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridEditRow.png");
 
 
             __RowsTable_css_td.style.width = "100%";
@@ -2179,28 +2176,80 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __RowsTable_css_td.style.position = IStyle.PositionEnum.relative;
 
 
-            var __RowsTable_css_td_before = __RowsTable_css_td.before;
-            var __RowsTable_css_td_after = __RowsTable_css_td.after;
 
 
-            __RowsTable_css_td_after.style.position = IStyle.PositionEnum.absolute;
-            __RowsTable_css_td_after.style.left = "12px";
-            __RowsTable_css_td_after.style.top = "0px";
-            __RowsTable_css_td_after.style.right = "0";
-            __RowsTable_css_td_after.style.height = "21px";
-            __RowsTable_css_td_after.content = "";
-            __RowsTable_css_td_after.style.backgroundPosition = "left center";
-            DataGridEditRow.ToBackground(__RowsTable_css_td_after.style, false);
-            
-            __RowsTable_css_td_before.style.position = IStyle.PositionEnum.absolute;
-            __RowsTable_css_td_before.style.left = "4px";
-            __RowsTable_css_td_before.style.top = "0px";
-            __RowsTable_css_td_before.style.right = "0";
-            __RowsTable_css_td_before.style.height = "21px";
-            __RowsTable_css_td_before.content = "";
-            __RowsTable_css_td_before.style.backgroundPosition = "left center";
-            DataGridFocusRow.ToBackground(__RowsTable_css_td_before.style, false);
 
+
+            #region DataGridNewRow
+            {
+                var DataGridNewRow = new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridNewRow.png");
+                var xDataGridViewCellIsInEditMode = new XAttribute("DataGridViewCellIsInEditMode", global::System.Convert.ToString(true));
+
+                var __RowsTable_css_td_after = __RowsTable_css
+                   [IHTMLElement.HTMLElementEnum.tbody]
+                   .last[IHTMLElement.HTMLElementEnum.tr]
+                    //[e => e.getAttribute("DataGridViewCellSelected") == true]
+                   [IHTMLElement.HTMLElementEnum.td]
+                   .after;
+
+                __RowsTable_css_td_after.style.position = IStyle.PositionEnum.absolute;
+                __RowsTable_css_td_after.style.left = "12px";
+                __RowsTable_css_td_after.style.top = "0px";
+                __RowsTable_css_td_after.style.right = "0";
+                __RowsTable_css_td_after.style.height = "21px";
+                __RowsTable_css_td_after.content = "";
+                __RowsTable_css_td_after.style.backgroundPosition = "left center";
+                DataGridNewRow.ToBackground(__RowsTable_css_td_after.style, false);
+            }
+            #endregion
+
+            #region DataGridEditRow
+            {
+                var DataGridEditRow = new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridEditRow.png");
+                var xDataGridViewCellIsInEditMode = new XAttribute("DataGridViewCellIsInEditMode", global::System.Convert.ToString(true));
+
+                var __RowsTable_css_td_after = __RowsTable_css
+                   [IHTMLElement.HTMLElementEnum.tbody]
+                   [IHTMLElement.HTMLElementEnum.tr]
+                    //[e => e.getAttribute("DataGridViewCellSelected") == true]
+                   [xDataGridViewCellIsInEditMode]
+                   [IHTMLElement.HTMLElementEnum.td]
+                   .after;
+
+                __RowsTable_css_td_after.style.position = IStyle.PositionEnum.absolute;
+                __RowsTable_css_td_after.style.left = "12px";
+                __RowsTable_css_td_after.style.top = "0px";
+                __RowsTable_css_td_after.style.right = "0";
+                __RowsTable_css_td_after.style.height = "21px";
+                __RowsTable_css_td_after.content = "";
+                __RowsTable_css_td_after.style.backgroundPosition = "left center";
+                DataGridEditRow.ToBackground(__RowsTable_css_td_after.style, false);
+            }
+            #endregion
+
+            #region DataGridFocusRow
+            {
+                var xDataGridViewCellSelected = new XAttribute("DataGridViewCellSelected", global::System.Convert.ToString(true));
+                var DataGridFocusRow = new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridFocusRow.png");
+                var __RowsTable_css_td_before = __RowsTable_css
+                    [IHTMLElement.HTMLElementEnum.tbody]
+                    [IHTMLElement.HTMLElementEnum.tr]
+                    //[e => e.getAttribute("DataGridViewCellSelected") == true]
+                    [xDataGridViewCellSelected]
+                    [IHTMLElement.HTMLElementEnum.td]
+                    .before;
+
+
+                __RowsTable_css_td_before.style.position = IStyle.PositionEnum.absolute;
+                __RowsTable_css_td_before.style.left = "4px";
+                __RowsTable_css_td_before.style.top = "0px";
+                __RowsTable_css_td_before.style.right = "0";
+                __RowsTable_css_td_before.style.height = "21px";
+                __RowsTable_css_td_before.content = "";
+                __RowsTable_css_td_before.style.backgroundPosition = "left center";
+                DataGridFocusRow.ToBackground(__RowsTable_css_td_before.style, false);
+            }
+            #endregion
 
             #region InitializeZeroColumnCell
 
@@ -2240,106 +2289,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     var InternalTableColumn = __tr.AddColumn();
                     #endregion
 
-
-
-
                     // X:\jsc.svn\examples\javascript\forms\FormsGridCellStyle\FormsGridCellStyle\Application.cs
 
-
-                    //InternalTableColumn.innerText = " ";
-                    //InternalTableColumn.style.width = "100%";
                     InternalTableColumn.title = new { SourceRow.Index }.ToString();
-
-                    var c1contentcrel = new IHTMLDiv { }.AttachTo(InternalTableColumn);
-                    c1contentcrel.style.position = IStyle.PositionEnum.relative;
-                    c1contentcrel.style.left = "0";
-                    c1contentcrel.style.top = "0";
-                    c1contentcrel.style.right = "0";
-                    c1contentcrel.style.height = "21px";
-                    c1contentcrel.style.overflow = IStyle.OverflowEnum.hidden;
-
-
-
-                    var c1img = new IHTMLDiv().AttachTo(c1contentcrel);
-                    c1img.style.position = IStyle.PositionEnum.absolute;
-                    c1img.style.left = "4px";
-                    c1img.style.top = "0px";
-                    c1img.style.right = "0";
-                    c1img.style.height = "21px";
-
-                    //new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridEditRow.png").ToBackground(c1img, false);
-                    c1img.style.backgroundPosition = "left center";
-
-                    var c2img = new IHTMLDiv().AttachTo(c1contentcrel);
-                    c2img.style.position = IStyle.PositionEnum.absolute;
-                    c2img.style.left = "12px";
-                    c2img.style.top = "0px";
-                    c2img.style.right = "0";
-                    c2img.style.height = "21px";
-
-                    //new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/DataGridEditRow.png").ToBackground(c1img, false);
-                    c1img.style.backgroundPosition = "left center";
-                    c2img.style.backgroundPosition = "left center";
-
-                    #region New/Edit
-                    Action AtEndEdit =
-                        delegate
-                        {
-                            if (SourceRow.IsNewRow)
-                            {
-                                DataGridNewRow.ToBackground(c2img, false);
-
-                            }
-                            else
-                            {
-                                c2img.style.backgroundImage = "";
-                            }
-                        };
-
-                    this.CellBeginEdit +=
-                        (s, e) =>
-                        {
-                            if (e.RowIndex == SourceRow.Index)
-                            {
-                                DataGridEditRow.ToBackground(c2img, false);
-                                //c1img.style.backgroundPosition = "left center";
-                            }
-                        };
-
-                    this.CellEndEdit +=
-                       (s, e) =>
-                       {
-                           if (e.RowIndex == SourceRow.Index)
-                           {
-                               AtEndEdit();
-
-                           }
-                       };
-
-                    AtEndEdit();
-                    #endregion
-
-                    //#region DataGridFocusRow
-                    //this.CellEnter +=
-                    //    (s, e) =>
-                    //    {
-                    //        if (e.RowIndex == SourceRow.Index)
-                    //        {
-                    //            DataGridFocusRow.ToBackground(c1img, false);
-                    //            //c1img.style.backgroundPosition = "left center";
-                    //        }
-                    //    };
-
-                    //this.CellLeave +=
-                    //    (s, e) =>
-                    //    {
-                    //        if (e.RowIndex == SourceRow.Index)
-                    //        {
-                    //            c1img.style.backgroundImage = "";
-                    //        }
-                    //    };
-                    //#endregion
-
 
                     //#region AtInternalHeightChanged
                     //Action AtInternalHeightChanged = delegate
@@ -2355,8 +2307,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     //AtInternalHeightChanged();
                     //SourceRow.InternalHeightChanged += AtInternalHeightChanged;
                     //#endregion
-
-
                 };
             #endregion
 
