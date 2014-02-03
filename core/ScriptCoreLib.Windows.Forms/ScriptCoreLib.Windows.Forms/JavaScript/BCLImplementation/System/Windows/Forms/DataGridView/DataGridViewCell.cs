@@ -13,7 +13,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
 
         // X:\jsc.svn\examples\javascript\forms\Test\TestDataGridViewCellFormattingEven\TestDataGridViewCellFormattingEven\ApplicationControl.cs
-        public bool IsInEditMode { get; set; }
         public virtual bool ReadOnly { get; set; }
 
 
@@ -88,8 +87,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        #region IsInEditMode
+        bool InternalIsInEditMode;
+        public bool IsInEditMode
+        {
+            get
+            {
+                return InternalIsInEditMode;
+            }
+            set
+            {
+                InternalIsInEditMode = value;
+                this.InternalOwningRow.InternalZeroColumnTableRow.setAttribute("DataGridViewCellIsInEditMode", Convert.ToString(value));
+            }
+        }
+        #endregion
+
         #region Selected
-        public bool InternalSelected;
+        bool InternalSelected;
         public virtual bool Selected
         {
             get
@@ -98,12 +113,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
-                InternalSelected = value;
+                InternalSetSelected(value);
 
                 if (value)
                     this.InternalContentContainer.focus();
             }
         }
+
+        public void InternalSetSelected(bool value)
+        {
+            InternalSelected = value;
+            this.InternalOwningRow.InternalZeroColumnTableRow.setAttribute("DataGridViewCellSelected", Convert.ToString(value));
+        }
+
         #endregion
 
         public __DataGridViewCell()
