@@ -1,4 +1,5 @@
 ﻿#define FHR
+#define FCELLEVENTS
 
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
@@ -160,13 +161,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         var SelectionBackColor = this.DefaultCellStyle.SelectionBackColor;
                         var SelectionForeColor = this.DefaultCellStyle.SelectionForeColor;
 
-                        item.InternalContentContainer.style.backgroundColor = SelectionBackColor.ToString();
+                        item.InternalTableColumn_div.style.backgroundColor = SelectionBackColor.ToString();
                         //}
                         //item.InternalContentContainer.style.color = JSColor.System.HighlightText;
 
                         // tested by
                         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
-                        item.InternalContentContainer.style.color = SelectionForeColor.ToString();
+                        item.InternalTableColumn_div.style.color = SelectionForeColor.ToString();
                     }
 
 
@@ -699,6 +700,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __ContentTable_css_td_empty_before.contentXAttribute = new XAttribute("data", "");
             __ContentTable_css_td_empty_before.style.paddingLeft = "4px";
             __ContentTable_css_td_empty_before.style.paddingRight = "4px";
+
             __ContentTable_css_td_empty_before.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
             __ContentTable_css_td_empty_before.style.overflow = IStyle.OverflowEnum.hidden;
             __ContentTable_css_td_empty_before.style.position = IStyle.PositionEnum.absolute;
@@ -710,16 +712,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // ready to be made interactive
             __ContentTable_css_td["[data]"].empty.style.color = "red";
             // ah a place holder?
+            // X:\jsc.svn\examples\javascript\forms\Test\TestLargeDataTable\TestLargeDataTable\ApplicationControl.cs
             __ContentTable_css_td[":not([data])"].empty.style.backgroundColor = "yellow";
+
+            var __ContentTable_css_td_div = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div];
+
+            // http://stackoverflow.com/questions/6601697/restore-webkits-css-outline-on-input-field
+            __ContentTable_css_td_div.style.outline = "none";
+
+            __ContentTable_css_td_div.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
+            __ContentTable_css_td_div.style.overflow = IStyle.OverflowEnum.hidden;
+            __ContentTable_css_td_div.style.position = IStyle.PositionEnum.absolute;
+            __ContentTable_css_td_div.style.left = "0";
+            __ContentTable_css_td_div.style.top = "0";
+            __ContentTable_css_td_div.style.bottom = "0";
+            __ContentTable_css_td_div.style.right = "0";
+
+            var __ContentTable_css_td_div_span = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div][IHTMLElement.HTMLElementEnum.span];
+
+            __ContentTable_css_td_div_span.style.marginLeft = "4px";
+            __ContentTable_css_td_div_span.style.marginRight = "4px";
+            __ContentTable_css_td_div_span.style.lineHeight = "21px";
+            __ContentTable_css_td_div_span.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
 
             #region InitializeCell
             Action<__DataGridViewCell, __DataGridViewRow> InitializeMissingCell =
                 (SourceCell, SourceRow) =>
                 {
+                    // https://connect.microsoft.com/IE/feedback/details/687834/getcomputedstyle-doesnt-implement-2nd-argument-pseudoelt#details
+
                     //Console.WriteLine("InitializeCell  " + new { SourceCell.ColumnIndex });
 
                     // is cell index equal to column index?
                     // what happens if we dont have enough columns?
+                    // https://developer.mozilla.org/en/docs/Web/API/window.getComputedStyle
+
                     var SourceColumn = this.InternalColumns.InternalItems[SourceCell.ColumnIndex];
 
                     #region InternalTableColumn
@@ -737,54 +764,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // 951ms event: dataGridView1 set DataSource { ColumnIndex = 6, SourceRowIndex = 98, ElapsedMilliseconds = 667, a = 6.737373737373737 } 
 
-                    SourceCell.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
                     // this wont work if we have multiple datagrids
                     // can we have a test for it?
-                    SourceCell.InternalContentContainer = new IHTMLDiv
+                    // this div is needed for UI activities?
+                    // like :before
+                    SourceCell.InternalTableColumn_div = new IHTMLDiv
                     {
                         tabIndex = (((SourceRow.Index + 1) << 16) + (SourceCell.ColumnIndex + 1))
-
                     }.AttachTo(SourceCell.InternalTableColumn);
 
-                    // http://stackoverflow.com/questions/6601697/restore-webkits-css-outline-on-input-field
-                    SourceCell.InternalContentContainer.style.outline = "none";
-                    SourceCell.InternalContentContainer.style.overflow = IStyle.OverflowEnum.hidden;
-                    SourceCell.InternalContentContainer.style.position = IStyle.PositionEnum.relative;
-                    SourceCell.InternalContentContainer.style.left = "0";
-                    SourceCell.InternalContentContainer.style.top = "0";
-                    SourceCell.InternalContentContainer.style.height = (SourceRow.Height - 1) + "px";
-
-                    SourceCell.InternalContent = new IHTMLSpan { };
-                    var InternalContent = SourceCell.InternalContent;
-
-                    #region AtInternalValueChanged
-                    Action AtInternalValueChanged = delegate
+                    SourceCell.InternalTableColumn_div_span = new IHTMLSpan
                     {
-                        InternalRaiseCellFormatting(SourceCell);
+                        // unformatted
+                        //innerText = (string)SourceCell.Value
+                    }.AttachTo(SourceCell.InternalTableColumn_div);
 
-                        //var innerText = SourceCell.Value.ToString();
-                        var innerText = SourceCell.FormattedValue.ToString();
-
-                        //Console.WriteLine("AtInternalValueChanged " + new { innerText });
-                        InternalContent.innerText = innerText;
-
-                        InternalRaiseCellValueChanged(SourceCell);
-
-                        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140104-deploy
-                        InternalContent.title = SourceCell.InternalToolTipText;
-                    };
-
-                    AtInternalValueChanged();
-                    SourceCell.InternalValueChanged += AtInternalValueChanged;
-                    SourceCell.InternalToolTipTextChanged += AtInternalValueChanged;
-                    #endregion
-
-                    // what about checkbox?
+                    // what about checkbox? tested by.?
                     #region __DataGridViewButtonCell
                     if (SourceCell is __DataGridViewButtonCell)
                     {
-                        var InternalButton = new IHTMLButton().AttachTo(SourceCell.InternalContentContainer);
+                        var InternalButton = new IHTMLButton().AttachTo(SourceCell.InternalTableColumn_div);
 
                         InternalButton.style.font = this.Font.ToCssString();
 
@@ -794,7 +794,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         InternalButton.style.right = "0px";
                         InternalButton.style.bottom = "0px";
 
-                        InternalContent.AttachTo(InternalButton);
+                        SourceCell.InternalTableColumn_div_span.AttachTo(InternalButton);
 
                         InternalButton.onclick +=
                             delegate
@@ -809,16 +809,37 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
                     #endregion
 
-                    InternalContent.AttachTo(SourceCell.InternalContentContainer);
 
-                    // also apply 4px on :before
-                    InternalContent.style.marginLeft = "4px";
-                    InternalContent.style.marginRight = "4px";
 
-                    InternalContent.style.lineHeight = (SourceRow.Height - 1) + "px";
-                    InternalContent.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
 
+                    // with 9 , 12, 15, 12
+                    // without 16, 32, 27,25, 30
 #if FCELLEVENTS
+                    #region AtInternalValueChanged
+                    Action AtInternalValueChanged = delegate
+                    {
+                        InternalRaiseCellFormatting(SourceCell);
+
+                        //var innerText = SourceCell.Value.ToString();
+                        var innerText = SourceCell.FormattedValue.ToString();
+
+                        //Console.WriteLine("AtInternalValueChanged " + new { innerText });
+                        SourceCell.InternalTableColumn_div_span.innerText = innerText;
+
+                        // ?
+                        InternalRaiseCellValueChanged(SourceCell);
+
+                        // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201401/20140104-deploy
+                        SourceCell.InternalTableColumn_div_span.title = SourceCell.InternalToolTipText;
+                    };
+
+
+
+
+                    AtInternalValueChanged();
+                    SourceCell.InternalValueChanged += AtInternalValueChanged;
+                    SourceCell.InternalToolTipTextChanged += AtInternalValueChanged;
+                    #endregion
 
                     #region CellAtOffset
                     Func<int, int, __DataGridViewCell> CellAtOffset =
@@ -867,7 +888,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             SourceCell.IsInEditMode = true;
                             ExitEditModeDone = false;
 
-                            SourceCell.InternalContentContainer.Orphanize();
+                            SourceCell.InternalTableColumn_div.Orphanize();
 
                             var EditElement = new IHTMLInput(Shared.HTMLInputTypeEnum.text);
 
@@ -947,7 +968,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                                 EditElement.Orphanize();
-                                SourceCell.InternalContentContainer.AttachTo(SourceCell.InternalTableColumn);
+                                SourceCell.InternalTableColumn_div.AttachTo(SourceCell.InternalTableColumn);
 
                                 //SourceCell.InternalStyle.InternalForeColorChanged +=
                                 //    delegate
@@ -1022,7 +1043,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                           if (Cell != null)
                                           {
-                                              Cell.InternalContentContainer.focus();
+                                              Cell.InternalTableColumn_div.focus();
                                           }
                                       };
                     #endregion
@@ -1089,7 +1110,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                             CheckChanges();
 
                                         ExitEditMode();
-                                        SourceCell.InternalContentContainer.focus();
+                                        SourceCell.InternalTableColumn_div.focus();
 
                                     }
 
@@ -1101,12 +1122,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
                     #endregion
 
-                    // with 9
-                    // without 16
-
-
                     #region InternalContentContainer ondblclick
-                    SourceCell.InternalContentContainer.ondblclick +=
+                    SourceCell.InternalTableColumn_div.ondblclick +=
                         ev =>
                         {
 
@@ -1128,14 +1145,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var TouchstartWatch = new Stopwatch();
 
-                    SourceCell.InternalContentContainer.ontouchstart +=
+                    SourceCell.InternalTableColumn_div.ontouchstart +=
                         delegate
                         {
                             Console.WriteLine("SourceCell.InternalContentContainer.ontouchstart");
                             TouchstartWatch.Restart();
                         };
 
-                    SourceCell.InternalContentContainer.ontouchend +=
+                    SourceCell.InternalTableColumn_div.ontouchend +=
                         delegate
                         {
                             Console.WriteLine("SourceCell.InternalContentContainer.ontouchend");
@@ -1158,7 +1175,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
                     #region InternalContentContainer onmousedown
-                    SourceCell.InternalContentContainer.onmousedown +=
+                    SourceCell.InternalTableColumn_div.onmousedown +=
                         ev =>
                         {
                             MouseCaptureCell = SourceCell;
@@ -1168,12 +1185,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             if (SourceCell.Selected)
                                 EnterEditMode();
                             else
-                                SourceCell.InternalContentContainer.focus();
+                                SourceCell.InternalTableColumn_div.focus();
                         };
                     #endregion
 
                     #region InternalContentContainer onmousemove
-                    SourceCell.InternalContentContainer.onmousemove +=
+                    SourceCell.InternalTableColumn_div.onmousemove +=
                          ev =>
                          {
                              if (MouseCaptureCell == null) return;
@@ -1182,7 +1199,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                              {
                                  MouseCaptureCell = SourceCell;
                                  ev.PreventDefault();
-                                 SourceCell.InternalContentContainer.focus();
+                                 SourceCell.InternalTableColumn_div.focus();
                                  return;
                              }
 
@@ -1200,7 +1217,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region InternalContentContainer onmouseup
 
 
-                    SourceCell.InternalContentContainer.onmouseup +=
+                    SourceCell.InternalTableColumn_div.onmouseup +=
                         ev =>
                         {
                             if (MouseCaptureCell == null)
@@ -1218,14 +1235,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-                                    SourceCell.InternalContentContainer.focus();
+                                    SourceCell.InternalTableColumn_div.focus();
 
                                 }
                         };
                     #endregion
 
                     #region InternalContentContainer onkeydown
-                    SourceCell.InternalContentContainer.onkeydown +=
+                    SourceCell.InternalTableColumn_div.onkeydown +=
                         ev =>
                         {
 
@@ -1243,7 +1260,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                       var Cell = CellAtOffset(x, y);
                                       if (Cell != null)
                                       {
-                                          Cell.InternalContentContainer.focus();
+                                          Cell.InternalTableColumn_div.focus();
                                           return true;
                                       }
 
@@ -1288,7 +1305,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     if (Cell != null)
                                     {
-                                        Cell.InternalContentContainer.focus();
+                                        Cell.InternalTableColumn_div.focus();
                                     }
 
 
@@ -1338,7 +1355,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
                     #region InternalContentContainer onblur
-                    SourceCell.InternalContentContainer.onblur +=
+                    SourceCell.InternalTableColumn_div.onblur +=
                         //SourceCell.InternalTableColumn.onblur +=
                         ev =>
                         {
@@ -1352,8 +1369,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     var item = this.InternalSelectedCells.InternalItems[0];
 
                                     //item.InternalContentContainer.style.backgroundColor = item.InternalStyle.InternalBackColor.ToString();
-                                    item.InternalContentContainer.style.backgroundColor = "";
-                                    item.InternalContentContainer.style.color = item.InternalStyle.InternalForeColor.ToString();
+                                    item.InternalTableColumn_div.style.backgroundColor = "";
+                                    item.InternalTableColumn_div.style.color = item.InternalStyle.InternalForeColor.ToString();
 
                                     this.InternalSelectedCells.RemoveAt(0);
                                 }
@@ -1367,7 +1384,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
                     #region InternalContentContainer onfocus
-                    SourceCell.InternalContentContainer.onfocus +=
+                    SourceCell.InternalTableColumn_div.onfocus +=
                         //SourceCell.InternalTableColumn.onfocus +=
                         ev =>
                         {
@@ -1407,13 +1424,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
                     #endregion
 
-
-
                     InternalBindCellMouseEnter(SourceCell);
 
-
                     #region InternalContentContainer Font
-                    SourceCell.InternalContentContainer.style.font = SourceCell.InternalStyle.Font.ToCssString();
+                    SourceCell.InternalTableColumn_div.style.font = SourceCell.InternalStyle.Font.ToCssString();
                     SourceCell.InternalStyle.InternalFontChanged +=
                         delegate
                         {
@@ -1421,17 +1435,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 return;
 
 
-                            SourceCell.InternalContentContainer.style.font = SourceCell.InternalStyle.Font.ToCssString();
+                            SourceCell.InternalTableColumn_div.style.font = SourceCell.InternalStyle.Font.ToCssString();
 
                             if (SourceCell.InternalStyle.InternalFont.Underline)
-                                SourceCell.InternalContentContainer.style.textDecoration = "underline";
+                                SourceCell.InternalTableColumn_div.style.textDecoration = "underline";
                             else
-                                SourceCell.InternalContentContainer.style.textDecoration = "";
+                                SourceCell.InternalTableColumn_div.style.textDecoration = "";
                         };
                     #endregion
 
                     #region InternalContentContainer InternalForeColorChanged
-                    SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                    SourceCell.InternalTableColumn_div.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                     SourceCell.InternalStyle.InternalForeColorChanged +=
                        delegate
                        {
@@ -1439,15 +1453,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                return;
 
 
-                           SourceCell.InternalContentContainer.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                           SourceCell.InternalTableColumn_div.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
                        };
                     #endregion
-       
+
                     if (SourceCell.InternalStyle.Alignment == DataGridViewContentAlignment.MiddleRight)
-                        SourceCell.InternalContentContainer.style.textAlign = IStyle.TextAlignEnum.right;
-
+                        SourceCell.InternalTableColumn_div.style.textAlign = IStyle.TextAlignEnum.right;
 #endif
-
 
                 };
             #endregion
@@ -2043,7 +2055,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     //Console.WriteLine("InternalAutoSize " + new { rows.Count, cindex, cc.InternalContent.offsetWidth });
 
-                                    return cc.InternalContent.offsetWidth;
+                                    return cc.InternalTableColumn_div_span.offsetWidth;
                                 }
                             );
 
@@ -2489,7 +2501,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         PendingNewRow = null;
 
-                        this.InternalRows.InternalItems.Source[RowIndex].InternalCells.InternalItems[ColumnIndex].InternalContentContainer.focus();
+                        this.InternalRows.InternalItems.Source[RowIndex].InternalCells.InternalItems[ColumnIndex].InternalTableColumn_div.focus();
                         //this[SourceCell.ColumnIndex, SourceRow.Index].Selected = true;
                     }
                     #endregion

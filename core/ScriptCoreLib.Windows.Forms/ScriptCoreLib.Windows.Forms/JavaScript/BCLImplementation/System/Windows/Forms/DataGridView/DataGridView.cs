@@ -312,7 +312,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         private void InternalBindCellMouseEnter(__DataGridViewCell SourceCell)
         {
-            SourceCell.InternalContentContainer.onmouseover +=
+            SourceCell.InternalTableColumn_div.onmouseover +=
                 delegate
                 {
                     if (this.CellMouseEnter != null)
@@ -326,7 +326,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 };
 
-            SourceCell.InternalContentContainer.onmouseout +=
+            SourceCell.InternalTableColumn_div.onmouseout +=
                 delegate
                 {
                     if (this.CellMouseLeave != null)

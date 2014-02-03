@@ -16,10 +16,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public virtual bool ReadOnly { get; set; }
 
 
-        public IHTMLSpan InternalContent;
-
-        public IHTMLDiv InternalContentContainer;
         public IHTMLTableColumn InternalTableColumn;
+        public IHTMLDiv InternalTableColumn_div;
+        public IHTMLSpan InternalTableColumn_div_span;
 
         public object FormattedValue { get; set; }
 
@@ -116,7 +115,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalSetSelected(value);
 
                 if (value)
-                    this.InternalContentContainer.focus();
+                    this.InternalTableColumn_div.focus();
             }
         }
 
@@ -159,7 +158,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
         {
             __DataGridViewCell x = c;
 
-            return x.InternalContentContainer;
+            return x.InternalTableColumn_div;
         }
     }
 }
