@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -31,8 +32,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
-        static Action later = delegate { };
-        public static Action<Action> yield = y => later += y;
+        static Action later;
+        public static Action<Action> yield;
 
 
         static void onpopstate(PopStateEvent e)
@@ -119,7 +120,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                         }
                         #endregion
 
-
+                        // test the refresh!
+                        var NextStyle = new IStyleSheet();
+                        NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " -> " + url);
+                        IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
 
                         IFunction.ByName(MethodToken).ContinueWithResult(
                             f =>
@@ -198,7 +202,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 if (x_history_state.Count > 0)
                 {
-                    x_history_state.Pop()().ContinueWithResult(
+
+                    var yield = x_history_state.Pop();
+
+                    yield().ContinueWithResult(
                         z =>
                         {
                             //Application onpopstate { e = { state = 2 }, history = { state = 2 }, Count = 1 }
@@ -259,6 +266,21 @@ namespace ScriptCoreLib.JavaScript.DOM
                 {
                     location_reload();
                     return;
+                }
+
+                //2:3ms  did we just move backward? view-source:35996
+                //2:3ms { unwind = [object Object], url = http://192.168.1.91:14617/#/bar, exclusive = 1, Count = 0 } view-source:35955
+                //2:5ms { reload = false, Count = 0 } 
+
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
+                var css = IStyleSheet.InternalHistoryAwareSheets.Pop();
+                if (css != null)
+                {
+                    Console.WriteLine("remove css " + css.Owner.getAttribute("historic-url")
+                        );
+
+                    css.disabled = true;
+                    css.Owner.Orphanize();
                 }
 
                 //previous_Count--;
@@ -346,23 +368,34 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         static HistoryExtensions()
         {
+            Console.WriteLine("HistoryExtensions enter");
+
+            later = delegate { };
+            yield = y => later += y;
             //var previous_Count = -1;
 
             // each entry an try to prevent full reload and do inline unwind
 
-            Console.WriteLine("HistoryExtensions");
 
             if (Native.window != null)
             {
-                Native.window.onpopstate += e =>
-                    {
-                        onpopstate(e);
+                var keepordering = IStyleSheet.all;
 
-                        yield = y => y();
-                        var z = later;
-                        later = null;
+                Native.window.onpopstate += e =>
+                {
+                    Console.WriteLine("HistoryExtensions onpopstate");
+
+                    onpopstate(e);
+
+                    yield = y => y();
+
+                    var z = later;
+                    later = delegate { };
+
+                    // whenn will it be null?
+                    if (z != null)
                         z();
-                    };
+                };
             }
         }
 
@@ -429,6 +462,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     Console.WriteLine("before history.replaceState");
                     // IE throws __exc	Argument not optional
+                    // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
+
+
                     Native.window.history.replaceState(data, "", url);
                     Console.WriteLine("after history.replaceState");
 
@@ -483,6 +519,25 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 throw new NotImplementedException("exclusve scope needs to unwind prior states, yet one of them asks for full reload. what to do?");
                             }
                         }
+
+                        Console.WriteLine("disable all history aware styles, who is reenabling them?");
+
+                        IStyleSheet.InternalHistoryAwareSheets.AsEnumerable()
+                            // the application .ctor is not rerun? so we cannot even keep the primary style can we?
+                            //.Skip(1)
+                            .WithEachIndex(
+
+                            (style, i) =>
+                            {
+
+                                Console.WriteLine("new exclusive state, will disable historic css " + new { i } + style.Owner.getAttribute("historic-url"));
+
+                                if (i == 0)
+                                    return;
+
+                                style.disabled = true;
+                            }
+                        );
                     }
                     #endregion
 
@@ -499,6 +554,26 @@ namespace ScriptCoreLib.JavaScript.DOM
                              return false;
                          }
                     );
+
+                    //var css = IStyleSheet.InternalHistoryAwareSheets.Pop();
+                    //if (css != null)
+                    //    css.disabled = true;
+
+                    var css = IStyleSheet.InternalHistoryAwareSheets.Pop();
+                    if (css != null)
+                    {
+                        Console.WriteLine("replace: remove css " + css.Owner.getAttribute("historic-url")
+                            );
+
+                        css.disabled = true;
+                        css.Owner.Orphanize();
+                    }
+
+                    //IStyleSheet.InternalHistoryAwareSheets.Push(new IStyleSheet());
+
+                    var NextStyle = new IStyleSheet();
+                    NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " => " + url);
+                    IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
 
                     Console.WriteLine("before yield");
                     yield(scope);
@@ -559,8 +634,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                      // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
                      Console.WriteLine("HistoryExtensions pushState before: " + new { exclusive, Native.window.history.length });
 
+
+                     var current = new { Native.document.location.href };
+
                      // fck ie
                      Native.window.history.pushState(data, "", url);
+
+
 
                      Console.WriteLine("HistoryExtensions pushState after: " + new { Native.window.history.length });
 
@@ -609,6 +689,29 @@ namespace ScriptCoreLib.JavaScript.DOM
                                  throw new NotImplementedException("exclusve scope needs to unwind prior states, yet one of them asks for full reload. what to do?");
                              }
                          }
+
+                         //0:1ms HistoryExtensions pushState exlusive scope { url = http://192.168.1.91:13905/#/foo } view-source:35994
+                         //0:1ms HistoryExtensions pushState before enter scope { url = http://192.168.1.91:13905/#/foo } 
+
+                         Console.WriteLine("disable all history aware styles, who is reenabling them?");
+
+                         IStyleSheet.InternalHistoryAwareSheets.AsEnumerable()
+                             // the application .ctor is not rerun? so we cannot even keep the primary style can we?
+                             //.Skip(1)
+                             .WithEachIndex(
+
+                             (style, i) =>
+                             {
+
+                                 Console.WriteLine("new exclusive state, will disable historic css " + new { i } + style.Owner.getAttribute("historic-url"));
+
+                                 if (i == 0)
+                                     return;
+
+                                 style.disabled = true;
+                             }
+                         );
+
                      }
                      #endregion
 
@@ -627,6 +730,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                      );
 
 
+                     // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
+
+                     ;
+
+                     var NextStyle = new IStyleSheet();
+                     NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " -> " + url);
+                     IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
 
                      // activate the scope
                      Console.WriteLine("HistoryExtensions pushState before enter scope " + new { url });

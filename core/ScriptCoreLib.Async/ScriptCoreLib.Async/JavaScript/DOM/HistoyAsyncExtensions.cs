@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     public static class HistoyAsyncExtensions
     {
+        [Obsolete("why not extend a task?")]
         public static TaskAwaiter<HistoryScope<T>> GetAwaiter<T>(this HistoryScope<T> scope)
         {
             return scope.TaskCompletionSource.Task.GetAwaiter();

@@ -106,6 +106,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                 //    //"#" + page.Header.id
                 //    "[style-id='45']"
 
+                IHTMLElement that = this;
+
+                if (that == null)
+                    throw new InvalidOperationException();
 
                 // there can be only one body it seems.
                 if (this.localName.ToLower() == "html")
@@ -114,10 +118,6 @@ namespace ScriptCoreLib.JavaScript.DOM
                 if (this.localName.ToLower() == "body")
                     return this.localName;
 
-                IHTMLElement that = this;
-
-                if (that == null)
-                    throw new InvalidOperationException();
 
 
 
@@ -209,16 +209,27 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+
+        public static Stack<IStyleSheet> InternalHistoryAwareSheets = new Stack<IStyleSheet>();
+
         #region all
-        static IStyleSheet _all;
         public static IStyleSheet all
         {
             get
             {
-                if (_all == null)
-                    _all = new IStyleSheet();
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
 
-                return _all;
+                if (InternalHistoryAwareSheets.Count == 0)
+                {
+                    var NextStyle = new IStyleSheet();
+
+                    // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\HistoryExtensions.cs
+                    NextStyle.Owner.setAttribute("historic-url", "(default " + Native.document.location.href + ")");
+
+                    InternalHistoryAwareSheets.Push(NextStyle);
+                }
+
+                return InternalHistoryAwareSheets.Peek();
             }
         }
         #endregion
