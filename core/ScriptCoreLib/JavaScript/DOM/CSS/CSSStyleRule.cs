@@ -269,6 +269,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        [Obsolete("experimental")]
         public static implicit operator CSSStyleRuleMonkier(IHTMLElement e)
         {
             // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
@@ -1171,6 +1172,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         // see also even
+        [Obsolete("experimental. should it behave as LINQ, like not? a suffix operator.")]
         public CSSStyleRuleMonkier_last last
         {
             get
@@ -1643,7 +1645,11 @@ namespace ScriptCoreLib.JavaScript.DOM
             return null;
         }
 
-
+        [Obsolete("experimental")]
+        public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier left, IHTMLElement.HTMLElementEnum subselector)
+        {
+            return left[subselector];
+        }
 
         [Obsolete("experimental")]
         public static CSSStyleRuleMonkier operator &(CSSStyleRuleMonkier left, CSSStyleRuleMonkier right)
