@@ -1,4 +1,6 @@
 ﻿#define FHR
+
+// activate only if we actually are not readonly, and have a click handler?
 #define FCELLEVENTS
 
 using ScriptCoreLib.JavaScript.Controls;
@@ -1603,9 +1605,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     SourceColumn.InternalContext = this;
 
-                    //Console.WriteLine(
-                    //    new { this.Name }
-                    //    + " InternalColumns Added " + new { SourceColumn.Index });
+                    Console.WriteLine(
+                        new { this.Name }
+                        + " InternalColumns Added " + new { SourceColumn.Index });
 
 
                     //if (c is __DataGridViewButtonColumn)
@@ -1882,8 +1884,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             // what takes here half a sec?
                             // 1737ms event: Reposition { Index = 0, ElapsedMilliseconds = 447 } 
 
-                            // report slow
-                            if (RepositionStopwatch.ElapsedMilliseconds > 10)
+                            // report slow. 60 is the new slow
+                            if (RepositionStopwatch.ElapsedMilliseconds > 70)
                                 Console.WriteLine("event: Reposition " + new { SourceColumn.Index, RepositionStopwatch.ElapsedMilliseconds });
                         };
 
@@ -2193,15 +2195,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 #endif
 
                     // 1135ms { Name = dataGridView1 } InternalColumns Added { Index = 29, SourceColumnStopwatch = 7 } 
+                    // 888 ??
+                    // 244382ms event: dataGridView2 set DataSource columns { SourceDataTableColumnCount = 7, ElapsedMilliseconds = 869 } 
+                    // 2135ms { Name = dataGridView2 } InternalColumns Added { Index = 0, Name = , SourceColumnStopwatch = 123 } 
 
-                    //Console.WriteLine(
-                    //    new { this.Name }
-                    //    + " InternalColumns Added " + new
-                    //    {
-                    //        SourceColumn.Index,
-
-                    //        SourceColumnStopwatch = SourceColumnStopwatch.ElapsedMilliseconds
-                    //    });
+                    Console.WriteLine(
+                        new { this.Name }
+                        + " InternalColumns Added " + new
+                        {
+                            SourceColumn.Index,
+                            SourceColumnStopwatch = SourceColumnStopwatch.ElapsedMilliseconds
+                        });
 
                 };
 

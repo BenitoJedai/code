@@ -170,6 +170,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public static long ToInt64(string e)
         {
+            // "" Input string was not in a correct format.
+
             // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
 
             if (string.IsNullOrEmpty(e))

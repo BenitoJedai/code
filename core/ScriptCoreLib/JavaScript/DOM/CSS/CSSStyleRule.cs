@@ -979,11 +979,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 // what about multiple attributes?
 
-                Console.WriteLine("set contentXAttribute " + new { this.parent });
+                //Console.WriteLine("set contentXAttribute " + new { this.parent });
 
                 if (this.parent != null)
                 {
-                    Console.WriteLine("set contentXAttribute " + new { this.parent.selectorElement });
+                    //Console.WriteLine("set contentXAttribute " + new { this.parent.selectorElement });
 
                     if (this.parent.selectorElement != null)
                     {
@@ -991,7 +991,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                         {
                             // X:\jsc.svn\examples\javascript\Test\TestManyTableRowsFromDataTable\TestManyTableRowsFromDataTable\Application.cs
 
-                            Console.WriteLine("set contentXAttribute " + new { value });
+                            //Console.WriteLine("set contentXAttribute " + new { value });
 
                             value.AttachTo(this.parent.selectorElement);
                         }
