@@ -153,18 +153,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                     return;
                 }
 
-                if (IStyleSheet.all.Rules.Length == oldRuleCount)
+                // what about web workers?
+                if (Native.document != null)
                 {
-                    var old = new { Console.ForegroundColor };
-                    Console.ForegroundColor = ConsoleColor.Gray;
+                    if (IStyleSheet.all.Rules.Length == oldRuleCount)
+                    {
+                        var old = new { Console.ForegroundColor };
+                        Console.ForegroundColor = ConsoleColor.Gray;
 
-                    __BrowserConsole.WriteLine(GetPrefix() + value);
-                    Console.ForegroundColor = old.ForegroundColor;
+                        __BrowserConsole.WriteLine(GetPrefix() + value);
+                        Console.ForegroundColor = old.ForegroundColor;
 
-                    return;
+
+                        return;
+                    }
+                    oldRuleCount = IStyleSheet.all.Rules.Length;
                 }
 
-                oldRuleCount = IStyleSheet.all.Rules.Length;
 
 
                 __BrowserConsole.WriteLine(GetPrefix() + value);

@@ -83,14 +83,18 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             // http://otherhost/http://192.168.1.75:24121/#/click+to+enter+a+new+historic+state
             var url = "";
 
+            var xlocation = Native.document.location.href.TakeUntilIfAny("#");
+            var xbaseURI = Native.document.baseURI.TakeUntilIfAny("#");
 
             //Console.WriteLine(
-            //    "Historic: " + new
+            //    "enter Historic: " + new
             //    {
             //        Native.document.domain,
             //        Native.document.baseURI,
+
             //        location = Native.document.location.href,
-            //        a = e.href
+            //        xlocation,
+            //        href = e.href
             //    }
             //);
 
@@ -99,14 +103,24 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             if (string.IsNullOrEmpty(e.href))
             {
+                //0:9ms HistoryExtensions enter view-source:35994
+                //0:15ms Foo.Historic view-source:35994
+                //0:16ms enter Historic: { domain = 192.168.1.91,
+                // baseURI = http://192.168.1.91:20443/#/bar, 
+                //location = http://192.168.1.91:20443/#/bar, href = http://192.168.1.91:20443/#/foo } view-source:35994
+
+                //0:17ms update { href = http://192.168.1.91:20443/#/foo, url = http://192.168.1.91:20443/#/bar } 
+
                 var z = e.innerText;
 
                 // http://192.168.1.75:22130/#/click+to+enter+a+new+historic+state
 
-                url = Native.document.location.href + "#/" + z.Replace(" ", "+").ToLower().Trim();
+                url = xlocation + "#/" + z.Replace(" ", "+").ToLower().Trim();
 
                 // enable new tab click
                 // start from root
+
+                Console.WriteLine("update " + new { e.href, url, e.innerText });
                 e.href = url;
             }
 
@@ -122,8 +136,16 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 // will this support offline reload?
                 // { href = http://192.168.43.252:22188/#/zTop, location = http://192.168.43.252:22188/ }
 
+
+
+                //:20ms enter Historic: { domain = 192.168.1.91, baseURI = http://192.168.1.91:6393/#/bar, location = http://192.168.1.91:6393/#/bar, xlocation = http://192.168.1.91:6393/, href = http://192.168.1.91:6393/#/bar } view-source:35994
+                //0:20ms update { href = http://192.168.1.91:6393/#/bar, url = http://192.168.1.91:6393/ } 
+
                 // http://otherhost/#/pre
-                url = Native.document.location.href + e.href.SkipUntilLastOrEmpty(Native.document.baseURI);
+                url = xlocation
+                    + e.href.SkipUntilLastOrEmpty(xbaseURI);
+
+                Console.WriteLine("update " + new { e.href, url });
                 e.href = url;
             }
 
@@ -134,7 +156,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             //Console.WriteLine("Historic enter. activate? " + new { url, Native.window.history.length, Native.document.location.hash });
 
 
-
+            #region onclick
             e.onclick +=
                 ev =>
                 {
@@ -178,6 +200,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                         }
                     }
                 };
+            #endregion
 
             if (Native.document.location.hash == url)
             {
