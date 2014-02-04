@@ -205,8 +205,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-            // 547ms event: dataGridView1 set DataSource { ColumnIndex = 30, ElapsedMilliseconds = 140 } 
-            // 279ms event: dataGridView1 set DataSource { ColumnIndex = 6, ElapsedMilliseconds = 41 } 
+            cstopwatch.Stop();
+            // 4141ms event: dataGridView1 set DataSource columns { SourceDataTableColumnCount = 8, ElapsedMilliseconds = 999 } 
             Console.WriteLine(
                     "event: "
                     + this.Name
@@ -303,8 +303,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 }
 #endif
-
-                Console.WriteLine(
+                PrerenderStopwatch.Stop();
+                if (PrerenderStopwatch.ElapsedMilliseconds > 30)
+                    Console.WriteLine(
                         "event: "
                         + this.Name
                         + " set DataSource prerender "
@@ -388,17 +389,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
                 #endregion
 
-                Console.WriteLine(
-                      "event: "
-                      + this.Name
-                      + " set DataSource add rows "
-                      + new
-                      {
-                          SourceDataTableColumnCount,
-                          SourceDataTableRowCount,
-                          AddRowsStopwatch.ElapsedMilliseconds,
-                      }
-              );
+                AddRowsStopwatch.Stop();
+
+                if (AddRowsStopwatch.ElapsedMilliseconds > 30)
+                    Console.WriteLine(
+                          "event: "
+                          + this.Name
+                          + " set DataSource add rows "
+                          + new
+                          {
+                              SourceDataTableColumnCount,
+                              SourceDataTableRowCount,
+                              AddRowsStopwatch.ElapsedMilliseconds,
+                          }
+                  );
 
 
                 //stopwatch.Restart();
@@ -674,7 +678,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     new XAttribute(
                         "Stopwatch",
-                        new { stopwatch.ElapsedMilliseconds }.ToString()
+
+                        new
+                        {
+                            columns = cstopwatch.ElapsedMilliseconds,
+                            prerender = PrerenderStopwatch.ElapsedMilliseconds,
+                            rows = AddRowsStopwatch.ElapsedMilliseconds,
+
+                            total = stopwatch.ElapsedMilliseconds
+                        }.ToString()
                     ).AttachTo(this.HTMLTargetRef);
 
 

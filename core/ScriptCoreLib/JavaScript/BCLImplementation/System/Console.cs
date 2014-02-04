@@ -97,15 +97,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             string GetPrefix()
             {
+                var ww = "";
+
                 // what about web workers?
                 if (Native.document != null)
+                {
                     if (href != Native.document.location.href)
                     {
                         w = Stopwatch.StartNew();
                         href = Native.document.location.href;
                     }
 
-                return w.ElapsedMilliseconds + "ms ";
+                    //w = Native.css
+                    // start reporting how many .css rules we have
+                    ww = IStyleSheet.all.Rules.Length + ":";
+                }
+
+                return ww + w.ElapsedMilliseconds + "ms ";
             }
 
             public override void Write(object value)
