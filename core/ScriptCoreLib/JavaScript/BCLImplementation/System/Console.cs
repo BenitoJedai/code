@@ -25,6 +25,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         /// </summary>
         /// 
 
+        public static ConsoleColor ForegroundColor { get; set; }
         public static ConsoleColor BackgroundColor { get; set; }
 
         public static void WriteLine(object e)
@@ -67,6 +68,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public void Beep()
         {
+            // does it still work? :P
             SystemSounds.Beep.Play();
         }
 
@@ -111,6 +113,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                     //w = Native.css
                     // start reporting how many .css rules we have
                     ww = IStyleSheet.all.Rules.Length + ":";
+
                 }
 
                 return ww + w.ElapsedMilliseconds + "ms ";
@@ -126,9 +129,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 __BrowserConsole.Write(value);
             }
 
+            long oldRuleCount = 0;
             public override void WriteLine(string value)
             {
                 // X:\jsc.svn\examples\javascript\Test\TestImplicitTimelineRecordingEvents\TestImplicitTimelineRecordingEvents\Application.cs
+
 
                 if (value.StartsWith("event:"))
                 {
@@ -143,12 +148,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                      );
 
                     __BrowserConsole.WriteLine(GetPrefix() + value);
-
-
                     Console.BackgroundColor = old.BackgroundColor;
 
                     return;
                 }
+
+                if (IStyleSheet.all.Rules.Length == oldRuleCount)
+                {
+                    var old = new { Console.ForegroundColor };
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
+                    __BrowserConsole.WriteLine(GetPrefix() + value);
+                    Console.ForegroundColor = old.ForegroundColor;
+
+                    return;
+                }
+
+                oldRuleCount = IStyleSheet.all.Rules.Length;
 
 
                 __BrowserConsole.WriteLine(GetPrefix() + value);
@@ -297,11 +313,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                     args
                 );
 
+                return;
             }
-            else
+
+            // why not all colors? :P
+            if (Console.ForegroundColor == ConsoleColor.Gray)
             {
-                InternalDump(Native.window, e);
+                // +		$exception	{"recursion detected at stack 32"}	System.Exception
+
+
+                // console.log("%cThis will be formatted with large, blue text", "color: blue; font-size: x-large");
+
+                var args = new object[]{
+                             "%c" + e,
+                            "color: gray;"
+                        };
+                new IFunction("text", "css", "this.console.log(text, css);").apply(
+                    Native.window,
+                    args
+                );
+
+                return;
             }
+
+
+            InternalDump(Native.window, e);
         }
 
         public static void Write(object e)

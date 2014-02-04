@@ -55,6 +55,7 @@ namespace CSSnthSelector
                 delegate
                 {
                     // wow this works!
+                    // wont work if cached. need review
                     css5.selectorText = css3.selectorText;
                 }
             );
