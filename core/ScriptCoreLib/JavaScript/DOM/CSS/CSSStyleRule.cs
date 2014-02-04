@@ -269,7 +269,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-
+        public static implicit operator CSSStyleRuleMonkier(IHTMLElement e)
+        {
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView..ctor.cs
+            return e.css;
+        }
 
         #region [selectorText]
 
