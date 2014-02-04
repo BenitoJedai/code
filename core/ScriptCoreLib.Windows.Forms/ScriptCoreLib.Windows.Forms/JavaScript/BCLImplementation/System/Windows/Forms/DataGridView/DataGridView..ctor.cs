@@ -468,9 +468,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //css[(dynamic x) => x.AllowUserToResizeColumns == false][" .HorizontalResizer"].style.display = IStyle.DisplayEnum.none;
             //css[x => x.getAttribute("AllowUserToResizeColumns") == false][" .HorizontalResizer"].style.display = IStyle.DisplayEnum.none;
 
-            css[new XAttribute("AllowUserToResizeColumns", "false")][" .HorizontalResizer"].style.display = IStyle.DisplayEnum.none;
+            var xAllowUserToResizeColumns_false = new XAttribute("AllowUserToResizeColumns", "false");
+
+            css[xAllowUserToResizeColumns_false][" .HorizontalResizer"].style.display = IStyle.DisplayEnum.none;
+
+            // should jsc go and detect where the attribute is attached to?
+            //css[" .HorizontalResizer"][xAllowUserToResizeColumns_false].style.display = IStyle.DisplayEnum.none;
+
+            var css_HorizontalResizer = css[" .HorizontalResizer"];
+
+            css_HorizontalResizer.style.position = DOM.IStyle.PositionEnum.absolute;
+            css_HorizontalResizer.style.width = "9px";
+
+            css_HorizontalResizer.style.height = "22px";
+            css_HorizontalResizer.hover.style.height = "100%";
+            css_HorizontalResizer.active.style.height = "100%";
+            css_HorizontalResizer.style.cursor = DOM.IStyle.CursorEnum.move;
+
+            var css_HorizontalResizerLine = css_HorizontalResizer[IHTMLElement.HTMLElementEnum.div];
+
+            css_HorizontalResizerLine.style.position = DOM.IStyle.PositionEnum.absolute;
+            css_HorizontalResizerLine.style.left = "4px";
+            css_HorizontalResizerLine.style.width = "1px";
+            css_HorizontalResizerLine.style.top = "0px";
+            css_HorizontalResizerLine.style.bottom = "0px";
+
+            //_HorizontalResizer.css.active.first.style.color = "blue";
+            //_HorizontalResizer.css.style.backgroundColor = "yellow";
+            //_HorizontalResizer.css.active.style.backgroundColor = "cyan";
+
+            // debug
+            //_HorizontalResizer.css.first.style.backgroundColor = "cyan";
+
+            css_HorizontalResizerLine.hover.first.style.backgroundColor = "black";
+            css_HorizontalResizerLine.active.first.style.backgroundColor = "blue";
 
 
+            //var css = 
             #region CreateHorizontalResizer |
             Func<IHTMLDiv> CreateHorizontalResizer =
                 () =>
@@ -483,35 +517,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     onscroll();
 
-                    _HorizontalResizer.style.position = DOM.IStyle.PositionEnum.absolute;
-                    _HorizontalResizer.style.width = "9px";
-
-                    _HorizontalResizer.css.style.height = "22px";
-                    _HorizontalResizer.css.hover.style.height = "100%";
-                    _HorizontalResizer.css.active.style.height = "100%";
-
-                    _HorizontalResizer.style.cursor = DOM.IStyle.CursorEnum.move;
-
                     var _HorizontalResizerLine = new IHTMLDiv().AttachTo(_HorizontalResizer);
 
-                    _HorizontalResizerLine.style.position = DOM.IStyle.PositionEnum.absolute;
-                    _HorizontalResizerLine.style.left = "4px";
-                    _HorizontalResizerLine.style.width = "1px";
-                    _HorizontalResizerLine.style.top = "0px";
-                    _HorizontalResizerLine.style.bottom = "0px";
 
-                    //_HorizontalResizer.css.active.first.style.color = "blue";
-                    //_HorizontalResizer.css.style.backgroundColor = "yellow";
-                    //_HorizontalResizer.css.active.style.backgroundColor = "cyan";
-
-                    // debug
-                    //_HorizontalResizer.css.first.style.backgroundColor = "cyan";
-
-                    _HorizontalResizer.css.hover.first.style.backgroundColor = "black";
-                    _HorizontalResizer.css.active.first.style.backgroundColor = "blue";
 
 
                     // used by?
+                    // or HorizontalResizer
+                    // add XAttribute
                     _HorizontalResizerLine.setAttribute("data-resizer", "resizer");
 
                     return _HorizontalResizer;
@@ -1617,6 +1630,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                     SourceColumn.InternalTableColumn = __ColumnsTableRow.AddColumn();
+
+                    // move to .css
                     SourceColumn.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
                     if (this.InternalRows.Count > 0)
@@ -1626,7 +1641,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         }
 
 
-                    #region c1contentcrel
+                    #region c1contentcrel, move to css + :before?
                     var c1contentcrel = new IHTMLDiv { }.AttachTo(SourceColumn.InternalTableColumn);
                     c1contentcrel.style.position = IStyle.PositionEnum.relative;
                     c1contentcrel.style.left = "0";
@@ -1676,6 +1691,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // setting the size for the headers on top
 
+                    Console.WriteLine("before SourceColumnWidth_css");
                     var SourceColumnWidth_css = default(CSSStyleRuleMonkier);
 
                     if (SourceColumn.Index == -1)
@@ -1696,21 +1712,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                           this.__ContentTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div];
 
                     }
-
-
-                    // hide Tag?
-                    //var css = (gg.__ColumnsTable.css | gg.__ContentTable.css)
-                    // [IHTMLElement.HTMLElementEnum.tbody]
-                    // [IHTMLElement.HTMLElementEnum.tr]
-                    // [IHTMLElement.HTMLElementEnum.td]
-                    // [i];
-
-
-
-
-
-
-                    //154572ms { Name = dataGridView1 } InternalColumns InternalWidthChanged done { ElapsedMilliseconds = 1 } 
 
 
 
@@ -1746,21 +1747,47 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     AtInternalWidthChanged();
                     #endregion
 
+
+                    Console.WriteLine("after SourceColumnWidth_css");
+
+
+                    // hide Tag?
+                    //var css = (gg.__ColumnsTable.css | gg.__ContentTable.css)
+                    // [IHTMLElement.HTMLElementEnum.tbody]
+                    // [IHTMLElement.HTMLElementEnum.tr]
+                    // [IHTMLElement.HTMLElementEnum.td]
+                    // [i];
+
+
+
+
+
+
+                    //154572ms { Name = dataGridView1 } InternalColumns InternalWidthChanged done { ElapsedMilliseconds = 1 } 
+
+
+
                     //Console.WriteLine("resizeable?");
 
 #if FHR
                     #region InternalVisibleChanged
+
+                    Console.WriteLine("before SourceColumnVisible__ColumnsTable_css");
                     var SourceColumnVisible__ColumnsTable_css = __ColumnsTable_css
                      [IHTMLElement.HTMLElementEnum.tbody]
                      [IHTMLElement.HTMLElementEnum.tr]
                      [IHTMLElement.HTMLElementEnum.td]
                      [NewIndex];
+                    Console.WriteLine("after SourceColumnVisible__ColumnsTable_css");
 
+
+                    Console.WriteLine("before SourceColumnVisible__ContentTable_css");
                     var SourceColumnVisible__ContentTable_css = __ContentTable_css
                      [IHTMLElement.HTMLElementEnum.tbody]
                      [IHTMLElement.HTMLElementEnum.tr]
                      [IHTMLElement.HTMLElementEnum.td]
                      [NewIndex];
+                    Console.WriteLine("after SourceColumnVisible__ContentTable_css");
 
                     // xattribute instead?
                     var SourceColumnVisible_css = SourceColumnVisible__ColumnsTable_css | SourceColumnVisible__ContentTable_css;
@@ -1778,7 +1805,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region ColumnHorizontalResizer CreateHorizontalResizer
                     // should we delay this until resize is enabled?
 
+                    Console.WriteLine("before CreateHorizontalResizer");
                     SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
+                    Console.WriteLine("after CreateHorizontalResizer");
                     SourceColumn.ColumnHorizontalResizer.AttachTo(InternalElement);
                     //__ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
 
@@ -1921,7 +1950,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
                     #endregion
 
-                    #region ColumnHorizontalResizerDrag
+                    #region ColumnHorizontalResizerDrag DragStart
                     var __DragStartX = 0;
 
                     ColumnHorizontalResizerDrag.DragStart +=
@@ -1965,7 +1994,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
-                    #region AutoResizeColumn
+                    #region ColumnHorizontalResizer ondblclick AutoResizeColumn
                     SourceColumn.ColumnHorizontalResizer.onmousedown +=
                         e =>
                         {

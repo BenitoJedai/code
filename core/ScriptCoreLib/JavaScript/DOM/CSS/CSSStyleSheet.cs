@@ -57,22 +57,29 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             //[Obsolete("experimental, is css better than stylerule? should return a proxy object instead of an actual rule a this point")]
 
+
             public CSSStyleRuleMonkier css
             {
                 // could we send the monkier to web worker for additional manipulation?
                 [Script(DefineAsStatic = true)]
                 get
                 {
+                    // we should do no caching.
+                    // as .css is like a keyword new 
+
 
                     var selectorText = InternalGetExplicitRuleSelector();
 
                     //Console.WriteLine(".css " + new { selectorText });
+
+                    //var cached = IStyleSheet.all.Rules.FirstOrDefault(x => x.selectorText 
 
                     // how fast is the selection?
                     var value = IStyleSheet.all[selectorText];
 
                     value.selectorText = selectorText;
                     value.selectorElement = this;
+
 
                     //Console.WriteLine(".css " + new { value });
 
@@ -92,6 +99,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             internal string InternalGetExplicitRuleSelector()
             {
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSSelectorReuse\CSSSelectorReuse\Application.cs
+
                 //      page.Header.setAttribute("style-id", "45");
                 //IStyleSheet.Default[CSSMediaTypes.print][
                 //    //"#" + page.Header.id
@@ -99,7 +108,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
                 // there can be only one body it seems.
-                if (this.localName == "body")
+                if (this.localName.ToLower() == "html")
+                    return this.localName;
+
+                if (this.localName.ToLower() == "body")
                     return this.localName;
 
                 IHTMLElement that = this;

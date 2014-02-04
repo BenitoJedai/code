@@ -90,6 +90,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         internal CSSRule __parentRule;
 
+        #region parentStyleSheet
         internal IStyleSheet __parentStyleSheet;
 
         public IStyleSheet parentStyleSheet
@@ -107,6 +108,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return __parentStyleSheet;
             }
         }
+        #endregion
+
 
         // http://www.w3.org/TR/CSS2/selector.html
         public CSSStyleRuleProxy this[string subselectorText]
@@ -197,6 +200,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static explicit operator CSSStyleRule(CSSStyleRuleProxy rule)
         {
+            //Console.WriteLine("enter CSSStyleRule <- CSSStyleRuleProxy" + new { rule });
+
+
             if (rule.__rule == null)
             {
 
@@ -204,6 +210,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 rule.__rule = rule.__parentStyleSheet.AddRule(rule.selectorText);
 
+                //Console.WriteLine("exit CSSStyleRule <- CSSStyleRuleProxy " + new { rule.__rule });
             }
 
             return rule.__rule;
@@ -265,10 +272,17 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region [selectorText]
+
+
+        Dictionary<string, CSSStyleRuleMonkier> subselectorTextLookup = new Dictionary<string, CSSStyleRuleMonkier>();
+
         public CSSStyleRuleMonkier this[string subselectorText]
         {
             get
             {
+                if (subselectorTextLookup.ContainsKey(subselectorText))
+                    return subselectorTextLookup[subselectorText];
+
                 #region regroup
                 if (this.parents.Count > 0)
                 {
@@ -289,6 +303,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                         p |= pp;
                     }
 
+                    subselectorTextLookup[subselectorText] = p;
                     return p;
                 }
                 #endregion
@@ -303,6 +318,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     selectorText = subselectorText
                 };
 
+                subselectorTextLookup[subselectorText] = child;
                 return child;
             }
         }
@@ -329,6 +345,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             get
             {
                 // X:\jsc.svn\examples\javascript\CSS\CSSXAttributeAsConditional\CSSXAttributeAsConditional\Application.cs
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSSelectorReuse\CSSSelectorReuse\Application.cs
 
 
                 var selector = "[" + x.Name.LocalName + "='" +
@@ -359,7 +376,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-
+        #region orientation
         [Script]
         public sealed class CSSStyleRuleMonkier_orientation
         {
@@ -417,6 +434,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return o;
             }
         }
+        #endregion
 
 
 
@@ -567,12 +585,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 get
                 {
-                    return
-                         new CSSStyleRuleMonkier
-                         {
-                             parent = parent,
-                             selectorText = op + "(odd)"
-                         };
+                    return parent[op + "(odd)"];
                 }
             }
 
@@ -580,15 +593,11 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 get
                 {
-                    return
-                         new CSSStyleRuleMonkier
-                         {
-                             parent = parent,
-                             selectorText = op + "(even)"
-                         };
+                    return parent[op + "(even)"];
                 }
             }
 
+            [Obsolete("mutable style. instead use css[], which  is immutable")]
             public CSSStyleRuleMonkier_nthChild_index this[int index]
             {
                 get
@@ -603,7 +612,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
             }
 
-
+            [Obsolete]
             public CSSStyleRuleMonkier_nthChild_index this[Expression<Func<int>> yindexer]
             {
                 get
@@ -749,6 +758,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        [Obsolete]
         public CSSStyleRuleMonkier_nthChild_index this[Expression<Func<int>> yindexer]
         {
             get
@@ -766,21 +776,17 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        public CSSStyleRuleMonkier_nthChild_index this[int index]
+        public CSSStyleRuleMonkier this[int index]
         {
             get
             {
                 // tested by
                 // X:\jsc.svn\examples\javascript\css\CSSnthSelector\CSSnthSelector\Application.cs
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSSelectorReuse\CSSSelectorReuse\Application.cs
 
-                var n = new CSSStyleRuleMonkier_nthChild { parent = this };
+                var subselectorText = ":nth-of-type(" + (index + 1) + ")";
 
-                if (this.nthChildInlineMode)
-                {
-                    n.op = ":nth-of-type";
-                }
-
-                return n[index];
+                return this[subselectorText];
             }
         }
 
@@ -930,13 +936,16 @@ namespace ScriptCoreLib.JavaScript.DOM
             set
             {
                 // does this need to be set for :after element to appear at all?
-                this.style.content = "'" +
-                    value
+
+                var content =
+                    "'" + value
                         .Replace("\\", "\\\\")
                         .Replace("'", "\\'")
-
                     + "'";
 
+                //Console.WriteLine("set content " + new { rule = this, content });
+
+                this.style.content = content;
             }
         }
 
@@ -976,6 +985,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             set
             {
                 // X:\jsc.svn\examples\javascript\css\Test\CSSButtonContent\CSSButtonContent\Application.cs
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSSelectorReuse\CSSSelectorReuse\Application.cs
 
                 // what about multiple attributes?
 
@@ -1363,9 +1373,20 @@ namespace ScriptCoreLib.JavaScript.DOM
             return rule;
         }
 
+        // shall we do the ctor always or lazyly?
+        public Dictionary<CSSStyleRuleMonkier, CSSStyleRuleMonkier> opOrOperatorLookup =
+            new Dictionary<CSSStyleRuleMonkier, CSSStyleRuleMonkier>();
+
+
+
         //public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
         public static CSSStyleRuleMonkier operator |(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
         {
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSSelectorReuse\CSSSelectorReuse\Application.cs
+            // optimize away
+            if (parent1 == parent2)
+                return parent1;
+
             if (parent1 == null)
                 return parent2;
 
@@ -1376,7 +1397,19 @@ namespace ScriptCoreLib.JavaScript.DOM
             // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView..ctor.cs
             // X:\jsc.svn\examples\javascript\css\CSSTableSelector\CSSTableSelector\Application.cs
 
-            return new[] { parent1, parent2 };
+
+            if (parent1.opOrOperatorLookup.ContainsKey(parent2))
+                return parent1.opOrOperatorLookup[parent2];
+
+            // or check in reverse.
+            if (parent2.opOrOperatorLookup.ContainsKey(parent1))
+                return parent2.opOrOperatorLookup[parent1];
+
+            CSSStyleRuleMonkier value = new[] { parent1, parent2 };
+
+            parent1.opOrOperatorLookup[parent2] = value;
+            parent2.opOrOperatorLookup[parent1] = value;
+            return value;
         }
 
 
@@ -1507,17 +1540,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal bool descendantMode;
 
 
-        //public CSSStyleRule this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
-        //{
-        //    [Script(DefineAsStatic = true)]
-        //    get
-        //    {
-        //        // child nodes?
-        //        var selectorText = ">" + className;
 
-        //        return this[selectorText];
-        //    }
-        //}
 
         [Obsolete("when can we also do typeof(div) ?")]
         public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
