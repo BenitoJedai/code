@@ -750,24 +750,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var __ContentTable_css_td_div_div = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div][IHTMLElement.HTMLElementEnum.div];
 
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
 
             // http://stackoverflow.com/questions/6601697/restore-webkits-css-outline-on-input-field
-            __ContentTable_css_td_div_div.style.outline = "none";
 
-            __ContentTable_css_td_div_div.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
-            __ContentTable_css_td_div_div.style.overflow = IStyle.OverflowEnum.hidden;
-            __ContentTable_css_td_div_div.style.position = IStyle.PositionEnum.absolute;
-            __ContentTable_css_td_div_div.style.left = "0";
-            __ContentTable_css_td_div_div.style.top = "0";
-            __ContentTable_css_td_div_div.style.bottom = "0";
-            __ContentTable_css_td_div_div.style.right = "0";
+            new IStyle(__ContentTable_css_td_div_div)
+            {
+                outline = "none",
 
-            var __ContentTable_css_td_div_span = __ContentTable_css_td_div_div[IHTMLElement.HTMLElementEnum.span];
+                whiteSpace = IStyle.WhiteSpaceEnum.pre,
+                overflow = IStyle.OverflowEnum.hidden,
+                position = IStyle.PositionEnum.absolute,
+                left = "0",
+                top = "0",
+                bottom = "0",
+                right = "0"
+            };
 
-            __ContentTable_css_td_div_span.style.marginLeft = "4px";
-            __ContentTable_css_td_div_span.style.marginRight = "4px";
-            __ContentTable_css_td_div_span.style.lineHeight = "21px";
-            __ContentTable_css_td_div_span.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
+
+            new IStyle(__ContentTable_css_td_div_div[IHTMLElement.HTMLElementEnum.span])
+            {
+                marginLeft = "4px",
+                marginRight = "4px",
+                lineHeight = "21px",
+                whiteSpace = IStyle.WhiteSpaceEnum.pre
+            };
+
 
             #region InitializeCell
             Action<__DataGridViewCell, __DataGridViewRow> InitializeMissingCell =
@@ -1772,22 +1780,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 #if FHR
                     #region InternalVisibleChanged
 
-                    Console.WriteLine("before SourceColumnVisible__ColumnsTable_css");
+                    //Console.WriteLine("before SourceColumnVisible__ColumnsTable_css");
                     var SourceColumnVisible__ColumnsTable_css = __ColumnsTable_css
                      [IHTMLElement.HTMLElementEnum.tbody]
                      [IHTMLElement.HTMLElementEnum.tr]
                      [IHTMLElement.HTMLElementEnum.td]
                      [NewIndex];
-                    Console.WriteLine("after SourceColumnVisible__ColumnsTable_css");
+                    //Console.WriteLine("after SourceColumnVisible__ColumnsTable_css");
 
 
-                    Console.WriteLine("before SourceColumnVisible__ContentTable_css");
+                    //Console.WriteLine("before SourceColumnVisible__ContentTable_css");
                     var SourceColumnVisible__ContentTable_css = __ContentTable_css
                      [IHTMLElement.HTMLElementEnum.tbody]
                      [IHTMLElement.HTMLElementEnum.tr]
                      [IHTMLElement.HTMLElementEnum.td]
                      [NewIndex];
-                    Console.WriteLine("after SourceColumnVisible__ContentTable_css");
+                    //Console.WriteLine("after SourceColumnVisible__ContentTable_css");
 
                     // xattribute instead?
                     var SourceColumnVisible_css = SourceColumnVisible__ColumnsTable_css | SourceColumnVisible__ContentTable_css;
@@ -1808,6 +1816,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     Console.WriteLine("before CreateHorizontalResizer");
                     SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
                     Console.WriteLine("after CreateHorizontalResizer");
+
                     SourceColumn.ColumnHorizontalResizer.AttachTo(InternalElement);
                     //__ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
 

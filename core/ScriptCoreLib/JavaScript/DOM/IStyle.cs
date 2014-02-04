@@ -1,4 +1,5 @@
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared;
@@ -27,12 +28,69 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://www.w3.org/TR/DOM-Level-2-Style/css.html
     // CSSStyleDeclaration  
     // CSS2Properties 
-    [Script(HasNoPrototype = true)]
+    [Script(InternalConstructor = true)]
     public partial class IStyle
     {
         //  http://www.w3schools.com/cssref/pr_gen_content.asp
         // http://caniuse.com/css-gencontent
         public string content;
+
+
+        #region Constructor
+
+        public IStyle()
+        {
+            // InternalConstructor
+        }
+
+        static IStyle InternalConstructor()
+        {
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+
+            return IStyleSheet.all["*"].style;
+        }
+
+
+        public IStyle(IHTMLElement.HTMLElementEnum e)
+        {
+            // InternalConstructor
+        }
+
+        static IStyle InternalConstructor(IHTMLElement.HTMLElementEnum e)
+        {
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+
+            return IStyleSheet.all[e].style;
+        }
+
+        public IStyle(Type e)
+        {
+            // InternalConstructor
+        }
+
+        static IStyle InternalConstructor(Type e)
+        {
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+
+            return IStyleSheet.all[e].style;
+        }
+
+
+        public IStyle(CSSStyleRuleMonkier css)
+        {
+            // InternalConstructor
+        }
+
+        [Obsolete("jsc experience. allows field initializer to be used with bre build css")]
+        static IStyle InternalConstructor(CSSStyleRuleMonkier css)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView..ctor.cs
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+
+            return css.style;
+        }
+
+        #endregion
 
         [Obsolete("experimental")]
         public Task<string> contentAsync
