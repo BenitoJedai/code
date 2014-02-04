@@ -211,14 +211,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //        IStyle.OverflowEnum.hidden;
 
 
+            new IStyle(this.InternalScrollContainerElement)
+            {
+                position = DOM.IStyle.PositionEnum.absolute,
+                left = "0px",
+                top = "0px",
+                right = "0px",
+                bottom = "0px"
+            };
 
-            this.InternalScrollContainerElement.style.position = DOM.IStyle.PositionEnum.absolute;
-            this.InternalScrollContainerElement.style.left = "0px";
-            this.InternalScrollContainerElement.style.top = "0px";
-            this.InternalScrollContainerElement.style.right = "0px";
-            this.InternalScrollContainerElement.style.bottom = "0px";
-
-            this.InternalGridColor_css = this.InternalScrollContainerElement.css[" *[data-resizer='resizer']"];
 
             var __ContentTableContainer = new IHTMLDiv { className = "__ContentTableContainer" }.AttachTo(InternalScrollContainerElement);
 
@@ -276,7 +277,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __ColumnsTableContainer);
 
             this.__ColumnsTable_css = css[this.__ColumnsTable];
-            this.__ColumnsTable_css_td = this.__ColumnsTable_css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
+
+            this.__ColumnsTable_css_td =
+                this.__ColumnsTable_css
+                + IHTMLElement.HTMLElementEnum.tbody
+                + IHTMLElement.HTMLElementEnum.tr
+                + IHTMLElement.HTMLElementEnum.td;
 
             IHTMLTableRow __ColumnsTableRow = null;
 
@@ -310,7 +316,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // 139ms { __RowsTable_css = { selectorText = div.DataGridView[style-id="2"] > div:nth-of-type(1) > div:nth-of-type(3) > table:nth-of-type(1), selectorElement =  } } 
             //Console.WriteLine(new { this.__RowsTable_css });
-            this.__RowsTable_css_td = this.__RowsTable_css[IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
+            this.__RowsTable_css_td = this.__RowsTable_css
+                + IHTMLElement.HTMLElementEnum.tbody
+                + IHTMLElement.HTMLElementEnum.tr
+                + IHTMLElement.HTMLElementEnum.td;
+
             this.__RowsTable_css_td.style.backgroundColor = "cyan";
 
 
@@ -364,8 +374,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // http://www.w3schools.com/cssref/sel_last-of-type.asp
             // dont we have lastOfType available yet?
-            var InternalNewRow_content_css = __ContentTable_css
-                [IHTMLElement.HTMLElementEnum.tbody].last[IHTMLElement.HTMLElementEnum.tr];
+            var InternalNewRow_content_css =
+                (__ContentTable_css + IHTMLElement.HTMLElementEnum.tbody).last[IHTMLElement.HTMLElementEnum.tr];
 
             var InternalNewRow_header_css = __RowsTable_css
                 [IHTMLElement.HTMLElementEnum.tbody].last[IHTMLElement.HTMLElementEnum.tr];
@@ -475,23 +485,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // should jsc go and detect where the attribute is attached to?
             //css[" .HorizontalResizer"][xAllowUserToResizeColumns_false].style.display = IStyle.DisplayEnum.none;
 
+            // before CreateHorizontalResizer 
+
             var css_HorizontalResizer = css[" .HorizontalResizer"];
 
-            css_HorizontalResizer.style.position = DOM.IStyle.PositionEnum.absolute;
-            css_HorizontalResizer.style.width = "9px";
+            new IStyle(css_HorizontalResizer)
+            {
+                position = DOM.IStyle.PositionEnum.absolute,
+                width = "9px",
+                height = "22px"
+            };
 
-            css_HorizontalResizer.style.height = "22px";
             css_HorizontalResizer.hover.style.height = "100%";
             css_HorizontalResizer.active.style.height = "100%";
             css_HorizontalResizer.style.cursor = DOM.IStyle.CursorEnum.move;
 
-            var css_HorizontalResizerLine = css_HorizontalResizer[IHTMLElement.HTMLElementEnum.div];
+            //var css_HorizontalResizerLine = css_HorizontalResizer[IHTMLElement.HTMLElementEnum.div];
 
-            css_HorizontalResizerLine.style.position = DOM.IStyle.PositionEnum.absolute;
-            css_HorizontalResizerLine.style.left = "4px";
-            css_HorizontalResizerLine.style.width = "1px";
-            css_HorizontalResizerLine.style.top = "0px";
-            css_HorizontalResizerLine.style.bottom = "0px";
+            new IStyle(css_HorizontalResizer.after)
+            {
+                // just to show up, we need to set this?
+                content = "''",
+
+                position = DOM.IStyle.PositionEnum.absolute,
+                left = "4px",
+                width = "1px",
+                top = "0px",
+                bottom = "0px"
+            };
 
             //_HorizontalResizer.css.active.first.style.color = "blue";
             //_HorizontalResizer.css.style.backgroundColor = "yellow";
@@ -500,36 +521,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // debug
             //_HorizontalResizer.css.first.style.backgroundColor = "cyan";
 
-            css_HorizontalResizerLine.hover.first.style.backgroundColor = "black";
-            css_HorizontalResizerLine.active.first.style.backgroundColor = "blue";
+            // ?css.after.parent.hover...
+            css_HorizontalResizer.hover.after.style.backgroundColor = "black";
+            css_HorizontalResizer.active.after.style.backgroundColor = "blue";
 
+            // save it so we can change the color
+            this.InternalGridColor_css = css_HorizontalResizer.after;
 
             //var css = 
-            #region CreateHorizontalResizer |
-            Func<IHTMLDiv> CreateHorizontalResizer =
-                () =>
-                {
-                    var _HorizontalResizer = new IHTMLDiv { className = "HorizontalResizer" };
-
-                    // what about older rules?
-                    // shall they stop existing once the new once is used?
-                    //css_fixed_top |= _HorizontalResizer.css;
-
-                    onscroll();
-
-                    var _HorizontalResizerLine = new IHTMLDiv().AttachTo(_HorizontalResizer);
 
 
-
-
-                    // used by?
-                    // or HorizontalResizer
-                    // add XAttribute
-                    _HorizontalResizerLine.setAttribute("data-resizer", "resizer");
-
-                    return _HorizontalResizer;
-                };
-            #endregion
 
             //var ZeroVerticalResizer = CreateVerticalResizer().AttachTo(InternalElement);
 
@@ -541,7 +542,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #region ZeroHorizontalResizer
 
             //var ZeroHorizontalResizer = CreateHorizontalResizer().AttachTo(InternalElement);
-            var ZeroHorizontalResizer = CreateHorizontalResizer().AttachTo(InternalScrollContainerElement);
+            var ZeroHorizontalResizer = new IHTMLDiv { className = "HorizontalResizer" }.AttachTo(InternalScrollContainerElement);
 
             var ZeroHorizontalResizerDrag = new DragHelper(ZeroHorizontalResizer)
             {
@@ -551,13 +552,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             };
 
 
-            Action UpdateToVerticalResizerScroll = delegate
-            {
-                //ZeroVerticalResizer.style.SetLocation(
-                //    this.InternalScrollContainerElement.scrollLeft,
-                //    this.InternalScrollContainerElement.scrollTop + (22 - 5)
-                //);
-            };
+            //Action UpdateToVerticalResizerScroll = delegate
+            //{
+            //    //ZeroVerticalResizer.style.SetLocation(
+            //    //    this.InternalScrollContainerElement.scrollLeft,
+            //    //    this.InternalScrollContainerElement.scrollTop + (22 - 5)
+            //    //);
+            //};
 
 
 
@@ -672,7 +673,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                    //var s = Stopwatch.StartNew();
 
-                   UpdateToVerticalResizerScroll();
+                   //UpdateToVerticalResizerScroll();
                    UpdateToHorizontalResizerScroll();
 
 
@@ -716,11 +717,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             // IE, ff workaround. need a div to play relative
-            var __ContentTable_css_td_relative = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div];
+            var __ContentTable_css_td_relative = __ContentTable_css_td + IHTMLElement.HTMLElementEnum.div;
 
-            __ContentTable_css_td_relative.style.position = IStyle.PositionEnum.relative;
-            __ContentTable_css_td_relative.style.width = "100%";
-            __ContentTable_css_td_relative.style.height = "100%";
+            new IStyle(__ContentTable_css_td_relative)
+            {
+                position = IStyle.PositionEnum.relative,
+                width = "100%",
+                height = "100%"
+            };
 
 
             // ready to be made interactive
@@ -734,27 +738,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var __ContentTable_css_td_empty_before = __ContentTable_css_td_relative.empty.before;
 
             __ContentTable_css_td_empty_before.contentXAttribute = new XAttribute("data", "");
-            __ContentTable_css_td_empty_before.style.paddingLeft = "4px";
-            __ContentTable_css_td_empty_before.style.paddingRight = "4px";
 
-            __ContentTable_css_td_empty_before.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
-            __ContentTable_css_td_empty_before.style.overflow = IStyle.OverflowEnum.hidden;
-            __ContentTable_css_td_empty_before.style.position = IStyle.PositionEnum.absolute;
-            __ContentTable_css_td_empty_before.style.left = "0";
-            __ContentTable_css_td_empty_before.style.top = "0";
-            __ContentTable_css_td_empty_before.style.bottom = "0";
-            __ContentTable_css_td_empty_before.style.right = "0";
+            new IStyle(__ContentTable_css_td_empty_before)
+            {
+
+                paddingLeft = "4px",
+                paddingRight = "4px",
+
+                whiteSpace = IStyle.WhiteSpaceEnum.pre,
+                overflow = IStyle.OverflowEnum.hidden,
+                position = IStyle.PositionEnum.absolute,
+                left = "0",
+                top = "0",
+                bottom = "0",
+                right = "0",
+            };
 
 
 
 
-            var __ContentTable_css_td_div_div = __ContentTable_css_td[IHTMLElement.HTMLElementEnum.div][IHTMLElement.HTMLElementEnum.div];
 
             // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
 
             // http://stackoverflow.com/questions/6601697/restore-webkits-css-outline-on-input-field
 
-            new IStyle(__ContentTable_css_td_div_div)
+            new IStyle(
+                __ContentTable_css_td + IHTMLElement.HTMLElementEnum.div + IHTMLElement.HTMLElementEnum.div)
             {
                 outline = "none",
 
@@ -768,7 +777,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             };
 
 
-            new IStyle(__ContentTable_css_td_div_div[IHTMLElement.HTMLElementEnum.span])
+            new IStyle(__ContentTable_css_td + IHTMLElement.HTMLElementEnum.div + IHTMLElement.HTMLElementEnum.div + IHTMLElement.HTMLElementEnum.span)
             {
                 marginLeft = "4px",
                 marginRight = "4px",
@@ -1600,6 +1609,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
+
+            (__ColumnsTableRow.css + IHTMLElement.HTMLElementEnum.div).style.position = IStyle.PositionEnum.relative;
+
             #region InternalColumns
             this.InternalColumns.InternalItemsX.Removed +=
                 (SourceColumn, NewIndex) =>
@@ -1626,9 +1638,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     SourceColumn.InternalContext = this;
 
-                    Console.WriteLine(
-                        new { this.Name }
-                        + " InternalColumns Added " + new { SourceColumn.Index });
+                    //Console.WriteLine(
+                    //    new { this.Name }
+                    //    + " InternalColumns Added " + new { SourceColumn.Index });
 
 
                     //if (c is __DataGridViewButtonColumn)
@@ -1640,7 +1652,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     SourceColumn.InternalTableColumn = __ColumnsTableRow.AddColumn();
 
                     // move to .css
-                    SourceColumn.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
+                    //SourceColumn.InternalTableColumn.style.position = IStyle.PositionEnum.relative;
 
                     if (this.InternalRows.Count > 0)
                         foreach (var SourceRow in this.InternalRows.InternalItems.Source)
@@ -1699,7 +1711,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     // setting the size for the headers on top
 
-                    Console.WriteLine("before SourceColumnWidth_css");
+                    //Console.WriteLine("before SourceColumnWidth_css");
                     var SourceColumnWidth_css = default(CSSStyleRuleMonkier);
 
                     if (SourceColumn.Index == -1)
@@ -1718,7 +1730,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                           this.__ColumnsTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div] |
                                           this.__ContentTable_css_td[SourceColumn.Index] |
                                           this.__ContentTable_css_td[SourceColumn.Index][IHTMLElement.HTMLElementEnum.div];
-
                     }
 
 
@@ -1744,56 +1755,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     new DataGridViewColumnEventArgs(SourceColumn)
                                    );
 
-                            //Console.WriteLine("event: AtInternalWidthChanged " + new { SourceColumnWidthStopwatch.ElapsedMilliseconds });
-
+                            //  AtInternalWidthChanged { ElapsedMilliseconds = 0 } 
+                            if (SourceColumnWidthStopwatch.ElapsedMilliseconds > 10)
+                                Console.WriteLine("AtInternalWidthChanged " + new { SourceColumnWidthStopwatch.ElapsedMilliseconds });
                         };
 
-
-
                     SourceColumn.InternalWidthChanged += AtInternalWidthChanged;
-
                     AtInternalWidthChanged();
                     #endregion
 
-
-                    Console.WriteLine("after SourceColumnWidth_css");
-
-
-                    // hide Tag?
-                    //var css = (gg.__ColumnsTable.css | gg.__ContentTable.css)
-                    // [IHTMLElement.HTMLElementEnum.tbody]
-                    // [IHTMLElement.HTMLElementEnum.tr]
-                    // [IHTMLElement.HTMLElementEnum.td]
-                    // [i];
-
-
-
-
-
-
-                    //154572ms { Name = dataGridView1 } InternalColumns InternalWidthChanged done { ElapsedMilliseconds = 1 } 
-
-
-
-                    //Console.WriteLine("resizeable?");
-
+                    // should jsc record the last current method before entering console writeline?
+                    //Console.WriteLine(
+                    //   new { this.Name }
+                    //   + " InternalColumns Added step 2");
 #if FHR
                     #region InternalVisibleChanged
 
                     //Console.WriteLine("before SourceColumnVisible__ColumnsTable_css");
-                    var SourceColumnVisible__ColumnsTable_css = __ColumnsTable_css
-                     [IHTMLElement.HTMLElementEnum.tbody]
-                     [IHTMLElement.HTMLElementEnum.tr]
-                     [IHTMLElement.HTMLElementEnum.td]
+                    var SourceColumnVisible__ColumnsTable_css = (__ColumnsTable_css
+                     + IHTMLElement.HTMLElementEnum.tbody
+                     + IHTMLElement.HTMLElementEnum.tr
+                     + IHTMLElement.HTMLElementEnum.td)
                      [NewIndex];
                     //Console.WriteLine("after SourceColumnVisible__ColumnsTable_css");
 
 
                     //Console.WriteLine("before SourceColumnVisible__ContentTable_css");
-                    var SourceColumnVisible__ContentTable_css = __ContentTable_css
-                     [IHTMLElement.HTMLElementEnum.tbody]
-                     [IHTMLElement.HTMLElementEnum.tr]
-                     [IHTMLElement.HTMLElementEnum.td]
+                    var SourceColumnVisible__ContentTable_css = (
+                        __ContentTable_css
+                            + IHTMLElement.HTMLElementEnum.tbody
+                          + IHTMLElement.HTMLElementEnum.tr
+                         + IHTMLElement.HTMLElementEnum.td
+                     )
                      [NewIndex];
                     //Console.WriteLine("after SourceColumnVisible__ContentTable_css");
 
@@ -1813,9 +1806,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #region ColumnHorizontalResizer CreateHorizontalResizer
                     // should we delay this until resize is enabled?
 
-                    Console.WriteLine("before CreateHorizontalResizer");
-                    SourceColumn.ColumnHorizontalResizer = CreateHorizontalResizer();
-                    Console.WriteLine("after CreateHorizontalResizer");
+                    //Console.WriteLine("before CreateHorizontalResizer");
+
+                    SourceColumn.ColumnHorizontalResizer = new IHTMLDiv { className = "HorizontalResizer" };
+                    // what about older rules?
+                    // shall they stop existing once the new once is used?
+
+                    onscroll();
+
+                    //Console.WriteLine("after CreateHorizontalResizer");
 
                     SourceColumn.ColumnHorizontalResizer.AttachTo(InternalElement);
                     //__ColumnsTableContainer.insertNextSibling(SourceColumn.ColumnHorizontalResizer);
@@ -1923,8 +1922,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             // 1737ms event: Reposition { Index = 0, ElapsedMilliseconds = 447 } 
 
                             // report slow. 60 is the new slow
-                            if (RepositionStopwatch.ElapsedMilliseconds > 70)
-                                Console.WriteLine("event: Reposition " + new { SourceColumn.Index, RepositionStopwatch.ElapsedMilliseconds });
+                            if (RepositionStopwatch.ElapsedMilliseconds > 10)
+                                Console.WriteLine("reposition " + new { SourceColumn.Index, RepositionStopwatch.ElapsedMilliseconds });
                         };
 
                     Reposition();
@@ -2250,10 +2249,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #endregion
 
 
-
-            __RowsTable_css_td.style.width = "100%";
-            __RowsTable_css_td.style.height = "21px";
-            __RowsTable_css_td.style.position = IStyle.PositionEnum.relative;
+            new IStyle(__RowsTable_css_td)
+            {
+                width = "100%",
+                height = "21px",
+                position = IStyle.PositionEnum.relative
+            };
 
 
 

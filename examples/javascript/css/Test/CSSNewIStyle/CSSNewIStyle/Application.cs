@@ -66,6 +66,11 @@ namespace CSSNewIStyle
                 backgroundColor = "cyan"
             };
 
+
+            new IStyle(page.Header)
+            {
+                borderLeft = "1em solid red"
+            };
         }
 
     }

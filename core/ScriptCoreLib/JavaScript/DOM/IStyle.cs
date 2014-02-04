@@ -90,6 +90,20 @@ namespace ScriptCoreLib.JavaScript.DOM
             return css.style;
         }
 
+        public IStyle(IHTMLElement e)
+        {
+            // InternalConstructor
+        }
+
+        static IStyle InternalConstructor(IHTMLElement e)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView..ctor.cs
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+
+            return e.style;
+        }
+
+
         #endregion
 
         [Obsolete("experimental")]

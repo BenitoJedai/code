@@ -1,0 +1,3 @@
+           html[goo='foo']>body:before {
+                content: 'hi';
+            }
