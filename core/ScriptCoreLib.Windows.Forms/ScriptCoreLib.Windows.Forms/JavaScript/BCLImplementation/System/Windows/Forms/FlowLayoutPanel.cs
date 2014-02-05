@@ -127,13 +127,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 //var old = new { Console.BackgroundColor };
                 //Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("at FlowLayoutPanel InternalResumeLayout "
-                    + new
-                    {
-                        ConstructorStopwatch.ElapsedMilliseconds,
-                        this.Name,
-                        Controls = this.Controls.Count
-                    });
+                //Console.WriteLine("at FlowLayoutPanel InternalResumeLayout "
+                //    + new
+                //    {
+                //        ConstructorStopwatch.ElapsedMilliseconds,
+                //        this.Name,
+                //        Controls = this.Controls.Count
+                //    });
                 //Console.BackgroundColor = old.BackgroundColor;
             }
         }

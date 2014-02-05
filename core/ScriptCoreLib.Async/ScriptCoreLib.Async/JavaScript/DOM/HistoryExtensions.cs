@@ -1,4 +1,6 @@
-﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
+﻿#define FTRACE
+
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
@@ -35,7 +37,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         static Action later;
         public static Action<Action> yield;
 
-
+     
         static void onpopstate(PopStateEvent e)
         {
             e.preventDefault();
@@ -173,23 +175,23 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             // Application onpopstate { e = { state = 2 }, history = { state = 2 } }
 
-            Console.WriteLine(
-                "HistoryExtensions onpopstate " + new
-                {
-                    e.state,
+            //Console.WriteLine(
+            //    "HistoryExtensions onpopstate " + new
+            //    {
+            //        e.state,
 
-                    e = new { state = x_e_state.Count },
-                    history = new { state = x_history_state.Count },
+            //        e = new { state = x_e_state.Count },
+            //        history = new { state = x_history_state.Count },
 
-                    //previous_Count,
-                    HistoryScope.inline_unwind.Count,
+            //        //previous_Count,
+            //        HistoryScope.inline_unwind.Count,
 
-                    // X:\jsc.svn\examples\javascript\Test\TestNavigationTiming\TestNavigationTiming\Application.cs
-                    // not available for safari!
-                    //Native.window.performance.navigation.redirectCount,
-                    //Native.window.performance.navigation.type
-                }
-            );
+            //        // X:\jsc.svn\examples\javascript\Test\TestNavigationTiming\TestNavigationTiming\Application.cs
+            //        // not available for safari!
+            //        //Native.window.performance.navigation.redirectCount,
+            //        //Native.window.performance.navigation.type
+            //    }
+            //);
 
             //HistoryExtensions onpopstate { state = , e = { state = 0 }, history = { state = 0 }, Count = 1 }
 
@@ -383,7 +385,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 Native.window.onpopstate += e =>
                 {
-                    Console.WriteLine("HistoryExtensions onpopstate");
+                    //Console.WriteLine("HistoryExtensions onpopstate");
 
                     onpopstate(e);
 
@@ -425,7 +427,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 delegate
                 {
 
-                    Console.WriteLine("enter replaceState");
+                    //Console.WriteLine("enter replaceState");
 
                     if (yield.Target != null)
                         if (yield.Target != Native.self)

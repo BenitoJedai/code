@@ -676,6 +676,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     //584ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 1000, ElapsedMilliseconds = 313 } 
 
+
+                    InternalDataSourceBusy = false;
+
+                    var sReposition0 = Stopwatch.StartNew();
+
+                    // bulk insert done. rorder?
+                    // Reposition
+                    // do we even allow column resize?
+                    if (this.Columns.Count > 0)
+                        this.Columns[0].Width = this.Columns[0].Width;
+
+                    Console.WriteLine(
+                          this.Name
+                          + " set DataSource sReposition0 "
+                          + new
+                          {
+                              SourceDataTableColumnCount,
+                              sReposition0.ElapsedMilliseconds
+                          }
+                       );
+
+
+                    InternalAutoSizeWhenFill();
+
+
+
                     new XAttribute(
                         "Stopwatch",
 
@@ -706,9 +732,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           }
                        );
 
-                    InternalDataSourceBusy = false;
-
-                    InternalAutoSizeWhenFill();
 
                     if (DataSourceChanged != null)
                         DataSourceChanged(this, new EventArgs());
