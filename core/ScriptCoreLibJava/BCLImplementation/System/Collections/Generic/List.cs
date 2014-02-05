@@ -40,7 +40,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/04-monese/2014/201402/20140205
+            // haha. lets add this. need it for data fill.
+
+            return this.InternalList.indexOf(item);
         }
 
         public void Insert(int index, T item)
