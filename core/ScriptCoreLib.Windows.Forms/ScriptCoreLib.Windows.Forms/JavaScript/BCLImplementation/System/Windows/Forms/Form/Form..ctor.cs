@@ -24,6 +24,40 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __Form()
         {
+
+            Console.WriteLine("event: enter new " + this.GetType().Name + "()");
+            //IStyleSheet.all.disabled = true;
+
+            this.InternalTrackInitializeComponents = delegate
+            {
+                ConstructorStopwatch.Stop();
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140205
+                // will this help us? no?
+                //IStyleSheet.all.disabled = false;
+
+                //Console.WriteLine("event: new " + new { this.GetType().Name } + " InternalResumeLayout " + new { ConstructorStopwatch.ElapsedMilliseconds });
+                Console.WriteLine("event: new " + this.GetType().Name + "() " + new { ConstructorStopwatch.ElapsedMilliseconds });
+
+
+                //474ms new { Name = FooActivity } InternalResumeLayout { ElapsedMilliseconds = 464 } 
+
+
+                new XAttribute(
+                    "ConstructorStopwatch",
+                    new { ConstructorStopwatch.ElapsedMilliseconds }.ToString()
+                ).AttachTo(this.HTMLTargetRef);
+            };
+
+            //25:584ms event: exit DataGridView .ctor { ElapsedMilliseconds = 525 } view-source:35983
+            //48:1043ms event: exit DataGridView .ctor { ElapsedMilliseconds = 445 } view-source:35983
+            //95:1509ms event: exit DataGridView .ctor { ElapsedMilliseconds = 420 } view-source:35983
+            //96:1713ms at FlowLayoutPanel InternalResumeLayout { ElapsedMilliseconds = 628, Name = flowLayoutPanel1, Controls = 2 } view-source:35955
+            //97:1724ms at FlowLayoutPanel InternalResumeLayout { ElapsedMilliseconds = 1674, Name = flowLayoutPanel1, Controls = 9 } view-source:35955
+            //97:1724ms at FlowLayoutPanel InternalResumeLayout { ElapsedMilliseconds = 1137, Name = flowLayoutPanel2, Controls = 3 } view-source:35996
+            //97:1724ms at FlowLayoutPanel InternalResumeLayout { ElapsedMilliseconds = 1128, Name = flowLayoutPanel3, Controls = 1 } view-source:35996
+            //97:1724ms event: new FooActivity() { ElapsedMilliseconds = 1706 } 
+
             this.StartPosition = FormStartPosition.CenterScreen;
 
             var TargetElement = new IHTMLDiv
@@ -763,28 +797,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //Console.WriteLine("exit Form .ctor " + new { ConstructorStopwatch.ElapsedMilliseconds, this.GetType().Name });
         }
 
-        public bool InternalTrackInitializeComponents = true;
+        //public bool InternalTrackInitializeComponents = true;
+
+        public Action InternalTrackInitializeComponents;
 
         public override void InternalResumeLayout(bool performLayout)
         {
-            InternalTrackInitializeComponents = false;
+            if (InternalTrackInitializeComponents != null)
+                InternalTrackInitializeComponents();
 
-            ConstructorStopwatch.Stop();
+            InternalTrackInitializeComponents = null;
 
-            var old = new { Console.BackgroundColor };
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            //Console.WriteLine("event: new " + new { this.GetType().Name } + " InternalResumeLayout " + new { ConstructorStopwatch.ElapsedMilliseconds });
-            Console.WriteLine("event: new " + this.GetType().Name + "() " + new { ConstructorStopwatch.ElapsedMilliseconds });
-
-            Console.BackgroundColor = old.BackgroundColor;
-
-            //474ms new { Name = FooActivity } InternalResumeLayout { ElapsedMilliseconds = 464 } 
-
-
-            new XAttribute(
-                "ConstructorStopwatch",
-                new { ConstructorStopwatch.ElapsedMilliseconds }.ToString()
-            ).AttachTo(this.HTMLTargetRef);
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿#define FHR
+// 200
 
 // activate only if we actually are not readonly, and have a click handler?
 #define FCELLEVENTS
@@ -101,6 +102,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __DataGridView()
         {
             //Console.WriteLine("enter DataGridView .ctor");
+
+            Console.WriteLine("event: enter new DataGridView()");
+
 
             this.InternalElement = new IHTMLDiv
             {
@@ -327,6 +331,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             __RowsTable.style.paddingTop = "22px";
             this.__RowsTableBody = __RowsTable.AddBody();
 
+            Console.WriteLine("new DataGridView() before Corner");
 
             #region Corner
             this.__Corner = new IHTMLDiv().AttachTo(InternalScrollContainerElement);
@@ -347,6 +352,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //   __ColumnsTableContainer.css
             //   | __Corner.css;
 
+            #region onscroll
             Action onscroll = delegate
             {
                 // perhaps we should only use .css for static styles?
@@ -362,6 +368,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //css_fixed_left.style.left = this.InternalScrollContainerElement.scrollLeft + "px";
                 //css_fixed_top.style.top = this.InternalScrollContainerElement.scrollTop + "px";
             };
+            #endregion
 
             this.__ContentTableBody = __ContentTable.AddBody();
 
@@ -375,6 +382,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // http://www.w3schools.com/cssref/sel_last-of-type.asp
             // dont we have lastOfType available yet?
             var InternalNewRow_content_css =
+                // can we have LINQ style?  .Last()
                 (__ContentTable_css + IHTMLElement.HTMLElementEnum.tbody).last[IHTMLElement.HTMLElementEnum.tr];
 
             var InternalNewRow_header_css = __RowsTable_css
@@ -409,6 +417,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             };
 
 
+            Console.WriteLine("new DataGridView() before CreateVerticalResizer");
 
 
             #region CreateVerticalResizer --
@@ -536,6 +545,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             //ZeroVerticalResizer.style.SetLocation(0, 22 - 5);
 
+            Console.WriteLine("new DataGridView() before ZeroHorizontalResizer");
 
 
 
@@ -580,7 +590,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             css[new XAttribute("RowHeadersVisible", "false")][__ColumnsTable, __ContentTable].style.paddingLeft = "1px";
             var css_RowHeadersVisible_true = css[new XAttribute("RowHeadersVisible", "true")][__ColumnsTable, __ContentTable];
 
+            #endregion
 
+            Console.WriteLine("new DataGridView() before UpdateToHorizontalResizerDrag");
 
 
             #region UpdateToHorizontalResizerDrag
@@ -658,9 +670,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
-            #endregion
 
 
+            Console.WriteLine("new DataGridView() before onscroll");
 
             onscroll();
 
@@ -671,7 +683,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                    // onscroll is high performance.
                    // using .css will slow us down 10x?
 
-                   //var s = Stopwatch.StartNew();
+                   var s = Stopwatch.StartNew();
 
                    //UpdateToVerticalResizerScroll();
                    UpdateToHorizontalResizerScroll();
@@ -684,9 +696,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                    // 35418ms DataGridView onscroll { ElapsedMilliseconds = 20 }
                    // 234208ms DataGridView onscroll { ElapsedMilliseconds = 120 } 
                    // 10468ms DataGridView onscroll { ElapsedMilliseconds = 27 } 
-                   //Console.WriteLine("DataGridView onscroll " + new { s.ElapsedMilliseconds });
+                   Console.WriteLine("DataGridView onscroll " + new { s.ElapsedMilliseconds });
                };
             #endregion
+
+            Console.WriteLine("new DataGridView() after onscroll");
 
             __DataGridViewCell MouseCaptureCell = null;
 
@@ -785,6 +799,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 whiteSpace = IStyle.WhiteSpaceEnum.pre
             };
 
+            Console.WriteLine("new DataGridView() before InitializeMissingCell");
 
             #region InitializeCell
             Action<__DataGridViewCell, __DataGridViewRow> InitializeMissingCell =
@@ -1612,6 +1627,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             (__ColumnsTableRow.css + IHTMLElement.HTMLElementEnum.div).style.position = IStyle.PositionEnum.relative;
 
+            Console.WriteLine("new DataGridView() before InternalColumns");
+
             #region InternalColumns
             this.InternalColumns.InternalItemsX.Removed +=
                 (SourceColumn, NewIndex) =>
@@ -1812,7 +1829,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // what about older rules?
                     // shall they stop existing once the new once is used?
 
-                    onscroll();
+                    //Console.WriteLine("before CreateHorizontalResizer onscroll");
+                    //onscroll();
 
                     //Console.WriteLine("after CreateHorizontalResizer");
 
@@ -1926,7 +1944,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 Console.WriteLine("reposition " + new { SourceColumn.Index, RepositionStopwatch.ElapsedMilliseconds });
                         };
 
-                    Reposition();
+                    // are we adding columns in bulk? cant have reflow yet
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140205
+                    if (!InternalDataSourceBusy)
+                        Reposition();
+
 
                     this.InternalScrollContainerElement.onscroll +=
                       e =>
@@ -2236,13 +2258,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     // 244382ms event: dataGridView2 set DataSource columns { SourceDataTableColumnCount = 7, ElapsedMilliseconds = 869 } 
                     // 2135ms { Name = dataGridView2 } InternalColumns Added { Index = 0, Name = , SourceColumnStopwatch = 123 } 
 
-                    Console.WriteLine(
-                        new { this.Name }
-                        + " InternalColumns Added " + new
-                        {
-                            SourceColumn.Index,
-                            SourceColumnStopwatch = SourceColumnStopwatch.ElapsedMilliseconds
-                        });
+                    //120:5572ms { Name = dataGridView2 } InternalColumns Added { Index = 1, SourceColumnStopwatch = 8 } 
+
+                    // 112:371747ms { Name = dataGridView1 } InternalColumns Added { Index = 1, SourceColumnStopwatch = 31 } 
+
+                    if (SourceColumnStopwatch.ElapsedMilliseconds > 40)
+                        Console.WriteLine(
+                            new { this.Name }
+                            + " InternalColumns Added " + new
+                            {
+                                SourceColumn.Index,
+                                SourceColumnStopwatch = SourceColumnStopwatch.ElapsedMilliseconds
+                            });
 
                 };
 
@@ -2393,6 +2420,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             InitializeZeroColumnCell(InternalNewRow);
 
+            Console.WriteLine("new DataGridView() after InitializeZeroColumnCell");
+
 
             #region InternalAutoResizeColumn
             var t = new global::System.Windows.Forms.Timer();
@@ -2422,6 +2451,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
             #endregion
 
+            Console.WriteLine("new DataGridView() before InternalRows.Added");
 
 
             #region InternalRows.Added
@@ -2648,7 +2678,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             // 2901ms exit DataGridView .ctor { ElapsedMilliseconds = 923 } 
-            Console.WriteLine("event: exit DataGridView .ctor " + new { DataGridViewConstructorStopwatch.ElapsedMilliseconds });
+            // 25:584ms event: exit DataGridView .ctor { ElapsedMilliseconds = 525 } 
+            Console.WriteLine("event: new DataGridView() " + new { DataGridViewConstructorStopwatch.ElapsedMilliseconds });
         }
 
         public IEnumerable<DataGridViewColumn> InternalGetVisibleColumns()

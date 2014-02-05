@@ -120,7 +120,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 // enable new tab click
                 // start from root
 
-                Console.WriteLine("update " + new { e.href, url, e.innerText });
+                //Console.WriteLine("update " + new { e.href, url, e.innerText });
                 e.href = url;
             }
 
@@ -145,7 +145,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 url = xlocation
                     + e.href.SkipUntilLastOrEmpty(xbaseURI);
 
-                Console.WriteLine("update " + new { e.href, url });
+                //Console.WriteLine("update " + new { e.href, url });
                 e.href = url;
             }
 
@@ -209,7 +209,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 //HistoryExtensions.yield(
                 //    delegate
                 //    {
-                Console.WriteLine("activate! " + new { Native.document.location.hash, url });
+                Console.WriteLine("event: activate! " + new { Native.document.location.hash, url });
 
                 // safari?
                 e.click();
