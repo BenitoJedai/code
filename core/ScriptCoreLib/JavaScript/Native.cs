@@ -141,10 +141,10 @@ namespace ScriptCoreLib.JavaScript
         {
             get
             {
+                // http://www.w3schools.com/cssref/sel_root.asp
                 var x = Native.document.documentElement.css;
 
-                Console.WriteLine("Native.css");
-
+                //Console.WriteLine("Native.css");
                 // X:\jsc.svn\examples\javascript\Forms\Test\CSSFormsButtonCursor\CSSFormsButtonCursor\Application.cs
                 x.descendantMode = true;
 
