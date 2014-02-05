@@ -12,7 +12,9 @@ let r = async {
 
     Console.WriteLine "RegisterUserShortAsync before"
 
-    let! z = x.RegisterUserShortFSharpAsync("a@", "1234")
+    let email = "norris3@"
+
+    let! z = x.RegisterUserShortFSharpAsync(email, "1234")
 
 
     Console.WriteLine z
@@ -22,7 +24,7 @@ let r = async {
 
     // http://msdn.microsoft.com/en-us/library/ee837067.aspx
 //    let! xxx = Async.AwaitTask( x.GetUserID ( "a@", "1234"))
-    let! xxx = x.GetUserIDFSharpAsync ( "a@", "1234")
+    let! xxx = x.GetUserIDFSharpAsync ( email, "1234")
                 
     Console.WriteLine xxx
     Console.WriteLine "GetUserIDAsync done"
