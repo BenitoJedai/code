@@ -277,6 +277,38 @@ namespace ScriptCoreLib.JavaScript.DOM
             return e.css;
         }
 
+
+        public CSSStyleRuleMonkier this[Type t]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // X:\jsc.svn\examples\javascript\Forms\Test\CSSFormsButtonCursor\CSSFormsButtonCursor\Application.cs
+
+                // child nodes?
+                var selectorText = "." + t.Name;
+
+                Console.WriteLine("css[type] " + new { descendantMode });
+
+
+                if (descendantMode)
+                {
+                    // not :root, not > children
+                    selectorText = " ." + t.Name;
+                }
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140124
+                var z = this[selectorText];
+
+
+                // this is like type of nth?
+                // dont know
+                //z.nthChildInlineMode = true;
+
+                return z;
+            }
+        }
+
         #region [selectorText]
 
 

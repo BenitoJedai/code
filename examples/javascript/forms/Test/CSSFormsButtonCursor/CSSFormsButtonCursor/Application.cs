@@ -42,8 +42,17 @@ namespace CSSFormsButtonCursor
                 cursor = IStyle.CursorEnum.pointer
             };
 
-            //new IStyle(Native.css.descendant[typeof(Button)].hover + IHTMLElement.HTMLElementEnum.button)
-            new IStyle(IStyleSheet.all[typeof(Button)].hover + IHTMLElement.HTMLElementEnum.button)
+            // 1:42ms { css = { selectorElement = , rule = { selectorText = html.Button:hover, rule = null } } } 
+            var css = Native.css[typeof(Button)].hover;
+
+            //{ css = { selectorElement = , rule = { selectorText = html.Button:hover, rule = null } } }
+            // 1:42ms { css = { selectorElement = , rule = { selectorText = html.Button:hover, rule = null } } } 
+            Console.WriteLine(
+                new { css }
+            );
+
+            new IStyle(css + IHTMLElement.HTMLElementEnum.button)
+            //new IStyle(IStyleSheet.all[typeof(Button)].hover + IHTMLElement.HTMLElementEnum.button)
             {
                 color = "blue",
             };

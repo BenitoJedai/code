@@ -141,7 +141,14 @@ namespace ScriptCoreLib.JavaScript
         {
             get
             {
-                return Native.document.documentElement.css;
+                var x = Native.document.documentElement.css;
+
+                Console.WriteLine("Native.css");
+
+                // X:\jsc.svn\examples\javascript\Forms\Test\CSSFormsButtonCursor\CSSFormsButtonCursor\Application.cs
+                x.descendantMode = true;
+
+                return x;
             }
         }
 
