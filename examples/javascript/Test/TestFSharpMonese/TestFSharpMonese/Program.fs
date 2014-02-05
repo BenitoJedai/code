@@ -1,30 +1,44 @@
 open System.Windows.Forms
 open System
+open System.Threading.Tasks
+open monese.experimental
 
 //            385
 //385
 //0
 
-let x = new monese.experimental.MoneseWebServices()
+let r = async {
+    let x = new MoneseWebServices()
 
-Console.WriteLine "RegisterUserShortAsync before"
+    Console.WriteLine "RegisterUserShortAsync before"
 
-x.RegisterUserShortAsync("a@", "1234", 
-    fun z ->
+    let! z = x.RegisterUserShortFSharpAsync("a@", "1234")
 
-        Console.WriteLine "RegisterUserShortAsync"
-        Console.WriteLine z
-        Console.WriteLine "RegisterUserShortAsync done"
 
-        Console.WriteLine "GetUserIDAsync before"
+    Console.WriteLine z
+    Console.WriteLine "RegisterUserShortAsync done"
 
-        x.GetUserIDAsync("a@", "1234",
-            fun x ->
-                Console.WriteLine "GetUserIDAsync"
-                Console.WriteLine x
-                Console.WriteLine "GetUserIDAsync done"
-        );
-)
+    Console.WriteLine "GetUserIDAsync before"
 
-//Console.WriteLine "any key to exit"
-MessageBox.Show "exit api test"
+    // http://msdn.microsoft.com/en-us/library/ee837067.aspx
+//    let! xxx = Async.AwaitTask( x.GetUserID ( "a@", "1234"))
+    let! xxx = x.GetUserIDFSharpAsync ( "a@", "1234")
+                
+    Console.WriteLine xxx
+    Console.WriteLine "GetUserIDAsync done"
+
+
+
+        
+    Console.WriteLine "GetUserIDAsync after"
+
+
+    //        x.GetUserIDAsync("a@", "1234",
+    //            fun x ->
+
+    //        );
+
+}
+
+// http://www.jaylee.org/post/2013/04/16/Cancellation-with-Async-Fsharp-Csharp-and-the-Reactive-Extensions.aspx
+Async.StartAsTask(r).Wait()
