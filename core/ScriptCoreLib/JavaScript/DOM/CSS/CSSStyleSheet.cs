@@ -479,14 +479,25 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
-        public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+        public CSSStyleRuleMonkier this[IHTMLElement.HTMLElementEnum className]
         {
             [Script(DefineAsStatic = true)]
             get
             {
+                //Console.WriteLine(new { className });
+
                 var selectorText = "" + className;
 
-                return this.__get_item(selectorText);
+                //Console.WriteLine(new { selectorText });
+
+                //return this.__get_item(selectorText);
+
+                return new CSSStyleRuleProxy
+                {
+                    selectorText = selectorText,
+
+                    __parentStyleSheet = this
+                };
             }
         }
 
