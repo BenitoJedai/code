@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared;
 using System;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 
 namespace ScriptCoreLib.JavaScript.DOM
@@ -34,6 +35,28 @@ namespace ScriptCoreLib.JavaScript.DOM
         //  http://www.w3schools.com/cssref/pr_gen_content.asp
         // http://caniuse.com/css-gencontent
         public string content;
+
+
+        [Obsolete("experimental")]
+        public Task<string> contentAsync
+        {
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                __IStyle.set_contentAsync(this, value);
+            }
+        }
+
+        public XAttribute contentXAttribute
+        {
+
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                // X:\jsc.svn\examples\javascript\CSS\CSSXAttributeAsConditional\CSSXAttributeAsConditional\Application.cs
+                this.content = "attr(" + value.Name.LocalName + ")";
+            }
+        }
 
 
         #region Constructor
@@ -106,15 +129,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         #endregion
 
-        [Obsolete("experimental")]
-        public Task<string> contentAsync
-        {
-            [Script(DefineAsStatic = true)]
-            set
-            {
-                __IStyle.set_contentAsync(this, value);
-            }
-        }
 
         // CSS2Properties 
 

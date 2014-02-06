@@ -146,6 +146,10 @@ namespace ScriptCoreLib.JavaScript
 
                 //Console.WriteLine("Native.css");
                 // X:\jsc.svn\examples\javascript\Forms\Test\CSSFormsButtonCursor\CSSFormsButtonCursor\Application.cs
+
+                // root is special
+                x.__isroot = true;
+
                 x.descendantMode = true;
 
                 return x;

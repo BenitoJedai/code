@@ -80,6 +80,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     value.selectorText = selectorText;
                     value.selectorElement = this;
 
+                    value.__nth_child_mode = true;
 
                     //Console.WriteLine(".css " + new { value });
 

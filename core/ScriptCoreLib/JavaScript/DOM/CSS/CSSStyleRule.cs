@@ -814,6 +814,11 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+
+        // X:\jsc.svn\examples\javascript\CSS\Test\CSSNotOperator\CSSNotOperator\Application.cs
+        internal bool __nth_child_mode;
+        //  ">:nth-child";
+
         public CSSStyleRuleMonkier this[int index]
         {
             get
@@ -823,6 +828,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // X:\jsc.svn\examples\javascript\CSS\Test\CSSSelectorReuse\CSSSelectorReuse\Application.cs
 
                 var subselectorText = ":nth-of-type(" + (index + 1) + ")";
+
+                if (__nth_child_mode)
+                    subselectorText = ">:nth-child(" + (index + 1) + ")";
 
                 return this[subselectorText];
             }
@@ -967,9 +975,39 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+        public static CSSStyleRuleMonkier operator !(CSSStyleRuleMonkier e)
+        {
+            return e.not;
+        }
+
+        public CSSStyleRuleMonkier not
+        {
+            get
+            {
+                // self, children or descendant?
+                // 0:17ms { css = { selectorElement = , rule = { selectorText = body>:not(>:nth-child(1)), rule = null } } } view-source:35676
+                //0:18ms IStyleSheetRule.AddRule error { text = body>:not(>:nth-child(1)){/**/} } 
+                // what about ! operator?
+                var subselector = ":not(" + this.selectorText + ")";
+
+                if (this.selectorText.StartsWith(">"))
+                    subselector = ">:not(" + this.selectorText.Substring(1) + ")";
+
+                return this.parent[subselector];
+            }
+        }
+
         #region content
-        // contentString
+        [Obsolete("rename to contentString or contentText")]
         public string content
+        {
+            set
+            {
+                this.contentText = value;
+            }
+        }
+
+        public string contentText
         {
             set
             {
@@ -1598,6 +1636,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal bool descendantMode;
 
 
+        internal bool __isroot;
 
 
         [Obsolete("when can we also do typeof(div) ?")]
