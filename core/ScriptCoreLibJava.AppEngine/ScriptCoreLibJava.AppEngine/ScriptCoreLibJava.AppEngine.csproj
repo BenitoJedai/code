@@ -64,6 +64,7 @@
     <Compile Include="API\memcache\MemcacheServiceFactory.cs" />
     <Compile Include="BCLImplementation\System\Net\Mail\SmtpClient.cs" />
     <Compile Include="com\google\appengine\api\rdbms\AppEngineDriver.cs" />
+    <Compile Include="com\google\appengine\api\utils\SystemProperty.cs" />
     <Compile Include="com\google\apphosting\api\ApiProxy.cs" />
     <Compile Include="Extensions\memcache\MemcacheCollection.cs" />
     <Compile Include="Extensions\memcache\MemcacheEntry.cs" />

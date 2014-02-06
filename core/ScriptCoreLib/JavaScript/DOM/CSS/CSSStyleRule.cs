@@ -1383,6 +1383,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         private static string GetSelectorTextFromParents(CSSStyleRuleMonkier[] parents)
         {
+            //2:28ms enter GetSelectorTextFromParents { Length = 2 } view-source:35642
+            //2:29ms GetSelectorTextFromParents { value = { selectorElement = , rule = { selectorText = , type = 1 } } } view-source:35683
+            //2:29ms GetSelectorTextFromParents { value = { selectorElement = , rule = { selectorText = , type = 1 } } } 
+
+            //Console.WriteLine("enter GetSelectorTextFromParents " + new { parents.Length });
+
             var w = new StringBuilder();
 
             for (int i = 0; i < parents.Length; i++)
@@ -1390,7 +1396,11 @@ namespace ScriptCoreLib.JavaScript.DOM
                 if (i > 0)
                     w.Append(",");
 
-                w.Append(parents[i].rule.selectorText);
+                var value = parents[i];
+
+                //Console.WriteLine("GetSelectorTextFromParents " + new { value });
+
+                w.Append(value.rule.selectorText);
             }
 
             var selectorText = w.ToString();
@@ -1419,6 +1429,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         //public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
+        public static CSSStyleRuleMonkier operator |(CSSStyleRuleMonkier css1, IHTMLElement.HTMLElementEnum e)
+        {
+            // X:\jsc.svn\examples\javascript\appengine\Test\TestAppEngineApplicationId\TestAppEngineApplicationId\Application.cs
+
+            var css2 = IStyleSheet.all[e];
+
+            return css1 | css2;
+        }
+
         public static CSSStyleRuleMonkier operator |(CSSStyleRuleMonkier parent1, CSSStyleRuleMonkier parent2)
         {
             // X:\jsc.svn\examples\javascript\CSS\Test\CSSSelectorReuse\CSSSelectorReuse\Application.cs
@@ -1582,7 +1601,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         [Obsolete("when can we also do typeof(div) ?")]
-        public CSSStyleRuleMonkier this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum className]
+        public CSSStyleRuleMonkier this[IHTMLElement.HTMLElementEnum className]
         {
             [Script(DefineAsStatic = true)]
             get
