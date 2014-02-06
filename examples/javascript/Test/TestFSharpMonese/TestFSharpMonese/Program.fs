@@ -12,7 +12,7 @@ let r = async {
 
     Console.WriteLine "RegisterUserShortAsync before"
 
-    let email = "norris3@"
+    let email = "hanna-mari@monese.com"
 
     let! z = x.RegisterUserShortFSharpAsync(email, "1234")
 
