@@ -86,6 +86,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public static TimeSpan operator -(__DateTime d1, __DateTime d2)
         {
+            // tested by
+            // X:\jsc.svn\examples\actionscript\Test\TestDateTimeToTimeSpan\TestDateTimeToTimeSpan\ApplicationCanvas.cs
+            // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\TimeSpan.cs
+
             return TimeSpan.FromMilliseconds(d1.InternalValue.getTime() - d2.InternalValue.getTime());
         }
     }

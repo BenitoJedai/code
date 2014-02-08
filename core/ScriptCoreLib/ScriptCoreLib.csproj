@@ -683,7 +683,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\IO\StringWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Double.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\UInt32.cs" />
     <Compile Include="Shared\BCLImplementation\System\IComparable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\NullReferenceException.cs" />

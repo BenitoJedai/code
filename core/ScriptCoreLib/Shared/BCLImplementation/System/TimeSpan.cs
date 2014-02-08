@@ -63,15 +63,25 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public static TimeSpan FromDays(double value)
         {
-            return new __TimeSpan { TotalMilliseconds = value * 1000 * 60 * 60 * 24};
+            return new __TimeSpan { TotalMilliseconds = value * 1000 * 60 * 60 * 24 };
         }
 
         public override string ToString()
         {
-            return Days + "."
-                + ("" + Hours).PadLeft(2, '0') + ":"
+            // X:\jsc.svn\examples\actionscript\Test\TestDateTimeToTimeSpan\TestDateTimeToTimeSpan\ApplicationCanvas.cs
+
+            var w =
+                ("" + Hours).PadLeft(2, '0') + ":"
                 + ("" + Minutes).PadLeft(2, '0') + ":"
-                + ("" + Seconds).PadLeft(2, '0');
+                + ("" + Seconds).PadLeft(2, '0')
+
+                + "." + this.TotalMilliseconds;
+
+            if (Days == 0)
+                return w;
+
+
+            return Days + "." + w;
         }
 
 
@@ -106,6 +116,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         }
 
 
+
         public int TotalSeconds
         {
             get
@@ -113,6 +124,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
                 return Convert.ToInt32(
                     TotalMilliseconds / (1000)
                 );
+            }
+        }
+
+        public int Milliseconds
+        {
+            get
+            {
+                return (int)((long)TotalMilliseconds) % 1000;
             }
         }
 

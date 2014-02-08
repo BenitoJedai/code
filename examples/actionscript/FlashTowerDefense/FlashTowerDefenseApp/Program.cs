@@ -10,6 +10,7 @@ namespace FlashTowerDefenseApp
     {
         public static void Main(string[] args)
         {
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
