@@ -252,7 +252,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //this.__ContentTable_css = css[" table." + this.__ContentTable.className];
 
             this.__ContentTable_css_td = this.__ContentTable_css
-                [IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr][IHTMLElement.HTMLElementEnum.td];
+                + IHTMLElement.HTMLElementEnum.tbody
+                + IHTMLElement.HTMLElementEnum.tr
+                + IHTMLElement.HTMLElementEnum.td;
 
             this.__ContentTable_css_alt_td = this.__ContentTable_css
                 [IHTMLElement.HTMLElementEnum.tbody][IHTMLElement.HTMLElementEnum.tr].even[IHTMLElement.HTMLElementEnum.td];
@@ -851,19 +853,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         //innerText = (string)SourceCell.Value
                     }.AttachTo(SourceCell.InternalTableColumn_div);
 
+                    var SourceCellType = SourceCell.GetType();
+                    Console.WriteLine(new { SourceCellType });
+
+                    // 25:204ms { SourceCellType = <Namespace>.DataGridViewTextBoxCell } 
                     // what about checkbox? tested by.?
                     #region __DataGridViewButtonCell
-                    if (SourceCell is __DataGridViewButtonCell)
+                    if (SourceColumn is __DataGridViewButtonColumn)
                     {
                         var InternalButton = new IHTMLButton().AttachTo(SourceCell.InternalTableColumn_div);
+
 
                         InternalButton.style.font = this.Font.ToCssString();
 
                         InternalButton.style.position = IStyle.PositionEnum.absolute;
                         InternalButton.style.left = "0px";
                         InternalButton.style.top = "0px";
-                        InternalButton.style.right = "0px";
-                        InternalButton.style.bottom = "0px";
+
+                        InternalButton.style.width = "100%";
+                        InternalButton.style.height = "100%";
 
                         SourceCell.InternalTableColumn_div_span.AttachTo(InternalButton);
 
@@ -881,6 +889,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
+                    #region __DataGridViewButtonCell
+                    if (SourceColumn is __DataGridViewCheckBoxColumn)
+                    {
+                        // do we already also support DataSource DataTable typeof(bool)
+
+                        var InternalButton = new IHTMLInput
+                        {
+                            type = Shared.HTMLInputTypeEnum.checkbox
+                        }.AttachTo(SourceCell.InternalTableColumn_div);
+
+                        SourceCell.InternalTableColumn_div.style.textAlign = IStyle.TextAlignEnum.center;
+                        SourceCell.InternalTableColumn_div.style.padding = "2px";
+
+                        //SourceCell.InternalTableColumn_div.style.verticalAlign = "middle";
+
+
+                        //InternalButton.style.font = this.Font.ToCssString();
+
+                        //InternalButton.style.position = IStyle.PositionEnum.absolute;
+                        //InternalButton.style.left = "0px";
+                        //InternalButton.style.top = "0px";
+
+                        //InternalButton.style.width = "100%";
+                        //InternalButton.style.height = "100%";
+
+                        //InternalButton.style.margin = "auto";
+
+
+                        SourceCell.InternalTableColumn_div_span.Orphanize();
+
+                        InternalButton.onclick +=
+                            delegate
+                            {
+                                if (this.CellContentClick != null)
+                                    this.CellContentClick(this,
+                                        new DataGridViewCellEventArgs(SourceCell.ColumnIndex, SourceRow.Index)
+                                    );
+                            };
+
+                        return;
+                    }
+                    #endregion
 
 
                     // with 9 , 12, 15, 12, 6
@@ -1566,6 +1616,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             //Console.WriteLine("CreateMissingCells __DataGridViewButtonColumn " + new { SourceRow.Index, ColumnIndex });
 
                             SourceCell = new __DataGridViewButtonCell();
+                        }
+                        else if (__c is __DataGridViewCheckBoxColumn)
+                        {
+                            //Console.WriteLine("CreateMissingCells ? " + new { SourceRow.Index, ColumnIndex });
+
+                            // X:\jsc.svn\examples\javascript\forms\Test\TestButtonColumn\TestButtonColumn\ApplicationControl.cs
+                            SourceCell = new __DataGridViewCheckBoxCell();
+
                         }
                         else
                         {
