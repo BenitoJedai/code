@@ -105,6 +105,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\TimeZone.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLDocument.icon.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLDocument.title.cs" />
     <Compile Include="JavaScript\DOM\IWindow.async.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGForeignObject.cs" />
     <Compile Include="JavaScript\DOM\URL.cs" />
