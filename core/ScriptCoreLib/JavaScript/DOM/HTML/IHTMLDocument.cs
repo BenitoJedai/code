@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/dom.html#current-document-readiness
 
     [Script(HasNoPrototype = true)]
-    public class IHTMLDocument : IDocument<IHTMLElement>
+    public partial class IHTMLDocument : IDocument<IHTMLElement>
     {
         public IWindow defaultView;
 
@@ -92,35 +92,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         //interface HTMLDocument : Document {
 
-        public string title;
-
-        public event System.Action ontitlechanged
-        {
-            [Script(DefineAsStatic = true)]
-            add
-            {
-                var x = title;
-
-                this.defaultView.onframe +=
-                    delegate
-                    {
-                        if (this.title == x)
-                            return;
-
-
-                        value();
-
-                        x = title;
-                    };
-
-            }
-
-            [Script(DefineAsStatic = true)]
-            remove
-            {
-
-            }
-        }
+       
 
 
 

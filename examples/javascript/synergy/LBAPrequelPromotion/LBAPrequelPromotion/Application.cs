@@ -1,3 +1,9 @@
+// android will use servers name for package id
+using com.abstractatech.gamification.lbapp;
+using LBAPrequelPromotion.Design;
+using LBAPrequelPromotion.HTML.Audio.FromAssets;
+using LBAPrequelPromotion.HTML.Images.FromAssets;
+using LBAPrequelPromotion.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -6,20 +12,13 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using LBAPrequelPromotion.Design;
-using LBAPrequelPromotion.HTML.Pages;
-using LBAPrequelPromotion.HTML.Audio.FromAssets;
-using ScriptCoreLib.JavaScript.Runtime;
-using LBAPrequelPromotion.HTML.Images.FromAssets;
 using ThreeDStuff.js;
-
-// android will use servers name for package id
-using com.abstractatech.gamification.lbapp;
-using ScriptCoreLib.JavaScript.Windows.Forms;
 
 
 // server will look at the first app and then try to find a preview from assets
