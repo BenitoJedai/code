@@ -24,7 +24,16 @@ namespace ScriptCoreLib.Archive
 
                         if (!FileContentLookup.ContainsKey(item))
                         {
-                            Console.WriteLine(".jar " + Path.GetFileNameWithoutExtension(item));
+                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140209
+
+                            Console.WriteLine("JavaArchiveExtensions.ResolveJavaArchiveLoadRequest " +
+                                new
+                                {
+                                    jar = Path.GetFileNameWithoutExtension(item),
+                                    context,
+                                    name
+                                }
+                            );
 
                             var zip = ZIPArchive.GetFiles(item);
 
@@ -44,10 +53,10 @@ namespace ScriptCoreLib.Archive
 
             var x0 = f(ImplicitReferences.Select(k => k.FullName).ToArray());
 
-            if (x0!= null)
+            if (x0 != null)
                 return x0;
 
-            var x1 = f( ContextToFileArray(context));
+            var x1 = f(ContextToFileArray(context));
 
 
 
