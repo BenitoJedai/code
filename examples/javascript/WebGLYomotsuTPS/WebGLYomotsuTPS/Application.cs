@@ -116,8 +116,8 @@ namespace WebGLYomotsuTPS
             var player_camera_z = 0.0f;
             var player_motion = default(motion);
 
-            var width = Native.window.Width;
-            var height = Native.window.Height;
+            //var width = Native.window.Width;
+            //var height = Native.window.Height;
 
             var clock = new Stopwatch();
             clock.Start();
@@ -128,7 +128,10 @@ namespace WebGLYomotsuTPS
 
             scene.add(player_model_objects);
 
-            var camera = new THREE.PerspectiveCamera(fov, width / height, 1, 1000);
+            var camera = new THREE.PerspectiveCamera(fov,
+                Native.window.aspect,
+                //width / height,
+                1, 1000);
 
             scene.add(camera);
 
@@ -227,8 +230,8 @@ namespace WebGLYomotsuTPS
                         return;
                     }
 
-                    pointer_x = (e.CursorX / width) * 2 - 1;
-                    pointer_y = -(e.CursorY / height) * 2 + 1;
+                    pointer_x = (e.CursorX / Native.window.Width) * 2 - 1;
+                    pointer_y = -(e.CursorY / Native.window.Height) * 2 + 1;
                     rotate();
                 };
 
@@ -277,7 +280,8 @@ namespace WebGLYomotsuTPS
             #endregion
 
             var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(width, height);
+            //renderer.setSize(width, height);
+            renderer.setSize();
             renderer.shadowMapEnabled = true;
             renderer.shadowMapSoft = true;
             renderer.domElement.AttachTo(container);
