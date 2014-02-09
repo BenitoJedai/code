@@ -13,6 +13,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
+
 		public static implicit operator __Type(Type e)
 		{
 			return (__Type)(object)e;
@@ -110,6 +112,24 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         }
 
          //<method name="start" declaredBy="com.lytro::Player" returnType="void"/>
+
+        public __FieldInfo GetField(string n)
+        {
+            // X:\jsc.svn\examples\actionscript\Test\TestFieldExpression\TestFieldExpression\ApplicationSprite.cs
+
+            var f = default(__FieldInfo);
+
+            foreach (var k in GetFields())
+            {
+                if (k.Name == n)
+                {
+                    f = k;
+                    break;
+                }
+            }
+
+            return f;
+        }
 
         public __FieldInfo[] GetFields()
         {

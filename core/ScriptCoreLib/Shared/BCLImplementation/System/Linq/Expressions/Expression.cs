@@ -19,6 +19,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery
 
+        //V:\web\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\__Expression.as(76): col: 66 Error: Type was not found or was not a compile-time constant: ConstructorInfo.
+
+        //public static function New_4ebbe596_0600169f(constructor:ConstructorInfo, ___arguments:__IEnumerable_1, members:Array):__NewExpression
+        //                                                         ^
+
+
 
         public static NewExpression New(ConstructorInfo constructor, IEnumerable<Expression> arguments, params MemberInfo[] members)
         {
