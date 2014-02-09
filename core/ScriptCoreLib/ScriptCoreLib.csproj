@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Int64.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Reflection\ConstructorInfo.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodBase.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />

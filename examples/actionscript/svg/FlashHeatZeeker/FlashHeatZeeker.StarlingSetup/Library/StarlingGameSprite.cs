@@ -1,20 +1,20 @@
-﻿using FlashHeatZeeker.StarlingSetup.Library;
-using ScriptCoreLib.Extensions;
+﻿using FlashHeatZeeker.Core.Library;
+using FlashHeatZeeker.StarlingSetup.ActionScript.Images;
+using FlashHeatZeeker.StarlingSetup.Library;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Extensions;
+using starling.core; // !!
 using starling.display;
+using starling.text;
 using starling.textures;
+using starling.utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using starling.utils;
-using System.Diagnostics;
-using starling.text;
-using FlashHeatZeeker.StarlingSetup.ActionScript.Images;
-using System.ComponentModel;
-using starling.core;
-using FlashHeatZeeker.Core.Library;
 
 namespace FlashHeatZeeker.StarlingSetup.Library
 {

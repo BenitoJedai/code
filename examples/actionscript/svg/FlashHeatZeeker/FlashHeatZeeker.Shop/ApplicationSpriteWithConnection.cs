@@ -1,5 +1,7 @@
 ﻿using FlashHeatZeeker.Shop.Library;
-using playerio;
+using FlashHeatZeeker.StarlingSetup.Library;
+using playerio; // rebuild that with non partial jsc
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using starling.core;
 using System;
@@ -7,8 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using ScriptCoreLib.ActionScript.Extensions;
-using FlashHeatZeeker.StarlingSetup.Library;
 
 namespace FlashHeatZeeker.Shop
 {
