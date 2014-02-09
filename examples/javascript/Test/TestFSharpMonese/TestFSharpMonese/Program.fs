@@ -8,6 +8,10 @@ open monese.experimental
 //0
 
 let r = async {
+    // !!! full test suite shall run on every
+    // version change and shall be part of the
+    // monese.com penetration test task force
+    // public opensource SDK and test cases?
     let x = new MoneseWebServices()
 
     Console.WriteLine "RegisterUserShortAsync before"
