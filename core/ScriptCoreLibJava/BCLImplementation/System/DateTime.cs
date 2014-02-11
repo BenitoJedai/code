@@ -138,7 +138,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         public DateTime AddMonths(int value)
         {
             long ticks = TimeSpan.TicksPerDay;
-            return new DateTime((long)Math.Floor(this.Ticks + (double)DateTime.DaysInMonth(this.Year, this.Month) * ticks));
+
+            if(value > 0)
+            {
+                double tempTicks = 0;
+                for(int i = 0; i < value; i++)
+                {
+                    tempTicks += (double)DateTime.DaysInMonth(this.Year, this.Month + i) * ticks;
+                }
+                return new DateTime((long)Math.Floor(this.Ticks + tempTicks));
+            }
+            else 
+            {
+                double tempTicks = 0;
+                for (int i = -1; i >= value; i--)
+                {
+                    tempTicks += (double)DateTime.DaysInMonth(this.Year, this.Month + i) * ticks;
+                }
+                return new DateTime((long)Math.Floor(this.Ticks - tempTicks));
+            }
+            //return new DateTime((long)Math.Floor(this.Ticks + (double)DateTime.DaysInMonth(this.Year, this.Month) * ticks));
         }
 
         #region Operators
@@ -179,8 +198,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return false;
         }
         #endregion
-
-
+        
         public string ToString(string format)
         {
             if (format == "ddMMMyyyyHHmmss")
