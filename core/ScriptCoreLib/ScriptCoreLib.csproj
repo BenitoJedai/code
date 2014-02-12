@@ -394,9 +394,9 @@
     <Compile Include="GLSL\VertexShader.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\AsyncVoidMethodBuilder.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncVoidMethodBuilder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\IAsyncStateMachine.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\TaskAwaiter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\TaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task.cs" />
     <Compile Include="JavaScript\DOM\IError.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />

@@ -12,6 +12,7 @@ using System.Linq;
 using ScriptCoreLib.Shared.BCLImplementation.System;
 using System.Diagnostics;
 using System.Net;
+using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {

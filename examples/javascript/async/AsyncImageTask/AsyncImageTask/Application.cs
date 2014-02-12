@@ -57,12 +57,12 @@ namespace AsyncImageTask
                     await i;
 
 
-                    Native.window.performance.getEntries().WithEach(
-                        e =>
-                        {
-                            new IHTMLPre { new { e.name, e.entryType, e.duration, e.startTime } }.AttachToDocument();
-                        }
-                    );
+                    //Native.window.performance.getEntries().WithEach(
+                    //    e =>
+                    //    {
+                    //        new IHTMLPre { new { e.name, e.entryType, e.duration, e.startTime } }.AttachToDocument();
+                    //    }
+                    //);
                 }
             );
         }
