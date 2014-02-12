@@ -208,8 +208,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
                 if (Port >= 0)
                 {
-                    w.Append(":");
-                    w.Append(this.Port);
+                    if (this.Port == 80 && this.Scheme == "http")
+                    {
+                        // omit
+                    }
+                    else
+                    {
+                        w.Append(":");
+                        w.Append(this.Port);
+                    }
                 }
             }
 

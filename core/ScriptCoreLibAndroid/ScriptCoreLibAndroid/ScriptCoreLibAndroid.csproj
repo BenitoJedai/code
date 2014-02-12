@@ -628,6 +628,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\net\URLConnection.cs">
       <Link>java\net\URLConnection.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\net\URLEncoder.cs">
+      <Link>java\net\URLEncoder.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\nio\Buffer.cs">
       <Link>java\nio\Buffer.cs</Link>
     </Compile>
