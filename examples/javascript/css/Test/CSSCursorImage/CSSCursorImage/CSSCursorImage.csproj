@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{895271BA-FAA8-4763-A1FB-1E9C7525D130}</ProjectGuid>
+    <ProjectGuid>{C305C8AF-F001-4C25-A63A-E1F98B09977C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HotPolygon</RootNamespace>
-    <AssemblyName>HotPolygon</AssemblyName>
+    <RootNamespace>CSSCursorImage</RootNamespace>
+    <AssemblyName>CSSCursorImage</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>HotPolygon.Program</StartupObject>
+    <StartupObject>CSSCursorImage.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +40,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -98,6 +99,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -110,41 +113,32 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="HotPolygon.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\HotPolygon.AssetsLibrary.dll</HintPath>
+    <Reference Include="CSSCursorImage.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\CSSCursorImage.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Textures\3dgarro.cur" />
-    <Content Include="Textures\99851426_7f408a6cc3_o_gray.png" />
-    <Content Include="Textures\cursor01.cur" />
-    <Content Include="Design\Default.css" />
-    <Content Include="Design\Default.htm" />
-    <Compile Include="Library\HotPolygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Design\App.css" />
+    <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\down.png" />
-    <Content Include="Textures\here0.png" />
-    <Content Include="Textures\here1.png" />
-    <Content Include="Textures\here2.png" />
-    <Content Include="Textures\here3.png" />
-    <Content Include="Textures\here4.png" />
-    <Content Include="Textures\here5.png" />
-    <Content Include="Textures\Preview.png" />
-    <Content Include="Textures\up.png" />
-    <Content Include="Textures\up_neg.png" />
+    <Content Include="Textures\3dgarro.cur" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceAndroid:false
-)</PostBuildEvent>
+		if $(ConfigurationName)==Release (
+		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
+		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
-		</PreBuildEvent>
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>
