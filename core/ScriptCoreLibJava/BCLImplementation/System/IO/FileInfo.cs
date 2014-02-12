@@ -36,5 +36,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
         }
 
 
+
+        public long Length
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\appengine\Test\TestAppEngineFileLength\TestAppEngineFileLength\ApplicationWebService.cs
+
+                return
+                    new java.io.File(this.InternalPath).length();
+            }
+        }
+
     }
 }

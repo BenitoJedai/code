@@ -698,7 +698,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                    // 35418ms DataGridView onscroll { ElapsedMilliseconds = 20 }
                    // 234208ms DataGridView onscroll { ElapsedMilliseconds = 120 } 
                    // 10468ms DataGridView onscroll { ElapsedMilliseconds = 27 } 
-                   Console.WriteLine("DataGridView onscroll " + new { s.ElapsedMilliseconds });
+
+                   if (s.ElapsedMilliseconds > 10)
+                       Console.WriteLine("DataGridView onscroll " + new { s.ElapsedMilliseconds });
+
                };
             #endregion
 
@@ -733,7 +736,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             // IE, ff workaround. need a div to play relative
-            var __ContentTable_css_td_relative = __ContentTable_css_td + IHTMLElement.HTMLElementEnum.div;
+            var __ContentTable_css_td_relative = __ContentTable_css_td
+                + IHTMLElement.HTMLElementEnum.div;
 
             new IStyle(__ContentTable_css_td_relative)
             {
@@ -854,7 +858,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }.AttachTo(SourceCell.InternalTableColumn_div);
 
                     var SourceCellType = SourceCell.GetType();
-                    Console.WriteLine(new { SourceCellType });
+                    //Console.WriteLine(new { SourceCellType });
 
                     // 25:204ms { SourceCellType = <Namespace>.DataGridViewTextBoxCell } 
                     // what about checkbox? tested by.?

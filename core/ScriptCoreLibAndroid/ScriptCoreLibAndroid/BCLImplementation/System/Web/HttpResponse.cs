@@ -204,6 +204,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public void WriteFile(string filename)
         {
+            // X:\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\com.abstractatech.analytics\ApplicationWebService.cs
+
             // we only work with absolute paths anyway
             if (filename.StartsWith("/"))
                 filename = filename.Substring(1);
@@ -217,7 +219,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
 
                 var s = assets.open(filename).ToNetworkStream();
-
+                // should we report the size?
                 s.CopyTo(InternalStream);
 
                 InternalStream.Flush();
