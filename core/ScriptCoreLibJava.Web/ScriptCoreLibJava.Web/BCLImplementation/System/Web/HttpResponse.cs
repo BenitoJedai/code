@@ -51,11 +51,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 
         public void Write(string s)
         {
+            // X:\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\com.abstractatech.analytics\ApplicationWebService.cs
+
             try
             {
                 //this.InternalContext.getWriter().print(s);
 
                 var bytes = Encoding.UTF8.GetBytes(s);
+
 
                 this.OutputStream.Write(bytes, 0, bytes.Length);
             }
@@ -113,6 +116,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
             // we only work with absolute paths anyway
             if (filename.StartsWith("/"))
                 filename = filename.Substring(1);
+
+            // X:\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\com.abstractatech.analytics\ApplicationWebService.cs
+            // should we also report file size?
 
             var bytes = File.ReadAllBytes(filename);
 
