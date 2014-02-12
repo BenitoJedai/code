@@ -7,8 +7,8 @@ using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Net
 {
     [Script(Implements = typeof(global::System.Net.UploadValuesCompletedEventArgs))]
-    internal class __UploadValuesCompletedEventArgs : __AsyncCompletedEventArgs
-	{
+    public class __UploadValuesCompletedEventArgs : __AsyncCompletedEventArgs
+    {
         public byte[] Result { get; set; }
-	}
+    }
 }

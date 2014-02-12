@@ -7,7 +7,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
 	[Script(Implements = typeof(global::System.ComponentModel.AsyncCompletedEventArgs))]
-	internal class __AsyncCompletedEventArgs : __EventArgs
+	public class __AsyncCompletedEventArgs : __EventArgs
 	{
 		public Exception Error { get; set;  }
 	}
