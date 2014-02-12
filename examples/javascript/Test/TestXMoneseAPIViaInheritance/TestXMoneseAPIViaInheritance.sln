@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestXMoneseAPIViaInheritance", "TestXMoneseAPIViaInheritance\TestXMoneseAPIViaInheritance.csproj", "{C305C8AF-F001-4C25-A63A-E1F98B09977C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C305C8AF-F001-4C25-A63A-E1F98B09977C}.Debug|x86.ActiveCfg = Debug|x86
+		{C305C8AF-F001-4C25-A63A-E1F98B09977C}.Debug|x86.Build.0 = Debug|x86
+		{C305C8AF-F001-4C25-A63A-E1F98B09977C}.Release|x86.ActiveCfg = Release|x86
+		{C305C8AF-F001-4C25-A63A-E1F98B09977C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
