@@ -17,6 +17,8 @@ namespace TestPreparedWebServiceCallback
     /// </summary>
     public class ApplicationWebService
     {
+        // if this was private, and
+        // set by the server for later reuse, it could be encrypted
         public string state;
 
         public ApplicationWebService StillOnTheClient()
