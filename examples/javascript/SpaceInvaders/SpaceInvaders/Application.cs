@@ -17,11 +17,9 @@ namespace SpaceInvadersTemplate
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         // port from: Z:\jsc.svn\javascript\Games\SpaceInvaders\source\js\Controls\SpaceInvaders.cs
-
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly DefaultStyle style = new DefaultStyle();
 

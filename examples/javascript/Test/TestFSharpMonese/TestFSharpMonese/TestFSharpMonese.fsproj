@@ -49,7 +49,7 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="monese API">
-      <HintPath>..\packages\xmoneseAPI.1.0.0.0\lib\monese API.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\jsc.smokescreen.svn\market\appengine\xmoneseservicesweb\packages\xmoneseAPI.1.0.0.0\lib\monese API.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore">

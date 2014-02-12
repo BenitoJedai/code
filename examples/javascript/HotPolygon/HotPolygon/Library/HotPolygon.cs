@@ -123,7 +123,9 @@ namespace HotPolygon.js
                 });
 
 
-            IStyleSheet.Default.AddRule("*", "cursor: url('" + new HTML.Images.FromAssets.cursor01().src + "'), auto;", 0);
+            Native.css.style.cursorImage = new HTML.Images.FromAssets.cursor01();
+
+            //IStyleSheet.Default.AddRule("*", "cursor: url('" + new HTML.Images.FromAssets.cursor01().src + "'), auto;", 0);
 
             var img = new HTML.Images.FromAssets._99851426_7f408a6cc3_o_gray { className = "fx1" };
 

@@ -196,6 +196,21 @@ namespace ScriptCoreLib.JavaScript.DOM
         public CursorEnum cursor;
         #endregion
 
+
+        public IHTMLImage cursorImage
+        {
+
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSCursorImage\CSSCursorImage\Application.cs
+
+                (this as dynamic).cursor = "url('" + value.src + "'), auto";
+            }
+        }
+
+
         // http://www.w3schools.com/css/css_background.asp
         public string background;
         public string backgroundImage;

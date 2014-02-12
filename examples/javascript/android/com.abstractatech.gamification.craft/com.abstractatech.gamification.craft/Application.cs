@@ -132,14 +132,11 @@ namespace com.abstractatech.gamification.craft
             // http://zproxy.wordpress.com/2012/11/13/dos-warcraft/
             // load the shadow land
 
-            var cursor = "url('" + new severed().src + "'), auto";
-
-            Console.WriteLine(new { cursor });
 
             // why does this not work??
-            (page.body.style as dynamic).cursor = cursor;
-            (page.Preview.style as dynamic).cursor = "url('" + new guantlet().src + "'), auto";
-            (page.Avatar.style as dynamic).cursor = "url('" + new guantlet().src + "'), auto";
+            page.body.style.cursorImage = new severed();
+            page.Preview.style.cursorImage = new guantlet();
+            page.Avatar.style.cursorImage = new guantlet();
 
             // http://www.effectgames.com/effect/article.psp.html/joe/Old_School_Color_Cycling_with_HTML5
             // http://www.effectgames.com/demos/canvascycle/

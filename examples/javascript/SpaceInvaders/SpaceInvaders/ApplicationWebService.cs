@@ -9,7 +9,7 @@ namespace SpaceInvadersTemplate
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public class ApplicationWebService
     {
         /// <summary>
         /// This Method is a javascript callable method.
