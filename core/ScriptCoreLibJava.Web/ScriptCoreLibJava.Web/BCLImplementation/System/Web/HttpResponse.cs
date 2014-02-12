@@ -122,6 +122,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 
             var bytes = File.ReadAllBytes(filename);
 
+            Console.WriteLine("WriteFile " + new { filename, bytes.Length });
+
             this.OutputStream.Write(bytes, 0, bytes.Length);
         }
 
