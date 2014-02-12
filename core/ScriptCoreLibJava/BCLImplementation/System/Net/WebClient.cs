@@ -7,56 +7,94 @@ using System.Net;
 using java.net;
 using java.io;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+using System.Collections.Specialized;
+using System.Threading;
+using ScriptCoreLib.Shared.BCLImplementation.System.Net;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
-	[Script(Implements = typeof(global::System.Net.WebClient))]
-	internal class __WebClient : __Component
-	{
+    [Script(Implements = typeof(global::System.Net.WebClient))]
+    internal class __WebClient : __Component
+    {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140212/w
+
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
 
         public Encoding Encoding { get; set; }
 
         public WebHeaderCollection Headers { get; set; }
 
-		public string DownloadString(string u)
-		{
-			return DownloadString(new Uri(u));
-		}
 
-		public string DownloadString(Uri u)
-		{
-			var w = new StringBuilder();
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Net\UploadValuesCompletedEventArgs.cs
+        public event UploadValuesCompletedEventHandler UploadValuesCompleted;
 
-			try
-			{
-				var url = new java.net.URL(u.ToString());
-				var i = new java.io.InputStreamReader(url.openStream(), "UTF-8");
-				var reader = new java.io.BufferedReader(i);
+        public void UploadValuesAsync(Uri address, NameValueCollection data)
+        {
+            // X:\jsc.svn\examples\java\Test\JVMCLRWebClient\JVMCLRWebClient\Program.cs
 
-				// can't we just read to the end?
-				var line = reader.readLine();
-				while (line != null)
-				{
-					w.AppendLine(line);
+            Console.WriteLine("enter UploadValuesAsync");
 
-					line = reader.readLine();
-				}
-				reader.close();
-			}
-			catch
-			{
-				// oops
-			}
+            new Thread(
+                delegate()
+                {
+                    Thread.Sleep(666);
+                    Console.WriteLine("yield UploadValuesAsync");
 
-			return w.ToString();
-		}
-        
+                    if (UploadValuesCompleted != null)
+                        UploadValuesCompleted(
+                            this,
+                            (UploadValuesCompletedEventArgs)(object)new __UploadValuesCompletedEventArgs
+                            {
+                                Result = new byte[0]
+                            }
+                            );
+                }
+            ) { IsBackground = true }.Start();
+        }
+
+
+
+        #region DownloadString
+        public string DownloadString(string u)
+        {
+            return DownloadString(new Uri(u));
+        }
+
+        public string DownloadString(Uri u)
+        {
+            var w = new StringBuilder();
+
+            try
+            {
+                var url = new java.net.URL(u.ToString());
+                var i = new java.io.InputStreamReader(url.openStream(), "UTF-8");
+                var reader = new java.io.BufferedReader(i);
+
+                // can't we just read to the end?
+                var line = reader.readLine();
+                while (line != null)
+                {
+                    w.AppendLine(line);
+
+                    line = reader.readLine();
+                }
+                reader.close();
+            }
+            catch
+            {
+                // oops
+            }
+
+            return w.ToString();
+        }
+        #endregion
+
+        #region UploadString
         public string UploadString(string u, string method, string data)
         {
             return UploadString(new Uri(u), data, method);
         }
-        
+
         public string UploadString(Uri u, string method, string data)
         {
             var w = new StringBuilder();
@@ -122,7 +160,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
             return w.ToString();
         }
+        #endregion
 
 
-	}
+
+    }
 }
