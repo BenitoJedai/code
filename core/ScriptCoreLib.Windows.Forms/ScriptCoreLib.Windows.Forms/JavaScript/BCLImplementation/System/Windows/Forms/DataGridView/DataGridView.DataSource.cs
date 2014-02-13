@@ -1,4 +1,4 @@
-﻿#define xFBINDING
+﻿#define FBINDING
 #define FPRERENDER
 
 using ScriptCoreLib.Shared.BCLImplementation.System.Data;
@@ -221,6 +221,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // show the columns and continue in a moment
             Native.window.requestAnimationFrame += delegate
             {
+                if (this.InternalDataSourceSync != CurrentDataSourceSync)
+                    return;
                 //return;
 
                 #region PrerenderStopwatch
@@ -636,6 +638,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 yield = delegate
                 {
+                    if (this.InternalDataSourceSync != CurrentDataSourceSync)
+                        return;
+
                     var CStopwatch = Stopwatch.StartNew();
 
                     while (AddRowAction.MoveNext())
