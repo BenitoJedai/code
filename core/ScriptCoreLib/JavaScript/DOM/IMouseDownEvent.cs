@@ -36,4 +36,40 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
     }
 
+
+
+    // http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-MouseEvent
+    [Script(InternalConstructor = true)]
+    public class IMouseEvent : IEvent
+    {
+        public IMouseEvent() { }
+
+        internal static IMouseEvent InternalConstructor()
+        {
+            return (IMouseEvent)new IFunction("return document.createEvent('MouseEvent');").apply(null);
+        }
+
+
+
+        public void initMouseEvent(
+            string typeArg,
+            bool canBubbleArg,
+            bool cancelableArg,
+            object viewArg,
+            long detailArg,
+            long screenXArg,
+            long screenYArg,
+            long clientXArg,
+            long clientYArg,
+            bool ctrlKeyArg,
+            bool altKeyArg,
+            bool shiftKeyArg,
+            bool metaKeyArg,
+            int buttonArg,
+            object relatedTargetArg)
+        {
+        }
+
+
+    }
 }

@@ -86,17 +86,17 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             var xlocation = Native.document.location.href.TakeUntilIfAny("#");
             var xbaseURI = Native.document.baseURI.TakeUntilIfAny("#");
 
-            //Console.WriteLine(
-            //    "enter Historic: " + new
-            //    {
-            //        Native.document.domain,
-            //        Native.document.baseURI,
+            Console.WriteLine(
+                "enter Historic: " + new
+                {
+                    Native.document.domain,
+                    Native.document.baseURI,
 
-            //        location = Native.document.location.href,
-            //        xlocation,
-            //        href = e.href
-            //    }
-            //);
+                    location = Native.document.location.href,
+                    xlocation,
+                    href = e.href
+                }
+            );
 
 
             // http://otherhost/#/click+to+enter+a+new+historic+state
@@ -160,6 +160,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             e.onclick +=
                 ev =>
                 {
+                    //Console.WriteLine("onclick: " + new { e.href, ev.MouseButton, IEvent.MouseButtonEnum.Left });
+
                     if (ev.MouseButton == IEvent.MouseButtonEnum.Left)
                     {
                         // tested by
@@ -168,6 +170,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                         Console.WriteLine("event: " + new { e.href });
 
                         ev.preventDefault();
+                        ev.stopPropagation();
+
 
                         var xreplace = replace;
 

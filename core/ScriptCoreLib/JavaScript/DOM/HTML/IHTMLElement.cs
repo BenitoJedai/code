@@ -478,19 +478,48 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
             // tested by
             // X:\jsc.svn\examples\javascript\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile\Application.cs
-            
+
             //Click to work with every HTML element
             //Tested by E:\jsc.svn\examples\javascript\Test\TestHtmlClickInBrowsers\TestHtmlClickInBrowsers
-            new IFunction("e", @"
 
-                        // # First create an event
-                        var click_ev = document.createEvent('MouseEvent');
-                        // # initialize the event
-                        click_ev.initEvent('click', true /* bubble */, true /* cancelable */);
-                        // # trigger the evevnt
-                        this.dispatchEvent(click_ev);
+            var e = new IMouseEvent();
 
-                        ").apply(this);
+            // 0:17079ms onclick: { href = http://192.168.1.101:11576/#foo, MouseButton = 2, Left = 1 } 
+            // https://bugzilla.mozilla.org/show_bug.cgi?id=395917
+            e.initMouseEvent(
+                "click",
+                true,
+                true,
+                Native.window,
+                0, 0,
+                0, 0,
+                0,
+                false,
+                false,
+                false,
+                false,
+                buttonArg: 0,
+                relatedTargetArg: this
+                );
+
+
+            this.dispatchEvent(e);
+
+            //            // http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-MouseEvent
+            //            new IFunction("e", @"
+            //
+            //                        // # First create an event
+            //                        var click_ev = document.createEvent('MouseEvent');
+            //
+            //                        // https://developer.mozilla.org/en-US/docs/Web/API/event.initMouseEvent
+            //                        // # initialize the event
+            //                        click_ev.initEvent('click', true /* bubble */, true /* cancelable */);
+            //                        click_ev.button = 1;
+            //
+            //                        // # trigger the evevnt
+            //                        this.dispatchEvent(click_ev);
+            //
+            //                        ").apply(this);
         }
 
 
@@ -1109,7 +1138,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
                     e.StopPropagation();
 
-                    IEvent _event = Native.Document.createEvent("MouseEvents");
+                    //IEvent _event = Native.Document.createEvent("MouseEvents");
+
+                    // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
+                    var _event = new IMouseEvent();
 
                     _event.initMouseEvent(
                         e.type,
