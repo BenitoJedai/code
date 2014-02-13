@@ -20,21 +20,17 @@ let r = async {
 
     let! z = x.RegisterUserShortFSharpAsync(email, "1234")
 
-
     Console.WriteLine z
     Console.WriteLine "RegisterUserShortAsync done"
 
     Console.WriteLine "GetUserIDAsync before"
 
     // http://msdn.microsoft.com/en-us/library/ee837067.aspx
-//    let! xxx = Async.AwaitTask( x.GetUserID ( "a@", "1234"))
+    // let! xxx = Async.AwaitTask( x.GetUserID ( "a@", "1234"))
     let! xxx = x.GetUserIDFSharpAsync ( email, "1234")
                 
     Console.WriteLine xxx
     Console.WriteLine "GetUserIDAsync done"
-
-
-
         
     Console.WriteLine "GetUserIDAsync after"
 

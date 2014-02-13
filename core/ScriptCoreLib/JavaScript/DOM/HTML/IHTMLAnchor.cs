@@ -73,10 +73,6 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public string href;
         public string target;
 
-        public void click()
-        {
-            // tested by
-            // X:\jsc.svn\examples\javascript\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile\Application.cs
-        }
+        
     }
 }
