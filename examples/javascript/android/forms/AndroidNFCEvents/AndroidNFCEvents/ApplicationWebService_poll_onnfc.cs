@@ -16,15 +16,6 @@ namespace AndroidNFCEvents
 {
     public static class ApplicationWebService_poll_onnfc
     {
-        //        { TargetMethod = Void poll_onnfc(System.String, System.Action`1[System.Xml.Linq.XElement], System.Action`1[System.String], Int32, Int32, Int32), DeclaringType = AndroidNFCEvents.ApplicationWebService_poll_onnfc, Location =
-        // assembly: X:\jsc.svn\examples\javascript\android\com.abstractatech.adminshell\com.abstractatech.adminshell\bin\Android\com.abstractatech.adminshell.exe
-        // type: com.abstractatech.adminshell.ApplicationWebService, com.abstractatech.adminshell, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-        // offset: 0x001e
-        //  method:System.Threading.Tasks.Task`1[System.String] poll_onnfc(System.String, System.Action`1[System.Xml.Linq.XElement]) }
-        //1d24:02:01 RewriteToAssembly error: System.MissingMethodException: Method not found: 'System.Object android.os.Bundle.get(System.String)'.
-
-
-
         // inspired by
         // X:\jsc.svn\examples\javascript\android\forms\ReinstallNotification\ReinstallNotification\AtInstall.cs
 
@@ -179,9 +170,9 @@ namespace AndroidNFCEvents
                 //  [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef]
                 //  dispatch tag: TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.NdefFormatable] message: null
                 new [] { typeof(android.nfc.tech.MifareClassic).FullName },
-                new [] {     typeof(android.nfc.tech.NfcA).FullName},
-                new [] {     typeof(android.nfc.tech.Ndef).FullName},
-                new [] {     typeof(android.nfc.tech.NdefFormatable).FullName },
+                new [] { typeof(android.nfc.tech.NfcA).FullName},
+                new [] { typeof(android.nfc.tech.Ndef).FullName},
+                new [] { typeof(android.nfc.tech.NdefFormatable).FullName },
 
 
             };
@@ -224,25 +215,6 @@ namespace AndroidNFCEvents
                 throw;
             }
 
-            //            D/NfcDispatcher(  747): Set Foreground Dispatch
-            //D/dalvikvm(20170): GC_CONCURRENT freed 488K, 8% free 7978K/8584K, paused 4ms+2ms, total 27ms
-            //D/dalvikvm(  581): GC_CONCURRENT freed 4091K, 44% free 12001K/21124K, paused 3ms+5ms, total 32ms
-            //D/NfcDispatcher(  747): dispatch tag: TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef] message: NdefMessage [NdefRecord tnf=4 type=70696C65742E65653A656B616172743A32 payload=66195F26063133303130385904202020205F28033233335F2701316E1B5A13333038363439303039303030333032313336315304FDCCD727, NdefRecord tnf=1 type=536967 payload=01020080B489DEDA8C2271386B7962250063A7C7C8612C3D58C8CD44D674F9D1615E80C72D961F8AC822C3188D48EFC7DA9DA3FF5C306E1EF54E0610F66D1C891CC59428A27CAA4211D4040527CF9BCD16F20E0B3116966AFC2390B7EF30CCC877B8532281CA3CBE286D295AECEA4447FD62874872A46099D6CEED99ED6766B829FD3FDF800025687474703A2F2F70696C65742E65652F6372742F33303836343930302D303030312E637274]
-            //D/dalvikvm(  747): GC_CONCURRENT freed 491K, 10% free 8255K/9160K, paused 3ms+1ms, total 33ms
-            //D/dalvikvm(  747): WAIT_FOR_CONCURRENT_GC blocked 8ms
-            //D/NfcHandover(  747): tryHandover(): NdefMessage [NdefRecord tnf=4 type=70696C65742E65653A656B616172743A32 payload=66195F26063133303130385904202020205F28033233335F2701316E1B5A13333038363439303039303030333032313336315304FDCCD727, NdefRecord tnf=1 type=536967 payload=01020080B489DEDA8C2271386B7962250063A7C7C8612C3D58C8CD44D674F9D1615E80C72D961F8AC822C3188D48EFC7DA9DA3FF5C306E1EF54E0610F66D1C891CC59428A27CAA4211D4040527CF9BCD16F20E0B3116966AFC2390B7EF30CCC877B8532281CA3CBE286D295AECEA4447FD62874872A46099D6CEED99ED6766B829FD3FDF800025687474703A2F2F70696C65742E65652F6372742F33303836343930302D303030312E637274]
-            //I/ActivityManager(  440): START u0 {flg=0x10008000 cmp=com.android.nfc/.NfcRootActivity (has extras)} from pid 747
-            //D/NfcDispatcher(  747): Set Foreground Dispatch
-            //I/NfcDispatcher(  747): matched single TECH
-            //I/ActivityManager(  440): START u0 {act=android.nfc.action.TECH_DISCOVERED cmp=com.google.android.tag/com.android.apps.tag.TagViewer (has extras)} from pid 747
-            //I/ActivityManager(  440): Displayed com.google.android.tag/com.android.apps.tag.TagViewer: +100ms (total +114ms)
-            //W/IInputConnectionWrapper(20170): showStatusIcon on inactive InputConnection
-            //I/CalendarProvider2(17732): Sending notification intent: Intent { act=android.intent.action.PROVIDER_CHANGED dat=content://com.android.calendar }
-            //W/ContentResolver(17732): Failed to get type for: content://com.android.calendar (Unknown URL content://com.android.calendar)
-
-            //            D/NativeNfcTag(  747): Check NDEF Failed - status = 255
-            //D/NfcDispatcher(  747): dispatch tag: TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.NdefFormatable] message: null
-            //I/NfcDispatcher(  747): no match
             activity.AtNewIntent +=
                 i =>
                 {

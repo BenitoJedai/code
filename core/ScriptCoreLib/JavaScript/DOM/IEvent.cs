@@ -328,22 +328,22 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
 
-        internal void initMouseEvent(object type, object canBubble, object cancelable, object view,
-                     object detail, object screenX, object screenY, object clientX, object clientY,
-                     object ctrlKey, object altKey, object shiftKey, object metaKey,
-                     object button, object relatedTarget)
-        {
+        //internal void initMouseEvent(object type, object canBubble, object cancelable, object view,
+        //             object detail, object screenX, object screenY, object clientX, object clientY,
+        //             object ctrlKey, object altKey, object shiftKey, object metaKey,
+        //             object button, object relatedTarget)
+        //{
 
-        }
+        //}
 
-        internal object type;
-        internal object bubbles;
-        internal object cancelable;
+        internal string type;
+        internal bool bubbles;
+        internal bool cancelable;
         internal object view;
-        internal object detail;
-        internal object screenX;
-        internal object screenY;
-        internal object metaKey;
+        internal int detail;
+        internal int screenX;
+        internal int screenY;
+        internal bool metaKey;
         internal object relatedTarget;
 
         // http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html

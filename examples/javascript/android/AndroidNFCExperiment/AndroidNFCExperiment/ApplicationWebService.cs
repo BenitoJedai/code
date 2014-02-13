@@ -71,7 +71,18 @@ namespace AndroidNFCExperiment
                 activity.GetType().ToClass()
                 );
 
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            // /ActivityManager(  510): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { act=android.nfc.action.TECH_DISCOVERED cmp=AndroidNFCExperiment.Activities/.ApplicationWebServiceActivity (has extras) }
+            //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+            // https://code.google.com/p/android/issues/detail?id=4155
+            //            Well onNewIntent will only be called when the activity has "singleTop" property and
+            //exists in the activity stack(not destroyed)
+            //intent.addFlags(Intent.fl);
+            //com.p2.A2 is an Activity with launchMode="singleTop".
+
+            //But without Intent.FLAG_ACTIVITY_SINGLE_TOP being set,
+            //A2.onNewIntent() will not be invoked.
 
             var pendingIntent = PendingIntent.getActivity(
                 activity,
@@ -153,10 +164,11 @@ namespace AndroidNFCExperiment
                 {
                     var action = i.getAction();
 
-                    Console.WriteLine("AtNewIntent " + new { action });
+                    Console.WriteLine("AndroidNFCExperiment AtNewIntent " + new { action });
 
                     //I/System.Console(25300): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED }
 
+                    #region android.nfc.action.TECH_DISCOVERED
                     if (action == "android.nfc.action.TECH_DISCOVERED")
                     {
                         //                    U:\src\AndroidNFCExperiment\ApplicationWebService___c__DisplayClass4.java:93: <identifier> expected
@@ -327,24 +339,29 @@ namespace AndroidNFCExperiment
                         //);
                         //tag.get
                     }
+                    #endregion
                 };
 
             // who is using it?
             activity.AtResume +=
                 delegate
                 {
-                    Console.WriteLine("AtResume");
+
+                    Console.WriteLine("AndroidNFCExperiment AtResume");
                     adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
                 };
 
-            Console.WriteLine("before enableForegroundDispatch");
-            adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
+            //     Caused by: java.lang.IllegalStateException: Foreground dispatch can only be enabled when your activity is resumed
+            //at android.nfc.NfcAdapter.enableForegroundDispatch(NfcAdapter.java:1135)
+
+            Console.WriteLine("before AndroidNFCExperiment enableForegroundDispatch ?");
+            //adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
 
 
             activity.AtPause +=
                delegate
                {
-                   Console.WriteLine("AtPause");
+                   Console.WriteLine("AndroidNFCExperiment AtPause");
                    adapter.disableForegroundDispatch(activity);
                };
         }
