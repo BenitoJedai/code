@@ -473,6 +473,26 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         }
 
+        [Script(DefineAsStatic = true)]
+        public void click()
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile\Application.cs
+            
+            //Click to work with every HTML element
+            //Tested by E:\jsc.svn\examples\javascript\Test\TestHtmlClickInBrowsers\TestHtmlClickInBrowsers
+            new IFunction("e", @"
+
+                        // # First create an event
+                        var click_ev = document.createEvent('MouseEvent');
+                        // # initialize the event
+                        click_ev.initEvent('click', true /* bubble */, true /* cancelable */);
+                        // # trigger the evevnt
+                        this.dispatchEvent(click_ev);
+
+                        ").apply(this);
+        }
+
 
 
         /*

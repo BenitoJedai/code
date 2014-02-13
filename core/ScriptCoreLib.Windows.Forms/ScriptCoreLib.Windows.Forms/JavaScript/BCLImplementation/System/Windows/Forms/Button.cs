@@ -103,9 +103,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalButton.innerText = value;
             }
         }
-
-
-
+        public void PerformClick()
+        {
+            InternalButton.click();
+        }
 
         #region operators
         static public implicit operator Button(__Button e)
