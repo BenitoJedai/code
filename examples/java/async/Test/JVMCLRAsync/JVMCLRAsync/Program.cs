@@ -16,6 +16,17 @@ using System.Xml.Linq;
 
 namespace JVMCLRAsync
 {
+    public class Class1
+    {
+        public Class1()
+        {
+        }
+    }
+
+    public class Class1<T>
+    {
+    }
+
 
     static class Program
     {
@@ -34,6 +45,15 @@ namespace JVMCLRAsync
             System.Console.WriteLine(
                typeof(object).AssemblyQualifiedName
             );
+
+            //- javac
+            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRAsync\Program.java
+            //java\JVMCLRAsync\Program.java:33: error: generic array creation
+            //        class1_1Array0 = new JVMCLRAsync.Class1_1<Class1>[1];
+            //                         ^
+
+            var a = new Class1<Class1>[1];
+            //var a = (Class1<Class1>[])Array.CreateInstance(typeof(Class1<Class1>), 1);
 
 
 
@@ -55,14 +75,14 @@ namespace JVMCLRAsync
             };
             goo();
 
-            //Func<Task<string>> foo = async delegate
-            //{
-            //    return "hi from foo";
-            //};
+            Func<Task<string>> foo = async delegate
+            {
+                return "hi from foo";
+            };
 
-            //Console.WriteLine(
-            //    new { foo().Result }
-            //    );
+            Console.WriteLine(
+                new { foo().Result }
+                );
 
             CLRProgram.CLRMain();
         }
