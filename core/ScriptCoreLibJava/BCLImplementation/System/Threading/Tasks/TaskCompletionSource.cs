@@ -18,9 +18,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public Task<TResult> Task { get; set; }
 
+        public __TaskCompletionSource()
+        {
+            this.Task = new __Task<TResult>();
+        }
 
         public void SetResult(TResult result)
         {
+            var t = ((__Task<TResult>)this.Task);
+
+            t.Result = result;
+            t.IsCompleted = true;
         }
     }
 }

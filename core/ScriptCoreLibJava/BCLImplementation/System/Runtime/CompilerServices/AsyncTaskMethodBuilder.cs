@@ -66,4 +66,44 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
             this.InternalTask.SetResult(null);
         }
     }
+
+
+
+    // see: http://msdn.microsoft.com/en-us/library/hh138506(v=vs.110).aspx
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1")]
+    internal class __AsyncTaskMethodBuilder<TResult>
+    {
+        public static __AsyncTaskMethodBuilder<TResult> Create()
+        {
+            return new __AsyncTaskMethodBuilder<TResult> { };
+        }
+
+        public void Start<TStateMachine>(ref  TStateMachine stateMachine)
+        //where TStateMachine : __IAsyncStateMachine
+        {
+            var xstateMachine = (__IAsyncStateMachine)stateMachine;
+            xstateMachine.MoveNext();
+        }
+
+        public __TaskCompletionSource<TResult> InternalTask = new __TaskCompletionSource<TResult>();
+
+        public Task<TResult> Task { get { return this.InternalTask.Task; } }
+
+
+        public void SetStateMachine(__IAsyncStateMachine stateMachine)
+        {
+
+        }
+
+
+        public void SetException(Exception exception)
+        {
+            Debugger.Break();
+        }
+
+        public void SetResult(TResult result)
+        {
+            this.InternalTask.SetResult(result);
+        }
+    }
 }
