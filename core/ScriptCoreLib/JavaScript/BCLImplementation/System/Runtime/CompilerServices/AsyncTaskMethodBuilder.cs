@@ -112,20 +112,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             Task.InternalSetCompleteAndYield(result);
         }
 
-        public void Start<TStateMachine>(
-           ref  TStateMachine stateMachine
-          )
-        // script: error JSC1000: Method: <.ctor>b__2, Type: AsyncButtonExperiment.Application; emmiting failed : System.ArgumentException: GenericArguments[0], 'AsyncButtonExperiment.Application+ctor>b__2>d__6', 
-        // on 'Void Start[TStateMachine](TStateMachine ByRef)' violates the constraint of type 'TStateMachine'. ---> System.Security.VerificationException: 
-        // Method ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices.__AsyncVoidMethodBuilder.Start: 
-        // type argument 'AsyncButtonExperiment.Application+ctor>b__2>d__6' violates the constraint of type parameter 'TStateMachine'.
-
-          //where TStateMachine : __IAsyncStateMachine
+        public void Start<TStateMachine>(ref  TStateMachine stateMachine)
+        //where TStateMachine : __IAsyncStateMachine
         {
-            //Console.WriteLine("__AsyncTaskMethodBuilder.Start, call MoveNext");
-
-            // jsc does not yet know how to dereference here
-            //var x = (__IAsyncStateMachine)stateMachine;
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
             xstateMachine.MoveNext();
         }
@@ -159,8 +148,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
         public static __AsyncTaskMethodBuilder<TResult> Create()
         {
-            //Console.WriteLine("__AsyncTaskMethodBuilder<TResult> Create");
-
             return new __AsyncTaskMethodBuilder<TResult> { };
         }
 

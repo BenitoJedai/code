@@ -4,30 +4,30 @@ using System.Text;
 //using ScriptCoreLib.Java.BCLImplementation.System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace ScriptCoreLib.Java.BCLImplementation.System.Threading.Tasks
-{
+//namespace ScriptCoreLib.Java.BCLImplementation.System.Threading.Tasks
+//{
 
-    [Script(Implements = typeof(global::System.Threading.Tasks.TaskCompletionSource<>))]
-    internal class __TaskCompletionSource<TResult>
-    {
-        // http://stackoverflow.com/questions/15316613/real-life-scenarios-for-using-taskcompletionsourcet
+//    [Script(Implements = typeof(global::System.Threading.Tasks.TaskCompletionSource<>))]
+//    internal class __TaskCompletionSource<TResult>
+//    {
+//        // http://stackoverflow.com/questions/15316613/real-life-scenarios-for-using-taskcompletionsourcet
 
-        public __Task<TResult> InternalTask;
+//        public __Task<TResult> InternalTask;
 
-        public Task<TResult> Task { get { return this.InternalTask; } }
+//        public Task<TResult> Task { get { return this.InternalTask; } }
 
-        public __TaskCompletionSource()
-        {
-            this.InternalTask = new __Task<TResult> { 
-                //InternalStart = null
-            };
-        }
+//        public __TaskCompletionSource()
+//        {
+//            this.InternalTask = new __Task<TResult> { 
+//                //InternalStart = null
+//            };
+//        }
 
-        public void SetResult(TResult result)
-        {
-            this.InternalTask.InternalSetCompleteAndYield(result);
-        }
-    }
+//        public void SetResult(TResult result)
+//        {
+//            this.InternalTask.InternalSetCompleteAndYield(result);
+//        }
+//    }
 
   
-}
+//}
