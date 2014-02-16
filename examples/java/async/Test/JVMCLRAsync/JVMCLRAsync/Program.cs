@@ -36,21 +36,21 @@ namespace JVMCLRAsync
 
 
 
-
-            //0001 02000002 JVMCLRAsync__i__d.jvm::JVMCLRAsync.Program
-            //0001 02000003 JVMCLRAsync__i__d.jvm::JVMCLRAsync.Program+<<Main>b__0>d__2
-            //internal compiler error at method
-            // type: JVMCLRAsync.Program+<<Main>b__0>d__2+<MoveNext>0600000e
-            // method: <0000> ldc.i4.1.try
-            // Object reference not set to an instance of an object.
-            //    at jsc.Script.CompilerCLike.EmitIfBlock(Prestatement p, ILIfElseConstruct iif) in x:\jsc.internal.svn\compiler\jsc\Languages\CompilerCLike.cs:line 864
-
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140216
+            // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteSwitchRewrite.cs
+            // X:\jsc.svn\examples\java\Test\TestByRefAwaitUnsafeOnCompleted\TestByRefAwaitUnsafeOnCompleted\Class1.cs
 
             // jsc java does not understand our async/switch rewriter?
 
+
+
+            // X:\jsc.svn\examples\java\Test\TestNestedTypeImport\TestNestedTypeImport\Class1.cs
             Action goo = async delegate
             {
-                // will this break jvm build?
+
+
+
+                Console.WriteLine("hi");
             };
 
             goo();
