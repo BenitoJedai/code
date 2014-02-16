@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
     // see: http://msdn.microsoft.com/en-us/library/hh138386(v=vs.110).aspx
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.TaskAwaiter`1")]
     //"System.Runtime.CompilerServices.TaskAwaiter`1, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
-    internal class __TaskAwaiter<TResult> : __INotifyCompletion
+    public class __TaskAwaiter<TResult> : __INotifyCompletion
     {
         // x:\jsc.svn\examples\javascript\Test\TestGetAwaiter\TestGetAwaiter\Class1.cs
 
@@ -39,7 +39,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
     }
 
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.TaskAwaiter")]
-    internal class __TaskAwaiter : __INotifyCompletion
+    public class __TaskAwaiter : __INotifyCompletion
     {
         public Func<bool> InternalIsCompleted;
         public bool IsCompleted { get { return InternalIsCompleted(); } }
