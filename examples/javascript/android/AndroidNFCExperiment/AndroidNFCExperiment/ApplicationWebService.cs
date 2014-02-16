@@ -75,15 +75,18 @@ namespace AndroidNFCExperiment
             //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
+            // http://comments.gmane.org/gmane.comp.handhelds.android.devel/165860
+
             // https://code.google.com/p/android/issues/detail?id=4155
             //            Well onNewIntent will only be called when the activity has "singleTop" property and
             //exists in the activity stack(not destroyed)
             //intent.addFlags(Intent.fl);
             //com.p2.A2 is an Activity with launchMode="singleTop".
 
+
             //But without Intent.FLAG_ACTIVITY_SINGLE_TOP being set,
             //A2.onNewIntent() will not be invoked.
-
+            // http://comments.gmane.org/gmane.comp.handhelds.android.devel/165860
             var pendingIntent = PendingIntent.getActivity(
                 activity,
                 0,

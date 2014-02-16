@@ -166,17 +166,23 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                     Console.WriteLine("got data0 at f.Load");
                     f.Text += " " + s.ElapsedMilliseconds + "ms";
 
+                    g.DataSourceChanged +=
+                        delegate
+                        {
+                            var p = g.PreferredSize;
+
+                            if (p.Height > 400)
+                                p.Height = 400;
+
+                            f.ClientSize = p;
+                            f.Left = (Native.window.Width - f.Width) / 2;
+                        };
+
                     g.DataSource = data0;
 
 
 
-                    var p = g.PreferredSize;
 
-                    if (p.Height > 400)
-                        p.Height = 400;
-
-                    f.ClientSize = p;
-                    f.Left = (Native.window.Width - f.Width) / 2;
 
                 };
             #endregion
@@ -314,17 +320,24 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                           Console.WriteLine("got kdata at kf.Load");
                           kf.Text += " " + s.ElapsedMilliseconds + "ms";
 
+                          kg.DataSourceChanged +=
+                              delegate
+                              {
+
+
+                                  kf.ClientSize = kg.PreferredSize;
+
+                                  // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewColumnCollection.get_Item(System.String)]
+
+                                  // when is it ready?
+
+                                  //await Task.Delay(2);
+                                  //kg.Columns["name"].Width = 8;
+                                  kg.Columns["name"].Visible = false;
+
+                              };
+
                           kg.DataSource = kdata;
-
-                          kf.ClientSize = kg.PreferredSize;
-
-                          // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewColumnCollection.get_Item(System.String)]
-
-                          // when is it ready?
-
-                          await Task.Delay(2);
-                          kg.Columns["name"].Width = 8;
-
                       };
 
 
@@ -438,6 +451,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                         };
                                     #endregion
 
+
                                     #region Load
                                     kkf.Load +=
                                         async delegate
@@ -451,12 +465,18 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
                                             Console.WriteLine("got xdata at kkf.Load");
                                             kkf.Text += " " + s.ElapsedMilliseconds + "ms";
 
+                                            kkg.DataSourceChanged +=
+                                                delegate
+                                                {
+                                                    var p = kkg.PreferredSize;
+                                                    p.Height = p.Height.Min(400);
+
+                                                    kkf.ClientSize = p;
+                                                };
+
                                             kkg.DataSource = xdata;
 
-                                            var p = kkg.PreferredSize;
-                                            p.Height = p.Height.Min(400);
 
-                                            kkf.ClientSize = p;
                                         };
                                     #endregion
 

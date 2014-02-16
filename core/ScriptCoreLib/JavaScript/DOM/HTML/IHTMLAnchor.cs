@@ -70,6 +70,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         // http://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link
         public string download;
+
+
+        // http://curia.europa.eu/juris/document/document.jsf?text=&docid=147847&pageIndex=0&doclang=EN&mode=req&dir=&occ=first&part=1&cid=60388
         public string href;
         public string target;
 
