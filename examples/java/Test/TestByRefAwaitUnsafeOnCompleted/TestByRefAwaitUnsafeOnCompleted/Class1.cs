@@ -63,7 +63,17 @@ namespace TestByRefAwaitUnsafeOnCompleted
 
 
             //machine0 = ((__IAsyncStateMachine)ref_arg2[0]);
-            //completion1 = ((__INotifyCompletion)ref_arg1[0]);
+            //completion1 = ((__INotifyCompletion)ref_arg1[0]);'
+
+
+            //public function AwaitUnsafeOnCompleted_523e4998_06000001(ref_arg1:*, ref_arg2:*):void
+            //{
+            //    var machine0:__IAsyncStateMachine;
+            //    var completion1:__INotifyCompletion;
+
+            //    machine0 = (__IAsyncStateMachine(ref_arg2));
+            //    completion1 = (__INotifyCompletion(ref_arg1));
+
 
         }
     }
