@@ -25,6 +25,12 @@ namespace TestStructByRefInit
             //Class1[] ref_class10 = new Class1[1];
             //ref_class10[0] = new Class1();
 
+            //            var ref_class10:Array = [];
+            //            ref_class10[0] = new Class1()
+            //;
+
+            //            Class1.foo_e5c7fab1_06000003(ref_class10);
+
             Class1 x;
 
             foo(ref x);

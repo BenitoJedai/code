@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A91313E6-FDDC-4EA5-B971-1EA3778DB2FE}</ProjectGuid>
+    <ProjectGuid>{4EFA1C75-6A04-4286-8C0F-48E850620905}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestStructByRefInit</RootNamespace>
-    <AssemblyName>TestStructByRefInit</AssemblyName>
+    <RootNamespace>TestNestedTypeImport</RootNamespace>
+    <AssemblyName>TestNestedTypeImport</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLibA">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,7 +44,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cmd /K c:/util/jsc/bin/jsc.meta $(TargetPath) -java -js -as</PostBuildEvent>
+    <PostBuildEvent>cmd /C c:/util/jsc/bin/jsc.meta $(TargetPath) -java</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
