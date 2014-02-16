@@ -36,6 +36,8 @@ namespace AppEngineFirstEverWebServiceTask
 
         public async Task AsyncTask()
         {
+            // X:\jsc.svn\examples\java\async\Test\JVMCLRThreadBackgroundTask\JVMCLRThreadBackgroundTask\Program.cs
+
             //Implementation not found for type import :
             //type: System.Runtime.CompilerServices.AsyncTaskMethodBuilder
             //method: System.Runtime.CompilerServices.AsyncTaskMethodBuilder Create()
@@ -48,6 +50,15 @@ namespace AppEngineFirstEverWebServiceTask
             Thread.Sleep(1000);
 
             Console.WriteLine("exit AsyncTask");
+        }
+
+        public async Task<string> AsyncStringTask()
+        {
+
+            Console.WriteLine("enter AsyncStringTask");
+
+
+            return "the result";
         }
     }
 }
