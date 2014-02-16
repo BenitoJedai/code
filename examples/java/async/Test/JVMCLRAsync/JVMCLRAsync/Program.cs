@@ -53,16 +53,16 @@ namespace JVMCLRAsync
 
                 Console.WriteLine("hi from goo");
             };
-
-            Func<Task<string>> foo = async delegate
-            {
-                return "hi from foo";
-            };
-
             goo();
-            Console.WriteLine(
-                new { foo().Result }
-                );
+
+            //Func<Task<string>> foo = async delegate
+            //{
+            //    return "hi from foo";
+            //};
+
+            //Console.WriteLine(
+            //    new { foo().Result }
+            //    );
 
             CLRProgram.CLRMain();
         }
