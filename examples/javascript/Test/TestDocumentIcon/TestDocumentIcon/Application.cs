@@ -34,6 +34,32 @@ namespace TestDocumentIcon
             // what about gif, svg, canvas and webgl?
             Native.document.icon = new fullbox();
 
+            new IHTMLButton { "?" }.AttachToDocument().WhenClicked(
+                 button =>
+                 {
+                     var div = new IHTMLDiv { "?" };
+
+                     // 7x20
+                     div.style.color = "red";
+                     div.style.width = "16px";
+                     div.style.height = "16px";
+
+                     IHTMLImage i = div;
+
+                     var c = new CanvasRenderingContext2D(16, 16);
+
+                     c.drawImage(i, 0, 0, 16, 16);
+
+
+                     Native.css.style.cursorImage = i;
+
+                     // Uncaught SecurityError: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
+                     // why wont this work?
+                     Native.document.icon = c.canvas.toDataURL();
+
+
+                 }
+            );
         }
 
     }
