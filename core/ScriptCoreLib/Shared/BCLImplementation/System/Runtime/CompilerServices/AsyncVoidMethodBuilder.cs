@@ -72,6 +72,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
         //where TAwaiter : global::System.Runtime.CompilerServices.INotifyCompletion
         //where TStateMachine : __IAsyncStateMachine
         {
+            // tested by
+            // X:\jsc.svn\examples\java\Test\TestByRefAwaitUnsafeOnCompleted\TestByRefAwaitUnsafeOnCompleted\Class1.cs
+
             //Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted");
 
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
@@ -79,7 +82,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 
             Action yield = () => zstateMachine.MoveNext();
 
-            var xawaiter = (__INotifyCompletion)(object)awaiter;
+            //var xawaiter = (__INotifyCompletion)(object)awaiter;
+            var xawaiter = (__INotifyCompletion)awaiter;
 
             xawaiter.OnCompleted(
                 delegate
