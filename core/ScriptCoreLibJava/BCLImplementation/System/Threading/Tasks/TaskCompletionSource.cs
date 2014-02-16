@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 {
@@ -11,6 +12,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
     {
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140216/task
+
+
+
+
+        public Task<TResult> Task { get; set; }
+
 
         public void SetResult(TResult result)
         {
