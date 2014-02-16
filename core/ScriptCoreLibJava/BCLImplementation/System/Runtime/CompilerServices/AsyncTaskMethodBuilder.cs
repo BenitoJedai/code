@@ -105,5 +105,38 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
         {
             this.InternalTask.SetResult(result);
         }
+
+        //Implementation not found for type import :
+        //type: System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1[[System.Data.DataTable, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+        //method: Void AwaitUnsafeOnCompleted[TAwaiter,TStateMachine](TAwaiter ByRef, TStateMachine ByRef)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
+        public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(
+             ref  TAwaiter awaiter,
+             ref  TStateMachine stateMachine
+        )
+        //where TAwaiter : global::System.Runtime.CompilerServices.INotifyCompletion
+        //where TStateMachine : __IAsyncStateMachine
+        {
+            //Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted");
+
+            var xstateMachine = (__IAsyncStateMachine)stateMachine;
+            var zstateMachine = xstateMachine;
+
+            Action yield = () => zstateMachine.MoveNext();
+
+            var xawaiter = (__INotifyCompletion)(object)awaiter;
+
+            xawaiter.OnCompleted(
+                delegate
+                {
+                    //Console.WriteLine("__AsyncTaskMethodBuilder.AwaitUnsafeOnCompleted  xawaiter.OnCompleted");
+
+                    yield();
+                }
+            );
+        }
     }
 }
