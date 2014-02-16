@@ -38,12 +38,6 @@ namespace AppEngineFirstEverWebServiceTask
         {
             // X:\jsc.svn\examples\java\async\Test\JVMCLRThreadBackgroundTask\JVMCLRThreadBackgroundTask\Program.cs
 
-            //Implementation not found for type import :
-            //type: System.Runtime.CompilerServices.AsyncTaskMethodBuilder
-            //method: System.Runtime.CompilerServices.AsyncTaskMethodBuilder Create()
-            //Did you forget to add the [Script] attribute?
-            //Please double check the signature!
-
             Console.WriteLine("enter AsyncTask");
 
             // slow down synchronously

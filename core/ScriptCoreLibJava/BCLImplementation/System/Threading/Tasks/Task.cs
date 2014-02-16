@@ -23,11 +23,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
     {
         public TResult Result { get; set; }
 
-        //required: ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks.__Task_1<TResult>
-        //found:    ScriptCoreLib.Java.BCLImplementation.System.Threading.Tasks.__Task_1<TResult>
-        //where TResult is a type-variable:
-        //  TResult extends Object declared in class __TaskCompletionSource_1
-
         public static implicit operator __Task<TResult>(Task<TResult> e)
         {
             return (__Task<TResult>)(object)e;
