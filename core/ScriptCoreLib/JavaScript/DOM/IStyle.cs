@@ -210,6 +210,20 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        public IHTMLDiv cursorElement
+        {
+
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\css\Test\CSSSVGCursor\CSSSVGCursor\Application.cs
+
+
+                this.cursorImage = (IHTMLImage)value;
+            }
+        }
+
 
         // http://www.w3schools.com/css/css_background.asp
         public string background;

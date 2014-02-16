@@ -37,6 +37,26 @@ namespace CSSSVGCursor
             Native.document.documentElement.style.cursorImage = new HTML.Images.FromAssets.MyCursor();
 
 
+            var i = (IHTMLImage)new IHTMLDiv { "333" };
+
+            i.AttachToDocument();
+
+            page.Header.style.cursorImage = i;
+
+
+            // wow, cursors can be bigger than 32px
+            new IHTMLDiv {
+                //new HTML.Images.FromAssets._3dgarro(),
+                "222 111 000" }.With(
+                div =>
+                {
+                    div.style.color = "blue";
+                    div.AttachToDocument();
+
+                    page.Content.style.cursorElement = div;
+                }
+            );
+
 
         }
 
