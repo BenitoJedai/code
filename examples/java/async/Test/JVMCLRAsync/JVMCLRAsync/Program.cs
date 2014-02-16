@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -50,10 +51,18 @@ namespace JVMCLRAsync
 
 
 
-                Console.WriteLine("hi");
+                Console.WriteLine("hi from goo");
+            };
+
+            Func<Task<string>> foo = async delegate
+            {
+                return "hi from foo";
             };
 
             goo();
+            Console.WriteLine(
+                new { foo().Result }
+                );
 
             CLRProgram.CLRMain();
         }
