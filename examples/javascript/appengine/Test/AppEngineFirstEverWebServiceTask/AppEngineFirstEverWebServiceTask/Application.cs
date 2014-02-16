@@ -31,7 +31,23 @@ namespace AppEngineFirstEverWebServiceTask
         public Application(IApp page)
         {
 
+
             this.AsyncVoid();
+
+            new IHTMLButton { "AsyncTask" }.AttachToDocument().WhenClicked(
+                async button =>
+                {
+                    //02000012 AppEngineFirstEverWebServiceTask.Application+ctor>b__1>d__3+<MoveNext>0600000b
+                    //{ Location =
+                    // assembly: V:\AppEngineFirstEverWebServiceTask.Application.exe
+                    // type: AppEngineFirstEverWebServiceTask.Application+ctor>b__1>d__3+<MoveNext>0600000b, AppEngineFirstEverWebServiceTask.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+                    // offset: 0x002f
+                    //  method:Int32 <0035> ldarg.0.try(<MoveNext>0600000b, ctor>b__1>d__3 ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef, System.Runtime.CompilerServices.TaskAwaiter ByRef) }
+                    //script: error JSC1000: Method: <0035> ldarg.0.try, Type: AppEngineFirstEverWebServiceTask.Application+ctor>b__1>d__3+<MoveNext>0600000b; emmiting failed : System.NotImplementedException: { ParameterType = AppEngineFirstEverWebServiceTask.Application+ctor>b__1>d__3&, p = [0x002f] call       +0 -3{[0x001b] ldflda     +1 -1{[0x001a] ldind.ref  +1 -1{[0x0018] ldarg.s    +1 -0} } } {[0x002a] ldarg.s    +1 -0} {[0x002e] ldind.ref  +1 -1{[0x002c] ldarg.s    +1 -0} } , m = Void AwaitUnsafeOnCompleted[TaskAwaiter,ctor>b__1>d__3](System.Runtime.CompilerServices.TaskAwaiter ByRef, ctor>b__1>d__3 ByRef) }
+
+                    await AsyncTask();
+                }
+            );
         }
 
     }

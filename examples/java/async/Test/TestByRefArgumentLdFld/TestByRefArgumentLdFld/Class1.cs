@@ -40,5 +40,24 @@ namespace TestByRefArgumentLdFld
             //} // end of method Class1::foo
 
         }
+
+        public static void goo(ref Class1 r)
+        {
+            //.method public hidebysig static void  goo(class TestByRefArgumentLdFld.Class1& r) cil managed
+            //{
+            //  // Code size       9 (0x9)
+            //  .maxstack  8
+            //  IL_0000:  nop
+            //  IL_0001:  ldarg.0
+            //  IL_0002:  call       void TestByRefArgumentLdFld.Class1::foo(class TestByRefArgumentLdFld.Class1&)
+            //  IL_0007:  nop
+            //  IL_0008:  ret
+            //} // end of method Class1::goo
+
+
+
+            foo(ref r);
+
+        }
     }
 }

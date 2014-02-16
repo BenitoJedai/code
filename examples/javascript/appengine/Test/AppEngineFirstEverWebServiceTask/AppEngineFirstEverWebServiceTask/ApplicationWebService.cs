@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -31,6 +32,22 @@ namespace AppEngineFirstEverWebServiceTask
 
 
             Console.WriteLine("enter AsyncVoid");
+        }
+
+        public async Task AsyncTask()
+        {
+            //Implementation not found for type import :
+            //type: System.Runtime.CompilerServices.AsyncTaskMethodBuilder
+            //method: System.Runtime.CompilerServices.AsyncTaskMethodBuilder Create()
+            //Did you forget to add the [Script] attribute?
+            //Please double check the signature!
+
+            Console.WriteLine("enter AsyncTask");
+
+            // slow down synchronously
+            Thread.Sleep(1000);
+
+            Console.WriteLine("exit AsyncTask");
         }
     }
 }
