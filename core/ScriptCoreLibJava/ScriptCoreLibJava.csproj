@@ -350,6 +350,8 @@
     <Compile Include="BCLImplementation\System\Threading\EventWaitHandle.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BCLImplementation\System\Threading\Tasks\Task.cs" />
+    <Compile Include="BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="BCLImplementation\System\Threading\Thread.cs">
       <SubType>Code</SubType>
     </Compile>
