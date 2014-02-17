@@ -52,6 +52,21 @@ namespace AppEngineFirstEverWebServiceTask
 
                 }
             );
+
+
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140217
+            new IHTMLButton { "AsyncStringTaskAwaiting" }.AttachToDocument().WhenClicked(
+                async button =>
+                {
+
+                    var x = await AsyncStringTaskAwaiting();
+
+                    new IHTMLPre { new { x } }.AttachToDocument();
+
+                }
+            );
+
         }
 
     }
