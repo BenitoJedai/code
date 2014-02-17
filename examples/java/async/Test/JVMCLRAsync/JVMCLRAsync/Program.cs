@@ -75,6 +75,8 @@ namespace JVMCLRAsync
             };
             goo();
 
+
+
             Func<Task<string>> foo = async delegate
             {
                 return "hi from foo";
@@ -83,6 +85,11 @@ namespace JVMCLRAsync
             Console.WriteLine(
                 new { foo().Result }
                 );
+
+            Func<Task<string>> foo2 = async delegate
+            {
+                return await foo();
+            };
 
             CLRProgram.CLRMain();
         }
