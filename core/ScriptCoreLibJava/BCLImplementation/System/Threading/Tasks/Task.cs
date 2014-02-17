@@ -71,12 +71,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public Action InvokeWhenCompleteLater;
 
+
+        public AutoResetEvent WaitEvent = new AutoResetEvent(false);
+
+        public void Wait()
+        {
+            if (this.IsCompleted)
+                return;
+
+            WaitEvent.WaitOne();
+        }
     }
 
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
     internal class __Task<TResult> : __Task
     {
-        public TResult Result { get; set; }
+        public TResult InternalResult;
+        public TResult Result
+        {
+            get
+            {
+
+                // in js we cannot wait, throw instead?
+                this.Wait();
+                return this.InternalResult;
+            }
+            set { this.InternalResult = value; }
+        }
 
 
 
@@ -173,6 +194,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
                 InvokeWhenCompleteLater();
                 InvokeWhenCompleteLater = null;
             }
+
+            // does Wait event get raised after descendant actions are done or just started?
+
+            //Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\__Task_1.java:121: error: cannot find symbol
+            //        this.WaitEvent.Set();
+            //                      ^
+            //  symbol:   method Set()
+            //  location: variable WaitEvent of type __AutoResetEvent
+
+            this.WaitEvent.Set();
         }
     }
 }
