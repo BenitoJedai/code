@@ -88,8 +88,19 @@ namespace JVMCLRAsync
 
             Func<Task<string>> foo2 = async delegate
             {
-                return await foo();
+                Console.WriteLine("enter foo2");
+                var x = await foo();
+
+                Console.WriteLine("exit foo2");
+                return x;
+
             };
+
+
+
+            Console.WriteLine(
+                new { foo2().Result }
+                );
 
             CLRProgram.CLRMain();
         }
