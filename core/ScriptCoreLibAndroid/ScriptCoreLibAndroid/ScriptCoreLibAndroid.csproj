@@ -331,6 +331,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\EventWaitHandle.cs">
       <Link>BCLImplementation\System\Threading\EventWaitHandle.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\SynchronizationContext.cs">
+      <Link>BCLImplementation\System\Threading\SynchronizationContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task.cs">
       <Link>BCLImplementation\System\Threading\Tasks\Task.cs</Link>
     </Compile>
