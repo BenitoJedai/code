@@ -57,6 +57,12 @@ namespace TestStructByRefInit
 
             //IL_0001:  ldloca.s   x
             //IL_0003:  initobj    TestStructByRefInit.Class1
+
+
+            //var ref$b = [new a6i_be5HP_aDmwkqFk7mQ_akA()];
+            //var ref$b = [new a6i_be5HP_aDmwkqFk7mQ_akA()];
+            //ref$b[0] = new a6i_be5HP_aDmwkqFk7mQ_akA();
+            // ref$b[0] = new a6i_be5HP_aDmwkqFk7mQ_akA();
             var x = default(Class1);
 
             //Class1[] ref_class10 = new Class1[1];
@@ -66,17 +72,23 @@ namespace TestStructByRefInit
 
 
             // Error	1	Use of unassigned local variable 'x'	X:\jsc.svn\examples\java\async\Test\TestStructByRefInit\TestStructByRefInit\Class1.cs	39	21	TestStructByRefInit
-            foo(ref x);
+            foo(ref x, ref x);
         }
 
-        static int foo(ref Class1 x)
+        static int foo(ref Class1 x, ref Class1 y)
         {
             //IL_0001:  ldarg.0
             //IL_0002:  call       instance bool TestStructByRefInit.Class1::get_IsCompleted()
 
+
+
+            //     d = !ref$b[0].AgAABpHP_aDmwkqFk7mQ_akA();
             //if (ref_arg1.get_IsCompleted())
             if (x.IsCompleted)
                 return 1;
+
+            if (y.IsCompleted)
+                return 2;
 
             return 3;
         }
