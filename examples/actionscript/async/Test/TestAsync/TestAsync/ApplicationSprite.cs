@@ -22,7 +22,7 @@ namespace TestAsync
             Action goo = async delegate
             {
 
-
+                // when can we do Task, await and then threads?
 
                 Console.WriteLine("hi from goo");
 
