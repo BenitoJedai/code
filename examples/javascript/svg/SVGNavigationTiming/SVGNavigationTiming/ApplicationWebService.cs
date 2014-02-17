@@ -28,56 +28,9 @@ namespace SVGNavigationTiming
     {
         // wtf?
 
-        //1b5c:02:01 RewriteToAssembly error: System.ArgumentNullException: Value cannot be null.
-        //Parameter name: parameterTypes
-        //   at System.Reflection.Emit.MethodBuilder.Init(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type, Boolean bIsGlobalMethod)
-        //   at System.Reflection.Emit.MethodBuilder..ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type, Boolean bIsGlobalMethod)
-        //   at System.Reflection.Emit.TypeBuilder.DefineMethodNoLock(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers)
-        //   at System.Reflection.Emit.TypeBuilder.DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers)
-        //   at System.Reflection.Emit.TypeBuilder.DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] parameterTypes)
-        //   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.daac.haac.ehdgb(ProjectFileInfo )
-        //   at ScriptCoreLib.Extensions.LinqExtensions.With[T](T e, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 21
-        //   at ScriptCoreLib.Extensions.LinqExtensions.InternalWithEach[T](IEnumerable`1 collection, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 162
-        //   at ScriptCoreLib.Extensions.LinqExtensions.WithEach[T](IEnumerable`1 collection, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 134
-        //   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.daac.fccgb(AssemblyRewriteArguments )
-        //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.InternalInvoke()
-        //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.InternalInvokeWithCache()
-        //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.Invoke()
-        //System.ArgumentNullException: Value cannot be null.
-        //Parameter name: parameterTypes
-        //   at System.Reflection.Emit.MethodBuilder.Init(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type, Boolean bIsGlobalMethod)
-        //   at System.Reflection.Emit.MethodBuilder..ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type, Boolean bIsGlobalMethod)
-        //   at System.Reflection.Emit.TypeBuilder.DefineMethodNoLock(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers)
-        //   at System.Reflection.Emit.TypeBuilder.DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] returnTypeRequiredCustomModifiers, Type[] returnTypeOptionalCustomModifiers, Type[] parameterTypes, Type[][] parameterTypeRequiredCustomModifiers, Type[][] parameterTypeOptionalCustomModifiers)
-        //   at System.Reflection.Emit.TypeBuilder.DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] parameterTypes)
-        //   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.daac.haac.ehdgb(ProjectFileInfo )
-        //   at ScriptCoreLib.Extensions.LinqExtensions.With[T](T e, Action`1 h) in x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\LinqExtensions.cs:line 21
-
-        //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2::GetDataSet][offset 0x00000005] Unable to resolve token.
-        //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2+ApplicationPerformance+Queries::Create]  [HRESULT 0x80070002] - The system cannot find the file specified.
-
-        //[IL]: Error: [X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll : SVGNavigationTiming.Design.PerformanceResourceTimingData2ApplicationPerformanceRow::ToString][offset 0x0000011F][found value 'System.DateTime'][expected ref 'System.Object'] Unexpected type on the stack.
-        //3 Error(s) Verifying X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\staging.AssetsLibrary\SVGNavigationTiming.AssetsLibrary.dll
-
-
-
-
-
-
-
-        // wthflip?
         // http://stackoverflow.com/questions/1606867/how-to-prevent-a-net-application-to-use-an-assembly-from-the-gac
 
         //Cannot process request because the process (1044) has exited.
-
-        //   at System.Diagnostics.Process.GetProcessHandle(Int32 access, Boolean throwIfExited)
-        //   at System.Diagnostics.Process.Kill()
-        //   at jsc.meta.Commands.Configuration.ConfigurationDisposeSubst.<>c__DisplayClass2.<Monitor>b__1()
-        //   at jsc.meta.Library.VolumeFunctions.VolumeFunctionsExtensions.ToVirtualDriveToDirectory.Dispose()
-        //   at jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch()
-        //   at jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(Type PrimaryApplication)
-        //   at SVGNavigationTiming.Program.Main(String[] args) in x:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Program.cs:line 13
-
         // Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
         // can jsc security analyzer go one level deeper? atleast on [script] [merge] assemblies?
         public XApplicationPerformanceWebService()
@@ -192,18 +145,23 @@ namespace SVGNavigationTiming
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
 
-            //Task.FromResult
-
-            // autoconvert?
             return new Design.PerformanceResourceTimingData2.ApplicationPerformance();
-
-            //.SelectAllAsDataTable().AsResult();
-            //.AsDataTable().AsResult();
         }
 
         [Obsolete("we could allow the client tell use, by which parameter to order by")]
-        public Task<DataTable> GetSimilarApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k)
+        public
+
+            // wont work yet here, why?
+            //async 
+            Task<DataTable> GetSimilarApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k)
         {
+            // 02000051 SVGNavigationTiming.XApplicationPerformanceWebService::<>f__AnonymousType$371$3`2
+            //pt: error JSC1000: *** stack is empty, invalid pop?
+            //pt: error JSC1000: error at SVGNavigationTiming.XApplicationPerformanceWebService+<GetSimilarApplicationResourcePerformance>d__10+<MoveNext>0600004b.<0149> ldsfld.try,
+            //embly: W:\SVGNavigationTiming.XApplicationPerformanceWebService.exe
+            //e: SVGNavigationTiming.XApplicationPerformanceWebService+<GetSimilarApplicationResourcePerformance>d__10+<MoveNext>0600004b, SVGNavigationTiming.XApplicationPerformanceWebService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
             // http://msdn.microsoft.com/en-us/library/aa287599(v=vs.71).aspx
 
@@ -214,6 +172,8 @@ namespace SVGNavigationTiming
                 .OrderBy(x => x.duration)
                 .AsEnumerable()
                 .ToList();
+
+
 
 
             data.AddRange(
@@ -257,9 +217,10 @@ namespace SVGNavigationTiming
                 data
                 .AsEnumerable()
                 .Reverse()
-             .AsDataTable()
+                .AsDataTable()
 
-             .AsResult();
+                // when can we revert to async?
+                .AsResult();
         }
 
 
@@ -418,7 +379,7 @@ namespace SVGNavigationTiming
     // why the f cant appengine load this? too long?
     //public static partial class ClassDefgeneratedPerformanceResourceTimingData2
     [Obsolete]
-    public static partial class ClassDefGPRFK
+    static partial class ClassDefGPRFK
     {
         //GetApplicationResourcePerformance
         //java.lang.NoClassDefFoundError: SVGNAvigationTiming/generatedPerformanceResourceTimingData2
@@ -461,7 +422,7 @@ namespace SVGNavigationTiming
     using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
 
     //[Obsolete]
-    public static partial class ClassDefGPRFK
+    static partial class ClassDefGPRFK
     {
         public static IEnumerable<TRow> SelectAllAsEnumerableByPath(
             //this 

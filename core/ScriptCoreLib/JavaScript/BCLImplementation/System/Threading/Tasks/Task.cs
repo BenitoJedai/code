@@ -640,18 +640,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             return ContinueWith(continuationFunction, default(TaskScheduler));
         }
 
-        public Task<TNewResult> ContinueWith<TNewResult>(Func<Task<TResult>, TNewResult> continuationFunction, TaskScheduler scheduler)
+        public Task<TNewResult> ContinueWith<TNewResult>(
+            Func<Task<TResult>, TNewResult> continuationFunction, 
+            TaskScheduler scheduler)
         {
-            var function = continuationFunction;
+            // X:\jsc.svn\examples\javascript\appengine\Test\AppEngineFirstEverWebServiceTask\AppEngineFirstEverWebServiceTask\ApplicationWebService.cs
+            // android webview dislikes keywords as fields
+            var xfunction = continuationFunction;
             var MethodType = typeof(FuncOfTaskToObject).Name;
 
             #region MethodToken
-            var MethodToken = ((__MethodInfo)function.Method).MethodToken;
+            var MethodToken = ((__MethodInfo)xfunction.Method).MethodToken;
 
-            if (function.Target != null)
-                if (function.Target != Native.self)
+            if (xfunction.Target != null)
+                if (xfunction.Target != Native.self)
                 {
-                    Delegate InternalTaskExtensionsScope_function = (function.Target as dynamic).InternalTaskExtensionsScope_function;
+                    Delegate InternalTaskExtensionsScope_function = (xfunction.Target as dynamic).InternalTaskExtensionsScope_function;
 
                     if (InternalTaskExtensionsScope_function == null)
                         throw new InvalidOperationException("inline scope sharing not yet implemented");

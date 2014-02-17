@@ -18,6 +18,10 @@ namespace AppEngineFirstEverWebServiceTask
     /// </summary>
     public class ApplicationWebService
     {
+        // E/Web Console( 6547): Uncaught SyntaxError: 
+        // Unexpected token function at http://83.191.200.38:2764/view-source:56475
+        //  type$wPbomspuLjGhA_az1BEMUOQ.function = null;
+        // E/Web Console( 6900): Uncaught SyntaxError: Unexpected token function at http://83.191.200.38:18213/view-source:56475
 
 
         public async void AsyncVoid()
