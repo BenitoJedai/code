@@ -12,12 +12,7 @@ namespace TestAsync
         {
             // X:\jsc.svn\examples\java\async\Test\TestByRefArgumentLdFld\TestByRefArgumentLdFld\Class1.cs
 
-            //TypeError: Error #1034: Type Coercion failed: cannot convert []@4fc1ba1 to ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices.__IAsyncStateMachine.
-            //    at ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices::__AsyncVoidMethodBuilder/Start_4ebbe596_060009db()[V:\web\ScriptCoreLib\Shared\BCLImplementation\System\Runtime\CompilerServices\__AsyncVoidMethodBuilder.as:44]
-            //    at TestAsync::ApplicationSprite/__ctor_b__1_9ca8be72_06000002()[V:\web\TestAsync\ApplicationSprite.as:59]
-            //    at Function/http://adobe.com/AS3/2006/builtin::apply()
-            //    at ScriptCoreLib.Shared.BCLImplementation.System::__Action/Invoke_4ebbe596_06001d97()[V:\web\ScriptCoreLib\Shared\BCLImplementation\System\__Action.as:30]
-            //    at TestAsync::ApplicationSprite()[V:\web\TestAsync\ApplicationSprite.as:39]
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140217
 
             Action goo = async delegate
             {

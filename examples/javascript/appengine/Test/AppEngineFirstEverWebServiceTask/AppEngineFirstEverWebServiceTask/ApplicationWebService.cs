@@ -54,5 +54,19 @@ namespace AppEngineFirstEverWebServiceTask
 
             return "the result";
         }
+
+
+
+        public async Task<string> AsyncStringTaskAwaiting()
+        {
+
+            Console.WriteLine("enter AsyncStringTaskAwaiting");
+
+            var x = await AsyncStringTask();
+
+            Console.WriteLine("exit AsyncStringTaskAwaiting");
+
+            return "the result";
+        }
     }
 }
