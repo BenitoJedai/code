@@ -70,17 +70,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 #endregion
 
 
+                // X:\jsc.svn\examples\javascript\appengine\Test\AppEngineFirstEverWebServiceTask\AppEngineFirstEverWebServiceTask\ApplicationWebService.cs
 
-                var function = continuationFunction;
+                var xfunction = continuationFunction;
                 var MethodType = typeof(FuncOfTaskOfObjectArrayToObject).Name;
 
                 #region MethodToken
-                var MethodToken = ((__MethodInfo)function.Method).MethodToken;
+                var MethodToken = ((__MethodInfo)xfunction.Method).MethodToken;
 
-                if (function.Target != null)
-                    if (function.Target != Native.self)
+                if (xfunction.Target != null)
+                    if (xfunction.Target != Native.self)
                     {
-                        Delegate InternalTaskExtensionsScope_function = (function.Target as dynamic).InternalTaskExtensionsScope_function;
+                        Delegate InternalTaskExtensionsScope_function = (xfunction.Target as dynamic).InternalTaskExtensionsScope_function;
 
                         if (InternalTaskExtensionsScope_function == null)
                         {
