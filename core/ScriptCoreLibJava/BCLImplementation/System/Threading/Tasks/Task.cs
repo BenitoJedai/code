@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
@@ -19,10 +20,57 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
         public bool IsCompleted { get; set; }
 
 
+
+
+        public static implicit operator Task(__Task e)
+        {
+            return (Task)(object)e;
+        }
+
+
         public static Task<TResult> FromResult<TResult>(TResult result)
         {
             return new __Task<TResult> { Result = result, IsCompleted = true };
         }
+
+
+        public Task ContinueWith(Action<Task> continuationAction)
+        {
+            return ContinueWith(continuationAction, default(TaskContinuationOptions));
+        }
+
+        public Task ContinueWith(Action<Task> continuationAction, TaskContinuationOptions continuationOptions)
+        {
+            var u = new TaskCompletionSource<object>();
+
+            InvokeWhenComplete(
+                delegate
+                {
+                    continuationAction(this);
+
+                    u.SetResult(null);
+                }
+            );
+
+
+            return u.Task;
+        }
+
+
+
+        public void InvokeWhenComplete(Action e)
+        {
+            if (this.IsCompleted)
+            {
+                e();
+                return;
+            }
+
+            InvokeWhenCompleteLater += e;
+        }
+
+        public Action InvokeWhenCompleteLater;
+
     }
 
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
@@ -60,15 +108,71 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
                 InternalGetResult = () => this.Result
             };
 
-            //this.InternalYield += delegate
-            //{
-            //    if (awaiter.InternalOnCompleted != null)
-            //        awaiter.InternalOnCompleted();
-            //};
+
+            InvokeWhenComplete(
+                delegate
+                {
+                    if (awaiter.InternalOnCompleted != null)
+                        awaiter.InternalOnCompleted();
+                }
+            );
+
 
             return awaiter;
         }
 
 
+
+        public Task ContinueWith(Action<Task<TResult>> continuationAction)
+        {
+            return ContinueWith(continuationAction, default(TaskContinuationOptions));
+        }
+
+        public Task ContinueWith(Action<Task<TResult>> continuationAction, TaskContinuationOptions continuationOptions)
+        {
+            var u = new TaskCompletionSource<object>();
+
+            // X:\jsc.svn\examples\java\Test\JVMCLRTaskStartNew\JVMCLRTaskStartNew\Program.cs
+
+            //y { ManagedThreadId = 8, IsCompleted = true, Result = done }
+            //x { ManagedThreadId = 9, IsCompleted = true, Result = done }
+            //{ ManagedThreadId = 9 } and then some
+
+            InvokeWhenComplete(
+                delegate
+                {
+                    if (continuationOptions == TaskContinuationOptions.ExecuteSynchronously)
+                    {
+                        continuationAction(this);
+                        u.SetResult(null);
+                        return;
+                    }
+
+                    // shall we use threadpool instead?
+                    new Thread(
+                        delegate()
+                        {
+                            continuationAction(this);
+                            u.SetResult(null);
+                        }
+                    ) { IsBackground = true }.Start();
+                }
+            );
+
+            return u.Task;
+        }
+
+
+        public void SetResult(TResult result)
+        {
+            this.Result = result;
+            this.IsCompleted = true;
+
+            if (InvokeWhenCompleteLater != null)
+            {
+                InvokeWhenCompleteLater();
+                InvokeWhenCompleteLater = null;
+            }
+        }
     }
 }
