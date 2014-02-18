@@ -128,7 +128,7 @@ namespace MultiMouse.SVGCursor
                                     path.Attribute("style").With(
                                         style =>
                                         {
-                                            var rr = ((byte)(e.CursorX * 255 / Native.Window.Width)).ToString("x2");
+                                            var rr = ((byte)(e.CursorX * 255 / Native.window.Width)).ToString("x2");
 
                                             Console.WriteLine(rr);
 
@@ -136,6 +136,10 @@ namespace MultiMouse.SVGCursor
                                         }
                                     )
                             );
+
+
+                            Native.document.documentElement.style.cursorImage = svg.SVGElement;
+
                         };
                 }
             );
@@ -146,7 +150,7 @@ namespace MultiMouse.SVGCursor
                     Native.Document.onmousemove +=
                         e =>
                         {
-                            var rr = ((byte)(e.CursorX * 255 / Native.Window.Width));
+                            var rr = ((byte)(e.CursorX * 255 / Native.window.Width));
 
                             svg.fill(rr, rr, rr);
                         };
@@ -202,7 +206,7 @@ namespace MultiMouse.SVGCursor
                                                     path.Attribute("style").With(
                                                         style =>
                                                         {
-                                                            var rr = ((byte)(e.CursorX * 255 / Native.Window.Width)).ToString("x2");
+                                                            var rr = ((byte)(e.CursorX * 255 / Native.window.Width)).ToString("x2");
 
                                                             Console.WriteLine(rr);
 
