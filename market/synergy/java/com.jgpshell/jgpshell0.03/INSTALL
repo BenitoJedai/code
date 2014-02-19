@@ -1,0 +1,38 @@
+Java Global Platform Shell (JGPShell)
+=====================================
+
+Installation :
+==============
+
+1) Make sure you have : 
+ - java 1.4 (1.5 or higher to use th gui shell).
+ - libpcslite 1.3.3 or later
+ - libccid 1.2.1 or later
+ - pcscd 1.3.3 or later
+
+
+2) Unpack the files into a jgspshell folder
+
+3) cd jgpshell
+   ./compile.sh (or compile.bat for Windows users)
+   ./run.sh (or compile.bat for Windows users)
+
+More options :
+==============
+
+- To run the shell using the graphic mode :
+./run.sh gui
+
+- To generate javadoc :
+./compile.sh doc
+
+- to create a jar :
+./compile.sh jar
+
+- to clean the build foldr :
+./compile.sh clean
+
+- For more options :
+./compile.sh ?
+./run.sh ?
+

@@ -1,0 +1,361 @@
+/* CSS Document */
+
+BODY {
+        background-color:#FFFFFF ;
+        /*scrollbar-face-color :#99FFFF ;
+         scrollbar-darkshadow-color: #000000; */
+
+}
+
+.CadreForum1{
+	border-style:solid;
+	border-color:#000099;
+	border-width:1px;
+}
+
+.CadreForum2{
+	border-style:solid;
+	border-color:#CCCCCC;
+	border-width:2px;
+}
+
+.CadreBleu{
+		border-style:solid;
+		border-color:#CCCCCC;
+		border-width:2px;
+	}	
+
+
+.CadreGauche{
+	border-left-style:solid;
+	border-left-color:#000000;
+	border-left-width:1px;
+	
+	border-right-style:solid;
+	border-right-color:#000000;
+	border-right-width:1px;
+	
+	border-bottom-style:solid;
+	border-bottom-color:#000000;
+	border-bottom-width:1px;
+	
+	border-top-style:solid;
+	border-top-color:#000000;
+	border-top-width:1px;
+}
+
+.SemiCadreForm{
+	border-bottom-style:solid;
+	border-bottom-color:#000000;
+	border-bottom-width:1px;
+	
+	border-top-style:solid;
+	border-top-color:#000000;
+	border-top-width:1px;
+}
+
+.CadreForm{
+		border-style:solid;
+		border-color:#000000;
+		border-width:1px;
+		}
+		
+.Cadre2
+{
+	border-style:solid;
+	border-color:#000099;
+	border-width:1px;
+}	
+
+.Cadre3
+{
+	border-style:solid;
+	border-color:#000099;
+	border-width:1px;
+	background-color:#CCCCCC;
+}	
+		
+.SemiCadre2{
+	border-top-style:solid;
+			border-top-color:#000000;
+			border-top-width:1px;
+			border-bottom-style:solid;
+			border-bottom-color:#000000;
+			border-bottom-width:1px;
+			font-weight:bold;
+			font-size:12px;
+			color:#000000;
+			background-color:#FFFFFF;
+}		
+
+.SemiCadre3{
+	border-top-style:solid;
+			border-top-color:#000000;
+			border-top-width:1px;
+			border-bottom-style:solid;
+			border-bottom-color:#000000;
+			border-bottom-width:1px;
+			font-weight:bold;
+			font-size:12px;
+			color:#0000CC;
+			background-color:#FFFFFF;
+}		
+		
+
+.LienJoli{
+	font-weight:bold;
+	font-size:12px;
+	color:#0000CC;
+}		
+
+.SemiCadre3{
+	border-top-style:solid;
+	border-top-color:#000000;
+	border-top-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#000000;
+	border-bottom-width:1px;
+	font-weight:bold;
+	font-size:12px;
+	color:#0000CC;
+	background-color:#FFFFFF;
+}		
+		
+.SemiCadreTitre{
+			border-top-style:solid;
+			border-top-color:#000000;
+			border-top-width:1px;
+			border-bottom-style:solid;
+			border-bottom-color:#000000;
+			border-bottom-width:1px;
+			font-weight:bold;
+			font-size:18px;
+			color:#000099;
+}		
+
+A{text-decoration:none;
+color:#000000;}
+
+.TitreMenu{
+	font-weight:bold;
+	font-size:18px;
+	color:#000099;
+	}
+
+.Bouton1{background-color:#CCCCCC;
+                font-weight:bold;}
+
+.StyleErreur {color: #FF0000}
+.StyleErreur2 {color: #330099}
+
+.Petit{font-size:13px}
+.PetitBleu{font-size:12px ; color:#000066 ;}
+.TresPetit{ font-size:10px; color:#333333; font:"Times New Roman", Times, serif}
+.Bouton2{background-color:#999999}
+
+.Titre1 {background-color:#999999 ; color:#000000; font-weight:bold}
+.Titre2 {background-color:#666666 ; color:#000000 ; font-weight:bold}
+.Titre3 {background-color:#99CCFF ; color:#000000 ; font-weight:bold}
+.Titre4 {background-color:#666666 ; color:#FFFFFF ; font-weight:bold}
+
+.Titre5 {background-color:#666666 ; color:#0000FF ; font-weight:bold}
+.Titre6 {background-color:#CCCCCC ; color:#0000FF ; font-weight:bold}
+
+.Ligne1 {background-color:#99CCFF ; color:#000000 ;font-weight:bold }
+.Ligne2 {background-color:#99CCFF ; color:#000000 ;font-weight:bold}
+
+.Desc{ background-color:#99CCFF;color:#000000; font:"Courier New", Courier, mono ; text-align:justify;}
+.Desc2 {background-color:#CCCCCC ; color:#000000; text-align:justify; font:"Courier New", Courier, mono ;}
+
+.Ligne2N {background-color:#99CCFF ; color:#000000}
+.Ligne3N {background-color:#66CCCC ; color:#000000}
+
+.Ligne3 {background-color:#CCCCCC;}
+
+.Menu1 {background-color:#0066FF ; color:#000000 ; font-weight:bold}
+
+.Colonne1 {background-color:#999999 ;color:#FF0000 ;font-weight:bold }
+.Colonne2 {background-color:#999999 ;color:#000099 ; font-weight:bold }
+
+.Contenu {background-color:#0000cc ; color:#FFFFFF }
+.Contenu2 {background-color:#FFFFFF ; color:#000000}
+
+.Contenu3 {background-color:#FFFFFF ; color:#000000}
+.Contenu5 {background-color:#999999 ; color:#000000}
+
+.Contenu4 {background-color:#CCCCCC ; color:#000000}
+.ContenuBlanc{background-color:#FFFFFF; color:#000000}
+
+.Bande1{background-color:#FFFFCC}
+.Bande2{background-color:#FFFFFF}
+
+
+.FondBleu{background-color:#99FFFF}
+
+.Normal {background-color:#CC6600}
+
+.BarreLiens {
+        font-size: 18px;
+        font-weight: bold;
+}
+.GrandTheme {
+        background-color:#CCCCCC;
+        font-size: 24px;
+        color: #000099;
+        font-weight: bold;
+}
+
+.GrandTitre {
+        color:#000000 ;
+        font-size:16px ;
+        font-weight:bold ;
+}
+
+.GrandTitre2 {
+        color: #000099;
+        font-size:24px ;
+        font-weight:bold ;
+}
+
+
+
+.Ligne3 {background-color:#CCCCCC ; color:#000000 }
+
+.erreur {
+        font-size: 14px;
+        color:#003399;
+        font-weight: bold;
+}
+
+.Menu_Elem{
+        font-size:14px;
+        color:#000000 ;
+        }
+
+.LienOption {
+        font-size:15px ;
+        font-weight:bold;
+        }
+
+.LienForum {
+        font-size:18px ;
+        color:#000000 ;
+        }
+
+.LienTitre2  {
+        font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #000066;
+	font-size: 14px;}
+
+.LienTitre  {
+        color:#000000 ;
+        font-size: 14px ;
+		font:Verdana, Arial, Helvetica, sans-serif;
+		font-weight:400;
+}
+
+.Stat{
+	font-size:12px;
+	font:Geneva, Arial, Helvetica, sans-serif;
+	font-style:italic;	
+	}
+	
+	
+.LienMenu  {
+        color:#00000 ;
+        font-size: 12px ;
+		font:Courier, mono;
+		
+}
+
+.MenuAnnuaire {
+        color:#000000 ;
+        font-weight:900 ;
+        }
+.Lien3 {
+        background-color:#33FFCC ;
+        color:#000000 ;
+        font-size:13px ;
+        font-weight:bold ;
+        }
+
+.Lien2 {
+        color:#000000 ;
+        font-size:13px ;
+        font-weight:bold ;
+        }
+		
+.Lien4 {
+        color:#000000 ;
+        font-size:13px ;
+}
+
+.LienRose {
+        color:#990066 ;
+        }
+
+.TxtFormate{
+	font:Verdana, Arial, Helvetica, sans-serif;
+	color:#000000;
+}
+
+/*Styles pour le forum*/
+.Normal {
+        font-size:14px ;
+        color:#000000 ;
+        }
+
+.Normal_Rouge {
+        font-size:14px ;
+        color:#FF0000 ;
+        }
+
+.Normal_Bleu {
+        font-size:14px;
+        color:#0000FF;
+        }
+
+.Important {
+        font-size:18px ;
+        color:#000000 ;
+        }
+
+.Important_Rouge {
+        font-size:18px ;
+        color:#FF0000 ;
+        }
+
+.TresImportant {
+        font-size:24px        ;
+        color:#000000 ;
+        }
+
+.TresImportant_Rouge {
+        font-size:24px ;
+        color:#FF0000 ;
+        }
+
+
+.Code {
+	font-size:16px;
+	font-style:italic ;
+	background-color:#FFFFFF;
+	color:#000000;	
+	}
+	
+.Joli{
+		font:Verdana;
+		color:#000066;
+		font-size:12px;
+		text-decoration:underline}	
+		
+.ItemBleu{
+	font:Georgia, "Times New Roman", Times, serif;
+	color:#000099;
+	font-size:16px;
+	font-weight:bold;
+	}		
+	
+.TxtFormate	{
+	font:Georgia, "Times New Roman", Times, serif;
+}
