@@ -1,0 +1,8 @@
+for x 1 to $NB_READERS
+{
+	/start -p $x
+	init-update
+	ext-auth
+	ls
+	/end
+}

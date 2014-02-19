@@ -1,0 +1,30 @@
+Java Global Platform Shell (JGPShell)
+=====================================
+
+JGPShell provides a shell environment to manage smart cards. It is
+intended to deal with more than one smart card at the same time.
+GPShell is a java api to manage content of smart cards in conformance
+with the Global Platform standard.  It implements a shell (terminal
+and swing gui) to execute commands on the cards. A minimal shell
+language (including conditional and loop instructions) is also
+provided to execute a sequence of commands on the cards.  
+
+Many other features : can execute commands on many cards at the same
+time, can get the card list from a MySQL database...
+
+Wiki : http//jgpshell.fisoft1.com
+
+To contact the authors, please send an email to : moez@fisoft1.com
+
+Installation :
+==============
+look at INSTALL
+
+Documentation :
+===============
+look at the docs folder and the project wiki : 
+http://jgpshell.fisoft1.com
+
+Author :
+========
+Moez Ben MBarka ben.moez@fisoft1.com

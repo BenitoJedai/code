@@ -1,0 +1,531 @@
+
+/*
+ * Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+ * California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+ * intellectual property rights relating to technology embodied in the product
+ * that is described in this document. In particular, and without limitation,
+ * these intellectual property rights may include one or more of the U.S.
+ * patents listed at http://www.sun.com/patents and one or more additional
+ * patents or pending patent applications in the U.S. and in other countries.
+ * U.S. Government Rights - Commercial software. Government users are subject
+ * to the Sun Microsystems, Inc. standard license agreement and applicable
+ * provisions of the FAR and its supplements.  Use is subject to license terms.
+ * Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+ * trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+ * product is covered and controlled by U.S. Export Control laws and may be
+ * subject to the export or import laws in other countries.  Nuclear, missile,
+ * chemical biological weapons or nuclear maritime end uses or end users,
+ * whether direct or indirect, are strictly prohibited.  Export or reexport
+ * to countries subject to U.S. embargo or to entities identified on U.S.
+ * export exclusion lists, including, but not limited to, the denied persons
+ * and specially designated nationals lists is strictly prohibited.
+ */
+
+
+options {
+  JAVA_UNICODE_ESCAPE = true;
+  STATIC = false;
+}
+
+
+PARSER_BEGIN(JGPShell) 
+
+package com.jgpshell.shell;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+
+public class JGPShell {
+
+  private Command cmd ;
+	
+  private  String lastToken ;
+	
+  /* Return value */
+  private int ret=909909 ;
+	
+  /* The last command read */
+  private  String last_cmd = new String();
+	
+  /* The last variable name red */
+  private String last_var = new String() ;
+
+  /* The last param list */
+  private ArrayList params = new ArrayList() ;
+
+  /* false:the last_cmd is a global command, true: it is a card command*/
+  private boolean is_card_cmd ;
+
+  /* If it is true the current cmd will be ignored*/
+  private boolean ignore = false ;
+ 
+
+  	
+  private JGPShell parser ;
+	
+	
+	
+  public JGPShell(Command cmd){
+     	this.cmd=cmd;
+  }
+
+    /**
+     * To parse one line command
+     */
+  public void parse_command(InputStream text) throws ParseException{
+    parser = new JGPShell(text);
+
+    parser.cmd=this.cmd ;
+    parser.Command();
+  }
+
+    public void parse_program(InputStream text) throws ParseException {
+	parser = new JGPShell(text);
+
+	parser.cmd=this.cmd ;
+	parser.Program();
+    }
+
+  
+  /***********************************/ 
+  /************* Accessors **********/
+
+  public void add_param(String param){
+      params.add(param) ;
+   }
+
+  public void init_params(){
+ 
+      params.clear() ;
+  }
+
+  public ArrayList get_params(){
+      return params ;
+  }
+
+  public String get_last_cmd(){
+  	return parser.last_cmd ;
+  }
+  
+  private void set_last_cmd(String cmd){
+  	last_cmd=cmd;
+  	//System.out.println(cmd) ;
+  }
+  
+  public boolean is_card_cmd(){
+  	return is_card_cmd ;
+  }
+  
+  private void set_is_card_cmd(boolean is){
+  	is_card_cmd=is;
+  }
+
+  public int get_ret(){
+      	return parser.ret ;
+  }
+
+  public void set_last_var(String v){
+      last_var=v;
+  }
+
+  public String get_last_var(){
+      return last_var ;
+  }
+
+  public JGPShell get_parser() {
+        return parser;
+  }
+  
+  
+}
+
+PARSER_END(JGPShell)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\r\n"
+}
+
+TOKEN :
+{
+
+   //shell command tokens
+   <LS: "/ls"> |  
+   <CONNECT: "/connect"> |
+   <SELECT: "/select"> | 
+   <EXIT: "/exit">  |
+   <SET: "/set">  |
+   <REINIT: "/reinit"> |
+   <ECHO: "/echo"> |
+   <LIST_VARS: "/list-vars"> |
+   <NEW_SESSION: "/new-session"> |
+   <THREADS: "/threads"> |
+   <KILL: "/kill"> |
+   <RUN : "/run"> |
+   <START : "/start"> |
+   <END : "/end"> |
+   //card commands tokens
+   <LS_C: "ls"> |
+   <CLOSE: "close"> |  
+   <INIT_UPDATE: "init-update"> |
+   <EXT_AUTH: "ext-auth"> |
+   <AUTHENTICATE: "authenticate"> |  
+   <SEND: "send"> |
+   <UPLOAD: "upload"> |
+   <INSTALL: "install"> |
+   <DELETE: "delete"> |
+   <FORMAT: "format"> |
+   <SELECT_C: "select"> |
+   
+   //Shell programming tokens
+   <FOR : "for"> |
+   <READER : "reader"> |
+   <TO : "to"> |
+   <BRACE_O : "{"> |
+   <BRACE_C : "}"> |
+   <PV : ";"> | 
+
+   //general tokens
+   <LOG: "log"> |
+   <DOLLARD: "$"> |
+   <H : "#"> |
+   <HH : "##"> |
+   <INT:  (["0"-"9"])+ > |
+   <HEXA: ["0"-"9","A"-"F"]["0"-"9","A"-"F"](["0"-"9","A"-"F"]["0"-"9","A"-"F"])*> |
+   <AID: "|" <HEXA>> |
+   <TEXT: "\"" ([" ", "0"-"9","A"-"Z", "_", "\\", "/", "a"-"z", ":", "."])* "\"" | ["A"-"Z", "_", "\\", "/", "a"-"z", ":", "."](["0"-"9", "A"-"Z", "\\", "/", "_", "a"-"z", ":", "."])*> 
+}
+
+void Program() :
+{
+}
+{
+    Instructions() <EOF>
+}
+
+
+void Instructions() :
+{
+}
+{
+   ( Instruction () ) *
+			 
+}
+
+
+void Instruction() :
+{
+    if (!ignore)cmd.set_last_line(getToken(0).beginLine);
+}
+{
+    Loop() |
+    Cmd()
+}
+
+
+void Loop() :
+{
+}
+{
+    <FOR>{cmd.init_loop();} 
+    <TEXT>{cmd.get_loop().set_var(Utils.delete_quotes(getToken(0).image));} 
+    Identifiant(){cmd.get_loop().set_min(get_last_var());} <TO> Identifiant() {cmd.get_loop().set_max(get_last_var());}
+    LoopBloc()
+}
+
+
+void LoopBloc() :
+{
+}
+{
+    <BRACE_O> {cmd.get_loop().set_loop_code_begin(getToken(0).endLine, getToken(0).endColumn);
+	 ignore =true ; /* instructions must not be executed before the end of the bloc*/}
+    Instructions()
+	<BRACE_C>{ignore=false; ret=cmd.get_loop().process(getToken(0).endLine, getToken(0).endColumn);
+	}
+}
+
+void Loop_subject() :
+{
+    /* Not used*/
+}
+{
+    <READER>
+}
+
+void Identifiant() :
+{
+}
+{
+    <INT>{// This expansion is recommanded to be used only in the shell script grammar
+	/* Create a temporary variable to store the int */
+	set_last_var(cmd.create_var(Utils.delete_quotes(getToken(0).image)));} |
+    Variable()
+}
+
+
+void Variable() :
+{
+}
+{
+    <DOLLARD> <TEXT> {set_last_var(Utils.delete_quotes(getToken(0).image));}
+}
+
+void Command() :
+{ 
+}
+{
+	Cmd() <EOF>
+}
+
+
+void Cmd() : 
+{
+}
+{
+     Cmd_()
+}
+
+void Cmd_() :{
+set_last_cmd(getToken(1).image) ;
+}
+{
+	<LS> {cmd.ls();} |
+	<CONNECT> Connect_options() |
+	<SELECT> Select_options() |
+	<EXIT>{cmd.exit();} |
+	<SET> Set_options() |
+	<REINIT> Reinit_options() |
+	<ECHO> Echo_options() |
+	<LIST_VARS> List_vars_options() |
+	<THREADS>Threads_options() |
+	<KILL>Kill_options() |	           
+	<RUN> Run_options() |
+	<START> Start_options() |
+	<END> End_options() |
+         
+	<INIT_UPDATE> Init_update_options() |
+	<EXT_AUTH> Ext_auth_options() |
+	<AUTHENTICATE> Authenticate_options()  |
+	
+	<SEND> Send_options() |
+	<UPLOAD> Upload_options() |
+	<INSTALL> Install_options() |
+	<DELETE> Delete_options() |
+	<FORMAT> Format_options() |
+	<LS_C> Ls_c_options() |
+	<SELECT_C> Select_c_options() |
+	<CLOSE>{ret=cmd.close();} 
+}
+
+void Start_options() :
+{
+    init_params() ;
+}
+{
+    Start_parameters() Start_options_()
+}
+
+
+
+void Start_parameters() :
+{
+    /*
+     * "-p" : The launched thread is permanent
+     */
+}
+{
+    ("-p")* {add_param(Utils.delete_quotes(getToken(0).image));}
+}
+
+
+
+void Start_options_() :
+{
+}
+{
+    <TEXT>{if (!ignore) ret=cmd.start_r_thread(Utils.delete_quotes(getToken(0).image), get_params());} |
+    <INT>{if (!ignore) ret=cmd.start_r_thread(Integer.parseInt(getToken(0).image), get_params());}  |
+    Variable() {if (!ignore) ret=cmd.start_r_thread(cmd.get_session().get_int_variable(get_last_var()), get_params());}
+}
+
+
+void End_options() :
+{
+}
+{
+    {if (!ignore) ret=cmd.end_r_thread();}
+}
+
+
+void Run_options() :
+{
+}
+{
+    <TEXT>{if (!ignore) ret=cmd.run(Utils.delete_quotes(getToken(0).image));} 
+}
+
+void Threads_options() :{
+	set_is_card_cmd(false) ;
+}
+{
+    "-h" {if (!ignore) cmd.display_history_threads();} |
+	 {if (!ignore) cmd.display_running_threads();}  
+}	
+
+void Kill_options(): {
+	set_is_card_cmd(false) ;
+}
+{
+    <INT> {if (!ignore) ret=cmd.kill_r_thread(Integer.parseInt(getToken(0).image));} |
+    Variable() {if (!ignore) ret=cmd.kill_r_thread(cmd.get_session().get_int_variable(get_last_var()));}
+}
+
+
+void Connect_options() :{
+	set_is_card_cmd(false) ;
+}
+{
+    <INT> {if (!ignore) ret=cmd.connect(Integer.parseInt(getToken(0).image));} |
+    <TEXT> {if (!ignore) ret=cmd.connect(Utils.delete_quotes(getToken(0).image));} |
+    Variable() {if (!ignore) ret=cmd.connect(cmd.get_session().get_int_variable(get_last_var()));}
+}
+
+
+void Select_options() :{
+	set_is_card_cmd(false) ;
+}
+{
+	<TEXT> {if (!ignore) ret=cmd.select(Utils.delete_quotes(getToken(0).image));}  |
+	<INT> {if (!ignore) ret=cmd.select(Integer.parseInt(getToken(0).image));}  |
+	Variable() {if (!ignore) ret=cmd.select(cmd.get_session().get_int_variable(get_last_var()));}
+}
+
+
+void Init_update_options() :{
+	set_is_card_cmd(true) ;
+}
+{
+	{if (!ignore) ret=cmd.init_update() ;}
+}
+
+
+void Ext_auth_options() :{
+	set_is_card_cmd(true) ;
+}
+{
+	{if (!ignore) ret=cmd.ext_auth() ;}
+}
+
+
+void Authenticate_options() :{
+	set_is_card_cmd(true) ;
+}
+{
+	{if (!ignore) ret=cmd.authenticate() ;}
+}
+
+
+
+void Send_options() :{
+	set_is_card_cmd(true) ;
+}
+{
+	<HEXA> {if (!ignore) ret=cmd.send(Utils.delete_quotes(getToken(0).image));} 
+}
+
+
+
+void Upload_options(): {
+	set_is_card_cmd(true) ;
+}
+{
+	<TEXT> {if (!ignore) ret=cmd.upload(Utils.delete_quotes(getToken(0).image));}
+}
+
+
+
+void Install_options(): {
+	set_is_card_cmd(true) ;
+}
+{
+	<TEXT> {if (!ignore) ret=cmd.install(Utils.delete_quotes(getToken(0).image));}  |
+	<AID> {if (!ignore) lastToken=getToken(0).image.substring(1);}
+		<AID> {if (!ignore) ret=cmd.install(lastToken, getToken(0).image.substring(1));}
+}
+
+
+
+void Delete_options(): {
+	set_is_card_cmd(true) ;
+}
+{
+	<TEXT> {if (!ignore) ret=cmd.delete(Utils.delete_quotes(getToken(0).image));}  |
+	<AID> {if (!ignore) ret=cmd.delete_aid(getToken(0).image.substring(1));} 
+}
+
+
+
+void Format_options() :{
+	set_is_card_cmd(true) ;
+}
+{
+	{if (!ignore) ret=cmd.format() ; }
+}
+
+
+
+void Ls_c_options():{
+	set_is_card_cmd(true) ;
+}
+{
+	{if (!ignore) ret=cmd.ls_card();}
+}	
+
+
+
+void Select_c_options() :{
+	set_is_card_cmd(true) ;
+}
+{
+	<AID> {if (!ignore) ret=cmd.select_aid(getToken(0).image.substring(1));}
+}
+
+
+
+void Set_options() :{
+	set_is_card_cmd(false) ;
+}
+{
+	<LOG> <INT> {if (!ignore) ret=cmd.set_log(Integer.parseInt(getToken(0).image));}  |
+	<TEXT>{if (!ignore) lastToken=Utils.delete_quotes(getToken(0).image) ;} <TEXT> {if (!ignore) ret=cmd.set(lastToken, Utils.delete_quotes(getToken(0).image)) ;} 
+}
+
+
+void Reinit_options() :{
+	set_is_card_cmd(false) ;
+}
+{
+	{if (!ignore) ret=cmd.reinit();}
+}
+
+
+void Echo_options() :{
+	set_is_card_cmd(false) ;
+}
+{
+	<TEXT> {if (!ignore) ret=cmd.echo(Utils.delete_quotes(getToken(0).image)) ;}  |
+	Variable(){if (!ignore) ret=cmd.echo_var(get_last_var()) ;}
+}
+
+
+void List_vars_options() :{
+	set_is_card_cmd(false) ;
+}
+{
+	{if (!ignore) ret=cmd.list_vars();}
+}

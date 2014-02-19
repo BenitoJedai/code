@@ -1,0 +1,5 @@
+/connect 1
+authenticate
+ls
+format
+ls
