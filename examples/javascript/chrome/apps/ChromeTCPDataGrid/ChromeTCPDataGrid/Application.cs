@@ -60,7 +60,7 @@ namespace ChromeTCPDataGrid
             #endregion
 
             content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+            //content.AutoSizeControlTo(page.ContentSize);
         }
 
     }

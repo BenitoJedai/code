@@ -35,7 +35,8 @@ if exist %ReturnValue% goto :exit
 set ReturnValue="C:\Progra~2\Java\jdk1.6.0_32\bin\%TargetJava%"
 if exist %ReturnValue% goto :exit
 
-
+set ReturnValue="C:\Progra~2\Java\jdk1.7.0_45\bin\%TargetJava%"
+if exist %ReturnValue% goto :exit
 
 set ReturnValue=
 

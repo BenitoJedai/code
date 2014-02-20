@@ -137,12 +137,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             foreach (var q in div.ImageElements())
             {
                 var ix = new TaskCompletionSource<IHTMLImage>();
-                Console.WriteLine("await " + new { q.src, q.complete });
+                //Console.WriteLine("await " + new { q.src, q.complete });
 
                 q.InvokeOnComplete(
                     qq =>
                     {
-                        Console.WriteLine("await done " + new { q.src });
+                        //Console.WriteLine("await done " + new { q.src });
                         q.src = q.toDataURL();
                         ix.SetResult(q);
                     }
@@ -154,7 +154,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             Action yield = delegate
             {
-                Console.WriteLine(new { div.clientWidth, div.clientHeight });
+                //Console.WriteLine(new { div.clientWidth, div.clientHeight });
 
                 s.setAttribute("width", div.clientWidth + 0);
                 s.setAttribute("height", div.clientHeight + 0);
