@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A0A72609-60E7-42AE-920B-E2A84A340633}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JVMCLRjgpshell</RootNamespace>
     <AssemblyName>JVMCLRjgpshell</AssemblyName>
@@ -63,6 +63,9 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="JVMCLRjgpshell.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\JVMCLRjgpshell.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -88,6 +91,57 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="jgpshell0.03\lib\swing-layout-1.0.jar" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\cardGridCom\CardGridUser.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\globalPlatform\ApplicationOnCard.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\globalPlatform\GP_constants.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\globalPlatform\GP_responses.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\globalPlatform\SecureChannel.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\globalPlatform\Utils.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\offCard\ApplicationOffCard.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\offCard\CapFiles.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\offCard\Card.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\offCard\CardApplication.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\offCard\Database.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\offCard\Init.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\offCard\Log.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\offCard\UserException.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Command.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Errors.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\JavaCharStream.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\JGPShell.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\JGPShellConstants.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\JGPShellTokenManager.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Loop.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\ParseException.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\PipedScreen.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\R_thread.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\R_thread_status.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\R_thread_tags.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Screen.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Script.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Session.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Shell.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\SimpleCharStream.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\S_thread.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Table.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Token.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\TokenMgrError.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Usage.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Utils.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\shell\Variable.java" />
+    <Content Include="jgpshell0.03\src\com\jgpshell\xshell\XShell.java" />
+    <Content Include="jgpshell0.03\src\com\linuxnet\jpcsc\Apdu.java" />
+    <Content Include="jgpshell0.03\src\com\linuxnet\jpcsc\Card.java" />
+    <Content Include="jgpshell0.03\src\com\linuxnet\jpcsc\Context.java" />
+    <Content Include="jgpshell0.03\src\com\linuxnet\jpcsc\PCSC.java" />
+    <Content Include="jgpshell0.03\src\com\linuxnet\jpcsc\PCSCException.java" />
+    <Content Include="jgpshell0.03\src\com\linuxnet\jpcsc\State.java" />
+    <Content Include="jpcsc.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
@@ -98,6 +152,10 @@ if $(ConfigurationName)==Release (
 start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath)
 )
 </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
