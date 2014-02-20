@@ -83,7 +83,8 @@ namespace JVMCLRjgpshell
             try
             {
 
-                com.jgpshell.shell.Shell.main(args);
+                //com.jgpshell.shell.Shell.main(args);
+                com.jgpshell.xshell.XShell.main(args);
 
                 //SCardListReaders: 0x8010002e, Cannot find a smart card reader.
 
