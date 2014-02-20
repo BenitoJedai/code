@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRjgpshell", "JVMCLRjgpshell\JVMCLRjgpshell.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRjgpshell", "JVMCLRjgpshell.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
