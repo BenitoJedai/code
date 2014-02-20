@@ -82,9 +82,15 @@ namespace JVMCLRjgpshell
 
             try
             {
+                // http://www.rfid-webshop.com/shop/product_info.php/language/en/info/p614_PEGODA-CL-RD701-Contacless-Smart-Card-Reader.html/XTCsid/qyztmwziwup
+                // PEGODA CL RD701 Contacless Smart Card Reader
+                //  Supported by Windows 98 OSR2, Windows ME,  Windows 2000 and Windows XP.
 
-                //com.jgpshell.shell.Shell.main(args);
-                com.jgpshell.xshell.XShell.main(args);
+                // console
+                com.jgpshell.shell.Shell.main(args);
+
+                // gui
+                //com.jgpshell.xshell.XShell.main(args);
 
                 //SCardListReaders: 0x8010002e, Cannot find a smart card reader.
 
