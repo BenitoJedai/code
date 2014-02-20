@@ -30,32 +30,30 @@ namespace CaptureMouseAndOpenWindowOnMouseUpExperiment
         {
 
             page.DragMe.onmousedown +=
-                e =>
+                async e =>
                 {
                     e.CaptureMouse();
                     page.DragMe.style.color = "red";
+
+                    await page.DragMe.async.onmouseup;
+
+                    page.DragMe.style.color = "";
+
+                    var w = new IWindow();
+
+                    await w.async.onload;
+
+                    w.document.title = "new IWindow";
+
+                    w.moveTo(
+                        e.CursorX,
+                        e.CursorY
+                    );
+
+
                 };
 
-            page.DragMe.onmouseup +=
-              e =>
-              {
-                  page.DragMe.style.color = "";
 
-                  var w = new IWindow();
-
-                  w.moveTo(
-                      e.CursorX,
-                      e.CursorY
-                  );
-
-                  w.onload +=
-                      delegate
-                      {
-                          w.document.title = "new IWindow";
-                      };
-
-
-              };
         }
 
     }
