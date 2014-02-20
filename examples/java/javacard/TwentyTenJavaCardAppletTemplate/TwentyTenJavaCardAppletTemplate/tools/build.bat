@@ -5,7 +5,7 @@ set ConfigurationName=%3
 if %ConfigurationName%==Debug goto :eof
 
 rem set JAVA_HOME=C:\util\j2sdk1.4.2_19
-set JAVA_HOME=C:\Progra~2\Java\jdk1.6.0_32
+set JAVA_HOME=C:\Progra~2\Java\jdk1.7.0_45
 
 
 rem set JC_HOME=C:\util\java_card_kit-2_2_1
