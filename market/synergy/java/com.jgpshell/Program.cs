@@ -82,12 +82,22 @@ namespace JVMCLRjgpshell
 
             try
             {
+                // http://www.nxp.com/documents/application_note/AN11089.pdf
+                // http://www.nxp.com/demoboard/MFEV700.html#documentation
+                // Windows7 Driver for RD701
+
+                //  Only 63 pages of data (252 Bytes) can be read while executing FAST_READ
+                //command of MIFARE Ultralight EV1 using CL RD701. This is reader limitation.
+
                 // http://www.rfid-webshop.com/shop/product_info.php/language/en/info/p614_PEGODA-CL-RD701-Contacless-Smart-Card-Reader.html/XTCsid/qyztmwziwup
                 // PEGODA CL RD701 Contacless Smart Card Reader
                 //  Supported by Windows 98 OSR2, Windows ME,  Windows 2000 and Windows XP.
 
                 // console
                 com.jgpshell.shell.Shell.main(args);
+
+                // /ls : displays the list of the readers connected to the card.
+                // why cant we see our readers?
 
                 // gui
                 //com.jgpshell.xshell.XShell.main(args);
