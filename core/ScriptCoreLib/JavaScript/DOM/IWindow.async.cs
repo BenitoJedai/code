@@ -65,6 +65,18 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
             #endregion
 
+            #region onload
+            public Task<IEvent> onload
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IEvent>();
+                    that.onload += x.SetResult;
+                    return x.Task;
+                }
+            }
+            #endregion
 
             [Obsolete("how to name this?")]
             public Task<IEvent> onscrollToBottom
