@@ -1,14 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jDOSBoxAppletWithWarcraft", "jDOSBoxAppletWithWarcraft\jDOSBoxAppletWithWarcraft.csproj", "{AA11540B-7B1A-4BAD-8F0B-5F14982498D2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A0A72609-60E7-42AE-920B-E2A84A340633} = {A0A72609-60E7-42AE-920B-E2A84A340633}
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {DF763FAD-6D74-47A6-80C3-EA7B444C81BF}
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jDOSBoxHybridExperiment", "..\..\..\..\..\jsc.svn\examples\java\synergy\jDOSBoxHybridExperiment\jDOSBoxHybridExperiment\jDOSBoxHybridExperiment.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jDOSBoxHybridExperiment", "..\jDOSBoxHybridExperiment\jDOSBoxHybridExperiment\jDOSBoxHybridExperiment.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{3B6D9369-53C9-4710-AAEF-431D1C2A7824}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNone", "..\..\..\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\..\..\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,11 +39,32 @@ Global
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.Build.0 = Debug|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.ActiveCfg = Release|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|x86.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.Build.0 = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|x86.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Android|x86.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.ActiveCfg = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.Build.0 = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Android|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A0A72609-60E7-42AE-920B-E2A84A340633} = {3B6D9369-53C9-4710-AAEF-431D1C2A7824}
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {3B6D9369-53C9-4710-AAEF-431D1C2A7824}
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {3B6D9369-53C9-4710-AAEF-431D1C2A7824}
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {3B6D9369-53C9-4710-AAEF-431D1C2A7824}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSConditionalTransition", "CSSConditionalTransition\CSSConditionalTransition.csproj", "{2AA6D580-736D-47AE-BA64-04A7D2456ACC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AA6D580-736D-47AE-BA64-04A7D2456ACC}.Debug|x86.ActiveCfg = Debug|x86
+		{2AA6D580-736D-47AE-BA64-04A7D2456ACC}.Debug|x86.Build.0 = Debug|x86
+		{2AA6D580-736D-47AE-BA64-04A7D2456ACC}.Release|x86.ActiveCfg = Release|x86
+		{2AA6D580-736D-47AE-BA64-04A7D2456ACC}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

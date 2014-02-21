@@ -347,6 +347,18 @@ namespace ChromeTCPServerWithFrameNone
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //{ trace = X:\jsc.internal.svn\compiler\jsc\Languages\IL\ILTranslationExtensions.EmitToArguments.cs, TargetMethod = Void InvokeAsync(System.String, System.Func`2[System.String,System.Threading.Tasks.Task]), DeclaringType = ChromeTCPServer.TheServer, Location =
+            // assembly: X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\bin\Debug\ChromeTCPServerWithFrameNone.exe
+            // type: ChromeTCPServer.TheServerWithStyledForm, ChromeTCPServerWithFrameNone, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x00bb
+            //  method:Void Invoke(System.String, Int32, Int32, System.Action`1[ScriptCoreLib.JavaScript.Extensions.FormStyler]), ex = System.NullReferenceException: Object reference not set to an instance of an object.
+            //   at jsc.ILInstruction.GetExpectedType(Int32 StackBeforeIndex) in x:\jsc.internal.svn\compiler\jsc\CodeModel\ILInstruction.Stack.cs:line 64
+            //   at jsc.ILInstruction.GetExpectedType() in x:\jsc.internal.svn\compiler\jsc\CodeModel\ILInstruction.Stack.cs:line 20
+            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass11b.<WriteSwitchRewrite>b__b4(ILRewriteContext e) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteSwitchRewrite.cs:line 465
+            //   at jsc.Languages.IL.ILTranslationExtensions.EmitToArguments.<>c__DisplayClassc3.<set_Item>b__c1(ILRewriteContext e) in x:\jsc.internal.svn\compiler\jsc\Languages\IL\ILTranslationExtensions.EmitToArguments.cs:line 1132
+            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass130.<>c__DisplayClass140.<WriteSwitchRewrite>b__e6(ILGenerator flow_il) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteSwitchRewrite.cs:line 1353
+
+
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
             object self_chrome_socket = self_chrome.socket;
