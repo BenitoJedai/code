@@ -24,6 +24,36 @@ namespace jDOSBoxAppletWithWarcraft
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp xpage = null)
         {
+            // subst a: X:\jsc.svn\examples\java\synergy\jDOSBoxAppletWithWarcraft\jDOSBoxAppletWithWarcraft\bin\Debug\staging\jDOSBoxAppletWithWarcraft.Application\web
+
+
+
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
+
+                //chrome.Notification.DefaultTitle = "Operation «Heat Zeeker»";
+                //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
+                );
+
+                return;
+            }
+            #endregion
+
+
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140221-war
+
+
             // 20 MB disk. How to create one ourselves?
             // view-source:http://www.classicdosgames.com/online/doom19s.html
 
@@ -34,9 +64,10 @@ namespace jDOSBoxAppletWithWarcraft
 
             var borders = Native.Document.body;
 
-            dynamic ss = borders.style;
+            //dynamic ss = borders.style;
 
-            ss.webkitTransition = "all 0.3s linear";
+            //ss.webkitTransition = "all 0.3s linear";
+            borders.style.transition = "all 0.3s linear";
 
 
             borders.style.borderWidth = "3em";
@@ -63,6 +94,9 @@ namespace jDOSBoxAppletWithWarcraft
             xpage._IWantToUseTheApplet.onclick +=
                 delegate
                 {
+                    // https://code.google.com/p/chromium/issues/detail?id=288935
+                    // http://stackoverflow.com/questions/21318087/chrome-packaged-app-using-java-plugin
+                    // java applets wont work in chrome webview?
                     // Initialize ApplicationApplet
                     var applet = new ApplicationApplet();
 
@@ -73,6 +107,8 @@ namespace jDOSBoxAppletWithWarcraft
                     var ref4 = "assets/jDOSBoxAppletWithWarcraft/war1.img";
 
                     var location = "" + Native.Document.location;
+
+                    //Native.document.baseURI = "assets/jDOSBoxAppletWithWarcraft/";
 
                     // <param name="param1" value="imgmount e http://127.0.0.1:20169/assets/jDOSBoxAppletWithWarcraft/war1.img">
 
@@ -234,6 +270,7 @@ namespace jDOSBoxAppletWithWarcraft
                     var status = new IHTMLPre { innerText = "" }.AttachToDocument();
                     var onmessage = new IHTMLPre { innerText = "" }.AttachToDocument();
 
+                    #region EventSource
                     new EventSource().With(
                         s =>
                         {
@@ -348,10 +385,13 @@ namespace jDOSBoxAppletWithWarcraft
                                 };
                         }
                     );
+                    #endregion
+
                 };
 
 
 
+#if FTILT
             xpage._IAmTheTiltSensorUseThisDeviceToControlTheApplet.onclick +=
                 delegate
                 {
@@ -369,20 +409,20 @@ namespace jDOSBoxAppletWithWarcraft
 
                     var zyx = new IHTMLPre { innerText = "" }.AttachToDocument();
 
-                    #region ondeviceorientation
+            #region ondeviceorientation
                     Native.window.ondeviceorientation +=
                         e =>
                         {
                             if (disable_ondeviceorientation)
                                 return;
 
-                            #region desktop chrome misreports?
+            #region desktop chrome misreports?
                             // Uncaught ReferenceError: alpha is not defined 
                             if ("this.alpha == null".js<bool>(e))
                             {
                                 return;
                             }
-                            #endregion
+            #endregion
 
                             e.preventDefault();
                             e.stopPropagation();
@@ -426,12 +466,12 @@ namespace jDOSBoxAppletWithWarcraft
 
                             }
                         };
-                    #endregion
+            #endregion
 
                     var id = new Random().Next();
                     var frame = 0;
 
-                    #region loop
+            #region loop
                     Action loop = null;
 
                     //var zdx = 0;
@@ -499,8 +539,9 @@ namespace jDOSBoxAppletWithWarcraft
                     };
 
                     Native.window.requestAnimationFrame += loop;
-                    #endregion
+            #endregion
                 };
+#endif
 
         }
 

@@ -9,8 +9,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class MessageEvent : IEvent
     {
         // rename to window?
-	    public IWindow source;
+        public IWindow source;
 
+
+        // X:\jsc.svn\examples\javascript\NewWindowMessagingExperiment\NewWindowMessagingExperiment\Application.cs
+        public string origin;
 
         public object data;
 

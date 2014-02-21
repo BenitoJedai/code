@@ -94,10 +94,19 @@ namespace SVGHTMLElement
                    s.setAttribute("height", div.PageContainer.clientHeight + 0);
                    div.AttachTo(fdiv);
 
-                   page.body.css.after.contentImage = s;
+                   // Uncaught SecurityError: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported.
+                   IHTMLImage i = s;
+                   //var ii = i.toDataURL();
+
+                   page.body.css.after.contentImage = i;
                    page.body.css.after.style.position = IStyle.PositionEnum.absolute;
                    page.body.css.after.style.right = "0";
 
+                   Console.WriteLine("cursor");
+                   Native.document.documentElement.style.cursorImage = i;
+                   //Native.css.style.cursorImage = s;
+                   Console.WriteLine("icon");
+                   Native.document.icon = i;
                }
            );
 
