@@ -35,15 +35,17 @@ namespace jDOSBoxAppletWithWarcraft
 
             if (self_chrome_socket != null)
             {
-                Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
+                //Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
 
                 //chrome.Notification.DefaultTitle = "Operation «Heat Zeeker»";
                 //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
 
-                ChromeTCPServer.TheServerWithStyledForm.Invoke(
-                    AppSource.Text,
-                    AtFormCreated: FormStyler.AtFormCreated
-                );
+                //ChromeTCPServer.TheServerWithStyledForm.Invoke(
+
+                ChromeTCPServer.TheServer.Invoke(
+                      AppSource.Text,
+                      u => Native.window.open(u)
+                  );
 
                 return;
             }

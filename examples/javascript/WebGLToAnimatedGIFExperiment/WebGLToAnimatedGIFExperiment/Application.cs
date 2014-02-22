@@ -71,6 +71,21 @@ namespace WebGLToAnimatedGIFExperiment
             //}
             //#endregion
 
+
+
+
+            var ani6 = new WebGLEarthByBjorn.Application(null);
+
+            ani6.canvas.AttachTo(page.e1);
+
+            // gif needs a bg?
+            //ani4.canvas.style.backgroundColor = "yellow";
+
+            ani6.canvas.style.SetSize(96, 96);
+            ani6.canvas.style.position = IStyle.PositionEnum.relative;
+
+
+
             var ani5 = new WebGLSVGAnonymous.Application(null);
 
             ani5.canvas.AttachTo(page.e1);
@@ -218,6 +233,7 @@ namespace WebGLToAnimatedGIFExperiment
             activate(ani3.gl.canvas);
             activate(ani4.canvas);
             activate(ani5.canvas);
+            activate(ani6.canvas);
 
 
 

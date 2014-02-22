@@ -22,6 +22,7 @@ interface THREE
 	const long RepeatWrapping = 0;
 	const long LinearMipMapLinearFilter = 8;
 
+	const long BackSide = 1;
 };
 
 // this is an anonymous type actually
@@ -45,8 +46,8 @@ interface THREE.ImageUtilsType
 };
 
 [Constructor(),
- Constructor(html::HTMLImageElement c),
- Constructor(html::HTMLCanvasElement c)]
+	Constructor(html::HTMLImageElement c),
+	Constructor(html::HTMLCanvasElement c)]
 interface THREE.Texture
 { 
 	attribute THREE.Vector2 repeat;
@@ -292,11 +293,11 @@ interface THREE.Vector3
 [Constructor(), Constructor(double x, double y, double z, double q)]
 interface THREE.Vector4 
 { 
-		attribute double x; 
+	attribute double x; 
 	attribute double y;
 	attribute double z;
 
-	 THREE.Vector4 applyMatrix4( THREE.Matrix4 m);
+	THREE.Vector4 applyMatrix4( THREE.Matrix4 m);
 };
 
 [Constructor()]

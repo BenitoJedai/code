@@ -59,6 +59,7 @@ namespace WebGLSVGAnonymous
             var gl_viewportWidth = size;
             var gl_viewportHeight = size;
 
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
             #region IsDisposed
             var IsDisposed = false;
@@ -81,7 +82,7 @@ namespace WebGLSVGAnonymous
                     gl_viewportWidth = Native.window.Width;
                     gl_viewportHeight = Native.window.Height;
 
-                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+                    canvas.style.SetSize(gl_viewportWidth, gl_viewportHeight);
 
                     canvas.width = gl_viewportWidth;
                     canvas.height = gl_viewportHeight;
