@@ -77,10 +77,6 @@ namespace WebGLToAnimatedGIFExperiment
             var ani6 = new WebGLEarthByBjorn.Application(null);
 
             ani6.canvas.AttachTo(page.e1);
-
-            // gif needs a bg?
-            //ani4.canvas.style.backgroundColor = "yellow";
-
             ani6.canvas.style.SetSize(96, 96);
             ani6.canvas.style.position = IStyle.PositionEnum.relative;
 
