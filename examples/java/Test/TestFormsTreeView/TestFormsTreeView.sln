@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFormsTreeView", "TestFormsTreeView\TestFormsTreeView.csproj", "{AAF6DADA-A263-427A-BB14-A41A2E7272C7}"
 EndProject
 Global

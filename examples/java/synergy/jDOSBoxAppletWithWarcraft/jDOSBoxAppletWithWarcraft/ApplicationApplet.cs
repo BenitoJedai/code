@@ -1,5 +1,6 @@
 using java.applet;
 using java.awt.@event;
+using java.net;
 using System;
 
 namespace jDOSBoxAppletWithWarcraft
@@ -13,8 +14,41 @@ namespace jDOSBoxAppletWithWarcraft
         int x;
         int y;
 
+
+        public static void Main(string[] args)
+        {
+            //enter Main
+            //Applet is not signed, mouse capture will not work
+            //Exception in thread "Thread-11" Exception in thread "Thread-12" java.lang.ExceptionInInitializerError
+            //    at jdos.cpu.core_dynamic.Compiler.<clinit>(Compiler.java:7385)
+            //    at jdos.Dosbox.Init(Dosbox.java:451)
+            //    at jdos.gui.MainBase.main(MainBase.java:447)
+            //    at jdos.gui.MainFrame$4.run(MainFrame.java:247)
+            //    at java.lang.Thread.run(Unknown Source)
+            //Caused by: java.security.AccessControlException: access denied ("java.lang.RuntimePermission" "accessDeclaredMembers")
+            //    at java.security.AccessControlContext.checkPermission(Unknown Source)
+            //    at java.security.AccessController.checkPermission(Unknown Source)
+            //    at java.lang.SecurityManager.checkPermission(Unknown Source)
+            //    at java.lang.Class.checkMemberAccess(Unknown Source)
+            //    at java.lang.Class.getDeclaredMethod(Unknown Source)
+            //    at javassist.ClassPool$1.run(ClassPool.java:78)
+            //    at java.security.AccessController.doPrivileged(Native Method)
+            //    at javassist.ClassPool.<clinit>(ClassPool.java:75)
+            //    ... 5 more
+            //java.lang.NoClassDefFoundError: Could not initialize class jdos.cpu.core_dynamic.Compiler
+            //    at jdos.cpu.core_dynamic.Compiler$1.run(Compiler.java:46)
+            //    at java.lang.Thread.run(Unknown Source)
+
+
+            Console.WriteLine("enter Main");
+
+            jdos.gui.MainFrame.main(args);
+        }
+
         public ApplicationApplet()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140222
+
             //- javac
             //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "W:\jDOSBoxAppletWithWarcraft.ApplicationApplet\web\java";release -d release java\jDOSBoxAppletWithWarcraft\ApplicationApplet.java
             //java\jDOSBoxAppletWithWarcraft\ApplicationApplet.java:40: error: cannot assign a value to final variable C_IPX
@@ -27,6 +61,23 @@ namespace jDOSBoxAppletWithWarcraft
                 new { jdos.misc.setup.Config.C_IPX }
                 );
 
+            // http://www.coderanch.com/t/486585/Applets/java/applet-socketpermissions
+            // fk, java applets, you are useless!??
+            // https://www.java.net/node/666745
+
+            // http://www.experts-exchange.com/Programming/Languages/Java/Q_27992073.html
+            // http://www.experts-exchange.com/Programming/Languages/Java/Q_27992073.html
+
+            // https://bugs.openjdk.java.net/browse/JDK-4093502
+            var s = new SocketPermission(
+                 "localhost:213", "listen,resolve"
+                );
+
+            Console.WriteLine("SocketPermission getActions " + s.getActions());
+
+            //java.lang.System.getSecurityManager().
+            //s.
+            //s.
             //java.security.AccessControlException: access denied ("java.net.SocketPermission" "127.0.0.1:4000" "connect,resolve")
             //    at java.security.AccessControlContext.checkPermission(Unknown Source)
             //    at java.security.AccessController.checkPermission(Unknown Source)
@@ -54,12 +105,22 @@ namespace jDOSBoxAppletWithWarcraft
             //IPX: Unable to connect to server
             //IPXSERVER: Connect from 192.168.43.252
 
+            //IPXSERVER: enter IPX_StartServer
+            //IPXSERVER: enter IPX_StartServer before getByName
+            //IPXSERVER: enter IPX_StartServer before DatagramSocket
+            //java.security.AccessControlException: access denied ("java.net.SocketPermission" "localhost:213" "listen,resolve")
+
 
             //this.i
             // http://www.vogons.org/viewtopic.php?p=227202
 
             //You must sign the applet so it can connect to a host other than the one it was loaded from, and either you must use a non-self-signed-certificate or the user must accept the certificate when prompted.
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140222
+            // http://stackoverflow.com/questions/15074834/java-applet-socket-permission
+            // http://stackoverflow.com/questions/10083332/java-applet-accesscontrolexception-access-denied-socketpermission-where-do
+            // http://www.khattam.info/solved-java-security-accesscontrolexception-access-denied-java-net-socketpermission-host-connectresolve-2010-03-24.html
+
+            // https://bbs.archlinux.org/viewtopic.php?id=142474
 
         }
 
