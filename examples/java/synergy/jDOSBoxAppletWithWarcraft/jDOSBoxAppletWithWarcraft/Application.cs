@@ -100,6 +100,9 @@ namespace jDOSBoxAppletWithWarcraft
                     // http://stackoverflow.com/questions/21318087/chrome-packaged-app-using-java-plugin
                     // java applets wont work in chrome webview?
                     // Initialize ApplicationApplet
+
+
+                    // Version 7 Update 51
                     var applet = new ApplicationApplet();
 
                     var container = applet.ToHTMLElement();
@@ -119,6 +122,11 @@ namespace jDOSBoxAppletWithWarcraft
                     new IHTMLParam { name = "param1", value = cmd }.AttachTo(container);
                     new IHTMLParam { name = "param2", value = "e:" }.AttachTo(container);
                     new IHTMLParam { name = "param3", value = "dir" }.AttachTo(container);
+
+                    // http://stackoverflow.com/questions/4135138/access-denied-java-net-socketpermission-127-0-0-18080-connect-resolve
+
+                    new IHTMLParam { name = "param4", value = "ipx" }.AttachTo(container);
+
                     //new IHTMLParam { name = "param4", value = "cd war1" }.AttachTo(e);
                     //new IHTMLParam { name = "param5", value = "setup" }.AttachTo(e);
                     //new IHTMLParam { name = "param6", value = "war" }.AttachTo(e);
@@ -272,6 +280,7 @@ namespace jDOSBoxAppletWithWarcraft
                     var status = new IHTMLPre { innerText = "" }.AttachToDocument();
                     var onmessage = new IHTMLPre { innerText = "" }.AttachToDocument();
 
+#if FEventSource
                     #region EventSource
                     new EventSource().With(
                         s =>
@@ -388,7 +397,7 @@ namespace jDOSBoxAppletWithWarcraft
                         }
                     );
                     #endregion
-
+#endif
                 };
 
 
