@@ -142,6 +142,9 @@ namespace WebGLEarthByBjorn
             Native.window.onframe +=
                 delegate
                 {
+                    if (this.canvas.parentNode == null)
+                        return;
+
                     camera.aspect = canvas.clientWidth / (double)canvas.clientHeight;
                     camera.updateProjectionMatrix();
 
@@ -163,7 +166,10 @@ namespace WebGLEarthByBjorn
                 {
 
 
-                    if (canvas.parentNode == Native.document.body)
+                    //if (canvas.parentNode == Native.document.body)
+
+                    // are we embedded?
+                    if (page != null)
                         renderer.setSize();
                 };
 
