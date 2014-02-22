@@ -9,6 +9,8 @@ namespace ChromeAppletExperiment
 {
     public sealed class ApplicationApplet : Applet
     {
+        // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WriteInitialization.cs
+
         public readonly ApplicationControl content = new ApplicationControl();
 
         public override void init()

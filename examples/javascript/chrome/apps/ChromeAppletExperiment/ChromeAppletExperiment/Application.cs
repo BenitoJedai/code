@@ -37,7 +37,14 @@ namespace ChromeAppletExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://stackoverflow.com/questions/19625828/java-web-start-running-applications-by-unknown-publishers-will-be-blocked-fi
+
             // X:\jsc.svn\examples\java\synergy\jDOSBoxAppletWithWarcraft\jDOSBoxAppletWithWarcraft\Application.cs
+            // http://download.java.net/jdk8/docs/technotes/guides/jweb/security/mixed_code.html
+            // https://groups.google.com/forum/#!topic/jenkinsci-users/dLr_1LRucGA
+            // http://stackoverflow.com/questions/18914650/can-you-sign-a-java-applet-but-keep-it-in-the-sandbox-not-give-it-full-access-t
+            // https://www.duckware.com/tech/java-security-sandbox-tricked-into-granting-full-computer-access-to-applet.html
+            // http://www.boardspace.net/BB/viewtopic.php?t=621
 
             #region ChromeTCPServer
             dynamic self = Native.self;
@@ -77,7 +84,7 @@ namespace ChromeAppletExperiment
                            var w = Native.window.open(u);
                            Console.WriteLine("await window onload");
                            //await w;
-                           await w.async.onload;
+                           //await w.async.onload;
 
                            //w.onload +=
                            //    async delegate
@@ -123,51 +130,16 @@ namespace ChromeAppletExperiment
             }
             #endregion
 
-            Console.WriteLine(
-                new { Native.window.opener, Native.window.parent }
-            );
-            // 0:12ms { opener = , parent = [object Window] } 
-
+         
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140221-war
 
-            //Native.window.parent.With(
-            //    async opener =>
-            //    {
-            //        Console.WriteLine("before postXElementAsync");
-
-            //        // 0:26ms event: onmessage { data = <goo>tab to opener </goo> } 
-
-            //        await opener.postXElementAsync(
-            //                    new XElement("goo", "tab to parent ")
-            //        );
-
-            //        Console.WriteLine("after postXElementAsync");
-
-            //    }
-            //);
-
-            //Native.window.onmessage +=
-            //    e =>
-            //    {
-            //        Console.WriteLine("event: onmessage " + new { e.data });
-
-            //        // is it us calling or someone else?
-
-            //        e.ports.WithEach(
-            //            p =>
-            //            {
-            //                p.postMessage(
-            //                    new XElement("goo", "tab to onmessage").ToString()
-            //                );
-
-            //            }
-            //        );
-            //    };
-
+         
             //public readonly 
             ApplicationApplet applet = new ApplicationApplet();
             applet.AutoSizeAppletTo(page.ContentSize);
             applet.AttachAppletTo(page.Content);
+
+            // http://stackoverflow.com/questions/19399944/warning-on-permissions-attribute-when-running-an-applet-with-jre-7u45
 
             new IStyle(
                 new IHTMLAnchor { href = "view-source", target = "_blank", title = "save at a: for crx", innerText = "view-source" }.AttachToDocument()
