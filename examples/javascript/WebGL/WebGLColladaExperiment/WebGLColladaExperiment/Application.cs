@@ -116,7 +116,6 @@ namespace WebGLColladaExperiment
                 {
                     if (canvas.parentNode == Native.document.body)
                     {
-
                         renderer.setSize(window.Width, window.Height);
                     }
 

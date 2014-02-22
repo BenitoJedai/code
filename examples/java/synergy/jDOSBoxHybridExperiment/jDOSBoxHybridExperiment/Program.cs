@@ -36,61 +36,29 @@ namespace jDOSBoxHybridExperiment
 
             Console.WriteLine("hi! vm:" + typeof(object).FullName);
 
-            var a1 = new ivec3(3, 3, 3);
-
-            Console.WriteLine(new { a1 }.ToString());
-
-            var a = new[] { "x", "foo1", "bar", "foo2" }.AsEnumerable();
-            //var a = new List<string> { "foo", "bar" };
-
-            var q = from i in a
-                    where i.StartsWith("f")
-                    select i;
-
-
-            q.WithEach(
-                x =>
-                {
-                    Console.WriteLine("x: " + x);
-                    Console.WriteLine(new { x });
-                }
-            );
-
-            System.Console.WriteLine("done");
-
-
-            var query = @"insert into @bar Table1 (@ContentValue)  @foo values (@ContentValue) @bar";
-
-            Console.WriteLine(query);
-
-            var parameters = new[]
-            {
-                new x { Name = "@ContentValue", Value = "Foo" },
-                new x { Name = "@foo", Value = "Foo2" },
-                new x { Name = "@bar", Value = "Foo3" }
-            };
-
-            foreach (var item in
-                from p in parameters
-                from i in query.GetIndecies(p.Name)
-                orderby i
-                select new { p.Name, p.Value, i }
-
-                )
-            {
-                Console.WriteLine(new { item }.ToString());
-            }
-
-            parameters.WithEach(
-                p =>
-                {
-                    query = query.Replace(p.Name, "?");
-                }
-            );
-
-            Console.WriteLine(query);
-
             System.Console.WriteLine("loading... jdos.gui.MainFrame.main");
+
+            //public static Config control;
+            Console.WriteLine(
+                new
+                {
+                    jdos.Dosbox.control
+                }
+                );
+
+
+            // X:\opensource\sourceforge\jdosbox\src\jdos\Dosbox.java
+            // Pbool = secprop.Add_bool("ipx",Property.Changeable.WhenIdle, true);
+            //jdos.Dosbox.control.GetSectionFromProperty("ipx").
+
+
+
+            // "X:\jsc.svn\examples\java\synergy\jDOSBoxHybridExperiment\jDOSBoxHybridExperiment\bin\Release\.dosbox\dosbox-0.74.conf"
+            //[ipx]
+            //# ipx: Enable ipx over UDP/IP emulation.
+
+            //ipx=false
+
 
             jdos.gui.MainFrame.main(args);
 

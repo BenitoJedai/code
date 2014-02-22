@@ -130,6 +130,9 @@
     <Reference Include="WebGLColladaExperiment">
       <HintPath>..\packages\WebGLColladaExperiment.1.0.0.0\lib\WebGLColladaExperiment.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLEarthByBjorn">
+      <HintPath>..\packages\WebGLEarthByBjorn.1.0.0.0\lib\WebGLEarthByBjorn.dll</HintPath>
+    </Reference>
     <Reference Include="WebGLEscherDrosteEffect">
       <HintPath>..\packages\WebGLEscherDrosteEffect.1.0.0.0\lib\WebGLEscherDrosteEffect.dll</HintPath>
     </Reference>

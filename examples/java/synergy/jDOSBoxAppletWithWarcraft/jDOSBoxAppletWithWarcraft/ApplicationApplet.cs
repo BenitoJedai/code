@@ -13,6 +13,55 @@ namespace jDOSBoxAppletWithWarcraft
         int x;
         int y;
 
+        public ApplicationApplet()
+        {
+            //- javac
+            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "W:\jDOSBoxAppletWithWarcraft.ApplicationApplet\web\java";release -d release java\jDOSBoxAppletWithWarcraft\ApplicationApplet.java
+            //java\jDOSBoxAppletWithWarcraft\ApplicationApplet.java:40: error: cannot assign a value to final variable C_IPX
+            //        Config.C_IPX = true;
+            //              ^
+
+            // http://jdosbox.sourceforge.net/change.html
+            //jdos.misc.setup.Config.C_IPX = true;
+            Console.WriteLine(
+                new { jdos.misc.setup.Config.C_IPX }
+                );
+
+            //java.security.AccessControlException: access denied ("java.net.SocketPermission" "127.0.0.1:4000" "connect,resolve")
+            //    at java.security.AccessControlContext.checkPermission(Unknown Source)
+            //    at java.security.AccessController.checkPermission(Unknown Source)
+            //    at java.lang.SecurityManager.checkPermission(Unknown Source)
+            //    at java.lang.SecurityManager.checkConnect(Unknown Source)
+            //    at sun.plugin2.applet.SecurityManagerHelper.checkConnectHelper(Unknown Source)
+            //    at sun.plugin2.applet.AWTAppletSecurityManager.checkConnect(Unknown Source)
+            //    at java.net.DatagramSocket.send(Unknown Source)
+            //    at jdos.hardware.IPX.ConnectToServer(IPX.java:956)
+            //    at jdos.hardware.IPX.access$1700(IPX.java:25)
+            //    at jdos.hardware.IPX$IPXNET.Run(IPX.java:1119)
+            //    at jdos.misc.Program$1.call(Program.java:76)
+            //    at jdos.Dosbox$1.call(Dosbox.java:75)
+            //    at jdos.Dosbox.DOSBOX_RunMachine(Dosbox.java:205)
+            //    at jdos.cpu.Callback.CALLBACK_RunRealInt(Callback.java:158)
+            //    at jdos.shell.Dos_shell.Execute(Dos_shell.java:755)
+            //    at jdos.shell.Dos_shell.DoCommand(Dos_shell.java:633)
+            //    at jdos.shell.Dos_shell.ParseLine(Dos_shell.java:173)
+            //    at jdos.shell.Dos_shell.Run(Dos_shell.java:98)
+            //    at jdos.shell.Shell$5.call(Shell.java:398)
+            //    at jdos.misc.setup.Config.StartUp(Config.java:97)
+            //    at jdos.gui.MainBase.main(MainBase.java:523)
+            //    at jdos.gui.MainApplet.run(MainApplet.java:269)
+            //    at java.lang.Thread.run(Unknown Source)
+            //IPX: Unable to connect to server
+            //IPXSERVER: Connect from 192.168.43.252
+
+
+            //this.i
+            // http://www.vogons.org/viewtopic.php?p=227202
+
+            //You must sign the applet so it can connect to a host other than the one it was loaded from, and either you must use a non-self-signed-certificate or the user must accept the certificate when prompted.
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140222
+
+        }
 
         public void __MainApplet_mousePressed()
         {
@@ -31,7 +80,7 @@ namespace jDOSBoxAppletWithWarcraft
 
             mousePressed(e);
         }
-   
+
         public void __MainApplet_mouseReleased()
         {
             //Console.WriteLine("__MainApplet_mousemove " + new { x, y });
