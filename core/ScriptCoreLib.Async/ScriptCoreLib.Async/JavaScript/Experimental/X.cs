@@ -10,6 +10,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.Experimental
 {
@@ -286,6 +288,8 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
                         //f.append("Application", scope.Name);
 
+
+                        // can we use WebClient instead now?
                         var x = new IXMLHttpRequest();
 
                         // { src = /more-source } 
@@ -385,18 +389,25 @@ namespace ScriptCoreLib.JavaScript.Experimental
                             ).ToArray();
 
 
-                            Console.WriteLine("loading secondary app in a moment... " + new { response.Length } + " decrypting...");
+                            Console.WriteLine(
+                                "loading secondary app in a moment... "
+                                + new
+                                {
+                                    response.Length,
+                                    Thread.CurrentThread.ManagedThreadId
+                                } + " decrypting...");
 
+                            // loading secondary app in a moment... { Length = 6265416, ManagedThreadId = 10 } decrypting...
 
 
                             //                            X-Reference-0:ScriptCoreLib.dll.js 1330538
                             //X-Reference-1:WorkerInsideSecondaryApplicationWithBackButton.Application+x.exe.js 485234
-
-
+                            // "X:\jsc.svn\examples\javascript\WorkerInsideSecondaryApplication\WorkerInsideSecondaryApplication.sln"
 
                             //y.SetResult(new { x.responseText.Length }.ToString());
                             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
 
+                            var mstopwatch = Stopwatch.StartNew();
                             var m = new MemoryStream();
 
                             var lo = default(byte);
@@ -420,6 +431,14 @@ namespace ScriptCoreLib.JavaScript.Experimental
 
                                         xprogress = new { loaded, xprogress.total };
 
+                                        //Console.WriteLine(new
+                                        //{
+                                        //    Thread.CurrentThread.ManagedThreadId,
+
+                                        //    mstopwatch.ElapsedMilliseconds,
+                                        //    xprogress
+                                        //});
+
                                         progress.Report(
                                             new
                                             {
@@ -442,6 +461,8 @@ namespace ScriptCoreLib.JavaScript.Experimental
                             }
 
                             // decrypted
+                            Console.WriteLine("UTF8.GetString " + new { m.Length });
+
                             var source = Encoding.UTF8.GetString(m.ToArray());
 
 

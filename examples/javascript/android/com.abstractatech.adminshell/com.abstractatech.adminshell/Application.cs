@@ -95,6 +95,9 @@ namespace com.abstractatech.adminshell
                 {
                     Console.WriteLine("click!");
 
+                    // stop polling
+                    control.nfc.service = null;
+
                     button.disabled = true;
                     button.style.Opacity = 0.5;
 

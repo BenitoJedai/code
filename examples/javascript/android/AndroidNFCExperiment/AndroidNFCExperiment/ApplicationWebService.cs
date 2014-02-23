@@ -13,40 +13,19 @@ using System.Threading;
 
 namespace AndroidNFCExperiment
 {
-    public sealed class ApplicationWebService
+    public class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // enter WebMethod2 { ManagedThreadId = 2033 }
-            // we should marshal the callback to the correct thread.
-            Console.WriteLine("enter WebMethod2 " + new { Thread.CurrentThread.ManagedThreadId });
-
-            // Send it back to the caller.
-            y(e);
-        }
-
-        public /* will not be part of web service itself */ void Handler(WebServiceHandler h)
-        {
-            Console.WriteLine("ApplicationWebService handler");
-        }
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140223-nfc
+        // http://blog.atlasrfidstore.com/rfid-vs-nfc
 
         static ApplicationWebService()
         {
             // http://lifehacker.com/run-an-action-when-you-remove-your-phone-from-an-nfc-ta-1208446359
             // https://groups.google.com/forum/#!topic/android-developers/8-17f6ZLYJY
 
-            //  enter ApplicationWebService { ManagedThreadId = 2029 }
+            //  android:launchMode="singleTop"
+            // http://www.intridea.com/blog/2011/6/16/android-understanding-activity-launchmode
             Console.WriteLine("enter ApplicationWebService " + new { Thread.CurrentThread.ManagedThreadId });
-
-
-
-            Console.WriteLine("before NfcAdapter");
-
 
             // http://mobile.tutsplus.com/tutorials/android/reading-nfc-tags-with-android/
             // http://stackoverflow.com/questions/10848134/android-on-nfc-read-close-activity-not-the-main-activity
@@ -54,17 +33,10 @@ namespace AndroidNFCExperiment
             // http://stackoverflow.com/questions/5685946/nfc-broadcastreceiver-problem
 
             var activity = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext as ScriptCoreLib.Android.CoreAndroidWebServiceActivity;
-
-            var adapter = android.nfc.NfcAdapter.getDefaultAdapter(
-                activity
-            );
-
+            var adapter = android.nfc.NfcAdapter.getDefaultAdapter(activity);
             var isEnabled = adapter.isEnabled();
 
             Console.WriteLine(new { isEnabled });
-
-
-
 
             var intent = new Intent(
                 activity,
@@ -72,8 +44,9 @@ namespace AndroidNFCExperiment
                 );
 
             // /ActivityManager(  510): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { act=android.nfc.action.TECH_DISCOVERED cmp=AndroidNFCExperiment.Activities/.ApplicationWebServiceActivity (has extras) }
-            //intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            //intent.addFlags(Intent.flag);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
             // http://comments.gmane.org/gmane.comp.handhelds.android.devel/165860
 
@@ -94,7 +67,6 @@ namespace AndroidNFCExperiment
                 0
             );
 
-            var filters = new IntentFilter[1];
             var techList = new[]
             { 
                 //  [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef]
@@ -103,6 +75,9 @@ namespace AndroidNFCExperiment
                 new [] {     typeof(android.nfc.tech.NfcA).FullName},
                 new [] {     typeof(android.nfc.tech.Ndef).FullName},
                 new [] {     typeof(android.nfc.tech.NdefFormatable).FullName },
+
+                // current javacards? (ISO 14443-4)
+                new [] {     typeof(android.nfc.tech.IsoDep).FullName },
 
 
             };
@@ -119,6 +94,8 @@ namespace AndroidNFCExperiment
 
 
             // Notice that this is the same filter as in our manifest.
+            var filters = new IntentFilter[1];
+
             filters[0] = new IntentFilter();
 
             // https://code.google.com/p/android/issues/detail?id=37673

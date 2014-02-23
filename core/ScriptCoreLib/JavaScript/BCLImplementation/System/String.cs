@@ -89,9 +89,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(int);
         }
 
+        [Obsolete]
         [Script(OptimizedCode = "return String.fromCharCode(i);")]
         public static string FromCharCode(int i)
         {
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs
+
             return default(string);
         }
 

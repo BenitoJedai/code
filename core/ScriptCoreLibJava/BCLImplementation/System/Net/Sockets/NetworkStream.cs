@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using System.Net;
 using System.Net.Sockets;
 using ScriptCoreLibJava.BCLImplementation.System.IO;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
@@ -82,6 +83,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             }
         }
 
+        public override void SetLength(long value)
+        {
+            throw new NotImplementedException();
+        }
+
         public override long Position
         {
             get
@@ -92,6 +98,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public override long Seek(long offset, global::System.IO.SeekOrigin origin)
+        {
+            throw new NotImplementedException();
         }
 
         public override int Read(byte[] buffer, int offset, int count)

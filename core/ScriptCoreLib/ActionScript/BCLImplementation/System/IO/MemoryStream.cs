@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.Extensions;
 using System.IO;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 {
@@ -17,6 +18,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
         // http://forums.adobe.com/thread/659903
         // X:\jsc.svn\examples\actionscript\ReadFloat32\ReadFloat32\ApplicationSprite.cs
         internal ByteArray InternalBuffer = new ByteArray { endian = Endian.LITTLE_ENDIAN };
+
+        public override void Flush()
+        {
+            // ?
+        }
 
         public virtual int Capacity
         {
@@ -99,6 +105,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
             get { return InternalBuffer.length; }
         }
 
+        public override void SetLength(long value)
+        {
+            throw new NotImplementedException();
+        }
+
         public override long Position
         {
             get
@@ -109,6 +120,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
             {
                 InternalBuffer.position = (uint)value;
             }
+        }
+
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotImplementedException();
         }
 
         public void WriteTo(Stream s)

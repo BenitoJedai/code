@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
 using System.IO;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
     [Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.cs
+
+        // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+        // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+        // X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\ApplicationWebService.cs
+        // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\UCLImplementation\AvalonExtensions.cs
+
+
         // ByteArrayInputStream 
         // http://www.koders.com/java/fid654B227C95A99C7C2ACA686E7BC6BA584491A6B7.aspx
 
@@ -19,15 +30,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
         long InternalPosition;
         long InternalLength;
 
-        public __MemoryStream()
-            : this(null)
-        {
 
-        }
 
         public override void Flush()
         {
             // ?
+        }
+
+        #region ctor
+        public __MemoryStream()
+            : this(null)
+        {
+
         }
 
         public __MemoryStream(byte[] buffer)
@@ -49,14 +63,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
                 this.InternalPosition = 0;
             }
         }
+        #endregion
 
-        public override long Length
-        {
-            get
-            {
-                return InternalLength;
-            }
-        }
+
+
 
         public override int Read(byte[] buffer, int offset, int count)
         {
@@ -77,31 +87,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             return count;
         }
 
-        public override void Write(byte[] buffer, int offset, int count)
+        #region Write
+        public override long Length
         {
-            InternalEnsureCapacity(InternalPosition + count);
-
-            // java does not support long array copy?
-
-            Array.Copy(buffer, offset, InternalBuffer, (int)InternalPosition, count);
-            InternalPosition += count;
-            InternalLength += count;
+            get
+            {
+                return InternalLength;
+            }
         }
 
-        public override void WriteByte(byte value)
+        public override void SetLength(long value)
         {
-            // 2013-01-01 wow this problem was expensive to find
-            InternalEnsureCapacity(InternalPosition + 1);
-
-            InternalBuffer[InternalPosition] = value;
-            InternalPosition++;
-            InternalLength++;
-        }
-
-        void InternalEnsureCapacity(long TargetCapacity)
-        {
-            if (Capacity < TargetCapacity)
-                Capacity = (int)(TargetCapacity + 8);
+            throw new NotImplementedException();
         }
 
         public virtual int Capacity
@@ -136,6 +133,42 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             }
         }
 
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            InternalEnsureCapacity(InternalPosition + count);
+
+            // java does not support long array copy?
+
+            Array.Copy(buffer, offset, InternalBuffer, (int)InternalPosition, count);
+            InternalPosition += count;
+            InternalLength += count;
+        }
+
+        public override void WriteByte(byte value)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+            // 2013-01-01 wow this problem was expensive to find
+            InternalEnsureCapacity(InternalPosition + 1);
+
+            InternalBuffer[InternalPosition] = value;
+            InternalPosition++;
+            InternalLength++;
+        }
+
+        public virtual void WriteTo(Stream stream)
+        {
+            stream.Write(InternalBuffer, 0, (int)InternalLength);
+        }
+
+        void InternalEnsureCapacity(long TargetCapacity)
+        {
+            if (Capacity < TargetCapacity)
+                Capacity = (int)(TargetCapacity + (8 + Length / 2));
+        }
+
+
+        #endregion
+
         public virtual byte[] ToArray()
         {
 
@@ -146,7 +179,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             return x;
         }
 
-
+        #region Position
         public override long Position
         {
             get
@@ -159,10 +192,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             }
         }
 
-        public virtual void WriteTo(Stream stream)
+        public override long Seek(long offset, SeekOrigin origin)
         {
-            stream.Write(InternalBuffer, 0, (int)InternalLength);
+            throw new NotImplementedException();
         }
+        #endregion
+
+
 
     }
 }

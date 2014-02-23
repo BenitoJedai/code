@@ -97,15 +97,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [System.Obsolete("experimental")]
         public static implicit operator IHTMLSpan(Task<string> innerText)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestUTF8GetStringPerformance\TestUTF8GetStringPerformance\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+
             // first step for databinding?
             var s = new IHTMLSpan { };
 
-            innerText.ContinueWith(
-                task =>
-                {
-                    s.innerText = task.Result;
-                }
-            );
+            innerText.ContinueWith(task => { s.innerText = task.Result; });
 
             return s;
         }

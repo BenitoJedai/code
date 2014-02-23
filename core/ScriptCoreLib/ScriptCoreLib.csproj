@@ -158,6 +158,7 @@
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="Shared\BCLImplementation\System\DateTimeDaysInMonth.cs" />
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
+    <Compile Include="Shared\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Average.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Max.cs" />
@@ -679,11 +680,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\MemoryStream.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\StringReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\MemoryStream.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StreamWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\StringWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\TextReader.cs" />
@@ -987,7 +986,6 @@
     <Compile Include="PHP\BCLImplementation\System\IO\FileSystemInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\DirectoryInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\Directory.cs" />
-    <Compile Include="PHP\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\StreamWriter.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\TextReader.cs" />

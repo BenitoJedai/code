@@ -206,9 +206,6 @@
     <Compile Include="BCLImplementation\System\IO\Path.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\IO\Stream.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\IO\StreamReader.cs">
       <SubType>Code</SubType>
     </Compile>
