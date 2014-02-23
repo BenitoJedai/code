@@ -4,53 +4,63 @@ using ScriptCoreLib.JavaScript;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
 
-	/// <summary>
-	/// http://www.w3schools.com/tags/tag_label.asp
-	/// </summary>
-	[Script(InternalConstructor = true)]
-	public class IHTMLLabel : IHTMLElement
-	{
-		public string htmlFor;
+    /// <summary>
+    /// http://www.w3schools.com/tags/tag_label.asp
+    /// </summary>
+    [Script(InternalConstructor = true)]
+    public class IHTMLLabel : IHTMLElement
+    {
+        public string htmlFor;
 
-		#region constructors
-		public IHTMLLabel()
-		{
-		}
+        public IHTMLElement htmlForElement
+        {
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestLabelFor\TestLabelFor\Application.cs
 
-		public IHTMLLabel(string e)
-		{
-		}
+                value.EnsureID();
+                this.htmlFor = value.id;
+            }
+        }
 
-		public IHTMLLabel(string e, IHTMLElement f)
-		{
-		}
+        #region constructors
+        public IHTMLLabel()
+        {
+        }
 
-		internal static IHTMLLabel InternalConstructor()
-		{
-			return (IHTMLLabel)IHTMLElement.InternalConstructor(HTMLElementEnum.label);
-		}
+        public IHTMLLabel(string e)
+        {
+        }
 
-		internal static IHTMLLabel InternalConstructor(string e)
-		{
-			IHTMLLabel n = new IHTMLLabel();
+        public IHTMLLabel(string e, IHTMLElement f)
+        {
+        }
 
-			n.appendChild(e);
+        internal static IHTMLLabel InternalConstructor()
+        {
+            return (IHTMLLabel)IHTMLElement.InternalConstructor(HTMLElementEnum.label);
+        }
 
-			return n;
-		}
+        internal static IHTMLLabel InternalConstructor(string e)
+        {
+            IHTMLLabel n = new IHTMLLabel();
 
-		internal static IHTMLLabel InternalConstructor(string e, IHTMLElement f)
-		{
-			IHTMLLabel n = new IHTMLLabel(e);
+            n.appendChild(e);
 
-			f.EnsureID();
+            return n;
+        }
 
-			n.htmlFor = f.id;
+        internal static IHTMLLabel InternalConstructor(string e, IHTMLElement f)
+        {
+            IHTMLLabel n = new IHTMLLabel(e);
 
-			return n;
-		}
+            n.htmlForElement = f;
 
-		#endregion
+            return n;
+        }
 
-	}
+        #endregion
+
+    }
 }
