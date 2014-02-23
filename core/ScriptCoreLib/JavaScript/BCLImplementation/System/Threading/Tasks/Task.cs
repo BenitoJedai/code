@@ -356,10 +356,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             if (function.Target != null)
                 if (function.Target != Native.self)
                 {
+                    // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+
                     Delegate InternalTaskExtensionsScope_function = (function.Target as dynamic).InternalTaskExtensionsScope_function;
 
                     if (InternalTaskExtensionsScope_function == null)
-                        throw new InvalidOperationException("inline scope sharing not yet implemented");
+                        throw new InvalidOperationException("InternalInitializeInlineWorker: inline scope sharing not yet implemented");
 
                     MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).MethodToken;
                 }
@@ -641,7 +643,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         }
 
         public Task<TNewResult> ContinueWith<TNewResult>(
-            Func<Task<TResult>, TNewResult> continuationFunction, 
+            Func<Task<TResult>, TNewResult> continuationFunction,
             TaskScheduler scheduler)
         {
             // X:\jsc.svn\examples\javascript\appengine\Test\AppEngineFirstEverWebServiceTask\AppEngineFirstEverWebServiceTask\ApplicationWebService.cs

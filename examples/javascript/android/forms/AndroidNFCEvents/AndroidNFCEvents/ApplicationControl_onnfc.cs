@@ -79,6 +79,8 @@ namespace AndroidNFCEvents
 
                         // this would cause stackoverflow, yet since we are in 
                         // clent-server "tail" call it aint.
+
+                        poll = service != null;
                     }
 
                 };

@@ -5,11 +5,15 @@ using ScriptCoreLib;
 using System.IO;
 using ScriptCoreLib.Shared.BCLImplementation.System;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.IO
+namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 {
     [Script(Implements = typeof(global::System.IO.Stream))]
-    internal abstract class __Stream : __MarshalByRefObject, IDisposable
+    public abstract class __Stream : __MarshalByRefObject, IDisposable
     {
+        public abstract long Seek(long offset, SeekOrigin origin);
+
+        public abstract void SetLength(long value);
+
         public abstract long Length { get; }
 
         public abstract long Position { get; set; }

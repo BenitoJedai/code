@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 {
@@ -10,6 +11,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 	internal class __FileStream : __Stream
 	{
 		internal object InternalHandler;
+
+        public override void Flush()
+        {
+            // ?
+        }
 
 		public override void Close()
 		{

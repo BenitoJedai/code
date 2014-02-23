@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,6 +34,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             }
         }
 
+        public override void SetLength(long value)
+        {
+            throw new NotImplementedException();
+        }
+
         public override long Position
         {
             get
@@ -43,6 +49,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotImplementedException();
         }
 
         public override void Flush()

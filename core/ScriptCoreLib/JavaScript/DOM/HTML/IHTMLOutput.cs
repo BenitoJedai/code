@@ -34,6 +34,21 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return new IHTMLOutput { innerText = innerText };
         }
 
+        [System.Obsolete("experimental")]
+        public static implicit operator IHTMLOutput(Task<string> innerText)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestUTF8GetStringPerformance\TestUTF8GetStringPerformance\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+
+            // first step for databinding?
+            var s = new IHTMLOutput { };
+
+            // inline scope sharing not yet implemented
+            innerText.ContinueWith(task => { s.innerText = task.Result; });
+
+            return s;
+        }
+
 
         [System.Obsolete("experimental")]
         public static implicit operator IHTMLOutput(Task<XElement> x)

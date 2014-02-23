@@ -1,6 +1,7 @@
 using System.Net.Sockets;
 using ScriptCoreLib.PHP.BCLImplementation.System.IO;
 using System;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 {
@@ -14,7 +15,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net.Sockets
 			InternalSocket = Socket;
 		}
 
-
+        public override void Flush()
+        {
+            // ?
+        }
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{

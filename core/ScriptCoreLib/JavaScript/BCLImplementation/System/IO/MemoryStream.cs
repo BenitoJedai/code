@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.Extensions;
 using System.IO;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
@@ -12,27 +13,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
     internal class __MemoryStream : __Stream
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.cs
 
-        // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\UCLImplementation\AvalonExtensions.cs
-        // soon to be out of date?
-        internal string InternalBuffer = "";
 
-        //script: error JSC1000: No implementation found for this native method, please implement [System.IO.MemoryStream.set_Capacity(System.Int32)]
+        // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+        // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
         // X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\ApplicationWebService.cs
+        // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\UCLImplementation\AvalonExtensions.cs
 
-        public virtual int Capacity
+
+        // ByteArrayInputStream 
+        // http://www.koders.com/java/fid654B227C95A99C7C2ACA686E7BC6BA584491A6B7.aspx
+
+        // InputStream
+        // http://www.koders.com/java/fidF990D954151F15A618183172871A1403F719D971.aspx
+        byte[] InternalBuffer = new byte[0];
+
+        long InternalPosition;
+        long InternalLength;
+
+
+
+        public override void Flush()
         {
-            get
-            {
-                return InternalBuffer.Length;
-
-            }
-            set
-            {
-
-            }
+            // ?
         }
 
+        #region ctor
         public __MemoryStream()
             : this(null)
         {
@@ -45,99 +53,155 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
             {
                 this.Write(buffer, 0, buffer.Length);
 
-                Position = 0;
+                this.InternalPosition = 0;
             }
         }
 
-        public override int ReadByte()
+        public __MemoryStream(byte[] buffer, int o, int length)
         {
-            if (this.Position < 0)
-                return -1;
+            if (buffer != null)
+            {
+                this.Write(buffer, o, length);
 
-            if (this.Position >= this.Length)
-                return -1;
+                this.InternalPosition = 0;
+            }
+        }
+        #endregion
 
-            var x = (byte)(this.InternalBuffer[(int)this.Position] & 0xff);
 
-            this.Position++;
 
-            return x;
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            var a = this.Length - this.InternalPosition;
+
+            if (count > a)
+            {
+                if (a < 0)
+                    return -1;
+
+                count = (int)a;
+            }
+
+            Array.Copy(this.InternalBuffer, (int)this.InternalPosition, buffer, offset, count);
+
+            this.InternalPosition += count;
+
+            return count;
+        }
+
+        #region Write
+        public override long Length
+        {
+            get
+            {
+                return InternalLength;
+            }
+        }
+
+        public override void SetLength(long value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int Capacity
+        {
+            get
+            {
+                // X:\jsc.svn\examples\java\JVMCLRBase64\JVMCLRBase64\Program.cs
+
+                if (InternalBuffer == null)
+                    // so we are fast until 0x1000 then we become really slow?
+                    Capacity = 0x1000;
+
+                return InternalBuffer.Length;
+
+            }
+            set
+            {
+                var x = InternalBuffer;
+
+                // shall preserve current buffer
+                InternalBuffer = new byte[value];
+
+                if (x != null)
+                {
+                    var y = x.Length;
+
+                    if (InternalBuffer.Length < y)
+                        y = InternalBuffer.Length;
+
+                    Array.Copy(x, InternalBuffer, y);
+                }
+            }
+        }
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            InternalEnsureCapacity(InternalPosition + count);
+
+            // java does not support long array copy?
+
+            Array.Copy(buffer, offset, InternalBuffer, (int)InternalPosition, count);
+            InternalPosition += count;
+            InternalLength += count;
         }
 
         public override void WriteByte(byte value)
         {
-            if (this.Position < this.Length)
-                throw new NotImplementedException();
+            // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+            // 2013-01-01 wow this problem was expensive to find
+            InternalEnsureCapacity(InternalPosition + 1);
 
-
-            this.InternalBuffer += __String.FromCharCode(value & 0xff);
-            this.Position++;
-
+            InternalBuffer[InternalPosition] = value;
+            InternalPosition++;
+            InternalLength++;
         }
 
-        public override int Read(byte[] buffer, int offset, int count)
+        public virtual void WriteTo(Stream stream)
         {
-            var c = 0;
-            var p = (int)this.Position;
-
-            for (int i = 0; i < count; i++)
-            {
-                if (i >= this.Length)
-                    break;
-
-                buffer[i + offset] = (byte)(this.InternalBuffer[i + p] & 0xff);
-
-                c++;
-            }
-
-            this.Position += c;
-
-            return c;
+            stream.Write(InternalBuffer, 0, (int)InternalLength);
         }
 
-
-        public override void Write(byte[] buffer, int offset, int count)
+        void InternalEnsureCapacity(long TargetCapacity)
         {
-            if (this.Position < this.Length)
-                throw new NotImplementedException();
-
-            for (int i = 0; i < count; i++)
-            {
-                this.InternalBuffer += __String.FromCharCode(buffer[offset + i]);
-            }
-
-            this.Position += count;
+            if (Capacity < TargetCapacity)
+                Capacity = (int)(TargetCapacity + (8 + Length / 2));
         }
+
+
+        #endregion
 
         public virtual byte[] ToArray()
         {
-            var a = new byte[this.Length];
 
-            for (int i = 0; i < this.Length; i++)
+            var x = new byte[InternalLength];
+
+            Array.Copy(InternalBuffer, x, (int)InternalLength);
+
+            return x;
+        }
+
+        #region Position
+        public override long Position
+        {
+            get
             {
-                a[i] = (byte)(this.InternalBuffer[i] & 0xff);
+                return this.InternalPosition;
             }
-
-            return a;
+            set
+            {
+                this.InternalPosition = value;
+            }
         }
 
-        public override long Length
+        public override long Seek(long offset, SeekOrigin origin)
         {
-            get { return InternalBuffer.Length; }
+            throw new NotImplementedException();
         }
+        #endregion
 
-        public override long Position { get; set; }
 
-        public void WriteTo(Stream s)
-        {
-            //var b = new byte[s.Length];
 
-            //s.Read(b, 0, b.Length);
-
-            //this.Write(b, 0, b.Length);
-
-            throw new NotSupportedException();
-
-        }
     }
 }

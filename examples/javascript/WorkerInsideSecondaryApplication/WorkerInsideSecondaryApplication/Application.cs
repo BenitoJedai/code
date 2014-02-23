@@ -26,16 +26,15 @@ namespace WorkerInsideSecondaryApplication
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
-
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDisclaimer page)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestUTF8GetStringPerformance\TestUTF8GetStringPerformance\Application.cs
 
             #region go
             Action<string> go =
@@ -64,7 +63,12 @@ namespace WorkerInsideSecondaryApplication
                     // how did we get the source?
                     //var app = new x(layout);
 
-                    await new IHTMLScript { src = new Blob(source).ToObjectURL().SetInternalScriptApplicationSource() };
+                    await new IHTMLScript
+                    {
+                        src = new Blob(
+                            new[] { source }
+                            ).ToObjectURL().SetInternalScriptApplicationSource()
+                    };
                 };
             #endregion
 
@@ -79,7 +83,7 @@ namespace WorkerInsideSecondaryApplication
                     //Activator.CreateInstance(typeof(x));
 
                     // invoke as state?
-                    go(source);
+                    go(source.source);
                 };
 
         }
@@ -211,7 +215,10 @@ namespace WorkerInsideSecondaryApplication
                       // how did we get the source?
                       //var app = new y(layout);
 
-                      await new IHTMLScript { src = new Blob(source).ToObjectURL().SetInternalScriptApplicationSource() };
+                      await new IHTMLScript { src = new Blob(
+                            new[] { source }
+                          
+                          ).ToObjectURL().SetInternalScriptApplicationSource() };
 
 #if FUTURE
                       var yy = await new y(default(IProgress<string>), data: default(string));
@@ -233,7 +240,7 @@ namespace WorkerInsideSecondaryApplication
                         //Activator.CreateInstance(typeof(x));
 
                         // invoke as state?
-                        go(source);
+                        go(source.source);
                     };
 
             }

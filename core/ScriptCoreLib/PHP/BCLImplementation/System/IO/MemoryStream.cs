@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
         // see also: http://www.phpclasses.org/browse/file/34867.html
 
         internal string Buffer = "";
+
+
+        public override void Flush()
+        {
+            // ?
+        }
 
         public __MemoryStream()
             : this(null)
