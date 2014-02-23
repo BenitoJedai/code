@@ -163,9 +163,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Path.cs">
       <Link>BCLImplementation\System\IO\Path.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Stream.cs">
-      <Link>BCLImplementation\System\IO\Stream.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\StreamReader.cs">
       <Link>BCLImplementation\System\IO\StreamReader.cs</Link>
     </Compile>
