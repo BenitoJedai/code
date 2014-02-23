@@ -110,14 +110,14 @@ namespace ScriptCoreLib
             bool SkipMissingRefences = false
             )
         {
-            Console.WriteLine("enter LoadDependencies "
-                + new
-                {
-                    Environment.CurrentDirectory,
-                    context = context.Location,
-                    a = a.Location
+            //Console.WriteLine("enter LoadDependencies "
+            //    + new
+            //    {
+            //        Environment.CurrentDirectory,
+            //        context = context.Location,
+            //        a = a.Location
 
-                });
+            //    });
 
             var r = new LoadDependenciesValue();
 
@@ -137,7 +137,7 @@ namespace ScriptCoreLib
                 .Select(
                     k =>
                     {
-                        Console.WriteLine("LoadDependencies " + new { k.Name });
+                        //Console.WriteLine("LoadDependencies " + new { k.Name });
 
                         try
                         {

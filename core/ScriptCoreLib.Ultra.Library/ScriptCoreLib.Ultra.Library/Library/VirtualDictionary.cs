@@ -246,10 +246,35 @@ namespace jsc.Library
 
         public override IDisposable ToTransientTransaction()
         {
-            var BaseDictionary = this.BaseDictionary;
+            //var BaseDictionary = this.BaseDictionary;
             var Flags = this.Flags;
 
-            this.BaseDictionary = new Dictionary<TKey, TValue>(BaseDictionary);
+
+            // 
+            var old = new { this.BaseDictionary };
+
+            //this.BaseDictionary = new Dictionary<TKey, TValue>(BaseDictionary);
+            var n = new Dictionary<TKey, TValue>();
+
+            // +		$exception	{"The given key was not present in the dictionary."}	System.Exception {System.Collections.Generic.KeyNotFoundException}
+
+            foreach (KeyValuePair<TKey, TValue> item in old.BaseDictionary)
+            {
+                // workaround for if the object identity has changed?
+                try
+                {
+
+                    n[item.Key] = item.Value;
+
+                }
+                catch
+                {
+                    Debugger.Break();
+                }
+            }
+
+            this.BaseDictionary = n;
+
             this.Flags = new Dictionary<TKey, object>(Flags);
             this.TransientTransactionCounter++;
 
