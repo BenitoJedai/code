@@ -283,7 +283,7 @@ namespace jsc.Library
                 {
                     this.TransientTransactionCounter--;
 
-                    this.BaseDictionary = BaseDictionary;
+                    this.BaseDictionary = old.BaseDictionary;
                     this.Flags = Flags;
                 };
         }
