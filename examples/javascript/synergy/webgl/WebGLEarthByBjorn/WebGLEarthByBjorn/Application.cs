@@ -128,23 +128,104 @@ namespace WebGLEarthByBjorn
             this.canvas.AttachToDocument();
             this.canvas.style.SetLocation(0, 0);
 
+            this.canvas.css.active.style.cursor = IStyle.CursorEnum.move;
+
+
+            var
+                old = new
+                {
+                    sphere = new
+                    {
+                        sphere.rotation.x,
+                        sphere.rotation.y
+
+                    },
+                    clouds = new
+                    {
+                        clouds.rotation.x,
+                        clouds.rotation.y,
+                    },
+
+
+                    CursorX = 0,
+                    CursorY = 0
+                };
+
             this.canvas.onmousedown +=
                 e =>
                 {
+                    var pointerLock = this.canvas == Native.document.pointerLockElement;
 
-                    e.CaptureMouse();
+                    if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
+                    {
+                        this.canvas.requestFullscreen();
+                        this.canvas.requestPointerLock();
+                    }
+                    else
+                    {
+                        // movementX no longer works
+                        old = new
+                        {
+                            sphere = new
+                            {
+                                sphere.rotation.x,
+                                sphere.rotation.y
+
+                            },
+                            clouds = new
+                            {
+                                clouds.rotation.x,
+                                clouds.rotation.y,
+                            },
+
+
+                            e.CursorX,
+                            e.CursorY
+                        };
+
+                        if (pointerLock)
+                        {
+                            // skip
+                        }
+                        else
+                        {
+                            e.CaptureMouse();
+                        }
+                    }
 
                 };
 
+
+            // X:\jsc.svn\examples\javascript\Test\TestMouseMovement\TestMouseMovement\Application.cs
             this.canvas.onmousemove +=
                 e =>
                 {
+                    var pointerLock = this.canvas == Native.document.pointerLockElement;
+
+
+                    //Console.WriteLine(new { e.MouseButton, pointerLock, e.movementX });
+
                     if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                     {
-                        //sphere.rotation.x = Math.PI * e.OffsetY / canvas.clientHeight;
-                        //clouds.rotation.x = Math.PI * e.OffsetY / canvas.clientHeight;
+                        if (pointerLock)
+                        {
+                            sphere.rotation.x += 0.01 * e.movementY;
+                            sphere.rotation.y += 0.01 * e.movementX;
 
-                        Native.document.title = new { e.movementX, e.movementY }.ToString();
+                            clouds.rotation.x += 0.01 * e.movementY;
+                            clouds.rotation.y += 0.01 * e.movementX;
+                        }
+                        else
+                        {
+                            sphere.rotation.x = old.sphere.x + 0.01 * (e.CursorY - old.CursorY);
+                            sphere.rotation.y = old.sphere.y + 0.01 * (e.CursorX - old.CursorX);
+
+                            clouds.rotation.x = old.clouds.x + 0.01 * (e.CursorY - old.CursorY);
+                            clouds.rotation.y = old.clouds.y + 0.01 * (e.CursorX - old.CursorX);
+                        }
+
+
+                        //    Native.document.title = new { e.movementX, e.movementY }.ToString();
 
                     }
 
@@ -185,6 +266,17 @@ namespace WebGLEarthByBjorn
                 };
 
 
+            //new IStyle(this.canvas.css.before)
+            //{
+            //    content = "'do a middle click to maximize the earth dashboard'",
+
+            //    left = "1em",
+            //    bottom = "1em",
+
+            //    color = "white",
+
+            //    position = IStyle.PositionEnum.absolute
+            //};
         }
 
     }
