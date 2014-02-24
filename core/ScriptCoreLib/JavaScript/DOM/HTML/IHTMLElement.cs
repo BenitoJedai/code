@@ -642,6 +642,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #region event onmousemove
         public event System.Action<IEvent> onmousemove
         {
+            // tested by?
             [Script(DefineAsStatic = true)]
             add
             {

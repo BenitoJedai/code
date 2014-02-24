@@ -92,7 +92,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         //interface HTMLDocument : Document {
 
-       
+
 
 
 
@@ -451,7 +451,10 @@ else if (that.webkitCancelFullScreen) {
 
 
 
-
+        public IHTMLElement elementFromPoint(int x, int y)
+        {
+            return default(IHTMLElement);
+        }
 
 
 
