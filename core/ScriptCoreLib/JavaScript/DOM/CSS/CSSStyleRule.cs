@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM.SVG;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM
@@ -796,7 +798,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        [Obsolete]
+        [Obsolete("animated?")]
         public CSSStyleRuleMonkier_nthChild_index this[Expression<Func<int>> yindexer]
         {
             get
@@ -980,10 +982,18 @@ namespace ScriptCoreLib.JavaScript.DOM
             return e.not;
         }
 
+
+        // double not results in original.
+        // IStyleSheetRule.AddRule error { text = body:not(:not([task1490198847='incomplete'])){/**/} } 
+        internal CSSStyleRuleMonkier __not;
+
         public CSSStyleRuleMonkier not
         {
             get
             {
+                if (this.__not != null)
+                    return this.__not;
+
                 // self, children or descendant?
                 // 0:17ms { css = { selectorElement = , rule = { selectorText = body>:not(>:nth-child(1)), rule = null } } } view-source:35676
                 //0:18ms IStyleSheetRule.AddRule error { text = body>:not(>:nth-child(1)){/**/} } 
@@ -993,7 +1003,12 @@ namespace ScriptCoreLib.JavaScript.DOM
                 if (this.selectorText.StartsWith(">"))
                     subselector = ">:not(" + this.selectorText.Substring(1) + ")";
 
-                return this.parent[subselector];
+                var x = this.parent[subselector];
+
+                x.__not = this;
+                //x.selectorElement = this.selectorElement;
+
+                return x;
             }
         }
 
@@ -1090,7 +1105,33 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        [System.Obsolete("experimental")]
+        public string emptyText
+        {
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                // was the element replaced in DOM?
+                var that = Native.document.querySelectorAll(this.rule.selectorText).First();
 
+                var a = that.getAttributeNode("data-empty");
+
+                if (a == null)
+                {
+                    that.setAttribute("data-empty", value);
+
+                    this.empty.before.style.content = "attr(data-empty)";
+                }
+
+                a = that.getAttributeNode("data-empty");
+
+                // X:\jsc.svn\examples\javascript\css\Test\CSSSearchUserFeedback\CSSSearchUserFeedback\Application.cs
+                if (value != "")
+                    that.innerText = "";
+
+                a.value = value;
+            }
+        }
 
 
         #region first
@@ -1518,6 +1559,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return this[(IHTMLElement)e];
             }
         }
+        public CSSStyleRuleMonkier this[IHTMLInput e]
+        {
+            get
+            {
+                return this[(IHTMLInput)e];
+            }
+        }
 
 
 
@@ -1796,6 +1844,187 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             return left[right.selectorElement];
         }
+
+
+
+
+        //public CSSStyleRuleMonkier_until while
+        //{
+        //    get { return new CSSStyleRuleMonkier_until { context = this }; }
+        //}
+
+
+        // where until task complete, or ? while.incomplete
+        // X:\jsc.svn\examples\javascript\css\Test\CSSSearchUserFeedback\CSSSearchUserFeedback\Application.cs
+
+        public Task __task;
+
+        [Obsolete("experimental")]
+        public new CSSStyleRuleMonkier this[Task task]
+        {
+            get
+            {
+
+                //var TaskIdentity = new Random().Next();
+                var TaskName = "incomplete";
+
+                if (InternalTaskNameLookup.ContainsKey(task))
+                {
+                    TaskName = InternalTaskNameLookup[task];
+                }
+
+                InternalTaskIdentity++;
+                var a = new XAttribute("await" + InternalTaskIdentity, TaskName);
+
+
+                var s = this.selectorElement;
+                var p = this;
+
+                while (p != null)
+                {
+                    if (p.selectorElement != null)
+                    {
+                        s = p.selectorElement;
+
+                        break;
+                    }
+                    p = this.parent;
+                }
+
+                a.AttachTo(s);
+
+                var x = !this[a];
+                // when complete
+                x.__task = task;
+
+
+                // overkill
+                Native.window.onframe +=
+                    delegate
+                    {
+                        if (a == null)
+                            return;
+
+                        if (task.IsCompleted)
+                        {
+                            if (InternalTaskNameLookup.ContainsKey(task))
+                                InternalTaskNameLookup.Remove(task);
+
+
+                            a.Remove();
+
+                            a = null;
+                        }
+                    };
+
+                // how should we be introducing the conditional? document level?
+
+                return x;
+            }
+
+        }
+
+        public static Dictionary<Task, string> InternalTaskNameLookup = new Dictionary<Task, string>();
+        public static long InternalTaskIdentity = 0;
+
+
+
+        [Obsolete("experimental")]
+        public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier left, Task task)
+        {
+            // X:\jsc.svn\examples\javascript\css\Test\CSSDelayedStyle\CSSDelayedStyle\Application.cs
+
+            return left[task];
+        }
+
+        [Obsolete("experimental")]
+        public static CSSStyleRuleMonkier operator -(CSSStyleRuleMonkier left, Task task)
+        {
+            // X:\jsc.svn\examples\javascript\css\Test\CSSDelayedStyle\CSSDelayedStyle\Application.cs
+
+            return !left[task];
+        }
+
+        [Obsolete("experimental")]
+        public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier left, int millisecondsDelay)
+        {
+            // X:\jsc.svn\examples\javascript\css\Test\CSSDelayedStyle\CSSDelayedStyle\Application.cs
+
+            // + looks better if there is a task on the left?
+            return left > millisecondsDelay;
+        }
+
+        [Obsolete("experimental")]
+        public static CSSStyleRuleMonkier operator >(CSSStyleRuleMonkier left, int millisecondsDelay)
+        {
+            // X:\jsc.svn\examples\javascript\css\Test\CSSDelayedStyle\CSSDelayedStyle\Application.cs
+            // X:\jsc.svn\examples\javascript\css\Test\CSSDelayedTimeConditional\CSSDelayedTimeConditional\Application.cs
+
+            if (left.__task != null)
+            {
+                var t = new TaskCompletionSource<object>();
+                //Console.WriteLine("conditional after?");
+                left.__task.ContinueWith(
+                    x =>
+                    {
+                        //Console.WriteLine("conditional after? onclick complete");
+                        __Task.Delay(millisecondsDelay: millisecondsDelay).ContinueWith(
+                            xx =>
+                            {
+                                //Console.WriteLine("conditional after? delay complete");
+                                t.SetResult(null);
+                            }
+                        );
+
+                    }
+                );
+
+                InternalTaskNameLookup[t.Task] = "conditional after " + millisecondsDelay + "ms";
+                return (left + t.Task);
+            }
+
+            var task = (Task)__Task.Delay(millisecondsDelay: millisecondsDelay);
+
+            InternalTaskNameLookup[task] = "after " + millisecondsDelay + "ms";
+            return (left + task);
+        }
+
+        [Obsolete("experimental")]
+        public static CSSStyleRuleMonkier operator <(CSSStyleRuleMonkier left, int millisecondsDelay)
+        {
+            // X:\jsc.svn\examples\javascript\css\Test\CSSDelayedStyle\CSSDelayedStyle\Application.cs
+            // X:\jsc.svn\examples\javascript\css\Test\CSSDelayedTimeConditional\CSSDelayedTimeConditional\Application.cs
+
+            if (left.__task != null)
+            {
+                var t = new TaskCompletionSource<object>();
+                //Console.WriteLine("conditional before?");
+                left.__task.ContinueWith(
+                    x =>
+                    {
+                        //Console.WriteLine("conditional before? onclick complete");
+                        __Task.Delay(millisecondsDelay: millisecondsDelay).ContinueWith(
+                            xx =>
+                            {
+                                //Console.WriteLine("conditional before? delay complete");
+                                t.SetResult(null);
+                            }
+                        );
+
+                    }
+                );
+
+                InternalTaskNameLookup[t.Task] = "conditional before " + millisecondsDelay + "ms";
+                return !(left + t.Task);
+            }
+
+            var task = (Task)__Task.Delay(millisecondsDelay: millisecondsDelay);
+
+            InternalTaskNameLookup[task] = "before " + millisecondsDelay + "ms";
+            return !(left + task);
+        }
+
+        //public event Action Removed;
 
     }
 }

@@ -78,6 +78,19 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
             #endregion
 
+            #region onframe
+            public Task onframe
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<object>();
+                    that.requestAnimationFrame += () => x.SetResult(null);
+                    return x.Task;
+                }
+            }
+            #endregion
+
             [Obsolete("how to name this?")]
             public Task<IEvent> onscrollToBottom
             {

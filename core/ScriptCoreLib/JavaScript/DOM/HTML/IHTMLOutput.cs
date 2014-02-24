@@ -43,6 +43,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             // first step for databinding?
             var s = new IHTMLOutput { };
 
+            // clear it. :empty
+            s.innerText = "";
+
             // inline scope sharing not yet implemented
             innerText.ContinueWith(task => { s.innerText = task.Result; });
 

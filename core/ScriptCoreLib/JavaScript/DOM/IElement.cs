@@ -26,6 +26,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         // http://msdn.microsoft.com/en-us/library/ms536429(VS.85).aspx
+        // https://developer.mozilla.org/en-US/docs/Web/API/element.getAttributeNode
+        // http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-217A91B8
+        public IAttr getAttributeNode(string name)
+        {
+            return default(IAttr);
+        }
+
 
         public object getAttribute(string name)
         {
@@ -51,6 +58,6 @@ namespace ScriptCoreLib.JavaScript.DOM
             return null;
         }
 
-  
+
     }
 }

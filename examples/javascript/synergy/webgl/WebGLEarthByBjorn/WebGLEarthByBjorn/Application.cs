@@ -128,13 +128,24 @@ namespace WebGLEarthByBjorn
             this.canvas.AttachToDocument();
             this.canvas.style.SetLocation(0, 0);
 
+            this.canvas.onmousedown +=
+                e =>
+                {
+
+                    e.CaptureMouse();
+
+                };
+
             this.canvas.onmousemove +=
                 e =>
                 {
                     if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                     {
-                        sphere.rotation.x = Math.PI * e.OffsetY / canvas.clientHeight;
-                        clouds.rotation.x = Math.PI * e.OffsetY / canvas.clientHeight;
+                        //sphere.rotation.x = Math.PI * e.OffsetY / canvas.clientHeight;
+                        //clouds.rotation.x = Math.PI * e.OffsetY / canvas.clientHeight;
+
+                        Native.document.title = new { e.movementX, e.movementY }.ToString();
+
                     }
 
                 };

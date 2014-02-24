@@ -11,7 +11,7 @@ namespace System.Threading.Tasks
     // name clash!
     public static class ScriptCoreLib_TaskExtensions
     {
-        [Obsolete]
+        //[Obsolete]
         //public static void await<T>(this Task<T> x, Action<T> y)
         public static void ContinueWithResult<T>(this Task<T> x, Action<T> y)
         {
