@@ -207,16 +207,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             cstopwatch.Stop();
             // 4141ms event: dataGridView1 set DataSource columns { SourceDataTableColumnCount = 8, ElapsedMilliseconds = 999 } 
-            Console.WriteLine(
-                    "event: "
-                    + this.Name
-                    + " set DataSource columns "
-                    + new
-                    {
-                        SourceDataTableColumnCount,
-                        cstopwatch.ElapsedMilliseconds,
-                    }
-            );
+
+            if (cstopwatch.ElapsedMilliseconds > 30)
+                Console.WriteLine(
+                        "event: "
+                        + this.Name
+                        + " set DataSource columns "
+                        + new
+                        {
+                            SourceDataTableColumnCount,
+                            cstopwatch.ElapsedMilliseconds,
+                        }
+                );
 
             // show the columns and continue in a moment
             Native.window.requestAnimationFrame += delegate
@@ -612,11 +614,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 // 9710ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 1000, ElapsedMilliseconds = 1333 } 
 
                 // 079ms event: dataGridView1 set DataSource { SourceDataTableColumnCount = 6, SourceDataTableRowCount = 100, ElapsedMilliseconds = 564 } 
-                Console.WriteLine(
+
+                if (stopwatch.ElapsedMilliseconds > 30)
+                    Console.WriteLine(
                     "event: "
-                    // what if there is no form?
-                    //+ this.FindForm().Name + "." 
-                    // what if there is no name?
+                        // what if there is no form?
+                        //+ this.FindForm().Name + "." 
+                        // what if there is no name?
                     + this.Name
                     + " set DataSource almost done "
                     + new
@@ -692,15 +696,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (this.Columns.Count > 0)
                         this.Columns[0].Width = this.Columns[0].Width;
 
-                    Console.WriteLine(
-                          this.Name
-                          + " set DataSource sReposition0 "
-                          + new
-                          {
-                              SourceDataTableColumnCount,
-                              sReposition0.ElapsedMilliseconds
-                          }
-                       );
+
+                    if (sReposition0.ElapsedMilliseconds > 30)
+                        Console.WriteLine(
+                              this.Name
+                              + " set DataSource sReposition0 "
+                              + new
+                              {
+                                  SourceDataTableColumnCount,
+                                  sReposition0.ElapsedMilliseconds
+                              }
+                           );
 
 
                     InternalAutoSizeWhenFill();

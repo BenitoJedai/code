@@ -18,7 +18,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
- 
+
 
         public string alt;
         public string src;
@@ -212,5 +212,32 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             return System.DateTime.Now;
         }
+
+        public static implicit operator string(IHTMLInput i)
+        {
+            // X:\jsc.svn\examples\javascript\css\Test\CSSSearchUserFeedback\CSSSearchUserFeedback\Application.cs
+
+            //if (i.type == HTMLInputTypeEnum.text)
+            {
+                // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+
+                return i.value;
+            }
+
+            //return "";
+        }
+
+        //validity: ValidityState
+        //badInput: false
+        //customError: false
+        //patternMismatch: false
+        //rangeOverflow: false
+        //rangeUnderflow: false
+        //stepMismatch: false
+        //tooLong: false
+        //typeMismatch: false
+        //valid: true
+        //valueMissing: false
+
     }
 }

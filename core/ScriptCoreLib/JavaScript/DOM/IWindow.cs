@@ -506,6 +506,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         // http://social.msdn.microsoft.com/Forums/en-US/30f3339c-5e04-4aa8-9a09-9be72d9d9a1b/how-can-you-use-await-with-existing-events
+        [System.Obsolete("async.onframe")]
         public Task requestAnimationFrameAsync
         {
             [Script(DefineAsStatic = true)]

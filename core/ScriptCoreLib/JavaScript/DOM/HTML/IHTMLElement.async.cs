@@ -47,6 +47,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                             x.SetResult(e);
                         };
 
+                    ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier.InternalTaskNameLookup[x.Task] = "onclick";
+
                     return x.Task;
                 }
             }
@@ -94,6 +96,17 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 {
                     var x = new TaskCompletionSource<IEvent>();
                     that.onmouseup += x.SetResult;
+                    return x.Task;
+                }
+            }
+
+            public virtual Task<IEvent> onkeyup
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IEvent>();
+                    that.onkeyup += x.SetResult;
                     return x.Task;
                 }
             }

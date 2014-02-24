@@ -59,6 +59,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             return x;
         }
 
+
+        [Obsolete("rename to Remove and do events")]
         public static CSSStyleRuleMonkier OrphanizeRule(this CSSStyleRuleMonkier x)
         //public static CSSStyleRule Orphanize<TRule>(this CSSStyleRule x)
         {

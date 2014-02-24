@@ -274,6 +274,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        [Obsolete]
         internal bool IsMozilla
         {
             [Script(DefineAsStatic = true)]
