@@ -67,18 +67,18 @@ namespace ScriptCoreLib.JavaScript.Extensions
                         if (v == "")
                             goto retry;
 
+                    }
 
-                        var typer = Stopwatch.StartNew();
-                        while (typer.ElapsedMilliseconds < 150)
-                        {
-                            status("keep typing... " + new { typer.ElapsedMilliseconds, v });
-                            //await Native.window.requestAnimationFrameAsync;
-                            await Native.window.async.onframe;
-                            //await 100;
+                    var typer = Stopwatch.StartNew();
+                    while (typer.ElapsedMilliseconds < 150)
+                    {
+                        status("keep typing... " + new { typer.ElapsedMilliseconds, v });
+                        //await Native.window.requestAnimationFrameAsync;
+                        await Native.window.async.onframe;
+                        //await 100;
 
-                            if (v != searchbox.value)
-                                goto retry;
-                        }
+                        if (v != searchbox.value)
+                            goto retry;
                     }
 
                     status("working... " + new { i, v });
@@ -152,6 +152,8 @@ namespace CSSSearchUserFeedback
 
 
                     css.style.backgroundColor = "yellow";
+                    // this wont work yet?
+                    //(css + 300).style.backgroundColor = "white";
 
                     // show we have a slow down
                     (page.searchbox.css - o > 300).style.color = "red";

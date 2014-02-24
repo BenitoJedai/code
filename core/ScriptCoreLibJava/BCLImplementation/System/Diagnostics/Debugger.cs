@@ -14,6 +14,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Diagnostics
         public static void Break()
         {
             // debugger? :)
+
+            throw new InvalidOperationException("System.Diagnostics.Debugger.Break");
         }
 
     }

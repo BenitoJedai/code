@@ -138,6 +138,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         }
         public T[] ToArray()
         {
+            // http://stackoverflow.com/questions/5061640/make-arraylist-toarray-return-more-specific-types
             return this.InternalList.toArray(new T[0]);
         }
 
