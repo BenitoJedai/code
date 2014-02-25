@@ -12,6 +12,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.IO;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.IO;
+using System.Net;
 
 namespace ScriptCoreLib.JavaScript.UCLImplementation
 {
@@ -86,15 +87,24 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
 
         public static void ToMemoryStreamAsset(this string e, Action<MemoryStream> h)
         {
-            new IXMLHttpRequest(
-                ScriptCoreLib.Shared.HTTPMethodEnum.GET,
-                e,
-                r =>
+            // tested by?
+
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs
+
+            //var w = new WebClient();
+
+            //w.DownloadDataCompleted
+            var x = new IXMLHttpRequest();
+
+            x.open(Shared.HTTPMethodEnum.GET, e);
+
+            x.bytes.ContinueWith(
+                task =>
                 {
                     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IO\MemoryStream.cs
-                    var m = new __MemoryStream { InternalBuffer = r.responseText };
+                    var m = new MemoryStream(task.Result);
 
-                    h((MemoryStream)(object)m);
+                    h(m);
                 }
             );
 
