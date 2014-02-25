@@ -44,6 +44,11 @@ namespace TestHtmlClickInBrowsers
                 Native.window.alert("page.div.onclick");
             };
 
+            page.Butt2.onclick += delegate
+            {
+                Native.window.alert("page.Butt2.onclick");
+            };
+
 
             new IFunction("e", @"
 
@@ -77,6 +82,8 @@ namespace TestHtmlClickInBrowsers
                         this.dispatchEvent(click_ev);
 
                         ").apply(page.div);
+
+            page.Butt2.click();
 
             
 
