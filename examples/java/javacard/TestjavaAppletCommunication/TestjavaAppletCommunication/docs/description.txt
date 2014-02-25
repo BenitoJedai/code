@@ -1,0 +1,1 @@
+﻿TestjavaAppletCommunication. C# on a smart card. 
