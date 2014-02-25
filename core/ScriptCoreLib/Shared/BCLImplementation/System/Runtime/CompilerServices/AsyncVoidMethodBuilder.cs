@@ -5,7 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
+//namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices
 {
     // see: http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.asyncvoidmethodbuilder(v=vs.110).aspx
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.AsyncVoidMethodBuilder")]
