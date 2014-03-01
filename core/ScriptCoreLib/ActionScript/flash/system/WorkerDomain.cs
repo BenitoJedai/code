@@ -31,7 +31,7 @@ namespace ScriptCoreLib.ActionScript.flash.system
             return null;
         }
 
-        public Vector<Worker> createWorker()
+        public Vector<Worker> listWorkers()
         {
             return null;
         }

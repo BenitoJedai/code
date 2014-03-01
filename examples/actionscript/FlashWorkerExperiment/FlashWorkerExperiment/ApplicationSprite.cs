@@ -3,6 +3,8 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.Extensions;
+using System;
+using System.Text;
 
 namespace FlashWorkerExperiment
 {
@@ -10,6 +12,9 @@ namespace FlashWorkerExperiment
     {
         // X:\jsc.svn\examples\actionscript\async\Test\TestAsync\TestAsync\ApplicationSprite.cs
         // X:\jsc.svn\examples\actionscript\async\AsyncWorkerTask\AsyncWorkerTask\ApplicationSprite.cs
+
+        [Obsolete("redirected to getSharedProperty if user cross threads?")]
+        public static MessageChannel zfromWorker { get; set; }
 
         public ApplicationSprite()
         {
@@ -29,12 +34,7 @@ namespace FlashWorkerExperiment
 
 
             //   The swf version should be 22 and above.
-            var xfromWorker = (MessageChannel)Worker.current.getSharedProperty("fromWorker");
 
-            if (xfromWorker != null)
-            {
-                xfromWorker.send("ready?");
-            }
 
 
             // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Worker.html
@@ -109,7 +109,7 @@ namespace FlashWorkerExperiment
 
                             t.appendText(
 
-                                new { data }.ToString()
+                                "\n " + new { data }.ToString()
 
                                 );
                         };
@@ -126,6 +126,20 @@ namespace FlashWorkerExperiment
                               "\n after start " + new { w }
                               );
 
+                    var list = WorkerDomain.current.listWorkers();
+
+                    for (int i = 0; i < list.length; i++)
+                    {
+
+                        t.appendText(
+                                  "\n main: " + new
+                                  {
+                                      i,
+                                      list[i].isPrimordial,
+                                      current = list[i] == Worker.current
+                                  }
+                         );
+                    }
 
                     t.click +=
                         delegate
@@ -155,6 +169,47 @@ namespace FlashWorkerExperiment
                 // http://forums.adobe.com/thread/1411606?tstart=0
                 //Mobile Workers (concurrency) - Android
                 //Introduced as a beta feature in AIR 3.9, we've continued to improve this feature based on your feedback for its official release in AIR 4.
+
+
+
+
+
+                // what about automagic sync, jsc detects and marks such properties?
+                var xfromWorker = (MessageChannel)Worker.current.getSharedProperty("fromWorker");
+
+                if (xfromWorker != null)
+                {
+                    var w = new StringBuilder();
+
+
+                    //{ WorkerDomain = true, Worker = true, isPrimordial = true, length = 519030 }
+                    // before start
+                    // after start { w = [object Worker] }
+                    // main: { i = 0, isPrimordial = true, current = true }
+                    // { data = ready? 
+                    // in worker: { i = 0, isPrimordial = false, current = true }
+                    // in worker: { i = 1, isPrimordial = true, current = false } }click!
+                    // { data = hi from worker { data = hi from UI } }click!
+                    // { data = hi from worker { data = hi from UI } }
+
+                    var list = WorkerDomain.current.listWorkers();
+
+                    for (int i = 0; i < list.length; i++)
+                    {
+
+                        w.Append(
+                                  "\n in worker: " + new
+                                  {
+                                      i,
+                                      list[i].isPrimordial,
+                                      current = list[i] == Worker.current
+                                  }
+                         );
+                    }
+
+                    xfromWorker.send("ready? " + w.ToString());
+                }
+
 
                 toWorker.channelMessage +=
                     e =>
