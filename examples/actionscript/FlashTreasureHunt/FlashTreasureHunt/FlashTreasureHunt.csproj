@@ -163,9 +163,8 @@
     <Content Include="Design\App.htm" />
     <Content Include="Design\Preview.png" />
     <Content Include="docs\help.txt" />
-    <Content Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth.xml">
+    <Content Include="staging\FlashTreasureHunt.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Promotional\x100.png" />
     <EmbeddedResource Include="web\assets\FlashTreasureHunt\Music\FUNKYOU.mp3" />
@@ -196,13 +195,13 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth-build.bat">
+    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air-android.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth-install.bat">
+    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air-ios.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air.com.abstractatech.gamification.fth-test.bat">
+    <None Include="staging\FlashTreasureHunt.ApplicationSprite\web\air-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="staging\FlashTreasureHunt.Application\web\manifest.json">
