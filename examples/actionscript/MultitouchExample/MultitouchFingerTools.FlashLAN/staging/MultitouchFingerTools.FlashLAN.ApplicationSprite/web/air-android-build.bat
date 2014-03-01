@@ -6,7 +6,7 @@ rem call createapk.bat
 
 set e=%cd%
 set swf=MultitouchFingerTools.FlashLAN.ApplicationSprite.swf
-set apk=air.com.abstractatech.gamification.mft.apk
-set xml=air.com.abstractatech.gamification.mft.xml
+set apk=air.apk
+set xml=air-descriptor.xml
 
-"X:\jsc.internal.svn\keystore\asus\air.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%
+"X:\jsc.internal.svn\keystore\asus\air13.com.abstractatech-package.and.sign.bat" %e% %swf% %apk% %xml%

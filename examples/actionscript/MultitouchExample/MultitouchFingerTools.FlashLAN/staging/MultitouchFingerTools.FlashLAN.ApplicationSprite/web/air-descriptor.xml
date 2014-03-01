@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/3.5">
-  <id>com.abstractatech.gamification.mft</id>
+<application xmlns="http://ns.adobe.com/air/application/13.0">
+  <!--
+  https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140301
+  -->
+  
+  <!--<id>FlashWorkerExperiment</id>-->
+
+  <id>jsc-solutions.hellojsc</id>
+  
   <versionNumber>1.0.1</versionNumber>
   <filename>MultitouchFingerTools.FlashLAN</filename>
   <name>MultitouchFingerTools.FlashLAN</name>
   <description>
     <text xml:lang="en">MultitouchFingerTools.FlashLAN</text>
   </description>
-  <copyright>abstractatech.com</copyright>
+  <copyright>MultitouchFingerTools.FlashLAN</copyright>
   <initialWindow>
     <title>MultitouchFingerTools.FlashLAN</title>
     <content>
       MultitouchFingerTools.FlashLAN.ApplicationSprite.swf
     </content>
 
-    <autoOrients>false</autoOrients>
+    <!--<autoOrients>false</autoOrients>-->
+    <autoOrients>true</autoOrients>
+    
     <renderMode>direct</renderMode>
+    <depthAndStencil>true</depthAndStencil>
     <fullScreen>false</fullScreen>
     <visible>true</visible>
-    <aspectRatio>landscape</aspectRatio>
+    <!--<aspectRatio>landscape</aspectRatio>-->
+    <aspectRatio>any</aspectRatio>
 
   </initialWindow>
 
@@ -38,8 +49,18 @@
 
   </icon>
 
-  <android>
-    <colorDepth>16bit</colorDepth>
-  </android>
 
+
+  <iPhone>
+    <InfoAdditions>
+      <![CDATA[
+        <key>UIDeviceFamily</key>
+        <array>
+            <string>1</string>
+            <string>2</string>
+        </array>
+    ]]>
+    </InfoAdditions>
+  </iPhone>
+  
 </application>
