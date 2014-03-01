@@ -219,21 +219,20 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhztd.xml">
+    <Content Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhztd-build.bat">
+    <None Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air-android.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhztd-install.bat">
+    <None Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air-ios.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhztd-test.bat">
+    <None Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
