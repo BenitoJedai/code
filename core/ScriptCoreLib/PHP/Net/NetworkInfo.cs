@@ -4,6 +4,7 @@ using ScriptCoreLib.PHP.IO;
 
 namespace ScriptCoreLib.PHP.Net
 {
+    [System.Obsolete]
     [Script]
     public static class NetworkInfo
     {

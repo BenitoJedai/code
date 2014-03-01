@@ -9,16 +9,16 @@
   <id>jsc-solutions.hellojsc</id>
   
   <versionNumber>1.0.1</versionNumber>
-  <filename>FlashWorkerExperiment</filename>
-  <name>FlashWorkerExperiment</name>
+  <filename>AIRServerSocketExperiment</filename>
+  <name>AIRServerSocketExperiment</name>
   <description>
-    <text xml:lang="en">FlashWorkerExperiment</text>
+    <text xml:lang="en">AIRServerSocketExperiment</text>
   </description>
-  <copyright>FlashWorkerExperiment</copyright>
+  <copyright>AIRServerSocketExperiment</copyright>
   <initialWindow>
-    <title>FlashWorkerExperiment</title>
+    <title>AIRServerSocketExperiment</title>
     <content>
-      FlashWorkerExperiment.ApplicationSprite.swf
+      AIRServerSocketExperiment.ApplicationSprite.swf
     </content>
 
     <!--<autoOrients>false</autoOrients>-->

@@ -98,6 +98,9 @@
     <Compile Include="ActionScript\flash\events\UncaughtErrorEvent.cs" />
     <Compile Include="ActionScript\flash\events\UncaughtErrorEvents.cs" />
     <Compile Include="ActionScript\flash\media\StageWebView.cs" />
+    <Compile Include="ActionScript\flash\net\InterfaceAddress.cs" />
+    <Compile Include="ActionScript\flash\net\NetworkInterface.cs" />
+    <Compile Include="ActionScript\flash\net\NetworkInfo.cs" />
     <Compile Include="ActionScript\flash\net\Socket.cs" />
     <Compile Include="ActionScript\flash\net\ServerSocket.cs" />
     <Compile Include="ActionScript\flash\system\MessageChannel.cs" />
