@@ -166,20 +166,20 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuj.xml">
+    <Content Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuj-build.bat">
+    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air-android.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuj-install.bat">
+    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air-ios.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air.com.abstractatech.gamification.fhzuj-test.bat">
+    <None Include="staging\FlashHeatZeeker.UnitJeepTouch.ApplicationSprite\web\air-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

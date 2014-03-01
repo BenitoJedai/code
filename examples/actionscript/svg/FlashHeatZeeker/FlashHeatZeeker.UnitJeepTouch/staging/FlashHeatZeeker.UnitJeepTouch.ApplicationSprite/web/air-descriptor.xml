@@ -9,14 +9,14 @@
   <id>jsc-solutions.hellojsc</id>
   
   <versionNumber>1.0.1</versionNumber>
-  <filename>FlashTreasureHunt</filename>
-  <name>FlashTreasureHunt</name>
+  <filename>FlashHeatZeeker</filename>
+  <name>FlashHeatZeeker</name>
   <description>
-    <text xml:lang="en">FlashTreasureHunt</text>
+    <text xml:lang="en">FlashHeatZeeker</text>
   </description>
-  <copyright>FlashTreasureHunt</copyright>
+  <copyright>FlashHeatZeeker</copyright>
   <initialWindow>
-    <title>FlashTreasureHunt</title>
+    <title>FlashHeatZeeker</title>
     <content>
       FlashHeatZeeker.UnitJeepTouch.ApplicationSprite.swf
     </content>

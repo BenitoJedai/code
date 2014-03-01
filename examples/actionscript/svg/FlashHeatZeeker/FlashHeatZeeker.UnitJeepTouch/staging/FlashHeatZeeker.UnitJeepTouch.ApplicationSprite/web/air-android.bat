@@ -5,7 +5,7 @@ rem call createapk.bat
 
 
 set e=%cd%
-set swf=FlashTreasureHunt.ApplicationSprite.swf
+set swf=FlashHeatZeeker.UnitJeepTouch.ApplicationSprite.swf
 set apk=air.apk
 set xml=air-descriptor.xml
 
