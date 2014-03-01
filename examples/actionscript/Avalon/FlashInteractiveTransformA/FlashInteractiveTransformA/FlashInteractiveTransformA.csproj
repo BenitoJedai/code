@@ -137,12 +137,26 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
+    <Content Include="staging\FlashInteractiveTransformA.ApplicationSprite\web\air-descriptor.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\javascript\Avalon\InteractiveTransformA\InteractiveTransformA\InteractiveTransformA.csproj">
       <Project>{3bd2bd38-102c-4c19-88e1-60522b55403c}</Project>
       <Name>InteractiveTransformA</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="staging\FlashInteractiveTransformA.ApplicationSprite\web\air-android.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashInteractiveTransformA.ApplicationSprite\web\air-ios.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashInteractiveTransformA.ApplicationSprite\web\air-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
