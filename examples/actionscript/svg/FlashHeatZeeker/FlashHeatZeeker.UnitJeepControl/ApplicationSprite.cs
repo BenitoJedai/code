@@ -43,6 +43,7 @@ namespace FlashHeatZeeker.UnitJeepControl
                   Action atresize = delegate
                   {
                       // http://forum.starling-framework.org/topic/starling-stage-resizing
+                      // do we need to care about orientation?
 
                       s.viewPort = new ScriptCoreLib.ActionScript.flash.geom.Rectangle(
                           0, 0, this.stage.stageWidth, this.stage.stageHeight
