@@ -4,7 +4,10 @@
   https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140301
   -->
   
-  <id>FlashWorkerExperiment</id>
+  <!--<id>FlashWorkerExperiment</id>-->
+
+  <id>jsc-solutions.hellojsc</id>
+  
   <versionNumber>1.0.1</versionNumber>
   <filename>FlashWorkerExperiment</filename>
   <name>FlashWorkerExperiment</name>
