@@ -135,9 +135,21 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="staging\Box2DTopDownCarWithObstacles.ApplicationSprite\web\air-descriptor.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="staging\Box2DTopDownCarWithObstacles.ApplicationSprite\web\air-android.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\Box2DTopDownCarWithObstacles.ApplicationSprite\web\air-ios.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\Box2DTopDownCarWithObstacles.ApplicationSprite\web\air-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
