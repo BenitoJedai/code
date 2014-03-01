@@ -10,6 +10,7 @@ namespace AsyncWorkerTask
     public sealed class ApplicationSprite : Sprite
     {
         // X:\jsc.svn\examples\actionscript\FlashWorkerExperiment\FlashWorkerExperiment\ApplicationSprite.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140301
 
         public ApplicationSprite()
         {
