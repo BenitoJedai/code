@@ -148,6 +148,9 @@
     </Compile>
     <Content Include="Design\Preview.png" />
     <Content Include="Design\white-jsc.png" />
+    <Content Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-descriptor.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -162,6 +165,21 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-android-build.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-android-install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-ios-build.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-ios-install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft-build.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -182,7 +200,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$
 )
 
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false
+start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /xDisableWebServiceAndroid:false
 )</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget</PreBuildEvent>
   </PropertyGroup>

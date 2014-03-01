@@ -1,5 +1,8 @@
+#define xFCHROME
+
 // For more information visit:
 // http://studio.jsc-solutions.net/
+
 
 using chrome;
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
@@ -25,6 +28,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml.Linq;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 
 namespace MultitouchFingerTools.FlashLAN
 {
@@ -167,6 +171,8 @@ namespace MultitouchFingerTools.FlashLAN
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140301
+#if FCHROME
             FormStyler.AtFormCreated =
                s =>
                {
@@ -202,6 +208,7 @@ namespace MultitouchFingerTools.FlashLAN
             }
             #endregion
 
+#endif
 
             var sprite = new ApplicationSprite();
 
