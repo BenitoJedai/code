@@ -221,6 +221,7 @@
     </Compile>
     <Content Include="staging\FlashHeatZeeker.TestDriversTouch.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

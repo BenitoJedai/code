@@ -11,9 +11,9 @@ set xml=air-descriptor.xml
 
 echo build
 
-:: ipad 6 FPS
+:: ipad ? FPS
 rem call "X:\jsc.internal.svn\keystore\carlo-lenovo\air13.com.abstractatech-package.and.sign.ios.bat" %e% %swf% %ipa% %xml%
-:: rem 24 fps
+:: rem ipad 5 fps
 call "X:\jsc.internal.svn\keystore\carlo-lenovo\air13.com.abstractatech-package.and.sign.ios.adhoc.bat" %e% %swf% %ipa% %xml%
 
 
