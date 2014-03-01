@@ -17,6 +17,18 @@ namespace FlashHeatZeeker.UnitJeepTouch
 
         public ApplicationSprite()
         {
+            // http://away3d.com/forum/viewthread/1976/
+            // http://forum.starling-framework.org/topic/works-on-web-browser-but-not-on-ios
+
+            //Error: Error #3709: The depthAndStencil flag in the application descriptor must match the enableDepthAndStencil Boolean passed to configureBackBuffer on the Context3D object.
+            //    at flash.display3D::Context3D/configureBackBuffer()
+            //    at Function/http://adobe.com/AS3/2006/builtin::apply()
+            //    at starling.core::Starling/configureBackBuffer()
+            //    at starling.core::Starling/updateViewPort()
+            //    at starling.core::Starling/initializeGraphicsAPI()
+            //    at starling.core::Starling/initialize()
+            //    at starling.core::Starling/onContextCreated()
+
 
 
             var content0 = new FlashHeatZeeker.UnitJeepControl.ApplicationSprite();
