@@ -26,9 +26,9 @@ namespace Flare3DWaterShips
         //    at flash.display::Loader/get content()
         //    at flare.core::Texture3D/completeEvent()[Z:\projects\flare3d 2.5\src\flare\core\Texture3D.as:496]
 
-    //    SecurityError: Error #2148: SWF file file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf cannot access local resource file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf/[[DYNAMIC]]/15. Only local-with-filesystem and trusted local SWF files may access local resources.
-    //at flash.display::Loader/get content()
-    //at flare.core::Texture3D/completeEvent()[Z:\projects\flare3d 2.5\src\flare\core\Texture3D.as:496]
+        //    SecurityError: Error #2148: SWF file file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf cannot access local resource file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf/[[DYNAMIC]]/15. Only local-with-filesystem and trusted local SWF files may access local resources.
+        //at flash.display::Loader/get content()
+        //at flare.core::Texture3D/completeEvent()[Z:\projects\flare3d 2.5\src\flare\core\Texture3D.as:496]
 
         // flsl ocean shader.
         const int oceanGridSize = 64;
@@ -41,6 +41,10 @@ namespace Flare3DWaterShips
 
         public ApplicationSprite()
         {
+            //        curityError: Error #2148: SWF file file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf cannot access local resource file:///X|/jsc.svn/examples/actionscript/synergy/Flare3DWaterShips/Flare3DWaterShips/bin/Debug/staging/Flare3DWaterShips.ApplicationSprite/web/Flare3DWaterShips.ApplicationSprite.swf/[[DYNAMIC]]/3. Only local-with-filesystem and trusted local SWF files may access local resources.
+            //at flash.display::Loader/get content()
+            //at flare.core::Texture3D/completeEvent()[Z:\projects\flare3d 2.5\src\flare\core\Texture3D.as:496]
+
 
             var scene = new Viewer3D(this, "", 0.2);
             scene.camera = new Camera3D();

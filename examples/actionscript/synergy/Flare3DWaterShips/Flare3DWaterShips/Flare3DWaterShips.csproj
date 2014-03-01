@@ -138,7 +138,7 @@
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="staging\Flare3DWaterShips.ApplicationSprite\web\air.com.abstractatech.gamification.ships.xml">
+    <Content Include="staging\Flare3DWaterShips.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\highlights.png" />
@@ -157,13 +157,13 @@
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\particles.zf3d" />
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\water.pbj" />
     <EmbeddedResource Include="web\assets\Flare3DWaterShips\water.pbk" />
-    <None Include="staging\Flare3DWaterShips.ApplicationSprite\web\air.com.abstractatech.gamification.ships-build.bat">
+    <None Include="staging\Flare3DWaterShips.ApplicationSprite\web\air-android.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\Flare3DWaterShips.ApplicationSprite\web\air.com.abstractatech.gamification.ships-install.bat">
+    <None Include="staging\Flare3DWaterShips.ApplicationSprite\web\air-ios.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\Flare3DWaterShips.ApplicationSprite\web\air.com.abstractatech.gamification.ships-test.bat">
+    <None Include="staging\Flare3DWaterShips.ApplicationSprite\web\air-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="staging\Flare3DWaterShips.Application\web\manifest.json">
