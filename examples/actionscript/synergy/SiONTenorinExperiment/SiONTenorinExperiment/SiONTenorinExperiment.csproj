@@ -124,6 +124,9 @@
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="staging\SiONTenorinExperiment.ApplicationSprite\web\air-descriptor.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="opensource\Tenorion.as" />
     <None Include="packages.config" />
     <Compile Include="ApplicationSprite.cs" />
@@ -132,6 +135,15 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <None Include="staging\SiONTenorinExperiment.ApplicationSprite\web\air-android.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\SiONTenorinExperiment.ApplicationSprite\web\air-ios.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\SiONTenorinExperiment.ApplicationSprite\web\air-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

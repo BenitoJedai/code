@@ -140,6 +140,9 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
+    <Content Include="staging\FlashSpaceInvadersApp.ApplicationSprite\web\air-descriptor.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlashSpaceInvaders.Assets.Sounds\FlashSpaceInvaders.Assets.Sounds.csproj">
@@ -170,6 +173,15 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="staging\FlashSpaceInvadersApp.ApplicationSprite\web\air-android.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashSpaceInvadersApp.ApplicationSprite\web\air-ios.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashSpaceInvadersApp.ApplicationSprite\web\air-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="staging\FlashSpaceInvadersApp.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
