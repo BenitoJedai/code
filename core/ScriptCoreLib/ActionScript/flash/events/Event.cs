@@ -9,6 +9,9 @@ namespace ScriptCoreLib.ActionScript.flash.events
     [Script(IsNative = true)]
     public class Event
     {
+        public static readonly string CHANNEL_MESSAGE = "channelMessage";
+
+
         #region Constants
         /// <summary>
         /// [static] The ACTIVATE constant defines the value of the type property of an activate event object.

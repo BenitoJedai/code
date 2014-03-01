@@ -8,19 +8,18 @@ namespace FlashWorkerExperiment
 {
     public sealed class ApplicationSprite : Sprite
     {
+        // X:\jsc.svn\examples\actionscript\async\Test\TestAsync\TestAsync\ApplicationSprite.cs
+        // X:\jsc.svn\examples\actionscript\async\AsyncWorkerTask\AsyncWorkerTask\ApplicationSprite.cs
+
         public ApplicationSprite()
         {
+            // http://www.yeahbutisitflash.com/?p=5469
+
+            // http://forums.adobe.com/message/5745066
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131006-air
 
             //System.ArgumentException: Parameter count does not match passed in argument value count.
-            //   at System.Reflection.Emit.CustomAttributeBuilder.InitCustomAttributeBuilder(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues, FieldInfo[] namedFields, Object[] fieldValues)
-            //   at System.Reflection.Emit.CustomAttributeBuilder..ctor(ConstructorInfo con, Object[] constructorArgs, PropertyInfo[] namedProperties, Object[] propertyValues, FieldInfo[] namedFields, Object[] fieldValues)
-            //   at jsc.meta.Library.CostumAttributeBuilderExtensions.<>c__DisplayClass7c.<ToCustomAttributeBuilder>b__68(ILTranslationContext context)
-            //   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.    .     (TypeBuilder , FileInfo , String )
-            //   at jsc.meta.Commands.Reference.ReferenceAssetsLibrary.    .     (AssemblyRewriteArguments )
-            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.InternalInvoke()
-            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.InternalInvokeWithCache()
-
 
             //        ReferenceError: Error #1065: Variable flash.system::WorkerDomain is not defined.
             //at FlashWorkerExperiment::ApplicationSprite()[S:\web\FlashWorkerExperiment\ApplicationSprite.as:31]
@@ -29,6 +28,18 @@ namespace FlashWorkerExperiment
             // http://esdot.ca/site/2012/intro-to-as3-workers-hello-world
 
 
+            //   The swf version should be 22 and above.
+            var xfromWorker = (MessageChannel)Worker.current.getSharedProperty("fromWorker");
+
+            if (xfromWorker != null)
+            {
+                xfromWorker.send("ready?");
+            }
+
+
+            // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Worker.html
+            //  For mobile platforms, concurrency is supported in AIR on Android but not in AIR on iOS. 
+            // You can use the static isSupported property to check whether concurrency is supported before attempting to use it.
             if (Worker.current.isPrimordial)
             {
                 // http://forums.adobe.com/thread/1171498
@@ -37,7 +48,8 @@ namespace FlashWorkerExperiment
                 {
                     text = new
                     {
-                        WorkerDomain.isSupported,
+                        WorkerDomain = WorkerDomain.isSupported,
+                        Worker = Worker.isSupported,
                         Worker.current.isPrimordial,
 
                         this.loaderInfo.bytes.length
@@ -48,26 +60,110 @@ namespace FlashWorkerExperiment
 
                 t.AttachTo(this);
 
-                //                C:\util\flex_sdk_4.6\bin\mxmlc.exe
-                // -static-link-runtime-shared-libraries=true +configname=airmobile   -debug -verbose-stacktraces -sp=. -swf-version=17 --target-player=11.4.0  -locale en_US -strict -output="V:\web\FlashWorkerExperiment.ApplicationSprite.swf" FlashWorkerExperiment\ApplicationSprite.as
-                //Loading configuration file C:\util\flex_sdk_4.6\frameworks\airmobile-config.xml
-                //V:\web\FlashWorkerExperiment\ApplicationSprite.as(42): col: 40 Error: Call to a possibly undefined method createWorker through a reference with static type Class.
+                //this.stage.loaderInfo.uncaughtErrorEvents.uncaughtError +=
+                this.loaderInfo.uncaughtErrorEvents.uncaughtError +=
 
-                //                worker1 = WorkerDomain.createWorker(super.loaderInfo.bytes, false);
-                //                                       ^
+                    e =>
+                    {
+                        // http://www.adobe.com/support/flashplayer/downloads.html
 
-                // http://jacksondunstan.com/articles/1968
-                // "C:\util\flex_sdk_4.6\frameworks\libs\player\11.9\playerglobal.swc"
-                // "C:\util\air3-9_sdk_sa_win\frameworks\libs\player\11.9\playerglobal.swc"
+                        t.appendText(
 
-                var w = WorkerDomain.createWorker(
-                    this.loaderInfo.bytes
-                );
+                          new { e.errorID, e.text, e.error }.ToString()
 
-                w.start();
+                          );
+                    };
+
+                if (WorkerDomain.isSupported)
+                {
+                    // http://jacksondunstan.com/articles/1968
+                    // "C:\util\flex_sdk_4.6\frameworks\libs\player\11.9\playerglobal.swc"
+                    // "C:\util\air3-9_sdk_sa_win\frameworks\libs\player\11.9\playerglobal.swc"
+                    // "C:\util\air13_sdk_win\frameworks\libs\player\13.0\playerglobal.swc"
+                    // can we create natives of it yet?
+                    // call c:\util\jsc\bin\jsc.meta.exe RewriteToActionScriptNatives /SWCFiles:"C:\util\flex_sdk_4.6\frameworks\libs\player\11.1\playerglobal.swc" /SWCFiles:"C:\util\flex_sdk_4.6\frameworks\libs\framework.swc"  /SWCFiles:"C:\util\flex_sdk_4.6\frameworks\libs\mx\mx.swc" /OutputAssembly:c:\util\jsc\bin\ScriptCoreLib.ActionScript.Natives.dll  /DisableResolveExternalType:true  /DisableWorkerDomain 
+                    // call c:\util\jsc\bin\jsc.meta.exe RewriteToActionScriptNatives /SWCFiles:"C:\util\air13_sdk_win\frameworks\libs\player\13.0\playerglobal.swc" /SWCFiles:"C:\util\flex_sdk_4.6\frameworks\libs\framework.swc"  /SWCFiles:"C:\util\flex_sdk_4.6\frameworks\libs\mx\mx.swc" /OutputAssembly:c:\util\jsc\bin\ScriptCoreLib.ActionScript.AIRNatives.dll  /DisableResolveExternalType:true  /DisableWorkerDomain 
+
+                    // should flash natives gen get a copy of the playerglobal and use it instead?
+
+                    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/WorkerDomain.html
+                    var w = WorkerDomain.current.createWorker(
+                        this.loaderInfo.bytes
+                    );
+
+                    // http://jacksondunstan.com/articles/2401
+
+                    //  channel1 = WorkerDomain.current.createMessageChannel(worker0);
+                    var toWorker = Worker.current.createMessageChannel(w);
+                    var fromWorker = w.createMessageChannel(Worker.current);
+
+                    // http://esdot.ca/site/2012/intro-to-as3-workers-hello-world
+                    w.setSharedProperty("toWorker", toWorker);
+                    w.setSharedProperty("fromWorker", fromWorker);
+
+                    // http://jcward.com/AIR+3.9+Workers+Beta
+                    fromWorker.channelMessage +=
+                        e =>
+                        {
+                            var data = (string)fromWorker.receive();
+
+                            t.appendText(
+
+                                new { data }.ToString()
+
+                                );
+                        };
+
+                    t.appendText(
+                              "\n before start"
+                              );
+
+                    // { isSupported = true, isPrimordial = true, length = 485141 }
+                    w.start();
+
+
+                    t.appendText(
+                              "\n after start " + new { w }
+                              );
+
+
+                    t.click +=
+                        delegate
+                        {
+                            t.appendText(
+
+                            "click!"
+
+
+                             );
+
+                            toWorker.send("hi from UI");
+                        };
+                }
             }
             else
             {
+                var toWorker = (MessageChannel)Worker.current.getSharedProperty("toWorker");
+
+                // VerifyError: Error #1014: Class flash.system::Worker could not be found.
+
+                //WorkerDomain = true, Worker = true, isPrimordial = true, length = 517003 }
+                //before start
+                //after start { w = [object Worker] }{ data = ready? }click!{ data = hi from worker { data = hi from UI } }
+
+
+                // http://forums.adobe.com/thread/1411606?tstart=0
+                //Mobile Workers (concurrency) - Android
+                //Introduced as a beta feature in AIR 3.9, we've continued to improve this feature based on your feedback for its official release in AIR 4.
+
+                toWorker.channelMessage +=
+                    e =>
+                    {
+                        var data = (string)toWorker.receive();
+                        // now what?
+
+                        xfromWorker.send("hi from worker " + new { data });
+                    };
 
             }
         }
