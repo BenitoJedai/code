@@ -151,10 +151,6 @@
     <Content Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MultitouchFingerTools\MultitouchFingerTools.csproj">
@@ -178,15 +174,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-test.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft-build.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft-install.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air.com.abstractatech.gamification.mft-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="staging\MultitouchFingerTools.FlashLAN.Application\web\manifest.json">

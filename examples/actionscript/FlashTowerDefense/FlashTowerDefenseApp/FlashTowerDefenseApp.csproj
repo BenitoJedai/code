@@ -150,9 +150,8 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd.xml">
+    <Content Include="staging\FlashTowerDefenseApp.Components.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -171,13 +170,19 @@
     <None Include="staging\FlashTowerDefenseApp.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-build.bat">
+    <None Include="staging\FlashTowerDefenseApp.Components.ApplicationSprite\web\air-android-build.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-install.bat">
+    <None Include="staging\FlashTowerDefenseApp.Components.ApplicationSprite\web\air-android-install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\FlashTowerDefenseApp.Components.MySprite1\web\air.com.abstractatech.gamification.ftd-test.bat">
+    <None Include="staging\FlashTowerDefenseApp.Components.ApplicationSprite\web\air-ios-build.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashTowerDefenseApp.Components.ApplicationSprite\web\air-ios-install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashTowerDefenseApp.Components.ApplicationSprite\web\air-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

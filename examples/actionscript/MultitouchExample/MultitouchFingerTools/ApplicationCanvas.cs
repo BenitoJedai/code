@@ -70,6 +70,7 @@ namespace MultitouchFingerTools
 - multitouch seems to work in ie/flash (10.0)
 - p2p LAN no longer works?
 - Works on AIR for Android! :) 2013-03-05
+- Works on AIR for iPad! :) 2014-03-01
 "
 
 

@@ -5,4 +5,4 @@ rem call build.bat
 
 
 rem C:\util\flex_sdk_4.6\bin\adl  foo-app.xml  -profile mobileDevice
-C:\util\AdobeAIRSDK\bin\adl  air.com.abstractatech.gamification.ftd.xml  -profile mobileDevice -screensize 480x762:480x800
+C:\util\air13_sdk_win\bin\adl  air-descriptor.xml  -profile mobileDevice -screensize 680x762:680x800
