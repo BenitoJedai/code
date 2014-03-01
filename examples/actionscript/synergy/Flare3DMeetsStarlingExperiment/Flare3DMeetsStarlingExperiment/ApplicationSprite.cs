@@ -42,6 +42,9 @@ namespace Flare3DMeetsStarlingExperiment
 
 
             scene.autoResize = true;
+
+            // this wont work for partial builds
+            // 
             scene.clearColor.setTo(1, 1, 1);
 
             Action<ScriptCoreLib.ActionScript.flash.events.Event> contextCreateEvent =
@@ -77,6 +80,8 @@ namespace Flare3DMeetsStarlingExperiment
                     starlingBack.nextFrame();
 
                     // starling writes the depth buffer, so we need to clear it before draw the 3D stuff.
+                    
+                    // this wont work for partial builds
                     scene.context.clear(0, 0, 0, 1, 1, 0, (uint)Context3DClearMask.DEPTH);
 
                     // render 3D scene.

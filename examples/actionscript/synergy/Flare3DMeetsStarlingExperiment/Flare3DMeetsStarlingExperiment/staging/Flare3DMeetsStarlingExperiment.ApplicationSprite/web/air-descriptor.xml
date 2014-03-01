@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://ns.adobe.com/air/application/3.7">
-  <id>Flare3DMeetsStarlingExperiment</id>
+<application xmlns="http://ns.adobe.com/air/application/13.0">
+  <!--
+  https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140301
+  -->
+  
+  <!--<id>FlashWorkerExperiment</id>-->
+
+  <id>jsc-solutions.hellojsc</id>
+  
   <versionNumber>1.0.1</versionNumber>
   <filename>Flare3DMeetsStarlingExperiment</filename>
   <name>Flare3DMeetsStarlingExperiment</name>
   <description>
     <text xml:lang="en">Flare3DMeetsStarlingExperiment</text>
   </description>
-  <copyright>abstractatech.com</copyright>
+  <copyright>Flare3DMeetsStarlingExperiment</copyright>
   <initialWindow>
     <title>Flare3DMeetsStarlingExperiment</title>
     <content>
       Flare3DMeetsStarlingExperiment.ApplicationSprite.swf
     </content>
 
-    <autoOrients>false</autoOrients>
+    <!--<autoOrients>false</autoOrients>-->
+    <autoOrients>true</autoOrients>
+    
     <renderMode>direct</renderMode>
     <depthAndStencil>true</depthAndStencil>
-    
     <fullScreen>false</fullScreen>
     <visible>true</visible>
-    <aspectRatio>landscape</aspectRatio>
+    <!--<aspectRatio>landscape</aspectRatio>-->
+    <aspectRatio>any</aspectRatio>
 
   </initialWindow>
 
@@ -41,4 +50,17 @@
   </icon>
 
 
+
+  <iPhone>
+    <InfoAdditions>
+      <![CDATA[
+        <key>UIDeviceFamily</key>
+        <array>
+            <string>1</string>
+            <string>2</string>
+        </array>
+    ]]>
+    </InfoAdditions>
+  </iPhone>
+  
 </application>

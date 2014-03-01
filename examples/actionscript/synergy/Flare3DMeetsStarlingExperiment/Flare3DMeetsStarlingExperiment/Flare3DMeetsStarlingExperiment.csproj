@@ -145,9 +145,8 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\ApplicationSprite.xml">
+    <Content Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
     <Content Include="Textures\reflections.jpg" />
     <Content Include="Textures\tree.png" />
@@ -156,13 +155,13 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="web\assets\Flare3DMeetsStarlingExperiment\vaca.zf3d" />
-    <None Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\ApplicationSprite-build.bat">
+    <None Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\air-android.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\ApplicationSprite-install.bat">
+    <None Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\air-ios.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\ApplicationSprite-test.bat">
+    <None Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\air-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
