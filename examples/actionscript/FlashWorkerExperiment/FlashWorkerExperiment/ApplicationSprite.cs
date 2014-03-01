@@ -42,12 +42,25 @@ namespace FlashWorkerExperiment
             // You can use the static isSupported property to check whether concurrency is supported before attempting to use it.
             if (Worker.current.isPrimordial)
             {
+                //{ os = Windows 7, version = WIN 13,0,0,133, WorkerDomain = true, Worker = true, isPrimordial = true, length = 519498 }
+                // before start
+                // after start { w = [object Worker] }
+                // main: { i = 0, isPrimordial = true, current = true }
+                // { data = ready? 
+                // in worker: { i = 0, isPrimordial = false, current = true }
+                // in worker: { i = 1, isPrimordial = true, current = false } }click!
+                // { data = hi from worker { data = hi from UI } }
+
                 // http://forums.adobe.com/thread/1171498
 
                 var t = new TextField
                 {
                     text = new
                     {
+                        // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Capabilities.html
+                        Capabilities.os,
+                        Capabilities.version,
+
                         WorkerDomain = WorkerDomain.isSupported,
                         Worker = Worker.isSupported,
                         Worker.current.isPrimordial,

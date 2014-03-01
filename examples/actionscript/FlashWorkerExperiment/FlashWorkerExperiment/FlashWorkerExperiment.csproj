@@ -134,13 +134,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <None Include="staging\FlashWorkerExperiment.ApplicationSprite\web\air-build.bat">
+    <None Include="staging\FlashWorkerExperiment.ApplicationSprite\web\air-android-build.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="staging\FlashWorkerExperiment.ApplicationSprite\web\air-android-install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="staging\FlashWorkerExperiment.ApplicationSprite\web\air-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashWorkerExperiment.ApplicationSprite\web\air-ios-build.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\FlashWorkerExperiment.ApplicationSprite\web\air-ios-install.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
