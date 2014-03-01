@@ -23,9 +23,14 @@
 
     <!--<autoOrients>false</autoOrients>-->
     <autoOrients>true</autoOrients>
-    
+
     <renderMode>direct</renderMode>
+    <!--
+    http://forum.starling-framework.org/topic/works-on-web-browser-but-not-on-ios
+    This was needed or recommended for Away 3D 4 but it was stopping Starling from working.
     <depthAndStencil>true</depthAndStencil>
+    -->
+    
     <fullScreen>false</fullScreen>
     <visible>true</visible>
     <!--<aspectRatio>landscape</aspectRatio>-->
