@@ -12,12 +12,40 @@ namespace ScriptCoreLib.ActionScript.flash.system
     {
         // Each additional worker is created from a separate swf. 
 
+        public static bool isSupported { get; set; }
+
         public bool isPrimordial { get; private set; }
-        
-        public static  Worker current { get; private set; }
+
+        public static Worker current { get; private set; }
 
         public void start()
-        { 
+        {
+        }
+
+
+        public MessageChannel createMessageChannel(Worker w)
+        {
+            // X:\jsc.svn\examples\actionscript\FlashWorkerExperiment\FlashWorkerExperiment\ApplicationSprite.cs   
+
+            return default(MessageChannel);
+        }
+
+
+        public object getSharedProperty(string key)
+        {
+            return default(object);
+        }
+
+        public void setSharedProperty(string key, object value)
+        {
+            // There are five types of objects that are an exception to the rule that objects aren't shared between workers:
+
+            //Worker
+            //MessageChannel
+            //shareable ByteArray (a ByteArray object with its shareable property set to true
+            //Mutex
+            //Condition
+
         }
     }
 }

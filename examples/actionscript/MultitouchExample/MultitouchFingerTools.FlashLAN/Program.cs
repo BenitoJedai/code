@@ -137,6 +137,7 @@ namespace MultitouchFingerTools.FlashLAN
                                 Height -= captionHeight;
                             }
 
+                            // where is this function documented?
                             c.SizeTo(Width, Height);
 
                         };
