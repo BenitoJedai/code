@@ -15,6 +15,8 @@ namespace AvalonBrowserLogos
 {
     public class ApplicationCanvas : Canvas
     {
+        // X:\jsc.svn\examples\actionscript\air\AIRAvalonBrowserLogos\AIRAvalonBrowserLogos\ApplicationSprite.cs
+
         ScriptCoreLib.Ultra.Components.Volatile.Avalon.Images.Google_Chrome ref0;
 
         public ApplicationCanvas()
