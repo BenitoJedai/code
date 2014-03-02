@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIRStageWebViewSVGExperiment", "AIRStageWebViewSVGExperiment\AIRStageWebViewSVGExperiment.csproj", "{FA946A3E-CBA4-401B-84EE-85269A5AF437}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVGAnonymous", "..\..\..\javascript\svg\SVGAnonymous\SVGAnonymous\SVGAnonymous.csproj", "{243246C3-A1B7-4793-A46D-210FFB6F716A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA946A3E-CBA4-401B-84EE-85269A5AF437}.Debug|x86.ActiveCfg = Debug|x86
+		{FA946A3E-CBA4-401B-84EE-85269A5AF437}.Debug|x86.Build.0 = Debug|x86
+		{FA946A3E-CBA4-401B-84EE-85269A5AF437}.Release|x86.ActiveCfg = Release|x86
+		{FA946A3E-CBA4-401B-84EE-85269A5AF437}.Release|x86.Build.0 = Release|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Debug|x86.ActiveCfg = Debug|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Debug|x86.Build.0 = Debug|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Release|x86.ActiveCfg = Release|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
