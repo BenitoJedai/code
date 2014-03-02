@@ -1,4 +1,4 @@
-using AIRNestedIFrameWithTransform.HTML.Pages;
+using AIRStylesheetPerspective.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -7,9 +7,8 @@ using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.Extensions;
 using System.Xml.Linq;
-using System.Linq;
 
-namespace AIRNestedIFrameWithTransform
+namespace AIRStylesheetPerspective
 {
     public sealed class ApplicationSprite : Sprite
     {
@@ -45,16 +44,7 @@ namespace AIRNestedIFrameWithTransform
             //webView.loadString(htmlString, "text/html");
 
 
-            // um. 3d transform fails. and the jsc studio does not load. error? AIR webkit limitation?
-            var page = XElement.Parse(CSSTransformStyleExample.HTML.Pages.DefaultSource.Text);
-
-
-            page.Descendants().Where(x => x.Name.LocalName == "iframe").WithEach(
-                iframe =>
-                {
-                    iframe.Attribute("src").Value = "http://idea-remixer.tumblr.com";
-                }
-            );
+            var page = XElement.Parse(StylesheetPerspective.HTML.Pages.DefaultSource.Text);
 
             page.Element("body").Add(
                 new XElement("button", "click me")
