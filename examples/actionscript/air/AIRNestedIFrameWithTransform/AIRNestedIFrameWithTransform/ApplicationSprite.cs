@@ -49,23 +49,40 @@ namespace AIRNestedIFrameWithTransform
             var page = XElement.Parse(CSSTransformStyleExample.HTML.Pages.DefaultSource.Text);
 
 
-            page.Descendants().Where(x => x.Name.LocalName == "iframe").WithEach(
-                iframe =>
-                {
-                    iframe.Attribute("src").Value = "http://idea-remixer.tumblr.com";
-                }
-            );
+            //Implementation not found for type import :
+            //type: System.Xml.Linq.XContainer
+            //method: System.Collections.Generic.IEnumerable`1[System.Xml.Linq.XElement] Descendants()
+            //Did you forget to add the [Script] attribute?
+            //Please double check the signature!
 
-            page.Element("body").Add(
-                new XElement("button", "click me")
-            );
+
+            //var w = new XElement("textarea", "DescendantsAndSelf:");
+
+
+            //page.DescendantsAndSelf().WithEach(
+            //    x =>
+            //    {
+
+            //        w.Value += "\n" + x.Name.LocalName;
+
+            //        //.Where(x => x.Name.LocalName == "iframe")
+            //    }
+            //);
+            //page.DescendantsAndSelf().Where(x => x.Name.LocalName == "iframe").WithEach(
+            //    iframe =>
+            //    {
+            //        iframe.Attribute("src").Value = "http://idea-remixer.tumblr.com";
+            //    }
+            //);
+
+            //page.Element("body").Add(
+            //    w
+            //);
 
             // as from a WebWorker or from the server we should be able
             // to construct HTML DOM objects yet, we may have issues doing the events for them.
 
-            page.Element("body").Add(
-                new XElement("style", "button { color: blue; }")
-            );
+
 
 
             webView.loadString(page.ToString(), "text/html");
