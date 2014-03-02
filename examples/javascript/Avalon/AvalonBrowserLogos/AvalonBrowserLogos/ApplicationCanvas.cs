@@ -72,10 +72,32 @@ namespace AvalonBrowserLogos
             //    }
             //);
 
+
+
             Action ChooseView =
                 delegate
                 {
-                    if ((Width > Height) ^ OtherView)
+
+                    //V:\web\AvalonBrowserLogos\ApplicationCanvas___c__DisplayClass5.as(35): col: 36 Error: Implicit coercion of a value of type Boolean to an unrelated type Number.
+
+                    //            if (!(((this.__4__this.Width > this.__4__this.Height) ^ this.OtherView) == 0))
+                    //                                   ^
+
+                    //V:\web\AvalonBrowserLogos\ApplicationCanvas___c__DisplayClass5.as(35): col: 74 Error: Implicit coercion of a value of type Boolean to an unrelated type Number.
+
+                    //            if (!(((this.__4__this.Width > this.__4__this.Height) ^ this.OtherView) == 0))
+                    //                                                                         ^
+
+
+                    // X:\jsc.svn\examples\actionscript\Test\TestBooleanXor\TestBooleanXor\Class1.cs
+                    // actionscript thinks this operator results in int?
+                    //var flag = (Width > Height) ^ OtherView;
+                    var flag = (Width > Height);
+
+                    if (OtherView)
+                        flag = !flag;
+
+                    if (flag)
                         bg_black_opacity.Opacity = 0;
                     else
                         bg_black_opacity.Opacity = 1;

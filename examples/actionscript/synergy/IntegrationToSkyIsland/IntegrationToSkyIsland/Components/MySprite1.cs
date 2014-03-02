@@ -20,6 +20,12 @@ namespace IntegrationToSkyIsland.Components
 
         public MySprite1()
         {
+            // http://forums.adobe.com/thread/986019
+            // wont run on AIR anymore?
+            //TypeError: Error #1009: Cannot access a property or method of a null object reference.
+            //    at Main/frame1()
+
+
             var q = (WidescreenWidth - ContentWidth) / 2;
             var c = new Sprite();
 
