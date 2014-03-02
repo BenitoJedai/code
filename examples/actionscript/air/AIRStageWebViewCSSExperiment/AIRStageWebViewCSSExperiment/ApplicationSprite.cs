@@ -1,4 +1,4 @@
-using AIRStageWebViewExperiment.HTML.Pages;
+using AIRStageWebViewCSSExperiment.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.Extensions;
 using System.Xml.Linq;
 
-namespace AIRStageWebViewExperiment
+namespace AIRStageWebViewCSSExperiment
 {
     public sealed class ApplicationSprite : Sprite
     {
@@ -44,18 +44,18 @@ namespace AIRStageWebViewExperiment
             //webView.loadString(htmlString, "text/html");
 
 
-            var page = XElement.Parse(AppSource.Text);
+            var page = XElement.Parse(CSS3DButton.HTML.Pages.AppSource.Text);
 
-            page.Element("body").Add(
-                new XElement("button", "click me")
-            );
+            //page.Element("body").Add(
+            //    new XElement("button", "click me")
+            //);
 
-            // as from a WebWorker or from the server we should be able
-            // to construct HTML DOM objects yet, we may have issues doing the events for them.
+            //// as from a WebWorker or from the server we should be able
+            //// to construct HTML DOM objects yet, we may have issues doing the events for them.
 
-            page.Element("body").Add(
-                new XElement("style", "button { color: blue; }")
-            );
+            //page.Element("body").Add(
+            //    new XElement("style", "button { color: blue; }")
+            //);
 
 
             webView.loadString(page.ToString(), "text/html");

@@ -33,7 +33,7 @@ namespace SVGAnonymous
         {
             // http://edutechwiki.unige.ch/en/Using_SVG_with_HTML5_tutorial
 
-
+            
             page.div.onclick +=
                 delegate
                 {
