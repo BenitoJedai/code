@@ -18,9 +18,8 @@ namespace SiONKaosPadExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 
@@ -32,12 +31,7 @@ namespace SiONKaosPadExperiment
         {
             // Initialize ApplicationSprite
             sprite.AttachSpriteTo(page.Content);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+        
         }
 
     }
