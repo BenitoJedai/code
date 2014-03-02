@@ -1,6 +1,6 @@
-using AIRStageWebViewExperiment;
-using AIRStageWebViewExperiment.Design;
-using AIRStageWebViewExperiment.HTML.Pages;
+using AIRStageWebViewCSSExperiment;
+using AIRStageWebViewCSSExperiment.Design;
+using AIRStageWebViewCSSExperiment.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
@@ -18,7 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace AIRStageWebViewExperiment
+namespace AIRStageWebViewCSSExperiment
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.

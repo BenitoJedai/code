@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{243246C3-A1B7-4793-A46D-210FFB6F716A}</ProjectGuid>
+    <ProjectGuid>{FA946A3E-CBA4-401B-84EE-85269A5AF437}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SVGAnonymous</RootNamespace>
-    <AssemblyName>SVGAnonymous</AssemblyName>
+    <RootNamespace>AIRStageWebViewCSSExperiment</RootNamespace>
+    <AssemblyName>AIRStageWebViewCSSExperiment</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>SVGAnonymous.Program</StartupObject>
+    <StartupObject>AIRStageWebViewCSSExperiment.Program</StartupObject>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -116,36 +116,61 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="SVGAnonymous.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\SVGAnonymous.AssetsLibrary.dll</HintPath>
+    <Reference Include="AIRStageWebViewExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AIRStageWebViewExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
+    <Reference Include="AIRStageWebViewCSSExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AIRStageWebViewCSSExperiment.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CSS3DButton.AssetsLibrary">
+      <HintPath>..\..\..\..\javascript\css\CSS3DButton\CSS3DButton\bin\staging.AssetsLibrary\CSS3DButton.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Design\Anonymous_Logos.svg" />
-    <Content Include="Design\Anonymous_LogosSingle.svg" />
-    <Content Include="Design\Anonymous_LogosSingleNoWings.svg" />
-    <Content Include="Design\Anonymous_LogosSingleWings.svg" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Anonymous_LogosSingleElement.htm" />
-    <Content Include="Design\foreignObject.htm" />
+    <Content Include="staging\AIRStageWebViewCSSExperiment.ApplicationSprite\web\air-descriptor.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="staging\AIRStageWebViewCSSExperiment.ApplicationSprite\web\air-android.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\AIRStageWebViewCSSExperiment.ApplicationSprite\web\air-ios.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\AIRStageWebViewCSSExperiment.ApplicationSprite\web\air-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\javascript\css\CSS3DButton\CSS3DButton\CSS3DButton.csproj">
+      <Project>{6afa30d6-e490-4d20-abee-50e900779cf4}</Project>
+      <Name>CSS3DButton</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+rem start /WAIT /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /DefaultToDev11:true
+)
 		if $(ConfigurationName)==Release (
-		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
+
+		start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true
+
+pushd staging\$(TargetName).ApplicationSprite\web
+start /WAIT cmd /C air-ios.bat
 		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		            </PreBuildEvent>
