@@ -5,13 +5,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-//namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 {
     // see: http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.asyncvoidmethodbuilder(v=vs.110).aspx
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.AsyncVoidMethodBuilder")]
     internal class __AsyncVoidMethodBuilder : __IAsyncMethodBuilder
     {
+        // tested by
+        // X:\jsc.svn\examples\actionscript\async\Test\TestAsync\TestAsync\ApplicationSprite.cs
+        // X:\jsc.svn\examples\java\async\Test\JVMCLRAsync\JVMCLRAsync\Program.cs
+
         // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Runtime.CompilerServices/AsyncVoidMethodBuilder.cs
 
         // struct!
