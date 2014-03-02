@@ -140,5 +140,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Xml.Linq
         }
         #endregion
 
+
+
+
+
+        public IEnumerable<XElement> DescendantsAndSelf()
+        {
+            // X:\jsc.svn\examples\actionscript\air\AIRNestedIFrameWithTransform\AIRNestedIFrameWithTransform\ApplicationSprite.cs
+
+            return Enumerable.Concat(
+                new[] { (XElement)(object)this },
+                this.Elements().SelectMany(k => k.DescendantsAndSelf())
+            );
+        }
     }
 }

@@ -139,19 +139,19 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="staging\IntegrationToSkyIsland.Components.MySprite1\web\air.com.abstractatech.gamification.sky.xml">
+    <Content Include="staging\IntegrationToSkyIsland.Components.MySprite1\web\air-descriptor.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="staging\IntegrationToSkyIsland.Components.MySprite1\web\air.com.abstractatech.gamification.sky-build.bat">
+    <None Include="staging\IntegrationToSkyIsland.Components.MySprite1\web\air-android.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\IntegrationToSkyIsland.Components.MySprite1\web\air.com.abstractatech.gamification.sky-install.bat">
+    <None Include="staging\IntegrationToSkyIsland.Components.MySprite1\web\air-ios.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="staging\IntegrationToSkyIsland.Components.MySprite1\web\air.com.abstractatech.gamification.sky-test.bat">
+    <None Include="staging\IntegrationToSkyIsland.Components.MySprite1\web\air-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -159,7 +159,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
+rem start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
 )</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget</PreBuildEvent>
   </PropertyGroup>
