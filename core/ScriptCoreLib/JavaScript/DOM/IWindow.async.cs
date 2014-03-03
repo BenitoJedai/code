@@ -65,6 +65,22 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
             #endregion
 
+
+
+            #region onerror
+            public Task<IErrorEvent> onerror
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var x = new TaskCompletionSource<IErrorEvent>();
+                    that.onerror += x.SetResult;
+                    return x.Task;
+                }
+            }
+            #endregion
+
+
             #region onload
             public Task<IEvent> onload
             {

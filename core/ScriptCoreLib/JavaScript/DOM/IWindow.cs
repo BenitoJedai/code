@@ -29,7 +29,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IWindow self;
         public IWindow window;
 
-  
+
 
 
         #region event onmessage
@@ -246,6 +246,23 @@ namespace ScriptCoreLib.JavaScript.DOM
             remove
             {
                 base.InternalEvent(false, value, "blur");
+            }
+        }
+        #endregion
+
+
+        #region event onerror
+        public event System.Action<IErrorEvent> onerror
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "error");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "error");
             }
         }
         #endregion
@@ -581,6 +598,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-    
+
     }
 }
