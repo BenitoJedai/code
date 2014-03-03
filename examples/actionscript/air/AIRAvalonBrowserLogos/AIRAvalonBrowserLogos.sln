@@ -2,8 +2,15 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIRAvalonBrowserLogos", "AIRAvalonBrowserLogos\AIRAvalonBrowserLogos.csproj", "{FA946A3E-CBA4-401B-84EE-85269A5AF437}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {6193012A-2B4F-4FB9-BC0A-42C3D75BF815}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonBrowserLogos", "..\..\..\javascript\Avalon\AvalonBrowserLogos\AvalonBrowserLogos\AvalonBrowserLogos.csproj", "{1E159C6B-6A83-491D-9B06-00465A5DBB30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\..\synergy\net.hires.debug\net.hires.debug\net.hires.debug.csproj", "{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{1F0F457C-D44E-4EA7-877B-098F26B3E17E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +26,16 @@ Global
 		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Debug|x86.Build.0 = Debug|x86
 		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|x86.ActiveCfg = Release|x86
 		{1E159C6B-6A83-491D-9B06-00465A5DBB30}.Release|x86.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.ActiveCfg = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.Build.0 = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1E159C6B-6A83-491D-9B06-00465A5DBB30} = {1F0F457C-D44E-4EA7-877B-098F26B3E17E}
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {1F0F457C-D44E-4EA7-877B-098F26B3E17E}
 	EndGlobalSection
 EndGlobal
