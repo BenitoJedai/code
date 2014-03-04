@@ -10,6 +10,7 @@ using android.app;
 using android.nfc;
 using ScriptCoreLib.Ultra.WebService;
 using System.Threading;
+using android.nfc.tech;
 
 namespace AndroidNFCExperiment
 {
@@ -143,6 +144,10 @@ namespace AndroidNFCExperiment
                 i =>
                 {
                     var action = i.getAction();
+
+                   
+
+
 
                     Console.WriteLine("AndroidNFCExperiment AtNewIntent " + new { action });
 
