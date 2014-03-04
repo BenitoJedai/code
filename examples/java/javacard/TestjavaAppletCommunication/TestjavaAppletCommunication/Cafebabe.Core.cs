@@ -16,7 +16,7 @@ namespace JavacardAppletExample
             //install A0A1A2A3A40002 A0A1A2A3A4000202
             //install A0A1A2A3A40003 A0A1A2A3A4000301
 
-            if (APDU.getProtocol() == APDU.PROTOCOL_MEDIA_USB)
+            if (APDU.getProtocol() != APDU.PROTOCOL_MEDIA_USB)
             {
                 
                 byte[] t = { 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0x00, 0x02, 0x02 };
