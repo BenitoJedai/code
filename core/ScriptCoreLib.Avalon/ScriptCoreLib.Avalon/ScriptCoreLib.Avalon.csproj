@@ -77,6 +77,7 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\PasswordBox.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\ContentControl.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Control.cs" />
@@ -84,8 +85,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Panel.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextBox.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Primitives\TextBoxBase.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UserControl.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextBlock.cs" />
@@ -125,7 +126,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\ExceptionEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Imaging\BitmapImage.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Imaging\BitmapSource.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Thickness.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="ActionScript\UCLImplementation\CSharp\Avalon\Controls\FileDialog.cs" />
@@ -144,8 +144,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Panel.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Primitives\TextBoxBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextBox.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UserControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\IManipulator.cs" />
@@ -176,7 +174,7 @@
     <Compile Include="Shared\BCLImplementation\System\Windows\Media\RectangleGeometry.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Imaging\BitmapImage.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Imaging\BitmapSource.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\RoutedEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\DependencyObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\FrameworkElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\IInputElement.cs" />
@@ -206,7 +204,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Visual.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Point.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Rect.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\Windows\RoutedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Rectangle.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Line.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Shapes\Shape.cs" />
@@ -223,7 +220,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\SolidColorBrush.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Visual.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Point.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\RoutedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\RoutedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Shapes\Rectangle.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Shapes\Shape.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Thickness.cs" />

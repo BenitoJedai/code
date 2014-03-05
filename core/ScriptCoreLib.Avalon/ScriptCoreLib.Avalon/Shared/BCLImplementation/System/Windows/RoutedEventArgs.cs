@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Shared.BCLImplementation.System;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows
 {
 	[Script(Implements = typeof(global::System.Windows.RoutedEventArgs))]
 	internal class __RoutedEventArgs : __EventArgs
