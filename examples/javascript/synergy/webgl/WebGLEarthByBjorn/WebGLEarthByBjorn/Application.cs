@@ -41,7 +41,9 @@ namespace WebGLEarthByBjorn
 
             // Earth params
             var radius = 0.5;
-            var segments = 32;
+
+            //var segments = 32;
+            var segments = 128;
             var rotation = 6;
 
             var scene = new THREE.Scene();
