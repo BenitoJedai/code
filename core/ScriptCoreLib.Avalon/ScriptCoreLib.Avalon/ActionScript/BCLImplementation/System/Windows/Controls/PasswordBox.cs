@@ -78,5 +78,31 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
                 //InternalRaiseTextChanged();
             }
         }
+
+
+
+        #region width, height
+        public override void InternalSetWidth(double value)
+        {
+            this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
+            this.InternalTextField.width = value;
+        }
+
+        public override void InternalSetHeight(double value)
+        {
+            this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
+            this.InternalTextField.height = value - InternalOffsetY;
+        }
+
+        public override double InternalGetWidth()
+        {
+            return this.InternalTextField.width;
+        }
+
+        public override double InternalGetHeight()
+        {
+            return this.InternalTextField.height;
+        }
+        #endregion
     }
 }
