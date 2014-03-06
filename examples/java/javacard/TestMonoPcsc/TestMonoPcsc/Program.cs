@@ -23,7 +23,7 @@ namespace TestMonoPcsc
             SCardContext hContext = new SCardContext();
             hContext.Establish(SCardScope.System);
 
-            string[] szReaders = hContext.GetReaders();
+            var szReaders = hContext.GetReaders();
 
             if (szReaders.Length <= 0)
                 throw new PCSCException(SCardError.NoReadersAvailable,
@@ -35,7 +35,7 @@ namespace TestMonoPcsc
                 SCardReader reader = new SCardReader(hContext);
 
                 // Connect to the card
-                SCardError err = reader.Connect(szReaders[1],
+                SCardError err = reader.Connect(szReaders[0],
                     SCardShareMode.Shared,
                     SCardProtocol.T0 | SCardProtocol.T1);
                 CheckErr(err);
@@ -121,7 +121,8 @@ namespace TestMonoPcsc
                 SCardReader reader = new SCardReader(hContext);
 
                 // Connect to the card
-                SCardError err = reader.Connect(szReaders[1],
+                //Console.WriteLine(szReaders[0]);
+                SCardError err = reader.Connect(szReaders[0],
                     SCardShareMode.Shared,
                     SCardProtocol.T0 | SCardProtocol.T1);
 
