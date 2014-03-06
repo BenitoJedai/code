@@ -33,8 +33,22 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
         }
 
 
+        //        Implementation not found for type import :
+        //type: System.Windows.FrameworkElement
+        //method: Double get_ActualHeight()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+        public double ActualWidth
+        {
+            get { return Width; }
+        }
 
 
+        public double ActualHeight
+        {
+            get { return Height; }
+        }
 
         public double Width
         {
@@ -100,6 +114,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
 
 
+        #region Cursor
         public Cursor InternalCursorValue;
 
         public void InternalSetCursor(Cursor value)
@@ -156,6 +171,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
                 InternalSetCursor(value);
             }
         }
+        #endregion
+
+
+
 
         public DependencyObject InternalParent;
 

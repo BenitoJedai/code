@@ -7,85 +7,93 @@ using System.Windows;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
-	[Script(Implements = typeof(global::System.Windows.Controls.Control))]
-	internal class __Control : __FrameworkElement
-	{
-		#region Foreground
-		public virtual Brush InternalGetForeground()
-		{
-			throw new NotImplementedException();
-		}
+    [Script(Implements = typeof(global::System.Windows.Controls.Control))]
+    internal class __Control : __FrameworkElement
+    {
+        #region Foreground
+        public virtual Brush InternalGetForeground()
+        {
+            throw new NotImplementedException();
+        }
 
-		public virtual void InternalSetForeground(Brush value)
-		{
-			throw new NotImplementedException();
-		}
+        public virtual void InternalSetForeground(Brush value)
+        {
+            throw new NotImplementedException();
+        }
 
-		public Brush Foreground { get { return InternalGetForeground(); } set { InternalSetForeground(value); } }
+        public Brush Foreground { get { return InternalGetForeground(); } set { InternalSetForeground(value); } }
 
-		#endregion
+        #endregion
 
-		#region Background
-		public virtual Brush InternalGetBackground()
-		{
-			throw new NotImplementedException();
-		}
+        #region Background
+        public virtual Brush InternalGetBackground()
+        {
+            throw new NotImplementedException();
+        }
 
-		public virtual void InternalSetBackground(Brush value)
-		{
-			throw new NotImplementedException();
-		}
+        public virtual void InternalSetBackground(Brush value)
+        {
+            throw new NotImplementedException();
+        }
 
-		public Brush Background { get { return InternalGetBackground(); } set { InternalSetBackground(value); } }
+        public Brush Background { get { return InternalGetBackground(); } set { InternalSetBackground(value); } }
 
-		#endregion
-
-
-
-		#region BorderThickness
-		public virtual Thickness InternalGetBorderThickness()
-		{
-			throw new NotImplementedException();
-		}
-
-		public virtual void InternalSetBorderThickness(Thickness value)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Thickness BorderThickness { get { return InternalGetBorderThickness(); } set { InternalSetBorderThickness(value); } }
-
-		#endregion
-
-		#region FontSize
-		public virtual double InternalGetFontSize()
-		{
-			throw new NotImplementedException();
-		}
-
-		public virtual void InternalSetFontSize(double value)
-		{
-			throw new NotImplementedException();
-		}
-
-		public double FontSize { get { return InternalGetFontSize(); } set { InternalSetFontSize(value); } }
-
-		#endregion
+        #endregion
 
 
-		#region FontFamily
-		public virtual FontFamily InternalGetFontFamily()
-		{
-			throw new NotImplementedException();
-		}
 
-		public virtual void InternalSetFontFamily(FontFamily value)
-		{
-			throw new NotImplementedException();
-		}
+        #region BorderThickness
+        public virtual Thickness InternalGetBorderThickness()
+        {
 
-		public FontFamily FontFamily { get { return InternalGetFontFamily(); } set { InternalSetFontFamily(value); } }
+            throw new NotImplementedException();
+        }
 
-		#endregion
-	}
+        public virtual void InternalSetBorderThickness(Thickness value)
+        {
+            //NotImplementedException
+            //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls::__Control/InternalSetBorderThickness_79f8bffe_06000061()
+            //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls::__Control/set BorderThickness()
+
+            //throw new NotImplementedException();
+        }
+
+        public Thickness BorderThickness { get { return InternalGetBorderThickness(); } set { InternalSetBorderThickness(value); } }
+
+        #endregion
+
+        #region FontSize
+        public virtual double InternalGetFontSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void InternalSetFontSize(double value)
+        {
+            //NotImplementedException
+            //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls::__Control/InternalSetFontSize_79f8bffe_06000065()
+            //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls::__Control/set FontSize()
+            //throw new NotImplementedException();
+        }
+
+        public double FontSize { get { return InternalGetFontSize(); } set { InternalSetFontSize(value); } }
+
+        #endregion
+
+
+        #region FontFamily
+        public virtual FontFamily InternalGetFontFamily()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void InternalSetFontFamily(FontFamily value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FontFamily FontFamily { get { return InternalGetFontFamily(); } set { InternalSetFontFamily(value); } }
+
+        #endregion
+    }
 }

@@ -16,6 +16,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
     [Script(Implements = typeof(global::System.Windows.Controls.TextBox))]
     internal class __TextBox : __TextBoxBase
     {
+
+
+
         public readonly TextField InternalTextField;
         public readonly Sprite InternalTextFieldContainer;
 

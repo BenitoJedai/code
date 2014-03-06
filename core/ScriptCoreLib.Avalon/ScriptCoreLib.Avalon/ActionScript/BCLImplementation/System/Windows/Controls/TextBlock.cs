@@ -18,6 +18,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         // where is this used?
         // Y:\jsc.svn\examples\actionscript\AvalonFlashLinqToObjects\AvalonFlashLinqToObjects\ApplicationCanvas.cs
 
+
+        //Implementation not found for type import :
+        //type: System.Windows.Controls.TextBlock
+        //method: Void set_Foreground(System.Windows.Media.Brush)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
+
         public readonly TextField InternalTextField;
         public readonly Sprite InternalTextFieldContainer;
 
@@ -26,6 +35,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
             return InternalTextFieldContainer;
         }
 
+        const int InternalOffsetY = -1;
 
         public __TextBlock()
         {
@@ -56,6 +66,32 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
             LocalInternalSetFonFamily(new FontFamily("Verdana"));
         }
 
+
+
+        #region width, height
+        public override void InternalSetWidth(double value)
+        {
+            this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
+            this.InternalTextField.width = value;
+        }
+
+        public override void InternalSetHeight(double value)
+        {
+            this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
+            this.InternalTextField.height = value - InternalOffsetY;
+        }
+
+        public override double InternalGetWidth()
+        {
+            return this.InternalTextField.width;
+        }
+
+        public override double InternalGetHeight()
+        {
+            return this.InternalTextField.height;
+        }
+        #endregion
+
         #region FontSize
         public virtual double InternalGetFontSize()
         {
@@ -64,7 +100,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
         public virtual void InternalSetFontSize(double value)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public double FontSize { get { return InternalGetFontSize(); } set { InternalSetFontSize(value); } }
@@ -129,7 +165,59 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
         #endregion
 
+        public Brush Foreground { get { return InternalGetForeground(); } set { InternalSetForeground(value); } }
 
+        #region InternalForeground
+        Brush InternalForeground;
+
+        public Brush InternalGetForeground()
+        {
+            return InternalForeground;
+        }
+
+        public void InternalSetForeground(Brush value)
+        {
+            InternalForeground = value;
+
+            var AsSolidColorBrush = value as SolidColorBrush;
+
+            if (AsSolidColorBrush != null)
+            {
+                var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
+                var _Color = (__Color)_SolidColorBrush.Color;
+
+                InternalTextField.textColor = _Color;
+            }
+        }
+        #endregion
+
+        public Brush Background { get { return Brushes.White; } set { InternalSetBackground(value); } }
+
+
+        #region InternalSetBackground
+        public void InternalSetBackground(Brush value)
+        {
+            var AsSolidColorBrush = value as SolidColorBrush;
+
+            if (AsSolidColorBrush != null)
+            {
+                var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
+                uint _Color = (__Color)_SolidColorBrush.Color;
+
+                var IsTransparent = _SolidColorBrush.Color.A == Colors.Transparent.A;
+
+                if (IsTransparent)
+                {
+                    InternalTextField.background = false;
+                }
+                else
+                {
+                    InternalTextField.background = true;
+                    InternalTextField.backgroundColor = _Color;
+                }
+            }
+        }
+        #endregion
 
     }
 }
