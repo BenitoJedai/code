@@ -68,7 +68,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             throw new NotImplementedException();
         }
 
-        public BitmapEffect BitmapEffect
+        public Effect Effect
         {
             get
             {
@@ -76,7 +76,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             }
             set
             {
-                var _BitmapEffect = (__BitmapEffect)value;
+                var _BitmapEffect = (__Effect)(object)value;
 
                 InternalGetDisplayObject().filters = new[] { _BitmapEffect.InternalGetBitmapFilter() };
             }

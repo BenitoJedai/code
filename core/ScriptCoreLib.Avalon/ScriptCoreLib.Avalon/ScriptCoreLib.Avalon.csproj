@@ -77,14 +77,18 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Button.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\PasswordBox.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\ContentControl.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Control.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Image.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Panel.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Primitives\ButtonBase.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextBox.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Primitives\TextBoxBase.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\BlurEffect.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\Effect.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
