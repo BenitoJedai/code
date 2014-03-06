@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Audio\SatelliteBeep-Sputnik1.mp3" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
@@ -136,10 +137,13 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\2_no_clouds_4k.jpg" />
+    <Content Include="Textures\2_no_clouds_4k_low.jpg" />
     <Content Include="Textures\elev_bump_4k.jpg" />
     <Content Include="Textures\fair_clouds_4k.png" />
+    <Content Include="Textures\fair_clouds_4k_low.png" />
     <Content Include="Textures\galaxy_starfield.png" />
     <Content Include="Textures\water_4k.png" />
+    <Content Include="Textures\water_4k_low.png" />
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

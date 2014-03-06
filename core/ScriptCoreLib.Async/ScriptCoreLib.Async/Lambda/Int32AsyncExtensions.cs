@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+// whats the correct namespace in the future?
 namespace ScriptCoreLib.Lambda
 {
     // ScriptCoreLib.Query shall move here

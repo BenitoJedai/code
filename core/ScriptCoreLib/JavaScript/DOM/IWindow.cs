@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -565,35 +566,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         // what do name every frame yield? as uses enterFrame, onframe seems decent
         // should it be part of extensions?
         // there are no extension events yet
-        public event System.Action<int> onframe
-        {
-            [Script(DefineAsStatic = true)]
-            add
-            {
-                // https://developer.mozilla.org/en/DOM/window.requestAnimationFrame
-                // tested by X:\jsc.svn\examples\javascript\My.Solutions.Pages.Templates\My.Solutions.Pages.Templates\Application.cs
 
-                System.Action loop = null;
 
-                int c = 0;
-
-                loop = delegate
-                {
-                    // exception would stop the loop?
-                    value(c);
-                    c++;
-
-                    this.requestAnimationFrame += loop;
-                };
-
-                this.requestAnimationFrame += loop;
-            }
-            [Script(DefineAsStatic = true)]
-            remove
-            {
-                throw new System.NotSupportedException();
-            }
-        }
 
 
 
