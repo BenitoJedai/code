@@ -30,6 +30,13 @@ namespace ChromeEarth
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(WebGLEarthByBjorn.HTML.Pages.IApp page)
         {
+            //There were warnings when trying to install this extension:
+            //'background' is only allowed for extensions, hosted apps, and legacy packaged apps, but this is a packaged app.
+
+            // window.localStorage is not available in packaged apps. Use chrome.storage.local instead. 
+            // https://groups.google.com/a/chromium.org/forum/#!topic/chromium-apps/zmOXJxZEzsQ
+
+
             #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
