@@ -5,8 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
-	[Script(Implements = typeof(global::System.Windows.Controls.ContentControl))]
-	internal class __ContentControl : __Control
-	{
-	}
+    [Script(Implements = typeof(global::System.Windows.Controls.ContentControl))]
+    internal class __ContentControl : __Control
+    {
+        public object Content { get; set; }
+    }
 }

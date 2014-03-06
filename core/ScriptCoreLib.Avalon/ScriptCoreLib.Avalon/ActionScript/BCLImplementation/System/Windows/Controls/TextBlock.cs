@@ -26,6 +26,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         //Please double check the signature!
 
 
+        //Implementation not found for type import :
+        //type: System.Windows.Controls.TextBlock
+        //method: Void set_TextAlignment(System.Windows.TextAlignment)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
 
         public readonly TextField InternalTextField;
         public readonly Sprite InternalTextFieldContainer;
@@ -218,6 +224,47 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
             }
         }
         #endregion
+
+
+        public TextAlignment TextAlignment
+        {
+            get
+            {
+                var align = this.InternalTextField.defaultTextFormat.align;
+
+
+                if (align == TextFormatAlign.RIGHT)
+                    return TextAlignment.Right;
+
+                if (align == TextFormatAlign.CENTER)
+                    return TextAlignment.Center;
+
+                if (align == TextFormatAlign.JUSTIFY)
+                    return TextAlignment.Justify;
+
+                return TextAlignment.Left;
+            }
+            set
+            {
+                // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/text/TextFormatAlign.html
+                var align = TextFormatAlign.LEFT;
+
+                if (value != TextAlignment.Left)
+                    if (value == TextAlignment.Right)
+                        align = TextFormatAlign.RIGHT;
+                    else if (value == TextAlignment.Center)
+                        align = TextFormatAlign.CENTER;
+                    else if (value == TextAlignment.Justify)
+                        align = TextFormatAlign.JUSTIFY;
+
+                this.InternalChangeTextFormat(
+                    new TextFormat
+                    {
+                        align = align
+                    }
+                );
+            }
+        }
 
     }
 }
