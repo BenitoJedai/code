@@ -144,6 +144,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
                 }
                 #endregion
 
+
+                #region TranslateTransform
                 var AsTranslateTransform = value as TranslateTransform;
                 if (AsTranslateTransform != null)
                 {
@@ -151,7 +153,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
                     var o = InternalGetDisplayObject();
 
-                    o.transform.matrix = new ScriptCoreLib.ActionScript.flash.geom.Matrix(
+                    var m = new ScriptCoreLib.ActionScript.flash.geom.Matrix(
                         1,
                         0,
                         0,
@@ -159,9 +161,22 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
                         p.X + InternalLeft,
                         p.Y + InternalTop
                     );
+
+                    p.InternalValueChanged +=
+                        delegate
+                        {
+                            m.tx = p.X + InternalLeft;
+                            m.ty = p.Y + InternalTop;
+                            o.transform.matrix = m;
+                        };
+
+                    o.transform.matrix = m;
+
                     return;
                 }
+                #endregion
 
+                #region MatrixTransform
                 var AsMatrixTransform = value as MatrixTransform;
                 if (AsMatrixTransform != null)
                 {
@@ -180,6 +195,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
                     );
                     return;
                 }
+                #endregion
+
+
             }
         }
 

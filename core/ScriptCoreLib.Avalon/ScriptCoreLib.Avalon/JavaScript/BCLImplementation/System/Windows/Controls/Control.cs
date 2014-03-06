@@ -90,5 +90,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 		public FontFamily FontFamily { get { return InternalGetFontFamily(); } set { InternalSetFontFamily(value); } }
 
 		#endregion
+
+
 	}
 }

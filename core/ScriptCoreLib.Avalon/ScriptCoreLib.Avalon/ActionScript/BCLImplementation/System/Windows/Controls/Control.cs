@@ -18,7 +18,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
         public virtual void InternalSetForeground(Brush value)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public Brush Foreground { get { return InternalGetForeground(); } set { InternalSetForeground(value); } }
@@ -33,7 +33,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
         public virtual void InternalSetBackground(Brush value)
         {
-            throw new NotImplementedException();
+            //NotImplementedException
+            //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls::__Control/InternalSetBackground_79f8bffe_0600005d()
+
         }
 
         public Brush Background { get { return InternalGetBackground(); } set { InternalSetBackground(value); } }
@@ -95,5 +97,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         public FontFamily FontFamily { get { return InternalGetFontFamily(); } set { InternalSetFontFamily(value); } }
 
         #endregion
+
+
+
+        public HorizontalAlignment HorizontalContentAlignment { get; set; }
     }
 }
