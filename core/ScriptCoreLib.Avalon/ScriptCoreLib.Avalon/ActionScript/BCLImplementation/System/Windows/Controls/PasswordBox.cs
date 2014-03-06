@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
     [Script(Implements = typeof(global::System.Windows.Controls.PasswordBox))]
     internal class __PasswordBox : __Control
     {
+
 
 
 
@@ -62,7 +64,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         }
 
 
-
+        public event RoutedEventHandler PasswordChanged;
 
         public string Password
         {
@@ -74,6 +76,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
             {
                 // http://blog.madebyderek.com/archives/2005/08/26/textfield_newline_and_crlf/
                 InternalTextField.text = value.Replace(Environment.NewLine, "\n");
+
+
+                if (PasswordChanged != null)
+                    PasswordChanged(this, new RoutedEventArgs());
 
                 //InternalRaiseTextChanged();
             }

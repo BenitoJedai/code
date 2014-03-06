@@ -549,7 +549,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
         public virtual double InternalGetWidth()
         {
-            throw new NotImplementedException();
+            //NotImplementedException
+            //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows::__UIElement/InternalGetWidth_79f8bffe_0600002f()
+            //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows::__UIElement/VirtualGetWidth_79f8bffe_0600002d()
+            //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Windows::__FrameworkElement/get Width()
+
+            throw new NotImplementedException(new { this.GetType().Name }.ToString());
         }
 
         public virtual double InternalGetHeight()
