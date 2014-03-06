@@ -9,5 +9,7 @@ namespace ScriptCoreLib.ActionScript.flash.filters
     [Script(IsNative = true)]
     public sealed class BlurFilter : BitmapFilter
     {
+        public double blurX { get; set; }
+        public double blurY { get; set;}
     }
 }
