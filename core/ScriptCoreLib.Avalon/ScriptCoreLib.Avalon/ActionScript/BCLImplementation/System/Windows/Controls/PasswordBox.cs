@@ -1,10 +1,12 @@
-﻿using ScriptCoreLib.ActionScript.flash.display;
+﻿using ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
@@ -64,6 +66,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         }
 
 
+
+        #region Password
         public event RoutedEventHandler PasswordChanged;
 
         public string Password
@@ -84,6 +88,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
                 //InternalRaiseTextChanged();
             }
         }
+        #endregion
+
 
 
 
@@ -110,5 +116,85 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
             return this.InternalTextField.height;
         }
         #endregion
+
+
+
+
+
+
+        #region InternalSetBorderThickness
+        internal __Thickness InternalBorderThickness;
+
+        public override void InternalSetBorderThickness(Thickness value)
+        {
+            this.InternalBorderThickness = value;
+
+            if (this.InternalBorderThickness.InternalValue == 0)
+            {
+                this.InternalTextField.border = false;
+
+                return;
+            }
+
+            if (this.InternalBorderThickness.InternalValue == 1)
+            {
+                this.InternalTextField.border = true;
+
+                return;
+            }
+
+            throw new NotSupportedException();
+        }
+        #endregion
+
+        #region InternalForeground
+        Brush InternalForeground;
+
+        public override Brush InternalGetForeground()
+        {
+            return InternalForeground;
+        }
+
+        public override void InternalSetForeground(Brush value)
+        {
+            InternalForeground = value;
+
+            var AsSolidColorBrush = value as SolidColorBrush;
+
+            if (AsSolidColorBrush != null)
+            {
+                var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
+                var _Color = (__Color)_SolidColorBrush.Color;
+
+                InternalTextField.textColor = _Color;
+            }
+        }
+        #endregion
+
+        #region InternalSetBackground
+        public override void InternalSetBackground(Brush value)
+        {
+            var AsSolidColorBrush = value as SolidColorBrush;
+
+            if (AsSolidColorBrush != null)
+            {
+                var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
+                uint _Color = (__Color)_SolidColorBrush.Color;
+
+                var IsTransparent = _SolidColorBrush.Color.A == Colors.Transparent.A;
+
+                if (IsTransparent)
+                {
+                    InternalTextField.background = false;
+                }
+                else
+                {
+                    InternalTextField.background = true;
+                    InternalTextField.backgroundColor = _Color;
+                }
+            }
+        }
+        #endregion
+
     }
 }
