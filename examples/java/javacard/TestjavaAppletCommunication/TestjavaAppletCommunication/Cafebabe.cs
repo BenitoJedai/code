@@ -29,6 +29,13 @@ namespace JavacardAppletExample
             {
                 return;
             }
+
+            //var b = apdu.getIncomingLength();
+            
+
+            
+
+            //apdu.setOutgoingAndSend(0, (short)buff.Length);
             
             //ProvideStorage(apdu);
             //ProvideFileSystem(apdu);

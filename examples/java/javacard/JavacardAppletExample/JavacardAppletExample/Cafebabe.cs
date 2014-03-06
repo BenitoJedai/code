@@ -35,7 +35,7 @@ namespace JavacardAppletExample2
             //ProvideCrypto(apdu);
 
             //reply(apdu, 4, 3, 2, 1);
-            GetAnswerFromOtherApplet();
+            //GetAnswerFromOtherApplet();
 
         }
 
