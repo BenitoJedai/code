@@ -28,7 +28,7 @@ namespace ChromeEarth
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public Application(WebGLEarthByBjorn.HTML.Pages.IApp page)
         {
             #region ChromeTCPServer
             dynamic self = Native.self;
@@ -63,7 +63,7 @@ namespace ChromeEarth
             //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass130.<>c__DisplayClass140.<WriteSwitchRewrite>b__e6(ILGenerator flow_il)
 
 
-            new WebGLEarthByBjorn.Application(null);
+            new WebGLEarthByBjorn.Application(page);
 
         }
 
