@@ -566,6 +566,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                 anitimer.StartTimeout(100 + 20);
 
+
+                                // X:\jsc.svn\examples\javascript\chrome\apps\ChromeEarth\ChromeEarth\Application.cs
+
                                 Native.window.onframe +=
                                    delegate
                                    {

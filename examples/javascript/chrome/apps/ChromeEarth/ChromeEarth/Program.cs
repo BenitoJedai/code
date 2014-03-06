@@ -16,6 +16,15 @@ namespace ChromeEarth
             //   at System.ModuleHandle.ResolveMethodHandleInternal(RuntimeModule module, Int32 methodToken, RuntimeTypeHandle[] typeInstantiationContext, RuntimeTypeHandle[] methodInstantiationContext)
             //   at System.Reflection.RuntimeModule.ResolveMethod(Int32 metadataToken, Type[] genericTypeArguments, Type[] genericMethodArguments)
 
+
+            //02000031 ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Form
+            //{ Location =
+            // assembly: X:\jsc.svn\examples\javascript\chrome\apps\ChromeEarth\ChromeEarth\bin\Debug\ScriptCoreLib.Windows.Forms.dll
+            // type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Form, ScriptCoreLib.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x0357
+            //  method:Void set_WindowState(System.Windows.Forms.FormWindowState) }
+            //script: error JSC1000: Method: set_WindowState, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Form; emmiting failed : System.MissingMethodException: Method not found: 'Void ScriptCoreLib.JavaScript.DOM.IWindow.add_onframe(System.Action`1<Int32>)'.
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
