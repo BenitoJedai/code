@@ -17,6 +17,8 @@ using WebGLEarthByBjorn;
 using WebGLEarthByBjorn.Design;
 using WebGLEarthByBjorn.HTML.Images.FromAssets;
 using WebGLEarthByBjorn.HTML.Pages;
+using ScriptCoreLib.Lambda;
+
 
 namespace WebGLEarthByBjorn
 {
@@ -68,41 +70,117 @@ namespace WebGLEarthByBjorn
 
 
 
-
-
-
-
-
-
+            #region sphere
             var sphere = new THREE.Mesh(
-                            new THREE.SphereGeometry(radius, segments, segments),
-                            new THREE.MeshPhongMaterial(
-                                    new
-                                    {
-                                        map = THREE.ImageUtils.loadTexture(new _2_no_clouds_4k().src),
-                                        bumpMap = THREE.ImageUtils.loadTexture(new elev_bump_4k().src),
-                                        bumpScale = 0.005,
-                                        specularMap = THREE.ImageUtils.loadTexture(new water_4k().src),
-                                        //specular =    new THREE.Color("grey")								
-                                        specular = new THREE.Color(0xa0a0a0)
-                                    })
-                        );
+                new THREE.SphereGeometry(radius, segments, segments),
+                new THREE.MeshPhongMaterial(
+                        new
+                        {
+                            map = new THREE.Texture().With(
+                                async s =>
+                                {
+                                    //0:75ms event: _2_no_clouds_4k_low view-source:36543
+                                    //Application Cache Progress event (1 of 2) http://192.168.1.72:22248/view-source 192.168.1.72/:1
+                                    //Application Cache Progress event (2 of 2)  192.168.1.72/:1
+                                    //Application Cache Cached event 192.168.1.72/:1
+                                    //1:1018ms event: _2_no_clouds_4k_low done view-source:36543
+                                    //1:1019ms event: _2_no_clouds_4k view-source:36543
+                                    //event.returnValue is deprecated. Please use the standard event.preventDefault() instead. view-source:2995
+                                    //1:16445ms event: _2_no_clouds_4k done 
+
+                                    // ~ tilde to open css editor?
+
+                                    Console.WriteLine("event: _2_no_clouds_4k_low");
+                                    s.image = await new _2_no_clouds_4k_low();
+                                    s.needsUpdate = true;
+                                    Console.WriteLine("event: _2_no_clouds_4k_low done");
+
+                                    await 20000;
+
+                                    Console.WriteLine("event: _2_no_clouds_4k");
+                                    s.image = await new _2_no_clouds_4k();
+                                    s.needsUpdate = true;
+                                    Console.WriteLine("event: _2_no_clouds_4k done");
+                                }
+                            ),
+                            bumpMap = THREE.ImageUtils.loadTexture(
+                                new elev_bump_4k().src
+                                //new elev_bump_4k_low().src
+                                ),
+
+
+                            // applies onyl to shaders to create the shadow
+                            bumpScale = 0.005,
+
+                            specularMap = new THREE.Texture().With(
+                                async s =>
+                                {
+                                    Console.WriteLine("event: water_4k_low");
+                                    s.image = await new water_4k_low();
+                                    s.needsUpdate = true;
+                                    Console.WriteLine("event: water_4k_low done");
+
+                                    await 20000;
+
+                                    Console.WriteLine("event: water_4k");
+                                    s.image = await new water_4k();
+                                    s.needsUpdate = true;
+                                    Console.WriteLine("event: water_4k done");
+                                }
+                            ),
+
+
+                            //specular =    new THREE.Color("grey")								
+                            specular = new THREE.Color(0xa0a0a0)
+                        })
+            );
+            #endregion
+
+            // http://stackoverflow.com/questions/12447734/three-js-updateing-texture-on-plane
+
 
             sphere.rotation.y = rotation;
             scene.add(sphere);
 
 
+            #region clouds
             var clouds = new THREE.Mesh(
-                    new THREE.SphereGeometry(radius + 0.003, segments, segments),
+                    new THREE.SphereGeometry(
+                //radius + 0.003,
+                        radius + 0.006,
+                        segments, segments),
                     new THREE.MeshPhongMaterial(
                         new
                         {
-                            map = THREE.ImageUtils.loadTexture(new fair_clouds_4k().src),
+                            //map = THREE.ImageUtils.loadTexture(
+                            //    //new fair_clouds_4k().src
+                            //    new fair_clouds_4k_low().src
+                            //    ),
+
+
+                            map = new THREE.Texture().With(
+                                async s =>
+                                {
+                                    Console.WriteLine("event: fair_clouds_4k_low");
+                                    s.image = await new fair_clouds_4k_low();
+                                    s.needsUpdate = true;
+                                    Console.WriteLine("event: fair_clouds_4k_low done");
+
+                                    await 20000;
+
+                                    Console.WriteLine("event: fair_clouds_4k");
+                                    s.image = await new fair_clouds_4k();
+                                    s.needsUpdate = true;
+                                    Console.WriteLine("event: fair_clouds_4k done");
+                                }
+                            ),
+
                             transparent = true
                         })
                 );
             clouds.rotation.y = rotation;
             scene.add(clouds);
+            #endregion
 
 
 
@@ -130,6 +208,8 @@ namespace WebGLEarthByBjorn
             this.canvas.AttachToDocument();
             this.canvas.style.SetLocation(0, 0);
 
+            // jsc, what pointers do we have in store?
+            this.canvas.css.style.cursor = IStyle.CursorEnum.pointer;
             this.canvas.css.active.style.cursor = IStyle.CursorEnum.move;
 
 
@@ -153,6 +233,7 @@ namespace WebGLEarthByBjorn
                     CursorY = 0
                 };
 
+            #region onmousedown
             this.canvas.onmousedown +=
                 e =>
                 {
@@ -196,9 +277,48 @@ namespace WebGLEarthByBjorn
                     }
 
                 };
+            #endregion
 
+
+
+
+
+            var z = camera.position.z;
+
+            var sfx = new WebGLEarthByBjorn.HTML.Audio.FromAssets.SatelliteBeep_Sputnik1
+            {
+                autobuffer = true,
+
+                // this aint working
+                //loop = true 
+
+            };
+
+            sfx.play();
+
+            //sfx.AttachToHead();
+
+
+            // http://soundfxnow.com/sound-fx/sputnik-satellite-beeping/
+
+            this.canvas.onmousewheel +=
+                e =>
+                {
+                    //camera.position.z = 1.5;
+
+                    // min max. shall adjust speed also!
+                    // max 4.0
+                    // min 0.6
+                    z -= 0.1 * e.WheelDirection;
+
+                    z = z.Max(0.6).Min(4.5);
+
+                    //Native.document.title = new { camera.position.z }.ToString();
+
+                };
 
             // X:\jsc.svn\examples\javascript\Test\TestMouseMovement\TestMouseMovement\Application.cs
+            #region onmousemove
             this.canvas.onmousemove +=
                 e =>
                 {
@@ -232,9 +352,12 @@ namespace WebGLEarthByBjorn
                     }
 
                 };
+            #endregion
 
+
+            // could we 
             Native.window.onframe +=
-                delegate
+                e =>
                 {
                     if (this.canvas.parentNode == null)
                         return;
@@ -242,8 +365,14 @@ namespace WebGLEarthByBjorn
                     camera.aspect = canvas.clientWidth / (double)canvas.clientHeight;
                     camera.updateProjectionMatrix();
 
+                    camera.position.z += (z - camera.position.z) * e.delay.ElapsedMilliseconds / 200;
+
+
                     // the larger the vew the slower the rotation shall be
-                    var speed = 0.0005 + 0.009 * 96.0 / canvas.clientHeight;
+                    var speed = 0.0001 * e.delay.ElapsedMilliseconds +
+                        0.007
+                        * 96.0 / canvas.clientHeight
+                        * 1.0 / camera.position.z;
 
                     //Native.document.title = new { s = 96.0 / canvas.clientHeight }.ToString();
                     //Native.document.title = new { speed }.ToString();
@@ -252,6 +381,8 @@ namespace WebGLEarthByBjorn
                     //controls.update();
                     sphere.rotation.y += speed;
                     clouds.rotation.y += speed;
+
+
                     renderer.render(scene, camera);
                 };
 

@@ -157,6 +157,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             return (MulticastDelegate)(object)x;
         }
 
+
+
+        // public static implicit operator IFunction(Delegate h);
+        // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
+
+
         public static implicit operator IFunction(global::System.Delegate h)
         {
             return OfDelegate(h);

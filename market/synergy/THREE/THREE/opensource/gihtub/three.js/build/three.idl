@@ -42,7 +42,16 @@ interface THREE.GeometryUtilsType
 // this is an anonymous type actually
 interface THREE.ImageUtilsType
 { 
+	// are we not better of with async/await functions?
+
 	THREE.Texture loadTexture(any src);
+
+	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
+	THREE.Texture loadTexture(string src);
+	THREE.Texture loadTexture(string src, any mapping, Function onLoad, Function onError);
+
+	// loadTexture: function ( url, mapping, onLoad, onError ) {
+
 };
 
 [Constructor(),
@@ -50,6 +59,11 @@ interface THREE.ImageUtilsType
 	Constructor(html::HTMLCanvasElement c)]
 interface THREE.Texture
 { 
+
+	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
+	attribute html::HTMLImageElement image;
+	attribute boolean needsUpdate;
+
 	attribute THREE.Vector2 repeat;
 
 	attribute long wrapS;
@@ -57,7 +71,6 @@ interface THREE.Texture
 	attribute long magFilter;
 	attribute long minFilter;
 
-	attribute boolean needsUpdate;
 
 	attribute int anisotropy;
 
