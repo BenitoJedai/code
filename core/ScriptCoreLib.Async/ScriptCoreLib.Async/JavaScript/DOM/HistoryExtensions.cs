@@ -37,7 +37,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         static Action later;
         public static Action<Action> yield;
 
-     
+
         static void onpopstate(PopStateEvent e)
         {
             e.preventDefault();
@@ -370,35 +370,48 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         static HistoryExtensions()
         {
-            Console.WriteLine("HistoryExtensions enter");
+            Console.WriteLine("HistoryExtensions ..ctor enter");
 
             later = delegate { };
-            yield = y => later += y;
+            //yield = y => later += y;
             //var previous_Count = -1;
 
             // each entry an try to prevent full reload and do inline unwind
 
 
-            if (Native.window != null)
+            if (Native.window == null)
             {
-                var keepordering = IStyleSheet.all;
-
-                Native.window.onpopstate += e =>
-                {
-                    //Console.WriteLine("HistoryExtensions onpopstate");
-
-                    onpopstate(e);
-
-                    yield = y => y();
-
-                    var z = later;
-                    later = delegate { };
-
-                    // whenn will it be null?
-                    if (z != null)
-                        z();
-                };
+                Console.WriteLine("HistoryExtensions exit. no window");
+                return;
             }
+
+
+            var keepordering = IStyleSheet.all;
+
+
+            //0:11ms HistoryExtensions ..ctor enter view-source:36565
+            //0:11ms HistoryExtensions before onpopstate 
+
+            Console.WriteLine("HistoryExtensions before onpopstate");
+
+            // http://stackoverflow.com/questions/6421769/popstate-on-pages-load-in-chrome
+            // chrome devs, what the duck are you doing over there?
+            yield = y => y();
+
+            Native.window.onpopstate += e =>
+            {
+                Console.WriteLine("HistoryExtensions at onpopstate");
+
+                onpopstate(e);
+
+
+                //var z = later;
+                //later = delegate { };
+
+                //// whenn will it be null?
+                //if (z != null)
+                //    z();
+            };
         }
 
         public static void replaceState<T>(this History h, T state, Action<HistoryScope<T>> yield)
@@ -605,9 +618,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             // exclusive parent means a sub state will undo parent, so they wont exist at the same time
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131222-form
 
+            Console.WriteLine("HistoryExtensions pushState before yield");
+
             HistoryExtensions.yield(
                  delegate
                  {
+                     Console.WriteLine("HistoryExtensions pushState at yield");
 
                      if (yield.Target != null)
                          if (yield.Target != Native.self)

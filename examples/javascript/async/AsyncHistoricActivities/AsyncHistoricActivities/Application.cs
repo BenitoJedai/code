@@ -25,6 +25,18 @@ namespace AsyncHistoricActivities
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+
+
+        //looking at { Name = packages.config }
+        //{ FixupHintPath = X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\packages\ScriptCoreLib.Async.1.0.0.0 }
+        //will need to find package  { id = ScriptCoreLib.Async }
+        //will find package  { id = ScriptCoreLib.Async }
+        //cleaned { id = ScriptCoreLib.Async }
+        //updating { id = ScriptCoreLib.Async }
+        //updating { RestorePackagesFromFile = c:/util/jsc/nuget/ScriptCoreLib.Async.1.0.0.0.nupkg }
+        //updated { id = ScriptCoreLib.Async }
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -54,6 +66,9 @@ namespace AsyncHistoricActivities
             coldpage.XLeft.Historic(
                 async scope =>
                 {
+                    //0:66913ms event: onclick { href = http://192.168.43.252:12989/#/xleft, MouseButton = 1 } view-source:36552
+                    //0:66914ms HistoryExtensions pushState before yield 
+
                     var borderBottom = "1em solid red";
 
                     Native.document.body.css.With(
