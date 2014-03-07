@@ -167,7 +167,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                         // tested by
                         // X:\jsc.svn\examples\javascript\Test\TestImplicitTimelineRecordingEvents\TestImplicitTimelineRecordingEvents\Application.cs
 
-                        Console.WriteLine("event: " + new { e.href });
+                        Console.WriteLine("event: onclick " + new { e.href, ev.MouseButton });
 
                         ev.preventDefault();
                         ev.stopPropagation();
