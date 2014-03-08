@@ -430,7 +430,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                         0,
                         0
                     );
-
                     return;
                 }
                 #endregion
