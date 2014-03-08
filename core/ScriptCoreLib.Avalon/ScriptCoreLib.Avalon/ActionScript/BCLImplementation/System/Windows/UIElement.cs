@@ -110,7 +110,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
         {
             get
             {
-                throw new NotImplementedException();
+                return InternalRenderTransform;
             }
             set
             {
