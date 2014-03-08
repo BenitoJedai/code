@@ -10,6 +10,9 @@ namespace WebGLToAnimatedGIFExperiment
     {
         public static void Main(string[] args)
         {
+
+            //Additional information: Method not found: 'Void ScriptCoreLib.JavaScript.DOM.IWindow.add_onframe(System.Action`1<Int32>)'.
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

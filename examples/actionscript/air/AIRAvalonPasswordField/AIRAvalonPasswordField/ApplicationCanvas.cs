@@ -37,6 +37,25 @@ namespace AIRAvalonPasswordField
 
             p.Width = 400;
 
+
+            //Implementation not found for type import :
+            //type: System.Windows.Media.ScaleTransform
+            //method: Void .ctor(Double, Double)
+            //Did you forget to add the [Script] attribute?
+            //Please double check the signature!
+
+            var aspect = 1.0;
+
+            this.SizeChanged +=
+                delegate
+                {
+                    aspect = this.ActualWidth / 400.0;
+
+                    this.RenderTransform = new ScaleTransform { ScaleX = aspect, ScaleY = aspect };
+                };
+
+            this.RenderTransform = new ScaleTransform { ScaleX = 2.0, ScaleY = 2.0 };
+
         }
 
     }
