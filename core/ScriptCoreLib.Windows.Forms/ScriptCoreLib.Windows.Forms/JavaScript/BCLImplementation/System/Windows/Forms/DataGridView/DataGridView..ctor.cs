@@ -1570,18 +1570,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         };
                     #endregion
 
-                    #region InternalContentContainer InternalForeColorChanged
-                    SourceCell.InternalTableColumn_div.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
-                    SourceCell.InternalStyle.InternalForeColorChanged +=
-                       delegate
-                       {
-                           if (SourceCell.Selected)
-                               return;
+                    // need to move this to css
+                    //#region InternalContentContainer InternalForeColorChanged
+                    //SourceCell.InternalTableColumn_div.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                    //SourceCell.InternalStyle.InternalForeColorChanged +=
+                    //   delegate
+                    //   {
+                    //       if (SourceCell.Selected)
+                    //           return;
 
 
-                           SourceCell.InternalTableColumn_div.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
-                       };
-                    #endregion
+                    //       SourceCell.InternalTableColumn_div.style.color = SourceCell.InternalStyle.InternalForeColor.ToString();
+                    //   };
+                    //#endregion
 
                     if (SourceCell.InternalStyle.Alignment == DataGridViewContentAlignment.MiddleRight)
                         SourceCell.InternalTableColumn_div.style.textAlign = IStyle.TextAlignEnum.right;
