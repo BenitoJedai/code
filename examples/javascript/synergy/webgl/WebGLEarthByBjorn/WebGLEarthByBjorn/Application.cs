@@ -37,6 +37,19 @@ namespace WebGLEarthByBjorn
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // if we are running in a SYSTEM account
+            // the chrome no-sandbox only allows software renderer
+            // where we get 1 frame per sec.
+
+
+            // on older systems we may not get GL_OES_standard_derivatives 
+            // http://stackoverflow.com/questions/16795278/disable-some-gl-extensions-for-debugging-three-js-app
+            // 			( parameters.bumpMap || parameters.normalMap ) ? "#extension GL_OES_standard_derivatives : enable" : "",
+            // or that system is just old as hell
+
+
+            // http://stackoverflow.com/questions/16795278/disable-some-gl-extensions-for-debugging-three-js-app
+
             //http://thematicmapping.org/playground/webgl/earth/
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201402/20140222
 
@@ -103,6 +116,7 @@ namespace WebGLEarthByBjorn
                                     Console.WriteLine("event: _2_no_clouds_4k done");
                                 }
                             ),
+
                             bumpMap = THREE.ImageUtils.loadTexture(
                                 new elev_bump_4k().src
                                 //new elev_bump_4k_low().src
@@ -111,7 +125,6 @@ namespace WebGLEarthByBjorn
 
                             // applies onyl to shaders to create the shadow
                             bumpScale = 0.005,
-
                             specularMap = new THREE.Texture().With(
                                 async s =>
                                 {

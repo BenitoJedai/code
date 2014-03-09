@@ -21,7 +21,8 @@ namespace AIRAvalonPasswordField
             r.Fill = Brushes.Red;
             r.AttachTo(this);
             r.MoveTo(8, 8);
-            this.SizeChanged += (s, e) => r.SizeTo(this.Width - 16.0, this.Height - 16.0);
+            //this.SizeChanged += (s, e) => r.SizeTo(this.Width - 16.0, this.Height - 16.0);
+            this.SizeChanged += (s, e) => r.SizeTo(this.ActualWidth - 16.0, this.ActualHeight - 16.0);
 
 
             var p = new PasswordBox { Password = "auto size me" };
@@ -51,10 +52,12 @@ namespace AIRAvalonPasswordField
                 {
                     aspect = this.ActualWidth / 400.0;
 
+                    //this.LayoutTransform = new ScaleTransform { ScaleX = aspect, ScaleY = aspect };
                     this.RenderTransform = new ScaleTransform { ScaleX = aspect, ScaleY = aspect };
                 };
 
             this.RenderTransform = new ScaleTransform { ScaleX = 2.0, ScaleY = 2.0 };
+            //this.LayoutTransform = new ScaleTransform { ScaleX = 2.0, ScaleY = 2.0 };
 
         }
 
