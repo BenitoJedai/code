@@ -168,7 +168,15 @@ namespace WebGLToAnimatedGIFExperiment
 
                              var frames = new List<byte[]>();
 
-                             var framecount = 240;
+                             // view-source:36524
+                             //{ ToBase64String_while_timeout = 00:00:00.504, i = 911952, length = 1454096 } view-source:36524
+
+
+                             //var framecount = 240;
+                             //var delay = 1000 / 60;
+
+                             var framecount = 16;
+                             var delay = 1000 / 15;
 
                              new ScriptCoreLib.JavaScript.Runtime.Timer(
                                  async t =>
@@ -181,7 +189,7 @@ namespace WebGLToAnimatedGIFExperiment
                                          var src = await new GIFEncoderWorker(
                                                  96,
                                                  96,
-                                                  delay: 1000 / 60,
+                                                  delay: delay,
                                                  frames: frames
                                          );
 

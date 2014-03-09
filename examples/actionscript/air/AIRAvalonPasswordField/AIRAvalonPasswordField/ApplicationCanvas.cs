@@ -18,14 +18,20 @@ namespace AIRAvalonPasswordField
 
         public ApplicationCanvas()
         {
+            var p = new PasswordBox
+            {
+                Password = "auto size me",
+
+                Background = Brushes.Transparent
+            };
+
             r.Fill = Brushes.Red;
             r.AttachTo(this);
-            r.MoveTo(8, 8);
+            //r.MoveTo(8, 8);
             //this.SizeChanged += (s, e) => r.SizeTo(this.Width - 16.0, this.Height - 16.0);
-            this.SizeChanged += (s, e) => r.SizeTo(this.ActualWidth - 16.0, this.ActualHeight - 16.0);
+            this.SizeChanged += (s, e) => r.SizeTo(p.ActualWidth, p.ActualHeight);
 
 
-            var p = new PasswordBox { Password = "auto size me" };
 
             p.AttachTo(this);
 
@@ -36,7 +42,8 @@ namespace AIRAvalonPasswordField
             //    at AIRAvalonPasswordField::ApplicationSprite()[V:\web\AIRAvalonPasswordField\ApplicationSprite.as:34]
 
 
-            p.Width = 400;
+            //p.Width = 400;
+            p.Width = 350;
 
 
             //Implementation not found for type import :

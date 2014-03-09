@@ -13,7 +13,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 {
     [Script(Implements = typeof(global::System.Windows.Controls.TextBlock))]
-    internal class __TextBlock : __FrameworkElement
+    public class __TextBlock : __FrameworkElement
     {
         // where is this used?
         // Y:\jsc.svn\examples\actionscript\AvalonFlashLinqToObjects\AvalonFlashLinqToObjects\ApplicationCanvas.cs
@@ -77,6 +77,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
         #region width, height
         public override void InternalSetWidth(double value)
         {
+            var __keepit = this.InternalTextField.height;
+
             this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
             this.InternalTextField.width = value;
         }

@@ -1783,7 +1783,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             return null;
         }
 
-        [Obsolete("experimental")]
+        [Obsolete("experimental, what about using > as it the operator in css?")]
         public static CSSStyleRuleMonkier operator +(CSSStyleRuleMonkier left, IHTMLElement.HTMLElementEnum subselector)
         {
             return left[subselector];
