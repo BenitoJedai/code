@@ -266,6 +266,17 @@ namespace TestSolutionBuilderV1.Views
                   }
                );
 
+            vv.Add(
+                new SolutionToolboxListViewTab
+                {
+                    DataType = "WebGLEarthByBjorn",
+
+                    Name = "WebGLEarthByBjorn",
+                    Title = "WebGLEarthByBjorn",
+                    Text = "WebGLEarthByBjorn",
+                    Icon = new WebGLEarthByBjorn()
+                }
+                );
 
 
             items.WithEach(vv.Add);

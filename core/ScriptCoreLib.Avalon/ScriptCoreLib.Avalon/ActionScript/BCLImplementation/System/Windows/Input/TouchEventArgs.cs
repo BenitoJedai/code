@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.events;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input
 {
 
     [Script(ImplementsViaAssemblyQualifiedName = "System.Windows.Input.TouchEventArgs, PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
-    internal class __TouchEventArgs : __InputEventArgs
+    public class __TouchEventArgs : __InputEventArgs
     {
         internal TouchEvent InternalValue;
 
@@ -51,6 +52,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input
                     p.y
                 )
             };
+        }
+
+
+
+        public static implicit operator TouchEventArgs(__TouchEventArgs x)
+
+        {
+            return (TouchEventArgs)(object)x;
         }
     }
 }

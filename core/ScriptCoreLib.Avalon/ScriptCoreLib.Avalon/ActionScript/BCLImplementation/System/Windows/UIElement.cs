@@ -21,7 +21,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
 
     [Script(Implements = typeof(global::System.Windows.UIElement))]
-    internal class __UIElement : __Visual, __IAnimatable, __IInputElement
+    public class __UIElement : __Visual, __IAnimatable, __IInputElement
     {
         public double InternalLeft;
 
@@ -639,7 +639,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
         // .NET 4, yay :)
 
-        public event __EventHandler<__TouchEventArgs> TouchDown
+        //public event __EventHandler<__TouchEventArgs> TouchDown
+        public event EventHandler<TouchEventArgs> TouchDown
         {
             add
             {
@@ -658,7 +659,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             }
         }
 
-        public event __EventHandler<__TouchEventArgs> TouchMove
+        //public event __EventHandler<__TouchEventArgs> TouchMove
+        public event EventHandler<TouchEventArgs> TouchMove
         {
             add
             {
@@ -676,7 +678,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
                 throw new NotImplementedException();
             }
         }
-        public event __EventHandler<__TouchEventArgs> TouchUp
+        //public event __EventHandler<__TouchEventArgs> TouchUp
+        public event EventHandler<TouchEventArgs> TouchUp
         {
             add
             {
