@@ -64,7 +64,8 @@ namespace Abstractatech.ActionScript.Audio
             this.SourceAudio = SourceAudio;
             this.Rate = 1.0;
 
-
+            // X:\jsc.svn\examples\actionscript\air\AIRAudioWorker\AIRAudioWorker\ApplicationSprite.cs
+            // on mobile AIR, something behaves differently?
             var SourceAudioBytes = new ByteArray { endian = Endian.LITTLE_ENDIAN };
 
 
