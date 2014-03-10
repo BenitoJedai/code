@@ -9,16 +9,16 @@
   <id>jsc-solutions.hellojsc</id>
   
   <versionNumber>1.0.1</versionNumber>
-  <filename>AIRAvalonPasswordField</filename>
-  <name>AIRAvalonPasswordField</name>
+  <filename>AIRAudioWorker</filename>
+  <name>AIRAudioWorker</name>
   <description>
-    <text xml:lang="en">AIRAvalonPasswordField</text>
+    <text xml:lang="en">AIRAudioWorker</text>
   </description>
-  <copyright>AIRAvalonPasswordField</copyright>
+  <copyright>AIRAudioWorker</copyright>
   <initialWindow>
-    <title>AIRAvalonPasswordField</title>
+    <title>AIRAudioWorker</title>
     <content>
-      AIRAvalonPasswordField.ApplicationSprite.swf
+      AIRAudioWorker.ApplicationSprite.swf
     </content>
 
     <!--<autoOrients>false</autoOrients>-->
