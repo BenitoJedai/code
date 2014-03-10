@@ -1,8 +1,10 @@
 using Abstractatech.ActionScript.Audio;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.media;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.Extensions;
+using System;
 
 namespace AIRAudioWorker
 {
@@ -31,16 +33,30 @@ namespace AIRAudioWorker
                 return;
             }
 
-            var loopdiesel2 = new MP3PitchLoop(
+            // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/media/Sound.html
+            var mySound = new Sound();
 
-                  KnownEmbeddedResources.Default[
-                  "assets/Abstractatech.ActionScript.Audio/diesel4.mp3"
-                  ].ToSoundAsset()
+            mySound.sampleData += e =>
+                {
+                    for (var c = 0; c < 8192; c++)
+                    {
+                        e.data.writeFloat(Math.Sin(((c + e.position) / Math.PI / 2)) * 0.25);
+                        e.data.writeFloat(Math.Sin(((c + e.position) / Math.PI / 2)) * 0.25);
+                    }
+                };
+            mySound.play();
 
-                  );
 
-            // on android this feels choppy. why?
-            loopdiesel2.Sound.play();
+            //var loopdiesel2 = new MP3PitchLoop(
+
+            //      KnownEmbeddedResources.Default[
+            //      "assets/Abstractatech.ActionScript.Audio/diesel4.mp3"
+            //      ].ToSoundAsset()
+
+            //      );
+
+            //// on android this feels choppy. why?
+            //loopdiesel2.Sound.play();
 
         }
 
