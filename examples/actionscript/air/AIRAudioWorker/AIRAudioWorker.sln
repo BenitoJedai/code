@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIRAudioWorker", "AIRAudioWorker\AIRAudioWorker.csproj", "{EA67BC51-73E2-482E-A41C-003D3818338B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ActionScript.Audio", "..\..\..\..\market\Abstractatech.ActionScript.Audio\Abstractatech.ActionScript.Audio\Abstractatech.ActionScript.Audio.csproj", "{919A6834-7BA5-489D-B8D7-A062E056E5A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashWorkerExperiment", "..\..\FlashWorkerExperiment\FlashWorkerExperiment\FlashWorkerExperiment.csproj", "{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{6B5F4F8A-2603-44B7-B74C-6645C17AAC63}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA67BC51-73E2-482E-A41C-003D3818338B}.Debug|x86.ActiveCfg = Debug|x86
+		{EA67BC51-73E2-482E-A41C-003D3818338B}.Debug|x86.Build.0 = Debug|x86
+		{EA67BC51-73E2-482E-A41C-003D3818338B}.Release|x86.ActiveCfg = Release|x86
+		{EA67BC51-73E2-482E-A41C-003D3818338B}.Release|x86.Build.0 = Release|x86
+		{919A6834-7BA5-489D-B8D7-A062E056E5A3}.Debug|x86.ActiveCfg = Debug|x86
+		{919A6834-7BA5-489D-B8D7-A062E056E5A3}.Debug|x86.Build.0 = Debug|x86
+		{919A6834-7BA5-489D-B8D7-A062E056E5A3}.Release|x86.ActiveCfg = Release|x86
+		{919A6834-7BA5-489D-B8D7-A062E056E5A3}.Release|x86.Build.0 = Release|x86
+		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}.Debug|x86.ActiveCfg = Debug|x86
+		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}.Debug|x86.Build.0 = Debug|x86
+		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}.Release|x86.ActiveCfg = Release|x86
+		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C2DDF2CD-E027-46FE-9423-81F4F7F4BE10} = {6B5F4F8A-2603-44B7-B74C-6645C17AAC63}
+		{919A6834-7BA5-489D-B8D7-A062E056E5A3} = {6B5F4F8A-2603-44B7-B74C-6645C17AAC63}
+	EndGlobalSection
+EndGlobal
