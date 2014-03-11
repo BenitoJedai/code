@@ -14,8 +14,7 @@ namespace TestFormsFontTTF
         {
             this.InitializeComponent();
 
-            { var ref0 = new Design.password(); }
-            { var ref0 = new Design.fontawesome_webfont(); }
+
         }
 
     }

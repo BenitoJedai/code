@@ -35,6 +35,8 @@ namespace TTFCurrencyExperment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\css\ttf\TTFSymbolFontExperiment\TTFSymbolFontExperiment\Application.cs
+
             // why wont jsc package the system font on its own?
             // or why wont it look at the assets we have?
             var explicitttf = new Design.fontawesome_webfont();
