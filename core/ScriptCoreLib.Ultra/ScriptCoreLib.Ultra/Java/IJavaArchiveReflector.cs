@@ -108,6 +108,9 @@ namespace ScriptCoreLib.Java
 
         public bool IsLiteral;
 
+        public long LiteralInt64;
+        public sbyte LiteralInt8;
+        public short LiteralInt16;
         public int LiteralInt32;
         public string LiteralString;
 
@@ -355,7 +358,7 @@ namespace ScriptCoreLib.Java
 
                     var t = jvm::ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToType(
 
-                        c: (jvm::java.lang.Class) e
+                        c: (jvm::java.lang.Class)e
                     );
 
                     MethodThrowsList.Add(
@@ -448,17 +451,24 @@ namespace ScriptCoreLib.Java
 
                     if (fi.IsLiteral)
                     {
-                        if (fi.FieldType == typeof(int))
-                        {
-                            var value = fi.GetRawConstantValue();
-                            if (value != null)
-                                yi.LiteralInt32 = (int)value;
-                        }
+                        // X:\jsc.svn\examples\java\Test\TestJavaFinalIntegerField\TestJavaFinalIntegerField\Program.cs
+                        var RawConstantValue = fi.GetRawConstantValue();
+                        var RawConstantValueType = RawConstantValue.GetType();
+
+                        if (RawConstantValueType == typeof(int))
+                            yi.LiteralInt32 = (int)RawConstantValue;
+
+                        if (RawConstantValueType == typeof(short))
+                            yi.LiteralInt16 = (short)RawConstantValue;
+
+                        if (RawConstantValueType == typeof(long))
+                            yi.LiteralInt64 = (long)RawConstantValue;
+
+                        if (RawConstantValueType == typeof(sbyte))
+                            yi.LiteralInt8 = (sbyte)RawConstantValue;
 
                         if (fi.FieldType == typeof(string))
-                        {
-                            yi.LiteralString = (string)fi.GetRawConstantValue();
-                        }
+                            yi.LiteralString = (string)RawConstantValue;
                     }
 
                     y[i] = yi;
