@@ -80,7 +80,7 @@ namespace com.abstractatech.battery
             int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
 
 
-
+            // X:\jsc.svn\examples\java\Test\TestJavaFinalIntegerField\TestJavaFinalIntegerField\Foo\Bar.java
             isCharging = (chargePlug > 0);
 
             Console.WriteLine("batteryStatusCheck " + new { status, chargePlug, isCharging });
