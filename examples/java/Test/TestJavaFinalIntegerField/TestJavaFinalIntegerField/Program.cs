@@ -40,7 +40,9 @@ namespace TestJavaFinalIntegerField
                     Foo.Bar.BATTERY_HEALTH_COLD,
                     Foo.Bar.XLong,
                     Foo.Bar.XShort
-                    //, Foo.Bar.XSByte
+                    ,
+                    Foo.Bar.XSByte
+                    , Foo.Bar.XFloat
                 }
             );
 
@@ -48,16 +50,6 @@ namespace TestJavaFinalIntegerField
 
 
             // { item = Int32 BATTERY_HEALTH_COLD, constant = 0, ctype = System.Int32 }
-
-            //- javac
-            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\TestJavaFinalIntegerField\Program.java
-            //java\TestJavaFinalIntegerField\Program.java:45: error: bad operand type Object for unary operator '!'
-            //                type3 = (!(object2) ? __Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(Void.class)) : __Object.System_Object_GetType_06000007(object2));
-            //                         ^
-
-            //Caused by: java.lang.ClassCastException: java.lang.Byte cannot be cast to java.lang.Short
-            //        at jsc.jvmi__i__d.Internal.Java.JavaArchiveReflector.Type_GetFields(JavaArchiveReflector.java:254)
-            //        at jsc.jvmi._ToDelegates________02000048_.Type_GetFields(_ToDelegates________02000048_.java:338)
 
             foreach (var item in t.GetFields())
             {
