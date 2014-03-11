@@ -7,4 +7,7 @@ public class Bar
     public static final short XShort = 77;
     
 	public static final byte XSByte = 77;
+
+
+	public static final float XFloat = 77;
 }

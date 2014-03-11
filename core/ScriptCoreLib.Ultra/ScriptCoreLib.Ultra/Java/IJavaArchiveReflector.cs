@@ -471,49 +471,33 @@ namespace ScriptCoreLib.Java
             // X:\jsc.svn\examples\java\Test\TestJavaFinalIntegerField\TestJavaFinalIntegerField\Program.cs
             var RawConstantValue = fi.GetRawConstantValue();
 
-            //Caused by: java.lang.NullPointerException
-            //    at ScriptCoreLibJava.BCLImplementation.System.__Type.GetTypeFromValue(__Type.java:535)
-            //    at ScriptCoreLibJava.BCLImplementation.System.__Object.System_Object_GetType_06000007(__Object.java:19)
-            //    at jsc.jvmi__i__d.Internal.Java.JavaArchiveReflector.Type_GetFields(JavaArchiveReflector.java:232)
-
             if (RawConstantValue != null)
             {
                 var RawConstantValueType = RawConstantValue.GetType();
 
                 if (RawConstantValueType == typeof(int))
                     yi.LiteralInt32 = (int)RawConstantValue;
-
-                if (RawConstantValueType == typeof(short))
+                else if (RawConstantValueType == typeof(short))
                     yi.LiteralInt16 = (short)RawConstantValue;
-
-                if (RawConstantValueType == typeof(long))
+                else if (RawConstantValueType == typeof(long))
                     yi.LiteralInt64 = (long)RawConstantValue;
-
-                // !!!
-                //08c4 ScriptCoreLibAndroid.Natives java.lang.Byte
-                //08c5 ScriptCoreLibAndroid.Natives java.lang.Number
-
-                if (RawConstantValueType == typeof(sbyte))
-                {
-                    //Caused by: java.lang.ClassCastException: java.lang.Byte cannot be cast to java.lang.Short
-                    //    at jsc.jvmi__i__d.Internal.Java.JavaArchiveReflector.Type_GetFields(JavaArchiveReflector.java:257)
-                    //    at jsc.jvmi._ToDelegates________02000048_.Type_GetFields(_ToDelegates________02000048_.java:338)
-
-                    //0001 020000cb jsc.jvmi__i__d.jvm::<module>.SHA1a4b1d0d59cbfa60860000bf7dccee18be31f3343@1559328607$00000020$00000163
-                    //- javac
-                    //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "W:\staging\web\java";release -d release java\jsc\jvmi\Program.java
-                    //W:\staging\web\java\jsc\jvmi__i__d\Internal\Java\JavaArchiveReflector.java:542: error: incompatible types
-                    //                byte2 = ((__SByte)(object0));
-                    //                         ^
-                    //  required: byte
-
-
-                    var LiteralInt8 = (sbyte)RawConstantValue;
-                    yi.LiteralInt8 = (byte)LiteralInt8;
-                }
-
-                if (fi.FieldType == typeof(string))
+                else if (RawConstantValueType == typeof(sbyte))
+                    yi.LiteralInt8 = (byte)(sbyte)RawConstantValue;
+                else if (fi.FieldType == typeof(string))
                     yi.LiteralString = (string)RawConstantValue;
+                else
+                {
+
+                    Console.WriteLine(
+
+                    "InternalSetConstant " + new { fi.DeclaringType.FullName, fi.Name, RawConstantValueType, fi.FieldType }
+
+                        );
+
+                    yi.IsLiteral = false;
+                }
+                //throw new InvalidOperationException(
+                //);
             }
         }
 
