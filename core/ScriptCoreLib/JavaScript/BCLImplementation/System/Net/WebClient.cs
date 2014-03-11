@@ -44,11 +44,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
                     // UploadValuesAsync { status = 204, responseType = arraybuffer, response = [object Uint8ClampedArray] }
 
+                    //if (x.status == 204)
+                    if (x.status == IXMLHttpRequest.HTTPStatusCodes.NoContent)
+                    {
+                        // android webview  wants us to do this
+                        response = new byte[0];
+                    }
 
+                    //Uncaught InvalidStateError: Failed to read the 'responseText' property from 'XMLHttpRequest': 
+                    // The value is only accessible if the object's 'responseType' is '' or 'text' (was 'arraybuffer').
+
+                    // X:\jsc.svn\examples\javascript\android\com.abstractatech.battery\com.abstractatech.battery\ApplicationWebService.cs
                     //Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType });
 
+                    //I/chromium(10616): [INFO:CONSOLE(36216)] "%c0:576ms UploadValuesAsync { status = 204, responseType = arraybuffer }", source: http://192.168.1.103:10129/view-source (36216)
+                    //I/chromium(10616): [INFO:CONSOLE(49940)] "Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.", source: http://192.168.1.103:10129/view-source (49940)
 
-                    if (x.response != null)
+                    // what about android webview?
+                    if (x.response == null)
+                    {
+                        //Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType, x.response, x.responseText });
+                    }
+                    else
                     {
                         // http://stackoverflow.com/questions/8022425/getting-blob-data-from-xhr-request
 

@@ -14,6 +14,7 @@ using com.abstractatech.battery.Design;
 using com.abstractatech.battery.HTML.Pages;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.Threading.Tasks;
+using ScriptCoreLib.Lambda;
 
 namespace com.abstractatech.battery
 {
@@ -41,13 +42,21 @@ namespace com.abstractatech.battery
                     var deg = a * 80 - 80;
                     if (b)
                     {
-                        (page.gauge_layer3.style as dynamic).webkitFilter = "hue-rotate(70deg)";
+                        // batteryStatusCheck { status = 3, chargePlug = 0, isCharging = false }
+                        (page.gauge_layer3.style as dynamic).webkitFilter = "hue-rotate(-170deg)";
                         page.gauge_layer3.Show();
                     }
-                    else if (a <= 0.3)
-                        page.gauge_layer3.Show();
                     else
-                        page.gauge_layer3.Hide();
+                    {
+                        // when can we do css[if b].filter = hue(170)?
+
+                        (page.gauge_layer3.style as dynamic).webkitFilter = "hue-rotate(0deg)";
+
+                        if (a <= 0.3)
+                            page.gauge_layer3.Show();
+                        else
+                            page.gauge_layer3.Hide();
+                    }
 
 
                     var transform = "rotate(" + deg + "deg)";
@@ -63,8 +72,14 @@ namespace com.abstractatech.battery
             set(0, false);
 
             // will this animate our popup?
-            (page.gauge_layer1.style as dynamic).webkitTransition = "-webkit-transform 0.7s ease-in";
+            //(page.gauge_layer1.style as dynamic).webkitTransition = "-webkit-transform 0.7s ease-in";
+
+
+            page.gauge_layer1.style.transition = "-webkit-transform 0.7s ease-in";
+            //page.gauge_layer1.style.transition = "transform 0.7s ease-in";
+
             //(page.gauge_layer1.style as dynamic).transition = "-webkit-transform 0.7s ease-in";
+
 
 
             ((Action)(
@@ -77,7 +92,8 @@ namespace com.abstractatech.battery
 
                          set(batteryStatus, isCharging);
 
-                         await Task.Delay(500 + new Random().Next(5000));
+                         //await Task.Delay(500 + new Random().Next(5000));
+                         await (500 + new Random().Next(5000));
                      }
                  }
              ))();
