@@ -112,6 +112,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
         public object GetRawConstantValue()
         {
+            // X:\jsc.svn\examples\java\Test\TestJavaFinalIntegerField\TestJavaFinalIntegerField\Program.cs
             var value = default(object);
 
             try
