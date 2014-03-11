@@ -112,9 +112,9 @@ namespace TTFCurrencyExperment
                     where kk.Currency == "EUR"
                     select kk;
 
-            var z =
-                from x in table1.XSelectAllAsEnumerable()
-                group x by x.Currency;
+            //var z =
+            //    from x in table1 // .XSelectAllAsEnumerable()
+            //    group x by x.Currency;
 
 
 
