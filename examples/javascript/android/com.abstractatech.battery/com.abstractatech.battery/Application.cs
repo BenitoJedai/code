@@ -35,12 +35,16 @@ namespace com.abstractatech.battery
             }
 
 
-            Action<double> set =
-                a =>
+            Action<double, bool> set =
+                (a, b) =>
                 {
                     var deg = a * 80 - 80;
-
-                    if (a <= 0.3)
+                    if (b)
+                    {
+                        (page.gauge_layer3.style as dynamic).webkitFilter = "hue-rotate(70deg)";
+                        page.gauge_layer3.Show();
+                    }
+                    else if (a <= 0.3)
                         page.gauge_layer3.Show();
                     else
                         page.gauge_layer3.Hide();
@@ -56,7 +60,7 @@ namespace com.abstractatech.battery
 
             // it can get stuck. the dom might not represent the value we are setting if it is the same?
             //set(1);
-            set(0);
+            set(0, false);
 
             // will this animate our popup?
             (page.gauge_layer1.style as dynamic).webkitTransition = "-webkit-transform 0.7s ease-in";
@@ -71,7 +75,7 @@ namespace com.abstractatech.battery
                          await batteryStatusCheck();
 
 
-                         set(batteryStatus);
+                         set(batteryStatus, isCharging);
 
                          await Task.Delay(500 + new Random().Next(5000));
                      }

@@ -28,20 +28,28 @@ namespace com.abstractatech.battery
         // intent is returned.
 
         public float batteryStatus = 0;
+        public bool isCharging = false;
 
-        public Task batteryStatusCheck()
+        public async Task batteryStatusCheck()
         {
             Console.WriteLine("enter batteryStatus");
 
 #if DEBUG
             batteryStatus = new Random().NextFloat();
 
-            return Task.FromResult(new object());
+            //return Task.FromResult(new object());
 #else
             var ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
             var batteryStatus = global::ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.registerReceiver(null, ifilter);
 
+            int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+
+            if (status == BatteryManager.BATTERY_STATUS_CHARGING)
+            {
+                Console.WriteLine("Charging");
+                isCharging = true;
+            }
 
             int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
@@ -50,7 +58,7 @@ namespace com.abstractatech.battery
 
             Console.WriteLine(new { batteryPct });
 
-            return Task.FromResult(batteryPct);
+            //return Task.FromResult(batteryPct);
 #endif
 
         }

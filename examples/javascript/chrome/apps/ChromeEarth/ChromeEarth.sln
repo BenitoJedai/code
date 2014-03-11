@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeEarth", "ChromeEarth\ChromeEarth.csproj", "{849DAC8A-608A-4E55-8A9D-EAD16342759C}"
 	ProjectSection(ProjectDependencies) = postProject
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {DF763FAD-6D74-47A6-80C3-EA7B444C81BF}
 		{B23791BC-BBED-49D9-9808-08B230B69C55} = {B23791BC-BBED-49D9-9808-08B230B69C55}
 	EndProjectSection
 EndProject
