@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
     [Script(Implements = typeof(global::System.Text.StringBuilder))]
     internal class __StringBuilder
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Text\StringBuilder.cs
+
         public __StringBuilder()
         {
 
@@ -71,6 +73,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 
             return this;
         }
+
+        public __StringBuilder Append(short e)
+        {
+            _Value += e;
+
+            return this;
+        }
+
         public __StringBuilder Append(long e)
         {
             _Value += e;

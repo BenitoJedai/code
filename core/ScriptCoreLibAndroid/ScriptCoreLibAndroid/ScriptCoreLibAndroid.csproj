@@ -124,6 +124,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Exception.cs">
       <Link>BCLImplementation\System\Exception.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Int16.cs">
+      <Link>BCLImplementation\System\Int16.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Int32.cs">
       <Link>BCLImplementation\System\Int32.cs</Link>
     </Compile>
@@ -567,6 +570,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\RuntimeException.cs">
       <Link>java\lang\RuntimeException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Short.cs">
+      <Link>java\lang\Short.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\String.cs">
       <Link>java\lang\String.cs</Link>

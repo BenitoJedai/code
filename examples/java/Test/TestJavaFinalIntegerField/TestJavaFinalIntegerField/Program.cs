@@ -39,8 +39,8 @@ namespace TestJavaFinalIntegerField
                     // public const int BATTERY_HEALTH_COLD = 0;
                     Foo.Bar.BATTERY_HEALTH_COLD,
                     Foo.Bar.XLong,
-                    Foo.Bar.XShort,
-                    Foo.Bar.XSByte
+                    Foo.Bar.XShort
+                    //, Foo.Bar.XSByte
                 }
             );
 
@@ -54,6 +54,10 @@ namespace TestJavaFinalIntegerField
             //java\TestJavaFinalIntegerField\Program.java:45: error: bad operand type Object for unary operator '!'
             //                type3 = (!(object2) ? __Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(Void.class)) : __Object.System_Object_GetType_06000007(object2));
             //                         ^
+
+            //Caused by: java.lang.ClassCastException: java.lang.Byte cannot be cast to java.lang.Short
+            //        at jsc.jvmi__i__d.Internal.Java.JavaArchiveReflector.Type_GetFields(JavaArchiveReflector.java:254)
+            //        at jsc.jvmi._ToDelegates________02000048_.Type_GetFields(_ToDelegates________02000048_.java:338)
 
             foreach (var item in t.GetFields())
             {
@@ -73,7 +77,6 @@ namespace TestJavaFinalIntegerField
                     var isLong = ctype == typeof(long);
                     var isShort = ctype == typeof(short);
                     var isByte = ctype == typeof(byte);
-
                     //{ item = int BATTERY_HEALTH_COLD, constant = 7, ctype = java.lang.Integer, isInteger = true, isLong = false, isShort = false, isByte = false }
                     //{ item = long XLong, constant = 77, ctype = java.lang.Long, isInteger = false, isLong = true, isShort = false, isByte = false }
                     //{ item = short XShort, constant = 77, ctype = java.lang.Short, isInteger = false, isLong = false, isShort = true, isByte = false }

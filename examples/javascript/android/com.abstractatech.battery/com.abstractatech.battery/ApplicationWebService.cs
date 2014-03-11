@@ -57,6 +57,8 @@ namespace com.abstractatech.battery
 
         public async Task batteryStatusCheck()
         {
+            // script: error JSC1000: No implementation found for this native method, please implement [System.Text.StringBuilder.Append(System.Int16)]
+
             // http://developer.android.com/training/monitoring-device-state/battery-monitoring.html
             // http://stackoverflow.com/questions/20663403/android-batterymanager-not-reporting-correct-charging-status
             // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
@@ -70,6 +72,8 @@ namespace com.abstractatech.battery
 
             //return Task.FromResult(new object());
 #else
+
+            // partial build?
             var ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
             var intent = global::ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.registerReceiver(null, ifilter);

@@ -8,6 +8,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
     [Script(Implements = typeof(global::System.Text.StringBuilder))]
     internal class __StringBuilder
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Text\StringBuilder.cs
+
         global::java.lang.StringBuffer InternalBuffer;
 
         public int Capacity
@@ -84,6 +86,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
         }
 
         public __StringBuilder Append(int e)
+        {
+            InternalBuffer.append("" + e);
+
+            return this;
+        }
+
+        public __StringBuilder Append(short e)
         {
             InternalBuffer.append("" + e);
 

@@ -61,6 +61,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public static string ToString(int value)
         {
+
+            return "" + value;
+        }
+
+        public static string ToString(short value)
+        {
+            // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\ILStringConversions.cs
             return "" + value;
         }
 
@@ -116,11 +123,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return int.Parse(e);
         }
 
+        public static short ToInt16(string e)
+        {
+            return short.Parse(e);
+        }
 
-        //public static short ToInt16(string e)
-        //{
-        //    return short.Parse(e);
-        //}
+        public static byte ToByte(string e)
+        {
+            return byte.Parse(e);
+        }
 
         //        Implementation not found for type import :
         //type: System.Convert
@@ -195,7 +206,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             return (int)Math.Floor((double)e);
         }
 
- 
+
 
         // conflict in java with uint 
         //public static int ToInt32(int value)
