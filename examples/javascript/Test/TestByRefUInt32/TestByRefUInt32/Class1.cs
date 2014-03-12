@@ -17,6 +17,9 @@ namespace TestByRefUInt32
 
         public static void Foo(ref uint u)
         {
+            //  public static function Foo_2536ce5c_06000002(ref_arg1:*):void
+            // jsc shall use Vector<> for byrefs!
+
             //OpCodes.Ldind_I4,
             //OpCodes.Ldind_Ref
 

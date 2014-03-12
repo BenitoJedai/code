@@ -6,8 +6,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     using ScriptCoreLib.JavaScript.Runtime;
 
-    [Script(Implements = typeof(global::System.Int32))]
-    internal class __Int32
+    [Script(Implements = typeof(global::System.UInt32))]
+    internal class __UInt32
     {
         #region OptimizedCode
         [Script(OptimizedCode = "return parseInt(e);")]
@@ -26,19 +26,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
         [Script(DefineAsStatic = true)]
-        static public int Parse(string e)
+        static public uint Parse(string e)
         {
             var x = parseInt(e);
 
             if (isNaN(x))
                 throw new InvalidOperationException();
 
-            return x;
+            return (uint)x;
         }
 
 
         [Script(DefineAsStatic = true)]
-        static public bool TryParse(string e, out int result)
+        static public bool TryParse(string e, out uint result)
         {
             // tested by
             // X:\jsc.svn\examples\javascript\forms\FormsDataGridViewDeleteRow\FormsDataGridViewDeleteRow\ApplicationControl.cs
@@ -53,13 +53,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             if (nan)
                 result = 0;
             else
-                result = x;
+                result = (uint)x;
 
             return !nan;
         }
 
         [Script(DefineAsStatic = true)]
-        public int CompareTo(__Int32 e)
+        public int CompareTo(__UInt32 e)
         {
             return Expando.Compare(this, e);
 
