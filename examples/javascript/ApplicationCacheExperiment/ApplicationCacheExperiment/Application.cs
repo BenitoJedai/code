@@ -18,9 +18,8 @@ namespace ApplicationCacheExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -40,7 +39,7 @@ namespace ApplicationCacheExperiment
 
             // Application Cache Error event: Master entry fetch failed (-1) http://192.168.1.100:8571/ 
 
-            Native.Window.applicationCache.oncached = IFunction.Of(
+            Native.window.applicationCache.oncached = IFunction.Of(
                 delegate
                 {
                     page.Content.innerText = "up to date";
@@ -48,7 +47,7 @@ namespace ApplicationCacheExperiment
                 }
             );
 
-            Native.Window.applicationCache.onerror = IFunction.Of(
+            Native.window.applicationCache.onerror = IFunction.Of(
                 delegate
                 {
                     page.Content.innerText = "offline?";
@@ -57,7 +56,7 @@ namespace ApplicationCacheExperiment
             );
 
 
-            Native.Window.applicationCache.onnoupdate = IFunction.Of(
+            Native.window.applicationCache.onnoupdate = IFunction.Of(
                delegate
                {
                    page.Content.innerText = "up to date";
@@ -65,25 +64,19 @@ namespace ApplicationCacheExperiment
                }
             );
 
-            Native.Window.ononline +=
+            Native.window.ononline +=
                 delegate
                 {
-                    page.Content.innerText = "online / wifi enabled" + new { Native.Window.navigator.onLine };
+                    page.Content.innerText = "online / wifi enabled" + new { Native.window.navigator.onLine };
                 };
 
-            Native.Window.onoffline +=
+            Native.window.onoffline +=
               delegate
               {
-                  page.Content.innerText = "offline  / wifi disabled" + new { Native.Window.navigator.onLine };
+                  page.Content.innerText = "offline  / wifi disabled" + new { Native.window.navigator.onLine };
               };
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
         }
 
     }
