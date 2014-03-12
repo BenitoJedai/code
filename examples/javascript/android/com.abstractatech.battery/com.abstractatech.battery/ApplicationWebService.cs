@@ -85,7 +85,8 @@ namespace com.abstractatech.battery
 
 
             // X:\jsc.svn\examples\java\Test\TestJavaFinalIntegerField\TestJavaFinalIntegerField\Foo\Bar.java
-            isCharging = (chargePlug > 0);
+            //isCharging = (chargePlug > 0);
+            isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING;
 
             Console.WriteLine("batteryStatusCheck " + new { status, chargePlug, isCharging });
 
