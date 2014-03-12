@@ -10,11 +10,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 		ImplementationType = typeof(global::ScriptCoreLib.ActionScript.@int))]
 	internal class __Byte
 	{
-		//[Script(ExternalTarget = "parseByte")]
-		//public static byte Parse(string e)
-		//{
-		//    return default(byte);
-		//}
+        [Script(OptimizedCode = "return parseInt(e);")]
+        static public byte Parse(string e)
+        {
+            return default(byte);
+        }
 
 		[Script(DefineAsStatic = true)]
 		public string ToString(string format)
