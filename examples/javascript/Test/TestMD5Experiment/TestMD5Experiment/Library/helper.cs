@@ -50,6 +50,8 @@ namespace MD5
        	}
 		public override string ToString()
 		{
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Int32.cs
+
 			string st ;
 			st= MD5Helper.ReverseByte(A).ToString("X8")+
 				MD5Helper.ReverseByte(B).ToString("X8")+
