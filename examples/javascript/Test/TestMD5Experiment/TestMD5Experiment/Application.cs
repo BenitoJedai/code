@@ -30,6 +30,14 @@ namespace TestMD5Experiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //script: error JSC1000: No implementation found for this native method, please implement [System.UInt32.ToString(System.String)]
+            //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+            //script: error JSC1000: error at MD5.Digest.ToString,
+            // assembly: T:\TestMD5Experiment.Application.exe
+            // type: MD5.Digest, TestMD5Experiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x0014
+            //  method:System.String ToString()
+
             //script: error JSC1000: opcode unsupported - [0x0002] ldind.u4   +1 -1{[0x0001] ldarg.1    +1 -0}
 
             //script: error JSC1000: error at MD5.MD5.PerformTransformation,
@@ -57,8 +65,10 @@ namespace TestMD5Experiment
             var a = new MD5.MD5();
 
             //a.FingerPrint
-            a.Value = "the string";
+            a.Value = "";
 
+            // a.FingerPrint = "D41D8CD98F00B204E9800998ECF8427E"
+            // { FingerPrint = FFFFFFA3FFFFFFF8FFFFFFA1FFFFFFBD }
             new IHTMLPre { new { a.FingerPrint } }.AttachToDocument();
 
         }

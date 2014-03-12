@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 
 namespace MD5
@@ -101,9 +102,7 @@ namespace MD5
                     this.OnValueChanging(this, new MD5ChangingEventArgs(value));
 
 
-                m_byteInput = new byte[value.Length];
-                for (int i = 0; i < value.Length; i++)
-                    m_byteInput[i] = (byte)value[i];
+                m_byteInput = Encoding.UTF8.GetBytes(value);
                 dgFingerPrint = CalculateMD5Value();
 
                 /// raise the event to notify the change
@@ -183,6 +182,10 @@ namespace MD5
             var dg_C = dg.C;
             var dg_D = dg.D;
 
+            Console.WriteLine(
+                "CalculateMD5Value enter " +
+                new { dg_A, dg_B, dg_C, dg_D }
+                );
             // create a buffer with bits padded and length is alos padded
             bMsg = CreatePaddedBuffer();
 
@@ -204,6 +207,10 @@ namespace MD5
             dg.C = dg_C;
             dg.D = dg_D;
 
+            Console.WriteLine(
+                "CalculateMD5Value exit " +
+                new { dg_A, dg_B, dg_C, dg_D }
+                );
             return dg;
         }
 

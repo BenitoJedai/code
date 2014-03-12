@@ -110,6 +110,7 @@
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\UInt32.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int16.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
