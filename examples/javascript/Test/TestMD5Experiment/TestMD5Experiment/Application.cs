@@ -30,6 +30,14 @@ namespace TestMD5Experiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //02000015 MD5.MD5
+            //{ Location =
+            // assembly: U:\TestMD5Experiment.Application.exe
+            // type: MD5.MD5, TestMD5Experiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x003e
+            //  method:MD5.Digest CalculateMD5Value() }
+            //script: error JSC1000: Method: CalculateMD5Value, Type: MD5.MD5; emmiting failed : System.NotImplementedException: { ParameterType = System.UInt32&, p = [0x003e] call
+
             //arg[0] is typeof System.Char[]
             //no matching prototype
             //script: error JSC1000: error at MD5.MD5.get_Value,
