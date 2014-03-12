@@ -30,6 +30,14 @@ namespace TestMD5Experiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //script: error JSC1000: opcode unsupported - [0x0002] ldind.u4   +1 -1{[0x0001] ldarg.1    +1 -0}
+
+            //script: error JSC1000: error at MD5.MD5.PerformTransformation,
+            // assembly: U:\TestMD5Experiment.Application.exe
+            // type: MD5.MD5, TestMD5Experiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x0002
+            //  method:Void PerformTransformation(UInt32 ByRef, UInt32 ByRef, UInt32 ByRef, UInt32 ByRef)
+
             //02000015 MD5.MD5
             //{ Location =
             // assembly: U:\TestMD5Experiment.Application.exe
