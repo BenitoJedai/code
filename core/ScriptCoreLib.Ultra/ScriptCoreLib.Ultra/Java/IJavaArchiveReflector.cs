@@ -470,35 +470,44 @@ namespace ScriptCoreLib.Java
         {
             // X:\jsc.svn\examples\java\Test\TestJavaFinalIntegerField\TestJavaFinalIntegerField\Program.cs
             var RawConstantValue = fi.GetRawConstantValue();
-
-            if (RawConstantValue != null)
+            if (RawConstantValue == null)
             {
-                var RawConstantValueType = RawConstantValue.GetType();
+                // wtf?
 
-                if (RawConstantValueType == typeof(int))
-                    yi.LiteralInt32 = (int)RawConstantValue;
-                else if (RawConstantValueType == typeof(short))
-                    yi.LiteralInt16 = (short)RawConstantValue;
-                else if (RawConstantValueType == typeof(long))
-                    yi.LiteralInt64 = (long)RawConstantValue;
-                else if (RawConstantValueType == typeof(sbyte))
-                    yi.LiteralInt8 = (byte)(sbyte)RawConstantValue;
-                else if (fi.FieldType == typeof(string))
-                    yi.LiteralString = (string)RawConstantValue;
-                else
-                {
+                //001b ScriptCoreLibAndroid.Natives android.os.Parcelable
+                //System.InvalidOperationException: SetConstant { FieldName = EMPTY_STATE, FieldType = android.view.AbsSavedState }
 
-                    Console.WriteLine(
+                yi.IsLiteral = false;
 
-                    "InternalSetConstant " + new { fi.DeclaringType.FullName, fi.Name, RawConstantValueType, fi.FieldType }
-
-                        );
-
-                    yi.IsLiteral = false;
-                }
-                //throw new InvalidOperationException(
-                //);
+                // enum?
+                return;
             }
+
+            var RawConstantValueType = RawConstantValue.GetType();
+
+            if (RawConstantValueType == typeof(int))
+                yi.LiteralInt32 = (int)RawConstantValue;
+            else if (RawConstantValueType == typeof(short))
+                yi.LiteralInt16 = (short)RawConstantValue;
+            else if (RawConstantValueType == typeof(long))
+                yi.LiteralInt64 = (long)RawConstantValue;
+            else if (RawConstantValueType == typeof(sbyte))
+                yi.LiteralInt8 = (byte)(sbyte)RawConstantValue;
+            else if (fi.FieldType == typeof(string))
+                yi.LiteralString = (string)RawConstantValue;
+            else
+            {
+
+                Console.WriteLine(
+
+                "InternalSetConstant " + new { fi.DeclaringType.FullName, fi.Name, RawConstantValueType, fi.FieldType }
+
+                    );
+
+                yi.IsLiteral = false;
+            }
+            //throw new InvalidOperationException(
+            //);
         }
 
         public string[] PrimaryTypes
