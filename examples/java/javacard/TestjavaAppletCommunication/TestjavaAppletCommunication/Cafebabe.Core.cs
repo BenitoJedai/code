@@ -4,6 +4,7 @@ using javacard.framework;
 using javacard.security;
 using javacardx.crypto;
 using JavacardAppletExample2;
+using System.Collections.Generic;
     
 namespace JavacardAppletExample
 {
@@ -30,13 +31,13 @@ namespace JavacardAppletExample
             if (APDU.getProtocol() != APDU.PROTOCOL_MEDIA_USB)
             {
 
-                //var buffer = apdu.getBuffer();
+                var buffer = apdu.getBuffer();
 
-                //var CLA = buffer[ISO7816Constants.OFFSET_CLA];
-                //var INS = buffer[ISO7816Constants.OFFSET_INS];
-                //var P1 = buffer[ISO7816Constants.OFFSET_P1];
-                //var P2 = buffer[ISO7816Constants.OFFSET_P2];
-                //var LC = buffer[ISO7816Constants.OFFSET_LC];
+                var CLA = buffer[ISO7816Constants.OFFSET_CLA];
+                var INS = buffer[ISO7816Constants.OFFSET_INS];
+                var P1 = buffer[ISO7816Constants.OFFSET_P1];
+                var P2 = buffer[ISO7816Constants.OFFSET_P2];
+                var LC = buffer[ISO7816Constants.OFFSET_LC];
 
                 //var rets = new sbyte[5];
                 //rets[0] = CLA;
@@ -50,10 +51,22 @@ namespace JavacardAppletExample
 
 
                 //reply(apdu, INS, P1, P2, LC);
+                List<sbyte[]> whiteList = new List<sbyte[]>();
+
+                byte[] masterFile = new byte[] { 0x00, 0xA4, 0x00, 0x0C };
+                byte[] EEEEcatalogue = new byte[] { 0x00, 0xA4, 0x01, 0x0C, 0x02, 0xEE, 0xEE };
+                byte[] setSecEnv1 = new byte[] { 0x00, 0x22, 0xF3, 0x01 };
+                byte[] pin2VerifyPartly = new byte[] { 0x00, 0x20, 0x00, 0x02 }; //additional Pin2 len and Pin2 as ASCII
 
 
-                byte[] t = { 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0x00, 0x02, 0x02 };
-                var casted = (sbyte[])(object)t;
+                whiteList.Add((sbyte[])(object)masterFile);
+                whiteList.Add((sbyte[])(object)EEEEcatalogue);
+                whiteList.Add((sbyte[])(object)setSecEnv1); 
+
+
+
+                byte[] AID = { 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0x00, 0x02, 0x02 };
+                var casted = (sbyte[])(object)AID;
                 var s = new AID(casted, 0, (sbyte)casted.Length);
 
 
