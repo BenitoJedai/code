@@ -12,7 +12,7 @@ using ScriptCoreLib.Ultra.WebService;
 using System.Threading;
 using android.nfc.tech;
 
-namespace AndroidNFCExperiment
+namespace AndroidNFCIsoDepTest
 {
     public class ApplicationWebService
     {
@@ -44,7 +44,7 @@ namespace AndroidNFCExperiment
                 activity.GetType().ToClass()
                 );
 
-            // /ActivityManager(  510): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { act=android.nfc.action.TECH_DISCOVERED cmp=AndroidNFCExperiment.Activities/.ApplicationWebServiceActivity (has extras) }
+            // /ActivityManager(  510): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { act=android.nfc.action.TECH_DISCOVERED cmp=AndroidNFCIsoDepTest.Activities/.ApplicationWebServiceActivity (has extras) }
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             //intent.addFlags(Intent.flag);
             //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -113,7 +113,7 @@ namespace AndroidNFCExperiment
 
             filters[0].addCategory(Intent.CATEGORY_DEFAULT);
 
-            //V:\src\AndroidNFCExperiment\ApplicationWebService.java:57: unreported exception android.content.IntentFilter.MalformedMimeTypeException; must be caught or declared to be thrown
+            //V:\src\AndroidNFCIsoDepTest\ApplicationWebService.java:57: unreported exception android.content.IntentFilter.MalformedMimeTypeException; must be caught or declared to be thrown
             try
             {
                 filters[0].addDataType("*/*");
@@ -145,18 +145,18 @@ namespace AndroidNFCExperiment
                 {
                     var action = i.getAction();
 
-                   
 
 
 
-                    Console.WriteLine("AndroidNFCExperiment AtNewIntent " + new { action });
+
+                    Console.WriteLine("AndroidNFCIsoDepTest AtNewIntent " + new { action });
 
                     //I/System.Console(25300): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED }
 
                     #region android.nfc.action.TECH_DISCOVERED
                     if (action == "android.nfc.action.TECH_DISCOVERED")
                     {
-                        //                    U:\src\AndroidNFCExperiment\ApplicationWebService___c__DisplayClass4.java:93: <identifier> expected
+                        //                    U:\src\AndroidNFCIsoDepTest\ApplicationWebService___c__DisplayClass4.java:93: <identifier> expected
                         //private static Tag _<.cctor>b__0_Isinst_0064(Object _0064)
                         //                     ^
 
@@ -166,8 +166,8 @@ namespace AndroidNFCExperiment
                         //I/System.Console(26970): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, tag =  }
                         //D/AndroidRuntime(26970): Shutting down VM
                         //W/dalvikvm(26970): threadid=1: thread exiting with uncaught exception (group=0x419dc700)
-                        //I/ActivityManager(  440): START u0 {act=android.nfc.action.TECH_DISCOVERED flg=0x20000000 cmp=AndroidNFCExperiment.Activities/.ApplicationWebServiceActivity (has extras)} from pid -1
-                        //W/ActivityManager(  440): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { act=android.nfc.action.TECH_DISCOVERED flg=0x20000000 cmp=AndroidNFCExperiment.Activities/.ApplicationWebServiceActivity (has extras) }
+                        //I/ActivityManager(  440): START u0 {act=android.nfc.action.TECH_DISCOVERED flg=0x20000000 cmp=AndroidNFCIsoDepTest.Activities/.ApplicationWebServiceActivity (has extras)} from pid -1
+                        //W/ActivityManager(  440): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { act=android.nfc.action.TECH_DISCOVERED flg=0x20000000 cmp=AndroidNFCIsoDepTest.Activities/.ApplicationWebServiceActivity (has extras) }
 
                         //var tag = (Tag)intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
@@ -181,8 +181,8 @@ namespace AndroidNFCExperiment
 
 
 
-                        //                        I/ActivityManager(  440): START u0 {act=android.nfc.action.TECH_DISCOVERED flg=0x20000000 cmp=AndroidNFCExperiment.Activities/.ApplicationWebServiceActivity (has extras)} from pid -1
-                        //W/ActivityManager(  440): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { act=android.nfc.action.TECH_DISCOVERED flg=0x20000000 cmp=AndroidNFCExperiment.Activities/.ApplicationWebServiceActivity (has extras) }
+                        //                        I/ActivityManager(  440): START u0 {act=android.nfc.action.TECH_DISCOVERED flg=0x20000000 cmp=AndroidNFCIsoDepTest.Activities/.ApplicationWebServiceActivity (has extras)} from pid -1
+                        //W/ActivityManager(  440): startActivity called from non-Activity context; forcing Intent.FLAG_ACTIVITY_NEW_TASK for: Intent { act=android.nfc.action.TECH_DISCOVERED flg=0x20000000 cmp=AndroidNFCIsoDepTest.Activities/.ApplicationWebServiceActivity (has extras) }
                         //I/System.Console(30978): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED }
                         //I/NfcDispatcher(  747): matched TECH override
                         //I/System.Console(30978): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG }
@@ -259,12 +259,84 @@ namespace AndroidNFCExperiment
                                                        android.nfc.tech.IsoDep.get(tag).With(
                                                            m =>
                                                            {
-                                                               Console.WriteLine("Isodep exists");
+                                                               try
+                                                               {
+                                                                   Console.WriteLine("Isodep exists");
+
+                                                                   //AID A0 A1 A2 A3 A4 00 03 01
+                                                                   byte[] AID = {0x00, 0xA4, 0x04, 0x00, 0x08, //Applet selection APDU
+                                                                                    0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0x00, 0x03, 0x01 }; //Applet AID
+                                                                   var sByteArr = (sbyte[])(object)AID;
+                                                                   m.connect();
+                                                                   var res = m.transceive(sByteArr);
+                                                                   //Console.WriteLine("Result " + Convert.ToBase64String((byte[])(object)res));
+
+                                                                   var resString = ((byte[])(object)res).ToHexString();
+
+                                                                   Console.WriteLine("Result = " + resString);
+
+                                                                   //Console.WriteLine("Result[0] = " + res[0].ToString());
+                                                                   //Console.WriteLine("Result[1] = " + res[1].ToString());
+                                                                   Console.WriteLine("Result lenght = " + res.Length);
+
+                                                                    //I/System.Console( 9340): Isodep exists
+                                                                    //I/System.Console( 9340): Result [B@427ebd50
+                                                                    //I/System.Console( 9340): Result = 9000
+                                                                    //I/System.Console( 9340): Result lenght = 2
+                                                                    //I/System.Console( 9340): Applet select failed
+
+                                                                   if (resString == "9000")
+                                                                   {
+                                                                        //I/System.Console(10829): Isodep exists
+                                                                        //I/System.Console(10829): Result = 9000
+                                                                        //I/System.Console(10829): Result lenght = 2
+                                                                        //I/System.Console(10829): Succsessful applet selection
+                                                                        //I/System.Console(10829): Last name =6f00
+                                                                        //I/System.Console(10829): Last name len =2
+                                                                        //I/System.Console(10829): First name =6f00
+                                                                        //I/System.Console(10829): First name len =2
+
+
+                                                                       Console.WriteLine("Succsessful applet selection");
+
+                                                                       byte[] lastName = { 0x00, 0xB2, 0x01, 0x04, 0x00 };
+                                                                       byte[] firstName = { 0x00, 0xB2, 0x02, 0x04, 0x00 };
+
+                                                                       var t1 = (sbyte[])(object)lastName;
+                                                                       var t2 = (sbyte[])(object)firstName;
+                                                                       var lastN = m.transceive(t1);
+                                                                       Console.WriteLine("Last name =" + ((byte[])(object)lastN).ToHexString());
+                                                                       Console.WriteLine("Last name len =" + lastN.Length);
+                                                                       
+
+                                                                       var firstN = m.transceive(t2);
+                                                                       Console.WriteLine("First name =" + ((byte[])(object)firstN).ToHexString());
+                                                                       Console.WriteLine("First name len =" + firstN.Length);
+
+                                                                        //I/System.Console(11937): Isodep exists
+                                                                        //I/System.Console(11937): Result = 9000
+                                                                        //I/System.Console(11937): Result lenght = 2
+                                                                        //I/System.Console(11937): Succsessful applet s
+                                                                        //I/System.Console(11937): Last name =6b6969766
+                                                                        //I/System.Console(11937): Last name len =8
+                                                                        //I/System.Console(11937): First name =6a6f6e61
+                                                                        //I/System.Console(11937): First name len =7
+                                                                   }
+                                                                   else
+                                                                   {
+                                                                       Console.WriteLine("Applet select failed");
+                                                                   }
+                                                               }
+                                                               catch (Exception e)
+                                                               {
+                                                                   Console.WriteLine("Exception ="+e.Message);
+
+                                                               }
                                                                
                                                            }
                                                        );
                                                    }
-                                                   
+
                                                }
                                            );
 
@@ -344,21 +416,21 @@ namespace AndroidNFCExperiment
                 delegate
                 {
 
-                    Console.WriteLine("AndroidNFCExperiment AtResume");
+                    Console.WriteLine("AndroidNFCIsoDepTest AtResume");
                     adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
                 };
 
             //     Caused by: java.lang.IllegalStateException: Foreground dispatch can only be enabled when your activity is resumed
             //at android.nfc.NfcAdapter.enableForegroundDispatch(NfcAdapter.java:1135)
 
-            Console.WriteLine("before AndroidNFCExperiment enableForegroundDispatch ?");
+            Console.WriteLine("before AndroidNFCIsoDepTest enableForegroundDispatch ?");
             //adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
 
 
             activity.AtPause +=
                delegate
                {
-                   Console.WriteLine("AndroidNFCExperiment AtPause");
+                   Console.WriteLine("AndroidNFCIsoDepTest AtPause");
                    adapter.disableForegroundDispatch(activity);
                };
         }
