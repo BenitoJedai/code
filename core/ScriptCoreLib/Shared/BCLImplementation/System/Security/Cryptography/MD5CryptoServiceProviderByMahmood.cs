@@ -1,26 +1,120 @@
 using System;
+using System.Text;
 
 
-namespace MD5
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 {
 
 
 
-    /*******************************************************
-     * Programmed by
-     *			 syed Faraz mahmood 
-     *				Student NU FAST ICS
-     * can be reached at s_faraz_mahmood@hotmail.com
-     * 
-     * 
-     * 
-     * *******************************************************/
 
-    /// <summary>
-    /// Summary description for MD5.
-    /// </summary>
-    public class MD5
+    [ScriptCoreLib.Script]
+    public class __MD5CryptoServiceProviderByMahmood
     {
+
+        /*******************************************************
+         * Programmed by
+         *			 syed Faraz mahmood 
+         *				Student NU FAST ICS
+         * can be reached at s_faraz_mahmood@hotmail.com
+         * 
+         * 
+         * 
+         * *******************************************************/
+
+        [Script]
+        public enum __MD5InitializerConstant : uint
+        {
+            A = 0x67452301,
+            B = 0xEFCDAB89,
+            C = 0x98BADCFE,
+            D = 0X10325476
+        }
+
+        /// <summary>
+        /// Represent digest with ABCD
+        /// </summary>
+        [Script]
+        sealed public class __Digest
+        {
+            public uint A;
+            public uint B;
+            public uint C;
+            public uint D;
+
+            public __Digest()
+            {
+                A = (uint)__MD5InitializerConstant.A;
+                B = (uint)__MD5InitializerConstant.B;
+                C = (uint)__MD5InitializerConstant.C;
+                D = (uint)__MD5InitializerConstant.D;
+            }
+
+            public override string ToString()
+            {
+                // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Int32.cs
+
+                return new StringBuilder()
+                    .Append(__MD5Helper.ReverseByte(A).ToString("X8"))
+                    .Append(__MD5Helper.ReverseByte(B).ToString("X8"))
+                    .Append(__MD5Helper.ReverseByte(C).ToString("X8"))
+                    .Append(__MD5Helper.ReverseByte(D).ToString("X8")).ToString();
+
+            }
+
+        }
+
+
+        /// <summary>
+        /// helper class providing suporting function
+        /// </summary>
+        [Script]
+        sealed public class __MD5Helper
+        {
+
+            private __MD5Helper() { }
+
+            /// <summary>
+            /// Left rotates the input word
+            /// </summary>
+            /// <param name="uiNumber">a value to be rotated</param>
+            /// <param name="shift">no of bits to be rotated</param>
+            /// <returns>the rotated value</returns>
+            public static uint RotateLeft(uint uiNumber, ushort shift)
+            {
+                // 0:26ms RotateLeft { uiNumber = 3614090487, shift = 7, value = -21 } view-source:36394
+                // RotateLeft { uiNumber = 3614090487, shift = 7, value = 3042081771 }
+
+                var value = ((uiNumber >> 32 - shift) | (uiNumber << shift));
+
+                //Console.WriteLine(
+                //   "RotateLeft " +
+                //   new { uiNumber, shift, value }
+                //   );
+
+                return value;
+            }
+
+            /// <summary>
+            /// perform a ByteReversal on a number
+            /// </summary>
+            /// <param name="uiNumber">value to be reversed</param>
+            /// <returns>reversed value</returns>
+            public static uint ReverseByte(uint uiNumber)
+            {
+                return (((uiNumber & 0x000000ff) << 24) |
+                            (uiNumber >> 24) |
+                        ((uiNumber & 0x00ff0000) >> 8) |
+                        ((uiNumber & 0x0000ff00) << 8));
+            }
+        }
+
+
+
+
+
+        // X:\jsc.svn\examples\javascript\GravatarExperiment\GravatarExperiment\ApplicationWebService.cs
+
         /***********************VARIABLES************************************/
 
 
@@ -56,7 +150,7 @@ namespace MD5
         /// <summary>
         /// the finger print obtained. 
         /// </summary>
-        protected Digest dgFingerPrint;
+        public __Digest dgFingerPrint;
 
         /// <summary>
         /// the input bytes
@@ -64,15 +158,6 @@ namespace MD5
         protected byte[] m_byteInput;
 
 
-
-        /**********************EVENTS AND DELEGATES*******************************************/
-
-        public delegate void ValueChanging(object sender, MD5ChangingEventArgs Changing);
-        public delegate void ValueChanged(object sender, MD5ChangedEventArgs Changed);
-
-
-        public event ValueChanging OnValueChanging;
-        public event ValueChanged OnValueChanged;
 
 
 
@@ -92,9 +177,6 @@ namespace MD5
             }
             set
             {
-                /// raise the event to notify the changing
-                if (this.OnValueChanging != null)
-                    this.OnValueChanging(this, new MD5ChangingEventArgs(value));
 
                 m_byteInput = new byte[value.Length];
                 for (int i = 0; i < value.Length; i++)
@@ -102,9 +184,6 @@ namespace MD5
                 dgFingerPrint = CalculateMD5Value();
 
 
-                /// notify the changed  value
-                if (this.OnValueChanged != null)
-                    this.OnValueChanged(this, new MD5ChangedEventArgs(value, dgFingerPrint.ToString()));
             }
         }
 
@@ -122,7 +201,7 @@ namespace MD5
         /// <summary>
         /// Constructor
         /// </summary>
-        public MD5()
+        public __MD5CryptoServiceProviderByMahmood()
         {
             //Value="";
 
@@ -138,12 +217,12 @@ namespace MD5
         /// calculat md5 signature of the string in Input
         /// </summary>
         /// <returns> Digest: the finger print of msg</returns>
-        protected Digest CalculateMD5Value()
+        protected __Digest CalculateMD5Value()
         {
             /***********vairable declaration**************/
             byte[] bMsg;	//buffer to hold bits
             uint N;			//N is the size of msg as  word (32 bit) 
-            Digest dg = new Digest();			//  the value to be returned
+            __Digest dg = new __Digest();			//  the value to be returned
 
             // jsc can handle local byrefs for now
             var dg_A = dg.A;
@@ -183,7 +262,7 @@ namespace MD5
         /// </summary>
         protected void TransF(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
         {
-            a = b + MD5Helper.RotateLeft((a + ((b & c) | (~(b) & d)) + X[k] + T[i - 1]), s);
+            a = b + __MD5Helper.RotateLeft((a + ((b & c) | (~(b) & d)) + X[k] + T[i - 1]), s);
         }
 
         /// <summary>
@@ -191,7 +270,7 @@ namespace MD5
         /// </summary>
         protected void TransG(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
         {
-            a = b + MD5Helper.RotateLeft((a + ((b & d) | (c & ~d)) + X[k] + T[i - 1]), s);
+            a = b + __MD5Helper.RotateLeft((a + ((b & d) | (c & ~d)) + X[k] + T[i - 1]), s);
         }
 
         /// <summary>
@@ -199,7 +278,7 @@ namespace MD5
         /// </summary>
         protected void TransH(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
         {
-            a = b + MD5Helper.RotateLeft((a + (b ^ c ^ d) + X[k] + T[i - 1]), s);
+            a = b + __MD5Helper.RotateLeft((a + (b ^ c ^ d) + X[k] + T[i - 1]), s);
         }
 
         /// <summary>
@@ -207,7 +286,7 @@ namespace MD5
         /// </summary>
         protected void TransI(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
         {
-            a = b + MD5Helper.RotateLeft((a + (c ^ (b | ~d)) + X[k] + T[i - 1]), s);
+            a = b + __MD5Helper.RotateLeft((a + (c ^ (b | ~d)) + X[k] + T[i - 1]), s);
         }
 
 

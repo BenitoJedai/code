@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Ultra.Library.Extensions
 {
 	public static class SHA1CryptographyExtensions
 	{
-
+        // used by?
         public static byte[] FileNameToSHA1Bytes(this string Input)
         {
             var SourceHash = default(byte[]);
