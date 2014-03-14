@@ -19,6 +19,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return _buffer;
         }
 
+        public static byte[] GetBytes(uint value)
+        {
+            var _buffer = new byte[4];
+            _buffer[0] = (byte)value;
+            _buffer[1] = (byte)(value >> 8);
+            _buffer[2] = (byte)(value >> 0x10);
+            _buffer[3] = (byte)(value >> 0x18);
+            return _buffer;
+        }
+
+        //        arg[0] is typeof System.UInt32
+        //script: error JSC1000: No implementation found for this native method, please implement [static System.BitConverter.GetBytes(System.UInt32)]
+
         public static byte[] GetBytes(ulong value)
         {
             // http://stackoverflow.com/questions/337355/javascript-bitwise-shift-of-long-long-number

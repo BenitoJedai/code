@@ -12,6 +12,7 @@ using System.Text;
 using System.Xml.Linq;
 using GravatarExperiment.Design;
 using GravatarExperiment.HTML.Pages;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace GravatarExperiment
 {
@@ -34,14 +35,20 @@ namespace GravatarExperiment
             page.CheckForGravatarInBrowser.onclick +=
                 delegate
                 {
-                    var a = new MD5.MD5();
+                    //script: error JSC1000: No implementation found for this native method, please implement [System.Security.Cryptography.HashAlgorithm.ComputeHash(System.Byte[])]
+                    //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+                    //script: error JSC1000: error at ScriptCoreLib.Ultra.Library.Extensions.CryptographyExtensions.ToMD5Bytes,
+                    // assembly: V:\GravatarExperiment.Application.exe
 
-                    //a.FingerPrint
-                    a.ValueAsByte = Encoding.UTF8.GetBytes(page.email.value.ToLower());
+                    //var a = new MD5.MD5();
 
+                    ////a.FingerPrint
+                    //a.ValueAsByte = Encoding.UTF8.GetBytes(page.email.value.ToLower());
 
-                    //var hash = Encoding.UTF8.GetBytes(e.ToLower()).ToMD5Bytes().ToHexString();
-                    var hash = a.FingerPrint.ToLower();
+                    var e = page.email.value;
+
+                    var hash = Encoding.UTF8.GetBytes(e.ToLower()).ToMD5Bytes().ToHexString();
+                    //var hash = a.FingerPrint.ToLower();
 
                     new IHTMLPre { new { hash } }.AttachToDocument();
 
@@ -55,6 +62,8 @@ namespace GravatarExperiment
                     this.Gravatar(page.email.value,
                         avatar: src =>
                         {
+                            new IHTMLPre { new { src } }.AttachToDocument();
+
                             page.avatar.src = src;
                         },
 
