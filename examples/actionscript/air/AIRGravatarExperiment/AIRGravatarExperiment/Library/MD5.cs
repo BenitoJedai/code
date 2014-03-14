@@ -229,19 +229,19 @@ namespace MD5
 
             var T_i = T[i - 1];
 
-            Console.WriteLine("TransF " + new { T_i });
+            //Console.WriteLine("TransF " + new { T_i });
 
             var b_c = (b & c);
 
-            Console.WriteLine("TransF " + new { b_c });
+            //Console.WriteLine("TransF " + new { b_c });
 
             var b_d = (~(b) & d);
 
-            Console.WriteLine("TransF " + new { b_d });
+            //Console.WriteLine("TransF " + new { b_d });
 
             var b_c_b_d = b_c | b_d;
 
-            Console.WriteLine("TransF " + new { b_c_b_d });
+            //Console.WriteLine("TransF " + new { b_c_b_d });
 
             // ((((ref$b[0] + m) + i) + j) & 0xffffffff) >>> 0
             // X:\jsc.svn\examples\javascript\test\TestUInt32AddOvf\TestUInt32AddOvf\Application.cs
@@ -445,7 +445,9 @@ namespace MD5
             {
                 var value3 = ((uint)bMsg[block + (j + 3)]) << 24;
                 var value2 = ((uint)bMsg[block + (j + 2)]) << 16;
-                var value1 = ((uint)bMsg[block + (j + 1)]) << 8;
+
+                var offset1 = block + (j + 1);
+                var value1 = ((uint)bMsg[offset1]) << 8;
 
                 //0:38ms CopyBlock { offset = 13, value = 0, value3 = 0, value2 = 0, value1 = 0, value0 = 0 } view-source:36394
                 //0:38ms CopyBlock { offset = 14, value = 40, value3 = 0, value2 = 0, value1 = 0, value0 = 40 } view-source:36394
@@ -465,7 +467,7 @@ namespace MD5
 
                 var offset = j >> 2;
 
-                Console.WriteLine("CopyBlock " + new { offset, value, value3, value2, value1, block, j, value0 });
+                Console.WriteLine("CopyBlock " + new { offset, value, value3, value2, offset1, value1, block, j, value0 });
                 X[offset] = value;
 
             }
