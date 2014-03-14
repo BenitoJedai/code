@@ -10,6 +10,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         ImplementationType = typeof(global::ScriptCoreLib.ActionScript.@uint))]
     internal class __UInt32
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\UInt32.cs
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\UInt32.cs
 
         // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/package.html#parseInt()
@@ -60,6 +61,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 
 
+        #region ToString
         [Script(DefineAsStatic = true)]
         public string ToString(string format)
         {
@@ -106,6 +108,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
             return u.Substring((e >> 4) & 0xF, 1) + u.Substring((e >> 0) & 0xF, 1);
         }
+        #endregion
 
 
 
