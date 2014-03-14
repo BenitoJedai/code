@@ -110,6 +110,8 @@
     <Compile Include="Extensions\CoreStringExtensions.cs" />
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\UInt64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\UInt32.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int16.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="JavaScript\DOM\FileEntry.cs" />
     <Compile Include="JavaScript\DOM\Storage.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGTSpanElement.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\BitArray.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\ObjectModel\ReadOnlyCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\AddingNewEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\AddingNewEventHandler.cs" />

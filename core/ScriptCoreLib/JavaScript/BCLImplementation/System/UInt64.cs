@@ -7,20 +7,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     using ScriptCoreLib.JavaScript.Runtime;
 
-    [Script(Implements = typeof(global::System.UInt32))]
-    internal class __UInt32
+    [Script(Implements = typeof(global::System.UInt64))]
+    internal class __UInt64
     {
         #region OptimizedCode
         [Script(OptimizedCode = "return parseInt(e, radix);")]
-        static public uint parseInt(string e, long radix = 10)
+        static public ulong parseInt(string e, long radix = 10)
         {
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
 
-            return default(int);
+            return default(ulong);
         }
 
         [Script(OptimizedCode = "return isNaN(d);")]
-        public static bool isNaN(uint d)
+        public static bool isNaN(ulong d)
         {
             return default(bool);
 
@@ -30,9 +30,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
+        [Script(DefineAsStatic = true)]
+        public static ulong Parse(string s, NumberStyles style)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestULongShift\TestULongShift\ApplicationControl.cs
+
+            var x = default(ulong);
+
+            if (style == NumberStyles.HexNumber)
+            {
+                x = parseInt(s, 16);
+            }
+            else
+            {
+                x = parseInt(s);
+            }
+
+            if (isNaN(x))
+                throw new InvalidOperationException();
+
+            return x;
+        }
 
         [Script(DefineAsStatic = true)]
-        static public uint Parse(string e)
+        static public ulong Parse(string e)
         {
             var x = parseInt(e);
 
@@ -43,26 +64,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
 
-        [Script(DefineAsStatic = true)]
-        static public bool TryParse(string e, out uint result)
-        {
-            // tested by
-            // X:\jsc.svn\examples\javascript\forms\FormsDataGridViewDeleteRow\FormsDataGridViewDeleteRow\ApplicationControl.cs
+        //[Script(DefineAsStatic = true)]
+        //static public bool TryParse(string e, out ulong result)
+        //{
+        //    // script: error JSC1000: unknown opcode stind.i8 at TryParse + 0x001d
 
-            //parseInt('s')
-            //NaN
+        //    // tested by
+        //    // X:\jsc.svn\examples\javascript\forms\FormsDataGridViewDeleteRow\FormsDataGridViewDeleteRow\ApplicationControl.cs
+
+        //    //parseInt('s')
+        //    //NaN
 
 
-            var x = parseInt(e);
-            var nan = isNaN(x);
+        //    var x = parseInt(e);
+        //    var nan = isNaN(x);
 
-            if (nan)
-                result = 0;
-            else
-                result = x;
+        //    if (nan)
+        //        result = 0;
+        //    else
+        //        result = x;
 
-            return !nan;
-        }
+        //    return !nan;
+        //}
 
         [Script(DefineAsStatic = true)]
         public int CompareTo(__UInt32 e)
