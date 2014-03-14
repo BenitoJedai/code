@@ -53,14 +53,20 @@ namespace TestULongShift
 
             textBox5.Text = "" + i;
 
+            var conv_u1 = (byte)i;
+
+            textBox6.Text = new { conv_u1 }.ToString();
+
+
             // X:\jsc.svn\examples\javascript\Test\TestBitShiftRight\TestBitShiftRight\Application.cs
 
             //new BitArray(
             ShowInputBits(i);
 
 
-            //var x = i >> trackBar1.Value;
-            var x = i / pow;
+            var x = i >> trackBar1.Value;
+            //var x = i / pow;
+            //var x = i / pow;
 
             //textBox2.Text = x.ToString("x");
 
@@ -137,6 +143,11 @@ namespace TestULongShift
         private void ApplicationControl_Load(object sender, EventArgs e)
         {
             DoUpdate();
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
     }
