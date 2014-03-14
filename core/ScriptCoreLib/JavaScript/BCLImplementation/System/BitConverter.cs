@@ -21,6 +21,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static byte[] GetBytes(ulong value)
         {
+            // http://stackoverflow.com/questions/337355/javascript-bitwise-shift-of-long-long-number
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140314
 
             // um. if the vm is 32bit then the shift operators
@@ -39,19 +41,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             var xvalue = value;
 
             _buffer[0] = (byte)xvalue;
-            xvalue = xvalue >> 8;
+            //xvalue = xvalue >> 8;
+            xvalue = xvalue / 0x100;
+            //xvalue = xvalue >> 8;
             _buffer[1] = (byte)xvalue;
-            xvalue = xvalue >> 8;
+            xvalue = xvalue / 0x100;
             _buffer[2] = (byte)xvalue;
-            xvalue = xvalue >> 8;
+            xvalue = xvalue / 0x100;
             _buffer[3] = (byte)xvalue;
-            xvalue = xvalue >> 8;
+
+            xvalue = xvalue / 0x100;
             _buffer[4] = (byte)xvalue;
-            xvalue = xvalue >> 8;
+            xvalue = xvalue / 0x100;
             _buffer[5] = (byte)xvalue;
-            xvalue = xvalue >> 8;
+            xvalue = xvalue / 0x100;
             _buffer[6] = (byte)xvalue;
-            xvalue = xvalue >> 8;
+            xvalue = xvalue / 0x100;
             _buffer[7] = (byte)xvalue;
             return _buffer;
         }
