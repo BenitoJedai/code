@@ -198,6 +198,22 @@ namespace MD5
                 // jsc do you support ref int and then also ref uint?
                 // X:\jsc.svn\examples\javascript\test\TestByRefUInt32\TestByRefUInt32\Class1.cs
                 PerformTransformation(ref dg_A, ref dg_B, ref dg_C, ref dg_D);
+
+                //RotateLeft { uiNumber = 2911426732, shift = 21, value = 362131739 }
+                //CalculateMD5Value PerformTransformation { i = 0, dg_A = 3649838548, dg_B = 78774415, dg_C = 2550759657, dg_D = 2118318316 }
+                //CalculateMD5Value exit { dg_A = 3649838548, dg_B = 78774415, dg_C = 2550759657, dg_D = 2118318316 }
+                //CalculateMD5Value enter { dg_A = 1732584193, dg_B = 4023233417, dg_C = 2562383102, dg_D = 271733878 }
+                //RotateLeft { uiNumber = 1138166239, shift = 7, value = 3951357857 }
+
+                //0:31ms CalculateMD5Value PerformTransformation { i = 0, dg_A = 141088792020, dg_B = 150402629775, dg_C = 148579647721, dg_D = 143852239084 } view-source:36394
+                //0:31ms CalculateMD5Value exit { dg_A = 141088792020, dg_B = 150402629775, dg_C = 148579647721, dg_D = 143852239084 } view-source:36394
+                //0:33ms CalculateMD5Value enter { dg_A = 1732584193, dg_B = 4023233417, dg_C = 2562383102, dg_D = 271733878 } view-source:36394
+                //0:33ms RotateLeft { uiNumber = 9728100831, shift = 7, value = 3951357857 } 
+
+                Console.WriteLine(
+                    "CalculateMD5Value PerformTransformation " +
+                    new { i, dg_A, dg_B, dg_C, dg_D }
+                    );
             }
 
 
@@ -224,9 +240,52 @@ namespace MD5
         /// <summary>
         /// perform transformatio using f(((b&c) | (~(b)&d))
         /// </summary>
-        protected void TransF(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
+        public void TransF(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
         {
-            a = b + MD5Helper.RotateLeft((a + ((b & c) | (~(b) & d)) + X[k] + T[i - 1]), s);
+            //0:31ms TransF enter { a = 1298439783, b = 3640036287, c = 4287987886, d = 1158240751, k = 15, s = 22, i = 16 } view-source:36394
+            //0:31ms TransF exit { a = 3230906716, b = 3640036287, c = 4287987886, d = 1158240751, k = 15, s = 22, i = 16 } view-source:36394
+            //0:32ms PerformTransformation exit { AA = 1732584193, A = 1676787624, AAA = 3409371817 } 
+
+            //TransF enter { a = 1298439783, b = 3640036287, c = 4287987886, d = 1158240751, k = 15, s = 22, i = 16 }
+            //TransF exit { a = 3063134556, b = 3640036287, c = 4287987886, d = 1158240751, k = 15, s = 22, i = 16 }
+            //PerformTransformation exit { AA = 1732584193, A = 3271237212, AAA = 708854109 }
+
+
+
+            //   ref$b[0] = (c + ZAAABlo95zeSv7E3WiwqXw((((ref$b[0] + ((((c & d) >>> 0) | ((~c & e) >>> 0)) >>> 0)) + a[0].X[(~~f)]) + DwAABCsrrziddgpvRTLKgg[(~~(h - 1))]), g));
+
+            var X_k = X[k];
+
+            Console.WriteLine(
+               "TransF enter " +
+               new { a, b, c, d, k, s, i, X_k }
+               );
+
+            var T_i = T[i - 1];
+
+            var b_c = (b & c);
+            var b_d = (~(b) & d);
+
+            var b_c_b_d = b_c | b_d;
+
+            // ((((ref$b[0] + m) + i) + j) & 0xffffffff) >>> 0
+            // X:\jsc.svn\examples\javascript\test\TestUInt32AddOvf\TestUInt32AddOvf\Application.cs
+
+            var uiNumber = a
+                + b_c_b_d
+                + X_k + T_i;
+
+            a = b + MD5Helper.RotateLeft(
+                uiNumber,
+                s
+            );
+
+
+
+            Console.WriteLine(
+               "TransF exit " +
+               new { a, b, c, d, k, s, i }
+               );
         }
 
         /// <summary>
@@ -273,6 +332,9 @@ namespace MD5
             uint AA, BB, CC, DD;
 
             AA = A;
+
+            Console.WriteLine("PerformTransformation entr " + new { AA, A });
+
             BB = B;
             CC = C;
             DD = D;
@@ -318,8 +380,12 @@ namespace MD5
             TransI(ref A, B, C, D, 8, 6, 57); TransI(ref D, A, B, C, 15, 10, 58); TransI(ref C, D, A, B, 6, 15, 59); TransI(ref B, C, D, A, 13, 21, 60);
             TransI(ref A, B, C, D, 4, 6, 61); TransI(ref D, A, B, C, 11, 10, 62); TransI(ref C, D, A, B, 2, 15, 63); TransI(ref B, C, D, A, 9, 21, 64);
 
+            var AAA = A + AA;
+            Console.WriteLine("PerformTransformation exit " + new { AA, A, AAA });
 
-            A = A + AA;
+            A = AAA;
+
+
             B = B + BB;
             C = C + CC;
             D = D + DD;
@@ -356,13 +422,34 @@ namespace MD5
 
             ////copying string to buffer 
             for (int i = 0; i < m_byteInput.Length; i++)
-                bMsg[i] = m_byteInput[i];
+            {
+                var value = m_byteInput[i];
+                bMsg[i] = value;
+
+                Console.WriteLine("CreatePaddedBuffer " + new { i, value });
+
+            }
 
             bMsg[m_byteInput.Length] |= 0x80;		///making first bit of padding 1,
 
             //wrting the size value
             for (int i = 8; i > 0; i--)
-                bMsg[sizeMsgBuff - i] = (byte)(sizeMsg >> ((8 - i) * 8) & 0x00000000000000ff);
+            {
+
+                var offset = sizeMsgBuff - i;
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140314
+                // X:\jsc.svn\examples\javascript\Test\TestBitShiftRight\TestBitShiftRight\Application.cs
+
+                // 0:32ms CreatePaddedBuffer { i = 4, offset = 60, value = 40, sizeMsg = 40 } 
+                var value = (byte)(sizeMsg >> ((8 - i) * 8) & 0x00000000000000ff);
+
+                // 0:51ms CreatePaddedBuffer { offset = 60, value = 40 } 
+                Console.WriteLine("CreatePaddedBuffer " + new { i, offset, value, sizeMsg });
+
+
+                bMsg[offset] = value;
+            }
 
             return bMsg;
         }
@@ -379,10 +466,30 @@ namespace MD5
             block = block << 6;
             for (uint j = 0; j < 61; j += 4)
             {
-                X[j >> 2] = (((uint)bMsg[block + (j + 3)]) << 24) |
-                        (((uint)bMsg[block + (j + 2)]) << 16) |
-                        (((uint)bMsg[block + (j + 1)]) << 8) |
-                        (((uint)bMsg[block + (j)]));
+                var value3 = ((uint)bMsg[block + (j + 3)]) << 24;
+                var value2 = ((uint)bMsg[block + (j + 2)]) << 16;
+                var value1 = ((uint)bMsg[block + (j + 1)]) << 8;
+
+                //0:38ms CopyBlock { offset = 13, value = 0, value3 = 0, value2 = 0, value1 = 0, value0 = 0 } view-source:36394
+                //0:38ms CopyBlock { offset = 14, value = 40, value3 = 0, value2 = 0, value1 = 0, value0 = 40 } view-source:36394
+                //0:38ms CopyBlock { offset = 15, value = 40, value3 = 0, value2 = 0, value1 = 0, value0 = 40 } 
+
+                //CreatePaddedBuffer { i = 2, offset = 62, value = 0, sizeMsg = 40 }
+                //CreatePaddedBuffer { i = 1, offset = 63, value = 0, sizeMsg = 40 }
+
+                // suspect.
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140314
+                var value0 = (((uint)bMsg[block + (j)]));
+
+                var value = value3 |
+                        value2 |
+                        value1 |
+                        value0;
+
+                var offset = j >> 2;
+
+                Console.WriteLine("CopyBlock " + new { offset, value, value3, value2, value1, block, j, value0 });
+                X[offset] = value;
 
             }
         }

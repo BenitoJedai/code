@@ -65,8 +65,9 @@ namespace TestMD5Experiment
             var a = new MD5.MD5();
 
             //a.FingerPrint
-            a.Value = "";
+            a.Value = "hello";
 
+            // -- { FingerPrint = D41D8CD98F00B204E9800998ECF8427E }
             // a.FingerPrint = "D41D8CD98F00B204E9800998ECF8427E"
             // { FingerPrint = FFFFFFA3FFFFFFF8FFFFFFA1FFFFFFBD }
             new IHTMLPre { new { a.FingerPrint } }.AttachToDocument();

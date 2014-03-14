@@ -30,7 +30,8 @@ namespace TestByRefUInt32
 
         public static void Foo()
         {
-            var u = 9u;
+            //  ref$b[0] = -271733879;
+            uint u = 0xEFCDAB89;
 
             Foo(ref u);
         }
