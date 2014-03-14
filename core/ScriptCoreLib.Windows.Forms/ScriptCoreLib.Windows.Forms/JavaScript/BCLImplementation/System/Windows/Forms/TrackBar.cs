@@ -60,6 +60,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Minimum = 0;
             this.Maximum = 10;
 
+
+            this.InternalElement.onmousemove +=
+                e =>
+                {
+                    if (e.MouseButton == DOM.IEvent.MouseButtonEnum.Left)
+                    {
+                        InternalRaiseValueChanged();
+                    }
+                };
+
             this.InternalElement.onchange +=
                 delegate
                 {
