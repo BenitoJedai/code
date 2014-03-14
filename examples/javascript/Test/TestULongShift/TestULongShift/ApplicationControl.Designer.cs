@@ -24,6 +24,7 @@ namespace TestULongShift
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -38,7 +39,7 @@ namespace TestULongShift
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(18, 147);
+            this.trackBar1.Location = new System.Drawing.Point(18, 198);
             this.trackBar1.Maximum = 128;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(742, 56);
@@ -47,21 +48,21 @@ namespace TestULongShift
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(18, 209);
+            this.textBox2.Location = new System.Drawing.Point(18, 260);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(742, 22);
             this.textBox2.TabIndex = 0;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(18, 109);
+            this.textBox3.Location = new System.Drawing.Point(18, 160);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(742, 22);
             this.textBox3.TabIndex = 0;
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(18, 237);
+            this.textBox4.Location = new System.Drawing.Point(18, 288);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(742, 22);
             this.textBox4.TabIndex = 0;
@@ -82,8 +83,17 @@ namespace TestULongShift
             this.textBox5.Size = new System.Drawing.Size(742, 22);
             this.textBox5.TabIndex = 0;
             // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(18, 109);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(742, 22);
+            this.textBox6.TabIndex = 3;
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.textBox6);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.textBox4);
@@ -117,6 +127,7 @@ namespace TestULongShift
         private TextBox textBox4;
         private Label label1;
         private TextBox textBox5;
+        private TextBox textBox6;
 
     }
 }

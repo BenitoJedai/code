@@ -33,7 +33,7 @@ namespace TestBitShiftRight
             // 0:32ms CreatePaddedBuffer { i = 4, offset = 60, value = 40, sizeMsg = 40 } 
             var i = 4;
             //var sizeMsg = 40;
-            ulong sizeMsg = 40;
+            ulong sizeMsg = 0x00ff0000000;
             var e = ((8 - i) * 8);
 
 
