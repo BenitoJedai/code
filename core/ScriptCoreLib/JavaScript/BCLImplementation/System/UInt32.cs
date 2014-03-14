@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.UInt32))]
     internal class __UInt32
     {
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\UInt32.cs
+
         #region OptimizedCode
         [Script(OptimizedCode = "return parseInt(e, radix);")]
         static public uint parseInt(string e, long radix = 10)

@@ -10,6 +10,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         ImplementationType = typeof(global::ScriptCoreLib.ActionScript.@uint))]
     internal class __UInt32
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\UInt32.cs
+
         // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/package.html#parseInt()
         [Script(OptimizedCode = "return uint(parseInt(e));")]
         static public uint Parse(string e)
@@ -52,6 +54,58 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return CompareTo((uint)value);
         }
 
+
+
+
+
+
+
+        [Script(DefineAsStatic = true)]
+        public string ToString(string format)
+        {
+            var value = (int)(object)this;
+
+
+            return InternalToString(format, value);
+        }
+
+        internal static string InternalToString(string format, int value)
+        {
+            //E:\jsc.svn\examples\javascript\Test\TestToStringCurrencyFormat\TestToStringCurrencyFormat\Application.cs
+            if (format == "0.00")
+            {
+                var cent = value % 100;
+                var t = value - cent;
+                var to = t / 100;
+                var total = to + "." + cent.ToString().PadLeft(2, '0');
+                return total;
+            }
+
+            if (format.ToLower() != "x8")
+                throw new NotImplementedException("format");
+
+
+            var s = new StringBuilder();
+
+            s.Append(ToHexString((byte)(value >> 0x18)));
+            s.Append(ToHexString((byte)(value >> 0x10)));
+            s.Append(ToHexString((byte)(value >> 8)));
+            s.Append(ToHexString((byte)(value)));
+
+            if (format == "x8")
+                return s.ToString().ToLower();
+
+            // X:\jsc.svn\examples\javascript\test\TestMD5Experiment\TestMD5Experiment\Library\helper.cs
+
+            return s.ToString().ToUpper();
+        }
+
+        public static string ToHexString(byte e)
+        {
+            const string u = "0123456789abcdef";
+
+            return u.Substring((e >> 4) & 0xF, 1) + u.Substring((e >> 0) & 0xF, 1);
+        }
 
 
 
