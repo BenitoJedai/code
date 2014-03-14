@@ -9,6 +9,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.BitConverter))]
 	internal class __BitConverter
 	{
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\BitConverter.cs
 		public static byte[] GetBytes(int value)
 		{
 			var _buffer = new byte[4];

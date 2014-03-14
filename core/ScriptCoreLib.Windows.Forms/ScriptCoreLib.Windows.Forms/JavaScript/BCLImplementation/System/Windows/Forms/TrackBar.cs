@@ -63,13 +63,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalElement.onchange +=
                 delegate
                 {
-                    if (ValueChanged != null)
-                        ValueChanged(this, new EventArgs());
+                    InternalRaiseValueChanged();
                 };
 
 
             this.Size = new global::System.Drawing.Size(80, 20);
         }
+
+        public event EventHandler Scroll;
 
         public event EventHandler ValueChanged;
         public int Value
@@ -78,9 +79,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 (this.InternalElement as dynamic).value = value;
-                if (ValueChanged != null)
-                    ValueChanged(this, new EventArgs());
+                InternalRaiseValueChanged();
             }
+        }
+
+        private void InternalRaiseValueChanged()
+        {
+            if (ValueChanged != null)
+                ValueChanged(this, new EventArgs());
+
+            // X:\jsc.svn\examples\javascript\Test\TestULongShift\TestULongShift\ApplicationControl.cs
+            if (Scroll != null)
+                Scroll(this, new EventArgs());
         }
 
         public int Maximum
