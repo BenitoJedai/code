@@ -34,6 +34,24 @@ namespace JVMMD5
                typeof(object).AssemblyQualifiedName
             );
 
+            //0001 02000002 JVMMD5__i__d.jvm::JVMMD5.Program
+            //script: error JSC1000: Java : Opcode not implemented: div.un at MD5.MD5Type.CalculateMD5Value
+            //script: error JSC1000: Java : unable to emit stloc.1 at 'MD5.MD5Type.CalculateMD5Value'#0051: Java : Opcode not implemented: div.un at MD5.MD5Type.CalculateMD5Value
+
+
+            //Implementation not found for type import :
+            //type: System.UInt32
+            //method: System.String ToString(System.String)
+            //Did you forget to add the [Script] attribute?
+            //Please double check the signature!
+
+
+            ulong u = 3614090360;
+
+            // { u = -680876936 }
+            Console.WriteLine(new { u });
+
+
             var a = new MD5.MD5Type();
 
             //a.FingerPrint
@@ -45,6 +63,7 @@ namespace JVMMD5
 
             Console.WriteLine(new { hash });
 
+            // { hash = 5eb63bbbe01eeed093cb22bb8f5acdc3 }
             // { hash = 5eb63bbbe01eeed093cb22bb8f5acdc3 }
 
             CLRProgram.CLRMain();
