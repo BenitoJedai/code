@@ -42,23 +42,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
             x.InvokeOnComplete(
                 delegate
                 {
-                    var response = default(byte[]);
+                    var response = new byte[0];
 
                     // UploadValuesAsync { status = 204, responseType = arraybuffer, response = [object Uint8ClampedArray] }
 
                     //if (x.status == 204)
                     // 304?
-                    if (x.status == IXMLHttpRequest.HTTPStatusCodes.NoContent)
-                    {
-                        // android webview  wants us to do this
-                        response = new byte[0];
-                    }
+                    //if (x.status == IXMLHttpRequest.HTTPStatusCodes.NoContent)
+                    //{
+                    //    // android webview  wants us to do this
+                    //    response = new byte[0];
+                    //}
 
                     //Uncaught InvalidStateError: Failed to read the 'responseText' property from 'XMLHttpRequest': 
                     // The value is only accessible if the object's 'responseType' is '' or 'text' (was 'arraybuffer').
 
                     // X:\jsc.svn\examples\javascript\android\com.abstractatech.battery\com.abstractatech.battery\ApplicationWebService.cs
-                    //Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType });
+                    Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType });
 
                     //I/chromium(10616): [INFO:CONSOLE(36216)] "%c0:576ms UploadValuesAsync { status = 204, responseType = arraybuffer }", source: http://192.168.1.103:10129/view-source (36216)
                     //I/chromium(10616): [INFO:CONSOLE(49940)] "Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.", source: http://192.168.1.103:10129/view-source (49940)
@@ -67,6 +67,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
                     if (x.response == null)
                     {
                         //Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType, x.response, x.responseText });
+
+                        //I/Web Console( 5012): %c0:198484ms UploadValuesAsync { status = 200, responseType = arraybuffer } at http://192.168.43.1:9417/view-source:37081
+                        //I/Web Console( 5012): %c0:198500ms UploadValuesAsync { status = 200, responseType = arraybuffer, response = , responseText = <document><avatar><obj>aHR0cDovL3d3dy5ncmF2YXRhci5jb20vYXZhdGFyLzhlNmQzZGUw
+                        //I/Web Console( 5012): %c0:198524ms InternalWebMethodRequest.Complete { Name = Gravatar, Length = 0 } at http://192.168.43.1:9417/view-source:37081
+
+                        // did we not fix it already?
+                        // android 2.3 only seems to have responseText
+
+                        response = Encoding.UTF8.GetBytes(x.responseText);
                     }
                     else
                     {

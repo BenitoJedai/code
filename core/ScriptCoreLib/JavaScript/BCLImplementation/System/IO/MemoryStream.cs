@@ -121,8 +121,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
             {
                 var x = InternalBuffer;
 
+                // workaround:
+                // make sure js vm does not give us a double
+                var value32 = ~~value;
+
                 // shall preserve current buffer
-                InternalBuffer = new byte[value];
+
+                // Web Console( 5281): Uncaught RangeError: Invalid array length at http://192.168.43.1:7362/view-source:33429
+                //I/Web Console( 2345): %c0:31780ms InternalEnsureCapacity { newCapacity = 71 } at http://192.168.43.1:14599/view-source:37084
+                //I/Web Console( 2345): %c0:31783ms MemoryStream set Capacity { value = 71 } at http://192.168.43.1:14599/view-source:37084
+                //I/Web Console( 2345): %c0:31800ms MemoryStream set Capacity { value = 101.33333333333333 } at http://192.168.43.1:14599/view-source:37084
+                //E/Web Console( 2345): Uncaught RangeError: Invalid array length at http://192.168.43.1:14599/view-source:33430
+
+                Console.WriteLine("MemoryStream set Capacity " + new { value, value32 });
+
+                InternalBuffer = new byte[value32];
 
                 if (x != null)
                 {
@@ -166,7 +179,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
         void InternalEnsureCapacity(long TargetCapacity)
         {
             if (Capacity < TargetCapacity)
-                Capacity = (int)(TargetCapacity + (8 + Length / 2));
+            {
+                var newCapacity = (int)(TargetCapacity + (8 + Length / 2));
+
+                //I/Web Console( 2345): %c0:31780ms InternalEnsureCapacity { newCapacity = 71 } at http://192.168.43.1:14599/view-source:37084
+                //I/Web Console( 2345): %c0:31783ms MemoryStream set Capacity { value = 71 } at http://192.168.43.1:14599/view-source:37084
+                //I/Web Console( 2345): %c0:31800ms MemoryStream set Capacity { value = 101.33333333333333 } at http://192.168.43.1:14599/view-source:37084
+                //E/Web Console( 2345): Uncaught RangeError: Invalid array length at http://192.168.43.1:14599/view-source:33430
+
+                Console.WriteLine("InternalEnsureCapacity before " + new { newCapacity });
+                Capacity = newCapacity;
+                Console.WriteLine("InternalEnsureCapacity after " + new { newCapacity });
+            }
         }
 
 

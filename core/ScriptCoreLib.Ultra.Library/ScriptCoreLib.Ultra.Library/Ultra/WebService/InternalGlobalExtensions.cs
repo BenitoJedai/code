@@ -486,7 +486,7 @@ namespace ScriptCoreLib.Ultra.WebService
             // http://stackoverflow.com/questions/1999824/whats-the-shortest-pair-of-strings-that-causes-an-md5-collision
 
             var ETagbytes = wsbytes.ToMD5Bytes();
-            var ETag = ETagbytes.ToHexString();
+            var newETag = ETagbytes.ToHexString();
             // does the client already have a copy of the same response?
             // if so, send 304 ?
             // http://www.codeproject.com/Articles/23857/The-Performance-Woe-of-Binary-XML
@@ -505,15 +505,26 @@ namespace ScriptCoreLib.Ultra.WebService
             {
                 var oldETag64 = Context.Request.Form["ETag"];
                 var oldETagbytes = Convert.FromBase64String(oldETag64);
-                var oldETag = oldETagbytes.ToHexString();
+                var clientETag = oldETagbytes.ToHexString();
 
                 //{ MethodName = Gravatar, MetadataToken = 06000001, oldETag = 1706b464adc232a9df3dd4539a206569 }
                 //{ MethodName = Gravatar, MetadataToken = 06000001, ETag = 1706b464adc232a9df3dd4539a206569 }
 
-                Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, oldETag });
+                Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, clientETag });
 
-                if (oldETag == ETag)
+                //I/System.Console( 3988): #17 POST /xml/Gravatar HTTP/1.1
+                //D/FastDormancy(  220):  before ======= ENTER DORMANCY =======
+                //W/Threeg  (  918): Failed to read packet and byte counts from wifi interface
+                //D/dalvikvm( 3988): GC_CONCURRENT freed 819K, 56% free 3157K/7111K, external 2013K/2108K, paused 2ms+2ms
+                //I/System.Console( 3988): { MethodName = Gravatar, MetadataToken = 06000001, oldETag = d41d8cd98f00b204e9800998ecf8427e }
+                //I/System.Console( 3988): { MethodName = Gravatar, MetadataToken = 06000001, ETag = 5a62b5d768653ae632ba4ff7e0b7a03c }
+                //I/Web Console( 3988): %c0:312066ms InternalWebMethodRequest.Complete { Name = Gravatar, Length = 0 } at http://192.168.43.1:14691/view-source:37081
+                //I/Web Console( 3988): 0:312076ms { Name = Gravatar, MetadataToken = 06000001, ETag = d41d8cd98f00b204e9800998ecf8427e, ElapsedMilliseconds = 5 } at http://192.168.43.1:14691/view-source:37040
+
+                if (clientETag == newETag)
                 {
+                    Console.WriteLine("Client already has the answer, sending 304");
+
                     // what will web client do with 304?
                     g.Context.Response.StatusCode = 304;
                     g.Context.Response.Flush();
@@ -524,8 +535,13 @@ namespace ScriptCoreLib.Ultra.WebService
 
             }
 
-            Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, ETag });
+            Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, newETag, ws.Length });
 
+            //I/System.Console( 4563): #4 POST /xml/Gravatar HTTP/1.1
+            //I/System.Console( 4563): { MethodName = Gravatar, MetadataToken = 06000001, newETag = 1706b464adc232a9df3dd4539a206569, Length = 239 }
+
+            //I/Web Console( 4563): %c0:22236ms InternalWebMethodRequest.Complete { Name = Gravatar, Length = 0 } at http://192.168.43.1:6686/view-source:37081
+            //I/Web Console( 4563): 0:22345ms { Name = Gravatar, MetadataToken = 06000001, ETag = d41d8cd98f00b204e9800998ecf8427e, ElapsedMilliseconds = 25 } at http://192.168.43.1:6686/view-source:37040
 
 
             Context.Response.ContentType = "text/xml";
