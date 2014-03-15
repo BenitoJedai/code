@@ -54,12 +54,33 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
             {
                 // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Int32.cs
 
-                return new StringBuilder()
-                    .Append(__MD5Helper.ReverseByte(A).ToString("X8"))
-                    .Append(__MD5Helper.ReverseByte(B).ToString("X8"))
-                    .Append(__MD5Helper.ReverseByte(C).ToString("X8"))
-                    .Append(__MD5Helper.ReverseByte(D).ToString("X8")).ToString();
+                // jsc compiles this incorrectly. why
+                //return new StringBuilder()
+                //    .Append(__MD5Helper.ReverseByte(A).ToString("X8"))
+                //    .Append(__MD5Helper.ReverseByte(B).ToString("X8"))
+                //    .Append(__MD5Helper.ReverseByte(C).ToString("X8"))
+                //    .Append(__MD5Helper.ReverseByte(D).ToString("X8")).ToString();
 
+                //return
+                //    __MD5Helper.ReverseByte(A).ToString("X8")
+                //    +__MD5Helper.ReverseByte(B).ToString("X8")
+                //    +__MD5Helper.ReverseByte(C).ToString("X8")
+                //    +__MD5Helper.ReverseByte(D).ToString("X8");
+
+                //return string.Concat(
+                //    __MD5Helper.ReverseByte(A).ToString("X8"),
+                //     __MD5Helper.ReverseByte(B).ToString("X8"),
+                //     __MD5Helper.ReverseByte(C).ToString("X8"),
+                //     __MD5Helper.ReverseByte(D).ToString("X8")
+                //   );
+
+                var a = __MD5Helper.ReverseByte(A).ToString("X8");
+                var b = __MD5Helper.ReverseByte(B).ToString("X8");
+                var c = __MD5Helper.ReverseByte(C).ToString("X8");
+                var d = __MD5Helper.ReverseByte(D).ToString("X8");
+
+
+                return a + b + c + d;
             }
 
         }
