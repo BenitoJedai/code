@@ -67,6 +67,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Array.cs">
       <Link>BCLImplementation\System\Array.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\BitConverter.cs">
+      <Link>BCLImplementation\System\BitConverter.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Boolean.cs">
       <Link>BCLImplementation\System\Boolean.cs</Link>
     </Compile>
@@ -280,15 +283,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs">
       <Link>BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs">
-      <Link>BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\MD5.cs">
-      <Link>BCLImplementation\System\Security\Cryptography\MD5.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs">
-      <Link>BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSA.cs">
       <Link>BCLImplementation\System\Security\Cryptography\RSA.cs</Link>
     </Compile>
@@ -357,6 +351,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\UInt32.cs">
       <Link>BCLImplementation\System\UInt32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\UInt64.cs">
+      <Link>BCLImplementation\System\UInt64.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Xml\Linq\XAttribute.cs">
       <Link>BCLImplementation\System\Xml\Linq\XAttribute.cs</Link>
