@@ -22,21 +22,21 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 
             var m = new MemoryStream();
 
-            Console.WriteLine(new { x.FingerPrint });
+            //Console.WriteLine(new { x.FingerPrint });
 
             // 0:2490ms { FingerPrint = 8A2410FB8A2410FB8A2410FB8A2410FB } 
 
 
             var A = BitConverter.GetBytes(x.dgFingerPrint.A);
 
-            Console.WriteLine(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.A).ToString("X8"));
+            //Console.WriteLine(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.A).ToString("X8"));
 
             var B = BitConverter.GetBytes(x.dgFingerPrint.B);
-            Console.WriteLine(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.B).ToString("X8"));
+            //Console.WriteLine(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.B).ToString("X8"));
             var C = BitConverter.GetBytes(x.dgFingerPrint.C);
-            Console.WriteLine(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.C).ToString("X8"));
+            //Console.WriteLine(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.C).ToString("X8"));
             var D = BitConverter.GetBytes(x.dgFingerPrint.D);
-            Console.WriteLine(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.D).ToString("X8"));
+            //Console.WriteLine(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.D).ToString("X8"));
 
 
             //var A = BitConverter.GetBytes(__MD5CryptoServiceProviderByMahmood.__MD5Helper.ReverseByte(x.dgFingerPrint.A));

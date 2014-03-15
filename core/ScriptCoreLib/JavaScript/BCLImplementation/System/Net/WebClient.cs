@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
     [Script(Implements = typeof(global::System.Net.WebClient))]
     public class __WebClient
     {
+        public WebHeaderCollection ResponseHeaders { get; set; }
+
         // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\JavaScript\InternalWebMethodRequest.cs
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Net\WebClient.cs
@@ -45,6 +47,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
                     // UploadValuesAsync { status = 204, responseType = arraybuffer, response = [object Uint8ClampedArray] }
 
                     //if (x.status == 204)
+                    // 304?
                     if (x.status == IXMLHttpRequest.HTTPStatusCodes.NoContent)
                     {
                         // android webview  wants us to do this
@@ -84,6 +87,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
                     var e = new __UploadValuesCompletedEventArgs { Result = response };
 
+                    #region ResponseHeaders
+                    this.ResponseHeaders = new WebHeaderCollection();
+                    //this.ResponseHeaders.Clear();
+
+                    var ResponseHeaders = x.getAllResponseHeaders();
+                    //0:8209ms { ResponseHeaders = Date: Sat, 15 Mar 2014 12:25:45 GMT
+                    //Server: ASP.NET Development Server/11.0.0.0
+                    //X-AspNet-Version: 4.0.30319
+                    //ETag: BqShORsRkdny750pWBdVyQ==
+                    //X-ElapsedMilliseconds: 10
+                    //Content-Type: text/xml; charset=utf-8
+                    //Access-Control-Allow-Origin: *
+                    //Cache-Control: private
+                    //Connection: Close
+                    //Content-Length: 239
+
+                    foreach (var item in ResponseHeaders.Split('\n'))
+                    {
+                        var u = item.IndexOf(":");
+
+                        var ukey = item.Substring(0, u);
+                        var uvalue = item.Substring(u + 1).Trim();
+
+                        this.ResponseHeaders[ukey] = uvalue;
+                    }
+                    #endregion
+
+                    //Console.WriteLine(new { ResponseHeaders });
 
 
                     if (UploadValuesCompleted != null)

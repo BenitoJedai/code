@@ -192,6 +192,7 @@
     <Compile Include="Shared\BCLImplementation\System\Net\UploadValuesCompletedEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\ICredentialsByHost.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\NetworkCredential.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Net\WebHeaderCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Resources\ResourceManager.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />

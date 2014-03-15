@@ -303,9 +303,6 @@
     <Compile Include="BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs">
       <SubType>Code</SubType>
     </Compile>

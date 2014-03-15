@@ -118,7 +118,7 @@ namespace ScriptCoreLib.Ultra.WebService
         }
 
 
-     
+
 
         private static void WriteCacheManifest(InternalGlobal g, System.Web.HttpApplication that, StringAction WriteLine)
         {
@@ -412,15 +412,11 @@ namespace ScriptCoreLib.Ultra.WebService
             var that = g.InternalApplication;
             var Context = that.Context;
 
-            Context.Response.ContentType = "text/xml";
-
-            // https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS?redirectlocale=en-US&redirectslug=HTTP_access_control
-
-            // allow http to https calls
-            Context.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            #region document
+            var w = new StringBuilder();
 
 
-            Write("<document>");
+            w.Append("<document>");
 
 
 
@@ -434,7 +430,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
                 foreach (var item in WebMethod.Results)
                 {
-                    Write("<" + item.MethodName + ">");
+                    w.Append("<" + item.MethodName + ">");
 
                     if (item.Parameters != null)
                     {
@@ -448,37 +444,96 @@ namespace ScriptCoreLib.Ultra.WebService
                             }
                             else
                             {
-                                Write("<" + p.Name + ">");
-                                Write(escapeXML(p.Value));
-                                Write("</" + p.Name + ">");
+                                w.Append("<" + p.Name + ">");
+                                w.Append(escapeXML(p.Value));
+                                w.Append("</" + p.Name + ">");
                             }
 
 
                         }
                     }
 
-                    Write("</" + item.MethodName + ">");
+                    w.Append("</" + item.MethodName + ">");
 
                 }
             }
 
             if (WebMethod.TaskComplete)
             {
-                Write("<TaskComplete>");
+                w.Append("<TaskComplete>");
 
                 if (WebMethod.TaskResult != null)
                 {
                     //Console.WriteLine(new { WebMethod.TaskResult });
 
-                    Write("<TaskResult>");
-                    Write(escapeXML(WebMethod.TaskResult));
-                    Write("</TaskResult>");
+                    w.Append("<TaskResult>");
+                    w.Append(escapeXML(WebMethod.TaskResult));
+                    w.Append("</TaskResult>");
                 }
 
-                Write("</TaskComplete>");
+                w.Append("</TaskComplete>");
             }
 
-            Write("</document>");
+            w.Append("</document>");
+            #endregion
+
+
+
+            var ws = w.ToString();
+            var wsbytes = Encoding.UTF8.GetBytes(ws);
+
+
+            // http://stackoverflow.com/questions/1999824/whats-the-shortest-pair-of-strings-that-causes-an-md5-collision
+
+            var ETagbytes = wsbytes.ToMD5Bytes();
+            var ETag = ETagbytes.ToHexString();
+            // does the client already have a copy of the same response?
+            // if so, send 304 ?
+            // http://www.codeproject.com/Articles/23857/The-Performance-Woe-of-Binary-XML
+            // are we ready for encrypted binary xml?
+            // http://msdn.microsoft.com/en-us/library/cc219210.aspx
+            // file:///C:/Users/Arvo/Downloads/03-002r9_Binary_Extensible_Markup_Language_BXML_Encoding_Specification.pdf
+            // is this the beginning of a binary diff service?
+
+
+            // allow http to https calls
+            Context.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            Context.Response.AddHeader("ETag", Convert.ToBase64String(ETagbytes));
+
+            var hasETag = Context.Request.Form.AllKeys.Contains("ETag");
+            if (hasETag)
+            {
+                var oldETag64 = Context.Request.Form["ETag"];
+                var oldETagbytes = Convert.FromBase64String(oldETag64);
+                var oldETag = oldETagbytes.ToHexString();
+
+                //{ MethodName = Gravatar, MetadataToken = 06000001, oldETag = 1706b464adc232a9df3dd4539a206569 }
+                //{ MethodName = Gravatar, MetadataToken = 06000001, ETag = 1706b464adc232a9df3dd4539a206569 }
+
+                Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, oldETag });
+
+                if (oldETag == ETag)
+                {
+                    // what will web client do with 304?
+                    g.Context.Response.StatusCode = 304;
+                    g.Context.Response.Flush();
+
+                    that.CompleteRequest();
+                    return;
+                }
+
+            }
+
+            Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, ETag });
+
+
+
+            Context.Response.ContentType = "text/xml";
+
+            // https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS?redirectlocale=en-US&redirectslug=HTTP_access_control
+
+
+            Write(ws);
 
             that.CompleteRequest();
         }
