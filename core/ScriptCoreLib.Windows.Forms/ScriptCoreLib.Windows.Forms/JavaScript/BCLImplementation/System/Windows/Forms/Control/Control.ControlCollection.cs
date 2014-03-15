@@ -71,7 +71,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 if (!ChildElement.classList.Contains(ChildElementTypeName))
                     ChildElement.className += " " + ChildElementTypeName;
 
-                bg.appendChild(ChildElement);
+                // X:\jsc.svn\examples\javascript\forms\FormsNIC\FormsNIC\ApplicationControl.cs
+
+                if (bg.childNodes.Length == 0)
+                    bg.appendChild(ChildElement);
+                else
+                    bg.insertBefore(ChildElement, bg.childNodes[0]);
 
                 //else
                 //bg.insertBefore(e.GetHTMLTarget(), bg.firstChild);

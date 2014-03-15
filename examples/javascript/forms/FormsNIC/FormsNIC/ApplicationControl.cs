@@ -25,5 +25,17 @@ namespace FormsNIC
 
         }
 
+        private async void button1_Click(object sender, System.EventArgs e)
+        {
+            this.dataGridView1.DataSource = null;
+
+            var x = await this.applicationWebService1.GetInterfaces();
+
+
+            this.dataGridView1.DataSource = x;
+
+
+        }
+
     }
 }
