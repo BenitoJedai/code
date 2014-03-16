@@ -24,12 +24,11 @@ namespace WebGLCelShader
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         /* Source: http://www.ro.me/tech/demos/6/index.html
          */
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
 
 
