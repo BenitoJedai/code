@@ -498,11 +498,11 @@ namespace ScriptCoreLib.Java
             else
             {
 
-                Console.WriteLine(
+                //Console.WriteLine(
 
-                "InternalSetConstant " + new { fi.DeclaringType.FullName, fi.Name, RawConstantValueType, fi.FieldType }
+                //"InternalSetConstant " + new { fi.DeclaringType.FullName, fi.Name, RawConstantValueType, fi.FieldType }
 
-                    );
+                //    );
 
                 yi.IsLiteral = false;
             }
