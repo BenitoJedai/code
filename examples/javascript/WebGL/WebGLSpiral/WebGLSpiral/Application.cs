@@ -20,7 +20,7 @@ namespace WebGLSpiral
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application : ISurface
+    public sealed class Application : ApplicationWebService, ISurface
     {
         // 01. http://www.brainjam.ca/stackoverflow/webglspiral.html
 
@@ -60,7 +60,6 @@ namespace WebGLSpiral
         // 34. Share SpuralSurface with android implementation
         #endregion
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         #region ISurface
         public event Action onframe;
