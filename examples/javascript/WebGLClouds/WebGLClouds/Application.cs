@@ -16,7 +16,7 @@ namespace WebGLClouds
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         /* Source: view-source:http://mrdoob.com/lab/javascript/webgl/clouds/
          */
@@ -24,7 +24,6 @@ namespace WebGLClouds
         public static bool DisableBackground;
         public static double DefaultMouseY = 0.4;
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
 
         // hack for async ctor
