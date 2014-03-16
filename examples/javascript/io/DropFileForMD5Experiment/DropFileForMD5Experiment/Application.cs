@@ -32,6 +32,10 @@ namespace DropFileForMD5Experiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // if we were to change the dom or css here
+            // it could be done preemptivly also on the server?
+            // thus sending us a modified special version.
+
             Native.document.documentElement.ondragover +=
                 e =>
                 {
