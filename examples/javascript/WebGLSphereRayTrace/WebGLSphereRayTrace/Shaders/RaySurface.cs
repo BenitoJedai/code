@@ -47,7 +47,7 @@ namespace WebGLSphereRayTrace.Shaders
                    var aPlotPosition = gl.getAttribLocation(program, "aPlotPosition");
                    gl.enableVertexAttribArray((uint)aPlotPosition);
 
-               
+
 
 
                    gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -120,9 +120,11 @@ namespace WebGLSphereRayTrace.Shaders
                    s.onresize +=
                        (width, height) =>
                        {
+                           ratio = (float)width / (float)height;
+
                            gl.viewport(0, 0, width, height);
 
-                           ratio = (float)width / (float)height;
+                           Console.WriteLine(new { width, height, ratio });
                        };
 
                    var t = 0f;
@@ -184,7 +186,7 @@ namespace WebGLSphereRayTrace.Shaders
                            program_uniforms.sphere2Center = new xyz(x2, y2, z2);
                            program_uniforms.sphere3Center = new xyz(x3, y3, z3);
 
-                      
+
 
                            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
@@ -200,5 +202,5 @@ namespace WebGLSphereRayTrace.Shaders
         }
     }
 
-   
+
 }

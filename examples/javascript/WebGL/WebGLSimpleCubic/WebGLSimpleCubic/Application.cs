@@ -83,12 +83,12 @@ namespace WebGLSimpleCubic
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefault  page = null)
+        public Application(IDefault page = null)
         {
             var gl_viewportWidth = Native.window.Width;
             var gl_viewportHeight = Native.window.Height;
 
-        
+
 
 
             var gl = new WebGLRenderingContext();
@@ -317,7 +317,16 @@ namespace WebGLSimpleCubic
                 gl_viewportHeight = Native.window.Height;
 
                 prMatrix = new CanvasMatrix4();
-                prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
+
+                //var aspect = (f)gl_viewportWidth / (f)gl_viewportHeight;
+                var aspect = Native.window.aspect;
+
+                Console.WriteLine(
+                    new { gl_viewportWidth, gl_viewportHeight, aspect }
+                    );
+                //Native.document.title = new { aspect }.ToString();
+
+                prMatrix.perspective(45f, (f)aspect, 1f, 100f);
 
 
                 canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);

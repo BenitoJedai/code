@@ -410,7 +410,13 @@ namespace WebGLTunnel
                         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
                         setMatrixUniforms();
 
+                        // ?
+                        //  a[0].CS___8__locals19.currentTime = (((a[0].CS___8__locals19.currentTime + 0.01)) >>> 0);
+                        // haha. wtf jsc. :)
                         currentTime = (currentTime + 0.01f);
+
+                        Native.document.title = new { currentTime }.ToString();
+
                         gl.uniform1f(shaderProgram_fTimeUniform, currentTime);
                         gl.drawElements(drawingMode, cubeVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
 
