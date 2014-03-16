@@ -87,6 +87,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
                         // IE?
                         //var u8 = new Uint8Array(array: a);
+
+                        // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\FileEntryAsyncExtensions.cs
                         var u8c = new Uint8ClampedArray(array: a);
 
                         response = u8c;
