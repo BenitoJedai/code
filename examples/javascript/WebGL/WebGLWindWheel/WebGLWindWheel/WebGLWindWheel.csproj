@@ -133,7 +133,9 @@
     <Content Include="Design\Images\Preview.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Shaders\Geometry.vert" />
     <None Include="Shaders\Geometry.frag" />
   </ItemGroup>
