@@ -14,6 +14,10 @@ namespace FlashHeatZeeker.UnitJeepTouch
 {
     public class ApplicationCanvas : Canvas
     {
+        // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display3D/Context3D.html
+        // 25fc:01:01 RewriteToAssembly error: System.MissingMethodException: Method not found: 'System.String ScriptCoreLib.ActionScript.flash.display3D.Context3D.get_driverInfo()'.
+        // Method not found: 'Void starling.core.Starling..ctor(ScriptCoreLib.ActionScript.Class, ScriptCoreLib.ActionScript.flash.display.Stage, ScriptCoreLib.ActionScript.flash.geom.Rectangle, ScriptCoreLib.ActionScript.flash.display.Stage3D, System.String, System.String)'.
+
         public readonly Rectangle r = new Rectangle();
 
 
