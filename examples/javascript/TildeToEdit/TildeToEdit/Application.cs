@@ -23,9 +23,8 @@ namespace TildeToEdit
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -35,7 +34,7 @@ namespace TildeToEdit
         {
             // 
             //document.body.AsXElement().Elements("script").Remove();
-            document.body.AsXElement().Elements("script").WithEach(k => k.Remove());
+            //document.body.AsXElement().Elements("script").WithEach(k => k.Remove());
 
             var f = new Form { Text = "Visual Editor" };
 
@@ -122,12 +121,7 @@ namespace TildeToEdit
             Hide();
 
             // http://www.w3schools.com/css3/css3_transitions.asp
-            diagnostics.style.With(
-                       (dynamic s) => s.webkitTransition = "all 0.2s ease-in-out"
-                 );
-            diagnostics.style.With(
-              (dynamic s) => s.transition = "all 0.2s ease-in-out"
-            );
+            diagnostics.style.transition = "all 0.2s ease-in-out";
 
 
 
@@ -227,12 +221,7 @@ namespace TildeToEdit
             );
 
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+         
         }
 
     }
