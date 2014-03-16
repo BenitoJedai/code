@@ -24,7 +24,7 @@ namespace WebGLCannonPhysicsEngine
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         // inspired by http://granular.cs.umu.se/cannon.js/examples/threejs_fps.html
 
