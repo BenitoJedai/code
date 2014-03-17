@@ -18,6 +18,7 @@ using System.Collections.Generic;
 namespace Abstractatech.JavaScript.FileStorage
 {
     using FileEntry = HTML.Pages.FileEntry;
+    using System.Net;
 
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -282,7 +283,7 @@ namespace Abstractatech.JavaScript.FileStorage
 
                     evt.preventDefault();
 
-
+                    // can we use a webClient yet?
                     var xhr = new IXMLHttpRequest();
 
                     // does not work for chrome?
@@ -290,6 +291,21 @@ namespace Abstractatech.JavaScript.FileStorage
 
                     // which server?
                     xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/FileStorageUpload");
+
+                    // http://stackoverflow.com/questions/13870853/how-to-upload-files-in-web-workers-when-formdata-is-not-defined
+
+                    //var c = new WebClient();
+
+                    ////c.UploadData(
+                    //c.UploadProgressChanged +=
+                    //    (sender, args) =>
+                    //    {
+
+                    //    };
+
+                    //c.UploadFileAsync(
+
+
 
                     #region send
                     var d = new FormData();
