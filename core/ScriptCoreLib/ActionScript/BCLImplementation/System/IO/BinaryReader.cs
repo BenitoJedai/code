@@ -11,6 +11,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
     [Script(Implements = typeof(global::System.IO.BinaryReader))]
     internal class __BinaryReader
     {
+        //T:\web\ScriptCoreLib\ActionScript\BCLImplementation\System\IO\__BinaryReader.as: Error: Can not resolve a multiname reference unambiguously. ScriptCoreLib.ActionScript.BCLImplementation.System.IO:__Stream (from T:\web\ScriptCoreLib\ActionScript\BCLImplementation\System\IO\__Stream.as) and ScriptCoreLib.Shared.BCLImplementation.System.IO:__Stream (from T:\web\ScriptCoreLib\Shared\BCLImplementation\System\IO\__Stream.as) are available.
+
+        //T:\web\ScriptCoreLib\ActionScript\BCLImplementation\System\IO\__BinaryReader.as(19): col: 46 Error: Type was not found or was not a compile-time constant: __Stream.
+
+        //        public function __BinaryReader(input:__Stream)
+        //                                             ^
+
+        //T:\web\ScriptCoreLib\ActionScript\BCLImplementation\System\IO\__BinaryReader.as(32): col: 42 Error: Type was not found or was not a compile-time constant: __Stream.
+
         private Stream InternalStream;
 
         private byte[] m_buffer;

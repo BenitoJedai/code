@@ -31,6 +31,15 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
     /// </summary>
     public sealed class Application
     {
+
+        //FlashHeatZeeker.PlayerIOIntegrationBeta2.HTML.Pages.TexturesImages
+        //rewriting... done
+        //2584:02:01 RewriteToAssembly error: System.ArgumentException: The unmanaged Version information is too large to persist.
+        //   at System.Reflection.Emit.AssemblyBuilder.CreateVersionInfoResource(
+        // String filename, String title, String iconFilename, String description, St
+        // jsc how much description are you merging?
+
+
         // crx
         // https://chrome.google.com/webstore/detail/operation-heat-zeeker/iiabebggdceojiejhopnopmbkgandhha?hl=et&utm_source=chrome-ntp-launcher
         // use non chrome to download without install

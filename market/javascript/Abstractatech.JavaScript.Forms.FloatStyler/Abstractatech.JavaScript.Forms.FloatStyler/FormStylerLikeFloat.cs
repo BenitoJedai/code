@@ -20,20 +20,22 @@ namespace System.Windows.Forms
         {
             // border-radius:25px;
 
-            dynamic TargetOuterBorder_style = s.TargetOuterBorder.style;
-            dynamic TargetInnerBorder_style = s.TargetInnerBorder.style;
+            //dynamic TargetOuterBorder_style = s.TargetOuterBorder.style;
+            //dynamic TargetInnerBorder_style = s.TargetInnerBorder.style;
 
             var TargetBackground = new IHTMLDiv();
 
-            dynamic TargetBackground_style = TargetBackground.style;
+            //dynamic TargetBackground_style = TargetBackground.style;
 
-
-            TargetBackground.style.position = IStyle.PositionEnum.absolute;
-            TargetBackground.style.left = "0px";
-            TargetBackground.style.top = "0px";
-            TargetBackground.style.right = "0px";
-            TargetBackground.style.bottom = "0px";
-            TargetBackground.style.Opacity = 0.7;
+            new IStyle(TargetBackground)
+            {
+                position = IStyle.PositionEnum.absolute,
+                left = "0px",
+                top = "0px",
+                right = "0px",
+                bottom = "0px",
+                Opacity = 0.7
+            };
 
 
             s.TargetOuterBorder.parentNode.insertBefore(TargetBackground, s.TargetOuterBorder.parentNode.firstChild);
@@ -45,12 +47,15 @@ namespace System.Windows.Forms
             s.TargetOuterBorder.style.borderWidth = "0px";
 
 
-            s.CaptionContent.style.paddingLeft = "12px";
-            s.CaptionContent.style.paddingRight = "30px";
-            s.CaptionContent.style.left = "";
-            s.CaptionContent.style.right = "0px";
-            s.CaptionContent.style.height = "27px";
-            s.CaptionContent.style.backgroundColor = "  rgba(0,0,0,0.7)";
+            new IStyle(s.CaptionContent)
+            {
+                paddingLeft = "12px",
+                paddingRight = "30px",
+                left = "",
+                right = "0px",
+                height = "27px",
+                backgroundColor = "  rgba(0,0,0,0.7)",
+            };
 
             s.TargetInnerBorder.style.borderWidth = "0px";
 
@@ -59,11 +64,14 @@ namespace System.Windows.Forms
             s.CloseButton.style.borderWidth = "0px";
             s.CloseButtonContent.style.borderWidth = "0px";
 
+            new IStyle(s.TargetResizerPadding)
+            {
+                left = "0px",
+                top = "0px",
+                right = "0px",
+                bottom = "0px"
+            };
 
-            s.TargetResizerPadding.style.left = "0px";
-            s.TargetResizerPadding.style.top = "0px";
-            s.TargetResizerPadding.style.right = "0px";
-            s.TargetResizerPadding.style.bottom = "0px";
 
 
             s.TargetInnerBorder.style.backgroundColor = "";
