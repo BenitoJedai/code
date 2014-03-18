@@ -70,7 +70,12 @@ ContentValue text not null
 ", c).ExecuteNonQuery();
 
 
-            var i0 = new SQLiteCommand(@"insert into FileStorageLogTable (ContentValue) values ('text 1')", c).ExecuteNonQuery();
+            //var i0 = new SQLiteCommand(@"insert into FileStorageLogTable (ContentValue) values ('text 1')", c).ExecuteNonQuery();
+            // public DbCommand CreateCommand();
+            var i0c = c.CreateCommand();
+            i0c.CommandText = "insert into FileStorageLogTable (ContentValue) values ('text 1')";
+            var i0 = i0c.ExecuteNonQuery();
+
             var i1 = new SQLiteCommand(@"insert into FileStorageLogTable (ContentValue) values ('text 1')", c).ExecuteNonQuery();
             var i2 = new SQLiteCommand(@"insert into FileStorageLogTable (ContentValue) values ('text 1')", c).ExecuteNonQuery();
 

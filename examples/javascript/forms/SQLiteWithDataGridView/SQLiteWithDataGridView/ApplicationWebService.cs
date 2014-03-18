@@ -31,13 +31,14 @@ namespace SQLiteWithDataGridView
                 var x = new TheGridTable();
 
                 {
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140318
                     var DataSource = "SQLiteWithDataGridView7.sqlite";
 
                     x.csb_write.DataSource = DataSource;
                     Credentials.partial_ApplyRestrictedCredentials(x.csb_write);
 
                     x.csb.DataSource = DataSource;
-                    x.csb.ReadOnly = true;
+                    //x.csb.ReadOnly = true;
                     // this was expensive to figure out!
                     Credentials.partial_ApplyRestrictedCredentials(x.csb);
 
