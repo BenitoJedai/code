@@ -162,6 +162,8 @@ namespace SQLiteWithDataGridView.Schema
 
         public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Create data, IDbConnection c)
         {
+            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+
             return c
                 .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Create.CommandText)
                 .ExecuteNonQuery();

@@ -12,10 +12,22 @@ namespace DropFileIntoSQLite.Schema
 {
     class Table1 : Table1Queries
     {
-        //public const string DefaultDataSource = "SQLiteWithDataGridView52.sqlite";
-        public const string DefaultDataSource = @"G:\SQLiteWithDataGridView54.sqlite";
+        // System.InvalidOperationException: Invalid connection string: invalid URI
+        //
+        public const string DefaultDataSource = "file:SQLiteWithDataGridView50.sqlite";
+        //public const string DefaultDataSource = @"G:\SQLiteWithDataGridView54.sqlite";
 
         public readonly Action<Action<SQLiteConnection>> WithConnection;
+
+
+        //at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+        //at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+        //at System.Int32.Parse(String s)
+        //at CallSite.Target(Closure , CallSite , Type , Object )
+        //at System.Dynamic.UpdateDelegates.UpdateAndExecute2[T0,T1,TRet](CallSite site, T0 arg0, T1 arg1)
+        //at DropFileIntoSQLite.ApplicationWebService.<>c__DisplayClass12.<EnumerateFilesAsync>b__11(Object xx)
+        //at DropFileIntoSQLite.Schema.XX.WithEach(IDataReader reader, Action`1 y)
+        //at DropFileIntoSQLite.Schema.Table1.<>c__DisplayClassc.<SelectAll>b__b(SQLiteConnection c)
 
         public Table1(string DataSource = DefaultDataSource)
         {
@@ -45,6 +57,7 @@ namespace DropFileIntoSQLite.Schema
 
         // reference to child table?
 
+
         public void Delete(Delete value)
         {
             WithConnection(
@@ -53,26 +66,6 @@ namespace DropFileIntoSQLite.Schema
                     value.ExecuteNonQuery(c);
                 }
             );
-        }
-
-        public void SelectAll(Action<dynamic> yield)
-        {
-            WithConnection(
-              c =>
-              {
-                  new SelectAll().ExecuteReader(c).WithEach(yield);
-              }
-            );
-        }
-
-        public void SelectBytes(SelectBytes value, Action<IDataReader> yield)
-        {
-            WithConnection(
-               c =>
-               {
-                   value.ExecuteReader(c).WithEachReader(yield);
-               }
-             );
         }
 
         public void Insert(Insert value, Action<long> yield)
@@ -98,6 +91,32 @@ namespace DropFileIntoSQLite.Schema
 
             return value.ToTaskResult();
         }
+
+
+        public void SelectAll(Action<dynamic> yield)
+        {
+            WithConnection(
+              c =>
+              {
+                  new SelectAll().ExecuteReader(c).WithEach(yield);
+              }
+            );
+        }
+
+        public void SelectBytes(SelectBytes value, Action<IDataReader> yield)
+        {
+            WithConnection(
+               c =>
+               {
+                   //Error	7	'System.Data.IDataReader' does not contain a definition for 'WithEachReader' and the best extension method overload 'DropFileIntoSQLite.Schema.XX.WithEachReader(System.Data.SQLite.SQLiteDataReader, System.Action<System.Data.IDataReader>)' has some invalid arguments	X:\jsc.svn\examples\javascript\io\DropFileIntoSQLite\DropFileIntoSQLite\Schema\Table1.cs	99	20	DropFileIntoSQLite
+
+
+                   value.ExecuteReader(c).WithEachReader(yield);
+               }
+             );
+        }
+
+
     }
 
 
@@ -105,8 +124,77 @@ namespace DropFileIntoSQLite.Schema
 
     public static partial class XX
     {
+        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Create data, IDbConnection c)
+        {
+            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+
+            return c
+                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Create.CommandText)
+                .ExecuteNonQuery();
+        }
+
+        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1MetaQueries.CreateMeta data, IDbConnection c)
+        {
+            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+
+            return c
+                .CreateCommand(DropFileIntoSQLite.Schema.Table1MetaQueries.CreateMeta.CommandText)
+                .ExecuteNonQuery();
+        }
+
+        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Delete data, IDbConnection c)
+        {
+            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+
+            return c
+                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Delete.CommandText)
+                .AddParameter("@ContentKey", data.ContentKey)
+                .ExecuteNonQuery();
+        }
+
+        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Insert data, IDbConnection c)
+        {
+            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+
+            return c
+                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Insert.CommandText)
+                .AddParameter("@ContentValue", data.ContentValue)
+                .AddParameter("@ContentBytes", data.ContentBytes)
+                .ExecuteNonQuery();
+        }
+
+        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1MetaQueries.InsertMeta data, IDbConnection c)
+        {
+            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+
+            return c
+                .CreateCommand(DropFileIntoSQLite.Schema.Table1MetaQueries.InsertMeta.CommandText)
+                .AddParameter("@MemberName", data.MemberName)
+                .AddParameter("@MemberValue", data.MemberValue)
+                .AddParameter("@DeclaringType", data.DeclaringType)
+                .ExecuteNonQuery();
+        }
+
+
+
+        public static IDataReader ExecuteReader(this DropFileIntoSQLite.Schema.Table1Queries.SelectAll data, IDbConnection c)
+        {
+            return c
+                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.SelectAll.CommandText)
+               .ExecuteReader();
+        }
+
+        public static IDataReader ExecuteReader(this DropFileIntoSQLite.Schema.Table1Queries.SelectBytes data, IDbConnection c)
+        {
+            return c
+                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.SelectBytes.CommandText)
+                .AddParameter("@ContentKey", data.ContentKey)
+               .ExecuteReader();
+        }
+
+
         // jsc cannot handle generic that only differ in generic arguments?
-        public static void WithEachReader(this SQLiteDataReader reader, Action<IDataReader> y)
+        public static void WithEachReader(this IDataReader reader, Action<IDataReader> y)
         {
             using (reader)
             {
@@ -117,7 +205,7 @@ namespace DropFileIntoSQLite.Schema
             }
         }
 
-        public static void WithEach(this SQLiteDataReader reader, Action<dynamic> y)
+        public static void WithEach(this IDataReader reader, Action<dynamic> y)
         {
             using (reader)
             {
@@ -151,7 +239,7 @@ namespace DropFileIntoSQLite.Schema
                     {
                         var message = new { ex.Message, ex.StackTrace }.ToString();
 
-                        //Console.WriteLine("AsWithConnection... error: " + message);
+                        Console.WriteLine("AsWithConnection... error: " + new { ex });
 
                         throw new InvalidOperationException(message);
                     }
