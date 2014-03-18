@@ -1,5 +1,4 @@
-﻿            select
-                    TheGridTableLog.ContentReferenceKey
+﻿select TheGridTableLog.ContentReferenceKey
                     , TheGridTable.ContentValue
                     , TheGridTable.ContentComment  
                     , (select count(*) from TheGridTable t2 where t2.ParentContentKey = TheGridTable.ContentKey) as ContentChildren 

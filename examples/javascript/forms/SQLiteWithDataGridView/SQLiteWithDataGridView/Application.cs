@@ -54,7 +54,7 @@ namespace SQLiteWithDataGridView
 
             //FormStyler.AtFormCreated = FormStyler.LikeVisualStudioMetro;
             content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
+            //content.AutoSizeControlTo(page.ContentSize);
 
             @"SQLite With DataGridView".ToDocumentTitle();
 
