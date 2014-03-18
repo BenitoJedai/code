@@ -47,6 +47,9 @@ namespace TestSameServerResponseWithDifferentFields
         // how can we autosubscribe to client events? wat if its not the browser but api client?
         public void Dispose()
         {
+            // haha. this took 7 funking years!
+            // http://zproxy.wordpress.com/2007/04/25/onbeforeunload/
+
             var hex = binary.ToHexString();
 
             Console.WriteLine("Dispose " + new { stopwatch.ElapsedMilliseconds, Counter, hex });
