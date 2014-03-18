@@ -154,7 +154,7 @@ namespace DropFileIntoSQLite
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed partial class ApplicationWebService
+    public  partial class ApplicationWebService
     {
 
 
@@ -166,7 +166,7 @@ namespace DropFileIntoSQLite
 #endif
 
         //public const string DataSource = "SQLiteWithDataGridView51.sqlite";
-        public const string DataSource = "SQLiteWithDataGridView57.sqlite";
+        //public const string DataSource = "SQLiteWithDataGridView57.sqlite";
 
         public Task<Table1_ContentKey> DeleteFileAsync(Table1_ContentKey ContentKey)
         {
@@ -220,6 +220,7 @@ namespace DropFileIntoSQLite
             #region /upload
             if (h.Context.Request.Path == "/upload")
             {
+                Console.WriteLine("enter upload");
 
 
                 var TextContent = h.Context.Request.Form["TextContent"];
@@ -253,11 +254,15 @@ namespace DropFileIntoSQLite
                             ContentBytes = bytes
                         };
 
+                    Console.WriteLine("before insert");
+
                     t.Insert(
                         value: __value,
                         yield:
                         LastInsertRowId =>
                         {
+                            Console.WriteLine("after insert " + new { LastInsertRowId });
+
                             ok.Add(new XElement("ContentKey", "" + LastInsertRowId));
                         }
                     );
