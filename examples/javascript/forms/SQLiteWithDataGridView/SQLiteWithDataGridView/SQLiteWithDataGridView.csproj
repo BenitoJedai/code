@@ -184,6 +184,7 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.XData.XSQLite.dll">
       <HintPath>..\packages\System.XData.XSQLite.dll.1.0.0.0\lib\System.XData.XSQLite.dll.dll</HintPath>
+      <Aliases>global</Aliases>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
