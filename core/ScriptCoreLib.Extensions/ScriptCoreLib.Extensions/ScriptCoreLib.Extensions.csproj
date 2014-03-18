@@ -94,6 +94,7 @@
     <Compile Include="Android\Manifest\ApplicationMetaDataAttribute.cs" />
     <Compile Include="Android\RenderingContextView.cs" />
     <Compile Include="Extensions\DataExtensions.cs" />
+    <Compile Include="Extensions\IDbConnectionExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\SHA1CryptographyExtensions.cs" />
     <Compile Include="Extensions\StringConversionExtensions.cs" />

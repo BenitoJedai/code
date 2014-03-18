@@ -12,6 +12,8 @@ namespace ScriptCoreLib.Extensions
     public static class DataExtensions
     {
         // documentation site shall help with discoverabilty
+        
+
 
         public static IEnumerable<DataRow> AsEnumerable(this DataRowCollection c)
         {

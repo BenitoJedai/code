@@ -245,27 +245,30 @@ namespace SQLiteWithDataGridView.Library
             var st = new Stopwatch();
             st.Start();
 
+
+
+            #region AtContentKey
+            Action<string, string, string, string> AtContentKey =
+                (ContentKey, ContentValue, ContentComment, ContentChildren) =>
+                {
+                    DataGridViewRow r = InternalAddOrUpdateToLocalDataGrid(ContentKey, ContentValue, ContentComment, ContentChildren);
+
+                    r.Cells[0].Style.ForeColor = Color.Green;
+                };
+            #endregion
+
             Action<string> AtServerTransactionKey =
                 async ServerTransactionKey =>
                 {
                     label2.Text = ServerTransactionKey;
 
                     st.Stop();
-                    Console.WriteLine("#" + TimerCounter + " AtServerTransactionKey done in " + st.ElapsedMilliseconds + "ms");
+                    //Console.WriteLine("#" + TimerCounter + " AtServerTransactionKey done in " + st.ElapsedMilliseconds + "ms");
 
                     if (LocalTransactionKey != ServerTransactionKey)
                     {
                         label2.ForeColor = Color.Green;
 
-                        #region AtContentKey
-                        Action<string, string, string, string> AtContentKey =
-                            (ContentKey, ContentValue, ContentComment, ContentChildren) =>
-                            {
-                                DataGridViewRow r = InternalAddOrUpdateToLocalDataGrid(ContentKey, ContentValue, ContentComment, ContentChildren);
-
-                                r.Cells[0].Style.ForeColor = Color.Green;
-                            };
-                        #endregion
 
 
                 
