@@ -151,28 +151,33 @@ namespace SQLiteWithDataGridView.Schema
 
     public static partial class XX
     {
-        //            new Create { }.ExecuteNonQuery(c);
+
+
+        //Implementation not found for type import :
+        //type: System.Data.SQLite.SQLiteConnectionStringBuilder
+        //method: Void set_DataSource(System.String)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
 
         public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Create data, IDbConnection c)
         {
-            var x = c.CreateCommand();
-            x.CommandText = SQLiteWithDataGridView.Schema.TheGridTableQueries.Create.CommandText;
-            return x.ExecuteNonQuery();
+            return c
+                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Create.CommandText)
+                .ExecuteNonQuery();
         }
 
         public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.CreateLog data, IDbConnection c)
         {
-            var x = c.CreateCommand();
-            x.CommandText = SQLiteWithDataGridView.Schema.TheGridTableQueries.CreateLog.CommandText;
-            return x.ExecuteNonQuery();
+            return c
+                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.CreateLog.CommandText)
+                .ExecuteNonQuery();
         }
 
         public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.InsertLog data, IDbConnection c)
         {
-            var x = c.CreateCommand();
-            x.CommandText = SQLiteWithDataGridView.Schema.TheGridTableQueries.InsertLog.CommandText;
-
-            return x
+            return c
+                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.InsertLog.CommandText)
                 .AddParameter("@ContentKey", data.ContentKey)
                 .AddParameter("@ContentComment", data.ContentComment)
                 .ExecuteNonQuery();
@@ -180,10 +185,8 @@ namespace SQLiteWithDataGridView.Schema
 
         public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Update data, IDbConnection c)
         {
-            var x = c.CreateCommand();
-            x.CommandText = SQLiteWithDataGridView.Schema.TheGridTableQueries.Update.CommandText;
-
-            return x
+            return c
+                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Update.CommandText)
                 .AddParameter("@ContentComment", data.ContentComment)
                 .AddParameter("@ContentValue", data.ContentValue)
                 .AddParameter("@ContentKey", data.ContentKey)
@@ -193,30 +196,22 @@ namespace SQLiteWithDataGridView.Schema
 
         public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Insert data, IDbConnection c)
         {
-            var x = c.CreateCommand();
-            x.CommandText = SQLiteWithDataGridView.Schema.TheGridTableQueries.Insert.CommandText;
-
-            return x
+            return c
+                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Insert.CommandText)
                 .AddParameter("@ContentValue", data.ContentValue)
                 .AddParameter("@ContentComment", data.ContentComment)
                 .AddParameter("@ParentContentKey", data.ParentContentKey)
                 .ExecuteNonQuery();
         }
 
-        public static IDbCommand AddParameter(this IDbCommand x, string ParameterName, object Value)
-        {
-            var p = x.CreateParameter(); p.ParameterName = ParameterName; p.Value = Value; x.Parameters.Add(p);
-            return x;
-        }
-
+        
         // 
         public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContent data, IDbConnection c)
         {
-            var x = c.CreateCommand();
-            x.CommandText = SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContent.CommandText;
-
             // http://stackoverflow.com/questions/8091214/how-to-make-c-sharp-code-using-ado-net-idbconnection-and-idbcommand-less-verbos
-            return x
+
+            return c
+                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContent.CommandText)
                 .AddParameter("@ParentContentKey1", data.ParentContentKey1)
                 .AddParameter("@ParentContentKey2", data.ParentContentKey2)
                 .AddParameter("@ParentContentKey3", data.ParentContentKey3)
@@ -225,10 +220,8 @@ namespace SQLiteWithDataGridView.Schema
 
         public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContentUpdates data, IDbConnection c)
         {
-            var x = c.CreateCommand();
-            x.CommandText = SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContentUpdates.CommandText;
-
-            return x
+            return c
+                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContentUpdates.CommandText)
                .AddParameter("@ToTransaction", data.ToTransaction)
                .AddParameter("@FromTransaction", data.FromTransaction)
                .AddParameter("@ParentContentKey1", data.ParentContentKey1)
@@ -239,10 +232,9 @@ namespace SQLiteWithDataGridView.Schema
 
         public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectTransaction data, IDbConnection c)
         {
-            var x = c.CreateCommand();
-            x.CommandText = SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectTransaction.CommandText;
-
-            return x.ExecuteReader();
+            return c
+                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectTransaction.CommandText)
+                .ExecuteReader();
         }
 
 
@@ -269,7 +261,7 @@ namespace SQLiteWithDataGridView.Schema
             {
                 //Console.WriteLine("AsWithConnection... invoke");
 
-                //using (var c = new SQLiteConnection(csb.ConnectionString))
+                //using (var c = new SQLiteCdataonnection(csb.ConnectionString))
                 //var c = new SQLiteConnection("Data Source=/StressData.s3db");
 
                 // X:\jsc.svn\examples\rewrite\Test\TestSQLiteMSIL\TestSQLiteMSIL\Class1.cs
