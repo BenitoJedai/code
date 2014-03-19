@@ -42,8 +42,9 @@ a generic experimental WebClient based service wrapper. 2013/01/09
         //OK   
         //---------------------------
 
-        public static string token;
-        public static string email;
+        public static string token = "73e882084205b05a34abf8a9a89f7dc26ba29";
+        public static string email = "admin@monese.com";
+        public static string cloudflareUrl = "https://www.cloudflare.com/api_json.html";
 
         public CloudflareWebServices()
             : this(null)
@@ -115,7 +116,7 @@ a generic experimental WebClient based service wrapper. 2013/01/09
 
             c.UploadValuesAsync(
                 // generated, whenn will the uri change and break this?
-                address: new Uri("https://www.cloudflare.com/api_json.html"),
+                address: new Uri(cloudflareUrl),
                     data: new System.Collections.Specialized.NameValueCollection { 
                         {"WebMethodMetadataToken","06000039"},
                         {"WebMethodMetadataName","GetCurrencyRateBasedOnString"},
