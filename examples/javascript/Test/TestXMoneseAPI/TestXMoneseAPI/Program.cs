@@ -27,6 +27,8 @@ namespace TestXMoneseAPI
                     //{ GetUserIDAsync_value = 404 }
 
 
+                    //x.methodURL = "my.monese.com";
+
                     var RegisterUserShort_value = await x.RegisterUserShort("a@", "1234");
 
                     //xx = 398

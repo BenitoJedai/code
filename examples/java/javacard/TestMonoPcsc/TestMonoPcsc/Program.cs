@@ -29,13 +29,13 @@ namespace TestMonoPcsc
                 throw new PCSCException(SCardError.NoReadersAvailable,
                     "Could not find any Smartcard reader.");
 
-             Console.WriteLine("reader name: " + szReaders[1]);
+                Console.WriteLine("reader name: " + szReaders[1]);
 
                 // Create a reader object using the existing context
                 SCardReader reader = new SCardReader(hContext);
 
                 // Connect to the card
-                SCardError err = reader.Connect(szReaders[0],
+                SCardError err = reader.Connect(szReaders[1],
                     SCardShareMode.Shared,
                     SCardProtocol.T0 | SCardProtocol.T1);
                 CheckErr(err);
@@ -121,8 +121,8 @@ namespace TestMonoPcsc
                 SCardReader reader = new SCardReader(hContext);
 
                 // Connect to the card
-                //Console.WriteLine(szReaders[0]);
-                SCardError err = reader.Connect(szReaders[0],
+                Console.WriteLine(szReaders[1]);
+                SCardError err = reader.Connect(szReaders[1],
                     SCardShareMode.Shared,
                     SCardProtocol.T0 | SCardProtocol.T1);
 
