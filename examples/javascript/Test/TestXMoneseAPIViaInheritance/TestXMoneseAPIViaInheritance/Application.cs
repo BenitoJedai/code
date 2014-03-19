@@ -38,6 +38,7 @@ namespace TestXMoneseAPIViaInheritance
             new IHTMLButton { "new user" }.AttachToDocument().WhenClicked(
                 async button =>
                 {
+                    //methodURL = "ss";
                     var RegisterUserShort_value = await this.RegisterUserShort("TestXMoneseAPIViaInheritance@", "1234");
                     // 0:39123ms 444 
 
