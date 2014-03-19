@@ -33,8 +33,8 @@ namespace DeltaExperiment
         {
 
             content.AttachControlTo(page.Content);
-            content.AutoSizeControlTo(page.ContentSize);
-            @"Hello world".ToDocumentTitle();
+            //content.AutoSizeControlTo(page.ContentSize);
+            //@"Hello world".ToDocumentTitle();
       
         }
 
