@@ -15,7 +15,7 @@ namespace PHPWiki
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public  class ApplicationWebService
     {
         // Fatal error: Call to a member function _ae7686222de9fe3bad0c1ab5daa69519_6000bb3() on a non-object in B:\inc\PHPWiki.ApplicationWebService.exe\class.PHPWiki.ApplicationWebService.php on line 101
 
