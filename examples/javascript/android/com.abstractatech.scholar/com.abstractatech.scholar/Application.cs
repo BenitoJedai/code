@@ -24,7 +24,7 @@ namespace com.abstractatech.scholar
         public static void MoveNodeToFirst(this INode e)
         {
             var p = e.parentNode;
-            e.Orphanize();
+            ((IHTMLElement)e).Orphanize();
 
             p.insertBefore(
                 e, p.firstChild);

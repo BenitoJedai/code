@@ -1,26 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.scholar", "com.abstractatech.scholar\com.abstractatech.scholar.csproj", "{94F24D15-B633-4B33-81BA-EB01D7583105}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{547EFF32-0C81-4813-9579-E538B98730A6}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
+	ProjectSection(ProjectDependencies) = postProject
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318} = {0934D9DD-7E92-4841-B8D6-C7CF77EC5318}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.scholar.clrlauncher", "com.abstractatech.scholar.clrlauncher\com.abstractatech.scholar.clrlauncher.csproj", "{67B44FF8-D234-4FE6-A5CC-DFF9FDB9544A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLClouds", "..\..\WebGLClouds\WebGLClouds\WebGLClouds.csproj", "{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\market\synergy\THREE\THREE\THREE.csproj", "{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Forms.FloatStyler", "..\..\..\..\market\javascript\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler.csproj", "{7E3E19CE-5998-41A5-8475-37B61FC63A64}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{CD54FE36-D411-452F-8DE3-9085EBD88552}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLClouds", "..\..\WebGL\WebGLClouds\WebGLClouds\WebGLClouds.csproj", "{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,16 +46,6 @@ Global
 		{67B44FF8-D234-4FE6-A5CC-DFF9FDB9544A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{67B44FF8-D234-4FE6-A5CC-DFF9FDB9544A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{67B44FF8-D234-4FE6-A5CC-DFF9FDB9544A}.Release|x86.ActiveCfg = Release|Any CPU
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|x86.ActiveCfg = Debug|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|x86.Build.0 = Debug|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|Any CPU.ActiveCfg = Release|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|Mixed Platforms.Build.0 = Release|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|x86.ActiveCfg = Release|x86
-		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|x86.Build.0 = Release|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -82,14 +66,24 @@ Global
 		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.ActiveCfg = Release|x86
 		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.Build.0 = Release|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|x86.ActiveCfg = Debug|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Debug|x86.Build.0 = Debug|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|Any CPU.ActiveCfg = Release|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|x86.ActiveCfg = Release|x86
+		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {CD54FE36-D411-452F-8DE3-9085EBD88552}
 		{7E3E19CE-5998-41A5-8475-37B61FC63A64} = {CD54FE36-D411-452F-8DE3-9085EBD88552}
 		{67B44FF8-D234-4FE6-A5CC-DFF9FDB9544A} = {CD54FE36-D411-452F-8DE3-9085EBD88552}
-		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {CD54FE36-D411-452F-8DE3-9085EBD88552}
 		{0934D9DD-7E92-4841-B8D6-C7CF77EC5318} = {CD54FE36-D411-452F-8DE3-9085EBD88552}
 	EndGlobalSection
 EndGlobal
