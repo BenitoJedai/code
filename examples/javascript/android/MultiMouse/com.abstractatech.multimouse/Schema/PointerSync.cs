@@ -25,13 +25,11 @@ namespace com.abstractatech.multimouse.Schema
 
         //  The database file is locked
 
+       
+
+        [Obsolete("jsc does ot yet like optional parameters for web service layer")]
         public PointerSync(
-            string DataSource =
-
-            // echo lag 207ms
-            "com.abstractatech.multimouse.sqlite"
-
-            )
+            string DataSource = "com.abstractatech.multimouse.sqlite")
         // Data Source cannot be empty.  Use :memory: to open an in-memory database
         {
 

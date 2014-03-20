@@ -86,6 +86,19 @@ namespace jsc.Library
             //[method: DebuggerStepThrough]
             get
             {
+                //            >	ScriptCoreLib.Ultra.Library.dll!jsc.Library.VirtualDictionary<System.Reflection.ConstructorInfo,System.Reflection.ConstructorInfo>.this[System.Reflection.ConstructorInfo].get(System.Reflection.ConstructorInfo k) Line 91 + 0x10 bytes	C#
+                //jsc.meta.exe!jsc.meta.Library.ILStringConversions.Prepare.AnonymousMethod__6e() + 0x277 bytes	
+                //jsc.meta.exe!jsc.meta.Library.ILGeneratorExtensions.EmitWithParameter(System.Reflection.Emit.ILGenerator il, int ParameterPosition, System.Action handler) + 0x248 bytes	
+
+                //jsc.meta.exe!jsc.meta.Library.ILStringConversions.Prepare.AnonymousMethod__6d(System.Type CacheType, jsc.meta.Library.ILStringConversions.ILStringConversionArguments e) + 0x5b8 bytes	
+                //jsc.meta.exe!jsc.meta.Library.ILStringConversions.ILStringConversion..ctor.AnonymousMethod__de(jsc.meta.Library.ILStringConversions.ILStringConversionArguments e) + 0x6f bytes	
+                //jsc.meta.exe!jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.WebServiceForJavaScript.WriteGetFields(System.Reflection.Emit.ILGenerator InvokeCallback_il, System.Action fthis, System.Action fWebRequest) + 0x5b9 bytes	
+
+                // Error	11	Operator '==' cannot be applied to operands of type 'TKey' and 'TKey'	x:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Library\VirtualDictionary.cs	96	21	ScriptCoreLib.Ultra.Library
+                if (Comparer<TKey>.Default.Compare(k, default(TKey)) == 0)
+                    Debugger.Break();
+
+
                 //lock (GetItemSync)
                 //{
                 if (!BaseDictionary.ContainsKey(k))

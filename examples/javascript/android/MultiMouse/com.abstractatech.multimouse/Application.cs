@@ -21,9 +21,8 @@ namespace com.abstractatech.multimouse
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -39,7 +38,7 @@ namespace com.abstractatech.multimouse
             #region inehrit the static layout
             while (layout.Container.firstChild != null)
             {
-                layout.Container.firstChild.Orphanize().AttachToDocument();
+                ((IHTMLElement)layout.Container.firstChild).Orphanize().AttachToDocument();
             }
             #endregion
 
@@ -84,7 +83,7 @@ namespace com.abstractatech.multimouse
                             //Console.WriteLine("to mothrship: " + xml);
 
                             // tell the server its us..
-                            service.sync_Insert(xml);
+                            this.sync_Insert(xml);
                         };
                     #endregion
 
@@ -105,7 +104,7 @@ namespace com.abstractatech.multimouse
                         (lag, xml) => { };
 
 
-                    service.sync_SelectTransaction(
+                    this.sync_SelectTransaction(
                         last_id =>
                         {
                             // either 
@@ -192,7 +191,7 @@ namespace com.abstractatech.multimouse
                                 new ScriptCoreLib.JavaScript.Runtime.Timer(
                                     delegate
                                     {
-                                        service.sync_SelectContentUpdates_EventStream(
+                                        this.sync_SelectContentUpdates_EventStream(
                                             last_id: last_id,
                                             yield: at_mothership_message,
                                             yield_last_id:
@@ -244,7 +243,7 @@ namespace com.abstractatech.multimouse
                     );
                 };
 
-            if (Native.Window.opener == null)
+            if (Native.window.opener == null)
                 talkhandker();
 
             new IHTMLAnchor { innerText = "Next Tab", href = "/" }.AttachTo(layout.infocontent);
