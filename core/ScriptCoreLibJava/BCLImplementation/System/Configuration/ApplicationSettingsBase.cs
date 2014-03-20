@@ -10,5 +10,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Configuration
 	[Script(Implements = typeof(global::System.Configuration.ApplicationSettingsBase))]
 	internal class __ApplicationSettingsBase : __SettingsBase, __INotifyPropertyChanged
 	{
-	}
+        public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+    }
 }

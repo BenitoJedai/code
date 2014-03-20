@@ -29,7 +29,7 @@ namespace AndroidNfcAuthApp
 
             //  android:launchMode="singleTop"
             // http://www.intridea.com/blog/2011/6/16/android-understanding-activity-launchmode
-            Console.WriteLine("enter ApplicationWebService " + new { Thread.CurrentThread.ManagedThreadId });
+           // Console.WriteLine("enter ApplicationWebService " + new { Thread.CurrentThread.ManagedThreadId });
 
             // http://mobile.tutsplus.com/tutorials/android/reading-nfc-tags-with-android/
             // http://stackoverflow.com/questions/10848134/android-on-nfc-read-close-activity-not-the-main-activity
@@ -41,8 +41,11 @@ namespace AndroidNfcAuthApp
             var isEnabled = adapter.isEnabled();
 
             var ws = new NfcAuthWebService();
+
+            ws.methodURL = "192.168.1.77:21501";
+
             var lastUser = "";
-            var inserted = false;
+            var isUser = true;
 
             
 
@@ -93,7 +96,7 @@ namespace AndroidNfcAuthApp
                 // current javacards? (ISO 14443-4)
                 new [] {     typeof(android.nfc.tech.IsoDep).FullName },
 
-
+                
             };
 
             // http://124.16.139.131:24080/lxr/source/packages/apps/Nfc/src/com/android/nfc/NfcDispatcher.java?v=android-4.0.4
@@ -211,7 +214,7 @@ namespace AndroidNfcAuthApp
                     {
                         var current = (string)iterator.next();
 
-                        Console.WriteLine("AtNewIntent " + new { action, current });
+                       // Console.WriteLine("AtNewIntent " + new { action, current });
 
 
 
@@ -220,14 +223,14 @@ namespace AndroidNfcAuthApp
                         extras.get(current).With(
                             p =>
                             {
-                                Console.WriteLine("AtNewIntent " + new { action, current, p, p.GetType().FullName });
+                               // Console.WriteLine("AtNewIntent " + new { action, current, p, p.GetType().FullName });
 
                                 (p as Tag).With(
                                    tag =>
                                    {
                                        var id = (byte[])(object)tag.getId();
 
-                                       Console.WriteLine("AtNewIntent " + new { action, current, id = id.ToHexString(), Thread.CurrentThread.ManagedThreadId });
+                                       //Console.WriteLine("AtNewIntent " + new { action, current, id = id.ToHexString(), Thread.CurrentThread.ManagedThreadId });
 
                                        //I/System.Console(32331): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG, p = TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef], id = fdccd727, tech = android.nfc.tech.MifareClassic }
                                        //I/System.Console(32331): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG, p = TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef], id = fdccd727, tech = android.nfc.tech.NfcA }
@@ -240,7 +243,7 @@ namespace AndroidNfcAuthApp
                                        tag.getTechList().WithEach(
                                            tech =>
                                            {
-                                               Console.WriteLine("AtNewIntent " + new { action, current, id = id.ToHexString(), tech });
+                                               //Console.WriteLine("AtNewIntent " + new { action, current, id = id.ToHexString(), tech });
 
                                                if (tech == typeof(android.nfc.tech.MifareClassic).FullName)
                                                {
@@ -281,84 +284,60 @@ namespace AndroidNfcAuthApp
                                                                    if (m.isConnected())
                                                                    {
                                                                        var res = m.transceive(sByteArr);
-
-                                                                       if (!inserted)
+                                                                       if (res != null)
                                                                        {
-                                                                           if (res != null)
+
+                                                                           var resString = ((byte[])(object)res).ToHexString();
+
+                                                                           Console.WriteLine("Result = " + resString);
+
+                                                                           Console.WriteLine("Result lenght = " + res.Length);
+
+                                                                           if (resString == "9000")
                                                                            {
-                                                                           
-                                                                               var resString = ((byte[])(object)res).ToHexString();
+                                                                               Console.WriteLine("Succsessful applet selection");
 
-                                                                               Console.WriteLine("Result = " + resString);
+                                                                               byte[] lastName = { 0x00, 0xB2, 0x01, 0x04, 0x00 };
+                                                                               byte[] firstName = { 0x00, 0xB2, 0x02, 0x04, 0x00 };
 
-                                                                               Console.WriteLine("Result lenght = " + res.Length);
+                                                                               var t1 = (sbyte[])(object)lastName;
+                                                                               var t2 = (sbyte[])(object)firstName;
+                                                                               var lastN = m.transceive(t1);
+                                                                               Console.WriteLine("Last name =" + ((byte[])(object)lastN).ToHexString());
+                                                                               Console.WriteLine("Last name len =" + lastN.Length);
 
-                                                                               if (resString == "9000")
-                                                                               {
-                                                                                   Console.WriteLine("Succsessful applet selection");
+                                                                               var temp1 = new sbyte[lastN.Length - 2];
 
-                                                                                   byte[] lastName = { 0x00, 0xB2, 0x01, 0x04, 0x00 };
-                                                                                   byte[] firstName = { 0x00, 0xB2, 0x02, 0x04, 0x00 };
-
-                                                                                   var t1 = (sbyte[])(object)lastName;
-                                                                                   var t2 = (sbyte[])(object)firstName;
-                                                                                   var lastN = m.transceive(t1);
-                                                                                   Console.WriteLine("Last name =" + ((byte[])(object)lastN).ToHexString());
-                                                                                   Console.WriteLine("Last name len =" + lastN.Length);
-
-                                                                                   var temp1 = new sbyte[lastN.Length - 2];
-
-                                                                                   Array.Copy(lastN, temp1, lastN.Length - 2);
-                                                                                   var l = Encoding.ASCII.GetString((byte[])(object)temp1);
+                                                                               Array.Copy(lastN, temp1, lastN.Length - 2);
+                                                                               var l = Encoding.ASCII.GetString((byte[])(object)temp1);
 
 
-                                                                                   var firstN = m.transceive(t2);
-                                                                                   Console.WriteLine("First name =" + ((byte[])(object)firstN).ToHexString());
-                                                                                   Console.WriteLine("First name len =" + firstN.Length);
+                                                                               var firstN = m.transceive(t2);
+                                                                               Console.WriteLine("First name =" + ((byte[])(object)firstN).ToHexString());
+                                                                               Console.WriteLine("First name len =" + firstN.Length);
 
-                                                                                   var temp2 = new sbyte[firstN.Length - 2];
-                                                                                   Array.Copy(firstN, temp2, firstN.Length - 2);
+                                                                               var temp2 = new sbyte[firstN.Length - 2];
+                                                                               Array.Copy(firstN, temp2, firstN.Length - 2);
 
-                                                                                   var f = Encoding.ASCII.GetString((byte[])(object)temp2);
+                                                                               var f = Encoding.ASCII.GetString((byte[])(object)temp2);
 
-                                                                                   var user = f + l;
+                                                                               var user = f + l;
 
-                                                                                   if (lastUser != user)
-                                                                                   {
-                                                                                       if (lastUser != "")
+                                                                               ws.InsertUserAuthAsync(user,
+                                                                                       delegate
                                                                                        {
-                                                                                           ws.InsertUserAuthAsync(lastUser, false,
-                                                                                                   delegate
-                                                                                                   {
-                                                                                                   }
-                                                                                            );
                                                                                        }
-                                                                                       lastUser = user;
-                                                                                       ws.InsertUserAuthAsync(lastUser, true,
-                                                                                               delegate
-                                                                                               {
-                                                                                               }
-                                                                                        );
-                                                                                       inserted = true;
-                                                                                   }
-                                                                               }
+                                                                                );
                                                                            }
-                                                                           else
-                                                                           {
-                                                                               Console.WriteLine("Applet select failed");
-                                                                           }
+                                                                       }
+                                                                       else
+                                                                       {
+                                                                           Console.WriteLine("Applet select failed");
                                                                        }
                                                                    }
                                                                    else
                                                                    {
-                                                                       ws.InsertUserAuthAsync(lastUser, false,
-                                                                                   delegate
-                                                                                   {
-                                                                                       //Console.WriteLine("New card inserted");
-                                                                                   }
-                                                                            );
-                                                                       inserted = false;
-                                                                       lastUser = "";
+                                                                       isUser = false;
                                                                    }
                                                            }
                                                            catch (Exception e)
@@ -370,7 +349,6 @@ namespace AndroidNfcAuthApp
                                                }
                                            }
                                        );
-                                       //tag.
                                    }
                                 );
 
@@ -379,86 +357,36 @@ namespace AndroidNfcAuthApp
                                     {
                                         var HexString = bytes.ToHexString();
 
-                                        Console.WriteLine("AtNewIntent " + new { action, current, p, p.GetType().FullName, HexString });
+                                        //Console.WriteLine("AtNewIntent " + new { action, current, p, p.GetType().FullName, HexString });
                                     }
                                 );
-
-                                // https://android.googlesource.com/platform/packages/apps/Nfc/+/android-4.2.1_r1.2/nci/src/com/android/nfc/dhimpl/NativeNfcTag.java
-
-                                //(p as android.os.Parcelable[]).With(
-                                //     m =>
-                                //     {
-
-                                //         Console.WriteLine("AtNewIntent " + new { action, current, records = m.getRecords().Length });
-
-                                //         m.getRecords().WithEach(
-                                //             r =>
-                                //             {
-                                //                 Console.WriteLine("AtNewIntent " + new { action, current, id = ((byte[])(object)r.getId()).ToHexString() });
-
-                                //             }
-                                //         );
-                                //     }
-                                // );
                             }
                         );
 
                     }
-
-                    //                        I/System.Console(29527): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED }
-                    //I/System.Console(29527): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG }
-                    //I/System.Console(29527): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG, p = TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef], FullName = android.nfc.Tag }
-                    //I/System.Console(29527): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.ID }
-                    //I/System.Console(29527): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.ID, p = [B@42156c88, FullName = [B }
-                    //I/System.Console(29527): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.NDEF_MESSAGES }
-                    //I/System.Console(29527): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.NDEF_MESSAGES, p = [Landroid.os.Parcelable;@42156e98, FullName = [Landroid.os.Parcelable; }
-                    //I/System.Console(29527): AtResume
-
-
-
-
-
-                    //                        I/System.Console(28867): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED }
-                    //I/System.Console(28867): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.TAG }
-                    //I/System.Console(28867): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.ID }
-                    //I/System.Console(28867): AtNewIntent { action = android.nfc.action.TECH_DISCOVERED, current = android.nfc.extra.NDEF_MESSAGES }
-
-
-
-
-                    //var id = tag.getId();
-
-                    //Console.WriteLine("AtNewIntent " + new { action, tag, id.Length, id = ((byte[])(object)id).ToHexString() });
-
-                    //tag.getTechList().WithEach(
-                    //    tech =>
-                    //    {
-                    //        Console.WriteLine("AtNewIntent " + new { action, tech });
-                    //    }
-                    //);
-                    //tag.get
                 }
                 else
                 {
                     
                     Console.WriteLine("Nfc Tag removed");
+                    
                 }
                 #endregion
             };
 
             Action<Intent> checkCard =  i =>
             {
-                while (true)
+                while (isUser)
                 {
                     newIntent(i);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                 }
             };
 
             activity.AtNewIntent +=
                 i =>
                 {
-                    //newIntent(i);
+                    isUser = true;
                     checkCard(i);
                 };
 
@@ -475,7 +403,7 @@ namespace AndroidNfcAuthApp
 
             Console.WriteLine("before AndroidNfcAuthApp enableForegroundDispatch ?");
             //adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
-
+            
 
             activity.AtPause +=
                delegate

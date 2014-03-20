@@ -17,6 +17,7 @@ using NfcUnlockPrototype;
 using NfcUnlockPrototype.Design;
 using NfcUnlockPrototype.HTML.Pages;
 using System.Threading;
+using ScriptCoreLib.Lambda;
 
 namespace NfcUnlockPrototype
 {
@@ -51,7 +52,6 @@ namespace NfcUnlockPrototype
                             fName.style.visibility = IStyle.VisibilityEnum.visible;
                             submit.style.visibility = IStyle.VisibilityEnum.visible;
                             a.style.visibility = IStyle.VisibilityEnum.hidden;
-
                             break;
                         }
                     }
@@ -59,7 +59,8 @@ namespace NfcUnlockPrototype
                     {
                         Console.WriteLine("Result is NULL");
                     }
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
+                    await 1000;
                 }
             };
 
@@ -71,23 +72,43 @@ namespace NfcUnlockPrototype
 
                 //await InsertUserAuth(user,false);
 
+                var counter = 0;
 
-                var res = await IsNfcApproved(user);
-                if (res != null)
+                while (true)
                 {
-                    if (res.IsCard)
+                    if (counter <= 10)
                     {
                         lName.style.visibility = IStyle.VisibilityEnum.hidden;
                         fName.style.visibility = IStyle.VisibilityEnum.hidden;
                         submit.style.visibility = IStyle.VisibilityEnum.hidden;
-                        a.innerHTML = "Welcome! " + fName + " " + lName;
                         a.style.visibility = IStyle.VisibilityEnum.visible;
-                        startSession(user);
+                        a.innerHTML = "Waiting for NFC " + counter;
+
+                        var res = await IsNfcApproved(user);
+                        if (res != null)
+                        {
+                            if (res.IsCard)
+                            {
+                                a.innerHTML = "Welcome! " + fName + " " + lName;
+                                startSession(user);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Result is NULL");
+                        }
+                        counter++;
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Result is NULL");
+                    else
+                    {
+                        lName.style.visibility = IStyle.VisibilityEnum.visible;
+                        fName.style.visibility = IStyle.VisibilityEnum.visible;
+                        submit.style.visibility = IStyle.VisibilityEnum.visible;
+                        a.style.visibility = IStyle.VisibilityEnum.hidden;
+                        break;
+                    }
+                    //Thread.Sleep(1000);
+                    await 1000;
                 }
             };
 
