@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -118,6 +119,7 @@ namespace System.Data.SQLite
 
         public static Action<Action<SQLiteConnection>> AsWithConnection(
             this SQLiteConnectionStringBuilder csb,
+            //this DbConnectionStringBuilder csb,
             Action<SQLiteConnection> Initializer = null
             )
         {
