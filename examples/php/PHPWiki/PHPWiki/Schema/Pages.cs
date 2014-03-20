@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib.Shared.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,9 @@ namespace PHPWiki.Schema
         public readonly Action<Action<SQLiteConnection>> WithConnection;
         //public readonly Action<Action<SQLiteConnection>> WithReadOnlyConnection;
 
-        public Pages(string DataSource = "PHPWiki.sqlite")
+        public Pages(string DataSource = "file:PHPWiki.sqlite")
         {
-            this.WithConnection = DataSource.AsWithConnection();
+            this.WithConnection = DataSource.xAsWithConnection();
             //this.WithReadOnlyConnection = DataSource.AsWithConnection();
 
             WithConnection(
@@ -78,7 +79,7 @@ namespace PHPWiki.Schema
 
     public static partial class XX
     {
-        public static void WithEach(this SQLiteDataReader reader, Action<dynamic> y)
+        public static void WithEach(this IDataReader reader, Action<dynamic> y)
         {
             using (reader)
             {
@@ -93,7 +94,7 @@ namespace PHPWiki.Schema
 
 
 
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
+        public static Action<Action<SQLiteConnection>> xAsWithConnection(this string DataSource, int Version = 3)
         {
             //Console.WriteLine("AsWithConnection...");
 
