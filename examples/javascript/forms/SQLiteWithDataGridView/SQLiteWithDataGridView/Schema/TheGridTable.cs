@@ -31,9 +31,9 @@ namespace SQLiteWithDataGridView.Schema
 
         public TheGridTable()
         {
-            this.WithConnection = csb.AsWithConnection();
-            this.WithAdminConnection = csb_admin.AsWithConnection();
-            this.WithWriteConnection = csb_write.AsWithConnection();
+            this.WithConnection = csb.xAsWithConnection();
+            this.WithAdminConnection = csb_admin.xAsWithConnection();
+            this.WithWriteConnection = csb_write.xAsWithConnection();
 
 
         }
@@ -160,84 +160,84 @@ namespace SQLiteWithDataGridView.Schema
         //Please double check the signature!
 
 
-        public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Create data, IDbConnection c)
-        {
-            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+        //public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Create data, IDbConnection c)
+        //{
+        //    // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
 
-            return c
-                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Create.CommandText)
-                .ExecuteNonQuery();
-        }
+        //    return c
+        //        .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Create.CommandText)
+        //        .ExecuteNonQuery();
+        //}
 
-        public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.CreateLog data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.CreateLog.CommandText)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.CreateLog data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.CreateLog.CommandText)
+        //        .ExecuteNonQuery();
+        //}
 
-        public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.InsertLog data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.InsertLog.CommandText)
-                .AddParameter("@ContentKey", data.ContentKey)
-                .AddParameter("@ContentComment", data.ContentComment)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.InsertLog data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.InsertLog.CommandText)
+        //        .AddParameter("@ContentKey", data.ContentKey)
+        //        .AddParameter("@ContentComment", data.ContentComment)
+        //        .ExecuteNonQuery();
+        //}
 
-        public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Update data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Update.CommandText)
-                .AddParameter("@ContentComment", data.ContentComment)
-                .AddParameter("@ContentValue", data.ContentValue)
-                .AddParameter("@ContentKey", data.ContentKey)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Update data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Update.CommandText)
+        //        .AddParameter("@ContentComment", data.ContentComment)
+        //        .AddParameter("@ContentValue", data.ContentValue)
+        //        .AddParameter("@ContentKey", data.ContentKey)
+        //        .ExecuteNonQuery();
+        //}
 
 
-        public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Insert data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Insert.CommandText)
-                .AddParameter("@ContentValue", data.ContentValue)
-                .AddParameter("@ContentComment", data.ContentComment)
-                .AddParameter("@ParentContentKey", data.ParentContentKey)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this SQLiteWithDataGridView.Schema.TheGridTableQueries.Insert data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.Insert.CommandText)
+        //        .AddParameter("@ContentValue", data.ContentValue)
+        //        .AddParameter("@ContentComment", data.ContentComment)
+        //        .AddParameter("@ParentContentKey", data.ParentContentKey)
+        //        .ExecuteNonQuery();
+        //}
 
-        
-        // 
-        public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContent data, IDbConnection c)
-        {
-            // http://stackoverflow.com/questions/8091214/how-to-make-c-sharp-code-using-ado-net-idbconnection-and-idbcommand-less-verbos
 
-            return c
-                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContent.CommandText)
-                .AddParameter("@ParentContentKey1", data.ParentContentKey1)
-                .AddParameter("@ParentContentKey2", data.ParentContentKey2)
-                .AddParameter("@ParentContentKey3", data.ParentContentKey3)
-                .ExecuteReader();
-        }
+        //// 
+        //public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContent data, IDbConnection c)
+        //{
+        //    // http://stackoverflow.com/questions/8091214/how-to-make-c-sharp-code-using-ado-net-idbconnection-and-idbcommand-less-verbos
 
-        public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContentUpdates data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContentUpdates.CommandText)
-               .AddParameter("@ToTransaction", data.ToTransaction)
-               .AddParameter("@FromTransaction", data.FromTransaction)
-               .AddParameter("@ParentContentKey1", data.ParentContentKey1)
-               .AddParameter("@ParentContentKey2", data.ParentContentKey2)
-               .AddParameter("@ParentContentKey3", data.ParentContentKey3)
-               .ExecuteReader();
-        }
+        //    return c
+        //        .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContent.CommandText)
+        //        .AddParameter("@ParentContentKey1", data.ParentContentKey1)
+        //        .AddParameter("@ParentContentKey2", data.ParentContentKey2)
+        //        .AddParameter("@ParentContentKey3", data.ParentContentKey3)
+        //        .ExecuteReader();
+        //}
 
-        public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectTransaction data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectTransaction.CommandText)
-                .ExecuteReader();
-        }
+        //public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContentUpdates data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectContentUpdates.CommandText)
+        //       .AddParameter("@ToTransaction", data.ToTransaction)
+        //       .AddParameter("@FromTransaction", data.FromTransaction)
+        //       .AddParameter("@ParentContentKey1", data.ParentContentKey1)
+        //       .AddParameter("@ParentContentKey2", data.ParentContentKey2)
+        //       .AddParameter("@ParentContentKey3", data.ParentContentKey3)
+        //       .ExecuteReader();
+        //}
+
+        //public static IDataReader ExecuteReader(this SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectTransaction data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(SQLiteWithDataGridView.Schema.TheGridTableQueries.SelectTransaction.CommandText)
+        //        .ExecuteReader();
+        //}
 
 
         public static void WithEach(this SQLiteDataReader reader, Action<dynamic> y)
@@ -255,7 +255,7 @@ namespace SQLiteWithDataGridView.Schema
 
 
 
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this SQLiteConnectionStringBuilder csb)
+        public static Action<Action<SQLiteConnection>> xAsWithConnection(this SQLiteConnectionStringBuilder csb)
         {
             //Console.WriteLine("AsWithConnection...");
 

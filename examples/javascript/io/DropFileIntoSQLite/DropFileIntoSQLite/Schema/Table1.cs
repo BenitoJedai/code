@@ -44,7 +44,7 @@ namespace DropFileIntoSQLite.Schema
             }
             #endregion
 
-            this.WithConnection = DataSource.AsWithConnection();
+            this.WithConnection = DataSource.xAsWithConnection();
 
             WithConnection(
                 c =>
@@ -124,73 +124,75 @@ namespace DropFileIntoSQLite.Schema
 
     public static partial class XX
     {
-        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Create data, IDbConnection c)
-        {
-            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140320
 
-            return c
-                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Create.CommandText)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Create data, IDbConnection c)
+        //{
+        //    // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
 
-        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1MetaQueries.CreateMeta data, IDbConnection c)
-        {
-            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+        //    return c
+        //        .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Create.CommandText)
+        //        .ExecuteNonQuery();
+        //}
 
-            return c
-                .CreateCommand(DropFileIntoSQLite.Schema.Table1MetaQueries.CreateMeta.CommandText)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1MetaQueries.CreateMeta data, IDbConnection c)
+        //{
+        //    // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
 
-        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Delete data, IDbConnection c)
-        {
-            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+        //    return c
+        //        .CreateCommand(DropFileIntoSQLite.Schema.Table1MetaQueries.CreateMeta.CommandText)
+        //        .ExecuteNonQuery();
+        //}
 
-            return c
-                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Delete.CommandText)
-                .AddParameter("@ContentKey", data.ContentKey)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Delete data, IDbConnection c)
+        //{
+        //    // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
 
-        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Insert data, IDbConnection c)
-        {
-            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+        //    return c
+        //        .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Delete.CommandText)
+        //        .AddParameter("@ContentKey", data.ContentKey)
+        //        .ExecuteNonQuery();
+        //}
 
-            return c
-                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Insert.CommandText)
-                .AddParameter("@ContentValue", data.ContentValue)
-                .AddParameter("@ContentBytes", data.ContentBytes)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1Queries.Insert data, IDbConnection c)
+        //{
+        //    // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
 
-        public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1MetaQueries.InsertMeta data, IDbConnection c)
-        {
-            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+        //    return c
+        //        .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.Insert.CommandText)
+        //        .AddParameter("@ContentValue", data.ContentValue)
+        //        .AddParameter("@ContentBytes", data.ContentBytes)
+        //        .ExecuteNonQuery();
+        //}
 
-            return c
-                .CreateCommand(DropFileIntoSQLite.Schema.Table1MetaQueries.InsertMeta.CommandText)
-                .AddParameter("@MemberName", data.MemberName)
-                .AddParameter("@MemberValue", data.MemberValue)
-                .AddParameter("@DeclaringType", data.DeclaringType)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this DropFileIntoSQLite.Schema.Table1MetaQueries.InsertMeta data, IDbConnection c)
+        //{
+        //    // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+
+        //    return c
+        //        .CreateCommand(DropFileIntoSQLite.Schema.Table1MetaQueries.InsertMeta.CommandText)
+        //        .AddParameter("@MemberName", data.MemberName)
+        //        .AddParameter("@MemberValue", data.MemberValue)
+        //        .AddParameter("@DeclaringType", data.DeclaringType)
+        //        .ExecuteNonQuery();
+        //}
 
 
 
-        public static IDataReader ExecuteReader(this DropFileIntoSQLite.Schema.Table1Queries.SelectAll data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.SelectAll.CommandText)
-               .ExecuteReader();
-        }
+        //public static IDataReader ExecuteReader(this DropFileIntoSQLite.Schema.Table1Queries.SelectAll data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.SelectAll.CommandText)
+        //       .ExecuteReader();
+        //}
 
-        public static IDataReader ExecuteReader(this DropFileIntoSQLite.Schema.Table1Queries.SelectBytes data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.SelectBytes.CommandText)
-                .AddParameter("@ContentKey", data.ContentKey)
-               .ExecuteReader();
-        }
+        //public static IDataReader ExecuteReader(this DropFileIntoSQLite.Schema.Table1Queries.SelectBytes data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(DropFileIntoSQLite.Schema.Table1Queries.SelectBytes.CommandText)
+        //        .AddParameter("@ContentKey", data.ContentKey)
+        //       .ExecuteReader();
+        //}
 
 
         // jsc cannot handle generic that only differ in generic arguments?
@@ -219,7 +221,7 @@ namespace DropFileIntoSQLite.Schema
 
 
 
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
+        public static Action<Action<SQLiteConnection>> xAsWithConnection(this string DataSource, int Version = 3)
         {
             //Console.WriteLine("AsWithConnection...");
 
