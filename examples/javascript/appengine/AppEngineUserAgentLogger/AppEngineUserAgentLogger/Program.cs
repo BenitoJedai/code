@@ -10,6 +10,12 @@ namespace AppEngineUserAgentLogger
     {
         public static void Main(string[] args)
         {
+            // AppEngineUserAgentLogger.Schema.FirstTableExtensions::ExecuteNonQuery] Method does not exist.
+
+            var w = new ApplicationWebService();
+
+            w.SetScreenSize(1, 1);
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

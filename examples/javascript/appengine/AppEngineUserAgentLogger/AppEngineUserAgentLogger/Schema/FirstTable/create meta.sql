@@ -8,6 +8,7 @@ key INTEGER PRIMARY KEY AUTOINCREMENT
 , width INTEGER 
 , height INTEGER 
 
+
 , ip text not null
 , useragent text not null
 

@@ -37,6 +37,10 @@ namespace AppEngineUserAgentLogger.Schema
             WithConnection(
                 c =>
                 {
+
+                    //Additional information: { Message = Method not found: '?'., StackTrace =   
+                    // at AppEngineUserAgentLogger.Schema.FirstTableExtensions.ExecuteNonQuery(CreateMeta , IDbConnection )
+
                     new CreateMeta { }.ExecuteNonQuery(c);
                 }
              );
@@ -69,30 +73,30 @@ namespace AppEngineUserAgentLogger.Schema
     {
         // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
 
-        public static int ExecuteNonQuery(this AppEngineUserAgentLogger.Schema.FirstTableQueries.CreateMeta data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.CreateMeta.CommandText)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this AppEngineUserAgentLogger.Schema.FirstTableQueries.CreateMeta data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.CreateMeta.CommandText)
+        //        .ExecuteNonQuery();
+        //}
 
-        public static IDataReader ExecuteReader(this AppEngineUserAgentLogger.Schema.FirstTableQueries.SelectAll data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.SelectAll.CommandText)
-                .ExecuteReader();
-        }
+        //public static IDataReader ExecuteReader(this AppEngineUserAgentLogger.Schema.FirstTableQueries.SelectAll data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.SelectAll.CommandText)
+        //        .ExecuteReader();
+        //}
 
-        public static int ExecuteNonQuery(this AppEngineUserAgentLogger.Schema.FirstTableQueries.InsertMeta data, IDbConnection c)
-        {
-            return c
-                .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.InsertMeta.CommandText)
-                .AddParameter("@width", data.width)
-                .AddParameter("@height", data.height)
-                .AddParameter("@ip", data.ip)
-                .AddParameter("@useragent", data.useragent)
-                .ExecuteNonQuery();
-        }
+        //public static int ExecuteNonQuery(this AppEngineUserAgentLogger.Schema.FirstTableQueries.InsertMeta data, IDbConnection c)
+        //{
+        //    return c
+        //        .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.InsertMeta.CommandText)
+        //        .AddParameter("@width", data.width)
+        //        .AddParameter("@height", data.height)
+        //        .AddParameter("@ip", data.ip)
+        //        .AddParameter("@useragent", data.useragent)
+        //        .ExecuteNonQuery();
+        //}
 
         // jsc cannot handle generic that only differ in generic arguments?
         public static void WithEachReader(this SQLiteDataReader reader, Action<IDataReader> y)
