@@ -19,7 +19,7 @@ namespace FormsDataBindingForEnabled
             this.InitializeComponent();
         }
 
-     
+
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
@@ -27,16 +27,21 @@ namespace FormsDataBindingForEnabled
 
             //var x = new BindingToTask("Enabled", () => this.applicationWebService1.CheckEnabled());
 
-//looking at { Name = packages.config }
-//{ FixupHintPath = X:\jsc.svn\examples\javascript\forms\FormsDataBindingForEnabled\packages\ScriptCoreLib.Async.1.0.0.0 }
-//will need to find package  { id = ScriptCoreLib.Async }
-//will find package  { id = ScriptCoreLib.Async }
-//cleaned { id = ScriptCoreLib.Async }
-//updating { id = ScriptCoreLib.Async }
-//updating { RestorePackagesFromFile = c:/util/jsc/nuget/ScriptCoreLib.Async.1.0.0.0.nupkg }
-//updated { id = ScriptCoreLib.Async }
+            //looking at { Name = packages.config }
+            //{ FixupHintPath = X:\jsc.svn\examples\javascript\forms\FormsDataBindingForEnabled\packages\ScriptCoreLib.Async.1.0.0.0 }
+            //will need to find package  { id = ScriptCoreLib.Async }
+            //will find package  { id = ScriptCoreLib.Async }
+            //cleaned { id = ScriptCoreLib.Async }
+            //updating { id = ScriptCoreLib.Async }
+            //updating { RestorePackagesFromFile = c:/util/jsc/nuget/ScriptCoreLib.Async.1.0.0.0.nupkg }
+            //updated { id = ScriptCoreLib.Async }
 
-            this.button1.DataBindings.Add("Enabled", () => this.applicationWebService1.CheckEnabled());
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
+
+            this.button1.DataBindings.Add(
+                "Enabled",
+                () => this.applicationWebService1.CheckEnabled()
+            );
         }
 
     }

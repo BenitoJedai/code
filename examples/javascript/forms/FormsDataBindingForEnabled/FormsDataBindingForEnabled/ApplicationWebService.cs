@@ -20,14 +20,9 @@ namespace FormsDataBindingForEnabled
     {
         // http://stackoverflow.com/questions/5666103/binding-button-enabled-to-a-property-in-c-sharp-dll   
         // http://stackoverflow.com/questions/12961533/databinding-enabled-if-false
-
-        //public bool CheckedField;
-
         // http://stackoverflow.com/questions/3989965/why-cant-i-bind-to-a-field-on-a-class-in-wpf-instead-of-binding-to-a-property
-        //public bool Checked { get; set; }
 
         public async Task<bool> CheckEnabled()
-        //public bool CheckEnabled()
         {
             var now = DateTime.Now;
 
@@ -35,7 +30,7 @@ namespace FormsDataBindingForEnabled
             // then 2 sec disabled?
             var Checked = now.Second % 3 == 0;
 
-            Console.WriteLine(new { Checked });
+            //Console.WriteLine(new { Checked });
 
             // http://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx
 
@@ -43,7 +38,6 @@ namespace FormsDataBindingForEnabled
         }
 
 
-        //public event PropertyChangedEventHandler PropertyChanged;
     }
 
 
