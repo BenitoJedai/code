@@ -7,6 +7,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Data;
 
 namespace com.abstractatech.multimouse.Schema
 {
@@ -25,17 +26,25 @@ namespace com.abstractatech.multimouse.Schema
 
         //  The database file is locked
 
-       
+
 
         [Obsolete("jsc does ot yet like optional parameters for web service layer")]
         public PointerSync(
-            string DataSource = "com.abstractatech.multimouse.sqlite")
+            string DataSource = "file:com.abstractatech.multimouse.sqlite")
         // Data Source cannot be empty.  Use :memory: to open an in-memory database
         {
 
 
-            this.WithConnection = new SQLiteConnectionStringBuilder { DataSource = DataSource, ReadOnly = true }.AsWithConnection();
-            this.WithWriteConnection = new SQLiteConnectionStringBuilder { DataSource = DataSource, ReadOnly = false }.AsWithConnection();
+            this.WithConnection = new SQLiteConnectionStringBuilder
+            {
+                DataSource = DataSource
+                //    , ReadOnly = true 
+            }.xAsWithConnection();
+            this.WithWriteConnection = new SQLiteConnectionStringBuilder
+            {
+                DataSource = DataSource
+                //, ReadOnly = false 
+            }.xAsWithConnection();
 
             WithWriteConnection(
               c =>
@@ -168,7 +177,7 @@ namespace com.abstractatech.multimouse.Schema
 
     public static partial class XX
     {
-        public static void WithEach(this SQLiteDataReader reader, Action<dynamic> y)
+        public static void WithEach(this IDataReader reader, Action<dynamic> y)
         {
             using (reader)
             {
@@ -187,7 +196,7 @@ namespace com.abstractatech.multimouse.Schema
         static object synclock = new object();
 
 
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this SQLiteConnectionStringBuilder csb)
+        public static Action<Action<SQLiteConnection>> xAsWithConnection(this SQLiteConnectionStringBuilder csb)
         {
             //Console.WriteLine("AsWithConnection...");
 
