@@ -44,8 +44,8 @@ namespace AppEngineUserAgentLogger
                 {
                     width = width,
                     height = height,
-                    ip = h.Context.Request.UserHostAddress,
-                    useragent = h.Context.Request.UserAgent
+                    ip = h == null ? "" : h.Context.Request.UserHostAddress,
+                    useragent = h == null ? "" : h.Context.Request.UserAgent
                 }
           );
         }
@@ -53,6 +53,18 @@ namespace AppEngineUserAgentLogger
         //public Task<DataTable> GoNextPage()
         public async Task GoNextPage()
         {
+            // [IL]: Error: [X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLogger\AppEngineUserAgentLogger\bin\Debug\AppEngineUserAgentLogger.AssetsLibrary.dll : AppEngineUserAgentLogger.Schema.FirstTableExtensions::ExecuteNonQuery] Method does not exist.
+
+            //[InvalidOperationException: { Message = Method not found: &#39;?&#39;., StackTrace =   
+            // at AppEngineUserAgentLogger.Schema.FirstTableExtensions.ExecuteNonQuery(CreateMeta , IDbConnection )
+            //   at AppEngineUserAgentLogger.Schema.FirstTable.&lt;.ctor&gt;b__0(SQLiteConnection c)
+            //   at AppEngineUserAgentLogger.Schema.XX.&lt;&gt;c__DisplayClass1.&lt;AsWithConnection&gt;b__0(Action`1 y) }]
+            //   AppEngineUserAgentLogger.Schema.&lt;&gt;c__DisplayClass1.&lt;AsWithConnection&gt;b__0(Action`1 y) +242
+            //   AppEngineUserAgentLogger.Schema.FirstTable..ctor(String DataSource) +282
+            //   AppEngineUserAgentLogger.&lt;GoNextPage&gt;d__e.MoveNext() +338
+
+
+
             //Console.WriteLine(NextPageSource.Text);
             var x = XElement.Parse(
                 NextPageSource.Text
@@ -61,9 +73,9 @@ namespace AppEngineUserAgentLogger
             x.Element("body").Element("h4").Value = "This text was set by the server.";
 
 
-            
 
-            Action<string> WriteLine = t => 
+
+            Action<string> WriteLine = t =>
             {
                 var s = new XElement("div");
                 s.Value = t;
