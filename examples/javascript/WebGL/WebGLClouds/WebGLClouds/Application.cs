@@ -87,8 +87,14 @@ namespace WebGLClouds
 
             //Native.document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
-            //container.AttachToDocument();
-            container.AttachTo(page.body);
+            if (page == null)
+            {
+                container.AttachToDocument();
+            }
+            else
+            {
+                container.AttachTo(page.body);
+            }
 
             container.style.SetLocation(0, 0, Native.window.Width, Native.window.Height);
             //container.style.background = "url(" + canvas.toDataURL("image/png") + ")";
