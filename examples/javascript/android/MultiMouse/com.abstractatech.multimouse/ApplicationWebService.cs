@@ -13,9 +13,9 @@ namespace com.abstractatech.multimouse
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed partial class ApplicationWebService
+    public partial class ApplicationWebService
     {
-        public readonly PointerSync sync = new PointerSync();
+        readonly PointerSync sync = new PointerSync();
 
 
         //void IPointerSync.Insert(XElement message)

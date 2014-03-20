@@ -23,40 +23,30 @@ namespace AndroidEnvironmentWebActivity
         // more complex call graph?
 
 
-        public Task<string> Environment_getExternalStorageState()
+        public async Task<string> Environment_getExternalStorageState()
         {
-            return Task.FromResult(
-                android.os.Environment.getExternalStorageState()
-            );
+            return android.os.Environment.getExternalStorageState();
         }
 
-        public Task<string> Environment_getRootDirectory()
+        public async Task<string> Environment_getRootDirectory()
         {
-            return Task.FromResult(
-                android.os.Environment.getRootDirectory().getAbsolutePath()
-            );
+            return android.os.Environment.getRootDirectory().getAbsolutePath();
         }
 
 
-        public Task<string> Environment_getDataDirectory()
+        public async Task<string> Environment_getDataDirectory()
         {
-            return Task.FromResult(
-                android.os.Environment.getDataDirectory().getAbsolutePath()
-            );
+            return android.os.Environment.getDataDirectory().getAbsolutePath();
         }
 
-        public Task<string> Environment_getDownloadCacheDirectory()
+        public async Task<string> Environment_getDownloadCacheDirectory()
         {
-            return Task.FromResult(
-                android.os.Environment.getDownloadCacheDirectory().getAbsolutePath()
-            );
+            return android.os.Environment.getDownloadCacheDirectory().getAbsolutePath();
         }
 
-        public Task<string> Environment_getExternalStorageDirectory()
+        public async Task<string> Environment_getExternalStorageDirectory()
         {
-            return Task.FromResult(
-                android.os.Environment.getExternalStorageDirectory().getAbsolutePath()
-            );
+            return android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
         }
 
         // http://developer.android.com/reference/android/os/Environment.html#getExternalStoragePublicDirectory(java.lang.String)
@@ -70,7 +60,7 @@ namespace AndroidEnvironmentWebActivity
         public string DIRECTORY_MOVIES = android.os.Environment.DIRECTORY_MOVIES;
         public string DIRECTORY_DOWNLOADS = android.os.Environment.DIRECTORY_DOWNLOADS;
         public string DIRECTORY_DCIM = android.os.Environment.DIRECTORY_DCIM;
-  
+
 
         public void Environment_getExternalStoragePublicDirectory(string DIRECTORY, Action<string> y)
         {

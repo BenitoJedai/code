@@ -149,8 +149,8 @@ namespace MultiMouse
 
                     // put the console far right bottom
                     con.MoveTo(
-                        Native.Window.Width - con.Width,
-                        Native.Window.Height - con.Height
+                        Native.window.Width - con.Width,
+                        Native.window.Height - con.Height
                     );
 
                 };
@@ -178,13 +178,13 @@ namespace MultiMouse
                };
 
 
-            Native.Window.onorientationchange +=
+            Native.window.onorientationchange +=
                 e =>
                 {
                     Toggle();
                 };
 
-            Native.Document.onkeyup +=
+            Native.document.onkeyup +=
                 e =>
                 {
                     AtKeyCode(e.KeyCode);
@@ -222,8 +222,8 @@ namespace MultiMouse
 
             var fw = new Form { };
 
-            fw.Width = Native.Window.Width / 4;
-            fw.Height = Native.Window.Height / 4;
+            fw.Width = Native.window.Width / 4;
+            fw.Height = Native.window.Height / 4;
             fw.Show();
             fw.Owner = fvs;
             fw.Opacity = 0.8;
@@ -295,28 +295,28 @@ namespace MultiMouse
                 fs.Width = Native.Screen.width / 4;
                 fs.Height = Native.Screen.height / 4;
 
-                fw.Text = " " + new { Native.Window.Width, Native.Window.Height, Native.Window.orientation };
-                fw.Width = Native.Window.Width / 4;
-                fw.Height = Native.Window.Height / 4;
+                fw.Text = " " + new { Native.window.Width, Native.window.Height, Native.window.orientation };
+                fw.Width = Native.window.Width / 4;
+                fw.Height = Native.window.Height / 4;
 
                 VirtualScreenUpdate();
             };
 
 
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
                     AtResize();
                 };
 
-            Native.Window.onfocus +=
+            Native.window.onfocus +=
                 delegate
                 {
                     AtResize();
                 };
 
-            Native.Window.onblur +=
+            Native.window.onblur +=
                 delegate
                 {
                     AtResize();
@@ -875,7 +875,7 @@ namespace MultiMouse
                     device_onmessage(0, xml);
                 };
 
-            Native.Window.onmessage +=
+            Native.window.onmessage +=
                 e =>
                 {
                     // who sent this? :P
@@ -1308,7 +1308,7 @@ namespace MultiMouse
 
 
             #region opener
-            Native.Window.opener.With(
+            Native.window.opener.With(
                 w =>
                 {
                     // disable features
@@ -1353,7 +1353,7 @@ namespace MultiMouse
 
 
 
-                    Native.Window.requestAnimationFrame +=
+                    Native.window.requestAnimationFrame +=
                         delegate
                         {
                             // ScriptCoreLib Windows Forms has a few bugs:P
@@ -1418,7 +1418,7 @@ namespace MultiMouse
 
                     Console.WriteLine("open child session...");
 
-                    Native.Window.open(
+                    Native.window.open(
                         Native.Document.location.href,
                         "_blank", 400, 400, true).With(
                         w =>
@@ -1504,7 +1504,7 @@ namespace MultiMouse
                                             fc = null;
                                         };
 
-                                    Native.Window.onbeforeunload +=
+                                    Native.window.onbeforeunload +=
                                         delegate
                                         {
                                             if (w == null)

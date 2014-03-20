@@ -133,7 +133,7 @@ namespace com.abstractatech.multimouse
             // IE does not have pointerlock
             // android 2.2 stock browser has no svg!
 
-            dynamic w = Native.Window;
+            dynamic w = Native.window;
             IFunction EventSource = w.EventSource;
 
             if (EventSource == null)
