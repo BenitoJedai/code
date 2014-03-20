@@ -38,10 +38,16 @@ namespace FormsDataBindingForEnabled
 
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.cs
 
-            this.button1.DataBindings.Add(
+            // http://msdn.microsoft.com/en-us/library/ms404299(v=vs.85).ASPX
+            var a = this.button1.DataBindings.Add(
                 "Enabled",
                 () => this.applicationWebService1.CheckEnabled()
             );
+
+            this.button2.DataBindings.Add(
+                a
+            );
+
         }
 
     }
