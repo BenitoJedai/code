@@ -10,7 +10,6 @@ using ScriptCoreLib.JavaScript.Drawing;
 using ScriptCoreLib.JavaScript.Windows.Forms;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
-using ScriptCoreLib.JavaScript.Drawing;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -45,7 +44,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
-    public partial class __Control : __Component
+    public partial class __Control : __Component, __IBindableComponent
     {
         #region name
         public string InternalName;
@@ -165,17 +164,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
         }
 
-        public __Control()
-        {
-            this.Controls = new Control.ControlCollection(this);
 
-            this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-
-            this.MinimumSize = DefaultMinimumSize;
-            this.MaximumSize = DefaultMaximumSize;
-
-
-        }
 
         public static bool InternalDisableSelection = true;
 
@@ -1864,5 +1853,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             return p as Form;
         }
+
+
+
+
+        // X:\jsc.svn\examples\javascript\forms\FormsDataBindingForEnabled\FormsDataBindingForEnabled\ApplicationControl.cs
+        public ControlBindingsCollection DataBindings { get; set; }
+
+
+        public __Control()
+        {
+            //            arg[0] is typeof System.Windows.Forms.IBindableComponent
+            //no matching prototype
+            //script: error JSC1000: error at ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control..ctor,
+            // assembly: X:\jsc.svn\examples\javascript\forms\FormsDataBindingForEnabled\FormsDataBindingForEnabled\bin\Release\ScriptCoreLib.Windows.Forms.dll
+            // type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control, ScriptCoreLib.Windows.Forms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            // offset: 0x0056
+            //  method:Void .ctor()
+
+            this.DataBindings = new __ControlBindingsCollection(this);
+
+            this.Controls = new Control.ControlCollection(this);
+
+            this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
+
+            this.MinimumSize = DefaultMinimumSize;
+            this.MaximumSize = DefaultMaximumSize;
+
+
+        }
+
+
     }
 }
