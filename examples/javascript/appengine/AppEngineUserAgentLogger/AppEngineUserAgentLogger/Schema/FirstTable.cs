@@ -32,7 +32,11 @@ namespace AppEngineUserAgentLogger.Schema
             }
             #endregion
 
-            this.WithConnection = DataSource.AsWithConnection();
+            // Error	4	The type 'System.Data.SQLite.SQLiteConnectionStringBuilder' is defined in an assembly that is not referenced. You must add a reference to assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139'.	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLogger\AppEngineUserAgentLogger\Schema\FirstTable.cs	35	13	AppEngineUserAgentLogger
+            //Error	5	The type 'System.Data.SQLite.SQLiteConnection' is defined in an assembly that is not referenced. You must add a reference to assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139'.	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLogger\AppEngineUserAgentLogger\Schema\FirstTable.cs	35	13	AppEngineUserAgentLogger
+
+            //this.WithConnection = DataSource.AsWithConnection();
+            this.WithConnection = DataSource.xAsWithConnection();
 
             WithConnection(
                 c =>
@@ -98,6 +102,11 @@ namespace AppEngineUserAgentLogger.Schema
         //        .ExecuteNonQuery();
         //}
 
+
+        //Error	9	The type or namespace name 'DynamicDataReader' could not be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLogger\AppEngineUserAgentLogger\Schema\FirstTable.cs	108	27	AppEngineUserAgentLogger
+        //Error	10	The type or namespace name 'DynamicDataReader' could not be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLogger\AppEngineUserAgentLogger\Schema\FirstTable.cs	119	27	AppEngineUserAgentLogger
+
+
         // jsc cannot handle generic that only differ in generic arguments?
         public static void WithEachReader(this SQLiteDataReader reader, Action<IDataReader> y)
         {
@@ -105,7 +114,7 @@ namespace AppEngineUserAgentLogger.Schema
             {
                 while (reader.Read())
                 {
-                    y(new DynamicDataReader(reader));
+                    y(new ScriptCoreLib.Shared.Data.DynamicDataReader(reader));
                 }
             }
         }
@@ -116,7 +125,7 @@ namespace AppEngineUserAgentLogger.Schema
             {
                 while (reader.Read())
                 {
-                    y(new DynamicDataReader(reader));
+                    y(new ScriptCoreLib.Shared.Data.DynamicDataReader(reader));
                 }
             }
         }
@@ -124,7 +133,7 @@ namespace AppEngineUserAgentLogger.Schema
 
 
 
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
+        public static Action<Action<SQLiteConnection>> xAsWithConnection(this string DataSource, int Version = 3)
         {
             //Console.WriteLine("AsWithConnection...");
 
@@ -154,6 +163,10 @@ namespace AppEngineUserAgentLogger.Schema
 
         public static SQLiteConnection ToConnection(this string DataSource, int Version = 3)
         {
+            //Error	1	The type 'System.Data.SQLite.SQLiteConnectionStringBuilder' is defined in an assembly that is not referenced. You must add a reference to assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139'.	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLogger\AppEngineUserAgentLogger\Schema\FirstTable.cs	35	13	AppEngineUserAgentLogger
+            //Error	2	The type 'System.Data.SQLite.SQLiteConnection' is defined in an assembly that is not referenced. You must add a reference to assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139'.	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLogger\AppEngineUserAgentLogger\Schema\FirstTable.cs	35	13	AppEngineUserAgentLogger
+
+
             var csb = new SQLiteConnectionStringBuilder
             {
                 DataSource = DataSource,
