@@ -13,7 +13,7 @@ namespace AppEngineUserAgentLogger.Schema
     class FirstTable : FirstTableQueries
     {
         //public const string DefaultDataSource = "SQLiteWithDataGridView52.sqlite";
-        public const string DefaultDataSource = "SQLiteWithDataGridView53.sqlite";
+        public const string DefaultDataSource = "file:SQLiteWithDataGridView53.sqlite";
 
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
@@ -67,6 +67,33 @@ namespace AppEngineUserAgentLogger.Schema
 
     public static partial class XX
     {
+        // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
+
+        public static int ExecuteNonQuery(this AppEngineUserAgentLogger.Schema.FirstTableQueries.CreateMeta data, IDbConnection c)
+        {
+            return c
+                .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.CreateMeta.CommandText)
+                .ExecuteNonQuery();
+        }
+
+        public static IDataReader ExecuteReader(this AppEngineUserAgentLogger.Schema.FirstTableQueries.SelectAll data, IDbConnection c)
+        {
+            return c
+                .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.SelectAll.CommandText)
+                .ExecuteReader();
+        }
+
+        public static int ExecuteNonQuery(this AppEngineUserAgentLogger.Schema.FirstTableQueries.InsertMeta data, IDbConnection c)
+        {
+            return c
+                .CreateCommand(AppEngineUserAgentLogger.Schema.FirstTableQueries.InsertMeta.CommandText)
+                .AddParameter("@width", data.width)
+                .AddParameter("@height", data.height)
+                .AddParameter("@ip", data.ip)
+                .AddParameter("@useragent", data.useragent)
+                .ExecuteNonQuery();
+        }
+
         // jsc cannot handle generic that only differ in generic arguments?
         public static void WithEachReader(this SQLiteDataReader reader, Action<IDataReader> y)
         {
