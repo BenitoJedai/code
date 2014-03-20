@@ -14,7 +14,7 @@ namespace Abstractatech.JavaScript.FileStorage.Schema
 
         public FileStorageLogTable()
         {
-            this.WithConnection = FileStorageTable.csb.AsWithConnection();
+            this.WithConnection = FileStorageTable.csb.xAsWithConnection();
 
             WithConnection(
                 c =>
