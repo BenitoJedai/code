@@ -103,6 +103,8 @@ namespace WebGLEarthByBjorn
 
                                     // ~ tilde to open css editor?
 
+
+
                                     Console.WriteLine("event: _2_no_clouds_4k_low");
                                     s.image = await new _2_no_clouds_4k_low();
                                     s.needsUpdate = true;
