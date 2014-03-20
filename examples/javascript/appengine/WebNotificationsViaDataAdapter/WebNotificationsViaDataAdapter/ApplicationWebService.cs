@@ -19,10 +19,13 @@ namespace WebNotificationsViaDataAdapter
     [System.ComponentModel.DesignerCategory("Code")]
     public class ApplicationWebService : Component
     {
+        // <h2> <i>Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, 
+
         public Task<DataTable> __FooTable_Insert(
             ScriptedNotificationsV2ScriptedNotificationsRow[] value
             )
         {
+            
             value.Select(
                 new ScriptedNotificationsV2.ScriptedNotifications().Insert
             ).ToArray();
@@ -69,7 +72,7 @@ namespace WebNotificationsViaDataAdapter
             #endregion
 
 
-            return n.SelectAllAsDataTable().ToTaskResult();
+            return n.AsDataTable().ToTaskResult();
 
 
 #if V1
@@ -152,7 +155,7 @@ namespace WebNotificationsViaDataAdapter
 
                 return Enumerable.ToArray(
 
-                    from row in n.SelectAllAsEnumerable()
+                    from row in n.AsEnumerable()
 
                     let delay = row.delay
 

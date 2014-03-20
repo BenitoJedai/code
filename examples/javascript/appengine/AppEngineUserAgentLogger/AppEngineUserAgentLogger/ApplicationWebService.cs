@@ -21,6 +21,8 @@ namespace AppEngineUserAgentLogger
     /// </summary>
     public class ApplicationWebService
     {
+
+
         [EditorBrowsableAttribute(EditorBrowsableState.Never)]
         [Browsable(false), DesignerSerializationVisibility(
                                DesignerSerializationVisibility.Hidden)]
@@ -28,6 +30,10 @@ namespace AppEngineUserAgentLogger
         public WebServiceHandler h { set; get; }
 
         public XElement body;
+
+
+        //Error	3	Assembly 'AppEngineUserAgentLogger.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' uses 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' which has a higher version than referenced assembly 'System.Data.SQLite, Version=1.0.60.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139'	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLogger\AppEngineUserAgentLogger\bin\staging.AssetsLibrary\AppEngineUserAgentLogger.AssetsLibrary.dll	AppEngineUserAgentLogger
+
 
         public void SetScreenSize(int width, int height)
         {

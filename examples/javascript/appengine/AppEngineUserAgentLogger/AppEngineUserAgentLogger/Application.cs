@@ -35,9 +35,9 @@ namespace AppEngineUserAgentLogger
         {
             //screen size
 
-            Native.document.body.querySelectorAll("script").WithEach(
-                x => x.Orphanize()
-            );
+            //Native.document.body.querySelectorAll("script").WithEach(
+            //    x => x.Orphanize()
+            //);
 
             this.body = Native.document.body;
 

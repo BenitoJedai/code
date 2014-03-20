@@ -66,7 +66,7 @@ namespace WebNotificationsViaDataAdapter
                    c.RemoveDropDown(zpage.editcontent, content);
                    content = null;
                }
-               
+
 
                //if (content == null)
                //{
@@ -149,7 +149,8 @@ namespace WebNotificationsViaDataAdapter
 
                             //page.YellowNotificationElement.style.marginLeft = ((v.ElapsedMilliseconds % 3) - 1) + "px";
 
-                            await Native.window.requestAnimationFrameAsync;
+                            //await Native.window.requestAnimationFrameAsync;
+                            await Native.window.async.onframe;
                         }
 
                         page.YellowNotificationElement.style.backgroundColor = "";
@@ -189,7 +190,7 @@ namespace WebNotificationsViaDataAdapter
                     }
                 }
             );
-        }      
+        }
 
     }
 }
