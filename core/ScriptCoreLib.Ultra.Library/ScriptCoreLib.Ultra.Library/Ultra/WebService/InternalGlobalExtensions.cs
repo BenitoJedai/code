@@ -510,7 +510,7 @@ namespace ScriptCoreLib.Ultra.WebService
                 //{ MethodName = Gravatar, MetadataToken = 06000001, oldETag = 1706b464adc232a9df3dd4539a206569 }
                 //{ MethodName = Gravatar, MetadataToken = 06000001, ETag = 1706b464adc232a9df3dd4539a206569 }
 
-                Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, clientETag });
+                //Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, clientETag });
 
                 //I/System.Console( 3988): #17 POST /xml/Gravatar HTTP/1.1
                 //D/FastDormancy(  220):  before ======= ENTER DORMANCY =======
@@ -523,7 +523,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
                 if (clientETag == newETag)
                 {
-                    Console.WriteLine("Client already has the answer, sending 304");
+                    //Console.WriteLine("Client already has the answer, sending 304");
+                    // X:\jsc.svn\examples\javascript\forms\FormsDataBindingForEnabled\FormsDataBindingForEnabled\ApplicationControl.cs
 
                     // what will web client do with 304?
                     g.Context.Response.StatusCode = 304;
@@ -535,7 +536,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             }
 
-            Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, newETag, ws.Length });
+            //Console.WriteLine(new { WebMethod.MethodName, WebMethod.MetadataToken, newETag, ws.Length });
 
             //I/System.Console( 4563): #4 POST /xml/Gravatar HTTP/1.1
             //I/System.Console( 4563): { MethodName = Gravatar, MetadataToken = 06000001, newETag = 1706b464adc232a9df3dd4539a206569, Length = 239 }

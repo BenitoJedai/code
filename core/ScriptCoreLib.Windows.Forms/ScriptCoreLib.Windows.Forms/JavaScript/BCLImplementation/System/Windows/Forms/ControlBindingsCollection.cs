@@ -57,7 +57,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 (sender, e) =>
                 {
                     var f = "_" + binding.DataMember + "_k__BackingField";
-                    Console.WriteLine("__ControlBindingsCollection asINotifyPropertyChanged.PropertyChanged " + new { e.PropertyName, f });
+                    //Console.WriteLine("__ControlBindingsCollection asINotifyPropertyChanged.PropertyChanged " + new { e.PropertyName, f });
 
 
                     //if (e.PropertyName != binding.PropertyName)
@@ -75,8 +75,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var value = Expando.InternalGetMember(binding.DataSource, f);
 
-                    Console.WriteLine(new { binding.PropertyName, value });
+                    //Console.WriteLine(new { binding.PropertyName, value });
 
+                    // this is the only example for now.
                     if (binding.PropertyName == "Enabled")
                     {
 
