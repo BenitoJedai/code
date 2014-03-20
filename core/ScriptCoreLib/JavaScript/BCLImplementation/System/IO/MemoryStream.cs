@@ -123,7 +123,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 
                 // workaround:
                 // make sure js vm does not give us a double
-                var value32 = ~~value;
+                //var value32 = ~~value;
 
                 // shall preserve current buffer
 
@@ -133,9 +133,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
                 //I/Web Console( 2345): %c0:31800ms MemoryStream set Capacity { value = 101.33333333333333 } at http://192.168.43.1:14599/view-source:37084
                 //E/Web Console( 2345): Uncaught RangeError: Invalid array length at http://192.168.43.1:14599/view-source:33430
 
-                Console.WriteLine("MemoryStream set Capacity " + new { value, value32 });
+                //Console.WriteLine("MemoryStream set Capacity " + new { value, value32 });
 
-                InternalBuffer = new byte[value32];
+                InternalBuffer = new byte[value];
 
                 if (x != null)
                 {
@@ -187,9 +187,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
                 //I/Web Console( 2345): %c0:31800ms MemoryStream set Capacity { value = 101.33333333333333 } at http://192.168.43.1:14599/view-source:37084
                 //E/Web Console( 2345): Uncaught RangeError: Invalid array length at http://192.168.43.1:14599/view-source:33430
 
-                Console.WriteLine("InternalEnsureCapacity before " + new { newCapacity });
+                //Console.WriteLine("InternalEnsureCapacity before " + new { newCapacity });
                 Capacity = newCapacity;
-                Console.WriteLine("InternalEnsureCapacity after " + new { newCapacity });
+                //Console.WriteLine("InternalEnsureCapacity after " + new { newCapacity });
             }
         }
 
