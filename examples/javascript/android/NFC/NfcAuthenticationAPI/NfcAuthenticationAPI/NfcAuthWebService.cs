@@ -42,7 +42,7 @@ a generic experimental WebClient based service wrapper. 2013/01/09
         //OK   
         //---------------------------
 
-        public static string methodURL = "192.168.1.92:19221";
+        public string methodURL = "my.monese.com";
 
         public NfcAuthWebService()
             : this(null)
@@ -58,6 +58,8 @@ a generic experimental WebClient based service wrapper. 2013/01/09
 
         static string UTF8ToBase64StringOrDefault(string e)
         {
+
+
             if (e == null)
                 return null;
 
@@ -87,10 +89,9 @@ a generic experimental WebClient based service wrapper. 2013/01/09
         }
 
         [Obsolete("do we have async/await available for AIR yet?")]
-        public void InsertUserAuthAsync(string username, bool isCard, Action yield)
+        public void InsertUserAuthAsync(string username, Action yield)
         {
-            var _06000003_username = UTF8ToBase64StringOrDefault(username);
-            var _06000003_isCard = isCard;
+            var _0600003f_user = UTF8ToBase64StringOrDefault(username);
 
             var c = new WebClient();
             c.UploadValuesCompleted +=
@@ -105,10 +106,9 @@ a generic experimental WebClient based service wrapper. 2013/01/09
                 // generated, whenn will the uri change and break this?
                 address: new Uri("http://" + methodURL + "/xml/InsertUserAuth"),
                     data: new System.Collections.Specialized.NameValueCollection { 
-                        {"WebMethodMetadataToken","06000003"},
+                        {"WebMethodMetadataToken","0600003f"},
                         {"WebMethodMetadataName","InsertUserAuth"},
-                                { "_06000003_username", _06000003_username},
-                                { "_06000003_isCard", _06000003_isCard.ToString()}
+                                { "_0600003f_user", _0600003f_user}
                             }
             );
         }

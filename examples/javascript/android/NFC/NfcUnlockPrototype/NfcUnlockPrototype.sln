@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NfcUnlockPrototype", "NfcUnlockPrototype\NfcUnlockPrototype.csproj", "{306FCB90-CB8C-4244-A1AA-6E99E8B7769B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{306FCB90-CB8C-4244-A1AA-6E99E8B7769B}.Debug|x86.Build.0 = Debug|x86
 		{306FCB90-CB8C-4244-A1AA-6E99E8B7769B}.Release|x86.ActiveCfg = Release|x86
 		{306FCB90-CB8C-4244-A1AA-6E99E8B7769B}.Release|x86.Build.0 = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.ActiveCfg = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Debug|x86.Build.0 = Debug|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.ActiveCfg = Release|x86
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

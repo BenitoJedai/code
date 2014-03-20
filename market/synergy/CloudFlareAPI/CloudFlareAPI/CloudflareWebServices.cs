@@ -89,11 +89,11 @@ a generic experimental WebClient based service wrapper. 2013/01/09
         }
 
         [Obsolete("do we have async/await available for AIR yet?")]
-        public void GetCurrencyRateBasedOnStringAsync(string curr, Action<string> yield)
+        public void RetreiveListOOfDomains(Action<string> yield)
         {
             // X:\jsc.svn\examples\java\Test\JVMCLRWebClient\JVMCLRWebClient\Program.cs
 
-            var _06000039_curr = UTF8ToBase64StringOrDefault(curr);
+            //var _06000039_curr = UTF8ToBase64StringOrDefault(curr);
 
             var c = new WebClient();
             c.UploadValuesCompleted +=
