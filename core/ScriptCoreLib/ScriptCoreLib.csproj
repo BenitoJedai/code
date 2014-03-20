@@ -140,6 +140,8 @@
     <Compile Include="Shared\BCLImplementation\System\Collections\ObjectModel\ReadOnlyCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\AddingNewEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\AddingNewEventHandler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\PropertyChangedEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\PropertyChangedEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.FromBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.ToBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />

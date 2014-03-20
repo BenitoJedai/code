@@ -51,6 +51,10 @@ namespace FormsDataBindingForEnabled
     }
     public class BindingToTask : Binding
     {
+        //no implementation for System.ComponentModel.PropertyChangedEventHandler b5aa0254-4b45-32a5-97e6-c9a514e7e549
+        //script: error JSC1000: No implementation found for this native method, please implement [System.ComponentModel.PropertyChangedEventHandler.Invoke(System.Object, System.ComponentModel.PropertyChangedEventArgs)]
+        //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+
         public sealed class BindingToTaskDataSource : INotifyPropertyChanged
         {
             public bool BooleanValue { get; set; }
@@ -67,6 +71,17 @@ namespace FormsDataBindingForEnabled
         }
 
         public BindingToTask(string PropertyName, Func<Task<bool>> yield)
+
+  //// FormsDataBindingForEnabled.BindingToTask..ctor
+            //type$_9I2nYPDGKDaQBkpAm20sDg.dAAABvDGKDaQBkpAm20sDg = function (b, c)
+            //{
+            //  var a = [this], d, e;
+
+  //  d = null;
+            //  e = new ctor$fAAABgUfwDywsYmqSNbRgQ();
+            //  e.yield = c;
+            //  a[0].WwEABuWzsDyCcW0H2L852Q(b, new ctor$egAABkf_aSzmxyAettfDeww(), 'BooleanValue');
+
             : base(PropertyName, new BindingToTaskDataSource(), "BooleanValue")
         {
             (this.DataSource as BindingToTaskDataSource).With(
