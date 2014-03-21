@@ -36,14 +36,14 @@ namespace com.abstractatech.notez.Schema
         public SQLiteConnectionStringBuilder csb = new SQLiteConnectionStringBuilder
         {
             Version = 3,
-            DataSource = "XLocalStorage.sqlite"
+            DataSource = "file:XLocalStorage.sqlite"
         };
 
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
         public XLocalStorage()
         {
-            this.WithConnection = csb.AsWithConnection();
+            this.WithConnection = csb.xAsWithConnection();
 
             WithConnection(
                 c =>
