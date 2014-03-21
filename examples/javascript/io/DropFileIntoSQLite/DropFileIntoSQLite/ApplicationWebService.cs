@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Linq;
@@ -154,7 +155,7 @@ namespace DropFileIntoSQLite
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public  partial class ApplicationWebService
+    public partial class ApplicationWebService
     {
 
 
@@ -168,11 +169,11 @@ namespace DropFileIntoSQLite
         //public const string DataSource = "SQLiteWithDataGridView51.sqlite";
         //public const string DataSource = "SQLiteWithDataGridView57.sqlite";
 
-        public Task<Table1_ContentKey> DeleteFileAsync(Table1_ContentKey ContentKey)
+        public async Task<Table1_ContentKey> DeleteFileAsync(Table1_ContentKey ContentKey)
         {
             new Table1().Delete((int)ContentKey);
 
-            return ContentKey.ToTaskResult();
+            return ContentKey;
         }
 
         public void EnumerateFilesAsync(AtFile y)
@@ -254,7 +255,7 @@ namespace DropFileIntoSQLite
                             ContentBytes = bytes
                         };
 
-                    Console.WriteLine("before insert");
+                    Console.WriteLine("before insert " + new { Thread.CurrentThread.ManagedThreadId });
 
                     t.Insert(
                         value: __value,
