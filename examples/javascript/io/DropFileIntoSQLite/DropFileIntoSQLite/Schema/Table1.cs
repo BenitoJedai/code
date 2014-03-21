@@ -20,14 +20,6 @@ namespace DropFileIntoSQLite.Schema
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
 
-        //at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
-        //at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
-        //at System.Int32.Parse(String s)
-        //at CallSite.Target(Closure , CallSite , Type , Object )
-        //at System.Dynamic.UpdateDelegates.UpdateAndExecute2[T0,T1,TRet](CallSite site, T0 arg0, T1 arg1)
-        //at DropFileIntoSQLite.ApplicationWebService.<>c__DisplayClass12.<EnumerateFilesAsync>b__11(Object xx)
-        //at DropFileIntoSQLite.Schema.XX.WithEach(IDataReader reader, Action`1 y)
-        //at DropFileIntoSQLite.Schema.Table1.<>c__DisplayClassc.<SelectAll>b__b(SQLiteConnection c)
 
         public Table1(string DataSource = DefaultDataSource)
         {
@@ -70,6 +62,19 @@ namespace DropFileIntoSQLite.Schema
 
         public void Insert(Insert value, Action<long> yield)
         {
+            //enter upload
+            //enter upload
+            //{ ContentType = image/jpeg, FileName = emspectrum.jpg, ContentLength = 82548, Length = 82548 }
+            //{ ContentType = image/jpeg, FileName = emspectrum.jpg, ContentLength = 82548, Length = 82548 }
+            //before insert { ManagedThreadId = 34 }
+            //before insert { ManagedThreadId = 13 }
+            //AsWithConnection... error: { ex = System.Data.SQLite.SQLiteBusyException (0x80004005)
+            //   at System.Data.SQLite.SQLiteCommand.ExecuteStatement(Vdbe pStmt, Int32& cols, IntPtr& pazValue, IntPtr& pazColName)
+            //   at System.Data.SQLite.SQLiteCommand.ExecuteStatement(Vdbe pStmt)
+            //   at System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior, Boolean want_results, Int32& rows_affected)
+            //   at System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+            //   at DropFileIntoSQLite.Schema.Table1Extensions.ExecuteNonQuery(Insert , IDbConnection )
+
             WithConnection(
              c =>
              {
@@ -231,6 +236,7 @@ namespace DropFileIntoSQLite.Schema
 
                 using (var c = DataSource.ToConnection(Version))
                 {
+                    c.BusyTimeout = 5000;
                     c.Open();
 
                     try
