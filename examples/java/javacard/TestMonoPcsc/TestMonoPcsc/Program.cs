@@ -100,31 +100,20 @@ namespace TestMonoPcsc
 
     public interface IMyPCSC
     {
-        byte[] SendBytes(byte[] inBytes);
+        byte[] SendBytes(byte[] inBytes, SCardReader reader, SCardError err, SCardContext context);
     }
     public class MyPCSCImplementation:IMyPCSC
     {
-        public byte[] SendBytes(byte[] inBytes)
+        public byte[] SendBytes(byte[] inBytes, SCardReader reader, SCardError err, SCardContext context)
         {
             try
             {
-                SCardContext hContext = new SCardContext();
-                hContext.Establish(SCardScope.System);
-
-                string[] szReaders = hContext.GetReaders();
-
-                if (szReaders.Length <= 0)
-                    throw new PCSCException(SCardError.NoReadersAvailable,
-                        "Could not find any Smartcard reader.");
-
-                // Create a reader object using the existing context
-                SCardReader reader = new SCardReader(hContext);
-
-                // Connect to the card
-                Console.WriteLine(szReaders[1]);
-                SCardError err = reader.Connect(szReaders[1],
-                    SCardShareMode.Shared,
-                    SCardProtocol.T0 | SCardProtocol.T1);
+                //SCardReader reader = new SCardReader(context);
+                //// Connect to the card
+                //Console.WriteLine(readerName);
+                //SCardError err = reader.Connect(readerName,
+                //    SCardShareMode.Shared,
+                //    SCardProtocol.T0 | SCardProtocol.T1);
 
                 IntPtr pioSendPci;
                 switch (reader.ActiveProtocol)
@@ -140,7 +129,7 @@ namespace TestMonoPcsc
                             "Protocol not supported: "
                             + reader.ActiveProtocol.ToString());
                 }
-
+                
                 byte[] pbRecvBuffer = new byte[256];
                 err = reader.Transmit(pioSendPci, inBytes, ref pbRecvBuffer);
                 return pbRecvBuffer;
@@ -150,7 +139,6 @@ namespace TestMonoPcsc
                 return null;
             }
         }
-
     }
 
 }

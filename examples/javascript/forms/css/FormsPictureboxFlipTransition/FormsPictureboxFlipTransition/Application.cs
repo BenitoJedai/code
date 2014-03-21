@@ -44,6 +44,7 @@ namespace FormsPictureboxFlipTransition
             {
                 transform = "rotateY(180deg)",
                 backfaceVisibility = "hidden"
+
             };
             new IStyle(Native.css[typeof(PictureBox)])
             {
