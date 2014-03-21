@@ -460,6 +460,25 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+        public string backfaceVisibility
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var style = (InternalXIStyle)(object)this;
+                return style.backfaceVisibility;
+            }
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                var style = (InternalXIStyle)(object)this;
+
+                style.backfaceVisibility = value;
+                style.webkitBackfaceVisibility = value;
+                style.MozBackfaceVisibility = value;
+            }
+        }
+
         public string transformStyle
         {
             [Script(DefineAsStatic = true)]
@@ -540,6 +559,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         public string MozTransformOrigin;
         public string webkitTransformOrigin;
         public string transformOrigin;
+
+        public string webkitBackfaceVisibility;
+        public string backfaceVisibility;
+        public string MozBackfaceVisibility;
     }
 
 }
