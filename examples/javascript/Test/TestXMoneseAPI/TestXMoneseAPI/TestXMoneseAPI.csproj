@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="monese API">
-      <HintPath>..\packages\xmoneseAPI.1.0.0.0\lib\monese API.dll</HintPath>
+    <Reference Include="monese API, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\jsc.smokescreen.svn\market\appengine\xmoneseservicesweb\packages\xmoneseAPI.1.0.0.0\lib\monese API.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
