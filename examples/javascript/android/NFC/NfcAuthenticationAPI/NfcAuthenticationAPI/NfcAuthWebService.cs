@@ -42,7 +42,7 @@ a generic experimental WebClient based service wrapper. 2013/01/09
         //OK   
         //---------------------------
 
-        public string methodURL = "my.monese.com";
+        public string methodURL = "office.monese.com";
 
         public NfcAuthWebService()
             : this(null)

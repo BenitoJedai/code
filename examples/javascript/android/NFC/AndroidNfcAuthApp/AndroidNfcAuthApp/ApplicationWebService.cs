@@ -42,7 +42,7 @@ namespace AndroidNfcAuthApp
 
             var ws = new NfcAuthWebService();
 
-            ws.methodURL = "192.168.1.77:21501";
+            //ws.methodURL = "192.168.1.77:21501";
 
             var lastUser = "";
             var isUser = true;
