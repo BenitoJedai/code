@@ -61,7 +61,6 @@ namespace FormsPictureboxFlipTransition
                 transition = "0.6s",
             };
 
-
             //new IStyle(Native.css[typeof(PictureBox)])
             //{
             //    perspective = "1000",
