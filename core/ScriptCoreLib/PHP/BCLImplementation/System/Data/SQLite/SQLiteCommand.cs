@@ -9,7 +9,7 @@ using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
     internal class __SQLiteCommand : __DbCommand
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
@@ -137,6 +137,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         public __SQLiteParameterCollection InternalParameters;
         public SQLiteParameterCollection Parameters { get; set; }
+
+        protected override global::System.Data.Common.DbParameterCollection DbParameterCollection
+        {
+            get { return Parameters; }
+        }
 
         public __SQLiteDataReader ExecuteReader()
         {

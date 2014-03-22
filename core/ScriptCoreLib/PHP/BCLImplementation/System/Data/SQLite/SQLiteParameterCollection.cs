@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteParameterCollection))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteParameterCollection))]
     internal class __SQLiteParameterCollection : __DbParameterCollection
     {
         //public __SQLiteCommand Context;

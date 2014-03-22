@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLibJava.Extensions;
 using System.Threading;
+using System.Data.Common;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
@@ -22,11 +23,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         __SQLiteConnection c;
 
-        public override string CommandText
-        {
-            get;
-            set;
-        }
+        #region CommandText
+        public override string CommandText { get; set; }
 
         public string InternalCommandText
         {
@@ -38,6 +36,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 );
             }
         }
+        #endregion
+
 
         public override global::System.Data.Common.DbParameter CreateDbParameter()
         {
@@ -59,7 +59,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
 
             //this.InternalParameters = new __SQLiteParameterCollection { };
+
+            // 625ms AddParameter { Parameters =  }
+
+
             this.Parameters = new __SQLiteParameterCollection { };
+
+            //((__DbCommand)this).Parameters = (DbParameterCollection)(object)this.Parameters;
 
         }
 
@@ -74,16 +80,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             try
             {
                 // http://www.javaworld.com/javaworld/jw-04-2007/jw-04-jdbc.html
-                if (this.InternalParameters.InternalParameters.Count > 0)
+                if (this.Parameters.InternalParameters.Count > 0)
                 {
 
                     //Console.WriteLine("we have InternalParameters for " + sql);
 
-                    var parameters = this.InternalParameters.InternalParameters;
+                    var parameters = this.Parameters.InternalParameters;
 
                     var index =
                        from p in parameters
-                       from i in sql.GetIndecies(p.ParameterName)
+                       from i in this.CommandText.GetIndecies(p.ParameterName)
                        orderby i
                        select new { p, i };
 
@@ -186,8 +192,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         }
 
         //public __SQLiteParameterCollection InternalParameters;
-        public __SQLiteParameterCollection Parameters { get; set; }
+        public new __SQLiteParameterCollection Parameters { get; set; }
 
+        protected override DbParameterCollection DbParameterCollection
+        {
+            get { return this.Parameters; }
+        }
 
         public override global::System.Data.Common.DbDataReader __DbCommand_ExecuteReader()
         {

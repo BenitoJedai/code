@@ -7,7 +7,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
     internal class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs
