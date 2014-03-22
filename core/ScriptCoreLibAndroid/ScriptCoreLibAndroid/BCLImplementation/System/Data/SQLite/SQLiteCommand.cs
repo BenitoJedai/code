@@ -155,7 +155,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
         public __SQLiteParameterCollection Parameters { get; set; }
 
-        protected override global::System.Data.Common.DbParameterCollection DbParameterCollection
+        public override global::System.Data.Common.DbParameterCollection DbParameterCollection
         {
             get { return Parameters; }
         }
