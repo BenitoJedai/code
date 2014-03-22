@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
+// ScriptCoreLib.Shared
 namespace ScriptCoreLib.PHP.Data
 {
     [Description("PHP and Google App Engine use MySQL. When SQLite API is used SQL rewrite is required.")]

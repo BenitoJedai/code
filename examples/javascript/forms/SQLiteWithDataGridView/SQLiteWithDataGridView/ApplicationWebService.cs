@@ -21,6 +21,13 @@ namespace SQLiteWithDataGridView
 
     public sealed partial class ApplicationWebService : Component
     {
+        public void References()
+        {
+
+            { var ref0 = typeof(SQLiteConnection); }
+        }
+
+
         private static TheGridTable grid
         {
 
@@ -56,6 +63,8 @@ namespace SQLiteWithDataGridView
 
         public static partial class Credentials
         {
+            // Error	27	The type or namespace name 'SQLiteConnectionStringBuilder' could not be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\ApplicationWebService.cs	59	70	SQLiteWithDataGridView
+
             public static void partial_ApplyAdministratorCredentials(SQLiteConnectionStringBuilder b)
             {
                 ApplyAdministratorCredentials(b);

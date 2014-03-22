@@ -11,6 +11,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     internal class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
         public string DataSource { get; set; }
+
         public int Version { get; set; }
         public bool ReadOnly { get; set; }
 

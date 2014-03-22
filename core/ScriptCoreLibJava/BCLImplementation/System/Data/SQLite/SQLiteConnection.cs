@@ -3,13 +3,14 @@ using ScriptCoreLib;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+//using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
     internal class __SQLiteConnection : __DbConnection
     {
         public java.sql.Connection InternalConnection;
@@ -20,17 +21,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override string ConnectionString { get; set; }
 
+        public override global::System.Data.Common.DbCommand CreateDbCommand()
+        {
+            return (global::System.Data.Common.DbCommand)(object)new __SQLiteCommand("", this);
+        }
+
         public __SQLiteConnection(string connectionstring)
         {
+            Console.WriteLine("__SQLiteConnection ctor " + new { connectionstring });
+
+
             // should parse instead
-            InternalConnectionString = __SQLiteConnectionStringBuilder.InternalGetConnectionString(connectionstring);
+            this.InternalConnectionString = __SQLiteConnectionStringBuilder.InternalGetConnectionString(connectionstring);
             ConnectionString = connectionstring;
         }
 
 
         public override void Open()
         {
-            //Console.WriteLine("__SQLiteConnection.Open");
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
+            Console.WriteLine("__SQLiteConnection.Open");
+
+            //java.lang.RuntimeException: __SQLiteConnection { Message = , StackTrace = java.lang.NullPointerException
+            //   at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteConnection.Open(__SQLiteConnection.java:55)
+            //   at SQLiteWithDataGridView.Schema.XX._xAsWithConnection_b__0(XX.java:54)
+            //   at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            //   at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 
             try
             {
@@ -48,7 +65,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 //        at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1074)
                 //        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
 
-                //Console.WriteLine(x.ToString());
+                Console.WriteLine(x.ToString());
 
                 // Caused by: java.sql.SQLException: No suitable driver found for jdbc:google:rdbms://instance_name
 
@@ -66,12 +83,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 //at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteConnection.Open(__SQLiteConnection.java:39)
                 //at ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda___c__DisplayClass2._WithConnection_b__1(WithConnectionLambda___c__DisplayClass2.java:36)
 
-                if (ex.Message.Contains("com.mysql.jdbc.Driver"))
-                {
-                    // "C:\util\appengine-java-sdk-1.8.8\lib\impl\mysql-connector-java-5.1.22-bin.jar"
+                if (ex.Message != null)
+                    if (ex.Message.Contains("com.mysql.jdbc.Driver"))
+                    {
+                        // "C:\util\appengine-java-sdk-1.8.8\lib\impl\mysql-connector-java-5.1.22-bin.jar"
 
-                    Console.WriteLine("did you set up the mysql jar?");
-                }
+                        Console.WriteLine("did you set up the mysql jar?");
+                    }
 
                 //                C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe  -encoding UTF-8 -cp Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.8\lib\impl\*;C:\util\appengine-java-sdk-1.8.8\lib\shared\* -d "Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\release" @"Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\files"
 
@@ -83,15 +101,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 throw new InvalidOperationException("__SQLiteConnection " + new { ex.Message, ex.StackTrace });
             }
 
-            using (var cmd = new SQLiteCommand(
-                "CREATE DATABASE IF NOT EXISTS `" + this.InternalConnectionString.DataSource + "`", (SQLiteConnection)(object)this))
+            using (var cmd = new __SQLiteCommand(
+                "CREATE DATABASE IF NOT EXISTS `" + this.InternalConnectionString.DataSource + "`",
+                (__SQLiteConnection)(object)this))
             {
                 cmd.ExecuteNonQuery();
             }
 
 
             // http://stackoverflow.com/questions/1675333/php-mysql-joins-across-databases
-            using (var cmd = new SQLiteCommand("USE `" + this.InternalConnectionString.DataSource + "`", (SQLiteConnection)(object)this))
+            using (var cmd = new __SQLiteCommand(
+                "USE `" + this.InternalConnectionString.DataSource + "`",
+                (__SQLiteConnection)(object)this))
             {
                 cmd.ExecuteNonQuery();
             }

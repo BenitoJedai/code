@@ -7,7 +7,8 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataReader")]
     internal class __SQLiteDataReader : __DbDataReader
     {
         // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs

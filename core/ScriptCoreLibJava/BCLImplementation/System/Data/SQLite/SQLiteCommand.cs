@@ -4,7 +4,7 @@ using ScriptCoreLib.PHP.Data;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+//using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using ScriptCoreLibJava.Extensions;
@@ -12,7 +12,8 @@ using System.Threading;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteCommand")]
     internal class __SQLiteCommand : __DbCommand
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
@@ -27,11 +28,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             set;
         }
 
+        public override global::System.Data.Common.DbParameter CreateDbParameter()
+        {
+            return (global::System.Data.Common.DbParameter)(object)new __SQLiteParameter();
+        }
 
         public java.sql.Statement InternalStatement;
         public java.sql.PreparedStatement InternalPreparedStatement;
 
-        public __SQLiteCommand(string sql, SQLiteConnection c)
+        public __SQLiteCommand(string sql, __SQLiteConnection c)
         {
             this.c = (__SQLiteConnection)(object)c;
 
@@ -42,7 +47,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             this.CommandText = SQLiteToMySQLConversion.Convert(sql, this.c.InternalConnectionString.DataSource);
 
             this.InternalParameters = new __SQLiteParameterCollection { };
-            this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
+            this.Parameters = (__SQLiteParameterCollection)(object)this.InternalParameters;
 
         }
 
@@ -168,7 +173,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         }
 
         public __SQLiteParameterCollection InternalParameters;
-        public SQLiteParameterCollection Parameters { get; set; }
+        public __SQLiteParameterCollection Parameters { get; set; }
 
 
         public override global::System.Data.Common.DbDataReader __DbCommand_ExecuteReader()
@@ -176,7 +181,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             // tested by
             // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTable.cs
 
-            return this.ExecuteReader();
+            return (global::System.Data.Common.DbDataReader)(object)this.ExecuteReader();
         }
 
         public override object ExecuteScalar()
@@ -192,9 +197,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         }
 
-        public new SQLiteDataReader ExecuteReader()
+        public new __SQLiteDataReader ExecuteReader()
         {
-            var value = default(SQLiteDataReader);
+            var value = default(__SQLiteDataReader);
 
             InternalCreateStatement();
 
@@ -207,7 +212,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 else
                     r = this.InternalStatement.executeQuery(this.CommandText);
 
-                value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r, InternalCommand = this };
+                value = (__SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r, InternalCommand = this };
                 this.c.InternalLastInsertRowIdCommand = this;
             }
             catch (Exception ex)
@@ -224,7 +229,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 if (ex.StackTrace.Contains("com.google.cloud.sql.jdbc.internal.Exceptions.newStatementExecuteQueryNullResultSetException"))
                 {
                     // no resultset.
-                    value = (SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = null };
+                    value = (__SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = null };
                 }
 
 
