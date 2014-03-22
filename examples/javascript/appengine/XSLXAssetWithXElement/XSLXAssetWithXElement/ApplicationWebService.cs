@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -55,6 +56,7 @@ namespace XSLXAssetWithXElement
 
             x.Insert(data);
 
+            //new SQLiteDataAdapter().sele
             // Unable to cast object of type 'System.String' to type 'System.Xml.Linq.XElement
             var y = x.SelectAllAsEnumerable().ToArray();
 
