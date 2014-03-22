@@ -279,7 +279,7 @@ start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /ass
 
 
       if $(ConfigurationName)==GAE (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:true /xDisableWebServicePHP:false /DisableWebServiceJava:false
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:true /xDisableWebServicePHP:false /DisableWebServiceJava:false /xDiagnosticsPauseBeforeClearingJavaFiles:true
        )
 
       if $(ConfigurationName)==PHP (

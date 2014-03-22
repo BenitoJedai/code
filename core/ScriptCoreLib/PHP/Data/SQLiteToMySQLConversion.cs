@@ -14,8 +14,12 @@ namespace ScriptCoreLib.PHP.Data
     {
         public static string Convert(string sql, string InternalDatabaseName = null)
         {
+            // 592ms enter SQLiteToMySQLConversion{ sql =  }
+
+            //Console.WriteLine("enter SQLiteToMySQLConversion" + new { sql });
+
             // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
-            
+
 
             // http://dev.mysql.com/doc/refman/5.0/en/example-auto-increment.html
             // http://www.sqlite.org/autoinc.html
@@ -48,6 +52,7 @@ namespace ScriptCoreLib.PHP.Data
                 );
             }
 
+            //Console.WriteLine("exit SQLiteToMySQLConversion" + new { sql });
             return sql;
         }
     }
