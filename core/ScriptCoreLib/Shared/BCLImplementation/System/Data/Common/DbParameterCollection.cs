@@ -32,9 +32,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             }
         }
 
+        public virtual int InternalAdd(object value)
+        {
+            // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs
+
+            return default(int);
+        }
+
         public int Add(object value)
         {
-            throw new NotImplementedException();
+            return InternalAdd(value);
         }
 
         public void Clear()

@@ -23,7 +23,17 @@ namespace System.Data
         public static IDbCommand AddParameter(this IDbCommand x, string ParameterName, object Value)
         {
             var p = x.CreateParameter();
-            p.ParameterName = ParameterName; p.Value = Value; x.Parameters.Add(p);
+            p.ParameterName = ParameterName;
+            p.Value = Value;
+
+            //  java.lang.NullPointerException
+            //at System.Data.IDbConnectionExtensions.AddParameter(IDbConnectionExtensions.java:30)
+            //at SQLiteWithDataGridView.Schema.TheGridTableExtensions.ExecuteReader(TheGridTableExtensions.java:55)
+            //at
+
+            var Parameters = x.Parameters;
+
+            Parameters.Add(p);
             return x;
         }
     }

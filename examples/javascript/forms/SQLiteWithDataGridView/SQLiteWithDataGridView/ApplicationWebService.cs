@@ -15,7 +15,7 @@ using System.Xml.Linq;
 
 namespace SQLiteWithDataGridView
 {
-   
+
 
 
 
@@ -39,17 +39,17 @@ namespace SQLiteWithDataGridView
 
                 {
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140318
-                    var DataSource = "SQLiteWithDataGridView7.sqlite";
+                    //var DataSource = "SQLiteWithDataGridView7.sqlite";
 
-                    x.csb_write.DataSource = DataSource;
+                    //x.csb_write.DataSource = DataSource;
                     Credentials.partial_ApplyRestrictedCredentials(x.csb_write);
 
-                    x.csb.DataSource = DataSource;
+                    //x.csb.DataSource = DataSource;
                     //x.csb.ReadOnly = true;
                     // this was expensive to figure out!
                     Credentials.partial_ApplyRestrictedCredentials(x.csb);
 
-                    x.csb_admin.DataSource = DataSource;
+                    //x.csb_admin.DataSource = DataSource;
                     Credentials.partial_ApplyRestrictedCredentials(x.csb_admin, true);
                     x.Create();
                 }
@@ -206,7 +206,7 @@ namespace SQLiteWithDataGridView
             var x = new __ConsoleToDatabaseWriter(AtConsole);
 
 
-            var xParentContentKey = 
+            var xParentContentKey =
                 string.IsNullOrEmpty(
                 ParentContentKey)
                 ? null : (object)int.Parse(ParentContentKey);

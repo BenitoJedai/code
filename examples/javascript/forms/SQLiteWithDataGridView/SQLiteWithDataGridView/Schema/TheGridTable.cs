@@ -12,16 +12,19 @@ namespace SQLiteWithDataGridView.Schema
     {
         public SQLiteConnectionStringBuilder csb = new SQLiteConnectionStringBuilder
         {
+            DataSource = "file:StressData.s3db",
             Version = 3
         };
 
         public SQLiteConnectionStringBuilder csb_admin = new SQLiteConnectionStringBuilder
         {
+            DataSource = "file:StressData.s3db",
             Version = 3
         };
 
         public SQLiteConnectionStringBuilder csb_write = new SQLiteConnectionStringBuilder
         {
+            DataSource = "file:StressData.s3db",
             Version = 3
         };
 
@@ -51,6 +54,22 @@ namespace SQLiteWithDataGridView.Schema
                 }
             );
         }
+
+
+        //java.sql.SQLException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT
+        //   , ContentValue text not null
+        //   , ContentComment text not n' at line 3
+        //   at com.google.cloud.sql.jdbc.internal.Exceptions.newSqlException(Exceptions.java:219)
+        //   at com.google.cloud.sql.jdbc.internal.SqlProtoClient.check(SqlProtoClient.java:198)
+        //   at com.google.cloud.sql.jdbc.internal.SqlProtoClient.executeSql(SqlProtoClient.java:87)
+        //   at com.google.cloud.sql.jdbc.internal.SqlProtoClient.executeSql(SqlProtoClient.java:76)
+        //   at com.google.cloud.sql.jdbc.Connection.executeSql(Connection.java:528)
+        //   at com.google.cloud.sql.jdbc.Statement.executeSqlImpl(Statement.java:280)
+        //   at com.google.cloud.sql.jdbc.Statement.executeImpl(Statement.java:154)
+        //   at com.google.cloud.sql.jdbc.Statement.executeUpdateImpl(Statement.java:341)
+        //   at com.google.cloud.sql.jdbc.Statement.executeUpdate(Statement.java:336)
+        //   at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteCommand.ExecuteNonQuery(__SQLiteCommand.java:282)
+        //   ... 66 more
 
         #region queries
 
@@ -276,7 +295,10 @@ namespace SQLiteWithDataGridView.Schema
                 //}
 
                 //using (var c = new SQLiteConnection("Data Source=/StressData.s3db"))
-                using (var c = new SQLiteConnection("Data Source=file:StressData.s3db"))
+
+
+                //using (var c = new SQLiteConnection(csb.ToString()))
+                using (var c = new SQLiteConnection(csb.ConnectionString))
                 {
                     c.Open();
 

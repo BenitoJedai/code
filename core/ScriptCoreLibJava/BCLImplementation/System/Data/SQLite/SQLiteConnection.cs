@@ -28,11 +28,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public __SQLiteConnection(string connectionstring)
         {
-            Console.WriteLine("__SQLiteConnection ctor " + new { connectionstring });
+            //Console.WriteLine("__SQLiteConnection ctor " + new { connectionstring });
 
 
             // should parse instead
             this.InternalConnectionString = __SQLiteConnectionStringBuilder.InternalGetConnectionString(connectionstring);
+
+            if (this.InternalConnectionString == null)
+                throw new InvalidOperationException("make sure to use new __SQLiteConnection(SQLiteConnectionStringBuilder)");
+
             ConnectionString = connectionstring;
         }
 
@@ -41,7 +45,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
 
-            Console.WriteLine("__SQLiteConnection.Open");
+            // 39ms __SQLiteConnection ctor { connectionstring = Data Source=file:StressData.s3db }
+
+            //Console.WriteLine("__SQLiteConnection.Open");
 
             //java.lang.RuntimeException: __SQLiteConnection { Message = , StackTrace = java.lang.NullPointerException
             //   at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteConnection.Open(__SQLiteConnection.java:55)
@@ -65,9 +71,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 //        at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1074)
                 //        at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4096)
 
-                Console.WriteLine(x.ToString());
+                //Console.WriteLine(x.ToString());
 
                 // Caused by: java.sql.SQLException: No suitable driver found for jdbc:google:rdbms://instance_name
+
+                //java.lang.RuntimeException: __SQLiteConnection { Message = Access denied for user 'user3'@'localhost' (using password: NO), StackTrace = java.sql.SQLException: Access denied for user 'user3'@'localhost' (using password: NO)
+                //   at com.google.cloud.sql.jdbc.internal.Exceptions.newSqlException(Exceptions.java:219)
+                //   at com.google.cloud.sql.jdbc.internal.SqlProtoClient.check(SqlProtoClient.java:158)
+                //   at com.google.cloud.sql.jdbc.internal.SqlProtoClient.openConnection(SqlProtoClient.java:60)
+                //   at com.google.cloud.sql.jdbc.Driver.connect(Driver.java:66)
+                //   at com.google.cloud.sql.jdbc.Driver.connect(Driver.java:26)
+                //   at java.sql.DriverManager.getConnection(Unknown Source)
+                //   at java.sql.DriverManager.getConnection(Unknown Source)
+                //   at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteConnection.Open(__SQLiteConnection.java:66)
+
 
                 // https://groups.google.com/forum/?fromgroups=#!topic/google-appengine-java/Vm5PTq4_0lg
                 // Instance == Your Google API Project ID:InstanceName

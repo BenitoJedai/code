@@ -28,6 +28,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             set;
         }
 
+        public string InternalCommandText
+        {
+            get
+            {
+                return SQLiteToMySQLConversion.Convert(
+                    this.CommandText,
+                    this.c.InternalConnectionString.DataSource
+                );
+            }
+        }
+
         public override global::System.Data.Common.DbParameter CreateDbParameter()
         {
             return (global::System.Data.Common.DbParameter)(object)new __SQLiteParameter();
@@ -44,10 +55,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             // http://www.sqlite.org/autoinc.html
 
 
-            this.CommandText = SQLiteToMySQLConversion.Convert(sql, this.c.InternalConnectionString.DataSource);
+            this.CommandText = sql;
 
-            this.InternalParameters = new __SQLiteParameterCollection { };
-            this.Parameters = (__SQLiteParameterCollection)(object)this.InternalParameters;
+
+            //this.InternalParameters = new __SQLiteParameterCollection { };
+            this.Parameters = new __SQLiteParameterCollection { };
 
         }
 
@@ -56,8 +68,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             if (this.InternalStatement != null)
                 return;
 
-            var sql = this.CommandText;
+            var sql = this.InternalCommandText;
 
+            //Console.WriteLine("InternalCreateStatement" + new { sql });
             try
             {
                 // http://www.javaworld.com/javaworld/jw-04-2007/jw-04-jdbc.html
@@ -70,13 +83,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
                     var index =
                        from p in parameters
-                       from i in this.CommandText.GetIndecies(p.ParameterName)
+                       from i in sql.GetIndecies(p.ParameterName)
                        orderby i
                        select new { p, i };
 
 
-
-                    foreach (var p in parameters)
+                    // did we break it?
+                    foreach (var p in parameters.ToArray())
                     {
                         // java seems to like indexed parameters instead
                         sql = sql.Replace(p.ParameterName, "?");
@@ -160,7 +173,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 if (this.InternalPreparedStatement != null)
                     value = this.InternalPreparedStatement.executeUpdate();
                 else
-                    value = this.InternalStatement.executeUpdate(this.CommandText);
+                    value = this.InternalStatement.executeUpdate(this.InternalCommandText);
 
                 this.c.InternalLastInsertRowIdCommand = this;
             }
@@ -172,7 +185,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             return value;
         }
 
-        public __SQLiteParameterCollection InternalParameters;
+        //public __SQLiteParameterCollection InternalParameters;
         public __SQLiteParameterCollection Parameters { get; set; }
 
 

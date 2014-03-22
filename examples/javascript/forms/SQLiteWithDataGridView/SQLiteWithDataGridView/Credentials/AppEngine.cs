@@ -17,7 +17,7 @@ namespace SQLiteWithDataGridView
             {
                 // Caused by: java.sql.SQLException: Access denied for user 'user1'@'localhost' to database 'sqlitewithdatagridview6.sqlite'
 
-                b.Add("InternalUser", "user3");
+                //b.Add("InternalUser", "user3");
 
                 // Error	20	'System.Data.SQLite.SQLiteConnectionStringBuilder' does not contain a definition for 'Password' and no extension method 'Password' accepting a first argument of type 'System.Data.SQLite.SQLiteConnectionStringBuilder' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Credentials\AppEngine.cs	21	15	SQLiteWithDataGridView
                 //b.Password = "mypass";
