@@ -9,8 +9,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
     [Script(Implements = typeof(global::System.Data.IDbConnection))]
     internal interface __IDbConnection : IDisposable
     {
-         IDbTransaction BeginTransaction();
-         void Open();
-         void Close();
+        IDbCommand CreateCommand();
+
+        IDbTransaction BeginTransaction();
+        void Open();
+        void Close();
+
+
     }
 }

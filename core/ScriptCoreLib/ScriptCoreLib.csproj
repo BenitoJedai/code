@@ -145,6 +145,9 @@
     <Compile Include="Shared\BCLImplementation\System\Convert.FromBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.ToBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\IDataParameter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\IDbDataParameter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\IDbCommand.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataRowView.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataTableCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\DataView.cs" />
@@ -1129,5 +1132,5 @@
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"
 copy "System.Data.SQLite.*" "c:\util\jsc\bin" /y</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" Condition="Exists('$(SolutionDir)\.nuget\nuget.targets')" />
 </Project>

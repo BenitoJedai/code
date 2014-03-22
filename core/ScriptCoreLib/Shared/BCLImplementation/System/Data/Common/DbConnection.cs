@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 
@@ -15,9 +16,26 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 
         public abstract void Dispose();
 
+        public DbCommand CreateCommand()
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
+            return CreateDbCommand();
+        }
+
+        protected virtual DbCommand CreateDbCommand()
+        {
+            return default(DbCommand);
+        }
+
         public global::System.Data.IDbTransaction BeginTransaction()
         {
             throw new NotImplementedException();
+        }
+
+        global::System.Data.IDbCommand __IDbConnection.CreateCommand()
+        {
+            return this.CreateCommand();
         }
     }
 }
