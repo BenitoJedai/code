@@ -1,4 +1,6 @@
-﻿using android.app;
+﻿extern alias globalandroid;
+
+using android.app;
 using android.content;
 using android.widget;
 using System;
@@ -10,7 +12,7 @@ namespace ScriptCoreLib.Android.Extensions
 {
     public static class ActivityExtensions
     {
-        class f : java.lang.Runnable
+        class f : globalandroid::java.lang.Runnable
         {
             public Action y;
 

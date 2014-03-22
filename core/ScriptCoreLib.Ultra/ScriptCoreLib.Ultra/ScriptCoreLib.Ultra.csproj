@@ -81,7 +81,7 @@
     </Reference>
     <Reference Include="ScriptCoreLibAndroid">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
-      <Aliases>globalandroid</Aliases>
+      <Aliases>globalandroid,global</Aliases>
     </Reference>
     <Reference Include="ScriptCoreLibJava">
       <SpecificVersion>False</SpecificVersion>
@@ -117,6 +117,13 @@
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
     <Compile Include="ActionScript\Extensions\DisplayObjectContainerExtensions.cs" />
     <Compile Include="ActionScript\Extensions\ExternalInterfaceExtensions.cs" />
+    <Compile Include="Android\CoreAndroidWebServiceActivity.cs" />
+    <Compile Include="Android\Extensions\ActivityExtensions.cs" />
+    <Compile Include="Android\Extensions\ContextExtensions.cs" />
+    <Compile Include="Android\Extensions\ViewExtensions.cs" />
+    <Compile Include="Android\IntentFilterAttribute.cs" />
+    <Compile Include="Android\Manifest\ApplicationMetaDataAttribute.cs" />
+    <Compile Include="Android\RenderingContextView.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
     <Compile Include="Archive\ZIP\ZIPFileWithXLinq.cs" />
     <Compile Include="Desktop\Avalon\Extensions\DesktopAvalonExtensions.cs" />
@@ -185,9 +192,7 @@
     <Content Include="Ultra\comments.txt" />
     <Content Include="Ultra\Library\comments.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Android\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
