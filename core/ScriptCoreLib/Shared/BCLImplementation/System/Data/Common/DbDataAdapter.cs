@@ -8,8 +8,13 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     [Script(Implements = typeof(global::System.Data.Common.DbDataAdapter))]
-    public abstract class __DbDataAdapter
+    public 
+        //abstract 
+        class __DbDataAdapter
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
+
         public DbCommand InternalSelectCommand;
         public DbCommand SelectCommand
         {

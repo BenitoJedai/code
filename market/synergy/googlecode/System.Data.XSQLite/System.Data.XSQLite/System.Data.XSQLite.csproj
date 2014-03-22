@@ -57,7 +57,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C c:/util/jsc/bin/jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /xAssemblyMerge:"$(TargetFileName)" /AssemblyMerge:"Community.CsharpSqlite.dll" /AssemblyMerge:"Community.CsharpSqlite.SQLiteClient.dll" /rename:"Community.CsharpSqlite.SQLiteClient.Sqlite-&gt;System.Data.SQLite.SQLite"
+    <PostBuildEvent>start /WAIT cmd /C c:/util/jsc/bin/jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /xAssemblyMerge:"$(TargetFileName)" /AssemblyMerge:"Community.CsharpSqlite.dll" /AssemblyMergeExtension:"Community.CsharpSqlite.SQLiteClient.dll"  /EnableCache:true /rename:"Community.CsharpSqlite.SQLiteClient.Sqlite-&gt;System.Data.SQLite.SQLite"
+
+
+copy "$(TargetDir)$(TargetName).dll" "c:\util\jsc\bin\"
 
 rem start /WAIT cmd /K c:/util/jsc/bin/jsc.meta.exe ConfigurationCreateNuGetPackage  /AssemblyMerge:"$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>

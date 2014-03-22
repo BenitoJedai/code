@@ -20,6 +20,8 @@ namespace ScriptCoreLib.Java
 {
     public class InternalURLClassLoader : URLClassLoader
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
         // one of the jobs of any class loader is to protect the system name space.
         // The normal ClassLoader heirarchy does address this by always delegating to the parent ClassLoader first,
         // thus ensuring that duplicate classes are not loaded

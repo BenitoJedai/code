@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
@@ -22,7 +24,10 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
         string GetQualifiedTableName();
 
-        Func<Func<SQLiteConnection, Task>, Task> GetWithConnection();
+        // used by?
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+        //Func<Func<SQLiteConnection, Task>, Task> GetWithConnection();
+        Func<Func<IDbConnection, Task>, Task> GetWithConnection();
 
         // here we could ask for table stats?
     }
@@ -218,7 +223,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                         {
                             // either the actualt command or the explain command?
 
-                            c.Parameters.AddWithValue(n, r);
+                            //c.Parameters.AddWithValue(n, r);
+                            c.AddParameter(n, r);
                         }
                     );
                 }
@@ -258,7 +264,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     // override
                     state.SelectCommand = "select sum(`" + ColumnName + "`) ";
 
-                    var cmd = new SQLiteCommand(state.ToString(), c);
+                    //var cmd = new SQLiteCommand(state.ToString(), c);
+                    var cmd = c.CreateCommand(state.ToString());
 
                     foreach (var item in state.ApplyParameter)
                     {
@@ -388,7 +395,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                      {
                          // either the actualt command or the explain command?
 
-                         c.Parameters.AddWithValue(n, count);
+                         //c.Parameters.AddWithValue(n, count);
+                         c.AddParameter(n, count);
                      }
                  );
              }
@@ -406,7 +414,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     // override
                     state.SelectCommand = "select count(*)";
 
-                    var cmd = new SQLiteCommand(state.ToString(), c);
+                    var cmd = c.CreateCommand(state.ToString());
 
                     foreach (var item in state.ApplyParameter)
                     {
@@ -431,7 +439,10 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 {
                     var state = AsCommandBuilder(Strategy);
 
-                    var cmd = new SQLiteCommand(state.ToString(), c);
+                    //var cmd = new SQLiteCommand(state.ToString(), c);
+
+                    var cmd = (DbCommand)c.CreateCommand();
+                    cmd.CommandText = state.ToString();
 
                     foreach (var item in state.ApplyParameter)
                     {
@@ -440,7 +451,13 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                     var t = new DataTable();
 
-                    var a = new SQLiteDataAdapter(cmd);
+
+
+                    // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs
+                    // will this work under CLR too?
+
+                    //var a = new SQLiteDataAdapter(cmd);
+                    var a = new __DbDataAdapter { SelectCommand = cmd };
 
                     a.Fill(t);
 
@@ -465,7 +482,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             public string OrderByCommand;
             public string LimitCommand;
 
-            public List<Action<SQLiteCommand>> ApplyParameter = new List<Action<SQLiteCommand>>();
+            public List<Action<IDbCommand>> ApplyParameter = new List<Action<IDbCommand>>();
 
             public override string ToString()
             {
