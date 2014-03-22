@@ -2,6 +2,7 @@
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 //using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public override int Count
         {
             get { return this.InternalParameters.Count; }
+        }
+
+        public static implicit operator DbParameterCollection(__SQLiteParameterCollection e)
+        {
+            return (DbParameterCollection)(object)e;
         }
     }
 }

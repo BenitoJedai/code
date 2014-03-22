@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
     internal class __SQLiteDataReader : __DbDataReader
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs

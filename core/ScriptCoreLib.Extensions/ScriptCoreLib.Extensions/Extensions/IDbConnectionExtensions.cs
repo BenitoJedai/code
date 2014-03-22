@@ -22,9 +22,18 @@ namespace System.Data
 
         public static IDbCommand AddParameter(this IDbCommand x, string ParameterName, object Value)
         {
-            var p = x.CreateParameter();
-            p.ParameterName = ParameterName;
-            p.Value = Value;
+            Console.WriteLine("AddParameter enter " + new { x, ParameterName });
+            var newParameter = x.CreateParameter();
+            Console.WriteLine("AddParameter " + new { newParameter });
+
+            //java.lang.NullPointerException
+            //   at System.Data.IDbConnectionExtensions.AddParameter(IDbConnectionExtensions.java:39)
+            //   at SQLiteWithDataGridView.Schema.TheGridTableExtensions.ExecuteReader(TheGridTableExtensions.java:50)
+            //   at SQLiteWithDataGridView.Schema.TheGridTable___c__DisplayClassf._SelectContent_b__e(TheGridTable___c__DisplayClassf.java:27)
+
+
+            newParameter.ParameterName = ParameterName;
+            newParameter.Value = Value;
 
             //  java.lang.NullPointerException
             //at System.Data.IDbConnectionExtensions.AddParameter(IDbConnectionExtensions.java:30)
@@ -33,7 +42,9 @@ namespace System.Data
 
             var Parameters = x.Parameters;
 
-            Parameters.Add(p);
+            Console.WriteLine("AddParameter " + new { Parameters });
+
+            Parameters.Add(newParameter);
             return x;
         }
     }
