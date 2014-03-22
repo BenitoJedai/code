@@ -138,7 +138,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         public __SQLiteParameterCollection InternalParameters;
         public __SQLiteParameterCollection Parameters { get; set; }
 
-        protected override global::System.Data.Common.DbParameterCollection DbParameterCollection
+        public override global::System.Data.Common.DbParameterCollection DbParameterCollection
         {
             get { return (global::System.Data.Common.DbParameterCollection)(object)Parameters; }
         }

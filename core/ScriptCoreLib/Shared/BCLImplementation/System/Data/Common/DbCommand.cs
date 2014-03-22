@@ -13,7 +13,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
 
         #region Parameters
-        protected abstract DbParameterCollection DbParameterCollection { get; }
+        public abstract DbParameterCollection DbParameterCollection { get; }
 
         public DbParameterCollection Parameters { get { return this.DbParameterCollection; } }
 

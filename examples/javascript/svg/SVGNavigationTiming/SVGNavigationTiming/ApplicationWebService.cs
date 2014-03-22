@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using SVGNavigationTiming;
+using System.Data.SQLite;
 
 
 namespace SVGNavigationTiming
@@ -112,7 +113,7 @@ namespace SVGNavigationTiming
                             try
                             {
 
-                                var xvalue = new System.Data.SQLite.SQLiteCommand(sql, c).ExecuteNonQuery();
+                                var xvalue = new System.Data.SQLite.SQLiteCommand(sql, (SQLiteConnection)c).ExecuteNonQuery();
                                 Console.WriteLine(new { QualifiedTableName, xvalue });
 
                                 Console.WriteLine("ok " + new { QualifiedTableName });
@@ -370,84 +371,9 @@ namespace SVGNavigationTiming
     }
 }
 
-#region PerformanceResourceTimingData2.ApplicationResourcePerformance
-namespace SVGNavigationTiming
-{
-    using System.Data.SQLite;
-    using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
-    using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
-    // why the f cant appengine load this? too long?
-    //public static partial class ClassDefgeneratedPerformanceResourceTimingData2
-    [Obsolete]
-    static partial class ClassDefGPRFK
-    {
-        //GetApplicationResourcePerformance
-        //java.lang.NoClassDefFoundError: SVGNAvigationTiming/generatedPerformanceResourceTimingData2
-        //        at SVGNavigationTiming.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:200)
-        //        at xmoneseservicesweb.ApplicationWebService.GetApplicationResourcePerformance(ApplicationWebService.java:750)
-        //        at xmoneseservicesweb.Global.Invoke(Global.java:1472)
-
-        public static IEnumerable<TRow> SelectAllAsEnumerableByApplicationPerformance(
-            //this 
-            PerformanceResourceTimingData2.ApplicationResourcePerformance x, PerformanceResourceTimingData2ApplicationPerformanceKey ApplicationPerformance)
-        {
-            var fast = ((Task<DataTable>)new TQueries().WithConnection(
-               c =>
-               {
-                   var cmd = new SQLiteCommand(TQueries.SelectAllCommandText.TakeUntilIfAny("order") + " where  `ApplicationPerformance` = @ParameterApplicationPerformance", c);
-                   cmd.Parameters.AddWithValue("@ParameterApplicationPerformance", (long)ApplicationPerformance);
-
-                   var t = new DataTable();
-                   var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd);
-                   a.Fill(t);
-
-                   return t.AsResult();
-               }
-           )).Result;
-
-            return fast.Rows.AsEnumerable().Select(xx => (TRow)xx)
-                .OrderBy(xx => xx.path);
-        }
-
-    }
-}
-#endregion
 
 
-#region PerformanceResourceTimingData2.ApplicationResourcePerformance
-namespace SVGNavigationTiming
-{
-    using System.Data.SQLite;
-    using TQueries = PerformanceResourceTimingData2.ApplicationResourcePerformance.Queries;
-    using TRow = PerformanceResourceTimingData2ApplicationResourcePerformanceRow;
 
-    //[Obsolete]
-    static partial class ClassDefGPRFK
-    {
-        public static IEnumerable<TRow> SelectAllAsEnumerableByPath(
-            //this 
-            PerformanceResourceTimingData2.ApplicationResourcePerformance x, string path)
-        {
-            var fast = ((Task<DataTable>)new TQueries().WithConnection(
-               c =>
-               {
-                   var cmd = new SQLiteCommand(TQueries.SelectAllCommandText.TakeUntilIfAny("order") + " where  `path` = @Parameterpath", c);
-                   cmd.Parameters.AddWithValue("@Parameterpath", (string)path);
-
-                   var t = new DataTable();
-                   var a = new global::System.Data.SQLite.SQLiteDataAdapter(cmd);
-                   a.Fill(t);
-
-                   return t.AsResult();
-               }
-           )).Result;
-
-            return fast.Rows.AsEnumerable().Select(xx => (TRow)xx);
-        }
-
-    }
-}
-#endregion
 
 
 namespace Abstractatech.JavaScript.ApplicationPerformance
