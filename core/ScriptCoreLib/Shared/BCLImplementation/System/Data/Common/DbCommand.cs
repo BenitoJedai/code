@@ -12,6 +12,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
 
+
+
+        public DbParameterCollection Parameters { get; set; }
+
+        global::System.Data.IDataParameterCollection __IDbCommand.Parameters
+        {
+            get { return this.Parameters; }
+        }
+
+
         public virtual DbDataReader __DbCommand_ExecuteReader()
         {
             return null;
@@ -48,10 +58,19 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             return this.ExecuteReader();
         }
 
+
+        
+        public virtual DbParameter CreateDbParameter()
+        {
+            return default(global::System.Data.Common.DbParameter);
+        }
+
         public global::System.Data.IDbDataParameter CreateParameter()
         {
 
-            return default(global::System.Data.IDbDataParameter);
+            return CreateDbParameter();
         }
+
+ 
     }
 }
