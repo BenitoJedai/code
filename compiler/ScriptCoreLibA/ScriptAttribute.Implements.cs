@@ -36,13 +36,29 @@ namespace ScriptCoreLib
                         var Candidates = AppDomain.CurrentDomain.GetAssemblies()
                             .Select(x => x.GetType(this.ImplementsViaAssemblyQualifiedName))
                             .Where(x => x != null)
-                            .OrderBy(x => x.Assembly.GetName().ProcessorArchitecture == ProcessorArchitecture.MSIL)
+
+//        Candidates[0].Assembly.GetName().ProcessorArchitecture	X86	System.Reflection.ProcessorArchitecture
+                            //        Candidates[1].Assembly.GetName().ProcessorArchitecture	X86	System.Reflection.ProcessorArchitecture
+                            //        Candidates[0].AssemblyQualifiedName	"System.Data.SQLite.SQLiteConnectionStringBuilder, System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139"	string
+                            //        Candidates[1].AssemblyQualifiedName	"System.Data.SQLite.SQLiteConnectionStringBuilder, System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null"	string
+                            //        Candidates[0].Assembly.GetName().KeyPair	null	System.Reflection.StrongNameKeyPair
+                            //        Candidates[1].Assembly.GetName().KeyPair	null	System.Reflection.StrongNameKeyPair
+                            //        Candidates[0].Assembly.GetName().Flags	PublicKey	System.Reflection.AssemblyNameFlags
+                            //        Candidates[1].Assembly.GetName().Flags	PublicKey	System.Reflection.AssemblyNameFlags
+                            //        Candidates[1].Assembly.GetName().GetPublicKey()	{byte[0]}	byte[]
+                            //+		Candidates[0].Assembly.GetName().GetPublicKey()	{byte[160]}	byte[]
+
+                            //.OrderBy(x => x.Assembly.GetName().ProcessorArchitecture == ProcessorArchitecture.MSIL)
+
+                            // the x86 sql we do not want has non zero key!
+                            .OrderBy(x => x.Assembly.GetName().GetPublicKey().Length)
                             .ToArray();
 
                         if (Candidates.Length > 1)
                         {
-                            if (Debugger.IsAttached)
-                                Debugger.Break();
+                            Console.WriteLine(this.ImplementsViaAssemblyQualifiedName);
+                            //if (Debugger.IsAttached)
+                            //    Debugger.Break();
                         }
 
                         //this.InternalImplements = Type.GetType(this.ImplementsViaAssemblyQualifiedName);
@@ -50,7 +66,7 @@ namespace ScriptCoreLib
 
                         if (this.InternalImplements != null)
                             this.ImplementsViaAssemblyQualifiedName = null;
-                        // cannot be both!
+                        //cannot be both!
                     }
 
                 return InternalImplements;

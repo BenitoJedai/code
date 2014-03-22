@@ -267,7 +267,16 @@ namespace SQLiteWithDataGridView.Schema
                 //var c = new SQLiteConnection("Data Source=/StressData.s3db");
 
                 // X:\jsc.svn\examples\rewrite\Test\TestSQLiteMSIL\TestSQLiteMSIL\Class1.cs
-                using (var c = new SQLiteConnection("Data Source=/StressData.s3db"))
+
+                //java.lang.NullPointerException
+                //   at ScriptCoreLibJava.BCLImplementation.System.__String.Contains(__String.java:143)
+                //   at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteConnection.Open(__SQLiteConnection.java:61)
+                //   at SQLiteWithDataGridView.Schema.XX._xAsWithConnection_b__0(XX.java:54)
+                //   ... 54 more
+                //}
+
+                //using (var c = new SQLiteConnection("Data Source=/StressData.s3db"))
+                using (var c = new SQLiteConnection("Data Source=file:StressData.s3db"))
                 {
                     c.Open();
 

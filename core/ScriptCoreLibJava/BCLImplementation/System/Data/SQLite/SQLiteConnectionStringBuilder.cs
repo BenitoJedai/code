@@ -8,7 +8,8 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnectionStringBuilder")]
     public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131128-nuget
@@ -16,7 +17,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
 
+        //Implementation not found for type import :
+        //type: System.Data.SQLite.SQLiteConnectionStringBuilder
+        //method: Void set_DataSource(System.String)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
         public string DataSource { get; set; }
+
         public int Version { get; set; }
         public bool ReadOnly { get; set; }
         public string Uri { get; set; }
@@ -51,6 +60,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public override string InternalGetConnectionString()
         {
             var key = new { DataSource, ReadOnly, InternalUser, InternalHost, InternalInstanceName }.ToString();
+
+            Console.WriteLine("InternalGetConnectionString " + new { key });
 
             InterlockedInternalGetConnectionString(key, this);
 
