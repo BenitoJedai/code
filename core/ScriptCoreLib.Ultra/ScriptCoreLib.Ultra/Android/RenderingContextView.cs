@@ -6,7 +6,7 @@ using globalandroid::android.hardware;
 using globalandroid::android.opengl;
 using globalandroid::android.view;
 using globalandroid::javax.microedition.khronos.opengles;
-using globalandroid::javax.microedition.khronos.egl;
+
 
 using ScriptCoreLib.JavaScript.WebGL;
 using System;
@@ -61,7 +61,7 @@ namespace ScriptCoreLib.Android
                 onresize(arg1, arg2);
         }
 
-        public void onSurfaceCreated(GL10 arg0, EGLConfig arg1)
+        public void onSurfaceCreated(GL10 arg0, globalandroid::javax.microedition.khronos.egl.EGLConfig arg1)
         {
             gl = new WebGLRenderingContext();
             if (onsurface != null)
