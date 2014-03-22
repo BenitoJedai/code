@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Fo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Forms.FloatStyler", "..\..\..\market\javascript\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler.csproj", "{7E3E19CE-5998-41A5-8475-37B61FC63A64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibAndroid", "..\..\..\..\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\ScriptCoreLibAndroid.csproj", "{1CE7D22F-52C8-4164-8955-CD89609E48A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -265,6 +267,31 @@ Global
 		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.ActiveCfg = Release|x86
 		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.Build.0 = Release|x86
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Android|Any CPU.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Android|x86.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Assets|x86.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.PHP|x86.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -278,5 +305,6 @@ Global
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {242E050A-83E3-4F7F-9DE5-226FB53E1DFF}
 		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {242E050A-83E3-4F7F-9DE5-226FB53E1DFF}
 		{7E3E19CE-5998-41A5-8475-37B61FC63A64} = {242E050A-83E3-4F7F-9DE5-226FB53E1DFF}
+		{1CE7D22F-52C8-4164-8955-CD89609E48A9} = {242E050A-83E3-4F7F-9DE5-226FB53E1DFF}
 	EndGlobalSection
 EndGlobal

@@ -8,9 +8,13 @@ using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
+    
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
     internal class __SQLiteConnection : __DbConnection
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
         private LocalSQLiteOpenHelper h;
         public SQLiteDatabase db;
 

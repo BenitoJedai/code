@@ -157,6 +157,12 @@ namespace DropFileIntoSQLite
     /// </summary>
     public partial class ApplicationWebService
     {
+        public void References()
+        {
+
+            { var ref0 = typeof(SQLiteConnection); }
+        }
+
 
 
 #if FUTURE
