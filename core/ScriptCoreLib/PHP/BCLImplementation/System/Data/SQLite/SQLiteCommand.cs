@@ -2,7 +2,7 @@
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+//using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
@@ -19,7 +19,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
         public override string CommandText { get; set; }
 
-        public __SQLiteCommand(string sql, SQLiteConnection c)
+        public __SQLiteCommand(string sql, __SQLiteConnection c)
         {
             this.c = (__SQLiteConnection)(object)c;
 
@@ -31,7 +31,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 
 
             this.InternalParameters = new __SQLiteParameterCollection { };
-            this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
+            this.Parameters = (__SQLiteParameterCollection)(object)this.InternalParameters;
         }
 
         public mysqli_stmt InternalPreparedStatement;
@@ -136,11 +136,11 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
         }
 
         public __SQLiteParameterCollection InternalParameters;
-        public SQLiteParameterCollection Parameters { get; set; }
+        public __SQLiteParameterCollection Parameters { get; set; }
 
         protected override global::System.Data.Common.DbParameterCollection DbParameterCollection
         {
-            get { return Parameters; }
+            get { return (global::System.Data.Common.DbParameterCollection)(object)Parameters; }
         }
 
         public __SQLiteDataReader ExecuteReader()

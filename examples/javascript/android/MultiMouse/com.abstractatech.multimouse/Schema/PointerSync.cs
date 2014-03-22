@@ -242,6 +242,8 @@ namespace com.abstractatech.multimouse.Schema
 
                 using (var c = new SQLiteConnection(csb.ConnectionString))
                 {
+                    c.BusyTimeout = 1000;
+
                     c.Open();
 
                     try

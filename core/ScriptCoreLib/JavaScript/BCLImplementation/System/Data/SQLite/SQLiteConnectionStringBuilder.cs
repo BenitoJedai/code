@@ -6,9 +6,12 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
     public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
+        // tested by?
+        // chrome web server?
+
         public string DataSource { get; set; }
 
         public int Version { get; set; }
