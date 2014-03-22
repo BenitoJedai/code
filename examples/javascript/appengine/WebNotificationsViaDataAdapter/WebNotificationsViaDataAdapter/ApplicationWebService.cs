@@ -19,13 +19,15 @@ namespace WebNotificationsViaDataAdapter
     [System.ComponentModel.DesignerCategory("Code")]
     public class ApplicationWebService : Component
     {
-        // <h2> <i>Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, 
+        //02000027 WebNotificationsViaDataAdapter.AssetsLibrary.<0200000dArray\+ConvertToString>
+        //02000028 WebNotificationsViaDataAdapter.Design.ScriptedNotificationsV2ScriptedNotificationsKey
+        //02000029 ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda
 
         public Task<DataTable> __FooTable_Insert(
             ScriptedNotificationsV2ScriptedNotificationsRow[] value
             )
         {
-            
+
             value.Select(
                 new ScriptedNotificationsV2.ScriptedNotifications().Insert
             ).ToArray();

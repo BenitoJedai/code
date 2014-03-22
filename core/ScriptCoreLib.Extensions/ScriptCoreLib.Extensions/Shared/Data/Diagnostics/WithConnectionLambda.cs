@@ -11,11 +11,9 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.Shared.Data.Diagnostics
 {
-    public static class WithConnectionLambda
+    [Obsolete("part of string conversions?")]
+    public static class WithConnectionLambdaZ
     {
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
-
-
         public static long GetInt64OrDefault(System.Data.DataRow e, string ColumnName)
         {
             if (e.Table.Columns.Contains(ColumnName))
@@ -35,8 +33,11 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
             return e;
         }
+    }
 
-
+    public static class WithConnectionLambda
+    {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
         public static Func<Func<IDbConnection, Task>, Task> WithConnection(string DataSource)
         {
             // ScriptCoreLib.Extensions

@@ -22,9 +22,9 @@ namespace System.Data
 
         public static IDbCommand AddParameter(this IDbCommand x, string ParameterName, object Value)
         {
-            Console.WriteLine("AddParameter enter " + new { x, ParameterName });
+            //Console.WriteLine("AddParameter enter " + new { x, ParameterName });
             var newParameter = x.CreateParameter();
-            Console.WriteLine("AddParameter " + new { newParameter });
+            //Console.WriteLine("AddParameter " + new { newParameter });
 
             //java.lang.NullPointerException
             //   at System.Data.IDbConnectionExtensions.AddParameter(IDbConnectionExtensions.java:39)
@@ -42,7 +42,7 @@ namespace System.Data
 
             var Parameters = x.Parameters;
 
-            Console.WriteLine("AddParameter " + new { Parameters });
+            //Console.WriteLine("AddParameter " + new { Parameters });
 
             Parameters.Add(newParameter);
             return x;

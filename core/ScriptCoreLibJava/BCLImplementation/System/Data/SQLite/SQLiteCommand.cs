@@ -191,10 +191,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             return value;
         }
 
-        //public __SQLiteParameterCollection InternalParameters;
         public new __SQLiteParameterCollection Parameters { get; set; }
 
-        protected override DbParameterCollection DbParameterCollection
+        //Y:\SVGNavigationTiming.XApplicationPerformanceWebService\staging.java\web\java\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\__SQLiteCommand.java:297: error: get_DbParameterCollection() in __SQLiteCommand cannot override get_DbParameterCollection() in __DbCommand
+        //    protected  __DbParameterCollection get_DbParameterCollection()
+        //                                       ^
+        //  attempting to assign weaker access privileges; was public
+
+        public override DbParameterCollection DbParameterCollection
         {
             get { return this.Parameters; }
         }
