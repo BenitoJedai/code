@@ -4,15 +4,16 @@ using ScriptCoreLibJava.BCLImplementation.System.Data.SQLite;
 using ScriptCoreLibJava.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteCommand")]
     internal class __SQLiteCommand : __DbCommand
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
         // see also: X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
 
         public __SQLiteConnection InternalConnection;
@@ -20,13 +21,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
 
 
-        public __SQLiteCommand(string sql, SQLiteConnection c)
+        public __SQLiteCommand(string sql, __SQLiteConnection c)
         {
             this.InternalConnection = (__SQLiteConnection)(object)c;
             this.CommandText = sql;
 
             this.InternalParameters = new __SQLiteParameterCollection { };
-            this.Parameters = (SQLiteParameterCollection)(object)this.InternalParameters;
+            this.Parameters = (__SQLiteParameterCollection)(object)this.InternalParameters;
         }
 
         [Script]
@@ -125,21 +126,23 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         #region ExecuteReader
         public override global::System.Data.Common.DbDataReader __DbCommand_ExecuteReader()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
             // this took a few hous to figure out!
-            return this.ExecuteReader();
+            return (global::System.Data.Common.DbDataReader)(object)this.ExecuteReader();
         }
 
-        public new SQLiteDataReader ExecuteReader()
+        public new __SQLiteDataReader ExecuteReader()
         {
             // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
             Console.WriteLine("__SQLiteCommand.ExecuteReader " + new { this.CommandText, this.InternalConnection.InternalReadOnly });
 
-            return (SQLiteDataReader)(object)InternalCreateStatement().ExecuteReader();
+            return (__SQLiteDataReader)(object)InternalCreateStatement().ExecuteReader();
         }
         #endregion
 
         public __SQLiteParameterCollection InternalParameters;
-        public SQLiteParameterCollection Parameters { get; set; }
+        public __SQLiteParameterCollection Parameters { get; set; }
     }
 
 }

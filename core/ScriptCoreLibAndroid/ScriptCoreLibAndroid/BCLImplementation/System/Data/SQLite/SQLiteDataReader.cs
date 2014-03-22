@@ -7,7 +7,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
-    [Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataReader")]
     internal class __SQLiteDataReader : __DbDataReader
     {
         public Cursor cursor;
