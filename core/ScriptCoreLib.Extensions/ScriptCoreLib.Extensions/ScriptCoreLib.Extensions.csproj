@@ -67,6 +67,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.XSQLite">
+      <HintPath>C:\util\jsc\bin\System.Data.XSQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -111,10 +114,9 @@
     <Compile Include="JavaScript\Controls\LayeredControl\LayeredControl.cs" />
     <Compile Include="JavaScript\Extensions\ShaderExtensions.cs" />
     <Compile Include="JavaScript\WebGL\ShaderExtensions.cs" />
-    <Compile Include="JavaScript\WebGL\ISurface.cs" />
     <Compile Include="JavaScript\WebGL\WebGLDynamicUniforms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\IO\SmartStreamReader.cs" />
+    <Compile Include="Shared\Data\SQLiteConnectionStringBuilderExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Android\" />

@@ -1,5 +1,7 @@
-﻿using android.app;
-using android.widget;
+﻿extern alias globalandroid;
+using globalandroid::android.content;
+using globalandroid::android.app;
+using globalandroid::android.widget;
 using ScriptCoreLib.Android.Manifest;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,8 @@ namespace ScriptCoreLib.Android
     [ApplicationMetaData(name = "CoreAndroidWebServiceActivity", value = "http://my.jsc-solutions.net")]
     public abstract class CoreAndroidWebServiceActivity : Activity
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
         // tested by X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\Java\InternalAndroidWebServiceActivity.cs
 
 
@@ -19,9 +23,9 @@ namespace ScriptCoreLib.Android
         //                           Intent intent)
 
         #region ActivityResult
-        public event Action<int, int, android.content.Intent> ActivityResult;
+        public event Action<int, int, Intent> ActivityResult;
 
-        protected override void onActivityResult(int requestCode, int resultCode, android.content.Intent intent)
+        protected override void onActivityResult(int requestCode, int resultCode, Intent intent)
         {
             base.onActivityResult(requestCode, resultCode, intent);
 
@@ -59,8 +63,8 @@ namespace ScriptCoreLib.Android
         #endregion
 
         #region AtNewIntent
-        public event Action<android.content.Intent> AtNewIntent;
-        protected override void onNewIntent(android.content.Intent value)
+        public event Action<Intent> AtNewIntent;
+        protected override void onNewIntent(Intent value)
         {
             base.onNewIntent(value);
 

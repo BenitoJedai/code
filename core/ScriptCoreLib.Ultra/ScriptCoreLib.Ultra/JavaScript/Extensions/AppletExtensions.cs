@@ -1,9 +1,11 @@
-﻿using System;
+﻿extern alias jvm;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using java.applet;
+using jvm::java.applet;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.ActionScript.flash.display;
 

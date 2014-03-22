@@ -1,8 +1,8 @@
 ﻿extern alias globalandroid;
-
-using android.app;
-using android.content;
-using android.widget;
+using globalandroid::android.app;
+using globalandroid::android.content;
+using globalandroid::android.widget;
+using globalandroid::java.lang;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,12 +29,17 @@ namespace ScriptCoreLib.Android.Extensions
 
 
             if (y != null)
-                c.runOnUiThread(
-                    new f
-                    {
-                        y = delegate { y(c); }
-                    }
-                );
+            {
+                Runnable r = new f
+                {
+                    y = delegate { y(c); }
+                };
+
+                //Error	39	The best overloaded method match for 'android.app.Activity.runOnUiThread(java.lang.Runnable)' has some invalid arguments	X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\Extensions\ActivityExtensions.cs	38	17	ScriptCoreLib.Ultra
+                //Error	40	Argument 1: cannot convert from 'java.lang.Runnable [C:\util\jsc\bin\ScriptCoreLibAndroid.dll]' to 'java.lang.Runnable [c:\util\jsc\bin\ScriptCoreLibJava.dll]'	X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Android\Extensions\ActivityExtensions.cs	38	33	ScriptCoreLib.Ultra
+
+                c.runOnUiThread(r);
+            }
 
             return c;
         }

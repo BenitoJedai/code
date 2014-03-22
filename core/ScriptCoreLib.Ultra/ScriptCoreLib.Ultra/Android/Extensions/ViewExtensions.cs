@@ -1,9 +1,11 @@
-﻿using System;
+﻿extern alias globalandroid;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using android.view;
-using android.widget;
+using globalandroid::android.view;
+using globalandroid::android.widget;
 
 namespace ScriptCoreLib.Android.Extensions
 {

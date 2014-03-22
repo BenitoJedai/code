@@ -1,12 +1,14 @@
-﻿using System;
+﻿extern alias jvm;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using java.applet;
-using java.awt;
-using java.awt.@event;
-using javax.swing;
+using jvm::java.applet;
+using jvm::java.awt;
+using jvm::java.awt.@event;
+using jvm::javax.swing;
 
 namespace ScriptCoreLib.Java.Extensions
 {

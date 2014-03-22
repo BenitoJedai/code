@@ -1,3 +1,5 @@
+extern alias jvm;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,13 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using java.io;
-using java.net;
-using java.util.zip;
+using jvm::java.io;
+using jvm::java.net;
+using jvm::java.util.zip;
+using jvm::ScriptCoreLibJava.Extensions;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
-using ScriptCoreLibJava.Extensions;
 using System.Reflection;
 
 namespace ScriptCoreLib.Java

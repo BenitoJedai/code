@@ -1,9 +1,11 @@
-﻿using System;
+﻿extern alias jvm;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using java.util.zip;
+using jvm::java.util.zip;
 
 namespace ScriptCoreLib.Java.Extensions
 {

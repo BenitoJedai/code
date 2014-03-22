@@ -1,5 +1,7 @@
-﻿using android.content;
-using android.widget;
+﻿extern alias globalandroid;
+
+using globalandroid::android.content;
+using globalandroid::android.widget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
