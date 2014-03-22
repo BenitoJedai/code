@@ -7,13 +7,14 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using java.net;
-using java.util.zip;
+using jvm::java.net;
+using jvm::java.lang;
+using jvm::java.util.zip;
+using jvm::ScriptCoreLibJava.Extensions;
 using ScriptCoreLib;
 using ScriptCoreLib.Java.Extensions;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
-using ScriptCoreLibJava.Extensions;
 using java.lang;
 
 namespace ScriptCoreLib.Java
@@ -97,7 +98,7 @@ namespace ScriptCoreLib.Java
             {
                 c = base.findClass(name);
             }
-            catch (csharp.ThrowableException ex)
+            catch //(jvm::csharp.ThrowableException ex)
             {
                 //Console.WriteLine("error: " + ex);
 
@@ -126,10 +127,10 @@ namespace ScriptCoreLib.Java
 
             try
             {
-                var url = new java.io.File(x).toURL();
+                var url = new jvm::java.io.File(x).toURL();
                 this.addURL(url);
             }
-            catch (csharp.ThrowableException cc)
+            catch (jvm::csharp.ThrowableException cc)
             {
                 Console.WriteLine("InternalURLClassLoader.findClass_catch error, x: " + x + "; " + cc);
 
@@ -152,7 +153,7 @@ namespace ScriptCoreLib.Java
             {
                 c = base.findClass(name);
             }
-            catch (csharp.ThrowableException ex)
+            catch (jvm::csharp.ThrowableException ex)
             {
 
                 Console.WriteLine("InternalURLClassLoader.__findClass error, name: " + name + ", x: " + x + "; " + ex);
@@ -177,7 +178,7 @@ namespace ScriptCoreLib.Java
                 var zip = default(ZipInputStream);
 
 
-                zip = new ZipInputStream(new java.io.FileInputStream(jar.FullName));
+                zip = new ZipInputStream(new jvm::java.io.FileInputStream(jar.FullName));
 
 
                 var Current = zip.getNextEntry();
@@ -207,7 +208,7 @@ namespace ScriptCoreLib.Java
                 }
 
             }
-            catch (csharp.ThrowableException cc)
+            catch (jvm::csharp.ThrowableException cc)
             {
                 Console.WriteLine("error @CacheClassBytes: " + cc);
 
@@ -319,7 +320,7 @@ namespace ScriptCoreLib.Java
                 // file:///C:/util/aws-android-sdk-0.2.0/lib/aws-android-sdk-0.2.0-ec2.jar
 
                 // error @URLClassLoader: java.net.MalformedURLException: unknown protocol: c
-                var url = new java.io.File(jar.FullName).toURL();
+                var url = new jvm::java.io.File(jar.FullName).toURL();
 
                 // http://www.javakb.com/Uwe/Forum.aspx/java-programmer/34778/URLClassLoader-ClassNotFoundException
                 // http://www.chinaup.org/docs/reference/java/net/URLClassLoader.html
@@ -332,7 +333,7 @@ namespace ScriptCoreLib.Java
                 clazzLoader = new InternalURLClassLoader(new URL[] { url }, null);
 
             }
-            catch (csharp.ThrowableException ex)
+            catch (jvm::csharp.ThrowableException ex)
             {
                 Console.WriteLine("error @URLClassLoader: " + ex);
                 throw new InvalidOperationException();
@@ -369,7 +370,7 @@ namespace ScriptCoreLib.Java
 
                 try
                 {
-                    zip = new ZipInputStream(new java.io.FileInputStream(jar.FullName));
+                    zip = new ZipInputStream(new jvm::java.io.FileInputStream(jar.FullName));
                 }
                 catch
                 {
@@ -427,7 +428,7 @@ namespace ScriptCoreLib.Java
                                     {
                                         Console.WriteLine("JavaArchiveReflector.Loadfile.InternalGetType - " + n.TypeFullName);
 
-                                        var c = default(java.lang.Class);
+                                        var c = default(jvm::java.lang.Class);
 
 
                                         try
@@ -436,7 +437,7 @@ namespace ScriptCoreLib.Java
 
                                             c = clazzLoader.loadClass(n.TypeFullName);
                                         }
-                                        catch (csharp.ThrowableException cc)
+                                        catch (jvm::csharp.ThrowableException cc)
                                         {
                                             Console.WriteLine("** JavaArchiveReflector.Loadfile - error loadClass: " + n.TypeFullName + "; " + cc);
 

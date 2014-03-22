@@ -81,12 +81,12 @@
     </Reference>
     <Reference Include="ScriptCoreLibAndroid">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
-      <Aliases>globalandroid,global</Aliases>
+      <Aliases>globalandroid</Aliases>
     </Reference>
     <Reference Include="ScriptCoreLibJava">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
-      <Aliases>global,jvm</Aliases>
+      <Aliases>jvm</Aliases>
     </Reference>
     <Reference Include="ScriptCoreLibJava.Drawing">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.Drawing.dll</HintPath>
@@ -146,6 +146,7 @@
     <Compile Include="JavaScript\Extensions\INodeExtensionsWithForms.cs" />
     <Compile Include="JavaScript\Extensions\UltraComponentsExtensions.cs" />
     <Compile Include="JavaScript\Remoting\InternalElementProxy.cs" />
+    <Compile Include="JavaScript\WebGL\ISurface.cs" />
     <Compile Include="JavaScript\Windows\Forms\WindowsFormsExtensions.cs" />
     <Compile Include="JavaScript\Extensions\INodeExtensionsWithXLinq.cs" />
     <Compile Include="JavaScript\Extensions\JavaScriptStringExtensions.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Java\Extensions\WindowsFormsExtensions.cs" />
     <Compile Include="Java\JavaArchiveReflector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\IO\SmartStreamReader.cs" />
     <Compile Include="Shared\RemotingToken.cs" />
     <Compile Include="Ultra\Library\CachedFileGenerator.cs" />
     <Compile Include="Ultra\Library\StringConversions.cs" />

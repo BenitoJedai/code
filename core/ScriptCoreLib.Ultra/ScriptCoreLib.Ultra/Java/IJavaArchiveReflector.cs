@@ -9,14 +9,15 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using java.io;
-using java.net;
-using java.util.zip;
+using jvm::java.io;
+using jvm::java.net;
+using jvm::java.lang;
+using jvm::java.util.zip;
+using jvm::ScriptCoreLibJava.Extensions;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Java.Extensions;
-using ScriptCoreLibJava.Extensions;
 
 namespace java.lang.reflect
 {

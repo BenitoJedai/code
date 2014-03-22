@@ -1,10 +1,12 @@
-﻿using System;
+﻿extern alias jvm;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using java.security;
-using java.net;
-using ScriptCoreLibJava.Extensions;
+using jvm::java.security;
+using jvm::java.net;
+using jvm::ScriptCoreLibJava.Extensions;
 using System.IO;
 
 namespace ScriptCoreLib.Java.Interop
@@ -17,7 +19,9 @@ namespace ScriptCoreLib.Java.Interop
 
             try
             {
-                var cls = typeof(CodeSourceLocationProvider).ToClass();
+                // Error	40	The call is ambiguous between the following methods or properties: 'ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToClass(System.Type)' and 'ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToClass(System.Type)'	X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Java\Interop\CodeSourceLocationProvider.cs	22	27	ScriptCoreLib.Ultra
+
+                var cls = BCLImplementationExtensions.ToClass(typeof(CodeSourceLocationProvider));
 
                 ProtectionDomain pDomain = cls.getProtectionDomain();
                 CodeSource cSource = pDomain.getCodeSource();

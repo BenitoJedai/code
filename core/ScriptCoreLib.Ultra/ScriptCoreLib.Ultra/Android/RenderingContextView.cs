@@ -1,8 +1,13 @@
-﻿using android.app;
-using android.content;
-using android.hardware;
-using android.opengl;
-using android.view;
+﻿extern alias globalandroid;
+
+using globalandroid::android.app;
+using globalandroid::android.content;
+using globalandroid::android.hardware;
+using globalandroid::android.opengl;
+using globalandroid::android.view;
+using globalandroid::javax.microedition.khronos.opengles;
+using globalandroid::javax.microedition.khronos.egl;
+
 using ScriptCoreLib.JavaScript.WebGL;
 using System;
 using System.Collections.Generic;
@@ -15,6 +20,8 @@ namespace ScriptCoreLib.Android
     // what about cleanroom build? such types might not be available yet!
     public class RenderingContextView : GLSurfaceView, GLSurfaceView.Renderer, ISurface
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
         WebGLRenderingContext gl;
 
         public event Action<WebGLRenderingContext> onsurface;
@@ -42,19 +49,19 @@ namespace ScriptCoreLib.Android
 
 
 
-        public void onDrawFrame(javax.microedition.khronos.opengles.GL10 value)
+        public void onDrawFrame(GL10 value)
         {
             if (onframe != null)
                 onframe();
         }
 
-        public void onSurfaceChanged(javax.microedition.khronos.opengles.GL10 arg0, int arg1, int arg2)
+        public void onSurfaceChanged(GL10 arg0, int arg1, int arg2)
         {
             if (onresize != null)
                 onresize(arg1, arg2);
         }
 
-        public void onSurfaceCreated(javax.microedition.khronos.opengles.GL10 arg0, javax.microedition.khronos.egl.EGLConfig arg1)
+        public void onSurfaceCreated(GL10 arg0, EGLConfig arg1)
         {
             gl = new WebGLRenderingContext();
             if (onsurface != null)

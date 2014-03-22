@@ -1,9 +1,11 @@
-﻿using System;
+﻿extern alias jvm;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using java.applet;
+using jvm::java.applet;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
@@ -12,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
 {
 	public static class SpriteExtensions
 	{
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+
 		public static IHTMLElement AttachSpriteToDocument(this Sprite e)
 		{
 			return e.AttachSpriteTo(Native.Document.body);
