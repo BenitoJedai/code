@@ -12,25 +12,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataAdapter")]
     internal class __SQLiteDataAdapter : __DbDataAdapter
     {
-        public __SQLiteDataAdapter(__SQLiteCommand __SelectCommand)
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteDataAdapter.cs
+
+        public __SQLiteDataAdapter(DbCommand __SelectCommand)
         {
-            Console.WriteLine("__SQLiteDataAdapter  " + new { __SelectCommand.CommandText });
-
-
             this.SelectCommand = __SelectCommand;
         }
 
-        public new __SQLiteCommand SelectCommand
-        {
-            get
-            {
-                return (__SQLiteCommand)(object)this.InternalSelectCommand;
-            }
-            set
-            {
-                this.InternalSelectCommand = (DbCommand)(object)value;
-            }
-        }
     }
 
 }

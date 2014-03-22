@@ -24,16 +24,5 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             this.SelectCommand = __SelectCommand;
         }
 
-        //public new __SQLiteCommand SelectCommand
-        //{
-        //    get
-        //    {
-        //        return (__SQLiteCommand)(object)this.InternalSelectCommand;
-        //    }
-        //    set
-        //    {
-        //        this.InternalSelectCommand = (global::System.Data.Common.DbCommand)(object)value;
-        //    }
-        //}
     }
 }

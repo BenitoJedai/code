@@ -39,8 +39,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             this.InternalConnection = (__SQLiteConnection)(object)c;
             this.CommandText = sql;
 
-            this.InternalParameters = new __SQLiteParameterCollection { };
-            this.Parameters = (__SQLiteParameterCollection)(object)this.InternalParameters;
+            this.Parameters = new __SQLiteParameterCollection { };
         }
 
         [Script]
@@ -55,7 +54,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             //Console.WriteLine("InternalCreateStatement...");
 
             var sql = this.CommandText;
-            var parameters = this.InternalParameters.InternalParameters;
+            var parameters = this.Parameters.InternalParameters;
             var index =
                 from p in parameters
                 from i in this.CommandText.GetIndecies(p.ParameterName)
@@ -154,8 +153,12 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         }
         #endregion
 
-        public __SQLiteParameterCollection InternalParameters;
         public __SQLiteParameterCollection Parameters { get; set; }
+
+        protected override global::System.Data.Common.DbParameterCollection DbParameterCollection
+        {
+            get { return Parameters; }
+        }
     }
 
 }
