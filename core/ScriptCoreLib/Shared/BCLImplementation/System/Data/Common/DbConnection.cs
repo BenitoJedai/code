@@ -23,7 +23,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             return CreateDbCommand();
         }
 
-        protected virtual DbCommand CreateDbCommand()
+        public virtual DbCommand CreateDbCommand()
         {
             return default(DbCommand);
         }

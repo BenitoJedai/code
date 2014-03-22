@@ -145,6 +145,7 @@
     <Compile Include="Shared\BCLImplementation\System\Convert.FromBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.ToBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\IDataParameterCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDataParameter.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDbDataParameter.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDbCommand.cs" />

@@ -19,6 +19,19 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         public __SQLiteConnection InternalConnection;
         public override string CommandText { get; set; }
 
+        //[javac] V:\src\ScriptCoreLib\Android\BCLImplementation\System\Data\SQLite\__SQLiteConnection.java:55: error: CreateDbCommand() in __SQLiteConnection cannot override CreateDbCommand() in __DbConnection
+        //[javac]     protected  __DbCommand CreateDbCommand()
+        //[javac]                            ^
+        //[javac]   attempting to assign weaker access privileges; was public
+        //[javac] V:\src\ScriptCoreLib\Android\BCLImplementation\System\Data\SQLite\__SQLiteCommand.java:63: error: CreateDbParameter() in __SQLiteCommand cannot override CreateDbParameter() in __DbCommand
+        //[javac]     protected  __DbParameter CreateDbParameter()
+        //[javac]                              ^
+        //[javac]   attempting to assign weaker access privileges; was public
+
+        public override global::System.Data.Common.DbParameter CreateDbParameter()
+        {
+            return (global::System.Data.Common.DbParameter)(object)new __SQLiteParameter();
+        }
 
 
         public __SQLiteCommand(string sql, __SQLiteConnection c)

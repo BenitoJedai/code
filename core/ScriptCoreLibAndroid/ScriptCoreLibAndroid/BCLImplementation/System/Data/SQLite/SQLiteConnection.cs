@@ -15,8 +15,16 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
 
+        //        Implementation not found for type import :
+        //type: System.Data.SQLite.SQLiteConnection
+        //method: Void set_BusyTimeout(Int32)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
 
-        protected override global::System.Data.Common.DbCommand CreateDbCommand()
+        // we aint using this yet? tests needed!
+        public int BusyTimeout { get; set; }
+
+        public override global::System.Data.Common.DbCommand CreateDbCommand()
         {
             return (global::System.Data.Common.DbCommand)(object)new __SQLiteCommand("", this);
         }
