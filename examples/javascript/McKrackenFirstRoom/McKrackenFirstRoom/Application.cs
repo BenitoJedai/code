@@ -37,6 +37,7 @@ namespace McKrackenFirstRoom
             // offset: 0x0025
             //  method:System.Threading.Tasks.Task`1[TSource] StartNewWithProgress[TSource](System.Threading.Tasks.TaskFactory, TSource, System.Func`2[System.Tup
 
+#if FCHROME
             #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
@@ -56,6 +57,7 @@ namespace McKrackenFirstRoom
             }
             #endregion
 
+#endif
             // why does it activate in float mode?
             // shake should make it go away?
             //global::DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();

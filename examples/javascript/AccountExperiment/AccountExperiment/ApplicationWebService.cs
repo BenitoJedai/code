@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace AccountExperiment
@@ -16,7 +17,7 @@ namespace AccountExperiment
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public class ApplicationWebService
     {
         //static AccountExperiment.Schema.MyAccountQueries.Insert ref0;
         //static AccountExperiment.Schema.MySessionQueries.Insert ref1;
@@ -37,7 +38,7 @@ namespace AccountExperiment
 
         // future versions will let client use this directly.
         // this should be a ComponentModel component
-        public global::GravatarExperiment.ApplicationWebService gravatar = new GravatarExperiment.ApplicationWebService();
+        private global::GravatarExperiment.ApplicationWebService gravatar = new GravatarExperiment.ApplicationWebService();
 
 
         public void gravatar_Gravatar(string e, Action<string> avatar, Action<string> profile)
@@ -46,14 +47,16 @@ namespace AccountExperiment
         }
 
         // java will complain about non public fields. we use lambdas and jsc is not doing the magic yet.
-        public MyAccount account = new MyAccount();
-        public MySession session = new MySession();
+        private MyAccount account = new MyAccount();
+        private MySession session = new MySession();
 
         #region MyDevices
-        public global::AccountExperiment.MyDevicesComponent.ApplicationWebService MyDevices = new MyDevicesComponent.ApplicationWebService();
+        private global::AccountExperiment.MyDevicesComponent.ApplicationWebService MyDevices = new MyDevicesComponent.ApplicationWebService();
 
-        public void MyDevices_Insert(string session, string name, string value, Action<string> yield)
+        public Task<long> MyDevices_Insert(string session, string name, string value)
         {
+            var yield = new TaskCompletionSource<long>();
+
             Console.WriteLine("enter MyDevices_Insert");
             this.account.SelectByCookie(
                 new MyAccountQueries.SelectByCookie { cookie = session },
@@ -62,19 +65,23 @@ namespace AccountExperiment
                     long account = r.id;
 
 
+                    this.MyDevices.account = account;
                     this.MyDevices.MyDevices_Insert(
-                        "" + account,
+                        //"" + account,
                         name,
-                        value,
-                        yield
-                    );
+                        value
+
+                      ).ContinueWithResult(yield.SetResult);
                 }
             );
             Console.WriteLine("exit MyDevices_Insert");
+            return yield.Task;
         }
 
-        public void MyDevices_SelectByAccount(string session, Action<string, string, string> yield, Action done)
+        public Task MyDevices_SelectByAccount(string session, Action<long, string, string> yield)
         {
+            var done = new TaskCompletionSource<long>();
+
             // ex = {"{ Message = database is locked\r\ndatabase is locked, StackTrace =    at System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)\r\n   at System.Data.SQLite.SQLiteDataReader.NextResult()\r\n   at System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, ...
 
             Console.WriteLine("enter MyDevices_SelectByAccount");
@@ -85,16 +92,25 @@ namespace AccountExperiment
                {
                    long account = r.id;
 
+                   this.MyDevices.account = account;
                    this.MyDevices.MyDevices_SelectByAccount(
-                       "" + account, yield, done
-                   );
+                       //"" + account, 
+                       yield
+                     ).ContinueWith(
+                    delegate
+                    {
+                        done.SetResult(0);
+                    }
+                    );
                }
            );
             Console.WriteLine("exit MyDevices_SelectByAccount");
+            return done.Task;
         }
 
-        public void MyDevices_Update(string session, string id, string name, string value, Action done)
+        public Task MyDevices_Update(string session, long id, string name, string value)
         {
+            var done = new TaskCompletionSource<long>();
             Console.WriteLine("enter MyDevices_Update");
             this.account.SelectByCookie(
                  new MyAccountQueries.SelectByCookie { cookie = session },
@@ -109,12 +125,18 @@ namespace AccountExperiment
 
 
                      Console.WriteLine("before this.MyDevices.MyDevices_Update");
+
+                     this.MyDevices.account = account;
                      this.MyDevices.MyDevices_Update(
-                         "" + account,
+                         //"" + account,
                          id,
                          name,
-                         value,
-                         done
+                         value
+                     ).ContinueWith(
+                        delegate
+                        {
+                            done.SetResult(0);
+                        }
                      );
 
                      Console.WriteLine("after this.MyDevices.MyDevices_Update");
@@ -122,16 +144,19 @@ namespace AccountExperiment
                  }
              );
             Console.WriteLine("exit MyDevices_Update");
+            return done.Task;
         }
         #endregion
 
         public ApplicationWebService()
         {
+            // or not. keep isolation
+
             // tell our third party component what datasource we are using
-            this.MyDevices.devices.csb.DataSource = this.account.csb.DataSource;
+            //this.MyDevices.devices.csb.DataSource = this.account.csb.DataSource;
 
             // how will it know to initialize then?
-            this.MyDevices.devices.WithConnectionOverride = this.account.WithConnection;
+            //this.MyDevices.devices.WithConnectionOverride = this.account.WithConnection;
         }
 
         public void account_SelectCount(Action<string> y)
@@ -170,11 +195,11 @@ namespace AccountExperiment
             done();
         }
 
-        public void SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere(string session, Action<string> yield)
+        public async Task<string> SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere(string session)
         {
             var count = this.session.SelectCount();
 
-            yield(new { count }.ToString());
+            return new { count }.ToString();
         }
 
         string CreateSession(long account, long ticks)
@@ -206,15 +231,14 @@ namespace AccountExperiment
             return cookie;
         }
 
-        public void CreateAccount(
+        public async Task<string> CreateAccount(
 
             string name,
             string web,
             string email,
             string password,
-            string skype,
+            string skype
 
-            Action<string> yield_session
             )
         {
             var now = DateTime.Now;
@@ -238,7 +262,8 @@ namespace AccountExperiment
 
             // yay, we can now log in!
 
-            yield_session(cookie);
+            //yield_session(cookie);
+            return cookie;
         }
 
 
