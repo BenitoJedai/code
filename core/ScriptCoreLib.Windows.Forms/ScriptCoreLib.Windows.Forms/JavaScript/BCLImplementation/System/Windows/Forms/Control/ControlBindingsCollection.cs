@@ -22,9 +22,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //Console.WriteLine("__ControlBindingsCollection.ctor ");
         }
 
+
+        public __Binding Add(string propertyName, object dataSource, string dataMember)
+        {
+            var x = new __Binding(propertyName, dataSource, dataMember);
+
+            Add(x);
+
+            return x;
+        }
         public void Add(__Binding binding)
         {
-            //Console.WriteLine("__ControlBindingsCollection.Add " + new { binding.DataSource });
+            Console.WriteLine("__ControlBindingsCollection.Add " + new
+            {
+                binding.PropertyName,
+                binding.DataSource,
+                binding.DataMember
+            });
 
             if (binding.DataSource == null)
                 return;
@@ -50,13 +64,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (!isINotifyPropertyChanged)
                 return;
 
+            var f = "_" + binding.DataMember + "_k__BackingField";
+
+            Action update = delegate
+            {
+                // would this work with properties?
+                // script: error JSC1000: No implementation found for this native method, please implement [static Microsoft.CSharp.RuntimeBinder.Binder.GetIndex(Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, System.Type, System.Collections.Generic.IEnumerable`1[[Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]])]
+
+
+                //var value = (binding.DataSource as dynamic)[binding.DataMember];
+
+                //   type$aw89N0f_aSzmxyAettfDeww._BooleanValue_k__BackingField = false;
+
+
+                var value = Expando.InternalGetMember(binding.DataSource, f);
+
+                //Console.WriteLine(new { binding.PropertyName, value });
+
+                // this is the only example for now.
+                if (binding.PropertyName == "Enabled")
+                {
+                    asControl.Enabled = (bool)value;
+                }
+
+                if (binding.PropertyName == "Text")
+                {
+                    asControl.Text = (string)value;
+                }
+            };
+
             // d = ( function () { var c$189 = f.binding.WQEABuWzsDyCcW0H2L852Q(); return (( function () { var c$189 = c$189.constructor; return 'Interfaces' in c$189 ? ('idtkRlDX9zioWpwjiQ7IgA' in c$189.Interfaces) : false; } )() ? c$189 : null); } )();
             var asINotifyPropertyChanged = (INotifyPropertyChanged)binding.DataSource;
             //var asINotifyPropertyChanged = (__INotifyPropertyChanged)binding.DataSource;
             asINotifyPropertyChanged.PropertyChanged +=
                 (sender, e) =>
                 {
-                    var f = "_" + binding.DataMember + "_k__BackingField";
                     //Console.WriteLine("__ControlBindingsCollection asINotifyPropertyChanged.PropertyChanged " + new { e.PropertyName, f });
 
 
@@ -64,28 +106,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     if (e.PropertyName != binding.DataMember)
                         return;
 
-                    // would this work with properties?
-                    // script: error JSC1000: No implementation found for this native method, please implement [static Microsoft.CSharp.RuntimeBinder.Binder.GetIndex(Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, System.Type, System.Collections.Generic.IEnumerable`1[[Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]])]
-
-
-                    //var value = (binding.DataSource as dynamic)[binding.DataMember];
-
-                    //   type$aw89N0f_aSzmxyAettfDeww._BooleanValue_k__BackingField = false;
-
-
-                    var value = Expando.InternalGetMember(binding.DataSource, f);
-
-                    //Console.WriteLine(new { binding.PropertyName, value });
-
-                    // this is the only example for now.
-                    if (binding.PropertyName == "Enabled")
-                    {
-
-                        asControl.Enabled = (bool)value;
-                    }
+                    update();
                 };
 
-            //binding.
+            update();
         }
 
         public static implicit operator ControlBindingsCollection(__ControlBindingsCollection x)
