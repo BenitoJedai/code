@@ -37,6 +37,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public Action<long> AtElapsedMilliseconds;
 
+        // called by?
         public static void AddField(InternalWebMethodInfo that, string FieldName, string FieldValue)
         {
             if (that.InternalFields == null)
@@ -50,7 +51,7 @@ namespace ScriptCoreLib.Ultra.WebService
             // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131011-fields
 
-            Console.WriteLine("InternalWebMethodInfo.AddField " + new { FieldName, FieldValue });
+            //Console.WriteLine("InternalWebMethodInfo.AddField " + new { FieldName, FieldValue });
 
             that.InternalFields[FieldName] = FieldValue;
         }
@@ -151,7 +152,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
             var key = "_" + that.MetadataToken + "_" + name;
 
-            //Console.WriteLine("LoadParameters: key: " + key);
+            //Console.WriteLine("GetParameterValue: " + new { key });
+
             var value_Form = that.InternalContext.Request.Form[key];
 
             if (null != value_Form)

@@ -121,6 +121,8 @@ namespace ScriptCoreLib.Library
 
         public static Stopwatch ConvertFromString(string e)
         {
+            // X:\jsc.svn\core\ScriptCoreLib\System\Diagnostics\StopwatchExtensions.cs
+
             if (string.IsNullOrEmpty(e))
                 return null;
 
@@ -131,7 +133,7 @@ namespace ScriptCoreLib.Library
             var ElapsedMilliseconds = Convert.ToInt64(x.Attribute("ElapsedMilliseconds").Value);
             var IsRunning = Convert.ToBoolean(x.Attribute("IsRunning").Value);
 
-            Console.WriteLine("StringConversionsForStopwatch.ConvertFromString CreateStopwatchAtElapsed " + new { ElapsedMilliseconds, IsRunning, x });
+            //Console.WriteLine("StringConversionsForStopwatch.ConvertFromString CreateStopwatchAtElapsed " + new { ElapsedMilliseconds, IsRunning, x });
 
             //StringConversionsForStopwatch.ConvertFromString CreateStopwatchAtElapsed { ElapsedMilliseconds = 329, IsRunning = True }
             //enter CLR_StringConversionsForStopwatchExtensions.StopwatchAtElapsed. this shall only happen in clr. { IsAttached = True }
@@ -145,7 +147,7 @@ namespace ScriptCoreLib.Library
             if (!IsRunning)
                 n.Stop();
 
-            Console.WriteLine("StringConversionsForStopwatch.ConvertFromString " + new { n.ElapsedMilliseconds, n.IsRunning });
+            //Console.WriteLine("StringConversionsForStopwatch.ConvertFromString " + new { n.ElapsedMilliseconds, n.IsRunning });
 
             return n;
         }
@@ -161,6 +163,8 @@ namespace ScriptCoreLib.Library
     {
         public static Stopwatch CreateStopwatchAtElapsed(TimeSpan t)
         {
+            // X:\jsc.svn\examples\javascript\forms\FormsDataBindingForEnabled\FormsDataBindingForEnabled\ApplicationWebService.cs
+
             // enter StringConversionsForStopwatchExtensions.StopwatchAtElapsed
 
             //Console.WriteLine("enter __StopwatchExtensions.StopwatchAtElapsed");
@@ -193,13 +197,13 @@ namespace ScriptCoreLib.Library
 
             n.IsRunning = true;
 
-            Console.WriteLine("__StopwatchExtensions.StopwatchAtElapsed " + new
-            {
-                n.Elapsed,
-                n.ElapsedMilliseconds,
-                n.IsRunning,
-                ticks
-            });
+            //Console.WriteLine("__StopwatchExtensions.StopwatchAtElapsed " + new
+            //{
+            //    n.Elapsed,
+            //    n.ElapsedMilliseconds,
+            //    n.IsRunning,
+            //    ticks
+            //});
 
             return (Stopwatch)(object)n;
         }

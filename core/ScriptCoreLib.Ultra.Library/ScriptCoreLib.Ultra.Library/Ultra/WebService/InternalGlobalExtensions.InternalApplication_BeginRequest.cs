@@ -122,6 +122,11 @@ namespace ScriptCoreLib.Ultra.WebService
             Action<InternalWebMethodInfo> WriteInternalFields =
                 x =>
                 {
+                    // does 304 check also look at 
+                    // fields?
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140323
+                    // X:\jsc.svn\examples\javascript\forms\FormsDataBindingForEnabled\FormsDataBindingForEnabled\ApplicationWebService.cs
 
                     if (x.InternalFields == null)
                         return;
@@ -130,30 +135,39 @@ namespace ScriptCoreLib.Ultra.WebService
                     var c = new HttpCookie("InternalFields");
                     // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
 
-                    //Implementation not found for type import :
-                    //type: System.Collections.Generic.Dictionary`2+KeyCollection[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
-                    //method: Enumerator GetEnumerator()
-                    //Did you forget to add the [Script] attribute?
-                    //Please double check the signature!
-
-                    //assembly: W:\staging\clr\AndroidListApplications.ApplicationWebService.AndroidActivity.dll
-                    //type: ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions+<>c__DisplayClass10, AndroidListApplications.ApplicationWebService.AndroidActivity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-                    //offset: 0x0030
-                    // method:Void <InternalApplication_BeginRequest>b__4(ScriptCoreLib.Ultra.WebService.InternalWebMethodInfo)
-                    //ystem.NotSupportedException:
-
-                    //Implementation not found for type import :
 
                     foreach (string InternalFieldName in x.InternalFields.Keys.ToArray())
                     {
-                        Console.WriteLine(new { InternalFieldName });
+                        //Console.WriteLine(new { InternalFieldName });
 
-                        c[InternalFieldName] = x.InternalFields[InternalFieldName];
+                        // for /xml post
+                        if (Context.Request.HttpMethod == "POST")
+                        {
+                            // GetParameterValue: { key = _0600000e_field_elapsed }
+
+                            that.Context.Response.AddHeader(
+                                ".field " + InternalFieldName,
+                                x.InternalFields[InternalFieldName]
+                            );
+                        }
+                        else
+                        {
+
+                            // for / get
+                            c[InternalFieldName] = x.InternalFields[InternalFieldName];
+                        }
                     }
 
                     // Set-Cookie:InternalFields=field_Foo=7; path=/
                     //that.Context.Response.AppendCookie(c);
-                    that.Context.Response.SetCookie(c);
+                    if (Context.Request.HttpMethod == "POST")
+                    { 
+                    
+                    }
+                    else
+                    {
+                        that.Context.Response.SetCookie(c);
+                    }
 
 
                 };

@@ -72,7 +72,7 @@
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlBindingsCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\ControlBindingsCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.GetPreferredSize.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.Layout.cs" />

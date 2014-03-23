@@ -55,6 +55,7 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+      <Aliases>global,globalscl</Aliases>
     </Reference>
     <Reference Include="ScriptCoreLib.Archive.ZIP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -146,6 +147,7 @@
     <Compile Include="JavaScript\Extensions\INodeExtensionsWithForms.cs" />
     <Compile Include="JavaScript\Extensions\UltraComponentsExtensions.cs" />
     <Compile Include="JavaScript\Remoting\InternalElementProxy.cs" />
+    <Compile Include="JavaScript\Remoting\InternalWebMethodRequest.cs" />
     <Compile Include="JavaScript\WebGL\ISurface.cs" />
     <Compile Include="JavaScript\Windows\Forms\WindowsFormsExtensions.cs" />
     <Compile Include="JavaScript\Extensions\INodeExtensionsWithXLinq.cs" />

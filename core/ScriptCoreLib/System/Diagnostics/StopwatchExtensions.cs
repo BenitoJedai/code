@@ -18,7 +18,7 @@ namespace System.Diagnostics
 
             var Frequency = Stopwatch.Frequency;
 
-            Console.WriteLine("enter CLR_StringConversionsForStopwatchExtensions.CreateStopwatchAtElapsed. this shall only happen in clr. " + new { Debugger.IsAttached });
+            //Console.WriteLine("enter CLR_StringConversionsForStopwatchExtensions.CreateStopwatchAtElapsed. this shall only happen in clr. " + new { Debugger.IsAttached });
 
             //            Stopwatch.GetTimestamp()	0x0000001fa3aa613e	long
             //Stopwatch.IsHighResolution	true	bool
@@ -56,7 +56,7 @@ namespace System.Diagnostics
                 n, true
             );
 
-            Console.WriteLine("CLR_StringConversionsForStopwatchExtensions.CreateStopwatchAtElapsed  " + new { n.ElapsedMilliseconds, n.IsRunning });
+            //Console.WriteLine("CLR_StringConversionsForStopwatchExtensions.CreateStopwatchAtElapsed  " + new { n.ElapsedMilliseconds, n.IsRunning });
 
             return n;
         }
