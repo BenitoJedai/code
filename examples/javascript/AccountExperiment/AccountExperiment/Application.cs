@@ -16,16 +16,15 @@ using ScriptCoreLib.JavaScript.Runtime;
 using Abstractatech.ConsoleFormPackage.Library;
 using AccountExperiment.MyDevicesComponent.Library;
 using AccountExperiment.MyDevicesComponent;
+using System.Threading.Tasks;
 
 namespace AccountExperiment
 {
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
-
         public Application(IApp page)
         {
-            service.account_SelectCount(
+            this.account_SelectCount(
                 count =>
                 {
                     page.accounts.innerText = count;
@@ -38,9 +37,8 @@ namespace AccountExperiment
             return "xx";
         }
 
-        public sealed class Login
+        public sealed class Login : ApplicationWebService
         {
-            public readonly ApplicationWebService service = new ApplicationWebService();
 
             public Login(IAppLogin page)
             {
@@ -64,7 +62,7 @@ namespace AccountExperiment
                 Action changed =
                     delegate
                     {
-                        service.gravatar_Gravatar(
+                        this.gravatar_Gravatar(
                             page.email.value,
                             avatar: value => page.avatar.src = value,
                             profile: value => page.profile.href = value
@@ -113,19 +111,16 @@ namespace AccountExperiment
 
         }
 
-        public sealed class Registerr
+        public sealed class Registerr : ApplicationWebService
         {
-            public readonly ApplicationWebService service = new ApplicationWebService();
-
             public Registerr(global::Abstractatech.Design.Blue.HTML.Pages.IApp page)
             {
 
             }
         }
 
-        public sealed class Register
+        public sealed class Register : ApplicationWebService
         {
-            public readonly ApplicationWebService service = new ApplicationWebService();
 
             public Register(IAppRegister page)
             {
@@ -133,7 +128,7 @@ namespace AccountExperiment
                 Action changed =
                     delegate
                     {
-                        service.gravatar_Gravatar(
+                        this.gravatar_Gravatar(
                             page.email.value,
                             avatar: value => page.avatar.src = value,
                             profile: value => page.profile.href = value
@@ -163,31 +158,28 @@ namespace AccountExperiment
 
 
                 page.CreateMyNewAccount.onclick +=
-                    delegate
+                    async delegate
                     {
                         page.CreateMyNewAccount.disabled = true;
 
-                        service.CreateAccount(
-                            page.name.value,
-                            page.web.value,
-                            page.email.value,
-                            page.password.value,
-                            page.skype.value,
-                            session =>
-                            {
-                                new Cookie("session").Value = session;
-
-                                Native.Document.location.replace("/");
-                            }
+                        var session = await this.CreateAccount(
+                            page.name,
+                            page.web,
+                            page.email,
+                            page.password,
+                            page.skype
                         );
+
+                        new Cookie("session").Value = session;
+
+                        Native.Document.location.replace("/");
                     };
             }
         }
 
 
-        public sealed class Dashboard
+        public sealed class Dashboard : ApplicationWebService
         {
-            public readonly ApplicationWebService service = new ApplicationWebService();
 
             public readonly ConsoleForm con = new ConsoleForm().InitializeConsoleFormWriter();
 
@@ -206,7 +198,7 @@ namespace AccountExperiment
                 page.TellServerToDropMySession.onclick +=
                     delegate
                     {
-                        service.page_TellServerToDropMySession_onclick(session.Value,
+                        this.page_TellServerToDropMySession_onclick(session.Value,
                             delegate
                             {
                                 Native.Document.location.reload();
@@ -218,7 +210,7 @@ namespace AccountExperiment
 
                 Console.WriteLine(session.Value);
 
-                service.account_SelectByCookie(
+                this.account_SelectByCookie(
                     // wow. webmethods are too isolated, cant see cookies:)
                     session.Value,
                     email =>
@@ -230,11 +222,11 @@ namespace AccountExperiment
 
 
                 page.SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere.onclick +=
-                    delegate
+                    async delegate
                     {
-                        service.SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere(session.Value,
-                            x => Native.window.alert(x)
-                        );
+                        var x = await this.SinceIAmNowLggedInTellMeHowManyActiveSessionsAreThere(session.Value);
+
+                        Native.window.alert(x);
                     };
 
 
@@ -245,9 +237,12 @@ namespace AccountExperiment
                         {
                             // at this point the client does not actually need to know the account id
                             // account will be taken from session token
-                            __account = 42,
 
-                            service = service.IMyDevicesComponent_MyDevices()
+                            // we cannot set the account like this anymore?
+                            // ??
+                            //__account = 42,
+
+                            service = this.IMyDevicesComponent_MyDevices()
                         }.Show();
                     };
             }
@@ -269,21 +264,26 @@ namespace AccountExperiment
         {
             public ApplicationWebService service;
 
+            // how does this help us?
             public readonly Cookie session = new Cookie("session");
 
-            public void MyDevices_Insert(string account, string name, string value, Action<string> yield)
+            //Task<long> MyDevices_Insert(string name, string value);
+            //Task MyDevices_SelectByAccount(Action<long, string, string> yield);
+            //Task MyDevices_Update(long id, string name, string value);
+
+            public Task<long> MyDevices_Insert(string name, string value)
             {
-                service.MyDevices_Insert(session.Value, name, value, yield);
+                return service.MyDevices_Insert(session.Value, name, value);
             }
 
-            public void MyDevices_SelectByAccount(string account, Action<string, string, string> yield, Action done)
+            public Task MyDevices_SelectByAccount(Action<long, string, string> yield)
             {
-                service.MyDevices_SelectByAccount(session.Value, yield, done);
+                return service.MyDevices_SelectByAccount(session.Value, yield);
             }
 
-            public void MyDevices_Update(string account, string id, string name, string value, Action done)
+            public Task MyDevices_Update(long id, string name, string value)
             {
-                service.MyDevices_Update(session.Value, id, name, value, done);
+                return service.MyDevices_Update(session.Value, id, name, value);
             }
         }
 

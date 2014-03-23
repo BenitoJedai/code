@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Design.Blue",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GravatarExperiment", "..\GravatarExperiment\GravatarExperiment\GravatarExperiment.csproj", "{387E0B36-CD21-4339-BA0C-E0760516109B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.ConsoleFormPackage", "..\..\..\market\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage\Abstractatech.ConsoleFormPackage.csproj", "{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -219,14 +223,75 @@ Global
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Android|Any CPU.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Android|Mixed Platforms.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Android|x86.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Android|x86.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Assets|Any CPU.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Assets|x86.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Assets|x86.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Debug|x86.ActiveCfg = Debug|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Debug|x86.Build.0 = Debug|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.LocalAppEngine|Any CPU.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.LocalAppEngine|Mixed Platforms.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.LocalAppEngine|Mixed Platforms.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.LocalAppEngine|x86.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.LocalAppEngine|x86.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.PHP|Any CPU.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.PHP|x86.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.PHP|x86.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Release|Any CPU.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Release|x86.ActiveCfg = Release|x86
+		{387E0B36-CD21-4339-BA0C-E0760516109B}.Release|x86.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Android|Any CPU.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Android|Mixed Platforms.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Android|x86.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Android|x86.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Assets|Any CPU.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Assets|x86.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Assets|x86.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Debug|x86.ActiveCfg = Debug|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Debug|x86.Build.0 = Debug|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.LocalAppEngine|Any CPU.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.LocalAppEngine|Mixed Platforms.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.LocalAppEngine|Mixed Platforms.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.LocalAppEngine|x86.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.LocalAppEngine|x86.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.PHP|Any CPU.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.PHP|x86.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.PHP|x86.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Release|Any CPU.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Release|x86.ActiveCfg = Release|x86
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{30126D13-598C-4A63-B0B1-89476361AFDC} = {05B8BBA9-A534-42F1-8365-FF97F83F5600}
-		{3D035C03-5D69-452B-9022-0269DBD26D8B} = {05B8BBA9-A534-42F1-8365-FF97F83F5600}
 		{99FFCEB1-6A96-4780-AA7E-11ED8258D223} = {05B8BBA9-A534-42F1-8365-FF97F83F5600}
+		{387E0B36-CD21-4339-BA0C-E0760516109B} = {05B8BBA9-A534-42F1-8365-FF97F83F5600}
+		{DFC9CE15-CC11-405A-9728-4ED4AC3A6C48} = {05B8BBA9-A534-42F1-8365-FF97F83F5600}
 		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {30126D13-598C-4A63-B0B1-89476361AFDC}
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {30126D13-598C-4A63-B0B1-89476361AFDC}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {30126D13-598C-4A63-B0B1-89476361AFDC}
