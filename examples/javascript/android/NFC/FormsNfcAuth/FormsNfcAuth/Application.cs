@@ -38,7 +38,7 @@ namespace FormsNfcAuth
         {
             content.AttachControlToDocument();
 
-            content.LoginButt.Click += async delegate
+            content.LoginButt.Click +=  delegate
             {
                 var user = content.fName.Text + content.lName.Text;
 

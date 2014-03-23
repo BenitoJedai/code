@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     public static class FileEntryAsyncExtensions
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\DOM\FileExtensions.cs
+
         public static Task<string> getAsString(this DataTransferItem x)
         {
             var y = new TaskCompletionSource<string>();

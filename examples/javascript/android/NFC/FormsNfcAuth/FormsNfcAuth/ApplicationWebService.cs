@@ -21,6 +21,10 @@ namespace FormsNfcAuth
     /// </summary>
     public partial class ApplicationWebService : Component
     {
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.SQLite.SQLiteConnection.get_LastInsertRowId()]
+        //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+        //script: error JSC1000: error at FormsNfcAuth.Design.NfcDB+UserAuth+Queries.Insert,
+
         public Task<bool> IsNfcApproved(string user)
         {
             return new XNfcAppService().IsNfcApproved(user);
@@ -28,7 +32,7 @@ namespace FormsNfcAuth
 
         public Task InsertUserAuth(string user)
         {
-           return new XNfcAppService().InsertUserAuth(user);
+            return new XNfcAppService().InsertUserAuth(user);
         }
     }
 
@@ -61,7 +65,7 @@ namespace FormsNfcAuth
 
                 Console.WriteLine(now.ToString());
                 Console.WriteLine(d.ToString());
-               
+
                 //Console.WriteLine((TimeSpan.FromTicks(now.Ticks) - TimeSpan.FromTicks(d.Ticks)).TotalSeconds.ToString());
 
                 if (TimeSpan.FromTicks(now.Ticks - d.Ticks).TotalSeconds > 10)

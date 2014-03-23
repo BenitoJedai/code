@@ -21,11 +21,19 @@ namespace jsgif
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         // based on http://antimatter15.com/wp/2010/07/javascript-to-animated-gif/
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        //cript: error JSC1000: No implementation found for this native method, please implement [static System.Tuple.Create(System.IProgress`1[[System.Int32,
+        //cript: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+        //cript: error JSC1000: error at GIFEncoderWorker..ctor,
+        //assembly: V:\jsgif.Application.exe
+        //type: GIFEncoderWorker, jsgif.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        //offset: 0x0049
+        // method:Void .ctor(Int32, Int32, Int32, Int32, System.Collections.Generic.IEnumerable`1[System.Byte[]], System.Action`1[System.Int32])
+        //** Compiler cannot continue... press enter to quit.
+
 
 
         /// <summary>

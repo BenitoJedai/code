@@ -43,14 +43,7 @@ namespace Abstractatech.JavaScript.FileStorage
 
     }
 
-    public static class X
-    {
-        public static IEnumerable<File> AsEnumerable(this FileList f)
-        {
-            return Enumerable.Range(0, (int)f.length).Select(k => f[(uint)k]);
-        }
 
-    }
 
     public class ApplicationContent
     {

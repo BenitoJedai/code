@@ -140,7 +140,9 @@
     </Compile>
     <None Include="app.config" />
     <None Include="Design\WebCamAvatars.xlsx" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

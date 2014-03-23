@@ -91,6 +91,7 @@
     <Compile Include="JavaScript\Components\ApplicationComponent.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="JavaScript\DOM\FileExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
     <Compile Include="JavaScript\Extensions\FormExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\CharExtensions.cs" />
