@@ -15,7 +15,7 @@ namespace AccountExperiment.Schema
         public SQLiteConnectionStringBuilder csb = new SQLiteConnectionStringBuilder
         {
             Version = 3,
-            DataSource = "AccountExperiment.sqlite"
+            DataSource = "file:AccountExperiment.sqlite"
         };
 
         public MyAccount()
