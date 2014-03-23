@@ -72,6 +72,10 @@ namespace System.Data.SQLite
                 if (c == null)
                 {
                     c = new SQLiteConnection(csb.ConnectionString);
+
+                    // the magic number
+                    c.BusyTimeout = 5000;
+
                     c.Open();
 
                     // http://devcon5.blogspot.com/2012/09/threadsafe-in-appengine-gaej.html

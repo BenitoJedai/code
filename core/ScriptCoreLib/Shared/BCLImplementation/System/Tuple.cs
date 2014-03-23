@@ -5,7 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Tuple, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")]
+    //[Script(ImplementsViaAssemblyQualifiedName = "System.Tuple, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")]
+    [Script(Implements = typeof(Tuple))]
     public static class __Tuple
     {
         public static __Tuple<T1, T2> Create<T1, T2>(T1 item1, T2 item2)
