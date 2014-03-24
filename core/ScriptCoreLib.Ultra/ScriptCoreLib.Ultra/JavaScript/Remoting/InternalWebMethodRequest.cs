@@ -4,6 +4,7 @@ using globalscl::ScriptCoreLib.JavaScript.DOM;
 using globalscl::ScriptCoreLib.Shared;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Ultra.Library;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
