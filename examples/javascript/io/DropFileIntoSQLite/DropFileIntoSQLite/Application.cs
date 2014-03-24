@@ -114,14 +114,14 @@ namespace DropFileIntoSQLite
                     page.Header.style.color = JSColor.None;
 
 
-                    var xfiles = evt.dataTransfer.files.AsEnumerable().Concat(
-                        from x in evt.dataTransfer.items.AsEnumerable()
-                        let f = x.getAsFile()
-                        where f != null
-                        select f
-                    );
+                    //var xfiles = evt.dataTransfer.files.AsEnumerable().Concat(
+                    //    from x in evt.dataTransfer.items.AsEnumerable()
+                    //    let f = x.getAsFile()
+                    //    where f != null
+                    //    select f
+                    //);
 
-
+                    #region DataTable
                     if (evt.dataTransfer.items != null)
                     {
                         // X:\jsc.svn\examples\javascript\DragDataTableIntoCSVFile\DragDataTableIntoCSVFile\Application.cs
@@ -155,9 +155,10 @@ namespace DropFileIntoSQLite
                             }
                         );
                     }
+                    #endregion
 
                     #region files
-                    xfiles.WithEachIndex(
+                    evt.dataTransfer.files.AsEnumerable().WithEachIndex(
                         (f, index) =>
                         {
                             Console.WriteLine(
@@ -536,13 +537,6 @@ d();
 
             #endregion
 
-            //@"Hello world".ToDocumentTitle();
-            //// Send data from JavaScript to the server tier
-            //service.WebMethod2(
-            //    @"A string from JavaScript.",
-            //    value => value.ToDocumentTitle()
-            //);
-
 
             new About().Show();
         }
@@ -551,10 +545,10 @@ d();
 
     public static class X
     {
-        public static IEnumerable<File> AsEnumerable(this FileList f)
-        {
-            return Enumerable.Range(0, (int)f.length).Select(k => f[(uint)k]);
-        }
+        //public static IEnumerable<File> AsEnumerable(this FileList f)
+        //{
+        //    return Enumerable.Range(0, (int)f.length).Select(k => f[(uint)k]);
+        //}
 
         public static IEnumerable<DataTransferItem> AsEnumerable(this DataTransferItemList f)
         {

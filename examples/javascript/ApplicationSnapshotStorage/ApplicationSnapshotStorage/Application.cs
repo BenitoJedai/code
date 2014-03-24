@@ -19,9 +19,8 @@ namespace ApplicationSnapshotStorage
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -93,7 +92,7 @@ namespace ApplicationSnapshotStorage
                                       //for app engine this might take 2 minutes? is it a problem in our encoder?
                                       // time to switch to unencoded post by bytes?
 
-                                      service.snapshot_Insert(DocumentText,
+                                      this.snapshot_Insert(DocumentText,
                                         AppSnapshotKey =>
                                         {
                                             f.Text = ApplicationWebService.prefix + AppSnapshotKey;
@@ -103,7 +102,7 @@ namespace ApplicationSnapshotStorage
                                             f.FormClosing +=
                                                delegate
                                                {
-                                                   service.snapshot_Delete(AppSnapshotKey);
+                                                   this.snapshot_Delete(AppSnapshotKey);
                                                };
                                         }
                                       );
@@ -120,7 +119,7 @@ namespace ApplicationSnapshotStorage
             #endregion
 
             var y = 0;
-            service.snapshot_SelectAll(
+            this.snapshot_SelectAll(
                 AppSnapshotKey =>
                 {
                     y++;
@@ -144,7 +143,7 @@ namespace ApplicationSnapshotStorage
                             f.FormClosing +=
                                 delegate
                                 {
-                                    service.snapshot_Delete(AppSnapshotKey);
+                                    this.snapshot_Delete(AppSnapshotKey);
                                 };
                         }
                     );
