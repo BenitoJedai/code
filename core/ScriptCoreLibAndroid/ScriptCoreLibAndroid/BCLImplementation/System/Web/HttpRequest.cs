@@ -10,6 +10,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
     public sealed class __HttpRequest
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava.Web\ScriptCoreLibJava.Web\BCLImplementation\System\Web\HttpRequest.cs
         // X:\jsc.svn\examples\java\android\ApplicationWebService\ApplicationWebService\ApplicationActivity.cs
 
         public string UserHostAddress { get; set; }
@@ -18,7 +19,6 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 
         public string HttpMethod { get; set; }
 
-        public HttpFileCollection Files { get; set; }
 
         public NameValueCollection QueryString { get; internal set; }
 
@@ -36,5 +36,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Web
             this.Headers = new NameValueCollection();
             this.Cookies = new HttpCookieCollection();
         }
+
+
+        public HttpFileCollection Files { get; set; }
+
     }
 }
