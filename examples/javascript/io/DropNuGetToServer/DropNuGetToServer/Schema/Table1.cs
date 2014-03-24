@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DropNuGetToServer.Schema
 {
-    class Table1 : Table1Queries
+    public class Table1 : Table1Queries
     {
         // System.InvalidOperationException: Invalid connection string: invalid URI
         //
