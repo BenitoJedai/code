@@ -54,31 +54,39 @@ namespace FormsNfcAuth
 
         public async Task<bool> IsNfcApproved(string username)
         {
+
+            var HsmConn = "38-12-A4-19-C6-3B-90-00";
+
+
             var res = (from c in new NfcDB.UserAuth()
                        where c.User == username
                        orderby c.Key descending
                        select c).FirstOrDefault();
 
-            Func<DateTime, bool> checkTime = d =>
+            var res3 = (from c in new NfcDB.UserAuth()
+                        where c.User == HsmConn
+                        orderby c.Key descending
+                        select c).FirstOrDefault();
+
+            Func<DateTime, DateTime, bool> checkTime = (d1, d2) =>
             {
-                var now = DateTime.Now;
+                var now = DateTime.Now.ToUniversalTime();
 
                 Console.WriteLine(now.ToString());
-                Console.WriteLine(d.ToString());
+                Console.WriteLine(d1.ToString());
 
                 //Console.WriteLine((TimeSpan.FromTicks(now.Ticks) - TimeSpan.FromTicks(d.Ticks)).TotalSeconds.ToString());
 
-                if (TimeSpan.FromTicks(now.Ticks - d.Ticks).TotalSeconds > 10)
+                if (TimeSpan.FromTicks(now.Ticks - d1.Ticks).TotalSeconds <= 10)
                 {
-                    Console.WriteLine("false");
-
-                    return false;
+                    if (TimeSpan.FromTicks(now.Ticks - d2.Ticks).TotalSeconds <= 10)
+                        return true;
+                    else
+                        return false;
                 }
                 else
                 {
-                    Console.WriteLine("true");
-
-                    return true;
+                    return false;
                 }
             };
 
@@ -92,7 +100,14 @@ namespace FormsNfcAuth
 
                 if (res2 != null)
                 {
-                    return checkTime(res2.Timestamp);
+                    if (res3 != null)
+                    {
+                        return checkTime(res2.Timestamp, res3.Timestamp);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -101,9 +116,7 @@ namespace FormsNfcAuth
             }
             else
             {
-                var ret = (checkTime(res.Timestamp));
-                Console.WriteLine(ret.ToString());
-                return ret;
+                return checkTime(res.Timestamp, res3.Timestamp);
             }
         }
 
