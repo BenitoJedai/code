@@ -102,6 +102,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.XSQLite">
+      <HintPath>..\packages\System.Data.XSQLite.1.0.0.0\lib\System.Data.XSQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
@@ -125,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\Table1.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
@@ -132,6 +136,13 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Schema\Table1Meta\create meta.sql" />
+    <Content Include="Schema\Table1Meta\insert meta.sql" />
+    <Content Include="Schema\Table1\create.sql" />
+    <Content Include="Schema\Table1\delete.sql" />
+    <Content Include="Schema\Table1\insert.sql" />
+    <Content Include="Schema\Table1\select all.sql" />
+    <Content Include="Schema\Table1\select bytes.sql" />
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

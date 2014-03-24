@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using DropNuGetToServer;
 using DropNuGetToServer.Design;
 using DropNuGetToServer.HTML.Pages;
+using System.Diagnostics;
 
 namespace DropNuGetToServer
 {
@@ -56,7 +57,9 @@ namespace DropNuGetToServer
 
                      evt.preventDefault();
 
-                     page.Header.innerText = "";
+
+                     var s = Stopwatch.StartNew();
+                     page.Header.innerText = "uploading...";
 
                      evt.dataTransfer.files.AsEnumerable().WithEach(
                          async f =>
@@ -76,6 +79,25 @@ namespace DropNuGetToServer
                              page.Header.innerText += "0x";
                              page.Header.innerText += bytes[0].ToString("x2");
                              page.Header.innerText += bytes[1].ToString("x2");
+
+                             var d = new FormData();
+
+
+                             d.append("foo", f, f.name);
+
+                             var xhr = new IXMLHttpRequest();
+
+                             xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/upload");
+
+                             xhr.InvokeOnComplete(
+                                 delegate
+                                 {
+                                     page.Header.innerText = "upload complete... " + new { s.ElapsedMilliseconds };
+                                 }
+                              );
+
+                             xhr.send(d);
+
                          }
                      );
                  };
