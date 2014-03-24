@@ -179,7 +179,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
                         Console.WriteLine("before Read ");
 
+                        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs
+
                         //Get Response	
+                        // namespace java.io
                         var xis = connection.getInputStream().ToNetworkStream();
 
                         var buffer = new byte[0x10000];

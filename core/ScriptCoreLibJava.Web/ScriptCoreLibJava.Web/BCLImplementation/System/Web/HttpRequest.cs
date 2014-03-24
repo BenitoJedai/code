@@ -5,12 +5,17 @@ using System.Text;
 using ScriptCoreLib;
 using System.Collections.Specialized;
 using System.Web;
+using System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
     internal class __HttpRequest
     {
+        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Web\HttpRequest.cs
+        // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\Java\InternalHttpServlet.cs
+        // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\Java\InternalAndroidWebServiceActivity.cs
+
         public string UserHostAddress
         {
             get
@@ -253,6 +258,46 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
             get
             {
                 return new Uri(this.Headers["Referer"]);
+            }
+        }
+
+
+
+
+        public string ContentType
+        {
+            get
+            {
+                var __Request = this;
+                var __RequestContentType = __Request.Headers["Content-Type"];
+
+                return __RequestContentType;
+            }
+        }
+
+        //        Implementation not found for type import :
+        //type: System.Web.HttpRequest
+        //method: System.Web.HttpFileCollection get_Files()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+        public HttpFileCollection Files
+        {
+            get
+            {
+                // X:\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\com.abstractatech.analytics\ApplicationWebService.cs
+                // http://stackoverflow.com/questions/4780474/appengine-howto-see-content-from-a-post-request
+
+                var f = new __HttpFileCollection();
+
+                Console.WriteLine("get Files " + new { ContentType });
+
+
+                
+                //this.InternalContext.getInputStream()
+                //this.InternalContext.getPathInfo
+
+                return (HttpFileCollection)(object)f;
             }
         }
     }

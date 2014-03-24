@@ -49,6 +49,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
         #endregion
 
 
+        public void Write(object s)
+        {
+
+            Write("" + s);
+        }
+
         public void Write(string s)
         {
             // X:\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\com.abstractatech.analytics\ApplicationWebService.cs

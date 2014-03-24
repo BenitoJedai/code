@@ -67,6 +67,8 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="BCLImplementation\System\Web\HttpCachePolicy.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpFileCollection.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpPostedFile.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpResponse.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpRequest.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
