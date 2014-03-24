@@ -118,13 +118,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                             this.InternalPreparedStatement.setLong(c, (long)item.p.Value);
                         else if (item.p.Value is string)
                             this.InternalPreparedStatement.setString(c, (string)item.p.Value);
+                        else if (item.p.Value is byte[])
+                            this.InternalPreparedStatement.setBytes(c, (sbyte[])item.p.Value);
                         else
                         {
+                            //Caused by: java.lang.RuntimeException: InternalCreateStatement, what to do with this? { CommandText = insert into Table1 (ContentValue, ContentBytes) values (@ContentValue /* text */, @ContentBytes), type = ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteParameter, isBytes = true, bytes = [B, eqBytes = true, item = { p = ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteParameter@1908330, i = 82 } }
+
+                            // http://docs.oracle.com/javase/6/docs/api/java/sql/PreparedStatement.html#setBytes(int, byte[])
+
+                            //Caused by: java.lang.RuntimeException: InternalCreateStatement, what to do with this? 
+                            // { CommandText = insert into Table1 (ContentValue, ContentBytes) values (@ContentValue /* text */, @ContentBytes), 
+                            // item = { p = ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteParameter@47f703, i = 82 }, 
+                            // type = __AnonymousTypes__ScriptCoreLibJava.__f__AnonymousType1_2 }
+
+                            //var isBytes = item.p.Value is byte[];
+                            //var bytes = typeof(byte[]);
+                            //var eqBytes = item.p.Value.GetType() == bytes;
+
                             var message = "InternalCreateStatement, what to do with this? " + new
                             {
                                 this.CommandText,
+                                type = item.p.Value.GetType(),
+
+                                //isBytes,
+                                //bytes,
+                                //eqBytes,
+
                                 item,
-                                type = item.GetType()
                             };
 
                             throw new InvalidOperationException(message);

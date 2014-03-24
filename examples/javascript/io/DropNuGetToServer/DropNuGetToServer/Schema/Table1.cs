@@ -13,8 +13,13 @@ namespace DropNuGetToServer.Schema
     public class Table1 : Table1Queries
     {
         // System.InvalidOperationException: Invalid connection string: invalid URI
-        //
-        public const string DefaultDataSource = "file:SQLiteWithDataGridView50.sqlite";
+        // http://stackoverflow.com/questions/10329356/data-truncation-error-data-too-long-for-column
+        // http://stackoverflow.com/questions/3503841/jpa-mysql-blob-returns-data-too-long/3507664#3507664
+        //BLOB: maximum length of 65,535 bytes
+        //MEDIUMBLOB: maximum length of 16,777,215 bytes
+        //LONGBLOB: maximum length of 4,294,967,295 bytes
+
+        public const string DefaultDataSource = "file:SQLiteWithDataGridView500.sqlite";
         //public const string DefaultDataSource = @"G:\SQLiteWithDataGridView54.sqlite";
 
         public readonly Action<Action<SQLiteConnection>> WithConnection;
