@@ -1,0 +1,1 @@
+﻿insert into Table1 (ContentValue, ContentBytes) values (@ContentValue /* text */, @ContentBytes)
