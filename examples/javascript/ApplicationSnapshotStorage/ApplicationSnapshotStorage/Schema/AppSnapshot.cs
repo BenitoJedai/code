@@ -23,11 +23,11 @@ namespace ApplicationSnapshotStorage
     {
         public readonly Action<Action<SQLiteConnection>> WithConnection;
 
-        public AppSnapshot(string DataSource = "AppSnapshotDatabase04.sqlite")
+        public AppSnapshot(string DataSource = "file:AppSnapshotDatabase04.sqlite")
         {
             Trace.w("AppSnapshot");
 
-            this.WithConnection = DataSource.AsWithConnection();
+            this.WithConnection = new SQLiteConnectionStringBuilder { DataSource = DataSource }.AsWithConnection();
 
             WithConnection(
                 c =>
@@ -124,46 +124,46 @@ namespace ApplicationSnapshotStorage
             }
         }
 
- 
-        public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
-        {
-            Console.WriteLine("AsWithConnection...");
 
-            return y =>
-            {
-                Console.WriteLine("AsWithConnection... invoke");
+        //public static Action<Action<SQLiteConnection>> AsWithConnection(this string DataSource, int Version = 3)
+        //{
+        //    Console.WriteLine("AsWithConnection...");
 
-                using (var c = DataSource.ToConnection(Version))
-                {
-                    c.Open();
+        //    return y =>
+        //    {
+        //        Console.WriteLine("AsWithConnection... invoke");
 
-                    try
-                    {
-                        y(c);
-                    }
-                    catch (Exception ex)
-                    {
-                        var message = new { ex.Message, ex.StackTrace }.ToString();
+        //        using (var c = DataSource.ToConnection(Version))
+        //        {
+        //            c.Open();
 
-                        Console.WriteLine("AsWithConnection... error: " + message);
+        //            try
+        //            {
+        //                y(c);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                var message = new { ex.Message, ex.StackTrace }.ToString();
 
-                        throw new InvalidOperationException(message);
-                    }
-                }
-            };
-        }
+        //                Console.WriteLine("AsWithConnection... error: " + message);
 
-        public static SQLiteConnection ToConnection(this string DataSource, int Version = 3)
-        {
-            var csb = new SQLiteConnectionStringBuilder
-            {
-                DataSource = DataSource,
-                Version = Version
-            };
+        //                throw new InvalidOperationException(message);
+        //            }
+        //        }
+        //    };
+        //}
 
-            var c = new SQLiteConnection(csb.ConnectionString);
+        //public static SQLiteConnection ToConnection(this string DataSource, int Version = 3)
+        //{
+        //    var csb = new SQLiteConnectionStringBuilder
+        //    {
+        //        DataSource = DataSource,
+        //        Version = Version
+        //    };
 
-            return c;
-        }
+        //    var c = new SQLiteConnection(csb.ConnectionString);
+
+        //    return c;
+        //}
     }
 }

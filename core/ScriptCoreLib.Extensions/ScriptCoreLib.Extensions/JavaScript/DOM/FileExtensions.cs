@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public static class FileExtensions
     {
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\FileEntryAsyncExtensions.cs
+        // X:\jsc.svn\examples\javascript\io\DropFileIntoSQLite\DropFileIntoSQLite\Application.cs
 
         public static IEnumerable<File> AsEnumerable(this FileList f)
         {

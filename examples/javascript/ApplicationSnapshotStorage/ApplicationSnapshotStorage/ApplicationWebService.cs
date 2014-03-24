@@ -13,7 +13,7 @@ namespace ApplicationSnapshotStorage
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public sealed class ApplicationWebService
+    public  class ApplicationWebService
     {
         // currently created also for handler requests.
         //public 
