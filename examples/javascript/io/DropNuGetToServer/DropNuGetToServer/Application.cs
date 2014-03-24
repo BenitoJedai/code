@@ -92,6 +92,7 @@ namespace DropNuGetToServer
                              xhr.InvokeOnComplete(
                                  delegate
                                  {
+                                     // upload complete... { ElapsedMilliseconds = 705 }
                                      page.Header.innerText = "upload complete... " + new { s.ElapsedMilliseconds };
                                  }
                               );
