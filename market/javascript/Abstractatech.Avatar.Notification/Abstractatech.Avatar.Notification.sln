@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Avatar.Notification", "Abstractatech.Avatar.Notification\Abstractatech.Avatar.Notification.csproj", "{CA10653E-73EF-4B49-B0E2-C6C698CDF54F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsgif", "..\..\..\examples\javascript\synergy\jsgif\jsgif\jsgif.csproj", "{2B82F864-2565-470E-BE62-68C54825510F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Avatar", "..\Abstractatech.JavaScript.Avatar\Abstractatech.JavaScript.Avatar\Abstractatech.JavaScript.Avatar.csproj", "{D05E3814-F763-46B0-955C-B27D7B5F034D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA10653E-73EF-4B49-B0E2-C6C698CDF54F}.Debug|x86.ActiveCfg = Debug|x86
+		{CA10653E-73EF-4B49-B0E2-C6C698CDF54F}.Debug|x86.Build.0 = Debug|x86
+		{CA10653E-73EF-4B49-B0E2-C6C698CDF54F}.Release|x86.ActiveCfg = Release|x86
+		{CA10653E-73EF-4B49-B0E2-C6C698CDF54F}.Release|x86.Build.0 = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.Build.0 = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.ActiveCfg = Release|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.Build.0 = Release|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Debug|x86.ActiveCfg = Debug|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Debug|x86.Build.0 = Debug|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Release|x86.ActiveCfg = Release|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
