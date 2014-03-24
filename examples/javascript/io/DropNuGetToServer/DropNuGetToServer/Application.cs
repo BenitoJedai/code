@@ -61,6 +61,9 @@ namespace DropNuGetToServer
                      var s = Stopwatch.StartNew();
                      page.Header.innerText = "uploading...";
 
+                     // defined at/
+                     // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\DOM\FileExtensions.cs
+
                      evt.dataTransfer.files.AsEnumerable().WithEach(
                          async f =>
                          {
