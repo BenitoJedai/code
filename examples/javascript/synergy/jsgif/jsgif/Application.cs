@@ -23,6 +23,19 @@ namespace jsgif
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Tuple.cs
+
+        //no implementation for System.Tuple b6efdcc2-6386-375e-84aa-6732b6518b3f
+        //script: error JSC1000: No implementation found for this native method, please implement [static System.Tuple.Create(System.IProgress`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=ne
+        //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+        //script: error JSC1000: error at GIFEncoderWorker..ctor,
+        // assembly: U:\jsgif.Application.exe
+        // type: GIFEncoderWorker, jsgif.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x0049
+        //  method:Void .ctor(Int32, Int32, Int32, Int32, System.Collections.Generic.IEnumerable`1[System.Byte[]], System.Action`1[System.Int32])
+        //*** Compiler cannot continue... press enter to quit.
+
+
         // based on http://antimatter15.com/wp/2010/07/javascript-to-animated-gif/
 
         //cript: error JSC1000: No implementation found for this native method, please implement [static System.Tuple.Create(System.IProgress`1[[System.Int32,
