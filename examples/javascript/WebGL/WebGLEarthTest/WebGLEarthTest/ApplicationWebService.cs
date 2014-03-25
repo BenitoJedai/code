@@ -28,25 +28,29 @@ namespace WebGLEarthTest
         public async Task<DataTable> GetAllCities()
         {
 
-            if (new Cities.City().Count() == 0)
-            {
-                try
-                {
-                    var city = new Cities.City();
-                    var sourceTable = Cities.GetDataSet();
-                    sourceTable.Tables["City"].Rows.AsEnumerable().WithEach(r => city.Insert(r));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            //if (new Cities.City().Count() == 0)
+            //{
+            //    try
+            //    {
+            //        var city = new Cities.City();
+            //        var sourceTable = Cities.GetDataSet();
+            //        sourceTable.Tables["City"].Rows.AsEnumerable().WithEach(r => city.Insert(r));
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e.Message);
+            //    }
                
-            }
-           
+            //}
 
-            return (from c in new Cities.City()
-                    orderby c.Key descending
-                    select c).AsDataTable();
+
+            var sourceTable = Cities.GetDataSet();
+            return sourceTable.Tables["CityTable"];
+
+
+            //return (from c in new Cities.City()
+            //        orderby c.Key descending
+            //        select c).AsDataTable();
         }
 
     }

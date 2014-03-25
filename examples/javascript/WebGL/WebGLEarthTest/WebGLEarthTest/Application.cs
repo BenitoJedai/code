@@ -109,12 +109,12 @@ namespace WebGLEarthTest
                                     s.needsUpdate = true;
                                     Console.WriteLine("event: _2_no_clouds_4k_low done");
 
-                                    await 20000;
+                                    //await 20000;
 
-                                    Console.WriteLine("event: _2_no_clouds_4k");
-                                    s.image = await new _2_no_clouds_4k();
-                                    s.needsUpdate = true;
-                                    Console.WriteLine("event: _2_no_clouds_4k done");
+                                    //Console.WriteLine("event: _2_no_clouds_4k");
+                                    //s.image = await new _2_no_clouds_4k();
+                                    //s.needsUpdate = true;
+                                    //Console.WriteLine("event: _2_no_clouds_4k done");
                                 }
                             ),
 
@@ -134,12 +134,12 @@ namespace WebGLEarthTest
                                     s.needsUpdate = true;
                                     Console.WriteLine("event: water_4k_low done");
 
-                                    await 20000;
+                                    //await 20000;
 
-                                    Console.WriteLine("event: water_4k");
-                                    s.image = await new water_4k();
-                                    s.needsUpdate = true;
-                                    Console.WriteLine("event: water_4k done");
+                                    //Console.WriteLine("event: water_4k");
+                                    //s.image = await new water_4k();
+                                    //s.needsUpdate = true;
+                                    //Console.WriteLine("event: water_4k done");
                                 }
                             ),
 
@@ -188,12 +188,12 @@ namespace WebGLEarthTest
                                     s.needsUpdate = true;
                                     Console.WriteLine("event: fair_clouds_4k_low done");
 
-                                    await 20000;
+                                    //await 20000;
 
-                                    Console.WriteLine("event: fair_clouds_4k");
-                                    s.image = await new fair_clouds_4k();
-                                    s.needsUpdate = true;
-                                    Console.WriteLine("event: fair_clouds_4k done");
+                                    //Console.WriteLine("event: fair_clouds_4k");
+                                    //s.image = await new fair_clouds_4k();
+                                    //s.needsUpdate = true;
+                                    //Console.WriteLine("event: fair_clouds_4k done");
                                 }
                             ),
 
@@ -218,6 +218,7 @@ namespace WebGLEarthTest
                     var longtitude = (double)table.Rows[r]["Longtitude"];
                     addLocation(latitude, longtitude, radius, 0.005, parent, segments);
                     Console.WriteLine(latitude.ToString());
+                    await 100;
                 }
             };
             AddCities();
