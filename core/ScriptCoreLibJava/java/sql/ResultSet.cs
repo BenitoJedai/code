@@ -17,6 +17,7 @@ namespace java.sql
         string getString(int value);
         int getInt(int value);
         long getLong(int columnIndex);
+        sbyte[] getBytes(int columnIndex);
 
         int findColumn(string value);
 

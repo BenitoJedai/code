@@ -262,9 +262,51 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             }
         }
 
-        public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
+        public override long GetBytes(int ordinal, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
-            throw new NotImplementedException();
+            //Caused by: java.lang.RuntimeException
+            //        at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteDataReader.GetBytes(__SQLiteDataReader.java:298)
+            //        at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteDataReader.System_Data_IDataRecord_GetBytes(__SQLiteDataReader.java:325)
+            //        at ScriptCoreLib.Shared.Data.DynamicDataReader.GetBytes(DynamicDataReader.java:114)
+            //        at ScriptCoreLib.Shared.Data.DynamicDataReader.System_Data_IDataRecord_GetBytes(DynamicDataReader.java:438)
+            //        at com.abstractatech.analytics.ApplicationWebService___c__DisplayClass4e._Handler_b__35(ApplicationWebService___c__DisplayClass4e.java:97)
+            //        ... 79 more
+
+
+
+            // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+            // // Get size of image data–pass null as the byte array parameter
+            var value = default(byte[]);
+
+            try
+            {
+                value = (byte[])(object)this.InternalResultSet.getBytes(ordinal + 1);
+            }
+            catch { throw; }
+
+
+            if (length == 0)
+                if (buffer == null)
+                    return value.Length;
+
+
+
+            // how much data we need to copy?
+
+            // java.lang.ArrayIndexOutOfBoundsException: length=8022; index=8022
+
+            var c = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if ((i + bufferoffset) < buffer.Length)
+                    if ((i + fieldOffset) < value.Length)
+                    {
+                        c++;
+                        buffer[i + bufferoffset] = value[i + fieldOffset];
+                    }
+            }
+
+            return c;
         }
 
         public override double GetDouble(int ordinal)
