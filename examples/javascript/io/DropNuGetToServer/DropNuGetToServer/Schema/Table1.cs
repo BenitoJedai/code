@@ -127,6 +127,19 @@ namespace DropNuGetToServer.Schema
         }
 
 
+        public void SelectBytesByValue(SelectBytesByValue value, Action<IDataReader> yield)
+        {
+            WithConnection(
+               c =>
+               {
+                   //Error	7	'System.Data.IDataReader' does not contain a definition for 'WithEachReader' and the best extension method overload 'DropFileIntoSQLite.Schema.XX.WithEachReader(System.Data.SQLite.SQLiteDataReader, System.Action<System.Data.IDataReader>)' has some invalid arguments	X:\jsc.svn\examples\javascript\io\DropFileIntoSQLite\DropFileIntoSQLite\Schema\Table1.cs	99	20	DropFileIntoSQLite
+
+
+                   value.ExecuteReader(c).WithEachReader(yield);
+               }
+             );
+        }
+
     }
 
 
