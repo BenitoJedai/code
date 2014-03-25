@@ -148,8 +148,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             this.Close();
         }
 
-
-        public long LastInsertRowId
+        //  public int LastInsertRowId { get; }
+        //public long LastInsertRowId
+        public int LastInsertRowId
         {
             get
             {
