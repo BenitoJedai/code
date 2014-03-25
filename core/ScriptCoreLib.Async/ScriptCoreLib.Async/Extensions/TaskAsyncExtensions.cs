@@ -11,6 +11,8 @@ namespace System.Threading.Tasks
     {
         public static Task<TSource> AsResult<TSource>(this TSource source)
         {
+            // defined only for 4.5
+            // http://msdn.microsoft.com/en-us/library/hh228607(v=vs.110).aspx
             return Task.FromResult(source);
         }
 

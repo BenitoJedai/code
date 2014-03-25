@@ -165,10 +165,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public __SQLiteCommand InternalLastInsertRowIdCommand;
 
-        public long LastInsertRowId
+        //public long LastInsertRowId
+        public int LastInsertRowId
         {
             get
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140325
+
                 long value = -1;
 
                 try
@@ -184,7 +187,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                     throw;
                 }
 
-                return value;
+                return (int)value;
             }
         }
     }
