@@ -17,7 +17,7 @@ namespace Abstractatech.Avatar.Notification
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public class ApplicationWebService : IArvatarNotificationInterface
+    public class ApplicationWebService : IAvatarNotificationInterface
     {
         public void ReferenceDeclaration()
         {
@@ -29,20 +29,20 @@ namespace Abstractatech.Avatar.Notification
         {
             return new AvatarNotificationService().GetLastUserImage();
         }
-        public void InsertNewPicture(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row y)
+        public void DiagnosticInsertNewPicture(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row y)
         {
-            new AvatarNotificationService().InsertNewPicture(y);
+            new AvatarNotificationService().DiagnosticInsertNewPicture(y);
         }
     }
 
-    public interface IArvatarNotificationInterface
+    public interface IAvatarNotificationInterface
     {
         Task<global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row> GetLastUserImage();
-        void InsertNewPicture(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row y);
+        void DiagnosticInsertNewPicture(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row y);
 
     }
 
-    public class AvatarNotificationService : IArvatarNotificationInterface
+    public class AvatarNotificationService : IAvatarNotificationInterface
     {
         public async Task<global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row> GetLastUserImage()
         {
@@ -53,7 +53,7 @@ namespace Abstractatech.Avatar.Notification
                  select c).FirstOrDefault();
         }
 
-        public void InsertNewPicture(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row y)
+        public void DiagnosticInsertNewPicture(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row y)
         {
             Console.WriteLine("enter InsertNewPicture");
 
