@@ -125,7 +125,7 @@ namespace Abstractatech.Avatar.Notification
             //getNewPicture();
 
            // new IHTMLDiv { }.AttachToDocument().With(x => ApplicationImplementation.MakeCamGrabber(x, sizeToWindow: true));
-
+           // var service = new AvatarNotificationService();
             page.ImgContainer.With(x => ApplicationImplementation.MakeimageNotification(page.ImgContainer, this));
 
             var button = new IHTMLButton { innerHTML = "SubmitButton" }.AttachToDocument();
@@ -163,7 +163,7 @@ namespace Abstractatech.Avatar.Notification
                             return;
                         }
 
-                        this.InsertNewPicture(y);
+                        this.DiagnosticInsertNewPicture(y);
 
                         //var z = (__PictureBox)(object)f.pictureBox1;
 
@@ -175,83 +175,91 @@ namespace Abstractatech.Avatar.Notification
             };
         }
 
-        public static class ApplicationImplementation{
-            public static async void MakeimageNotification(IHTMLDiv c, ApplicationWebService service)
+    }
+    public static class ApplicationImplementation
+    {
+        public static async void MakeimageNotification(IHTMLDiv c, IAvatarNotificationInterface service)
+        {
+            WebCamAvatarsSheet1Row lastPicture = null;
+
+            //new IStyle(page.ImgContainer.css + IHTMLElement.HTMLElementEnum.img)
+            //{
+            //    transition = "left linear 2000ms",
+            //    position = IStyle.PositionEnum.absolute,
+            //    Opacity = 1
+            //};
+
+            while (true)
             {
-                WebCamAvatarsSheet1Row lastPicture = null;
-                while (true)
+                var pic = await service.GetLastUserImage();
+
+                if (lastPicture != null)
                 {
-                    var pic = await service.GetLastUserImage();
-
-                    if (lastPicture != null)
+                    if (pic != null)
                     {
-                        if (pic != null)
+                        Console.WriteLine(pic.Key.ToString());
+                        Console.WriteLine(lastPicture.Key.ToString());
+                        if (pic.Key == lastPicture.Key)
                         {
-                            Console.WriteLine(pic.Key.ToString());
-                            Console.WriteLine(lastPicture.Key.ToString());
-                            if (pic.Key == lastPicture.Key)
-                            {
-                                c.Clear();
-                            }
-                            else
-                            {
-                                IHTMLImage img = new IHTMLImage();
-                                img.AttachTo(c);
-                                img.src = pic.Avatar96frame1;
-                                img.style.left = "-150px";
-                                lastPicture = pic;
-
-                                await 500;
-
-                                Native.window.requestAnimationFrame += delegate
-                                {
-                                    img.style.left = "50px";
-
-                                };
-
-                                await 10000;
-
-                                Native.window.requestAnimationFrame += delegate
-                                {
-                                    img.style.left = "-150px";
-
-                                };
-                            }
+                            c.Clear();
                         }
                         else
                         {
-                            c.Clear();
+                            IHTMLImage img = new IHTMLImage();
+                            img.AttachTo(c);
+                            img.src = pic.Avatar96frame1;
+                            img.style.left = "-150px";
+                            lastPicture = pic;
+
+                            await 500;
+
+                            Native.window.requestAnimationFrame += delegate
+                            {
+                                img.style.left = "50px";
+
+                            };
+
+                            await 10000;
+
+                            Native.window.requestAnimationFrame += delegate
+                            {
+                                img.style.left = "-150px";
+
+                            };
                         }
                     }
                     else
                     {
-                        IHTMLImage img = new IHTMLImage();
-                        img.AttachTo(c);
-                        lastPicture = pic;
-                        img.src = pic.Avatar96frame1;
+                        c.Clear();
+                    }
+                }
+                else
+                {
+                    IHTMLImage img = new IHTMLImage();
+                    img.AttachTo(c);
+                    lastPicture = pic;
+                    img.src = pic.Avatar96frame1;
+                    img.style.left = "-150px";
+
+                    await 500;
+
+                    Native.window.requestAnimationFrame += delegate
+                    {
+                        img.style.left = "50px";
+
+                    };
+
+                    await 10000;
+
+                    Native.window.requestAnimationFrame += delegate
+                    {
                         img.style.left = "-150px";
 
-                        await 500;
-
-                        Native.window.requestAnimationFrame += delegate
-                        {
-                            img.style.left = "50px";
-
-                        };
-
-                        await 10000;
-
-                        Native.window.requestAnimationFrame += delegate
-                        {
-                            img.style.left = "-150px";
-
-                        };
-                    }
-                    await 4000;
+                    };
                 }
-
+                await 4000;
             }
-        }
 
+        }
     }
 }
