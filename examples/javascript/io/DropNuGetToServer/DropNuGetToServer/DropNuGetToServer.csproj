@@ -140,6 +140,7 @@
     </Compile>
     <Content Include="Schema\Table1Meta\create meta.sql" />
     <Content Include="Schema\Table1Meta\insert meta.sql" />
+    <Content Include="Schema\Table1\select bytes by value.sql" />
     <Content Include="Schema\Table1\create.sql" />
     <Content Include="Schema\Table1\delete.sql" />
     <Content Include="Schema\Table1\insert.sql" />
