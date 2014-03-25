@@ -65,7 +65,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                     reset.style.zIndex = 100;
 
                     reset.WhenClicked(
-                        async delegate
+                        async button =>
                         {
                             await this.Reset();
 

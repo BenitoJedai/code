@@ -10,6 +10,11 @@ namespace WebGLEarthTest
     {
         public static void Main(string[] args)
         {
+            var x = new ApplicationWebService();
+
+            x.GetAllCities();
+
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
