@@ -80,12 +80,16 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
 
         public Task<DataTable> GetVisitHeadersFor(Design.Book1BSheet1Key visit)
         {
+            //b: "188987735074144256"
+
             return (
                 from k in new Design.Book1B.Sheet2()
                 // .FilterTo(visit)
                 where k.Sheet1 == visit
                 select k
-            ).AsDataTable().ToTaskResult();
+            ).AsDataTable().AsResult();
+
+            //).AsDataTable().ToTaskResult();
 
             // we need a diagram showing us
             // how much faster will we make this call if
@@ -116,8 +120,8 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                 {
 
                     // http://www.w3schools.com/sql/sql_drop.asp
-                    var _Sheet1 = new SQLiteCommand("drop table `" + AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet1.Queries.QualifiedTableName + "`", c).ExecuteNonQuery();
-                    var _Sheet2 = new SQLiteCommand("drop table `" + AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet2.Queries.QualifiedTableName + "`", c).ExecuteNonQuery();
+                    var _Sheet1 = new SQLiteCommand("drop table `" + AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet1.Queries.QualifiedTableName + "`", (SQLiteConnection)c).ExecuteNonQuery();
+                    var _Sheet2 = new SQLiteCommand("drop table `" + AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet2.Queries.QualifiedTableName + "`", (SQLiteConnection)c).ExecuteNonQuery();
 
                     return default(object).ToTaskResult();
                 }
@@ -165,6 +169,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                 }
             );
 
+            // 2AD6F7000000000
             Console.WriteLine(new { visit });
 
             //visit.Sheet2().

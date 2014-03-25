@@ -19,7 +19,7 @@ namespace SQLiteConsoleExperiment
     public sealed partial class ApplicationWebService : Component
     {
 
-        public const string DataSource = "SQLiteWithDataGridView50.sqlite";
+        public const string DataSource = "file:SQLiteWithDataGridView50.sqlite";
 
 
 
@@ -52,9 +52,16 @@ namespace SQLiteConsoleExperiment
                     c.Open();
 
 
+                    var cmd = new SQLiteCommand(sql, c);
 
-                    using (var reader = new SQLiteCommand(sql, c).ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
+                        var LastInsertRowId = c.LastInsertRowId;
+
+                        Console.WriteLine(new { LastInsertRowId });
+
+
+
                         //xdata.Load(reader);
 
                         while (reader.Read())
