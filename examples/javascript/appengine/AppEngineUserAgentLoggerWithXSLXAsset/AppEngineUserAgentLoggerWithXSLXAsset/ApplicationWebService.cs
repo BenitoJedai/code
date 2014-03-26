@@ -1,4 +1,5 @@
 extern alias global_scle;
+using AppEngineUserAgentLoggerWithXSLXAsset.Design;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -22,31 +23,18 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
     /// </summary>
     public partial class ApplicationWebService
     {
+
+        void References()
+        {
+            // [FileNotFoundException: Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, C
+            // [FileNotFoundException: Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0,
+            { var ref_SQLite = typeof(global::System.Data.SQLite.SQLiteCommand); }
+            { var ref_ScriptCoreLib_Extensions = typeof(global_scle::ScriptCoreLib.Extensions.DataExtensions); }
+        }
+
         #region appengine
 
-        //Unhandled Exception: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.ArgumentException: Illegal characters in path.
-        //   at System.IO.Path.CheckInvalidPathChars(String path, Boolean checkAdditional)
-        //   at System.IO.Path.NormalizePath(String path, Boolean fullCheck, Int32 maxPathLength, Boolean expandShortPaths)
-        //   at System.IO.Path.GetFullPathInternal(String path)
-        //   at System.IO.DirectoryInfo.Init(String path, Boolean checkHost)
-        //   at System.IO.DirectoryInfo..ctor(String path)
-        //   at ScriptCoreLib.Reflection.Options.ParameterDispatcherExtensions.AsParameterTo(String value, Object e, FieldInfo f) in x:\jsc.svn\core\ScriptCoreLib.Reflection.Options\ScriptCoreLib.Reflection.Options\ParameterDispatcherExtensions.cs:line 244
-
-        //0001 02000058 AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService::<module>.SHA12e7f9b931303fcbae1427b5e9cb94063fc864d21@2130839642
-        //Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\files
-        //C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe  -encoding UTF-8 -cp Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.3\lib\impl\*;C:\util\appengine-java-sdk-1.8.3\lib\shared\* -d "Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\release" @"Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\files"
-        //Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\java\AppEngineUserAgentLoggerWithXSLXAsset\Design\Book1_Sheet1__SelectAllAsEnumerable_closure.java:26: incompatible types
-        //found   : java.lang.Object
-        //required: long
-        //        row0.Key = /* unbox Book1Sheet1Key */_arg0.get_Item("Key");
-        //                                                           ^
-        //Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\java\AppEngineUserAgentLoggerWithXSLXAsset\Design\Book1_Sheet2__SelectAllAsEnumerable_closure.java:26: incompatible types
-        //found   : java.lang.Object
-        //required: long
-        //        row0.Key = /* unbox Book1Sheet2Key */_arg0.get_Item("Key");
-
-        // X:\jsc.svn\examples\java\Test\TestUnboxEnum\TestUnboxEnum\Class1.cs
-
+    
         //        InternalWebMethodInfo.AddField { FieldName = field_ClientTime, FieldValue =  }
         //Nov 25, 2013 12:41:23 AM com.google.appengine.api.rdbms.dev.LocalRdbmsServiceLocalDriver openConnection
         //SEVERE: Could not allocate a connection
@@ -56,12 +44,6 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
         //        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
 
         // "C:\util\xampp-win32-1.8.0-VC9\xampp\mysql_start.bat"
-
-        //Caused by: java.lang.RuntimeException: Table 'book1.xlsx.sqlite.sheet1' doesn't exist
-        //        at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteCommand.ExecuteNonQuery(__SQLiteCommand.java:294)
-        //        at AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1_Sheet1_Queries.Insert(Book1_Sheet1_Queries.java:56)
-
-
 
         #endregion
 
@@ -78,24 +60,18 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
         public WebServiceHandler WebServiceHandler { set; get; }
         #endregion
 
-        public Task<DataTable> GetVisitHeadersFor(Design.Book1BSheet1Key visit)
+        public Task<DataTable> GetVisitHeadersFor(Book1BSheet1Key visit)
         {
-            //b: "188987735074144256"
-
-            return (
+            return
                 from k in new Design.Book1B.Sheet2()
-                // .FilterTo(visit)
                 where k.Sheet1 == visit
-                select k
-            ).AsDataTable().AsResult();
+                select k;
 
-            //).AsDataTable().ToTaskResult();
 
             // we need a diagram showing us
             // how much faster will we make this call if
             // we move the filtering from web app into database
 
-            // y[visitkey].SelectAllAsEnumerable();
 
             // if the client side were to do this,
             // all call sites would need automatically be sent to the server
@@ -123,7 +99,7 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
                     var _Sheet1 = new SQLiteCommand("drop table `" + AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet1.Queries.QualifiedTableName + "`", (SQLiteConnection)c).ExecuteNonQuery();
                     var _Sheet2 = new SQLiteCommand("drop table `" + AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1B.Sheet2.Queries.QualifiedTableName + "`", (SQLiteConnection)c).ExecuteNonQuery();
 
-                    return default(object).ToTaskResult();
+                    return default(object).AsResult();
                 }
             );
         }
@@ -204,15 +180,9 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             #endregion
 
 
-            #region auto
-            // [FileNotFoundException: Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, C
-            // [FileNotFoundException: Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0,
-            var ref_SQLite = typeof(global::System.Data.SQLite.SQLiteCommand);
 
-            var ref_ScriptCoreLib_Extensions = typeof(global_scle::ScriptCoreLib.Extensions.DataExtensions);
-            #endregion
 
-            var DataSource = x.SelectAllAsDataTable();
+            var DataSource = x.AsDataTable();
 
             Console.WriteLine("server in Notify, DataSource " + new { DataSource.Rows.Count });
 
@@ -222,98 +192,10 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
             {
                 DataSource = DataSource,
                 visit = visit
-            }.ToTaskResult();
+            }.AsResult();
         }
 
     }
 
-    public static class X
-    {
-#if DEBUG
 
-        //public static IEnumerable<Design.Book1Sheet2Row> Where(this Design.Book1.Sheet2 data, Expression<Func<Design.Book1Sheet2Row, bool>> f)
-        public static IQueryable<Design.Book1BSheet2Row> Where(
-            this Design.Book1B.Sheet2 data,
-            Expression<Func<Design.Book1BSheet2Row, bool>> f
-            )
-        {
-            // http://www.codeproject.com/Tips/468215/Difference-Between-IEnumerable-and-IQueryable
-
-            //.Lambda #Lambda1<System.Func`2[AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1Sheet2Row,System.Boolean]>(AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1Sheet2Row $k)
-            //{
-            //    $k.Sheet1 == .Constant<AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService+<>c__DisplayClass0>(AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService+<>c__DisplayClass0).visitkey
-            //}
-
-            var zf = f.Compile();
-
-            // Error	5	Cannot implicitly convert type 'System.Collections.Generic.IEnumerable<AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1Sheet2Row>' to 'System.Linq.IQueryable<AppEngineUserAgentLoggerWithXSLXAsset.Design.Book1Sheet2Row>'. An explicit conversion exists (are you missing a cast?)	X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs	203	20	AppEngineUserAgentLoggerWithXSLXAsset
-
-            return data.SelectAllAsEnumerable().Where(zf).AsQueryable();
-        }
-#else
-        public static IEnumerable<Design.Book1BSheet2Row> Where(this Design.Book1B.Sheet2 data, Func<Design.Book1BSheet2Row, bool> f)
-        {
-            return data.SelectAllAsEnumerable().Where(f);
-        }
-#endif
-
-
-
-        public static IEnumerable<Design.Book1BSheet2Row> XSelectAllAsEnumerable(this Design.Book1B.Sheet2 data)
-        {
-            var x = data.SelectAllAsDataTable();
-
-            return x.Rows.AsEnumerable().Select(
-                r =>
-                {
-                    Console.WriteLine("Book1Sheet2Key:");
-
-                    //var KeyType = r.get
-                    var KeyObject = r["Key"];
-                    var KeyType = KeyObject.GetType();
-
-                    Console.WriteLine(new { KeyObject, KeyType.FullName });
-
-                    //            Caused by: java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.Long
-                    //at AppEngineUserAgentLoggerWithXSLXAsset.X._XSelectAllAsEnumerable_b__1(X.java:69)
-
-                    var Key = (Design.Book1BSheet2Key)Convert.ToInt64(KeyObject);
-                    var Sheet1 = (Design.Book1BSheet1Key)Convert.ToInt64(r["Sheet1"]);
-
-                    return new Design.Book1BSheet2Row
-                    {
-                        Key = Key,
-                        HeaderKey = (string)r["HeaderKey"],
-                        HeaderValue = (string)r["HeaderValue"],
-                        Sheet1 = Sheet1,
-                    };
-                }
-
-            );
-
-        }
-
-        public static DataTable AsDataTable(this IEnumerable<Design.Book1BSheet2Row> source)
-        {
-
-            var x = new DataTable();
-
-            x.Columns.Add("Key");
-            x.Columns.Add("HeaderKey");
-            x.Columns.Add("HeaderValue");
-            x.Columns.Add("Sheet1");
-
-            foreach (var item in source)
-            {
-                x.Rows.Add(
-                    item.Key,
-                    item.HeaderKey,
-                    item.HeaderValue,
-                    item.Sheet1
-                );
-            }
-
-            return x;
-        }
-    }
 }
