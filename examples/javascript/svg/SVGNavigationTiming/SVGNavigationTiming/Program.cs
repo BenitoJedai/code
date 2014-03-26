@@ -47,8 +47,8 @@ namespace SVGNavigationTiming
                 new PerformanceResourceTimingData2ApplicationPerformanceRow { }
             );
 
-            var x = new PerformanceResourceTimingData2.ApplicationPerformance().SelectAllAsDataTable();
-            var y = new PerformanceResourceTimingData2.ApplicationPerformance().SelectAllAsEnumerable();
+            var x = new PerformanceResourceTimingData2.ApplicationPerformance().AsDataTable();
+            var y = new PerformanceResourceTimingData2.ApplicationPerformance().AsEnumerable();
             var yy = y.ToArray();
             var z = y.AsDataTable();
 
