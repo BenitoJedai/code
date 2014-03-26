@@ -106,7 +106,7 @@ Click to capture pointer lock and see how the butterfly warps from left to right
                             e.style.backgroundPosition = x + "px " + y + "px";
 
                             overlay.style.SetLocation(
-                                x + 12.ToInteractiveInt32Form(),
+                                x + 66.ToInteractiveInt32Form(),
                                 y + 2.ToInteractiveInt32Form()
                             );
 

@@ -81,7 +81,7 @@ namespace WebGLGuidedByWebService
             );
 
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 6; i++)
             {
                 z.Add(
                     new ApplicationWebService { x = -3 * i, y = 0 }
@@ -90,7 +90,7 @@ namespace WebGLGuidedByWebService
             }
 
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 4; i++)
             {
                 z.Add(
                     new ApplicationWebService { y = -3 * i, x = 0 }
