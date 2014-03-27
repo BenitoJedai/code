@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// wrong namespace?
 namespace ScriptCoreLib.Ultra.Library.Extensions
 {
 	public static class CryptographyExtensions
