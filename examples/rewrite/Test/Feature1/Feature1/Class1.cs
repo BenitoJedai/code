@@ -11,7 +11,7 @@ namespace Feature2
     {
         public static string Foo()
         {
-            return "hi";
+            return "hi - test";
         }
     }
 }
