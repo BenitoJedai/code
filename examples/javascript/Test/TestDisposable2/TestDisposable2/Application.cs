@@ -13,9 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using WebApplication1;
-using WebApplication1.Design;
-using WebApplication1.HTML.Pages;
+using TestDisposable2;
+using TestDisposable2.Design;
+using TestDisposable2.HTML.Pages;
 
 namespace WebApplication1
 {
@@ -30,6 +30,8 @@ namespace WebApplication1
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            page.feature4 = Feature2.Class1.Foo();
+
             this.yield = text =>
             {
                 new IHTMLPre { new { text } }.AttachToDocument();
