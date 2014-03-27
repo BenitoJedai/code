@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSVSFormStyle", "MSVSFormStyle\MSVSFormStyle.csproj", "{D0FCA47E-E7A6-4762-BD47-757195EF9CE9}"
 	ProjectSection(ProjectDependencies) = postProject
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {F32D7675-1193-4DA7-98C8-C8B010C608D9}
+		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {5EC1743F-043B-44E8-A635-72331EEE81D8}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{5EC1743F-043B-44E8-A635-72331EEE81D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{B11D23D7-3060-4122-A372-E9CEB7FC2632}"
 EndProject
@@ -34,16 +34,16 @@ Global
 		{D0FCA47E-E7A6-4762-BD47-757195EF9CE9}.Release|Mixed Platforms.Build.0 = Release|x86
 		{D0FCA47E-E7A6-4762-BD47-757195EF9CE9}.Release|x86.ActiveCfg = Release|x86
 		{D0FCA47E-E7A6-4762-BD47-757195EF9CE9}.Release|x86.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Any CPU.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.Build.0 = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.ActiveCfg = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Debug|x86.Build.0 = Debug|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Any CPU.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.ActiveCfg = Release|x86
+		{5EC1743F-043B-44E8-A635-72331EEE81D8}.Release|x86.Build.0 = Release|x86
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -69,7 +69,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {B11D23D7-3060-4122-A372-E9CEB7FC2632}
+		{5EC1743F-043B-44E8-A635-72331EEE81D8} = {B11D23D7-3060-4122-A372-E9CEB7FC2632}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {B11D23D7-3060-4122-A372-E9CEB7FC2632}
 		{53E9147A-C826-43CB-BA7C-15DD2B7A9B1F} = {B11D23D7-3060-4122-A372-E9CEB7FC2632}
 	EndGlobalSection
