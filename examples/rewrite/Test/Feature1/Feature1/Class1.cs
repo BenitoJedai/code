@@ -11,7 +11,9 @@ namespace Feature2
     {
         public static string Foo()
         {
-            return "hi - test";
+            new Form1().Show();
+
+            return "Hi carlo, there is a window in front of you. use it.";
         }
     }
 }

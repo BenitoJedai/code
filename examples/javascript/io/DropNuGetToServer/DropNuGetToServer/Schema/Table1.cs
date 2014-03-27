@@ -65,6 +65,16 @@ namespace DropNuGetToServer.Schema
             );
         }
 
+        public void DeleteByValue(DeleteByValue value)
+        {
+            WithConnection(
+                c =>
+                {
+                    value.ExecuteNonQuery(c);
+                }
+            );
+        }
+
         public void Insert(Insert value, Action<long> yield)
         {
             //enter upload
