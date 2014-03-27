@@ -424,7 +424,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
                                 // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.2
                                 // X:\jsc.svn\examples\rewrite\TestReadToBoundary\TestReadToBoundary\Program.cs
 
-                                var data = r.ReadToBoundary("--" + boundary);
+                                var data = r.ReadToBoundary("\r\n--" + boundary);
 
 
                                 //I/System.Console( 8169): #10 { header0 = ------WebKitFormBoundarynixQIBRKZR2TM3Om }
