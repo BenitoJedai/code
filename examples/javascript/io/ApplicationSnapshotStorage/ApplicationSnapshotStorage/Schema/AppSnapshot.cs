@@ -62,7 +62,7 @@ namespace ApplicationSnapshotStorage
             );
         }
 
-        internal void Delete(Delete AppSnapshotKey)
+        public void Delete(Delete AppSnapshotKey)
         {
             Console.WriteLine("Delete");
             WithConnection(
