@@ -21,8 +21,12 @@ namespace WebGLClouds
         /* Source: view-source:http://mrdoob.com/lab/javascript/webgl/clouds/
          */
 
+        public static int FogColor = 0x4584b4;
+
         public static bool DisableBackground;
         public static double DefaultMouseY = 0.4;
+
+        public static string CloudTexture = new HTML.Images.FromAssets.cloud10().src;
 
 
 
@@ -124,12 +128,15 @@ namespace WebGLClouds
 
             var geometry = new THREE.Geometry();
 
-            var texture = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.cloud10().src);
+            //var texture = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.cloud10().src);
+            var texture = THREE.ImageUtils.loadTexture(CloudTexture);
 
             texture.magFilter = THREE.LinearMipMapLinearFilter;
             texture.minFilter = THREE.LinearMipMapLinearFilter;
 
-            var fog = new THREE.Fog(0x4584b4, -100, 3000);
+            // FogColor
+            //var fog = new THREE.Fog(0x4584b4, -100, 3000);
+            var fog = new THREE.Fog(FogColor, -100, 3000);
 
             var material = new THREE.ShaderMaterial(
 
