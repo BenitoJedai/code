@@ -13,12 +13,15 @@ namespace ApplicationSnapshotStorage
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public  class ApplicationWebService
+    public class ApplicationWebService
     {
         // currently created also for handler requests.
         //public 
         AppSnapshot snapshot = new AppSnapshot();
 
+
+        // http://blog.slaks.net/2011/10/caller-info-attributes-vs-stack-walking.html
+        //In fact, if the attacker invokes your delegate on a UI thread (by calling BeginInvoke), his assembly won’t show up on the callstack at all.  The attacker can also compile a dynamic assembly that calls your function and call into that assembly.
 
         [Obsolete("jsc shall generate a callsite like this")]
         public void snapshot_Insert(string content, Action<string> key)
@@ -42,7 +45,8 @@ namespace ApplicationSnapshotStorage
         }
 
 
-        public const string prefix = "/snapshot+";
+        //public const string prefix = "/snapshot+";
+        public const string prefix = "/view-source+";
 
         public void Handler(WebServiceHandler e)
         {

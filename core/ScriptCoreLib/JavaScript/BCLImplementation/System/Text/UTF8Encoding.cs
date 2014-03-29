@@ -13,75 +13,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
     {
         public override string GetString(byte[] bytes)
         {
-            // X:\jsc.svn\examples\javascript\Test\TestUTF8GetStringPerformance\TestUTF8GetStringPerformance\Application.cs
-            // UTF8.GetString { Length = 1989731 }
-
-            //            String.fromCharCode(40, 41)
-            //"()"
-
-            var w = new StringBuilder();
-
-            // return String.fromCharCode(i);
-
-
-            // { ElapsedMilliseconds = 13, Length = 1000 }
-            // { ElapsedMilliseconds = 21, Length = 16384 }
-            // { ElapsedMilliseconds = 33, Length = 65536 }
-            // GetString { Length = 131072 }
-            //bytes = new byte[bytes.Length];
-
-            // etString { Length = 131072 }
-            //bytes = new byte[131072];
-
-            //var a = (IArray<byte>)(object)bytes;
-            //a.
-            //Console.WriteLine("GetString " + new { bytes.Length });
-
-            // { ElapsedMilliseconds = 20, Length = 65536 }
-
-            var r = new MemoryStream(bytes);
-            // https://code.google.com/p/chromium/issues/detail?id=56588
-            var chunk = new byte[0x10000];
-
-            var ok = true;
-            var s = "";
-
-            while (ok)
-            {
-
-
-                var len = r.Read(chunk, 0, (int)chunk.Length);
-
-                if (len > 0)
-                {
-                    var cm = new MemoryStream();
-                    cm.Write(chunk, 0, len);
-
-                    //Console.WriteLine("GetString chunk " + new { cm.Length });
-
-
-                    var args = (object[])(object)cm.ToArray();
-
-
-                    // http://jsperf.com/string-fromcharcode-apply-vs-string-fromcharcode-using-
-                    //  message: "Maximum call stack size exceeded"
-                    var f = (IFunction)new IFunction("return String.fromCharCode;").apply(null);
-
-                    s += (string)f.apply(null, args);
-                }
-                else
-                {
-                    ok = false;
-                }
-            }
-
-            //for (int i = 0; i < bytes.Length; i++)
-            //{
-
-            //    w.Append(__String.FromCharCode(bytes[i]));
-            //}
-
-            //var s = w.ToString();
+            // tested again?
+            var s = __String.__fromCharCode(bytes);
 
             if (string.IsNullOrEmpty(s))
                 return s;

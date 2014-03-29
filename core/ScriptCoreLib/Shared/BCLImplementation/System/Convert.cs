@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.Convert))]
-    internal static partial class __Convert
+    public static partial class __Convert
     {
         //        Implementation not found for type import :
         //type: System.Convert

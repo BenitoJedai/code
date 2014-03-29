@@ -7,17 +7,25 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
-    internal static partial class __Convert
+    partial class __Convert
     {
         #region Base64Key
         internal const string Base64Key = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
-
-
+        [Obsolete("allow faster implementations to be specified. like window.btoa")]
+        public static Func<byte[], string> InternalToBase64String;
 
         public static string ToBase64String(byte[] input)
         {
+            if (InternalToBase64String != null)
+            {
+                // X:\jsc.svn\examples\javascript\test\TestPackageAsApplication\TestPackageAsApplication\Application.cs
+                return InternalToBase64String(input);
+            }
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140329
             // X:\jsc.svn\examples\javascript\Test\TestBase64\TestBase64\Application.cs
+
 
             //Console.WriteLine("enter ToBase64String");
             var ToBase64String_while_timeout = Stopwatch.StartNew();

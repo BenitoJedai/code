@@ -141,6 +141,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ContextMenuStrip.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStripStatusLabel.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowser\WebBrowser.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowser\WebBrowserBase.cs" />
     <Compile Include="JavaScript\Extensions\FormStyler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
@@ -158,7 +160,6 @@
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ScrollEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\KeyEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\KeyEventArgs.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowserBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkArea.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabel.Link.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursor.cs" />
@@ -191,7 +192,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\TextBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Timer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\UserControl.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowser.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\FormClosedEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\FormClosedEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\FormClosingEventArgs.cs" />

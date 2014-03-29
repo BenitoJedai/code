@@ -72,6 +72,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalElement.src = urlString;
         }
 
+
+        #region ScrollBarsEnabled
         public bool InternalScrollBarsEnabled;
         public bool ScrollBarsEnabled
         {
@@ -89,6 +91,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     this.InternalElement.scrolling = "no";
             }
         }
+        #endregion
 
         public IHTMLIFrame InternalElement;
 
@@ -142,37 +145,53 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     try
                     {
                         // DOM Exception?
-                        var href = this.InternalElement.contentWindow.document.location.href;
+                        var onload_href = this.InternalElement.contentWindow.document.location.href;
 
-                        InternalUrl = new Uri(href);
+                        // 1:93559ms __WebBrowser { href = about:blank } 
+                        // 2:27059ms __WebBrowser { onload_href = http://192.168.43.252:5645/, src =  }
 
-                        // enable reloading
-                        if (this.InternalElement.src != href)
+                        if (string.IsNullOrEmpty(this.InternalElement.src))
                         {
-                            // fixup, loaded from cashe?
-                            this.InternalElement.src = href;
+                            // set by DocumentText ?
                         }
                         else
                         {
-                            if (Navigated != null)
-                                Navigated(
-                                    this,
-                                    (WebBrowserNavigatedEventArgs)(object)new __WebBrowserNavigatedEventArgs { Url = InternalUrl }
-                                );
+                            Console.WriteLine("__WebBrowser " + new { onload_href, this.InternalElement.src });
+
+                            InternalUrl = new Uri(onload_href);
+
+                            // enable reloading
+                            if (this.InternalElement.src != onload_href)
+                            {
+                                // X:\jsc.svn\examples\javascript\io\ApplicationSnapshotStorage\ApplicationSnapshotStorage\Application.cs
+
+                                // fixup, loaded from cashe?
+                                // when do we need to do this?
+
+                                this.InternalElement.src = onload_href;
+                            }
+                            else
+                            {
+                                if (Navigated != null)
+                                    Navigated(
+                                        this,
+                                        (WebBrowserNavigatedEventArgs)(object)new __WebBrowserNavigatedEventArgs { Url = InternalUrl }
+                                    );
 
 
-                            this.InternalElement.contentWindow.onunload +=
-                                delegate
-                                {
-                                    if (Navigating != null)
-                                        Navigating(
-                                            this,
-                                            (WebBrowserNavigatingEventArgs)(object)new __WebBrowserNavigatingEventArgs
-                                            {
-                                                //Url = InternalUrl 
-                                            }
-                                        );
-                                };
+                                this.InternalElement.contentWindow.onunload +=
+                                    delegate
+                                    {
+                                        if (Navigating != null)
+                                            Navigating(
+                                                this,
+                                                (WebBrowserNavigatingEventArgs)(object)new __WebBrowserNavigatingEventArgs
+                                                {
+                                                    //Url = InternalUrl 
+                                                }
+                                            );
+                                    };
+                            }
                         }
 
 
