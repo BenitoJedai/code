@@ -167,8 +167,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 		}
 
 		[Script(OptimizedCode = "return String.fromCharCode.apply(null, e);")]
-		static string String_fromCharCode(int[] e)
+		public static string String_fromCharCode(int[] e)
 		{
+            // X:\jsc.svn\examples\javascript\test\TestPackageAsApplication\TestPackageAsApplication\Application.cs
+
 			return default(string);
 		}
 

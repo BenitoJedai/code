@@ -10,6 +10,10 @@ namespace ScriptCoreLib.JavaScript
 {
     // http://www.devguru.com/Technologies/ecmascript/quickref/js_property.html
     using SpawnItem = Pair<string, System.Action<IHTMLElement>>;
+    using System.Text;
+    using System.IO;
+    using ScriptCoreLib.JavaScript.BCLImplementation.System;
+    using ScriptCoreLib.Shared.BCLImplementation.System;
 
 
     [Script]
@@ -92,13 +96,29 @@ namespace ScriptCoreLib.JavaScript
         static public DedicatedWorkerGlobalScope worker;
         static public SharedWorkerGlobalScope sharedworker;
 
-        static partial void Uint8ClampedArray();
+        static partial void __Uint8ClampedArray();
+
+
+
+
+
+        public static void __ToBase64String()
+        {
+            // X:\jsc.svn\examples\javascript\test\TestPackageAsApplication\TestPackageAsApplication\Application.cs
+
+            // use .self instead for workers?
+            __Convert.InternalToBase64String =
+                x => (string)new IFunction("return window.btoa(this);").apply(
+                        __String.__fromCharCode(x)
+                    );
+
+        }
 
         static Native()
         {
 
 
-            Uint8ClampedArray();
+            __Uint8ClampedArray();
 
 
             // what is it?
@@ -110,8 +130,13 @@ namespace ScriptCoreLib.JavaScript
 
                 document = window.document;
                 screen = window.screen;
+
+                __ToBase64String();
+
+                return;
             }
-            else if (Expando.InternalIsMember(self, "importScripts"))
+
+            if (Expando.InternalIsMember(self, "importScripts"))
             {
 
                 if (Expando.InternalIsMember(self, "postMessage"))
@@ -122,16 +147,15 @@ namespace ScriptCoreLib.JavaScript
                     // DedicatedWorkerContext
 
                     worker = (DedicatedWorkerGlobalScope)self;
+                    return;
                 }
-                else
-                {
-                    // now what. are we running as a web worker?
-                    // WorkerGlobalScope
-                    // DedicatedWorkerGlobalScope
-                    // DedicatedWorkerContext
 
-                    sharedworker = (SharedWorkerGlobalScope)self;
-                }
+                // now what. are we running as a web worker?
+                // WorkerGlobalScope
+                // DedicatedWorkerGlobalScope
+                // DedicatedWorkerContext
+
+                sharedworker = (SharedWorkerGlobalScope)self;
             }
 
 

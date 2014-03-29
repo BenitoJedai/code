@@ -49,7 +49,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     //    }
     //}
 
-    internal static partial class __Convert
+    partial class __Convert
     {
         public static byte[] FromBase64String(string input)
         {

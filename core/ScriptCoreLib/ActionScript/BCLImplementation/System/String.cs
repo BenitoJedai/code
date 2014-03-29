@@ -260,6 +260,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         [Script(OptimizedCode = "return String.fromCharCode(i);")]
         public static string FromCharCode(int i)
         {
+            // X:\jsc.svn\examples\javascript\test\TestPackageAsApplication\TestPackageAsApplication\Application.cs
+
             return default(string);
         }
 

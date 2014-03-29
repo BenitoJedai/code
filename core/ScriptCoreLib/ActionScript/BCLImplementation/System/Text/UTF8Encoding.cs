@@ -12,6 +12,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Text
 	{
 		public override string GetString(byte[] bytes)
 		{
+            // X:\jsc.svn\examples\javascript\test\TestPackageAsApplication\TestPackageAsApplication\Application.cs
+
 			var w = new StringBuilder();
 
 			for (int i = 0; i < bytes.Length; i++)

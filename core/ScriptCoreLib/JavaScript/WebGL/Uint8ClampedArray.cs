@@ -7,7 +7,7 @@ namespace ScriptCoreLib.JavaScript
 {
     public static partial class Native
     {
-        static partial void Uint8ClampedArray()
+        static partial void __Uint8ClampedArray()
         {
             // Native cctor shall call us
             // no other cctor shall do byte[] before this
