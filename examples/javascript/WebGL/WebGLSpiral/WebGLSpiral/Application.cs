@@ -224,7 +224,16 @@ namespace WebGLSpiral
 
             @"Spiral".ToDocumentTitle();
 
+            new IHTMLAnchor { "drag me" }.AttachToDocument().With(
+                dragme =>
+                {
+                    dragme.style.position = IStyle.PositionEnum.@fixed;
+                    dragme.style.left = "1em";
+                    dragme.style.bottom = "1em";
 
+                    dragme.AllowToDragAsApplicationPackage();
+                }
+            );
         }
 
         public Action Dispose;

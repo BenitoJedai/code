@@ -17,6 +17,7 @@ namespace ApplicationSnapshotStorage
     {
         // currently created also for handler requests.
         //public 
+        #region snapshot
         AppSnapshot snapshot = new AppSnapshot();
 
 
@@ -43,6 +44,7 @@ namespace ApplicationSnapshotStorage
             Console.WriteLine("snapshot_Delete");
             this.snapshot.Delete(int.Parse(AppSnapshotKey));
         }
+        #endregion
 
 
         //public const string prefix = "/snapshot+";
@@ -61,6 +63,8 @@ namespace ApplicationSnapshotStorage
             //            e.CompleteRequest();
             //            return;
             //#endif
+
+            #region /view-source+
             if (e.Context.Request.Path.StartsWith(prefix))
             {
                 var AppSnapshotKey = int.Parse(e.Context.Request.Path.SkipUntilLastOrEmpty(prefix));
@@ -74,7 +78,10 @@ namespace ApplicationSnapshotStorage
                         e.CompleteRequest();
                     }
                 );
+                return;
             }
+            #endregion
+
         }
 
 
