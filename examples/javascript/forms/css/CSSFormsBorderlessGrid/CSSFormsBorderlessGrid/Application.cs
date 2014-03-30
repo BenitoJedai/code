@@ -98,7 +98,18 @@ namespace CSSFormsBorderlessGrid
                     gg.__ContentTable_css_td.style.paddingBottom = "1em";
                     #endregion
 
+                    new IHTMLAnchor { "drag me" }.AttachTo(Native.document.documentElement).With(
+                        dragme =>
+                        {
+                            dragme.style.position = IStyle.PositionEnum.@fixed;
+                            dragme.style.left = "1em";
+                            dragme.style.bottom = "1em";
 
+                            dragme.style.zIndex = 1000;
+
+                            dragme.AllowToDragAsApplicationPackage();
+                        }
+                    );
                 }
             );
         }

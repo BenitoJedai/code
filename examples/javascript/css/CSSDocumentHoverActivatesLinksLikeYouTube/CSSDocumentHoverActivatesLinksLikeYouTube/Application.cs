@@ -14,7 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using CSSDocumentHoverActivatesLinksLikeYouTube;
-using CSSDocumentHoverActivatesLinksLikeYouTube.Design;
 using CSSDocumentHoverActivatesLinksLikeYouTube.HTML.Pages;
 
 namespace CSSDocumentHoverActivatesLinksLikeYouTube
@@ -38,6 +37,19 @@ namespace CSSDocumentHoverActivatesLinksLikeYouTube
             };
 
             (Native.document.documentElement.css.hover.descendant + IHTMLElement.HTMLElementEnum.a).style.color = "blue";
+
+
+
+            new IHTMLAnchor { "drag me" }.AttachToDocument().With(
+                dragme =>
+                {
+                    dragme.style.position = IStyle.PositionEnum.@fixed;
+                    dragme.style.left = "1em";
+                    dragme.style.bottom = "1em";
+
+                    dragme.AllowToDragAsApplicationPackage();
+                }
+            );
         }
 
     }

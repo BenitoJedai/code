@@ -211,6 +211,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             if (ColumnType == 2004)
                 return typeof(string);
+            if (ColumnType == 2005)
+                return typeof(string);
 
             if (ColumnType == 91)
                 return typeof(string);
