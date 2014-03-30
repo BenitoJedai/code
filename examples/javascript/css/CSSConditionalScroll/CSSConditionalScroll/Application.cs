@@ -82,6 +82,12 @@ namespace CSSConditionalScroll
             //Native.document.body.css.orientation.portrait.style.whiteSpace = IStyle.WhiteSpaceEnum.nowrap;
 
             //Native.document.body.css[page.scrollheader].style.position = IStyle.PositionEnum.@fixed;
+
+            // error?
+            // http://my.jsc-solutions.net/
+            // when running as an inline example why the error?
+            // not able to find our scroll header?
+            // not part of the html?
             Native.document.body.css[page.scrollheader].style.top = "-5em";
             Native.document.body.css[page.scrollheader].style.transition = "top 300ms linear";
 
@@ -123,6 +129,18 @@ namespace CSSConditionalScroll
 
                 };
 
+            new IHTMLAnchor { "drag me" }.AttachTo(Native.document.documentElement).With(
+                dragme =>
+                {
+                    dragme.style.position = IStyle.PositionEnum.@fixed;
+                    dragme.style.left = "1em";
+                    dragme.style.bottom = "1em";
+
+                    dragme.style.zIndex = 1000;
+
+                    dragme.AllowToDragAsApplicationPackage();
+                }
+            );
         }
 
     }
