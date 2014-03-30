@@ -63,6 +63,19 @@ namespace FormVibrateNotificationTest
             {
                 
             };
+
+            new IHTMLAnchor { "drag me" }.AttachTo(Native.document.documentElement).With(
+                dragme =>
+                {
+                    dragme.style.position = IStyle.PositionEnum.@fixed;
+                    dragme.style.left = "1em";
+                    dragme.style.bottom = "1em";
+
+                    dragme.style.zIndex = 1000;
+
+                    dragme.AllowToDragAsApplicationPackage();
+                }
+            );
         }
 
     }
