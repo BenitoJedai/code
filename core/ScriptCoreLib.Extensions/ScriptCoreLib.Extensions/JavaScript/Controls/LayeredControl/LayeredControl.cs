@@ -281,10 +281,12 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                         //e.CaptureMouse();
                         // can we do this?
 
-                        e.CaptureMouse();
 
                         if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                             u.requestPointerLock();
+                        else
+                            e.CaptureMouse();
+
                     }
 
 
@@ -320,7 +322,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle || e.MouseButton == IEvent.MouseButtonEnum.Right)
                     {
                         DragEngaged = false;
-                        
+
                         if (Native.Document.pointerLockElement == u)
                         {
                             Native.Document.exitPointerLock();

@@ -17,6 +17,7 @@ using System.Text;
 using System.Xml.Linq;
 using Abstractatech.JavaScript.FormAsPopup;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace MSVSFormStyle
 {
@@ -225,6 +226,14 @@ namespace MSVSFormStyle
                  };
 
 
+            content.button12.Click +=
+             delegate
+             {
+                 FormStyler.AtFormCreated = FormStylerLikeChrome.LikeChrome;
+
+                 new Form1().PopupInsteadOfClosing(HandleFormClosing: false).Show();
+             };
+
 
             content.AttachControlToDocument();
 
@@ -234,136 +243,17 @@ namespace MSVSFormStyle
             @"Style".ToDocumentTitle();
 
 
+            new IHTMLAnchor { "drag me" }.AttachTo(Native.document.documentElement).With(
+                dragme =>
+                {
+                    dragme.style.position = IStyle.PositionEnum.@fixed;
+                    dragme.style.left = "1em";
+                    dragme.style.bottom = "1em";
 
-            // this wont work
-            Native.document.getElementsByTagName("script")
-                .Select(k => (IHTMLScript)k)
-                .FirstOrDefault(k => k.src.EndsWith("/view-source"))
-                .With(
-                    source =>
-                    {
-                        #region PackageAsApplication
-                        Action<IHTMLScript, XElement, Action<string>> PackageAsApplication =
-                            (source0, xml, yield) =>
-                            {
-                                new IXMLHttpRequest(
-                                    ScriptCoreLib.Shared.HTTPMethodEnum.GET, source0.src,
-                                    (IXMLHttpRequest r) =>
-                                    {
-                                        // store hash
-                                        xml.Add(new XElement("link", new XAttribute("rel", "location"), new XAttribute("href", Native.document.location.hash)));
+                    dragme.style.zIndex = 1000;
 
-
-                                        #region script
-                                        xml.Add(
-                                            new XElement("script",
-                                                "/* source */"
-                                           )
-                                        );
-
-                                        var data = "";
-
-
-                                        Action later = delegate
-                                        {
-
-                                            data = data.Replace("/* source */", r.responseText);
-
-                                        };
-                                        #endregion
-
-
-                                        //Native.Document.getElementsByTagName("link").AsEnumerable().ToList().ForEach(
-
-                                        xml.Elements("link").ToList().ForEach(
-                                            (XElement link, Action next) =>
-                                            {
-                                                #region style
-                                                var rel = link.Attribute("rel");
-                                                if (rel.Value != "stylesheet")
-                                                {
-                                                    next();
-                                                    return;
-                                                }
-
-                                                var href = link.Attribute("href");
-
-                                                var placeholder = "/* " + href.Value + " */";
-
-                                                //page.DragHTM.innerText += " " + placeholder;
-
-
-                                                xml.Add(new XElement("style", placeholder));
-
-                                                new IXMLHttpRequest(ScriptCoreLib.Shared.HTTPMethodEnum.GET, href.Value,
-                                                    rr =>
-                                                    {
-
-                                                        later += delegate
-                                                        {
-
-
-                                                            data = data.Replace(placeholder, rr.responseText);
-
-                                                        };
-
-                                                        Console.WriteLine("link Remove");
-                                                        link.Remove();
-
-                                                        next();
-                                                    }
-                                                );
-
-                                                #endregion
-                                            }
-                                        )(
-                                            delegate
-                                            {
-
-
-                                                data = xml.ToString();
-                                                Console.WriteLine("data: " + data);
-                                                later();
-
-                                                yield(data);
-                                            }
-                                        );
-                                    }
-                                );
-
-                            };
-                        #endregion
-
-
-                        PackageAsApplication(
-                             source,
-                             XElement.Parse(AppSource.Text),
-                             data =>
-                             {
-                                 var bytes = Encoding.ASCII.GetBytes(data);
-                                 var data64 = System.Convert.ToBase64String(bytes);
-
-
-                                 Native.document.body.title = "Drag me!";
-
-                                 Native.document.body.ondragstart +=
-                                         e =>
-                                         {
-                                             //e.dataTransfer.setData("text/plain", "Sphere");
-
-                                             // http://codebits.glennjones.net/downloadurl/virtualdownloadurl.htm
-                                             //e.dataTransfer.setData("DownloadURL", "image/png:Sphere.png:" + icon);
-
-                                             e.dataTransfer.setData("DownloadURL", "application/octet-stream:Spiral.htm:data:application/octet-stream;base64," + data64);
-                                             e.dataTransfer.setData("text/html", data);
-                                             e.dataTransfer.setData("text/uri-list", Native.document.location + "");
-                                             //e.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
-                                         };
-
-
-                             }
-                         );
-                    }
+                    dragme.AllowToDragAsApplicationPackage();
+                }
             );
 
         }
