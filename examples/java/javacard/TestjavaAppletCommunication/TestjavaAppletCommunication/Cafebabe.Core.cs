@@ -56,13 +56,41 @@ namespace JavacardAppletExample
                 byte[] masterFile = new byte[] { 0x00, 0xA4, 0x00, 0x0C };
                 byte[] EEEEcatalogue = new byte[] { 0x00, 0xA4, 0x01, 0x0C, 0x02, 0xEE, 0xEE };
                 byte[] setSecEnv1 = new byte[] { 0x00, 0x22, 0xF3, 0x01 };
+                byte[] signatureHash = new byte[] { 0x00, 0x2a, 0x9E, 0x9A }; // Partly. Additional length and hash is provided
+                byte[] pin1VerifyPartly = new byte[] { 0x00, 0x20, 0x00, 0x01};
+                byte[] pukVerifyPartly = new byte[] { 0x00, 0x20, 0x00, 0x00 };
                 byte[] pin2VerifyPartly = new byte[] { 0x00, 0x20, 0x00, 0x02 }; //additional Pin2 len and Pin2 as ASCII
+                byte[] selectFile5044 = new byte[] { 0x00, 0xa4, 0x02, 0x04};
+                byte[] selectFromPersoFile = new byte[] {0x00, 0xB2, 0x01, 0x04, 0x00 };
+                byte[] readPersoResponse = new byte[] { 0x00, 0xC0, 0x00, 0x00 };
 
 
                 whiteList.Add((sbyte[])(object)masterFile);
                 whiteList.Add((sbyte[])(object)EEEEcatalogue);
-                whiteList.Add((sbyte[])(object)setSecEnv1); 
+                whiteList.Add((sbyte[])(object)setSecEnv1);
+                whiteList.Add((sbyte[])(object)signatureHash);
+                whiteList.Add((sbyte[])(object)pin1VerifyPartly);
+                whiteList.Add((sbyte[])(object)pukVerifyPartly);
+                whiteList.Add((sbyte[])(object)pin2VerifyPartly);
+                whiteList.Add((sbyte[])(object)selectFile5044);
+                //whiteList.Add((sbyte[])(object)selectFromPersoFile);
+                whiteList.Add((sbyte[])(object)readPersoResponse);
 
+                var isValid = false;
+
+                foreach (var arr in whiteList)
+                {
+                    if (arr[0] == CLA && arr[1] == INS && arr[2] == P1 && arr[3] == P2)
+                    {
+                        isValid = true;
+                    }
+
+                    if(CLA == selectFromPersoFile[0] && INS == selectFromPersoFile[1] && selectFromPersoFile[2] > 0x00 && selectFromPersoFile[2] > 0x10 && P2 == selectFromPersoFile[3])
+                    {
+                        isValid = true;
+                    }
+                }
+                         
 
 
                 byte[] AID = { 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0x00, 0x02, 0x02 };
@@ -79,6 +107,12 @@ namespace JavacardAppletExample
                 if (s == null)
                 {
                     reply(apdu, 5, 5, 5, 5);
+                    return;
+                }
+
+                if (!isValid)
+                {
+                    reply(apdu, 2, 2, 2, 2);
                     return;
                 }
 
