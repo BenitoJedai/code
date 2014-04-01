@@ -28,6 +28,7 @@ namespace MSVSFormStyle
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -135,6 +136,16 @@ namespace MSVSFormStyle
             this.button11.Text = "new studio host 2013 Form()";
             this.button11.UseVisualStyleBackColor = true;
             // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(45, 466);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(211, 27);
+            this.button12.TabIndex = 6;
+            this.button12.Text = "new chrome Form()";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button7_Click);
+            // 
             // ApplicationControl
             // 
             this.BackColor = System.Drawing.Color.White;
@@ -142,6 +153,7 @@ namespace MSVSFormStyle
             this.Controls.Add(this.button10);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
+            this.Controls.Add(this.button12);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
@@ -176,6 +188,7 @@ namespace MSVSFormStyle
         public Button button9;
         public Button button10;
         public Button button11;
+        public Button button12;
 
     }
 }
