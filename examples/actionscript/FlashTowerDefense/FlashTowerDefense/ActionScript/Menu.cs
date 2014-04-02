@@ -14,6 +14,17 @@ using FlashTowerDefense.ActionScript.Assets;
 
 namespace FlashTowerDefense.ActionScript
 {
+    public static class X
+    {
+        public static void Comment(this string e)
+        {
+            // during compile time jsc
+            // should send it in.
+            // since roslyn is not yet available
+            // to extract it from source directly.
+        }
+    }
+
     [Script, ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
     [SWF(width = DefaultWidth, height = DefaultHeight, backgroundColor = ColorWhite)]
     public class Menu : FlashTowerDefense
@@ -38,8 +49,31 @@ namespace FlashTowerDefense.ActionScript
 
             var y = 0d;
 
+            // X:\jsc.svn\examples\actionscript\FlashTowerDefense\FlashTowerDefense\ActionScript\Menu.cs
+            // public override event Action<MouseEvent> contextMenu;
+            // public ContextMenu contextMenu { get; set; }
+            // um the jsc rewriter should rename
+            // either the field or the event.
+            // or the flash natives gen should stop
+            // creating events that have the same name
+            // as fields.
+            // carlo! :)
+
+            // can jsc send a comment?
+
+            //"this is a comment";
+            "this is a comment".Comment();
+
+
+#if FContextMenu
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140402
+
+
+
             this.contextMenu = new ContextMenu();
             this.contextMenu.hideBuiltInItems();
+#endif
+
 
             foreach (var v in this.Settings.KnownActors)
             {
@@ -68,7 +102,7 @@ namespace FlashTowerDefense.ActionScript
 
             PlayButton.OnHoverUseColor(ColorRed);
 
-            
+
 
             PlayButton.click +=
                 delegate

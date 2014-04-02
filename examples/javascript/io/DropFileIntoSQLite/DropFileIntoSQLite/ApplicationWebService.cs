@@ -21,7 +21,10 @@ namespace DropFileIntoSQLite
     public delegate void AtFile(
         /* Table1_ContentKey */
         Table1_ContentKey ContentKey,
+
         long Length,
+
+        string ContentValue,
 
         int Left,
         int Top,
@@ -97,9 +100,9 @@ namespace DropFileIntoSQLite
         public static Table1_ContentKey WithEach(this Table1_ContentKey x, AtFile y)
         {
             new ApplicationWebService().EnumerateFilesAsync(
-                (ContentKey, ContentBytesLength, Left, Top, Width, Height) =>
+                (ContentKey, ContentBytesLength, ContentValue, Left, Top, Width, Height) =>
                 {
-                    y(ContentKey, ContentBytesLength, Left, Top, Width, Height);
+                    y(ContentKey, ContentBytesLength, ContentValue, Left, Top, Width, Height);
                 }
             );
 
@@ -200,11 +203,15 @@ namespace DropFileIntoSQLite
                          ContentKey = xx.ContentKey,
                          ContentBytesLength = xx.ContentBytesLength;
 
-                     Console.WriteLine(new { ContentKey, Left, Top });
+                     string
+                         ContentValue = xx.ContentValue;
+
+                     Console.WriteLine(new { ContentKey, ContentValue, Left, Top });
 
                      y(
                          ContentKey: (Table1_ContentKey)ContentKey,
                          Length: ContentBytesLength,
+                         ContentValue: ContentValue,
                          Left: Left,
                          Top: Top,
                          Width: Width,
@@ -337,9 +344,20 @@ namespace DropFileIntoSQLite
 
                         #endregion
 
-                        if (ContentValue.EndsWith(".pdf"))
+                        if (ContentValue.EndsWith(".swf"))
+                        {
+                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140402
+                            // application/x-shockwave-flash
+                            h.Context.Response.ContentType = "application/x-shockwave-flash";
+                        }
+                        else if (ContentValue.EndsWith(".pdf"))
                         {
                             h.Context.Response.ContentType = "application/pdf";
+                        }
+                        else if (ContentValue.EndsWith(".png"))
+                        {
+                            // X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
+                            h.Context.Response.ContentType = "image/png";
                         }
                         else
                         {

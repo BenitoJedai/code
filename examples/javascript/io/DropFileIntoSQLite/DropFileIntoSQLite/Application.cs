@@ -21,6 +21,7 @@ using System.Data;
 using System.Linq;
 using System.Media;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -87,6 +88,110 @@ namespace DropFileIntoSQLite
                 {
                     page.Header.style.color = JSColor.None;
                 };
+
+            #region DetectCanvasFromBytesExperiment
+            Action<Form, WebBrowser, string, string, long> DetectCanvasFromBytesExperiment =
+                (ff, web, ContentValue, src, ContentBytesLength) =>
+                {
+                    web.Navigated +=
+                           async delegate
+                           {
+                               if (ContentValue != "png.png")
+                                   return;
+
+                               // X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
+                               //Console.WriteLine("interesting, is it one of ours? " + new { ContentValue });
+                               ff.Text = "interesting, is it one of ours? " + new { ContentValue };
+
+                               var csrci = new IHTMLImage { src = src };
+
+                               //await csrci.async.onlo
+                               await csrci;
+
+                               if (csrci.width != csrci.height)
+                                   return;
+
+
+                               var w = csrci.width;
+
+
+                               // do the reverse
+                               var z = new CanvasRenderingContext2D(w, w);
+                               z.drawImage(csrci, 0, 0, w, w);
+                               //z.canvas.AttachToDocument();
+
+                               // whats the bytes?
+
+                               var zbytes = z.bytes;
+
+                               ff.Text = "will decode " + new { zbytes.Length, ContentBytesLength }.ToString();
+
+                               #region decode
+                               var decodebytes = await Task.Factory.StartNew(
+                                   new { zbytes },
+                                   scope =>
+                                   {
+                                       // Native.Console.WriteLine += ?
+
+                                       // { Length = 2053956, u4 = 3c68746d } 
+
+                                       Console.WriteLine(
+                                        new
+                                        {
+                                            scope.zbytes.Length,
+
+                                            u4 = new[] { 
+                                            scope.zbytes[0 * 4 + 0],
+                                            scope.zbytes[0 * 4 +1],
+                                            scope.zbytes[0 * 4 +2],
+                                            scope.zbytes[0 * 4 +3]
+                                        }.ToHexString()
+                                        }
+                                       );
+
+
+                                       // Uncaught Error: InvalidOperationException: { MethodToken = dAAABv_a4OTKgLfLC20SaJA } function is not available at { href =
+
+                                       var wwbytes = new byte[scope.zbytes.Length / 4];
+                                       var wi = 0;
+
+                                       for (int i = 0; i < scope.zbytes.Length; i += 4)
+                                       {
+                                           // that be the red
+                                           //wwbytes[wi] = scope.zbytes[i];
+
+                                           // bet we need alpha
+                                           wwbytes[wi] = scope.zbytes[i + 3];
+                                           wi++;
+                                       }
+
+
+
+                                       return wwbytes;
+                                   }
+                               );
+                               #endregion
+
+
+                               var html = Encoding.UTF8.GetString(decodebytes);
+
+                               ff.Text = "decoded " + new { html.Length, ContentBytesLength }.ToString();
+
+                               //Console.WriteLine(new { html });
+
+
+                               // um hide old data.
+                               web.Hide();
+
+                               var xweb = new WebBrowser { Dock = DockStyle.Fill };
+                               xweb.AttachTo(ff);
+                               xweb.DocumentText = html;
+                               ff.Text = "!decoded " + new { html.Length, ContentBytesLength }.ToString();
+                           };
+
+                };
+            #endregion
+
 
             Native.document.body.ondrop +=
                 evt =>
@@ -190,10 +295,12 @@ namespace DropFileIntoSQLite
 
                             fc.title = ff.Text;
 
+                            #region image
                             var i = default(IHTMLImage);
 
                             if (f.type.StartsWith("image/"))
                             {
+                                // um would we have a timing issue here?
                                 f.ToDataURLAsync(
                                     src =>
                                     {
@@ -203,12 +310,19 @@ namespace DropFileIntoSQLite
                                         i.InvokeOnComplete(
                                             delegate
                                             {
-                                                ff.ClientSize = new System.Drawing.Size(i.width, i.height);
+
+                                                ff.ClientSize = new System.Drawing.Size(
+                                                    // keep it reasonable!
+                                                    i.width.Min(600),
+                                                    i.height.Min(400)
+                                                );
+
                                             }
                                         );
                                     }
                                 );
                             }
+                            #endregion
 
                             // http://html5doctor.com/drag-and-drop-to-server/
 
@@ -225,6 +339,7 @@ namespace DropFileIntoSQLite
 
                             xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/upload");
 
+                            #region InvokeOnComplete
                             xhr.InvokeOnComplete(
                                 delegate
                                 {
@@ -259,6 +374,16 @@ namespace DropFileIntoSQLite
                                                         web.Show();
                                                     };
                                             }
+
+
+                                            // "X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\png.png"
+                                            DetectCanvasFromBytesExperiment(
+                                                ff,
+                                                web,
+                                                 f.name,
+                                                src,
+                                               (long)f.size
+                                            );
 
                                             web.Navigate(src);
 
@@ -329,7 +454,17 @@ namespace DropFileIntoSQLite
                                     );
                                 }
                             );
+                            #endregion
 
+
+                            //------WebKitFormBoundaryDmGHAZzeMBbcD5mu
+                            //Content-Disposition: form-data; name="foo"; filename="FlashHeatZeeker.UnitPedControl.ApplicationSprite.swf"
+                            //Content-Type: application/x-shockwave-flash
+
+
+                            //------WebKitFormBoundaryDmGHAZzeMBbcD5mu--
+
+                            Console.WriteLine("before upload...");
                             xhr.send(d);
                         }
                     );
@@ -351,14 +486,14 @@ namespace DropFileIntoSQLite
                 var index = 0;
 
                 default(Table1_ContentKey).WithEach(
-                    (__ContentKey, ContentBytesLength, Left, Top, Width, Height) =>
+                    (__ContentKey, ContentBytesLength, ContentValue, Left, Top, Width, Height) =>
                     {
 
                         var ff = new Form();
                         ff.PopupInsteadOfClosing(HandleFormClosing: false);
 
 
-                        ff.Text = new { __ContentKey, ContentBytesLength }.ToString();
+                        ff.Text = new { __ContentKey, ContentValue, ContentBytesLength }.ToString();
 
 
                         ff.Show();
@@ -410,7 +545,7 @@ namespace DropFileIntoSQLite
 
 
 
-                        var fc = ff.GetHTMLTargetContainer();
+                        //var fc = ff.GetHTMLTargetContainer();
                         var src = "/io/" + __ContentKey;
 
                         //var i = new IHTMLImage { src = src }.AttachTo(fc);
@@ -419,6 +554,29 @@ namespace DropFileIntoSQLite
                         var web = new WebBrowser { Dock = DockStyle.Fill };
 
                         web.AttachTo(ff);
+
+                        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.WebBrowser.add_DocumentCompleted(System.Windows.Forms.WebBrowserDocumentCompletedEventHandler)]
+                        //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
+                        //script: error JSC1000: error at DropFileIntoSQLite.Application+<>c__DisplayClass2e.<.ctor>b__15,
+                        // assembly: V:\DropFileIntoSQLite.Application.exe
+                        // type: DropFileIntoSQLite.Application+<>c__DisplayClass2e, DropFileIntoSQLite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+
+                        //web.DocumentCompleted +=
+                        //    delegate
+                        //    {
+
+
+
+                        //};
+
+                        DetectCanvasFromBytesExperiment(
+                            ff,
+                            web,
+                            ContentValue,
+                            src,
+                            ContentBytesLength
+                        );
+
 
                         web.Navigate(src);
 
@@ -464,7 +622,7 @@ namespace DropFileIntoSQLite
 
 
 
-
+            // can we write about this?
             #region bookmark launcher
             var href = @"javascript:
 ((function(h,i)
