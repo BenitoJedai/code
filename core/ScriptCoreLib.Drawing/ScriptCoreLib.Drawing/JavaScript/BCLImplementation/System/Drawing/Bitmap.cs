@@ -11,6 +11,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
     [Script(Implements = typeof(global::System.Drawing.Bitmap))]
     public class __Bitmap : __Image
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140402
+        // X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
+        // http://dotnetframework.org/default.aspx/4@0/4@0/DEVDIV_TFS/Dev10/Releases/RTMRel/ndp/fx/src/CommonUI/System/Drawing/Bitmap@cs/1305376/Bitmap@cs
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131217-picturebox
 
         // just a snapshot

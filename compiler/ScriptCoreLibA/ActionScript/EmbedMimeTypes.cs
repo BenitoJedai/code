@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// ! move to namespace ScriptCoreLib.Shared
 namespace ScriptCoreLib.ActionScript
 {
 	public static class EmbedMimeTypes

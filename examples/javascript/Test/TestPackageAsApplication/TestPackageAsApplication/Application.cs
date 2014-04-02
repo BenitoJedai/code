@@ -26,6 +26,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     public static class HTMLAnchorDragToPackageExtensions
     {
+        // X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
+
         public static void AllowToDragAsApplicationPackage(this IHTMLAnchor dragme)
         {
             //img.width = Native.Window.Width / 2;
