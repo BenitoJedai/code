@@ -29,7 +29,7 @@ namespace FlashCamera
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefault page)
         {
             // Initialize MySprite1
             new MySprite1().AttachSpriteTo(page.Content);
