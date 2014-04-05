@@ -18,9 +18,8 @@ namespace FastTextureExtraction
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    internal sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -30,12 +29,7 @@ namespace FastTextureExtraction
         {
             // Initialize MySprite1
             new MySprite1().AttachSpriteTo(page.Content);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
     }
