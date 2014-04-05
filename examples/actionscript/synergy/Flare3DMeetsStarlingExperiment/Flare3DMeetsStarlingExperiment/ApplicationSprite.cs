@@ -16,6 +16,12 @@ using System;
 
 namespace Flare3DMeetsStarlingExperiment
 {
+    //........175c:01:01 RewriteToAssembly error: System.Reflection.ReflectionTypeLoadException: Unable to load one or more of the requested types. Retrieve the LoaderExceptions property for more information.
+    //   at System.Reflection.RuntimeModule.GetTypes(RuntimeModule module)
+    //   at System.Reflection.RuntimeModule.GetTypes()
+    //   at System.Reflection.Assembly.GetTypes()
+    //   at ScriptCoreLib.ScriptAttribute.OfProvider(ICustomAttributeProvider m) in x:\jsc.svn\compiler\ScriptCoreLibA\ScriptAttribute.OfProvider.cs:line 42
+    //   at ScriptCoreLib.CSharp.Extensions.ScriptAttributeExtensions.ToScriptAttributeOrDefault(ICustomAttributeProvider p) in x:\jsc.svn\compiler\ScriptCoreLibA\CSharp\Extensions\ScriptAttributeExtensions.cs:line 18
 
     static class __Scene3D
     {
@@ -26,13 +32,15 @@ namespace Flare3DMeetsStarlingExperiment
         }
     }
 
+    // go faster!
+    [SWF(frameRate = 70)]
     public sealed class ApplicationSprite : Sprite
     {
         private Scene3D scene;
 
-    //    Error: Error #3709: The depthAndStencil flag in the application descriptor must match the enableDepthAndStencil Boolean passed to configureBackBuffer on the Context3D object.
-    //at flash.display3D::Context3D/configureBackBuffer()
-    //at flare.basic::Scene3D/stageContextEvent()[Z:\projects\flare3d 2.5\src\flare\basic\Scene3D.as:393]
+        //    Error: Error #3709: The depthAndStencil flag in the application descriptor must match the enableDepthAndStencil Boolean passed to configureBackBuffer on the Context3D object.
+        //at flash.display3D::Context3D/configureBackBuffer()
+        //at flare.basic::Scene3D/stageContextEvent()[Z:\projects\flare3d 2.5\src\flare\basic\Scene3D.as:393]
 
 
 
@@ -80,7 +88,7 @@ namespace Flare3DMeetsStarlingExperiment
                     starlingBack.nextFrame();
 
                     // starling writes the depth buffer, so we need to clear it before draw the 3D stuff.
-                    
+
                     // this wont work for partial builds
                     scene.context.clear(0, 0, 0, 1, 1, 0, (uint)Context3DClearMask.DEPTH);
 
