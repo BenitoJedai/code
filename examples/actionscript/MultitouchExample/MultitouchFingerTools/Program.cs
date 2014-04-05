@@ -219,10 +219,12 @@ namespace MultitouchFingerTools
                             this.stage.SetFullscreen(true);
                         };
 
+#if FcontextMenu
                     this.contextMenu = new ScriptCoreLib.ActionScript.flash.ui.ContextMenu
                     {
                         customItems = new[] { fullscreen }
                     };
+#endif
 
 
                     var c = new ApplicationCanvas();

@@ -17,6 +17,25 @@ namespace MultitouchFingerTools.FlashLAN
 {
     public class ApplicationCanvas : global::MultitouchFingerTools.ApplicationCanvas
     {
+
+        //0001 02000008 MultitouchFingerTools.FlashLAN.ApplicationSprite::MultitouchFingerTools.ApplicationCanvas+<>c__DisplayClass3d
+
+
+        //Implementation not found for type import :
+        //type: System.Windows.Input.TouchEventArgs
+        //method: System.Windows.Input.TouchPoint GetTouchPoint(System.Windows.IInputElement)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
+
+        // Implementation not found for type import :
+        // type: System.Windows.Input.TouchEventArgs
+        // method: System.Windows.Input.TouchPoint GetTouchPoint(System.Windows.IInputElement)
+        // Did you forget to add the [Script] attribute?
+        // Please double check the signature!
+
+
         //* New packaged apps are currently able to be searched and browsed in the Chrome Web Store by Windows and Chrome OS users on Chrome's developer channel. Users on other OSs and Chrome channels can view and install the app via a direct link.
 
         //        Please fix the following errors:

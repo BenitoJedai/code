@@ -161,18 +161,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-android-build.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-android-install.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-ios-build.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-ios-install.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-android.bat" />
+    <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-ios.bat" />
     <None Include="staging\MultitouchFingerTools.FlashLAN.ApplicationSprite\web\air-test.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
