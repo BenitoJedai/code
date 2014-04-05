@@ -33,6 +33,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
         public void Start<TStateMachine>(ref  TStateMachine stateMachine)
         //where TStateMachine : __IAsyncStateMachine
         {
+            // X:\jsc.svn\examples\javascript\future\TestTaskResume\TestTaskResume\Program.cs
+
             //Console.WriteLine("__AsyncTaskMethodBuilder.Start, call MoveNext");
 
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
