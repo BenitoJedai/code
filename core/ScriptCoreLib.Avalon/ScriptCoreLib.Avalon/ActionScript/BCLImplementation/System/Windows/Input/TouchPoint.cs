@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input
 {
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Windows.Input.TouchPoint, PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
+    //[Script(ImplementsViaAssemblyQualifiedName = "System.Windows.Input.TouchPoint, PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
+    [Script(Implements = typeof(global::System.Windows.Input.TouchPoint))]
     public class __TouchPoint : IEquatable<__TouchPoint>
     {
-        public Point Position { get; internal set;  }
+        // X:\jsc.svn\examples\actionscript\MultitouchExample\MultitouchFingerTools.FlashLAN\ApplicationCanvas.cs
+
+        public Point Position { get; internal set; }
 
         public __TouchDevice TouchDevice { get; internal set; }
 
         public bool Equals(__TouchPoint other)
         {
             throw new NotImplementedException();
+        }
+
+        public static implicit operator TouchPoint(__TouchPoint p)
+        {
+            return (TouchPoint)(object)p;
         }
     }
 }
