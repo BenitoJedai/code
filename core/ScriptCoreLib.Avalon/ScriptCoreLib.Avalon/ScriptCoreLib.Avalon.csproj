@@ -89,6 +89,10 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Primitives\TextBoxBase.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\BlurEffect.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\Effect.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\ItemsControl.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\HeaderedItemsControl.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TreeViewItem.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\ItemCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
