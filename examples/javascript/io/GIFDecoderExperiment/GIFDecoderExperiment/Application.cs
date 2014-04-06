@@ -50,7 +50,8 @@ namespace GIFDecoderExperiment
         {
             //Could not load file or assembly 'ScriptCoreLibJava.AppEngine, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
 
-            Func<object, object, TextBlock, xNode> AddNodeDirect =
+            #region AddNodeDirect
+            Func<object, Image, TextBlock, xNode> AddNodeDirect =
                 (parent, image, x) =>
                 {
                     // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\BCLImplementation\System\Windows\Controls\TextBlock.cs
@@ -63,10 +64,15 @@ namespace GIFDecoderExperiment
 
                     x.AttachTo(p);
 
-                    p.AttachToContainer(Native.document.body);
+
+                    var div = new IHTMLDiv { }.AttachToDocument();
+
+                    p.AttachToContainer(div);
 
                     return new xNode { };
                 };
+            #endregion
+
 
             new dance().bytes.ContinueWithResult(
                 filebytes =>
@@ -141,10 +147,13 @@ namespace GIFDecoderExperiment
                             {
                                 Text = Encoding.UTF8.GetString(FunctionData);
 
-                                while ((xTerminator = m.ReadByte()) != 0)
+                                xTerminator = m.ReadByte();
+                                //while ((xTerminator = m.ReadByte()) != 0)
+                                while (xTerminator != 0)
                                 {
                                     ApplicationExtensionDataBlocks++;
                                     m.ReadBytes(xTerminator).With(bytes => ApplicationExtensionData.Write(bytes, 0, bytes.Length));
+                                    xTerminator = m.ReadByte();
                                 }
 
                             }
@@ -208,6 +217,9 @@ namespace GIFDecoderExperiment
 
                         while (xTerminator == 0x2c)
                         {
+                            //impl:type: ScriptCoreLib.JavaScript.BCLImplementation.System.IO.__BinaryReader 818a3699-984d-30aa-8562-925d8bedb620  - System.IO.BinaryReader 2484afda-7b47-3cd7-97b5-951f5c6ab5b6
+                            //script: error JSC1000: No implementation found for this native method, please implement [System.IO.BinaryReader.ReadUInt16()]
+
                             var PosX = m.ReadUInt16();
                             var PosY = m.ReadUInt16();
                             var Width = m.ReadUInt16();
@@ -236,10 +248,14 @@ namespace GIFDecoderExperiment
 
                             var frame_Data = new MemoryStream();
 
-                            while ((xTerminator = m.ReadByte()) != 0)
+                            //while ((xTerminator = m.ReadByte()) != 0)
+
+                            xTerminator = m.ReadByte();
+                            while (xTerminator != 0)
                             {
                                 frame_blocks++;
                                 m.ReadBytes(xTerminator).With(bytes => frame_Data.Write(bytes, 0, bytes.Length));
+                                xTerminator = m.ReadByte();
                             }
 
                             AddNodeDirect(
@@ -268,6 +284,10 @@ namespace GIFDecoderExperiment
                     };
                     #endregion
 
+
+
+                    //02000024 GIFDecoderExperiment.Application+<>c__DisplayClassc+<>c__DisplayClasse
+                    //script: error JSC1000: unknown while condition at Void <.ctor>b__6(). Maybe you did not turn off c# compiler 'optimize code' feature?
 
                     var ok_275 = true;
 
