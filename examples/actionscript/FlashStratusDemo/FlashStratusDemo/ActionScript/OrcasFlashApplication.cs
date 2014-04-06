@@ -187,6 +187,7 @@ namespace FlashStratusDemo.ActionScript
             //c.connect("rtmfp://stratus.adobe.com/3f37a156abb67621000856d1-08d2970f1b43/");
             c.connect("rtmfp://stratus.adobe.com/3f37a156abb67621000856d1-08d2970f1b43");
 
+            // X:\jsc.svn\examples\actionscript\MultitouchExample\MultitouchFingerTools.FlashLAN\ApplicationCanvas.Session.cs
         }
 
 

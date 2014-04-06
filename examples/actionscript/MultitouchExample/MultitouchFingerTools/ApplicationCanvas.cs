@@ -188,6 +188,7 @@ namespace MultitouchFingerTools
             var __left_buildmode = false;
 
 
+            #region NotifyBuildRocket
             this.NotifyBuildRocket =
                 (x, y) =>
                 {
@@ -215,7 +216,12 @@ namespace MultitouchFingerTools
                     n.Content.AccelerateAndFade();
                     #endregion
                 };
+            #endregion
 
+
+
+
+            #region VisualizeTouch
             Action<double, double> VisualizeTouch = (x, y) =>
             {
                 var n = new { Content = new Canvas().AttachTo(InfoOverlay) };
@@ -239,6 +245,56 @@ namespace MultitouchFingerTools
             };
 
             this.NotifyVisualizeTouch = VisualizeTouch;
+            #endregion
+
+
+
+            #region MouseLeftButtonUp
+            TouchOverlay.MouseLeftButtonUp +=
+                (sender, args) =>
+                {
+                    // um this device has no finger support?
+                    // 2014! less tech?
+
+                    var p = args.GetPosition(TouchOverlay);
+                    var item = new { x = p.X, y = p.Y };
+
+
+                    #region create a pending rocket
+                    var n = new { Content = new Canvas().AttachTo(InfoOverlay) };
+
+                    //Tuple
+
+                    var rocket = new Avalon.Images.rocket
+                    {
+
+                    }.AttachTo(n.Content).MoveTo(
+                       Avalon.Images.rocket.ImageDefaultWidth / -4,
+                       Avalon.Images.rocket.ImageDefaultHeight / -4
+                   ).SizeTo(
+                       Avalon.Images.rocket.ImageDefaultWidth / 2,
+                       Avalon.Images.rocket.ImageDefaultHeight / 2
+                   );
+
+
+                    // hold/build!
+                    //i.Opacity = 0.5;
+                    n.Content.Opacity = 0.5;
+                    n.Content.MoveTo(item.x, item.y);
+                    #endregion
+
+                    MultitouchExample.Sounds.launch.Source.PlaySound();
+
+                    rocket.Opacity = 1;
+                    rocket.AccelerateAndFade();
+
+                    //RocketsPending.Remove(item.touch);
+
+                    if (AtNotifyBuildRocket != null)
+                        AtNotifyBuildRocket(item.x, item.y);
+
+                };
+            #endregion
 
             (1000 / 15).AtInterval(
                 delegate
@@ -264,6 +320,7 @@ namespace MultitouchFingerTools
                     {
                         // finger was lifted and rocked should be launched
                         // no sound in .net
+                        // and NO fingers in this laptop!!!! 2014 
                         MultitouchExample.Sounds.launch.Source.PlaySound();
 
                         item.rocket.Opacity = 1;
@@ -337,6 +394,8 @@ namespace MultitouchFingerTools
                 }
             );
 
+            #region SizeChanged
+
 
             Action SizeChanged =
                 delegate
@@ -371,6 +430,9 @@ namespace MultitouchFingerTools
                 };
 
             SizeChanged();
+            #endregion
+
+
         }
 
 

@@ -37,6 +37,7 @@ namespace MultitouchFingerTools
                     RaiseMessage("drop: " + message);
                 };
 
+            #region AtNotifyBuildRocket
             that.AtNotifyBuildRocket +=
                 (x, y) =>
                 {
@@ -52,7 +53,10 @@ namespace MultitouchFingerTools
                        ).ToString()
                     );
                 };
+            #endregion
 
+
+            #region AtNotifyVisualizeTouch
             that.AtNotifyVisualizeTouch +=
                  (x, y) =>
                  {
@@ -68,11 +72,14 @@ namespace MultitouchFingerTools
                         ).ToString()
                      );
                  };
+            #endregion
 
 
             nc.netStatus +=
                 e =>
                 {
+                    // http://stackoverflow.com/questions/10683595/cant-receive-netgroup-events
+
                     RaiseMessage("nc.netStatus: " + e.info.code);
 
 
@@ -85,13 +92,37 @@ namespace MultitouchFingerTools
 
                     if (e.info.code == "NetConnection.Connect.Success")
                     {
-                        var groupspec = new GroupSpecifier("myGroup/groupOne");
+                        // http://kafkaris.com/blog/2011/04/03/local-peer-to-peer-communication-in-as3-with-rtmfp/
+                        // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/GroupSpecifier.html
+
+                        var groupspec = new GroupSpecifier("goo");
                         groupspec.postingEnabled = true;
+                        groupspec.routingEnabled = true;
+
+                        // // Necessary to multicast over a NetStream. 
+                        groupspec.multicastEnabled = true;
+
+                        // // Must be enabled for LAN peer discovery to work 
                         groupspec.ipMulticastMemberUpdatesEnabled = true;
-                        groupspec.addIPMulticastAddress("225.225.0.1:30303");
 
-                        var group = new NetGroup(nc, groupspec.groupspecWithAuthorizations());
+                        // http://help.adobe.com/en_US/flashmediaserver/ssaslr/WS486834a3d4bc74a45ce7a7ac126f44d8a30-8000.html
+                        //groupspec.addIPMulticastAddress("225.225.0.1:30303");
 
+
+                        // // Multicast address over which to exchange peer discovery. 
+                        groupspec.addIPMulticastAddress("224.0.0.255:30000");
+
+
+                        // Specify minimum GroupSpec version (FMS 4.5.2/Flash Player 11.5) 
+                        groupspec.minGroupspecVersion = 2;
+
+                        var group = new NetGroup(
+                            nc,
+                            groupspec.groupspecWithAuthorizations()
+                            //groupspec.groupspecWithoutAuthorizations()
+                        );
+
+                        // http://stackoverflow.com/questions/10206097/netstream-send-not-working-with-netgroup-in-rtmfp
 
                         PostMessage =
                             message =>
@@ -99,6 +130,7 @@ namespace MultitouchFingerTools
                                 if (connected)
                                 {
 
+                                    RaiseMessage("write: " + new { message.Length });
                                     //RaiseMessage("write: " + message);
 
                                     group.post(message);
@@ -120,6 +152,9 @@ namespace MultitouchFingerTools
                                     // Type Coercion failed: cannot convert Object@60b6cb9 to LANMulticast_Components_MySprite1__f__AnonymousType0_1_33554444.
 
                                     var source = (string)g.info.message;
+
+                                    RaiseMessage("group.netStatus: " + new { g.info.code, source });
+
 
                                     //Console.WriteLine("source: " + source);
 
@@ -158,6 +193,8 @@ namespace MultitouchFingerTools
                     }
                 };
 
+
+            // X:\jsc.svn\examples\actionscript\FlashStratusDemo\FlashStratusDemo\ActionScript\OrcasFlashApplication.cs
             nc.connect("rtmfp:");
         }
     }

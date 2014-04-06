@@ -33,12 +33,20 @@ using ScriptCoreLib;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
+
+
+
+// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140406
+// um. dont change version numbers while using jsc :)
 [assembly: AssemblyVersion("4.1.0.0")]
 [assembly: AssemblyFileVersion("4.1.0.0")]
+
+//Unhandled Exception: System.TypeLoadException: Could not load type 'com.google.apphosting.client.datastoreservice.app.DatastoreRpcHandler' from assembly 'ScriptCoreLibJava.AppEngine, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null'.
+
 
 [assembly: ScriptTypeFilter(ScriptType.Java)]
 [assembly: Script]
 [assembly: ScriptNamespaceRename(
-	NativeNamespaceName = "ScriptCoreLibJava.AppEngine.API",
-	VirtualNamespaceName = "com.google.appengine.api"
+    NativeNamespaceName = "ScriptCoreLibJava.AppEngine.API",
+    VirtualNamespaceName = "com.google.appengine.api"
 )]
