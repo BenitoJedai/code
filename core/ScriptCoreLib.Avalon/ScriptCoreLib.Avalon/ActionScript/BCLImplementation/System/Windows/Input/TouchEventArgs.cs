@@ -13,6 +13,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Input
     [Script(Implements = typeof(global::System.Windows.Input.TouchEventArgs))]
     public class __TouchEventArgs : __InputEventArgs
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\BCLImplementation\System\Windows\Input\TouchEventArgs.cs
+
         internal TouchEvent InternalValue;
 
         // While targeting .NET 3.5 framework we still need to let jsc know 

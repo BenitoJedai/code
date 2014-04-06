@@ -9,7 +9,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
 	[Script(Implements = typeof(global::System.Windows.FrameworkElement))]
-    internal class __FrameworkElement : __UIElement, __ISupportInitialize
+    public class __FrameworkElement : __UIElement, __ISupportInitialize
 	{
 		public string Name
 		{

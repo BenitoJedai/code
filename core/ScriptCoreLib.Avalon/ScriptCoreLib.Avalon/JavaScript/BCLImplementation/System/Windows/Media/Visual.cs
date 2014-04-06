@@ -8,7 +8,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 {
 
 	[Script(Implements = typeof(global::System.Windows.Media.Visual))]
-	internal class __Visual : __DependencyObject
+	public class __Visual : __DependencyObject
 	{
 	}
 }

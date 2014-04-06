@@ -19,7 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
 
     [Script(Implements = typeof(global::System.Windows.UIElement))]
-    internal class __UIElement : __Visual, __IAnimatable, __IInputElement
+    public class __UIElement : __Visual, __IAnimatable, __IInputElement
     {
         #region __IInputElement Members
 
@@ -484,7 +484,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
         #region touch
 
-        public event __EventHandler<__TouchEventArgs> TouchDown
+        public event EventHandler<TouchEventArgs> TouchDown
         {
             add
             {
@@ -520,7 +520,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
 
 
-        public event __EventHandler<__TouchEventArgs> TouchMove
+        public event EventHandler<TouchEventArgs> TouchMove
         {
             add
             {
@@ -552,7 +552,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
                 throw new NotImplementedException();
             }
         }
-        public event __EventHandler<__TouchEventArgs> TouchUp
+        public event EventHandler<TouchEventArgs> TouchUp
         {
             add
             {
