@@ -23,7 +23,7 @@ goto :eof
 :jsc
 pushd ..\bin\debug
 
-call c:\util\jsc\bin\jsc.exe %1.dll  -as
+call c:\util\jsc\bin\jsc.meta.exe %1.dll  -as
 
 
 popd

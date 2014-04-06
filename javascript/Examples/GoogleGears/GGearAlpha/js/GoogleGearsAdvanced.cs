@@ -710,9 +710,9 @@ namespace GGearAlpha.js
 
             public void Dispose()
             {
-                img0.Dispose();
-                layer.Dispose();
-                Content.Dispose();
+                img0.Orphanize();
+                layer.Orphanize();
+                Content.Orphanize();
             }
 
             public void AttachTo(IHTMLElement e)

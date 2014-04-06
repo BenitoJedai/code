@@ -12,6 +12,11 @@ namespace SimpleSoundEffectGeneratorExperiment
     {
         public ApplicationSprite()
         {
+            //Y:\opensource\googlecode\as3sfxr\ui\TinyButton.as:196
+            //Warning: Assignment within conditional.  Did you mean == instead of =?
+            //                        if(_selectable && (_selected = !_selected))
+            //                                           ^
+
         }
 
     }
