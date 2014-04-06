@@ -21,6 +21,8 @@ using GIFDecoderExperiment.HTML.Images.FromAssets;
 using System.Windows.Controls;
 using System.IO;
 using System.Diagnostics;
+using System.Net;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls;
 
 namespace GIFDecoderExperiment
 {
@@ -60,21 +62,43 @@ namespace GIFDecoderExperiment
                     //    Text = "hello " + new { bytes.Length }
                     //};
 
-                    var p = new Canvas();
+                    //<div><div name="__Panel" style="width: 600px; height: 400px; position: absolute; left: 0px; top: 0px; z-index: 0;"><div style="position: relative;"><div name="__TextBlock" style="position: absolute; left: 0px; top: 0px;"><label>{ PosX = 0, PosY = 0, Width = 23, Height = 19, frame_GlobalColorTableSize = 6, frame_blocks = 11, Length = 998 }</label></div></div></div></div>
 
-                    x.AttachTo(p);
+                    //var p = new Canvas();
+
+                    //x.AttachTo(p);
 
 
-                    var div = new IHTMLDiv { }.AttachToDocument();
+                    var div = new IHTMLDiv {
+                        
+                        ((__Image)image).InternalBitmap,
 
-                    p.AttachToContainer(div);
+                        x.Text }.AttachToDocument();
+
+                    //p.AttachToContainer(div);
 
                     return new xNode { };
                 };
             #endregion
 
 
-            new dance().bytes.ContinueWithResult(
+            // how can we comment that the API is wrong?
+            // go online and just do that? :)
+
+            //new dance().bytes.ContinueWithResult(
+
+            // not yet available?
+            //new WebClient().DownloadDataAsync(
+
+
+
+            //Uncaught InvalidAccessError: Failed to set the 'responseType' property on 'XMLHttpRequest': The response type can only be changed for asynchronous HTTP requests made from a document. 
+
+            new IXMLHttpRequest(
+                ScriptCoreLib.Shared.HTTPMethodEnum.GET,
+                new dance().src,
+                true
+            ).bytes.ContinueWithResult(
                 filebytes =>
                 {
                     // fake it
@@ -92,6 +116,7 @@ namespace GIFDecoderExperiment
                     var GIF_signature = m.ReadBytes(3);
                     var GIF_version = m.ReadBytes(3);
 
+                    // { GIF_width = 0, GIF_height = 0, GIF_GlobalColorTable = 0 }
                     var GIF_width = m.ReadUInt16();
                     var GIF_height = m.ReadUInt16();
 

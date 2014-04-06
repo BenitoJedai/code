@@ -9,11 +9,14 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
 	[Script(Implements = typeof(global::System.Windows.Controls.Image))]
-	internal class __Image : __FrameworkElement
+	public class __Image : __FrameworkElement
 	{
+        // X:\jsc.svn\examples\javascript\io\GIFDecoderExperiment\GIFDecoderExperiment\Application.cs
+
 		readonly IHTMLDiv InternalSprite = new IHTMLDiv();
 
-		IHTMLImage InternalBitmap;
+		public IHTMLImage InternalBitmap;
+        public event Action InternalBitmapChanged;
 
 		public __Image()
 		{
@@ -66,7 +69,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 				var alias = v.InternalManifestResourceAlias;
 
-				global::System.Action<IHTMLImage> Apply =
+                #region Apply
+                global::System.Action<IHTMLImage> Apply =
 					img =>
 					{
 						InternalSprite.removeChildren();
@@ -86,8 +90,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 						InternalSetWidth(InternalWidthValue);
 						InternalSetHeight(InternalHeightValue);
 					};
+                #endregion
 
-				if (alias != null)
+
+                if (alias != null)
 				{
 					IHTMLImage i = alias;
 					

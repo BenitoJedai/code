@@ -6,17 +6,22 @@ using System.Windows;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Windows.Input;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 {
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Windows.Input.TouchEventArgs, PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
-    internal class __TouchEventArgs : __InputEventArgs
+    //[Script(ImplementsViaAssemblyQualifiedName = "System.Windows.Input.TouchEventArgs, PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
+    [Script(Implements = typeof(global::System.Windows.Input.TouchEventArgs))]
+    public class __TouchEventArgs : __InputEventArgs
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ActionScript\BCLImplementation\System\Windows\Input\TouchEventArgs.cs
+
         public ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement InternalElement;
         public ScriptCoreLib.JavaScript.DOM.Touch InternalValue;
         public ScriptCoreLib.JavaScript.DOM.TouchEvent InternalEvent;
 
 
+        #region TouchDevice
         __TouchDevice InternalTouchDevice;
         public __TouchDevice TouchDevice
         {
@@ -36,10 +41,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
                 return InternalTouchDevice;
             }
         }
+        #endregion
 
 
 
-        public __TouchPoint GetTouchPoint(IInputElement relativeTo)
+        public TouchPoint GetTouchPoint(IInputElement relativeTo)
         {
             __IInputElement _relativeTo = (__IInputElement)(object)relativeTo;
 
@@ -157,6 +163,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input
 
                 return (INode)e.parentNode != Native.Document;
             }
+        }
+
+
+
+        public static implicit operator TouchEventArgs(__TouchEventArgs x)
+        {
+            return (TouchEventArgs)(object)x;
         }
     }
 }
