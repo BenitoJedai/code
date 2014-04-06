@@ -138,7 +138,7 @@ namespace SQLiteConsoleExperiment
                                 {
 #if DEBUG
                                     var td = new XElement("td");
-                                    td.Value = reader.GetString(i);
+                                    td.Value = reader.GetString(i) ?? "";
                                     tr.Add(td);
 #endif
 
