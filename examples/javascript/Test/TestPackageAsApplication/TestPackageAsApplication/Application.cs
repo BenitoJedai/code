@@ -138,7 +138,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 data =>
                 {
                     Console.WriteLine("enter PackageAsApplication");
-                    var bytes = Encoding.ASCII.GetBytes(data);
+                    var bytes = Encoding.UTF8.GetBytes(data);
                     //var bytes_string = 
                     // https://developer.mozilla.org/en-US/docs/Web/API/WorkerLocation
                     // https://developer.mozilla.org/en-US/docs/Web/Reference/Functions_and_classes_available_to_workers
@@ -184,6 +184,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     //new IHTMLButton 
 
                     dragme.css.style.textDecoration = "underline";
+                    dragme.css.style.cursor = IStyle.CursorEnum.pointer;
 
                     dragme.css.hover.style.color = "blue";
                     dragme.css.active.style.color = "red";
@@ -217,7 +218,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
                                 ////e.dataTransfer.setDownloadURL(
 
-                                //e.dataTransfer.setData("text/html", data);
+                                e.dataTransfer.setData("text/html", data);
                                 //e.dataTransfer.setData("text/uri-list", Native.document.location.href);
 
                                 //e.dataTransfer.setDragImage(img, img.width / 2, img.height / 2);
