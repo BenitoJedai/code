@@ -27,7 +27,7 @@ namespace WebGLLesson03
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=239 by Giles
          * 
@@ -36,7 +36,6 @@ namespace WebGLLesson03
          * 03. initShaders
          */
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public Action Dispose;
 
@@ -365,11 +364,24 @@ namespace WebGLLesson03
             {
                 c++;
 
-                Native.Document.title = "" + c;
+                //Native.Document.title = "" + c;
 
                 drawScene();
                 animate();
             };
+
+
+            new IHTMLAnchor { "drag me to my.jsc-solutions.net" }.AttachToDocument().With(
+                dragme =>
+                {
+                    dragme.style.position = IStyle.PositionEnum.@fixed;
+                    dragme.style.left = "1em";
+                    dragme.style.bottom = "1em";
+                    dragme.style.color = "yellow";
+
+                    dragme.AllowToDragAsApplicationPackage();
+                }
+            );
         }
 
     }

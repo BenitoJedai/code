@@ -21,6 +21,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -104,6 +105,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="TestPackageAsApplication">
+      <HintPath>..\packages\TestPackageAsApplication.1.0.0.0\lib\TestPackageAsApplication.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>

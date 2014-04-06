@@ -27,13 +27,12 @@ namespace WebGLEthanolMolecule
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         /* Source: http://www.ibiblio.org/e-notes/webgl/models/ethanol.html
          * 
          */
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -357,7 +356,16 @@ false, new Float32Array(prMatrix.getAsArray()));
             #endregion
 
 
+            new IHTMLAnchor { "drag me to my.jsc-solutions.net" }.AttachToDocument().With(
+                dragme =>
+                {
+                    dragme.style.position = IStyle.PositionEnum.@fixed;
+                    dragme.style.left = "1em";
+                    dragme.style.bottom = "1em";
 
+                    dragme.AllowToDragAsApplicationPackage();
+                }
+            );
         }
 
         public Action Dispose;

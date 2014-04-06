@@ -1,12 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLEthanolMolecule", "WebGLEthanolMolecule\WebGLEthanolMolecule.csproj", "{33E5FDF1-FD33-4839-BC39-80715C974A3C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454} = {7C0B6A91-F338-41A2-8879-E2E837D6D454}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasMatrixLibrary", "..\..\..\market\synergy\javascript\CanvasMatrixLibrary\CanvasMatrixLibrary\CanvasMatrixLibrary.csproj", "{7C0B6A91-F338-41A2-8879-E2E837D6D454}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{73347D2D-A42F-4F44-8A01-2A720D5C4945}"
 EndProject
@@ -20,15 +15,8 @@ Global
 		{33E5FDF1-FD33-4839-BC39-80715C974A3C}.Debug|x86.Build.0 = Debug|x86
 		{33E5FDF1-FD33-4839-BC39-80715C974A3C}.Release|x86.ActiveCfg = Release|x86
 		{33E5FDF1-FD33-4839-BC39-80715C974A3C}.Release|x86.Build.0 = Release|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.ActiveCfg = Debug|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Debug|x86.Build.0 = Debug|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.ActiveCfg = Release|x86
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{7C0B6A91-F338-41A2-8879-E2E837D6D454} = {73347D2D-A42F-4F44-8A01-2A720D5C4945}
 	EndGlobalSection
 EndGlobal

@@ -28,11 +28,10 @@ namespace WebGLSpadeWarrior
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
 
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -44,16 +43,16 @@ namespace WebGLSpadeWarrior
             //DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
-            if (Native.window.parent != Native.window.self)
-            {
-                // why stop there. negotiate our own title bar!
-                Native.document.body.style.backgroundColor = JSColor.Transparent;
-            }
-            else
-            {
-                Native.window.document.body.style.backgroundColor = JSColor.Black;
-                Native.window.document.body.style.color = JSColor.Yellow;
-            }
+            //if (Native.window.parent != Native.window.self)
+            //{
+            //    // why stop there. negotiate our own title bar!
+            //    Native.document.body.style.backgroundColor = JSColor.Transparent;
+            //}
+            //else
+            //{
+            Native.window.document.body.style.backgroundColor = JSColor.Black;
+            Native.window.document.body.style.color = JSColor.Yellow;
+            //}
 
             //page.PageContainer.style.color = Color.Blue;
 
@@ -1130,6 +1129,19 @@ namespace WebGLSpadeWarrior
                 };
             #endregion
 
+
+
+            new IHTMLAnchor { "drag me to my.jsc-solutions.net" }.AttachToDocument().With(
+                dragme =>
+                {
+                    dragme.style.position = IStyle.PositionEnum.@fixed;
+                    dragme.style.left = "1em";
+                    dragme.style.bottom = "1em";
+                    dragme.style.color = "yellow";
+
+                    dragme.AllowToDragAsApplicationPackage();
+                }
+            );
         }
 
         public bool IsDisposed;

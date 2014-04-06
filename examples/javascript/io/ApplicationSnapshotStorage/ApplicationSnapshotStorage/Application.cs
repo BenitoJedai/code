@@ -118,6 +118,7 @@ namespace ApplicationSnapshotStorage
                   #endregion
 
 
+                  #region dataTransfer.files
                   evt.dataTransfer.files.AsEnumerable().WithEach(
                       async f =>
                       {
@@ -139,7 +140,10 @@ namespace ApplicationSnapshotStorage
                           }
                       }
                   );
+                  #endregion
 
+
+                  #region dataTransfer.types
                   evt.dataTransfer.types.WithEach(
                       dataTransferType =>
                       {
@@ -158,6 +162,9 @@ namespace ApplicationSnapshotStorage
 
                       }
                   );
+                  #endregion
+
+
               };
             #endregion
 

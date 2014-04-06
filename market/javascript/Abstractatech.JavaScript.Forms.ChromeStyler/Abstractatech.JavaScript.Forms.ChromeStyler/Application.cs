@@ -89,6 +89,8 @@ namespace System.Windows.Forms
             skin.shell.style.left = "0px";
             skin.shell.style.top = "0px";
             skin.shell.style.right = "0px";
+
+
             //skin.shell.style.zIndex = 0;
 
 
@@ -101,6 +103,19 @@ namespace System.Windows.Forms
             };
 
             s.CaptionContent.insertPreviousSibling(skin.shell);
+
+            // div[style-id="2"]:not(:hover):not([await1="incomplete"]) 
+            //((!s.TargetOuterBorder.css.hover) + skin.shell).style.Opacity = 0.5;
+            // Error	39	The call is ambiguous between the following methods or properties: 'ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier.this[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement]' and 'ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier.this[System.Threading.Tasks.Task]'	X:\jsc.svn\market\javascript\Abstractatech.JavaScript.Forms.ChromeStyler\Abstractatech.JavaScript.Forms.ChromeStyler\Application.cs	95	14	Abstractatech.JavaScript.Forms.ChromeStyler
+            // ncaught TypeError: Cannot read property 'VREABmASXzSNfpl_bHJLUOA' of null
+
+            skin.shell.style.transition = "opacity 300ms linear";
+
+            ((!s.TargetOuterBorder.css.hover)[(IHTMLElement)skin.shell]).style.Opacity = 0.7;
+            
+            s.ContentContainerPadding.style.boxShadow = "inset 1px 0 rgba(255, 255, 255, 0.6), inset 0 1px rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0.2) 4px 4px 4px 0px";
+
+
 
             //skin.shell.AttachTo();
 
@@ -153,12 +168,12 @@ namespace System.Windows.Forms
 
 
             s.ContentContainerPadding.style.backgroundColor = "#e3e3e3";
-            s.ContentContainerPadding.style.top = "25px";
+            //s.ContentContainerPadding.style.top = "25px";
+            s.ContentContainerPadding.style.top = "26px";
 
 
             s.ContentContainerPadding.style.border = "1px solid rgba(0, 0, 0, 0.16)";
 
-            s.ContentContainerPadding.style.boxShadow = "inset 1px 0 rgba(255, 255, 255, 0.6), inset 0 1px rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0.2) 4px 4px 4px 0px";
 
             //s.Caption.style.left = "";
             s.Caption.style.backgroundColor = "";
