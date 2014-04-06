@@ -17,7 +17,6 @@ using System.Xml.Linq;
 using GIFDecoderExperiment;
 using GIFDecoderExperiment.Design;
 using GIFDecoderExperiment.HTML.Pages;
-using GIFDecoderExperiment.HTML.Images.FromAssets;
 using System.Windows.Controls;
 using System.IO;
 using System.Diagnostics;
@@ -25,13 +24,12 @@ using System.Net;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using GIFDecoderExperiment.Avalon.Images;
 
-namespace GIFDecoderExperiment
+namespace Abstractatech
 {
-    /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
-    /// </summary>
-    public sealed class Application : ApplicationWebService
+    [Obsolete("this is the first nuget to be used within jsc analyzer, and runs as javascript.")]
+    public class GIFDecoder
     {
         enum GIFFunctionCode : byte
         {
@@ -41,10 +39,287 @@ namespace GIFDecoderExperiment
             ApplicationExtension = 255
         }
 
-        public class xNode
+
+        public readonly byte[][] GlobalColorMap;
+
+        public GIFDecoder(
+            byte[] filebytes,
+
+            ItemCollection parent,
+
+            Func<ItemCollection, Image, TextBlock, TreeViewItem> AddNodeDirect
+            )
         {
-            public object Items;
+
+
+
+            var m = new BinaryReader(
+                new MemoryStream(
+                //File.ReadAllBytes(path)
+                    filebytes
+                )
+            );
+
+
+            #region X:\jsc.svn\examples\javascript\io\GIFDecoderExperiment\GIFDecoderExperiment\Application.cs
+            var GIF_signature = m.ReadBytes(3);
+            var GIF_version = m.ReadBytes(3);
+            // 6
+
+            // { GIF_width = 0, GIF_height = 0, GIF_GlobalColorTable = 0 }
+            var GIF_width = m.ReadUInt16();
+            var GIF_height = m.ReadUInt16();
+            // 10
+
+            //Console.WriteLine(new { m.BaseStream.Position, m.BaseStream.Length, GIF_width, GIF_height });
+
+            var GIF_flags = m.ReadByte();
+            // 11
+
+            var GIF_flags_GlobalColorMap = (GIF_flags >> 7) & 0x1;
+            var GIF_flags_PixelBits = GIF_flags & 7; // z111
+
+            // "C:\Users\Arvo\Videos\Wildebeest.gif"
+            //var GIF_GlobalColorTable = GIF_flags_GlobalColorMap == 0 ? 0 : (int)Math.Pow(2, (GIF_flags_PixelBits + 1));
+
+            var GIF_GlobalColorTable = 0;
+            if (GIF_flags_GlobalColorMap != 0)
+                GIF_GlobalColorTable = (int)Math.Pow(2, (GIF_flags_PixelBits + 1));
+
+            //Console.WriteLine(new { m.BaseStream.Position, m.BaseStream.Length, GIF_flags_GlobalColorMap, GIF_GlobalColorTable });
+
+            var GIF_backgroundColorIndex = m.ReadByte();
+            var GIF_aspectRatio = m.ReadByte();
+
+            var GIF_GlobalColorTableSize = 3 * GIF_GlobalColorTable;
+
+
+            this.GlobalColorMap = Enumerable.Range(0, GIF_GlobalColorTable).Select(
+                i => m.ReadBytes(3)
+            ).ToArray();
+
+            var GIFNode = AddNodeDirect(
+                parent,
+                new ClassWithoutMethods(),
+                new TextBlock { Text = new { GIF_width, GIF_height, GIF_GlobalColorTable }.ToString() }
+            );
+
+            var xTerminator = m.ReadByte();
+
+            #region GIFFunctionCode
+            Action DoGIFFunctionCode = delegate
+            {
+
+
+                while (xTerminator == 0x21)
+                {
+                    // http://www.let.rug.nl/kleiweg/gif/netscape.html
+
+                    var Function = (GIFFunctionCode)m.ReadByte();
+                    var FunctionLength = m.ReadByte();
+                    var FunctionData = m.ReadBytes(FunctionLength);
+
+
+                    var ApplicationExtensionData = new MemoryStream();
+                    var Text = "";
+                    var ApplicationExtensionDataBlocks = default(byte);
+
+                    // http://www.let.rug.nl/kleiweg/gif/GIF89a.html#application
+                    if (Function == GIFFunctionCode.ApplicationExtension)
+                    {
+                        Text = Encoding.UTF8.GetString(FunctionData);
+
+                        xTerminator = m.ReadByte();
+                        //while ((xTerminator = m.ReadByte()) != 0)
+                        while (xTerminator != 0)
+                        {
+                            ApplicationExtensionDataBlocks++;
+                            m.ReadBytes(xTerminator).With(bytes => ApplicationExtensionData.Write(bytes, 0, bytes.Length));
+                            xTerminator = m.ReadByte();
+                        }
+
+                    }
+                    else
+                    {
+                        if (Function == GIFFunctionCode.CommentExtension)
+                        {
+                            Text = Encoding.UTF8.GetString(FunctionData);
+                        }
+
+
+                        xTerminator = m.ReadByte();
+                    }
+
+                    var xNode = AddNodeDirect(
+                          GIFNode.Items,
+                          new LanguageKeyword(),
+                          new TextBlock
+                          {
+                              Text = new
+                              {
+                                  Function,
+                                  FunctionLength,
+                                  Text,
+                                  ApplicationExtensionDataBlocks,
+                                  ApplicationExtensionData.Length
+                              }.ToString()
+                          }
+                      );
+
+                    if (Function == GIFFunctionCode.ApplicationExtension)
+                    {
+                        if (Text == "XMP DataXMP")
+                        {
+                            //var xmpString = Encoding.UTF8.GetString(
+                            //        ApplicationExtensionData.ToBytes()
+                            //     );
+
+                            //var xmp = XElement.Parse(
+                            //xmpString    
+                            //);
+
+
+                            //AddXElementTo(xmp, null, xNode.Items);
+
+                        }
+                    }
+
+                    xTerminator = m.ReadByte();
+
+
+                    if (xTerminator == 0)
+                        Debugger.Break();
+                }
+            };
+            #endregion
+
+            #region DoRasterDataBlock
+            Action DoRasterDataBlock = delegate
+            {
+
+                while (xTerminator == 0x2c)
+                {
+                    //impl:type: ScriptCoreLib.JavaScript.BCLImplementation.System.IO.__BinaryReader 818a3699-984d-30aa-8562-925d8bedb620  - System.IO.BinaryReader 2484afda-7b47-3cd7-97b5-951f5c6ab5b6
+                    //script: error JSC1000: No implementation found for this native method, please implement [System.IO.BinaryReader.ReadUInt16()]
+
+                    var PosX = m.ReadUInt16();
+                    var PosY = m.ReadUInt16();
+                    var Width = m.ReadUInt16();
+                    var Height = m.ReadUInt16();
+
+                    // <Packed Fields> 
+                    var frame_flags = m.ReadByte();
+                    var frame_flags_LocalColorMap = (frame_flags >> 7) & 0x1;
+                    var frame_flags_PixelBits = frame_flags & 7; // z111
+
+                    //var frame_LocalColorTable = frame_flags_LocalColorMap == 0 ? 0 : (int)Math.Pow(2, (frame_flags_PixelBits + 1));
+                    var frame_LocalColorTable = 0;
+                    if (frame_flags_LocalColorMap != 0)
+                        frame_LocalColorTable = (int)Math.Pow(2, (frame_flags_PixelBits + 1));
+
+                    var frame_GlobalColorTableSize = 3 * frame_LocalColorTable;
+
+                    var frame_LocalColorMap = Enumerable.Range(0, frame_LocalColorTable).Select(
+                        i => m.ReadBytes(3)
+                    ).ToArray();
+
+                    // ? ColorDepth
+                    var frame_InitialCodeSize = m.ReadByte();
+
+                    var frame_blocks = 0;
+
+                    //Console.WriteLine(new { m.BaseStream.Position, m.BaseStream.Length, frame_blocks, frame_InitialCodeSize });
+                    // 0:8301ms { Position = 81, frame_blocks = 0, frame_InitialCodeSize = 48 } 
+
+                    var frame_Data = new MemoryStream();
+
+                    // { PosX = 0, PosY = 0, Width = 23, Height = 19, frame_GlobalColorTableSize = 6, frame_blocks = 11, Length = 998 }
+
+                    //while ((xTerminator = m.ReadByte()) != 0)
+
+                    //0:83ms { frame_blocks = 0, frame_InitialCodeSize = 48 } view-source:37729
+                    //0:84ms { xTerminator = 202, frame_blocks = 1 } 
+
+                    xTerminator = m.ReadByte();
+                    //xTerminator = frame_InitialCodeSize;
+                    while (xTerminator != 0)
+                    {
+                        frame_blocks++;
+
+
+
+                        //Console.WriteLine(new { xTerminator, frame_blocks });
+
+                        m.ReadBytes(xTerminator).With(bytes => frame_Data.Write(bytes, 0, bytes.Length));
+                        xTerminator = m.ReadByte();
+                    }
+
+                    AddNodeDirect(
+                        GIFNode.Items,
+                        new LanguageKeyword(),
+                        new TextBlock
+                        {
+                            Text = new
+                            {
+                                PosX,
+                                PosY,
+                                Width,
+                                Height,
+                                frame_GlobalColorTableSize,
+                                frame_blocks,
+                                frame_Data.Length
+                            }.ToString()
+                        }
+                    );
+
+                    xTerminator = m.ReadByte();
+
+                    if (xTerminator == 0)
+                        Debugger.Break();
+                }
+            };
+            #endregion
+
+
+
+            //02000024 GIFDecoderExperiment.Application+<>c__DisplayClassc+<>c__DisplayClasse
+            //script: error JSC1000: unknown while condition at Void <.ctor>b__6(). Maybe you did not turn off c# compiler 'optimize code' feature?
+
+            var ok_275 = true;
+
+            while (ok_275)
+            {
+                //Console.WriteLine(new { m.BaseStream.Position, m.BaseStream.Length, ok_275, xTerminator });
+                DoGIFFunctionCode();
+                //Console.WriteLine(new { m.BaseStream.Position, m.BaseStream.Length, ok_275, xTerminator });
+                DoRasterDataBlock();
+
+                ok_275 = (xTerminator == 0x21);
+            }
+
+            if (xTerminator != 0x3b)
+                Debugger.Break();
+            #endregion
+
+
+
+
+
+
         }
+    }
+}
+
+namespace GIFDecoderExperiment
+{
+    /// <summary>
+    /// Your client side code running inside a web browser as JavaScript.
+    /// </summary>
+    public sealed class Application : ApplicationWebService
+    {
+
+
+
 
         /// <summary>
         /// This is a javascript application.
@@ -55,7 +330,7 @@ namespace GIFDecoderExperiment
             //Could not load file or assembly 'ScriptCoreLibJava.AppEngine, Version=4.1.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
 
             #region AddNodeDirect
-            Func<object, Image, TextBlock, xNode> AddNodeDirect =
+            Func<ItemCollection, Image, TextBlock, TreeViewItem> AddNodeDirect =
                 (parent, image, x) =>
                 {
                     // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\BCLImplementation\System\Windows\Controls\TextBlock.cs
@@ -86,7 +361,7 @@ namespace GIFDecoderExperiment
 
                     //p.AttachToContainer(div);
 
-                    return new xNode { };
+                    return new TreeViewItem { };
                 };
             #endregion
 
@@ -104,277 +379,53 @@ namespace GIFDecoderExperiment
             //Uncaught InvalidAccessError: Failed to set the 'responseType' property on 'XMLHttpRequest': The response type can only be changed for asynchronous HTTP requests made from a document. 
 
 
-            #region AtGIFBytes
             Action<byte[]> AtGIFBytes =
-                  filebytes =>
-                  {
-                      // what to prefix this with?
-                      // data:[<MIME-type>][;charset=<encoding>][;base64],
-                      new IHTMLImage { src = "data:image/gif;base64," + Convert.ToBase64String(filebytes) }
+                filebytes =>
+                {
+                    // what to prefix this with?
+                    // data:[<MIME-type>][;charset=<encoding>][;base64],
+                    new IHTMLImage { src = "data:image/gif;base64," + Convert.ToBase64String(filebytes) }
 
-                          .AttachToDocument();
+                        .AttachToDocument();
 
+                    // fake it
+                    var n = new TreeViewItem { };
 
-                      // fake it
-                      var n = new xNode { };
 
-                      var m = new BinaryReader(
-                          new MemoryStream(
-                          //File.ReadAllBytes(path)
-                              filebytes
-                          )
-                      );
+                    var g = new Abstractatech.GIFDecoder(
+                        filebytes,
 
+                        n.Items,
 
-                      #region X:\jsc.svn\examples\javascript\io\GIFDecoderExperiment\GIFDecoderExperiment\Application.cs
-                      var GIF_signature = m.ReadBytes(3);
-                      var GIF_version = m.ReadBytes(3);
+                        AddNodeDirect
+                    );
 
-                      // { GIF_width = 0, GIF_height = 0, GIF_GlobalColorTable = 0 }
-                      var GIF_width = m.ReadUInt16();
-                      var GIF_height = m.ReadUInt16();
+                    g.GlobalColorMap.WithEach(
+                        rgb =>
+                        {
+                            // http://gamedev.stackexchange.com/questions/67724/how-can-i-simulate-a-limited-256-color-palette-in-opengl
+                            // https://twitter.com/notch/status/393803588134109184
 
-                      var GIF_flags = m.ReadByte();
-                      var GIF_flags_GlobalColorMap = (GIF_flags >> 7) & 0x1;
-                      var GIF_flags_PixelBits = GIF_flags & 7; // z111
+                            new IStyle(new IHTMLDiv { }.AttachToDocument())
+                            {
+                                width = "1em",
+                                height = "1em",
+                                whiteSpace = IStyle.WhiteSpaceEnum.pre,
 
-                      // "C:\Users\Arvo\Videos\Wildebeest.gif"
-                      //var GIF_GlobalColorTable = GIF_flags_GlobalColorMap == 0 ? 0 : (int)Math.Pow(2, (GIF_flags_PixelBits + 1));
+                                display = IStyle.DisplayEnum.inline_block,
 
-                      var GIF_GlobalColorTable = 0;
-                      if (GIF_flags_GlobalColorMap != 0)
-                          GIF_GlobalColorTable = (int)Math.Pow(2, (GIF_flags_PixelBits + 1));
+                                backgroundColor = "rgb(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ")"
 
+                            };
 
-                      var GIF_backgroundColorIndex = m.ReadByte();
-                      var GIF_aspectRatio = m.ReadByte();
+                        }
+                    );
 
-                      var GIF_GlobalColorTableSize = 3 * GIF_GlobalColorTable;
-
-                      var GlobalColorMap = Enumerable.Range(0, GIF_GlobalColorTable).Select(
-                          i => m.ReadBytes(3)
-                      ).ToArray();
-
-                      var GIFNode = AddNodeDirect(
-                          n.Items,
-                          new Avalon.Images.ClassWithoutMethods(),
-                          new TextBlock { Text = new { GIF_width, GIF_height, GIF_GlobalColorTable }.ToString() }
-                      );
-
-                      var xTerminator = m.ReadByte();
-
-                      #region GIFFunctionCode
-                      Action DoGIFFunctionCode = delegate
-                      {
-
-
-                          while (xTerminator == 0x21)
-                          {
-                              // http://www.let.rug.nl/kleiweg/gif/netscape.html
-
-                              var Function = (GIFFunctionCode)m.ReadByte();
-                              var FunctionLength = m.ReadByte();
-                              var FunctionData = m.ReadBytes(FunctionLength);
-
-
-                              var ApplicationExtensionData = new MemoryStream();
-                              var Text = "";
-                              var ApplicationExtensionDataBlocks = default(byte);
-
-                              // http://www.let.rug.nl/kleiweg/gif/GIF89a.html#application
-                              if (Function == GIFFunctionCode.ApplicationExtension)
-                              {
-                                  Text = Encoding.UTF8.GetString(FunctionData);
-
-                                  xTerminator = m.ReadByte();
-                                  //while ((xTerminator = m.ReadByte()) != 0)
-                                  while (xTerminator != 0)
-                                  {
-                                      ApplicationExtensionDataBlocks++;
-                                      m.ReadBytes(xTerminator).With(bytes => ApplicationExtensionData.Write(bytes, 0, bytes.Length));
-                                      xTerminator = m.ReadByte();
-                                  }
-
-                              }
-                              else
-                              {
-                                  if (Function == GIFFunctionCode.CommentExtension)
-                                  {
-                                      Text = Encoding.UTF8.GetString(FunctionData);
-                                  }
-
-
-                                  xTerminator = m.ReadByte();
-                              }
-
-                              var xNode = AddNodeDirect(
-                                    GIFNode.Items,
-                                    new Avalon.Images.LanguageKeyword(),
-                                    new TextBlock
-                                    {
-                                        Text = new
-                                        {
-                                            Function,
-                                            FunctionLength,
-                                            Text,
-                                            ApplicationExtensionDataBlocks,
-                                            ApplicationExtensionData.Length
-                                        }.ToString()
-                                    }
-                                );
-
-                              if (Function == GIFFunctionCode.ApplicationExtension)
-                              {
-                                  if (Text == "XMP DataXMP")
-                                  {
-                                      //var xmpString = Encoding.UTF8.GetString(
-                                      //        ApplicationExtensionData.ToBytes()
-                                      //     );
-
-                                      //var xmp = XElement.Parse(
-                                      //xmpString    
-                                      //);
-
-
-                                      //AddXElementTo(xmp, null, xNode.Items);
-
-                                  }
-                              }
-
-                              xTerminator = m.ReadByte();
-
-
-                              if (xTerminator == 0)
-                                  Debugger.Break();
-                          }
-                      };
-                      #endregion
-
-                      #region DoRasterDataBlock
-                      Action DoRasterDataBlock = delegate
-                      {
-
-                          while (xTerminator == 0x2c)
-                          {
-                              //impl:type: ScriptCoreLib.JavaScript.BCLImplementation.System.IO.__BinaryReader 818a3699-984d-30aa-8562-925d8bedb620  - System.IO.BinaryReader 2484afda-7b47-3cd7-97b5-951f5c6ab5b6
-                              //script: error JSC1000: No implementation found for this native method, please implement [System.IO.BinaryReader.ReadUInt16()]
-
-                              var PosX = m.ReadUInt16();
-                              var PosY = m.ReadUInt16();
-                              var Width = m.ReadUInt16();
-                              var Height = m.ReadUInt16();
-
-                              // <Packed Fields> 
-                              var frame_flags = m.ReadByte();
-                              var frame_flags_LocalColorMap = (frame_flags >> 7) & 0x1;
-                              var frame_flags_PixelBits = frame_flags & 7; // z111
-
-                              //var frame_LocalColorTable = frame_flags_LocalColorMap == 0 ? 0 : (int)Math.Pow(2, (frame_flags_PixelBits + 1));
-                              var frame_LocalColorTable = 0;
-                              if (frame_flags_LocalColorMap != null)
-                                  frame_LocalColorTable = (int)Math.Pow(2, (frame_flags_PixelBits + 1));
-
-                              var frame_GlobalColorTableSize = 3 * frame_LocalColorTable;
-
-                              var frame_LocalColorMap = Enumerable.Range(0, frame_LocalColorTable).Select(
-                                  i => m.ReadBytes(3)
-                              ).ToArray();
-
-                              // ? ColorDepth
-                              var frame_InitialCodeSize = m.ReadByte();
-
-                              var frame_blocks = 0;
-
-                              Console.WriteLine(new { frame_blocks, frame_InitialCodeSize });
-                              var frame_Data = new MemoryStream();
-
-                              // { PosX = 0, PosY = 0, Width = 23, Height = 19, frame_GlobalColorTableSize = 6, frame_blocks = 11, Length = 998 }
-
-                              //while ((xTerminator = m.ReadByte()) != 0)
-
-                              //0:83ms { frame_blocks = 0, frame_InitialCodeSize = 48 } view-source:37729
-                              //0:84ms { xTerminator = 202, frame_blocks = 1 } 
-
-                              //xTerminator = m.ReadByte();
-                              xTerminator = frame_InitialCodeSize;
-                              while (xTerminator != 0)
-                              {
-                                  frame_blocks++;
-
-                                  //0:81ms { xTerminator = 202 } view-source:37729
-                                  //0:81ms { xTerminator = 165 } view-source:37729
-                                  //0:81ms { xTerminator = 22 } view-source:37729
-                                  //0:81ms { xTerminator = 89 } view-source:37729
-                                  //0:81ms { xTerminator = 220 } view-source:37729
-                                  //0:82ms { xTerminator = 15 } view-source:37729
-                                  //0:82ms { xTerminator = 27 } view-source:37729
-                                  //0:82ms { xTerminator = 73 } view-source:37729
-                                  //0:82ms { xTerminator = 12 } view-source:37729
-                                  //0:82ms { xTerminator = 169 } view-source:37729
-                                  //0:82ms { xTerminator = 4 } 
-
-                                  Console.WriteLine(new { xTerminator, frame_blocks });
-
-                                  m.ReadBytes(xTerminator).With(bytes => frame_Data.Write(bytes, 0, bytes.Length));
-                                  xTerminator = m.ReadByte();
-                              }
-
-                              AddNodeDirect(
-                                  GIFNode.Items,
-                                  new Avalon.Images.LanguageKeyword(),
-                                  new TextBlock
-                                  {
-                                      Text = new
-                                      {
-                                          PosX,
-                                          PosY,
-                                          Width,
-                                          Height,
-                                          frame_GlobalColorTableSize,
-                                          frame_blocks,
-                                          frame_Data.Length
-                                      }.ToString()
-                                  }
-                              );
-
-                              xTerminator = m.ReadByte();
-
-                              if (xTerminator == 0)
-                                  Debugger.Break();
-                          }
-                      };
-                      #endregion
-
-
-
-                      //02000024 GIFDecoderExperiment.Application+<>c__DisplayClassc+<>c__DisplayClasse
-                      //script: error JSC1000: unknown while condition at Void <.ctor>b__6(). Maybe you did not turn off c# compiler 'optimize code' feature?
-
-                      var ok_275 = true;
-
-                      while (ok_275)
-                      {
-                          DoGIFFunctionCode();
-                          DoRasterDataBlock();
-
-                          ok_275 = (xTerminator == 0x21);
-                      }
-
-                      if (xTerminator != 0x3b)
-                          Debugger.Break();
-                      #endregion
-
-
-
-
-                  };
-            #endregion
-
-
+                };
 
             new IXMLHttpRequest(
                 ScriptCoreLib.Shared.HTTPMethodEnum.GET,
-                new dance().src,
+                new HTML.Images.FromAssets.dance().src,
                 true
             ).bytes.ContinueWithResult(AtGIFBytes);
 
@@ -408,47 +459,55 @@ namespace GIFDecoderExperiment
 
                 };
 
+            // Error	7	Predefined type 'System.Runtime.CompilerServices.IAsyncStateMachine' is not defined or imported	X:\jsc.svn\examples\javascript\io\GIFDecoderExperiment\GIFDecoderExperiment\CSC	GIFDecoderExperiment
             Native.document.documentElement.ondrop +=
-               async e =>
-               {
-                   // X:\jsc.svn\examples\javascript\io\WebApplicationSelectingFile\WebApplicationSelectingFile\Application.cs
-
-                   page.body.style.backgroundColor = "";
-
-                   Console.WriteLine("ondrop");
-
-                   e.stopPropagation();
-                   e.preventDefault();
-                   FileList x = e.dataTransfer.files; // FileList object.
-
-                   for (uint i = 0; i < x.length; i++)
+                //async 
+                   e =>
                    {
-                       var f = x[i];
+                       // X:\jsc.svn\examples\javascript\io\WebApplicationSelectingFile\WebApplicationSelectingFile\Application.cs
 
-                       var s = Stopwatch.StartNew();
+                       page.body.style.backgroundColor = "";
 
-                       //Method not found: 'Void ScriptCoreLib.JavaScript.DOM.DataTransferItem.getAsString(ScriptCoreLib.JavaScript.DOM.IFunction)'.
-                       // do redux rebuild!
+                       Console.WriteLine("ondrop");
 
-                       var bytes = await f.readAsBytes();
+                       e.stopPropagation();
+                       e.preventDefault();
+                       FileList x = e.dataTransfer.files; // FileList object.
 
-                       var md5 = bytes.ToMD5Bytes();
-                       var md5hex = md5.ToHexString();
+                       for (uint i = 0; i < x.length; i++)
+                       {
+                           var f = x[i];
 
-                       new IHTMLPre {
-                                new { 
-                                    f.type,
-                                f.name, 
-                                f.size,
-                                md5hex,
-                                s.ElapsedMilliseconds
-                                }
-                            }.AttachToDocument();
+                           var s = Stopwatch.StartNew();
 
-                       if (f.name.EndsWith(".gif"))
-                           AtGIFBytes(bytes);
-                   }
-               };
+                           //Method not found: 'Void ScriptCoreLib.JavaScript.DOM.DataTransferItem.getAsString(ScriptCoreLib.JavaScript.DOM.IFunction)'.
+                           // do redux rebuild!
+
+                           //var bytes = await f.readAsBytes();
+                           f.readAsBytes().ContinueWithResult(
+                               bytes =>
+                               {
+
+                                   var md5 = bytes.ToMD5Bytes();
+                                   var md5hex = md5.ToHexString();
+
+                                   new IHTMLPre {
+                                        new { 
+                                            f.type,
+                                        f.name, 
+                                        f.size,
+                                        md5hex,
+                                        s.ElapsedMilliseconds
+                                        }
+                                    }.AttachToDocument();
+
+                                   if (f.name.EndsWith(".gif"))
+                                       AtGIFBytes(bytes);
+                               }
+                           );
+
+                       }
+                   };
 
 
         }
