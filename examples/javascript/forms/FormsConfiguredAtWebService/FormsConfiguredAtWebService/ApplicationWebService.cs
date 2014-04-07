@@ -30,28 +30,17 @@ namespace FormsConfiguredAtWebService
 
         //private System.Data.SqlClient.SqlDataAdapter ServerField;
 
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
-
-
+        
         public
-            //async 
+            async
             Task<string> SpecialMessage()
         {
-            return Task.FromResult("hi from server");
+            return "hi from server";
         }
 
 
         public
-            //async 
+            async
             Task<DataTable> GetQueryResultAsDataTable()
         {
             var table = new DataTable();
@@ -70,18 +59,18 @@ namespace FormsConfiguredAtWebService
             row[column2] = "test2 long text for autosize ... more text";
             table.Rows.Add(row);
 
-            return Task.FromResult(table);
+            return table;
         }
 
         public
-            //async 
+            async
             Task<Goo> CreateServerGoo()
         {
             var data =
                 //await 
                 GetQueryResultAsDataTable().Result;
 
-            return Task.FromResult(
+            return
                 new Goo
                 {
                     GooTitle = "foo",
@@ -91,7 +80,7 @@ namespace FormsConfiguredAtWebService
                     // a new copy
                     service = new ApplicationWebService()
                 }
-            );
+            ;
         }
 
         // jsc should also allow static methods

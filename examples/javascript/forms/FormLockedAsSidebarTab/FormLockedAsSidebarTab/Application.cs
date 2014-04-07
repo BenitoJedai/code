@@ -20,7 +20,7 @@ namespace FormLockedAsSidebarTab
 {
     public static class XXX
     {
-        public static void MoveNodeToFirst(this INode e)
+        public static void MoveNodeToFirst(this IHTMLElement e)
         {
             var p = e.parentNode;
             e.Orphanize();
