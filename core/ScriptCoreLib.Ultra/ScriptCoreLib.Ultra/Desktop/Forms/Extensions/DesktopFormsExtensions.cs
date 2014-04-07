@@ -90,6 +90,7 @@ namespace ScriptCoreLib.Desktop.Forms.Extensions
                             c.Height = f.ClientSize.Height;
                         };
 
+                    // Additional information: Top-level control cannot be added to a control.
                     f.Controls.Add(c);
 
                     //w.Width = c.Width;
