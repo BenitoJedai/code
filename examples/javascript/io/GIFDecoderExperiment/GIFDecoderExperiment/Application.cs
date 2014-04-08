@@ -130,7 +130,6 @@ namespace Abstractatech
                         Text = Encoding.UTF8.GetString(FunctionData);
 
                         xTerminator = m.ReadByte();
-                        //while ((xTerminator = m.ReadByte()) != 0)
                         while (xTerminator != 0)
                         {
                             ApplicationExtensionDataBlocks++;
@@ -166,6 +165,7 @@ namespace Abstractatech
                           }
                       );
 
+                    #region ApplicationExtension
                     if (Function == GIFFunctionCode.ApplicationExtension)
                     {
                         if (Text == "XMP DataXMP")
@@ -183,6 +183,7 @@ namespace Abstractatech
 
                         }
                     }
+                    #endregion
 
                     xTerminator = m.ReadByte();
 
@@ -199,9 +200,6 @@ namespace Abstractatech
 
                 while (xTerminator == 0x2c)
                 {
-                    //impl:type: ScriptCoreLib.JavaScript.BCLImplementation.System.IO.__BinaryReader 818a3699-984d-30aa-8562-925d8bedb620  - System.IO.BinaryReader 2484afda-7b47-3cd7-97b5-951f5c6ab5b6
-                    //script: error JSC1000: No implementation found for this native method, please implement [System.IO.BinaryReader.ReadUInt16()]
-
                     var PosX = m.ReadUInt16();
                     var PosY = m.ReadUInt16();
                     var Width = m.ReadUInt16();
@@ -241,12 +239,9 @@ namespace Abstractatech
                     //0:84ms { xTerminator = 202, frame_blocks = 1 } 
 
                     xTerminator = m.ReadByte();
-                    //xTerminator = frame_InitialCodeSize;
                     while (xTerminator != 0)
                     {
                         frame_blocks++;
-
-
 
                         //Console.WriteLine(new { xTerminator, frame_blocks });
 
