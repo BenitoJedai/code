@@ -34,6 +34,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public override bool ReadOnly { get; set; }
 
+        public string DataPropertyName { get; set; }
+
+        #region Visible
         public bool InternalVisible = true;
         public event Action InternalVisibleChanged;
         public override bool Visible
@@ -53,6 +56,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalVisibleChanged();
             }
         }
+        #endregion
+
         #region HeaderText
         public string InternalHeaderText;
         public event Action InternalHeaderTextChanged;

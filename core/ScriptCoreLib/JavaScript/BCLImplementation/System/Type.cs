@@ -125,33 +125,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return (Type)(object)e;
         }
 
-        public bool Equals(Type o)
-        {
-            return InternalEquals(this, (__Type)(object)o);
-        }
 
-        public static bool operator !=(__Type left, __Type right)
-        {
-            return !InternalEquals(left, right);
-        }
-
-        public static bool operator ==(__Type left, __Type right)
-        {
-            return InternalEquals(left, right);
-        }
-
-        public bool Equals(__Type e)
-        {
-            return InternalEquals(this, e);
-        }
-
-        private static bool InternalEquals(__Type x, __Type e)
-        {
-            object a = x.TypeHandle.Value;
-            object b = e.TypeHandle.Value;
-
-            return a == b;
-        }
 
         public override string Name
         {
@@ -222,6 +196,57 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return i.ToArray();
         }
 
+
+
+
+
+        #region InternalEquals
+        public bool Equals(Type o)
+        {
+            return InternalEquals(this, (__Type)(object)o);
+        }
+
+        public static bool operator !=(__Type left, __Type right)
+        {
+            return !InternalEquals(left, right);
+        }
+
+        public static bool operator ==(__Type left, __Type right)
+        {
+            return InternalEquals(left, right);
+        }
+
+        public bool Equals(__Type e)
+        {
+            return InternalEquals(this, e);
+        }
+
+        private static bool InternalEquals(__Type x, __Type e)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.DataSource.cs
+
+            object xx = x;
+            object ee = e;
+
+            if (xx == null)
+            {
+                if (ee == null)
+                    return true;
+
+                return false;
+            }
+
+            if (ee == null)
+            {
+                return false;
+            }
+
+            object a = x.TypeHandle.Value;
+            object b = e.TypeHandle.Value;
+
+            return a == b;
+        }
+        #endregion
 
     }
 }
