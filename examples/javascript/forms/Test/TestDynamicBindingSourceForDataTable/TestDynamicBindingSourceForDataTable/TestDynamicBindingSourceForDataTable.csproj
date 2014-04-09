@@ -162,6 +162,7 @@
     <None Include="Properties\DataSources\MyDataSource.datasource" />
     <None Include="Properties\DataSources\MyOtherDataSource.datasource" />
     <None Include="Properties\DataSources\XZooBook+Sheet1BindingSource.datasource" />
+    <None Include="Properties\DataSources\ZooBook+Sheet1BindingSource.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

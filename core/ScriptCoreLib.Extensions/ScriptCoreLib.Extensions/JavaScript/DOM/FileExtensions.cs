@@ -25,6 +25,10 @@ namespace ScriptCoreLib.JavaScript.DOM
             var y = new TaskCompletionSource<string>();
 
 
+
+
+
+            // partial build?
             x.getAsString(
                 new Action<string>(
                     value =>
@@ -41,6 +45,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             var y = new TaskCompletionSource<File>();
 
+            // partial build?
             f.file(
                 new Action<File>(
                     ff =>
@@ -79,6 +84,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 );
 
 
+            // partial build?
             x.readAsArrayBuffer(f);
             //Console.WriteLine("readAsText FileReader readAsText");
 

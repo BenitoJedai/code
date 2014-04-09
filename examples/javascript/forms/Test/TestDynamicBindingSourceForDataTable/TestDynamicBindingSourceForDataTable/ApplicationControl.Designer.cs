@@ -19,18 +19,22 @@ namespace TestDynamicBindingSourceForDataTable
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.sheet1BindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.fooColumnDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gooColumnDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.myDataSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.myDataSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.sheet1BindingSourceBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.sheet1BindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.sheet1BindingSourceBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
+            this.column1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.column2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sheet1BindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataSourceBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sheet1BindingSourceBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sheet1BindingSourceBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sheet1BindingSourceBindingSource2)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -47,41 +51,6 @@ namespace TestDynamicBindingSourceForDataTable
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(400, 300);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // dataGridView2
-            // 
-            this.dataGridView2.AutoGenerateColumns = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.fooColumnDataGridViewTextBoxColumn,
-            this.gooColumnDataGridViewTextBoxColumn});
-            this.dataGridView2.DataSource = this.sheet1BindingSourceBindingSource;
-            this.dataGridView2.Location = new System.Drawing.Point(15, 144);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(382, 153);
-            this.dataGridView2.TabIndex = 1;
-            // 
-            // sheet1BindingSourceBindingSource
-            // 
-            this.sheet1BindingSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.XZooBook.Sheet1BindingSource);
-            this.sheet1BindingSourceBindingSource.Position = 0;
-            // 
-            // fooColumnDataGridViewTextBoxColumn
-            // 
-            this.fooColumnDataGridViewTextBoxColumn.DataPropertyName = "FooColumn";
-            this.fooColumnDataGridViewTextBoxColumn.HeaderText = "FooColumn";
-            this.fooColumnDataGridViewTextBoxColumn.Name = "fooColumnDataGridViewTextBoxColumn";
-            // 
-            // gooColumnDataGridViewTextBoxColumn
-            // 
-            this.gooColumnDataGridViewTextBoxColumn.DataPropertyName = "GooColumn";
-            this.gooColumnDataGridViewTextBoxColumn.HeaderText = "GooColumn";
-            this.gooColumnDataGridViewTextBoxColumn.Name = "gooColumnDataGridViewTextBoxColumn";
-            // 
-            // myDataSourceBindingSource
-            // 
-            this.myDataSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.MyDataSource);
-            this.myDataSourceBindingSource.Position = 0;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -101,6 +70,51 @@ namespace TestDynamicBindingSourceForDataTable
             this.dataGridViewTextBoxColumn3.HeaderText = "Column3";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             // 
+            // myDataSourceBindingSource
+            // 
+            this.myDataSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.MyDataSource);
+            this.myDataSourceBindingSource.Position = 0;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AutoGenerateColumns = false;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.column1DataGridViewTextBoxColumn,
+            this.column2DataGridViewTextBoxColumn});
+            this.dataGridView2.DataSource = this.sheet1BindingSourceBindingSource2;
+            this.dataGridView2.Location = new System.Drawing.Point(15, 144);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(382, 153);
+            this.dataGridView2.TabIndex = 1;
+            // 
+            // sheet1BindingSourceBindingSource1
+            // 
+            this.sheet1BindingSourceBindingSource1.DataSource = typeof(FormsAutoSumGridSelection.Data.XZooBook.Sheet1BindingSource);
+            this.sheet1BindingSourceBindingSource1.Position = 0;
+            // 
+            // sheet1BindingSourceBindingSource
+            // 
+            this.sheet1BindingSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.XZooBook.Sheet1BindingSource);
+            this.sheet1BindingSourceBindingSource.Position = 0;
+            // 
+            // sheet1BindingSourceBindingSource2
+            // 
+            this.sheet1BindingSourceBindingSource2.DataSource = typeof(FormsAutoSumGridSelection.Data.ZooBook.Sheet1BindingSource);
+            this.sheet1BindingSourceBindingSource2.Position = 0;
+            // 
+            // column1DataGridViewTextBoxColumn
+            // 
+            this.column1DataGridViewTextBoxColumn.DataPropertyName = "Column1";
+            this.column1DataGridViewTextBoxColumn.HeaderText = "Column1";
+            this.column1DataGridViewTextBoxColumn.Name = "column1DataGridViewTextBoxColumn";
+            // 
+            // column2DataGridViewTextBoxColumn
+            // 
+            this.column2DataGridViewTextBoxColumn.DataPropertyName = "Column2";
+            this.column2DataGridViewTextBoxColumn.HeaderText = "Column2";
+            this.column2DataGridViewTextBoxColumn.Name = "column2DataGridViewTextBoxColumn";
+            // 
             // ApplicationControl
             // 
             this.Controls.Add(this.dataGridView2);
@@ -108,9 +122,11 @@ namespace TestDynamicBindingSourceForDataTable
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(400, 300);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.sheet1BindingSourceBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataSourceBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sheet1BindingSourceBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sheet1BindingSourceBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sheet1BindingSourceBindingSource2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -126,8 +142,6 @@ namespace TestDynamicBindingSourceForDataTable
         }
 
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn column1DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn column2DataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn column3DataGridViewTextBoxColumn;
         private DataGridView dataGridView2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
@@ -137,9 +151,15 @@ namespace TestDynamicBindingSourceForDataTable
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private BindingSource myDataSourceBindingSource;
+        private BindingSource sheet1BindingSourceBindingSource;
         private DataGridViewTextBoxColumn fooColumnDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn gooColumnDataGridViewTextBoxColumn;
-        private BindingSource sheet1BindingSourceBindingSource;
+        private DataGridViewTextBoxColumn tagDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn timestampDataGridViewTextBoxColumn;
+        private BindingSource sheet1BindingSourceBindingSource1;
+        private DataGridViewTextBoxColumn column1DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn column2DataGridViewTextBoxColumn;
+        private BindingSource sheet1BindingSourceBindingSource2;
 
     }
 }
