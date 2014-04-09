@@ -161,7 +161,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget /AddGenericObjectDataSource:FormsAutoSumGridSelection.Data.MyOtherDataSource /AddGenericObjectDataSource:FormsAutoSumGridSelection.Data.MyDataSource /AddGenericObjectDataSource:FormsAutoSumGridSelection.Data.XZooBook+Sheet1BindingSource
+    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget /AddGenericObjectDataSource:FormsAutoSumGridSelection.Data.MyOtherDataSource /xAddGenericObjectDataSource:FormsAutoSumGridSelection.Data.MyDataSource /xAddGenericObjectDataSource:FormsAutoSumGridSelection.Data.XZooBook+Sheet1BindingSource
 
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"

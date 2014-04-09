@@ -41,8 +41,10 @@ namespace TestDynamicBindingSourceForDataTable
             //51:208ms { newT = <Namespace>.MyDataSource } view-source:37409
             //51:209ms { MyDataSource_DataSource = [object Object] }
 
+            // 51:382ms InternalSetDataSource, null? ctor optimized out? 
             { FormsAutoSumGridSelection.Data.MyDataSource __ForActivator; }
             { FormsAutoSumGridSelection.Data.XZooBook.Sheet1BindingSource __ForActivator; }
+            { FormsAutoSumGridSelection.Data.ZooBook.Sheet1BindingSource __ForActivator; }
 
 
             content.AttachControlToDocument();
