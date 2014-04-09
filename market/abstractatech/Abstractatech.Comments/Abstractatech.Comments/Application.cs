@@ -30,16 +30,19 @@ namespace Abstractatech.Comments
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            AddNewCommentsDiv(page.NewCommentContainer, page.CommentsContainer, this);
+            IBacicInterface inf = new ApplicationWebService();
+            inf.AddNewCommentsDiv(page.NewCommentContainer, page.CommentsContainer);
         }
-
-        public static void RefreshComments(IHTMLDiv commentDiv, ApplicationWebService service)
+    }
+    public static class ApplicationImplementation
+    {
+        public static void RefreshComments(this IBacicInterface intFace, IHTMLDiv commentDiv)
         {
             commentDiv.Clear();
 
             Action refresh = async delegate
             {
-                var comments = await service.GetAllViewComments(Native.document.location.hash);
+                var comments = await intFace.GetAllViewComments(Native.document.location.hash);
                 if (comments != null)
                 {
                     for (var r = 0; r < comments.Rows.Count; r++)
@@ -49,7 +52,6 @@ namespace Abstractatech.Comments
                         container.name.innerText = row.Name;
                         container.email.innerText = row.Email;
                         container.time.innerText = row.Timestamp.ToString("dd.MM.yyyy HH:mm:ss");
-                        //container.content.innerHTML = row.Comment;
                         container.content.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
                         container.content.innerText = row.Comment;
 
@@ -59,9 +61,10 @@ namespace Abstractatech.Comments
             };
             refresh();
         }
-        public static void AddNewCommentsDiv(IHTMLDiv newCommentDiv, IHTMLDiv commentsDiv, ApplicationWebService service)
+
+        public static void AddNewCommentsDiv(this IBacicInterface intFace, IHTMLDiv newCommentDiv, IHTMLDiv commentsDiv)
         {
-            RefreshComments(commentsDiv, service);
+            RefreshComments(intFace, commentsDiv);
             var newcommentContainer = new NewComment().AttachTo(newCommentDiv);
 
             newcommentContainer.Submit.onclick += async delegate
@@ -72,12 +75,10 @@ namespace Abstractatech.Comments
                     {
                         if (newcommentContainer.commentarea.value != "")
                         {
-                            var rep = newcommentContainer.commentarea.value; //.Replace("\n", "<br />");
+                            await intFace.InsertNewComment(Native.document.location.hash, newcommentContainer.name.value,
+                                newcommentContainer.email.value, newcommentContainer.commentarea.value);
 
-                            await service.InsertNewComment(Native.document.location.hash, newcommentContainer.name.value,
-                                newcommentContainer.email.value, rep);
-
-                            RefreshComments(commentsDiv, service);
+                            intFace.RefreshComments(commentsDiv);
 
                             newcommentContainer.email.value = "";
                             newcommentContainer.name.value = "";
@@ -86,8 +87,6 @@ namespace Abstractatech.Comments
                     }
                 }
             };
-
         }
-
     }
 }
