@@ -134,6 +134,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             // 26:154ms InternalSetDataSource not implemented for <Namespace>.BindingSource 
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
+            #region BindingSource
             var SourceBindingSource = value as BindingSource;
             if (SourceBindingSource != null)
             {
@@ -254,6 +256,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
             }
+            #endregion
+
 
             if (SourceDataTable == null)
             {
