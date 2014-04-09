@@ -1,4 +1,6 @@
-﻿using System;
+﻿extern alias assets;
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,4 +56,18 @@ namespace FormsAutoSumGridSelection.Data
 
     }
 
+
+    public class XZooBook
+    {
+        public class Sheet1BindingSource : BindingSource
+        {
+            public Sheet1BindingSource()
+            {
+
+                this.DataSource =
+                    global::FormsAutoSumGridSelection.Data.ZooBook.GetDataSet().Tables["Sheet1"];
+
+            }
+        }
+    }
 }

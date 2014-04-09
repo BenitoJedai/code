@@ -35,7 +35,14 @@ namespace TestDynamicBindingSourceForDataTable
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            FormsAutoSumGridSelection.Data.MyDataSource __ForActivator;
+            //            51:206ms InternalSetDataSource, null? ctor optimized out? view-source:37450
+            //51:207ms enter MyDataSource .ctor view-source:37450
+            //51:208ms exit MyDataSource .ctor view-source:37450
+            //51:208ms { newT = <Namespace>.MyDataSource } view-source:37409
+            //51:209ms { MyDataSource_DataSource = [object Object] }
+
+            { FormsAutoSumGridSelection.Data.MyDataSource __ForActivator; }
+            { FormsAutoSumGridSelection.Data.XZooBook.Sheet1BindingSource __ForActivator; }
 
 
             content.AttachControlToDocument();
