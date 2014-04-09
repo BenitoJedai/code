@@ -80,6 +80,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.ControlCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BindingsCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Binding.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BindingSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\IBindableComponent.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewCheckBoxCell.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewCheckBoxColumn.cs" />
