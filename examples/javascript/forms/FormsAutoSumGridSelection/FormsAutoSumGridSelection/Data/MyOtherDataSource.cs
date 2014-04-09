@@ -54,7 +54,11 @@ namespace FormsAutoSumGridSelection.Data
         //public static IBindingList GetData()
         public static IListSource GetData()
         {
-            return new MyOtherDataSource();
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.DataSource.cs
+            // for CLR debugging:
+            //return new MyOtherDataSource();
+
+            return new MyOtherDataSource().x;
         }
 
         bool IListSource.ContainsListCollection

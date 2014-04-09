@@ -8,7 +8,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 {
     [Script(Implements = typeof(global::System.Data.DataTable))]
-    public class __DataTable : __MarshalByValueComponent
+    public class __DataTable : __MarshalByValueComponent, __IListSource
     {
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView.cs
 
@@ -104,6 +104,20 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         public static implicit operator DataTable(__DataTable x)
         {
             return (DataTable)(object)x;
+        }
+
+        public bool ContainsListCollection
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.DataSource.cs
+            get { return true; }
+        }
+
+        public global::System.Collections.IList GetList()
+        {
+            // ?
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
+
+            throw new NotImplementedException();
         }
     }
 }
