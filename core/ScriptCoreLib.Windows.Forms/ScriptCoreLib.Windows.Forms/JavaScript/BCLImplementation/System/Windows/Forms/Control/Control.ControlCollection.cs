@@ -39,6 +39,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 throw new global::System.Exception("Not implemented");
             }
 
+            public bool InternalAddToTop = true;
+
             public virtual void Add(Control e)
             {
                 Items.Add(e);
@@ -72,11 +74,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     ChildElement.className += " " + ChildElementTypeName;
 
                 // X:\jsc.svn\examples\javascript\forms\FormsNIC\FormsNIC\ApplicationControl.cs
+                // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\FlowLayoutPanel.cs
 
-                if (bg.childNodes.Length == 0)
-                    bg.appendChild(ChildElement);
+                if (InternalAddToTop)
+                {
+                    // play well with forms designer.
+
+                    if (bg.childNodes.Length == 0)
+                        bg.appendChild(ChildElement);
+                    else
+                        bg.insertBefore(ChildElement, bg.childNodes[0]);
+                }
                 else
-                    bg.insertBefore(ChildElement, bg.childNodes[0]);
+                {
+                    bg.appendChild(ChildElement);
+                }
 
                 //else
                 //bg.insertBefore(e.GetHTMLTarget(), bg.firstChild);
@@ -119,6 +131,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             public virtual void SetChildIndex(Control child, int newIndex)
             {
                 // we should apply the index
+            }
+
+
+            public static implicit operator __ControlCollection(Control.ControlCollection c)
+            {
+                return (__ControlCollection)(object)c;
             }
         }
         #endregion

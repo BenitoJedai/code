@@ -49,6 +49,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             InternalPadding_css = this.HTMLTargetContainerRef.css;
 
+            ((__ControlCollection)this.Controls).InternalAddToTop = false;
+            // tested by
+            // X:\jsc.svn\examples\javascript\forms\Test\TestLayoutProblems\TestLayoutProblems\ApplicationControl.cs
+
             this.PaddingChanged +=
                 delegate
                 {
