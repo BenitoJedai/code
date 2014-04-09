@@ -30,7 +30,7 @@ namespace Abstractatech.Comments
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            AddNewCommentsDiv(page.NewCommentContainer, page.CommentsContainer,this);
+            AddNewCommentsDiv(page.NewCommentContainer, page.CommentsContainer, this);
         }
 
         public static void RefreshComments(IHTMLDiv commentDiv, ApplicationWebService service)
@@ -49,7 +49,9 @@ namespace Abstractatech.Comments
                         container.name.innerText = row.Name;
                         container.email.innerText = row.Email;
                         container.time.innerText = row.Timestamp.ToString("dd.MM.yyyy HH:mm:ss");
-                        container.content.innerHTML = row.Comment;
+                        //container.content.innerHTML = row.Comment;
+                        container.content.style.whiteSpace = IStyle.WhiteSpaceEnum.pre;
+                        container.content.innerText = row.Comment;
 
                         container.AttachTo(commentDiv);
                     }
@@ -70,7 +72,7 @@ namespace Abstractatech.Comments
                     {
                         if (newcommentContainer.commentarea.value != "")
                         {
-                            var rep = newcommentContainer.commentarea.value.Replace("\n", "<br />");
+                            var rep = newcommentContainer.commentarea.value; //.Replace("\n", "<br />");
 
                             await service.InsertNewComment(Native.document.location.hash, newcommentContainer.name.value,
                                 newcommentContainer.email.value, rep);
