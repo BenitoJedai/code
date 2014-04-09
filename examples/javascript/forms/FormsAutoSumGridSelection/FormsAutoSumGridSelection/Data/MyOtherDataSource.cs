@@ -11,9 +11,12 @@ namespace FormsAutoSumGridSelection.Data
 {
     public class MyOtherDataSource : Component, IListSource
     {
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\IListSource.cs
+
         // http://msdn.microsoft.com/en-us/library/system.windows.forms.datagridview.datasource(v=vs.110).aspx
 
-        DataTable x = new DataTable("x");
+        //public DataTable x = new DataTable("x");
+        public DataTable x = new DataTable();
         public MyOtherDataSource()
         {
 

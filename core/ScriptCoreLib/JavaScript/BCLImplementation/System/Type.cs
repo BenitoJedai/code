@@ -96,8 +96,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return r;
         }
 
-        Expando AsExpando()
+        public Expando AsExpando()
         {
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
+
             return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value);
         }
 
@@ -124,18 +126,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             return (Type)(object)e;
         }
-
+        public static implicit operator __Type(Type e)
+        {
+            return (__Type)(object)e;
+        }
 
 
         public override string Name
         {
             get
             {
+                // X:\jsc.svn\examples\javascript\forms\test\TestTypeActivatorRef\TestTypeActivatorRef\Class1.cs
+
                 // http://msdn.microsoft.com/en-us/library/dd264736.aspx
                 //dynamic constructor = AsExpando().constructor;
 
                 //return constructor.TypeName;
-                return (string)Expando.InternalGetMember(AsExpando().constructor, "TypeName");
+                return (string)Expando.InternalGetMember(
+                    AsExpando().constructor, "TypeName");
             }
         }
 

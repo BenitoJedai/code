@@ -135,6 +135,7 @@
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\PropertyChangedEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.FromBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.ToBase64String.cs" />
+    <Compile Include="Shared\BCLImplementation\System\ComponentModel\IListSource.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDataParameterCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDataParameter.cs" />
