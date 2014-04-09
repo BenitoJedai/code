@@ -117,6 +117,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
             //font-size: 20px;
         }
 
+        [Obsolete("this is the first style to demonstrate sub component restyling")]
         public static void LikeVisualStudioMetro(FormStyler s)
         {
             s.TargetOuterBorder.style.boxShadow = "rgba(0, 122, 204, 0.3) 0px 0px 6px 3px";
@@ -157,9 +158,10 @@ namespace ScriptCoreLib.JavaScript.Extensions
             new IStyle(Native.css[typeof(Form)].descendant[typeof(Button)] + IHTMLElement.HTMLElementEnum.button)
             {
                 transition = "background-color 200ms linear",
-                backgroundColor = "rgba(0, 122, 204, 0.3)",
+                //backgroundColor = "rgba(0, 122, 204, 0.3)",
+                backgroundColor = "rgba(0, 122, 204, 0.0)",
 
-                textDecoration = "uppercase",
+                //textDecoration = "uppercase",
                 border = "0px",
 
                 cursor = IStyle.CursorEnum.pointer
