@@ -201,12 +201,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                         //26:156ms { MyDataSource_DataSource =  } view-source:37380
                                         //26:157ms InternalSetDataSource, null? 
 
-                                        Console.WriteLine("InternalSetDataSource, null?");
+                                        Console.WriteLine("InternalSetDataSource, null? ctor optimized out?");
                                         return;
                                     }
 
+                                    // 26:180ms { MyDataSource_DataSource = <Namespace>.MyOtherDataSource } 
+
                                     if (MyDataSource_DataSource is IListSource)
                                     {
+                                        //26:3237ms InternalSetDataSource does not yet support IListSource 
                                         Console.WriteLine("InternalSetDataSource does not yet support IListSource");
                                         return;
                                     }
@@ -216,6 +219,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     //    Type = asBindingSource.DataSource.GetType(),
                                     //    asBindingSource.DataSource
                                     //});
+                                    Console.WriteLine("InternalSetDataSource does not yet support ?");
                                 }
                             }
 

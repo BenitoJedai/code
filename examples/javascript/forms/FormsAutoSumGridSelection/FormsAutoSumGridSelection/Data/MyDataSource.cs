@@ -20,6 +20,7 @@ namespace FormsAutoSumGridSelection.Data
         public MyDataSource()
         //: base(GetData(), "")
         {
+            Console.WriteLine("enter MyDataSource .ctor");
             // how do we implement a static
             // data source?
 
@@ -45,10 +46,12 @@ namespace FormsAutoSumGridSelection.Data
             ////this.Add(x);
 
             this.DataSource = MyOtherDataSource.GetData();
+
+            Console.WriteLine("exit MyDataSource .ctor");
         }
 
 
 
     }
 
- }
+}
