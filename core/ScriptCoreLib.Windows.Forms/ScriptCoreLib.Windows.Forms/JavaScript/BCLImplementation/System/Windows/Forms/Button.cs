@@ -120,5 +120,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+
+
+
+//        arg[0] is typeof System.Windows.Forms.AutoSizeMode
+//script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.Button.set_AutoSizeMode(System.Windows.Forms.AutoSizeMode)]
+
+
+        public AutoSizeMode AutoSizeMode { get; set; }
+
     }
 }

@@ -1,10 +1,12 @@
-﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+﻿using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
@@ -136,6 +138,44 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 
             s.Caption.style.backgroundColor = JSColor.FromRGB(0, 122, 204);
+
+
+            // this is the first forms styler
+            // that restyles the decendnt controls
+
+            //X:\jsc.svn\examples\javascript\forms\css\CSSPartialHoverStyleForButton\CSSPartialHoverStyleForButton\Application.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
+
+            //new IStyle(Native.css[s.Context].descendant[typeof(Button)] + IHTMLElement.HTMLElementEnum.button)
+            // 4:72ms path not found! 
+            // why are we trying to find the path from element to descendants?
+            // can we work around to set this style for all forms then?
+
+            //new IStyle(Native.css[s.Context.GetHTMLTarget()].descendant[typeof(Button)] + IHTMLElement.HTMLElementEnum.button)
+            //new IStyle(Native.css[s.Context.GetHTMLTarget().css].descendant[typeof(Button)] + IHTMLElement.HTMLElementEnum.button)
+
+            new IStyle(Native.css[typeof(Form)].descendant[typeof(Button)] + IHTMLElement.HTMLElementEnum.button)
+            {
+                transition = "background-color 200ms linear",
+                backgroundColor = "rgba(0, 122, 204, 0.3)",
+
+                textDecoration = "uppercase",
+                border = "0px",
+
+                cursor = IStyle.CursorEnum.pointer
+            };
+
+            new IStyle(Native.css[typeof(Form)].hover.descendant[typeof(Button)] + IHTMLElement.HTMLElementEnum.button)
+            {
+                backgroundColor = "rgba(0, 122, 204, 0.7)",
+
+            };
+
+            new IStyle((Native.css[typeof(Form)].hover.descendant[typeof(Button)] + IHTMLElement.HTMLElementEnum.button).hover)
+            {
+                backgroundColor = "rgba(0, 122, 204, 1.0)",
+                color = "white",
+            };
         }
 
 
