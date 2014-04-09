@@ -207,12 +207,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     // 26:180ms { MyDataSource_DataSource = <Namespace>.MyOtherDataSource } 
 
+
+                                    var MyDataSource_DataSource_as_DataTable = MyDataSource_DataSource as DataTable;
+                                    if (MyDataSource_DataSource_as_DataTable != null)
+                                    {
+                                        // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\ApplicationControl.Designer.cs
+                                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
+
+                                        // yay. we found the source.
+                                        // we should learn to talk to IListSource
+
+                                        InternalSetDataSource(MyDataSource_DataSource_as_DataTable);
+                                        return;
+                                    }
+
                                     if (MyDataSource_DataSource is IListSource)
                                     {
+                                        // X:\jsc.svn\examples\javascript\forms\FormsAutoSumGridSelection\FormsAutoSumGridSelection\Data\MyDataSource.cs
+
                                         //26:3237ms InternalSetDataSource does not yet support IListSource 
                                         Console.WriteLine("InternalSetDataSource does not yet support IListSource");
                                         return;
                                     }
+
+
+                                    //                                    26:140ms { MyDataSource_DataSource = [object Object] } view-source:37388
+                                    //26:140ms InternalSetDataSource does not yet support ? 
 
                                     //Console.WriteLine("InternalSetDataSource activated " + new
                                     //{
