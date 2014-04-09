@@ -17,7 +17,7 @@ namespace Abstractatech.Comments
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public class ApplicationWebService
+    public class ApplicationWebService : IBacicInterface, ICommentInterface
     {
         public void ReferenceDeclaration()
         {
@@ -67,8 +67,20 @@ namespace Abstractatech.Comments
         Task InsertNewIpToBlacklist(string ip);
     }
 
-    public class CommentService : ICommentInterface
+    public interface IBacicInterface
     {
+        Task<DataTable> GetAllViewComments(string viewHash);
+        Task InsertNewComment(string viewHash, string name, string email, string comment);
+    }
+
+    public class CommentService : ICommentInterface, IBacicInterface
+    {
+        public void ReferenceDeclaration()
+        {
+            Type sqlLitec = typeof(SQLiteConnection);
+            Type ext = typeof(System.Data.SQLite.SQLiteConnectionStringBuilderExtensions);
+        }
+
         public async Task<DataTable> GetAllViewComments(string viewHash)
         {
             return (from c in new Comment.CommentTable()
