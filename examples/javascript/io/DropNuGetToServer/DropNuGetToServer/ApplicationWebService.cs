@@ -90,7 +90,7 @@ namespace DropNuGetToServer
                         LastInsertRowId =>
                         {
                             Console.WriteLine("after insert " + new { LastInsertRowId });
-
+                            
                             ok.Add(new XElement("ContentKey", "" + LastInsertRowId));
                         }
                     );
