@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Drawing", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Query", "..\..\..\..\..\core\ScriptCoreLib.Query\ScriptCoreLib.Query.csproj", "{25C11821-6AAF-4AED-95D1-8B60431A0585}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{21DE5DCB-4FBD-4C47-BA6C-5D3D4D0E6EAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,5 +79,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {21DE5DCB-4FBD-4C47-BA6C-5D3D4D0E6EAC}
+		{EFCD92AE-2413-4682-8558-F58FE0158782} = {21DE5DCB-4FBD-4C47-BA6C-5D3D4D0E6EAC}
+		{053C4547-E32B-458E-B295-1E3640BE96E9} = {21DE5DCB-4FBD-4C47-BA6C-5D3D4D0E6EAC}
+		{25C11821-6AAF-4AED-95D1-8B60431A0585} = {21DE5DCB-4FBD-4C47-BA6C-5D3D4D0E6EAC}
 	EndGlobalSection
 EndGlobal

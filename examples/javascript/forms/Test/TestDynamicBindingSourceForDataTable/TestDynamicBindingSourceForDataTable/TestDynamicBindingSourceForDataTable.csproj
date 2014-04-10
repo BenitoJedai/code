@@ -39,8 +39,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FormsAutoSumGridSelection, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FormsAutoSumGridSelection">
       <HintPath>..\packages\FormsAutoSumGridSelection.1.0.0.0\lib\FormsAutoSumGridSelection.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
