@@ -20,13 +20,13 @@ namespace TestDynamicBindingSourceForDataTable
             this.components = new System.ComponentModel.Container();
             this.zooBookSheet1BindingSourceBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.zooBookSheet1BindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.keyDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.zooBookSheet1BindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.keyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -34,8 +34,8 @@ namespace TestDynamicBindingSourceForDataTable
             this.dataGridViewTextBoxColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // zooBookSheet1BindingSourceBindingSource1
@@ -58,6 +58,11 @@ namespace TestDynamicBindingSourceForDataTable
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.Size = new System.Drawing.Size(369, 145);
             this.dataGridView2.TabIndex = 1;
+            // 
+            // zooBookSheet1BindingSourceBindingSource
+            // 
+            this.zooBookSheet1BindingSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource);
+            this.zooBookSheet1BindingSourceBindingSource.Position = 0;
             // 
             // dataGridViewTextBoxColumn16
             // 
@@ -106,11 +111,6 @@ namespace TestDynamicBindingSourceForDataTable
             this.dataGridView1.Size = new System.Drawing.Size(400, 300);
             this.dataGridView1.TabIndex = 0;
             // 
-            // zooBookSheet1BindingSourceBindingSource
-            // 
-            this.zooBookSheet1BindingSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource);
-            this.zooBookSheet1BindingSourceBindingSource.Position = 0;
-            // 
             // dataGridViewTextBoxColumn9
             // 
             this.dataGridViewTextBoxColumn9.DataPropertyName = "FooColumn";
@@ -150,8 +150,8 @@ namespace TestDynamicBindingSourceForDataTable
             this.Load += new System.EventHandler(this.ApplicationControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -188,12 +188,12 @@ namespace TestDynamicBindingSourceForDataTable
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
         private DataGridView dataGridView1;
+        private BindingSource zooBookSheet1BindingSourceBindingSource;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
-        private BindingSource zooBookSheet1BindingSourceBindingSource;
 
     }
 }
