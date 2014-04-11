@@ -60,12 +60,18 @@ namespace TestDynamicBindingSourceForDataTable
                             base.AsyncDataSourceImport(
                                 r =>
                                 {
-                                    Console.WriteLine("by AsyncDataSourceImport");
+                                    Console.WriteLine("by AsyncDataSourceImport"
+                                        + new { r.FooColumn, r.GooColumn }
+                                        );
 
-                                    //var r = new ZooBookSheet1Row { FooColumn = "foo1", GooColumn = 400 };
+                                    //Console.WriteLine("raise this.TableNewRow");
+                                    var rr = (x as DataTable).NewRow();
+                                    // how are we supposed to import or add remote rows?
+                                    (x as DataTable).Rows.Add(rr);
 
+                                    rr["FooColumn"] = r.FooColumn;
+                                    rr["GooColumn"] = r.GooColumn;
 
-                                    (x as DataTable).Rows.Add(r.FooColumn, r.GooColumn);
                                 }
                             );
 

@@ -21,6 +21,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         public void Add(DataRow row)
         {
             this.InternalList.Add(row);
+
+            // ? TableNewRow
+            // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\Application.cs
+
         }
 
         //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRowCollection.Add(System.Object[])]

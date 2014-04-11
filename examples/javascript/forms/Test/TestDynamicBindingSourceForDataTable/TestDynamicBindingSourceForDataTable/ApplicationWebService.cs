@@ -21,9 +21,8 @@ namespace TestDynamicBindingSourceForDataTable
     {
         public async void AsyncDataSourceImport(Action<ZooBookSheet1Row> yield)
         {
-            var r = new ZooBookSheet1Row { FooColumn = "foo from server", GooColumn = 400 };
-
-            yield(r);
+            yield(new ZooBookSheet1Row { FooColumn = "foo from server1", GooColumn = 400 });
+            yield(new ZooBookSheet1Row { FooColumn = "foo from server2", GooColumn = 400 });
         }
     }
 }

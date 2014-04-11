@@ -565,12 +565,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         if (this.InternalDataSourceSync != CurrentDataSourceSync)
                             return;
 
+
                         // data source is changing under us!
                         // keep up!
 
                         // script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataColumnCollection.IndexOf(System.Data.DataColumn)]
                         var xColumnIndex = SourceDataTable.Columns.IndexOf(x.Column);
                         var RowIndex = SourceDataTable.Rows.IndexOf(x.Row);
+
+                        //Console.WriteLine("SourceDataTable.ColumnChanged " + new { RowIndex, xColumnIndex });
+
 
                         if (this[xColumnIndex, RowIndex].Value == x.ProposedValue)
                             return;
@@ -582,6 +586,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
+                #region CellValueChanged
                 this.CellValueChanged +=
                     (_s, _e) =>
                     {
@@ -645,6 +650,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     };
                 #endregion
 
+                #endregion
+
 
 
                 #region TableNewRow
@@ -655,6 +662,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             return;
 
                         this.InternalDataSourceSync = null;
+
+                        //                        60:417ms { FooColumn = foo from server1, GooColumn = 400 }
+                        //60:443ms a new row was added, auto resize?
+
+                        //Console.WriteLine("SourceDataTable.TableNewRow");
+
 
                         // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewRowCollection.Add()]
                         this.Rows.Add();
@@ -670,6 +683,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         if (this.InternalDataSourceSync != CurrentDataSourceSync)
                             return;
 
+                        // is this allowed?
                         // X:\jsc.svn\examples\javascript\forms\Test\TestDataTableNewRow\TestDataTableNewRow\ApplicationWebService.cs
                         Console.WriteLine("DataSource UserAddedRow" + new { SourceDataTable.Rows.Count });
 
