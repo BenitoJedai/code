@@ -64,8 +64,12 @@ namespace FormsAutoSumGridSelection.Data
             public Sheet1BindingSource()
             {
 
+                //this.DataSource =
+                //    global::FormsAutoSumGridSelection.Data.ZooBook.GetDataSet().Tables["Sheet1"];
+
+
                 this.DataSource =
-                    global::FormsAutoSumGridSelection.Data.ZooBook.GetDataSet().Tables["Sheet1"];
+                    global::FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource.CreateDataSource();
 
             }
         }

@@ -11,10 +11,16 @@ namespace FormsAutoSumGridSelection
     {
         public static void Main(string[] args)
         {
+
+
+            //var x =
+            //    global::FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource.CreateDataSource();
+
+
 #if DEBUG
-			DesktopFormsExtensions.Launch(
-				() => new ApplicationControl()
-			);
+            DesktopFormsExtensions.Launch(
+                () => new ApplicationControl()
+            );
 #else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
 #endif
