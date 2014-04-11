@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System;
 
 namespace TestDynamicBindingSourceForDataTable
 {
@@ -13,6 +14,11 @@ namespace TestDynamicBindingSourceForDataTable
         public ApplicationControl()
         {
             this.InitializeComponent();
+        }
+
+        private void ApplicationControl_Load(object sender, System.EventArgs e)
+        {
+            Console.WriteLine("ApplicationControl_Load");
         }
 
     }
