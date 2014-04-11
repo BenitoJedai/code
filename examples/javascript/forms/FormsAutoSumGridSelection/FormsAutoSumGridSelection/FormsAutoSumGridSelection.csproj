@@ -152,7 +152,8 @@
     </Compile>
     <None Include="Data\ZooBook.xlsx" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\FormsAutoSumGridSelection.Data.MyOtherDataSource.datasource" />
+    <None Include="Properties\DataSources\MyOtherDataSource.datasource" />
+    <None Include="Properties\DataSources\ZooBookSheet1BindingSource.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">

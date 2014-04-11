@@ -1,3 +1,5 @@
+#define FDATA
+
 using TestDynamicBindingSourceForDataTable;
 using TestDynamicBindingSourceForDataTable.Design;
 using TestDynamicBindingSourceForDataTable.HTML.Pages;
@@ -19,7 +21,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+#if FDATA
 using FormsAutoSumGridSelection.Data;
+#endif
+
 using System.Data;
 
 namespace TestDynamicBindingSourceForDataTable
@@ -36,6 +41,7 @@ namespace TestDynamicBindingSourceForDataTable
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+#if FDATA
             #region ZooBookSheet1BindingSource
             global::FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource.CreateDataSource.With(
                 CreateDataSource =>
@@ -51,11 +57,18 @@ namespace TestDynamicBindingSourceForDataTable
                             Console.WriteLine("ZooBookSheet1BindingSource.CreateDataSource");
                             //Debugger.Break();
 
+                            base.AsyncDataSourceImport(
+                                r =>
+                                {
+                                    Console.WriteLine("by AsyncDataSourceImport");
 
-                            var r = new ZooBookSheet1Row { FooColumn = "foo1", GooColumn = 400 };
+                                    //var r = new ZooBookSheet1Row { FooColumn = "foo1", GooColumn = 400 };
 
 
-                            (x as DataTable).Rows.Add(r.FooColumn, r.GooColumn);
+                                    (x as DataTable).Rows.Add(r.FooColumn, r.GooColumn);
+                                }
+                            );
+
 
                             //(x as DataTable).ImportRow(
                             //    );
@@ -67,6 +80,8 @@ namespace TestDynamicBindingSourceForDataTable
                 }
             );
             #endregion
+#endif
+
 
             var content = new ApplicationControl();
 

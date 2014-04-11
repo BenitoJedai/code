@@ -128,6 +128,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDataSourcesToolbarDrag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestDataSourcesToolbarDrag.Designer.cs">
+      <DependentUpon>TestDataSourcesToolbarDrag.cs</DependentUpon>
+    </Compile>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationControl.cs">
@@ -154,6 +160,9 @@
     <EmbeddedResource Include="ApplicationControl.resx">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TestDataSourcesToolbarDrag.resx">
+      <DependentUpon>TestDataSourcesToolbarDrag.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -161,8 +170,9 @@
     <None Include="Properties\DataSources\MyDataSource.datasource" />
     <None Include="Properties\DataSources\MyOtherDataSource.datasource" />
     <None Include="Properties\DataSources\XZooBook+Sheet1BindingSource.datasource" />
-    <None Include="Properties\DataSources\ZooBook+Sheet1BindingSource.datasource" />
+    <None Include="Properties\DataSources\ZooBookSheet1BindingSource.datasource" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

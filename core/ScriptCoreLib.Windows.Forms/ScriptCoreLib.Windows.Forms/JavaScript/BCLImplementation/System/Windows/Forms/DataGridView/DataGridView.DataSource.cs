@@ -147,10 +147,107 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //this.myOtherDataSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.MyOtherDataSource);
                 //this.myOtherDataSourceBindingSource.Position = 0;
 
+                #region AtSourceBindingSourceDataSource
+                Action AtSourceBindingSourceDataSource = delegate
+                {
+                    // once only?
+
+                    //26:156ms  designer is still setting things up? view-source:37729
+                    //26:158ms InternalSetDataSource BindingSource { Type = <Namespace>.BindingSource, DataSource = <Namespace>.MyOtherDataSource } view-source:37770
+                    //26:161ms __BindingSource EndInit 
+
+                    // X:\jsc.svn\examples\javascript\forms\FormsAutoSumGridSelection\FormsAutoSumGridSelection\Data\MyOtherDataSource.cs
+
+                    //var isBindingSource = SourceBindingSource.DataSource;
+
+                    //Console.WriteLine("InternalSetDataSource BindingSource " + new
+                    //{
+                    //    //Type = SourceBindingSource.DataSource.GetType(),
+                    //    SourceBindingSource.DataSource
+                    //});
+
+                    var asType = SourceBindingSource.DataSource as Type;
+                    if (asType != null)
+                    {
+                        // 26:152ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } 
+                        // GenericObjectDataSource!
+                        // are we calling the ctor?
+                        var newT = Activator.CreateInstance(asType);
+
+                        Console.WriteLine(new { newT });
+                        // 26:149ms { newT = <Namespace>.MyDataSource } 
+
+                        //g = !giIABtC6ljmbrk8x5kK6iA(d, null);
+                        //if (!g)
+                        var asBindingSource = newT as BindingSource;
+                        if (asBindingSource != null)
+                        {
+                            // 26:142ms { DataSource =  } 
+
+                            var MyDataSource_DataSource = asBindingSource.DataSource;
+
+
+                            Console.WriteLine(new { MyDataSource_DataSource });
+
+                            if (MyDataSource_DataSource == null)
+                            {
+                                //26:156ms { newT = <Namespace>.MyDataSource } view-source:37380
+                                //26:156ms { MyDataSource_DataSource =  } view-source:37380
+                                //26:157ms InternalSetDataSource, null? 
+
+                                Console.WriteLine("InternalSetDataSource, null? ctor optimized out?");
+                                return;
+                            }
+
+                            // 26:180ms { MyDataSource_DataSource = <Namespace>.MyOtherDataSource } 
+
+
+                            var MyDataSource_DataSource_as_DataTable = MyDataSource_DataSource as DataTable;
+                            if (MyDataSource_DataSource_as_DataTable != null)
+                            {
+                                // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\ApplicationControl.Designer.cs
+                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
+
+                                // yay. we found the source.
+                                // we should learn to talk to IListSource
+
+                                InternalSetDataSource(MyDataSource_DataSource_as_DataTable);
+                                return;
+                            }
+
+                            if (MyDataSource_DataSource is IListSource)
+                            {
+                                // X:\jsc.svn\examples\javascript\forms\FormsAutoSumGridSelection\FormsAutoSumGridSelection\Data\MyDataSource.cs
+
+                                //26:3237ms InternalSetDataSource does not yet support IListSource 
+                                Console.WriteLine("InternalSetDataSource does not yet support IListSource");
+                                return;
+                            }
+
+
+                            //                                    26:140ms { MyDataSource_DataSource = [object Object] } view-source:37388
+                            //26:140ms InternalSetDataSource does not yet support ? 
+
+                            //Console.WriteLine("InternalSetDataSource activated " + new
+                            //{
+                            //    Type = asBindingSource.DataSource.GetType(),
+                            //    asBindingSource.DataSource
+                            //});
+                            Console.WriteLine("InternalSetDataSource does not yet support ?");
+                        }
+                    }
+
+                    //26:182ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } view-source:37770
+                    //26:185ms __BindingSource EndInit 
+
+                    // continue data binding?
+                };
+                #endregion
+
+
                 if (SourceBindingSource.DataSource == null)
                 {
                     Console.WriteLine(" designer is still setting things up?");
-
 
                     SourceBindingSource.DataSourceChanged +=
                         delegate
@@ -158,103 +255,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             if (SourceBindingSource.DataSource == null)
                                 return;
 
-                            // once only?
-
-                            //26:156ms  designer is still setting things up? view-source:37729
-                            //26:158ms InternalSetDataSource BindingSource { Type = <Namespace>.BindingSource, DataSource = <Namespace>.MyOtherDataSource } view-source:37770
-                            //26:161ms __BindingSource EndInit 
-
-                            // X:\jsc.svn\examples\javascript\forms\FormsAutoSumGridSelection\FormsAutoSumGridSelection\Data\MyOtherDataSource.cs
-
-                            //var isBindingSource = SourceBindingSource.DataSource;
-
-                            //Console.WriteLine("InternalSetDataSource BindingSource " + new
-                            //{
-                            //    //Type = SourceBindingSource.DataSource.GetType(),
-                            //    SourceBindingSource.DataSource
-                            //});
-
-                            var asType = SourceBindingSource.DataSource as Type;
-                            if (asType != null)
-                            {
-                                // 26:152ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } 
-                                // GenericObjectDataSource!
-                                // are we calling the ctor?
-                                var newT = Activator.CreateInstance(asType);
-
-                                Console.WriteLine(new { newT });
-                                // 26:149ms { newT = <Namespace>.MyDataSource } 
-
-                                //g = !giIABtC6ljmbrk8x5kK6iA(d, null);
-                                //if (!g)
-                                var asBindingSource = newT as BindingSource;
-                                if (asBindingSource != null)
-                                {
-                                    // 26:142ms { DataSource =  } 
-
-                                    var MyDataSource_DataSource = asBindingSource.DataSource;
-
-
-                                    Console.WriteLine(new { MyDataSource_DataSource });
-
-                                    if (MyDataSource_DataSource == null)
-                                    {
-                                        //26:156ms { newT = <Namespace>.MyDataSource } view-source:37380
-                                        //26:156ms { MyDataSource_DataSource =  } view-source:37380
-                                        //26:157ms InternalSetDataSource, null? 
-
-                                        Console.WriteLine("InternalSetDataSource, null? ctor optimized out?");
-                                        return;
-                                    }
-
-                                    // 26:180ms { MyDataSource_DataSource = <Namespace>.MyOtherDataSource } 
-
-
-                                    var MyDataSource_DataSource_as_DataTable = MyDataSource_DataSource as DataTable;
-                                    if (MyDataSource_DataSource_as_DataTable != null)
-                                    {
-                                        // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\ApplicationControl.Designer.cs
-                                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
-
-                                        // yay. we found the source.
-                                        // we should learn to talk to IListSource
-
-                                        InternalSetDataSource(MyDataSource_DataSource_as_DataTable);
-                                        return;
-                                    }
-
-                                    if (MyDataSource_DataSource is IListSource)
-                                    {
-                                        // X:\jsc.svn\examples\javascript\forms\FormsAutoSumGridSelection\FormsAutoSumGridSelection\Data\MyDataSource.cs
-
-                                        //26:3237ms InternalSetDataSource does not yet support IListSource 
-                                        Console.WriteLine("InternalSetDataSource does not yet support IListSource");
-                                        return;
-                                    }
-
-
-                                    //                                    26:140ms { MyDataSource_DataSource = [object Object] } view-source:37388
-                                    //26:140ms InternalSetDataSource does not yet support ? 
-
-                                    //Console.WriteLine("InternalSetDataSource activated " + new
-                                    //{
-                                    //    Type = asBindingSource.DataSource.GetType(),
-                                    //    asBindingSource.DataSource
-                                    //});
-                                    Console.WriteLine("InternalSetDataSource does not yet support ?");
-                                }
-                            }
-
-                            //26:182ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } view-source:37770
-                            //26:185ms __BindingSource EndInit 
-
-                            // continue data binding?
+                            AtSourceBindingSourceDataSource();
                         };
 
                     return;
                 }
 
 
+                AtSourceBindingSourceDataSource();
+                return;
             }
             #endregion
 
