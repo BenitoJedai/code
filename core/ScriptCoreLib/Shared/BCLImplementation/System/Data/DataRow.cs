@@ -28,32 +28,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             set
             {
 
-                //var c = this.InternalData.FirstOrDefault(k => k.Item1.ColumnName == column);
-
-                //if (c == null)
-                //{
-                //    var cc = new DataColumn { ColumnName = column };
-
-                //    this[cc] = value;
-
-                //    return;
-                //}
-
                 this[this.Table.Columns.IndexOf(column)] = value;
             }
 
             get
             {
-
                 return this[this.Table.Columns.IndexOf(column)];
-
-
-                //var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column);
-
-                //if (x == null)
-                //    return null;
-
-                //return x.Item2;
             }
         }
         //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRow.get_Item(System.Int32)]
@@ -71,7 +51,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
                 // X:\jsc.svn\examples\javascript\Test\TestManyTableRowsFromDataTable\TestManyTableRowsFromDataTable\Application.cs
                 // you better not reorder or reindex the columns!
 
-                //this[this.Table.Columns[column]] = value;
+                var args = new DataColumnChangeEventArgs(
+                    this,
+                    this.Table.Columns[column],
+                    value
+                );
+
+                //Console.WriteLine("before raise_ColumnChanged");
+
+                ((__DataTable)(object)this.Table).raise_ColumnChanged(args);
+
             }
         }
         public object this[DataColumn column]
@@ -79,39 +68,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
             get
             {
                 return this[this.Table.Columns.IndexOf(column)];
-
-
-                //var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column.ColumnName);
-
-                //if (x == null)
-                //    return null;
-
-                //return x.Item2;
             }
 
             set
             {
                 this[this.Table.Columns.IndexOf(column)] = value;
-                //var x = InternalData.FirstOrDefault(k => k.Item1.ColumnName == column.ColumnName);
 
-                //if (x != null)
-                //{
-                //    InternalData.Remove(x);
-                //}
-
-                //var args = new DataColumnChangeEventArgs(
-                //    this, column,
-                //    value
-                //);
-
-                ////Console.WriteLine("before raise_ColumnChanged");
-
-                //((__DataTable)(object)this.Table).raise_ColumnChanged(args);
-
-
-                //x = new Tuple<DataColumn, object>(column, args.ProposedValue);
-
-                //InternalData.Add(x);
             }
         }
 

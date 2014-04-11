@@ -22,7 +22,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         public void Add(DataTable table)
         {
-            InternalList.Add(table);
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.DataSource.cs
+
+          
+            this.InternalList.Add(table);
         }
 
         public static implicit operator DataTableCollection(__DataTableCollection e)

@@ -60,14 +60,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         }
 
 
+
+        #region ColumnChanged
+        public event DataColumnChangeEventHandler ColumnChanged;
         public void raise_ColumnChanged(DataColumnChangeEventArgs e)
         {
             if (this.ColumnChanged != null)
                 this.ColumnChanged(this, e);
         }
+        #endregion
 
 
-        public event DataColumnChangeEventHandler ColumnChanged;
         public event DataTableNewRowEventHandler TableNewRow;
         public event DataRowChangeEventHandler RowDeleted;
 
@@ -94,6 +97,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         public DataRow NewRow()
         {
             var r = new __DataRow { Table = this };
+
+            //Console.WriteLine("raise this.TableNewRow");
 
             if (this.TableNewRow != null)
                 this.TableNewRow(this, new DataTableNewRowEventArgs(r));
