@@ -196,10 +196,10 @@
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5});
             this.zooBookSheet1BindingSourceDataGridView.DataSource = this.zooBookSheet1BindingSourceBindingSource;
-            this.zooBookSheet1BindingSourceDataGridView.Location = new System.Drawing.Point(48, 135);
+            this.zooBookSheet1BindingSourceDataGridView.Location = new System.Drawing.Point(75, 101);
             this.zooBookSheet1BindingSourceDataGridView.Name = "zooBookSheet1BindingSourceDataGridView";
             this.zooBookSheet1BindingSourceDataGridView.RowTemplate.Height = 24;
-            this.zooBookSheet1BindingSourceDataGridView.Size = new System.Drawing.Size(580, 307);
+            this.zooBookSheet1BindingSourceDataGridView.Size = new System.Drawing.Size(567, 213);
             this.zooBookSheet1BindingSourceDataGridView.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
@@ -273,5 +273,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+
     }
 }
