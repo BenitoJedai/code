@@ -3,7 +3,7 @@ using ScriptCoreLib.Desktop.Forms.Extensions;
 using System;
 using ScriptCoreLib.Extensions;
 using System.Diagnostics;
-using FormsAutoSumGridSelection.Data;
+//using FormsAutoSumGridSelection.Data;
 using System.Data;
 
 
@@ -19,6 +19,7 @@ namespace TestDynamicBindingSourceForDataTable
             //var x =
             //    global::FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource.CreateDataSource();
 
+#if FDATA
             #region ZooBookSheet1BindingSource
             global::FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource.CreateDataSource.With(
                 CreateDataSource =>
@@ -50,13 +51,23 @@ namespace TestDynamicBindingSourceForDataTable
                 }
             );
             #endregion
+#endif
 
 
 
 #if DEBUG
-            DesktopFormsExtensions.Launch(
-                () => new ApplicationControl()
-            );
+            if (Debugger.IsAttached)
+            {
+                DesktopFormsExtensions.Launch(
+                    () => new ApplicationControl()
+                );
+            }
+
+            else
+            {
+                RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
+            }
+
 #else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
 #endif

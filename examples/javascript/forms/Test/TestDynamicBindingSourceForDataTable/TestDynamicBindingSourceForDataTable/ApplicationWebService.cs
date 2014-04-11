@@ -1,3 +1,4 @@
+using FormsAutoSumGridSelection.Data;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -18,16 +19,11 @@ namespace TestDynamicBindingSourceForDataTable
     /// </summary>
     public partial class ApplicationWebService : Component
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public async void AsyncDataSourceImport(Action<ZooBookSheet1Row> yield)
         {
-            // Send it back to the caller.
-            y(e);
-        }
+            var r = new ZooBookSheet1Row { FooColumn = "foo from server", GooColumn = 400 };
 
+            yield(r);
+        }
     }
 }

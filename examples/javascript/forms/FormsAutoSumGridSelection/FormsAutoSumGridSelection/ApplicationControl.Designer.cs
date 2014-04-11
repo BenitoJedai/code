@@ -19,14 +19,14 @@ namespace FormsAutoSumGridSelection
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.myDataSource1 = new FormsAutoSumGridSelection.Data.MyDataSource();
-            this.column1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.column2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.column3DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.myOtherDataSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.zooBookSheet1BindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.fooColumnDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gooColumnDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.keyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tagDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timestampDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.myDataSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.myOtherDataSourceBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -34,10 +34,12 @@ namespace FormsAutoSumGridSelection
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.column1DataGridViewTextBoxColumn,
-            this.column2DataGridViewTextBoxColumn,
-            this.column3DataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.myOtherDataSourceBindingSource;
+            this.fooColumnDataGridViewTextBoxColumn,
+            this.gooColumnDataGridViewTextBoxColumn,
+            this.keyDataGridViewTextBoxColumn,
+            this.tagDataGridViewTextBoxColumn,
+            this.timestampDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.zooBookSheet1BindingSourceBindingSource;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -45,32 +47,40 @@ namespace FormsAutoSumGridSelection
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // myDataSource1
+            // zooBookSheet1BindingSourceBindingSource
             // 
-            this.myDataSource1.Position = 0;
+            this.zooBookSheet1BindingSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource);
+            this.zooBookSheet1BindingSourceBindingSource.Position = 0;
             // 
-            // column1DataGridViewTextBoxColumn
+            // fooColumnDataGridViewTextBoxColumn
             // 
-            this.column1DataGridViewTextBoxColumn.DataPropertyName = "Column1";
-            this.column1DataGridViewTextBoxColumn.HeaderText = "Column1";
-            this.column1DataGridViewTextBoxColumn.Name = "column1DataGridViewTextBoxColumn";
+            this.fooColumnDataGridViewTextBoxColumn.DataPropertyName = "FooColumn";
+            this.fooColumnDataGridViewTextBoxColumn.HeaderText = "FooColumn";
+            this.fooColumnDataGridViewTextBoxColumn.Name = "fooColumnDataGridViewTextBoxColumn";
             // 
-            // column2DataGridViewTextBoxColumn
+            // gooColumnDataGridViewTextBoxColumn
             // 
-            this.column2DataGridViewTextBoxColumn.DataPropertyName = "Column2";
-            this.column2DataGridViewTextBoxColumn.HeaderText = "Column2";
-            this.column2DataGridViewTextBoxColumn.Name = "column2DataGridViewTextBoxColumn";
+            this.gooColumnDataGridViewTextBoxColumn.DataPropertyName = "GooColumn";
+            this.gooColumnDataGridViewTextBoxColumn.HeaderText = "GooColumn";
+            this.gooColumnDataGridViewTextBoxColumn.Name = "gooColumnDataGridViewTextBoxColumn";
             // 
-            // column3DataGridViewTextBoxColumn
+            // keyDataGridViewTextBoxColumn
             // 
-            this.column3DataGridViewTextBoxColumn.DataPropertyName = "Column3";
-            this.column3DataGridViewTextBoxColumn.HeaderText = "Column3";
-            this.column3DataGridViewTextBoxColumn.Name = "column3DataGridViewTextBoxColumn";
+            this.keyDataGridViewTextBoxColumn.DataPropertyName = "Key";
+            this.keyDataGridViewTextBoxColumn.HeaderText = "Key";
+            this.keyDataGridViewTextBoxColumn.Name = "keyDataGridViewTextBoxColumn";
             // 
-            // myOtherDataSourceBindingSource
+            // tagDataGridViewTextBoxColumn
             // 
-            this.myOtherDataSourceBindingSource.DataSource = typeof(FormsAutoSumGridSelection.Data.MyOtherDataSource);
-            this.myOtherDataSourceBindingSource.Position = 0;
+            this.tagDataGridViewTextBoxColumn.DataPropertyName = "Tag";
+            this.tagDataGridViewTextBoxColumn.HeaderText = "Tag";
+            this.tagDataGridViewTextBoxColumn.Name = "tagDataGridViewTextBoxColumn";
+            // 
+            // timestampDataGridViewTextBoxColumn
+            // 
+            this.timestampDataGridViewTextBoxColumn.DataPropertyName = "Timestamp";
+            this.timestampDataGridViewTextBoxColumn.HeaderText = "Timestamp";
+            this.timestampDataGridViewTextBoxColumn.Name = "timestampDataGridViewTextBoxColumn";
             // 
             // ApplicationControl
             // 
@@ -79,8 +89,7 @@ namespace FormsAutoSumGridSelection
             this.Size = new System.Drawing.Size(532, 298);
             this.Load += new System.EventHandler(this.ApplicationControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.myDataSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.myOtherDataSourceBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -100,11 +109,12 @@ namespace FormsAutoSumGridSelection
         private DataGridViewTextBoxColumn rowStateDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn tableDataGridViewTextBoxColumn;
         private DataGridViewCheckBoxColumn hasErrorsDataGridViewCheckBoxColumn;
-        private DataGridViewTextBoxColumn column1DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn column2DataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn column3DataGridViewTextBoxColumn;
-        private Data.MyDataSource myDataSource1;
-        private BindingSource myOtherDataSourceBindingSource;
+        private DataGridViewTextBoxColumn fooColumnDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn gooColumnDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn tagDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn timestampDataGridViewTextBoxColumn;
+        private BindingSource zooBookSheet1BindingSourceBindingSource;
 
     }
 }
