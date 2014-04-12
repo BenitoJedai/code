@@ -31,5 +31,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public virtual Image BackgroundImage { get; set; }
 
         public virtual Image Image { get; set; }
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_RightToLeftAutoMirrorImage(System.Boolean)]
+        public bool RightToLeftAutoMirrorImage { get; set; }
+
+        public string ToolTipText { get; set; }
+
+        public string AccessibleName { get; set; }
+
+        public bool AutoSize { get; set; }
+
+        public virtual bool Enabled { get; set; }
     }
 }
