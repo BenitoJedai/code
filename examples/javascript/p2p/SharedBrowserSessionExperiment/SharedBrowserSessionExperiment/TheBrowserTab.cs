@@ -35,5 +35,11 @@ namespace SharedBrowserSessionExperiment
                 navigationOrdersNavigateBindingSourceBindingSource.Position
             }.ToString();
         }
+
+        private void TheBrowserTab_Load(object sender, EventArgs e)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Resources\ResourceManager.cs
+            //script: error JSC1000: No implementation found for this native method, please implement [System.Resources.ResourceManager.GetObject(System.String)]
+        }
     }
 }

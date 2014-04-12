@@ -24,6 +24,7 @@ namespace SharedBrowserSessionExperiment
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+    
         /// <summary>
         /// This is a javascript application.
         /// </summary>

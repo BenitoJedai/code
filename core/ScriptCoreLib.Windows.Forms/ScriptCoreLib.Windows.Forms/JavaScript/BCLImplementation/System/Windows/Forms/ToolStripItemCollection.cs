@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripItemCollection))]
-    internal class __ToolStripItemCollection : __ArrangedElementCollection
+    public class __ToolStripItemCollection : __ArrangedElementCollection
     {
         public List<ToolStripItem> InternalItems = new List<ToolStripItem>();
 

@@ -27,6 +27,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Resources
 
         public static event Action<string, Assembly, string, Action<object>> InternalGetObject;
 
+        // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
+        public virtual object GetObject(string name)
+        {
+            return GetObject(name, default(CultureInfo));
+        }
+
         public virtual object GetObject(string name, CultureInfo culture)
         {
             Console.WriteLine("__ResourceManager.GetObject " + new { name, culture });

@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.Layout
 {
     [Script(Implements = typeof(global::System.Windows.Forms.Layout.ArrangedElementCollection))]
-    internal class __ArrangedElementCollection 
+    public class __ArrangedElementCollection 
     {
         public virtual int Count
         {
