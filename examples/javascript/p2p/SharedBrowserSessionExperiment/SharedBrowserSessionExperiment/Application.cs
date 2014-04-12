@@ -117,8 +117,9 @@ namespace SharedBrowserSessionExperiment
             // or shall it ask consent as the license you install the nuget?
             #endregion
 
-            new TheBrowserTab().With(
-                async tab =>
+            //new TheBrowserTab().With(
+            new PositionsWatchdog().With(
+                async w =>
                 {
                     // um do xlsx
                     // already support
@@ -137,7 +138,12 @@ namespace SharedBrowserSessionExperiment
 
                     //tab.Show();
 
-                    await tab.ShowAsync();
+                    w.Opacity = 0.5;
+
+                    w.StartPosition = FormStartPosition.Manual;
+                    w.Left = 0;
+
+                    await w.ShowAsync();
 
                     // reload ?
 

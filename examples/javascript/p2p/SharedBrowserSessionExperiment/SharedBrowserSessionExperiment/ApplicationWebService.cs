@@ -84,6 +84,11 @@ namespace SharedBrowserSessionExperiment
         }
 
 
+        public async Task<NavigationOrdersPositionsKey> InsertPosition(NavigationOrdersPositionsRow r)
+        {
+            //return new NavigationOrders.Navigate() += r;
+            return new NavigationOrders.Positions().Insert(r);
+        }
 
 
         public void Dispose()
