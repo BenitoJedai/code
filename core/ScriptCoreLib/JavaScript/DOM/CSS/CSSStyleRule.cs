@@ -878,6 +878,17 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // https://www.w3.org/community/webed/wiki/Advanced_CSS_selectors
 
+
+
+        public CSSStyleRuleMonkier indeterminate
+        {
+            get
+            {
+                return this[":indeterminate"];
+            }
+        }
+
+
         public CSSStyleRuleMonkier @checked
         {
             get

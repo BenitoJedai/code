@@ -24,7 +24,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        IHTMLInput check;
+        IHTMLInput InternalInputElement;
         IHTMLLabel label;
 
 
@@ -34,11 +34,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget = new IHTMLDiv();
             HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
-            check = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox, "");
-            check.style.margin = "0";
-            check.style.verticalAlign = "middle";
+            InternalInputElement = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox, "");
+            InternalInputElement.style.margin = "0";
+            InternalInputElement.style.verticalAlign = "middle";
 
-            label = new IHTMLLabel("", check);
+            label = new IHTMLLabel("", InternalInputElement);
             label.style.verticalAlign = "middle";
             label.style.marginLeft = "0.5em";
 
@@ -48,7 +48,50 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     e.PreventDefault();
                 };
 
-            HTMLTarget.appendChild(check, label);
+            this.CheckStateChanged +=
+                delegate
+                {
+                    if (this.ThreeState)
+                    {
+                        this.InternalInputElement.indeterminate = (this.InternalCheckState == global::System.Windows.Forms.CheckState.Indeterminate);
+                    }
+                };
+
+            this.InternalInputElement.onchange +=
+                e =>
+                {
+                    // http://shamsmi.blogspot.com/2008/12/tri-state-checkbox-using-javascript.html
+
+
+
+                    if (this.ThreeState)
+                    {
+                        if (this.InternalCheckState == global::System.Windows.Forms.CheckState.Checked)
+                        {
+
+                            // the 3rd mode
+                            // http://jsfiddle.net/ysangkok/UhQc8/
+
+                            //InternalInputElement.style.Opacity = 0.5;
+                            //e.preventDefault();
+                            //e.stopPropagation();
+                            this.CheckState = global::System.Windows.Forms.CheckState.Indeterminate;
+                            return;
+                        }
+
+                    }
+
+
+                    if (this.InternalCheckState == global::System.Windows.Forms.CheckState.Unchecked)
+                    {
+                        this.CheckState = global::System.Windows.Forms.CheckState.Checked;
+                        return;
+                    }
+
+                    this.CheckState = global::System.Windows.Forms.CheckState.Unchecked;
+
+                };
+            HTMLTarget.appendChild(InternalInputElement, label);
 
             this.InternalSetDefaultFont();
         }
@@ -65,12 +108,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (_CheckAlign == ContentAlignment.MiddleRight)
                 {
-                    HTMLTarget.appendChild(label, check);
+                    HTMLTarget.appendChild(label, InternalInputElement);
                     HTMLTarget.style.textAlign = ScriptCoreLib.JavaScript.DOM.IStyle.TextAlignEnum.right;
                 }
                 else
                 {
-                    HTMLTarget.appendChild(check, label);
+                    HTMLTarget.appendChild(InternalInputElement, label);
                     HTMLTarget.style.textAlign = ScriptCoreLib.JavaScript.DOM.IStyle.TextAlignEnum.left;
                 }
             }
@@ -82,11 +125,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return !check.disabled;
+                return !InternalInputElement.disabled;
             }
             set
             {
-                check.disabled = !value;
+                InternalInputElement.disabled = !value;
             }
         }
         public override string Text
@@ -104,24 +147,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public bool Checked
         {
-            get { return check.@checked; }
-            set { check.@checked = value; }
+            get { return InternalInputElement.@checked; }
+            set { InternalInputElement.@checked = value; }
         }
+
+        public CheckState InternalCheckState;
 
         public CheckState CheckState
         {
-            get
-            {
-                if (Checked)
-                    return CheckState.Checked;
-
-                return CheckState.Unchecked;
-            }
+            get { return InternalCheckState; }
             set
             {
-                Checked = value == CheckState.Checked;
+                this.InternalCheckState = value;
+
+                if (CheckStateChanged != null)
+                    CheckStateChanged(this, new EventArgs());
+
             }
         }
+
+
+
+        public bool ThreeState { get; set; }
+
+        // X:\jsc.svn\examples\javascript\forms\test\TestTriState\TestTriState\ApplicationControl.Designer.cs
+        public event EventHandler CheckStateChanged;
+
 
         #region CheckedChanged
         InternalHandler<global::System.EventHandler, DOMHandler> _CheckedChanged = new InternalHandler<global::System.EventHandler, DOMHandler>();
@@ -142,7 +193,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         };
 
-                    this.check.onchange += _CheckedChanged.EventInternal;
+                    this.InternalInputElement.onchange += _CheckedChanged.EventInternal;
                 }
 
             }
@@ -152,7 +203,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _CheckedChanged.Event -= value;
                 if (!_CheckedChanged)
                 {
-                    this.check.onchange -= _CheckedChanged.EventInternal;
+                    this.InternalInputElement.onchange -= _CheckedChanged.EventInternal;
                     _CheckedChanged.EventInternal = null;
                 }
 
