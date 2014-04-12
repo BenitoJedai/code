@@ -20,13 +20,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __Binding(string propertyName, object dataSource, string dataMember)
             : this(propertyName, dataSource, dataMember, default(bool), default(DataSourceUpdateMode))
         {
+        }
 
-
-            // now what?
+        public __Binding(string propertyName, object dataSource, string dataMember, bool formattingEnabled)
+            : this(propertyName, dataSource, dataMember, formattingEnabled, default(DataSourceUpdateMode))
+        {
         }
 
         public bool FormattingEnabled { get; set; }
         public DataSourceUpdateMode DataSourceUpdateMode { get; set; }
+
+        //0200001e SharedBrowserSessionExperiment.TheBrowserTab
+        //script: error JSC1000: Missing Script Attribute? Native constructor was invoked, please implement [System.Windows.Forms.Binding..ctor(System.String, System.Object, System.String, System.Boolean)]
+        // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
 
         public __Binding(string propertyName, object dataSource, string dataMember, bool formattingEnabled, DataSourceUpdateMode dataSourceUpdateMode)
         {

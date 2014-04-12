@@ -18,5 +18,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public string Name { get; set; }
 
         public virtual Size Size { get; set; }
+
+
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_DisplayStyle(System.Windows.Forms.ToolStripItemDisplayStyle)]
+
+        public virtual ToolStripItemDisplayStyle DisplayStyle { get; set; }
+
+        // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140412
+        // do we support forms images yet?
+        public virtual Image BackgroundImage { get; set; }
+
+        public virtual Image Image { get; set; }
     }
 }
