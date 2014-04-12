@@ -19,7 +19,13 @@ namespace SharedBrowserSessionExperiment
     /// </summary>
     public class ApplicationWebService : Component, IDisposable
     {
-
+        // Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+        // Could not load file or assembly 'System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
+        void References()
+        {
+            { var r = typeof(global::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambdaZ); }
+            { var r = typeof(global::System.Data.SQLite.SQLiteConnection); }
+        }
 
         public int Retry = 3333;
 

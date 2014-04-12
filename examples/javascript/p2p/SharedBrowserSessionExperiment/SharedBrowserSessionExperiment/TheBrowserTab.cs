@@ -66,6 +66,8 @@ namespace SharedBrowserSessionExperiment
 
             var r = new NavigationOrdersNavigateRow { urlString = (string)e.Data.GetData("Text") };
 
+            if (r.urlString.StartsWith("https://www.youtube.com/watch?v="))
+                r.urlString = "https://www.youtube.com/embed/" + r.urlString.SkipUntilOrEmpty("https://www.youtube.com/watch?v=");
 
             //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.WebBrowser.set_ScriptErrorsSuppressed(System.Boolean)]
 
