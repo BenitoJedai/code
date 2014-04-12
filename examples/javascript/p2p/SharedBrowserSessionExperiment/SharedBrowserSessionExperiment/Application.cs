@@ -101,7 +101,9 @@ namespace SharedBrowserSessionExperiment
 
             // we have to be .4.5!
             // !!! haha. we have two different styles in use here:
-            FormStyler.AtFormCreated += System.Windows.Forms.FormStylerLikeChrome.LikeChrome;
+            //FormStyler.AtFormCreated += System.Windows.Forms.FormStylerLikeChrome.LikeChrome;
+
+            FormStyler.AtFormCreated = System.Windows.Forms.FormStylerLikeChrome.LikeChrome;
 
             // what about ordering of such auto linkers?
             // this will be a security issue, as no manual inspection

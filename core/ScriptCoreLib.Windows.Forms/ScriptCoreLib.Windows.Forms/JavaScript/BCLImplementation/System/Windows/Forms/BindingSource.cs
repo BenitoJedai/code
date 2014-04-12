@@ -142,5 +142,57 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             return null;
         }
+
+
+
+        public virtual object this[int index]
+        {
+            get
+            {
+                var x = this.ActivatedDataSource;
+
+                var asBindingSource = x as BindingSource;
+                if (asBindingSource != null)
+                {
+                    return asBindingSource[index];
+                }
+
+                var asDataTable = x as DataTable;
+                if (asDataTable != null)
+                {
+                    //asDataTable.DefaultView[
+                    var rr = asDataTable.Rows[index];
+                    return new __DataRowView { Row = rr };
+                }
+
+                return null;
+            }
+            set
+            {
+                // ?
+            }
+        }
+
+        public virtual int Count
+        {
+            get
+            {
+                var x = this.ActivatedDataSource;
+
+                var asBindingSource = x as BindingSource;
+                if (asBindingSource != null)
+                {
+                    return asBindingSource.Count;
+                }
+
+                var asDataTable = x as DataTable;
+                if (asDataTable != null)
+                {
+                    return asDataTable.Rows.Count;
+                }
+
+                return 0;
+            }
+        }
     }
 }
