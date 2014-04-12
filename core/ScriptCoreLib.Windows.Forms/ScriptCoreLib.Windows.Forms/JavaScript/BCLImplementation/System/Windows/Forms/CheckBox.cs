@@ -53,6 +53,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     if (this.ThreeState)
                     {
+                        // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html#dom-input-indeterminate
                         this.InternalInputElement.indeterminate = (this.InternalCheckState == global::System.Windows.Forms.CheckState.Indeterminate);
                     }
                 };
@@ -68,13 +69,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         if (this.InternalCheckState == global::System.Windows.Forms.CheckState.Checked)
                         {
-
-                            // the 3rd mode
+                            // http://jsfiddle.net/chriscoyier/mGg85/2/
                             // http://jsfiddle.net/ysangkok/UhQc8/
 
-                            //InternalInputElement.style.Opacity = 0.5;
                             //e.preventDefault();
                             //e.stopPropagation();
+
+                            // next step is to go from checked to unchecked!
+                            this.InternalInputElement.@checked = true;
                             this.CheckState = global::System.Windows.Forms.CheckState.Indeterminate;
                             return;
                         }

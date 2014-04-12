@@ -884,6 +884,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             get
             {
+                // X:\jsc.svn\examples\javascript\forms\test\TestTriState\TestTriState\Application.cs
                 return this[":indeterminate"];
             }
         }
