@@ -144,7 +144,7 @@ namespace SharedBrowserSessionExperiment
 
             await this.applicationWebService1.BindingSourceSynchonization();
 
-            var rows = this.navigationOrdersNavigateBindingSourceBindingSource.AsEnumerableOfDataRow().Select(
+            var rows0 = this.navigationOrdersNavigateBindingSourceBindingSource.AsEnumerableOfDataRow().Select(
                 // NavigationOrdersNavigateRow is not bound to DataRow
                 // it could, tho.. int the future versions.
                 x => new { x, y = (NavigationOrdersNavigateRow)x }
@@ -153,14 +153,91 @@ namespace SharedBrowserSessionExperiment
             this.applicationWebService1.RowsWithoutKeys.WithEach(
                 r =>
                 {
+                    Console.WriteLine("about to update form server " + new { r.Key });
+
                     // http://msdn.microsoft.com/en-us/magazine/cc163974.aspx
 
-                    (from xx in rows
+                    (from xx in rows0
                      where xx.y.urlString == r.urlString
                      where xx.y.Key == default(NavigationOrdersNavigateKey)
                      select xx
-                        ).WithEach(xx => xx.x["Key"] = r.Key);
+                        ).WithEach(xx =>
+                            xx.x["Key"] = r.Key
+                            );
 
+                }
+            );
+
+            await new Form { Text = "continue?" }.ShowAsync();
+
+            var rows = this.navigationOrdersNavigateBindingSourceBindingSource.AsEnumerableOfDataRow().Select(
+                // NavigationOrdersNavigateRow is not bound to DataRow
+                // it could, tho.. int the future versions.
+                    x =>
+                    {
+                        var xx = new { x, y = (NavigationOrdersNavigateRow)x };
+
+                        // string or not?
+                        var x_Key = x["Key"];
+                        var x_Key_isString = x_Key is string;
+
+                        // x_Key = "1"
+                        Console.WriteLine("after update " + new { x_Key, x_Key_isString, xx.y.Key });
+
+                        return xx;
+                    }
+              );
+            // about to add form server { Key = 3 }
+            //after update { x_Key = 1, x_KeyType = System.String, Key = 1 }
+            //{ Key = 1 } eq { Key = 3 }
+            //after update { x_Key = 2, x_KeyType = System.String, Key = 2 }
+            //{ Key = 2 } eq { Key = 3 }
+
+            //61:11195ms about to add form server { Key = 3 }
+            //61:11196ms after update { x_Key = 1, x_KeyType = <Namespace>., Key = 0 }
+            //61:11196ms { Key = 0 } eq { Key = 3 }
+            //61:11196ms after update { x_Key = 2, x_KeyType = <Namespace>., Key = 0 }
+            //61:11196ms { Key = 0 } eq { Key = 3 }
+
+            this.applicationWebService1.IncrementalSyncTake.WithEach(
+                r =>
+                {
+                    Console.WriteLine("about to add form server " + new { r.Key });
+
+                    // either it exists or we need to add a new row!
+                    var xx = rows.FirstOrDefault(x =>
+                        {
+                            Console.WriteLine(new { x.y.Key } + " eq " + new { r.Key });
+
+                            return x.y.Key == r.Key;
+                        }
+                    );
+
+                    if (xx == null)
+                    {
+                        // not found
+                        (this.navigationOrdersNavigateBindingSourceBindingSource.AddNew() as DataRowView).With(
+                            z =>
+                            {
+                                var x = z.Row;
+                                var y = (NavigationOrdersNavigateRow)x;
+
+                                xx = new { x, y };
+
+                                // set the key
+                                xx.x["Key"] = r.Key;
+                            }
+                        );
+                    }
+
+                    // server overrides local data
+                    xx.x["urlString"] = r.urlString;
+
+                    // skip this key next time?
+                    if (r.Key > this.applicationWebService1.IncrementalSyncSkip)
+                        this.applicationWebService1.IncrementalSyncSkip = r.Key;
+
+                    // we dont have updates tho
                 }
             );
         }
