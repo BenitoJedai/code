@@ -76,7 +76,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public Queue<IHTMLTableRow> InternalPrerenderZeroRows = new Queue<IHTMLTableRow>();
         public Queue<IHTMLTableRow> InternalPrerenderRows = new Queue<IHTMLTableRow>();
 
-        private void InternalSetDataSource(object value)
+
+        public int InternalPosition
+        {
+            get
+            {
+
+                if (this.SelectedRows.Count == 0)
+                {
+                    return -1;
+                }
+
+                return this.SelectedRows[0].Index;
+            }
+        }
+
+        private void InternalSetDataSource(object value, object CurrentDataSourceSync = null)
         {
             // 16241ms event: dataGridView1 set DataSource { ColumnIndex = 30, SourceRowIndex = 8, ElapsedMilliseconds = 1575, a = 175 } 
 
@@ -99,7 +114,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // );
 
             // this cost 6h of work to fix the sync timing issue
-            var CurrentDataSourceSync = new object();
+
+            if (CurrentDataSourceSync == null)
+                CurrentDataSourceSync = new object();
             InternalDataSourceSync = CurrentDataSourceSync;
 
             this.InternalDataSource = value;
@@ -150,6 +167,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 #region AtSourceBindingSourceDataSource
                 Action AtSourceBindingSourceDataSource = delegate
                 {
+                    // X:\jsc.svn\examples\javascript\forms\FormsDualDataSource\FormsDualDataSource\ApplicationControl.cs
+
                     // once only?
 
                     //26:156ms  designer is still setting things up? view-source:37729
@@ -160,82 +179,119 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     //var isBindingSource = SourceBindingSource.DataSource;
 
-                    //Console.WriteLine("InternalSetDataSource BindingSource " + new
-                    //{
-                    //    //Type = SourceBindingSource.DataSource.GetType(),
-                    //    SourceBindingSource.DataSource
-                    //});
-
-                    var asType = SourceBindingSource.DataSource as Type;
-                    if (asType != null)
+                    Console.WriteLine("InternalSetDataSource BindingSource " + new
                     {
-                        // 26:152ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } 
-                        // GenericObjectDataSource!
-                        // are we calling the ctor?
-                        var newT = Activator.CreateInstance(asType);
+                        //Type = SourceBindingSource.DataSource.GetType(),
+                        SourceBindingSource.DataSource
+                    });
 
-                        Console.WriteLine(new { newT });
-                        // 26:149ms { newT = <Namespace>.MyDataSource } 
+                    object SourceBindingSource_DataSource_asDataTable = SourceBindingSource.DataSource as DataTable;
 
-                        //g = !giIABtC6ljmbrk8x5kK6iA(d, null);
-                        //if (!g)
-                        var asBindingSource = newT as BindingSource;
-                        if (asBindingSource != null)
+
+                    //Console.WriteLine(
+                    //    new { SourceBindingSource_DataSource_asDataTable }
+                    //    );
+
+                    // X:\jsc.svn\examples\javascript\forms\FormsDualDataSource\FormsDualDataSource\ApplicationControl.cs
+
+
+                    if (SourceBindingSource_DataSource_asDataTable == null)
+                    {
+                        // not set by the designer?
+
+                        #region asType
+                        // tested by?
+                        var asType = SourceBindingSource.DataSource as Type;
+                        if (asType != null)
                         {
-                            // 26:142ms { DataSource =  } 
+                            // 26:152ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } 
+                            // GenericObjectDataSource!
+                            // are we calling the ctor?
+                            var newT = Activator.CreateInstance(asType);
 
-                            var MyDataSource_DataSource = asBindingSource.DataSource;
+                            Console.WriteLine(new { newT });
+                            // 26:149ms { newT = <Namespace>.MyDataSource } 
 
-
-                            Console.WriteLine(new { MyDataSource_DataSource });
-
-                            if (MyDataSource_DataSource == null)
+                            var asBindingSource = newT as BindingSource;
+                            if (asBindingSource != null)
                             {
-                                //26:156ms { newT = <Namespace>.MyDataSource } view-source:37380
-                                //26:156ms { MyDataSource_DataSource =  } view-source:37380
-                                //26:157ms InternalSetDataSource, null? 
+                                SourceBindingSource_DataSource_asDataTable = asBindingSource.DataSource as DataTable;
 
-                                Console.WriteLine("InternalSetDataSource, null? ctor optimized out?");
-                                return;
                             }
-
-                            // 26:180ms { MyDataSource_DataSource = <Namespace>.MyOtherDataSource } 
-
-
-                            var MyDataSource_DataSource_as_DataTable = MyDataSource_DataSource as DataTable;
-                            if (MyDataSource_DataSource_as_DataTable != null)
-                            {
-                                // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\ApplicationControl.Designer.cs
-                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
-
-                                // yay. we found the source.
-                                // we should learn to talk to IListSource
-
-                                InternalSetDataSource(MyDataSource_DataSource_as_DataTable);
-                                return;
-                            }
-
-                            if (MyDataSource_DataSource is IListSource)
-                            {
-                                // X:\jsc.svn\examples\javascript\forms\FormsAutoSumGridSelection\FormsAutoSumGridSelection\Data\MyDataSource.cs
-
-                                //26:3237ms InternalSetDataSource does not yet support IListSource 
-                                Console.WriteLine("InternalSetDataSource does not yet support IListSource");
-                                return;
-                            }
-
-
-                            //                                    26:140ms { MyDataSource_DataSource = [object Object] } view-source:37388
-                            //26:140ms InternalSetDataSource does not yet support ? 
-
-                            //Console.WriteLine("InternalSetDataSource activated " + new
-                            //{
-                            //    Type = asBindingSource.DataSource.GetType(),
-                            //    asBindingSource.DataSource
-                            //});
-                            Console.WriteLine("InternalSetDataSource does not yet support ?");
                         }
+                        #endregion
                     }
+
+                    //Console.WriteLine(new { MyDataSource_DataSource = SourceBindingSource_DataSource_asDataTable });
+
+                    if (SourceBindingSource_DataSource_asDataTable == null)
+                        return;
+
+
+                    #region DoSyncPosition
+                    Action DoSyncPosition = delegate
+                    {
+                        //Console.WriteLine(" we can sync the selection!");
+
+                        // should the grid be destroying the selection on blur or keep it actually?
+                        this.SelectionChanged +=
+                            delegate
+                            {
+                                var isCurrentDataSourceSync = CurrentDataSourceSync == InternalDataSourceSync;
+
+                                //Console.WriteLine("SelectionChanged " + new { isCurrentDataSourceSync, this.InternalPosition });
+
+                                // some other datasource?
+                                if (!isCurrentDataSourceSync)
+                                    return;
+
+                                // grid is letting bindingsource know what was selected!
+
+                                SourceBindingSource.Position = this.InternalPosition;
+                            };
+                    };
+                    #endregion
+
+
+                    DoSyncPosition();
+
+                    // 26:180ms { MyDataSource_DataSource = <Namespace>.MyOtherDataSource } 
+
+                    #region MyDataSource_DataSource_as_DataTable
+                    var MyDataSource_DataSource_as_DataTable = SourceBindingSource_DataSource_asDataTable as DataTable;
+                    if (MyDataSource_DataSource_as_DataTable != null)
+                    {
+                        // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\ApplicationControl.Designer.cs
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
+
+                        // yay. we found the source.
+                        // we should learn to talk to IListSource
+
+                        // keep sync object!
+                        InternalSetDataSource(MyDataSource_DataSource_as_DataTable, CurrentDataSourceSync);
+                        return;
+                    }
+                    #endregion
+
+                    if (SourceBindingSource_DataSource_asDataTable is IListSource)
+                    {
+                        // X:\jsc.svn\examples\javascript\forms\FormsAutoSumGridSelection\FormsAutoSumGridSelection\Data\MyDataSource.cs
+
+                        //26:3237ms InternalSetDataSource does not yet support IListSource 
+                        Console.WriteLine("InternalSetDataSource does not yet support IListSource");
+                        return;
+                    }
+
+
+                    //                                    26:140ms { MyDataSource_DataSource = [object Object] } view-source:37388
+                    //26:140ms InternalSetDataSource does not yet support ? 
+
+                    //Console.WriteLine("InternalSetDataSource activated " + new
+                    //{
+                    //    Type = asBindingSource.DataSource.GetType(),
+                    //    asBindingSource.DataSource
+                    //});
+                    Console.WriteLine("InternalSetDataSource does not yet support ?");
 
                     //26:182ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } view-source:37770
                     //26:185ms __BindingSource EndInit 

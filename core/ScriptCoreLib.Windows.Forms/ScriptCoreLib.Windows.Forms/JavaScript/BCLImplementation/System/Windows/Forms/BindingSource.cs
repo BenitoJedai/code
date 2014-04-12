@@ -28,9 +28,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
         }
 
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.BindingSource.set_Position(System.Int32)]
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewColumn.set_DataPropertyName(System.String)]
-        public int Position { get; set; }
+        #region Position
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.DataSource.cs
+
+        public int InternalPosition;
+        public int Position
+        {
+            get
+            {
+                return InternalPosition;
+            }
+            set
+            {
+                InternalPosition = value;
+                if (PositionChanged != null)
+                    PositionChanged(this, new EventArgs());
+
+            }
+        }
+
+        // X:\jsc.svn\examples\javascript\forms\FormsDualDataSource\FormsDualDataSource\ApplicationControl.cs
+        public event EventHandler PositionChanged;
+        #endregion
+
+
 
         #region DataSource
         public object InternalDataSource;
