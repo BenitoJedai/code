@@ -19,7 +19,8 @@ namespace SharedBrowserSessionExperiment
 
             if (Debugger.IsAttached)
             {
-                new TheBrowserTab().ShowDialog();
+                //new TheBrowserTab().ShowDialog();
+                new PositionsWatchdog().ShowDialog();
                 return;
             }
 #endif

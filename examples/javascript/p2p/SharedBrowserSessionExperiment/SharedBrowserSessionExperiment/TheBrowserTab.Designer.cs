@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TheBrowserTab));
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.navigationOrdersNavigateBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -48,24 +49,23 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.navigationOrdersNavigateBindingSourceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.navigationOrdersNavigateBindingSourceDataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button3 = new System.Windows.Forms.Button();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.navigationOrdersNavigateBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button3 = new System.Windows.Forms.Button();
             this.applicationWebService1 = new SharedBrowserSessionExperiment.ApplicationWebService();
             this.button4 = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingNavigator)).BeginInit();
             this.navigationOrdersNavigateBindingSourceBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -77,12 +77,19 @@
             this.webBrowser1.Size = new System.Drawing.Size(796, 255);
             this.webBrowser1.TabIndex = 0;
             // 
+            // navigationOrdersNavigateBindingSourceBindingSource
+            // 
+            this.navigationOrdersNavigateBindingSourceBindingSource.DataSource = typeof(SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource);
+            this.navigationOrdersNavigateBindingSourceBindingSource.Position = 0;
+            this.navigationOrdersNavigateBindingSourceBindingSource.PositionChanged += new System.EventHandler(this.navigationOrdersNavigateBindingSourceBindingSource_PositionChanged);
+            // 
             // textBox1
             // 
             this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.navigationOrdersNavigateBindingSourceBindingSource, "urlString", true));
-            this.textBox1.Location = new System.Drawing.Point(82, 42);
+            this.textBox1.Location = new System.Drawing.Point(242, 42);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(40, 3, 3, 3);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(726, 22);
+            this.textBox1.Size = new System.Drawing.Size(566, 22);
             this.textBox1.TabIndex = 1;
             // 
             // button1
@@ -129,7 +136,7 @@
             this.navigationOrdersNavigateBindingSourceBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.navigationOrdersNavigateBindingSourceBindingNavigator.Name = "navigationOrdersNavigateBindingSourceBindingNavigator";
             this.navigationOrdersNavigateBindingSourceBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.navigationOrdersNavigateBindingSourceBindingNavigator.Size = new System.Drawing.Size(828, 27);
+            this.navigationOrdersNavigateBindingSourceBindingNavigator.Size = new System.Drawing.Size(846, 27);
             this.navigationOrdersNavigateBindingSourceBindingNavigator.TabIndex = 4;
             this.navigationOrdersNavigateBindingSourceBindingNavigator.Text = "bindingNavigator1";
             this.navigationOrdersNavigateBindingSourceBindingNavigator.RefreshItems += new System.EventHandler(this.navigationOrdersNavigateBindingSourceBindingNavigator_RefreshItems);
@@ -244,6 +251,31 @@
             this.navigationOrdersNavigateBindingSourceDataGridView.Size = new System.Drawing.Size(796, 137);
             this.navigationOrdersNavigateBindingSourceDataGridView.TabIndex = 5;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "urlString";
+            this.dataGridViewTextBoxColumn1.HeaderText = "urlString";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 400;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Key";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Key";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Tag";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Tag";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "Timestamp";
+            this.dataGridViewTextBoxColumn4.HeaderText = "Timestamp";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AutoGenerateColumns = false;
@@ -259,16 +291,6 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(796, 137);
             this.dataGridView1.TabIndex = 6;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(654, 60);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(154, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "simulate drop";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // dataGridViewTextBoxColumn5
             // 
@@ -295,44 +317,23 @@
             this.dataGridViewTextBoxColumn8.HeaderText = "Timestamp";
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             // 
-            // navigationOrdersNavigateBindingSourceBindingSource
+            // button3
             // 
-            this.navigationOrdersNavigateBindingSourceBindingSource.DataSource = typeof(SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource);
-            this.navigationOrdersNavigateBindingSourceBindingSource.Position = 0;
-            this.navigationOrdersNavigateBindingSourceBindingSource.PositionChanged += new System.EventHandler(this.navigationOrdersNavigateBindingSourceBindingSource_PositionChanged);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "urlString";
-            this.dataGridViewTextBoxColumn1.HeaderText = "urlString";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 400;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "Key";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Key";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Tag";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Tag";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "Timestamp";
-            this.dataGridViewTextBoxColumn4.HeaderText = "Timestamp";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.button3.Location = new System.Drawing.Point(654, 60);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(154, 23);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "simulate drop";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(466, 60);
+            this.button4.Location = new System.Drawing.Point(82, 42);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(154, 23);
             this.button4.TabIndex = 8;
-            this.button4.Text = "ask for keys";
+            this.button4.Text = "refresh";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -341,7 +342,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(828, 652);
+            this.ClientSize = new System.Drawing.Size(846, 652);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dataGridView1);
@@ -356,12 +357,12 @@
             this.Load += new System.EventHandler(this.TheBrowserTab_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TheBrowserTab_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.TheBrowserTab_DragOver);
+            ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingNavigator)).EndInit();
             this.navigationOrdersNavigateBindingSourceBindingNavigator.ResumeLayout(false);
             this.navigationOrdersNavigateBindingSourceBindingNavigator.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -373,7 +374,6 @@
         public System.Windows.Forms.TextBox textBox1;
         public System.Windows.Forms.Button button1;
         public System.Windows.Forms.Button button2;
-        private System.Windows.Forms.BindingSource navigationOrdersNavigateBindingSourceBindingSource;
         private System.Windows.Forms.BindingNavigator navigationOrdersNavigateBindingSourceBindingNavigator;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
@@ -400,6 +400,7 @@
         public System.Windows.Forms.Button button3;
         private ApplicationWebService applicationWebService1;
         public System.Windows.Forms.Button button4;
+        public System.Windows.Forms.BindingSource navigationOrdersNavigateBindingSourceBindingSource;
 
     }
 }

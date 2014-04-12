@@ -247,6 +247,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             if (s != null)
                 return s;
 
+            // ?
+            var i8 = value is long;
+            if (i8)
+                return "" + ((long)value);
+
             return value.ToString();
         }
 

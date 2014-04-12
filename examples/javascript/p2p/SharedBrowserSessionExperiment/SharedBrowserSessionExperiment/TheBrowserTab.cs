@@ -35,7 +35,7 @@ namespace SharedBrowserSessionExperiment
 
         private void navigationOrdersNavigateBindingSourceBindingNavigator_RefreshItems(object sender, EventArgs e)
         {
-            Console.WriteLine("navigationOrdersNavigateBindingSourceBindingNavigator_RefreshItems");
+            //Console.WriteLine("navigationOrdersNavigateBindingSourceBindingNavigator_RefreshItems");
 
             //this.Text = new
             //{
@@ -168,7 +168,7 @@ namespace SharedBrowserSessionExperiment
                 }
             );
 
-            await new Form { Text = "continue?" }.ShowAsync();
+            //await new Form { Text = "continue?" }.ShowAsync();
 
             var rows = this.navigationOrdersNavigateBindingSourceBindingSource.AsEnumerableOfDataRow().Select(
                 // NavigationOrdersNavigateRow is not bound to DataRow
@@ -177,12 +177,12 @@ namespace SharedBrowserSessionExperiment
                     {
                         var xx = new { x, y = (NavigationOrdersNavigateRow)x };
 
-                        // string or not?
-                        var x_Key = x["Key"];
-                        var x_Key_isString = x_Key is string;
+                        //// string or not?
+                        //var x_Key = x["Key"];
+                        //var x_Key_isString = x_Key is string;
 
-                        // x_Key = "1"
-                        Console.WriteLine("after update " + new { x_Key, x_Key_isString, xx.y.Key });
+                        //// x_Key = "1"
+                        //Console.WriteLine("after update " + new { x_Key, x_Key_isString, xx.y.Key });
 
                         return xx;
                     }
@@ -202,12 +202,12 @@ namespace SharedBrowserSessionExperiment
             this.applicationWebService1.IncrementalSyncTake.WithEach(
                 r =>
                 {
-                    Console.WriteLine("about to add form server " + new { r.Key });
+                    //Console.WriteLine("about to add form server " + new { r.Key });
 
                     // either it exists or we need to add a new row!
                     var xx = rows.FirstOrDefault(x =>
                         {
-                            Console.WriteLine(new { x.y.Key } + " eq " + new { r.Key });
+                            //Console.WriteLine(new { x.y.Key } + " eq " + new { r.Key });
 
                             return x.y.Key == r.Key;
                         }
