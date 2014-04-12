@@ -32,7 +32,15 @@ namespace SharedBrowserSessionExperiment
         //public DataRow[] RowsWithoutKeys = new DataRow[0];
         public NavigationOrdersNavigateRow[] RowsWithoutKeys = new NavigationOrdersNavigateRow[0];
 
+        public NavigationOrdersNavigateKey IncrementalSyncSkip = default(NavigationOrdersNavigateKey);
+        public NavigationOrdersNavigateRow[] IncrementalSyncTake = new NavigationOrdersNavigateRow[0];
 
+
+
+        //at ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda.WithConnection(String DataSource)
+        //at SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrders.Navigate.Queries..ctor(String DataSource)
+        //at SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrders.Navigate..ctor(String DataSource)
+        //at SharedBrowserSessionExperiment.ApplicationWebService..ctor() in x:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\ApplicationWebService.cs:line 38 
 
         // a component? async datasource?
         NavigationOrders.Navigate n = new NavigationOrders.Navigate();

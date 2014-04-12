@@ -19,6 +19,7 @@ using SharedBrowserSessionExperiment.HTML.Pages;
 using SharedBrowserSessionExperiment.DataLayer.Data;
 using System.Data;
 using ScriptCoreLib.Lambda;
+using System.Windows.Forms;
 
 namespace SharedBrowserSessionExperiment
 {
@@ -117,7 +118,7 @@ namespace SharedBrowserSessionExperiment
             #endregion
 
             new TheBrowserTab().With(
-                tab =>
+                async tab =>
                 {
                     // um do xlsx
                     // already support
@@ -129,12 +130,18 @@ namespace SharedBrowserSessionExperiment
 
                     //<iframe width="420" height="315" src="//www.youtube.com/embed/Jr-yMOJRTo4" frameborder="0" allowfullscreen></iframe>
 
-                    tab.webBrowser1.Navigate(
-                        //"https://www.youtube.com/watch?v=Jr-yMOJRTo4"
-                        "https://www.youtube.com/embed/Jr-yMOJRTo4"
-                    );
+                    //tab.webBrowser1.Navigate(
+                    //    //"https://www.youtube.com/watch?v=Jr-yMOJRTo4"
+                    //    "https://www.youtube.com/embed/Jr-yMOJRTo4"
+                    //);
 
-                    tab.Show();
+                    //tab.Show();
+
+                    await tab.ShowAsync();
+
+                    // reload ?
+
+                    Native.document.location.reload();
                 }
                );
 
