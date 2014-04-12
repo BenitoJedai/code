@@ -30,6 +30,9 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public HTMLInputTypeEnum type;
         public string value;
 
+
+
+
         [System.Obsolete("Need to test Browsers")]
         public long valueAsNumber;
         public IDate valueAsDate;
@@ -46,7 +49,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
         public bool disabled;
+
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/:indeterminate
         public bool @checked;
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\CheckBox.cs
+        public bool indeterminate;
+
+
+
         public bool @readOnly;
 
         public FileList files;
