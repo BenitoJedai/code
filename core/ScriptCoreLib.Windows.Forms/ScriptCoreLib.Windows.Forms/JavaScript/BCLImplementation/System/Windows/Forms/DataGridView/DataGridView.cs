@@ -550,5 +550,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             return (__DataGridView)(object)g;
         }
+
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140412
+        public DataGridViewRow RowTemplate { get; set; }
     }
 }

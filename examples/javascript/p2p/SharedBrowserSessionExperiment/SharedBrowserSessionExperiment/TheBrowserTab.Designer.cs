@@ -61,6 +61,7 @@
             // 
             // webBrowser1
             // 
+            this.webBrowser1.DataBindings.Add(new System.Windows.Forms.Binding("Url", this.navigationOrdersNavigateBindingSourceBindingSource, "urlString", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.webBrowser1.Location = new System.Drawing.Point(12, 274);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
@@ -69,6 +70,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.navigationOrdersNavigateBindingSourceBindingSource, "urlString", true));
             this.textBox1.Location = new System.Drawing.Point(82, 42);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(726, 22);
@@ -96,6 +98,7 @@
             // 
             this.navigationOrdersNavigateBindingSourceBindingSource.DataSource = typeof(SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource);
             this.navigationOrdersNavigateBindingSourceBindingSource.Position = 0;
+            this.navigationOrdersNavigateBindingSourceBindingSource.PositionChanged += new System.EventHandler(this.navigationOrdersNavigateBindingSourceBindingSource_PositionChanged);
             // 
             // navigationOrdersNavigateBindingSourceBindingNavigator
             // 
@@ -126,6 +129,7 @@
             this.navigationOrdersNavigateBindingSourceBindingNavigator.Size = new System.Drawing.Size(828, 27);
             this.navigationOrdersNavigateBindingSourceBindingNavigator.TabIndex = 4;
             this.navigationOrdersNavigateBindingSourceBindingNavigator.Text = "bindingNavigator1";
+            this.navigationOrdersNavigateBindingSourceBindingNavigator.RefreshItems += new System.EventHandler(this.navigationOrdersNavigateBindingSourceBindingNavigator_RefreshItems);
             // 
             // bindingNavigatorMoveFirstItem
             // 

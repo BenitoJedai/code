@@ -106,6 +106,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Console.WriteLine("event: enter new DataGridView()");
 
 
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140412
+            // tested by?
+            // X:\jsc.svn\examples\javascript\forms\test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.Designer.cs
+            //    this.dataGridView1.RowTemplate.Height = 24;
+            this.RowTemplate = new DataGridViewRow();
+
             this.InternalElement = new IHTMLDiv
             {
 
