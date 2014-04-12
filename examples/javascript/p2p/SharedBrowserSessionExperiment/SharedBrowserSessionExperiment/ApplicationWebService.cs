@@ -43,6 +43,7 @@ namespace SharedBrowserSessionExperiment
         //at SharedBrowserSessionExperiment.ApplicationWebService..ctor() in x:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\ApplicationWebService.cs:line 38 
 
         // a component? async datasource?
+        [Obsolete(" ah we cannot use this more than once, since we are still using mutable builder", true)]
         NavigationOrders.Navigate n = new NavigationOrders.Navigate();
 
         public async Task BindingSourceSynchonization()
@@ -56,20 +57,30 @@ namespace SharedBrowserSessionExperiment
                 {
                     // either select or insert.
 
-                    var s = n.Where(x => x.urlString == r.urlString).FirstOrDefault();
+
+                    var s = new NavigationOrders.Navigate().Where(x => x.urlString == r.urlString).FirstOrDefault();
                     if (s != null)
                     {
                         r.Key = s.Key;
                         return;
                     }
 
-                    r.Key = n.Insert(r);
+                    r.Key = new NavigationOrders.Navigate().Insert(r);
                     // see. either way we are done! :)
                 }
             );
 
+            {
 
-            Console.WriteLine(new { Retry, RowsWithoutKeys.Length });
+
+                //IncrementalSyncTake = n.Where(x => x.Key > this.IncrementalSyncSkip).ToArray();
+                // jsc can you generate ToArray also? thanks
+                IncrementalSyncTake = new NavigationOrders.Navigate().Where(x => x.Key > this.IncrementalSyncSkip).AsEnumerable().ToArray();
+
+
+
+                Console.WriteLine(new { Retry, RowsWithoutKeys.Length });
+            }
         }
 
 

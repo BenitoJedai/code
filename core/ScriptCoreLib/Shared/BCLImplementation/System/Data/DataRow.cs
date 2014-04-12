@@ -47,7 +47,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
             set
             {
-                this.InternalDataArray[column] = value;
+                // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
+
+                //61:19609ms about to add form server { Key = 3 }
+                //61:19610ms after update { x_Key = 1, x_Key_isString = false, Key = 0 }
+                //61:19610ms { Key = 0 } eq { Key = 3 }
+                //61:19610ms after update { x_Key = 2, x_Key_isString = false, Key = 0 }
+                //61:19610ms { Key = 0 } eq { Key = 3 }
+
+                // unless we know of a better data type, it is a string..
+                this.InternalDataArray[column] = Convert.ToString(value);
                 // X:\jsc.svn\examples\javascript\Test\TestManyTableRowsFromDataTable\TestManyTableRowsFromDataTable\Application.cs
                 // you better not reorder or reindex the columns!
 
