@@ -16,9 +16,17 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     {
         public static long GetInt64OrDefault(System.Data.DataRow e, string ColumnName)
         {
+            // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
+
             if (e.Table.Columns.Contains(ColumnName))
             {
-                return Convert.ToInt64(e[ColumnName]);
+                // e[ColumnName] ""
+
+                var v = e[ColumnName] as string;
+
+                // new row added by the grid?
+                if (!string.IsNullOrEmpty(v))
+                    return Convert.ToInt64(v);
             }
 
             return default(long);

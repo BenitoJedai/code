@@ -16,6 +16,9 @@ using System.Xml.Linq;
 using SharedBrowserSessionExperiment;
 using SharedBrowserSessionExperiment.Design;
 using SharedBrowserSessionExperiment.HTML.Pages;
+using SharedBrowserSessionExperiment.DataLayer.Data;
+using System.Data;
+using ScriptCoreLib.Lambda;
 
 namespace SharedBrowserSessionExperiment
 {
@@ -24,13 +27,59 @@ namespace SharedBrowserSessionExperiment
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
-    
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\Application.cs
+
+            //NavigationOrdersNavigateBindingSource.CreateDataSource.With(
+            //    CreateDataSource =>
+            //    {
+            //        NavigationOrdersNavigateBindingSource.CreateDataSource =
+            //             delegate
+            //             {
+            //                 Console.WriteLine("Application NavigationOrdersNavigateBindingSource CreateDataSource");
+
+            //                 return (CreateDataSource() as DataTable).With(
+            //                     async asDataTable =>
+            //                     {
+            //                         while (true)
+            //                         {
+
+            //                             // send all rows that do not have keys to the server for rubber stamping.
+
+            //                             // Error	5	The type arguments for method 'System.Linq.Enumerable.Select<TSource,TResult>(System.Collections.Generic.IEnumerable<TSource>, System.Func<TSource,TResult>)' cannot be inferred from the usage. Try specifying the type arguments explicitly.	X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\Application.cs	56	65	SharedBrowserSessionExperiment
+
+
+            //                             base.RowsWithoutKeys = asDataTable.Rows.AsEnumerable().Select(
+            //                                 (DataRow zr) =>
+            //                                 {
+            //                                     NavigationOrdersNavigateRow rr = zr;
+
+            //                                     // ?
+
+            //                                     return rr;
+            //                                 }
+            //                             ).ToArray();
+
+
+
+            //                             await this.BindingSourceSynchonization();
+
+            //                             await base.Retry;
+
+            //                         }
+            //                     }
+            //                 );
+            //             };
+            //    }
+            //);
+
+
             // does this work on nexus?
             // and also jsc store?
 

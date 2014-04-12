@@ -1,6 +1,8 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
+using SharedBrowserSessionExperiment.DataLayer.Data;
 using System;
 using System.Diagnostics;
+using ScriptCoreLib.Extensions;
 
 namespace SharedBrowserSessionExperiment
 {

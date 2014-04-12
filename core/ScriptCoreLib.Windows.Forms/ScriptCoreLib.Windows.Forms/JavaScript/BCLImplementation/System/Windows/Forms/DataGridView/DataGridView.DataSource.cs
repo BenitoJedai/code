@@ -77,6 +77,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public Queue<IHTMLTableRow> InternalPrerenderRows = new Queue<IHTMLTableRow>();
 
 
+        public int InternalPreviousPosition = -1;
         public int InternalPosition
         {
             get
@@ -84,10 +85,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 if (this.SelectedRows.Count == 0)
                 {
-                    return -1;
+                    // we lost active focus?
+                    return InternalPreviousPosition;
                 }
 
-                return this.SelectedRows[0].Index;
+                InternalPreviousPosition = this.SelectedRows[0].Index;
+                return InternalPreviousPosition;
             }
         }
 
