@@ -92,5 +92,16 @@ namespace SharedBrowserSessionExperiment
             // IE allows only link
             e.Effect = DragDropEffects.Link;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //BindingSource
+            (this.navigationOrdersNavigateBindingSourceBindingSource.AddNew() as DataRowView).With(
+                rr =>
+                {
+                    rr["urlString"] = "https://www.youtube.com/embed/lsbYqjMkK9Q";
+                }
+            );
+        }
     }
 }
