@@ -21,7 +21,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
     partial class __Control
     {
-        #region __ControlCollection
         [Script(Implements = typeof(global::System.Windows.Forms.Control.ControlCollection))]
         internal class __ControlCollection : Layout.__ArrangedElementCollection
         {
@@ -43,6 +42,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             public virtual void Add(Control e)
             {
+                var ee = (__Control)e;
+                //var ChildElement = e.GetHTMLTarget();
+                var ChildElement = ee.HTMLTargetRef;
+                if (ChildElement == null)
+                {
+                    Console.WriteLine("missing HTMLTargetRef for " + new { e });
+                    return;
+                }
+
+
+
                 Items.Add(e);
 
                 var bg = this.Owner.GetHTMLTargetContainer();
@@ -51,7 +61,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //if (bg.firstChild == null)
 
 
-                var ChildElement = e.GetHTMLTarget();
 
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140124
                 // let the DOM know about our pseudo shadow DOM
@@ -139,7 +148,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return (__ControlCollection)(object)c;
             }
         }
-        #endregion
 
 
     }

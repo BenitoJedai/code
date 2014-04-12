@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.BindingNavigator))]
-    public class __BindingNavigator : __ToolStrip
+    public class __BindingNavigator : __ToolStrip, __ISupportInitialize
     {
         // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\Application.cs
 
@@ -42,5 +43,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event EventHandler RefreshItems;
 
+
+        public void BeginInit()
+        {
+        }
+
+        public void EndInit()
+        {
+        }
     }
 }
