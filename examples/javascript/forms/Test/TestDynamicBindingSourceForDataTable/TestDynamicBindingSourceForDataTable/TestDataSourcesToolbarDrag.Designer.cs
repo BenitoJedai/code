@@ -30,19 +30,23 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestDataSourcesToolbarDrag));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.zooBookSheet1BindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.zooBookSheet1BindingSourceBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.zooBookSheet1BindingSourceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.zooBookSheet1BindingSourceDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,11 +54,21 @@
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingNavigator)).BeginInit();
             this.zooBookSheet1BindingSourceBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
+            // 
+            // textBox1
+            // 
+            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zooBookSheet1BindingSourceBindingSource, "FooColumn", true));
+            this.textBox1.Location = new System.Drawing.Point(112, 106);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(180, 22);
+            this.textBox1.TabIndex = 0;
             // 
             // zooBookSheet1BindingSourceBindingSource
             // 
@@ -87,9 +101,34 @@
             this.zooBookSheet1BindingSourceBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.zooBookSheet1BindingSourceBindingNavigator.Name = "zooBookSheet1BindingSourceBindingNavigator";
             this.zooBookSheet1BindingSourceBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.zooBookSheet1BindingSourceBindingNavigator.Size = new System.Drawing.Size(690, 27);
-            this.zooBookSheet1BindingSourceBindingNavigator.TabIndex = 0;
+            this.zooBookSheet1BindingSourceBindingNavigator.Size = new System.Drawing.Size(961, 27);
+            this.zooBookSheet1BindingSourceBindingNavigator.TabIndex = 1;
             this.zooBookSheet1BindingSourceBindingNavigator.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 24);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(45, 24);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 24);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -123,16 +162,9 @@
             this.bindingNavigatorPositionItem.Text = "1";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(45, 24);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorMoveNextItem
@@ -155,26 +187,8 @@
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 24);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 24);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // zooBookSheet1BindingSourceBindingNavigatorSaveItem
             // 
@@ -196,11 +210,11 @@
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5});
             this.zooBookSheet1BindingSourceDataGridView.DataSource = this.zooBookSheet1BindingSourceBindingSource;
-            this.zooBookSheet1BindingSourceDataGridView.Location = new System.Drawing.Point(75, 101);
+            this.zooBookSheet1BindingSourceDataGridView.Location = new System.Drawing.Point(62, 170);
             this.zooBookSheet1BindingSourceDataGridView.Name = "zooBookSheet1BindingSourceDataGridView";
             this.zooBookSheet1BindingSourceDataGridView.RowTemplate.Height = 24;
-            this.zooBookSheet1BindingSourceDataGridView.Size = new System.Drawing.Size(567, 213);
-            this.zooBookSheet1BindingSourceDataGridView.TabIndex = 1;
+            this.zooBookSheet1BindingSourceDataGridView.Size = new System.Drawing.Size(300, 220);
+            this.zooBookSheet1BindingSourceDataGridView.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -232,13 +246,32 @@
             this.dataGridViewTextBoxColumn5.HeaderText = "Timestamp";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             // 
+            // chart1
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            this.chart1.DataSource = this.zooBookSheet1BindingSourceBindingSource;
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
+            this.chart1.Location = new System.Drawing.Point(464, 170);
+            this.chart1.Name = "chart1";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(300, 300);
+            this.chart1.TabIndex = 3;
+            this.chart1.Text = "chart1";
+            // 
             // TestDataSourcesToolbarDrag
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 554);
+            this.ClientSize = new System.Drawing.Size(961, 579);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.zooBookSheet1BindingSourceDataGridView);
             this.Controls.Add(this.zooBookSheet1BindingSourceBindingNavigator);
+            this.Controls.Add(this.textBox1);
             this.Name = "TestDataSourcesToolbarDrag";
             this.Text = "TestDataSourcesToolbarDrag";
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceBindingSource)).EndInit();
@@ -246,6 +279,7 @@
             this.zooBookSheet1BindingSourceBindingNavigator.ResumeLayout(false);
             this.zooBookSheet1BindingSourceBindingNavigator.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zooBookSheet1BindingSourceDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,6 +287,7 @@
 
         #endregion
 
+        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.BindingSource zooBookSheet1BindingSourceBindingSource;
         private System.Windows.Forms.BindingNavigator zooBookSheet1BindingSourceBindingNavigator;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
@@ -273,6 +308,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+
 
     }
 }

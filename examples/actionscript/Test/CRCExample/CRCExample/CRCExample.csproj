@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="ActionScript\Crc32Helper.cs" />
     <Compile Include="ActionScript\OrcasFlashApplication.cs" />
-    <Compile Include="ActionScript\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
   </ItemGroup>
