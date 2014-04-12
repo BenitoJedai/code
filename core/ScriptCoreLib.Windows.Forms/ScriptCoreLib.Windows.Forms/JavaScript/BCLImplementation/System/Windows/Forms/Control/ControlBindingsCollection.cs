@@ -89,6 +89,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         //      }
                         //  );
 
+                        if (binding.PropertyName == "Text")
+                        {
+                            asControl.TextChanged +=
+                                delegate
+                                {
+                                    if (asBindingSource.Position < 0)
+                                        return;
+
+                                    if (asBindingSource.Position >= asDataTable.Rows.Count)
+                                        return;
+
+                                    var asRow = asDataTable.Rows[asBindingSource.Position];
+
+                                    Console.WriteLine("Text to data source " + new
+                                    {
+                                        asBindingSource.Position,
+                                        binding.DataMember,
+                                        asControl.Text
+                                    });
+
+                                    // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.cs
+                                    asRow[binding.DataMember] = asControl.Text;
+                                };
+                        }
+
                         #region AtPosition
                         Action AtPosition = delegate
                         {
@@ -118,6 +143,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             if (binding.PropertyName == "Text")
                             {
+
+                                Console.WriteLine("data source to Text " + new
+                                {
+                                    asBindingSource.Position,
+                                    binding.DataMember,
+                                    value
+                                });
+
                                 asControl.Text = (string)value;
                                 return;
                             }

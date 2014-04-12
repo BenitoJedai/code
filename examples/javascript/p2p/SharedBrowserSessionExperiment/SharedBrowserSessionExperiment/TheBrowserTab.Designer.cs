@@ -49,6 +49,7 @@
             this.navigationOrdersNavigateBindingSourceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.navigationOrdersNavigateBindingSourceDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button3 = new System.Windows.Forms.Button();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,7 +59,8 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button3 = new System.Windows.Forms.Button();
+            this.applicationWebService1 = new SharedBrowserSessionExperiment.ApplicationWebService();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingNavigator)).BeginInit();
             this.navigationOrdersNavigateBindingSourceBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceDataGridView)).BeginInit();
@@ -258,6 +260,16 @@
             this.dataGridView1.Size = new System.Drawing.Size(796, 137);
             this.dataGridView1.TabIndex = 6;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(654, 60);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(154, 23);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "simulate drop";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // dataGridViewTextBoxColumn5
             // 
             this.dataGridViewTextBoxColumn5.DataPropertyName = "urlString";
@@ -314,15 +326,15 @@
             this.dataGridViewTextBoxColumn4.HeaderText = "Timestamp";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
-            // button3
+            // button4
             // 
-            this.button3.Location = new System.Drawing.Point(779, 60);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(29, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = ">";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button4.Location = new System.Drawing.Point(466, 60);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(154, 23);
+            this.button4.TabIndex = 8;
+            this.button4.Text = "ask for keys";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // TheBrowserTab
             // 
@@ -330,6 +342,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(828, 652);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.navigationOrdersNavigateBindingSourceDataGridView);
@@ -385,6 +398,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         public System.Windows.Forms.Button button3;
+        private ApplicationWebService applicationWebService1;
+        public System.Windows.Forms.Button button4;
 
     }
 }

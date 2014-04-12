@@ -139,8 +139,12 @@
     </Compile>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
-    <Compile Include="ApplicationWebService.cs" />
-    <Compile Include="Application.cs" />
+    <Compile Include="ApplicationWebService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Application.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
