@@ -25,10 +25,6 @@ namespace FormsDualDataSource
 
         private void checkBox2_CheckedChanged(object sender, System.EventArgs e)
         {
-            if (checkBox2.Checked)
-                this.dataGridView2.DataSource = dataTable;
-            else
-                this.dataGridView2.DataSource = null;
 
         }
 
@@ -98,6 +94,27 @@ namespace FormsDualDataSource
             //else
             //    this.ParentForm.Text = "" + new { dataGridView1.SelectedRows[0].Index };
 
+        }
+
+        private void checkBox2_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.CheckState == CheckState.Checked)
+            {
+                this.dataGridView2.DataSource = null;
+                checkBox2.Text = ("DataSource bindingSource1");
+                this.dataGridView2.DataSource = this.bindingSource1;
+            }
+            else if (checkBox2.CheckState == CheckState.Indeterminate)
+            {
+                this.dataGridView2.DataSource = null;
+                checkBox2.Text = ("DataSource dataTable");
+                this.dataGridView2.DataSource = dataTable;
+            }
+            else
+            {
+                checkBox2.Text = ("DataSource null");
+                this.dataGridView2.DataSource = null;
+            }
         }
 
     }
