@@ -36,7 +36,13 @@ namespace TestTriState
         public Application(IApp page)
         {
             // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\CSS\CSSStyleRule.cs
-            IStyleSheet.all[IHTMLElement.HTMLElementEnum.input].indeterminate.style.backgroundColor = "yellow";
+            IStyleSheet.all[IHTMLElement.HTMLElementEnum.input].@checked
+                .siblings
+                .style.color = "blue";
+
+            IStyleSheet.all[IHTMLElement.HTMLElementEnum.input].indeterminate
+                .siblings
+                .style.color = "red";
 
 
             content.AttachControlToDocument();
