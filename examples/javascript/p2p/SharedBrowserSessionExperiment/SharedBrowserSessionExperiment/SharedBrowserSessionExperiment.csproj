@@ -5,14 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7D1F32CC-D37E-47A8-9A95-A0EBFC24E38C}</ProjectGuid>
+    <ProjectGuid>{CAC22920-79FF-4B10-9A64-35823177CC4E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharedBrowserSessionExperiment.DataLayer</RootNamespace>
-    <AssemblyName>SharedBrowserSessionExperiment.DataLayer</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>SharedBrowserSessionExperiment</RootNamespace>
+    <AssemblyName>SharedBrowserSessionExperiment</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>SharedBrowserSessionExperiment.DataLayer.Program</StartupObject>
+    <StartupObject>SharedBrowserSessionExperiment.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -34,8 +36,12 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.JavaScript.Forms.ChromeStyler">
+      <HintPath>..\packages\Abstractatech.JavaScript.Forms.ChromeStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.ChromeStyler.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -94,6 +100,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
+    <Reference Include="SharedBrowserSessionExperiment.DataLayer">
+      <HintPath>..\packages\SharedBrowserSessionExperiment.DataLayer.1.0.0.0\lib\SharedBrowserSessionExperiment.DataLayer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -113,8 +122,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="SharedBrowserSessionExperiment.DataLayer.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\SharedBrowserSessionExperiment.DataLayer.AssetsLibrary.dll</HintPath>
+    <Reference Include="SharedBrowserSessionExperiment.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\SharedBrowserSessionExperiment.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
@@ -122,6 +131,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TheBrowserTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TheBrowserTab.Designer.cs">
+      <DependentUpon>TheBrowserTab.cs</DependentUpon>
+    </Compile>
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
@@ -129,13 +144,18 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <None Include="Data\NavigationOrders.xlsx" />
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\NavigationOrdersNavigateBindingSource.datasource" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="TheBrowserTab.resx">
+      <DependentUpon>TheBrowserTab.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName) /AddDependencies:$(ProjectDir)packages.config
+    <PostBuildEvent>
 		if $(ConfigurationName)==Release (
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>

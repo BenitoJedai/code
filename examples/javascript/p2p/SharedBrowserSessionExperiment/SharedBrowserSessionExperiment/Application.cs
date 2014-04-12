@@ -30,6 +30,10 @@ namespace SharedBrowserSessionExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // does this work on nexus?
+            // and also jsc store?
+
+
             // is this the first step to explore
             // js p2p
             // first step to allow youtube to be inspected
