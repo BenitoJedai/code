@@ -15,5 +15,25 @@ namespace SharedBrowserSessionExperiment
         {
             InitializeComponent();
         }
+
+        private void navigationOrdersNavigateBindingSourceBindingNavigator_RefreshItems(object sender, EventArgs e)
+        {
+            Console.WriteLine("navigationOrdersNavigateBindingSourceBindingNavigator_RefreshItems");
+
+            //this.Text = new
+            //{
+            //    navigationOrdersNavigateBindingSourceBindingNavigator.PositionItem.Text,
+            //    navigationOrdersNavigateBindingSourceBindingNavigator.BindingSource.Position
+            //}.ToString();
+        }
+
+        private void navigationOrdersNavigateBindingSourceBindingSource_PositionChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("navigationOrdersNavigateBindingSourceBindingSource_PositionChanged");
+            this.Text = new
+            {
+                navigationOrdersNavigateBindingSourceBindingSource.Position
+            }.ToString();
+        }
     }
 }

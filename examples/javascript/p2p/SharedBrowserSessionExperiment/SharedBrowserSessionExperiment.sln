@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedBrowserSessionExperiment", "SharedBrowserSessionExperiment\SharedBrowserSessionExperiment.csproj", "{CAC22920-79FF-4B10-9A64-35823177CC4E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {88C3C260-D1DA-4FB3-A53D-79462913E80C}
+		{7D1F32CC-D37E-47A8-9A95-A0EBFC24E38C} = {7D1F32CC-D37E-47A8-9A95-A0EBFC24E38C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedBrowserSessionExperiment.DataLayer", "SharedBrowserSessionExperiment.DataLayer\SharedBrowserSessionExperiment.DataLayer.csproj", "{7D1F32CC-D37E-47A8-9A95-A0EBFC24E38C}"
 EndProject
