@@ -28,6 +28,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,7 +51,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Archive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Archive.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Archive.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,6 +70,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -104,7 +106,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+start /WAIT cmd /K call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>
