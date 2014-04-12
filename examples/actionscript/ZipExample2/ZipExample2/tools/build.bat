@@ -19,7 +19,7 @@ goto :eof
 :jsc
 pushd ..\bin\%ConfigurationName%
 
-call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as
+call c:\util\jsc\bin\jsc.meta.exe %TargetFileName%  -as
 
 
 popd
@@ -43,5 +43,5 @@ echo - %2
 :: -compiler.verbose-stacktraces 
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe -debug -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-call C:\util\flex\bin\mxmlc.exe -use-network=false -debug -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+call C:\util\flex_sdk_4.6\bin\mxmlc.exe  +configname=airmobile -use-network=false -debug -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof
