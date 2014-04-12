@@ -15,5 +15,10 @@ namespace TestWebBrowserOneWayDataBinding
             this.InitializeComponent();
         }
 
+        private void ApplicationControl_Load(object sender, System.EventArgs e)
+        {
+
+        }
+
     }
 }

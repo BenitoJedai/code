@@ -153,7 +153,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // 26:154ms InternalSetDataSource not implemented for <Namespace>.BindingSource 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
             #region BindingSource
-            var SourceBindingSource = value as BindingSource;
+            var SourceBindingSource = value as __BindingSource;
             if (SourceBindingSource != null)
             {
                 //26:199ms InternalSetDataSource BindingSource { DataSource =  } view-source:37729
@@ -179,13 +179,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     //var isBindingSource = SourceBindingSource.DataSource;
 
-                    Console.WriteLine("InternalSetDataSource BindingSource " + new
-                    {
-                        //Type = SourceBindingSource.DataSource.GetType(),
-                        SourceBindingSource.DataSource
-                    });
+                    //27:131ms  designer is still setting things up?
+                    //27:132ms  designer is still setting things up? DataSourceChanged
+                    //27:142ms InternalSetDataSource BindingSource { DataSource = <Namespace>.NavigationOrdersNavigateBindingSource }
 
-                    object SourceBindingSource_DataSource_asDataTable = SourceBindingSource.DataSource as DataTable;
+                    //Console.WriteLine("InternalSetDataSource BindingSource " + new
+                    //{
+                    //    //Type = SourceBindingSource.DataSource.GetType(),
+                    //    SourceBindingSource.DataSource
+                    //});
+
+                    object SourceBindingSource_DataSource_asDataTable = SourceBindingSource.ActivatedDataSource as DataTable;
 
 
                     //Console.WriteLine(
@@ -199,27 +203,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     {
                         // not set by the designer?
 
-                        #region asType
-                        // tested by?
-                        var asType = SourceBindingSource.DataSource as Type;
-                        if (asType != null)
+                        //    #region asType
+                        //    // tested by?
+                        //    var asType = SourceBindingSource.DataSource as Type;
+                        //    if (asType != null)
+                        //    {
+                        //        // 26:152ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } 
+                        //        // GenericObjectDataSource!
+                        //        // are we calling the ctor?
+                        //        var newT = Activator.CreateInstance(asType);
+
+                        //        Console.WriteLine(new { newT });
+                        //        // 26:149ms { newT = <Namespace>.MyDataSource } 
+
+                        var asBindingSource = SourceBindingSource.ActivatedDataSource as __BindingSource;
+                        if (asBindingSource != null)
                         {
-                            // 26:152ms InternalSetDataSource BindingSource { Type = <Namespace>.Type, DataSource = <Namespace>.MyDataSource } 
-                            // GenericObjectDataSource!
-                            // are we calling the ctor?
-                            var newT = Activator.CreateInstance(asType);
+                            SourceBindingSource_DataSource_asDataTable = asBindingSource.ActivatedDataSource as DataTable;
 
-                            Console.WriteLine(new { newT });
-                            // 26:149ms { newT = <Namespace>.MyDataSource } 
-
-                            var asBindingSource = newT as BindingSource;
-                            if (asBindingSource != null)
-                            {
-                                SourceBindingSource_DataSource_asDataTable = asBindingSource.DataSource as DataTable;
-
-                            }
                         }
-                        #endregion
+                        //}
+                        //#endregion
                     }
 
                     //Console.WriteLine(new { MyDataSource_DataSource = SourceBindingSource_DataSource_asDataTable });
@@ -239,7 +243,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                             {
                                 var isCurrentDataSourceSync = CurrentDataSourceSync == InternalDataSourceSync;
 
-                                //Console.WriteLine("SelectionChanged " + new { isCurrentDataSourceSync, this.InternalPosition });
+                                Console.WriteLine("SelectionChanged " + new { isCurrentDataSourceSync, this.InternalPosition });
 
                                 // some other datasource?
                                 if (!isCurrentDataSourceSync)
@@ -301,14 +305,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 #endregion
 
 
-                if (SourceBindingSource.DataSource == null)
+                if (SourceBindingSource.ActivatedDataSource == null)
                 {
-                    Console.WriteLine(" designer is still setting things up?");
+                    //Console.WriteLine(" designer is still setting things up?");
 
                     SourceBindingSource.DataSourceChanged +=
                         delegate
                         {
-                            if (SourceBindingSource.DataSource == null)
+                            //Console.WriteLine(" designer is still setting things up? DataSourceChanged");
+
+                            if (SourceBindingSource.ActivatedDataSource == null)
                                 return;
 
                             AtSourceBindingSourceDataSource();

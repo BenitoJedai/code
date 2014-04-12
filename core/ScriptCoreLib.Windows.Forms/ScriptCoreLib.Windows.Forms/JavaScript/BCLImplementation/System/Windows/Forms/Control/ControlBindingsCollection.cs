@@ -56,109 +56,111 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.Designer.cs
 
-            #region asWebBrowser
-            var asWebBrowser = this.BindableComponent as WebBrowser;
-            if (asWebBrowser != null)
+            #region asBindingSource
+            var asBindingSource = binding.DataSource as __BindingSource;
+            if (asBindingSource != null)
             {
-                var asBindingSource = binding.DataSource as BindingSource;
-                if (asBindingSource != null)
+                //this.navigationOrdersNavigateBindingSourceBindingSource.DataSource = typeof(SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource);
+                //this.navigationOrdersNavigateBindingSourceBindingSource.Position = 0;
+
+                // this.webBrowser1.DataBindings.Add(new System.Windows.Forms.Binding("Url", this.navigationOrdersNavigateBindingSourceBindingSource, "urlString", true, System.Windows.Forms.DataSourceUpdateMode.Never));
+
+
+                Action AtDataSource = delegate
                 {
-                    //this.navigationOrdersNavigateBindingSourceBindingSource.DataSource = typeof(SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource);
-                    //this.navigationOrdersNavigateBindingSourceBindingSource.Position = 0;
 
-                    // this.webBrowser1.DataBindings.Add(new System.Windows.Forms.Binding("Url", this.navigationOrdersNavigateBindingSourceBindingSource, "urlString", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-
-
-                    Action AtDataSource = delegate
+                    // onetime here or shall be done by host BindingSource ?
+                    var newBindingSource = asBindingSource.ActivatedDataSource as __BindingSource;
+                    if (newBindingSource != null)
                     {
-                        var asType = asBindingSource.DataSource as Type;
+                        var asDataTable = newBindingSource.ActivatedDataSource as DataTable;
 
-                        // 3:155ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, asType =  }
+                        // 27:162ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, DataMember = urlString, asDataTable = [object Object] }
+
+
                         //Console.WriteLine(
-                        //    new
-                        //    {
-                        //        asWebBrowser,
-                        //        binding.PropertyName,
-                        //        asType
-                        //    }
-                        //);
+                        //      new
+                        //      {
+                        //          asWebBrowser,
+                        //          binding.PropertyName,
+                        //          binding.DataMember,
+                        //          //asDataTable
+                        //          asBindingSource.Position,
+                        //      }
+                        //  );
 
-                        //27:182ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, asType = <Namespace>.NavigationOrdersNavigateBindingSource }
-
-                        if (asType != null)
+                        #region AtPosition
+                        Action AtPosition = delegate
                         {
-                            // onetime here or shall be done by host BindingSource ?
-                            var newBindingSource = Activator.CreateInstance(asType) as BindingSource;
-                            if (newBindingSource != null)
+                            if (asBindingSource.Position < 0)
+                                return;
+
+                            if (asBindingSource.Position >= asDataTable.Rows.Count)
+                                return;
+
+                            var asRow = asDataTable.Rows[asBindingSource.Position];
+
+                            // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.cs
+                            var value = asRow[binding.DataMember];
+
+                            // 31:9446ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, value = http://example.com/ } 
+
+                            //Console.WriteLine(
+                            //    new
+                            //    {
+                            //        asWebBrowser,
+                            //        binding.PropertyName,
+                            //        value
+                            //    }
+                            //);
+
+                            // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
+
+                            if (binding.PropertyName == "Text")
                             {
-                                var asDataTable = newBindingSource.DataSource as DataTable;
-
-                                // 27:162ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, DataMember = urlString, asDataTable = [object Object] }
-
-
-                                //Console.WriteLine(
-                                //      new
-                                //      {
-                                //          asWebBrowser,
-                                //          binding.PropertyName,
-                                //          binding.DataMember,
-                                //          //asDataTable
-                                //          asBindingSource.Position,
-                                //      }
-                                //  );
-
-                                Action AtPosition = delegate
-                                {
-                                    if (asBindingSource.Position >= 0)
-                                        if (asBindingSource.Position < asDataTable.Rows.Count)
-                                        {
-                                            var asRow = asDataTable.Rows[asBindingSource.Position];
-
-                                            // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.cs
-                                            var value = asRow[binding.DataMember];
-
-                                            // 31:9446ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, value = http://example.com/ } 
-
-                                            Console.WriteLine(
-                                                new
-                                                {
-                                                    asWebBrowser,
-                                                    binding.PropertyName,
-                                                    value
-                                                }
-                                            );
-
-                                            if (binding.PropertyName == "Url")
-                                            {
-                                                asWebBrowser.Navigate((string)value);
-                                            }
-                                        }
-                                };
-
-
-                                // now or later?
-                                AtPosition();
-
-                                asBindingSource.PositionChanged +=
-                                    delegate
-                                    {
-                                        AtPosition();
-                                    };
+                                asControl.Text = (string)value;
+                                return;
                             }
-                        }
-                    };
-
-                    // await
-                    if (asBindingSource.DataSource == null)
-                        asBindingSource.DataSourceChanged += delegate { AtDataSource(); };
-                    else
-                        AtDataSource();
-                }
 
 
-                return;
+                            #region asWebBrowser
+                            var asWebBrowser = this.BindableComponent as WebBrowser;
+                            if (asWebBrowser != null)
+                            {
+
+                                if (binding.PropertyName == "Url")
+                                {
+                                    asWebBrowser.Navigate((string)value);
+                                }
+
+                                return;
+                            }
+                            #endregion
+                        };
+                        #endregion
+
+
+                        // now or later?
+                        AtPosition();
+
+                        asBindingSource.PositionChanged +=
+                            delegate
+                            {
+                                AtPosition();
+                            };
+                    }
+                };
+
+                // await
+                if (asBindingSource.ActivatedDataSource == null)
+                    asBindingSource.DataSourceChanged += delegate { AtDataSource(); };
+                else
+                    AtDataSource();
             }
             #endregion
+
+
+
 
 
 
@@ -168,6 +170,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //4:117ms __ControlBindingsCollection.Add { asControl = <Namespace>.Button } view-source:37151
             //Uncaught TypeError: Cannot read property 'constructor' of undefined 
 
+            #region asINotifyPropertyChanged
             var isINotifyPropertyChanged = binding.DataSource is INotifyPropertyChanged;
             //Console.WriteLine("__ControlBindingsCollection.Add " + new { isINotifyPropertyChanged });
 
@@ -176,6 +179,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var f = "_" + binding.DataMember + "_k__BackingField";
 
+            #region update
             Action update = delegate
             {
                 // would this work with properties?
@@ -202,6 +206,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     asControl.Text = (string)value;
                 }
             };
+            #endregion
+
 
             // d = ( function () { var c$189 = f.binding.WQEABuWzsDyCcW0H2L852Q(); return (( function () { var c$189 = c$189.constructor; return 'Interfaces' in c$189 ? ('idtkRlDX9zioWpwjiQ7IgA' in c$189.Interfaces) : false; } )() ? c$189 : null); } )();
             var asINotifyPropertyChanged = (INotifyPropertyChanged)binding.DataSource;
@@ -220,6 +226,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 };
 
             update();
+            #endregion
+
         }
 
         public static implicit operator ControlBindingsCollection(__ControlBindingsCollection x)

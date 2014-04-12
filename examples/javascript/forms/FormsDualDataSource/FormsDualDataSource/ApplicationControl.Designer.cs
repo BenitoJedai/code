@@ -69,8 +69,10 @@ namespace FormsDualDataSource
             this.checkBox2.Size = new System.Drawing.Size(98, 21);
             this.checkBox2.TabIndex = 3;
             this.checkBox2.Text = "checkBox2";
+            this.checkBox2.ThreeState = true;
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.checkBox2.CheckStateChanged += new System.EventHandler(this.checkBox2_CheckStateChanged);
             // 
             // bindingSource1
             // 
