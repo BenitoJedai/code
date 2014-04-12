@@ -3,6 +3,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -51,6 +52,115 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var asControl = (this.BindableComponent as Control);
             if (asControl == null)
                 return;
+
+
+            // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.Designer.cs
+
+            #region asWebBrowser
+            var asWebBrowser = this.BindableComponent as WebBrowser;
+            if (asWebBrowser != null)
+            {
+                var asBindingSource = binding.DataSource as BindingSource;
+                if (asBindingSource != null)
+                {
+                    //this.navigationOrdersNavigateBindingSourceBindingSource.DataSource = typeof(SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource);
+                    //this.navigationOrdersNavigateBindingSourceBindingSource.Position = 0;
+
+                    // this.webBrowser1.DataBindings.Add(new System.Windows.Forms.Binding("Url", this.navigationOrdersNavigateBindingSourceBindingSource, "urlString", true, System.Windows.Forms.DataSourceUpdateMode.Never));
+
+
+                    Action AtDataSource = delegate
+                    {
+                        var asType = asBindingSource.DataSource as Type;
+
+                        // 3:155ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, asType =  }
+                        //Console.WriteLine(
+                        //    new
+                        //    {
+                        //        asWebBrowser,
+                        //        binding.PropertyName,
+                        //        asType
+                        //    }
+                        //);
+
+                        //27:182ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, asType = <Namespace>.NavigationOrdersNavigateBindingSource }
+
+                        if (asType != null)
+                        {
+                            // onetime here or shall be done by host BindingSource ?
+                            var newBindingSource = Activator.CreateInstance(asType) as BindingSource;
+                            if (newBindingSource != null)
+                            {
+                                var asDataTable = newBindingSource.DataSource as DataTable;
+
+                                // 27:162ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, DataMember = urlString, asDataTable = [object Object] }
+
+
+                                //Console.WriteLine(
+                                //      new
+                                //      {
+                                //          asWebBrowser,
+                                //          binding.PropertyName,
+                                //          binding.DataMember,
+                                //          //asDataTable
+                                //          asBindingSource.Position,
+                                //      }
+                                //  );
+
+                                Action AtPosition = delegate
+                                {
+                                    if (asBindingSource.Position >= 0)
+                                        if (asBindingSource.Position < asDataTable.Rows.Count)
+                                        {
+                                            var asRow = asDataTable.Rows[asBindingSource.Position];
+
+                                            // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.cs
+                                            var value = asRow[binding.DataMember];
+
+                                            // 31:9446ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, value = http://example.com/ } 
+
+                                            Console.WriteLine(
+                                                new
+                                                {
+                                                    asWebBrowser,
+                                                    binding.PropertyName,
+                                                    value
+                                                }
+                                            );
+
+                                            if (binding.PropertyName == "Url")
+                                            {
+                                                asWebBrowser.Navigate((string)value);
+                                            }
+                                        }
+                                };
+
+
+                                // now or later?
+                                AtPosition();
+
+                                asBindingSource.PositionChanged +=
+                                    delegate
+                                    {
+                                        AtPosition();
+                                    };
+                            }
+                        }
+                    };
+
+                    // await
+                    if (asBindingSource.DataSource == null)
+                        asBindingSource.DataSourceChanged += delegate { AtDataSource(); };
+                    else
+                        AtDataSource();
+                }
+
+
+                return;
+            }
+            #endregion
+
+
 
             // 4:105ms __ControlBindingsCollection.Add { asControl = <Namespace>.Button, DataSource =  } 
             //Console.WriteLine("__ControlBindingsCollection.Add " + new { asControl });
