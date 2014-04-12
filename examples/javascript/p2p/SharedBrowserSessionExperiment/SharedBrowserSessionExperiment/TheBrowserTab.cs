@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
+using System.Threading.Tasks;
 
 namespace SharedBrowserSessionExperiment
 {
@@ -106,9 +107,10 @@ namespace SharedBrowserSessionExperiment
             );
         }
 
-        private async void button4_Click(object sender, EventArgs e)
+        public async Task RefreshAsync()
         {
 
+            button4.Enabled = false;
 
             this.applicationWebService1.RowsWithoutKeys = Enumerable.Range(0, this.navigationOrdersNavigateBindingSourceBindingSource.Count).Select(
                 position =>
@@ -117,20 +119,7 @@ namespace SharedBrowserSessionExperiment
 
                     // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\WithConnectionLambda.cs
 
-                    //at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
-                    //at System.Number.ParseInt64(String value, NumberStyles options, NumberFormatInfo numfmt)
-                    //at System.String.System.IConvertible.ToInt64(IFormatProvider provider)
-                    //at System.Convert.ToInt64(Object value)
-
-                    //at ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambdaZ.GetInt64OrDefault(DataRow e, String ColumnName)
-
-                    //at SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateRow.op_Implicit(DataRow )
-                    //at SharedBrowserSessionExperiment.TheBrowserTab.<button4_Click>b__c(Int32 position) in x:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs:line 114
-                    //at System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-                    //at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
-                    //at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
-                    //at SharedBrowserSessionExperiment.TheBrowserTab.<button4_Click>d__d.MoveNext() in x:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs:line 109
-
+        
                     NavigationOrdersNavigateRow r = (v as DataRowView).Row;
 
                     // r = {0, https://www.youtube.com/embed/XjwZAa2EjKA, , 4/12/2014 6:41:33 PM}
@@ -138,7 +127,9 @@ namespace SharedBrowserSessionExperiment
                     if (r.Key == default(NavigationOrdersNavigateKey))
                         return r;
 
-                    return null;
+                    // cannot handle null?
+                    //return null;
+                    return new NavigationOrdersNavigateRow { };
                 }
             ).ToArray();
 
@@ -153,6 +144,8 @@ namespace SharedBrowserSessionExperiment
             this.applicationWebService1.RowsWithoutKeys.WithEach(
                 r =>
                 {
+                    if (string.IsNullOrEmpty(r.urlString))
+                        return;
                     Console.WriteLine("about to update form server " + new { r.Key });
 
                     // http://msdn.microsoft.com/en-us/magazine/cc163974.aspx
@@ -206,11 +199,11 @@ namespace SharedBrowserSessionExperiment
 
                     // either it exists or we need to add a new row!
                     var xx = rows.FirstOrDefault(x =>
-                        {
-                            //Console.WriteLine(new { x.y.Key } + " eq " + new { r.Key });
+                    {
+                        //Console.WriteLine(new { x.y.Key } + " eq " + new { r.Key });
 
-                            return x.y.Key == r.Key;
-                        }
+                        return x.y.Key == r.Key;
+                    }
                     );
 
                     if (xx == null)
@@ -240,6 +233,14 @@ namespace SharedBrowserSessionExperiment
                     // we dont have updates tho
                 }
             );
+
+            button4.Enabled = true;
+
+        }
+
+        private async void button4_Click(object sender, EventArgs e)
+        {
+            await RefreshAsync();
         }
     }
 

@@ -53,7 +53,9 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
             this.applicationWebService1 = new SharedBrowserSessionExperiment.ApplicationWebService();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersPositionsBindingSourceBindingNavigator)).BeginInit();
             this.navigationOrdersPositionsBindingSourceBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersPositionsBindingSourceBindingSource)).BeginInit();
@@ -103,7 +105,6 @@
             // 
             this.navigationOrdersPositionsBindingSourceBindingSource.DataSource = typeof(SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersPositionsBindingSource);
             this.navigationOrdersPositionsBindingSourceBindingSource.Position = 0;
-            //this.navigationOrdersPositionsBindingSourceBindingSource.AddingNew += new System.ComponentModel.AddingNewEventHandler(this.navigationOrdersPositionsBindingSourceBindingSource_AddingNew);
             // 
             // bindingNavigatorCountItem
             // 
@@ -269,11 +270,34 @@
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(276, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "refresh";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(393, 13);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(58, 21);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "auto";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // PositionsWatchdog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(542, 343);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.navigationOrdersPositionsBindingSourceDataGridView);
             this.Controls.Add(this.navigationOrdersPositionsBindingSourceBindingNavigator);
             this.Name = "PositionsWatchdog";
@@ -315,5 +339,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private ApplicationWebService applicationWebService1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
