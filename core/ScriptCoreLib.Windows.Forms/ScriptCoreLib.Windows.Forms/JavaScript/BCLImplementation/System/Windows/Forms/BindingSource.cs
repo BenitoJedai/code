@@ -119,6 +119,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             var x = this.ActivatedDataSource;
 
+            var asBindingSource = x as BindingSource;
+            if (asBindingSource != null)
+            {
+                return asBindingSource.AddNew();
+            }
+
             var asDataTable = x as DataTable;
             if (asDataTable != null)
             {
