@@ -45,7 +45,31 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
     public static class WithConnectionLambda
     {
+        // http://stackoverflow.com/questions/2427381/how-to-detect-that-c-sharp-windows-forms-code-is-executed-within-visual-studio
+        // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\ApplicationWebService.cs
+
+        [Obsolete("Windows Forms designer?")]
+        static bool DesignMode
+        {
+            get
+            {
+                return System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime;
+            }
+        }
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+        public static Func<Func<IDbConnection, Task>, Task> WithConnection(string DataSource)
+        {
+            if (DesignMode)
+                return delegate { return default(Task); };
+
+            return InternalWithConnectionLambda.WithConnection(DataSource);
+        }
+    }
+
+    static class InternalWithConnectionLambda
+    {
+
         public static Func<Func<IDbConnection, Task>, Task> WithConnection(string DataSource)
         {
             // ScriptCoreLib.Extensions
