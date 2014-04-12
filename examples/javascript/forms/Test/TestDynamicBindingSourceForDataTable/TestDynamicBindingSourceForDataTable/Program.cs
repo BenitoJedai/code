@@ -19,6 +19,8 @@ namespace TestDynamicBindingSourceForDataTable
             //var x =
             //    global::FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource.CreateDataSource();
 
+            //new TestDataSourcesToolbarDrag().ShowDialog();
+
 #if FDATA
             #region ZooBookSheet1BindingSource
             global::FormsAutoSumGridSelection.Data.ZooBookSheet1BindingSource.CreateDataSource.With(
