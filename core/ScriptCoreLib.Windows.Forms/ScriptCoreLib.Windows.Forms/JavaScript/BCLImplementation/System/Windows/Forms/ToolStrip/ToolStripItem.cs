@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripItem))]
-    internal abstract class __ToolStripItem : __Component
+    public abstract class __ToolStripItem : __Component
     {
         public virtual string Text { get; set; }
 

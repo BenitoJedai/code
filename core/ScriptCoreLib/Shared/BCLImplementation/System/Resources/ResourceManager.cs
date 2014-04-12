@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Resources
     [Script(Implements = typeof(global::System.Resources.ResourceManager))]
     public class __ResourceManager
     {
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\ComponentModel\ComponentResourceManager.cs
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131217-picturebox
         // X:\jsc.svn\examples\javascript\forms\FormsPictureBox\FormsPictureBox\Properties\Resources.Designer.cs
 
