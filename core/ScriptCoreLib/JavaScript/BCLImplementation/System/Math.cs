@@ -29,6 +29,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static byte Max(byte e, byte x) { return (byte)m.max(e, x); }
         public static int Max(int e, int x) { return m.max(e, x); }
+        public static ushort Max(ushort e, ushort x) { return m.max(e, x); }
+        public static uint Max(uint e, uint x) { return m.max(e, x); }
+
+        // X:\jsc.svn\examples\javascript\io\ZIPDecoderExperiment\ZIPDecoderExperiment\Application.cs
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Math.Max(System.UInt32, System.UInt32)]
+
         public static double Max(double e, double x) { return m.max(e, x); }
         public static float Max(float e, float x) { return m.max(e, x); }
 
