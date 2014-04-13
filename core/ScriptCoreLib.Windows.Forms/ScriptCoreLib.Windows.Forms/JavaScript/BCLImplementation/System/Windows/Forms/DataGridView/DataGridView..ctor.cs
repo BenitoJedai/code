@@ -2295,16 +2295,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             // 1745ms event: { Name = dataGridView1 } InternalAutoResizeColumn { RowCount = 9, SourceColumnIndex = 1, NewWidth = 260, ElapsedMilliseconds = 447 } 
 
-                            Console.WriteLine(
-                                "event: " +
-                                new { this.Name }
-                                + " InternalAutoResizeColumn " + new
-                                {
-                                    RowCount = rows.Count,
-                                    SourceColumnIndex,
-                                    NewWidth,
-                                    InternalAutoResizeColumnStopwatch.ElapsedMilliseconds
-                                });
+
+                            // report only slow https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140413
+
+                            if (InternalAutoResizeColumnStopwatch.ElapsedMilliseconds > 20)
+                                Console.WriteLine(
+                                    "event: " +
+                                    new { this.Name }
+                                    + " InternalAutoResizeColumn " + new
+                                    {
+                                        RowCount = rows.Count,
+                                        SourceColumnIndex,
+                                        NewWidth,
+                                        InternalAutoResizeColumnStopwatch.ElapsedMilliseconds
+                                    });
 
                             // why does this cost us 600ms?
                             SourceColumn.Width = NewWidth;

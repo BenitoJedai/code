@@ -19,18 +19,7 @@ namespace SharedBrowserSessionExperiment
     /// </summary>
     public class ApplicationWebService : Component, IDisposable
     {
-        //at System.Xml.XmlTextReaderImpl.Throw(Exception e)
-        //at System.Xml.XmlTextReaderImpl.ThrowWithoutLineInfo(String res)
-        //at System.Xml.XmlTextReaderImpl.ParseDocumentContent()
-        //at System.Xml.XmlTextReaderImpl.Read()
-        //at System.Xml.XmlReader.MoveToContent()
-        //at System.Xml.Linq.XElement.Load(XmlReader reader, LoadOptions options)
-        //at System.Xml.Linq.XElement.Parse(String text, LoadOptions options)
-        //at System.Xml.Linq.XElement.Parse(String text)
-        //at SharedBrowserSessionExperiment.DataLayer.ConvertToString$5$<02000013>.ConvertFromString(String )
-        //at SharedBrowserSessionExperiment.DataLayer.<02000013Array\.ConvertFromString>.ConvertFromString(String )
-        //at SharedBrowserSessionExperiment.Global.Invoke(InternalWebMethodInfo )
-        //at ScriptCoreLib.Ultra.WebService.InternalGlobalExtensions.InternalApplication_BeginRequest(InternalGlobal g)
+
 
 
         // Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.
@@ -75,6 +64,7 @@ namespace SharedBrowserSessionExperiment
                     // either select or insert.
 
 
+
                     var s = new NavigationOrders.Navigate().Where(x => x.urlString == r.urlString).FirstOrDefault();
                     if (s != null)
                     {
@@ -92,7 +82,10 @@ namespace SharedBrowserSessionExperiment
 
                 //IncrementalSyncTake = n.Where(x => x.Key > this.IncrementalSyncSkip).ToArray();
                 // jsc can you generate ToArray also? thanks
-                IncrementalSyncTake = new NavigationOrders.Navigate().Where(x => x.Key > this.IncrementalSyncSkip).AsEnumerable().ToArray();
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140413
+                var IncrementalSyncSkip = this.IncrementalSyncSkip;
+                IncrementalSyncTake = new NavigationOrders.Navigate().Where(x => x.Key > IncrementalSyncSkip).AsEnumerable().ToArray();
 
 
 
@@ -114,21 +107,33 @@ namespace SharedBrowserSessionExperiment
             LastKnownPositionKey = new NavigationOrders.Positions().Insert(r);
         }
 
-
+        [Obsolete("webview not sending this?")]
         public NavigationOrdersPositionsKey LastKnownPositionKey = default(NavigationOrdersPositionsKey);
+
+      
 
         public
             async
             Task<NavigationOrdersPositionsRow> GetLastPosition()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140413
+            var LastKnownPositionKey = this.LastKnownPositionKey;
+
+            // I/System.Console(30556): getType is unavailable at API 8
+
+            Console.WriteLine("before " + new { LastKnownPositionKey });
+
             var r = new NavigationOrders.Positions().Where(x => x.Key > LastKnownPositionKey).OrderByDescending(x => x.Key).FirstOrDefault();
 
             if (r != null)
             {
-                LastKnownPositionKey = r;
+                this.LastKnownPositionKey = r;
+                Console.WriteLine("after " + new { LastKnownPositionKey });
 
                 return r;
             }
+
+            Console.WriteLine("no update " + new { LastKnownPositionKey });
 
             // we cant send null can we?
             return new NavigationOrdersPositionsRow { };

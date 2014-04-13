@@ -3,6 +3,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
@@ -77,24 +78,48 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             return cursor.getLong(ordinal);
         }
 
+
+
+
+
+
+
+
+        const int FIELD_TYPE_INTEGER = 0x00000001;
+        const int FIELD_TYPE_STRING = 0x00000003;
+
+        static MethodInfo refCursor_getType = typeof(Cursor).GetMethod(
+            "getType", new Type[] { typeof(int) }
+            );
+
+        static bool refCursor_getType_NotifiedOf = false;
+
+        // can this be an extension method?
+        static Func<Cursor, int, int> Cursor_getType = (cursor, ordinal) =>
+        {
+            // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\ApplicationWebService.cs
+
+            if (refCursor_getType == null)
+            {
+                if (!refCursor_getType_NotifiedOf)
+                {
+                    Console.WriteLine("getType is unavailable at API 8");
+
+                    refCursor_getType_NotifiedOf = true;
+                }
+
+                return FIELD_TYPE_STRING;
+            }
+
+            return cursor.getType(ordinal);
+        };
+
         public override Type GetFieldType(int ordinal)
         {
-
-            var FIELD_TYPE_INTEGER = 0x00000001;
-            var FIELD_TYPE_STRING = 0x00000003;
+            var t = Cursor_getType(this.cursor, ordinal);
 
 
-            var t = FIELD_TYPE_STRING;
 
-            if (((object)cursor).GetType().GetMethod("getType", new Type[] { typeof(int) }) == null)
-            {
-                Console.WriteLine("getType is unavailable at API 8");
-
-            }
-            else
-            {
-                t = cursor.getType(ordinal);
-            }
 
             // http://developer.android.com/reference/android/database/Cursor.html#FIELD_TYPE_INTEGER
 

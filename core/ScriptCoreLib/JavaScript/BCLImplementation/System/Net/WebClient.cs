@@ -58,7 +58,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
                     // The value is only accessible if the object's 'responseType' is '' or 'text' (was 'arraybuffer').
 
                     // X:\jsc.svn\examples\javascript\android\com.abstractatech.battery\com.abstractatech.battery\ApplicationWebService.cs
-                    //Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType });
+                    Console.WriteLine("UploadValuesAsync " + new { x.status, x.responseType });
 
                     //I/chromium(10616): [INFO:CONSOLE(36216)] "%c0:576ms UploadValuesAsync { status = 204, responseType = arraybuffer }", source: http://192.168.1.103:10129/view-source (36216)
                     //I/chromium(10616): [INFO:CONSOLE(49940)] "Uncaught InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable.", source: http://192.168.1.103:10129/view-source (49940)
@@ -75,7 +75,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
                         // did we not fix it already?
                         // android 2.3 only seems to have responseText
 
-                        response = Encoding.UTF8.GetBytes(x.responseText);
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140413
+
+                        try
+                        {
+                            response = Encoding.UTF8.GetBytes(x.responseText);
+                        }
+                        catch
+                        {
+                            //I/chromium(30556): [INFO:CONSOLE(37861)] "%c92:28288ms UploadValuesAsync { status = 204, responseType = arraybuffer }", source: http://192.168.43.7:4394/view-source (37861)
+                            //I/chromium(30556): [INFO:CONSOLE(37861)] "%c92:28290ms responseText failed. thanks webview devs. { status = 204 }", source: http://192.168.43.7:4394/view-source (37861)
+
+                            // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\ApplicationWebService.cs
+                            Console.WriteLine("responseText failed. thanks webview devs. " + new { x.status });
+                        }
                     }
                     else
                     {
@@ -181,6 +194,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
             return x.responseText;
         }
 
+        // used by?
         public void DownloadStringAsync(Uri address)
         {
             var x = new IXMLHttpRequest();
