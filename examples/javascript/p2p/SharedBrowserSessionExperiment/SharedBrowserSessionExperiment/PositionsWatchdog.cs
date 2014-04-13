@@ -84,11 +84,33 @@ namespace SharedBrowserSessionExperiment
         {
             button1.Enabled = false;
             await this.f.RefreshAsync();
+            Console.WriteLine("will send to server " + new { this.applicationWebService1.LastKnownPositionKey });
             var b0 = await this.applicationWebService1.GetLastPosition();
+
+            //I/chromium( 6636): [INFO:CONSOLE(37861)] "%c92:97445ms UploadValuesAsync { status = 200, responseType = arraybuffer }", source: http://192.168.43.7:14633/view-source (37861)
+            //I/chromium( 6636): [INFO:CONSOLE(37861)] "%c92:97460ms GetString  { Length = 0 }", source: http://192.168.43.7:14633/view-source (37861)
+            //I/chromium( 6636): [INFO:CONSOLE(37861)] "%c92:97496ms server sent us { LastKnownPositionKey = 0 }", source: http://192.168.43.7:14633/view-source (37861)
+
+            // 92:12282ms server sent us { LastKnownPositionKey = 0 } 
+            Console.WriteLine("server sent us, are fields shared? " + new
+            {
+                b0.Key,
+                this.applicationWebService1.LastKnownPositionKey
+            });
+
+
+
             var b = b0;
 
             if (b.Key != default(NavigationOrdersPositionsKey))
             {
+                if (this.applicationWebService1.LastKnownPositionKey == 0)
+                {
+                    Console.WriteLine("wtf? key did not make it over the wire?");
+                    button1.Enabled = true;
+                    return;
+                }
+
                 //this.Text = new { key = this.applicationWebService1.LastKnownPositionKey }.ToString();
 
                 ((DataRowView)this.navigationOrdersPositionsBindingSourceBindingSource.AddNew()).With(
@@ -137,7 +159,9 @@ namespace SharedBrowserSessionExperiment
         {
             while (checkBox1.Checked)
             {
+                checkBox1.Text = "enter RefreshAsync";
                 await RefreshAsync();
+                checkBox1.Text = "exit RefreshAsync";
 
                 if (checkBox1.Checked) await Task.Delay(300);
                 if (checkBox1.Checked) await Task.Delay(300);

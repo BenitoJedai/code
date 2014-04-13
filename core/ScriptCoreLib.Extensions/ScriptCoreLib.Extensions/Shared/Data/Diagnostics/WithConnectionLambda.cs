@@ -22,7 +22,11 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             {
                 // e[ColumnName] ""
 
-                var v = e[ColumnName] as string;
+                // X:\jsc.svn\examples\java\Test\TestJVMCLRAsString\TestJVMCLRAsString\Program.cs
+
+                var __value = e[ColumnName];
+
+                var v = __value as string;
 
                 // new row added by the grid?
                 if (!string.IsNullOrEmpty(v))
