@@ -8,6 +8,7 @@ using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Archive
 {
+    [Obsolete("Abstractatech.ZIPDecoder.ZIPArchive")]
     public partial class ZIPArchive
     {
         // To be removed:

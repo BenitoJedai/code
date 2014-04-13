@@ -19,33 +19,35 @@ using ZIPDecoderExperiment.Design;
 using ZIPDecoderExperiment.HTML.Pages;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using System.IO;
+using Abstractatech.ZIPDecoder;
 
-namespace ZIPDecoderExperiment
+
+// time to publish.
+namespace Abstractatech.ZIPDecoder
 {
-    /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
-    /// </summary>
-    public sealed class Application : ApplicationWebService
+    //Error	15	The task factory "CodeTaskFactory" could not be loaded from the assembly "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Build.Tasks.v4.0.dll". Could not find file 'C:\Users\Arvo\AppData\Local\Temp\a1kdzdpu.dll'.	ZIPDecoderExperiment
+    // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Archive\ZIPArchive.cs
+
+    //using ScriptCoreLib.Archive;
+
+    public class ZIPArchiveFile
     {
-        public class ZIPArchiveFile
-        {
-            public string Name;
+        public string Name;
 
-            // compressed data?
-            //public Func<byte[]> GetData;
-        }
+        // compressed data?
+        //public Func<byte[]> GetData;
+    }
 
-        public partial class ZIPArchive
-        {
-            // To be removed:
-            // ScriptCoreLib.Archive
-            // ScriptCoreLib.Archive.ZIP
+    public partial class ZIPArchive
+    {
+        // To be removed:
+        // ScriptCoreLib.Archive
+        // ScriptCoreLib.Archive.ZIP
 
-            public ZIPArchiveFile[] Files;
+        public ZIPArchiveFile[] Files;
 
-            public long ArchiveStartOffset;
-            public long ArchiveEndOffset;
-        }
+        public long ArchiveStartOffset;
+        public long ArchiveEndOffset;
 
 
         //public static IEnumerable<T> Read<T>(Stream s, Func<bool> _break, Func<T> yield)
@@ -107,6 +109,14 @@ namespace ZIPDecoderExperiment
             // reading from the end towards the start
             seek_f(s.Length - 20);
 
+
+            Func<string, bool> w = text =>
+            {
+                Console.WriteLine(text);
+                return true;
+            };
+
+            //Console.WriteLine("before WhileReading");
             return from CentralDirectoryFound in WhileReading(s)
 
                    // how large could the zip comment possibly be? :)
@@ -128,11 +138,13 @@ namespace ZIPDecoderExperiment
 
                    let p = s.Position - 4
 
-
+                   where w(new { p }.ToString())
 
                    let Number_of_this_disk = r.ReadUInt16()
                    let Disk_where_central_directory_starts = r.ReadUInt16()
+
                    let Number_of_central_directory_records_on_this_disk = r.ReadUInt16()
+
                    let Total_number_of_central_directory_records = r.ReadUInt16()
                    let Size_of_central_directory = r.ReadUInt32()
                    let Offset_of_start_of_central_directory_relative_to_start_of_archive = r.ReadUInt32()
@@ -145,13 +157,43 @@ namespace ZIPDecoderExperiment
                    let start_of_central_directory = p - Size_of_central_directory
                    let start_of_archive = start_of_central_directory - Offset_of_start_of_central_directory_relative_to_start_of_archive
 
-                   // 0: 65011
+                   let _NotifyArchiveBounds = NotifyArchiveBounds.InvokeUnit(
+                         start_of_archive, end_of_archive
+                    )
+
+                   //CDFH_AddPosition { start_of_central_directory = 65011, Position = 65064, Count = 1, Number_of_central_directory_records_on_this_disk = 40 }
+                   //CDFH_AddPosition { start_of_central_directory = 65011, Position = 65117, Count = 2, Number_of_central_directory_records_on_this_disk = 40 }
+                   //CDFH_AddPosition { start_of_central_directory = 65011, Position = 65170, Count = 3, Number_of_central_directory_records_on_this_disk = 40 }
+                   //CDFH_AddPosition { start_of_central_directory = 65011, Position = 65223, Count = 4, Number_of_central_directory_records_on_this_disk = 40 }
+
+                   //where w(new { start_of_central_directory }.ToString())
+
                    let CDFH_Positions = new[] { start_of_central_directory }.ToList()
-                   let CDFH_AddPosition = new Func<long>(() => { CDFH_Positions.Add(s.Position); return s.Position; })
+                   let CDFH_AddPosition = new Func<long>(() =>
+                   {
+
+                       //Console.WriteLine("CDFH_AddPosition " + new
+                       //{
+                       //    start_of_central_directory,
+                       //    s.Position,
+                       //    CDFH_Positions.Count,
+                       //    Number_of_central_directory_records_on_this_disk
+                       //});
+
+                       CDFH_Positions.Add(s.Position); return s.Position;
+                   })
 
 
 
                    from FileIndex in Enumerable.Range(0, (int)Number_of_central_directory_records_on_this_disk)
+
+                   //where w(new { FileIndex, CDFH_Positions.Count }.ToString())
+
+                   //0:4733ms before WhileReading
+                   //0:4741ms { p = 67131 }
+                   //0:4744ms { start_of_central_directory = 65011 }
+                   //0:4745ms { FileIndex = 0, Count = 1 }
+                   //0:4745ms { FileIndex = 1, Count = 1 }
 
                    let HeaderFound = seek_f(CDFH_Positions[FileIndex])
 
@@ -161,16 +203,28 @@ namespace ZIPDecoderExperiment
                    let CDFH_x01 = (byte)s.ReadByte()
                    let CDFH_x02 = (byte)s.ReadByte()
 
+                   //where w(new { CDFH_x50, CDFH_x4b, CDFH_x01, CDFH_x02 }.ToString())
+
+                   // 0:7287ms { CDFH_x50 = 80, CDFH_x4b = 75, CDFH_x01 = 1, CDFH_x02 = 2 }
+
+                   // jsc does not like it yet
+                   //where CDFH_x50 == 0x50
+                   //    && CDFH_x4b == 0x4b
+                   //    && CDFH_x01 == 0x01
+                   //    && CDFH_x02 == 0x02
+
                    where CDFH_x50 == 0x50
-                       && CDFH_x4b == 0x4b
-                       && CDFH_x01 == 0x01
-                       && CDFH_x02 == 0x02
+                   where CDFH_x4b == 0x4b
+                   where CDFH_x01 == 0x01
+                   where CDFH_x02 == 0x02
+
+                   //where w("before ReadingFilesFromCentralDirectory")
 
                    let ReadingFilesFromCentralDirectory = CentralDirectoryFound()
 
-                   let _NotifyArchiveBounds = NotifyArchiveBounds.InvokeUnit(
-                        start_of_archive, end_of_archive
-                   )
+                   //where w(new { ReadingFilesFromCentralDirectory }.ToString())
+
+
 
                    let CDFH_Position = s.Position - 4
 
@@ -209,9 +263,9 @@ namespace ZIPDecoderExperiment
                    let FH_x04 = (byte)s.ReadByte()
 
                    where FH_x50 == 0x50
-                       && FH_x4b == 0x4b
-                       && FH_x03 == 0x03
-                       && FH_x04 == 0x04
+                   where FH_x4b == 0x4b
+                   where FH_x03 == 0x03
+                   where FH_x04 == 0x04
 
                    let FH_Version_needed_to_extract = u2()
                    let FH_General_purpose_bit_flag = u2()
@@ -246,6 +300,19 @@ namespace ZIPDecoderExperiment
 
 
 
+    }
+
+
+}
+
+namespace ZIPDecoderExperiment
+{
+    /// <summary>
+    /// Your client side code running inside a web browser as JavaScript.
+    /// </summary>
+    public sealed class Application : ApplicationWebService
+    {
+
 
 
 
@@ -258,9 +325,7 @@ namespace ZIPDecoderExperiment
         {
             // X:\jsc.svn\examples\actionscript\io\ZipExample2\ZipExample2\Shared\MyCanvas.cs
 
-            //script: error JSC1000: No implementation found for this native method, please implement [static System.Math.Max(System.UInt32, System.UInt32)]
-            //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
-            //script: error JSC1000: error at ZIPDecoderExperiment.Application.<GetEntries>b__9c,
+
 
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Archive\ZIPArchive.cs
 
@@ -274,7 +339,7 @@ namespace ZIPDecoderExperiment
                 // { type = application/x-zip-compressed, name = dude5.zip, size = 67153, md5hex = acedbcbdf70dae38a1f7a7333ba35585, ElapsedMilliseconds = 43 }
 
                 var s = Stopwatch.StartNew();
-                var e = GetEntries(
+                var e = ZIPArchive.GetEntries(
                     new MemoryStream(bytes),
                     NotifyArchiveBounds:
                         (lo, hi) =>
@@ -290,12 +355,25 @@ namespace ZIPDecoderExperiment
 
                 var a = e.ToArray();
 
+                // { Length = 40, ElapsedMilliseconds = 136 }
+
                 new IHTMLPre {
                     new { 
                         a.Length,
                         s.ElapsedMilliseconds
                     }
                 }.AttachToDocument();
+
+                a.WithEach(
+                    x =>
+                    {
+                        new IHTMLPre {
+                            new { 
+                                x.Name
+                            }
+                        }.AttachToDocument();
+                    }
+                );
             };
 
             Native.document.documentElement.ondragover +=
@@ -348,6 +426,7 @@ namespace ZIPDecoderExperiment
                                         s.ElapsedMilliseconds
                                         }
                                     }.AttachToDocument();
+
 
                                   if (f.name.EndsWith(".zip"))
                                       AtZIPBytes(bytes);
