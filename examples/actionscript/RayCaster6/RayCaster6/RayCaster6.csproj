@@ -94,7 +94,9 @@
     <EmbeddedResource Include="web\assets\RayCaster6.Sounds\treasure.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="tools\build.bat" />
     <EmbeddedResource Include="web\assets\RayCaster6\ammo.zip" />
     <EmbeddedResource Include="web\assets\RayCaster6\dude5.zip">
@@ -133,7 +135,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>pushd ..\..\tools\
-rem start /WAIT build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+start /WAIT build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>

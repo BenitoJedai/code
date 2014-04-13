@@ -25,7 +25,8 @@ goto :eof
 :jsc
 pushd ..\bin\%ConfigurationName%
 
-call c:\util\jsc\bin\jsc.exe %1.dll  -as
+dir
+start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe %1.dll -as
 
 
 popd
@@ -48,5 +49,5 @@ echo - %2
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
 
-call C:\util\flex_sdk_4.6\bin\mxmlc.exe  -use-network=false -static-link-runtime-shared-libraries=true -debug -swf-version=13 -target-player=11.1.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+call C:\util\flex_sdk_4.6\bin\mxmlc.exe +configname=airmobile  -use-network=false -static-link-runtime-shared-libraries=true -debug -swf-version=13 -target-player=11.1.0 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof
