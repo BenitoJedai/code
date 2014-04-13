@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public double cos(double e) { return default(double); }
         public double exp(double e) { return default(double); }
-        
+
         public double log(double e) { return default(double); }
         public double sin(double e) { return default(double); }
         public double sqrt(double e) { return default(double); }
@@ -25,14 +25,16 @@ namespace ScriptCoreLib.JavaScript.DOM
         public double tan(double e) { return default(double); }
         public double random() { return default(double); }
 
-        
+
+        public uint max(uint e, uint f) { return default(uint); }
         public int max(int e, int f) { return default(int); }
+        public ushort max(ushort e, ushort f) { return default(int); }
         public double max(double e, double f) { return default(double); }
         public float max(float e, float f) { return default(float); }
 
 
 
-        
+
         public int min(int e, int f) { return default(int); }
         public double min(double e, double f) { return default(double); }
         public float min(float e, float f) { return default(float); }
