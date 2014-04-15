@@ -9,6 +9,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.DataGridViewBand))]
     public class __DataGridViewBand : __DataGridViewElement
     {
+        // cript: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewBand.set_Resizable(System.Windows.Forms.DataGridViewTriState)]
+        public virtual DataGridViewTriState Resizable { get; set; }
+
         public virtual DataGridViewCellStyle DefaultCellStyle { get; set; }
         public virtual bool ReadOnly { get; set; }
         public virtual bool Visible { get; set; }
