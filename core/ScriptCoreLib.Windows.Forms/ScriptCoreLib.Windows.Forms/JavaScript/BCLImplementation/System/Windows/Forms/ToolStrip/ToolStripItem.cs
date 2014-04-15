@@ -11,6 +11,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripItem))]
     public abstract class __ToolStripItem : __Component
     {
+        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_TextAlign(System.Drawing.ContentAlignment)]
+        public virtual ContentAlignment TextAlign { get; set; }
+
         public virtual string Text { get; set; }
 
         public event EventHandler Click;
