@@ -141,5 +141,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
+
+        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataGridViewColumn.set_SortMode(System.Windows.Forms.DataGridViewColumnSortMode)]
+        public DataGridViewColumnSortMode SortMode { get; set; }
     }
 }
