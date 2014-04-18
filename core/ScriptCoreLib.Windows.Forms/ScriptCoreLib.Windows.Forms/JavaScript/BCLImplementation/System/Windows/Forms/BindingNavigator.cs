@@ -37,8 +37,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public ToolStripItem DeleteItem { get; set; }
         public ToolStripItem MoveFirstItem { get; set; }
         public ToolStripItem MoveLastItem { get; set; }
-        public ToolStripItem MoveNextItem { get; set; }
-        public ToolStripItem MovePreviousItem { get; set; }
+
+        public ToolStripItem InternalMoveNextItem;
+        public ToolStripItem MoveNextItem
+        {
+            get { return InternalMoveNextItem; }
+            set
+            {
+                InternalMoveNextItem = value;
+
+                InternalMoveNextItem.Click +=
+                    delegate
+                    {
+                        this.BindingSource.Position =
+                (this.BindingSource.Position + 1) % this.BindingSource.Count
+                ;
+
+                    };
+            }
+        }
+
+        public ToolStripItem InternalMovePreviousItem;
+        public ToolStripItem MovePreviousItem
+        {
+            get { return InternalMovePreviousItem; }
+            set
+            {
+                InternalMovePreviousItem = value;
+
+                InternalMovePreviousItem.Click +=
+                    delegate
+                    {
+                        this.BindingSource.Position =
+                (this.BindingSource.Position + this.BindingSource.Count - 1) % this.BindingSource.Count
+                ;
+
+                    };
+            }
+        }
         public ToolStripItem PositionItem { get; set; }
 
         public event EventHandler RefreshItems;

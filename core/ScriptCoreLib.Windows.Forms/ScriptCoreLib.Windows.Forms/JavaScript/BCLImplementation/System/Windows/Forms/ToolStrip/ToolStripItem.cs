@@ -1,4 +1,6 @@
-﻿using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,9 +16,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_TextAlign(System.Drawing.ContentAlignment)]
         public virtual ContentAlignment TextAlign { get; set; }
 
-        public virtual string Text { get; set; }
+        public string InternalText;
+        public virtual string Text
+        {
+            get { return InternalText; }
+            set
+            {
+                InternalText = value;
+                if (TextChanged != null)
+                    TextChanged(this, new EventArgs());
+            }
+        }
+        public event EventHandler TextChanged;
+
 
         public event EventHandler Click;
+
+        public void RaiseClick()
+        {
+            if (this.Click != null)
+                this.Click(this, new EventArgs());
+        }
+
 
         public string Name { get; set; }
 
@@ -45,5 +66,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public bool AutoSize { get; set; }
 
         public virtual bool Enabled { get; set; }
+
+
+        public static implicit operator __ToolStripItem(global::System.Windows.Forms.ToolStripItem e)
+        {
+            return (__ToolStripItem)(object)e;
+        }
+
+
+        public ToolStrip Owner { get; set; }
+
+        public event Action InternalAfterSetOwner;
+        public virtual void InternalSetOwner(__ToolStrip __ToolStrip)
+        {
+
+            this.Owner = __ToolStrip;
+
+            if (InternalAfterSetOwner != null)
+                InternalAfterSetOwner();
+
+            //new IHTMLButton { this.Name }.AttachTo(
+            //__ToolStrip.InternalElement
+            //);
+
+        }
     }
 }
