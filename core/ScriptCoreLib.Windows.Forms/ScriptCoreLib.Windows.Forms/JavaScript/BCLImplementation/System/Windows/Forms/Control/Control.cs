@@ -61,7 +61,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public bool Capture { get; set; }
 
-        public virtual DockStyle Dock { get; set; }
+
         public virtual AnchorStyles Anchor { get; set; }
 
 

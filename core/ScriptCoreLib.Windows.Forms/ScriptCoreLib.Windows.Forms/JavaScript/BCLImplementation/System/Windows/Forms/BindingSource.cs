@@ -47,6 +47,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 if (PositionChanged != null)
                     PositionChanged(this, new EventArgs());
 
+                if (CurrentChanged != null)
+                    CurrentChanged(this, new EventArgs());
+
             }
         }
 
@@ -160,6 +163,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 var asDataTable = x as DataTable;
                 if (asDataTable != null)
                 {
+                    // X:\jsc.svn\examples\javascript\forms\HashForBindingSource\HashForBindingSource\ApplicationControl.cs
+
                     //asDataTable.DefaultView[
                     var rr = asDataTable.Rows[index];
                     return new __DataRowView { Row = rr };
@@ -192,6 +197,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
 
                 return 0;
+            }
+        }
+
+        public event EventHandler CurrentChanged;
+
+        public object Current
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\forms\HashForBindingSource\HashForBindingSource\Application.cs
+
+                return this[this.Position];
             }
         }
     }

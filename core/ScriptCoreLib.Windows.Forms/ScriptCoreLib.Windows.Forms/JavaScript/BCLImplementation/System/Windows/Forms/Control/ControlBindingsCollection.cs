@@ -141,6 +141,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                             // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
 
+                            #region Text
                             if (binding.PropertyName == "Text")
                             {
 
@@ -154,12 +155,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 asControl.Text = (string)value;
                                 return;
                             }
+                            #endregion
 
 
                             #region asWebBrowser
                             var asWebBrowser = this.BindableComponent as WebBrowser;
                             if (asWebBrowser != null)
                             {
+                                //X:\jsc.svn\examples\javascript\forms\HashForBindingSource\HashForBindingSource\ApplicationControl.cs
+
+
+                                if (binding.PropertyName == "DocumentText")
+                                {
+                                    asWebBrowser.DocumentText = ((string)value);
+                                }
 
                                 if (binding.PropertyName == "Url")
                                 {
