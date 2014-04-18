@@ -18,28 +18,31 @@ namespace DataRepeaterExperiment
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationControl));
             System.Windows.Forms.Label urlStringLabel;
             System.Windows.Forms.Label timestampLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationControl));
+            System.Windows.Forms.Label keyLabel;
             this.dataRepeater1 = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
+            this.timestampDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.navigationOrdersNavigateBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.urlStringTextBox = new System.Windows.Forms.TextBox();
             this.navigationOrdersNavigateBindingSourceBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.navigationOrdersNavigateBindingSourceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
-            this.urlStringTextBox = new System.Windows.Forms.TextBox();
-            this.timestampDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.keyLabel1 = new System.Windows.Forms.Label();
             urlStringLabel = new System.Windows.Forms.Label();
             timestampLabel = new System.Windows.Forms.Label();
+            keyLabel = new System.Windows.Forms.Label();
             this.dataRepeater1.ItemTemplate.SuspendLayout();
             this.dataRepeater1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingSource)).BeginInit();
@@ -47,12 +50,32 @@ namespace DataRepeaterExperiment
             this.navigationOrdersNavigateBindingSourceBindingNavigator.SuspendLayout();
             this.SuspendLayout();
             // 
+            // urlStringLabel
+            // 
+            urlStringLabel.AutoSize = true;
+            urlStringLabel.Location = new System.Drawing.Point(157, 60);
+            urlStringLabel.Name = "urlStringLabel";
+            urlStringLabel.Size = new System.Drawing.Size(69, 17);
+            urlStringLabel.TabIndex = 0;
+            urlStringLabel.Text = "url String:";
+            // 
+            // timestampLabel
+            // 
+            timestampLabel.AutoSize = true;
+            timestampLabel.Location = new System.Drawing.Point(145, 99);
+            timestampLabel.Name = "timestampLabel";
+            timestampLabel.Size = new System.Drawing.Size(81, 17);
+            timestampLabel.TabIndex = 2;
+            timestampLabel.Text = "Timestamp:";
+            // 
             // dataRepeater1
             // 
             this.dataRepeater1.ItemHeaderVisible = false;
             // 
             // dataRepeater1.ItemTemplate
             // 
+            this.dataRepeater1.ItemTemplate.Controls.Add(keyLabel);
+            this.dataRepeater1.ItemTemplate.Controls.Add(this.keyLabel1);
             this.dataRepeater1.ItemTemplate.Controls.Add(timestampLabel);
             this.dataRepeater1.ItemTemplate.Controls.Add(this.timestampDateTimePicker);
             this.dataRepeater1.ItemTemplate.Controls.Add(urlStringLabel);
@@ -64,10 +87,27 @@ namespace DataRepeaterExperiment
             this.dataRepeater1.TabIndex = 0;
             this.dataRepeater1.Text = "dataRepeater1";
             // 
+            // timestampDateTimePicker
+            // 
+            this.timestampDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.navigationOrdersNavigateBindingSourceBindingSource, "Timestamp", true));
+            this.timestampDateTimePicker.Enabled = false;
+            this.timestampDateTimePicker.Location = new System.Drawing.Point(232, 95);
+            this.timestampDateTimePicker.Name = "timestampDateTimePicker";
+            this.timestampDateTimePicker.Size = new System.Drawing.Size(294, 22);
+            this.timestampDateTimePicker.TabIndex = 3;
+            // 
             // navigationOrdersNavigateBindingSourceBindingSource
             // 
             this.navigationOrdersNavigateBindingSourceBindingSource.DataSource = typeof(SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource);
             this.navigationOrdersNavigateBindingSourceBindingSource.Position = 0;
+            // 
+            // urlStringTextBox
+            // 
+            this.urlStringTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.navigationOrdersNavigateBindingSourceBindingSource, "urlString", true));
+            this.urlStringTextBox.Location = new System.Drawing.Point(232, 57);
+            this.urlStringTextBox.Name = "urlStringTextBox";
+            this.urlStringTextBox.Size = new System.Drawing.Size(294, 22);
+            this.urlStringTextBox.TabIndex = 1;
             // 
             // navigationOrdersNavigateBindingSourceBindingNavigator
             // 
@@ -98,6 +138,31 @@ namespace DataRepeaterExperiment
             this.navigationOrdersNavigateBindingSourceBindingNavigator.Size = new System.Drawing.Size(646, 27);
             this.navigationOrdersNavigateBindingSourceBindingNavigator.TabIndex = 1;
             this.navigationOrdersNavigateBindingSourceBindingNavigator.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 24);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(45, 24);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 24);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -130,16 +195,9 @@ namespace DataRepeaterExperiment
             this.bindingNavigatorPositionItem.Text = "1";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(45, 24);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorMoveNextItem
@@ -161,26 +219,8 @@ namespace DataRepeaterExperiment
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 24);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 24);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // navigationOrdersNavigateBindingSourceBindingNavigatorSaveItem
             // 
@@ -191,40 +231,24 @@ namespace DataRepeaterExperiment
             this.navigationOrdersNavigateBindingSourceBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 24);
             this.navigationOrdersNavigateBindingSourceBindingNavigatorSaveItem.Text = "Save Data";
             // 
-            // urlStringLabel
+            // keyLabel
             // 
-            urlStringLabel.AutoSize = true;
-            urlStringLabel.Location = new System.Drawing.Point(157, 60);
-            urlStringLabel.Name = "urlStringLabel";
-            urlStringLabel.Size = new System.Drawing.Size(69, 17);
-            urlStringLabel.TabIndex = 0;
-            urlStringLabel.Text = "url String:";
+            keyLabel.AutoSize = true;
+            keyLabel.Location = new System.Drawing.Point(190, 24);
+            keyLabel.Name = "keyLabel";
+            keyLabel.Size = new System.Drawing.Size(36, 17);
+            keyLabel.TabIndex = 4;
+            keyLabel.Text = "Key:";
             // 
-            // urlStringTextBox
+            // keyLabel1
             // 
-            this.urlStringTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.navigationOrdersNavigateBindingSourceBindingSource, "urlString", true));
-            this.urlStringTextBox.Location = new System.Drawing.Point(232, 57);
-            this.urlStringTextBox.Name = "urlStringTextBox";
-            this.urlStringTextBox.Size = new System.Drawing.Size(294, 22);
-            this.urlStringTextBox.TabIndex = 1;
-            // 
-            // timestampLabel
-            // 
-            timestampLabel.AutoSize = true;
-            timestampLabel.Location = new System.Drawing.Point(145, 99);
-            timestampLabel.Name = "timestampLabel";
-            timestampLabel.Size = new System.Drawing.Size(81, 17);
-            timestampLabel.TabIndex = 2;
-            timestampLabel.Text = "Timestamp:";
-            // 
-            // timestampDateTimePicker
-            // 
-            this.timestampDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.navigationOrdersNavigateBindingSourceBindingSource, "Timestamp", true));
-            this.timestampDateTimePicker.Enabled = false;
-            this.timestampDateTimePicker.Location = new System.Drawing.Point(232, 95);
-            this.timestampDateTimePicker.Name = "timestampDateTimePicker";
-            this.timestampDateTimePicker.Size = new System.Drawing.Size(294, 22);
-            this.timestampDateTimePicker.TabIndex = 3;
+            this.keyLabel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.keyLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.navigationOrdersNavigateBindingSourceBindingSource, "Key", true));
+            this.keyLabel1.Location = new System.Drawing.Point(232, 24);
+            this.keyLabel1.Name = "keyLabel1";
+            this.keyLabel1.Size = new System.Drawing.Size(100, 23);
+            this.keyLabel1.TabIndex = 5;
+            this.keyLabel1.Text = "label1";
             // 
             // ApplicationControl
             // 
@@ -271,6 +295,7 @@ namespace DataRepeaterExperiment
         private ToolStripButton bindingNavigatorMoveLastItem;
         private ToolStripSeparator bindingNavigatorSeparator2;
         private ToolStripButton navigationOrdersNavigateBindingSourceBindingNavigatorSaveItem;
+        private Label keyLabel1;
 
     }
 }
