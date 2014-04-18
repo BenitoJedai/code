@@ -53,7 +53,7 @@ namespace HashForBindingSource
             // hashLabel
             // 
             hashLabel.AutoSize = true;
-            hashLabel.Location = new System.Drawing.Point(323, 66);
+            hashLabel.Location = new System.Drawing.Point(329, 81);
             hashLabel.Name = "hashLabel";
             hashLabel.Size = new System.Drawing.Size(33, 13);
             hashLabel.TabIndex = 5;
@@ -69,7 +69,7 @@ namespace HashForBindingSource
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(55, 61);
+            this.button1.Location = new System.Drawing.Point(40, 75);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -79,7 +79,7 @@ namespace HashForBindingSource
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(136, 61);
+            this.button2.Location = new System.Drawing.Point(121, 75);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -90,7 +90,7 @@ namespace HashForBindingSource
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 4);
+            this.label1.Location = new System.Drawing.Point(4, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(224, 13);
             this.label1.TabIndex = 3;
@@ -105,6 +105,7 @@ namespace HashForBindingSource
             // zeBindingNavigator
             // 
             this.zeBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.zeBindingNavigator.AutoSize = false;
             this.zeBindingNavigator.BindingSource = this.zeBindingSource;
             this.zeBindingNavigator.CountItem = this.bindingNavigatorCountItem;
             this.zeBindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
@@ -128,7 +129,8 @@ namespace HashForBindingSource
             this.zeBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.zeBindingNavigator.Name = "zeBindingNavigator";
             this.zeBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.zeBindingNavigator.Size = new System.Drawing.Size(652, 25);
+            this.zeBindingNavigator.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.zeBindingNavigator.Size = new System.Drawing.Size(652, 34);
             this.zeBindingNavigator.TabIndex = 4;
             this.zeBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -138,13 +140,13 @@ namespace HashForBindingSource
             this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
             this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
             this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 31);
             this.bindingNavigatorAddNewItem.Text = "Add new";
             // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(28, 22);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(28, 31);
             this.bindingNavigatorCountItem.Text = "of {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
             // 
@@ -154,7 +156,7 @@ namespace HashForBindingSource
             this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
             this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
             this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 31);
             this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // bindingNavigatorMoveFirstItem
@@ -163,22 +165,21 @@ namespace HashForBindingSource
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 31);
             this.bindingNavigatorMoveFirstItem.Text = "Move first";
             // 
             // bindingNavigatorMovePreviousItem
             // 
-            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(90, 31);
             this.bindingNavigatorMovePreviousItem.Text = "Move previous";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 34);
             // 
             // bindingNavigatorPositionItem
             // 
@@ -192,15 +193,14 @@ namespace HashForBindingSource
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 34);
             // 
             // bindingNavigatorMoveNextItem
             // 
-            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(72, 31);
             this.bindingNavigatorMoveNextItem.Text = "Move next";
             // 
             // bindingNavigatorMoveLastItem
@@ -209,13 +209,13 @@ namespace HashForBindingSource
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 31);
             this.bindingNavigatorMoveLastItem.Text = "Move last";
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 34);
             // 
             // zeBindingNavigatorSaveItem
             // 
@@ -223,13 +223,13 @@ namespace HashForBindingSource
             this.zeBindingNavigatorSaveItem.Enabled = false;
             this.zeBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("zeBindingNavigatorSaveItem.Image")));
             this.zeBindingNavigatorSaveItem.Name = "zeBindingNavigatorSaveItem";
-            this.zeBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
+            this.zeBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 31);
             this.zeBindingNavigatorSaveItem.Text = "Save Data";
             // 
             // hashTextBox
             // 
             this.hashTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zeBindingSource, "hash", true));
-            this.hashTextBox.Location = new System.Drawing.Point(362, 63);
+            this.hashTextBox.Location = new System.Drawing.Point(368, 78);
             this.hashTextBox.Name = "hashTextBox";
             this.hashTextBox.Size = new System.Drawing.Size(100, 20);
             this.hashTextBox.TabIndex = 6;

@@ -11,11 +11,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripItemCollection))]
     public class __ToolStripItemCollection : __ArrangedElementCollection
     {
-        public List<ToolStripItem> InternalItems = new List<ToolStripItem>();
+        public List<__ToolStripItem> InternalItems = new List<__ToolStripItem>();
+        
+        public __ToolStrip InternalOwner;
+
+        public __ToolStripItemCollection()
+        {
+            
+        }
 
         public void AddRange(ToolStripItem[] toolStripItems)
         {
-            InternalItems.AddRange(toolStripItems.AsEnumerable());
+            foreach (__ToolStripItem item in toolStripItems)
+            {
+                InternalItems.Add(item);
+
+                item.InternalSetOwner(this.InternalOwner);
+            }
         }
     }
 }
