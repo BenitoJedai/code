@@ -59,12 +59,12 @@ namespace FormsHistoricBindingSourcePosition
             this.webBrowser1.DocumentText = CurrentZeDocumentTextzNavigateRow.DocumentText;
 
 
-
-            CurrentDataRowView.PropertyChanged +=
-                delegate
-                {
-                    Console.WriteLine("CurrentDataRowView.PropertyChanged");
-                };
+            // script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRowView.add_PropertyChanged(System.ComponentModel.PropertyChangedEventHandler)]
+            //CurrentDataRowView.PropertyChanged +=
+            //    delegate
+            //    {
+            //        Console.WriteLine("CurrentDataRowView.PropertyChanged");
+            //    };
 
 
         }

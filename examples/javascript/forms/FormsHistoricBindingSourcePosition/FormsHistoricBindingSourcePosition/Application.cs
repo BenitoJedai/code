@@ -36,12 +36,41 @@ namespace FormsHistoricBindingSourcePosition
         public Application(IApp page)
         {
             content.AttachControlToDocument();
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            this.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
+
+
+            content.navigationOrdersNavigateBindingSourceBindingSource.CurrentChanged +=
+                delegate
+                {
+                    Console.WriteLine(
+                        new
+                        {
+                            Native.document.location.pathname,
+                            Native.document.location.search,
+                            Native.document.location.hash,
+                            Native.document.location.href,
+                        }
+                    );
+
+
+                    Native.window.history.replaceState(
+                        null,
+                        null,
+                        url: content.CurrentZeDocumentTextzNavigateRow.hash
+                    );
+
+
+                    Console.WriteLine(
+                        new
+                        {
+                            Native.document.location.pathname,
+                            Native.document.location.search,
+                            Native.document.location.hash,
+                            Native.document.location.href,
+                        }
+                    );
+
+                };
         }
 
     }

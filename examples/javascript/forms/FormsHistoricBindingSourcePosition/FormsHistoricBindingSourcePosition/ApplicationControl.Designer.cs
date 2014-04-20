@@ -19,8 +19,9 @@ namespace FormsHistoricBindingSourcePosition
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label hashLabel;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationControl));
             System.Windows.Forms.Label documentTextLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationControl));
+            System.Windows.Forms.Label keyLabel;
             this.navigationOrdersNavigateBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.navigationOrdersNavigateBindingSourceBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
@@ -40,8 +41,10 @@ namespace FormsHistoricBindingSourcePosition
             this.hashTextBox = new System.Windows.Forms.TextBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.documentTextTextBox = new System.Windows.Forms.TextBox();
+            this.keyLabel1 = new System.Windows.Forms.Label();
             hashLabel = new System.Windows.Forms.Label();
             documentTextLabel = new System.Windows.Forms.Label();
+            keyLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.navigationOrdersNavigateBindingSourceBindingNavigator)).BeginInit();
             this.navigationOrdersNavigateBindingSourceBindingNavigator.SuspendLayout();
@@ -56,6 +59,15 @@ namespace FormsHistoricBindingSourcePosition
             hashLabel.Size = new System.Drawing.Size(33, 13);
             hashLabel.TabIndex = 2;
             hashLabel.Text = "hash:";
+            // 
+            // documentTextLabel
+            // 
+            documentTextLabel.AutoSize = true;
+            documentTextLabel.Location = new System.Drawing.Point(242, 269);
+            documentTextLabel.Name = "documentTextLabel";
+            documentTextLabel.Size = new System.Drawing.Size(83, 13);
+            documentTextLabel.TabIndex = 5;
+            documentTextLabel.Text = "Document Text:";
             // 
             // navigationOrdersNavigateBindingSourceBindingSource
             // 
@@ -232,15 +244,6 @@ namespace FormsHistoricBindingSourcePosition
             this.webBrowser1.Size = new System.Drawing.Size(544, 180);
             this.webBrowser1.TabIndex = 4;
             // 
-            // documentTextLabel
-            // 
-            documentTextLabel.AutoSize = true;
-            documentTextLabel.Location = new System.Drawing.Point(242, 269);
-            documentTextLabel.Name = "documentTextLabel";
-            documentTextLabel.Size = new System.Drawing.Size(83, 13);
-            documentTextLabel.TabIndex = 5;
-            documentTextLabel.Text = "Document Text:";
-            // 
             // documentTextTextBox
             // 
             this.documentTextTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.navigationOrdersNavigateBindingSourceBindingSource, "DocumentText", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -251,9 +254,29 @@ namespace FormsHistoricBindingSourcePosition
             this.documentTextTextBox.TabIndex = 6;
             this.documentTextTextBox.WordWrap = false;
             // 
+            // keyLabel
+            // 
+            keyLabel.AutoSize = true;
+            keyLabel.Location = new System.Drawing.Point(294, 28);
+            keyLabel.Name = "keyLabel";
+            keyLabel.Size = new System.Drawing.Size(28, 13);
+            keyLabel.TabIndex = 7;
+            keyLabel.Text = "Key:";
+            // 
+            // keyLabel1
+            // 
+            this.keyLabel1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.navigationOrdersNavigateBindingSourceBindingSource, "Key", true));
+            this.keyLabel1.Location = new System.Drawing.Point(328, 28);
+            this.keyLabel1.Name = "keyLabel1";
+            this.keyLabel1.Size = new System.Drawing.Size(100, 23);
+            this.keyLabel1.TabIndex = 8;
+            this.keyLabel1.Text = "label1";
+            // 
             // ApplicationControl
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.Controls.Add(keyLabel);
+            this.Controls.Add(this.keyLabel1);
             this.Controls.Add(documentTextLabel);
             this.Controls.Add(this.documentTextTextBox);
             this.Controls.Add(this.webBrowser1);
@@ -304,6 +327,7 @@ namespace FormsHistoricBindingSourcePosition
         public BindingSource navigationOrdersNavigateBindingSourceBindingSource;
         private WebBrowser webBrowser1;
         private TextBox documentTextTextBox;
+        private Label keyLabel1;
 
     }
 }
