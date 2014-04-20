@@ -360,73 +360,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //    + " before Columns"
             // );
 
-            var SourceDataTableColumnCount = SourceDataTable.Columns.Count;
-            var cstopwatch = Stopwatch.StartNew();
 
-
-            #region Columns
-            while (this.Columns.Count > SourceDataTableColumnCount)
-                this.Columns.RemoveAt(this.Columns.Count - 1);
-
-
-            var ColumnIndex = 0;
-            foreach (DataColumn item in SourceDataTable.Columns)
-            {
-
-                if (ColumnIndex < this.Columns.Count)
-                {
-                }
-                else
-                {
-                    var ColumnStopwatch = Stopwatch.StartNew();
-
-                    this.Columns.Add(
-                        new DataGridViewColumn
-                        {
-                        }
-                    );
-
-
-                    // 793192ms { Name = dataGridView2, cIndex = 1 } InternalSetDataSource a Column done at { ElapsedMilliseconds = 935 } 
-
-                    // Console.WriteLine(
-                    //   new { Name, cIndex = ColumnIndex }
-                    //   + " InternalSetDataSource a Column done at "
-                    //   + new { ColumnStopwatch.ElapsedMilliseconds }
-                    //);
-                }
-
-                // X:\jsc.internal.svn\core\com.abstractatech.my.business\com.abstractatech.my.business\Application.cs
-                this.Columns[ColumnIndex].Name = item.ColumnName;
-                this.Columns[ColumnIndex].HeaderText = item.ColumnName;
-
-                this.Columns[ColumnIndex].ReadOnly = item.ReadOnly;
-
-                ColumnIndex++;
-
-
-
-
-            }
-
-            #endregion
-
-
-
-            cstopwatch.Stop();
-            // 4141ms event: dataGridView1 set DataSource columns { SourceDataTableColumnCount = 8, ElapsedMilliseconds = 999 } 
-
-            if (cstopwatch.ElapsedMilliseconds > 30)
-                Console.WriteLine(
-                        "event: "
-                        + this.Name
-                        + " set DataSource columns "
-                        + new
-                        {
-                            SourceDataTableColumnCount,
-                            cstopwatch.ElapsedMilliseconds,
-                        }
-                );
+            // X:\jsc.svn\examples\javascript\forms\FormsHistoricBindingSourcePosition\FormsHistoricBindingSourcePosition\ApplicationControl.cs
+            if (this.AutoGenerateColumns)
+                InternalAutoGenerateColumns(SourceDataTable);
 
             // show the columns and continue in a moment
             Native.window.requestAnimationFrame += delegate
@@ -481,7 +418,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                     var PrerenderData = (PrerenderStopwatch.ElapsedMilliseconds < 50);
 
-                    for (int ic = 0; ic < SourceDataTableColumnCount; ic++)
+                    //for (int ic = 0; ic < SourceDataTableColumnCount; ic++)
+                    // visible columns?
+                    for (int ic = 0; ic < this.Columns.Count; ic++)
                     {
                         var data = DataBoundItem[ic];
 
@@ -502,7 +441,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         }
                         else
                         {
-                            td.colSpan = SourceDataTableColumnCount;
+                            //td.colSpan = SourceDataTableColumnCount;
+
+                            // visible columns?
+                            td.colSpan = this.Columns.Count;
                             break;
                         }
                     }
@@ -523,7 +465,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         + " set DataSource prerender "
                         + new
                         {
-                            SourceDataTableColumnCount,
+                            //SourceDataTableColumnCount,
                             SourceDataTableRowCount,
                             PrerenderStopwatch.ElapsedMilliseconds,
                         }
@@ -610,7 +552,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           + " set DataSource add rows "
                           + new
                           {
-                              SourceDataTableColumnCount,
+                              //SourceDataTableColumnCount,
                               SourceDataTableRowCount,
                               AddRowsStopwatch.ElapsedMilliseconds,
                           }
@@ -634,17 +576,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         // data source is changing under us!
                         // keep up!
 
-                        // script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataColumnCollection.IndexOf(System.Data.DataColumn)]
                         var xColumnIndex = SourceDataTable.Columns.IndexOf(x.Column);
+
+                        if (xColumnIndex >= this.Columns.Count)
+                        { 
+                            // we are not showing that data column! bail!
+                            return;
+                        }
+
+                        //29:16660ms DataSource UserAddedRow{ Count = 3 } view-source:37895
+                        //29:16661ms SourceDataTable.ColumnChanged { RowIndex = 3, xColumnIndex = 0 } view-source:37895
+                        //29:16662ms SourceDataTable.ColumnChanged { RowIndex = 3, xColumnIndex = 1 } 
+
                         var RowIndex = SourceDataTable.Rows.IndexOf(x.Row);
 
-                        //Console.WriteLine("SourceDataTable.ColumnChanged " + new { RowIndex, xColumnIndex });
+                        Console.WriteLine("SourceDataTable.ColumnChanged " + new { RowIndex, xColumnIndex });
+
+                        var c = this[xColumnIndex, RowIndex];
+
+                        if (c == null)
+                            Debugger.Break();
 
 
-                        if (this[xColumnIndex, RowIndex].Value == x.ProposedValue)
+                        if (c.Value == x.ProposedValue)
                             return;
 
-                        this[xColumnIndex, RowIndex].Value = x.ProposedValue;
+                        c.Value = x.ProposedValue;
                     };
 
 
@@ -762,6 +719,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         foreach (DataColumn item in SourceDataTable.Columns)
                         {
                             // user cannot enter null can he
+                            // raise_ColumnChanged
                             NewRow[item] = "";
                         }
 
@@ -847,7 +805,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     + " set DataSource almost done "
                     + new
                     {
-                        SourceDataTableColumnCount,
+                        //SourceDataTableColumnCount,
                         SourceDataTableRowCount,
                         stopwatch.ElapsedMilliseconds
                     }
@@ -925,7 +883,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                               + " set DataSource sReposition0 "
                               + new
                               {
-                                  SourceDataTableColumnCount,
+                                  //SourceDataTableColumnCount,
                                   sReposition0.ElapsedMilliseconds
                               }
                            );
@@ -940,7 +898,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         new
                         {
-                            columns = cstopwatch.ElapsedMilliseconds,
+                            //columns = cstopwatch.ElapsedMilliseconds,
                             prerender = PrerenderStopwatch.ElapsedMilliseconds,
                             rows = AddRowsStopwatch.ElapsedMilliseconds,
 
@@ -959,7 +917,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                           + " DataSourceChanged "
                           + new
                           {
-                              SourceDataTableColumnCount,
+                              //SourceDataTableColumnCount,
                               SourceDataTableRowCount,
                               stopwatch.ElapsedMilliseconds
                           }

@@ -12,6 +12,7 @@ using System;
 namespace HashForBindingSource
 {
     [DefaultEvent("zeBindingSourceCurrentChanged")]
+    [Obsolete("history API allows also to change the non hash part of url!")]
     public partial class ApplicationControl : UserControl
     {
         public ApplicationControl()
