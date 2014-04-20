@@ -28,3 +28,5 @@ rem https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201
 
 echo install
 C:\util\air13_sdk_win\bin\adt -installApp -platform ios -package air.ipa
+
+rem No Devices Detected

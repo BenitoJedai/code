@@ -105,6 +105,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             Console.WriteLine("event: enter new DataGridView()");
 
+            this.AutoGenerateColumns = true;
+
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140412
             // tested by?
@@ -1601,14 +1603,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action<__DataGridViewRow> CreateMissingCells =
                 SourceRow =>
                 {
-                    //Console.WriteLine("CreateMissingCells  " + new
-                    //{
-                    //    SourceRow.Index,
-                    //    CellsCount = SourceRow.InternalCells.InternalItems.Count,
-                    //    ColumnsCount = this.InternalColumns.InternalItems.Count
+                    Console.WriteLine("CreateMissingCells  " + new
+                    {
+                        SourceRow.Index,
+                        CellsCount = SourceRow.InternalCells.InternalItems.Count,
+                        ColumnsCount = this.InternalColumns.InternalItems.Count
 
 
-                    //});
+                    });
 
                     #region defaults
                     while (SourceRow.InternalCells.InternalItems.Count < this.InternalColumns.InternalItems.Count)
@@ -1650,8 +1652,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     #endregion
 
 
+                    //29:295ms CreateMissingCells  { Index = 0, CellsCount = 5, ColumnsCount = 1 }
+                    //29:296ms what if SourceRow has more columns than the table? { i = 0 }
+                    //29:298ms what if SourceRow has more columns than the table? { i = 1 }
+
                     for (int i = 0; i < SourceRow.InternalCells.InternalItems.Count; i++)
                     {
+                        //Console.WriteLine("what if SourceRow has more columns than the table? " + new { i });
+
+                        // X:\jsc.svn\examples\javascript\forms\FormsHistoricBindingSourcePosition\FormsHistoricBindingSourcePosition\ApplicationControl.cs
+                        // SourceRow has more columns? bail? are we showing the correct columns?
+                        if (i == this.Columns.Count)
+                            break;
+
                         var SourceColumn = this.InternalColumns.InternalItems[i];
                         var SourceCell = SourceRow.InternalCells.InternalItems[i];
 
@@ -2172,8 +2185,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                         var ZeroRight = (ZeroHorizontalResizerDrag.Position.X + 4);
 
+
+                                        // X:\jsc.svn\examples\javascript\forms\FormsHistoricBindingSourcePosition\FormsHistoricBindingSourcePosition\ApplicationControl.cs
+                                        // tested by?
                                         if (!this.RowHeadersVisible)
-                                            ZeroRight = 1;
+                                        {
+                                            // we are missing the left border!
+                                            SourceColumnLeft = 0;
+                                            ZeroRight = -4;
+                                        }
 
 
                                         // { cindex = 0, w = 0, all = 1600, WidthByFill = 1600 } 

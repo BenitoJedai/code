@@ -99,6 +99,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         static public __Color Silver { get { return 0xC0C0C0; } }
         static public __Color Gray { get { return 0x808080; } }
 
+        // http://simple.wikipedia.org/wiki/Teal_(color)
+        static public __Color Teal { get { return 0x008080; } }
+
 
 
         public override string ToString()
