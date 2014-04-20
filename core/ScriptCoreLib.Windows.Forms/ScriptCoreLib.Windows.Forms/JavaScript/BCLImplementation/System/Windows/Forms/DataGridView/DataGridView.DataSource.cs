@@ -89,6 +89,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     return InternalPreviousPosition;
                 }
 
+
                 InternalPreviousPosition = this.SelectedRows[0].Index;
                 return InternalPreviousPosition;
             }
@@ -244,15 +245,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         this.SelectionChanged +=
                             delegate
                             {
+                                // this methods is defined too early?
+
+                                var __SourceBindingSource_DataSource_asDataTable = SourceBindingSource_DataSource_asDataTable as DataTable;
+
                                 var isCurrentDataSourceSync = CurrentDataSourceSync == InternalDataSourceSync;
 
-                                Console.WriteLine("SelectionChanged " + new { isCurrentDataSourceSync, this.InternalPosition });
+                                // 30:49422ms SelectionChanged { isCurrentDataSourceSync = true, InternalPosition = 3, Count = 4 }
+
+                                // message: "Cannot read property 'hRIABq5zDzqOgooWgQkAYQ' of null"
+
+
+                                Console.WriteLine("SelectionChanged " + new
+                                {
+                                    isCurrentDataSourceSync,
+                                    this.InternalPosition,
+                                    VisibleRowsCount = this.Rows.Count,
+                                    DataRowsCount = __SourceBindingSource_DataSource_asDataTable.Rows.Count
+                                });
 
                                 // some other datasource?
                                 if (!isCurrentDataSourceSync)
                                     return;
 
                                 // grid is letting bindingsource know what was selected!
+
+                                // is the new row ready yet?
+
+                                if (this.InternalPosition >= __SourceBindingSource_DataSource_asDataTable.Rows.Count)
+                                    // selection should wait for data sync?
+                                    return;
 
                                 SourceBindingSource.Position = this.InternalPosition;
                             };
@@ -579,7 +601,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         var xColumnIndex = SourceDataTable.Columns.IndexOf(x.Column);
 
                         if (xColumnIndex >= this.Columns.Count)
-                        { 
+                        {
                             // we are not showing that data column! bail!
                             return;
                         }

@@ -13,14 +13,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\Application.cs
 
-        //no implementation for System.Windows.Forms.BindingNavigator 8d907746-455e-39a7-bd31-bc9f81468347
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.BindingNavigator.set_AddNewItem(System.Windows.Forms.ToolStripItem)]
-        //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
-        //script: error JSC1000: error at SharedBrowserSessionExperiment.TheBrowserTab.InitializeComponent,
-        // assembly: U:\SharedBrowserSessionExperiment.Application.exe
-        // type: SharedBrowserSessionExperiment.TheBrowserTab, SharedBrowserSessionExperiment.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-        // offset: 0x036f
-        //  method:Void InitializeComponent()
 
         public __BindingNavigator()
         {
@@ -31,13 +23,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
         }
 
-        public ToolStripItem AddNewItem { get; set; }
+
+        #region AddNewItem
+        public ToolStripItem InternalAddNewItem;
+        public ToolStripItem AddNewItem
+        {
+            get { return InternalAddNewItem; }
+            set
+            {
+                InternalAddNewItem = value;
+
+                InternalAddNewItem.Click +=
+                    delegate
+                    {
+                        // X:\jsc.svn\examples\javascript\forms\FormsHistoricBindingSourcePosition\FormsHistoricBindingSourcePosition\ApplicationControl.cs
+
+                        this.BindingSource.AddNew();
+                        this.BindingSource.Position = this.BindingSource.Count - 1;
+                    };
+            }
+        }
+        #endregion
+
+
         public BindingSource BindingSource { get; set; }
         public ToolStripItem CountItem { get; set; }
         public ToolStripItem DeleteItem { get; set; }
         public ToolStripItem MoveFirstItem { get; set; }
         public ToolStripItem MoveLastItem { get; set; }
 
+        #region MoveNextItem
         public ToolStripItem InternalMoveNextItem;
         public ToolStripItem MoveNextItem
         {
@@ -56,7 +71,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     };
             }
         }
+        #endregion
 
+        #region MovePreviousItem
         public ToolStripItem InternalMovePreviousItem;
         public ToolStripItem MovePreviousItem
         {
@@ -75,6 +92,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     };
             }
         }
+        #endregion
+
         public ToolStripItem PositionItem { get; set; }
 
         public event EventHandler RefreshItems;

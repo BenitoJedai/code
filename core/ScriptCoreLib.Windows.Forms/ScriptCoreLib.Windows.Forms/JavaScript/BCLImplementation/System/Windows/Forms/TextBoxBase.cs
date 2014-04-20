@@ -410,11 +410,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     // we need to detect newline mangling
 
-                    this.InternalTextField_MultiLine.value = value;
+                    var __value = value;
+                    if (__value == null)
+                        __value = "";
+
+                    this.InternalTextField_MultiLine.value = __value;
 
                     #region detect newline changes
                     this.InternalTextKnownLength = this.InternalTextField_MultiLine.value.Length;
-                    this.InternalTextNewLineMangling = this.InternalTextKnownLength < value.Length;
+                    this.InternalTextNewLineMangling = this.InternalTextKnownLength < __value.Length;
                     #endregion
 
                     return;

@@ -157,7 +157,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowser\WebBrowser.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\WebBrowser\WebBrowserBase.cs" />
     <Compile Include="JavaScript\Extensions\FormStyler.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\BindingCompleteEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\BindingCompleteEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\ConvertEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Windows\Forms\LayoutEventArgs.cs" />
