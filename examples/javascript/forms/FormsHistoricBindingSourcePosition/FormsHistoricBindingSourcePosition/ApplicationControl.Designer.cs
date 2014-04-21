@@ -20,8 +20,8 @@ namespace FormsHistoricBindingSourcePosition
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label hashLabel;
             System.Windows.Forms.Label documentTextLabel;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationControl));
             System.Windows.Forms.Label keyLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationControl));
             this.navigationOrdersNavigateBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.navigationOrdersNavigateBindingSourceBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
@@ -68,6 +68,15 @@ namespace FormsHistoricBindingSourcePosition
             documentTextLabel.Size = new System.Drawing.Size(83, 13);
             documentTextLabel.TabIndex = 5;
             documentTextLabel.Text = "Document Text:";
+            // 
+            // keyLabel
+            // 
+            keyLabel.AutoSize = true;
+            keyLabel.Location = new System.Drawing.Point(294, 28);
+            keyLabel.Name = "keyLabel";
+            keyLabel.Size = new System.Drawing.Size(28, 13);
+            keyLabel.TabIndex = 7;
+            keyLabel.Text = "Key:";
             // 
             // navigationOrdersNavigateBindingSourceBindingSource
             // 
@@ -253,15 +262,6 @@ namespace FormsHistoricBindingSourcePosition
             this.documentTextTextBox.Size = new System.Drawing.Size(544, 213);
             this.documentTextTextBox.TabIndex = 6;
             this.documentTextTextBox.WordWrap = false;
-            // 
-            // keyLabel
-            // 
-            keyLabel.AutoSize = true;
-            keyLabel.Location = new System.Drawing.Point(294, 28);
-            keyLabel.Name = "keyLabel";
-            keyLabel.Size = new System.Drawing.Size(28, 13);
-            keyLabel.TabIndex = 7;
-            keyLabel.Text = "Key:";
             // 
             // keyLabel1
             // 
