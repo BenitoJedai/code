@@ -34,7 +34,7 @@ namespace AndroidFormsActivity.Activities
 
             u.AttachTo(this);
 
-           
+
 
             ////// http://stackoverflow.com/questions/9784570/webview-inside-scrollview-disappears-after-zooming
             ////// http://stackoverflow.com/questions/8123804/unable-to-add-web-view-dynamically
@@ -45,6 +45,13 @@ namespace AndroidFormsActivity.Activities
 
 
             //this.ShowLongToast("http://jsc-solutions.net");
+
+            //[javac] Compiling 527 source files to V:\bin\classes
+            //[javac] V:\src\AndroidFormsActivity\ApplicationControl.java:129: error: cannot find symbol
+            //[javac]         super.Dispose_06000006(disposing);
+            //[javac]              ^
+            //[javac]   symbol: method Dispose_06000006(boolean)
+            //[javac] Note: V:\src\ScriptCoreLibJava\BCLImplementation\System\Threading\__Thread.java uses or overrides a deprecated API.
         }
 
 

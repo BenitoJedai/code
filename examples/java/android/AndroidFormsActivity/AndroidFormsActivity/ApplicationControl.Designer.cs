@@ -22,7 +22,7 @@ namespace AndroidFormsActivity
         protected override void Dispose(bool disposing)
         {
             // Note: This jsc project does not support unmanaged resources.
-            base.Dispose(disposing);
+            //base.Dispose(disposing);
         }
 
         /// <summary>
