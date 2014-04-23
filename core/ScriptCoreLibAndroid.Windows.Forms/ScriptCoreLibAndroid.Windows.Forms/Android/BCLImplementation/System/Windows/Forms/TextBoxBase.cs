@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.TextBoxBase))]
-    internal class __TextBoxBase : __Control
+    public class __TextBoxBase : __Control
     {
     }
 }

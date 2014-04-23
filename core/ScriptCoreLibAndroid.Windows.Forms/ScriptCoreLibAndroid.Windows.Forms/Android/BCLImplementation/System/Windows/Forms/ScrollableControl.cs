@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ScrollableControl))]
-    internal class __ScrollableControl : __Control
+    public class __ScrollableControl : __Control
     {
     }
 }

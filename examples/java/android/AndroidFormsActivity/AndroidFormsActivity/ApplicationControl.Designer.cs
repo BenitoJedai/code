@@ -53,6 +53,7 @@ namespace AndroidFormsActivity
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.Location = new System.Drawing.Point(0, 13);
             this.textBox1.Name = "textBox1";
+            this.textBox1.PasswordChar = '*';
             this.textBox1.Size = new System.Drawing.Size(468, 20);
             this.textBox1.TabIndex = 4;
             this.textBox1.Text = "JSC";
@@ -106,8 +107,8 @@ namespace AndroidFormsActivity
 
         private Label label1;
         private TextBox textBox1;
-        private Button button1;
         private Button button2;
         private CheckBox checkBox1;
+        public Button button1;
     }
 }

@@ -7,6 +7,8 @@ using android.widget;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Extensions.Android;
+using System.Windows.Forms;
+using ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms;
 
 namespace AndroidFormsActivity.Activities
 {
@@ -34,12 +36,67 @@ namespace AndroidFormsActivity.Activities
 
             u.AttachTo(this);
 
+            u.button1.Click += delegate
+            {
+                //var temp = (__UserControl)(object)u;
+                var popupView = new android.widget.LinearLayout(this);
+                var dispWidth = getWindowManager().getDefaultDisplay().getWidth() - 60;
+
+                var popupText = new TextView(this);
+                popupText.setText("This is Popup Window!");
+                popupText.setPadding(0, 0, 0, 20);
+                popupText.setTextColor(-16711936);
+
+                var popupFormsTextBox = new TextBox();
+                popupFormsTextBox.PasswordChar = '*';
+                ((__TextBox)(object)popupFormsTextBox).InternalBeforeSetContext(this);
+                var t = ((__TextBox)(object)popupFormsTextBox).InternalGetElement();
+                ((EditText)t).setWidth(dispWidth);
+                
+
+                var submitButt = new System.Windows.Forms.Button();
+                submitButt.Text = "Submit";
+                ((__Button)(object)submitButt).InternalBeforeSetContext(this);
+                var b = ((__Button)(object)submitButt).InternalGetElement();
+
+                var cancelButt = new System.Windows.Forms.Button();
+                cancelButt.Text = "Cancel";
+                ((__Button)(object)cancelButt).InternalBeforeSetContext(this);
+                var cb = ((__Button)(object)cancelButt).InternalGetElement();
+
+                popupView.addView(popupText);
+                popupView.addView(t);
+                popupView.addView(b);
+                popupView.addView(cb);
+
+                popupView.setOrientation(1);
+                popupView.setBackgroundColor(-3355444);
+
+                var popup = new android.widget.PopupWindow(popupView, dispWidth, 250);
+                popup.setContentView(popupView);
+                popup.setFocusable(true);
+                popup.setOutsideTouchable(true);
+                
+
+                popup.showAsDropDown(((__Button)(object)u.button1).InternalGetElement(), android.view.Gravity.CENTER, 40, 0);
+                u.button1.Text = "Now popup must show!!";
+
+                submitButt.Click += delegate
+                {
+                    submitButt.Text = ((EditText)t).getText().ToString();
+                };
+
+                cancelButt.Click += delegate
+                {
+                    popup.dismiss();
+                };
+            };
+
 
 
             ////// http://stackoverflow.com/questions/9784570/webview-inside-scrollview-disappears-after-zooming
             ////// http://stackoverflow.com/questions/8123804/unable-to-add-web-view-dynamically
             ////// http://developer.android.com/reference/android/webkit/WebView.html
-
 
 
 

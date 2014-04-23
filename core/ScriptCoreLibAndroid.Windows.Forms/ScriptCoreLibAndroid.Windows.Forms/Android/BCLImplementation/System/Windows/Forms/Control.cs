@@ -9,7 +9,7 @@ using ScriptCoreLib.Android.BCLImplementation.System.ComponentModel;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
-    internal partial class __Control : __Component
+    public partial class __Control : __Component
     {
         public __Control.__ControlCollection Controls { get; internal set; }
 
@@ -90,6 +90,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
         public global::System.Drawing.Size Size { get; set; }
 
         public string Name { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         public bool AutoSize { get; set; }
 
