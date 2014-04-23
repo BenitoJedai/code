@@ -1,11 +1,13 @@
-﻿using ScriptCoreLib.JavaScript.DOM;
+﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
+using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.Drawing;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripButton))]
@@ -19,7 +21,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             static IStyle idle = new IStyle(Native.css[typeof(__ToolStripButton)])
             {
-                border = "1px solid transparent"
+                border = "1px solid transparent",
+
+                //margin = "1px",
+                //padding = "1px",
+
+                // http://stackoverflow.com/questions/10850341/vertical-align-center-input-and-button-in-div
+                //display = IStyle.DisplayEnum
+                verticalAlign = "baseline"
+
             };
 
             static IStyle hover = new IStyle(Native.css[typeof(__ToolStripButton)].hover)
@@ -38,6 +48,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __ToolStripButton()
         {
+            (this.InternalElement.style.display as dynamic).display = "table-cell";
+
+            var InternalElementSpan = new IHTMLSpan().AttachTo(InternalElement);
+            //InternalElementSpan.style.verticalAlign = "baseline";
+
+            this.InternalElement.style.font = Control.DefaultFont.ToCssString();
+
+
+            //this.Font = DefaultFont;
+
+            this.InternalImageChanged +=
+                delegate
+                {
+
+                    if (this.InternalImage == null)
+                        return;
+
+                    var i = ((__Bitmap)(object)this.InternalImage).InternalImage;
+
+                    // https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
+                    //i.style.verticalAlign = "baseline";
+
+                    this.InternalElement.insertBefore(
+                        i,
+                        InternalElementSpan
+                    );
+
+                    if (this.DisplayStyle == ToolStripItemDisplayStyle.Image)
+                    {
+                        i.InvokeOnComplete(
+                            delegate
+                            {
+                                InternalElementSpan.Hide();
+                            }
+                        );
+                    }
+                };
 
             this.InternalElement.onclick +=
                 delegate
@@ -47,7 +94,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.TextChanged += delegate
             {
-                this.InternalElement.innerText = this.InternalText;
+                InternalElementSpan.innerText = this.InternalText;
             };
 
             this.InternalAfterSetOwner +=

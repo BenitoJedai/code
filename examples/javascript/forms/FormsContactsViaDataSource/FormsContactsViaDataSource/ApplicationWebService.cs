@@ -1,6 +1,11 @@
+#if !DEBUG
+
 using android.content;
 using android.database;
 using android.provider;
+
+#endif
+
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -23,12 +28,21 @@ namespace FormsContactsViaDataSource
     /// </summary>
     public partial class ApplicationWebService : Component
     {
-        public async Task<IEnumerable<Data.ContactDataGetContactsRow>> GetContacts()
+
+        public async Task<int> GetContactsCount()
+        {
+            return 44;
+        }
+
+        public async Task<IEnumerable<Data.ContactDataGetContactsRow>> GetContacts(
+            int skip,
+            int take
+            )
         {
 #if DEBUG
 
             return
-                from i in Enumerable.Range(0, 4)
+                from i in Enumerable.Range(0, 44).Skip(skip).Take(take)
                 select new Data.ContactDataGetContactsRow
                 {
                     Key = (Data.ContactDataGetContactsKey)i,
@@ -40,19 +54,6 @@ namespace FormsContactsViaDataSource
             // http://stackoverflow.com/questions/11275650/how-to-increase-heap-size-of-an-android-application
 
 
-            //Implementation not found for type import :
-            //type: System.Type
-            //method: System.Type GetType(System.String)
-            //Did you forget to add the [Script] attribute?
-            //Please double check the signature!
-
-            //assembly: V:\staging\clr\FormsContactsViaDataSource.ApplicationWebService
-
-            var VMRuntime = Type.GetType("dalvik.system.VMRuntime");
-
-            Console.WriteLine(
-                new { VMRuntime }
-                );
 
             //var MinimumHeapSize = dalvik.system.VMRuntime.getRuntime().getMinimumHeapSize();
 

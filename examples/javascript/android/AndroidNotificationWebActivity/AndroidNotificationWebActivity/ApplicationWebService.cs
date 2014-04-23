@@ -28,9 +28,7 @@ namespace AndroidNotificationWebActivity
 
             e += new { VMRuntime };
 
-            Console.WriteLine(
-                new { VMRuntime }
-                );
+            Console.WriteLine(new { VMRuntime });
 
 
 
@@ -41,6 +39,36 @@ namespace AndroidNotificationWebActivity
             intent.putExtra("data0", e);
 
             c.startService(intent);
+
+            // http://stackoverflow.com/questions/7598835/alternative-of-vmruntime-getruntime-setminimumheapsize-in-gingerbread
+
+
+            if (VMRuntime != null)
+            {
+
+                //Implementation not found for type import :
+                //type: System.Type
+                //method: System.Reflection.MethodInfo GetMethod(System.String)
+                //Did you forget to add the [Script] attribute?
+                //Please double check the signature!
+
+
+                //var VMRuntime_getRuntime = VMRuntime.GetMethod("getRuntime");
+                var VMRuntime_getRuntime = VMRuntime.GetMethod("getRuntime", new Type[0]);
+
+                Console.WriteLine(new { VMRuntime_getRuntime });
+
+                // https://android.googlesource.com/platform/libcore/+/9edf43dfcc35c761d97eb9156ac4254152ddbc55/libdvm/src/main/java/dalvik/system/VMRuntime.java
+                var r = VMRuntime_getRuntime.Invoke(null, new object[0]);
+
+                Console.WriteLine(new { r });
+
+                //I/System.Console( 8079): { VMRuntime = dalvik.system.VMRuntime }
+                //I/System.Console( 8079): { VMRuntime_getRuntime = dalvik.system.VMRuntime getRuntime() }
+                //I/System.Console( 8079): { r = dalvik.system.VMRuntime@41764740 }
+
+            }
+
 
             // Send it back to the caller.
             y(e);

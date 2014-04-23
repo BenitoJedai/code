@@ -4,19 +4,49 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsContactsViaDataSource", "FormsContactsViaDataSource\FormsContactsViaDataSource.csproj", "{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {B8D28279-57CD-4163-86F9-1DFDF540B58B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{0F38587E-D843-45FA-8D88-214A3F3E2061}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Debug|x86.ActiveCfg = Debug|x86
 		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Debug|x86.Build.0 = Debug|x86
+		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Release|Any CPU.ActiveCfg = Release|x86
+		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Release|Mixed Platforms.Build.0 = Release|x86
 		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Release|x86.ActiveCfg = Release|x86
 		{82FE6D0F-9218-4A6E-B820-B9241A69C9D9}.Release|x86.Build.0 = Release|x86
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {0F38587E-D843-45FA-8D88-214A3F3E2061}
 	EndGlobalSection
 EndGlobal

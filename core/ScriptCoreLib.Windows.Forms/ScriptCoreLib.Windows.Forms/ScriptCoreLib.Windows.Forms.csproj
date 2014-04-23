@@ -74,6 +74,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.Dock.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.Parent.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.Font.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\ControlBindingsCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.GetPreferredSize.cs" />
@@ -217,6 +218,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\BindingNavigatorAddNewItem.Image.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\BindingNavigatorDeleteItem.Image.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\BindingNavigatorMoveFirstItem.Image.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\BindingNavigatorMoveLastItem.Image.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\BindingNavigatorMoveNextItem.Image.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\BindingNavigatorMovePreviousItem.Image.png" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\BindingNavigatorSaveItem.Image.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\FormResizeGrip.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridFocusRow.png" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\DataGridEditRow.png" />
