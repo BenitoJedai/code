@@ -42,9 +42,9 @@ namespace FormsNICWithDataSource
 
             // add it to the bindingsource
 
-            this.ParentForm.Text = "" + a.Length;
+            this.ParentForm.Text = "" + a.Count();
 
-            Replace(a);
+            Replace(a.ToArray());
 
 
         }

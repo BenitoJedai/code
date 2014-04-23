@@ -19,16 +19,17 @@ namespace FormsNICWithDataSource
     /// </summary>
     public partial class ApplicationWebService : Component
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140423
+        // X:\jsc.svn\examples\javascript\test\TestWebMethodTaskOfIEnumerable\TestWebMethodTaskOfIEnumerable\ApplicationWebService.cs
 
+        // http://stackoverflow.com/questions/5061761/is-it-possible-to-await-yield-return-dosomethingasync
         // X:\jsc.svn\examples\javascript\forms\FormsNIC\FormsNIC\ApplicationWebService.cs
 
 
-        public async Task<Data.NICDataGetInterfacesRow[]> GetInterfaces()
+        [Obsolete("jsc either buffers all or could send in a hint, like take 5 or skip 6")]
+        public async Task<IEnumerable<Data.NICDataGetInterfacesRow>> GetInterfaces()
         {
-            //return null;
-
-            // when can we send back Task of IEnumerable?
-            return Enumerable.ToArray(
+            return
                 from n in NetworkInterface.GetAllNetworkInterfaces()
                 let Name = n.Name
                         + " | " + n.Description
@@ -48,8 +49,7 @@ namespace FormsNICWithDataSource
 
                 orderby IPProperties.UnicastAddresses.Count > 0
 
-                select z
-            );
+                select z;
         }
     }
 }
