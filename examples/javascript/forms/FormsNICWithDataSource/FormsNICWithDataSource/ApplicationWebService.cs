@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,16 +19,37 @@ namespace FormsNICWithDataSource
     /// </summary>
     public partial class ApplicationWebService : Component
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
 
+        // X:\jsc.svn\examples\javascript\forms\FormsNIC\FormsNIC\ApplicationWebService.cs
+
+
+        public async Task<Data.NICDataGetInterfacesRow[]> GetInterfaces()
+        {
+            //return null;
+
+            // when can we send back Task of IEnumerable?
+            return Enumerable.ToArray(
+                from n in NetworkInterface.GetAllNetworkInterfaces()
+                let Name = n.Name
+                        + " | " + n.Description
+
+                let SupportsMulticast = Convert.ToString(n.SupportsMulticast)
+                let IPProperties = n.GetIPProperties()
+                let GatewayAddresses = IPProperties.UnicastAddresses.Aggregate(
+                    "", (state, item) => state + "; " + item.Address
+                )
+
+                let z = new Data.NICDataGetInterfacesRow
+                {
+                    Name = Name,
+                    SupportsMulticast = SupportsMulticast,
+                    GatewayAddresses = GatewayAddresses
+                }
+
+                orderby IPProperties.UnicastAddresses.Count > 0
+
+                select z
+            );
+        }
     }
 }

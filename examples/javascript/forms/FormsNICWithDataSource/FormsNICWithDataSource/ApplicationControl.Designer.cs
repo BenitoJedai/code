@@ -39,6 +39,7 @@ namespace FormsNICWithDataSource
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.applicationWebService1 = new FormsNICWithDataSource.ApplicationWebService();
             ((System.ComponentModel.ISupportInitialize)(this.nICDataGetInterfacesBindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nICDataGetInterfacesBindingSourceBindingNavigator)).BeginInit();
             this.nICDataGetInterfacesBindingSourceBindingNavigator.SuspendLayout();
@@ -47,7 +48,7 @@ namespace FormsNICWithDataSource
             // 
             // nICDataGetInterfacesBindingSourceBindingSource
             // 
-            this.nICDataGetInterfacesBindingSourceBindingSource.AllowNew = false;
+            this.nICDataGetInterfacesBindingSourceBindingSource.AllowNew = true;
             this.nICDataGetInterfacesBindingSourceBindingSource.DataSource = typeof(FormsNICWithDataSource.Data.NICDataGetInterfacesBindingSource);
             this.nICDataGetInterfacesBindingSourceBindingSource.Position = 0;
             // 
@@ -232,6 +233,7 @@ namespace FormsNICWithDataSource
             this.Margin = new System.Windows.Forms.Padding(30);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(706, 316);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nICDataGetInterfacesBindingSourceBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nICDataGetInterfacesBindingSourceBindingNavigator)).EndInit();
             this.nICDataGetInterfacesBindingSourceBindingNavigator.ResumeLayout(false);
@@ -272,6 +274,7 @@ namespace FormsNICWithDataSource
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private ApplicationWebService applicationWebService1;
 
     }
 }
