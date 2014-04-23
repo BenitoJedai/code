@@ -12,7 +12,7 @@ using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Library
 {
-
+    [Obsolete("move into a nuget?")]
     public class MSVSProjectFile
     {
         // Microsoft Visual Studio Project File

@@ -36,6 +36,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalAddNewItem.Click +=
                     delegate
                     {
+                        // X:\jsc.svn\examples\javascript\forms\FormsNICWithDataSource\FormsNICWithDataSource\ApplicationControl.cs
+                        if (!this.BindingSource.AllowNew)
+                            return;
+
                         // X:\jsc.svn\examples\javascript\forms\FormsHistoricBindingSourcePosition\FormsHistoricBindingSourcePosition\ApplicationControl.cs
 
                         this.BindingSource.AddNew();
@@ -46,7 +50,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
 
-        public BindingSource BindingSource { get; set; }
+        BindingSource InternalBindingSource;
+        public BindingSource BindingSource
+        {
+            get
+            {
+
+                return InternalBindingSource;
+            }
+            set
+            {
+                InternalBindingSource = value;
+
+
+                InternalBindingSource.PositionChanged +=
+                    delegate
+                    {
+                        this.PositionItem.Text = "" + InternalBindingSource.Position;
+                    };
+            }
+        }
+
         public ToolStripItem CountItem { get; set; }
         public ToolStripItem DeleteItem { get; set; }
         public ToolStripItem MoveFirstItem { get; set; }
