@@ -76,7 +76,7 @@ namespace FormsNICWithDataSource
             this.nICDataGetInterfacesBindingSourceBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.nICDataGetInterfacesBindingSourceBindingNavigator.Name = "nICDataGetInterfacesBindingSourceBindingNavigator";
             this.nICDataGetInterfacesBindingSourceBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.nICDataGetInterfacesBindingSourceBindingNavigator.Size = new System.Drawing.Size(465, 25);
+            this.nICDataGetInterfacesBindingSourceBindingNavigator.Size = new System.Drawing.Size(706, 25);
             this.nICDataGetInterfacesBindingSourceBindingNavigator.TabIndex = 0;
             this.nICDataGetInterfacesBindingSourceBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -107,11 +107,10 @@ namespace FormsNICWithDataSource
             // 
             // bindingNavigatorMovePreviousItem
             // 
-            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(90, 22);
             this.bindingNavigatorMovePreviousItem.Text = "Move previous";
             // 
             // bindingNavigatorSeparator
@@ -135,11 +134,10 @@ namespace FormsNICWithDataSource
             // 
             // bindingNavigatorMoveNextItem
             // 
-            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(72, 22);
             this.bindingNavigatorMoveNextItem.Text = "Move next";
             // 
             // bindingNavigatorMoveLastItem
@@ -181,7 +179,7 @@ namespace FormsNICWithDataSource
             this.nICDataGetInterfacesBindingSourceDataGridView.Location = new System.Drawing.Point(0, 25);
             this.nICDataGetInterfacesBindingSourceDataGridView.Name = "nICDataGetInterfacesBindingSourceDataGridView";
             this.nICDataGetInterfacesBindingSourceDataGridView.ReadOnly = true;
-            this.nICDataGetInterfacesBindingSourceDataGridView.Size = new System.Drawing.Size(465, 358);
+            this.nICDataGetInterfacesBindingSourceDataGridView.Size = new System.Drawing.Size(706, 291);
             this.nICDataGetInterfacesBindingSourceDataGridView.TabIndex = 1;
             this.nICDataGetInterfacesBindingSourceDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.nICDataGetInterfacesBindingSourceDataGridView_CellContentClick);
             // 
@@ -233,7 +231,7 @@ namespace FormsNICWithDataSource
             this.Controls.Add(this.nICDataGetInterfacesBindingSourceBindingNavigator);
             this.Margin = new System.Windows.Forms.Padding(30);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(465, 383);
+            this.Size = new System.Drawing.Size(706, 316);
             ((System.ComponentModel.ISupportInitialize)(this.nICDataGetInterfacesBindingSourceBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nICDataGetInterfacesBindingSourceBindingNavigator)).EndInit();
             this.nICDataGetInterfacesBindingSourceBindingNavigator.ResumeLayout(false);

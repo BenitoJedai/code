@@ -14,17 +14,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.BindingSource))]
     public class __BindingSource : __Component, __ISupportInitialize
     {
-        //  [System.Windows.Forms.BindingSource.add_BindingComplete(System.Windows.Forms.BindingCompleteEventHandler)]
-        // t: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.BindingSource.add_DataMemberChanged(System.EventHandler)]
-
+        // X:\jsc.svn\examples\javascript\forms\FormsNICWithDataSource\FormsNICWithDataSource\ApplicationControl.cs
         // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\ApplicationControl.Designer.cs
-
-
         // X:\jsc.svn\examples\javascript\forms\FormsDataBindingForEnabled\FormsDataBindingForEnabled\ApplicationControl.cs
 
         // ?
         public event BindingCompleteEventHandler BindingComplete;
         public event EventHandler DataMemberChanged;
+
+        public virtual bool AllowNew { get; set; }
 
         public __BindingSource()
         {

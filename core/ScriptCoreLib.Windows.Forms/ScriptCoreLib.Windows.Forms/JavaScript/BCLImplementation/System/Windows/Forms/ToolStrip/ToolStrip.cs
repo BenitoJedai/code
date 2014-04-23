@@ -25,10 +25,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __ToolStrip()
         {
+            // these look like generic .css rules. not instance specific.
+            InternalElement.style.whiteSpace = DOM.IStyle.WhiteSpaceEnum.nowrap;
+            InternalElement.style.overflow = DOM.IStyle.OverflowEnum.hidden;
+
+            // X:\jsc.svn\examples\javascript\forms\FormsNICWithDataSource\FormsNICWithDataSource\ApplicationControl.Designer.cs
+
             Items = new __ToolStripItemCollection
             {
                 InternalOwner = this
             };
+
+
+            // set the default. designer may omit it.
+            this.Dock = DockStyle.Top;
         }
 
         public __ToolStripItemCollection Items { get; set; }
