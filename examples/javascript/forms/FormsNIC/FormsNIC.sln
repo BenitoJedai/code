@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsNIC", "FormsNIC\FormsNIC.csproj", "{34E50DA4-68B7-460B-8C34-F008927DD5BD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Drawing", "..\..\..\..\core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.csproj", "{053C4547-E32B-458E-B295-1E3640BE96E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{6F2506BE-EF58-414E-8AD1-A65CBC3256FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,5 +72,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {6F2506BE-EF58-414E-8AD1-A65CBC3256FF}
+		{053C4547-E32B-458E-B295-1E3640BE96E9} = {6F2506BE-EF58-414E-8AD1-A65CBC3256FF}
 	EndGlobalSection
 EndGlobal

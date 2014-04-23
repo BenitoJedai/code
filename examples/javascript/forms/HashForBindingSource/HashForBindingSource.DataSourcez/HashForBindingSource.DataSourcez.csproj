@@ -133,6 +133,7 @@
     <None Include="app.config" />
     <None Include="Dataz\ZeDocumentTextz.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ZeDocumentTextzNavigateBindingSource.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
