@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
@@ -50,9 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Android\BCLImplementation\System\ComponentModel\Component.cs" />
-    <Compile Include="Android\BCLImplementation\System\ComponentModel\IContainer.cs" />
-    <Compile Include="Android\BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\Button.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\CheckBox.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Android\BCLImplementation\System\ComponentModel\" />
     <Folder Include="Android\BCLImplementation\System\Windows\Forms\Layout\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

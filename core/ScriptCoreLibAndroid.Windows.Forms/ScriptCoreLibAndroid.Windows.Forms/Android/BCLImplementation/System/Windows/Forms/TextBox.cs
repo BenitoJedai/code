@@ -60,6 +60,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             {
                 if (value == default(char))
                     return;
+
+                // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\widget\EditText.cs
+
                 if (InternalEditText != null)
                 {
                     InternalEditText.setInputType(3);

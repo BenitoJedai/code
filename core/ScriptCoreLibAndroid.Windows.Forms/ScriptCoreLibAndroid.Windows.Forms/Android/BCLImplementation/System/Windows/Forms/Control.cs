@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using android.content;
 using android.view;
-using ScriptCoreLib.Android.BCLImplementation.System.ComponentModel;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     public partial class __Control : __Component
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.cs
+
         public __Control.__ControlCollection Controls { get; internal set; }
 
 
