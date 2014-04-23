@@ -28,10 +28,23 @@ namespace FormsContactsViaDataSource
     /// </summary>
     public partial class ApplicationWebService : Component
     {
+        //D/dalvikvm(11432): WAIT_FOR_CONCURRENT_GC blocked 19ms
+        //D/dalvikvm(11432): GC_FOR_ALLOC freed 356K, 7% free 8147K/8760K, paused 17ms, total 17ms
 
+        [Obsolete("android needs paging, otherwise we run out of our 16MB of RAM")]
         public async Task<int> GetContactsCount()
         {
+#if DEBUG
             return 44;
+#else
+            ContentResolver cr = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.getContentResolver();
+
+            Cursor cur = cr.query(
+                 ContactsContract.Contacts.CONTENT_URI,
+                     null, null, null, null);
+
+            return cur.getCount();
+#endif
         }
 
         public async Task<IEnumerable<Data.ContactDataGetContactsRow>> GetContacts(
@@ -70,6 +83,8 @@ namespace FormsContactsViaDataSource
             // http://www.higherpass.com/Android/Tutorials/Working-With-Android-Contacts/
             ContentResolver cr = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext.getContentResolver();
 
+            // http://developer.android.com/reference/android/provider/ContactsContract.Contacts.html
+
             Cursor cur = cr.query(
                 ContactsContract.Contacts.CONTENT_URI,
                     null, null, null, null);
@@ -80,13 +95,12 @@ namespace FormsContactsViaDataSource
             return
                 from index in Enumerable.Range(
                     0,
-
-                    // take?
-                    cur.getCount().Min(10)
-
+                    cur.getCount()
                     )
 
                 where cur.moveToNext()
+                where index >= skip
+                where index < skip + take
 
                 let id = cur.getLong(
                     cur.getColumnIndex(ContactsContract.Contacts._ID))

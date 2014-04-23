@@ -805,6 +805,7 @@
     <Compile Include="android\app\NotificationManager.cs" />
     <Compile Include="android\app\Notification.cs" />
     <Compile Include="android\content\ComponentName.cs" />
+    <Compile Include="android\content\ContentResolver.cs" />
     <Compile Include="android\content\IntentFilter.cs" />
     <Compile Include="android\content\SharedPreferences.cs" />
     <Compile Include="android\content\Intent.cs" />
@@ -828,6 +829,7 @@
     <Compile Include="android\os\IBinder.cs" />
     <Compile Include="android\os\Parcelable.cs" />
     <Compile Include="android\os\Vibrator.cs" />
+    <Compile Include="android\provider\ContactsContract.cs" />
     <Compile Include="android\R.cs" />
     <Compile Include="android\text\method\TransformationMethod.cs" />
     <Compile Include="android\text\method\PasswordTransformationMethod.cs" />
@@ -907,7 +909,6 @@
     </Compile>
   </ItemGroup>-->
   <ItemGroup>
-    <Folder Include="android\provider\" />
     <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
