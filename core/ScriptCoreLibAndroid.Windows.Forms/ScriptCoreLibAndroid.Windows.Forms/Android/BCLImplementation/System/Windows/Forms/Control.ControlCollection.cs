@@ -7,10 +7,10 @@ using java.util;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
-    partial class __Control
+    public partial class __Control
     {
         [Script(Implements = typeof(global::System.Windows.Forms.Control.ControlCollection))]
-        internal class __ControlCollection // : Layout.__ArrangedElementCollection
+        public class __ControlCollection // : Layout.__ArrangedElementCollection
         {
             public __Control InternalContainer;
 

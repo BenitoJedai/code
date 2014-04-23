@@ -9,7 +9,7 @@ using java.lang;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.Button))]
-    internal class __Button : __ButtonBase
+    public class __Button : __ButtonBase
     {
         public Button InternalElement;
 
