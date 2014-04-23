@@ -23,5 +23,10 @@ namespace AndroidFormsContactsDataTable
             this.dataGridView1.DataSource = c;
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }
