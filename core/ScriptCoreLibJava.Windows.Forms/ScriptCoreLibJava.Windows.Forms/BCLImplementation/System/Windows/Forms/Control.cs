@@ -12,6 +12,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal partial class __Control : __Component, __IDropTarget, __ISynchronizeInvoke, __IWin32Window, __IBindableComponent, __IComponent, IDisposable
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.cs
+
      
         #region Click
         public event EventHandler Click;

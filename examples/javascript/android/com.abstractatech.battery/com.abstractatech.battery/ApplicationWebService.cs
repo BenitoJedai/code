@@ -73,6 +73,7 @@ namespace com.abstractatech.battery
             //return Task.FromResult(new object());
 #else
 
+
             // partial build?
             var ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 

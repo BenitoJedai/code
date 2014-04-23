@@ -13,6 +13,22 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
+        public static __Type GetType(string typeName)
+        {
+            var c = default(java.lang.Class);
+
+            try
+            {
+                c = java.lang.Class.forName(typeName);
+            }
+            catch
+            {
+
+            }
+
+            return c;
+        }
+
         public static implicit operator __Type(global::System.Type e)
         {
             return (__Type)(object)e;

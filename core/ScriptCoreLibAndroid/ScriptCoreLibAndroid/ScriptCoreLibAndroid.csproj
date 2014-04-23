@@ -829,6 +829,8 @@
     <Compile Include="android\os\Parcelable.cs" />
     <Compile Include="android\os\Vibrator.cs" />
     <Compile Include="android\R.cs" />
+    <Compile Include="android\text\method\TransformationMethod.cs" />
+    <Compile Include="android\text\method\PasswordTransformationMethod.cs" />
     <Compile Include="android\util\DisplayMetrics.cs" />
     <Compile Include="android\util\SparseArray.cs" />
     <Compile Include="android\util\Log.cs" />

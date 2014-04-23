@@ -22,6 +22,18 @@ namespace AndroidNotificationWebActivity
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
+            // https://code.google.com/p/android/issues/detail?id=14869
+            // seems to exist!
+            var VMRuntime = Type.GetType("dalvik.system.VMRuntime");
+
+            e += new { VMRuntime };
+
+            Console.WriteLine(
+                new { VMRuntime }
+                );
+
+
+
             var c = ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext;
 
             var intent = new Intent(c, typeof(foo.NotifyService).ToClass());

@@ -46,6 +46,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     public partial class __Control : __Component, __IBindableComponent
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava.Windows.Forms\ScriptCoreLibJava.Windows.Forms\BCLImplementation\System\Windows\Forms\Control.cs
+
         #region name
         public string InternalName;
         public string Name { get { return InternalName; } set { InternalName = value; if (InternalNameChanged != null)InternalNameChanged(); } }
