@@ -55,5 +55,10 @@ namespace android.content
         {
             throw new NotImplementedException();
         }
+
+        public override ContentResolver getContentResolver()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
