@@ -62,6 +62,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         }
         public void RemoveAt(int i)
         {
+            // X:\jsc.svn\examples\javascript\forms\FormsNICWithDataSource\FormsNICWithDataSource\ApplicationControl.cs
+
             var row = this.InternalList[i];
 
             this.InternalDataTable.RaiseRowDeleting(
@@ -73,7 +75,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
 
         }
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRowCollection.RemoveAt(System.Int32)]
 
         public override int Count
         {

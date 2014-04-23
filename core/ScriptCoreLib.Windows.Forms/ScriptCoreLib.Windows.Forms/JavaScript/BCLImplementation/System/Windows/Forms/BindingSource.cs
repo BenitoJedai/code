@@ -121,6 +121,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.BindingSource.RemoveAt(System.Int32)]
+
+        public virtual void RemoveAt(int index)
+        {
+            var x = this.ActivatedDataSource;
+
+            var asBindingSource = x as BindingSource;
+            if (asBindingSource != null)
+            {
+                asBindingSource.RemoveAt(index);
+                return;
+            }
+
+            var asDataTable = x as DataTable;
+            if (asDataTable != null)
+            {
+                asDataTable.Rows.RemoveAt(index);
+                return;
+            }
+
+            return;
+        }
+
         public virtual object AddNew()
         {
             var x = this.ActivatedDataSource;
