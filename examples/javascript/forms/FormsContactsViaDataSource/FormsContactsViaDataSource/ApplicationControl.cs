@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.Extensions;
+using System;
 
 
 namespace FormsContactsViaDataSource
@@ -22,9 +23,46 @@ namespace FormsContactsViaDataSource
         {
             // X:\jsc.svn\examples\javascript\forms\FormsNICWithDataSource\FormsNICWithDataSource\ApplicationWebService.cs
 
-            var a = await this.applicationWebService1.GetContacts();
+            var count = await this.applicationWebService1.GetContactsCount();
 
-            Replace(a);
+            var perpage = 11;
+            var pagecount = count / perpage;
+
+            Console.WriteLine(new
+            {
+                count,
+                pagecount,
+                this.contactDataGetContactsByPageBindingSourceBindingSource
+            });
+
+            // "Cannot read property 'jAEABrc_alj_abCA79ng3_b3w' of undefined"
+
+            // return ( function () { var c$11 = this.contactDataGetContactsByPageBindingSourceBindingSource.jAEABrc_alj_abCA79ng3_b3w(); return (c$11 instanceof _3tIZYSq_akTK30oTh9r6C0w ? c$11 : null); } )();
+
+
+            var pages = Enumerable.Range(0, pagecount).Select(
+                //x => this.contactDataGetContactsByPageBindingSourceBindingSource.AddNew() as DataRowView
+                x => this.contactDataGetContactsByPageBindingSourceBindingSource.AddNew()
+            ).ToArray();
+
+
+            //this.bindingNavigator1.add
+
+
+            this.contactDataGetContactsByPageBindingSourceBindingSource.CurrentChanged +=
+                async delegate
+                {
+                    var a = await this.applicationWebService1.GetContacts(
+                        this.contactDataGetContactsByPageBindingSourceBindingSource.Position * perpage
+                        , perpage);
+
+                    Replace(a);
+                };
+
+            Console.WriteLine("before Position");
+            //this.contactDataGetContactsByPageBindingSourceBindingSource.ResetCurrentItem();
+            this.contactDataGetContactsByPageBindingSourceBindingSource.Position = 0;
+
         }
 
         private void Replace(IEnumerable<Data.ContactDataGetContactsRow> a)

@@ -13,6 +13,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // X:\jsc.svn\examples\javascript\forms\HashForBindingSource\HashForBindingSource\ApplicationControl.Designer.cs
         // what if we would like to actually see our toolbar? HTMLTargetRef
 
+        public ToolStripGripStyle GripStyle { get; set; }
+
         public override DOM.HTML.IHTMLElement HTMLTargetRef
         {
             get

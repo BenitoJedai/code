@@ -1,4 +1,7 @@
-﻿using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+using ScriptCoreLib.Shared.BCLImplementation.System.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +26,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
         }
 
+        [Obsolete("a workaround until jsc can actually use resx images by the designer.")]
+        static __BindingNavigator()
+        {
+            // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Resources\ResourceManager.cs
+
+            __ResourceManager.InternalGetObject +=
+                (baseName, assembly, name, yield) =>
+                {
+                    // "bindingNavigatorDeleteItem.Image"
+
+                    //Console.WriteLine(
+                    //    "__BindingNavigator " + new { name }
+                    //    );
+
+
+                    if (name.Contains("MovePreviousItem"))
+                        yield((__Bitmap)(IHTMLImage)"assets/ScriptCoreLib.Windows.Forms/BindingNavigatorMovePreviousItem.Image.png");
+
+                    if (name.Contains("MoveNextItem"))
+                        yield((__Bitmap)(IHTMLImage)"assets/ScriptCoreLib.Windows.Forms/BindingNavigatorMoveNextItem.Image.png");
+
+                    if (name.Contains("MoveLastItem"))
+                        yield((__Bitmap)(IHTMLImage)"assets/ScriptCoreLib.Windows.Forms/BindingNavigatorMoveLastItem.Image.png");
+
+                    if (name.Contains("MoveFirstItem"))
+                        yield((__Bitmap)(IHTMLImage)"assets/ScriptCoreLib.Windows.Forms/BindingNavigatorMoveFirstItem.Image.png");
+
+                    if (name.Contains("AddNewItem"))
+                        yield((__Bitmap)(IHTMLImage)"assets/ScriptCoreLib.Windows.Forms/BindingNavigatorAddNewItem.Image.png");
+
+                    if (name.Contains("DeleteItem"))
+                        yield((__Bitmap)(IHTMLImage)"assets/ScriptCoreLib.Windows.Forms/BindingNavigatorDeleteItem.Image.png");
+
+                    if (name.Contains("SaveItem"))
+                        yield((__Bitmap)(IHTMLImage)"assets/ScriptCoreLib.Windows.Forms/BindingNavigatorSaveItem.Image.png");
+                };
+        }
 
         #region AddNewItem
         public ToolStripItem InternalAddNewItem;
@@ -50,6 +90,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
 
+        #region BindingSource
         BindingSource InternalBindingSource;
         public BindingSource BindingSource
         {
@@ -67,9 +108,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     delegate
                     {
                         this.PositionItem.Text = "" + InternalBindingSource.Position;
+
+                        this.CountItem.Text = " of " + InternalBindingSource.Count;
                     };
             }
         }
+        #endregion
+
 
         public ToolStripItem CountItem { get; set; }
         public ToolStripItem DeleteItem { get; set; }

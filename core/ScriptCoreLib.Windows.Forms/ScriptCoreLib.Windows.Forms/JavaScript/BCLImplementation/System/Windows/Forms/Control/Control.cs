@@ -78,21 +78,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return null;
         }
 
-        public static Font DefaultFont
-        {
-            get
-            {
-                // will this cause
-                // system ttf to be packaged
-                // with the app?
-                return new global::System.Drawing.Font("Microsoft Sans Serif", 8.25F, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, ((byte)(186)));
-            }
-        }
-
-        public void InternalSetDefaultFont()
-        {
-            this.Font = DefaultFont;
-        }
 
         [Obsolete("InternalElement")]
         public virtual DOM.HTML.IHTMLElement HTMLTargetRef
@@ -666,44 +651,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-        #region Font
-
-
-        public event EventHandler FontChanged;
-
-        protected virtual void OnFontChanged(EventArgs e)
-        {
-            //Console.WriteLine("OnFontChanged");
-
-            if (FontChanged != null)
-                FontChanged(this, e);
-        }
-
-
-
-
-        public virtual void InternalSetFont(Font value)
-        {
-        }
-
-        private Font _Font;
-
-        public Font Font
-        {
-            get { return _Font; }
-            set
-            {
-                _Font = value;
-
-                this.HTMLTargetRef.style.font = value.ToCssString();
-                InternalSetFont(value);
-
-                OnFontChanged(new EventArgs());
-
-
-            }
-        }
-        #endregion
+      
 
 
 

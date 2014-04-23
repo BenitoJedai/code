@@ -18,6 +18,9 @@ namespace android.database
         sbyte[] getBlob(int columnIndex);
 
 
+        int getCount();
+
+
         void close();
 
         bool moveToFirst();

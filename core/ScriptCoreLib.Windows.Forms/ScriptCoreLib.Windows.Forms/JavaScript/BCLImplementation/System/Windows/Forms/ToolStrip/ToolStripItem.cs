@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using System;
@@ -16,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_TextAlign(System.Drawing.ContentAlignment)]
         public virtual ContentAlignment TextAlign { get; set; }
 
+        #region Text
         public string InternalText;
         public virtual string Text
         {
@@ -28,6 +30,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
         public event EventHandler TextChanged;
+        #endregion
 
 
         public event EventHandler Click;
@@ -54,7 +57,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // do we support forms images yet?
         public virtual Image BackgroundImage { get; set; }
 
-        public virtual Image Image { get; set; }
+
+        public event Action InternalImageChanged;
+        public Image InternalImage;
+        public virtual Image Image
+        {
+            get { return InternalImage; }
+            set
+            {
+                this.InternalImage = value;
+
+                if (InternalImageChanged != null)
+                    InternalImageChanged();
+            }
+        }
 
         //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_RightToLeftAutoMirrorImage(System.Boolean)]
         public bool RightToLeftAutoMirrorImage { get; set; }
