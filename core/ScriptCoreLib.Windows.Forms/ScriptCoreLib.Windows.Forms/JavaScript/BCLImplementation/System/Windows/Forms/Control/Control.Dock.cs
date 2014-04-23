@@ -80,6 +80,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             __Control __c = c;
 
+            if (c.HTMLTargetRef == null)
+                return;
+
             // this looks wrong!
             dx = width - InternalChildrenAnchorUpdate_width;
             dy = height - InternalChildrenAnchorUpdate_height;
