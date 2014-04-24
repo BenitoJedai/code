@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChartExperiment</RootNamespace>
     <AssemblyName>ChartExperiment</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>ChartExperiment.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -144,6 +145,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="Data\Book1.xlsx" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Book1Sheet1BindingSource.datasource" />
