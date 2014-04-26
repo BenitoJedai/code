@@ -78,7 +78,6 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripButton.cs
         public static implicit operator IHTMLButton(Type x)
         {
-            // what if its not a button?
             return new IHTMLButton { className = x.Name };
         }
 
