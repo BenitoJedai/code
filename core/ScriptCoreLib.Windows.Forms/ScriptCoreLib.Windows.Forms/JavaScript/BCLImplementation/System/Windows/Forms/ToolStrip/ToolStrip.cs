@@ -31,6 +31,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalElement.style.whiteSpace = DOM.IStyle.WhiteSpaceEnum.nowrap;
             InternalElement.style.overflow = DOM.IStyle.OverflowEnum.hidden;
 
+            // shall css talk to the class name asigned to it?
+            InternalElement.css.children.style.margin = "0px";
+            InternalElement.css.children.style.marginLeft = "0.1em";
+            InternalElement.css.children.style.marginRight = "0.1em";
+
+            InternalElement.css.children.style.verticalAlign = "middle";
+
             // X:\jsc.svn\examples\javascript\forms\FormsNICWithDataSource\FormsNICWithDataSource\ApplicationControl.Designer.cs
 
             Items = new __ToolStripItemCollection

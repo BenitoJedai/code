@@ -46,7 +46,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-        public IEnumerable<__Control> InternalSiblings
+
+        public IEnumerable<__Control> InternalSiblingsIncludingThis
         {
             get
             {
@@ -54,6 +55,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                        where p != null
                        from i in Enumerable.Range(0, p.Controls.Count)
                        let cc = (__Control)this.Parent.Controls[i]
+                       select cc;
+
+            }
+        }
+
+        public IEnumerable<__Control> InternalSiblings
+        {
+            get
+            {
+                return from cc in InternalSiblingsIncludingThis
                        where cc != this
                        select cc;
 
@@ -108,7 +119,33 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 __c.outer_style.width = "";
 
                 __c.outer_style.left = "0px";
-                __c.outer_style.top = 0 + "px";
+
+                // X:\jsc.svn\examples\javascript\forms\ChartExperiment\ChartExperiment\ApplicationControl.cs
+                var ThoseBeforeUs = __c.InternalSiblingsIncludingThis.Reverse().TakeWhile(
+                    z => z != __c
+                ).Where(
+                    x => x.Dock == DockStyle.Top
+                ).ToArray();
+
+
+                // 35:531ms { Name = ApplicationControl } there are before us { Length = 0 }
+                //Console.WriteLine(
+                //    new { __c.Name } + " there are before us " + new { ThoseBeforeUs.Length }
+                //    );
+
+                //foreach (var item in ThoseBeforeUs)
+                //{
+                //    Console.WriteLine(
+                //        new { __c.Name } + " there are before us " + new { item.Name, item.Height }
+                //        );
+
+                //}
+
+                var ThoseBeforeUsHeight = ThoseBeforeUs.Sum(x => x.Height);
+
+
+
+                __c.outer_style.top = ThoseBeforeUsHeight + "px";
                 __c.outer_style.right = "0px";
 
                 return;
