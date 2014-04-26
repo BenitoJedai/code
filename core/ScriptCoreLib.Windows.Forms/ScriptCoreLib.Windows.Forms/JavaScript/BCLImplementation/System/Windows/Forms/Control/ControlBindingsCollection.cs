@@ -89,10 +89,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                         //      }
                         //  );
 
-                        if (binding.PropertyName == "Text")
-                        {
-                            asControl.TextChanged +=
-                                delegate
+                        Console.WriteLine("await newBindingSource.InternalAfterEndInit");
+                        // is this called?
+                        newBindingSource.InternalAfterEndInit.Task.ContinueWith(
+                            delegate
+                            {
+                                Console.WriteLine("await newBindingSource.InternalAfterEndInit done");
+
+
+                                #region AtPosition
+                                Action AtPosition = delegate
                                 {
                                     if (asBindingSource.Position < 0)
                                         return;
@@ -102,94 +108,102 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                     var asRow = asDataTable.Rows[asBindingSource.Position];
 
-                                    Console.WriteLine("Text to data source " + new
-                                    {
-                                        asBindingSource.Position,
-                                        binding.DataMember,
-                                        asControl.Text
-                                    });
-
                                     // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.cs
-                                    asRow[binding.DataMember] = asControl.Text;
+                                    var value = asRow[binding.DataMember];
+
+                                    // 31:9446ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, value = http://example.com/ } 
+
+                                    //Console.WriteLine(
+                                    //    new
+                                    //    {
+                                    //        asWebBrowser,
+                                    //        binding.PropertyName,
+                                    //        value
+                                    //    }
+                                    //);
+
+                                    // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
+
+                                    #region Text
+                                    if (binding.PropertyName == "Text")
+                                    {
+
+                                        Console.WriteLine("data source to Text " + new
+                                        {
+                                            asBindingSource.Position,
+                                            binding.DataMember,
+                                            value
+                                        });
+
+                                        asControl.Text = (string)value;
+                                        return;
+                                    }
+                                    #endregion
+
+
+                                    #region asWebBrowser
+                                    var asWebBrowser = this.BindableComponent as WebBrowser;
+                                    if (asWebBrowser != null)
+                                    {
+                                        //X:\jsc.svn\examples\javascript\forms\HashForBindingSource\HashForBindingSource\ApplicationControl.cs
+
+
+                                        if (binding.PropertyName == "DocumentText")
+                                        {
+                                            asWebBrowser.DocumentText = ((string)value);
+                                        }
+
+                                        if (binding.PropertyName == "Url")
+                                        {
+                                            asWebBrowser.Navigate((string)value);
+                                        }
+
+                                        return;
+                                    }
+                                    #endregion
                                 };
-                        }
-
-                        #region AtPosition
-                        Action AtPosition = delegate
-                        {
-                            if (asBindingSource.Position < 0)
-                                return;
-
-                            if (asBindingSource.Position >= asDataTable.Rows.Count)
-                                return;
-
-                            var asRow = asDataTable.Rows[asBindingSource.Position];
-
-                            // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.cs
-                            var value = asRow[binding.DataMember];
-
-                            // 31:9446ms { asWebBrowser = <Namespace>.WebBrowser, PropertyName = Url, value = http://example.com/ } 
-
-                            //Console.WriteLine(
-                            //    new
-                            //    {
-                            //        asWebBrowser,
-                            //        binding.PropertyName,
-                            //        value
-                            //    }
-                            //);
-
-                            // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
-
-                            #region Text
-                            if (binding.PropertyName == "Text")
-                            {
-
-                                Console.WriteLine("data source to Text " + new
-                                {
-                                    asBindingSource.Position,
-                                    binding.DataMember,
-                                    value
-                                });
-
-                                asControl.Text = (string)value;
-                                return;
-                            }
-                            #endregion
+                                #endregion
 
 
-                            #region asWebBrowser
-                            var asWebBrowser = this.BindableComponent as WebBrowser;
-                            if (asWebBrowser != null)
-                            {
-                                //X:\jsc.svn\examples\javascript\forms\HashForBindingSource\HashForBindingSource\ApplicationControl.cs
-
-
-                                if (binding.PropertyName == "DocumentText")
-                                {
-                                    asWebBrowser.DocumentText = ((string)value);
-                                }
-
-                                if (binding.PropertyName == "Url")
-                                {
-                                    asWebBrowser.Navigate((string)value);
-                                }
-
-                                return;
-                            }
-                            #endregion
-                        };
-                        #endregion
-
-
-                        // now or later?
-                        AtPosition();
-
-                        asBindingSource.PositionChanged +=
-                            delegate
-                            {
+                                // now or later?
                                 AtPosition();
-                            };
+
+                                asBindingSource.PositionChanged +=
+                                    delegate
+                                    {
+                                        AtPosition();
+                                    };
+
+                                #region TextChanged
+                                if (binding.PropertyName == "Text")
+                                {
+                                    asControl.TextChanged +=
+                                        delegate
+                                        {
+                                            if (asBindingSource.Position < 0)
+                                                return;
+
+                                            if (asBindingSource.Position >= asDataTable.Rows.Count)
+                                                return;
+
+                                            var asRow = asDataTable.Rows[asBindingSource.Position];
+
+                                            Console.WriteLine("Text to data source " + new
+                                            {
+                                                asBindingSource.Position,
+                                                binding.DataMember,
+                                                asControl.Text
+                                            });
+
+                                            // X:\jsc.svn\examples\javascript\forms\Test\TestWebBrowserOneWayDataBinding\TestWebBrowserOneWayDataBinding\ApplicationControl.cs
+                                            asRow[binding.DataMember] = asControl.Text;
+                                        };
+                                }
+                                #endregion
+                            }
+                        );
+
+
                     }
                 };
 
