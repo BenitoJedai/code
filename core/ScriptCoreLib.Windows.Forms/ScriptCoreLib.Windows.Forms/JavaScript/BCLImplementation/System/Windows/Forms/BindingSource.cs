@@ -26,14 +26,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public virtual bool AllowNew { get; set; }
 
-        public __BindingSource()
+        public __BindingSource() : this(null)
         {
-
         }
 
         public __BindingSource(IContainer container)
         //: base(container)
         {
+            //
+            this.AllowNew = true;
+
         }
 
         #region Position

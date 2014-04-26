@@ -210,11 +210,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         }
 
 
-        public static double ToDouble(int value)
-        {
-            return value;
-        }
-
+        
 
         public static string ToString(object value)
         {
@@ -234,12 +230,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         }
 
 
-
-        public static double ToDouble(string value)
-        {
-            return double.Parse(value);
-
-        }
 
 
 

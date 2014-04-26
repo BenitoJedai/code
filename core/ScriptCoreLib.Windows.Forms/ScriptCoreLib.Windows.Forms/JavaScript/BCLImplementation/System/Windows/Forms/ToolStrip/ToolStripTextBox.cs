@@ -20,6 +20,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __ToolStripTextBox()
         {
+            InternalElement.style.border = "0px solid gray";
+
             this.TextChanged += delegate
             {
                 this.InternalElement.value = this.InternalText;
