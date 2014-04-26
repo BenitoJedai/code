@@ -493,7 +493,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void InternalClientSizeChanged()
         {
-            //Console.WriteLine("at InternalClientSizeChanged");
+            Console.WriteLine(new { this.Name } + " enter InternalClientSizeChanged");
 
             this.clientWidth = this.HTMLTargetContainerRef.clientWidth;
             this.clientHeight = this.HTMLTargetContainerRef.clientHeight;
@@ -651,7 +651,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
-      
+
 
 
 
@@ -1132,7 +1132,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-  
+
         protected virtual bool DoubleBuffered { get; set; }
 
         protected virtual Size DefaultMaximumSize

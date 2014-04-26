@@ -17,7 +17,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
     [Script(Implements = typeof(global::System.Windows.Forms.DataVisualization.Charting.Chart))]
     internal class __Chart : __Control, ISupportInitialize
     {
-        public IHTMLDiv InternalElement = new IHTMLDiv { };
+        public IHTMLDiv InternalElement = typeof(__Chart);
+
 
 
         // X:\jsc.svn\examples\javascript\forms\ChartExperiment\ChartExperiment\ApplicationControl.cs
@@ -221,7 +222,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
 
                 update();
 
-                this.ClientSizeChanged +=
+                //this.ClientSizeChanged +=
+                this.SizeChanged +=
                     delegate
                     {
                         update();

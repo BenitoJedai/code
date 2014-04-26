@@ -141,6 +141,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form..ctor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PictureBox.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripContentPanel.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripPanel.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripContainer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripTextBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripSeparator.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripButton.cs" />

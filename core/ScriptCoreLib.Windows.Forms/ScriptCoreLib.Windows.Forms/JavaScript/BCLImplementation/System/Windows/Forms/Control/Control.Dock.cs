@@ -105,11 +105,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var SiblingsCount = Siblings.Count();
 
 
-            //Console.WriteLine(
-            //    "InternalChildrenAnchorUpdate "
-            //    +
-            //      new { c.Name, c.Dock, SiblingsCount }
-            //      );
+            Console.WriteLine(
+                "InternalChildrenAnchorUpdate "
+                +
+                  new { c.Name, c.Dock, SiblingsCount }
+                  );
 
 
 
@@ -150,6 +150,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 __c.outer_style.top = ThoseBeforeUsHeight + "px";
                 __c.outer_style.right = "0px";
 
+                __c.InternalClientSizeChanged();
                 return;
             }
 
@@ -212,10 +213,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                 //33:286ms { Name = nICDataGetInterfacesBindingSourceDataGridView, SiblingsTop = 1, __Top = 25, SiblingsBottom = 1, __Bottom = 25 }
+
+                //41:1223ms { Name = ApplicationForm } ApplicationControl_SizeChanged
+                //41:1232ms { Name = ApplicationForm, SiblingsTop = 0, __Top = 0, SiblingsBottom = 0, __Bottom = 0 }
+
                 Console.WriteLine(
                     new
                     {
-                        this.Name,
+                        __c.Name,
                         SiblingsTop = SiblingsTop.Length,
                         __Top,
                         SiblingsBottom = SiblingsBottom.Length,
@@ -247,10 +252,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     __c.outer_style.bottom = __Bottom + "px";
                 }
 
+                // X:\jsc.svn\examples\javascript\forms\ChartExperiment\ChartExperiment\ApplicationControl.cs
                 // X:\jsc.svn\examples\javascript\forms\FormsWithVisibleTitle\FormsWithVisibleTitle\Application.cs
 
                 // do we have a test
                 // to go back from fill, and what about events?
+
+
+                // let the children know size has likely changed
+                __c.InternalClientSizeChanged();
 
                 return;
             }

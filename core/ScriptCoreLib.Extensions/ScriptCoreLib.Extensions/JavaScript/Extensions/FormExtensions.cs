@@ -70,11 +70,17 @@ namespace ScriptCoreLib.JavaScript.Extensions
             //Native.document.documentElement.css.print.style.padding = "0px";
             //Native.document.documentElement.css.print.style.margin = "0px";
 
-            Native.document.documentElement.css.print.style.width = "21cm";
-            Native.document.documentElement.css.print.style.height = "27.7cm";
+            //Native.document.documentElement.css.print.style.width = "21cm";
+            //Native.document.documentElement.css.print.style.height = "27.7cm";
+
+            Native.css.print.style.width = "21cm";
+            Native.css.print.style.height = "27.7cm";
+
 
             var f = new Form
             {
+                Name = "ApplicationForm",
+
                 // can we undo this on runtime?
                 FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
                 WindowState = FormWindowState.Maximized,
@@ -86,9 +92,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             //Error	79	'T' does not contain a definition for 'AutoScroll' and no extension method 'AutoScroll' accepting a first argument of type 'T' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\Extensions\FormExtensions.cs	44	21	ScriptCoreLib.Extensions
 
-            var ss = content as ScrollableControl;
-            if (ss != null)
-                ss.AutoScroll = true;
+            var asScrollableControl = content as ScrollableControl;
+            if (asScrollableControl != null)
+                asScrollableControl.AutoScroll = true;
 
             //content.AutoScrollMargin = new Size(8, 8);
 
