@@ -97,6 +97,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             }.AttachTo(this.InternalContainer);
 
+            // boxstyle. will it break layout?
+            this.InternalTextField.style.padding = "0.4em";
+
             //Need to test/document
             this.InternalNameChanged += delegate
             {

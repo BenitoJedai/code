@@ -26,7 +26,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public virtual bool AllowNew { get; set; }
 
-        public __BindingSource() : this(null)
+        public __BindingSource()
+            : this(null)
         {
         }
 
@@ -115,7 +116,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        public TaskCompletionSource<object> InternalAfterEndInit = new TaskCompletionSource<object>();
+
+        Action InternalInvokeAfterEndInitHandlers = delegate { };
+
+        public void InternalInvokeAfterEndInit(Action y)
+        {
+            if (InternalInvokeAfterEndInitHandlers == null)
+            {
+                y();
+                return;
+            }
+
+            InternalInvokeAfterEndInitHandlers += y;
+        }
 
         public void EndInit()
         {
@@ -126,7 +139,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             // 72:494ms await newBindingSource.InternalAfterEndInit
 
-            InternalAfterEndInit.SetResult(null);
+            InternalInvokeAfterEndInitHandlers();
+            InternalInvokeAfterEndInitHandlers = null;
         }
 
 

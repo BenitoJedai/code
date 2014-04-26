@@ -129,5 +129,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             return s;
         }
+
+
+
+        public static implicit operator IHTMLSpan(System.Type x)
+        {
+            return new IHTMLSpan { className = x.Name };
+        }
     }
 }

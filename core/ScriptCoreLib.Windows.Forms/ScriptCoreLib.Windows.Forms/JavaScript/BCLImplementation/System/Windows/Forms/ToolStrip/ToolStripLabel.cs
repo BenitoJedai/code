@@ -5,19 +5,23 @@ using System.Linq;
 using System.Text;
 
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.Drawing;
+
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripLabel))]
     public class __ToolStripLabel : __ToolStripItem
     {
-        public IHTMLSpan InternalElement = new IHTMLSpan
+        public IHTMLSpan InternalElement = typeof(__ToolStripLabel);
+
+        static IStyle InternalStyle = new IStyle(typeof(__ToolStripLabel))
         {
 
-            className =
-                " " + typeof(__ToolStripLabel).Name
-        };
+            font = __Control.DefaultFont.ToCssString()
 
+        };
 
         public __ToolStripLabel()
         {

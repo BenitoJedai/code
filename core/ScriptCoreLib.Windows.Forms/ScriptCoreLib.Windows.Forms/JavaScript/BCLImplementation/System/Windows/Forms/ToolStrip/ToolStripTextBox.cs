@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.JavaScript.Drawing;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -16,9 +17,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         static IStyle InternalStyle = new IStyle(typeof(__ToolStripTextBox))
         {
             border = "0px solid gray",
-            paddingLeft = "0.4",
-            paddingRight = "0.4",
+
+            paddingLeft = "0.4em",
+            paddingRight = "0.4em",
+
             width = "4em",
+
+
+            font = __Control.DefaultFont.ToCssString()
 
         };
 

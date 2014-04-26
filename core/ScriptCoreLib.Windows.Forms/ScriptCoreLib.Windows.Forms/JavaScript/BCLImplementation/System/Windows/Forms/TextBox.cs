@@ -60,13 +60,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-        private HorizontalAlignment _TextAlign;
+
+        #region TextAlign
+        private HorizontalAlignment InternalTextAlign;
 
         public HorizontalAlignment TextAlign
         {
-            get { return _TextAlign; }
-            set { _TextAlign = value; }
+            get { return InternalTextAlign; }
+            set
+            {
+                InternalTextAlign = value;
+
+                if (InternalTextAlign == HorizontalAlignment.Right)
+                {
+                    this.InternalTextField.style.textAlign = DOM.IStyle.TextAlignEnum.right;
+                }
+            }
         }
+        #endregion
+
+
+
 
         public override bool Enabled
         {
