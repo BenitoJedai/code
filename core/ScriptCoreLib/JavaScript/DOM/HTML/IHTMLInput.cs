@@ -249,5 +249,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         //valid: true
         //valueMissing: false
 
+
+        public static implicit operator IHTMLInput(System.Type x)
+        {
+            return new IHTMLInput { className = x.Name };
+        }
     }
 }
