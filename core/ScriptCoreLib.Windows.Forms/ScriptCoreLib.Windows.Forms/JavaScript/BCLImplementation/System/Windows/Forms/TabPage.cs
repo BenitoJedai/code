@@ -32,10 +32,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.__tabId = "tab" + __tabCount;
             __tabCount++;
 
-            HTMLTarget = new IHTMLDiv();
-            HTMLTarget.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
-            HTMLTarget.style.border = "1px solid gray";
-            HTMLTarget.style.borderTop = "none";
+            InternalElement = new IHTMLDiv();
+            InternalElement.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+            InternalElement.style.border = "1px solid gray";
+            InternalElement.style.borderTop = "none";
 
             __tabButton = new IHTMLButton(this.__tabId);
 
@@ -80,7 +80,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             __DeSelectTab();
 
-            HTMLTarget.style.backgroundColor = "white";
+            InternalElement.style.backgroundColor = "white";
 
             TextChanged += OnTextChanged;
         }
@@ -122,7 +122,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public void __DeSelectTab()
         {
             this.__isSelected = false;
-            HTMLTarget.style.display = IStyle.DisplayEnum.none;
+            InternalElement.style.display = IStyle.DisplayEnum.none;
 
             Color bf = SystemColors.ButtonFace;
             __tabButton.style.backgroundColor = bf.ToString();
@@ -133,7 +133,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.__isSelected = true;
 
-            HTMLTarget.style.display = IStyle.DisplayEnum.inline;
+            InternalElement.style.display = IStyle.DisplayEnum.inline;
             __tabButton.style.borderBottom = "none";
             __tabButton.style.backgroundColor = "white";
             __tabButton.style.paddingBottom = "8px";

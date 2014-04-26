@@ -184,5 +184,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
 
+
+
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripContainer.cs
+        public static implicit operator IHTMLDiv(Type x)
+        {
+            return new IHTMLDiv { className = x.Name };
+        }
     }
 }

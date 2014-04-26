@@ -546,7 +546,7 @@ namespace com.abstractatech.dcimgalleryapp
 
 
         public int skip = 0;
-        public int take = 8;
+        public int take = 4;
 
         public Task File_list(
             // jsc, can we have events yet, thanks

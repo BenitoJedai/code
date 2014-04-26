@@ -30,12 +30,17 @@ namespace ScriptCoreLib.Desktop.Forms.Extensions
 
         public static void Launch<T>(Func<T> Create, Action<WindowInfo<T>> Launching = null) where T : Control
         {
+            // how many examples have we referening this method? how may times have we used it?
+
+            #region UnhandledException
             AppDomain.CurrentDomain.UnhandledException +=
                  (sender, e) =>
                  {
                      Console.WriteLine("UnhandledException:");
                      Console.WriteLine(e);
                  };
+            #endregion
+
 
             var CreateWindow = default(Func<WindowInfo<T>>);
             var Windows = new List<WindowInfo<T>>();
@@ -76,13 +81,24 @@ namespace ScriptCoreLib.Desktop.Forms.Extensions
                     //        c.SizeTo(ActualSize.ActualWidth, ActualSize.ActualHeight);
                     //    };
 
-                    var w = new Form();
+                    var w = new Form
+                    {
+                        // CLR only.
+                        Name = "ApplicationForm"
+                    };
+
+                    w.Load +=
+                        delegate
+                        {
+                            Console.WriteLine("ApplicationForm.Load");
+                        };
+
                     var f = w;
 
                     wi.Window = w;
 
+                    // how big to make the form?
                     f.ClientSize = new System.Drawing.Size(c.Width, c.Height);
-
                     f.ClientSizeChanged +=
                         delegate
                         {
@@ -90,18 +106,20 @@ namespace ScriptCoreLib.Desktop.Forms.Extensions
                             c.Height = f.ClientSize.Height;
                         };
 
+                    w.Text = c.GetType().Name;
+                    w.Text += " | F2 - Spawn, F11 - Fullscreen";
+
+
                     // Additional information: Top-level control cannot be added to a control.
                     f.Controls.Add(c);
 
                     //w.Width = c.Width;
                     //w.Height = c.Height;
 
-                    w.Text = c.GetType().Name;
-
-                    w.Text += " | F2 - Spawn, F11 - Fullscreen";
 
                     var ExitFullscreen = default(Action);
 
+                    #region ToFullscreen
                     Action ToFullscreen =
                         () =>
                         {
@@ -128,8 +146,10 @@ namespace ScriptCoreLib.Desktop.Forms.Extensions
                             w.WindowState = FormWindowState.Normal;
                             w.WindowState = FormWindowState.Maximized;
                         };
+                    #endregion
 
 
+                    #region LostFocus
                     w.LostFocus +=
                         delegate
                         {
@@ -140,8 +160,9 @@ namespace ScriptCoreLib.Desktop.Forms.Extensions
                                 return;
                             }
                         };
+                    #endregion
 
-
+                    #region KeyUp
                     w.KeyPreview = true;
                     f.KeyUp +=
                         (s, e) =>
@@ -182,6 +203,8 @@ namespace ScriptCoreLib.Desktop.Forms.Extensions
                                 return;
                             }
                         };
+                    #endregion
+
 
 
                     return wi;

@@ -1,4 +1,5 @@
 using ChartExperiment;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -26,7 +27,20 @@ namespace ChartExperiment
 
         private void book1Sheet1BindingSourceDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripContainer.get_ContentPanel()]
 
+        }
+
+        private void ApplicationControl_SizeChanged(object sender, System.EventArgs e)
+        {
+            // 41:26920ms { Name = , Siblin
+            // no. not in the browser. why?
+
+
+            // dod docked controls get the event? do we?
+            //Console.WriteLine(
+            //    new { this.ParentForm.Name } +
+            //    " ApplicationControl_SizeChanged");
         }
 
     }

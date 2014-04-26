@@ -20,13 +20,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.HorizontalScroll = (HScrollProperties)(object)new __HScrollProperties();
             this.VerticalScroll = (VScrollProperties)(object)new __VScrollProperties();
-
-
         }
-
-        //        arg[0] is typeof System.Windows.Forms.ScrollEventHandler
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ScrollableControl.add_Scroll(System.Windows.Forms.ScrollEventHandler)]
-
 
 
         public event ScrollEventHandler Scroll
@@ -50,14 +44,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
         #region AutoScroll
-        private bool _AutoScroll;
+        private bool InternalAutoScroll;
 
-        public bool AutoScroll
+        public virtual bool AutoScroll
         {
-            get { return _AutoScroll; }
+            get { return InternalAutoScroll; }
             set
             {
-                _AutoScroll = value;
+                // idsabled in for
+                // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripContentPanel.cs
+
+
+                InternalAutoScroll = value;
+
+                Console.WriteLine(new { this.Name, InternalAutoScroll });
+
 
                 if (value)
                 {
@@ -69,9 +70,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                       {
                           this.HorizontalScroll.Value = this.HTMLTargetContainerRef.scrollLeft;
                       };
+
+                    return;
                 }
-                else
-                    this.HTMLTargetContainerRef.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+
+                this.HTMLTargetContainerRef.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
             }
         }

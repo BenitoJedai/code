@@ -6,30 +6,27 @@ using System.Text;
 using System.Windows.Forms;
 
 using ScriptCoreLib.JavaScript.Windows.Forms;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    using ScriptCoreLib.JavaScript.DOM.HTML;
     [Script(Implements = typeof(global::System.Windows.Forms.UserControl))]
     internal class __UserControl : __ContainerControl
     {
+        public readonly IHTMLDiv InternalElement = typeof(__UserControl);
 
-        public IHTMLDiv HTMLTarget { get; set; }
-
-        [Obsolete("rename to outerNode?")]
+        [Obsolete("rename to get_InternalElement?")]
         public override IHTMLElement HTMLTargetRef
         {
             get
             {
-                return HTMLTarget;
+                return InternalElement;
             }
         }
 
 
         public __UserControl()
         {
-            this.HTMLTarget = new IHTMLDiv();
-
             // X:\jsc.svn\examples\javascript\forms\FormsWithVisibleTitle\FormsWithVisibleTitle\Application.cs
             // Are we being inserted to HTML?
             this.outer_style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
