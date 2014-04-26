@@ -29,6 +29,9 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
             // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Design\App.htm
             tspan,
 
+            // X:\jsc.svn\examples\javascript\svg\SVGChartExperiment\SVGChartExperiment\Application.cs
+            polygon,
+
             rect,
             image,
 

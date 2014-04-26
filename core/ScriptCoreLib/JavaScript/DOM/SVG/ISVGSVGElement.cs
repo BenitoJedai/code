@@ -45,5 +45,39 @@ namespace ScriptCoreLib.JavaScript.DOM.SVG
         }
 
 
+
+        // X:\jsc.svn\examples\javascript\svg\SVGChartExperiment\SVGChartExperiment\Application.cs
+
+        public int width
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return Convert.ToInt32(this.getAttribute("width"));
+            }
+
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                this.setAttribute("width", Convert.ToString(value));
+
+            }
+        }
+
+        public int height
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return Convert.ToInt32(this.getAttribute("height"));
+            }
+
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                this.setAttribute("height", Convert.ToString(value));
+
+            }
+        }
     }
 }

@@ -100,28 +100,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
 
 
-        //        Implementation not found for type import :
-        //type: System.Convert
-        //method: System.String ToString(Int16)
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
-
-
-        public static int ToInt32(byte e)
-        {
-            return (int)e;
-        }
-
-
-        public static int ToInt32(long e)
-        {
-            return (int)e;
-        }
-
-        public static int ToInt32(string e)
-        {
-            return int.Parse(e);
-        }
 
         public static short ToInt16(string e)
         {

@@ -21,6 +21,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             static IStyle idle = new IStyle(Native.css[typeof(__ToolStripButton)])
             {
+                backgroundColor = "rgba(0,0,255, 0.0)",
+
+                transition = "background-color 300ms linear",
+
                 border = "1px solid transparent",
 
                 //margin = "1px",

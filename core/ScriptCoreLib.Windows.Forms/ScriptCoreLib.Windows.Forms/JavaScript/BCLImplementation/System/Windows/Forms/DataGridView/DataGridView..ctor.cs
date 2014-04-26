@@ -813,7 +813,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 whiteSpace = IStyle.WhiteSpaceEnum.pre
             };
 
-            Console.WriteLine("new DataGridView() before InitializeMissingCell");
+            //Console.WriteLine("new DataGridView() before InitializeMissingCell");
 
             #region InitializeCell
             Action<__DataGridViewCell, __DataGridViewRow> InitializeMissingCell =
@@ -1603,14 +1603,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Action<__DataGridViewRow> CreateMissingCells =
                 SourceRow =>
                 {
-                    Console.WriteLine("CreateMissingCells  " + new
-                    {
-                        SourceRow.Index,
-                        CellsCount = SourceRow.InternalCells.InternalItems.Count,
-                        ColumnsCount = this.InternalColumns.InternalItems.Count
+                    //Console.WriteLine("CreateMissingCells  " + new
+                    //{
+                    //    SourceRow.Index,
+                    //    CellsCount = SourceRow.InternalCells.InternalItems.Count,
+                    //    ColumnsCount = this.InternalColumns.InternalItems.Count
 
 
-                    });
+                    //});
 
                     #region defaults
                     while (SourceRow.InternalCells.InternalItems.Count < this.InternalColumns.InternalItems.Count)

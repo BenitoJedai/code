@@ -103,6 +103,7 @@
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\UInt64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\UInt32.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Int16.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLDocument.icon.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLDocument.title.cs" />
     <Compile Include="JavaScript\DOM\IWindow.async.cs" />
+    <Compile Include="JavaScript\DOM\SVG\ISVGPolygonElement.cs" />
     <Compile Include="JavaScript\DOM\SVG\ISVGForeignObject.cs" />
     <Compile Include="JavaScript\DOM\URL.cs" />
     <Compile Include="JavaScript\DOM\IXMLHttpRequest.open.cs" />
@@ -137,6 +139,7 @@
     <Compile Include="Shared\BCLImplementation\System\Convert.FromBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\Convert.ToBase64String.cs" />
     <Compile Include="Shared\BCLImplementation\System\ComponentModel\IListSource.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Convert.ToInt32.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDataParameterCollection.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDataParameter.cs" />
@@ -421,7 +424,6 @@
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\AsyncVoidMethodBuilder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\IAsyncStateMachine.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\TaskAwaiter.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task.cs" />
     <Compile Include="JavaScript\DOM\IError.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IStyle.cs" />

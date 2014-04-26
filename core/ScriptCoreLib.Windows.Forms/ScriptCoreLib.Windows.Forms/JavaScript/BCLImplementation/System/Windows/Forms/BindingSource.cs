@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+﻿using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
+using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data;
 using System;
 using System.Collections;
@@ -7,12 +8,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.BindingSource))]
-    public class __BindingSource : __Component, __ISupportInitialize
+    public class __BindingSource : __Component, ISupportInitialize
     {
         // X:\jsc.svn\examples\javascript\forms\FormsNICWithDataSource\FormsNICWithDataSource\ApplicationControl.cs
         // X:\jsc.svn\examples\javascript\forms\Test\TestDynamicBindingSourceForDataTable\TestDynamicBindingSourceForDataTable\ApplicationControl.Designer.cs
@@ -111,13 +113,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public TaskCompletionSource<object> InternalAfterEndInit = new TaskCompletionSource<object>();
 
         public void EndInit()
         {
-            // new DataSource();
+            Console.WriteLine("__BindingSource.EndInit ");
 
-            //Console.WriteLine("__BindingSource EndInit");
+            // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Control\ControlBindingsCollection.cs
+            // two way binding to be activated now?
 
+            // 72:494ms await newBindingSource.InternalAfterEndInit
+
+            InternalAfterEndInit.SetResult(null);
         }
 
 
@@ -245,5 +252,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return this[this.Position];
             }
         }
+
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.BindingSource.set_Filter(System.String)]
+
+        public string Filter { get; set; }
     }
 }

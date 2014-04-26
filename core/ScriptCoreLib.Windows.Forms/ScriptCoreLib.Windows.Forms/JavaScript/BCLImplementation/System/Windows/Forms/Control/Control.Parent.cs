@@ -39,7 +39,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected void RaiseParentChanged(EventArgs e)
         {
-            Console.WriteLine("RaiseParentChanged " + new { this.Name, this.Dock });
+            //Console.WriteLine("RaiseParentChanged " + new { this.Name, this.Dock });
 
             if (this.Dock != DockStyle.None)
             {
