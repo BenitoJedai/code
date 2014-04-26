@@ -54,12 +54,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                 };
 
 
-                var polygon = new ISVGPolygonElement
-                {
-                    //points = "200,10 250,190 160,210"
-                    //points = w.ToString()
-
-                }.AttachTo(svg);
+                var polygon0 = new ISVGPolygonElement { }.AttachTo(svg);
+                var polygon1 = new ISVGPolygonElement { }.AttachTo(svg);
 
 
                 Action update = delegate
@@ -71,9 +67,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
 
                     //svg.setAttribute("width", "200");
 
-                    var w = new StringBuilder();
+                    var w0 = new StringBuilder();
+                    var w1 = new StringBuilder();
 
-                    Action<double, double> add = (x, y) =>
+                    Action<double, double> add0 = (x, y) =>
                     {
                         // for print!
                         var svghardmargin = 16;
@@ -81,12 +78,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                         var xx = (x * (this.clientWidth - 2 * svghardmargin)) + svghardmargin;
                         var yy = (y * (this.clientHeight - 2 * svghardmargin)) + svghardmargin;
 
-                        w.Append(xx + "," + yy + " ");
+                        w0.Append(xx + "," + yy + " ");
 
                     };
 
-                    add(1, 1);
-                    add(0, 1);
+                    Action<double, double> add1 = (x, y) =>
+                    {
+                        // for print!
+                        var svghardmargin = 16;
+
+                        var xx = (x * (this.clientWidth - 2 * svghardmargin)) + svghardmargin;
+                        var yy = (y * (this.clientHeight - 2 * svghardmargin)) + svghardmargin;
+
+                        w1.Append(xx + "," + yy + " ");
+
+                    };
+
+                    //add0(1, 1);
+                    add0(0, 1);
+
+                    add1(0, 1);
 
                     // upside down
 
@@ -137,13 +148,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                                 select new { rowIndex, XValueMember, y };
 
 
-                            var data = datas.ToArray();
+                            var data0 = datas.ToArray();
+
+                            var data1 = datas.Take(asBindingSource.Position + 1).ToArray();
 
                             // what about neg values?
                             //var xmax = data.Max(z => z.x);
-                            var ymax = data.Max(z => z.y);
+                            var ymax = data0.Max(z => z.y);
 
-                            Console.WriteLine(new { data.Length, max = ymax });
+                            Console.WriteLine(new { data0.Length, max = ymax });
 
                             // script: error JSC1000: No implementation found for this native method, please implement [static System.Convert.ToDouble(System.Object)]
 
@@ -157,23 +170,45 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
 
 
                             // .net does not seem to auto reorder x axis values per default
-                            foreach (var item in data)
+                            foreach (var item in data0)
                             {
                                 //var xx = item.x / Math.Max(xmax, 1);
                                 //var xx = item.rowIndex / Math.Max(data.Length, 1);
                                 // fk int math.
-                                var xx = (double)item.rowIndex / Math.Max(data.Length - 1, 1);
+                                var xx = (double)item.rowIndex / Math.Max(data0.Length - 1, 1);
                                 var yy = 1 - (item.y / Math.Max(ymax, 1));
 
-                                Console.WriteLine(new { item, xx, yy });
+                                //Console.WriteLine(new { item, xx, yy });
 
-                                add(
+                                add0(
                                     xx,
                                     yy
                                   );
 
                             }
 
+                            foreach (var item1 in data1)
+                            {
+                                var xx = (double)item1.rowIndex / Math.Max(data0.Length - 1, 1);
+                                var yy = 1 - (item1.y / Math.Max(ymax, 1));
+
+                                //Console.WriteLine(new { item1, xx, yy });
+
+                                add1(
+                                    xx,
+                                    yy
+                                  );
+
+                                if (item1.rowIndex == asBindingSource.Position)
+                                {
+                                    // this is the last selection item.
+
+                                    add1(
+                                     xx,
+                                     1.0
+                                   );
+                                }
+                            }
 
                             //35:704ms { rowIndex = 0, XValueMember = 1, YValueMembers = 44 }
                             //35:704ms { rowIndex = 1, XValueMember = 2, YValueMembers = 55 }
@@ -197,28 +232,50 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                         }
 
 
-                        add(1.0, 1.0);
+                        add0(1.0, 1.0);
 
-                        polygon.setAttribute("style", "fill:purple;stroke:darkpurple;stroke-width:1;");
+                        polygon0.setAttribute("style", "fill:purple;stroke:darkpurple;stroke-width:1;");
+                        polygon0.points = w0.ToString();
 
-                        polygon.points = w.ToString();
+                        polygon1.setAttribute("style", "fill:rgba(255,255,255,0.07);stroke:rgba(255,255,255,0.0);stroke-width:8;");
+                        polygon1.points = w1.ToString();
                         return;
                     }
 
 
-                    add(0, 0.8);
-                    add(0.2, 0.2);
-                    add(0.4, 0.8);
-                    add(0.6, 0.6);
-                    add(0.8, 0.8);
-                    add(1.0, 0.0);
+                    add0(0, 0.8);
+                    add0(0.2, 0.2);
+                    add0(0.4, 0.8);
+                    add0(0.6, 0.6);
+                    add0(0.8, 0.8);
+                    add0(1.0, 0.0);
 
-                    polygon.setAttribute("style", "fill:red;stroke:darkpurple;stroke-width:1;");
-
-                    polygon.points = w.ToString();
+                    polygon0.setAttribute("style", "fill:red;stroke:darkpurple;stroke-width:1;");
+                    polygon0.points = w0.ToString();
                 };
 
-                InternalAtDataBind += update;
+
+                InternalDataSourceChanged += delegate
+                {
+                    #region jsc experience, not available for CLR
+                    {
+                        var asBindingSource = this.DataSource as __BindingSource;
+                        if (asBindingSource != null)
+                        {
+                            asBindingSource.PositionChanged +=
+                                delegate
+                                {
+                                    update();
+                                };
+                        }
+                    }
+                    #endregion
+                };
+
+                InternalAtDataBind += delegate
+                {
+                    update();
+                };
 
                 update();
 
@@ -231,23 +288,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
 
 
 
+
                 svg.AttachTo(InternalElement);
             }
 
             #endregion
         }
-
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.Chart.DataBind()]
-
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.ChartNamedElement.set_Name(System.String)]
-
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.ChartNamedElement.set_Name(System.String)]
-
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.Chart.get_ChartAreas()]
-
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.Chart.set_Palette(System.Windows.Forms.DataVisualization.Charting.ChartColorPalette)]
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.Series.set_ChartArea(System.String)]
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.Chart.get_Series()]
 
         public ChartColorPalette Palette { get; set; }
 
@@ -262,9 +308,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
         }
 
         public ChartAreaCollection ChartAreas { get; set; }
-        public object DataSource { get; set; }
 
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.Chart.get_Legends()]
+
+
+
+        #region DataSource
+        public object InternalDataSource;
+        public event Action InternalDataSourceChanged;
+        public object DataSource
+        {
+            get { return InternalDataSource; }
+            set
+            {
+                InternalDataSource = value;
+
+                if (InternalDataSourceChanged != null)
+                    InternalDataSourceChanged();
+
+                DataBind();
+            }
+        }
+        #endregion
+
+
 
         public LegendCollection Legends { get; set; }
 
