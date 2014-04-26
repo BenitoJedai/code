@@ -91,7 +91,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         Console.WriteLine("await newBindingSource.InternalAfterEndInit");
                         // is this called?
-                        newBindingSource.InternalAfterEndInit.Task.ContinueWith(
+                        newBindingSource.InternalInvokeAfterEndInit(
                             delegate
                             {
                                 Console.WriteLine("await newBindingSource.InternalAfterEndInit done");

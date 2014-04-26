@@ -112,7 +112,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //      );
 
 
-            __c.outer_style.position = IStyle.PositionEnum.absolute;
+
+            // flowcontrol
+            //__c.outer_style.position = IStyle.PositionEnum.absolute;
 
             if (c.Dock == DockStyle.Top)
             {
