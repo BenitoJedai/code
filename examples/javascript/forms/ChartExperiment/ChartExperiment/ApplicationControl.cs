@@ -1,4 +1,5 @@
 using ChartExperiment;
+using ChartExperiment.Experimental;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ using System.Windows.Forms;
 namespace ChartExperiment
 {
     public partial class ApplicationControl : UserControl
+    //public partial class ApplicationControl : WebUserControl
     {
         public ApplicationControl()
         {
@@ -41,6 +43,20 @@ namespace ChartExperiment
             //Console.WriteLine(
             //    new { this.ParentForm.Name } +
             //    " ApplicationControl_SizeChanged");
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            // in browser we could change the jsc experience properties.
+            // can we show them in designer?
+
+
+
+            this.webUserControl1.SetBindingSourcePositionAlpha(this.chart1,
+
+                ((double)trackBar1.Value / trackBar1.Maximum) * 0.4
+                );
+
         }
 
     }

@@ -36,6 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "SpecialApplicationControl";
             this.Size = new System.Drawing.Size(618, 291);
+            this.Load += new System.EventHandler(this.SpecialApplicationControl_Load);
             this.ResumeLayout(false);
 
         }

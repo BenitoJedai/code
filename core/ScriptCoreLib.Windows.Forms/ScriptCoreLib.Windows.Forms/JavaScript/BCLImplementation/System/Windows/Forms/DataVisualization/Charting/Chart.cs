@@ -15,7 +15,7 @@ using ScriptCoreLib.Shared.Lambda;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVisualization.Charting
 {
     [Script(Implements = typeof(global::System.Windows.Forms.DataVisualization.Charting.Chart))]
-    internal class __Chart : __Control, ISupportInitialize
+    public class __Chart : __Control, ISupportInitialize
     {
         public IHTMLDiv InternalElement = typeof(__Chart);
 
@@ -31,6 +31,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
             {
                 return InternalElement;
             }
+        }
+
+
+
+
+        public double BindingSourcePositionAlpha = 0.1;
+
+        //public static Action<WebUserControl, Chart, double> InternalSetBindingSourcePositionAlpha;
+        // X:\jsc.svn\examples\javascript\forms\ChartExperiment\ChartExperiment\Experimental\WebUserControl.cs
+        [Obsolete("how to do this automatically?")]
+        public static void InternalSetBindingSourcePositionAlpha(object context, Chart c, double value)
+        {
+            __Chart cc = c;
+
+            cc.BindingSourcePositionAlpha = Math.Max(0.0, Math.Min(1.0, value));
+            cc.DataBind();
+        }
+
+        public static implicit operator __Chart(Chart e)
+        {
+            return (__Chart)(object)e;
         }
 
         public __Chart()
@@ -237,7 +258,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                         polygon0.setAttribute("style", "fill:purple;stroke:darkpurple;stroke-width:1;");
                         polygon0.points = w0.ToString();
 
-                        polygon1.setAttribute("style", "fill:rgba(255,255,255,0.07);stroke:rgba(255,255,255,0.0);stroke-width:8;");
+                        //polygon1.setAttribute("style", "fill:rgba(255,255,255,0.07);stroke:rgba(255,255,255,0.0);stroke-width:8;");
+                        polygon1.setAttribute("style", "fill:rgba(255,255,255," + this.BindingSourcePositionAlpha + ");stroke:rgba(255,255,255,0.0);stroke-width:8;");
                         polygon1.points = w1.ToString();
                         return;
                     }
