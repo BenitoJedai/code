@@ -31,6 +31,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
 
         }
 
+        // script: error JSC1000: Missing Script Attribute? Native constructor was invoked, please implement [System.Drawing.Font..ctor(System.String, System.Single, System.Drawing.FontStyle)]
+        public __Font(string familyName, float emSize, FontStyle style)
+            : this(familyName, emSize, style, default(GraphicsUnit), default(byte))
+        {
+
+        }
 
         public __Font(string familyName, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet)
         {
@@ -49,7 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
             //this._unit = f.Unit;
             //this._gdiCharSet = f.GdiCharSet;
 
-     
+
         }
 
         public bool Underline { get { return this._style == FontStyle.Underline; } }

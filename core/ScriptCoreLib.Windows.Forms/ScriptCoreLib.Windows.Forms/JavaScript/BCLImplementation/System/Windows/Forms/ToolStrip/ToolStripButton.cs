@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Drawing;
+using System.Drawing;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripButton))]
@@ -32,8 +33,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 // http://stackoverflow.com/questions/10850341/vertical-align-center-input-and-button-in-div
                 //display = IStyle.DisplayEnum
-                verticalAlign = "baseline"
+                verticalAlign = "baseline",
 
+                height = "22px"
             };
 
             static IStyle hover = new IStyle(Native.css[typeof(__ToolStripButton)].hover)
@@ -112,6 +114,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 };
 
+        }
+
+
+        public override void InternalSetFont(Font value)
+        {
+            this.InternalElement.style.font = value.ToCssString();
+        }
+
+
+        public Color InternalForeColor;
+        public override Color ForeColor
+        {
+            get
+            {
+                return InternalForeColor;
+            }
+            set
+            {
+                InternalForeColor = value;
+                this.InternalElement.style.color = value.ToString();
+            }
         }
     }
 }

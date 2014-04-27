@@ -33,6 +33,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
 
+        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_ImageTransparentColor(System.Drawing.Color)]
+        public Color ImageTransparentColor { get; set; }
+
+
+        #region Click
+
         public event EventHandler Click;
 
         public void RaiseClick()
@@ -40,6 +46,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (this.Click != null)
                 this.Click(this, new EventArgs());
         }
+
+        #endregion
+
 
 
         public string Name { get; set; }
@@ -58,6 +67,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public virtual Image BackgroundImage { get; set; }
 
 
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_Font(System.Drawing.Font)]
+
+        #region Image
         public event Action InternalImageChanged;
         public Image InternalImage;
         public virtual Image Image
@@ -71,8 +84,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     InternalImageChanged();
             }
         }
+        #endregion
 
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripItem.set_RightToLeftAutoMirrorImage(System.Boolean)]
+
         public bool RightToLeftAutoMirrorImage { get; set; }
 
         public string ToolTipText { get; set; }
@@ -106,5 +120,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //);
 
         }
+
+
+
+
+
+        #region Font
+        public virtual void InternalSetFont(Font value)
+        {
+        }
+
+        private Font InternalFont;
+        public Font Font
+        {
+            get { return InternalFont; }
+            set
+            {
+                InternalFont = value;
+
+                //this.HTMLTargetRef.style.font = value.ToCssString();
+                InternalSetFont(value);
+
+                //OnFontChanged(new EventArgs());
+
+
+            }
+        }
+        #endregion
+
+        public virtual Color ForeColor { get; set; }
+
     }
 }
