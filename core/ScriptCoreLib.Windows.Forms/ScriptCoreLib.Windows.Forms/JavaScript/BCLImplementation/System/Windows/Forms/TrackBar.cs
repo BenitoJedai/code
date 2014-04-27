@@ -6,25 +6,44 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     [ScriptCoreLib.Script(Implements = typeof(global::System.Windows.Forms.TrackBar))]
     internal class __TrackBar : __Control, __ISupportInitialize
     {
-        public IHTMLElement HTMLTarget { get; set; }
+        // tested by X:\jsc.svn\examples\javascript\forms\ChartExperiment\ChartExperiment\ApplicationControl.cs
 
-        public IHTMLInput InternalElement;
+        public IHTMLDiv InternalElement = typeof(__TrackBar);
+
+        static IStyle
+
+            InternalElementStyle = new IStyle(Native.css[typeof(__TrackBar)])
+            {
+                overflow = IStyle.OverflowEnum.hidden,
+            },
+
+            InternalContentElementStyle = new IStyle(Native.css[typeof(__TrackBar)][IHTMLElement.HTMLElementEnum.input])
+            {
+                borderTop = "1px solid rgba(0,0,0,0.4)",
+                borderBottom = "1px solid rgba(255,255,255,0.4)",
+
+                // keep only borders
+                height = "0px",
+                width = "100%",
+            };
+
+        public IHTMLInput InternalContentElement;
 
         public override IHTMLElement HTMLTargetRef
         {
             get
             {
-                return HTMLTarget;
+                return InternalElement;
             }
         }
 
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.TrackBar.set_TickStyle(System.Windows.Forms.TickStyle)]
         // X:\jsc.svn\examples\javascript\css\CSSTransform\CSSTransform\Application.cs
         public TickStyle TickStyle { get; set; }
 
@@ -32,36 +51,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             // http://stackoverflow.com/questions/18389224/how-to-style-html5-range-input-to-have-different-color-before-and-after-slider
 
-            this.HTMLTarget = new IHTMLDiv
-            {
-
-            };
 
 
 
-            this.InternalElement = new IHTMLInput
+            this.InternalContentElement = new IHTMLInput
             {
                 type = Shared.HTMLInputTypeEnum.range,
-                min = 0,
-                max = 100
-            }.AttachTo(this.HTMLTarget);
+            }.AttachTo(this.InternalElement);
 
 
-            this.InternalElement.style.borderTop = "1px solid rgba(0,0,0,0.4)";
-            this.InternalElement.style.borderBottom = "1px solid rgba(255,255,255,0.4)";
 
-            // keep only borders
-            this.InternalElement.style.height = "0px";
-            this.InternalElement.style.width = "100%";
 
-            this.InternalElement.style.setProperty("-webkit-appearance", "none", "");
-            this.InternalElement.style.setProperty("-moz-apperance", "none", "");
+            this.InternalContentElement.style.setProperty("-webkit-appearance", "none", "");
+            this.InternalContentElement.style.setProperty("-moz-apperance", "none", "");
 
             this.Minimum = 0;
             this.Maximum = 10;
 
 
-            this.InternalElement.onmousemove +=
+            this.InternalContentElement.onmousemove +=
                 e =>
                 {
                     if (e.MouseButton == DOM.IEvent.MouseButtonEnum.Left)
@@ -70,7 +78,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
                 };
 
-            this.InternalElement.onchange +=
+            this.InternalContentElement.onchange +=
                 delegate
                 {
                     InternalRaiseValueChanged();
@@ -82,13 +90,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event EventHandler Scroll;
 
+        #region Value
         public event EventHandler ValueChanged;
         public int Value
         {
-            get { return Convert.ToInt32(this.InternalElement.value); }
+            get { return Convert.ToInt32(this.InternalContentElement.value); }
             set
             {
-                (this.InternalElement as dynamic).value = value;
+                (this.InternalContentElement as dynamic).value = value;
                 InternalRaiseValueChanged();
             }
         }
@@ -102,24 +111,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (Scroll != null)
                 Scroll(this, new EventArgs());
         }
+        #endregion
+
 
         public int Maximum
         {
-            get { return this.InternalElement.max; }
+            get { return this.InternalContentElement.max; }
             set
             {
-                this.InternalElement.max = value;
+                this.InternalContentElement.max = value;
             }
         }
         public int Minimum
         {
             get
             {
-                return this.InternalElement.min;
+                return this.InternalContentElement.min;
             }
             set
             {
-                this.InternalElement.min = value;
+                this.InternalContentElement.min = value;
             }
         }
 

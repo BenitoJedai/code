@@ -40,5 +40,10 @@ namespace FormsProvidePropertyExperiment
         {
             return extendee is ApplicationWebService;
         }
+
+        private void SpecialApplicationControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

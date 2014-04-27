@@ -1,5 +1,6 @@
 using ChartExperiment;
 using ChartExperiment.Design;
+using ChartExperiment.Experimental;
 using ChartExperiment.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
@@ -27,21 +28,19 @@ namespace ChartExperiment
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationControl content = new ApplicationControl();
-
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
+            ApplicationControlExtender.InternalSetBindingSourcePositionAlpha =
+                ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVisualization.Charting.__Chart.InternalSetBindingSourcePositionAlpha;
+
+            var content = new ApplicationControl();
             content.AttachControlToDocument();
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            this.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
     }

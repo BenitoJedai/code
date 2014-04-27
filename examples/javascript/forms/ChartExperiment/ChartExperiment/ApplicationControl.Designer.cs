@@ -18,9 +18,9 @@ namespace ChartExperiment
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationControl));
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.book1Sheet1BindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -43,6 +43,8 @@ namespace ChartExperiment
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.webUserControl1 = new ChartExperiment.Experimental.ApplicationControlExtender();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.book1Sheet1BindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
@@ -51,26 +53,28 @@ namespace ChartExperiment
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.book1Sheet1BindingSourceDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // chart1
             // 
-            chartArea5.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea5);
+            this.webUserControl1.SetBindingSourcePositionAlpha(this.chart1, 0.07D);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.DataSource = this.book1Sheet1BindingSourceBindingSource;
             this.chart1.Dock = System.Windows.Forms.DockStyle.Top;
-            legend5.Name = "Legend1";
-            this.chart1.Legends.Add(legend5);
-            this.chart1.Location = new System.Drawing.Point(0, 0);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(0, 45);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            series5.XValueMember = "Xvalues";
-            series5.YValueMembers = "Series2";
-            this.chart1.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.XValueMember = "Xvalues";
+            series1.YValueMembers = "Series2";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(643, 159);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -107,7 +111,7 @@ namespace ChartExperiment
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(279, 25);
+            this.bindingNavigator1.Size = new System.Drawing.Size(248, 25);
             this.bindingNavigator1.TabIndex = 2;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
@@ -204,13 +208,13 @@ namespace ChartExperiment
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.book1Sheet1BindingSourceDataGridView);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(643, 308);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(643, 263);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 159);
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 204);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(643, 333);
+            this.toolStripContainer1.Size = new System.Drawing.Size(643, 288);
             this.toolStripContainer1.TabIndex = 3;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -232,7 +236,7 @@ namespace ChartExperiment
             this.book1Sheet1BindingSourceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.book1Sheet1BindingSourceDataGridView.Location = new System.Drawing.Point(0, 0);
             this.book1Sheet1BindingSourceDataGridView.Name = "book1Sheet1BindingSourceDataGridView";
-            this.book1Sheet1BindingSourceDataGridView.Size = new System.Drawing.Size(643, 308);
+            this.book1Sheet1BindingSourceDataGridView.Size = new System.Drawing.Size(643, 263);
             this.book1Sheet1BindingSourceDataGridView.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1
@@ -265,10 +269,20 @@ namespace ChartExperiment
             this.dataGridViewTextBoxColumn5.HeaderText = "Timestamp";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.trackBar1.Location = new System.Drawing.Point(0, 0);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(643, 45);
+            this.trackBar1.TabIndex = 4;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
             // ApplicationControl
             // 
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.chart1);
+            this.Controls.Add(this.trackBar1);
             this.Name = "ApplicationControl";
             this.Size = new System.Drawing.Size(643, 492);
             this.SizeChanged += new System.EventHandler(this.ApplicationControl_SizeChanged);
@@ -283,7 +297,9 @@ namespace ChartExperiment
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.book1Sheet1BindingSourceDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -318,6 +334,8 @@ namespace ChartExperiment
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private TrackBar trackBar1;
+        private Experimental.ApplicationControlExtender webUserControl1;
 
     }
 }

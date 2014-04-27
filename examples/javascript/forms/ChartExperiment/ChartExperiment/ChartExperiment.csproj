@@ -123,6 +123,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experimental\ApplicationControlExtender.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
