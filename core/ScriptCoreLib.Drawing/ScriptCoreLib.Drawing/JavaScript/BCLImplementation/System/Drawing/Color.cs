@@ -102,7 +102,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         // http://simple.wikipedia.org/wiki/Teal_(color)
         static public __Color Teal { get { return 0x008080; } }
 
-
+        //script: error JSC1000: No implementation found for this native method, please implement [static System.Drawing.Color.get_Magenta()]
+        static public __Color Magenta { get { return 0xff00ff; } }
 
         public override string ToString()
         {

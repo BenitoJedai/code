@@ -23,7 +23,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         #region Font
 
-
         public event EventHandler FontChanged;
 
         protected virtual void OnFontChanged(EventArgs e)
@@ -41,14 +40,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
         }
 
-        private Font _Font;
-
+        private Font InternalFont;
         public Font Font
         {
-            get { return _Font; }
+            get { return InternalFont; }
             set
             {
-                _Font = value;
+                InternalFont = value;
 
                 this.HTMLTargetRef.style.font = value.ToCssString();
                 InternalSetFont(value);
