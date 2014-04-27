@@ -224,6 +224,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                                 {
                                     // this is the last selection item.
 
+
+                                    this.InternalElement.title =
+                                            item1.XValueMember + " " + item1.y;
+
+
+
+
                                     add1(
                                      xx,
                                      1.0
