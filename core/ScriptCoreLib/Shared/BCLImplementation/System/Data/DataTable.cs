@@ -1,5 +1,6 @@
 ﻿using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -121,8 +122,107 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         {
             // ?
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
+            // http://stackoverflow.com/questions/6588210/does-datatable-implement-ilistsource
 
-            throw new NotImplementedException();
+
+            return new __DataRowViewList { InternalContext = this };
+        }
+
+
+        [Script]
+        public class __DataRowViewList : IList
+        {
+            public __DataTable InternalContext;
+
+            public int Add(object value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Clear()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Contains(object value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public int IndexOf(object value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Insert(int index, object value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool IsFixedSize
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool IsReadOnly
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public void Remove(object value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void RemoveAt(int index)
+            {
+                throw new NotImplementedException();
+            }
+
+            public object this[int index]
+            {
+                get
+                {
+                    var r = new __DataRowView
+                    {
+                        Row = this.InternalContext.Rows[index]
+                    };
+
+                    return r;
+                }
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public void CopyTo(Array array, int index)
+            {
+                throw new NotImplementedException();
+            }
+
+            public int Count
+            {
+                get
+                {
+                    return this.InternalContext.Rows.Count;
+                }
+            }
+
+            public bool IsSynchronized
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public object SyncRoot
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public IEnumerator GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

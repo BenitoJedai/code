@@ -58,7 +58,6 @@ namespace ChartExperiment
             // 
             // chart1
             // 
-            this.webUserControl1.SetBindingSourcePositionAlpha(this.chart1, 0.07D);
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.DataSource = this.book1Sheet1BindingSourceBindingSource;
