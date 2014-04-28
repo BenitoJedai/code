@@ -20,6 +20,15 @@ namespace TestSessionDurationGraph
     /// </summary>
     public partial class ApplicationWebService : Component
     {
+        //    <h2> <i>Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.</i> </h2></span>
+        // <h2> <i>Could not load file or assembly 'System.Data.XSQLite, 
+
+        void References()
+        {
+            { var ref0 = typeof(ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions); }
+            { var ref0 = typeof(System.Data.SQLite.SQLiteConnection); }
+        }
+
         public Stopwatch sw = Stopwatch.StartNew();
 
         public void Closing()
