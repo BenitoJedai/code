@@ -241,7 +241,9 @@ namespace FlashHeatZeeker.StarlingSetup.Library
                        adjustAlpha.alphaMultiplier = alpha;
 
 
-                       SourceBitmapData0.draw(shape, m, adjustAlpha, clipRect: rect);
+                       // public void draw(IBitmapDrawable source, Matrix matrix, ColorTransform colorTransform, string blendMode, Rectangle clipRect);
+                       //SourceBitmapData0.draw(shape, m, adjustAlpha, clipRect: rect);
+                       SourceBitmapData0.draw(shape, m, adjustAlpha, null, rect);
                    }
 
                    var TextureIndex = Source0TextureCount;
@@ -353,7 +355,10 @@ namespace FlashHeatZeeker.StarlingSetup.Library
             };
 
 
-            Text = Starling.current.context.driverInfo;
+            // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display3D/Context3D.html#driverInfo
+            //Text = Starling.current.context.driverInfo;
+            Text = "driverInfo missing";
+
 
             // how expensive is delegate call in a frame?
             onframe +=

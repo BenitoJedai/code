@@ -7,7 +7,9 @@ namespace ScriptCoreLib.ActionScript
 {
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/package.html#Number()
     [Script(IsNative = true)]
-    internal class Number
+    public class Number
     {
+        // X:\jsc.svn\examples\actionscript\test\TestVectorOfNumber\TestVectorOfNumber\ApplicationSprite.cs
+
     }
 }

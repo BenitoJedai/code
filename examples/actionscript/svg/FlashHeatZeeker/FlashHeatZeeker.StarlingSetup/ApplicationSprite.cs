@@ -50,7 +50,10 @@ namespace FlashHeatZeeker.StarlingSetup
             this.InvokeWhenStageIsReady(
                 delegate
                 {
-                    this.stage.color = 0xA26D41;
+                    // ??
+                    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/Stage.html#color
+                    //this.stage.color = 0xA26D41;
+
                     this.stage.frameRate = 30;
                     this.stage.frameRate = 60;
 

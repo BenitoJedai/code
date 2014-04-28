@@ -21,6 +21,10 @@ namespace FlashHeatZeeker.UnitTank
                   // http://forum.starling-framework.org/topic/starling-air-desktop-extendeddesktop-fullscreen-issue
                   Starling.handleLostContext = true;
 
+
+
+                  // Error	1	'.ctor' is not supported by the language	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.UnitTank\ApplicationSprite.cs	24	27	FlashHeatZeeker.UnitTank
+                  // partial build?
                   var s = new Starling(
                       typeof(StarlingGameSpriteWithTank).ToClassToken(),
                       this.stage
