@@ -573,8 +573,21 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                        );
 
 
+
+                       //           V:\web\FlashHeatZeeker\TestDriversWithAudio\Library\StarlingGameSpriteWithTestDriversWithAudio___c__DisplayClass29___c__DisplayClass30.as(266): col: 28 Error: Implicit coercion of a value of type __AS3__.vec:Vector.<Object> to an unrelated type __AS3__.vec:Vector.<Number>.
+
+                       //filter3.concat(vector_14);
+                       //               ^
+
+                       //  public function concat(matrix:Vector.<Number>):void
+                       // public override void concat(Vector<object> matrix);
+
+                       // X:\jsc.svn\examples\actionscript\test\TestVectorOfNumber\TestVectorOfNumber\ApplicationSprite.cs
+
+#if FNGHTVISION
                        nightvision_filter.concat(
                            new double[] {
+                           //new object[] {
                                                     
                           0, 0,  0,  0, 0,
                           0, 1,  0,  0, 0,
@@ -583,6 +596,10 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
 
                                                     }
                        );
+#endif
+
+
+
                        this.filter = nightvision_filter;
                        this.stage.color = 0x006E00;
 
@@ -1125,8 +1142,8 @@ namespace FlashHeatZeeker.TestDriversWithAudio.Library
                                        h =>
                                        {
 
-                                        
-                                                   h.visual.StandWithVisibleGunFire.Restart();
+
+                                           h.visual.StandWithVisibleGunFire.Restart();
 
 
                                            sb.snd_shotgun3.play();

@@ -148,6 +148,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
                         try
                         {
+                            // wtf?
                             lobby.ytp.Loader.unloadAndStop(true);
                             //lobby.ytp.pauseVideo();
                         }

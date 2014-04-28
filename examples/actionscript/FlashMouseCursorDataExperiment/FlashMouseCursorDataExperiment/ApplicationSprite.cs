@@ -54,6 +54,7 @@ namespace FlashMouseCursorDataExperiment
             };
 
 
+            // wtf? missing api? not defined in air?
             var mouseCursorData = new MouseCursorData();
             mouseCursorData.data = makeCursorImages();
             mouseCursorData.frameRate = 1;
