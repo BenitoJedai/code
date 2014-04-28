@@ -138,6 +138,8 @@
     <None Include="app.config" />
     <None Include="Book1.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Book1AssetsBindingSource.datasource" />
+    <None Include="Properties\DataSources\Book1TransactionsBindingSource.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

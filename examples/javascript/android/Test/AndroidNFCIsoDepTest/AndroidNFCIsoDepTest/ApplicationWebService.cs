@@ -68,20 +68,20 @@ namespace AndroidNFCIsoDepTest
                 0
             );
 
-            var techList = new[]
-            { 
-                //  [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef]
-                //  dispatch tag: TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.NdefFormatable] message: null
-                new [] { typeof(android.nfc.tech.MifareClassic).FullName },
-                new [] {     typeof(android.nfc.tech.NfcA).FullName},
-                new [] {     typeof(android.nfc.tech.Ndef).FullName},
-                new [] {     typeof(android.nfc.tech.NdefFormatable).FullName },
+            //var techList = new[]
+            //{ 
+            //    //  [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.Ndef]
+            //    //  dispatch tag: TAG: Tech [android.nfc.tech.MifareClassic, android.nfc.tech.NfcA, android.nfc.tech.NdefFormatable] message: null
+            //    new [] { typeof(android.nfc.tech.MifareClassic).FullName },
+            //    new [] {     typeof(android.nfc.tech.NfcA).FullName},
+            //    new [] {     typeof(android.nfc.tech.Ndef).FullName},
+            //    new [] {     typeof(android.nfc.tech.NdefFormatable).FullName },
 
-                // current javacards? (ISO 14443-4)
-                new [] {     typeof(android.nfc.tech.IsoDep).FullName },
+            //    // current javacards? (ISO 14443-4)
+            //    new [] {     typeof(android.nfc.tech.IsoDep).FullName },
 
 
-            };
+            //};
 
             // http://124.16.139.131:24080/lxr/source/packages/apps/Nfc/src/com/android/nfc/NfcDispatcher.java?v=android-4.0.4
 

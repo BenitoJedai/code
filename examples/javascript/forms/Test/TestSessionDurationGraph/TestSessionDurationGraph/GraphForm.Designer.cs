@@ -43,7 +43,6 @@
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.DataSource = this.sessionDataSessionTimeBindingSourceBindingSource;
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 0);
@@ -61,6 +60,7 @@
             // sessionDataSessionTimeBindingSourceBindingSource
             // 
             this.sessionDataSessionTimeBindingSourceBindingSource.DataSource = typeof(TestSessionDurationGraph.Data.SessionDataSessionTimeBindingSource);
+            this.sessionDataSessionTimeBindingSourceBindingSource.Position = 0;
             // 
             // GraphForm
             // 

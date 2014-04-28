@@ -141,6 +141,8 @@
     <Content Include="Design\PerformanceResourceTimingElement.htm" />
     <None Include="Design\PerformanceResourceTimingData2.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationPerformanceBindingSource.datasource" />
+    <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationResourcePerformanceBindingSource.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

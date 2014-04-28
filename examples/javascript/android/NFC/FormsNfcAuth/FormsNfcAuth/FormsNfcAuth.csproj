@@ -152,6 +152,7 @@
     <None Include="app.config" />
     <None Include="Design\NfcDB.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\NfcDBUserAuthBindingSource.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
