@@ -37,6 +37,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
 
 
 
+        #region BindingSourcePositionAlpha
         public double BindingSourcePositionAlpha = 0.1;
 
         //public static Action<WebUserControl, Chart, double> InternalSetBindingSourcePositionAlpha;
@@ -49,6 +50,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
             cc.BindingSourcePositionAlpha = Math.Max(0.0, Math.Min(1.0, value));
             cc.DataBind();
         }
+        #endregion
 
         public static implicit operator __Chart(Chart e)
         {
@@ -144,9 +146,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                         var asIList = __DataSource as IList;
                         if (asIList == null)
                         {
+                            Console.WriteLine("not IList " + new { __DataSource });
+                            // 44:105945ms not IList
+
                             var asIListSource = __DataSource as IListSource;
                             if (asIListSource != null)
+                            {
                                 asIList = asIListSource.GetList();
+                                Console.WriteLine("IListSource " + new { asIList });
+                            }
 
                         }
 
