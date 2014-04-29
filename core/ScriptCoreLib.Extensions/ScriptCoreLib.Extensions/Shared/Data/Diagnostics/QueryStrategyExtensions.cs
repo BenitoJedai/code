@@ -47,6 +47,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     [Obsolete("we need to refactor this into a jsc market nuget. can this nuget also embedd the asset compiler for jsc?")]
     public static class QueryStrategyExtensions
     {
+        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+
         // SQLite.Linq reference implementation
         // when can we have immutable version?
 
