@@ -46,6 +46,13 @@ namespace TestLINQJoin
             };
 
 
+            var DealerOther = new[] { 
+                new { ID = 0, DealerOtherText = ""},
+                new { ID = 3, DealerOtherText = "!!"},
+                new { ID = 20, DealerOtherText = ""}
+            };
+
+
             // script: error JSC1000: No implementation found for this native method, please implement 
             // [static System.Linq.Enumerable.Join(
             // System.Collections.Generic.IEnumerable`1[[<>f__AnonymousType$234$0`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],
@@ -54,18 +61,24 @@ namespace TestLINQJoin
             var dealercontacts = from contact in DealerContact
                                  join dealer in Dealer on contact.DealerId equals dealer.ID
 
+                                 // add one more
+                                 join other in DealerOther on contact.DealerId equals other.ID
+
                                  // new viewrow { x = ?, }
 
-                                 select new { contact, dealer };
+                                 select new { contact, dealer, other };
 
             dealercontacts.WithEach(
                 x =>
                 {
+                    // { DealerContactText = hello , DealerText = world, DealerOtherText = !! }
+
                     new IHTMLPre {
                         new
                         {
                             x.contact.DealerContactText,
                             x.dealer.DealerText,
+                            x.other.DealerOtherText,
                         }
                     }.AttachToDocument();
                 }
