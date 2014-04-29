@@ -30,44 +30,46 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TheDealerContact));
-            this.book1DealerBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.book1DealerBindingSourceBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.book1DealerContactBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.book1DealerContactBindingSourceBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.book1DealerBindingSourceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
-            this.book1DealerBindingSourceDataGridView = new System.Windows.Forms.DataGridView();
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.book1DealerContactBindingSourceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
+            this.book1DealerContactBindingSourceDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.book1DealerBindingSourceBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.book1DealerBindingSourceBindingNavigator)).BeginInit();
-            this.book1DealerBindingSourceBindingNavigator.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.book1DealerBindingSourceDataGridView)).BeginInit();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.book1DealerContactBindingSourceBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.book1DealerContactBindingSourceBindingNavigator)).BeginInit();
+            this.book1DealerContactBindingSourceBindingNavigator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.book1DealerContactBindingSourceDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // book1DealerBindingSourceBindingSource
+            // book1DealerContactBindingSourceBindingSource
             // 
-            this.book1DealerBindingSourceBindingSource.DataSource = typeof(TestSQLJoin.Data.Book1DealerBindingSource);
-            this.book1DealerBindingSourceBindingSource.Position = 0;
+            this.book1DealerContactBindingSourceBindingSource.DataSource = typeof(TestSQLJoin.Data.Book1DealerContactBindingSource);
+            this.book1DealerContactBindingSourceBindingSource.Position = 0;
             // 
-            // book1DealerBindingSourceBindingNavigator
+            // book1DealerContactBindingSourceBindingNavigator
             // 
-            this.book1DealerBindingSourceBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
-            this.book1DealerBindingSourceBindingNavigator.BindingSource = this.book1DealerBindingSourceBindingSource;
-            this.book1DealerBindingSourceBindingNavigator.CountItem = this.bindingNavigatorCountItem;
-            this.book1DealerBindingSourceBindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
-            this.book1DealerBindingSourceBindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.book1DealerContactBindingSourceBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.book1DealerContactBindingSourceBindingNavigator.BindingSource = this.book1DealerContactBindingSourceBindingSource;
+            this.book1DealerContactBindingSourceBindingNavigator.CountItem = this.bindingNavigatorCountItem;
+            this.book1DealerContactBindingSourceBindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.book1DealerContactBindingSourceBindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bindingNavigatorMoveFirstItem,
             this.bindingNavigatorMovePreviousItem,
             this.bindingNavigatorSeparator,
@@ -79,42 +81,19 @@
             this.bindingNavigatorSeparator2,
             this.bindingNavigatorAddNewItem,
             this.bindingNavigatorDeleteItem,
-            this.book1DealerBindingSourceBindingNavigatorSaveItem});
-            this.book1DealerBindingSourceBindingNavigator.Location = new System.Drawing.Point(0, 0);
-            this.book1DealerBindingSourceBindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
-            this.book1DealerBindingSourceBindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
-            this.book1DealerBindingSourceBindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
-            this.book1DealerBindingSourceBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
-            this.book1DealerBindingSourceBindingNavigator.Name = "book1DealerBindingSourceBindingNavigator";
-            this.book1DealerBindingSourceBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.book1DealerBindingSourceBindingNavigator.Size = new System.Drawing.Size(494, 25);
-            this.book1DealerBindingSourceBindingNavigator.TabIndex = 0;
-            this.book1DealerBindingSourceBindingNavigator.Text = "bindingNavigator1";
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
-            // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(28, 22);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
+            this.book1DealerContactBindingSourceBindingNavigatorSaveItem,
+            this.toolStripLabel1,
+            this.toolStripTextBox1});
+            this.book1DealerContactBindingSourceBindingNavigator.Location = new System.Drawing.Point(0, 0);
+            this.book1DealerContactBindingSourceBindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
+            this.book1DealerContactBindingSourceBindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
+            this.book1DealerContactBindingSourceBindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
+            this.book1DealerContactBindingSourceBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
+            this.book1DealerContactBindingSourceBindingNavigator.Name = "book1DealerContactBindingSourceBindingNavigator";
+            this.book1DealerContactBindingSourceBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
+            this.book1DealerContactBindingSourceBindingNavigator.Size = new System.Drawing.Size(494, 25);
+            this.book1DealerContactBindingSourceBindingNavigator.TabIndex = 0;
+            this.book1DealerContactBindingSourceBindingNavigator.Text = "bindingNavigator1";
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -148,9 +127,16 @@
             this.bindingNavigatorPositionItem.Text = "1";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(28, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // bindingNavigatorMoveNextItem
@@ -173,46 +159,63 @@
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // book1DealerBindingSourceBindingNavigatorSaveItem
+            // bindingNavigatorAddNewItem
             // 
-            this.book1DealerBindingSourceBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.book1DealerBindingSourceBindingNavigatorSaveItem.Enabled = false;
-            this.book1DealerBindingSourceBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("book1DealerBindingSourceBindingNavigatorSaveItem.Image")));
-            this.book1DealerBindingSourceBindingNavigatorSaveItem.Name = "book1DealerBindingSourceBindingNavigatorSaveItem";
-            this.book1DealerBindingSourceBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
-            this.book1DealerBindingSourceBindingNavigatorSaveItem.Text = "Save Data";
-            this.book1DealerBindingSourceBindingNavigatorSaveItem.Click += new System.EventHandler(this.book1DealerBindingSourceBindingNavigatorSaveItem_Click);
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
             // 
-            // book1DealerBindingSourceDataGridView
+            // bindingNavigatorDeleteItem
             // 
-            this.book1DealerBindingSourceDataGridView.AutoGenerateColumns = false;
-            this.book1DealerBindingSourceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.book1DealerBindingSourceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
+            // 
+            // book1DealerContactBindingSourceBindingNavigatorSaveItem
+            // 
+            this.book1DealerContactBindingSourceBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.book1DealerContactBindingSourceBindingNavigatorSaveItem.Enabled = false;
+            this.book1DealerContactBindingSourceBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("book1DealerContactBindingSourceBindingNavigatorSaveItem.Image")));
+            this.book1DealerContactBindingSourceBindingNavigatorSaveItem.Name = "book1DealerContactBindingSourceBindingNavigatorSaveItem";
+            this.book1DealerContactBindingSourceBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
+            this.book1DealerContactBindingSourceBindingNavigatorSaveItem.Text = "Save Data";
+            // 
+            // book1DealerContactBindingSourceDataGridView
+            // 
+            this.book1DealerContactBindingSourceDataGridView.AutoGenerateColumns = false;
+            this.book1DealerContactBindingSourceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.book1DealerContactBindingSourceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4,
             this.dataGridViewTextBoxColumn5});
-            this.book1DealerBindingSourceDataGridView.DataSource = this.book1DealerBindingSourceBindingSource;
-            this.book1DealerBindingSourceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.book1DealerBindingSourceDataGridView.Location = new System.Drawing.Point(0, 25);
-            this.book1DealerBindingSourceDataGridView.Name = "book1DealerBindingSourceDataGridView";
-            this.book1DealerBindingSourceDataGridView.Size = new System.Drawing.Size(494, 430);
-            this.book1DealerBindingSourceDataGridView.TabIndex = 1;
+            this.book1DealerContactBindingSourceDataGridView.DataSource = this.book1DealerContactBindingSourceBindingSource;
+            this.book1DealerContactBindingSourceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.book1DealerContactBindingSourceDataGridView.Location = new System.Drawing.Point(0, 25);
+            this.book1DealerContactBindingSourceDataGridView.Name = "book1DealerContactBindingSourceDataGridView";
+            this.book1DealerContactBindingSourceDataGridView.Size = new System.Drawing.Size(494, 430);
+            this.book1DealerContactBindingSourceDataGridView.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
             // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "ID";
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "DealerId";
+            this.dataGridViewTextBoxColumn1.HeaderText = "DealerId";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             // 
             // dataGridViewTextBoxColumn2
             // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "DealerText";
-            this.dataGridViewTextBoxColumn2.HeaderText = "DealerText";
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "DealerContactText";
+            this.dataGridViewTextBoxColumn2.HeaderText = "DealerContactText";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
             // dataGridViewTextBoxColumn3
@@ -233,19 +236,31 @@
             this.dataGridViewTextBoxColumn5.HeaderText = "Timestamp";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(35, 22);
+            this.toolStripLabel1.Text = "limit to";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
+            this.toolStripTextBox1.Text = "3";
+            // 
             // TheDealerContact
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.book1DealerBindingSourceDataGridView);
-            this.Controls.Add(this.book1DealerBindingSourceBindingNavigator);
+            this.Controls.Add(this.book1DealerContactBindingSourceDataGridView);
+            this.Controls.Add(this.book1DealerContactBindingSourceBindingNavigator);
             this.Name = "TheDealerContact";
             this.Size = new System.Drawing.Size(494, 455);
-            ((System.ComponentModel.ISupportInitialize)(this.book1DealerBindingSourceBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.book1DealerBindingSourceBindingNavigator)).EndInit();
-            this.book1DealerBindingSourceBindingNavigator.ResumeLayout(false);
-            this.book1DealerBindingSourceBindingNavigator.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.book1DealerBindingSourceDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.book1DealerContactBindingSourceBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.book1DealerContactBindingSourceBindingNavigator)).EndInit();
+            this.book1DealerContactBindingSourceBindingNavigator.ResumeLayout(false);
+            this.book1DealerContactBindingSourceBindingNavigator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.book1DealerContactBindingSourceDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,7 +268,8 @@
 
         #endregion
 
-        private System.Windows.Forms.BindingNavigator book1DealerBindingSourceBindingNavigator;
+        public System.Windows.Forms.BindingSource book1DealerContactBindingSourceBindingSource;
+        private System.Windows.Forms.BindingNavigator book1DealerContactBindingSourceBindingNavigator;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorDeleteItem;
@@ -265,13 +281,15 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
-        private System.Windows.Forms.ToolStripButton book1DealerBindingSourceBindingNavigatorSaveItem;
-        private System.Windows.Forms.DataGridView book1DealerBindingSourceDataGridView;
+        private System.Windows.Forms.ToolStripButton book1DealerContactBindingSourceBindingNavigatorSaveItem;
+        private System.Windows.Forms.DataGridView book1DealerContactBindingSourceDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        public System.Windows.Forms.BindingSource book1DealerBindingSourceBindingSource;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+
     }
 }

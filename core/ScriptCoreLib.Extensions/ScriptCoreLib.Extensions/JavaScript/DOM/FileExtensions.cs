@@ -29,6 +29,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
             // partial build?
+            /// wtf??? did redux rebuild?
             x.getAsString(
                 new Action<string>(
                     value =>
@@ -85,6 +86,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
             // partial build?
+            // move to .Async?
+
             x.readAsArrayBuffer(f);
             //Console.WriteLine("readAsText FileReader readAsText");
 

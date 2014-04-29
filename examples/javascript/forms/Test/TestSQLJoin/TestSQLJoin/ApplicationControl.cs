@@ -27,26 +27,46 @@ namespace TestSQLJoin
             // client side join
             // trust and data is here
 
-            var DealerContact =
-                from i in Enumerable.Range(0, this.theDealerContact1.book1DealerBindingSourceBindingSource.Count)
-                let r = (DataRowView)this.theDealerContact1.book1DealerBindingSourceBindingSource[i]
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\Forms\FormsExtensions.cs
 
-                // what about implicit cast from DataRowView?
-                let z = (Book1DealerContactRow)r.Row
-                select z;
+            // Error	1	Instance argument: cannot convert from 'System.Windows.Forms.BindingSource' to 'System.Data.DataRowCollection'	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationControl.cs	33	27	TestSQLJoin
+            // Error	2	'System.Windows.Forms.BindingSource' does not contain a definition for 'AsEnumerable' and the best extension method overload 'ScriptCoreLib.Extensions.DataExtensions.AsEnumerable(System.Data.DataRowCollection)' has some invalid arguments	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationControl.cs	36	27	TestSQLJoin
+
+            // Error	25	Could not find an implementation of the query pattern for source type 'System.Windows.Forms.BindingSource'.  'Select' not found.  Consider explicitly specifying the type of the range variable 'r'.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationControl.cs	38	27	TestSQLJoin
+
+
+
+            var DealerContact =
+                from r in this.theDealerContact1.book1DealerContactBindingSourceBindingSource
+                select (Book1DealerContactRow)r;
+
 
             var Dealer =
-                from i in Enumerable.Range(0, this.theDealer1.book1DealerBindingSourceBindingSource.Count)
-                let r = (DataRowView)this.theDealer1.book1DealerBindingSourceBindingSource[i]
-                let z = (Book1DealerRow)r.Row
-                select z;
+                from i in this.theDealer1.book1DealerBindingSourceBindingSource
+                select (Book1DealerRow)i;
 
+
+            //at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+            //at System.Number.ParseInt64(String value, NumberStyles options, NumberFormatInfo numfmt)
+            //at System.String.System.IConvertible.ToInt64(IFormatProvider provider)
+            //at System.Convert.ToInt64(Object value)
+            //at TestSQLJoin.Data.Book1DealerOtherTextRow.op_Implicit(DataRow )
+
+            //ApplicationForm.Load
+            //{ ColumnName = ID }
+            //{ ColumnName = DealerOtherText }
+            //UnhandledException:
+            //System.UnhandledExceptionEventArgs
 
             var DealerOther =
-                from i in Enumerable.Range(0, this.theDealerOtherText1.book1DealerOtherTextBindingSourceBindingSource.Count)
-                let r = (DataRowView)this.theDealerOtherText1.book1DealerOtherTextBindingSourceBindingSource[i]
-                let z = (Book1DealerOtherTextRow)r.Row
-                select z;
+                from i in this.theDealerOtherText1.book1DealerOtherBindingSourceBindingSource
+
+                // Additional information: Input string was not in a correct format.
+                // what input string?
+                // ah. we made it a key?
+                // enter { ColumnName = DealerOtherText, FieldType = TestSQLJoin.Data.Book1DealerOtherTextKey }
+
+                select (Book1DealerOtherRow)i;
 
 
 
@@ -69,16 +89,29 @@ namespace TestSQLJoin
 
                                  select v;
 
-            this.theView1.book1TheViewBindingSourceBindingSource.Clear();
+            #region .ReplaceWith( Book1TheViewRow[])
+            // should jsc enerate such extension method?
+            // should bindingsource have typed datarowviews?
+
+            // Additional information: Cannot clear this list.
+            // why?
+            // is our bindingsource missing something?
+            //this.theView1.book1TheViewBindingSourceBindingSource.Clear();
+            while (this.theView1.book1TheViewBindingSourceBindingSource.Count > 0)
+                theView1.book1TheViewBindingSourceBindingSource.RemoveAt(0);
+
 
             dealercontacts.WithEach(
                 k =>
                 {
                     var r = (DataRowView)this.theView1.book1TheViewBindingSourceBindingSource.AddNew();
 
-
+                    r["DealerContactText"] = k.DealerContactText;
+                    r["DealerOtherText"] = k.DealerOtherText;
+                    r["DealerText"] = k.DealerText;
                 }
             );
+            #endregion
 
 
         }

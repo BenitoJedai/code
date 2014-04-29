@@ -173,10 +173,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\DataSources\Book1DealerBindingSource.datasource" />
-    <None Include="Properties\DataSources\Book1DealerOtherTextBindingSource.datasource">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\DataSources\Book1TheViewBindingSource.datasource" />
+    <None Include="Properties\DataSources\Book1DealerOtherBindingSource.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">

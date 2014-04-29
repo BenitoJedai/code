@@ -104,6 +104,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
+
+
+        #region Owner
         public ToolStrip Owner { get; set; }
 
         public event Action InternalAfterSetOwner;
@@ -120,6 +123,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //);
 
         }
+        #endregion
 
 
 
@@ -149,6 +153,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
         public virtual Color ForeColor { get; set; }
+        public virtual Color BackColor { get; set; }
 
+
+        public Padding Padding { get; set; }
     }
 }
