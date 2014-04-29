@@ -20,10 +20,13 @@ namespace TestSQLJoin
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationControl));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.theView1 = new TestSQLJoin.Library.TheView();
+            this.theDealerOtherText1 = new TestSQLJoin.Library.TheDealerOtherText();
+            this.theDealer1 = new TestSQLJoin.Library.TheDealer();
+            this.theDealerContact1 = new TestSQLJoin.Library.TheDealerContact();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -34,9 +37,9 @@ namespace TestSQLJoin
             this.toolStripButton3,
             this.toolStripButton2,
             this.toolStripButton4});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Location = new System.Drawing.Point(8, 8);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(469, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(505, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -50,16 +53,6 @@ namespace TestSQLJoin
             this.toolStripButton1.Size = new System.Drawing.Size(70, 22);
             this.toolStripButton1.Text = "DealerContact";
             // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.CheckOnClick = true;
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(79, 22);
-            this.toolStripButton2.Text = "DealerOtherText";
-            // 
             // toolStripButton3
             // 
             this.toolStripButton3.CheckOnClick = true;
@@ -69,6 +62,16 @@ namespace TestSQLJoin
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(36, 22);
             this.toolStripButton3.Text = "Dealer";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.CheckOnClick = true;
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(79, 22);
+            this.toolStripButton2.Text = "DealerOtherText";
             // 
             // toolStripButton4
             // 
@@ -80,20 +83,57 @@ namespace TestSQLJoin
             this.toolStripButton4.Size = new System.Drawing.Size(45, 22);
             this.toolStripButton4.Text = "TheView";
             // 
-            // flowLayoutPanel1
+            // theView1
             // 
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 25);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(469, 530);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.theView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.theView1.Location = new System.Drawing.Point(8, 532);
+            this.theView1.Name = "theView1";
+            this.theView1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.theView1.Size = new System.Drawing.Size(505, 140);
+            this.theView1.TabIndex = 4;
+            this.theView1.AtRefresh += new System.Action(this.theView1_AtRefresh);
+            // 
+            // theDealerOtherText1
+            // 
+            this.theDealerOtherText1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.theDealerOtherText1.Location = new System.Drawing.Point(8, 366);
+            this.theDealerOtherText1.Name = "theDealerOtherText1";
+            this.theDealerOtherText1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.theDealerOtherText1.Size = new System.Drawing.Size(505, 166);
+            this.theDealerOtherText1.TabIndex = 3;
+            // 
+            // theDealer1
+            // 
+            this.theDealer1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.theDealer1.Location = new System.Drawing.Point(8, 198);
+            this.theDealer1.Name = "theDealer1";
+            this.theDealer1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.theDealer1.Size = new System.Drawing.Size(505, 168);
+            this.theDealer1.TabIndex = 2;
+            // 
+            // theDealerContact1
+            // 
+            this.theDealerContact1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.theDealerContact1.Location = new System.Drawing.Point(8, 33);
+            this.theDealerContact1.Margin = new System.Windows.Forms.Padding(8);
+            this.theDealerContact1.Name = "theDealerContact1";
+            this.theDealerContact1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.theDealerContact1.Size = new System.Drawing.Size(505, 165);
+            this.theDealerContact1.TabIndex = 1;
             // 
             // ApplicationControl
             // 
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.AutoScroll = true;
+            this.BackColor = System.Drawing.Color.Aqua;
+            this.Controls.Add(this.theView1);
+            this.Controls.Add(this.theDealerOtherText1);
+            this.Controls.Add(this.theDealer1);
+            this.Controls.Add(this.theDealerContact1);
             this.Controls.Add(this.toolStrip1);
+            this.DoubleBuffered = true;
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(469, 555);
+            this.Padding = new System.Windows.Forms.Padding(8);
+            this.Size = new System.Drawing.Size(521, 680);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -116,7 +156,10 @@ namespace TestSQLJoin
         private ToolStripButton toolStripButton3;
         private ToolStripButton toolStripButton2;
         private ToolStripButton toolStripButton4;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private Library.TheDealerContact theDealerContact1;
+        private Library.TheDealer theDealer1;
+        private Library.TheDealerOtherText theDealerOtherText1;
+        private Library.TheView theView1;
 
     }
 }
