@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Desktop.Compiler
     // Note: This type shall be internalized after before inserted into the installer
     public interface ISWCNativeTypeBuilder
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140429
+
         /// <summary>
         /// The implementation of this function shall create a new .NET assembly of the SWC file provided.
         /// 

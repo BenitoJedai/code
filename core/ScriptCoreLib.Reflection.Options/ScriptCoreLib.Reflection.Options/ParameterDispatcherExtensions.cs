@@ -235,6 +235,8 @@ namespace ScriptCoreLib.Reflection.Options
 
 			if (f.FieldType.Equals(typeof(FileInfo)))
 			{
+                // value = "TestVectorOfNumber.csproj\r\n"
+
 				f.SetValue(e, new FileInfo(value));
 				return;
 			}
