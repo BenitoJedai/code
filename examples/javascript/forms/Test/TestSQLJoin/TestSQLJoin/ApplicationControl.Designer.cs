@@ -27,6 +27,8 @@ namespace TestSQLJoin
             this.theDealerOtherText1 = new TestSQLJoin.Library.TheDealerOtherText();
             this.theDealer1 = new TestSQLJoin.Library.TheDealer();
             this.theDealerContact1 = new TestSQLJoin.Library.TheDealerContact();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.applicationWebService1 = new TestSQLJoin.ApplicationWebService();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -36,7 +38,8 @@ namespace TestSQLJoin
             this.toolStripButton1,
             this.toolStripButton3,
             this.toolStripButton2,
-            this.toolStripButton4});
+            this.toolStripButton4,
+            this.toolStripButton5});
             this.toolStrip1.Location = new System.Drawing.Point(8, 8);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(505, 25);
@@ -121,6 +124,16 @@ namespace TestSQLJoin
             this.theDealerContact1.Size = new System.Drawing.Size(505, 165);
             this.theDealerContact1.TabIndex = 1;
             // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(38, 22);
+            this.toolStripButton5.Text = "Server ";
+            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
+            // 
             // ApplicationControl
             // 
             this.AutoScroll = true;
@@ -160,6 +173,8 @@ namespace TestSQLJoin
         private Library.TheDealer theDealer1;
         private Library.TheDealerOtherText theDealerOtherText1;
         private Library.TheView theView1;
+        private ToolStripButton toolStripButton5;
+        private ApplicationWebService applicationWebService1;
 
     }
 }

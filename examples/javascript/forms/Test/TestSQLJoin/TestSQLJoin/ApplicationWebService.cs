@@ -50,24 +50,59 @@ namespace TestSQLJoin
             var Dealer = new Book1.Dealer();
             var DealerOther = new Book1.DealerOther();
 
+            var View = new Book1.TheView();
+
+            //DealerOther.Where
             // public static Book1.DealerContact Where(this Book1.DealerContact value, Expression<Func<Book1DealerContactRow, bool>> value);
             //DealerContact.Where
 
+            // rewrite into non LINQ keyowrd?
+
+            //            return
+
+
+            //            #region from contact in DealerContact
+            // DealerContact
+            //            #endregion
+
+            //            #region join dealer in Dealer on contact.DealerId equals dealer.ID
+            //.Join(
+            //                    Dealer,
+            //                    contact => contact.DealerId, dealer => dealer.ID,
+
+            //            #endregion
+
+            //            #region select new Book1TheViewRow;
+            // (contact, dealer) =>
+            //                        new Book1TheViewRow
+            //                        {
+            //                            DealerContactText = contact.DealerContactText,
+            //                            DealerText = dealer.DealerText,
+            //                            //DealerOtherText = other.DealerOtherText
+            //                        }
+            //                );
+            //            #endregion
+
             return
                 from contact in DealerContact
+
+                //Error	24	Cannot implicitly convert type 'TestSQLJoin.Data.Book1.TheView' to 
+                // 'System.Collections.Generic.IEnumerable<TestSQLJoin.Data.Book1TheViewRow>'. An explicit conversion exists (are you missing a cast?)	
+                //X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	88	17	TestSQLJoin
+
+
                 join dealer in Dealer on contact.DealerId equals dealer.ID
                 //join other in DealerOther on contact.DealerId equals other.ID
 
 
                 // how would this look like in generated sql?
-                let v = new Book1TheViewRow
+                select new Book1TheViewRow
                 {
                     DealerContactText = contact.DealerContactText,
                     DealerText = dealer.DealerText,
                     //DealerOtherText = other.DealerOtherText
-                }
+                };
 
-                select v;
 
         }
 
@@ -86,22 +121,54 @@ namespace TestSQLJoin
         // public static Book1.DealerContact Where(this Book1.DealerContact value, Expression<Func<Book1DealerContactRow, bool>> value);
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140429
 
-        // Error	4	Could not find an implementation of the query pattern for source type 'TestSQLJoin.Data.Book1.DealerContact'.  'Join' not found.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	51	33	TestSQLJoin
+        // Error	4	Could not find an implementation of the query pattern for source type 
+        // 'TestSQLJoin.Data.Book1.DealerContact'.  'Join' not found.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	51	33	TestSQLJoin
 
 
         // http://social.msdn.microsoft.com/Forums/en-US/bf98ec7a-cb80-4901-8eb2-3aa6636a4fde/linq-join-error-the-type-of-one-of-the-expressions-in-the-join-clause-is-incorrect-type-inference?forum=linqprojectgeneral
+        // http://weblogs.asp.net/rajbk/archive/2010/03/12/joins-in-linq-to-sql.aspx
+        // http://msdn.microsoft.com/en-us/library/bb311040.aspx
+        // http://thomashundley.com/post/2010/05/20/The-type-of-one-of-the-expressions-in-the-join-clause-is-incorrect-Type-inference-failed-in-the-call-to-Join.aspx
+        // http://www.roelvanlisdonk.nl/?p=2904
+        // is this it?
+        // http://www.pcreview.co.uk/forums/linq-join-using-expression-tree-t3432559.html
 
-        [Obsolete("whats the correct signature?")]
-        public static object Join<TOuter, TInner, TKey, TResult>(
+        //[Obsolete("whats the correct signature?")]
+        //public static IEnumerable<TestSQLJoin.Data.Book1TheViewRow> Join<TKey>(
+
+        // do we need  IQueryable<> ?
+
+        public class __Book1_TheView : Book1.TheView, System.Collections.Generic.IEnumerable<TestSQLJoin.Data.Book1TheViewRow>
+        {
+
+            public IEnumerator<Book1TheViewRow> GetEnumerator()
+            {
+                return Book1Extensions.AsEnumerable(this).GetEnumerator();
+                //return this.AsEnumerable().GetEnumerator();
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+        }
+
+        public static __Book1_TheView Join<TKey>(
             this Book1.DealerContact outer,
             Book1.Dealer inner,
-            Expression<Func<TOuter, TKey>> outerKeySelector,
-            Expression<Func<TInner, TKey>> innerKeySelector,
-            Func<TOuter, TInner, TResult> resultSelector
+            Expression<Func<Book1DealerContactRow, TKey>> outerKeySelector,
+            Expression<Func<Book1DealerRow, TKey>> innerKeySelector,
+
+            //Func<Book1DealerContactRow, Book1DealerRow, Book1TheViewRow> resultSelector
+
+
+            Expression<Func<Book1DealerContactRow, Book1DealerRow, Book1TheViewRow>> resultSelector
             )
         {
-            // Error	4	The type of one of the expressions in the join clause is incorrect.  Type inference failed in the call to 'Join'.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	58	17	TestSQLJoin
+            // Error	4	The type of one of the expressions in the join clause is incorrect.  
+            // Type inference failed in the call to 'Join'.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	58	17	TestSQLJoin
 
+            //Error	18	Cannot implicitly convert type 'object' to 'System.Collections.Generic.IEnumerable<TestSQLJoin.Data.Book1TheViewRow>'. An explicit conversion exists (are you missing a cast?)	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	66	1	TestSQLJoin
 
             //default(IQueryable<object>).Join()
             return null;

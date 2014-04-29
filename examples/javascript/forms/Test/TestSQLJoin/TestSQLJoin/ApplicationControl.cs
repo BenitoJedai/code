@@ -70,6 +70,34 @@ namespace TestSQLJoin
 
 
 
+
+            var dealercontacts0 =
+
+
+            #region from contact in DealerContact
+ DealerContact
+            #endregion
+
+            #region join dealer in Dealer on contact.DealerId equals dealer.ID
+.Join(
+                    Dealer,
+                    contact => contact.DealerId, dealer => dealer.ID,
+
+            #endregion
+
+            #region select new Book1TheViewRow;
+ (contact, dealer) =>
+                        new Book1TheViewRow
+                        {
+                            DealerContactText = contact.DealerContactText,
+                            DealerText = dealer.DealerText,
+                            //DealerOtherText = other.DealerOtherText
+                        }
+                );
+            #endregion
+
+
+
             var dealercontacts = from contact in DealerContact
                                  join dealer in Dealer on contact.DealerId equals dealer.ID
 
@@ -113,6 +141,12 @@ namespace TestSQLJoin
             );
             #endregion
 
+
+        }
+
+        private async void toolStripButton5_Click(object sender, System.EventArgs e)
+        {
+            var a = await applicationWebService1.GetTheViewData();
 
         }
 
