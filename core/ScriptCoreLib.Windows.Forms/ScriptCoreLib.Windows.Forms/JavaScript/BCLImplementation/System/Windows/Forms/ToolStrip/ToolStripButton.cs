@@ -136,5 +136,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.InternalElement.style.color = value.ToString();
             }
         }
+
+
+        // 
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.ToolStripButton.set_CheckOnClick(System.Boolean)]
+        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationControl.cs
+        public bool CheckOnClick { get; set; }
     }
 }
