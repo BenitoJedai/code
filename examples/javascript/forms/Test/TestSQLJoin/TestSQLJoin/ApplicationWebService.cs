@@ -46,8 +46,12 @@ namespace TestSQLJoin
         public async Task<IEnumerable<Book1TheViewRow>> GetTheViewData()
         {
 
-            var DealerContact = new Book1.DealerContact();
-            var Dealer = new Book1.Dealer();
+            //var DealerContact = new Book1.DealerContact();
+            var DealerContact = new __Book1_DealerContact();
+
+            //var Dealer = new Book1.Dealer();
+            var Dealer = new __Book1_Dealer();
+
             var DealerOther = new Book1.DealerOther();
 
             var View = new Book1.TheView();
@@ -108,6 +112,113 @@ namespace TestSQLJoin
 
     }
 
+
+    public class __Book1_Dealer : Book1.Dealer, IQueryable<TestSQLJoin.Data.Book1DealerRow>
+    {
+        #region IEnumerable
+        public IEnumerator<Book1DealerRow> GetEnumerator()
+        {
+            return Book1Extensions.AsEnumerable(this).GetEnumerator();
+            //return this.AsEnumerable().GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+        #endregion
+
+        #region IQueryable for LINQ join
+        public Type ElementType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public Expression Expression
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IQueryProvider Provider
+        {
+            get { throw new NotImplementedException(); }
+        }
+        #endregion
+
+    }
+
+
+    public class __Book1_DealerContact : Book1.DealerContact, IQueryable<TestSQLJoin.Data.Book1DealerContactRow>
+    {
+        #region IEnumerable
+        public IEnumerator<Book1DealerContactRow> GetEnumerator()
+        {
+            return Book1Extensions.AsEnumerable(this).GetEnumerator();
+            //return this.AsEnumerable().GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+        #endregion
+
+
+        #region IQueryable for LINQ join
+        public Type ElementType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public Expression Expression
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IQueryProvider Provider
+        {
+            get { throw new NotImplementedException(); }
+        }
+        #endregion
+
+    }
+
+    public class __Book1_TheView : Book1.TheView, IQueryable<TestSQLJoin.Data.Book1TheViewRow>
+    {
+        #region IEnumerable
+
+        public IEnumerator<Book1TheViewRow> GetEnumerator()
+        {
+            return Book1Extensions.AsEnumerable(this).GetEnumerator();
+            //return this.AsEnumerable().GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+        #endregion
+
+
+        #region IQueryable for LINQ join
+        public Type ElementType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public Expression Expression
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IQueryProvider Provider
+        {
+            get { throw new NotImplementedException(); }
+        }
+        #endregion
+    }
+
+
     static class X
     {
         //public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
@@ -138,22 +249,24 @@ namespace TestSQLJoin
 
         // do we need  IQueryable<> ?
 
-        public class __Book1_TheView : Book1.TheView, System.Collections.Generic.IEnumerable<TestSQLJoin.Data.Book1TheViewRow>
+
+        public static __Book1_TheView Join<TOuter, TInner, TKey>(
+            this IQueryable<TOuter> outer,
+            IQueryable<TInner> inner,
+            Expression<Func<TOuter, TKey>> outerKeySelector,
+            Expression<Func<TInner, TKey>> innerKeySelector,
+            Expression<Func<TOuter, TInner, Book1TheViewRow>> resultSelector
+            )
         {
+          
+            // how do we get this barely functional?
 
-            public IEnumerator<Book1TheViewRow> GetEnumerator()
-            {
-                return Book1Extensions.AsEnumerable(this).GetEnumerator();
-                //return this.AsEnumerable().GetEnumerator();
-            }
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
+            return null;
         }
 
-        public static __Book1_TheView Join<TKey>(
+
+        public static __Book1_TheView XJoin<TKey>(
             this Book1.DealerContact outer,
             Book1.Dealer inner,
             Expression<Func<Book1DealerContactRow, TKey>> outerKeySelector,
