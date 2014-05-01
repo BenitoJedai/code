@@ -466,7 +466,25 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     //var a = new SQLiteDataAdapter(cmd);
                     var a = new __DbDataAdapter { SelectCommand = cmd };
 
+                    //System.Data.XSQLite.dll!Community.CsharpSqlite.Sqlite3.fetchPayload(Community.CsharpSqlite.Sqlite3.BtCursor pCur, ref int pAmt, ref int outOffset, bool skipKey)	Unknown
+                    //System.Data.XSQLite.dll!Community.CsharpSqlite.Sqlite3.sqlite3BtreeKeyFetch(Community.CsharpSqlite.Sqlite3.BtCursor pCur, ref int pAmt, ref int outOffset)	Unknown
+                    //System.Data.XSQLite.dll!Community.CsharpSqlite.Sqlite3.sqlite3VdbeExec(Community.CsharpSqlite.Sqlite3.Vdbe p)	Unknown
+                    //System.Data.XSQLite.dll!Community.CsharpSqlite.Sqlite3.sqlite3Step(Community.CsharpSqlite.Sqlite3.Vdbe p)	Unknown
+                    //System.Data.XSQLite.dll!Community.CsharpSqlite.Sqlite3.sqlite3_step(Community.CsharpSqlite.Sqlite3.Vdbe pStmt)	Unknown
+                    //System.Data.XSQLite.dll!System.Data.SQLite.SQLiteCommand.ExecuteStatement(Community.CsharpSqlite.Sqlite3.Vdbe pStmt, out int cols, out System.IntPtr pazValue, out System.IntPtr pazColName)	Unknown
+                    //System.Data.XSQLite.dll!System.Data.SQLite.SQLiteDataReader.ReadpVm(Community.CsharpSqlite.Sqlite3.Vdbe pVm, int version, System.Data.SQLite.SQLiteCommand cmd)	Unknown
+                    //System.Data.XSQLite.dll!System.Data.SQLite.SQLiteDataReader.SQLiteDataReader(System.Data.SQLite.SQLiteCommand cmd, Community.CsharpSqlite.Sqlite3.Vdbe pVm, int version)	Unknown
+                    //System.Data.XSQLite.dll!System.Data.SQLite.SQLiteCommand.ExecuteReader(System.Data.CommandBehavior behavior, bool want_results, out int rows_affected)	Unknown
+                    //System.Data.XSQLite.dll!System.Data.SQLite.SQLiteCommand.ExecuteReader(System.Data.CommandBehavior behavior)	Unknown
+                    //System.Data.XSQLite.dll!System.Data.SQLite.SQLiteCommand.ExecuteDbDataReader(System.Data.CommandBehavior behavior)	Unknown
+                    //System.Data.dll!System.Data.Common.DbCommand.ExecuteReader()	Unknown
+                    //ScriptCoreLib.dll!ScriptCoreLib.Shared.BCLImplementation.System.Data.Common.__DbDataAdapter.Fill(System.Data.DataTable dataTable)	Unknown
+
+                    var ss = Stopwatch.StartNew();
+
+                    Console.WriteLine("before Fill");
                     a.Fill(t);
+                    Console.WriteLine("after Fill " + new { ss.ElapsedMilliseconds, t.Rows.Count });
 
 
                     var s = new TaskCompletionSource<DataTable>();
