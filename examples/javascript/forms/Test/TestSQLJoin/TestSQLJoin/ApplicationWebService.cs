@@ -259,7 +259,7 @@ namespace TestSQLJoin
 
         // do we need  IQueryable<> ?
 
-        [Obsolete("can we get rid of the return type too? how would that look like?")]
+        //[Obsolete("can we get rid of the return type too? how would that look like?")]
         public static
 
             //__Book1_TheView 
@@ -406,18 +406,44 @@ namespace TestSQLJoin
             var FromCommand =
                 "from (\n\t"
                     + xouter_SelectAll.ToString().Replace("\n", "\n\t")
-                    + ") as " + xouter_Paramerer_Name + " "
+                    + ") as " + xouter_Paramerer_Name.Replace("<>", "__") + " "
 
-                    + "\n\t inner join (\n\t\t"
+                    + "\ninner join (\n\t\t"
                     + xinner_SelectAll.ToString().Replace("\n", "\n\t")
-                    + ") as " + xinner_Paramerer.Name
-
-                    + " \n\t on "
-
-                    + xouter_Paramerer_Name + ".`" + xouter_asMemberExpression.Member.Name + "`"
-                    + " = "
-                    + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+                    + ") as " + xinner_Paramerer.Name.Replace("<>", "__");
             #endregion
+
+
+
+
+            //-		xouter_asMemberExpression.Expression as MemberExpression	{<>h__TransparentIdentifier0.contact}	System.Linq.Expressions.MemberExpression {System.Linq.Expressions.PropertyExpression}
+
+            var xouter_asMemberExpression_Expression_asMemberExpression = xouter_asMemberExpression.Expression as MemberExpression;
+            if (xouter_asMemberExpression_Expression_asMemberExpression != null)
+            {
+
+                FromCommand += " \n\t on "
+                     + xouter_Paramerer_Name.Replace("<>", "__") + "."
+
+                            //xouter_asMemberExpression_Expression_asMemberExpression.Member.Name	"contact"	string
+                            + "`" + xouter_asMemberExpression_Expression_asMemberExpression.Member.Name + "_"
+
+                     + "" + xouter_asMemberExpression.Member.Name + "`"
+                     + " = "
+                     + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+
+
+            }
+            else
+            {
+
+                FromCommand += " \n\t on "
+                        + xouter_Paramerer_Name.Replace("<>", "__") + ".`" + xouter_asMemberExpression.Member.Name + "`"
+                        + " = "
+                        + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+
+
+            }
 
 
 
@@ -442,10 +468,43 @@ namespace TestSQLJoin
                         // should we select every column available for us?
                         // or should we only select the ones being selected down the road?
 
-                        SelectCommand = "select *";
+                        // asLambdaExpression = {(contact, dealer) => new <>f__AnonymousType0`2(contact = contact, dealer = dealer)}
+                        //<>h__TransparentIdentifier0.contact_DealerContactText as DealerContactText,
+                        // <>h__TransparentIdentifier0.dealer_DealerText as DealerText
+
+
+                        // xouter_c "select `Key`, `DealerId`, `DealerContactText`, `Tag`, `Timestamp`"
+                        // xinner_c "select `Key`, `ID`, `DealerText`, `Tag`, `Timestamp`"
+                        var xouter_c = xouter.GetDescriptor().GetSelectAllColumnsText();
+                        var xinner_c = xinner.GetDescriptor().GetSelectAllColumnsText();
+
+                        //xouter_SelectAll.Strategy.GetDescriptor().GetSelectAllColumnsText();
+
+                        var f0 = xouter_c.SkipUntilOrEmpty("select").Split(
+                            new[] { " `" }, StringSplitOptions.RemoveEmptyEntries
+                        ).Select(x => xouter_Paramerer_Name + ".`" + x.TakeUntilIfAny("`") + "` as  `" + xouter_Paramerer_Name + "_" + x.TakeUntilIfAny("`") + "`").ToArray();
+
+                        var f1 = xinner_c.SkipUntilOrEmpty("select").Split(
+                              new[] { " `" }, StringSplitOptions.RemoveEmptyEntries
+                          ).Select(x => xinner_Paramerer.Name + ".`" + x.TakeUntilOrEmpty("`") + "` as  `" + xinner_Paramerer.Name + "_" + x.TakeUntilIfAny("`") + "`").ToArray();
+
+                        var ff = f0.Concat(f1).ToArray();
+
+                        // hack it, since we cannot ask for column data yet
+                        SelectCommand =
+                            "select " +
+                            string.Join(", \n\t", ff);
+
+
+
+
+
+                        //select `contact_Key`, `contact_DealerId`, `contact_DealerContactText`, `contact_Tag`, `contact_Timestamp` `dealer_Key`, `dealer_ID`, `dealer_DealerText`, `dealer_Tag`, `dealer_Timestamp`
+
                     }
                     else
                     {
+                        #region asNewExpression.Bindings
                         asNewExpression.Bindings.WithEach(
                             m =>
                             {
@@ -501,7 +560,7 @@ namespace TestSQLJoin
 
                                     SelectCommand +=
 
-                                        __projection.Name + "." +
+                                        __projection.Name.Replace("<>", "__") + "." +
 
                                         asFieldExpression_Expression_asFieldExpression.Member.Name
                                         + "_"
@@ -526,6 +585,8 @@ namespace TestSQLJoin
                             }
 
                         );
+                        #endregion
+
                     }
                     #endregion
 
@@ -620,25 +681,7 @@ namespace TestSQLJoin
         }
 
 
-        public static __Book1_TheView XJoin<TKey>(
-            this Book1.DealerContact outer,
-            Book1.Dealer inner,
-            Expression<Func<Book1DealerContactRow, TKey>> outerKeySelector,
-            Expression<Func<Book1DealerRow, TKey>> innerKeySelector,
-
-            //Func<Book1DealerContactRow, Book1DealerRow, Book1TheViewRow> resultSelector
 
 
-            Expression<Func<Book1DealerContactRow, Book1DealerRow, Book1TheViewRow>> resultSelector
-            )
-        {
-            // Error	4	The type of one of the expressions in the join clause is incorrect.  
-            // Type inference failed in the call to 'Join'.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	58	17	TestSQLJoin
-
-            //Error	18	Cannot implicitly convert type 'object' to 'System.Collections.Generic.IEnumerable<TestSQLJoin.Data.Book1TheViewRow>'. An explicit conversion exists (are you missing a cast?)	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	66	1	TestSQLJoin
-
-            //default(IQueryable<object>).Join()
-            return null;
-        }
     }
 }
