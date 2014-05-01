@@ -146,6 +146,9 @@ namespace TestSQLJoin
 
         private async void toolStripButton5_Click(object sender, System.EventArgs e)
         {
+            // A first chance exception of type 'System.NullReferenceException' occurred in TestSQLJoin.exe
+
+
             var dealercontacts = await applicationWebService1.GetTheViewData();
 
             #region .ReplaceWith( Book1TheViewRow[])
