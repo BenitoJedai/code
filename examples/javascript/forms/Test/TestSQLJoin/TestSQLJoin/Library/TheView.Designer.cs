@@ -44,14 +44,17 @@
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.book1TheViewBindingSourceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
-            this.book1TheViewBindingSourceDataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.book1TheViewBindingSourceDataGridView = new System.Windows.Forms.DataGridView();
+            this.dealerContactTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dealerTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dealerOtherTextDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dealerContactDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dealerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dealerOtherDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.keyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tagDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timestampDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.book1TheViewBindingSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.book1TheViewBindingSourceBindingNavigator)).BeginInit();
             this.book1TheViewBindingSourceBindingNavigator.SuspendLayout();
@@ -188,60 +191,6 @@
             this.book1TheViewBindingSourceBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
             this.book1TheViewBindingSourceBindingNavigatorSaveItem.Text = "Save Data";
             // 
-            // book1TheViewBindingSourceDataGridView
-            // 
-            this.book1TheViewBindingSourceDataGridView.AutoGenerateColumns = false;
-            this.book1TheViewBindingSourceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.book1TheViewBindingSourceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6});
-            this.book1TheViewBindingSourceDataGridView.DataSource = this.book1TheViewBindingSourceBindingSource;
-            this.book1TheViewBindingSourceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.book1TheViewBindingSourceDataGridView.Location = new System.Drawing.Point(0, 25);
-            this.book1TheViewBindingSourceDataGridView.Name = "book1TheViewBindingSourceDataGridView";
-            this.book1TheViewBindingSourceDataGridView.Size = new System.Drawing.Size(499, 111);
-            this.book1TheViewBindingSourceDataGridView.TabIndex = 1;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "DealerContactText";
-            this.dataGridViewTextBoxColumn1.HeaderText = "DealerContactText";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "DealerText";
-            this.dataGridViewTextBoxColumn2.HeaderText = "DealerText";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "DealerOtherText";
-            this.dataGridViewTextBoxColumn3.HeaderText = "DealerOtherText";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "Key";
-            this.dataGridViewTextBoxColumn4.HeaderText = "Key";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.DataPropertyName = "Tag";
-            this.dataGridViewTextBoxColumn5.HeaderText = "Tag";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.DataPropertyName = "Timestamp";
-            this.dataGridViewTextBoxColumn6.HeaderText = "Timestamp";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            // 
             // toolStripButton1
             // 
             this.toolStripButton1.BackColor = System.Drawing.Color.Yellow;
@@ -254,6 +203,81 @@
             this.toolStripButton1.Size = new System.Drawing.Size(73, 22);
             this.toolStripButton1.Text = "Refresh";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // book1TheViewBindingSourceDataGridView
+            // 
+            this.book1TheViewBindingSourceDataGridView.AutoGenerateColumns = false;
+            this.book1TheViewBindingSourceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.book1TheViewBindingSourceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dealerContactTextDataGridViewTextBoxColumn,
+            this.dealerTextDataGridViewTextBoxColumn,
+            this.dealerOtherTextDataGridViewTextBoxColumn,
+            this.dealerContactDataGridViewTextBoxColumn,
+            this.dealerDataGridViewTextBoxColumn,
+            this.dealerOtherDataGridViewTextBoxColumn,
+            this.keyDataGridViewTextBoxColumn,
+            this.tagDataGridViewTextBoxColumn,
+            this.timestampDataGridViewTextBoxColumn});
+            this.book1TheViewBindingSourceDataGridView.DataSource = this.book1TheViewBindingSourceBindingSource;
+            this.book1TheViewBindingSourceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.book1TheViewBindingSourceDataGridView.Location = new System.Drawing.Point(0, 25);
+            this.book1TheViewBindingSourceDataGridView.Name = "book1TheViewBindingSourceDataGridView";
+            this.book1TheViewBindingSourceDataGridView.Size = new System.Drawing.Size(499, 111);
+            this.book1TheViewBindingSourceDataGridView.TabIndex = 1;
+            // 
+            // dealerContactTextDataGridViewTextBoxColumn
+            // 
+            this.dealerContactTextDataGridViewTextBoxColumn.DataPropertyName = "DealerContactText";
+            this.dealerContactTextDataGridViewTextBoxColumn.HeaderText = "DealerContactText";
+            this.dealerContactTextDataGridViewTextBoxColumn.Name = "dealerContactTextDataGridViewTextBoxColumn";
+            // 
+            // dealerTextDataGridViewTextBoxColumn
+            // 
+            this.dealerTextDataGridViewTextBoxColumn.DataPropertyName = "DealerText";
+            this.dealerTextDataGridViewTextBoxColumn.HeaderText = "DealerText";
+            this.dealerTextDataGridViewTextBoxColumn.Name = "dealerTextDataGridViewTextBoxColumn";
+            // 
+            // dealerOtherTextDataGridViewTextBoxColumn
+            // 
+            this.dealerOtherTextDataGridViewTextBoxColumn.DataPropertyName = "DealerOtherText";
+            this.dealerOtherTextDataGridViewTextBoxColumn.HeaderText = "DealerOtherText";
+            this.dealerOtherTextDataGridViewTextBoxColumn.Name = "dealerOtherTextDataGridViewTextBoxColumn";
+            // 
+            // dealerContactDataGridViewTextBoxColumn
+            // 
+            this.dealerContactDataGridViewTextBoxColumn.DataPropertyName = "DealerContact";
+            this.dealerContactDataGridViewTextBoxColumn.HeaderText = "DealerContact";
+            this.dealerContactDataGridViewTextBoxColumn.Name = "dealerContactDataGridViewTextBoxColumn";
+            // 
+            // dealerDataGridViewTextBoxColumn
+            // 
+            this.dealerDataGridViewTextBoxColumn.DataPropertyName = "Dealer";
+            this.dealerDataGridViewTextBoxColumn.HeaderText = "Dealer";
+            this.dealerDataGridViewTextBoxColumn.Name = "dealerDataGridViewTextBoxColumn";
+            // 
+            // dealerOtherDataGridViewTextBoxColumn
+            // 
+            this.dealerOtherDataGridViewTextBoxColumn.DataPropertyName = "DealerOther";
+            this.dealerOtherDataGridViewTextBoxColumn.HeaderText = "DealerOther";
+            this.dealerOtherDataGridViewTextBoxColumn.Name = "dealerOtherDataGridViewTextBoxColumn";
+            // 
+            // keyDataGridViewTextBoxColumn
+            // 
+            this.keyDataGridViewTextBoxColumn.DataPropertyName = "Key";
+            this.keyDataGridViewTextBoxColumn.HeaderText = "Key";
+            this.keyDataGridViewTextBoxColumn.Name = "keyDataGridViewTextBoxColumn";
+            // 
+            // tagDataGridViewTextBoxColumn
+            // 
+            this.tagDataGridViewTextBoxColumn.DataPropertyName = "Tag";
+            this.tagDataGridViewTextBoxColumn.HeaderText = "Tag";
+            this.tagDataGridViewTextBoxColumn.Name = "tagDataGridViewTextBoxColumn";
+            // 
+            // timestampDataGridViewTextBoxColumn
+            // 
+            this.timestampDataGridViewTextBoxColumn.DataPropertyName = "Timestamp";
+            this.timestampDataGridViewTextBoxColumn.HeaderText = "Timestamp";
+            this.timestampDataGridViewTextBoxColumn.Name = "timestampDataGridViewTextBoxColumn";
             // 
             // TheView
             // 
@@ -289,13 +313,16 @@
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.ToolStripButton book1TheViewBindingSourceBindingNavigatorSaveItem;
         private System.Windows.Forms.DataGridView book1TheViewBindingSourceDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         public System.Windows.Forms.ToolStripButton toolStripButton1;
         public System.Windows.Forms.BindingSource book1TheViewBindingSourceBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dealerContactTextDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dealerTextDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dealerOtherTextDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dealerContactDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dealerDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dealerOtherDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tagDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn timestampDataGridViewTextBoxColumn;
     }
 }

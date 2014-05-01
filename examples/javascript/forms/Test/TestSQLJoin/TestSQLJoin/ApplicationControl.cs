@@ -146,10 +146,36 @@ namespace TestSQLJoin
 
         private async void toolStripButton5_Click(object sender, System.EventArgs e)
         {
-            var a = await applicationWebService1.GetTheViewData();
+            var dealercontacts = await applicationWebService1.GetTheViewData();
 
-            
-            var forcedBuffering = a.ToArray();
+            #region .ReplaceWith( Book1TheViewRow[])
+            // should jsc enerate such extension method?
+            // should bindingsource have typed datarowviews?
+
+            // Additional information: Cannot clear this list.
+            // why?
+            // is our bindingsource missing something?
+            //this.theView1.book1TheViewBindingSourceBindingSource.Clear();
+            while (this.theView1.book1TheViewBindingSourceBindingSource.Count > 0)
+                theView1.book1TheViewBindingSourceBindingSource.RemoveAt(0);
+
+
+            dealercontacts.WithEach(
+                k =>
+                {
+                    var r = (DataRowView)this.theView1.book1TheViewBindingSourceBindingSource.AddNew();
+
+                    r["DealerContactText"] = k.DealerContactText;
+                    r["DealerOtherText"] = k.DealerOtherText;
+                    r["DealerText"] = k.DealerText;
+                    r["Dealer"] = k.Dealer;
+                    r["DealerContact"] = k.DealerContact;
+                    r["Tag"] = k.Tag;
+
+                }
+            );
+            #endregion
+
         }
 
     }
