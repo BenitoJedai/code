@@ -131,12 +131,34 @@ namespace TestSQLJoin
                 //join other in DealerOther on contact.DealerId equals other.ID
 
 
+
+                // Message = "Column 'DealerOtherText' does not belong to table ."
+
                 // how would this look like in generated sql?
                 select new Book1TheViewRow
                 {
+                    // Additional information: Column 'Timestamp' does not belong to table .
+                    Timestamp = contact.Timestamp,
+
+                    //Additional information: Column 'Tag' does not belong to table .   
+                    Tag = "no tag",
+
+                    //Timestamp = DateTime.Now,
+
+                    //Additional information: Column 'DealerOther' does not belong to table .
+                    DealerOther = 0,
+
+                    // make row operator happy?
+                    DealerOtherText = "hi",
+                    //DealerOtherText = other.DealerOtherText
+
+
+                    Dealer = dealer.Key,
+                    DealerContact = contact.Key,
+
                     DealerContactText = contact.DealerContactText,
                     DealerText = dealer.DealerText,
-                    //DealerOtherText = other.DealerOtherText
+
                 };
 
 
@@ -153,124 +175,49 @@ namespace TestSQLJoin
             // Error	2	The call is ambiguous between the following methods or properties: 'TestSQLJoin.Data.Book1Extensions.AsEnumerable(TestSQLJoin.Data.Book1.TheView)' and 'System.Linq.Enumerable.AsEnumerable<TestSQLJoin.Data.Book1TheViewRow>(System.Collections.Generic.IEnumerable<TestSQLJoin.Data.Book1TheViewRow>)'	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	153	22	TestSQLJoin
 
 
-            var zz = (Book1.TheView)z;
-            DataTable zzz = zz.AsDataTable();
+            //var zz = (Book1.TheView)z;
+            //DataTable zzz = zz.AsDataTable();
 
             //var zz = z.AsEnumerable();
 
 
-            return z;
+            var zz = z.AsEnumerable();
+
+
+            var zz0 = zz.First();
+
+            //            at System.Data.DataRow.GetDataColumn(String columnName)
+            //at System.Data.DataRow.get_Item(String columnName)
+            //at TestSQLJoin.Data.Book1TheViewRow.op_Implicit(DataRow )
+
+            return zz;
         }
 
     }
 
 
-    public class __Book1_Dealer : Book1.Dealer, IQueryable<TestSQLJoin.Data.Book1DealerRow>
+    interface IQueryStrategy<TRow> : IQueryStrategy
     {
-        #region IEnumerable
-        public IEnumerator<Book1DealerRow> GetEnumerator()
-        {
-            return Book1Extensions.AsEnumerable(this).GetEnumerator();
-            //return this.AsEnumerable().GetEnumerator();
-        }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-        #endregion
+    }
 
-        #region IQueryable for LINQ join
-        public Type ElementType
-        {
-            get { throw new NotImplementedException(); }
-        }
+    // Error	1	The type of one of the expressions in the join clause is incorrect.  Type inference failed in the call to 'Join'.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	130	17	TestSQLJoin
+    public class __Book1_Dealer : Book1.Dealer, IQueryStrategy<TestSQLJoin.Data.Book1DealerRow>
+    {
 
-        public Expression Expression
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IQueryProvider Provider
-        {
-            get { throw new NotImplementedException(); }
-        }
-        #endregion
 
     }
 
 
-    public class __Book1_DealerContact : Book1.DealerContact, IQueryable<TestSQLJoin.Data.Book1DealerContactRow>
+    public class __Book1_DealerContact : Book1.DealerContact, IQueryStrategy<TestSQLJoin.Data.Book1DealerContactRow>
     {
-        #region IEnumerable
-        public IEnumerator<Book1DealerContactRow> GetEnumerator()
-        {
-            return Book1Extensions.AsEnumerable(this).GetEnumerator();
-            //return this.AsEnumerable().GetEnumerator();
-        }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-        #endregion
-
-
-        #region IQueryable for LINQ join
-        public Type ElementType
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public Expression Expression
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IQueryProvider Provider
-        {
-            get { throw new NotImplementedException(); }
-        }
-        #endregion
 
     }
 
-    public class __Book1_TheView : Book1.TheView, IQueryable<TestSQLJoin.Data.Book1TheViewRow>
+    public class __Book1_TheView : Book1.TheView, IQueryStrategy<TestSQLJoin.Data.Book1TheViewRow>
     {
-        //Error	1	Cannot implicitly convert type 'TestSQLJoin.__Book1_TheView' to 'System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<TestSQLJoin.Data.Book1TheViewRow>>'	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	107	17	TestSQLJoin
-        //             public static implicit operator Task<Book1TheViewRow>(Book1.TheView value);
 
-        #region IEnumerable
-
-        public IEnumerator<Book1TheViewRow> GetEnumerator()
-        {
-            return Book1Extensions.AsEnumerable(this).GetEnumerator();
-            //return this.AsEnumerable().GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-        #endregion
-
-
-        #region IQueryable for LINQ join
-        public Type ElementType
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public Expression Expression
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IQueryProvider Provider
-        {
-            get { throw new NotImplementedException(); }
-        }
-        #endregion
     }
 
 
@@ -306,10 +253,12 @@ namespace TestSQLJoin
 
 
         public static __Book1_TheView Join<TOuter, TInner, TKey>(
-            this IQueryable<TOuter> outer,
-            IQueryable<TInner> inner,
+            this IQueryStrategy<TOuter> xouter,
+            IQueryStrategy<TInner> xinner,
+
             Expression<Func<TOuter, TKey>> outerKeySelector,
             Expression<Func<TInner, TKey>> innerKeySelector,
+
             Expression<Func<TOuter, TInner, Book1TheViewRow>> resultSelector
             )
         {
@@ -332,11 +281,155 @@ namespace TestSQLJoin
             // or by looking at where implementation
 
 
+            // is this a new expression?
+            // what else could it be?
+
+
+            //-		resultSelector	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>
+            //+		Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
+            //        CanReduce	false	bool
+            //        DebugView	".Lambda #Lambda1<System.Func`3[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow]>(\r\n    TestSQLJoin.Data.Book1DealerContactRow $contact,\r\n    TestSQLJoin.Data.Book1DealerRow $dealer) {\r\n    .New TestSQLJoin.Data.Book1TheViewRow(){\r\n        Dealer = $dealer.Key,\r\n        DealerContact = $contact.Key,\r\n        DealerContactText = $contact.DealerContactText,\r\n        DealerText = $dealer.DealerText\r\n    }\r\n}"	string
+            //        Name	null	string
+            //        NodeType	Lambda	System.Linq.Expressions.ExpressionType
+            //+		Parameters	Count = 2	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.ParameterExpression> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>}
+            //+		ReturnType	{Name = "Book1TheViewRow" FullName = "TestSQLJoin.Data.Book1TheViewRow"}	System.Type {System.RuntimeType}
+            //        TailCall	false	bool
+            //+		Type	{Name = "Func`3" FullName = "System.Func`3[[TestSQLJoin.Data.Book1DealerContactRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[TestSQLJoin.Data.Book1DealerRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[TestSQLJoin.Data.Book1TheViewRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}	System.Type {System.RuntimeType}
+            //-		Raw View		
+            //-		base	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>}
+
+
+            //var asNewExpression = resultSelector as NewExpression;
+            var asLambdaExpression = resultSelector as LambdaExpression;
+
+            // can we assume 
+            //+		(new System.Linq.Expressions.Expression.ParameterExpressionProxy(xouter_Paramerer as System.Linq.Expressions.TypedParameterExpression)).Type	{Name = "Book1DealerContactRow" FullName = "TestSQLJoin.Data.Book1DealerContactRow"}	System.Type {System.RuntimeType}
+            //+		xouter	{TestSQLJoin.__Book1_DealerContact}	TestSQLJoin.IQueryStrategy<TestSQLJoin.Data.Book1DealerContactRow> {TestSQLJoin.__Book1_DealerContact}
+            // yes we can 0 is outer 1 is inner?
+
+            var xouter_Paramerer = asLambdaExpression.Parameters[0];
+            var xinner_Paramerer = asLambdaExpression.Parameters[1];
+
+
+            //-		asLambdaExpression	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>}
+            //+		Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
+            //        CanReduce	false	bool
+            //        DebugView	".Lambda #Lambda1<System.Func`3[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow]>(\r\n    TestSQLJoin.Data.Book1DealerContactRow $contact,\r\n    TestSQLJoin.Data.Book1DealerRow $dealer) {\r\n    .New TestSQLJoin.Data.Book1TheViewRow(){\r\n        Dealer = $dealer.Key,\r\n        DealerContact = $contact.Key,\r\n        DealerContactText = $contact.DealerContactText,\r\n        DealerText = $dealer.DealerText\r\n    }\r\n}"	string
+            //        Name	null	string
+            //        NodeType	Lambda	System.Linq.Expressions.ExpressionType
+            //-		Parameters	Count = 2	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.ParameterExpression> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>}
+            //+		[0]	{contact}	System.Linq.Expressions.ParameterExpression {System.Linq.Expressions.TypedParameterExpression}
+            //+		[1]	{dealer}	System.Linq.Expressions.ParameterExpression {System.Linq.Expressions.TypedParameterExpression}
+
+
 
             // will this help us?
-            var xouter = outer as IQueryStrategy;
-            var xinner = inner as IQueryStrategy;
+            //var xouter = outer as IQueryStrategy;
+            //var xinner = inner as IQueryStrategy;
 
+
+            //-		asLambdaExpression.Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
+            //-		Bindings	Count = 4	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.MemberBinding> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.MemberBinding>}
+            //+		[0]	{Dealer = dealer.Key}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
+            //+		[1]	{DealerContact = contact.Key}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
+            //+		[2]	{DealerContactText = contact.DealerContactText}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
+            //+		[3]	{DealerText = dealer.DealerText}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
+
+
+            #region SelectCommand
+            var SelectCommand = default(string);
+
+            var asNewExpression = asLambdaExpression.Body as MemberInitExpression;
+
+            asNewExpression.Bindings.WithEach(
+                m =>
+                {
+
+                    if (SelectCommand == null)
+                        SelectCommand = "select ";
+                    else
+                        SelectCommand += ", ";
+
+
+
+
+                    // the name we want it to appear at later
+                    var TargetMemberName = m.Member.Name;
+
+
+
+
+                    // this looks like CustomAttributeBuilder thing.
+
+
+                    var asMemberAssignment = m as MemberAssignment;
+
+
+                    var asConstantExpression = asMemberAssignment.Expression as ConstantExpression;
+                    if (asConstantExpression != null)
+                    {
+                        if (asConstantExpression.Type == typeof(string))
+                        {
+                            SelectCommand += "'" + asConstantExpression.Value + "' as " + TargetMemberName;
+                        }
+                        else
+                        {
+                            // long?
+                            SelectCommand += "" + asConstantExpression.Value + " as " + TargetMemberName;
+                        }
+
+                        return;
+                    }
+
+
+                    var asFieldExpression = asMemberAssignment.Expression as MemberExpression;
+
+                    // http://dotnetinside.com/cn/type/System.Core/TypedParameterExpression/4.0.0.0
+                    //var asTypedParameterExpression = asFieldExpression.Expression as TypedParameterExpression
+                    var asTypedParameterExpression = asFieldExpression.Expression as ParameterExpression;
+
+
+                    var SourceContextName = asTypedParameterExpression.Name;
+                    var SourceMemberName = asFieldExpression.Member.Name;
+
+
+
+
+                    // magic happens here!
+                    SelectCommand += SourceContextName + "." + SourceMemberName + " as " + TargetMemberName;
+
+                }
+
+            );
+            #endregion
+
+
+            //            ((new System.Linq.Expressions.Expression.MemberExpressionProxy((new System.Linq.Expressions.Expression.LambdaExpressionProxy(outerKeySelector as System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,long>>)).Body as System.Linq.Expressions.FieldExpression)).Member
+            // ).Name	"DealerId"	string
+            //(new System.Linq.Expressions.Expression.ParameterExpressionProxy((new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.ParameterExpression>((
+            // new System.Linq.Expressions.Expression.LambdaExpressionProxy(outerKeySelector as System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,long>>))
+            // .Parameters as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>)).Items[0] as System.Linq.Expressions.TypedParameterExpression))
+            // .Name	"contact"	string
+
+
+            var xouter_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xouter);
+            var xinner_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xinner);
+
+
+            var xouter_asMemberExpression = outerKeySelector.Body as MemberExpression;
+            var xinner_asMemberExpression = innerKeySelector.Body as MemberExpression;
+
+
+
+            var FromCommand =
+                " from ("
+                    + xouter_SelectAll.ToString()
+                    + ") as " + xouter_Paramerer.Name + " inner join ("
+                    + xinner_SelectAll.ToString()
+                    + ") as " + xinner_Paramerer.Name + " on "
+                    + xouter_Paramerer.Name + ".`" + xouter_asMemberExpression.Member.Name + "`"
+                    + " = "
+                    + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
 
 
             that.GetCommandBuilder().Add(
@@ -347,9 +440,7 @@ namespace TestSQLJoin
                     // http://stackoverflow.com/questions/5090513/how-do-you-avoid-column-name-conflicts
 
 
-                    var xouter_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xouter);
-                    //var xouter_SelectAll = xouter.GetDescriptor().GetSelectAllColumnsText();
-                    var xinner_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xinner);
+
                     //var xinner_SelectAll = xinner.GetDescriptor().GetSelectAllColumnsText();
 
 
@@ -360,9 +451,24 @@ namespace TestSQLJoin
                     // !!! do we need to generate prefix for key fields to ease joins?
                     // !!! how much code will it break ???
 
-                    state.SelectCommand =
-                        // not sure what fields are we reading
-                        "select DealerContactText, DealerText ";
+                    // viewColumns = "select `Key`, `DealerContactText`, `DealerText`, `DealerOtherText`, `Tag`, `Timestamp`"
+                    // GetDescriptor().GetSelectAllColumnsText needs to return the fields.
+
+                    //var viewColumns = that.GetDescriptor().GetSelectAllColumnsText();
+
+                    //Dealer = dealer.Key,
+                    //DealerContact = contact.Key,
+
+                    //ex = {"no such column: Dealer"}
+
+                    // ex = {"no such column: Dealer"}
+
+
+                    // SelectCommand = "select dealer.Key as Dealer, contact.Key as DealerContact, contact.DealerContactText as DealerContactText, dealer.DealerText as DealerText"
+                    state.SelectCommand = SelectCommand;
+                    state.FromCommand = FromCommand;
+                    // not sure what fields are we reading
+                    //"select DealerContactText, DealerText, x.Key as Dealer, y.Key as DealerContact";
 
 
 
@@ -371,16 +477,20 @@ namespace TestSQLJoin
                     // ex = {"no such column: Book1.DealerContact.DealerId"}
                     // wtf?
 
-                    state.FromCommand =
-                        " from ("
-                            + xouter_SelectAll.ToString()
-                            + ") as x inner join ("
-                            + xinner_SelectAll.ToString()
-                            + ") as y on "
-                        //+ "`" + xouter_SelectAll.Strategy.GetDescriptor().GetQualifiedTableName() + "`.`DealerId`"
-                            + "x.`DealerId`"
-                            + " = "
-                            + "y.`ID`";
+
+
+                    // from (select `Key`, `DealerId`, `DealerContactText`, `Tag`, `Timestamp`
+                    //from `Book1.DealerContact`
+
+
+
+                    //) as contact inner join (select `Key`, `ID`, `DealerText`, `Tag`, `Timestamp`
+                    //from `Book1.Dealer`
+
+
+
+                    //) as dealer on contact.`DealerId` = dealer.`ID`
+
 
 
                     //text = "ScriptCoreLib.Extensions::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda.WithConnection\n\n error: { Message = no such column: Book1.DealerContact.DealerId, ex = System.Data.SQLite.SQLiteSyntaxException (0x80004005): no such column: Book1.Deale...
@@ -408,7 +518,7 @@ namespace TestSQLJoin
                     //MutableWhere { Method = Boolean op_Equality(System.String, System.String), Left = Goo, Right = Goo0 }
 
 
-                    Debugger.Break();
+                    //Debugger.Break();
 
                     //state.FromCommand
                     //state.OrderByCommand = "order by `" + ColumnName + "`";
