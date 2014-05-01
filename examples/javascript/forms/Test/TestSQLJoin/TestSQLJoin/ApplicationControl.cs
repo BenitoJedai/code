@@ -148,6 +148,8 @@ namespace TestSQLJoin
         {
             var a = await applicationWebService1.GetTheViewData();
 
+            
+            var forcedBuffering = a.ToArray();
         }
 
     }

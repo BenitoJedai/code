@@ -66,7 +66,6 @@ namespace TestLINQJoin
                                  join other in DealerOther on contact.DealerId equals other.ID
 
                                  // new viewrow { x = ?, }
-
                                  select new { contact, dealer, other };
 
             dealercontacts.WithEach(

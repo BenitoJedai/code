@@ -23,11 +23,11 @@ namespace TestSQLJoin
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.theView1 = new TestSQLJoin.Library.TheView();
             this.theDealerOtherText1 = new TestSQLJoin.Library.TheDealerOtherText();
             this.theDealer1 = new TestSQLJoin.Library.TheDealer();
             this.theDealerContact1 = new TestSQLJoin.Library.TheDealerContact();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.applicationWebService1 = new TestSQLJoin.ApplicationWebService();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -86,6 +86,17 @@ namespace TestSQLJoin
             this.toolStripButton4.Size = new System.Drawing.Size(45, 22);
             this.toolStripButton4.Text = "TheView";
             // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.BackColor = System.Drawing.Color.Yellow;
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(38, 22);
+            this.toolStripButton5.Text = "Server ";
+            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
+            // 
             // theView1
             // 
             this.theView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -123,16 +134,6 @@ namespace TestSQLJoin
             this.theDealerContact1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             this.theDealerContact1.Size = new System.Drawing.Size(505, 165);
             this.theDealerContact1.TabIndex = 1;
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(38, 22);
-            this.toolStripButton5.Text = "Server ";
-            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
             // ApplicationControl
             // 
