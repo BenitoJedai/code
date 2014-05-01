@@ -444,7 +444,12 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     //var cmd = new SQLiteCommand(state.ToString(), c);
 
                     var cmd = (DbCommand)c.CreateCommand();
+
+
+                    //ex = {"no such column: dealer.Key"}
                     cmd.CommandText = state.ToString();
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140501
 
                     foreach (var item in state.ApplyParameter)
                     {
@@ -510,15 +515,23 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         {
             // time to build the CommandText
 
+            var StrategyDescriptor = Strategy.GetDescriptor();
+
             var state = new CommandBuilderState
             {
                 Strategy = Strategy,
 
-                // http://www.linkedin.com/groups/select-vs-selecting-all-columns-66097.S.206400776
-                SelectCommand = Strategy.GetDescriptor().GetSelectAllColumnsText(),
 
-                FromCommand = "from `" + Strategy.GetDescriptor().GetQualifiedTableName() + "`"
             };
+
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+            if (StrategyDescriptor != null)
+            {
+                // http://www.linkedin.com/groups/select-vs-selecting-all-columns-66097.S.206400776
+                state.SelectCommand = StrategyDescriptor.GetSelectAllColumnsText();
+
+                state.FromCommand = "from `" + StrategyDescriptor.GetQualifiedTableName() + "`";
+            }
 
             foreach (var item in Strategy.GetCommandBuilder())
             {

@@ -49,7 +49,10 @@ namespace TestSQLJoin
             async
             Task<IEnumerable<Book1TheViewRow>> GetTheViewData()
         {
+            // http://stackoverflow.com/questions/38549/difference-between-inner-and-outer-join
+            // X:\jsc.svn\examples\javascript\Test\TestSQLNestedJoin\TestSQLNestedJoin\ApplicationWebService.cs
 
+            #region InsertDemoData
             Action InsertDemoData = delegate
             {
                 new[] { 
@@ -76,6 +79,8 @@ namespace TestSQLJoin
 
 
             InsertDemoData();
+            #endregion
+
 
             //var DealerContact = new Book1.DealerContact();
             var DealerContact = new __Book1_DealerContact();
@@ -84,7 +89,7 @@ namespace TestSQLJoin
             //var Dealer = new Book1.Dealer();
             var Dealer = new __Book1_Dealer();
 
-            var DealerOther = new Book1.DealerOther();
+            var DealerOther = new __Book1_DealerOther();
 
             var View = new Book1.TheView();
 
@@ -121,44 +126,18 @@ namespace TestSQLJoin
 
             var z =
                 from contact in DealerContact
-
-                //Error	24	Cannot implicitly convert type 'TestSQLJoin.Data.Book1.TheView' to 
-                // 'System.Collections.Generic.IEnumerable<TestSQLJoin.Data.Book1TheViewRow>'. An explicit conversion exists (are you missing a cast?)	
-                //X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	88	17	TestSQLJoin
-
-
                 join dealer in Dealer on contact.DealerId equals dealer.ID
-                //join other in DealerOther on contact.DealerId equals other.ID
-
-
-
-                // Message = "Column 'DealerOtherText' does not belong to table ."
-
-                // how would this look like in generated sql?
+                join other in DealerOther on contact.DealerId equals other.ID
                 select new Book1TheViewRow
                 {
-                    // Additional information: Column 'Timestamp' does not belong to table .
                     Timestamp = contact.Timestamp,
-
-                    //Additional information: Column 'Tag' does not belong to table .   
                     Tag = "no tag",
-
-                    //Timestamp = DateTime.Now,
-
-                    //Additional information: Column 'DealerOther' does not belong to table .
                     DealerOther = 0,
-
-                    // make row operator happy?
-                    DealerOtherText = "hi",
-                    //DealerOtherText = other.DealerOtherText
-
-
+                    DealerOtherText = other.DealerOtherText,
                     Dealer = dealer.Key,
                     DealerContact = contact.Key,
-
                     DealerContactText = contact.DealerContactText,
                     DealerText = dealer.DealerText,
-
                 };
 
 
@@ -180,21 +159,44 @@ namespace TestSQLJoin
 
             //var zz = z.AsEnumerable();
 
+            // Error	26	Instance argument: cannot convert from 'System.Linq.ParallelQuery<TResult>' to 'TestSQLJoin.Data.Book1.DealerContact'	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	189	22	TestSQLJoin
+            //var zz = z.AsEnumerable();
 
-            var zz = z.AsEnumerable();
 
-
-            var zz0 = zz.First();
+            //var zz0 = zz.First();
 
             //            at System.Data.DataRow.GetDataColumn(String columnName)
             //at System.Data.DataRow.get_Item(String columnName)
             //at TestSQLJoin.Data.Book1TheViewRow.op_Implicit(DataRow )
 
-            return zz;
+
+            var data = QueryStrategyExtensions.AsDataTable(z);
+
+            return null;
         }
 
     }
 
+
+    class XQueryStrategy<TRow> : IQueryStrategy<TRow>
+    {
+
+        List<Action<QueryStrategyExtensions.CommandBuilderState>> InternalCommandBuilder = new List<Action<QueryStrategyExtensions.CommandBuilderState>>();
+
+        public List<Action<QueryStrategyExtensions.CommandBuilderState>> GetCommandBuilder()
+        {
+            return InternalCommandBuilder;
+        }
+
+        public Func<IQueryDescriptor> InternalGetDescriptor;
+
+        public IQueryDescriptor GetDescriptor()
+        {
+            //  public static DataTable AsDataTable(IQueryStrategy Strategy)
+
+            return InternalGetDescriptor();
+        }
+    }
 
     interface IQueryStrategy<TRow> : IQueryStrategy
     {
@@ -210,6 +212,12 @@ namespace TestSQLJoin
 
 
     public class __Book1_DealerContact : Book1.DealerContact, IQueryStrategy<TestSQLJoin.Data.Book1DealerContactRow>
+    {
+
+
+    }
+
+    public class __Book1_DealerOther : Book1.DealerOther, IQueryStrategy<Book1DealerOtherRow>
     {
 
 
@@ -251,22 +259,45 @@ namespace TestSQLJoin
 
         // do we need  IQueryable<> ?
 
+        [Obsolete("can we get rid of the return type too? how would that look like?")]
+        public static
 
-        public static __Book1_TheView Join<TOuter, TInner, TKey>(
+            //__Book1_TheView 
+            IQueryStrategy<TResult>
+
+            Join<TOuter, TInner, TKey, TResult>(
             this IQueryStrategy<TOuter> xouter,
             IQueryStrategy<TInner> xinner,
 
+            // outerKeySelector = {<>h__TransparentIdentifier0 => <>h__TransparentIdentifier0.contact.DealerId}
             Expression<Func<TOuter, TKey>> outerKeySelector,
             Expression<Func<TInner, TKey>> innerKeySelector,
 
-            Expression<Func<TOuter, TInner, Book1TheViewRow>> resultSelector
+            // resultSelector = {(contact, dealer) => new <>f__AnonymousType0`2(contact = contact, dealer = dealer)}
+            Expression<Func<TOuter, TInner, TResult>> resultSelector
             )
         {
 
             // how do we get this barely functional?
 
             // can we manually convince this thing to include the join clause?
-            var that = new __Book1_TheView();
+            //var that = new __Book1_TheView();
+            var that = new XQueryStrategy<TResult>
+            {
+
+
+                InternalGetDescriptor =
+                    () =>
+                    {
+                        // inherit the connection/context from above
+                        var StrategyDescriptor = xouter.GetDescriptor();
+
+                        return StrategyDescriptor;
+                    }
+            };
+
+
+            //Additional information: Unable to cast object of type 'TestSQLJoin.__Book1_TheView' to type 'TestSQLJoin.IQueryStrategy`1[<>f__AnonymousType0`2[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow]]'.
 
             // this seems to be what we may want to use to do that
             //var x = n.GetDescriptor();
@@ -336,73 +367,8 @@ namespace TestSQLJoin
             //+		[3]	{DealerText = dealer.DealerText}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
 
 
-            #region SelectCommand
-            var SelectCommand = default(string);
 
-            var asNewExpression = asLambdaExpression.Body as MemberInitExpression;
-
-            asNewExpression.Bindings.WithEach(
-                m =>
-                {
-
-                    if (SelectCommand == null)
-                        SelectCommand = "select ";
-                    else
-                        SelectCommand += ", ";
-
-
-
-
-                    // the name we want it to appear at later
-                    var TargetMemberName = m.Member.Name;
-
-
-
-
-                    // this looks like CustomAttributeBuilder thing.
-
-
-                    var asMemberAssignment = m as MemberAssignment;
-
-
-                    var asConstantExpression = asMemberAssignment.Expression as ConstantExpression;
-                    if (asConstantExpression != null)
-                    {
-                        if (asConstantExpression.Type == typeof(string))
-                        {
-                            SelectCommand += "'" + asConstantExpression.Value + "' as " + TargetMemberName;
-                        }
-                        else
-                        {
-                            // long?
-                            SelectCommand += "" + asConstantExpression.Value + " as " + TargetMemberName;
-                        }
-
-                        return;
-                    }
-
-
-                    var asFieldExpression = asMemberAssignment.Expression as MemberExpression;
-
-                    // http://dotnetinside.com/cn/type/System.Core/TypedParameterExpression/4.0.0.0
-                    //var asTypedParameterExpression = asFieldExpression.Expression as TypedParameterExpression
-                    var asTypedParameterExpression = asFieldExpression.Expression as ParameterExpression;
-
-
-                    var SourceContextName = asTypedParameterExpression.Name;
-                    var SourceMemberName = asFieldExpression.Member.Name;
-
-
-
-
-                    // magic happens here!
-                    SelectCommand += SourceContextName + "." + SourceMemberName + " as " + TargetMemberName;
-
-                }
-
-            );
-            #endregion
-
+            // ex = {"near \"<>\": syntax error"}
 
             //            ((new System.Linq.Expressions.Expression.MemberExpressionProxy((new System.Linq.Expressions.Expression.LambdaExpressionProxy(outerKeySelector as System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,long>>)).Body as System.Linq.Expressions.FieldExpression)).Member
             // ).Name	"DealerId"	string
@@ -412,24 +378,47 @@ namespace TestSQLJoin
             // .Name	"contact"	string
 
 
+            //xouter = {TestSQLJoin.XQueryStrategy<<>f__AnonymousType0<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow>>}
+            #region FromCommand
             var xouter_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xouter);
             var xinner_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xinner);
 
 
+            // outerKeySelector = {<>h__TransparentIdentifier0 => <>h__TransparentIdentifier0.contact.DealerId}
             var xouter_asMemberExpression = outerKeySelector.Body as MemberExpression;
             var xinner_asMemberExpression = innerKeySelector.Body as MemberExpression;
 
 
+            var xouter_Paramerer_Name = xouter_Paramerer.Name;
+
+            //if (xouter_Paramerer)
+
+            var u = xouter_asMemberExpression.Expression as MemberExpression;
+            if (u != null)
+            {
+                // nested join?
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140501
+
+                //xouter_Paramerer_Name = u.Member.Name;
+            }
 
             var FromCommand =
-                " from ("
-                    + xouter_SelectAll.ToString()
-                    + ") as " + xouter_Paramerer.Name + " inner join ("
-                    + xinner_SelectAll.ToString()
-                    + ") as " + xinner_Paramerer.Name + " on "
-                    + xouter_Paramerer.Name + ".`" + xouter_asMemberExpression.Member.Name + "`"
+                "from (\n\t"
+                    + xouter_SelectAll.ToString().Replace("\n", "\n\t")
+                    + ") as " + xouter_Paramerer_Name + " "
+
+                    + "\n\t inner join (\n\t\t"
+                    + xinner_SelectAll.ToString().Replace("\n", "\n\t")
+                    + ") as " + xinner_Paramerer.Name
+
+                    + " \n\t on "
+
+                    + xouter_Paramerer_Name + ".`" + xouter_asMemberExpression.Member.Name + "`"
                     + " = "
                     + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+            #endregion
+
 
 
             that.GetCommandBuilder().Add(
@@ -438,6 +427,107 @@ namespace TestSQLJoin
                     // xouter_SelectAll = "select `Key`, `DealerId`, `DealerContactText`, `Tag`, `Timestamp`"
 
                     // http://stackoverflow.com/questions/5090513/how-do-you-avoid-column-name-conflicts
+
+
+
+                    #region SelectCommand
+                    var SelectCommand = default(string);
+
+                    var asNewExpression = asLambdaExpression.Body as MemberInitExpression;
+
+                    if (asNewExpression == null)
+                    {
+                        // ex = {"near \"?\": syntax error"}
+
+                        // should we select every column available for us?
+                        // or should we only select the ones being selected down the road?
+
+                        SelectCommand = "select *";
+                    }
+                    else
+                    {
+                        asNewExpression.Bindings.WithEach(
+                            m =>
+                            {
+
+                                if (SelectCommand == null)
+                                    SelectCommand = "select ";
+                                else
+                                    SelectCommand += ",\n\t ";
+
+
+
+
+                                // the name we want it to appear at later
+                                var TargetMemberName = m.Member.Name;
+
+
+
+
+                                // this looks like CustomAttributeBuilder thing.
+
+
+                                var asMemberAssignment = m as MemberAssignment;
+
+
+                                var asConstantExpression = asMemberAssignment.Expression as ConstantExpression;
+                                if (asConstantExpression != null)
+                                {
+                                    if (asConstantExpression.Type == typeof(string))
+                                    {
+                                        SelectCommand += "'" + asConstantExpression.Value + "' as " + TargetMemberName;
+                                    }
+                                    else
+                                    {
+                                        // long?
+                                        SelectCommand += "" + asConstantExpression.Value + " as " + TargetMemberName;
+                                    }
+
+                                    return;
+                                }
+
+                                // asFieldExpression = {<>h__TransparentIdentifier0.contact.Timestamp}
+                                var asFieldExpression = asMemberAssignment.Expression as MemberExpression;
+
+                                var asFieldExpression_Expression_asFieldExpression = asFieldExpression.Expression as MemberExpression;
+
+                                if (asFieldExpression_Expression_asFieldExpression != null)
+                                {
+                                    // reduce? flatten?  nested join?
+
+                                    //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
+
+                                    var __projection = asFieldExpression_Expression_asFieldExpression.Expression as ParameterExpression;
+
+                                    SelectCommand +=
+
+                                        __projection.Name + "." +
+
+                                        asFieldExpression_Expression_asFieldExpression.Member.Name
+                                        + "_"
+                                        + asFieldExpression.Member.Name + " as " + TargetMemberName;
+                                    return;
+                                }
+
+                                // http://dotnetinside.com/cn/type/System.Core/TypedParameterExpression/4.0.0.0
+                                //var asTypedParameterExpression = asFieldExpression.Expression as TypedParameterExpression
+                                var asTypedParameterExpression = asFieldExpression.Expression as ParameterExpression;
+
+
+                                var SourceContextName = asTypedParameterExpression.Name;
+                                var SourceMemberName = asFieldExpression.Member.Name;
+
+
+
+
+                                // magic happens here!
+                                SelectCommand += SourceContextName + "." + SourceMemberName + " as " + TargetMemberName;
+
+                            }
+
+                        );
+                    }
+                    #endregion
 
 
 
@@ -525,6 +615,7 @@ namespace TestSQLJoin
                 }
                );
 
+            //return (IQueryStrategy<TResult>)that;
             return that;
         }
 
