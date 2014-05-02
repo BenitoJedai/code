@@ -13,7 +13,11 @@ namespace ScriptCoreLib.Extensions
         {
             var r = source.GetEnumerator();
 
-            return Enumerable.Range(0, source.Count).Select(i =>
+            // xaml?
+            return Enumerable.Select(
+                Enumerable.Range(0, source.Count),
+
+                i =>
                 {
                     r.MoveNext();
 
