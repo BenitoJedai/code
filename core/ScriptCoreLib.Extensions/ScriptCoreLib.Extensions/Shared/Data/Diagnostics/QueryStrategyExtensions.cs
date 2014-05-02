@@ -44,6 +44,17 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         // Stack<Apply>
     }
 
+
+    public interface IQueryStrategy<TRow> : IQueryStrategy
+    {
+        // this class exists to make LINQ happy
+
+        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140501
+
+    }
+
+
     [Obsolete("we need to refactor this into a jsc market nuget. can this nuget also embedd the asset compiler for jsc?")]
     public static class QueryStrategyExtensions
     {

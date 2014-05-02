@@ -151,33 +151,44 @@ namespace TestSQLJoin
 
             var dealercontacts = await applicationWebService1.GetTheViewData();
 
-            #region .ReplaceWith( Book1TheViewRow[])
-            // should jsc enerate such extension method?
-            // should bindingsource have typed datarowviews?
+            //148:26559ms UploadValuesAsync { status = 200, responseType = arraybuffer }
+            //148:26578ms GetString  { Length = 0 }
 
-            // Additional information: Cannot clear this list.
-            // why?
-            // is our bindingsource missing something?
-            //this.theView1.book1TheViewBindingSourceBindingSource.Clear();
-            while (this.theView1.book1TheViewBindingSourceBindingSource.Count > 0)
-                theView1.book1TheViewBindingSourceBindingSource.RemoveAt(0);
+            // script: error JSC1000: No implementation found for this native method, please implement [System.Data.SQLite.SQLiteConnection.get_LastInsertRowId()]
+            //var s = dealercontacts.AsDataTable();
 
 
-            dealercontacts.WithEach(
-                k =>
-                {
-                    var r = (DataRowView)this.theView1.book1TheViewBindingSourceBindingSource.AddNew();
+            // switch from demo data to new local data
+            //this.theView1.book1TheViewBindingSourceBindingSource.DataSource
+            //    = s;
 
-                    r["DealerContactText"] = k.DealerContactText;
-                    r["DealerOtherText"] = k.DealerOtherText;
-                    r["DealerText"] = k.DealerText;
-                    r["Dealer"] = k.Dealer;
-                    r["DealerContact"] = k.DealerContact;
-                    r["Tag"] = k.Tag;
+            //#region .ReplaceWith( Book1TheViewRow[])
+            //// should jsc enerate such extension method?
+            //// should bindingsource have typed datarowviews?
 
-                }
-            );
-            #endregion
+            //// Additional information: Cannot clear this list.
+            //// why?
+            //// is our bindingsource missing something?
+            ////this.theView1.book1TheViewBindingSourceBindingSource.Clear();
+            //while (this.theView1.book1TheViewBindingSourceBindingSource.Count > 0)
+            //    theView1.book1TheViewBindingSourceBindingSource.RemoveAt(0);
+
+
+            //dealercontacts.WithEach(
+            //    k =>
+            //    {
+            //        var r = (DataRowView)this.theView1.book1TheViewBindingSourceBindingSource.AddNew();
+
+            //        r["DealerContactText"] = k.DealerContactText;
+            //        r["DealerOtherText"] = k.DealerOtherText;
+            //        r["DealerText"] = k.DealerText;
+            //        r["Dealer"] = k.Dealer;
+            //        r["DealerContact"] = k.DealerContact;
+            //        r["Tag"] = k.Tag;
+
+            //    }
+            //);
+            //#endregion
 
         }
 
