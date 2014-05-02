@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using TestSQLJoin.Data;
 using System.Data;
 using ScriptCoreLib.Extensions;
+using System;
 
 namespace TestSQLJoin
 {
@@ -155,12 +156,15 @@ namespace TestSQLJoin
             //148:26578ms GetString  { Length = 0 }
 
             // script: error JSC1000: No implementation found for this native method, please implement [System.Data.SQLite.SQLiteConnection.get_LastInsertRowId()]
-            //var s = dealercontacts.AsDataTable();
+            var s = dealercontacts.AsDataTable();
 
 
-            // switch from demo data to new local data
-            //this.theView1.book1TheViewBindingSourceBindingSource.DataSource
-            //    = s;
+            Console.WriteLine(" switch from demo data to new local data " + new { dealercontacts = dealercontacts.Count() }
+                );
+            // 148:91651ms  switch from demo data to new local data { dealercontacts = 27 } 
+
+            this.theView1.book1TheViewBindingSourceBindingSource.DataSource
+                = s;
 
             //#region .ReplaceWith( Book1TheViewRow[])
             //// should jsc enerate such extension method?

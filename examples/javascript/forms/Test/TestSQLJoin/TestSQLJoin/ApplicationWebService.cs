@@ -139,9 +139,9 @@ namespace TestSQLJoin
 
 
 
-            var e0 = z.AsEnumerable();
-            var count0 = z.Count();
-            var data0 = z.AsDataTable();
+            //var e0 = z.AsEnumerable();
+            //var count0 = z.Count();
+            //var data0 = z.AsDataTable();
 
             //var data = QueryStrategyExtensions.AsDataTable(z);
 
@@ -154,7 +154,11 @@ namespace TestSQLJoin
             //Book1Extensions.
 
 
-            return z.AsEnumerable();
+
+
+
+            // client cannot handle too much data! yet.
+            return z.Take(11).AsEnumerable();
         }
 
     }

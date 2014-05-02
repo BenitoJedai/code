@@ -74,6 +74,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             get { return InternalDataSource; }
             set
             {
+                // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.DataSource.cs
+                // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\Library\TheView.cs
+
+                this.InternalActivatedDataSource = null;
+
                 this.InternalDataSource = value;
 
                 if (DataSourceChanged != null)
@@ -90,29 +95,29 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
         }
 
-        public object _innerList;
+        public object InternalActivatedDataSource;
         // -		_innerList	{SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource}	System.Collections.IList {SharedBrowserSessionExperiment.DataLayer.Data.NavigationOrdersNavigateBindingSource}
 
         public object ActivatedDataSource
         {
             get
             {
-                if (_innerList == null)
+                if (InternalActivatedDataSource == null)
                 {
                     var asType = InternalDataSource as Type;
                     if (asType != null)
                     {
                         // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.Designer.cs
-                        _innerList = Activator.CreateInstance(asType);
+                        InternalActivatedDataSource = Activator.CreateInstance(asType);
                     }
                     else
                     {
-                        _innerList = InternalDataSource;
+                        InternalActivatedDataSource = InternalDataSource;
                     }
                 }
 
 
-                return _innerList;
+                return InternalActivatedDataSource;
             }
         }
 

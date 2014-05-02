@@ -65,6 +65,8 @@
             // 
             this.book1TheViewBindingSourceBindingSource.DataSource = typeof(TestSQLJoin.Data.Book1TheViewBindingSource);
             this.book1TheViewBindingSourceBindingSource.Position = 0;
+            this.book1TheViewBindingSourceBindingSource.DataSourceChanged += new System.EventHandler(this.book1TheViewBindingSourceBindingSource_DataSourceChanged);
+            this.book1TheViewBindingSourceBindingSource.CurrentChanged += new System.EventHandler(this.book1TheViewBindingSourceBindingSource_CurrentChanged);
             // 
             // book1TheViewBindingSourceBindingNavigator
             // 
