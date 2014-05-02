@@ -25,5 +25,21 @@ namespace TestSQLJoin.Library
                 AtRefresh();
 
         }
+
+        private void book1TheViewBindingSourceBindingSource_DataSourceChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("book1TheViewBindingSourceBindingSource_DataSourceChanged");
+
+            //this.book1TheViewBindingSourceDataGridView.DataSource = null;
+            //this.book1TheViewBindingSourceDataGridView.DataSource = book1TheViewBindingSourceBindingSource.DataSource;
+
+            // ActivaDataSource gets in the way?
+            //this.book1TheViewBindingSourceDataGridView.DataSource = book1TheViewBindingSourceBindingSource;
+        }
+
+        private void book1TheViewBindingSourceBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

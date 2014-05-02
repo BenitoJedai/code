@@ -130,8 +130,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (value == null)
             {
-                while (this.Columns.Count > 0)
-                    this.Columns.RemoveAt(this.Columns.Count - 1);
+                // x:\jsc.svn\examples\javascript\forms\test\testsqljoin\testsqljoin\applicationcontrol.cs
+                if (AutoGenerateColumns)
+                {
+                    while (this.Columns.Count > 0)
+                        this.Columns.RemoveAt(this.Columns.Count - 1);
+
+                }
+                else
+                {
+                    // !! do not clear. we are likely to be rebound to same data
+                }
 
                 return;
             }
@@ -160,6 +169,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var SourceBindingSource = value as __BindingSource;
             if (SourceBindingSource != null)
             {
+                // x:\jsc.svn\examples\javascript\forms\test\testsqljoin\testsqljoin\applicationcontrol.cs
+
                 //26:199ms InternalSetDataSource BindingSource { DataSource =  } view-source:37729
                 //26:200ms InternalSetDataSource not implemented for <Namespace>.BindingSource view-source:37770
                 //26:202ms __BindingSource EndInit 
@@ -330,24 +341,25 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 #endregion
 
 
+
+                // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\Library\TheView.cs
+                SourceBindingSource.DataSourceChanged +=
+                    delegate
+                    {
+                        //Console.WriteLine(" designer is still setting things up? DataSourceChanged");
+
+                        if (SourceBindingSource.ActivatedDataSource == null)
+                            return;
+
+                        AtSourceBindingSourceDataSource();
+                    };
+
+
                 if (SourceBindingSource.ActivatedDataSource == null)
                 {
                     //Console.WriteLine(" designer is still setting things up?");
-
-                    SourceBindingSource.DataSourceChanged +=
-                        delegate
-                        {
-                            //Console.WriteLine(" designer is still setting things up? DataSourceChanged");
-
-                            if (SourceBindingSource.ActivatedDataSource == null)
-                                return;
-
-                            AtSourceBindingSourceDataSource();
-                        };
-
                     return;
                 }
-
 
                 AtSourceBindingSourceDataSource();
                 return;
