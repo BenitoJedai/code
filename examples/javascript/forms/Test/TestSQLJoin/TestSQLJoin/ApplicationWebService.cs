@@ -28,7 +28,9 @@ namespace TestSQLJoin
         [Obsolete("future jsc shall find references by deep inspection.")]
         void References()
         {
-
+            // {"Could not load file or assembly 'System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null"}
+            { var ref0 = typeof(IQueryStrategy); }
+            { var ref0 = typeof(System.Data.SQLite.SQLiteConnection); }
         }
 
 
@@ -59,7 +61,7 @@ namespace TestSQLJoin
                     new Book1DealerContactRow { DealerId = 2, DealerContactText = ""},
                     new Book1DealerContactRow { DealerId = 3, DealerContactText = "hello "},
                     new Book1DealerContactRow { DealerId = 4, DealerContactText = ""}
-                }.Select(new __Book1_DealerContact().Insert).ToArray();
+                }.Select(new Book1.DealerContact().Insert).ToArray();
 
 
 
@@ -67,7 +69,7 @@ namespace TestSQLJoin
                     new Book1DealerRow { ID = 1, DealerText = ""},
                     new Book1DealerRow { ID = 3, DealerText = "world"},
                     new Book1DealerRow { ID = 5, DealerText = ""}
-                }.Select(new __Book1_Dealer().Insert).ToArray();
+                }.Select(new Book1.Dealer().Insert).ToArray();
 
 
                 new[] { 
@@ -82,47 +84,12 @@ namespace TestSQLJoin
             #endregion
 
 
-            //var DealerContact = new Book1.DealerContact();
-            var DealerContact = new __Book1_DealerContact();
-
-
-            //var Dealer = new Book1.Dealer();
-            var Dealer = new __Book1_Dealer();
-
-            var DealerOther = new __Book1_DealerOther();
-
+            var DealerContact = new Book1.DealerContact();
+            var Dealer = new Book1.Dealer();
+            var DealerOther = new Book1.DealerOther();
             var View = new Book1.TheView();
 
-            //DealerOther.Where
-            // public static Book1.DealerContact Where(this Book1.DealerContact value, Expression<Func<Book1DealerContactRow, bool>> value);
-            //DealerContact.Where
 
-            // rewrite into non LINQ keyowrd?
-
-            //            return
-
-
-            //            #region from contact in DealerContact
-            // DealerContact
-            //            #endregion
-
-            //            #region join dealer in Dealer on contact.DealerId equals dealer.ID
-            //.Join(
-            //                    Dealer,
-            //                    contact => contact.DealerId, dealer => dealer.ID,
-
-            //            #endregion
-
-            //            #region select new Book1TheViewRow;
-            // (contact, dealer) =>
-            //                        new Book1TheViewRow
-            //                        {
-            //                            DealerContactText = contact.DealerContactText,
-            //                            DealerText = dealer.DealerText,
-            //                            //DealerOtherText = other.DealerOtherText
-            //                        }
-            //                );
-            //            #endregion
 
             var z =
                 from contact in DealerContact
@@ -170,9 +137,24 @@ namespace TestSQLJoin
             //at TestSQLJoin.Data.Book1TheViewRow.op_Implicit(DataRow )
 
 
-            var data = QueryStrategyExtensions.AsDataTable(z);
 
-            return null;
+
+            var e0 = z.AsEnumerable();
+            var count0 = z.Count();
+            var data0 = z.AsDataTable();
+
+            //var data = QueryStrategyExtensions.AsDataTable(z);
+
+            //     public static IEnumerable<Book1TheViewRow> AsEnumerable(this Book1.TheView value);
+            //new Book1.TheView().AsEnumerable();
+
+            //var zz = data.Rows.AsEnumerable().Select(x => (Book1TheViewRow)x).ToArray();
+
+
+            //Book1Extensions.
+
+
+            return z.AsEnumerable();
         }
 
     }
@@ -198,35 +180,7 @@ namespace TestSQLJoin
         }
     }
 
-    interface IQueryStrategy<TRow> : IQueryStrategy
-    {
 
-    }
-
-    // Error	1	The type of one of the expressions in the join clause is incorrect.  Type inference failed in the call to 'Join'.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	130	17	TestSQLJoin
-    public class __Book1_Dealer : Book1.Dealer, IQueryStrategy<TestSQLJoin.Data.Book1DealerRow>
-    {
-
-
-    }
-
-
-    public class __Book1_DealerContact : Book1.DealerContact, IQueryStrategy<TestSQLJoin.Data.Book1DealerContactRow>
-    {
-
-
-    }
-
-    public class __Book1_DealerOther : Book1.DealerOther, IQueryStrategy<Book1DealerOtherRow>
-    {
-
-
-    }
-
-    public class __Book1_TheView : Book1.TheView, IQueryStrategy<TestSQLJoin.Data.Book1TheViewRow>
-    {
-
-    }
 
 
     static class X
@@ -277,6 +231,7 @@ namespace TestSQLJoin
             Expression<Func<TOuter, TInner, TResult>> resultSelector
             )
         {
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
 
             // how do we get this barely functional?
 
@@ -408,7 +363,7 @@ namespace TestSQLJoin
                     + xouter_SelectAll.ToString().Replace("\n", "\n\t")
                     + ") as " + xouter_Paramerer_Name.Replace("<>", "__") + " "
 
-                    + "\ninner join (\n\t\t"
+                    + "\ninner join (\n\t"
                     + xinner_SelectAll.ToString().Replace("\n", "\n\t")
                     + ") as " + xinner_Paramerer.Name.Replace("<>", "__");
             #endregion
@@ -422,7 +377,7 @@ namespace TestSQLJoin
             if (xouter_asMemberExpression_Expression_asMemberExpression != null)
             {
 
-                FromCommand += " \n\t on "
+                FromCommand += " \non "
                      + xouter_Paramerer_Name.Replace("<>", "__") + "."
 
                             //xouter_asMemberExpression_Expression_asMemberExpression.Member.Name	"contact"	string
@@ -437,7 +392,7 @@ namespace TestSQLJoin
             else
             {
 
-                FromCommand += " \n\t on "
+                FromCommand += " \non "
                         + xouter_Paramerer_Name.Replace("<>", "__") + ".`" + xouter_asMemberExpression.Member.Name + "`"
                         + " = "
                         + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
