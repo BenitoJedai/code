@@ -527,14 +527,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                     DataBoundItem = new __DataRowView { Row = DataBoundItem }
                                 };
 
-                                foreach (DataColumn c in SourceDataTable.Columns)
+                                // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.BaseCollection.GetEnumerator()]
+                                // columns reordered?
+
+                                for (int ci = 0; ci < this.Columns.Count; ci++)
                                 {
+                                    DataGridViewColumn c = this.Columns[ci];
+
                                     var cc = new DataGridViewTextBoxCell
                                     {
                                         // two way binding?
                                         //ReadOnly = true,
 
-                                        Value = DataBoundItem[c]
+                                        Value = DataBoundItem[c.DataPropertyName]
+
+                                        // Timestamp / datetime thingis need special attention?
                                     };
 
 
