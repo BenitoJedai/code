@@ -12,6 +12,9 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Stage : DisplayObjectContainer
     {
+        // X:\jsc.svn\examples\actionscript\Test\TestVectorOfNumber\TestVectorOfNumber\ApplicationSprite.cs
+        public uint color { get; set; }
+
         public bool mouseLock { get; set; }
 
         #region Properties
