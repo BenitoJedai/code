@@ -1,3 +1,4 @@
+using AppZoomAnimation.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -14,8 +15,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using ZoomAnimation;
-using ZoomAnimation.Design;
-using ZoomAnimation.HTML.Pages;
 
 namespace ZoomAnimation
 {
@@ -33,9 +32,13 @@ namespace ZoomAnimation
             // http://stackoverflow.com/questions/10464038/imitate-browser-zoom-with-javascript
             // http://stackoverflow.com/questions/1055336/changing-the-browser-zoom-level
 
+            // http://www.css3.com/css-zoom/
+            // http://stackoverflow.com/questions/6521524/fix-chrome-zoom-issues
+
             new IHTMLButton { "80%" }.AttachToDocument().WhenClicked(
                 button =>
                 {
+                    // no this is not it
                     (Native.document.body.style as dynamic).zoom = 0.8;
 
                 }

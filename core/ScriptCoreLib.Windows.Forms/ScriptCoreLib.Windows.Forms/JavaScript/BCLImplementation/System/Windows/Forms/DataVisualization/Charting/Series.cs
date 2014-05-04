@@ -11,17 +11,46 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
     {
         public string YValueMembers { get; set; }
 
+        // thats the labels in the bottom
         public string XValueMember { get; set; }
 
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.Series.set_XValueMember(System.String)]
 
         public string Legend { get; set; }
 
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.DataVisualization.Charting.Series.set_ChartType(System.Windows.Forms.DataVisualization.Charting.SeriesChartType)]
 
-        public SeriesChartType ChartType { get; set; }
+
+
+        #region ChartType
+
+        public event Action InternalChartTypeChanged;
+
+        SeriesChartType InternalChartType = SeriesChartType.Column;
+
+        // what is this supposed to do?       [Bindable(true)]
+        public SeriesChartType ChartType
+        {
+            get { return InternalChartType; }
+            set
+            {
+
+                InternalChartType = value;
+
+                if (InternalChartTypeChanged != null)
+                    InternalChartTypeChanged();
+            }
+        }
+        #endregion
+
+
+
 
         public string ChartArea { get; set; }
 
+
+        public static implicit operator __Series(Series s)
+        {
+            return (__Series)(object)s;
+
+        }
     }
 }

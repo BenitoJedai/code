@@ -82,8 +82,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                 var polygon1 = new ISVGPolygonElement { }.AttachTo(svg);
 
 
-                Action update = delegate
+                var SeriesOfInterest = new List<__Series>();
+
+                var UpdateCounter = 0;
+
+                Action update = delegate { };
+
+                update = delegate
                 {
+                    UpdateCounter++;
+
+
+                    Console.WriteLine("__Chart update " + new { UpdateCounter });
+
+
+
                     svg.width = this.clientWidth;
                     svg.height = this.clientHeight;
 
@@ -94,34 +107,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                     var w0 = new StringBuilder();
                     var w1 = new StringBuilder();
 
+
+
+                    // for print!
+                    var svghardmarginx = 16;
+                    var svghardmarginy = 16;
+
+                    #region add0
                     Action<double, double> add0 = (x, y) =>
                     {
-                        // for print!
-                        var svghardmargin = 16;
-
-                        var xx = (x * (this.clientWidth - 2 * svghardmargin)) + svghardmargin;
-                        var yy = (y * (this.clientHeight - 2 * svghardmargin)) + svghardmargin;
+                        var xx = (x * (this.clientWidth - 2 * svghardmarginx)) + svghardmarginx;
+                        var yy = (y * (this.clientHeight - 2 * svghardmarginy)) + svghardmarginy;
 
                         w0.Append(xx + "," + yy + " ");
 
                     };
 
+                    // the highlight
                     Action<double, double> add1 = (x, y) =>
                     {
-                        // for print!
-                        var svghardmargin = 16;
-
-                        var xx = (x * (this.clientWidth - 2 * svghardmargin)) + svghardmargin;
-                        var yy = (y * (this.clientHeight - 2 * svghardmargin)) + svghardmargin;
+                        var xx = (x * (this.clientWidth - 2 * svghardmarginx)) + svghardmarginx;
+                        var yy = (y * (this.clientHeight - 2 * svghardmarginy)) + svghardmarginy;
 
                         w1.Append(xx + "," + yy + " ");
 
                     };
+                    #endregion
 
                     //add0(1, 1);
-                    add0(0, 1);
 
-                    add1(0, 1);
 
                     // upside down
 
@@ -171,11 +185,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                             #region Series
                             foreach (Series s in this.Series)
                             {
+                                var ss = (__Series)s;
+
+                                // when the chart type changes, we may want to redraw our diagram.
+                                // X:\jsc.svn\examples\javascript\forms\ChartTypeExperiment\ChartTypeExperiment\ApplicationControl.cs
+
+                                // 44:95855ms { ChartType = 10, a
+                                // 44:142897ms { ChartType = 13,
+
+
+
+
+
+
+                                // hey SeriesOfInterest have we seen this series yet?
+                                if (!SeriesOfInterest.Contains(ss))
+                                {
+                                    // okay. first time we see it.
+                                    // lets start monitoring it for any changes we need to know about.
+
+                                    ss.InternalChartTypeChanged += delegate
+                                    {
+
+                                        update();
+                                    };
+
+                                    SeriesOfInterest.Add(ss);
+                                }
+
+
+
                                 // 35:11741ms { asBindingSource = <Namespace>.BindingSource, Count = 5, XValueMember = Xvalues, YValueMembers = Series2 }
 
                                 //item.XValueType
                                 Console.WriteLine(new
                                 {
+                                    s.ChartType,
+
                                     asIList,
                                     asIList.Count,
 
@@ -183,6 +229,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                                     s.XValueMember,
                                     s.YValueMembers
                                 });
+
+
+                                Func<string, double> ConvertToDoubleOrZero = zz =>
+                                {
+                                    // http://stackoverflow.com/questions/586436/double-tryparse-or-convert-todouble-which-is-faster-and-safer
+
+                                    if (string.IsNullOrEmpty(zz))
+                                        return 0;
+
+
+                                    return double.Parse(zz);
+                                };
+
+
+
 
                                 var datas =
                                     from rowIndex in Enumerable.Range(0, asIList.Count)
@@ -192,12 +253,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                                     //let asDataRowView = asBindingSource[rowIndex] as DataRowView
                                     //where asDataRowView != null
 
+                                    // Error: Invalid value for <polygon> attribute points="16,155 16,43.8 150.4,16 284.8,71.6 419.2,132.25454545454545 553.6,43.8 688,NaN 688,155 " 
+
                                     let XValueMember = asDataRowView[s.XValueMember]
                                     let YValueMembers = asDataRowView[s.YValueMembers]
 
                                     // try?
                                     //let x = Convert.ToDouble(XValueMember)
-                                    let y = Convert.ToDouble(YValueMembers)
+                                    //let y = Convert.ToDouble(YValueMembers)
+
+                                    // new rows added, may show up empty!
+                                    let y = ConvertToDoubleOrZero((string)YValueMembers)
 
 
                                     select new { rowIndex, XValueMember, y };
@@ -211,7 +277,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                                 //var xmax = data.Max(z => z.x);
                                 var ymax = data0.Max(z => z.y);
 
-                                Console.WriteLine(new { data0.Length, max = ymax });
+                                //Console.WriteLine(new { data0.Length, max = ymax });
 
                                 // script: error JSC1000: No implementation found for this native method, please implement [static System.Convert.ToDouble(System.Object)]
 
@@ -224,22 +290,90 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                                 //foreach (var item in data.OrderBy(z => z.x))
 
 
+
+
+                                //44:3380ms { ChartType = 0, asIList = <Namespace>.BindingSource, Count = 5, XValueMember = Xvalues, YValueMembers = Series2 }
+                                //44:11642ms __Chart update { UpdateCounter = 18 } view-source:38201
+                                //44:11643ms { ChartType = 10, asIList = <Namespace>.BindingSource, Count = 5, XValueMember = Xvalues, YValueMembers = Series2 } view-source:38160
+                                //44:16057ms __Chart update { UpdateCounter = 19 } view-source:38201
+                                //44:16057ms { ChartType = 13, asIList = <Namespace>.BindingSource, Count = 5, XValueMember = Xvalues, YValueMembers = Series2 } 
+
+
+                                // .1?
+                                // 44:619ms { ColumnWidth = 315 }
+                                var ColumnWidth =
+                                    (1.0 / data0.Length) * 0.5;
+
+
+                                if (ss.ChartType == SeriesChartType.Column)
+                                {
+                                    // changing constants, jsc should autoupdate currently running code in the browser.
+                                    // should we have an int constant pool for that as we have for static strings?
+                                    svghardmarginx =
+                                        16 +
+                                        (this.clientWidth / data0.Length) / 2;
+                                }
+
+
+                                //Console.WriteLine(
+                                //    new { ColumnWidth }
+                                //    );
+
+
+                                add0(0, 1);
+
+                                add1(0, 1);
+
+
                                 // .net does not seem to auto reorder x axis values per default
-                                foreach (var item in data0)
+                                foreach (var item0 in data0)
                                 {
                                     //var xx = item.x / Math.Max(xmax, 1);
                                     //var xx = item.rowIndex / Math.Max(data.Length, 1);
                                     // fk int math.
-                                    var xx = (double)item.rowIndex / Math.Max(data0.Length - 1, 1);
-                                    var yy = 1 - (item.y / Math.Max(ymax, 1));
 
-                                    //Console.WriteLine(new { item, xx, yy });
+                                    var xx = (double)item0.rowIndex / Math.Max(data0.Length - 1, 1);
+                                    var yy = 1 - (item0.y / Math.Max(ymax, 1));
 
-                                    add0(
-                                        xx,
-                                        yy
-                                      );
+                                    if (ss.ChartType == SeriesChartType.Area)
+                                    {
+                                        //Console.WriteLine(new { item, xx, yy });
 
+                                        add0(
+                                            xx,
+                                            yy
+                                          );
+
+                                    }
+                                    else
+                                    {
+                                        // how do we draw column?
+
+
+                                        //Console.WriteLine(new { item, xx, yy });
+
+                                        add0(
+                                           xx - ColumnWidth,
+                                           1
+                                         );
+
+                                        add0(
+                                           xx - ColumnWidth,
+                                           yy
+                                         );
+
+
+                                        add0(
+                                              xx + ColumnWidth,
+                                              yy
+                                            );
+
+                                        add0(
+                                           xx + ColumnWidth,
+                                           1
+                                         );
+
+                                    }
                                 }
 
                                 foreach (var item1 in data1)
@@ -306,6 +440,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.DataVi
                             return;
                         }
                     }
+
+
+
+
+
+
+                    add0(0, 1);
+
+                    add1(0, 1);
 
 
                     add0(0, 0.8);
