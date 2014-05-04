@@ -231,6 +231,15 @@ namespace WebGLSpiral
                     dragme.style.left = "1em";
                     dragme.style.bottom = "1em";
 
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140504
+                    // look up the doc.
+                    // build server needs to build that component first.
+                    // where is it?
+                    //#region Assembly TestPackageAsApplication.dll, v1.0.0.0
+                    //// X:\jsc.svn\examples\javascript\WebGL\WebGLSpiral\packages\TestPackageAsApplication.1.0.0.0\lib\TestPackageAsApplication.dll
+                    //#endregion
+                    // "X:\jsc.svn\examples\javascript\Test\TestPackageAsApplication\TestPackageAsApplication\TestPackageAsApplication.csproj"
+
                     dragme.AllowToDragAsApplicationPackage();
                 }
             );
