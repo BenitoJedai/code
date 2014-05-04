@@ -94,7 +94,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
-    <Reference Include="starling">
+    <Reference Include="starling, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\starling.1.0.0.0\lib\starling.dll</HintPath>
     </Reference>
     <Reference Include="System" />

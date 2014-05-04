@@ -18,6 +18,7 @@ namespace FlashHeatZeeker.UnitRocket.Library
         public double CameraRotation { get; set; }
         public DriverSeat driverseat { get; set; }
 
+        // ??
         public Image visual;
 
         StarlingGameSpriteWithRocketTextures textures_rocket;

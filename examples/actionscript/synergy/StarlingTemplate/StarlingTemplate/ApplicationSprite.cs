@@ -10,6 +10,7 @@ namespace StarlingTemplate
     {
         public ApplicationSprite()
         {
+            //starling.
             // http://gamua.com/starling/first-steps/
 
             var s = new Starling(
