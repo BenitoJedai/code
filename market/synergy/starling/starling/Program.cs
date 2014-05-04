@@ -1,7 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
 
-namespace starling
+namespace xstarling
 {
     /// <summary>
     /// You can debug your application by hitting F5.

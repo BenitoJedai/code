@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace starling
+namespace xstarling
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
