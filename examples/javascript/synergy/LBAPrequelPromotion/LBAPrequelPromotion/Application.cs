@@ -99,12 +99,9 @@ namespace LBAPrequelPromotion
                           diagnostics.AttachToDocument();
 
                           // http://www.w3schools.com/css3/css3_transitions.asp
-                          diagnostics.style.With(
-                                     (dynamic s) => s.webkitTransition = "all 0.2s ease-in-out"
-                               );
-                          diagnostics.style.With(
-                            (dynamic s) => s.transition = "all 0.3s ease-in-out"
-                      );
+                          diagnostics.style.transition = "all 0.2s ease-in-out";
+                          diagnostics.style.transition = "all 0.3s ease-in-out";
+
 
                           Action Hide =
                              delegate
