@@ -84,6 +84,8 @@ namespace ScriptCoreLib.Ultra.Components
 				}
 			);
 
+            //global::ScriptCoreLib.Ultra.Components.HTML
+            // reload the project to make visual studio happy!
 			new TwentyTenWorkspace().ToBackground(Content.style, true);
 
 			var ToolbarContainerBackground = new IHTMLDiv().With(
