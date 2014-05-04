@@ -127,7 +127,10 @@ namespace StarlingTextureScrollExperiment
 
             var content_rot = new Sprite();
 
-            var texture0 = Texture.fromBitmap(new ActionScript.Images.jsc128());
+            //var texture0 = Texture.fromBitmap(new ActionScript.Images.jsc128());
+            var texture0 = Texture.fromBitmap(
+                new ActionScript.Images.jsc128(), repeat: true
+                );
 
 
             var img0 = new Image(texture0);
@@ -147,7 +150,16 @@ namespace StarlingTextureScrollExperiment
 
             };
 
-            texture0.repeat = true;
+            // wtf?
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140504
+
+            ///** Indicates if the texture should repeat like a wallpaper or stretch the outermost pixels.
+            // *  Note: this only works in textures with sidelengths that are powers of two and 
+            // *  that are not loaded from a texture atlas (i.e. no subtextures). @default false */
+            //public function get repeat():Boolean { return false; }
+
+            // X:\opensource\github\Starling-Framework\starling\src\starling\textures\ConcreteTexture.as
+            //texture0.repeat = true;
 
 
             content_rot.addChild(img0);

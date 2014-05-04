@@ -18,7 +18,7 @@ namespace FSharpWebGLSpiral
     /// This type will run as JavaScript.
     /// </summary>
     [<Sealed>]
-    type internal Application(page : IDefaultPage) as me = 
+    type internal Application(page : IDefault ) as me = 
         let this = me
 
         (* Let's port the WebGLSpiral C# template into F#
@@ -28,6 +28,15 @@ namespace FSharpWebGLSpiral
         04. Commit to svn
 
         *)
+
+
+        // wtf?
+//enter ReferencedConcepts
+//0958:02:01 RewriteToAssembly error: System.IO.FileLoadException: The given assembly name or codebase was invalid. (Exception from HRESULT: 0x80131047)
+//   at System.Reflection.AssemblyName.nInit(RuntimeAssembly& assembly, Boolean forIntrospection, Boolean raiseResolveEvent)
+//   at System.Reflection.AssemblyName..ctor(String assemblyName)
+//   at System.Reflection.Assembly.LoadWithPartialName(String partialName)
+//   at jsc.meta.Commands.Reference.ReferenceJavaScriptDocument.<>c__DisplayClass29c.<InternalInvoke>b__23e(<>f__AnonymousType$3418$64`2 <>h__TransparentIdentifier200)
 
 
 
