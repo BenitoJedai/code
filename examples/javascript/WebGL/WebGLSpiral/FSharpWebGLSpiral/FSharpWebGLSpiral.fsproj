@@ -155,15 +155,8 @@
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true /DisableWebServicePHP:true
 )</PostBuildEvent>
-    <PreBuildEvent>
-    start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true
-    
-set jsc=C:\util\jsc\bin\jsc.meta.exe
-if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
-
-call %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true
-
-    
-    </PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		
+		</PreBuildEvent>
   </PropertyGroup>
 </Project>
