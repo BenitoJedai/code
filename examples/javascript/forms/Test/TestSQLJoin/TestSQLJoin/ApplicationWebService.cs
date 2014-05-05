@@ -90,7 +90,7 @@ namespace TestSQLJoin
             var View = new Book1.TheView();
 
 
-
+            // can we join twice, taking the first and then the last?
             var z =
                 from contact in DealerContact
                 join dealer in Dealer on contact.DealerId equals dealer.ID
@@ -164,5 +164,5 @@ namespace TestSQLJoin
     }
 
 
- 
+
 }
