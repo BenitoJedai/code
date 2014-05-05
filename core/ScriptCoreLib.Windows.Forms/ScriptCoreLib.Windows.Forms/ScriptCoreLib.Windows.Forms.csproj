@@ -85,6 +85,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Binding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BindingSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BindingNavigator.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.UpdateBounds.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.AutoGenerateColumns.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.SelectedRows.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewLinkCell.cs" />

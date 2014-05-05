@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.Controls;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -22,14 +23,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public IHTMLDiv InternalElement = typeof(SplitContainer);
 
 
-
-        public DockStyle Dock { get; set; }
+        // why do we need to redefine dock?
+        //public DockStyle Dock { get; set; }
 
         public SplitterPanel Panel1 { get; set; }
 
         public SplitterPanel Panel2 { get; set; }
 
-        public int SplitterDistance { get; set; }
+
+
+        #region SplitterDistance
+        Action InternalSplitterDistanceChanged;
+        int InternalSplitterDistance;
+        public int SplitterDistance
+        {
+            get
+            {
+                return InternalSplitterDistance;
+            }
+            set
+            {
+                InternalSplitterDistance = value;
+                if (InternalSplitterDistanceChanged != null)
+                    InternalSplitterDistanceChanged();
+
+            }
+        }
+        #endregion
+
+
 
 
         // 8:66ms missing HTMLTargetRef for { e = <Namespace>.SplitContainer }
@@ -43,8 +65,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+
+
+        #region Orientation
+        Orientation InternalOrientation;
+        public event Action InternalOrientationChanged;
+
+        public Orientation Orientation
+        {
+            get { return InternalOrientation; }
+            set
+            {
+                InternalOrientation = value;
+
+
+                if (InternalOrientationChanged != null)
+                    InternalOrientationChanged();
+
+            }
+        }
+        #endregion
+
         public __SplitContainer()
         {
+            //InternalElement.style.backgroundColor = "red";
+
             this.Panel1 = new SplitterPanel(this);
             this.Panel2 = new SplitterPanel(this);
 
@@ -52,33 +97,181 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Controls.Add(this.Panel2);
 
 
+
+            var TheSplitter = new IHTMLDiv { };
+
+            TheSplitter.css.hover.style.backgroundColor = "blue";
+            TheSplitter.css.active.style.backgroundColor = "blue";
+
+            TheSplitter.style.cursor = DOM.IStyle.CursorEnum.move;
+
+
+            TheSplitter.AttachTo(
+                InternalElement
+            );
+
             this.SplitterDistance = 200;
 
 
 
+            var h = new DragHelper(TheSplitter);
+
+            h.Enabled = true;
+            //h.Position.X = this.SplitterDistance;
+
+            h.DragMove +=
+                delegate
+                {
+                    //this.SplitterDistance = h.Position.X;
+
+                    if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Vertical)
+                    {
+
+                        TheSplitter.style.SetLocation(0, h.Position.Y);
+                    }
+                    else
+                    {
+
+                        TheSplitter.style.SetLocation(h.Position.X, 0);
+                    }
+
+                };
+
+            // X:\jsc.svn\examples\javascript\forms\FormsSplitter\FormsSplitter\ApplicationControl.cs
+
+
+
+            TheSplitter.style.position = DOM.IStyle.PositionEnum.absolute;
+
+
             Action AtUpdate = delegate
             {
-                // dock left?
-                this.Panel1.Left = 0;
-                this.Panel1.Top = 0;
-                this.Panel1.Width = this.SplitterDistance - 4;
-                this.Panel1.Height = this.clientHeight;
+                __Panel p1 = this.Panel1;
+                __Panel p2 = this.Panel2;
 
-                // dock fill?
-                this.Panel2.Left = this.SplitterDistance + 4;
-                this.Panel2.Top = 0;
 
-                this.Panel2.Width = this.clientWidth - this.Panel2.Left;
-                this.Panel2.Height = this.clientHeight;
+                if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Vertical)
+                {
+                    h.Position.Y = this.SplitterDistance;
+
+
+
+
+                    p1.InternalElement.style.position = DOM.IStyle.PositionEnum.absolute;
+                    p1.InternalElement.style.left = "0px";
+                    p1.InternalElement.style.top = "0px";
+                    p1.InternalElement.style.width = "";
+                    p1.InternalElement.style.bottom = "";
+                    p1.InternalElement.style.right = "0px";
+                    p1.InternalElement.style.height = (this.SplitterDistance - 4) + "px";
+
+
+
+                    p2.InternalElement.style.position = DOM.IStyle.PositionEnum.absolute;
+                    p2.InternalElement.style.left = "0px";
+                    p2.InternalElement.style.top = (this.SplitterDistance + 4) + "px";
+                    p2.InternalElement.style.width = "";
+                    p2.InternalElement.style.bottom = "0px";
+                    p2.InternalElement.style.right = "0px";
+                    p2.InternalElement.style.height = "";
+
+
+
+
+                    TheSplitter.style.left = "0px";
+                    TheSplitter.style.top = (this.SplitterDistance - 4) + "px";
+                    TheSplitter.style.right = "0px";
+                    TheSplitter.style.height = "8px";
+
+
+                    TheSplitter.style.width = "";
+                    TheSplitter.style.bottom = "";
+                }
+                else
+                {
+                    h.Position.X = this.SplitterDistance;
+
+                    // dock left?
+
+
+                    p1.InternalElement.style.position = DOM.IStyle.PositionEnum.absolute;
+                    p1.InternalElement.style.left = "0px";
+                    p1.InternalElement.style.top = "0px";
+                    p1.InternalElement.style.width = (this.SplitterDistance - 4) + "px";
+                    p1.InternalElement.style.bottom = "0px";
+                    p1.InternalElement.style.right = "";
+                    p1.InternalElement.style.height = "";
+
+
+
+                    p2.InternalElement.style.position = DOM.IStyle.PositionEnum.absolute;
+                    p2.InternalElement.style.left = (this.SplitterDistance + 4) + "px";
+                    p2.InternalElement.style.top = "0px";
+                    p2.InternalElement.style.width = "";
+                    p2.InternalElement.style.bottom = "0px";
+                    p2.InternalElement.style.right = "0px";
+                    p2.InternalElement.style.height = "";
+
+
+                    TheSplitter.style.left = (this.SplitterDistance - 4) + "px";
+                    TheSplitter.style.top = "0px";
+                    TheSplitter.style.width = "8px";
+                    TheSplitter.style.bottom = "0px";
+
+                    TheSplitter.style.right = "";
+                    TheSplitter.style.height = "";
+
+                }
+
+
+                p1.InternalClientSizeChanged();
+                p2.InternalClientSizeChanged();
             };
 
-            this.SizeChanged +=
+
+            h.DragStop +=
+                delegate
+                {
+                    if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Vertical)
+                    {
+                        this.SplitterDistance = h.Position.Y;
+                    }
+                    else
+                    {
+                        this.SplitterDistance = h.Position.X;
+
+                    }
+
+                    //AtUpdate();
+
+                };
+
+
+
+
+            this.InternalSplitterDistanceChanged +=
                 delegate
                 {
                     AtUpdate();
                 };
 
+            this.InternalOrientationChanged +=
+                delegate
+                {
+                    AtUpdate();
+                };
 
+            this.SizeChanged +=
+                delegate
+                {
+                    Console.WriteLine("__SplitContainer SizeChanged");
+
+
+                    AtUpdate();
+                };
+
+
+            AtUpdate();
         }
 
         public static implicit operator SplitContainer(__SplitContainer x)
@@ -91,8 +284,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
         }
 
+
+        Action InternalAtEndInit;
+
         public void EndInit()
         {
+            if (InternalAtEndInit != null)
+                InternalAtEndInit();
+
         }
         #endregion
 
