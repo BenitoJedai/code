@@ -17,12 +17,33 @@ namespace ChartTypeExperiment
 
         private void toolStripButton1_Click(object sender, System.EventArgs e)
         {
-            this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
         }
 
         private void toolStripButton2_Click(object sender, System.EventArgs e)
         {
+
+        }
+
+        private void toolStripButton1_Click_1(object sender, System.EventArgs e)
+        {
+            this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
+
+        }
+
+        private void toolStripButton2_Click_1(object sender, System.EventArgs e)
+        {
             this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+
+        }
+
+        private void toolStripButton3_Click(object sender, System.EventArgs e)
+        {
+            this.splitContainer1.Orientation = Orientation.Vertical;
+        }
+
+        private void toolStripButton4_Click(object sender, System.EventArgs e)
+        {
+            this.splitContainer1.Orientation = Orientation.Horizontal;
 
         }
 

@@ -21,7 +21,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
     public partial class __Control : __Component
     {
-
+        #region Dock
         public DockStyle InternalDock;
         public virtual DockStyle Dock
         {
@@ -37,6 +37,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 InternalChildrenAnchorUpdate();
             }
         }
+        #endregion
 
         //public void InternalChildrenAnchorUpdate(int width, int height, int dx, int dy, Control c)
 
@@ -116,6 +117,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             // flowcontrol
             //__c.outer_style.position = IStyle.PositionEnum.absolute;
 
+            #region Top
             if (c.Dock == DockStyle.Top)
             {
                 __c.outer_style.width = "";
@@ -153,7 +155,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 __c.InternalClientSizeChanged();
                 return;
             }
+            #endregion
 
+            #region Bottom
             if (c.Dock == DockStyle.Bottom)
             {
                 __c.outer_style.width = "";
@@ -181,6 +185,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //}
                 //return;
             }
+            #endregion
+
 
             #region Fill
             if (c.Dock == DockStyle.Fill)
