@@ -50,10 +50,14 @@ namespace ThreeWay
 
                     select v;
 
-            var z = j.ToArray();
+
+            // [0x00000000] = {0, Q, A, R, , 5/5/2014 4:56:15 PM}
+            // can we do this in sql?
+            //var z = j.GroupBy(x => x.Key).Select(x => x.First()).ToArray();
+            var z = j.GroupBy(x => x.Key).Select(x => x.Last()).ToArray();
 
             this.book1MiddleViewBindingSourceBindingSource.DataSource =
-                j.AsDataTable();
+               z.AsDataTable();
 
         }
 
