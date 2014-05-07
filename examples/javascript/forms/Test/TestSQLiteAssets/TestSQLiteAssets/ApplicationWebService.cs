@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TestSQLiteAssets.Data;
 
 namespace TestSQLiteAssets
 {
@@ -25,6 +26,9 @@ namespace TestSQLiteAssets
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2(string e, Action<string> y)
         {
+            // yay!
+            var b = new Book1();
+
             // Send it back to the caller.
             y(e);
         }
