@@ -27,7 +27,11 @@ namespace TestSQLiteAssets
         public void WebMethod2(string e, Action<string> y)
         {
             // yay!
-            var b = new Book1();
+            var b = new Book1.Dealer();
+
+            // can we do a join here now from our sqlite thingy?
+            // can the debug session keep the data?
+
 
             // Send it back to the caller.
             y(e);
