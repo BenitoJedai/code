@@ -67,8 +67,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
+
         #region Orientation
-        Orientation InternalOrientation;
+        // X:\jsc.svn\examples\javascript\forms\ThreeWay\ThreeWay\ApplicationControl.Designer.cs
+        Orientation InternalOrientation = Orientation.Vertical;
         public event Action InternalOrientationChanged;
 
         public Orientation Orientation
@@ -124,7 +126,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 {
                     //this.SplitterDistance = h.Position.X;
 
-                    if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Vertical)
+                    if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Horizontal)
                     {
 
                         TheSplitter.style.SetLocation(0, h.Position.Y);
@@ -150,7 +152,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 __Panel p2 = this.Panel2;
 
 
-                if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Vertical)
+                if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Horizontal)
                 {
                     h.Position.Y = this.SplitterDistance;
 
@@ -232,7 +234,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             h.DragStop +=
                 delegate
                 {
-                    if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Vertical)
+                    if (this.InternalOrientation == global::System.Windows.Forms.Orientation.Horizontal)
                     {
                         this.SplitterDistance = h.Position.Y;
                     }
@@ -258,6 +260,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.InternalOrientationChanged +=
                 delegate
                 {
+                    Console.WriteLine(
+                        "InternalOrientationChanged " + new
+                        {
+                            this.Name,
+                            this.Orientation
+                        }
+                    );
+
                     AtUpdate();
                 };
 
