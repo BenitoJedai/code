@@ -16,6 +16,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     {
         public static long GetInt64OrDefault(System.Data.DataRow e, string ColumnName)
         {
+            Console.WriteLine("GetInt64OrDefault " + new { ColumnName });
+
             // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
 
             if (e.Table.Columns.Contains(ColumnName))
@@ -26,11 +28,21 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                 var __value = e[ColumnName];
 
-                var v = __value as string;
+                Console.WriteLine("GetInt64OrDefault " + new { __value });
+
+                var __value_asString = __value as string;
+
+                Console.WriteLine("GetInt64OrDefault " + new { __value_asString });
 
                 // new row added by the grid?
-                if (!string.IsNullOrEmpty(v))
-                    return Convert.ToInt64(v);
+                if (!string.IsNullOrEmpty(__value_asString))
+                {
+                    var __value_asInt64 = Convert.ToInt64(__value_asString);
+
+                    Console.WriteLine("GetInt64OrDefault " + new { __value_asInt64 });
+
+                    return __value_asInt64;
+                }
             }
 
             return default(long);
