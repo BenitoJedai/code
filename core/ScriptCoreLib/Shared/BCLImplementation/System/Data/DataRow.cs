@@ -19,22 +19,42 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         //public List<Tuple<DataColumn, object>> InternalData = new List<Tuple<DataColumn, object>>();
 
+        //Caused by: java.lang.ArrayIndexOutOfBoundsException: -1
+        //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.get_Item(__DataRow.java:51)
+        //        at ScriptCoreLib.Shared.BCLImplementation.System.Data.__DataRow.get_Item(__DataRow.java:46)
+        //        at TestSQLiteGroupBy.Data.Book1MiddleAsGroupByGooWithCountRow.Of(Book1MiddleAsGroupByGooWithCountRow.java:95)
+
 
         public object this[string column]
         {
             // tested by
             // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\Schema\FooTableDesigner.cs
 
+            get
+            {
+                var i = this.Table.Columns.IndexOf(column);
+
+                if (i < 0)
+                    return null;
+
+                //throw new InvalidOperationException(new { column }.ToString());
+
+                // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+                return this[i];
+            }
+
             set
             {
 
-                this[this.Table.Columns.IndexOf(column)] = value;
+                var i = this.Table.Columns.IndexOf(column);
+
+                if (i < 0)
+                    throw new InvalidOperationException(new { column }.ToString());
+
+                this[i] = value;
             }
 
-            get
-            {
-                return this[this.Table.Columns.IndexOf(column)];
-            }
+
         }
         //script: error JSC1000: No implementation found for this native method, please implement [System.Data.DataRow.get_Item(System.Int32)]
         public object this[int column]
@@ -76,7 +96,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
         {
             get
             {
-                return this[this.Table.Columns.IndexOf(column)];
+                var i = this.Table.Columns.IndexOf(column);
+
+                if (i < 0)
+                    return null;
+                //throw new InvalidOperationException(new { column }.ToString());
+
+
+                return this[i];
             }
 
             set

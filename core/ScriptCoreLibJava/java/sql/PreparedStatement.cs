@@ -17,6 +17,7 @@ namespace java.sql
         void setObject(int parameterIndex, object x);
         void setInt(int parameterIndex, int x);
         void setLong(int parameterIndex, long x);
+        void setDouble(int parameterIndex, double x);
         void setString(int parameterIndex, string x);
         void setBytes(int parameterIndex, sbyte[] x);
     }

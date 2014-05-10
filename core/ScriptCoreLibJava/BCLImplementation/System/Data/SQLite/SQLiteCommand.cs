@@ -116,6 +116,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                             this.InternalPreparedStatement.setInt(c, (int)item.p.Value);
                         else if (item.p.Value is long)
                             this.InternalPreparedStatement.setLong(c, (long)item.p.Value);
+                        else if (item.p.Value is double)
+                            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+                            this.InternalPreparedStatement.setDouble(c, (double)item.p.Value);
                         else if (item.p.Value is string)
                             this.InternalPreparedStatement.setString(c, (string)item.p.Value);
                         else if (item.p.Value is byte[])
