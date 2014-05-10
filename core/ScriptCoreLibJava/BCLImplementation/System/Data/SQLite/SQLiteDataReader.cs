@@ -141,7 +141,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
             try
             {
-                r = this.InternalResultSet.getMetaData().getColumnName(ordinal + 1);
+                // http://bugs.mysql.com/bug.php?id=43684
+                //  JDBC-compliant way of getting the information you're asking for, i.e. the "alias" for the column is by calling ResultSetMetaData.getColumnLabel(),
+                // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+
+                //r = this.InternalResultSet.getMetaData().getColumnName(ordinal + 1);
+                r = this.InternalResultSet.getMetaData().getColumnLabel(ordinal + 1);
             }
             catch
             {

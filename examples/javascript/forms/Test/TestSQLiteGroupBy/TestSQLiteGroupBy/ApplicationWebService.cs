@@ -132,27 +132,11 @@ namespace TestSQLiteGroupBy
             // http://stackoverflow.com/questions/710508/how-best-to-loop-over-a-batch-of-results-with-a-c-sharp-dbdatareader
             // C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe  -encoding UTF-8 -cp Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.8\lib\impl\*;C:\util\appengine-java-sdk-1.8.8\lib\shared\* -d "Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\release" @"Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\files"
 
-            //Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\java\TestSQLiteGroupBy\Data\Book1Extensions.java:71: error: incompatible types
-            //        return _arg0;
-            //               ^
-            //  required: Book1_Middle
-            //  found:    IQueryStrategy_1<Book1MiddleRow>
-            //Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\java\TestSQLiteGroupBy\Data\Book1Extensions.java:135: error: incompatible types
-            //        return _arg0;
-            //               ^
-            //  required: Book1_MiddleAsGroupByGooWithCount
-            //  found:    IQueryStrategy_1<Book1MiddleAsGroupByGooWithCountRow>
-
-
-            //public static  Book1_Middle Take_060000b5(ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy_1<Book1MiddleRow> _arg0, long _arg1)
-            //{
-            //    QueryStrategyExtensions.MutableTake(_arg0, _arg1);
-            //    return _arg0;
-            //}
-
             var g = from z in x
-                    where z.FooStateEnum == FooStateEnum.Foo0
-                    where z.Ratio == SpecialRatio
+
+
+                    //where z.FooStateEnum == FooStateEnum.Foo0
+                    //where z.Ratio == SpecialRatio
 
                     //where z.Ratio > 0.1
                     //where z.Ratio < 0.9
@@ -162,14 +146,6 @@ namespace TestSQLiteGroupBy
                     group z by z.GooStateEnum into GroupByGoo
 
 
-                    //0001 0200000e TestSQLiteGroupBy.ApplicationWebService::<module>.SHA11c96687ca1c18532c6b6644976c6dab76828c303@392153041
-
-
-                    // Implementation not found for type import :
-                    // type: System.Linq.Expressions.Expression
-                    // method: System.Linq.Expressions.NewExpression New(System.Reflection.ConstructorInfo, System.Linq.Expressions.Expression[])
-                    // Did you forget to add the [Script] attribute?
-                    // Please double check the signature!
 
 
                     select new Book1MiddleAsGroupByGooWithCountRow
