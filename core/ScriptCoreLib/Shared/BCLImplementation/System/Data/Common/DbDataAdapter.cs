@@ -8,7 +8,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     [Script(Implements = typeof(global::System.Data.Common.DbDataAdapter))]
-    public 
+    public
         //abstract 
         class __DbDataAdapter
     {
@@ -37,6 +37,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         {
             //  The number of rows successfully added 
 
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
             // x:\jsc.svn\examples\javascript\appengine\webnotificationsviadataadapter\webnotificationsviadataadapter\applicationwebservice.cs
             // x:\jsc.svn\examples\javascript\dropfileintosqlite\dropfileintosqlite\schema\table1.cs
             // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationWebService.cs
@@ -95,7 +96,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                             // tested by
                             // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
 
-                            //Console.WriteLine("Fill " + new { n, ft, value, valueType });
+                            Console.WriteLine("Fill " + new { n, ft, value, valueType });
 
                             row[n] = value;
                         }
@@ -122,14 +123,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         {
             var xdata = new DataTable();
 
-            //Console.WriteLine("FillColumns " + new { reader.FieldCount });
+            Console.WriteLine("FillColumns " + new { reader.FieldCount });
 
             for (int i = 0; i < reader.FieldCount; i++)
             {
                 var columName = reader.GetName(i);
 
-                //Console.WriteLine("FillColumns " + new { columName }
-                //);
+                Console.WriteLine("FillColumns " + new { i, columName });
 
                 xdata.Columns.Add(columName);
             }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace java.sql
 {
-    // http://docs.oracle.com/javase/1.4.2/docs/api/java/sql/ResultSetMetaData.html
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/sql/ResultSetMetaData.html
     [Script(IsNative = true)]
     public interface ResultSetMetaData
     {
@@ -14,6 +14,6 @@ namespace java.sql
 
         int getColumnType(int column);
         string getColumnName(int column);
-
+        string getColumnLabel(int column);
     }
 }
