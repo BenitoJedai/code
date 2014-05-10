@@ -205,6 +205,9 @@
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.Where.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\BinaryExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ConstantExpression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MemberInitExpression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MemberBinding.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MemberAssignment.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\UnaryExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\NewExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MethodCallExpression.cs" />

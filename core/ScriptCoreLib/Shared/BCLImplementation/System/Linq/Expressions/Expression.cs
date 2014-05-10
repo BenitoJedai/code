@@ -24,6 +24,25 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         //public static function New_4ebbe596_0600169f(constructor:ConstructorInfo, ___arguments:__IEnumerable_1, members:Array):__NewExpression
         //                                                         ^
 
+        #region New
+        public static NewExpression New(ConstructorInfo constructor, Expression[] arguments)
+        {
+            // method: System.Linq.Expressions.NewExpression New(System.Reflection.ConstructorInfo, System.Linq.Expressions.Expression[])
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+
+            return
+                (NewExpression)(object)
+                new __NewExpression
+                {
+                    NodeType = ExpressionType.New,
+
+                    Constructor = constructor,
+                    Arguments = new global::System.Collections.ObjectModel.ReadOnlyCollection<Expression>(arguments.ToList()),
+                    Members = new global::System.Collections.ObjectModel.ReadOnlyCollection<MemberInfo>(new MemberInfo[0].ToList()),
+
+                };
+        }
+
 
 
         public static NewExpression New(ConstructorInfo constructor, IEnumerable<Expression> arguments, params MemberInfo[] members)
@@ -41,10 +60,61 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
                 };
         }
+        #endregion
 
 
 
 
+
+
+        //        Implementation not found for type import :
+        //type: System.Linq.Expressions.Expression
+        //method: System.Linq.Expressions.MemberAssignment Bind(System.Reflection.MemberInfo, System.Linq.Expressions.Expression)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
+        public static MemberAssignment Bind(MemberInfo m, Expression e)
+        {
+            return
+
+            (MemberAssignment)(object)
+            new __MemberAssignment
+            {
+                Member = m,
+                Expression = e,
+
+                // ??
+                BindingType = MemberBindingType.MemberBinding
+            };
+        }
+
+
+//        Implementation not found for type import :
+//type: System.Linq.Expressions.Expression
+//method: System.Linq.Expressions.UnaryExpression Quote(System.Linq.Expressions.Expression)
+//Did you forget to add the [Script] attribute?
+//Please double check the signature!
+
+
+        public static UnaryExpression Quote(Expression expression)
+        {
+            return
+
+                (UnaryExpression)(object)
+                new __UnaryExpression
+                {
+                    NodeType = ExpressionType.Quote,
+
+                    Operand = expression
+                };
+        }
+
+
+
+
+
+        #region Convert
         //method: System.Linq.Expressions.UnaryExpression Convert(System.Linq.Expressions.Expression, System.Type)
         //public static UnaryExpression Convert(Expression expression, Type type, MethodInfo method);
         public static UnaryExpression Convert(Expression expression, Type type)
@@ -58,6 +128,28 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 Operand = expression
             };
         }
+
+
+        //        Implementation not found for type import :
+        //type: System.Linq.Expressions.Expression
+        //method: System.Linq.Expressions.UnaryExpression Convert(System.Linq.Expressions.Expression, System.Type, System.Reflection.MethodInfo)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+        public static UnaryExpression Convert(Expression expression, Type type, MethodInfo m)
+        {
+            return
+
+                (UnaryExpression)(object)
+                new __UnaryExpression
+                {
+                    Type = type,
+                    Operand = expression,
+                    Method = m
+
+                };
+        }
+        #endregion
+
 
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object, System.Type)]
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Expressions.Expression.Constant(System.Object)]
@@ -222,6 +314,60 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                     name = name
                 };
         }
+
+
+
+        //Implementation not found for type import :
+        //type: System.Linq.Expressions.Expression
+        //method: System.Linq.Expressions.MemberExpression Property(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
+
+//        Implementation not found for type import :
+//type: System.Linq.Expressions.Expression
+//method: System.Linq.Expressions.MemberInitExpression MemberInit(System.Linq.Expressions.NewExpression, System.Linq.Expressions.MemberBinding[])
+//Did you forget to add the [Script] attribute?
+//Please double check the signature!
+
+
+
+        public static MemberInitExpression MemberInit(NewExpression NewExpression, MemberBinding[] Bindings)
+        {
+            //Console.WriteLine("Parameter " + new { type, name });
+
+            return
+                (MemberInitExpression)(object)
+                new __MemberInitExpression
+                {
+
+                    // ??
+                    NodeType = ExpressionType.MemberInit,
+
+                    NewExpression = NewExpression,
+                    Bindings = new global::System.Collections.ObjectModel.ReadOnlyCollection<MemberBinding>(Bindings.ToList())
+                };
+        }
+
+
+        public static MemberExpression Property(Expression expression, MethodInfo member)
+        {
+            //Console.WriteLine("Parameter " + new { type, name });
+
+            return
+                (MemberExpression)(object)
+                new __MemberExpression
+                {
+
+                    // ??
+                    NodeType = ExpressionType.MemberInit,
+
+                    Expression = expression,
+                    Member = member
+                };
+        }
+
 
 
         public static Expression<TDelegate> Lambda<TDelegate>(Expression body, params ParameterExpression[] parameters)
