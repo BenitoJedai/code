@@ -1,11 +1,13 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.Data.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +27,8 @@ namespace TestSQLiteGroupBy
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
         //public async Task<IEnumerable<IGrouping<GooStateEnum, Book1MiddleRow>>> WebMethod2()
-        public async Task<IEnumerable<XGrouping>> WebMethod2()
+        //public async Task<IEnumerable<XGrouping>> WebMethod2()
+        public async Task<IEnumerable<Book1MiddleAsGroupByGooWithCountRow>> WebMethod2()
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/201405
 
@@ -52,16 +55,50 @@ namespace TestSQLiteGroupBy
                 // .Add ?
             };
 
+            var SpecialRatio = new Random().NextDouble();
+
             x.Insert(
                 new Book1MiddleRow
                 {
                     // enum name clash? 
                     FooStateEnum = FooStateEnum.Foo0,
                     GooStateEnum = GooStateEnum.Goo2,
-                    Ratio = 0.5,
-                    Title = "h1"
+
+                    Ratio = SpecialRatio,
+                    x = 0.9,
+
+                    Title = "first"
                 }
             );
+
+            x.Insert(
+                new Book1MiddleRow
+                {
+                    // enum name clash? 
+                    FooStateEnum = FooStateEnum.Foo0,
+                    GooStateEnum = GooStateEnum.Goo2,
+
+                    Ratio = SpecialRatio,
+                    x = 0.8,
+
+                    Title = "second"
+                }
+            );
+
+            x.Insert(
+                new Book1MiddleRow
+                {
+                    // enum name clash? 
+                    FooStateEnum = FooStateEnum.Foo0,
+                    GooStateEnum = GooStateEnum.Goo2,
+
+                    Ratio = SpecialRatio,
+                    x = 0.6,
+
+                    Title = "third"
+                }
+            );
+
 
 
             x.Insert(
@@ -70,14 +107,17 @@ namespace TestSQLiteGroupBy
                     FooStateEnum = FooStateEnum.Foo0,
                     GooStateEnum = GooStateEnum.Goo0,
                     Ratio = 0.5,
-                    Title = "h1"
+
+                    Title = "goo0 " + new { Count = new Book1.Middle().Count(k => k.GooStateEnum == GooStateEnum.Goo0) }
                 }
             );
 
 
 
             // x:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
-
+            // http://msdn.microsoft.com/en-US/vstudio/ee908647.aspx#leftouterjoin
+            // f you want a LEFT OUTER JOIN then you need to use "into":
+            // http://stackoverflow.com/questions/1092562/left-join-in-linq
 
 
             //MutableWhere { Method = , NodeType = Equal, ColumnName = FooStateEnum, Right = 0 }
@@ -88,26 +128,232 @@ namespace TestSQLiteGroupBy
             // where `FooStateEnum` = @arg0
 
 
-            var zz = from z in x
-                     where z.FooStateEnum == FooStateEnum.Foo0
-                     where z.Ratio > 0.1
-                     where z.Ratio < 0.9
-                     //where z.GooStateEnum == GooStateEnum.Goo2
-                     select z;
+
+            // http://stackoverflow.com/questions/710508/how-best-to-loop-over-a-batch-of-results-with-a-c-sharp-dbdatareader
+
+            var g = from z in x
+                    where z.FooStateEnum == FooStateEnum.Foo0
+                    where z.Ratio == SpecialRatio
+
+                    //where z.Ratio > 0.1
+                    //where z.Ratio < 0.9
+                    //where z.GooStateEnum == GooStateEnum.Goo2
+                    //select z
+
+                    group z by z.GooStateEnum into GroupByGoo
+
+                    select new Book1MiddleAsGroupByGooWithCountRow
+                    {
+                        // GroupByGoo cannot have 0 members
+
+                        GooStateEnum = GroupByGoo.Key,
+
+                        // do we have to do multple from clauses for ordering first and last?
+
+                        FirstTitle = GroupByGoo.First().Title,
+                        FirstKey = GroupByGoo.First(),
+
+                        LastKey = GroupByGoo.Last(),
+                        LastTitle = GroupByGoo.Last().Title,
+
+                        // count is easy what about
+                        // getting the first or last items?
+
+                        Count = GroupByGoo.Count()
+                    };
+
+            // http://friism.com/linq-to-sql-group-by-subqueries-and-performance
+            // !! This is because there is no good translation of such queries to SQL and Linq-to-SQL has to resort to doing multiple subqueries. 
+
+            ;
+
+            // Error	5	Could not find an implementation of the query pattern for source type 'TestSQLiteGroupBy.Data.Book1.Middle'.  'GroupBy' not found.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs	93	31	TestSQLiteGroupBy
+
+
+
+
 
             // http://www.viblend.com/Questions/WinForms/HowToGroupWinFormsDataGridViewByColumn.aspx
             // tooltips?
 
-            var zzz = zz.AsEnumerable();
+            //var d = g.Join
+            var zzz = g.AsEnumerable();
 
-            var g = from z in zzz
-                    group z by z.GooStateEnum;
+            return zzz;
+
+            //var u
+            //var u = QueryStrategyExtensions.AsDataTable(g);
+
+
+            //var g = from z in zzz
+            //        group z by z.GooStateEnum;
 
             // 0380:01:01 RewriteToAssembly error: System.NotImplementedException: { SourceType = System.Linq.IGrouping`2[TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow] }
 
-            return g.Select(gg => new XGrouping { Key = gg.Key, Items = gg.AsEnumerable() });
+            //throw null;
+
+            //return g.Select(gg => new XGrouping { Key = gg.Key, Items = gg.AsEnumerable() });
         }
 
+    }
+
+    [Obsolete("there is no good translation of such queries to SQL and Linq-to-SQL has to resort to doing multiple subqueries.")]
+    public interface IQueryStrategyGrouping<TKey, TSource>
+    {
+        IQueryStrategy<TSource> source { get; set; }
+        Expression<Func<TSource, TKey>> keySelector { get; set; }
+    }
+
+    public static class X
+    {
+        #region XQueryStrategy
+        class XQueryStrategy<TRow> : IQueryStrategy<TRow>
+        {
+
+            List<Action<QueryStrategyExtensions.CommandBuilderState>> InternalCommandBuilder = new List<Action<QueryStrategyExtensions.CommandBuilderState>>();
+
+            public List<Action<QueryStrategyExtensions.CommandBuilderState>> GetCommandBuilder()
+            {
+                return InternalCommandBuilder;
+            }
+
+            public Func<IQueryDescriptor> InternalGetDescriptor;
+
+            public IQueryDescriptor GetDescriptor()
+            {
+                //  public static DataTable AsDataTable(IQueryStrategy Strategy)
+
+                return InternalGetDescriptor();
+            }
+        }
+
+        #endregion
+
+
+
+
+        class XQueryStrategyGrouping<TKey, TSource> : IQueryStrategyGrouping<TKey, TSource>
+        {
+            public IQueryStrategy<TSource> source { get; set; }
+            public Expression<Func<TSource, TKey>> keySelector { get; set; }
+        }
+
+
+        // group by . into .
+        public static IQueryStrategy<TResult>
+                Select<TSource, TKey, TResult>(
+             this IQueryStrategyGrouping<TKey, TSource> source,
+             Expression<Func<IGrouping<TKey, TSource>, TResult>> keySelector)
+        {
+            // source = {TestSQLiteGroupBy.X.XQueryStrategy<System.Linq.IGrouping<TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow>>}
+            // keySelector = {GroupByGoo => new Book1MiddleAsGroupByGooWithCountRow() {GooStateEnum = GroupByGoo.Key, Count = Convert(GroupByGoo.Count())}}
+
+            // we are about to create a view just like we do in the join.
+            // http://stackoverflow.com/questions/9287119/get-first-row-for-one-group
+
+
+            //select GooStateEnum, count(*)
+            //from `Book1.Middle`
+
+
+            var that = new XQueryStrategy<TResult>
+            {
+
+
+                InternalGetDescriptor =
+                    () =>
+                    {
+                        // inherit the connection/context from above
+                        var StrategyDescriptor = source.source.GetDescriptor();
+
+                        return StrategyDescriptor;
+                    }
+            };
+
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
+            that.GetCommandBuilder().Add(
+                 state =>
+                 {
+                     var s = QueryStrategyExtensions.AsCommandBuilder(source.source);
+
+                     // http://www.xaprb.com/blog/2006/12/07/how-to-select-the-firstleastmax-row-per-group-in-sql/
+
+
+                     // for the new view
+                     // count is easy. 
+                     // views should not care about keys, tags and timestamps?
+                     state.SelectCommand =
+                         "select g.GooStateEnum as GooStateEnum"
+
+                         + ", g.Key as LastKey"
+                        + ", g.Lastx as Lastx"
+                        + ", g.Title as LastTitle"
+
+                        + ", g.FirstKey as FirstKey"
+                        + ", g.Firstx as Firstx"
+                        + ", g.FirstTitle as FirstTitle"
+
+                        + ", g.Count as Count"
+
+                        + ", '' as Tag, 0 as Timestamp";
+
+                     // how do we get the first and the last in the same query??
+
+                     // http://www.w3schools.com/sql/sql_func_last.asp
+                     s.SelectCommand = "select "
+                        + "x, min(x) as Firstx, max(x) as Lastx, "
+                        + "Key, min(Key) as FirstKey, max(Key) as LastKey, "
+                        + "Title, min(Title) as FirstTitle, max(Title) as LastTitle, "
+                        + "GooStateEnum, count(*) as Count";
+
+                     s.GroupByCommand = "group by GooStateEnum";
+
+
+                     //select g.GooStateEnum as GooStateEnum, g.Count as Count
+                     //from (
+                     //        select GooStateEnum, count(*) as Count
+                     //        from `Book1.Middle`
+                     //         where `FooStateEnum` = @arg0 and `Ratio` > @arg1 and `Ratio` < @arg2
+
+
+                     //        group by GooStateEnum
+                     //        ) as g
+
+
+                     // how can we pass arguments to the flattened where?\
+                     // g seems to be last inserted?
+                     state.FromCommand =
+                          "from (\n\t"
+                            + s.ToString().Replace("\n", "\n\t")
+                            + "\n) as g";
+
+                     //s.OrderByCommand = "order by GooStateEnum desc";
+
+                     ////s.FromCommand = "from (select * " + s.FromCommand + " order by GooStateEnum desc)";
+
+                     ////state.FromCommand += ", (\n\t"
+                     ////       + s.ToString().Replace("\n", "\n\t")
+                     ////       + "\n) as gFirst ";
+
+
+
+                     // copy em?
+                     state.ApplyParameter.AddRange(s.ApplyParameter);
+
+                 }
+             );
+
+
+            return that;
+        }
+
+        public static IQueryStrategyGrouping<TKey, TSource>
+            GroupBy<TSource, TKey>(
+         this IQueryStrategy<TSource> source,
+         Expression<Func<TSource, TKey>> keySelector)
+        {
+            return new XQueryStrategyGrouping<TKey, TSource> { source = source, keySelector = keySelector };
+        }
     }
 
     public class XGrouping
