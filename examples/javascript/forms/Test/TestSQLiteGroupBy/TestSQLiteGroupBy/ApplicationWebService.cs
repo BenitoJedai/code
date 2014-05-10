@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -154,21 +155,31 @@ namespace TestSQLiteGroupBy
 
                         GooStateEnum = GroupByGoo.Key,
 
+
+                        Count = GroupByGoo.Count(),
+
+
                         // do we have to do multple from clauses for ordering first and last?
 
                         FirstTitle = GroupByGoo.First().Title,
                         FirstKey = GroupByGoo.First(),
+                        Firstx = GroupByGoo.First().x,
 
                         LastKey = GroupByGoo.Last(),
                         LastTitle = GroupByGoo.Last().Title,
+                        Lastx = GroupByGoo.Last().x,
 
                         SumOfx = GroupByGoo.Sum(u => u.x),
 
 
+                        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+                        //Tag = "",
+                        Tag = GroupByGoo.Last().Tag,
+                        Timestamp = GroupByGoo.Last().Timestamp,
+
                         // count is easy what about
                         // getting the first or last items?
 
-                        Count = GroupByGoo.Count()
                     };
 
             // http://friism.com/linq-to-sql-group-by-subqueries-and-performance
@@ -310,7 +321,7 @@ namespace TestSQLiteGroupBy
             var asMemberInitExpression = keySelector.Body as MemberInitExpression;
 
             //-		Bindings	Count = 0x00000007	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.MemberBinding> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.MemberBinding>}
-            
+
             //+		[0x00000000]	{GooStateEnum = GroupByGoo.Key}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
 
             //+		[0x00000001]	{FirstTitle = GroupByGoo.First().Title}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
@@ -357,39 +368,166 @@ namespace TestSQLiteGroupBy
                      // Caused by: java.lang.RuntimeException: { Message = Every derived table must have its own alias,
 
                      state.SelectCommand =
-                         "select g.GooStateEnum as GooStateEnum,\n\t"
-
-                         + "g.`Key` as LastKey,\n\t"
-
-                        + "g.x as Lastx,\n\t"
-                        + "g.Title as LastTitle,\n\t"
-
-                        // aint working
-                        + "gDescendingByKey.Key as FirstKey,\n\t"
-                        + "gDescendingByKey.x as Firstx,\n\t"
-                        + "gDescendingByKey.Title as FirstTitle,\n\t"
-
-                        + "g.Count as Count,\n\t"
-                        + "g.SumOfx as SumOfx,\n\t"
-
-                        + "'' as Tag, 0 as Timestamp\n\t";
+                         //"select g.GooStateEnum as GooStateEnum,\n\t"
+                         "select 0 as foo ";
 
 
-                     // how do we get the first and the last in the same query??
+
+                     ////+ "g.Count as Count,\n\t"
+
+
+                     // + "g.`Key` as LastKey,\n\t"
+
+                     //+ "g.x as Lastx,\n\t"
+                     //+ "g.Title as LastTitle,\n\t"
+
+                     //// aint working
+                     //+ "gDescendingByKey.Key as FirstKey,\n\t"
+                     //+ "gDescendingByKey.x as Firstx,\n\t"
+                     //+ "gDescendingByKey.Title as FirstTitle,\n\t"
+
+                     //+ "g.SumOfx as SumOfx,\n\t"
+
+                     //+ "'' as Tag, 0 as Timestamp\n\t";
+
+
 
 
                      s.FromCommand += " as s";
 
                      // http://www.w3schools.com/sql/sql_func_last.asp
-                     s.SelectCommand = "select "
-                        + "s.x,\n\t"
-                         // specialname
-                        + "s.`Key`,\n\t"
-                        + "s.Title,\n\t"
-                        + "s.GooStateEnum,\n\t"
-                         + "sum(s.x) as SumOfx,\n\t"
-                         //+ "13 as SumOfx, "
-                         + "count(*) as Count";
+                     s.SelectCommand = "select 0 as foo";
+
+                     //+ "s.x,\n\t"
+                     // // specialname
+                     //+ "s.`Key`,\n\t"
+                     //+ "s.Title,\n\t"
+                     // //+ "s.GooStateEnum,\n\t"
+                     // + "sum(s.x) as SumOfx,\n\t";
+                     //+ "13 as SumOfx, "
+                     //+ "count(*) as Count";
+
+                     asMemberInitExpression.Bindings.WithEachIndex(
+                         (SourceBinding, index) =>
+                         {
+                             // count and key
+                             var asMemberAssignment = SourceBinding as MemberAssignment;
+                             if (asMemberAssignment != null)
+                             {
+                                 //                                 -		asMemberAssignment.Expression	{GroupByGoo.Count()}	System.Linq.Expressions.Expression {System.Linq.Expressions.MethodCallExpressionN}
+                                 //+		Method	{Int64 Count(ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy`1[TestSQLiteGroupBy.Data.Book1MiddleRow])}	System.Reflection.MethodInfo {System.Reflection.RuntimeMethodInfo}
+
+                                 #region asMethodCallExpression
+                                 var asMethodCallExpression = asMemberAssignment.Expression as MethodCallExpression;
+                                 if (asMethodCallExpression != null)
+                                 {
+                                     #region count(*) special!
+                                     if (asMethodCallExpression.Method.Name == "Count")
+                                     {
+
+                                         state.SelectCommand += ", g.`" + asMemberAssignment.Member.Name + "`";
+                                         s.SelectCommand += ", count(*) as `" + asMemberAssignment.Member.Name + "`";
+
+                                         return;
+                                     }
+                                     #endregion
+
+                                     #region  sum( special!!
+                                     if (asMethodCallExpression.Method.Name == "Sum")
+                                     {
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+
+                                             state.SelectCommand += ", g.`" + asMemberAssignment.Member.Name + "`";
+                                             s.SelectCommand += ", sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                 }
+                                 #endregion
+
+
+
+                                 #region asMemberExpression
+                                 {
+                                     var asMemberExpression = asMemberAssignment.Expression as MemberExpression;
+                                     if (asMemberExpression != null)
+                                     {
+                                         #region let z <- Grouping.Key
+                                         if (asMemberExpression.Member.Name == "Key")
+                                         {
+                                             // special!
+                                             state.SelectCommand += ", g.`" + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                             s.SelectCommand += ", s.`" + GroupBy_asMemberExpression.Member.Name + "`";
+                                             return;
+                                         }
+                                         #endregion
+
+                                         // Method = {TestSQLiteGroupBy.Data.Book1MiddleRow First[GooStateEnum,Book1MiddleRow](TestSQLiteGroupBy.IQueryStrategyGrouping`2[TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow])}
+                                         var asMemberExpressionMethodCallExpression = asMemberExpression.Expression as MethodCallExpression;
+                                         if (asMemberExpressionMethodCallExpression != null)
+                                         {
+                                             // special!
+                                             if (asMemberExpressionMethodCallExpression.Method.Name == "First")
+                                             {
+                                                 state.SelectCommand += ", gDescendingByKey.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                 s.SelectCommand += ", s.`" + asMemberExpression.Member.Name + "`";
+                                                 return;
+                                             }
+
+                                             if (asMemberExpressionMethodCallExpression.Method.Name == "Last")
+                                             {
+                                                 state.SelectCommand += ", g.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                 s.SelectCommand += ", s.`" + asMemberExpression.Member.Name + "`";
+                                                 return;
+                                             }
+                                         }
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  asMemberAssignment.Expression = {Convert(GroupByGoo.First())}
+                                 var asUnaryExpression = asMemberAssignment.Expression as UnaryExpression;
+                                 if (asUnaryExpression != null)
+                                 {
+                                     var asMemberExpressionMethodCallExpression = asUnaryExpression.Operand as MethodCallExpression;
+                                     if (asMemberExpressionMethodCallExpression != null)
+                                     {
+                                         // special! op_Implicit
+                                         if (asMemberExpressionMethodCallExpression.Method.Name == "First")
+                                         {
+                                             state.SelectCommand += ", gDescendingByKey.`Key` as `" + asMemberAssignment.Member.Name + "`";
+                                             s.SelectCommand += ", s.`Key`";
+                                             return;
+                                         }
+
+                                         if (asMemberExpressionMethodCallExpression.Method.Name == "Last")
+                                         {
+                                             state.SelectCommand += ", g.`Key` as `" + asMemberAssignment.Member.Name + "`";
+                                             s.SelectCommand += ", s.`Key`";
+                                             return;
+                                         }
+                                     }
+                                 }
+                                 #endregion
+
+
+
+                             }
+
+                             Debugger.Break();
+                         }
+                     );
+
+
+                     // how do we get the first and the last in the same query??
+
+
                      //+ "3 as Count";
 
                      // error: { Message = no such column: g.GooStateEnum, ex = System.Data.SQLite.SQLiteSyntaxException (0x80004005): no such column: g.GooStateEnum

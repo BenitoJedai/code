@@ -25,13 +25,13 @@ namespace TestSQLJoin
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140429
         // X:\jsc.svn\examples\javascript\test\TestLINQJoin\TestLINQJoin\Application.cs
 
-        [Obsolete("future jsc shall find references by deep inspection.")]
-        void References()
-        {
-            // {"Could not load file or assembly 'System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null"}
-            { var ref0 = typeof(IQueryStrategy); }
-            { var ref0 = typeof(System.Data.SQLite.SQLiteConnection); }
-        }
+        //[Obsolete("future jsc shall find references by deep inspection.")]
+        //void References()
+        //{
+        //    // {"Could not load file or assembly 'System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null"}
+        //    { var ref0 = typeof(IQueryStrategy); }
+        //    { var ref0 = typeof(System.Data.SQLite.SQLiteConnection); }
+        //}
 
 
 
@@ -99,6 +99,7 @@ namespace TestSQLJoin
                 {
                     Timestamp = contact.Timestamp,
                     Tag = "no tag",
+
                     DealerOther = 0,
                     DealerOtherText = other.DealerOtherText,
                     Dealer = dealer.Key,
