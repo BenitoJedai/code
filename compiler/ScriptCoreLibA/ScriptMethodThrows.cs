@@ -6,12 +6,16 @@ using System.Text;
 
 namespace ScriptCoreLib
 {
-    [global::System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
+    [global::System.AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor, Inherited = false, AllowMultiple = true)]
     public sealed class ScriptMethodThrows : Attribute
     {
+        // X:\jsc.svn\examples\javascript\forms\test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/201405
+        // X:\jsc.internal.svn\compiler\jsc.internal\jsc.internal\meta\Commands\Reference\ReferenceAssetsLibrary.cs
+        
         public Type ThrowType { get; set; }
 
-        
+
 
         public ScriptMethodThrows(Type e)
         {
