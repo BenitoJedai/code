@@ -8,7 +8,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
     [Script(Implements = typeof(global::System.Linq.Expressions.MemberBinding))]
-    internal class __MemberBinding
+    internal abstract class __MemberBinding
     {
         public MemberBindingType BindingType { get; set; }
         public MemberInfo Member { get; set; }

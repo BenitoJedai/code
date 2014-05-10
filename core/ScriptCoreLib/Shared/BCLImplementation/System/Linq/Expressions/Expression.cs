@@ -90,11 +90,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         }
 
 
-//        Implementation not found for type import :
-//type: System.Linq.Expressions.Expression
-//method: System.Linq.Expressions.UnaryExpression Quote(System.Linq.Expressions.Expression)
-//Did you forget to add the [Script] attribute?
-//Please double check the signature!
+        //        Implementation not found for type import :
+        //type: System.Linq.Expressions.Expression
+        //method: System.Linq.Expressions.UnaryExpression Quote(System.Linq.Expressions.Expression)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
 
 
         public static UnaryExpression Quote(Expression expression)
@@ -317,19 +317,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
 
 
-        //Implementation not found for type import :
+        //        Implementation not found for type import :
         //type: System.Linq.Expressions.Expression
-        //method: System.Linq.Expressions.MemberExpression Property(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)
+        //method: System.Linq.Expressions.MemberInitExpression MemberInit(System.Linq.Expressions.NewExpression, System.Linq.Expressions.MemberBinding[])
         //Did you forget to add the [Script] attribute?
         //Please double check the signature!
-
-
-
-//        Implementation not found for type import :
-//type: System.Linq.Expressions.Expression
-//method: System.Linq.Expressions.MemberInitExpression MemberInit(System.Linq.Expressions.NewExpression, System.Linq.Expressions.MemberBinding[])
-//Did you forget to add the [Script] attribute?
-//Please double check the signature!
 
 
 
@@ -351,9 +343,21 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         }
 
 
+
+
+
+
+        //Implementation not found for type import :
+        //type: System.Linq.Expressions.Expression
+        //method: System.Linq.Expressions.MemberExpression Property(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+        [Obsolete("should we construct a property from the getter?")]
         public static MemberExpression Property(Expression expression, MethodInfo member)
         {
-            //Console.WriteLine("Parameter " + new { type, name });
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+            Console.WriteLine("Property " + new { expression, member });
 
             return
                 (MemberExpression)(object)
