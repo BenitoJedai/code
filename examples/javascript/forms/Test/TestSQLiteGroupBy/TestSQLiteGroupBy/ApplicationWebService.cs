@@ -67,7 +67,7 @@ namespace TestSQLiteGroupBy
                     Ratio = SpecialRatio,
                     x = 0.9,
 
-                    Title = "first"
+                    Title = "first 0.9"
                 }
             );
 
@@ -81,7 +81,7 @@ namespace TestSQLiteGroupBy
                     Ratio = SpecialRatio,
                     x = 0.8,
 
-                    Title = "second"
+                    Title = "second 0.8"
                 }
             );
 
@@ -95,7 +95,7 @@ namespace TestSQLiteGroupBy
                     Ratio = SpecialRatio,
                     x = 0.6,
 
-                    Title = "third"
+                    Title = "third 0.6"
                 }
             );
 
@@ -282,11 +282,16 @@ namespace TestSQLiteGroupBy
                      // for the new view
                      // count is easy. 
                      // views should not care about keys, tags and timestamps?
+
+                     // well the last seems to work
+                     // not the first.
+
                      state.SelectCommand =
                          "select g.GooStateEnum as GooStateEnum"
 
                          + ", g.Key as LastKey"
-                        + ", g.Lastx as Lastx"
+
+                        + ", g.x as Lastx"
                         + ", g.Title as LastTitle"
 
                         + ", g.FirstKey as FirstKey"
