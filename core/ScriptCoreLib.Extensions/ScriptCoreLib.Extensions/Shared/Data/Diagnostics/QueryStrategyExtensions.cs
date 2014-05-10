@@ -564,7 +564,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     public static class QueryStrategyExtensions
     {
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
-        
+
         // SQLite.Linq reference implementation
         // when can we have immutable version?
 
@@ -602,7 +602,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             }
             #endregion
 
-            var r = default(object);
+            var rAddParameterValue = default(object);
 
             if (body.Right is MemberExpression)
             {
@@ -620,7 +620,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 {
 
                     var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
-                    r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                    rAddParameterValue = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
                 }
                 else if (f_Body_Right_as_MemberExpression != null)
                 {
@@ -633,7 +633,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
 
 
-                    r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                    rAddParameterValue = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
                 }
                 else Debugger.Break();
 
@@ -656,7 +656,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 {
 
                     var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
-                    r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                    rAddParameterValue = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
                 }
                 else if (f_Body_Right_as_MemberExpression != null)
                 {
@@ -669,13 +669,20 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
 
 
-                    r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                    rAddParameterValue = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
                 }
                 else Debugger.Break();
             }
             else
             {
-                Debugger.Break();
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/201405
+
+                var asConstantExpression = body.Right as ConstantExpression;
+                if (asConstantExpression != null)
+                {
+                    rAddParameterValue = asConstantExpression.Value;
+                }
+                else Debugger.Break();
             }
 
             //Additional information: Unable to cast object of type 'System.Linq.Expressions.UnaryExpression' to type 'System.Linq.Expressions.MemberExpression'.
@@ -706,7 +713,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
 
                 ColumnName,
-                Right = r
+                Right = rAddParameterValue
             });
 
 
@@ -718,7 +725,27 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     var n = "@arg" + state.ApplyParameter.Count;
 
                     // what about multple where clauses, what about sub queries?
-                    state.WhereCommand = " where `" + ColumnName + "` ";
+                    // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteEnumWhere\TestSQLiteEnumWhere\ApplicationWebService.cs
+
+                    // state.WhereCommand = " where `FooStateEnum` = @arg0"
+
+                    if (string.IsNullOrEmpty(state.WhereCommand))
+                    {
+                        // this is the first where clause
+
+                        state.WhereCommand = " where ";
+
+                    }
+                    else
+                    {
+                        // this wants to add to the where clause
+                        // http://www.w3schools.com/sql/sql_and_or.asp
+
+                        state.WhereCommand += " and ";
+                    }
+
+
+                    state.WhereCommand += "`" + ColumnName + "` ";
 
                     // like we do in jsc. this is the opcode
                     //OpCodes.Ceq
@@ -735,7 +762,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     state.WhereCommand += " ";
                     state.WhereCommand += n;
 
-                    Console.WriteLine("MutableWhere " + new { n, r });
+                    Console.WriteLine("MutableWhere " + new { n, r = rAddParameterValue });
 
                     state.ApplyParameter.Add(
                         c =>
@@ -743,7 +770,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                             // either the actualt command or the explain command?
 
                             //c.Parameters.AddWithValue(n, r);
-                            c.AddParameter(n, r);
+                            c.AddParameter(n, rAddParameterValue);
                         }
                     );
                 }
