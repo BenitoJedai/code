@@ -358,34 +358,44 @@ namespace TestSQLiteGroupBy
                      // well the last seems to work
                      // not the first.
 
+
+                     // Caused by: java.lang.RuntimeException: { Message = Every derived table must have its own alias,
+
                      state.SelectCommand =
-                         "select g.GooStateEnum as GooStateEnum"
+                         "select g.GooStateEnum as GooStateEnum,\n\t"
 
-                         + ", g.Key as LastKey"
+                         + "g.`Key` as LastKey,\n\t"
 
-                        + ", g.x as Lastx"
-                        + ", g.Title as LastTitle"
+                        + "g.x as Lastx,\n\t"
+                        + "g.Title as LastTitle,\n\t"
 
                         // aint working
-                        + ", gDescendingByKey.Key as FirstKey"
-                        + ", gDescendingByKey.x as Firstx"
-                        + ", gDescendingByKey.Title as FirstTitle"
+                        + "gDescendingByKey.Key as FirstKey,\n\t"
+                        + "gDescendingByKey.x as Firstx,\n\t"
+                        + "gDescendingByKey.Title as FirstTitle,\n\t"
 
-                        + ", g.Count as Count"
-                        + ", g.SumOfx as SumOfx"
+                        + "g.Count as Count,\n\t"
+                        + "g.SumOfx as SumOfx,\n\t"
 
-                        + ", '' as Tag, 0 as Timestamp";
+                        + "'' as Tag, 0 as Timestamp\n\t";
+
 
                      // how do we get the first and the last in the same query??
 
+
+                     s.FromCommand += " as s";
+
                      // http://www.w3schools.com/sql/sql_func_last.asp
                      s.SelectCommand = "select "
-                        + "x,"
-                        + "Key, "
-                        + "Title, "
-                        + "GooStateEnum, "
-                        + "sum(x) as SumOfx, "
-                        + "count(*) as Count";
+                        + "s.x,\n\t"
+                         // specialname
+                        + "s.`Key`,\n\t"
+                        + "s.Title,\n\t"
+                        + "s.GooStateEnum,\n\t"
+                         + "sum(s.x) as SumOfx,\n\t"
+                         //+ "13 as SumOfx, "
+                         + "count(*) as Count";
+                     //+ "3 as Count";
 
                      // error: { Message = no such column: g.GooStateEnum, ex = System.Data.SQLite.SQLiteSyntaxException (0x80004005): no such column: g.GooStateEnum
 
@@ -445,7 +455,7 @@ namespace TestSQLiteGroupBy
                      // http://help.sap.com/abapdocu_702/en/abaporderby_clause.htm#!ABAP_ALTERNATIVE_1@1@
                      //  ORDER BY { {PRIMARY KEY}
 
-                     s.FromCommand = "from (select * " + s.FromCommand + " order by Key desc)";
+                     s.FromCommand = "from (select * " + s.FromCommand + " order by `Key` desc) as s";
                      //s.FromCommand = "from (select * " + s.FromCommand + " order by PRIMARY KEY desc)";
 
                      state.FromCommand +=
