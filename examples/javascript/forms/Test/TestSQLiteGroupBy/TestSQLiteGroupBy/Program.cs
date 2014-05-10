@@ -12,6 +12,8 @@ namespace TestSQLiteGroupBy
         public static void Main(string[] args)
         {
 #if DEBUG
+            new ApplicationWebService().WebMethod2();
+
 			DesktopFormsExtensions.Launch(
 				() => new ApplicationControl()
 			);

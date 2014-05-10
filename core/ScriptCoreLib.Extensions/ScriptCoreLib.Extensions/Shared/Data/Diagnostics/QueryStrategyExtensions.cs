@@ -24,6 +24,7 @@ namespace System.Data
     public static class QueryStrategyOfTRowExtensions
     {
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
 
         #region XQueryStrategy
         class XQueryStrategy<TRow> : IQueryStrategy<TRow>
@@ -602,6 +603,9 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             }
             #endregion
 
+
+
+            #region rAddParameterValue
             var rAddParameterValue = default(object);
 
             if (body.Right is MemberExpression)
@@ -684,6 +688,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 }
                 else Debugger.Break();
             }
+            #endregion
+
 
             //Additional information: Unable to cast object of type 'System.Linq.Expressions.UnaryExpression' to type 'System.Linq.Expressions.MemberExpression'.
 
@@ -958,7 +964,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             );
         }
 
-
+        #region select count
         public static long Count(IQueryStrategy Strategy)
         {
             return ((Task<long>)Strategy.GetDescriptor().GetWithConnection()(
@@ -983,11 +989,25 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 }
             )).Result;
         }
+        #endregion
+
 
 
         public static DataTable AsDataTable(IQueryStrategy Strategy)
         {
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+
             Console.WriteLine("AsDataTable");
+
+            if (Strategy == null)
+            {
+                if (Debugger.IsAttached)
+                    Debugger.Break();
+
+                throw new ArgumentNullException("Strategy");
+            }
+
+            //System.Diagnostics.Contracts.Contract.Assume
 
             return ((Task<DataTable>)Strategy.GetDescriptor().GetWithConnection()(
                 c =>
@@ -1009,15 +1029,46 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                         item(cmd);
                     }
 
-                    var t = new DataTable();
 
 
 
                     // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataAdapter.cs
                     // will this work under CLR too?
 
+                    // http://stackoverflow.com/questions/12608025/how-to-construct-a-sqlite-query-to-group-by-order
+                    // http://www.devart.com/dotconnect/sqlite/docs/Devart.Data.SQLite~Devart.Data.SQLite.SQLiteDataReader~NextResult.html
+                    // http://www.maplesoft.com/support/help/Maple/view.aspx?path=Database/Statement/NextResult
+                    // To issue a multi-statement SQL string, the Execute command must be used.
+                    //  Some databases may require that the processing of the current result be completed before the next result is returned by NextResult.
+                    // http://www.java2s.com/Tutorial/CSharp/0560__ADO.Net/ExecutingaQueryThatReturnsMultipleResultSetswithSqlDataReader.htm
+                    // http://amitchandnz.wordpress.com/2011/09/28/issues-with-idatareaderdatareader-multiple-results-sets-and-datatables/
+                    // http://stuff.mit.edu/afs/athena/software/mono_v3.0/arch/i386_linux26/mono/mcs/class/Mono.Data.Sqlite/Mono.Data.Sqlite_2.0/SQLiteDataReader.cs
+                    // http://zetcode.com/db/sqlitecsharp/read/
+                    // http://stackoverflow.com/questions/18493169/sqlite-query-combining-two-result-sets-that-use-and
+                    // http://www.sqlite.org/queryplanner.html
+                    // One possible solution is to fetch all events, to a ToList() and do the grouping in-memory.
+                    // http://blog.csainty.com/2008/01/linq-to-sql-groupby.html
+                    // http://msdn.microsoft.com/en-us/library/vstudio/bb386922(v=vs.100).aspx
+
+                    //var reader = cmd.ExecuteReader();
+                    ////var reader = cmd.ExecuteReader();
+
+                    ////Console.WriteLine(
+                    ////    new
+                    ////    {
+                    ////        reader.Depth,
+                    ////        reader.FieldCount
+                    ////        //reader.NextResult
+
+                    ////    }
+                    ////);
+
                     //var a = new SQLiteDataAdapter(cmd);
+
+                    // http://msdn.microsoft.com/en-us/library/bh8kx08z(v=vs.110).aspx
+
                     var a = new __DbDataAdapter { SelectCommand = cmd };
+                    //var a = new SQLiteDataAdapter { SelectCommand = cmd };
 
                     //System.Data.XSQLite.dll!Community.CsharpSqlite.Sqlite3.fetchPayload(Community.CsharpSqlite.Sqlite3.BtCursor pCur, ref int pAmt, ref int outOffset, bool skipKey)	Unknown
                     //System.Data.XSQLite.dll!Community.CsharpSqlite.Sqlite3.sqlite3BtreeKeyFetch(Community.CsharpSqlite.Sqlite3.BtCursor pCur, ref int pAmt, ref int outOffset)	Unknown
@@ -1036,11 +1087,18 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     var ss = Stopwatch.StartNew();
 
                     Console.WriteLine("before Fill");
+                    var t = new DataTable();
+                    //var ds = new DataSet();
                     a.Fill(t);
-                    Console.WriteLine("after Fill " + new { ss.ElapsedMilliseconds, t.Rows.Count });
+                    // is SQLIte Fill handicapped or what?
+
+                    //a.Fill(ds);
+                    //Console.WriteLine("after Fill " + new { ss.ElapsedMilliseconds, t.Rows.Count });
+                    Console.WriteLine("after Fill " + new { ss.ElapsedMilliseconds });
 
 
                     var s = new TaskCompletionSource<DataTable>();
+                    //s.SetResult(ds.Tables[0]);
                     s.SetResult(t);
 
                     return s.Task;
@@ -1060,6 +1118,10 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             public string OrderByCommand;
             public string LimitCommand;
 
+            // is it before or after other clauses or both?
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+            public string GroupByCommand;
+
             public List<Action<IDbCommand>> ApplyParameter = new List<Action<IDbCommand>>();
 
             public override string ToString()
@@ -1072,6 +1134,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                 w.AppendLine(this.OrderByCommand);
                 w.AppendLine(this.LimitCommand);
+                w.AppendLine(this.GroupByCommand);
 
                 var x = w.ToString();
 

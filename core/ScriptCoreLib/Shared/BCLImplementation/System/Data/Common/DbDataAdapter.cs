@@ -15,6 +15,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
 
+
+        #region SelectCommand
         public DbCommand InternalSelectCommand;
         public DbCommand SelectCommand
         {
@@ -27,6 +29,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                 InternalSelectCommand = value;
             }
         }
+        #endregion
+
 
 
         public int Fill(DataTable dataTable)

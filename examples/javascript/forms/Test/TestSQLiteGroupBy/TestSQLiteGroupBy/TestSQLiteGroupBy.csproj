@@ -150,6 +150,7 @@
     <None Include="Data\Book1.xlsx" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Book1MiddleBindingSource.datasource" />
+    <None Include="Properties\DataSources\Book1MiddleAsGroupByGooWithCountBindingSource.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
