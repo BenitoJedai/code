@@ -32,7 +32,7 @@ namespace TestSQLiteEnumWhere
                 new Book1MiddleRow
                 {
                     FooStateEnum = FooStateEnum.Foo0,
-                    GooStateEnum = GooStateEnum.Goo1,
+                    GooStateEnum = GooStateEnum.Goo2,
                     Ratio = 0.5,
                     Title = "h1"
                 }
@@ -41,12 +41,29 @@ namespace TestSQLiteEnumWhere
 
             // x:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
             // filter = {z => (Convert(z.FooStateEnum) == 0)}
+
+            //select `Key`, `Title`, `Ratio`, `FooStateEnum`, `GooStateEnum`, `Tag`, `Timestamp`
+            //from `Book1.Middle`
+            // where `GooStateEnum` = @arg1
+
+            //MutableWhere { n = @arg0, r = 0 }
+            //MutableWhere { n = @arg1, r = 1 }
+            //select `Key`, `Title`, `Ratio`, `FooStateEnum`, `GooStateEnum`, `Tag`, `Timestamp`
+            //from `Book1.Middle`
+            // where `FooStateEnum` = @arg0 and `GooStateEnum` = @arg1
+
+
+
+
+
+
             var zz = from z in x
-                    where z.FooStateEnum == FooStateEnum.Foo0
-                    where z.GooStateEnum == GooStateEnum.Goo1
-                    select z;
+                     where z.FooStateEnum == FooStateEnum.Foo0
+                     where z.GooStateEnum == GooStateEnum.Goo2
+                     select z;
 
 
+            var zzz = zz.AsEnumerable();
 
             // Data.Book1MiddleKey
         }

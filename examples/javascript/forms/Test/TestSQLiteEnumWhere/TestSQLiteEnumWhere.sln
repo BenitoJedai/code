@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSQLiteEnumWhere", "TestSQLiteEnumWhere\TestSQLiteEnumWhere.csproj", "{D8C6261B-5444-41E7-A6EE-B0485AB8BC15}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
@@ -51,6 +54,7 @@ Global
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|x86.Build.0 = Debug|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.ActiveCfg = PHP|Any CPU
