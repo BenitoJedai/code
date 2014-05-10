@@ -9,14 +9,15 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
+// rename namespace?
 namespace ScriptCoreLib.Shared.Data.Diagnostics
 {
     [Obsolete("part of string conversions?")]
     public static class WithConnectionLambdaZ
     {
-        public static long GetInt64OrDefault(System.Data.DataRow e, string ColumnName)
+        public static double GetDoubleOrDefault(System.Data.DataRow e, string ColumnName)
         {
-            Console.WriteLine("GetInt64OrDefault " + new { ColumnName });
+            //Console.WriteLine("GetInt64OrDefault " + new { ColumnName });
 
             // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
 
@@ -28,18 +29,54 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                 var __value = e[ColumnName];
 
-                Console.WriteLine("GetInt64OrDefault " + new { __value });
+                //Console.WriteLine("GetInt64OrDefault " + new { __value });
 
                 var __value_asString = __value as string;
 
-                Console.WriteLine("GetInt64OrDefault " + new { __value_asString });
+                //Console.WriteLine("GetInt64OrDefault " + new { __value_asString });
+
+                // new row added by the grid?
+                if (!string.IsNullOrEmpty(__value_asString))
+                {
+                    var __value_asDouble = Convert.ToDouble(__value_asString);
+
+                    //Console.WriteLine("GetInt64OrDefault " + new { __value_asInt64 });
+
+                    return __value_asDouble;
+                }
+            }
+
+            return default(double);
+        }
+
+
+
+        public static long GetInt64OrDefault(System.Data.DataRow e, string ColumnName)
+        {
+            //Console.WriteLine("GetInt64OrDefault " + new { ColumnName });
+
+            // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\TheBrowserTab.cs
+
+            if (e.Table.Columns.Contains(ColumnName))
+            {
+                // e[ColumnName] ""
+
+                // X:\jsc.svn\examples\java\Test\TestJVMCLRAsString\TestJVMCLRAsString\Program.cs
+
+                var __value = e[ColumnName];
+
+                //Console.WriteLine("GetInt64OrDefault " + new { __value });
+
+                var __value_asString = __value as string;
+
+                //Console.WriteLine("GetInt64OrDefault " + new { __value_asString });
 
                 // new row added by the grid?
                 if (!string.IsNullOrEmpty(__value_asString))
                 {
                     var __value_asInt64 = Convert.ToInt64(__value_asString);
 
-                    Console.WriteLine("GetInt64OrDefault " + new { __value_asInt64 });
+                    //Console.WriteLine("GetInt64OrDefault " + new { __value_asInt64 });
 
                     return __value_asInt64;
                 }

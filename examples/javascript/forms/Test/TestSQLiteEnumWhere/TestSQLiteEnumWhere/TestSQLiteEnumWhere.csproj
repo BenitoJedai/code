@@ -145,8 +145,13 @@
     </Compile>
     <None Include="Data\Book1.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Book1MiddleBindingSource.datasource" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="ApplicationControl.resx">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
