@@ -12,6 +12,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     {
 
         public Expression Expression { get; set; }
+
+        public override string ToString()
+        {
+            return "MemberAssignment " + new { Expression };
+        }
     }
 
 }
