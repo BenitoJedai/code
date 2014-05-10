@@ -130,6 +130,25 @@ namespace TestSQLiteGroupBy
 
 
             // http://stackoverflow.com/questions/710508/how-best-to-loop-over-a-batch-of-results-with-a-c-sharp-dbdatareader
+            // C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe  -encoding UTF-8 -cp Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.8\lib\impl\*;C:\util\appengine-java-sdk-1.8.8\lib\shared\* -d "Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\release" @"Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\files"
+
+            //Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\java\TestSQLiteGroupBy\Data\Book1Extensions.java:71: error: incompatible types
+            //        return _arg0;
+            //               ^
+            //  required: Book1_Middle
+            //  found:    IQueryStrategy_1<Book1MiddleRow>
+            //Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\java\TestSQLiteGroupBy\Data\Book1Extensions.java:135: error: incompatible types
+            //        return _arg0;
+            //               ^
+            //  required: Book1_MiddleAsGroupByGooWithCount
+            //  found:    IQueryStrategy_1<Book1MiddleAsGroupByGooWithCountRow>
+
+
+            //public static  Book1_Middle Take_060000b5(ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy_1<Book1MiddleRow> _arg0, long _arg1)
+            //{
+            //    QueryStrategyExtensions.MutableTake(_arg0, _arg1);
+            //    return _arg0;
+            //}
 
             var g = from z in x
                     where z.FooStateEnum == FooStateEnum.Foo0
@@ -141,6 +160,17 @@ namespace TestSQLiteGroupBy
                     //select z
 
                     group z by z.GooStateEnum into GroupByGoo
+
+
+                    //0001 0200000e TestSQLiteGroupBy.ApplicationWebService::<module>.SHA11c96687ca1c18532c6b6644976c6dab76828c303@392153041
+
+
+                    // Implementation not found for type import :
+                    // type: System.Linq.Expressions.Expression
+                    // method: System.Linq.Expressions.NewExpression New(System.Reflection.ConstructorInfo, System.Linq.Expressions.Expression[])
+                    // Did you forget to add the [Script] attribute?
+                    // Please double check the signature!
+
 
                     select new Book1MiddleAsGroupByGooWithCountRow
                     {
@@ -155,6 +185,9 @@ namespace TestSQLiteGroupBy
 
                         LastKey = GroupByGoo.Last(),
                         LastTitle = GroupByGoo.Last().Title,
+
+                        SumOfx = GroupByGoo.Sum(u => u.x),
+
 
                         // count is easy what about
                         // getting the first or last items?
@@ -197,15 +230,57 @@ namespace TestSQLiteGroupBy
 
     }
 
+
     [Obsolete("there is no good translation of such queries to SQL and Linq-to-SQL has to resort to doing multiple subqueries.")]
-    public interface IQueryStrategyGrouping<TKey, TSource>
+    public interface IQueryStrategyGroupingBuilder<TKey, TSource>
     {
+        // GroupByBuilder
+
         IQueryStrategy<TSource> source { get; set; }
         Expression<Func<TSource, TKey>> keySelector { get; set; }
     }
 
+    [Obsolete("group by . into .")]
+    class XQueryStrategyGroupingBuilder<TKey, TSource> : IQueryStrategyGroupingBuilder<TKey, TSource>
+    {
+        public IQueryStrategy<TSource> source { get; set; }
+        public Expression<Func<TSource, TKey>> keySelector { get; set; }
+    }
+
+    [Obsolete("to make intellisense happy, and dispay only supported methods")]
+    //public interface IQueryStrategyGrouping<out TKey, out TElement> : IQueryStrategy<TElement>
+    public interface IQueryStrategyGrouping<out TKey, TElement> : IQueryStrategy<TElement>
+    {
+        TKey Key { get; }
+    }
+
+
+
     public static class X
     {
+        [Obsolete("non grouping methods shall use FirstOrDefault")]
+        public static TElement First<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Obsolete("non grouping methods shall use FirstOrDefault")]
+        public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static long Sum<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source, Expression<Func<TElement, long>> f)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static double Sum<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source, Expression<Func<TElement, double>> f)
+        {
+            throw new NotImplementedException();
+        }
+
+
         #region XQueryStrategy
         class XQueryStrategy<TRow> : IQueryStrategy<TRow>
         {
@@ -232,18 +307,15 @@ namespace TestSQLiteGroupBy
 
 
 
-        class XQueryStrategyGrouping<TKey, TSource> : IQueryStrategyGrouping<TKey, TSource>
-        {
-            public IQueryStrategy<TSource> source { get; set; }
-            public Expression<Func<TSource, TKey>> keySelector { get; set; }
-        }
 
 
         // group by . into .
         public static IQueryStrategy<TResult>
-                Select<TSource, TKey, TResult>(
-             this IQueryStrategyGrouping<TKey, TSource> source,
-             Expression<Func<IGrouping<TKey, TSource>, TResult>> keySelector)
+            Select
+            <TSource, TKey, TResult>
+            (
+             this IQueryStrategyGroupingBuilder<TKey, TSource> source,
+             Expression<Func<IQueryStrategyGrouping<TKey, TSource>, TResult>> keySelector)
         {
             // source = {TestSQLiteGroupBy.X.XQueryStrategy<System.Linq.IGrouping<TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow>>}
             // keySelector = {GroupByGoo => new Book1MiddleAsGroupByGooWithCountRow() {GooStateEnum = GroupByGoo.Key, Count = Convert(GroupByGoo.Count())}}
@@ -294,11 +366,13 @@ namespace TestSQLiteGroupBy
                         + ", g.x as Lastx"
                         + ", g.Title as LastTitle"
 
-                        + ", g.FirstKey as FirstKey"
-                        + ", g.Firstx as Firstx"
-                        + ", g.FirstTitle as FirstTitle"
+                        // aint working
+                        + ", gDescendingByKey.Key as FirstKey"
+                        + ", gDescendingByKey.x as Firstx"
+                        + ", gDescendingByKey.Title as FirstTitle"
 
                         + ", g.Count as Count"
+                        + ", g.SumOfx as SumOfx"
 
                         + ", '' as Tag, 0 as Timestamp";
 
@@ -306,12 +380,32 @@ namespace TestSQLiteGroupBy
 
                      // http://www.w3schools.com/sql/sql_func_last.asp
                      s.SelectCommand = "select "
-                        + "x, min(x) as Firstx, max(x) as Lastx, "
-                        + "Key, min(Key) as FirstKey, max(Key) as LastKey, "
-                        + "Title, min(Title) as FirstTitle, max(Title) as LastTitle, "
-                        + "GooStateEnum, count(*) as Count";
+                        + "x,"
+                        + "Key, "
+                        + "Title, "
+                        + "GooStateEnum, "
+                        + "sum(x) as SumOfx, "
+                        + "count(*) as Count";
+
+                     // error: { Message = no such column: g.GooStateEnum, ex = System.Data.SQLite.SQLiteSyntaxException (0x80004005): no such column: g.GooStateEnum
+
+                     // http://stackoverflow.com/questions/27983/sql-group-by-with-an-order-by
+                     // MySQL prior to version 5 did not allow aggregate functions in ORDER BY clauses.
+
+
+                     //s.OrderByCommand = "order by GooStateEnum desc";
+
+                     // what about distinct? 
+                     // we cannot reorder the table by the grouping item
+                     // we would have to rely on PK Key? either assume Key was generated by AssetsLibrary
+                     // or crash or inspect the table by explain
 
                      s.GroupByCommand = "group by GooStateEnum";
+
+                     // http://www.afterhoursprogramming.com/tutorial/SQL/ORDER-BY-and-GROUP-BY/
+                     // CANNOT limit nor order if we are about to group.
+
+                     //s.LimitCommand = "limit 1";
 
 
                      //select g.GooStateEnum as GooStateEnum, g.Count as Count
@@ -327,14 +421,60 @@ namespace TestSQLiteGroupBy
 
                      // how can we pass arguments to the flattened where?\
                      // g seems to be last inserted?
+
+
+
+                     //                 var FromCommand =
+                     //"from (\n\t"
+                     //    + xouter_SelectAll.ToString().Replace("\n", "\n\t")
+                     //    + ") as " + xouter_Paramerer_Name.Replace("<>", "__") + " "
+
+                     //    + "\ninner join (\n\t"
+                     //    + xinner_SelectAll.ToString().Replace("\n", "\n\t")
+                     //    + ") as " + xinner_Paramerer.Name.Replace("<>", "__");
+
                      state.FromCommand =
                           "from (\n\t"
                             + s.ToString().Replace("\n", "\n\t")
-                            + "\n) as g";
+                            + "\n) as g ";
 
-                     //s.OrderByCommand = "order by GooStateEnum desc";
+                     // http://msdn.microsoft.com/en-us/library/vstudio/bb386996(v=vs.100).aspx
 
-                     ////s.FromCommand = "from (select * " + s.FromCommand + " order by GooStateEnum desc)";
+
+                     // hack it. no longer useable later
+                     // http://help.sap.com/abapdocu_702/en/abaporderby_clause.htm#!ABAP_ALTERNATIVE_1@1@
+                     //  ORDER BY { {PRIMARY KEY}
+
+                     s.FromCommand = "from (select * " + s.FromCommand + " order by Key desc)";
+                     //s.FromCommand = "from (select * " + s.FromCommand + " order by PRIMARY KEY desc)";
+
+                     state.FromCommand +=
+                        "inner join (\n\t"
+                           + s.ToString().Replace("\n", "\n\t")
+                            + "\n) as gDescendingByKey on g.GooStateEnum = gDescendingByKey.GooStateEnum";
+
+
+                     //select g.GooStateEnum as GooStateEnum, g.Key as LastKey, g.x as Lastx, g.Title as LastTitle, gDescendingByKey.Key as FirstKey, gDescendingByKey.x as Firstx, gDescendingByKey.Title as FirstTitle, g.Count as Count, '' as Tag, 0 as Timestamp
+                     //from (
+                     //        select x,Key, Title, GooStateEnum, count(*) as Count
+                     //        from `Book1.Middle`
+                     //         where `FooStateEnum` = @arg0 and `Ratio` = @arg1
+
+
+                     //        group by GooStateEnum
+
+                     //) as g inner join (
+                     //        select x,Key, Title, GooStateEnum, count(*) as Count
+                     //        from (select * from `Book1.Middle` order by Key desc)
+                     //         where `FooStateEnum` = @arg0 and `Ratio` = @arg1
+
+
+                     //        group by GooStateEnum
+
+                     //) as gDescendingByKey on g.GooStateEnum = gDescendingByKey.GooStateEnum
+
+
+
 
                      ////state.FromCommand += ", (\n\t"
                      ////       + s.ToString().Replace("\n", "\n\t")
@@ -352,14 +492,18 @@ namespace TestSQLiteGroupBy
             return that;
         }
 
-        public static IQueryStrategyGrouping<TKey, TSource>
-            GroupBy<TSource, TKey>(
+        public static IQueryStrategyGroupingBuilder<TKey, TSource>
+            GroupBy
+            <TSource, TKey>
+            (
          this IQueryStrategy<TSource> source,
          Expression<Func<TSource, TKey>> keySelector)
         {
-            return new XQueryStrategyGrouping<TKey, TSource> { source = source, keySelector = keySelector };
+            return new XQueryStrategyGroupingBuilder<TKey, TSource> { source = source, keySelector = keySelector };
         }
     }
+
+
 
     public class XGrouping
     {

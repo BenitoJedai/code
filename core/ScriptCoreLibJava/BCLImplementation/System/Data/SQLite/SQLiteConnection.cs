@@ -105,7 +105,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 if (ex.Message != null)
                     if (ex.Message.Contains("com.mysql.jdbc.Driver"))
                     {
+                        // "C:\util\appengine-java-sdk-1.9.2\lib\impl\mysql-connector-java-5.1.30-bin.jar"
                         // "C:\util\appengine-java-sdk-1.8.8\lib\impl\mysql-connector-java-5.1.22-bin.jar"
+                        // http://dev.mysql.com/downloads/connector/j/
 
                         Console.WriteLine("did you set up the mysql jar?");
                     }

@@ -135,6 +135,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                             //var bytes = typeof(byte[]);
                             //var eqBytes = item.p.Value.GetType() == bytes;
 
+
+                            // double?
+                            //Caused by: java.lang.RuntimeException: InternalCreateStatement, what to do with this? { CommandText = insert into `Book1.Middle` (`Title`, `Ratio`, `FooStateEnum`, `GooStateEnum`, `x`, `Tag`, `Timestamp`)  values (@Title, @Ratio, @FooStateEnum, @GooStateEnum, @x, @Tag, @Timestamp), type = java.lang.Double, item = { p = ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteParameter@1dc5180, i = 120 } }
+                            //        at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteCommand.InternalCreateStatement(__SQLiteCommand.java:225)
+                            //        ... 89 more
+
+
                             var message = "InternalCreateStatement, what to do with this? " + new
                             {
                                 this.CommandText,
