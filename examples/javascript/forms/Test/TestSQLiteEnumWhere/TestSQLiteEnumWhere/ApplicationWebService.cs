@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TestSQLiteEnumWhere.Data;
 
 namespace TestSQLiteEnumWhere
 {
@@ -23,10 +24,31 @@ namespace TestSQLiteEnumWhere
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public void WebMethod2()
         {
-            // Send it back to the caller.
-            y(e);
+            var x = new Book1.Middle();
+
+            x.Insert(
+                new Book1MiddleRow
+                {
+                    FooStateEnum = FooStateEnum.Foo0,
+                    GooStateEnum = GooStateEnum.Goo1,
+                    Ratio = 0.5,
+                    Title = "h1"
+                }
+            );
+
+
+            // x:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
+            // filter = {z => (Convert(z.FooStateEnum) == 0)}
+            var zz = from z in x
+                    where z.FooStateEnum == FooStateEnum.Foo0
+                    where z.GooStateEnum == GooStateEnum.Goo1
+                    select z;
+
+
+
+            // Data.Book1MiddleKey
         }
 
     }

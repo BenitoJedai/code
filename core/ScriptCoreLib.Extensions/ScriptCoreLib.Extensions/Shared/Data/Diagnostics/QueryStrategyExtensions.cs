@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace System.Data
 {
+    // move to a nuget?
     [Obsolete("the first generic extension method for all jsc data layer rows")]
     public static class QueryStrategyOfTRowExtensions
     {
@@ -563,7 +564,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     public static class QueryStrategyExtensions
     {
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
-
+        
         // SQLite.Linq reference implementation
         // when can we have immutable version?
 
@@ -577,6 +578,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140112/count
             // X:\jsc.svn\examples\javascript\Test\TestIQueryable\TestIQueryable\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteEnumWhere\TestSQLiteEnumWhere\ApplicationWebService.cs
 
 
             // for op_Equals
@@ -753,6 +755,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
 
 
+        #region select sum
+        // can this be used in a join?
         [Obsolete("this is somewhat like select foo and then sum, or like orderby. what about summing vec3"
             )]
         public static long Sum(IQueryStrategy Strategy, Expression selector)
@@ -810,8 +814,13 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 }
             )).Result;
         }
+        #endregion
 
 
+
+
+
+        #region order by
         public static void MutableOrderBy(IQueryStrategy that, Expression selector)
         {
             #region ColumnName
@@ -885,6 +894,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
              }
             );
         }
+        #endregion
+
 
         [Obsolete("caller has the option to clone the state before calling this function. should jsc add static expression pooling/caching like c# compiler does for lambdas?")]
         public static void MutableTake(IQueryStrategy that, long count)

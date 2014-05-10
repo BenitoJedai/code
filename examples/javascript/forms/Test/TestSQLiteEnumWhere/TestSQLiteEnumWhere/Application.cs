@@ -36,12 +36,7 @@ namespace TestSQLiteEnumWhere
         public Application(IApp page)
         {
             content.AttachControlToDocument();
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            this.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            
         }
 
     }
