@@ -28,6 +28,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static ConsoleColor ForegroundColor { get; set; }
         public static ConsoleColor BackgroundColor { get; set; }
 
+
+
+        #region WriteLine
         public static void WriteLine(object e)
         {
             Out.WriteLine(e);
@@ -41,6 +44,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             Out.WriteLine("" + e);
         }
+
+        public static void WriteLine(double e)
+        {
+            // X:\jsc.svn\examples\javascript\RoslynEndUserPreviewExperiment\RoslynEndUserPreviewExperiment\Application.cs
+
+            Out.WriteLine("" + e);
+        }
+
         public static void WriteLine()
         {
             Out.WriteLine("");
@@ -51,6 +62,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             // ?
             Out.WriteLine(string.Format(e, x));
         }
+        #endregion
+
+
+
 
         public static void Write(string e)
         {

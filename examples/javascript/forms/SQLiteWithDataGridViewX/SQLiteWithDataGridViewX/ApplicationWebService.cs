@@ -28,10 +28,12 @@ namespace SQLiteWithDataGridViewX
             #region data
             if (new Schema.TheGridTable().Count() == 0)
             {
-                new SchemaTheGridTableUpdatesRow { ContentValue = "v1", ContentComment = "c1" }.With(
+                // where is our treeview? databound?
+
+                new SchemaTheGridTableUpdatesRow { ContentValue = "root v1", ContentComment = "c1" }.With(
                     root =>
                     {
-
+                        #region TheGridTableUpdates
                         root.ContentReferenceKey = new Schema.TheGridTable().Insert(
                             new SchemaTheGridTableRow
                             {
@@ -41,6 +43,8 @@ namespace SQLiteWithDataGridViewX
                         );
 
                         new Schema.TheGridTableUpdates().Insert(root);
+                        #endregion
+
 
 
 
@@ -99,30 +103,9 @@ namespace SQLiteWithDataGridViewX
 
             // http://msdn.microsoft.com/en-us/library/system.linq.queryable.groupjoin.aspX
 
-            var AllUpdates =
-                from g in new Schema.TheGridTable()
-                join u in new Schema.TheGridTableUpdates()
-                on g.Key equals u.ContentReferenceKey
-
-                select new SchemaTheGridTableViewRow
-                {
-                    // jsc should not generate Key, Tag, Timestamp for views?
-                    // or can we also just use anonymous types?
-
-                    //Key = g.Key
-
-                    ContentKey = g.Key,
-
-                    // for grouping
-                    ParentContentKey = g.ParentContentKey,
-
-                    ContentValue = u.ContentValue,
-                    ContentComment = u.ContentComment
-
-                };
 
 
-            var AllUpdatesByParentContentKey =
+            var AllContentChildren =
                 from g in new Schema.TheGridTable()
                 //from g in AllUpdates
                 group g by g.ParentContentKey into gg
@@ -147,7 +130,32 @@ namespace SQLiteWithDataGridViewX
                 };
 
 
-            var z = AllUpdatesByParentContentKey.AsDataTable();
+            var z = AllContentChildren.AsDataTable();
+
+
+
+            var AllUpdates =
+                from g in new Schema.TheGridTable()
+                join u in new Schema.TheGridTableUpdates()
+                on g.Key equals u.ContentReferenceKey
+
+                select new SchemaTheGridTableViewRow
+                {
+                    // jsc should not generate Key, Tag, Timestamp for views?
+                    // or can we also just use anonymous types?
+
+                    //Key = g.Key
+
+                    ContentKey = g.Key,
+
+                    // for grouping
+                    ParentContentKey = g.ParentContentKey,
+
+                    ContentValue = u.ContentValue,
+                    ContentComment = u.ContentComment
+
+                };
+
 
             // http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/5711364-make-the-debugging-visualizers-non-modal-windows
             // i wish i could visualize and drop it here in comments.
