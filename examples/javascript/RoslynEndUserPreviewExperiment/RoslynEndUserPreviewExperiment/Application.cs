@@ -19,6 +19,7 @@ using RoslynEndUserPreviewExperiment.HTML.Pages;
 using System.Console;
 using System.Math;
 using System.Linq.Enumerable; // Just the type, not the whole namespace
+using ScriptCoreLib.JavaScript.Native;
 
 namespace RoslynEndUserPreviewExperiment
 {
@@ -32,18 +33,25 @@ namespace RoslynEndUserPreviewExperiment
         // [1:08:54 PM] Arvo Sulakatko: http://channel9.msdn.com/Events/Build/2014/2-577
         // [1:24:07 PM] Arvo Sulakatko: https://connect.microsoft.com/VisualStudio/Downloads/DownloadDetails.aspx?DownloadID=52793
 
-        public class Customer
+        public class Customer<TLast>(TLast x)
         {
             public string First { get; set; } = "Jane";
-            public string Last { get; set; } = "Doe";
+            public TLast Last { get; set; } = x;
         }
 
         // X:\jsc.svn\examples\javascript\test\TestPrimaryConstructors\TestPrimaryConstructors\Class1.cs
         [Obsolete("how does this relate to the work jsc does for ActionScript?")]
-        public class CustomerPrimaryConstructors(string first, string last)
+        public class CustomerPrimaryConstructors(string first, string last, private Action h)
         {
             public string First { get; } = first;
             public string Last { get; } = last;
+
+
+            public void Invoke()
+            {
+                h();
+
+            }
         }
 
         /// <summary>
@@ -64,10 +72,18 @@ namespace RoslynEndUserPreviewExperiment
             //var hex = 0x00_2E;
             //var dec = 1_234_567_890;
 
-            var c1 = new Customer();
+            var c1 = new Customer<IApp>(page);
 
             // what does jsc have to do to get the same features for data layer gen?
-            var c2 = new CustomerPrimaryConstructors("foo", "bar");
+            var c2 = new CustomerPrimaryConstructors("foo", "bar",
+
+                delegate
+            {
+                css.style.backgroundColor = "cyan";
+            }
+            );
+
+            new IHTMLButton { "c2.Invoke()" }.AttachToDocument().WhenClicked(x => c2.Invoke());
 
 
             var numbers = new Dictionary<string, string>
@@ -87,7 +103,7 @@ namespace RoslynEndUserPreviewExperiment
             new IHTMLPre {
                 new { range, odd, even, c1.First, c2.Last,
                         s = numbers.$goo }
-            }.AttachToDocument();
+            }.AttachTo(c1.Last.PageContainer);
 
 
 
