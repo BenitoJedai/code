@@ -745,7 +745,7 @@ namespace System.Data
                                      if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Count")
                                      {
 
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                          s_SelectCommand += ",\n\t count(*) as `" + asMemberAssignment.Member.Name + "`";
 
                                          return;
@@ -760,7 +760,7 @@ namespace System.Data
                                          {
                                              var asMemberExpression = arg1.Body as MemberExpression;
 
-                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
+                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                              s_SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
                                              return;
                                          }
@@ -820,14 +820,14 @@ namespace System.Data
                                              if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
                                              {
                                                  gDescendingByKeyReferenced = true;
-                                                 state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "`";
+                                                 state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  return;
                                              }
 
                                              if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
                                              {
-                                                 state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
+                                                 state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  return;
                                              }
@@ -851,14 +851,14 @@ namespace System.Data
                                          if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
                                          {
                                              gDescendingByKeyReferenced = true;
-                                             state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "`";
+                                             state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                              s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
                                              return;
                                          }
 
                                          if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
                                          {
-                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
+                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                              s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
                                              return;
                                          }
@@ -1398,6 +1398,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         #endregion
 
 
+        #region take
         [Obsolete("caller has the option to clone the state before calling this function. should jsc add static expression pooling/caching like c# compiler does for lambdas?")]
         public static void MutableTake(IQueryStrategy that, long count)
         {
@@ -1431,6 +1432,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
              }
             );
         }
+        #endregion
+
 
         #region select count
         public static long Count(IQueryStrategy Strategy)
