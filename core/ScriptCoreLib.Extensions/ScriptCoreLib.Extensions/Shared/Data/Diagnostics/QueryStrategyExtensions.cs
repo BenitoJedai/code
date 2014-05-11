@@ -644,13 +644,12 @@ namespace System.Data
                      //+ "'' as Tag, 0 as Timestamp\n\t";
 
 
-
+                     var gDescendingByKeyReferenced = false;
 
                      var s_FromCommand = " as s";
 
                      // http://www.w3schools.com/sql/sql_func_last.asp
                      var s_SelectCommand = "select s.`" + GroupBy_asMemberExpression.Member.Name + "` as `Grouping.Key`";
-                     var s_GroupByCommand = "";
 
                      //+ "s.x,\n\t"
                      // // specialname
@@ -820,6 +819,7 @@ namespace System.Data
                                              // special!
                                              if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
                                              {
+                                                 gDescendingByKeyReferenced = true;
                                                  state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "`";
                                                  s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  return;
@@ -850,6 +850,7 @@ namespace System.Data
                                          // special! op_Implicit
                                          if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
                                          {
+                                             gDescendingByKeyReferenced = true;
                                              state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "`";
                                              s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
                                              return;
@@ -894,7 +895,7 @@ namespace System.Data
                      // or crash or inspect the table by explain
 
                      //s.GroupByCommand = "group by GooStateEnum";
-                     s_GroupByCommand = "group by `Grouping.Key`";
+
 
                      // http://www.afterhoursprogramming.com/tutorial/SQL/ORDER-BY-and-GROUP-BY/
                      // CANNOT limit nor order if we are about to group.
@@ -928,25 +929,30 @@ namespace System.Data
                      //    + ") as " + xinner_Paramerer.Name.Replace("<>", "__");
 
 
-
                      var g = s_SelectCommand
-                         + "\n from (select * from (" + s.ToString().Replace("\n", "\n\t") + ") order by `Key` desc) as s "
-                        + s_GroupByCommand;
-
-                     // ?
-                     var gDescendingByKey = s_SelectCommand
-                         + "\n from (select * from (" + s.ToString().Replace("\n", "\n\t") + ") order by `Key` asc) as s "
-                        + s_GroupByCommand;
-
+                         + "\n from (" + s.ToString().Replace("\n", "\n\t") + ") as s "
+                         + " group by `Grouping.Key`";
 
                      state.FromCommand =
                           "from (\n\t"
                             + g.Replace("\n", "\n\t")
-                            + "\n) as g"
-                            + "\n inner join (\n\t"
-                            + gDescendingByKey.Replace("\n", "\n\t")
-                            + "\n) as gDescendingByKey"
-                            + "\n on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
+                            + "\n) as g";
+
+                     if (gDescendingByKeyReferenced)
+                     {
+                         // omit if we aint using it
+
+                         // ? this wont work on a join!!
+                         var gDescendingByKey = s_SelectCommand
+                             + "\n from (select * from (" + s.ToString().Replace("\n", "\n\t") + ") order by `Key` desc) as s "
+                           + " group by `Grouping.Key`";
+
+                         state.FromCommand +=
+                                 "\n inner join (\n\t"
+                                + gDescendingByKey.Replace("\n", "\n\t")
+                                + "\n) as gDescendingByKey"
+                                + "\n on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
+                     }
 
                      // http://msdn.microsoft.com/en-us/library/vstudio/bb386996(v=vs.100).aspx
 
