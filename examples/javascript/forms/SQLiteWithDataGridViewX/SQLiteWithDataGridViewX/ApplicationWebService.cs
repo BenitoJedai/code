@@ -121,8 +121,6 @@ namespace SQLiteWithDataGridViewX
 
                 };
 
-            //var AllUpdatesCount = AllUpdates.Count();
-            //var AllUpdatesAsDataTable = AllUpdates.AsDataTable();
 
             var AllUpdatesByParentContentKey =
                 //from g in new Schema.TheGridTable()
@@ -141,6 +139,8 @@ namespace SQLiteWithDataGridViewX
 
             var z = AllUpdatesByParentContentKey.AsDataTable();
 
+            var AllUpdatesCount = AllUpdates.Count();
+            var AllUpdatesAsDataTable = AllUpdates.AsDataTable();
 
             Debugger.Break();
         }
