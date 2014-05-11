@@ -38,6 +38,7 @@ namespace RoslynEndUserPreviewExperiment
             public string Last { get; set; } = "Doe";
         }
 
+        // X:\jsc.svn\examples\javascript\test\TestPrimaryConstructors\TestPrimaryConstructors\Class1.cs
         [Obsolete("how does this relate to the work jsc does for ActionScript?")]
         public class CustomerPrimaryConstructors(string first, string last)
         {
@@ -79,6 +80,8 @@ namespace RoslynEndUserPreviewExperiment
 
 
 
+            // {{ range = undefined, odd = undefined, even = undefined, First = undefined, Last = undefined, s = undefined }}
+            // anonymous types broken?
 
             new IHTMLPre {
                 new { range, odd, even, c1.First, c2.Last,
