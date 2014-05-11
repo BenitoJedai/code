@@ -1,4 +1,5 @@
 using SQLiteWithDataGridViewX;
+using SQLiteWithDataGridViewX.Library;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -13,6 +14,12 @@ namespace SQLiteWithDataGridViewX
         public ApplicationControl()
         {
             this.InitializeComponent();
+        }
+
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            new GridFormX { }.Show();
+
         }
 
     }
