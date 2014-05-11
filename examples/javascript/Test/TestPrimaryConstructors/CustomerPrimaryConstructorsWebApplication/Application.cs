@@ -45,6 +45,7 @@ namespace CustomerPrimaryConstructorsWebApplication
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140511/roslyn
 
 
             var x = new CustomerPrimaryConstructors("f");
@@ -52,6 +53,8 @@ namespace CustomerPrimaryConstructorsWebApplication
             // {{ First = undefined, Last = undefined }}
             // in C# 6 ScriptCoreLib can remove explicit ICollection.Add to allow dictionary init?
             //var z = new { x.First, x.Last };
+
+            new IHTMLPre { new { x.First, x.Last } }.AttachToDocument();
 
             // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
 
