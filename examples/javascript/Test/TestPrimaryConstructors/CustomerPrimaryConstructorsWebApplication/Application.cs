@@ -53,6 +53,8 @@ namespace CustomerPrimaryConstructorsWebApplication
             // in C# 6 ScriptCoreLib can remove explicit ICollection.Add to allow dictionary init?
             //var z = new { x.First, x.Last };
 
+            // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
+
             new IHTMLPre { "First: " + x.First }.AttachToDocument();
 
             // anonymous type ctor was broken?
