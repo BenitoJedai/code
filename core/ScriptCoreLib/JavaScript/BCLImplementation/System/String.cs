@@ -45,6 +45,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static string Format(string format, params object[] b)
         {
+            //              new Array(1)[0] = a[0].i;
+            //              b = RR0ABtNdQz66ZYUODttTfw('{{ i = {0} }}', new Array(1));
+
+            // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
             // fast solution 
 
 
