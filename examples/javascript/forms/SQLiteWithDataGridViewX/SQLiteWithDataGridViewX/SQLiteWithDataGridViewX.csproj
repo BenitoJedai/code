@@ -144,6 +144,7 @@
     </Compile>
     <Compile Include="Application.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationControl.cs</DependentUpon>
