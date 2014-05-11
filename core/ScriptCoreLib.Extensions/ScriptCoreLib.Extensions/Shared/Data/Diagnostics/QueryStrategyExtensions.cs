@@ -622,7 +622,7 @@ namespace System.Data
 
                      state.SelectCommand =
                          //"select g.GooStateEnum as GooStateEnum,\n\t"
-                         "select 0 as foo ";
+                         "select g.`Grouping.Key`";
 
 
 
@@ -649,7 +649,7 @@ namespace System.Data
                      s.FromCommand += " as s";
 
                      // http://www.w3schools.com/sql/sql_func_last.asp
-                     s.SelectCommand = "select 0 as foo";
+                     s.SelectCommand = "select s.`" + GroupBy_asMemberExpression.Member.Name + "` as `Grouping.Key`";
 
                      //+ "s.x,\n\t"
                      // // specialname
@@ -660,6 +660,7 @@ namespace System.Data
                      //+ "13 as SumOfx, "
                      //+ "count(*) as Count";
 
+                     #region Bindings
                      asMemberInitExpression.Bindings.WithEachIndex(
                          (SourceBinding, index) =>
                          {
@@ -870,6 +871,7 @@ namespace System.Data
                              Debugger.Break();
                          }
                      );
+                     #endregion
 
 
                      // how do we get the first and the last in the same query??
@@ -891,7 +893,7 @@ namespace System.Data
                      // or crash or inspect the table by explain
 
                      //s.GroupByCommand = "group by GooStateEnum";
-                     s.GroupByCommand = "group by `" + GroupBy_asMemberExpression.Member.Name + "`";
+                     s.GroupByCommand = "group by `Grouping.Key`";
 
                      // http://www.afterhoursprogramming.com/tutorial/SQL/ORDER-BY-and-GROUP-BY/
                      // CANNOT limit nor order if we are about to group.
@@ -945,7 +947,8 @@ namespace System.Data
                             + "\n) as gDescendingByKey";
 
                      //state.FromCommand += " on g.GooStateEnum = gDescendingByKey.GooStateEnum";
-                     state.FromCommand += " on g.`" + GroupBy_asMemberExpression.Member.Name + "` = gDescendingByKey.`" + GroupBy_asMemberExpression.Member.Name + "`";
+                     //state.FromCommand += " on g.`" + GroupBy_asMemberExpression.Member.Name + "` = gDescendingByKey.`" + GroupBy_asMemberExpression.Member.Name + "`";
+                     state.FromCommand += " on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
 
 
                      //select g.GooStateEnum as GooStateEnum, g.Key as LastKey, g.x as Lastx, g.Title as LastTitle, gDescendingByKey.Key as FirstKey, gDescendingByKey.x as Firstx, gDescendingByKey.Title as FirstTitle, g.Count as Count, '' as Tag, 0 as Timestamp
