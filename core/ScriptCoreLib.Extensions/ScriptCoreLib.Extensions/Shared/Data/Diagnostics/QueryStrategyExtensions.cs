@@ -646,10 +646,11 @@ namespace System.Data
 
 
 
-                     s.FromCommand += " as s";
+                     var s_FromCommand = " as s";
 
                      // http://www.w3schools.com/sql/sql_func_last.asp
-                     s.SelectCommand = "select s.`" + GroupBy_asMemberExpression.Member.Name + "` as `Grouping.Key`";
+                     var s_SelectCommand = "select s.`" + GroupBy_asMemberExpression.Member.Name + "` as `Grouping.Key`";
+                     var s_GroupByCommand = "";
 
                      //+ "s.x,\n\t"
                      // // specialname
@@ -746,7 +747,7 @@ namespace System.Data
                                      {
 
                                          state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
-                                         s.SelectCommand += ",\n\t count(*) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t count(*) as `" + asMemberAssignment.Member.Name + "`";
 
                                          return;
                                      }
@@ -761,7 +762,7 @@ namespace System.Data
                                              var asMemberExpression = arg1.Body as MemberExpression;
 
                                              state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
-                                             s.SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
                                              return;
                                          }
                                      }
@@ -804,7 +805,7 @@ namespace System.Data
                                              // special!
                                              state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
 
-                                             s.SelectCommand += ",\n\t s.`" + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t s.`" + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                              return;
                                          }
                                          #endregion
@@ -820,14 +821,14 @@ namespace System.Data
                                              if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
                                              {
                                                  state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "`";
-                                                 s.SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                 s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  return;
                                              }
 
                                              if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
                                              {
                                                  state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
-                                                 s.SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                 s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  return;
                                              }
                                          }
@@ -850,14 +851,14 @@ namespace System.Data
                                          if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
                                          {
                                              state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "`";
-                                             s.SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
                                              return;
                                          }
 
                                          if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
                                          {
                                              state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
-                                             s.SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
                                              return;
                                          }
                                      }
@@ -893,7 +894,7 @@ namespace System.Data
                      // or crash or inspect the table by explain
 
                      //s.GroupByCommand = "group by GooStateEnum";
-                     s.GroupByCommand = "group by `Grouping.Key`";
+                     s_GroupByCommand = "group by `Grouping.Key`";
 
                      // http://www.afterhoursprogramming.com/tutorial/SQL/ORDER-BY-and-GROUP-BY/
                      // CANNOT limit nor order if we are about to group.
@@ -926,10 +927,26 @@ namespace System.Data
                      //    + xinner_SelectAll.ToString().Replace("\n", "\n\t")
                      //    + ") as " + xinner_Paramerer.Name.Replace("<>", "__");
 
+
+
+                     var g = s_SelectCommand
+                         + "\n from (select * from (" + s.ToString().Replace("\n", "\n\t") + ") order by `Key` desc) as s "
+                        + s_GroupByCommand;
+
+                     // ?
+                     var gDescendingByKey = s_SelectCommand
+                         + "\n from (select * from (" + s.ToString().Replace("\n", "\n\t") + ") order by `Key` asc) as s "
+                        + s_GroupByCommand;
+
+
                      state.FromCommand =
                           "from (\n\t"
-                            + s.ToString().Replace("\n", "\n\t")
-                            + "\n) as g ";
+                            + g.Replace("\n", "\n\t")
+                            + "\n) as g"
+                            + "\n inner join (\n\t"
+                            + gDescendingByKey.Replace("\n", "\n\t")
+                            + "\n) as gDescendingByKey"
+                            + "\n on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
 
                      // http://msdn.microsoft.com/en-us/library/vstudio/bb386996(v=vs.100).aspx
 
@@ -938,17 +955,13 @@ namespace System.Data
                      // http://help.sap.com/abapdocu_702/en/abaporderby_clause.htm#!ABAP_ALTERNATIVE_1@1@
                      //  ORDER BY { {PRIMARY KEY}
 
-                     s.FromCommand = "from (select * " + s.FromCommand + " order by `Key` desc) as s";
                      //s.FromCommand = "from (select * " + s.FromCommand + " order by PRIMARY KEY desc)";
 
-                     state.FromCommand +=
-                        "inner join (\n\t"
-                           + s.ToString().Replace("\n", "\n\t")
-                            + "\n) as gDescendingByKey";
+
 
                      //state.FromCommand += " on g.GooStateEnum = gDescendingByKey.GooStateEnum";
                      //state.FromCommand += " on g.`" + GroupBy_asMemberExpression.Member.Name + "` = gDescendingByKey.`" + GroupBy_asMemberExpression.Member.Name + "`";
-                     state.FromCommand += " on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
+                     //state.FromCommand += " on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
 
 
                      //select g.GooStateEnum as GooStateEnum, g.Key as LastKey, g.x as Lastx, g.Title as LastTitle, gDescendingByKey.Key as FirstKey, gDescendingByKey.x as Firstx, gDescendingByKey.Title as FirstTitle, g.Count as Count, '' as Tag, 0 as Timestamp
@@ -1577,13 +1590,12 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             {
                 var w = new StringBuilder();
 
-                w.AppendLine(this.SelectCommand);
-                w.AppendLine(this.FromCommand);
-                w.AppendLine(this.WhereCommand);
-
-                w.AppendLine(this.OrderByCommand);
-                w.AppendLine(this.LimitCommand);
-                w.AppendLine(this.GroupByCommand);
+                if (!string.IsNullOrEmpty(this.SelectCommand)) w.AppendLine(this.SelectCommand);
+                if (!string.IsNullOrEmpty(this.FromCommand)) w.AppendLine(this.FromCommand);
+                if (!string.IsNullOrEmpty(this.WhereCommand)) w.AppendLine(this.WhereCommand);
+                if (!string.IsNullOrEmpty(this.OrderByCommand)) w.AppendLine(this.OrderByCommand);
+                if (!string.IsNullOrEmpty(this.LimitCommand)) w.AppendLine(this.LimitCommand);
+                if (!string.IsNullOrEmpty(this.GroupByCommand)) w.AppendLine(this.GroupByCommand);
 
                 var x = w.ToString();
 
