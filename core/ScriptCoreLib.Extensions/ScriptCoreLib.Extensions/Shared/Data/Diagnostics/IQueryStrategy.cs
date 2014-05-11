@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ScriptCoreLib.Shared.Data.Diagnostics
+{
+    [Obsolete("there is no good translation of such queries to SQL and Linq-to-SQL has to resort to doing multiple subqueries.")]
+    public interface IQueryStrategyGroupingBuilder<TKey, TSource>
+    {
+        // GroupByBuilder
+
+        IQueryStrategy<TSource> source { get; set; }
+        Expression<Func<TSource, TKey>> keySelector { get; set; }
+    }
+
+    [Obsolete("group by . into .")]
+    class XQueryStrategyGroupingBuilder<TKey, TSource> : IQueryStrategyGroupingBuilder<TKey, TSource>
+    {
+        public IQueryStrategy<TSource> source { get; set; }
+        public Expression<Func<TSource, TKey>> keySelector { get; set; }
+    }
+
+    [Obsolete("to make intellisense happy, and dispay only supported methods")]
+    //public interface IQueryStrategyGrouping<out TKey, out TElement> : IQueryStrategy<TElement>
+    public interface IQueryStrategyGrouping<out TKey, TElement> : IQueryStrategy<TElement>
+    {
+        TKey Key { get; }
+    }
+
+
+    public interface IQueryDescriptor
+    {
+        // this type has the reset state and how to make a connection
+
+        string GetSelectAllColumnsText();
+
+        string GetQualifiedTableName();
+
+        // used by?
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+        //Func<Func<SQLiteConnection, Task>, Task> GetWithConnection();
+        Func<Func<IDbConnection, Task>, Task> GetWithConnection();
+
+        // here we could ask for table stats?
+    }
+
+    public interface IQueryStrategy
+    {
+        // this state knows about reset state 
+
+        IQueryDescriptor GetDescriptor();
+
+        List<Action<QueryStrategyExtensions.CommandBuilderState>> GetCommandBuilder();
+
+
+        // Stack<Apply>
+    }
+
+
+    public interface IQueryStrategy<TRow> : IQueryStrategy
+    {
+        // this class exists to make LINQ happy
+
+        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140501
+
+    }
+
+}
