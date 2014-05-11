@@ -1,7 +1,8 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
-using SQLiteWithDataGridViewX.Data;
+
+// ?
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SQLiteWithDataGridViewX.Data;
+using ScriptCoreLib.Shared.Data.Diagnostics;
 
 namespace SQLiteWithDataGridViewX
 {
@@ -20,12 +23,16 @@ namespace SQLiteWithDataGridViewX
     /// </summary>
     public partial class ApplicationWebService : Component
     {
+        public SchemaTheGridTableKey ParentContentKey;
 
         public void SelectContent()
         {
             // Error	3	An expression tree may not contain a call or invocation that uses optional arguments	X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs	28	24	SQLiteWithDataGridViewX
 
             #region data
+
+            //SQLiteWithDataGridViewX.Data.SchemaExtensions.Count()
+            // does not work with rolsyn?
             if (new Schema.TheGridTable().Count() == 0)
             {
                 // where is our treeview? databound?
@@ -47,7 +54,7 @@ namespace SQLiteWithDataGridViewX
 
 
 
-
+                        #region child v2
                         new SchemaTheGridTableUpdatesRow { ContentValue = "child v2", ContentComment = "child c2" }.With(
                              child =>
                              {
@@ -73,8 +80,10 @@ namespace SQLiteWithDataGridViewX
 
                              }
                          );
+                        #endregion
 
 
+                        #region child v3
                         new SchemaTheGridTableUpdatesRow { ContentValue = "child v3", ContentComment = "child c3" }.With(
                              child =>
                              {
@@ -92,8 +101,80 @@ namespace SQLiteWithDataGridViewX
                                  new Schema.TheGridTableUpdates().Insert(child);
                              }
                          );
+                        #endregion
+
                     }
                 );
+
+
+                new SchemaTheGridTableUpdatesRow { ContentValue = "root2 v1", ContentComment = "c1" }.With(
+                 root =>
+                 {
+                     #region TheGridTableUpdates
+                     root.ContentReferenceKey = new Schema.TheGridTable().Insert(
+                         new SchemaTheGridTableRow
+                         {
+                             ContentComment = root.ContentComment,
+                             ContentValue = root.ContentValue
+                         }
+                     );
+
+                     new Schema.TheGridTableUpdates().Insert(root);
+                     #endregion
+
+
+
+                     #region child v2
+                     new SchemaTheGridTableUpdatesRow { ContentValue = "child2 v2", ContentComment = "child c2" }.With(
+                          child =>
+                          {
+
+                              child.ContentReferenceKey = new Schema.TheGridTable().Insert(
+                                  new SchemaTheGridTableRow
+                                  {
+                                      ContentComment = child.ContentComment,
+                                      ContentValue = child.ContentValue,
+
+                                      ParentContentKey = root.ContentReferenceKey
+                                  }
+                              );
+
+                              new Schema.TheGridTableUpdates().Insert(child);
+
+                              // lets simulate  updates
+                              child.ContentValue = "child2 v2 update1";
+                              new Schema.TheGridTableUpdates().Insert(child);
+
+                              child.ContentValue = "child2 v2 update2";
+                              new Schema.TheGridTableUpdates().Insert(child);
+
+                          }
+                      );
+                     #endregion
+
+
+                     #region child v3
+                     new SchemaTheGridTableUpdatesRow { ContentValue = "child2 v3", ContentComment = "child c3" }.With(
+                          child =>
+                          {
+
+                              child.ContentReferenceKey = new Schema.TheGridTable().Insert(
+                                  new SchemaTheGridTableRow
+                                  {
+                                      ContentComment = child.ContentComment,
+                                      ContentValue = child.ContentValue,
+
+                                      ParentContentKey = root.ContentReferenceKey
+                                  }
+                              );
+
+                              new Schema.TheGridTableUpdates().Insert(child);
+                          }
+                      );
+                     #endregion
+
+                 }
+             );
             }
             #endregion
 
@@ -105,18 +186,19 @@ namespace SQLiteWithDataGridViewX
 
 
 
-            var AllContentChildren =
+            var AllWithChildrenCount =
                 from g in new Schema.TheGridTable()
-                //from g in AllUpdates
                 group g by g.ParentContentKey into gg
                 select new SchemaTheGridTableViewRow
                 {
                     // who are we?
                     // a parent to a group. lets get details later ?
-                    ContentKey = gg.Key,
+                    //ContentKey = gg.Key,
+                    ParentContentKey = gg.Key,
 
                     // how many children are we having?
                     ContentChildren = gg.Count(),
+
 
                     // whats the original data on it?
                     // ??
@@ -130,8 +212,7 @@ namespace SQLiteWithDataGridViewX
                 };
 
 
-            var z = AllContentChildren.AsDataTable();
-
+            var z = AllWithChildrenCount.AsDataTable();
 
 
             var AllUpdates =
@@ -152,8 +233,11 @@ namespace SQLiteWithDataGridViewX
                     ParentContentKey = g.ParentContentKey,
 
                     ContentValue = u.ContentValue,
-                    ContentComment = u.ContentComment
+                    ContentComment = u.ContentComment,
 
+
+                    Tag = u.Tag,
+                    Timestamp = u.Timestamp
                 };
 
 
@@ -162,6 +246,57 @@ namespace SQLiteWithDataGridViewX
 
             var AllUpdatesCount = AllUpdates.Count();
             var AllUpdatesAsDataTable = AllUpdates.AsDataTable();
+
+
+            //            enter xslx
+            //0b48:02:01 RewriteToAssembly error: System.IO.IOException: The process cannot access the file 'X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\Data\Schema.xlsx' because it is being used by another process.
+
+
+            var LatestUpdate =
+                from g in AllUpdates
+                group g by g.ContentKey into ug
+                select new SchemaTheGridTableViewRow
+                {
+                    // who are we?
+                    // a parent to a group. lets get details later ?
+                    //ContentKey = gg.Key,
+                    //ParentContentKey = gg.Key,
+
+                    // how many children are we having?
+                    UpdateCount = ug.Count(),
+
+                    //ContentKey = g.Key,
+
+                    // for grouping
+                    //ParentContentKey = g.ParentContentKey,
+
+                    ContentKey = ug.Last().ContentKey,
+                    ParentContentKey = ug.Last().ParentContentKey,
+
+                    ContentValue = ug.Last().ContentValue,
+                    ContentComment = ug.Last().ContentComment,
+
+
+                    Tag = ug.Last().Tag,
+                    Timestamp = ug.Last().Timestamp
+                };
+
+            //at System.Data.DataRow.GetDataColumn(String columnName)
+            //at System.Data.DataRow.get_Item(String columnName)
+            //at SQLiteWithDataGridViewX.Data.SchemaTheGridTableViewRow.op_Implicit(DataRow )
+
+
+            var LatestUpdate0 = LatestUpdate.AsDataTable();
+            var LatestUpdate1 = LatestUpdate.AsEnumerable();
+
+            var WhereParentContentKey =
+                from x in LatestUpdate
+                where x.ParentContentKey == ParentContentKey
+                select x;
+
+            var WhereParentContentKey0 = WhereParentContentKey.AsDataTable();
+            var WhereParentContentKey1 = WhereParentContentKey.AsEnumerable();
+
 
             Debugger.Break();
         }
