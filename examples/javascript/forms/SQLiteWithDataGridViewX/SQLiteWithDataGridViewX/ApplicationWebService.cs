@@ -123,21 +123,34 @@ namespace SQLiteWithDataGridViewX
 
 
             var AllUpdatesByParentContentKey =
-                //from g in new Schema.TheGridTable()
-                from g in AllUpdates
+                from g in new Schema.TheGridTable()
+                //from g in AllUpdates
                 group g by g.ParentContentKey into gg
                 select new SchemaTheGridTableViewRow
                 {
-                    //ContentComment =  gg.
-                    ContentChildren = gg.Count(),
-                    ContentKey = gg.Last().ContentKey,
-                    ContentValue = gg.Last().ContentValue,
-                    ContentComment = gg.Last().ContentComment,
+                    // who are we?
+                    // a parent to a group. lets get details later ?
+                    ContentKey = gg.Key,
 
+                    // how many children are we having?
+                    ContentChildren = gg.Count(),
+
+                    // whats the original data on it?
+                    // ??
+
+                    // last child in the group:
+                    //ContentValue = gg.Last().ContentValue,
+                    //ContentComment = gg.Last().ContentComment,
+
+                    // how many updates are there?
+                    // can we selet the latest update?
                 };
 
 
             var z = AllUpdatesByParentContentKey.AsDataTable();
+
+            // http://visualstudio.uservoice.com/forums/121579-visual-studio/suggestions/5711364-make-the-debugging-visualizers-non-modal-windows
+            // i wish i could visualize and drop it here in comments.
 
             var AllUpdatesCount = AllUpdates.Count();
             var AllUpdatesAsDataTable = AllUpdates.AsDataTable();
