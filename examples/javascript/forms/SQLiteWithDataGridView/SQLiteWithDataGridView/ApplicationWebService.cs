@@ -21,11 +21,11 @@ namespace SQLiteWithDataGridView
 
     public sealed partial class ApplicationWebService : Component
     {
-        public void References()
-        {
+        //public void References()
+        //{
 
-            { var ref0 = typeof(SQLiteConnection); }
-        }
+        //    { var ref0 = typeof(SQLiteConnection); }
+        //}
 
 
         private static TheGridTable grid
