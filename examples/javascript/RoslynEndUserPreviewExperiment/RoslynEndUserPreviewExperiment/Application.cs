@@ -52,7 +52,6 @@ namespace RoslynEndUserPreviewExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // script: error JSC1000: No implementation found for this native method, please implement [static System.Console.WriteLine(System.Double)]
             WriteLine(Sqrt(3 * 3 + 4 * 4));
 
             var range = Range(5, 17);                // (1)
@@ -71,11 +70,13 @@ namespace RoslynEndUserPreviewExperiment
             var c2 = new CustomerPrimaryConstructors("foo", "bar");
 
 
-            var numbers = new Dictionary<int, string>
+            var numbers = new Dictionary<string, string>
             {
-                [7] = "seven",
-                [9] = "nine",
-                [13] = "thirteen"
+                $goo = "foo",
+
+                ["7"] = "seven",
+                ["9"] = "nine",
+                ["13"] = "thirteen"
             };
 
 
@@ -85,7 +86,7 @@ namespace RoslynEndUserPreviewExperiment
 
             new IHTMLPre {
                 new { range, odd, even, c1.First, c2.Last,
-                        s = numbers[7] }
+                        s = numbers.$goo }
             }.AttachToDocument();
 
 
