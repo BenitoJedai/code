@@ -16,5 +16,10 @@ namespace SQLiteWithDataGridViewX.Library
         {
             InitializeComponent();
         }
+
+        private void GridFormX_Load(object sender, EventArgs e)
+        {
+            this.applicationWebService1.SelectContent();
+        }
     }
 }

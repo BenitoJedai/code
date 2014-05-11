@@ -12,6 +12,8 @@ namespace SQLiteWithDataGridViewX
         public static void Main(string[] args)
         {
 #if DEBUG
+            new ApplicationWebService().SelectContent();
+
 			DesktopFormsExtensions.Launch(
 				() => new ApplicationControl()
 			);

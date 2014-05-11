@@ -152,6 +152,8 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\SchemaTheGridTableBindingSource.datasource" />
     <None Include="Properties\DataSources\SchemaTheGridTableLogBindingSource.datasource" />
+    <None Include="Properties\DataSources\SchemaTheGridTableViewBindingSource.datasource" />
+    <None Include="Properties\DataSources\SchemaTheGridTableUpdatesBindingSource.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApplicationControl.resx">
