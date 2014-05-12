@@ -76,6 +76,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
         public static MemberAssignment Bind(MemberInfo m, Expression e)
         {
+            // x:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
+
             return
 
             (MemberAssignment)(object)

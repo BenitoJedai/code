@@ -231,6 +231,7 @@ namespace SQLiteWithDataGridViewX
 
                     // for grouping
                     ParentContentKey = g.ParentContentKey,
+                    ParentContentKeyLong = (long)g.ParentContentKey,
 
                     ContentValue = u.ContentValue,
                     ContentComment = u.ContentComment,
@@ -250,6 +251,19 @@ namespace SQLiteWithDataGridViewX
 
             //            enter xslx
             //0b48:02:01 RewriteToAssembly error: System.IO.IOException: The process cannot access the file 'X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\Data\Schema.xlsx' because it is being used by another process.
+
+            //0001 0200003c SQLiteWithDataGridViewX.ApplicationWebService::ScriptCoreLib.Extensions.DataExtensions
+            //script: error JSC1000: Java : class import: no implementation for ScriptCoreLib.Shared.Data.Diagnostics.IQueryDescriptor at SQLiteWithDataGridViewX.Data.Schema+TheGridTableView
+
+
+            var LatestUpdateInlineLast =
+                from g in AllUpdates
+                group g by g.ContentKey into ug
+                select ug.Last();
+
+            var LatestUpdateInlineLast0 = LatestUpdateInlineLast.Count();
+            var LatestUpdateInlineLast1 = LatestUpdateInlineLast.AsDataTable();
+
 
 
             var LatestUpdate =
@@ -300,7 +314,7 @@ namespace SQLiteWithDataGridViewX
 
             //var ffContentChildren = new Schema.TheGridTable().Count(x => x.ParentContentKey == ParentContentKey);
 
-            var WhereParentContentKeyAndChildren = 
+            var WhereParentContentKeyAndChildren =
                 from u in WhereParentContentKey1
                 let ContentChildren = new Schema.TheGridTable().Count(x => x.ParentContentKey == u.ContentKey)
                 select new SchemaTheGridTableViewRow
