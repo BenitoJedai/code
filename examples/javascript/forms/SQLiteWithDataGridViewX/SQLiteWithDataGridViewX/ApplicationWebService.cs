@@ -273,6 +273,9 @@ namespace SQLiteWithDataGridViewX
             var LatestUpdateInlineLast1 = LatestUpdateInlineLast.AsDataTable();
 
 
+            var SpecialConstant = new { u = "44" };
+            var SpecialConstant_u = "44";
+
 
             var LatestUpdate =
                 from g in AllUpdates
@@ -300,7 +303,10 @@ namespace SQLiteWithDataGridViewX
                     ContentComment = ug.Last().ContentComment,
 
 
-                    Tag = ug.Last().Tag,
+                    //Tag = SpecialConstant.u,
+                    //Tag = SpecialConstant_u,
+                    Tag = "44",
+
                     Timestamp = ug.Last().Timestamp
                 };
 

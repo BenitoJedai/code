@@ -75,7 +75,7 @@ namespace System.Data
         #endregion
 
 
-  
+
 
         // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Methods.cs
 
@@ -861,11 +861,42 @@ namespace System.Data
                                  //at ScriptCoreLibJava.BCLImplementation.System.Diagnostics.__Debugger.Break(__Debugger.java:31)
                                  //at TestSQLiteGroupBy.X___c__DisplayClass4_3___c__DisplayClass6._Select_b__3(X___c__DisplayClass4_3___c__DisplayClass6.java:197)
 
+
+                               
+
+
                                  // count and key
                                  var asMemberAssignment = SourceBinding as MemberAssignment;
                                  Console.WriteLine(new { index, asMemberAssignment });
                                  if (asMemberAssignment != null)
                                  {
+
+
+                                     #region asMConstantExpression
+                                     {
+                                         var asMConstantExpression = asMemberAssignment.Expression as ConstantExpression;
+                                         if (asMConstantExpression != null)
+                                         {
+                                             var asMPropertyInfo = asMemberAssignment.Member as FieldInfo;
+                                             //var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+                                             var value1 = asMConstantExpression.Value;
+
+                                             if (value1 is string)
+                                             {
+                                                 // NULL?
+                                                 state.SelectCommand += ",\n\t '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                             }
+                                             else
+                                             {
+                                                 // long?
+                                                 state.SelectCommand += ",\n\t " + value1 + " as `" + asMemberAssignment.Member.Name + "`";
+                                             }
+
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
                                      //                                 -		asMemberAssignment.Expression	{GroupByGoo.Count()}	System.Linq.Expressions.Expression {System.Linq.Expressions.MethodCallExpressionN}
                                      //+		Method	{Int64 Count(ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy`1[TestSQLiteGroupBy.Data.Book1MiddleRow])}	System.Reflection.MethodInfo {System.Reflection.RuntimeMethodInfo}
 
@@ -944,6 +975,8 @@ namespace System.Data
                                              #endregion
 
                                              // Method = {TestSQLiteGroupBy.Data.Book1MiddleRow First[GooStateEnum,Book1MiddleRow](TestSQLiteGroupBy.IQueryStrategyGrouping`2[TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow])}
+
+                                             #region asMemberExpressionMethodCallExpression
                                              var asMemberExpressionMethodCallExpression = asMemberExpression.Expression as MethodCallExpression;
                                              Console.WriteLine(new { index, asMemberExpressionMethodCallExpression });
                                              if (asMemberExpressionMethodCallExpression != null)
@@ -966,6 +999,89 @@ namespace System.Data
                                                      return;
                                                  }
                                              }
+                                             #endregion
+
+
+                                             //                                                 -		asMemberAssignment.Expression	{value(SQLiteWithDataGridViewX.ApplicationWebService+<>c__DisplayClass1b).SpecialConstant.u}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
+
+
+                                             //                                 +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberAssignment.Expression as System.Linq.Expressions.PropertyExpression)).Member	{System.String u}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
+                                             //+		(new System.Linq.Expressions.Expression.ConstantExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberAssignment.Expression as System.Linq.Expressions.PropertyExpression)).Expression as System.Linq.Expressions.FieldExpression)).Expression as System.Linq.Expressions.ConstantExpression)).Value	{SQLiteWithDataGridViewX.ApplicationWebService.}	object {SQLiteWithDataGridViewX.ApplicationWebService.}
+
+                                             //                                 -		Value	{SQLiteWithDataGridViewX.ApplicationWebService.}	object {SQLiteWithDataGridViewX.ApplicationWebService.}
+                                             //-		SpecialConstant	{ u = "44" }	<Anonymous Type>
+                                             //        u	"44"	string
+
+
+
+
+                                             #region asMConstantExpression
+                                             //         var SpecialConstant_u = "44";
+                                             var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
+                                             if (asMConstantExpression != null)
+                                             {
+                                                 var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
+                                                 var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+
+                                                 if (value1 is string)
+                                                 {
+                                                     // NULL?
+                                                     state.SelectCommand += ",\n\t '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                                 }
+                                                 else
+                                                 {
+                                                     // long?
+                                                     state.SelectCommand += ",\n\t " + value1 + " as `" + asMemberAssignment.Member.Name + "`";
+                                                 }
+
+                                                 return;
+                                             }
+                                             #endregion
+
+
+
+                                             #region asMMemberExpression
+                                             var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
+                                             if (asMMemberExpression != null)
+                                             {
+                                                 // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
+                                                 // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
+                                                 // var SpecialConstant = new { u = "44" };
+
+                                                 var asMPropertyInfo = asMMemberExpression.Member as FieldInfo;
+                                                 var asPropertyInfo = asMemberExpression.Member as PropertyInfo;
+                                                 if (asPropertyInfo != null)
+                                                 {
+                                                     // CLR
+
+                                                     var asC = asMMemberExpression.Expression as ConstantExpression;
+
+                                                     // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
+
+                                                     var value0 = asMPropertyInfo.GetValue(asC.Value);
+                                                     var value1 = asPropertyInfo.GetValue(value0, null);
+
+
+                                                     if (value1 is string)
+                                                     {
+                                                         // NULL?
+                                                         state.SelectCommand += ",\n\t '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                                     }
+                                                     else
+                                                     {
+                                                         // long?
+                                                         state.SelectCommand += ",\n\t " + value1 + " as `" + asMemberAssignment.Member.Name + "`";
+                                                     }
+
+                                                     return;
+                                                 }
+                                             }
+                                             #endregion
+
+
+
+                                             //asMMemberExpression.Member
+                                             Debugger.Break();
                                          }
                                      }
                                      #endregion
@@ -1002,7 +1118,13 @@ namespace System.Data
 
 
 
+
+
                                  }
+
+
+
+
 
                                  Debugger.Break();
                              }
