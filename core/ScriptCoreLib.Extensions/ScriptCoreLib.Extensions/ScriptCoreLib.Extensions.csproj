@@ -105,6 +105,7 @@
     <Compile Include="Shared\Components\ApplicationWebServiceComponent.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Join.cs" />
     <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Sum.cs" />
     <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Count.cs" />
     <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.cs" />

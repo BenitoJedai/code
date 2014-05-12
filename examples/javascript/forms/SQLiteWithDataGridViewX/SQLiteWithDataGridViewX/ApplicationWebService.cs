@@ -223,6 +223,11 @@ namespace SQLiteWithDataGridViewX
             var z = AllWithChildrenCount.AsDataTable();
 
 
+            var SpecialConstant = new { u = "44" };
+            var SpecialConstant_u = "44";
+
+
+
             var AllUpdates =
                 from g in new Schema.TheGridTable()
                 join u in new Schema.TheGridTableUpdates()
@@ -245,7 +250,10 @@ namespace SQLiteWithDataGridViewX
                     ContentComment = u.ContentComment,
 
 
-                    Tag = u.Tag,
+                    //Tag = u.Tag,
+                    //Tag = "44",
+                    //Tag = SpecialConstant_u,
+                    Tag = SpecialConstant.u,
                     Timestamp = u.Timestamp
                 };
 
@@ -255,7 +263,7 @@ namespace SQLiteWithDataGridViewX
 
             var AllUpdatesCount = AllUpdates.Count();
             var AllUpdatesAsDataTable = AllUpdates.AsDataTable();
-
+            ;
 
             //            enter xslx
             //0b48:02:01 RewriteToAssembly error: System.IO.IOException: The process cannot access the file 'X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\Data\Schema.xlsx' because it is being used by another process.
@@ -273,8 +281,6 @@ namespace SQLiteWithDataGridViewX
             var LatestUpdateInlineLast1 = LatestUpdateInlineLast.AsDataTable();
 
 
-            var SpecialConstant = new { u = "44" };
-            var SpecialConstant_u = "44";
 
 
             var LatestUpdate =
