@@ -25,7 +25,7 @@ namespace SQLiteWithDataGridViewX
     {
         public SchemaTheGridTableKey ParentContentKey;
 
-        public void SelectContent()
+        public async Task<IEnumerable<SchemaTheGridTableViewRow>> SelectContent()
         {
             // Error	3	An expression tree may not contain a call or invocation that uses optional arguments	X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs	28	24	SQLiteWithDataGridViewX
 
@@ -298,7 +298,36 @@ namespace SQLiteWithDataGridViewX
             var WhereParentContentKey1 = WhereParentContentKey.AsEnumerable();
 
 
-            Debugger.Break();
+            //var ffContentChildren = new Schema.TheGridTable().Count(x => x.ParentContentKey == ParentContentKey);
+
+            var WhereParentContentKeyAndChildren = 
+                from u in WhereParentContentKey1
+                let ContentChildren = new Schema.TheGridTable().Count(x => x.ParentContentKey == u.ContentKey)
+                select new SchemaTheGridTableViewRow
+                {
+                    // jsc should not generate Key, Tag, Timestamp for views?
+                    // or can we also just use anonymous types?
+
+                    //Key = g.Key
+
+                    ContentKey = u.ContentKey,
+                    UpdateCount = u.UpdateCount,
+
+                    ContentChildren = ContentChildren,
+
+                    // for grouping
+                    ParentContentKey = u.ParentContentKey,
+
+                    ContentValue = u.ContentValue,
+                    ContentComment = u.ContentComment,
+
+
+                    Tag = u.Tag,
+                    Timestamp = u.Timestamp
+                };
+
+            //Debugger.Break();
+            return WhereParentContentKeyAndChildren;
         }
 
     }
