@@ -18,6 +18,14 @@ using ScriptCoreLib.Shared.Data.Diagnostics;
 
 namespace SQLiteWithDataGridViewX
 {
+
+    public class SchemaTheGridTableViewRowX : SchemaTheGridTableViewRow
+    {
+        public SchemaTheGridTableViewRowX(SchemaTheGridTableViewRow o)
+        {
+        }
+    }
+
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
@@ -269,6 +277,7 @@ namespace SQLiteWithDataGridViewX
             var LatestUpdate =
                 from g in AllUpdates
                 group g by g.ContentKey into ug
+                //select new SchemaTheGridTableViewRowX(ug.Last())
                 select new SchemaTheGridTableViewRow
                 {
                     // who are we?
@@ -302,6 +311,7 @@ namespace SQLiteWithDataGridViewX
 
             var LatestUpdate0 = LatestUpdate.AsDataTable();
             var LatestUpdate1 = LatestUpdate.AsEnumerable();
+            var LatestUpdate2 = LatestUpdate.Sum(x => x.UpdateCount);
 
             var WhereParentContentKey =
                 from x in LatestUpdate

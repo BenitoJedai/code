@@ -21,7 +21,6 @@ namespace System.Data
 {
     // move to a nuget?
     // shall reimplement IQueriable for jsc data layer gen
-    [Obsolete("the first generic extension method for all jsc data layer rows")]
     public static partial class QueryStrategyOfTRowExtensions
     {
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
@@ -76,33 +75,7 @@ namespace System.Data
         #endregion
 
 
-        #region select count
-        public static long Count<TElement>(this IQueryStrategy<TElement> Strategy)
-        {
-            return ((Task<long>)Strategy.GetDescriptor().GetWithConnection()(
-                c =>
-                {
-                    var state = QueryStrategyExtensions.AsCommandBuilder(Strategy);
-
-                    // override
-                    state.SelectCommand = "select count(*)";
-
-                    var cmd = c.CreateCommand(state.ToString());
-
-                    foreach (var item in state.ApplyParameter)
-                    {
-                        item(cmd);
-                    }
-
-                    var s = new TaskCompletionSource<long>();
-                    s.SetResult((long)cmd.ExecuteScalar());
-
-                    return s.Task;
-                }
-            )).Result;
-        }
-        #endregion
-
+  
 
         // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Methods.cs
 
