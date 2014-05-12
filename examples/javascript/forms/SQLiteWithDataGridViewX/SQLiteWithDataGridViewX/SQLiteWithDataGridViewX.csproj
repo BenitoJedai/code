@@ -152,7 +152,6 @@
     <None Include="Data\Schema.xlsx" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\SchemaTheGridTableBindingSource.datasource" />
-    <None Include="Properties\DataSources\SchemaTheGridTableLogBindingSource.datasource" />
     <None Include="Properties\DataSources\SchemaTheGridTableViewBindingSource.datasource" />
     <None Include="Properties\DataSources\SchemaTheGridTableUpdatesBindingSource.datasource" />
   </ItemGroup>

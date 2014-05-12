@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLiteWithDataGridViewX.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,9 +18,36 @@ namespace SQLiteWithDataGridViewX.Library
             InitializeComponent();
         }
 
-        private void GridFormX_Load(object sender, EventArgs e)
+        private async void GridFormX_Load(object sender, EventArgs e)
         {
-            this.applicationWebService1.SelectContent();
+            var u = await this.applicationWebService1.SelectContent();
+
+            this.schemaTheGridTableViewBindingSourceBindingSource.DataSource = u.AsDataTable();
+        }
+
+        private void schemaTheGridTableViewBindingSourceDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (schemaTheGridTableViewBindingSourceDataGridView.Rows[e.RowIndex].IsNewRow)
+                return;
+
+            var u = 
+                from x in  this.schemaTheGridTableViewBindingSourceBindingSource
+                select (SchemaTheGridTableViewRow)x;
+
+            var ContentKey = u.ElementAt(e.RowIndex).ContentKey;
+
+            var f = new GridFormX
+            {
+                Owner = this,
+                StartPosition = FormStartPosition.Manual
+            };
+
+            f.applicationWebService1.ParentContentKey = ContentKey;
+
+            f.Location = new Point(this.Left, this.Top + 32);
+
+            f.Show();
+
         }
     }
 }

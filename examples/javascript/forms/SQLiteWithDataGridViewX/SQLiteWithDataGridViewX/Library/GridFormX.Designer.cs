@@ -30,7 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridFormX));
+            System.Windows.Forms.Label parentContentKeyLabel;
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -39,36 +42,42 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.schemaTheGridTableViewBindingSourceDataGridView = new System.Windows.Forms.DataGridView();
             this.schemaTheGridTableViewBindingSourceBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.schemaTheGridTableViewBindingSourceBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
-            this.schemaTheGridTableViewBindingSourceDataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.parentContentKeyTextBox = new System.Windows.Forms.TextBox();
+            this.contentKeyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contentValueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contentCommentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contentChildrenDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.parentContentKeyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.updateCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.schemaTheGridTableViewBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.applicationWebService1 = new SQLiteWithDataGridViewX.ApplicationWebService();
+            parentContentKeyLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.schemaTheGridTableViewBindingSourceDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.schemaTheGridTableViewBindingSourceBindingNavigator)).BeginInit();
             this.schemaTheGridTableViewBindingSourceBindingNavigator.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.schemaTheGridTableViewBindingSourceDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.schemaTheGridTableViewBindingSourceBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(parentContentKeyLabel);
+            this.panel1.Controls.Add(this.parentContentKeyTextBox);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.label3);
@@ -148,6 +157,25 @@
             this.panel2.Size = new System.Drawing.Size(775, 358);
             this.panel2.TabIndex = 17;
             // 
+            // schemaTheGridTableViewBindingSourceDataGridView
+            // 
+            this.schemaTheGridTableViewBindingSourceDataGridView.AutoGenerateColumns = false;
+            this.schemaTheGridTableViewBindingSourceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.schemaTheGridTableViewBindingSourceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.contentKeyDataGridViewTextBoxColumn,
+            this.contentValueDataGridViewTextBoxColumn,
+            this.contentCommentDataGridViewTextBoxColumn,
+            this.contentChildrenDataGridViewTextBoxColumn,
+            this.parentContentKeyDataGridViewTextBoxColumn,
+            this.updateCountDataGridViewTextBoxColumn});
+            this.schemaTheGridTableViewBindingSourceDataGridView.DataSource = this.schemaTheGridTableViewBindingSourceBindingSource;
+            this.schemaTheGridTableViewBindingSourceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.schemaTheGridTableViewBindingSourceDataGridView.Location = new System.Drawing.Point(16, 16);
+            this.schemaTheGridTableViewBindingSourceDataGridView.Name = "schemaTheGridTableViewBindingSourceDataGridView";
+            this.schemaTheGridTableViewBindingSourceDataGridView.Size = new System.Drawing.Size(743, 326);
+            this.schemaTheGridTableViewBindingSourceDataGridView.TabIndex = 0;
+            this.schemaTheGridTableViewBindingSourceDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.schemaTheGridTableViewBindingSourceDataGridView_CellContentClick);
+            // 
             // schemaTheGridTableViewBindingSourceBindingNavigator
             // 
             this.schemaTheGridTableViewBindingSourceBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
@@ -178,6 +206,31 @@
             this.schemaTheGridTableViewBindingSourceBindingNavigator.Size = new System.Drawing.Size(775, 25);
             this.schemaTheGridTableViewBindingSourceBindingNavigator.TabIndex = 18;
             this.schemaTheGridTableViewBindingSourceBindingNavigator.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorAddNewItem.Text = "Add new";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(28, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -211,16 +264,9 @@
             this.bindingNavigatorPositionItem.Text = "1";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(28, 22);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
             // bindingNavigatorSeparator1
             // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
             this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // bindingNavigatorMoveNextItem
@@ -243,26 +289,8 @@
             // 
             // bindingNavigatorSeparator2
             // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorAddNewItem
-            // 
-            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-            this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorAddNewItem.Text = "Add new";
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
             // 
             // schemaTheGridTableViewBindingSourceBindingNavigatorSaveItem
             // 
@@ -273,51 +301,66 @@
             this.schemaTheGridTableViewBindingSourceBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
             this.schemaTheGridTableViewBindingSourceBindingNavigatorSaveItem.Text = "Save Data";
             // 
-            // schemaTheGridTableViewBindingSourceDataGridView
+            // parentContentKeyLabel
             // 
-            this.schemaTheGridTableViewBindingSourceDataGridView.AutoGenerateColumns = false;
-            this.schemaTheGridTableViewBindingSourceDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.schemaTheGridTableViewBindingSourceDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3});
-            this.schemaTheGridTableViewBindingSourceDataGridView.DataSource = this.schemaTheGridTableViewBindingSourceBindingSource;
-            this.schemaTheGridTableViewBindingSourceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.schemaTheGridTableViewBindingSourceDataGridView.Location = new System.Drawing.Point(16, 16);
-            this.schemaTheGridTableViewBindingSourceDataGridView.Name = "schemaTheGridTableViewBindingSourceDataGridView";
-            this.schemaTheGridTableViewBindingSourceDataGridView.Size = new System.Drawing.Size(743, 326);
-            this.schemaTheGridTableViewBindingSourceDataGridView.TabIndex = 0;
+            parentContentKeyLabel.AutoSize = true;
+            parentContentKeyLabel.Location = new System.Drawing.Point(13, 65);
+            parentContentKeyLabel.Name = "parentContentKeyLabel";
+            parentContentKeyLabel.Size = new System.Drawing.Size(102, 13);
+            parentContentKeyLabel.TabIndex = 20;
+            parentContentKeyLabel.Text = "Parent Content Key:";
             // 
-            // dataGridViewTextBoxColumn4
+            // parentContentKeyTextBox
             // 
-            this.dataGridViewTextBoxColumn4.DataPropertyName = "Key";
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Yellow;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewTextBoxColumn4.HeaderText = "Key";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.parentContentKeyTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.schemaTheGridTableViewBindingSourceBindingSource, "ParentContentKey", true));
+            this.parentContentKeyTextBox.Location = new System.Drawing.Point(121, 62);
+            this.parentContentKeyTextBox.Name = "parentContentKeyTextBox";
+            this.parentContentKeyTextBox.Size = new System.Drawing.Size(100, 20);
+            this.parentContentKeyTextBox.TabIndex = 21;
             // 
-            // dataGridViewTextBoxColumn1
+            // contentKeyDataGridViewTextBoxColumn
             // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "ContentValue";
-            this.dataGridViewTextBoxColumn1.HeaderText = "ContentValue";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.contentKeyDataGridViewTextBoxColumn.DataPropertyName = "ContentKey";
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Aqua;
+            this.contentKeyDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.contentKeyDataGridViewTextBoxColumn.HeaderText = "ContentKey";
+            this.contentKeyDataGridViewTextBoxColumn.Name = "contentKeyDataGridViewTextBoxColumn";
             // 
-            // dataGridViewTextBoxColumn2
+            // contentValueDataGridViewTextBoxColumn
             // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "ContentComment";
-            this.dataGridViewTextBoxColumn2.HeaderText = "ContentComment";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.contentValueDataGridViewTextBoxColumn.DataPropertyName = "ContentValue";
+            this.contentValueDataGridViewTextBoxColumn.HeaderText = "ContentValue";
+            this.contentValueDataGridViewTextBoxColumn.Name = "contentValueDataGridViewTextBoxColumn";
             // 
-            // dataGridViewTextBoxColumn3
+            // contentCommentDataGridViewTextBoxColumn
             // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "ContentChildren";
-            this.dataGridViewTextBoxColumn3.HeaderText = "ContentChildren";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.contentCommentDataGridViewTextBoxColumn.DataPropertyName = "ContentComment";
+            this.contentCommentDataGridViewTextBoxColumn.HeaderText = "ContentComment";
+            this.contentCommentDataGridViewTextBoxColumn.Name = "contentCommentDataGridViewTextBoxColumn";
+            // 
+            // contentChildrenDataGridViewTextBoxColumn
+            // 
+            this.contentChildrenDataGridViewTextBoxColumn.DataPropertyName = "ContentChildren";
+            this.contentChildrenDataGridViewTextBoxColumn.HeaderText = "ContentChildren";
+            this.contentChildrenDataGridViewTextBoxColumn.Name = "contentChildrenDataGridViewTextBoxColumn";
+            this.contentChildrenDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.contentChildrenDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // parentContentKeyDataGridViewTextBoxColumn
+            // 
+            this.parentContentKeyDataGridViewTextBoxColumn.DataPropertyName = "ParentContentKey";
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.parentContentKeyDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.parentContentKeyDataGridViewTextBoxColumn.HeaderText = "ParentContentKey";
+            this.parentContentKeyDataGridViewTextBoxColumn.Name = "parentContentKeyDataGridViewTextBoxColumn";
+            // 
+            // updateCountDataGridViewTextBoxColumn
+            // 
+            this.updateCountDataGridViewTextBoxColumn.DataPropertyName = "UpdateCount";
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.updateCountDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            this.updateCountDataGridViewTextBoxColumn.HeaderText = "UpdateCount";
+            this.updateCountDataGridViewTextBoxColumn.Name = "updateCountDataGridViewTextBoxColumn";
             // 
             // schemaTheGridTableViewBindingSourceBindingSource
             // 
@@ -339,10 +382,10 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.schemaTheGridTableViewBindingSourceDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.schemaTheGridTableViewBindingSourceBindingNavigator)).EndInit();
             this.schemaTheGridTableViewBindingSourceBindingNavigator.ResumeLayout(false);
             this.schemaTheGridTableViewBindingSourceBindingNavigator.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.schemaTheGridTableViewBindingSourceDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.schemaTheGridTableViewBindingSourceBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -374,10 +417,13 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.ToolStripButton schemaTheGridTableViewBindingSourceBindingNavigatorSaveItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewTextBoxColumn3;
         private ApplicationWebService applicationWebService1;
+        private System.Windows.Forms.TextBox parentContentKeyTextBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn contentKeyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn contentValueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn contentCommentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn contentChildrenDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn parentContentKeyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn updateCountDataGridViewTextBoxColumn;
     }
 }
