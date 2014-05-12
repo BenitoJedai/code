@@ -40,6 +40,7 @@ namespace TestGroupJoin
             var DealerOther = new[] { 
                 new { ID = 0, DealerOtherText = ""},
                 new { ID = 3, DealerOtherText = "!!"},
+                new { ID = 3, DealerOtherText = "!!!"},
                 new { ID = 20, DealerOtherText = ""}
             };
 
@@ -47,22 +48,87 @@ namespace TestGroupJoin
             //{ DealerContactText = hello , c = 1 }
             //{ DealerContactText = zz, c = 0 }
 
-            var dealercontacts = from contact in DealerContact
-                                 join dealer in Dealer on contact.DealerId equals dealer.ID into g
+            {
+                var dealercontacts = from contact in DealerContact
 
-                                 // add one more
-                                 //join other in DealerOther on contact.DealerId equals other.ID
+                                     // http://msdn.microsoft.com/en-us/library/bb311040.aspx
+                                     // With equals, the left key consumes the outer source sequence, and the right key consumes the inner source. The outer source is only in scope on the left side of equals and the inner source sequence is only in scope on the right side.
+                                     join dealer in Dealer on contact.DealerId equals dealer.ID // into g
 
-                                 // new viewrow { x = ?, }
-                                 select new
-                                 {
-                                     contact,
-                                     //dealer,
+                                     // add one more
+                                     join other in DealerOther on contact.DealerId equals other.ID
 
-                                     c = g.Count()
 
-                                     //other 
-                                 };
+                                     group other by new { other.ID, dealer, contact } into g
+
+                                     // new viewrow { x = ?, }
+                                     select new
+                                     {
+                                         g.Key.ID,
+                                         g.Key.dealer,
+                                         g.Key.contact,
+
+                                         g.Last().DealerOtherText
+
+                                         //contact,
+                                         //dealer,
+
+                                         //c = g.Count()
+
+                                         //other 
+
+
+                                     };
+
+
+                var dealercontacts0 = dealercontacts.AsEnumerable();
+            }
+
+            {
+                var dealercontacts = from other in DealerOther
+
+                                     //join other in DealerOther on contact.DealerId equals other.ID
+
+
+                                     group other by other.ID into g
+
+                                     // http://msdn.microsoft.com/en-us/library/bb311040.aspx
+                                     // With equals, the left key consumes the outer source sequence, and the right key consumes the inner source. The outer source is only in scope on the left side of equals and the inner source sequence is only in scope on the right side.
+                                     join dealer in Dealer on g.Key equals dealer.ID // into g
+
+                                     // add one more
+
+                                     //from contact in DealerContact
+                                     join contact in DealerContact on dealer.ID equals contact.DealerId
+
+
+                                     // new viewrow { x = ?, }
+                                     select new
+                                     {
+                                         contact,
+                                         dealer,
+
+                                         other = g.Last()
+
+                                         //g.Key.ID,
+                                         //g.Key.dealer,
+                                         //g.Key.contact,
+
+                                         //g.Last().DealerOtherText
+
+                                         //contact,
+                                         //dealer,
+
+                                         //c = g.Count()
+
+                                         //other 
+
+
+                                     };
+
+
+                var dealercontacts0 = dealercontacts.AsEnumerable();
+            }
         }
 
     }
