@@ -31,7 +31,6 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         TKey Key { get; }
     }
 
-
     public interface IQueryDescriptor
     {
         // this type has the reset state and how to make a connection
