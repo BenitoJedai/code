@@ -38,7 +38,14 @@ namespace MultipleXLSXAssets
 
 
             // ? new SchemaViewsMiddleViewContext()
+
+            //Error	1	Could not find an implementation of the query pattern for source type 'MultipleXLSXAssets.Data.Schema.MiddleSheet'.  'GroupJoin' not found.	X:\jsc.svn\examples\javascript\forms\MultipleXLSXAssets\MultipleXLSXAssets\ApplicationWebService.cs	41	32	MultipleXLSXAssets
+
             var j = from im in new Schema.MiddleSheet()
+
+                    //join iu in new Schema.MiddleSheetUpdates() on im.Key equals iu.MiddleSheet into g
+                    //group iu  by im.key into g
+
                     join il in new Schema.LeftSheet() on im.Key equals il.MiddleSheet
                     join ir in new Schema.RightSheet() on im.Key equals ir.MiddleSheet
 

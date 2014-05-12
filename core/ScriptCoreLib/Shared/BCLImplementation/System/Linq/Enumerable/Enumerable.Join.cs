@@ -10,6 +10,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
     static partial class __Enumerable
     {
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Linq.Enumerable.GroupJoin(
 
         public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
             this IEnumerable<TOuter> outer,
