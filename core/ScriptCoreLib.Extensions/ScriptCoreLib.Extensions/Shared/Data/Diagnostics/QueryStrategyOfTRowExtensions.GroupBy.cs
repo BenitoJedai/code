@@ -163,10 +163,13 @@ namespace System.Data
                      var asMemberInitExpression = default(MemberInitExpression);
                      var asMemberInitExpressionByParameter0 = default(ParameterExpression);
                      var asMemberInitExpressionByParameter1 = default(ParameterExpression);
+                     var asMemberInitExpressionByParameter2 = default(ParameterExpression);
 
                      if (GroupBy.upperSelect != null)
                          asMemberInitExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MemberInitExpression;
 
+
+                     #region upperJoin
                      if (GroupBy.upperJoin != null)
                      {
                          //var j = from iu in new Schema.MiddleSheetUpdates()
@@ -194,6 +197,23 @@ namespace System.Data
                                      //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
                                      asMemberInitExpressionByParameter1 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
 
+
+
+                                     if (asMemberInitExpression == null)
+                                     {
+                                         // ???
+
+                                         if (GroupBy.upperJoin.upperJoin.upperJoin.xouter == GroupBy.upperJoin.upperJoin)
+                                         {
+                                             asMemberInitExpression = (GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                             //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                             asMemberInitExpressionByParameter2 = (GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+
+                                         }
+
+
+
+                                     }
                                  }
 
 
@@ -236,6 +256,7 @@ namespace System.Data
                              Debugger.Break();
                          }
                      }
+                     #endregion
 
 
                      if (asMemberInitExpression != null)
@@ -525,7 +546,7 @@ namespace System.Data
                                                      // {<>h__TransparentIdentifier0.MiddleSheetz}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
 
                                                      // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
-                                                     Debugger.Break();
+                                                     //Debugger.Break();
                                                      return;
 
                                                      //var asFieldInfo = asMemberExpression.Member as FieldInfo;
@@ -600,6 +621,22 @@ namespace System.Data
 
                                      if (asUnaryExpression != null)
                                      {
+                                         #region asUnaryExpression_Operand_asFieldExpression
+                                         var asUnaryExpression_Operand_asFieldExpression = asUnaryExpression.Operand as MemberExpression;
+                                         if (asUnaryExpression_Operand_asFieldExpression != null)
+                                         {
+                                             // reduce? flatten?  nested join?
+                                             //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
+                                             var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as MemberExpression;
+
+                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t s.`" + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                             return;
+                                         }
+                                         #endregion
+
+                                         #region asMemberExpressionMethodCallExpression
                                          var asMemberExpressionMethodCallExpression = asUnaryExpression.Operand as MethodCallExpression;
                                          if (asMemberExpressionMethodCallExpression != null)
                                          {
@@ -620,6 +657,8 @@ namespace System.Data
                                                  return;
                                              }
                                          }
+                                         #endregion
+
                                      }
                                      #endregion
 

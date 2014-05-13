@@ -346,6 +346,7 @@ namespace System.Data
 
                     var asMemberInitExpression = asLambdaExpression.Body as MemberInitExpression;
                     var asMemberInitExpressionByParameter0 = default(ParameterExpression);
+                    var asMemberInitExpressionByParameter1 = default(ParameterExpression);
 
                     if (asMemberInitExpression == null)
                     {
@@ -361,10 +362,48 @@ namespace System.Data
                                 var asMemberExpression = (that.upperJoin.outerKeySelector as LambdaExpression).Body as MemberExpression;
                                 var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
 
-                                AddToSelectCommand(
+                                //if (asMemberInitExpression != null)
+
+
+                                if (asLambdaExpression.Parameters.Any(p => p.Name == asMMemberExpression.Member.Name))
+                                {
+                                    // we seem to have that table!
+                                    AddToSelectCommand(
                                                asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
                                                + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
                                                );
+                                }
+                                else
+                                {
+                                    // we seem to get it by projection?
+
+                                    AddToSelectCommand(
+                                         asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + " as "
+                                         + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
+                                         );
+                                }
+
+
+                                if (asMemberInitExpression == null)
+                                {
+                                    // ???
+
+                                    if (that.upperJoin.upperJoin.xouter == that.upperJoin)
+                                    {
+                                        asMemberInitExpression = (that.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                        //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                        asMemberInitExpressionByParameter1 = (that.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+
+                                        //if (asMemberInitExpression != null)
+                                        //    AddToSelectCommand(
+                                        //               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
+                                        //               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
+                                        //               );
+                                    }
+
+
+
+                                }
 
                             }
                         }
@@ -536,14 +575,77 @@ namespace System.Data
                                     var asUnaryExpression_Operand_asFieldExpression = asUnaryExpression.Operand as MemberExpression;
                                     if (asUnaryExpression_Operand_asFieldExpression != null)
                                     {
-                                        // reduce? flatten?  nested join?
-                                        //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
-                                        var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as ParameterExpression;
-                                        AddToSelectCommand(
-                                            __projection.Name.Replace("<>", "__") + "." +
-                                            asUnaryExpression_Operand_asFieldExpression.Member.Name
-                                            + " as " + TargetMemberName
-                                            );
+
+
+
+                                        var asUnaryExpression_Operand_asFMemberExpression = asUnaryExpression_Operand_asFieldExpression.Expression as MemberExpression;
+                                        if (asUnaryExpression_Operand_asFMemberExpression != null)
+                                        {
+                                            // what level are we operating at?
+                                            // 		(new System.Linq.Expressions.Expression.ParameterExpressionProxy((
+                                            // new System.Linq.Expressions.Expression.MemberExpressionProxy(
+                                            // asUnaryExpression_Operand_asFMemberExpression as System.Linq.Expressions.PropertyExpression)).Expression as System.Linq.Expressions.TypedParameterExpression)).Name	"<>h__TransparentIdentifier0"	string
+
+
+
+
+
+
+
+                                            if (asLambdaExpression.Parameters.Any(p => p.Name == asUnaryExpression_Operand_asFMemberExpression.Member.Name))
+                                            {
+                                                AddToSelectCommand(
+                                                     asUnaryExpression_Operand_asFMemberExpression.Member.Name + "." +
+                                                     asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                     + " as " + asUnaryExpression_Operand_asFMemberExpression.Member.Name + "_" + asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                     );
+                                                return;
+                                            }
+
+
+                                            var asUnaryExpression_Operand_asFMMemberExpression = asUnaryExpression_Operand_asFMemberExpression.Expression as MemberExpression;
+                                            if (asUnaryExpression_Operand_asFMMemberExpression != null)
+                                            {
+                                                // asUnaryExpression_Operand_asFMemberExpression.Expression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0}
+                                                //var __projection = asUnaryExpression_Operand_asFMMemberExpression.Expression as ParameterExpression;
+                                                //var __projection = asUnaryExpression_Operand_asFMemberExpression.Expression as ParameterExpression;
+
+                                                AddToSelectCommand(
+
+                                                    asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "."
+                                                    + asUnaryExpression_Operand_asFMemberExpression.Member.Name + "_" +
+                                                    asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                    + " as " + TargetMemberName
+                                                    );
+                                                return;
+                                            }
+
+
+                                            {
+
+                                                // asUnaryExpression_Operand_asFMemberExpression.Expression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0}
+                                                var __projection = asUnaryExpression_Operand_asFMemberExpression.Expression as ParameterExpression;
+
+                                                AddToSelectCommand(
+                                                    __projection.Name.Replace("<>", "__") + "."
+                                                    + asUnaryExpression_Operand_asFMemberExpression.Member.Name + "_" +
+                                                    asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                    + " as " + TargetMemberName
+                                                    );
+                                            }
+                                            return;
+                                        }
+
+                                        {
+                                            // reduce? flatten?  nested join?
+                                            //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
+                                            var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as ParameterExpression;
+                                            AddToSelectCommand(
+                                                __projection.Name.Replace("<>", "__") + "." +
+                                                asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                + " as " + TargetMemberName
+                                                );
+                                        }
 
                                         return;
                                     }
@@ -553,6 +655,8 @@ namespace System.Data
 
                                 // asFieldExpression = {<>h__TransparentIdentifier0.contact.Timestamp}
 
+
+                                // asFieldExpression {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.MiddleSheetz.Content}
 
                                 #region asFieldExpression
                                 var asFieldExpression = asMemberAssignment.Expression as MemberExpression;
@@ -564,6 +668,7 @@ namespace System.Data
                                     {
                                         if (asFMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
                                         {
+                                            #region asFParameterExpression
                                             var asFParameterExpression = asFMethodCallExpression.Arguments[0] as ParameterExpression;
                                             if (asFParameterExpression != null)
                                             {
@@ -572,6 +677,8 @@ namespace System.Data
 
                                                 return;
                                             }
+                                            #endregion
+
 
 
                                             var asFMemberExpression = asFMethodCallExpression.Arguments[0] as MemberExpression;
@@ -579,12 +686,70 @@ namespace System.Data
                                             {
                                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
 
-                                                var __projection = asFMemberExpression.Expression as ParameterExpression;
-                                                if (__projection != null)
+
+                                                var asFMMemberExpression = asFMemberExpression.Expression as MemberExpression;
+                                                if (asFMMemberExpression != null)
+                                                {
+                                                    #region __projection1
+                                                    var __projection1 = asFMMemberExpression.Expression as ParameterExpression;
+                                                    if (__projection1 != null)
+                                                    {
+                                                        if (asMemberInitExpressionByParameter1 != null)
+                                                            if (asMemberInitExpressionByParameter0 != null)
+                                                            {
+                                                                if (asMemberInitExpressionByParameter1 != __projection1)
+                                                                    return;
+                                                            }
+
+
+                                                        // um . what level are we at?
+                                                        var pp = asLambdaExpression.Parameters;
+                                                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+
+                                                        if (asMemberInitExpressionByParameter1 != null)
+                                                            if (asMemberInitExpressionByParameter0 != null)
+                                                            {
+                                                                AddToSelectCommand(
+                                                                asFMemberExpression.Member.Name + "." + asFieldExpression.Member.Name + " as "
+                                                                + asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                                );
+
+                                                                return;
+                                                            }
+
+                                                        if (asMemberInitExpressionByParameter0 != null)
+                                                        {
+                                                            //           __h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as UpdatedContent_UpdatedContent,
+
+                                                            AddToSelectCommand(
+                                                                asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "." +
+                                                               asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name + " as "
+                                                               + asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                               );
+                                                            return;
+                                                        }
+
+
+
+                                                        AddToSelectCommand(
+                                                              asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "." +
+                                                             asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name + " as "
+                                                             + asFieldExpression.Member.Name
+                                                             );
+                                                        return;
+                                                    }
+                                                    #endregion
+
+                                                }
+
+                                                #region __projection0
+                                                var __projection0 = asFMemberExpression.Expression as ParameterExpression;
+                                                if (__projection0 != null)
                                                 {
                                                     if (asMemberInitExpressionByParameter0 != null)
                                                     {
-                                                        if (asMemberInitExpressionByParameter0 != __projection)
+                                                        if (asMemberInitExpressionByParameter0 != __projection0)
                                                             return;
 
                                                         //__h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as Content,
@@ -606,12 +771,14 @@ namespace System.Data
 
                                                     }
                                                     AddToSelectCommand(
-                                                        __projection.Name.Replace("<>", "__") + "." +
+                                                        __projection0.Name.Replace("<>", "__") + "." +
                                                         asFMemberExpression.Member.Name
                                                         + "_" + asFieldExpression.Member.Name + " as " + TargetMemberName
                                                         );
                                                     return;
                                                 }
+                                                #endregion
+
                                             }
                                         }
                                     }
@@ -662,14 +829,74 @@ namespace System.Data
 
 
 
+
+
+
+                                        var asFMMemberExpression = asFFieldExpression.Expression as MemberExpression;
+                                        if (asFMMemberExpression != null)
+                                        {
+                                            #region __projection1
+                                            var __projection1 = asFMMemberExpression.Expression as ParameterExpression;
+                                            if (__projection1 != null)
+                                            {
+                                                if (asMemberInitExpressionByParameter1 != null)
+                                                    if (asMemberInitExpressionByParameter0 != null)
+                                                    {
+                                                        if (asMemberInitExpressionByParameter1 != __projection1)
+                                                            return;
+                                                    }
+
+
+                                                // um . what level are we at?
+                                                var pp = asLambdaExpression.Parameters;
+                                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+
+                                                if (asMemberInitExpressionByParameter1 != null)
+                                                    if (asMemberInitExpressionByParameter0 != null)
+                                                    {
+                                                        AddToSelectCommand(
+                                                        asFFieldExpression.Member.Name + "." + asFieldExpression.Member.Name + " as "
+                                                        + asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                        );
+
+                                                        return;
+                                                    }
+
+                                                if (asMemberInitExpressionByParameter0 != null)
+                                                {
+                                                    //           __h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as UpdatedContent_UpdatedContent,
+
+                                                    AddToSelectCommand(
+                                                        asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "." +
+                                                       asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name + " as "
+                                                       + asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                       );
+                                                    return;
+                                                }
+
+
+
+                                                AddToSelectCommand(
+                                                      asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "." +
+                                                     asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name + " as "
+                                                     + asFieldExpression.Member.Name
+                                                     );
+                                                return;
+                                            }
+                                            #endregion
+
+
+                                        }
+
                                         // reduce? flatten?  nested join?
                                         //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
-                                        var __projection = asFFieldExpression.Expression as ParameterExpression;
-                                        if (__projection != null)
+                                        var __projection0 = asFFieldExpression.Expression as ParameterExpression;
+                                        if (__projection0 != null)
                                         {
                                             if (asMemberInitExpressionByParameter0 != null)
                                             {
-                                                if (asMemberInitExpressionByParameter0 != __projection)
+                                                if (asMemberInitExpressionByParameter0 != __projection0)
                                                     return;
 
                                                 //__h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as Content,
@@ -690,7 +917,7 @@ namespace System.Data
                                             }
 
                                             AddToSelectCommand(
-                                                __projection.Name.Replace("<>", "__") + "." +
+                                                __projection0.Name.Replace("<>", "__") + "." +
                                                 asFFieldExpression.Member.Name
                                                 + "_" + asFieldExpression.Member.Name + " as " + TargetMemberName);
                                             return;

@@ -40,7 +40,7 @@ namespace TestGroupJoin
             var DealerOther = new[] { 
                 new { ID = 0, DealerOtherText = ""},
                 new { ID = 3, DealerOtherText = "!!"},
-                new { ID = 3, DealerOtherText = "!!!"},
+                new { ID = 3, DealerOtherText = "!! updated!"},
                 new { ID = 20, DealerOtherText = ""}
             };
 
@@ -92,6 +92,11 @@ namespace TestGroupJoin
 
                                      group other by other.ID into g
 
+                                     //select g.Last()
+
+                                     let other = g.Last()
+
+
                                      // http://msdn.microsoft.com/en-us/library/bb311040.aspx
                                      // With equals, the left key consumes the outer source sequence, and the right key consumes the inner source. The outer source is only in scope on the left side of equals and the inner source sequence is only in scope on the right side.
                                      join dealer in Dealer on g.Key equals dealer.ID // into g
@@ -108,7 +113,8 @@ namespace TestGroupJoin
                                          contact,
                                          dealer,
 
-                                         other = g.Last()
+                                         other
+                                         //other = g.Last()
 
                                          //g.Key.ID,
                                          //g.Key.dealer,
