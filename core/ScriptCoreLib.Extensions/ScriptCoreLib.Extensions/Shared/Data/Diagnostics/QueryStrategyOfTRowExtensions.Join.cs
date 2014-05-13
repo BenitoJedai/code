@@ -28,6 +28,62 @@ namespace System.Data
         // X:\jsc.svn\examples\javascript\forms\ThreeWay\ThreeWay\ApplicationControl.cs
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
 
+
+        interface IJoinQueryStrategy
+        {
+            // allow to inspect upper select . what if there are multiple upper selects?
+            Expression resultSelectorExpression { get; }
+
+            IQueryStrategy xouter { get; }
+            IQueryStrategy xinner { get; }
+            Expression outerKeySelector { get; }
+
+            // ? gDescendingByKeyReferenced
+
+            IJoinQueryStrategy upperJoin { get; set; }
+        }
+
+        class JoinQueryStrategy<TOuter, TInner, TKey, TResult> : XQueryStrategy<TResult>, IJoinQueryStrategy
+        {
+            public IQueryStrategy<TOuter> xouter { get; set; }
+            public IQueryStrategy<TInner> xinner { get; set; }
+            public Expression<Func<TOuter, TKey>> outerKeySelector { get; set; }
+            public Expression<Func<TOuter, TInner, TResult>> resultSelector;
+
+            public IJoinQueryStrategy upperJoin { get; set; }
+
+            #region IJoinQueryStrategy
+            Expression IJoinQueryStrategy.resultSelectorExpression
+            {
+                get { return resultSelector; }
+            }
+
+            IQueryStrategy IJoinQueryStrategy.xouter
+            {
+                get { return xouter; }
+            }
+
+            IQueryStrategy IJoinQueryStrategy.xinner
+            {
+                get { return xinner; }
+            }
+
+
+
+            Expression IJoinQueryStrategy.outerKeySelector
+            {
+                get
+                {
+                    return this.outerKeySelector;
+                }
+
+            }
+            #endregion
+
+
+        }
+
+
         #region Join
         public static
 
@@ -46,14 +102,23 @@ namespace System.Data
             Expression<Func<TOuter, TInner, TResult>> resultSelector
             )
         {
+            Console.WriteLine("Join " + new { resultSelector });
+
+
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
 
             // how do we get this barely functional?
 
             // can we manually convince this thing to include the join clause?
             //var that = new __Book1_TheView();
-            var that = new XQueryStrategy<TResult>
+            var that = new JoinQueryStrategy<TOuter, TInner, TKey, TResult>
             {
+                xouter = xouter,
+                xinner = xinner,
+
+                outerKeySelector = outerKeySelector,
+
+                resultSelector = resultSelector,
 
 
                 InternalGetDescriptor =
@@ -67,159 +132,196 @@ namespace System.Data
             };
 
 
-            //Additional information: Unable to cast object of type 'TestSQLJoin.__Book1_TheView' to type 'TestSQLJoin.IQueryStrategy`1[<>f__AnonymousType0`2[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow]]'.
-
-            // this seems to be what we may want to use to do that
-            //var x = n.GetDescriptor();
-
-            //  X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
-            //x.
-
-
-
-
-
-            // or by looking at where implementation
-
-
-            // is this a new expression?
-            // what else could it be?
-
-
-            //-		resultSelector	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>
-            //+		Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
-            //        CanReduce	false	bool
-            //        DebugView	".Lambda #Lambda1<System.Func`3[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow]>(\r\n    TestSQLJoin.Data.Book1DealerContactRow $contact,\r\n    TestSQLJoin.Data.Book1DealerRow $dealer) {\r\n    .New TestSQLJoin.Data.Book1TheViewRow(){\r\n        Dealer = $dealer.Key,\r\n        DealerContact = $contact.Key,\r\n        DealerContactText = $contact.DealerContactText,\r\n        DealerText = $dealer.DealerText\r\n    }\r\n}"	string
-            //        Name	null	string
-            //        NodeType	Lambda	System.Linq.Expressions.ExpressionType
-            //+		Parameters	Count = 2	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.ParameterExpression> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>}
-            //+		ReturnType	{Name = "Book1TheViewRow" FullName = "TestSQLJoin.Data.Book1TheViewRow"}	System.Type {System.RuntimeType}
-            //        TailCall	false	bool
-            //+		Type	{Name = "Func`3" FullName = "System.Func`3[[TestSQLJoin.Data.Book1DealerContactRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[TestSQLJoin.Data.Book1DealerRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[TestSQLJoin.Data.Book1TheViewRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}	System.Type {System.RuntimeType}
-            //-		Raw View		
-            //-		base	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>}
-
-
-            //var asNewExpression = resultSelector as NewExpression;
-            var asLambdaExpression = resultSelector as LambdaExpression;
-
-            // can we assume 
-            //+		(new System.Linq.Expressions.Expression.ParameterExpressionProxy(xouter_Paramerer as System.Linq.Expressions.TypedParameterExpression)).Type	{Name = "Book1DealerContactRow" FullName = "TestSQLJoin.Data.Book1DealerContactRow"}	System.Type {System.RuntimeType}
-            //+		xouter	{TestSQLJoin.__Book1_DealerContact}	TestSQLJoin.IQueryStrategy<TestSQLJoin.Data.Book1DealerContactRow> {TestSQLJoin.__Book1_DealerContact}
-            // yes we can 0 is outer 1 is inner?
-
-            var xouter_Paramerer = asLambdaExpression.Parameters[0];
-            var xinner_Paramerer = asLambdaExpression.Parameters[1];
-
-
-            //-		asLambdaExpression	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>}
-            //+		Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
-            //        CanReduce	false	bool
-            //        DebugView	".Lambda #Lambda1<System.Func`3[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow]>(\r\n    TestSQLJoin.Data.Book1DealerContactRow $contact,\r\n    TestSQLJoin.Data.Book1DealerRow $dealer) {\r\n    .New TestSQLJoin.Data.Book1TheViewRow(){\r\n        Dealer = $dealer.Key,\r\n        DealerContact = $contact.Key,\r\n        DealerContactText = $contact.DealerContactText,\r\n        DealerText = $dealer.DealerText\r\n    }\r\n}"	string
-            //        Name	null	string
-            //        NodeType	Lambda	System.Linq.Expressions.ExpressionType
-            //-		Parameters	Count = 2	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.ParameterExpression> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>}
-            //+		[0]	{contact}	System.Linq.Expressions.ParameterExpression {System.Linq.Expressions.TypedParameterExpression}
-            //+		[1]	{dealer}	System.Linq.Expressions.ParameterExpression {System.Linq.Expressions.TypedParameterExpression}
-
-
-
-            // will this help us?
-            //var xouter = outer as IQueryStrategy;
-            //var xinner = inner as IQueryStrategy;
-
-
-            //-		asLambdaExpression.Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
-            //-		Bindings	Count = 4	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.MemberBinding> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.MemberBinding>}
-            //+		[0]	{Dealer = dealer.Key}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-            //+		[1]	{DealerContact = contact.Key}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-            //+		[2]	{DealerContactText = contact.DealerContactText}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-            //+		[3]	{DealerText = dealer.DealerText}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-
-
-
-            // ex = {"near \"<>\": syntax error"}
-
-            //            ((new System.Linq.Expressions.Expression.MemberExpressionProxy((new System.Linq.Expressions.Expression.LambdaExpressionProxy(outerKeySelector as System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,long>>)).Body as System.Linq.Expressions.FieldExpression)).Member
-            // ).Name	"DealerId"	string
-            //(new System.Linq.Expressions.Expression.ParameterExpressionProxy((new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.ParameterExpression>((
-            // new System.Linq.Expressions.Expression.LambdaExpressionProxy(outerKeySelector as System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,long>>))
-            // .Parameters as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>)).Items[0] as System.Linq.Expressions.TypedParameterExpression))
-            // .Name	"contact"	string
-
-
-            //xouter = {TestSQLJoin.XQueryStrategy<<>f__AnonymousType0<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow>>}
-            #region FromCommand
-            var xouter_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xouter);
-            var xinner_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xinner);
-
-
-            // outerKeySelector = {<>h__TransparentIdentifier0 => <>h__TransparentIdentifier0.contact.DealerId}
-            var xouter_asMemberExpression = outerKeySelector.Body as MemberExpression;
-            var xinner_asMemberExpression = innerKeySelector.Body as MemberExpression;
-
-
-            var xouter_Paramerer_Name = xouter_Paramerer.Name;
-
-            //if (xouter_Paramerer)
-
-            var u = xouter_asMemberExpression.Expression as MemberExpression;
-            if (u != null)
-            {
-                // nested join?
-
-                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140501
-
-                //xouter_Paramerer_Name = u.Member.Name;
-            }
-
-            var FromCommand =
-                "from (\n\t"
-                    + xouter_SelectAll.ToString().Replace("\n", "\n\t")
-                    + ") as " + xouter_Paramerer_Name.Replace("<>", "__") + " "
-
-                    + "\ninner join (\n\t"
-                    + xinner_SelectAll.ToString().Replace("\n", "\n\t")
-                    + ") as " + xinner_Paramerer.Name.Replace("<>", "__");
-            #endregion
-
-
-
-
-            //-		xouter_asMemberExpression.Expression as MemberExpression	{<>h__TransparentIdentifier0.contact}	System.Linq.Expressions.MemberExpression {System.Linq.Expressions.PropertyExpression}
-
-            var xouter_asMemberExpression_Expression_asMemberExpression = xouter_asMemberExpression.Expression as MemberExpression;
-            if (xouter_asMemberExpression_Expression_asMemberExpression != null)
-            {
-
-                FromCommand += " \non "
-                     + xouter_Paramerer_Name.Replace("<>", "__") + "."
-
-                            //xouter_asMemberExpression_Expression_asMemberExpression.Member.Name	"contact"	string
-                            + "`" + xouter_asMemberExpression_Expression_asMemberExpression.Member.Name + "_"
-
-                     + "" + xouter_asMemberExpression.Member.Name + "`"
-                     + " = "
-                     + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
-
-
-            }
-            else
-            {
-
-                FromCommand += " \non "
-                        + xouter_Paramerer_Name.Replace("<>", "__") + ".`" + xouter_asMemberExpression.Member.Name + "`"
-                        + " = "
-                        + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
-
-
-            }
 
 
 
             that.GetCommandBuilder().Add(
                 state =>
                 {
+                    Console.WriteLine("Join CommandBuilder " + new { that });
+
+
+                    //Additional information: Unable to cast object of type 'TestSQLJoin.__Book1_TheView' to type 'TestSQLJoin.IQueryStrategy`1[<>f__AnonymousType0`2[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow]]'.
+
+                    // this seems to be what we may want to use to do that
+                    //var x = n.GetDescriptor();
+
+                    //  X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
+                    //x.
+
+
+
+
+
+                    // or by looking at where implementation
+
+
+                    // is this a new expression?
+                    // what else could it be?
+
+
+                    //-		resultSelector	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>
+                    //+		Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
+                    //        CanReduce	false	bool
+                    //        DebugView	".Lambda #Lambda1<System.Func`3[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow]>(\r\n    TestSQLJoin.Data.Book1DealerContactRow $contact,\r\n    TestSQLJoin.Data.Book1DealerRow $dealer) {\r\n    .New TestSQLJoin.Data.Book1TheViewRow(){\r\n        Dealer = $dealer.Key,\r\n        DealerContact = $contact.Key,\r\n        DealerContactText = $contact.DealerContactText,\r\n        DealerText = $dealer.DealerText\r\n    }\r\n}"	string
+                    //        Name	null	string
+                    //        NodeType	Lambda	System.Linq.Expressions.ExpressionType
+                    //+		Parameters	Count = 2	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.ParameterExpression> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>}
+                    //+		ReturnType	{Name = "Book1TheViewRow" FullName = "TestSQLJoin.Data.Book1TheViewRow"}	System.Type {System.RuntimeType}
+                    //        TailCall	false	bool
+                    //+		Type	{Name = "Func`3" FullName = "System.Func`3[[TestSQLJoin.Data.Book1DealerContactRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[TestSQLJoin.Data.Book1DealerRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[TestSQLJoin.Data.Book1TheViewRow, TestSQLJoin.AssetsLibrary, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}	System.Type {System.RuntimeType}
+                    //-		Raw View		
+                    //-		base	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>}
+
+
+                    //var asNewExpression = resultSelector as NewExpression;
+                    var asLambdaExpression = resultSelector as LambdaExpression;
+
+                    // can we assume 
+                    //+		(new System.Linq.Expressions.Expression.ParameterExpressionProxy(xouter_Paramerer as System.Linq.Expressions.TypedParameterExpression)).Type	{Name = "Book1DealerContactRow" FullName = "TestSQLJoin.Data.Book1DealerContactRow"}	System.Type {System.RuntimeType}
+                    //+		xouter	{TestSQLJoin.__Book1_DealerContact}	TestSQLJoin.IQueryStrategy<TestSQLJoin.Data.Book1DealerContactRow> {TestSQLJoin.__Book1_DealerContact}
+                    // yes we can 0 is outer 1 is inner?
+
+                    var xouter_Paramerer = asLambdaExpression.Parameters[0];
+                    var xinner_Paramerer = asLambdaExpression.Parameters[1];
+
+
+                    //-		asLambdaExpression	{(contact, dealer) => new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow>>}
+                    //+		Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
+                    //        CanReduce	false	bool
+                    //        DebugView	".Lambda #Lambda1<System.Func`3[TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow,TestSQLJoin.Data.Book1TheViewRow]>(\r\n    TestSQLJoin.Data.Book1DealerContactRow $contact,\r\n    TestSQLJoin.Data.Book1DealerRow $dealer) {\r\n    .New TestSQLJoin.Data.Book1TheViewRow(){\r\n        Dealer = $dealer.Key,\r\n        DealerContact = $contact.Key,\r\n        DealerContactText = $contact.DealerContactText,\r\n        DealerText = $dealer.DealerText\r\n    }\r\n}"	string
+                    //        Name	null	string
+                    //        NodeType	Lambda	System.Linq.Expressions.ExpressionType
+                    //-		Parameters	Count = 2	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.ParameterExpression> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>}
+                    //+		[0]	{contact}	System.Linq.Expressions.ParameterExpression {System.Linq.Expressions.TypedParameterExpression}
+                    //+		[1]	{dealer}	System.Linq.Expressions.ParameterExpression {System.Linq.Expressions.TypedParameterExpression}
+
+
+
+                    // will this help us?
+                    //var xouter = outer as IQueryStrategy;
+                    //var xinner = inner as IQueryStrategy;
+
+
+                    //-		asLambdaExpression.Body	{new Book1TheViewRow() {Dealer = dealer.Key, DealerContact = contact.Key, DealerContactText = contact.DealerContactText, DealerText = dealer.DealerText}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
+                    //-		Bindings	Count = 4	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.MemberBinding> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.MemberBinding>}
+                    //+		[0]	{Dealer = dealer.Key}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
+                    //+		[1]	{DealerContact = contact.Key}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
+                    //+		[2]	{DealerContactText = contact.DealerContactText}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
+                    //+		[3]	{DealerText = dealer.DealerText}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
+
+
+
+                    // ex = {"near \"<>\": syntax error"}
+
+                    //            ((new System.Linq.Expressions.Expression.MemberExpressionProxy((new System.Linq.Expressions.Expression.LambdaExpressionProxy(outerKeySelector as System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,long>>)).Body as System.Linq.Expressions.FieldExpression)).Member
+                    // ).Name	"DealerId"	string
+                    //(new System.Linq.Expressions.Expression.ParameterExpressionProxy((new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.ParameterExpression>((
+                    // new System.Linq.Expressions.Expression.LambdaExpressionProxy(outerKeySelector as System.Linq.Expressions.Expression<System.Func<TestSQLJoin.Data.Book1DealerContactRow,long>>))
+                    // .Parameters as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>)).Items[0] as System.Linq.Expressions.TypedParameterExpression))
+                    // .Name	"contact"	string
+
+
+                    //xouter = {TestSQLJoin.XQueryStrategy<<>f__AnonymousType0<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow>>}
+
+                    var asGroupByQueryStrategy = that.xouter as IGroupByQueryStrategy;
+                    if (asGroupByQueryStrategy != null)
+                    {
+                        asGroupByQueryStrategy.upperJoin = that;
+                    }
+
+
+                    //var __ISelectQueryStrategy = that.xouter as ISelectQueryStrategy;
+
+
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+                    (xouter as IJoinQueryStrategy).With(j => j.upperJoin = that);
+
+
+                    #region FromCommand
+                    var xouter_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xouter);
+                    var xinner_SelectAll = QueryStrategyExtensions.AsCommandBuilder(xinner);
+
+
+                    // outerKeySelector = {<>h__TransparentIdentifier0 => <>h__TransparentIdentifier0.contact.DealerId}
+                    var xouter_asMemberExpression = outerKeySelector.Body as MemberExpression;
+                    var xinner_asMemberExpression = innerKeySelector.Body as MemberExpression;
+
+
+                    var xouter_Paramerer_Name = xouter_Paramerer.Name;
+
+                    //if (xouter_Paramerer)
+
+                    var u = xouter_asMemberExpression.Expression as MemberExpression;
+                    if (u != null)
+                    {
+                        // nested join?
+
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140501
+
+                        //xouter_Paramerer_Name = u.Member.Name;
+                    }
+
+                    var FromCommand =
+                        "from (\n\t"
+                            + xouter_SelectAll.ToString().Replace("\n", "\n\t")
+                            + "\n) as " + xouter_Paramerer_Name.Replace("<>", "__") + " inner join "
+                            + xinner_SelectAll.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                            + " as " + xinner_Paramerer.Name.Replace("<>", "__");
+                    #endregion
+
+
+
+
+                    //-		xouter_asMemberExpression.Expression as MemberExpression	{<>h__TransparentIdentifier0.contact}	System.Linq.Expressions.MemberExpression {System.Linq.Expressions.PropertyExpression}
+
+
+                    #region on . equals .
+                    var xouter_asMemberExpression_Expression_asMemberExpression = xouter_asMemberExpression.Expression as MemberExpression;
+                    if (xouter_asMemberExpression_Expression_asMemberExpression != null)
+                    {
+
+                        FromCommand += " \non "
+                             + xouter_Paramerer_Name.Replace("<>", "__") + "."
+
+                                    //xouter_asMemberExpression_Expression_asMemberExpression.Member.Name	"contact"	string
+                                    + "`" + xouter_asMemberExpression_Expression_asMemberExpression.Member.Name + "_"
+
+                             + "" + xouter_asMemberExpression.Member.Name + "`"
+                             + " = "
+                             + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+
+
+                    }
+                    else
+                    {
+                        if (xouter is IGroupByQueryStrategy)
+                        {
+                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+                            FromCommand += " \non "
+                                + xouter_Paramerer_Name.Replace("<>", "__") + ".`Grouping.Key`"
+                                + " = "
+                                + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+                        }
+                        else
+                        {
+
+
+                            FromCommand += " \non "
+                                    + xouter_Paramerer_Name.Replace("<>", "__") + ".`" + xouter_asMemberExpression.Member.Name + "`"
+                                    + " = "
+                                    + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+                        }
+
+
+                    }
+                    #endregion
+
+
+
+
                     // xouter_SelectAll = "select `Key`, `DealerId`, `DealerContactText`, `Tag`, `Timestamp`"
 
                     // http://stackoverflow.com/questions/5090513/how-do-you-avoid-column-name-conflicts
@@ -229,9 +331,48 @@ namespace System.Data
                     #region SelectCommand
                     var SelectCommand = default(string);
 
-                    var asNewExpression = asLambdaExpression.Body as MemberInitExpression;
 
-                    if (asNewExpression == null)
+                    #region AddToSelectCommand
+                    Action<string> AddToSelectCommand =
+                        x =>
+                        {
+                            if (SelectCommand == null)
+                                SelectCommand = "select " + x;
+                            else
+                                SelectCommand += ",\n\t " + x;
+                        };
+                    #endregion
+
+
+                    var asMemberInitExpression = asLambdaExpression.Body as MemberInitExpression;
+                    var asMemberInitExpressionByParameter0 = default(ParameterExpression);
+
+                    if (asMemberInitExpression == null)
+                    {
+
+                        if (that.upperJoin != null)
+                        {
+                            if (that.upperJoin.xouter == that)
+                            {
+                                asMemberInitExpression = (that.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                asMemberInitExpressionByParameter0 = (that.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+
+
+                                var asMemberExpression = (that.upperJoin.outerKeySelector as LambdaExpression).Body as MemberExpression;
+                                var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
+
+                                AddToSelectCommand(
+                                               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
+                                               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
+                                               );
+
+                            }
+                        }
+                    }
+
+
+
+                    if (asMemberInitExpression == null)
                     {
                         // ex = {"near \"?\": syntax error"}
 
@@ -285,10 +426,10 @@ namespace System.Data
                         // we are atleast able to select the constants?
 
                         // remember this is supposed to work on JVM too
-                        var ImplicitConstantFields = asNewExpression.Type.GetFields().Where(
+                        var ImplicitConstantFields = asMemberInitExpression.Type.GetFields().Where(
                             xx =>
                             {
-                                if (asNewExpression.Bindings.Any(y => y.Member.Name == xx.Name))
+                                if (asMemberInitExpression.Bindings.Any(y => y.Member.Name == xx.Name))
                                     return false;
 
                                 return true;
@@ -310,19 +451,19 @@ namespace System.Data
                         );
 
 
+                        if (that.upperJoin != null)
+                        {
+                            //that.upperJoin.xouter
+                        }
+
                         #region asNewExpression.Bindings
                         ImplicitConstantBindings.Concat(
-                            from SourceBinding in asNewExpression.Bindings
+                            from SourceBinding in asMemberInitExpression.Bindings
                             let SourceField = SourceBinding.Member as FieldInfo
                             select new { SourceField, SourceBinding }
                         ).WithEach(
                             mm =>
                             {
-
-                                if (SelectCommand == null)
-                                    SelectCommand = "select ";
-                                else
-                                    SelectCommand += ",\n\t ";
 
 
                                 var TargetMemberName = mm.SourceField.Name;
@@ -337,12 +478,12 @@ namespace System.Data
                                     if (mm.SourceField.FieldType == typeof(string))
                                     {
                                         // NULL?
-                                        SelectCommand += "'' as " + TargetMemberName;
+                                        AddToSelectCommand("'' as " + TargetMemberName);
                                     }
                                     else
                                     {
                                         // long?
-                                        SelectCommand += "0 as " + TargetMemberName;
+                                        AddToSelectCommand("0 as " + TargetMemberName);
                                     }
 
                                     return;
@@ -359,6 +500,8 @@ namespace System.Data
 
                                 var asMemberAssignment = SourceBinding as MemberAssignment;
 
+                                // SourceBinding = {Content = <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last().UpdatedContent}
+
                                 #region asConstantExpression
                                 var asConstantExpression = asMemberAssignment.Expression as ConstantExpression;
                                 if (asConstantExpression != null)
@@ -366,12 +509,12 @@ namespace System.Data
                                     if (asConstantExpression.Type == typeof(string))
                                     {
                                         // NULL?
-                                        SelectCommand += "'" + asConstantExpression.Value + "' as " + TargetMemberName;
+                                        AddToSelectCommand("'" + asConstantExpression.Value + "' as " + TargetMemberName);
                                     }
                                     else
                                     {
                                         // long?
-                                        SelectCommand += "" + asConstantExpression.Value + " as " + TargetMemberName;
+                                        AddToSelectCommand("" + asConstantExpression.Value + " as " + TargetMemberName);
                                     }
 
                                     return;
@@ -396,10 +539,12 @@ namespace System.Data
                                         // reduce? flatten?  nested join?
                                         //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
                                         var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as ParameterExpression;
-                                        SelectCommand +=
+                                        AddToSelectCommand(
                                             __projection.Name.Replace("<>", "__") + "." +
                                             asUnaryExpression_Operand_asFieldExpression.Member.Name
-                                            + " as " + TargetMemberName;
+                                            + " as " + TargetMemberName
+                                            );
+
                                         return;
                                     }
                                 }
@@ -413,6 +558,67 @@ namespace System.Data
                                 var asFieldExpression = asMemberAssignment.Expression as MemberExpression;
                                 if (asFieldExpression != null)
                                 {
+                                    #region asFMethodCallExpression
+                                    var asFMethodCallExpression = asFieldExpression.Expression as MethodCallExpression;
+                                    if (asFMethodCallExpression != null)
+                                    {
+                                        if (asFMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
+                                        {
+                                            var asFParameterExpression = asFMethodCallExpression.Arguments[0] as ParameterExpression;
+                                            if (asFParameterExpression != null)
+                                            {
+                                                AddToSelectCommand(asFParameterExpression.Name + "." + asFieldExpression.Member.Name + " as " + TargetMemberName);
+
+
+                                                return;
+                                            }
+
+
+                                            var asFMemberExpression = asFMethodCallExpression.Arguments[0] as MemberExpression;
+                                            if (asFMemberExpression != null)
+                                            {
+                                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+                                                var __projection = asFMemberExpression.Expression as ParameterExpression;
+                                                if (__projection != null)
+                                                {
+                                                    if (asMemberInitExpressionByParameter0 != null)
+                                                    {
+                                                        if (asMemberInitExpressionByParameter0 != __projection)
+                                                            return;
+
+                                                        //__h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as Content,
+                                                        //
+                                                        //   UpdatesByMiddlesheet.`UpdatedContent` as  `UpdatesByMiddlesheet_UpdatedContent`,
+
+
+                                                        // is it available for us?
+                                                        if (asLambdaExpression.Parameters[0].Name != asFMemberExpression.Member.Name)
+                                                            if (asLambdaExpression.Parameters[1].Name != asFMemberExpression.Member.Name)
+                                                                return;
+
+                                                        AddToSelectCommand(
+                                                             asFMemberExpression.Member.Name + "." + asFieldExpression.Member.Name + " as "
+                                                             + asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                             );
+
+                                                        return;
+
+                                                    }
+                                                    AddToSelectCommand(
+                                                        __projection.Name.Replace("<>", "__") + "." +
+                                                        asFMemberExpression.Member.Name
+                                                        + "_" + asFieldExpression.Member.Name + " as " + TargetMemberName
+                                                        );
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    #endregion
+
+
+
                                     #region asFieldExpression_Expression_asFieldExpression
                                     var asFFieldExpression = asFieldExpression.Expression as MemberExpression;
                                     if (asFFieldExpression != null)
@@ -441,12 +647,13 @@ namespace System.Data
                                             if (value1 is string)
                                             {
                                                 // NULL?
-                                                SelectCommand += " '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                                AddToSelectCommand(
+                                                    " '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`");
                                             }
                                             else
                                             {
                                                 // long?
-                                                SelectCommand += " " + value1 + " as `" + asMemberAssignment.Member.Name + "`";
+                                                AddToSelectCommand(" " + value1 + " as `" + asMemberAssignment.Member.Name + "`");
                                             }
 
                                             return;
@@ -460,10 +667,32 @@ namespace System.Data
                                         var __projection = asFFieldExpression.Expression as ParameterExpression;
                                         if (__projection != null)
                                         {
-                                            SelectCommand +=
+                                            if (asMemberInitExpressionByParameter0 != null)
+                                            {
+                                                if (asMemberInitExpressionByParameter0 != __projection)
+                                                    return;
+
+                                                //__h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as Content,
+                                                //
+                                                //   UpdatesByMiddlesheet.`UpdatedContent` as  `UpdatesByMiddlesheet_UpdatedContent`,
+
+                                                // is it available for us?
+                                                if (asLambdaExpression.Parameters[0].Name != asFFieldExpression.Member.Name)
+                                                    if (asLambdaExpression.Parameters[1].Name != asFFieldExpression.Member.Name)
+                                                        return;
+
+                                                AddToSelectCommand(
+                                                    asFFieldExpression.Member.Name + "." + asFieldExpression.Member.Name + " as "
+                                                     + asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name);
+
+                                                return;
+
+                                            }
+
+                                            AddToSelectCommand(
                                                 __projection.Name.Replace("<>", "__") + "." +
                                                 asFFieldExpression.Member.Name
-                                                + "_" + asFieldExpression.Member.Name + " as " + TargetMemberName;
+                                                + "_" + asFieldExpression.Member.Name + " as " + TargetMemberName);
                                             return;
                                         }
                                     }
@@ -484,12 +713,12 @@ namespace System.Data
                                             if (value1 is string)
                                             {
                                                 // NULL?
-                                                SelectCommand += "'" + value1 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                                AddToSelectCommand("'" + value1 + "' as `" + asMemberAssignment.Member.Name + "`");
                                             }
                                             else
                                             {
                                                 // long?
-                                                SelectCommand += "  " + value1 + " as `" + asMemberAssignment.Member.Name + "`";
+                                                AddToSelectCommand("  " + value1 + " as `" + asMemberAssignment.Member.Name + "`");
                                             }
 
                                             return;
@@ -498,12 +727,18 @@ namespace System.Data
                                     #endregion
 
 
-
+                                    #region asTypedParameterExpression
                                     // http://dotnetinside.com/cn/type/System.Core/TypedParameterExpression/4.0.0.0
                                     //var asTypedParameterExpression = asFieldExpression.Expression as TypedParameterExpression
                                     var asTypedParameterExpression = asFieldExpression.Expression as ParameterExpression;
                                     if (asTypedParameterExpression != null)
                                     {
+                                        // is it available for us?
+                                        if (asLambdaExpression.Parameters[0] != asTypedParameterExpression)
+                                            if (asLambdaExpression.Parameters[1] != asTypedParameterExpression)
+                                                return;
+
+
                                         var SourceContextName = asTypedParameterExpression.Name;
                                         var SourceMemberName = asFieldExpression.Member.Name;
 
@@ -511,9 +746,11 @@ namespace System.Data
 
 
                                         // magic happens here!
-                                        SelectCommand += SourceContextName + "." + SourceMemberName + " as " + TargetMemberName;
+                                        AddToSelectCommand(SourceContextName + "." + SourceMemberName + " as " + TargetMemberName);
                                         return;
                                     }
+                                    #endregion
+
 
                                 }
                                 #endregion

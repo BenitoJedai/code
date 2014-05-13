@@ -23,218 +23,91 @@ namespace System.Data
     // shall reimplement IQueriable for jsc data layer gen
     public static partial class QueryStrategyOfTRowExtensions
     {
-        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
-        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.GroupBy.cs
+        // would group by work as distinct too?
 
-        #region XQueryStrategy
-        class XQueryStrategy<TRow> : IQueryStrategy<TRow>
+        interface IGroupByQueryStrategy
         {
+            // allow to inspect upper select . what if there are multiple upper selects?
+            ISelectQueryStrategy upperSelect { get; set; }
 
-            List<Action<QueryStrategyExtensions.CommandBuilderState>> InternalCommandBuilder = new List<Action<QueryStrategyExtensions.CommandBuilderState>>();
+            // what if we are in a join?
+            IJoinQueryStrategy upperJoin { get; set; }
+        }
 
-            public List<Action<QueryStrategyExtensions.CommandBuilderState>> GetCommandBuilder()
+        class GroupByQueryStrategy<TSource, TKey> :
+            XQueryStrategy<IQueryStrategyGrouping<TKey, TSource>>,
+            IGroupByQueryStrategy
+        {
+            public IQueryStrategy<TSource> source;
+            public Expression<Func<TSource, TKey>> keySelector;
+
+            public ISelectQueryStrategy upperSelect { get; set; }
+            public IJoinQueryStrategy upperJoin { get; set; }
+        }
+
+
+        //public static IQueryStrategyGroupingBuilder<TKey, TSource>
+        public static IQueryStrategy<IQueryStrategyGrouping<TKey, TSource>>
+                GroupBy
+                <TSource, TKey>
+                (
+             this IQueryStrategy<TSource> source,
+             Expression<Func<TSource, TKey>> keySelector
+            )
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+            Console.WriteLine("GroupBy " + new { keySelector });
+
+            var GroupBy = new GroupByQueryStrategy<TSource, TKey>
             {
-                return InternalCommandBuilder;
-            }
-
-            public Func<IQueryDescriptor> InternalGetDescriptor;
-
-            public IQueryDescriptor GetDescriptor()
-            {
-                //  public static DataTable AsDataTable(IQueryStrategy Strategy)
-
-                return InternalGetDescriptor();
-            }
-        }
-        #endregion
-
-
-
-        [Obsolete("non grouping methods shall use FirstOrDefault")]
-        public static TElement First<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
-        {
-            throw new NotImplementedException();
-        }
-
-        [Obsolete("non grouping methods shall use FirstOrDefault")]
-        public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
-        {
-            throw new NotImplementedException();
-        }
-
-        #region Sum
-        //public static long Sum<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source, Expression<Func<TElement, long>> f)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public static double Sum<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source, Expression<Func<TElement, double>> f)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-
-
-
-        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Methods.cs
-
-        //public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
-        //    this IEnumerable<TOuter> outer,
-        //    IEnumerable<TInner> inner,
-        //    Func<TOuter, TKey> outerKeySelector,
-        //    Func<TInner, TKey> innerKeySelector,
-        //    Func<TOuter, TInner, TResult> resultSelector)
-
-
-        // public static Book1.DealerContact Where(this Book1.DealerContact value, Expression<Func<Book1DealerContactRow, bool>> value);
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140429
-
-        // Error	4	Could not find an implementation of the query pattern for source type 
-        // 'TestSQLJoin.Data.Book1.DealerContact'.  'Join' not found.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	51	33	TestSQLJoin
-
-
-        // http://social.msdn.microsoft.com/Forums/en-US/bf98ec7a-cb80-4901-8eb2-3aa6636a4fde/linq-join-error-the-type-of-one-of-the-expressions-in-the-join-clause-is-incorrect-type-inference?forum=linqprojectgeneral
-        // http://weblogs.asp.net/rajbk/archive/2010/03/12/joins-in-linq-to-sql.aspx
-        // http://msdn.microsoft.com/en-us/library/bb311040.aspx
-        // http://thomashundley.com/post/2010/05/20/The-type-of-one-of-the-expressions-in-the-join-clause-is-incorrect-Type-inference-failed-in-the-call-to-Join.aspx
-        // http://www.roelvanlisdonk.nl/?p=2904
-        // is this it?
-        // http://www.pcreview.co.uk/forums/linq-join-using-expression-tree-t3432559.html
-
-        //[Obsolete("whats the correct signature?")]
-        //public static IEnumerable<TestSQLJoin.Data.Book1TheViewRow> Join<TKey>(
-
-        // do we need  IQueryable<> ?
-
-        //[Obsolete("can we get rid of the return type too? how would that look like?")]
-
-
-
-
-
-        #region GroupBy
-        [Obsolete]
-        public static IQueryStrategy<TResult>
-            Select
-            <TSource, TKey, TResult>
-            (
-            //this 
-            IQueryStrategyGroupingBuilder<TKey, TSource> GroupBy,
-             Expression<Func<IQueryStrategyGrouping<TKey, TSource>, TResult>> keySelector)
-        {
-            // source = {TestSQLiteGroupBy.X.XQueryStrategy<System.Linq.IGrouping<TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow>>}
-            // keySelector = {GroupByGoo => new Book1MiddleAsGroupByGooWithCountRow() {GooStateEnum = GroupByGoo.Key, Count = Convert(GroupByGoo.Count())}}
-
-            // we are about to create a view just like we do in the join.
-            // http://stackoverflow.com/questions/9287119/get-first-row-for-one-group
-
-
-            //select GooStateEnum, count(*)
-            //from `Book1.Middle`
-
-
-            var GroupBy_asMemberExpression = GroupBy.keySelector.Body as MemberExpression;
-
-
-            //-		Bindings	Count = 0x00000007	System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.MemberBinding> {System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.MemberBinding>}
-
-            //+		[0x00000000]	{GooStateEnum = GroupByGoo.Key}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-
-            //+		[0x00000001]	{FirstTitle = GroupByGoo.First().Title}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-            //+		[0x00000002]	{FirstKey = Convert(GroupByGoo.First())}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-            //+		[0x00000003]	{LastKey = Convert(GroupByGoo.Last())}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-            //+		[0x00000004]	{LastTitle = GroupByGoo.Last().Title}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-            //+		[0x00000005]	{SumOfx = GroupByGoo.Sum(u => u.x)}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-            //+		[0x00000006]	{Count = GroupByGoo.Count()}	System.Linq.Expressions.MemberBinding {System.Linq.Expressions.MemberAssignment}
-
-
-            //        Y:\TestSQLiteGroupBy.ApplicationWebService\staging.java\web\java\TestSQLiteGroupBy\X___c__DisplayClass4_3___c__DisplayClass6.java:200: error: ';' expected
-            //private static __MethodCallExpression _<Select>b__3_Isinst_001c(Object _001c)
-            //                                       ^
-
-            var that = new XQueryStrategy<TResult>
-            {
-
+                source = source,
+                keySelector = keySelector,
 
                 InternalGetDescriptor =
                     () =>
                     {
                         // inherit the connection/context from above
-                        var StrategyDescriptor = GroupBy.source.GetDescriptor();
+                        var StrategyDescriptor = source.GetDescriptor();
 
                         return StrategyDescriptor;
                     }
             };
 
-            //    Caused by: java.lang.RuntimeException: { Message = Duplicate column name 'Key', StackTrace = java.sql.SQLException: Duplicate column name 'Key'
-            //at com.google.cloud.sql.jdbc.internal.Exceptions.newSqlException(Exceptions.java:219)
 
-
-            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
-            that.GetCommandBuilder().Add(
+            GroupBy.GetCommandBuilder().Add(
                  state =>
                  {
-                     var s = QueryStrategyExtensions.AsCommandBuilder(GroupBy.source);
+                     // do we even know what needs to be selected?
 
-                     // http://www.xaprb.com/blog/2006/12/07/how-to-select-the-firstleastmax-row-per-group-in-sql/
+                     // GroupBy.upperSelect.selectorExpression = {g => new SchemaViewsMiddleViewRow() {Content = g.Last().UpdatedContent}}
 
-
-                     // for the new view
-                     // count is easy. 
-                     // views should not care about keys, tags and timestamps?
-
-                     // well the last seems to work
-                     // not the first.
-
-
-                     // Caused by: java.lang.RuntimeException: { Message = Every derived table must have its own alias,
-
-                     state.SelectCommand =
-                         //"select g.GooStateEnum as GooStateEnum,\n\t"
-                         "select g.`Grouping.Key`";
+                     //Console.WriteLine("GroupBy CommandBuilder " + new { GroupBy.upperSelect.selectorExpression });
+                     Console.WriteLine("GroupBy CommandBuilder");
 
 
 
-                     ////+ "g.Count as Count,\n\t"
+                     var GroupBy_asMemberExpression = GroupBy.keySelector.Body as MemberExpression;
 
 
-                     // + "g.`Key` as LastKey,\n\t"
-
-                     //+ "g.x as Lastx,\n\t"
-                     //+ "g.Title as LastTitle,\n\t"
-
-                     //// aint working
-                     //+ "gDescendingByKey.Key as FirstKey,\n\t"
-                     //+ "gDescendingByKey.x as Firstx,\n\t"
-                     //+ "gDescendingByKey.Title as FirstTitle,\n\t"
-
-                     //+ "g.SumOfx as SumOfx,\n\t"
-
-                     //+ "'' as Tag, 0 as Timestamp\n\t";
 
 
+
+
+                     // do we need to select it?
+                     state.SelectCommand = "select g.`Grouping.Key`";
+
+                     // this can be disabled/enabled by a upper select?
                      var gDescendingByKeyReferenced = false;
 
-
-                     // http://www.w3schools.com/sql/sql_func_last.asp
+                     // move to equals comparer?
                      var s_SelectCommand = "select s.`" + GroupBy_asMemberExpression.Member.Name + "` as `Grouping.Key`";
 
-                     //+ "s.x,\n\t"
-                     // // specialname
-                     //+ "s.`Key`,\n\t"
-                     //+ "s.Title,\n\t"
-                     // //+ "s.GooStateEnum,\n\t"
-                     // + "sum(s.x) as SumOfx,\n\t";
-                     //+ "13 as SumOfx, "
-                     //+ "count(*) as Count";
-
-
-                     // +		keySelector.Body	{ug.Last()}	System.Linq.Expressions.Expression {System.Linq.Expressions.MethodCallExpressionN}
-
                      #region asMethodCallExpression
+                     if (GroupBy.upperSelect != null)
                      {
-                         var asMethodCallExpression = keySelector.Body as MethodCallExpression;
+                         var asMethodCallExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MethodCallExpression;
                          if (asMethodCallExpression != null)
                          {
                              //+		(new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.Expression>((new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Arguments as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.Expression>)).Items[0x00000000]	
@@ -287,7 +160,84 @@ namespace System.Data
 
 
                      #region asMemberInitExpression
-                     var asMemberInitExpression = keySelector.Body as MemberInitExpression;
+                     var asMemberInitExpression = default(MemberInitExpression);
+                     var asMemberInitExpressionByParameter0 = default(ParameterExpression);
+                     var asMemberInitExpressionByParameter1 = default(ParameterExpression);
+
+                     if (GroupBy.upperSelect != null)
+                         asMemberInitExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MemberInitExpression;
+
+                     if (GroupBy.upperJoin != null)
+                     {
+                         //var j = from iu in new Schema.MiddleSheetUpdates()
+                         //        group iu by iu.MiddleSheet into g
+                         //        join im in new Schema.MiddleSheet() on g.Key equals im.Key
+
+                         // if we are part of a join. are we inner our outer?
+
+                         if (GroupBy.upperJoin.xouter == GroupBy)
+                         {
+                             // we are outer?
+
+                             //GroupBy.upperJoin.resultSelectorExpression as LambdaExpression)
+                             asMemberInitExpression = (GroupBy.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
+                             asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+
+
+                             if (asMemberInitExpression == null)
+                             {
+                                 // ???
+
+                                 if (GroupBy.upperJoin.upperJoin.xouter == GroupBy.upperJoin)
+                                 {
+                                     asMemberInitExpression = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                     //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                     asMemberInitExpressionByParameter1 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+
+                                 }
+
+
+
+                             }
+
+                             // [0x00000000] = {Content = g.Last().UpdatedContent}
+
+                             //var parameter0 = GroupBy.upperJoin.
+
+
+                             // (GroupBy.upperJoin.resultSelectorExpression as LambdaExpression).Body = {new <>f__AnonymousType0`2(UpdatesByMiddlesheet = UpdatesByMiddlesheet, MiddleSheetz = MiddleSheetz)}
+                             ////((GroupBy.upperJoin.resultSelectorExpression as LambdaExpression).Body as NewExpression).With(
+                             ////    __projection =>
+                             ////    {
+                             ////        // seems our upper join does not exactly know whats needed.
+                             ////        // can we go up another level?
+
+                             ////        var jj = GroupBy.upperJoin.upperJoin;
+
+                             ////        state.SelectCommand += "???";
+
+                             ////       // __projection.Arguments.WithEach(
+                             ////       //     __projectionArgument =>
+                             ////       //     {
+                             ////       //         var __projectionParameterArgument = __projectionArgument as ParameterExpression;
+
+                             ////       //         // are we supposed to flatten/ select for such upper projections?
+
+                             ////       //     }
+                             ////       //);
+                             ////    }
+                             ////);
+
+                         }
+
+                         if (GroupBy.upperJoin.xinner == GroupBy)
+                         {
+                             // we are inner?
+                             Debugger.Break();
+                         }
+                     }
+
+
                      if (asMemberInitExpression != null)
                          asMemberInitExpression.Bindings.WithEachIndex(
                              (SourceBinding, index) =>
@@ -475,6 +425,20 @@ namespace System.Data
                                              Console.WriteLine(new { index, asMemberExpressionMethodCallExpression });
                                              if (asMemberExpressionMethodCallExpression != null)
                                              {
+                                                 if (asMemberInitExpressionByParameter1 != null)
+                                                 {
+
+                                                     // ?
+                                                 }
+                                                 else if (asMemberInitExpressionByParameter0 != null)
+                                                 {
+                                                     if (asMemberInitExpressionByParameter0 != asMemberExpressionMethodCallExpression.Arguments[0])
+                                                     {
+                                                         // group by within a join, where this select is not part of this outer source!
+
+                                                         return;
+                                                     }
+                                                 }
                                                  Console.WriteLine(new { index, asMemberExpressionMethodCallExpression, asMemberExpressionMethodCallExpression.Method.Name });
 
                                                  // special!
@@ -488,6 +452,17 @@ namespace System.Data
 
                                                  if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
                                                  {
+                                                     if (asMemberInitExpressionByParameter0 != null)
+                                                     {
+                                                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+                                                         // the upper join dictates what it expects to find. no need to alias too early
+
+                                                         state.SelectCommand += ",\n\t g.`" + asMemberExpression.Member.Name + "` as `" + asMemberExpression.Member.Name + "`";
+                                                         s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberExpression.Member.Name + "`";
+                                                         return;
+                                                     }
+
                                                      state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                      s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                      return;
@@ -542,7 +517,31 @@ namespace System.Data
                                                  // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
                                                  // var SpecialConstant = new { u = "44" };
 
+
+                                                 if (asMemberInitExpressionByParameter1 != null)
+                                                 {
+                                                     // ???
+                                                     // +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberExpression as System.Linq.Expressions.FieldExpression)).Expression	
+                                                     // {<>h__TransparentIdentifier0.MiddleSheetz}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
+
+                                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+                                                     Debugger.Break();
+                                                     return;
+
+                                                     //var asFieldInfo = asMemberExpression.Member as FieldInfo;
+                                                     //if (asFieldInfo != null)
+                                                     //{
+                                                     //    //asMemberExpressionMethodCallExpression = {<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last()}
+
+                                                     //    state.SelectCommand += ",\n\t g.`" + asFieldInfo.Name + "` as `" + asFieldInfo.Name + "`";
+                                                     //    s_SelectCommand += ",\n\t s.`" + asFieldInfo.Name + "` as `" + asFieldInfo.Name + "`";
+                                                     //    return;
+                                                     //}
+                                                 }
+
                                                  var asMPropertyInfo = asMMemberExpression.Member as FieldInfo;
+
+                                                 #region asPropertyInfo
                                                  var asPropertyInfo = asMemberExpression.Member as PropertyInfo;
                                                  if (asPropertyInfo != null)
                                                  {
@@ -569,10 +568,24 @@ namespace System.Data
 
                                                      return;
                                                  }
+                                                 #endregion
+
                                              }
                                              #endregion
 
+                                             var asMMemberExpressionParameterExpression = asMemberExpression.Expression as ParameterExpression;
+                                             if (asMMemberExpressionParameterExpression != null)
+                                             {
+                                                 if (asMemberInitExpressionByParameter0 != null)
+                                                 {
+                                                     if (asMemberInitExpressionByParameter0 != asMMemberExpressionParameterExpression)
+                                                     {
+                                                         // group by within a join, where this select is not part of this outer source!
 
+                                                         return;
+                                                     }
+                                                 }
+                                             }
 
                                              //asMMemberExpression.Member
                                              Debugger.Break();
@@ -626,68 +639,26 @@ namespace System.Data
                      #endregion
 
 
-                     // how do we get the first and the last in the same query??
+                     var s = QueryStrategyExtensions.AsCommandBuilder(GroupBy.source);
+                     // is it default?
 
+                     #region  state.FromCommand
 
-                     //+ "3 as Count";
-
-                     // error: { Message = no such column: g.GooStateEnum, ex = System.Data.SQLite.SQLiteSyntaxException (0x80004005): no such column: g.GooStateEnum
-
-                     // http://stackoverflow.com/questions/27983/sql-group-by-with-an-order-by
-                     // MySQL prior to version 5 did not allow aggregate functions in ORDER BY clauses.
-
-
-                     //s.OrderByCommand = "order by GooStateEnum desc";
-
-                     // what about distinct? 
-                     // we cannot reorder the table by the grouping item
-                     // we would have to rely on PK Key? either assume Key was generated by AssetsLibrary
-                     // or crash or inspect the table by explain
-
-                     //s.GroupByCommand = "group by GooStateEnum";
-
-
-                     // http://www.afterhoursprogramming.com/tutorial/SQL/ORDER-BY-and-GROUP-BY/
-                     // CANNOT limit nor order if we are about to group.
-
-                     //s.LimitCommand = "limit 1";
-
-
-                     //select g.GooStateEnum as GooStateEnum, g.Count as Count
-                     //from (
-                     //        select GooStateEnum, count(*) as Count
-                     //        from `Book1.Middle`
-                     //         where `FooStateEnum` = @arg0 and `Ratio` > @arg1 and `Ratio` < @arg2
-
-
-                     //        group by GooStateEnum
-                     //        ) as g
-
-
-                     // how can we pass arguments to the flattened where?\
-                     // g seems to be last inserted?
-
-
-
-                     //                 var FromCommand =
-                     //"from (\n\t"
-                     //    + xouter_SelectAll.ToString().Replace("\n", "\n\t")
-                     //    + ") as " + xouter_Paramerer_Name.Replace("<>", "__") + " "
-
-                     //    + "\ninner join (\n\t"
-                     //    + xinner_SelectAll.ToString().Replace("\n", "\n\t")
-                     //    + ") as " + xinner_Paramerer.Name.Replace("<>", "__");
-
+                     //                 from (select `Key`, `MiddleSheet`, `UpdatedContent`, `Tag`, `Timestamp`
+                     //from `Schema.MiddleSheetUpdates`
+                     //) as s  group by `Grouping.Key`
 
                      var g = s_SelectCommand
-                         + "\n from (" + s.ToString().Replace("\n", "\n\t") + ") as s "
-                         + " group by `Grouping.Key`";
+                              + "\n from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s "
+                              + "\n group by s.`" + GroupBy_asMemberExpression.Member.Name + "`";
 
                      state.FromCommand =
                           "from (\n\t"
                             + g.Replace("\n", "\n\t")
                             + "\n) as g";
 
+
+                     #region gDescendingByKeyReferenced
                      if (gDescendingByKeyReferenced)
                      {
                          // omit if we aint using it
@@ -695,7 +666,7 @@ namespace System.Data
                          // ? this wont work on a join!!
                          var gDescendingByKey = s_SelectCommand
                              + "\n from (select * from (" + s.ToString().Replace("\n", "\n\t") + ") order by `Key` desc) as s "
-                           + " group by `Grouping.Key`";
+                           + "\n group by `Grouping.Key`";
 
                          state.FromCommand +=
                                  "\n inner join (\n\t"
@@ -703,64 +674,19 @@ namespace System.Data
                                 + "\n) as gDescendingByKey"
                                 + "\n on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
                      }
+                     #endregion
 
-                     // http://msdn.microsoft.com/en-us/library/vstudio/bb386996(v=vs.100).aspx
-
-
-                     // hack it. no longer useable later
-                     // http://help.sap.com/abapdocu_702/en/abaporderby_clause.htm#!ABAP_ALTERNATIVE_1@1@
-                     //  ORDER BY { {PRIMARY KEY}
-
-                     //s.FromCommand = "from (select * " + s.FromCommand + " order by PRIMARY KEY desc)";
+                     #endregion
 
 
-
-                     //state.FromCommand += " on g.GooStateEnum = gDescendingByKey.GooStateEnum";
-                     //state.FromCommand += " on g.`" + GroupBy_asMemberExpression.Member.Name + "` = gDescendingByKey.`" + GroupBy_asMemberExpression.Member.Name + "`";
-                     //state.FromCommand += " on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
-
-
-                     //select g.GooStateEnum as GooStateEnum, g.Key as LastKey, g.x as Lastx, g.Title as LastTitle, gDescendingByKey.Key as FirstKey, gDescendingByKey.x as Firstx, gDescendingByKey.Title as FirstTitle, g.Count as Count, '' as Tag, 0 as Timestamp
-                     //from (
-                     //        select x,Key, Title, GooStateEnum, count(*) as Count
-                     //        from `Book1.Middle`
-                     //         where `FooStateEnum` = @arg0 and `Ratio` = @arg1
-
-
-                     //        group by GooStateEnum
-
-                     //) as g inner join (
-                     //        select x,Key, Title, GooStateEnum, count(*) as Count
-                     //        from (select * from `Book1.Middle` order by Key desc)
-                     //         where `FooStateEnum` = @arg0 and `Ratio` = @arg1
-
-
-                     //        group by GooStateEnum
-
-                     //) as gDescendingByKey on g.GooStateEnum = gDescendingByKey.GooStateEnum
-
-
-
-
-                     ////state.FromCommand += ", (\n\t"
-                     ////       + s.ToString().Replace("\n", "\n\t")
-                     ////       + "\n) as gFirst ";
-
-
-
-                     // copy em?
                      state.ApplyParameter.AddRange(s.ApplyParameter);
-
                  }
-             );
+            );
 
 
-            return that;
+            return GroupBy;
+            //return new XQueryStrategyGroupingBuilder<TKey, TSource> { source = source, keySelector = keySelector };
         }
-
-
-        #endregion
-
 
     }
 }
