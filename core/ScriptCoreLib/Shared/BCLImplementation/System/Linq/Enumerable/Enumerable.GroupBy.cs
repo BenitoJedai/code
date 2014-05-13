@@ -10,6 +10,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
     static partial class __Enumerable
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.GroupBy.cs
 
         public static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(
              this IEnumerable<TSource> source,

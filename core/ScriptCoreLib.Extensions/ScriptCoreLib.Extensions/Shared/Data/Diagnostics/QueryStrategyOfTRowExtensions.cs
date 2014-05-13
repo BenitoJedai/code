@@ -56,7 +56,7 @@ namespace System.Data
             throw new NotImplementedException();
         }
 
-        [Obsolete("non grouping methods shall use FirstOrDefault")]
+        //[Obsolete("non grouping methods shall use FirstOrDefault")]
         public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
         {
             throw new NotImplementedException();

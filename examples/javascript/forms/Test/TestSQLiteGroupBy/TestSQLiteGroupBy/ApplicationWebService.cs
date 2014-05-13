@@ -201,6 +201,9 @@ namespace TestSQLiteGroupBy
             // http://www.viblend.com/Questions/WinForms/HowToGroupWinFormsDataGridViewByColumn.aspx
             // tooltips?
 
+            // X:\jsc.svn\examples\javascript\forms\MultipleXLSXAssets\MultipleXLSXAssets\ApplicationWebService.cs
+            var z0 = g.AsDataTable();
+
             //var d = g.Join
             var zzz = g.AsEnumerable();
 
