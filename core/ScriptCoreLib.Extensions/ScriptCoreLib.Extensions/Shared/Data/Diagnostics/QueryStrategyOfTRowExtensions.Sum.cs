@@ -29,7 +29,7 @@ namespace System.Data
         // can this be used in a join?
         [Obsolete("this is somewhat like select foo and then sum, or like orderby. what about summing vec3"
             )]
-        public static long Sum<TElement, TValue>(this IQueryStrategy<TElement> Strategy, Expression<Func<TElement, TValue>> selector)
+        public static long Sum<TElement>(this IQueryStrategy<TElement> Strategy, Expression<Func<TElement, long>> selector)
         {
             // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
             // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm

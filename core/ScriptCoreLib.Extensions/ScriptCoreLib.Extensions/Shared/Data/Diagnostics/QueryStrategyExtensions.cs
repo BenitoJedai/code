@@ -626,18 +626,19 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             }
         }
 
-        public static CommandBuilderState AsCommandBuilder(IQueryStrategy Strategy)
+
+
+
+
+
+
+        public static CommandBuilderState AsCommandBuilder(CommandBuilderState state)
         {
             // time to build the CommandText
 
-            var StrategyDescriptor = Strategy.GetDescriptor();
+            var StrategyDescriptor = state.Strategy.GetDescriptor();
 
-            var state = new CommandBuilderState
-            {
-                Strategy = Strategy,
-
-
-            };
+            
 
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
             if (StrategyDescriptor != null)
@@ -648,12 +649,23 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 state.FromCommand = "from `" + StrategyDescriptor.GetQualifiedTableName() + "`";
             }
 
-            foreach (var item in Strategy.GetCommandBuilder())
+            foreach (var item in state.Strategy.GetCommandBuilder())
             {
                 item(state);
             }
 
             return state;
+        }
+
+        public static CommandBuilderState AsCommandBuilder(IQueryStrategy Strategy)
+        {
+            // time to build the CommandText
+            return AsCommandBuilder(
+                new CommandBuilderState
+                {
+                    Strategy = Strategy,
+                }
+            );
         }
     }
 }
