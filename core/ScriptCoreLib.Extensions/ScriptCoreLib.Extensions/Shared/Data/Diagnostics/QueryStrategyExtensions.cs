@@ -608,6 +608,22 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 return x;
 
             }
+
+            public string GetQualifiedTableNameOrToString()
+            {
+                if (string.IsNullOrEmpty(this.WhereCommand))
+                    if (string.IsNullOrEmpty(this.OrderByCommand))
+                        if (string.IsNullOrEmpty(this.LimitCommand))
+                            if (string.IsNullOrEmpty(this.GroupByCommand))
+                                if (this.FromCommand == "from `" + Strategy.GetDescriptor().GetQualifiedTableName() + "`")
+                                    if (this.SelectCommand == Strategy.GetDescriptor().GetSelectAllColumnsText())
+                                    {
+                                        return "`" + Strategy.GetDescriptor().GetQualifiedTableName() + "`";
+                                    }
+
+
+                return "(" + this.ToString() + ")";
+            }
         }
 
         public static CommandBuilderState AsCommandBuilder(IQueryStrategy Strategy)

@@ -8,12 +8,18 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.Shared.Data.Diagnostics
 {
+    // ?
+    public interface IQueryStrategyGroupingBuilder<TSource>
+    {
+        IQueryStrategy<TSource> source { get; set; }
+
+    }
+
     [Obsolete("there is no good translation of such queries to SQL and Linq-to-SQL has to resort to doing multiple subqueries.")]
-    public interface IQueryStrategyGroupingBuilder<TKey, TSource>
+    public interface IQueryStrategyGroupingBuilder<TKey, TSource> : IQueryStrategyGroupingBuilder<TSource>
     {
         // GroupByBuilder
 
-        IQueryStrategy<TSource> source { get; set; }
         Expression<Func<TSource, TKey>> keySelector { get; set; }
     }
 
