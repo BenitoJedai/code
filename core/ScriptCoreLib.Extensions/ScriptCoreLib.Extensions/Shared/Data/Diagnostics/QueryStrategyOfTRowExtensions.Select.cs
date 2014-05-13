@@ -39,7 +39,7 @@ namespace System.Data
             public IQueryStrategy<TSource> source;
             public Expression<Func<TSource, TResult>> selector;
 
-   
+
 
             #region ISelectQueryStrategy
             Expression ISelectQueryStrategy.selectorExpression
@@ -107,11 +107,14 @@ namespace System.Data
                      //select `Key`, `MiddleSheet`, `UpdatedContent`, `Tag`, `Timestamp`
                      //from `Schema.MiddleSheetUpdates`
 
-                     var asGroupByQueryStrategy = that.source as IGroupByQueryStrategy;
-                     if (asGroupByQueryStrategy == null)
-                         Debugger.Break();
 
-                     asGroupByQueryStrategy.upperSelect = that;
+                     // X:\jsc.svn\examples\javascript\forms\test\TestNestedSQLiteGrouping\TestNestedSQLiteGrouping\ApplicationWebService.cs
+
+                     var asGroupByQueryStrategy = that.source as IGroupByQueryStrategy;
+                     if (asGroupByQueryStrategy != null)
+                     {
+                         asGroupByQueryStrategy.upperSelect = that;
+                     }
 
                      var s = QueryStrategyExtensions.AsCommandBuilder(that.source);
 
@@ -124,7 +127,7 @@ namespace System.Data
                      state.ApplyParameter.AddRange(s.ApplyParameter);
 
 
-                     asGroupByQueryStrategy.upperSelect = null;
+                     //asGroupByQueryStrategy.upperSelect = null;
                  }
             );
 
