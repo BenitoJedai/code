@@ -207,6 +207,8 @@ namespace TestSQLiteGroupBy
             //var d = g.Join
             var zzz = g.AsEnumerable();
 
+            // script: error JSC1000: Java : class import: no implementation for ScriptCoreLib.Shared.Data.Diagnostics.IQueryDescriptor at TestSQLiteGroupBy.Data.Book1+MiddleAsGroupByGooWithCount
+
             return zzz;
 
             //var u
@@ -223,13 +225,22 @@ namespace TestSQLiteGroupBy
             //return g.Select(gg => new XGrouping { Key = gg.Key, Items = gg.AsEnumerable() });
         }
 
+
+
+        //        Implementation not found for type import :
+        //type: System.Reflection.PropertyInfo
+        //method: System.Object GetValue(System.Object, System.Object[])
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
     }
 
 
 
 
 
-  
+
 
 
 
