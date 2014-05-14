@@ -12,12 +12,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
 
-        public Type type;
-        public string name;
+        public string Name { get; set; }
 
         public override string ToString()
         {
-            return "ParameterExpression " + new { type, name }.ToString();
+            return "ParameterExpression " + new { Type, Name }.ToString();
         }
 
     }

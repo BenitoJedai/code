@@ -371,6 +371,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script(OptimizedCode = @"return a1.join(a0);")]
         static public string Join(string a0, string[] a1)
         {
+            // X:\jsc.svn\examples\java\test\JVMCLRStringJoin\JVMCLRStringJoin\Program.cs
             return default(string);
         }
 

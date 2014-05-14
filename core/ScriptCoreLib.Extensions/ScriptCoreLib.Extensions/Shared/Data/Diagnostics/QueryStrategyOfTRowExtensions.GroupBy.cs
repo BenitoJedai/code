@@ -26,6 +26,7 @@ namespace System.Data
         // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.GroupBy.cs
         // would group by work as distinct too?
 
+        [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
         interface IGroupByQueryStrategy
         {
             // allow to inspect upper select . what if there are multiple upper selects?
