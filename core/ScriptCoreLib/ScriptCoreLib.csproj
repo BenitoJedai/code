@@ -180,6 +180,7 @@
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\IQueryable.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.GroupJoin.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.GroupBy.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.AsEnumerable.cs" />

@@ -61,7 +61,8 @@ namespace AsyncOrderByExpression
 
 
 
-        public async Task<IEnumerable<FooRow>> WithSelector(Expression<Func<IQueryable<FooRow>, IQueryable<FooRow>>> f)
+        //public async Task<IEnumerable<FooRow>> WithSelector(Expression<Func<IQueryable<FooRow>, IQueryable<FooRow>>> f)
+        public async Task<IEnumerable<FooRow>> WithSelector(Expression<Func<IEnumerable<FooRow>, IEnumerable<FooRow>>> f)
         {
             // Error	4	Argument 1: cannot convert from 'System.Linq.IOrderedEnumerable<FooRow>' to
             // 'System.Linq.Expressions.Expression<System.Linq.IOrderedEnumerable<FooRow>>'	X:\jsc.svn\examples\javascript\future\AsyncOrderByExpression\AsyncOrderByExpression\ApplicationControl.cs	33	17	AsyncOrderByExpression
