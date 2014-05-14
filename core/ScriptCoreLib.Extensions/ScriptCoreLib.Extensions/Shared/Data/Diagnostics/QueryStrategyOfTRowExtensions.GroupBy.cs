@@ -48,6 +48,11 @@ namespace System.Data
         }
 
 
+
+
+        // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+
+
         //public static IQueryStrategyGroupingBuilder<TKey, TSource>
         public static IQueryStrategy<IQueryStrategyGrouping<TKey, TSource>>
                 GroupBy

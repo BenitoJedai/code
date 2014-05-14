@@ -1,8 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
-using ScriptCoreLib.Desktop.Forms.Extensions;
 using System;
 
-namespace TestSQLGroupByAfterJoin
+namespace TestRoslynEventsAsWebApp
 {
     /// <summary>
     /// You can debug your application by hitting F5.
@@ -11,15 +10,7 @@ namespace TestSQLGroupByAfterJoin
     {
         public static void Main(string[] args)
         {
-#if DEBUG
-            new ApplicationWebService().WebMethod2();
-
-			DesktopFormsExtensions.Launch(
-				() => new ApplicationControl()
-			);
-#else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
-#endif
         }
 
     }
