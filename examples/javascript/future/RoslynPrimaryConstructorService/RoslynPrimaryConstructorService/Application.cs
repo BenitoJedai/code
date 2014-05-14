@@ -26,9 +26,9 @@ namespace RoslynPrimaryConstructorService
         ClientTag: "goo",
         yield:
             delegate
-            {
-                // how would this be useful if jsc supported this?
-            }
+    {
+        // how would this be useful if jsc supported this?
+    }
         )
     {
         /// <summary>
@@ -42,10 +42,6 @@ namespace RoslynPrimaryConstructorService
             //this.Invoke("base");
 
 
-            //         2848:01:01 RewriteToAssembly error: System.InvalidOperationException: Sequence contains more than one element
-            //at System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
-            //at jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.WebServiceForJavaScript.<> c__DisplayClass297.< WriteTypeDefinition > b__28c() in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WebService.cs:line 1955
-            //at jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.<>c__DisplayClass238.<InternalInvoke>b__1ce(Type SourceType) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.cs:line 1415
 
 
             // jsc wont like this yet.
@@ -60,8 +56,17 @@ namespace RoslynPrimaryConstructorService
                 ClientTag = "CCC",
 
                 yield = x => new IHTMLPre { new { x } }.AttachToDocument()
-            }
-            .Invoke(InvokeTag: "A");
+            }.With(
+                async service =>
+                {
+                    var service2 = await service.Invoke(InvokeTag: "A");
+
+                    // reuse
+                    service2.yield = service.yield;
+
+                    service2.Invoke("B");
+                }
+             );
 
             //.Invoke(InvokeTag: "B");
 
