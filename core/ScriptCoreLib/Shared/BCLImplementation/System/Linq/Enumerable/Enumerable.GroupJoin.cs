@@ -26,7 +26,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             // javac does not like this function?
             // X:\jsc.svn\examples\java\test\JVMCLRStringJoin\JVMCLRStringJoin\Program.cs
 
-            return null;
+            //return null;
 
 
 
@@ -35,15 +35,32 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             //var o = outer.ToArray();
             //var i = inner.ToArray();
 
+            // java does not support generic type field variants.
+            // so. until jsc figures out and starts to do 
+            // generic type bakeing we cannot write such complex code can we.
+
+            var o = outer.Select(jo => new { jo, ko = outerKeySelector(jo) }).ToArray();
+            var i = inner.Select(ji => new { ji, ki = innerKeySelector(ji) }).ToArray();
+
+            //return
+            //    from jo in outer
+            //    let ko = outerKeySelector(jo)
+            //    let e = from ji in inner
+            //            let ki = innerKeySelector(ji)
+            //            where c.Compare(ko, ki) == 0
+            //            select ji
+            //    let r = resultSelector(jo, e)
+            //    select r;
+
+
             return
-                from jo in outer
-                let ko = outerKeySelector(jo)
-                let e = from ji in inner
-                        let ki = innerKeySelector(ji)
-                        where c.Compare(ko, ki) == 0
-                        select ji
-                let r = resultSelector(jo, e)
-                select r;
+                from jo in o
+                select resultSelector(jo.jo,
+                    from ji in i
+                    where c.Compare(jo.ko, ji.ki) == 0
+                    select ji.ji
+                );
+
 
         }
 
