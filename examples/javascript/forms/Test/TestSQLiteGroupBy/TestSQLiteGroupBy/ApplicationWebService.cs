@@ -138,8 +138,8 @@ namespace TestSQLiteGroupBy
 
             var g = from z in x
 
-
-                    where z.FooStateEnum == FooStateEnum.Foo0
+                    // now what?
+                    where z.FooStateEnum == FooStateEnum.Foo0 || z.FooStateEnum == FooStateEnum.Foo2
                     where z.Ratio == SpecialRatio
 
                     //where z.Ratio > 0.1
