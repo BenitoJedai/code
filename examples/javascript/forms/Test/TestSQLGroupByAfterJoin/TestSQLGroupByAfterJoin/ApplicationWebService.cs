@@ -36,7 +36,7 @@ namespace TestSQLGroupByAfterJoin
             SourceDataSet.Tables["RightTable"].Rows.AsEnumerable().WithEach(r => RightTable.Insert(r));
 
             return (from l in new Database.LeftTable()
-                      join rJoin in new Database.RightTable() on l.Key equals rJoin.ClientName into test
+                      join rJoin in new Database.RightTable() on l.Key equals rJoin.ClientName // into test
                       group test by test.ClientName into result
                       select new DatabaseJoinViewRow
                       {

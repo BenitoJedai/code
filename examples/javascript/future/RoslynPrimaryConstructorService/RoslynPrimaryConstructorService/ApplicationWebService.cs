@@ -23,13 +23,19 @@ namespace RoslynPrimaryConstructorService
         public Action<string> yield = null
         ) //: Delegate
     {
+        // X:\jsc.svn\examples\javascript\future\AsyncOrderByExpression\AsyncOrderByExpression\ApplicationWebService.cs
+
+        //{{ x = { ClientTag = CCC, InvokeTag = A
+        //    }
+        //}}
+        //{{ x = { ClientTag = zClientTag, InvokeTag = B } }}
 
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void Invoke(string InvokeTag)
+        public async Task<ApplicationWebService> Invoke(string InvokeTag)
         {
             Console.WriteLine(new { ClientTag, InvokeTag });
             //Debugger.Break();
@@ -42,9 +48,12 @@ namespace RoslynPrimaryConstructorService
             //new IHTMLPre { new { x } }.AttachToDocument();
 
             // async continuation
-            //return this;
-
-
+            return new ApplicationWebService("zClientTag",
+                // we dont yet allow to send delegates to client just yet
+                // or could we atleast send back one of the delegates
+                // the client sent us?
+                yield: null
+            );
         }
 
     }
