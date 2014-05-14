@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript
 
 
     [Script]
+    // C# 6 shall import this static type and make members available!
     public static partial class Native
     {
         //#region window

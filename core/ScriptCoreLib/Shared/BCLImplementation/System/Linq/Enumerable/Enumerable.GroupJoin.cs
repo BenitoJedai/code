@@ -22,6 +22,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             Func<TOuter, IEnumerable<TInner>, TResult> resultSelector
             )
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140514
+            // javac does not like this function?
+            // X:\jsc.svn\examples\java\test\JVMCLRStringJoin\JVMCLRStringJoin\Program.cs
+
+            return null;
+
+
+
             var c = Comparer<TKey>.Default;
 
             //var o = outer.ToArray();

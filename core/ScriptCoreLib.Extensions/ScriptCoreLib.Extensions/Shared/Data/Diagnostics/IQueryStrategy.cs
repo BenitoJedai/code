@@ -66,6 +66,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     }
 
 
+    [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
     public interface IQueryStrategy<TRow> : IQueryStrategy
     {
         // this class exists to make LINQ happy

@@ -14,6 +14,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         )]
     internal class __String
     {
+        static public string Join(string a0, string[] a1)
+        {
+            //20140514
+            // X:\jsc.svn\examples\java\test\JVMCLRStringJoin\JVMCLRStringJoin\Program.cs
+            // android/java does not have it. need to implement it!
+
+            var w = new StringBuilder();
+
+            for (int i = 0; i < a1.Length; i++)
+            {
+                if (i > 0)
+                    w.Append(a0);
+
+                w.Append(a1[i]);
+            }
+
+            return w.ToString();
+        }
+
         public static bool IsNullOrEmpty(string e)
         {
             if (e == null)

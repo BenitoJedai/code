@@ -24,6 +24,7 @@ namespace System.Data
     //[Obsolete("the first generic extension method for all jsc data layer rows")]
     public static partial class QueryStrategyOfTRowExtensions
     {
+        [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
         interface ISelectQueryStrategy
         {
             // allow to inspect upper select . what if there are multiple upper selects?

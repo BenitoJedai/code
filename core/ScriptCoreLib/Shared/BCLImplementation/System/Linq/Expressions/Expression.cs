@@ -312,8 +312,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 {
                     NodeType = ExpressionType.Parameter,
 
-                    type = type,
-                    name = name
+                    Type = type,
+                    Name = name
                 };
         }
 
@@ -391,7 +391,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                      NodeType = ExpressionType.Lambda,
 
                      Body = body,
-                     parameters = parameters
+                     Parameters = new global::System.Collections.ObjectModel.ReadOnlyCollection<ParameterExpression>(
+                         parameters
+                     )
                  };
         }
     }
@@ -401,11 +403,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     {
         //Error	71	The type 'System.Linq.Expressions.LambdaExpression' has no constructors defined	X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\Expression.cs	43	27	ScriptCoreLib
 
-        public ParameterExpression[] parameters;
 
         public override string ToString()
         {
-            return new { Body, parameters }.ToString();
+            return new { Body, Parameters }.ToString();
         }
     }
 }

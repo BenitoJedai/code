@@ -29,6 +29,7 @@ namespace System.Data
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
 
 
+        [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
         interface IJoinQueryStrategy
         {
             // allow to inspect upper select . what if there are multiple upper selects?
