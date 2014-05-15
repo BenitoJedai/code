@@ -288,11 +288,17 @@ namespace System.Data
 
                      // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
 
+
+                     var GroupingKeyFieldExpressionName = GroupBy_asMemberExpression.Member.Name;
+                     if (GroupingKeyFieldExpression != null)
+                         GroupingKeyFieldExpressionName = GroupingKeyFieldExpression.Member.Name + "_" + GroupBy_asMemberExpression.Member.Name;
+
+
+
                      var s_SelectCommand = "select s.`" +
 
 
-                         (GroupingKeyFieldExpression != null ? (GroupingKeyFieldExpression.Member.Name + "_") : "")
-                          + GroupBy_asMemberExpression.Member.Name
+                         GroupingKeyFieldExpressionName
                          + "` as `Grouping.Key`";
 
 
@@ -391,8 +397,7 @@ namespace System.Data
                                  state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                  s_SelectCommand += ",\n\t s.`"
-                                    + (GroupingKeyFieldExpression != null ? (GroupingKeyFieldExpression.Member.Name + "_") : "")
-                                     + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                    + GroupingKeyFieldExpressionName  + "` as `" + asMemberAssignment.Member.Name + "`";
                                  return;
                              }
                              #endregion
@@ -756,9 +761,7 @@ namespace System.Data
                                      s_SelectCommand += ",\n\t s.`"
 
 
-                                         + (GroupingKeyFieldExpression != null ? (GroupingKeyFieldExpression.Member.Name + "_") : "")
-
-                                         + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         + GroupingKeyFieldExpressionName + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                      return;
                                  }
