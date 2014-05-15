@@ -8,47 +8,55 @@ using java.lang.reflect;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
-	[Script(Implements = typeof(ConstructorInfo))]
+    [Script(Implements = typeof(ConstructorInfo))]
     internal class __ConstructorInfo : __MethodBase
-	{
+    {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Reflection\ConstructorInfo.cs
+
         public global::java.lang.reflect.Constructor InternalConstructor;
 
-		public override string Name
-		{
-			get { return ".ctor"; }
-		}
+        public override string Name
+        {
+            get { return ".ctor"; }
+        }
 
         public override global::System.Type DeclaringType
-		{
-			get
-			{
+        {
+            get
+            {
+                if (InternalConstructor == null)
+                    return null;
+
                 return (__Type)InternalConstructor.getDeclaringClass();
-			}
-		}
+            }
+        }
 
-		public override ParameterInfo[] GetParameters()
-		{
+        public override ParameterInfo[] GetParameters()
+        {
+            if (this.InternalConstructor == null)
+                return new ParameterInfo[0];
+
             var a = this.InternalConstructor.getParameterTypes();
-			var n = new ParameterInfo[a.Length];
+            var n = new ParameterInfo[a.Length];
 
-			for (int i = 0; i < a.Length; i++)
-			{
-				n[i] = new __ParameterInfo
-				{
-					ParameterType = (__Type)a[i],
-					Position = i
-				};
-			}
+            for (int i = 0; i < a.Length; i++)
+            {
+                n[i] = new __ParameterInfo
+                {
+                    ParameterType = (__Type)a[i],
+                    Position = i
+                };
+            }
 
-			return n;
-		}
+            return n;
+        }
 
 
 
         public static implicit operator ConstructorInfo(__ConstructorInfo m)
-		{
+        {
             return (ConstructorInfo)(object)m;
-		}
+        }
 
         public static implicit operator __ConstructorInfo(Constructor InternalConstructor)
         {
@@ -66,5 +74,5 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             return Modifier.isPublic(InternalConstructor.getModifiers());
         }
 
-	}
+    }
 }

@@ -27,6 +27,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         #region New
         public static NewExpression New(ConstructorInfo constructor, Expression[] arguments)
         {
+            Console.WriteLine("Expression.New " + new { constructor, constructor.DeclaringType });
             // method: System.Linq.Expressions.NewExpression New(System.Reflection.ConstructorInfo, System.Linq.Expressions.Expression[])
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
 
@@ -37,6 +38,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                     NodeType = ExpressionType.New,
 
                     Constructor = constructor,
+                    Type = constructor.DeclaringType,
+
                     Arguments = new global::System.Collections.ObjectModel.ReadOnlyCollection<Expression>(arguments.ToList()),
                     Members = new global::System.Collections.ObjectModel.ReadOnlyCollection<MemberInfo>(new MemberInfo[0].ToList()),
 
@@ -47,6 +50,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
         public static NewExpression New(ConstructorInfo constructor, IEnumerable<Expression> arguments, params MemberInfo[] members)
         {
+            Console.WriteLine("Expression.New " + new { constructor, constructor.DeclaringType, arguments, members });
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Join.cs
 
             return
                 (NewExpression)(object)
@@ -55,6 +60,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                     NodeType = ExpressionType.New,
 
                     Constructor = constructor,
+                    Type = constructor.DeclaringType,
+
                     Arguments = new global::System.Collections.ObjectModel.ReadOnlyCollection<Expression>(arguments.ToList()),
                     Members = new global::System.Collections.ObjectModel.ReadOnlyCollection<MemberInfo>(members.ToList()),
 
@@ -329,7 +336,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
         public static MemberInitExpression MemberInit(NewExpression NewExpression, MemberBinding[] Bindings)
         {
-            //Console.WriteLine("Parameter " + new { type, name });
+            Console.WriteLine("MemberInit " + new { NewExpression });
 
             return
                 (MemberInitExpression)(object)
@@ -358,6 +365,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         [Obsolete("should we construct a property from the getter?")]
         public static MemberExpression Property(Expression expression, MethodInfo member)
         {
+            // Property { expression = ParameterExpression { Type = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_682_0_2, Name = <>h__TransparentIdentifier0 }, member = java.lang.Object get_dealer() }
+
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
             Console.WriteLine("Property " + new { expression, member });
 
@@ -381,7 +390,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
             // MemberExpression
 
 
-            //Console.WriteLine("Lambda " + new { body, parameters });
+            Console.WriteLine("Lambda " + new { body });
 
 
             return

@@ -103,6 +103,8 @@
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Reflection\ConstructorInfo.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Reflection\ParameterInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\UInt64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\UInt32.cs" />

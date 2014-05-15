@@ -161,6 +161,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public ConstructorInfo GetConstructor(global::System.Type[] parameters)
         {
+            Console.WriteLine("GetConstructor " + new { FullName, parameters });
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery/ldtoken
             // like enum.ToString, javascript cannot do New Expressions while java might..
             // X:\jsc.svn\examples\java\Test\JVMCLRNewExpression\JVMCLRNewExpression\Program.cs
@@ -182,7 +184,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
             }
 
-            return (__ConstructorInfo)m;
+            var cc = (__ConstructorInfo)m;
+
+            Console.WriteLine("GetConstructor " + new { FullName, cc });
+
+            return cc;
         }
 
         public MethodInfo GetMethod(string name, global::System.Type[] parameters)

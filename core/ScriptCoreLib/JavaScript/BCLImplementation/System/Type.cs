@@ -256,5 +256,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
         #endregion
 
+
+        public override Type DeclaringType
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
