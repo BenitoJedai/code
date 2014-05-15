@@ -135,6 +135,18 @@ namespace System.Data
             GroupBy.GetCommandBuilder().Add(
                  state =>
                  {
+                     //0001 0200003f TestSQLJoin.ApplicationWebService::System.Data.QueryStrategyOfTRowExtensions+<>c__DisplayClass4`2
+                     //script: error JSC1000:
+                     //error:
+                     //  statement cannot be a load instruction (or is it a bug?)
+
+                     // assembly: W:\TestSQLJoin.ApplicationWebService.exe
+                     // type: System.Data.QueryStrategyOfTRowExtensions+<>c__DisplayClass12`3, TestSQLJoin.ApplicationWebService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+                     // offset: 0x02c5
+                     //  method:Void <GroupBy>b__8(CommandBuilderState)
+
+
+
                      // do we even know what needs to be selected?
 
                      // GroupBy.upperSelect.selectorExpression = {g => new SchemaViewsMiddleViewRow() {Content = g.Last().UpdatedContent}}
@@ -173,7 +185,7 @@ namespace System.Data
                      var asMemberInitExpressionByParameter2 = default(ParameterExpression);
 
                      if (GroupBy.upperSelect != null)
-                         asMemberInitExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MemberInitExpression;
+                         asMemberInitExpression = ((LambdaExpression)GroupBy.upperSelect.selectorExpression).Body as MemberInitExpression;
 
 
                      #region upperJoin
@@ -190,8 +202,8 @@ namespace System.Data
                              // we are outer?
 
                              //GroupBy.upperJoin.resultSelectorExpression as LambdaExpression)
-                             asMemberInitExpression = (GroupBy.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
-                             asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.resultSelectorExpression ).Body as MemberInitExpression;
+                             asMemberInitExpressionByParameter0 = ((LambdaExpression)GroupBy.upperJoin.resultSelectorExpression).Parameters[0];
 
 
                              if (asMemberInitExpression == null)
@@ -200,9 +212,9 @@ namespace System.Data
 
                                  if (GroupBy.upperJoin.upperJoin.xouter == GroupBy.upperJoin)
                                  {
-                                     asMemberInitExpression = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                     asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.resultSelectorExpression ).Body as MemberInitExpression;
                                      //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                     asMemberInitExpressionByParameter1 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                     asMemberInitExpressionByParameter1 = (( LambdaExpression)GroupBy.upperJoin.upperJoin.resultSelectorExpression ).Parameters[0];
 
 
 
@@ -212,9 +224,9 @@ namespace System.Data
 
                                          if (GroupBy.upperJoin.upperJoin.upperJoin.xouter == GroupBy.upperJoin.upperJoin)
                                          {
-                                             asMemberInitExpression = (GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression  ).Body as MemberInitExpression;
                                              //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                             asMemberInitExpressionByParameter2 = (GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                             asMemberInitExpressionByParameter2 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression ).Parameters[0];
 
                                          }
 
