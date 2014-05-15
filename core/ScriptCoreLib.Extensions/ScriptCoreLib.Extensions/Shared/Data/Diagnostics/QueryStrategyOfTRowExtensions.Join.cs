@@ -264,10 +264,14 @@ namespace System.Data
                         //xouter_Paramerer_Name = u.Member.Name;
                     }
 
+
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
+
                     var FromCommand =
-                        "from (\n\t"
-                            + xouter_SelectAll.ToString().Replace("\n", "\n\t")
-                            + "\n) as " + xouter_Paramerer_Name.Replace("<>", "__") + " inner join "
+                        "from "
+                            + xouter_SelectAll.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                            + " as " + xouter_Paramerer_Name.Replace("<>", "__") + " inner join "
                             + xinner_SelectAll.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
                             + " as " + xinner_Paramerer.Name.Replace("<>", "__");
                     #endregion

@@ -36,12 +36,14 @@ namespace System.Data
             IJoinQueryStrategy upperJoin { get; set; }
         }
 
-        class GroupByQueryStrategy<TSource, TKey> :
-            XQueryStrategy<IQueryStrategyGrouping<TKey, TSource>>,
+        class GroupByQueryStrategy<TSource, TKey, TElement> :
+            XQueryStrategy<IQueryStrategyGrouping<TKey, TElement>>,
             IGroupByQueryStrategy
         {
             public IQueryStrategy<TSource> source;
             public Expression<Func<TSource, TKey>> keySelector;
+            public Expression<Func<TSource, TElement>> elementSelector;
+
 
             public ISelectQueryStrategy upperSelect { get; set; }
             public IJoinQueryStrategy upperJoin { get; set; }
@@ -52,24 +54,42 @@ namespace System.Data
 
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
 
-
         //public static IQueryStrategyGroupingBuilder<TKey, TSource>
+
+
         public static IQueryStrategy<IQueryStrategyGrouping<TKey, TSource>>
-                GroupBy
-                <TSource, TKey>
-                (
-             this IQueryStrategy<TSource> source,
-             Expression<Func<TSource, TKey>> keySelector
+             GroupBy
+             <TSource, TKey>(
+                 this IQueryStrategy<TSource> source,
+                 Expression<Func<TSource, TKey>> keySelector
+            )
+        {
+            return GroupBy(
+                source,
+                keySelector,
+                x => x
+            );
+        }
+
+        public static IQueryStrategy<IQueryStrategyGrouping<TKey, TElement>>
+             GroupBy
+             <TSource, TKey, TElement>(
+                 this IQueryStrategy<TSource> source,
+                 Expression<Func<TSource, TKey>> keySelector,
+
+                 Expression<Func<TSource, TElement>> elementSelector
             )
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
 
             Console.WriteLine("GroupBy " + new { keySelector });
 
-            var GroupBy = new GroupByQueryStrategy<TSource, TKey>
+            var GroupBy = new GroupByQueryStrategy<TSource, TKey, TElement>
             {
                 source = source,
                 keySelector = keySelector,
+                elementSelector = elementSelector,
+
 
                 InternalGetDescriptor =
                     () =>
@@ -108,64 +128,14 @@ namespace System.Data
                      var gDescendingByKeyReferenced = false;
 
                      // move to equals comparer?
-                     var s_SelectCommand = "select s.`" + GroupBy_asMemberExpression.Member.Name + "` as `Grouping.Key`";
-
-                     #region asMethodCallExpression
-                     if (GroupBy.upperSelect != null)
-                     {
-                         var asMethodCallExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MethodCallExpression;
-                         if (asMethodCallExpression != null)
-                         {
-                             //+		(new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.Expression>((new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Arguments as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.Expression>)).Items[0x00000000]	
-                             // {ug}	System.Linq.Expressions.Expression {System.Linq.Expressions.TypedParameterExpression}
-                             //+		(new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Type	
-                             // {Name = "SchemaTheGridTableViewRow" FullName = "SQLiteWithDataGridViewX.Data.SchemaTheGridTableViewRow"}	System.Type {System.RuntimeType}
-                             //+		(new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Method	{SQLiteWithDataGridViewX.Data.SchemaTheGridTableViewRow 
-                             // Last[SchemaTheGridTableKey,SchemaTheGridTableViewRow](ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategyGrouping`2[SQLiteWithDataGridViewX.Data.SchemaTheGridTableKey,SQLiteWithDataGridViewX.Data.SchemaTheGridTableViewRow])}	System.Reflection.MethodInfo {System.Reflection.RuntimeMethodInfo}
-
-                             Console.WriteLine(new { asMethodCallExpression });
-
-                             // special!
-                             if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
-                             {
-                                 gDescendingByKeyReferenced = true;
-                                 //state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                 //s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                 Debugger.Break();
-                                 //return;
-                             }
-
-                             if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
-                             {
-                                 // do we have type info on what fields to select?
-                                 // jsc data layer gen is using fields. we might end yp using fields in the future.
-
-                                 asMethodCallExpression.Type.GetFields().WithEach(
-                                     SourceMember =>
-                                     {
-                                         if (SourceMember.Name == "Key")
-                                             return;
-
-                                         // what if the underlying select does not have all the columns?
-
-                                         state.SelectCommand += ",\n\t g.`" + SourceMember.Name + "` as `" + SourceMember.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`" + SourceMember.Name + "` as `" + SourceMember.Name + "`";
-                                     }
-                                 );
+                     // s is the inner grouping
 
 
 
-                                 // http://stackoverflow.com/questions/8341136/mysql-alias-for-select-columns
-                                 // ? You can't use * with an alias.
-                                 //return;
-                             }
-                         }
-                     }
-                     #endregion
 
 
-                     #region asMemberInitExpression
+
+
                      var asMemberInitExpression = default(MemberInitExpression);
                      var asMemberInitExpressionByParameter0 = default(ParameterExpression);
                      var asMemberInitExpressionByParameter1 = default(ParameterExpression);
@@ -263,6 +233,83 @@ namespace System.Data
                          }
                      }
                      #endregion
+
+
+
+                     // GroupBy_asMemberExpression = {<>h__TransparentIdentifier0.rJoin.ClientName}
+                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
+
+                     //+		GroupBy_asMemberExpression	{<>h__TransparentIdentifier0.rJoin.ClientName}	System.Linq.Expressions.MemberExpression {System.Linq.Expressions.FieldExpression}
+                     // what if we are not grouping a join?
+                     var GroupingKeyFieldExpression = GroupBy_asMemberExpression.Expression as MemberExpression;
+
+                     // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+
+                     var s_SelectCommand = "select s.`" +
+                         GroupingKeyFieldExpression.Member.Name + "_"
+                         + GroupBy_asMemberExpression.Member.Name
+                         + "` as `Grouping.Key`";
+
+
+                     #region asMethodCallExpression
+                     if (GroupBy.upperSelect != null)
+                     {
+                         var asMethodCallExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MethodCallExpression;
+                         if (asMethodCallExpression != null)
+                         {
+                             //+		(new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.Expression>((new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Arguments as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.Expression>)).Items[0x00000000]	
+                             // {ug}	System.Linq.Expressions.Expression {System.Linq.Expressions.TypedParameterExpression}
+                             //+		(new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Type	
+                             // {Name = "SchemaTheGridTableViewRow" FullName = "SQLiteWithDataGridViewX.Data.SchemaTheGridTableViewRow"}	System.Type {System.RuntimeType}
+                             //+		(new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Method	{SQLiteWithDataGridViewX.Data.SchemaTheGridTableViewRow 
+                             // Last[SchemaTheGridTableKey,SchemaTheGridTableViewRow](ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategyGrouping`2[SQLiteWithDataGridViewX.Data.SchemaTheGridTableKey,SQLiteWithDataGridViewX.Data.SchemaTheGridTableViewRow])}	System.Reflection.MethodInfo {System.Reflection.RuntimeMethodInfo}
+
+                             Console.WriteLine(new { asMethodCallExpression });
+
+                             // special!
+                             if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
+                             {
+                                 gDescendingByKeyReferenced = true;
+                                 //state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                 //s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                 Debugger.Break();
+                                 //return;
+                             }
+
+                             if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
+                             {
+                                 // do we have type info on what fields to select?
+                                 // jsc data layer gen is using fields. we might end yp using fields in the future.
+
+                                 asMethodCallExpression.Type.GetFields().WithEach(
+                                     SourceMember =>
+                                     {
+                                         if (SourceMember.Name == "Key")
+                                             return;
+
+                                         // what if the underlying select does not have all the columns?
+
+                                         state.SelectCommand += ",\n\t g.`" + SourceMember.Name + "` as `" + SourceMember.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + SourceMember.Name + "` as `" + SourceMember.Name + "`";
+                                     }
+                                 );
+
+
+
+                                 // http://stackoverflow.com/questions/8341136/mysql-alias-for-select-columns
+                                 // ? You can't use * with an alias.
+                                 //return;
+                             }
+                         }
+                     }
+                     #endregion
+
+
+                     #region asMemberInitExpression
+
+
+
 
 
                      if (asMemberInitExpression != null)
@@ -440,7 +487,9 @@ namespace System.Data
                                                  // special!
                                                  state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
 
-                                                 s_SelectCommand += ",\n\t s.`" + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                 s_SelectCommand += ",\n\t s.`"
+                                                    + GroupingKeyFieldExpression.Member.Name + "_"
+                                                     + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  return;
                                              }
                                              #endregion
@@ -566,7 +615,7 @@ namespace System.Data
                                                      //}
                                                  }
 
-                                                 var asMPropertyInfo = asMMemberExpression.Member as FieldInfo;
+                                                 var asMMFieldInfo = asMMemberExpression.Member as FieldInfo;
 
                                                  #region asPropertyInfo
                                                  var asPropertyInfo = asMemberExpression.Member as PropertyInfo;
@@ -578,7 +627,7 @@ namespace System.Data
 
                                                      // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
 
-                                                     var value0 = asMPropertyInfo.GetValue(asC.Value);
+                                                     var value0 = asMMFieldInfo.GetValue(asC.Value);
                                                      var value1 = asPropertyInfo.GetValue(value0, null);
 
 
@@ -596,6 +645,31 @@ namespace System.Data
                                                      return;
                                                  }
                                                  #endregion
+
+
+
+                                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
+                                                 // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+                                                 var asMMMemberInfo = asMMemberExpression.Member as MemberInfo;
+                                                 if (asMMMemberInfo != null)
+                                                 {
+                                                     // asMMemberExpression = {result.Last().l}
+                                                     // asMemberExpression = {result.Last().l.FirstName}
+
+                                                     var asMMMCall = asMMemberExpression.Expression as MethodCallExpression;
+                                                     if (asMMMCall != null)
+                                                     {
+                                                         //asMMMCall = {result.Last()}
+
+
+                                                         if (asMMMCall.Method.Name.TakeUntilIfAny("_") == "Last")
+                                                         {
+                                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                             s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                             return;
+                                                         }
+                                                     }
+                                                 }
 
                                              }
                                              #endregion
@@ -636,7 +710,10 @@ namespace System.Data
                                              var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as MemberExpression;
 
                                              state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                             s_SelectCommand += ",\n\t s.`" + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t s.`"
+
+                                                 + GroupingKeyFieldExpression.Member.Name + "_"
+                                                 + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                              return;
                                          }
@@ -693,9 +770,12 @@ namespace System.Data
                      //from `Schema.MiddleSheetUpdates`
                      //) as s  group by `Grouping.Key`
 
+
+                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
+
                      var g = s_SelectCommand
                               + "\n from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s "
-                              + "\n group by s.`" + GroupBy_asMemberExpression.Member.Name + "`";
+                              + "\n group by `Grouping.Key`";
 
                      state.FromCommand =
                           "from (\n\t"
@@ -703,12 +783,34 @@ namespace System.Data
                             + "\n) as g";
 
 
-                     #region gDescendingByKeyReferenced
-                     if (gDescendingByKeyReferenced)
+                     if (!gDescendingByKeyReferenced)
+                     {
+                         // can we simplyfy?
+
+                         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
+
+                         if (string.IsNullOrEmpty(state.WhereCommand))
+                             if (string.IsNullOrEmpty(state.OrderByCommand))
+                                 if (string.IsNullOrEmpty(state.LimitCommand))
+                                 {
+                                     // we might not need the outer select?
+
+
+                                     state.SelectCommand = s_SelectCommand;
+                                     state.FromCommand =
+                                         "from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s "
+                                         + "\n group by `Grouping.Key`";
+                                 }
+
+
+                     }
+                     else
                      {
                          // omit if we aint using it
 
                          // ? this wont work on a join!!
+                         #region gDescendingByKeyReferenced
                          var gDescendingByKey = s_SelectCommand
                              + "\n from (select * from (" + s.ToString().Replace("\n", "\n\t") + ") order by `Key` desc) as s "
                            + "\n group by `Grouping.Key`";
@@ -718,8 +820,8 @@ namespace System.Data
                                 + gDescendingByKey.Replace("\n", "\n\t")
                                 + "\n) as gDescendingByKey"
                                 + "\n on g.`Grouping.Key` = gDescendingByKey.`Grouping.Key`";
+                         #endregion
                      }
-                     #endregion
 
                      #endregion
 

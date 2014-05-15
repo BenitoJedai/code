@@ -136,6 +136,9 @@ namespace TestSQLiteGroupBy
 
             // Error	4	Could not find an implementation of the query pattern for source type 'ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy<AnonymousType#1>'.  'Select' not found.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs	136	31	TestSQLiteGroupBy
 
+
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+
             var g = from z in x
 
                     // now what?
