@@ -149,7 +149,6 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                             if (asConstantExpression != null)
                             {
                                 var rAddParameterValue0 = asConstantExpression.Value;
-
                                 var n = "@arg" + state.ApplyParameter.Count;
 
                                 state.WhereCommand += " ";

@@ -399,18 +399,35 @@ namespace System.Data
                                          {
                                              var asMPropertyInfo = asMemberAssignment.Member as FieldInfo;
                                              //var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
-                                             var value1 = asMConstantExpression.Value;
+                                             var rAddParameterValue0 = asMConstantExpression.Value;
 
-                                             if (value1 is string)
-                                             {
-                                                 // NULL?
-                                                 state.SelectCommand += ",\n\t '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                             }
-                                             else
-                                             {
-                                                 // long?
-                                                 state.SelectCommand += ",\n\t " + value1 + " as `" + asMemberAssignment.Member.Name + "`";
-                                             }
+                                             var n = "@arg" + state.ApplyParameter.Count;
+
+                                             s_SelectCommand += ",\n\t ";
+                                             s_SelectCommand += n;
+                                             s_SelectCommand += " as `" + asMemberAssignment.Member.Name + "`";
+
+                                             state.ApplyParameter.Add(
+                                                 c =>
+                                                 {
+                                                     // either the actualt command or the explain command?
+
+                                                     //c.Parameters.AddWithValue(n, r);
+                                                     c.AddParameter(n, rAddParameterValue0);
+                                                 }
+                                             );
+
+
+                                             //if (rAddParameterValue0 is string)
+                                             //{
+                                             //    // NULL?
+                                             //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                             //}
+                                             //else
+                                             //{
+                                             //    // long?
+                                             //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
+                                             //}
 
                                              return;
                                          }
@@ -568,20 +585,42 @@ namespace System.Data
                                              if (asMConstantExpression != null)
                                              {
                                                  var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
-                                                 var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+                                                 var rAddParameterValue0 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
 
-                                                 if (value1 is string)
-                                                 {
-                                                     // NULL?
-                                                     state.SelectCommand += ",\n\t '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                                 }
-                                                 else
-                                                 {
-                                                     // long?
-                                                     state.SelectCommand += ",\n\t " + value1 + " as `" + asMemberAssignment.Member.Name + "`";
-                                                 }
+                                                 // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+
+                                                 var n = "@arg" + state.ApplyParameter.Count;
+
+                                                 s_SelectCommand += ",\n\t ";
+                                                 s_SelectCommand += n;
+                                                 s_SelectCommand += " as `" + asMemberAssignment.Member.Name + "`";
+
+                                                 state.ApplyParameter.Add(
+                                                     c =>
+                                                     {
+                                                         // either the actualt command or the explain command?
+
+                                                         //c.Parameters.AddWithValue(n, r);
+                                                         c.AddParameter(n, rAddParameterValue0);
+                                                     }
+                                                 );
 
                                                  return;
+
+                                                 //if (rAddParameterValue0 is string)
+                                                 //{
+                                                 //    // the outer select might be optimized away!
+                                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                 //    s_SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                                 //}
+                                                 //else
+                                                 //{
+                                                 //    // long?
+                                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                 //    s_SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
+                                                 //}
+
+                                                 //return;
                                              }
                                              #endregion
 
@@ -630,19 +669,36 @@ namespace System.Data
                                                      // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
 
                                                      var value0 = asMMFieldInfo.GetValue(asC.Value);
-                                                     var value1 = asPropertyInfo.GetValue(value0, null);
+                                                     var rAddParameterValue0 = asPropertyInfo.GetValue(value0, null);
 
 
-                                                     if (value1 is string)
-                                                     {
-                                                         // NULL?
-                                                         state.SelectCommand += ",\n\t '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                                     }
-                                                     else
-                                                     {
-                                                         // long?
-                                                         state.SelectCommand += ",\n\t " + value1 + " as `" + asMemberAssignment.Member.Name + "`";
-                                                     }
+
+                                                     var n = "@arg" + state.ApplyParameter.Count;
+
+                                                     s_SelectCommand += ",\n\t ";
+                                                     s_SelectCommand += n;
+                                                     s_SelectCommand += " as `" + asMemberAssignment.Member.Name + "`";
+
+                                                     state.ApplyParameter.Add(
+                                                         c =>
+                                                         {
+                                                             // either the actualt command or the explain command?
+
+                                                             //c.Parameters.AddWithValue(n, r);
+                                                             c.AddParameter(n, rAddParameterValue0);
+                                                         }
+                                                     );
+
+                                                     //if (rAddParameterValue0 is string)
+                                                     //{
+                                                     //    // NULL?
+                                                     //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                                     //}
+                                                     //else
+                                                     //{
+                                                     //    // long?
+                                                     //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
+                                                     //}
 
                                                      return;
                                                  }

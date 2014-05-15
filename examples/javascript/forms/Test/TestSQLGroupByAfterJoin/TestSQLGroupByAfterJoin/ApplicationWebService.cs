@@ -117,19 +117,31 @@ namespace TestSQLGroupByAfterJoin
 
             // http://stackoverflow.com/questions/7325278/group-by-in-linq
 
+            var tag = "???";
+            var x = new { tag };
+
             var q =
                 from l in new Database.LeftTable()
+                //let tag =  "???" 
                 join rJoin in new Database.RightTable()
                 on l.Key equals rJoin.ClientName
-                group new { l, rJoin } by rJoin.ClientName into result
+                group new { l, rJoin
+                    //, tag = "???" 
+                } by rJoin.ClientName into result
                 select new DatabaseJoinViewRow
                 {
+                    Tag = x.tag,
+
+
                     ClientName = result.Key,
                     //ClientName = rj
 
                     FirstName = result.Last().l.FirstName,
                     Payment = result.Last().rJoin.Payment,
-                    Tag = result.Last().rJoin.Tag,
+                    //Tag = result.Last().rJoin.Tag,
+
+                    //Tag = result.Last().tag,
+
                     Timestamp = result.Last().rJoin.Timestamp
                 };
             //var q0 = q.ToArray();
