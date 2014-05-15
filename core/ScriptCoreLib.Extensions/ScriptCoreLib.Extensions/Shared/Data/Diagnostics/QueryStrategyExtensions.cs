@@ -40,118 +40,14 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         {
             // to make it immutable, we would need to have Clone method
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140112/count
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
+
             // X:\jsc.svn\examples\javascript\Test\TestIQueryable\TestIQueryable\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteEnumWhere\TestSQLiteEnumWhere\ApplicationWebService.cs
 
 
-            // for op_Equals
-            var body = ((BinaryExpression)filter.Body);
 
-            // do we need to check our db schema or is reflection the schema for us?
-            #region ColumnName
-            var ColumnName = "";
-
-            if (body.Left is MemberExpression)
-            {
-                ColumnName = ((MemberExpression)body.Left).Member.Name;
-            }
-            else if (body.Left is UnaryExpression)
-            {
-                ColumnName = ((MemberExpression)((UnaryExpression)body.Left).Operand).Member.Name;
-            }
-            else
-            {
-                Debugger.Break();
-            }
-            #endregion
-
-
-
-            #region rAddParameterValue
-            var rAddParameterValue = default(object);
-
-            if (body.Right is MemberExpression)
-            {
-                var f_Body_Right = (MemberExpression)body.Right;
-
-                //+		(new System.Linq.Expressions.Expression.ConstantExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy(f_Body_Right as System.Linq.Expressions.FieldExpression)).Expression as System.Linq.Expressions.ConstantExpression)).Value	{AppEngineWhereOperator.ApplicationWebService.}	object {AppEngineWhereOperator.ApplicationWebService.}
-
-                // +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(f_Body_Right.Expression as System.Linq.Expressions.FieldExpression)).Member	{SVGNavigationTiming.Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k}	System.Reflection.MemberInfo {System.Reflection.RtFieldInfo}
-
-
-
-                var f_Body_Right_as_ConstantExpression = f_Body_Right.Expression as ConstantExpression;
-                var f_Body_Right_as_MemberExpression = f_Body_Right.Expression as MemberExpression;
-                if (f_Body_Right_as_ConstantExpression != null)
-                {
-
-                    var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
-                    rAddParameterValue = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
-                }
-                else if (f_Body_Right_as_MemberExpression != null)
-                {
-                    // we are doing a where against object field passed method argument
-
-                    var z = (FieldInfo)f_Body_Right_as_MemberExpression.Member;
-
-                    var zE = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
-
-                    var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
-
-
-                    rAddParameterValue = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
-                }
-                else Debugger.Break();
-
-            }
-            else if (body.Right is UnaryExpression)
-            {
-                // casting enum to long?
-
-                var f_Body_Right = (MemberExpression)((UnaryExpression)body.Right).Operand;
-
-                var f_Body_Right_as_ConstantExpression = f_Body_Right.Expression as ConstantExpression;
-                var f_Body_Right_as_MemberExpression = f_Body_Right.Expression as MemberExpression;
-
-                //var f_Body_Right_Expression = (ConstantExpression)f_Body_Right.Expression;
-
-                //var f_Body_Right_Expression_Value = f_Body_Right_Expression.Value;
-                //r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
-
-                if (f_Body_Right_as_ConstantExpression != null)
-                {
-
-                    var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
-                    rAddParameterValue = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
-                }
-                else if (f_Body_Right_as_MemberExpression != null)
-                {
-                    // we are doing a where against object field passed method argument
-
-                    var z = (FieldInfo)f_Body_Right_as_MemberExpression.Member;
-
-                    var zE = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
-
-                    var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
-
-
-                    rAddParameterValue = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
-                }
-                else Debugger.Break();
-            }
-            else
-            {
-                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/201405
-
-                var asConstantExpression = body.Right as ConstantExpression;
-                if (asConstantExpression != null)
-                {
-                    rAddParameterValue = asConstantExpression.Value;
-                }
-                else Debugger.Break();
-            }
-            #endregion
 
 
             //Additional information: Unable to cast object of type 'System.Linq.Expressions.UnaryExpression' to type 'System.Linq.Expressions.MemberExpression'.
@@ -173,17 +69,19 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             //var f_Body_Right_as_ConstantExpression = (ConstantExpression)f_Body_as_MethodCallExpression.Arguments[1];
 
             //Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_MethodCallExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
-            Console.WriteLine("MutableWhere " + new
-            {
-                body.Method,
+            Console.WriteLine("MutableWhere "
+                //    + new
+                //{
+                //    body.Method,
 
-                //NodeType	Equal	System.Linq.Expressions.ExpressionType
-                body.NodeType,
+            //    //NodeType	Equal	System.Linq.Expressions.ExpressionType
+                //    body.NodeType,
 
 
-                ColumnName,
-                Right = rAddParameterValue
-            });
+            //    ColumnName = lColumnName0,
+                //    Right = rAddParameterValue0
+                //}
+            );
 
 
             that.GetCommandBuilder().Add(
@@ -191,12 +89,12 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                 {
                     //MutableWhere { Method = Boolean op_Equality(System.String, System.String), Left = Goo, Right = Goo0 }
 
-                    var n = "@arg" + state.ApplyParameter.Count;
 
                     // what about multple where clauses, what about sub queries?
                     // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteEnumWhere\TestSQLiteEnumWhere\ApplicationWebService.cs
 
                     // state.WhereCommand = " where `FooStateEnum` = @arg0"
+
 
                     if (string.IsNullOrEmpty(state.WhereCommand))
                     {
@@ -214,34 +112,225 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     }
 
 
-                    state.WhereCommand += "`" + ColumnName + "` ";
-
-                    // like we do in jsc. this is the opcode
-                    //OpCodes.Ceq
-                    if (body.NodeType == ExpressionType.Equal)
-                        state.WhereCommand += "=";
-                    else if (body.NodeType == ExpressionType.LessThan)
-                        state.WhereCommand += "<";
-                    else if (body.NodeType == ExpressionType.GreaterThan)
-                        state.WhereCommand += ">";
-                    else
-                        Debugger.Break();
 
 
-                    state.WhereCommand += " ";
-                    state.WhereCommand += n;
 
-                    Console.WriteLine("MutableWhere " + new { n, r = rAddParameterValue });
 
-                    state.ApplyParameter.Add(
-                        c =>
+
+
+                    // for op_Equals
+                    var body = ((BinaryExpression)filter.Body);
+
+                    // do we need to check our db schema or is reflection the schema for us?
+
+
+                    Action<BinaryExpression> WriteExpression =
+                        (xbody) =>
                         {
-                            // either the actualt command or the explain command?
+                            var xbody_left = xbody.Left as UnaryExpression;
+                            var xColumnName0 = (xbody_left.Operand as MemberExpression).Member.Name;
 
-                            //c.Parameters.AddWithValue(n, r);
-                            c.AddParameter(n, rAddParameterValue);
+
+                            state.WhereCommand += "`" + xColumnName0 + "` ";
+
+                            if (xbody.NodeType == ExpressionType.Equal)
+                                state.WhereCommand += "=";
+                            else if (xbody.NodeType == ExpressionType.LessThan)
+                                state.WhereCommand += "<";
+                            else if (xbody.NodeType == ExpressionType.GreaterThan)
+                                state.WhereCommand += ">";
+                            else
+                                Debugger.Break();
+
+                            // -		(new System.Linq.Expressions.Expression.BinaryExpressionProxy(x_asLogicalBinaryExpression0 as System.Linq.Expressions.LogicalBinaryExpression)).Right	{0}	System.Linq.Expressions.Expression {System.Linq.Expressions.ConstantExpression}
+
+
+                            var asConstantExpression = xbody.Right as ConstantExpression;
+                            if (asConstantExpression != null)
+                            {
+                                var rAddParameterValue0 = asConstantExpression.Value;
+
+                                var n = "@arg" + state.ApplyParameter.Count;
+
+                                state.WhereCommand += " ";
+                                state.WhereCommand += n;
+
+                                Console.WriteLine("MutableWhere OrElse " + new { n, rAddParameterValue0 });
+
+                                state.ApplyParameter.Add(
+                                    c =>
+                                    {
+                                        // either the actualt command or the explain command?
+
+                                        //c.Parameters.AddWithValue(n, r);
+                                        c.AddParameter(n, rAddParameterValue0);
+                                    }
+                                );
+                                return;
+                            }
+
+                            Debugger.Break();
+                        };
+
+                    if (body.NodeType == ExpressionType.OrElse)
+                    {
+                        state.WhereCommand += "(";
+                        WriteExpression(body.Left as BinaryExpression);
+                        state.WhereCommand += " or ";
+                        WriteExpression(body.Right as BinaryExpression);
+                        state.WhereCommand += ")";
+
+                        //Debugger.Break();
+                    }
+                    else
+                    {
+
+                        var lColumnName0 = "";
+
+                        var rAddParameterValue0 = default(object);
+
+
+                        #region ColumnName
+
+                        if (body.Left is MemberExpression)
+                        {
+                            lColumnName0 = ((MemberExpression)body.Left).Member.Name;
                         }
-                    );
+                        else if (body.Left is UnaryExpression)
+                        {
+                            lColumnName0 = ((MemberExpression)((UnaryExpression)body.Left).Operand).Member.Name;
+                        }
+                        else
+                        {
+                            // +		filter	{z => ((Convert(z.FooStateEnum) == 0) OrElse (Convert(z.FooStateEnum) == 2))}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSQLiteGroupBy.Data.Book1MiddleRow,bool>>}
+
+                            //                +		body.Left	{(Convert(z.FooStateEnum) == 0)}	System.Linq.Expressions.Expression {System.Linq.Expressions.LogicalBinaryExpression}
+                            //+		body.Right	{(Convert(z.FooStateEnum) == 2)}	System.Linq.Expressions.Expression {System.Linq.Expressions.LogicalBinaryExpression}
+                            //        body.NodeType	OrElse	System.Linq.Expressions.ExpressionType
+
+
+
+                            Debugger.Break();
+                        }
+                        #endregion
+
+                        state.WhereCommand += "`" + lColumnName0 + "` ";
+
+
+                        #region rAddParameterValue
+
+                        if (body.Right is MemberExpression)
+                        {
+                            var f_Body_Right = (MemberExpression)body.Right;
+
+                            //+		(new System.Linq.Expressions.Expression.ConstantExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy(f_Body_Right as System.Linq.Expressions.FieldExpression)).Expression as System.Linq.Expressions.ConstantExpression)).Value	{AppEngineWhereOperator.ApplicationWebService.}	object {AppEngineWhereOperator.ApplicationWebService.}
+
+                            // +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(f_Body_Right.Expression as System.Linq.Expressions.FieldExpression)).Member	{SVGNavigationTiming.Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k}	System.Reflection.MemberInfo {System.Reflection.RtFieldInfo}
+
+
+
+                            var f_Body_Right_as_ConstantExpression = f_Body_Right.Expression as ConstantExpression;
+                            var f_Body_Right_as_MemberExpression = f_Body_Right.Expression as MemberExpression;
+                            if (f_Body_Right_as_ConstantExpression != null)
+                            {
+
+                                var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
+                                rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                            }
+                            else if (f_Body_Right_as_MemberExpression != null)
+                            {
+                                // we are doing a where against object field passed method argument
+
+                                var z = (FieldInfo)f_Body_Right_as_MemberExpression.Member;
+
+                                var zE = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
+
+                                var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
+
+
+                                rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                            }
+                            else Debugger.Break();
+
+                        }
+                        else if (body.Right is UnaryExpression)
+                        {
+                            // casting enum to long?
+
+                            var f_Body_Right = (MemberExpression)((UnaryExpression)body.Right).Operand;
+
+                            var f_Body_Right_as_ConstantExpression = f_Body_Right.Expression as ConstantExpression;
+                            var f_Body_Right_as_MemberExpression = f_Body_Right.Expression as MemberExpression;
+
+                            //var f_Body_Right_Expression = (ConstantExpression)f_Body_Right.Expression;
+
+                            //var f_Body_Right_Expression_Value = f_Body_Right_Expression.Value;
+                            //r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+
+                            if (f_Body_Right_as_ConstantExpression != null)
+                            {
+
+                                var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
+                                rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                            }
+                            else if (f_Body_Right_as_MemberExpression != null)
+                            {
+                                // we are doing a where against object field passed method argument
+
+                                var z = (FieldInfo)f_Body_Right_as_MemberExpression.Member;
+
+                                var zE = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
+
+                                var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
+
+
+                                rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                            }
+                            else Debugger.Break();
+                        }
+                        else
+                        {
+                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/201405
+
+                            var asConstantExpression = body.Right as ConstantExpression;
+                            if (asConstantExpression != null)
+                            {
+                                rAddParameterValue0 = asConstantExpression.Value;
+                            }
+                            else Debugger.Break();
+                        }
+                        #endregion
+
+                        // like we do in jsc. this is the opcode
+                        //OpCodes.Ceq
+                        if (body.NodeType == ExpressionType.Equal)
+                            state.WhereCommand += "=";
+                        else if (body.NodeType == ExpressionType.LessThan)
+                            state.WhereCommand += "<";
+                        else if (body.NodeType == ExpressionType.GreaterThan)
+                            state.WhereCommand += ">";
+                        else
+                            Debugger.Break();
+
+                        var n = "@arg" + state.ApplyParameter.Count;
+
+                        state.WhereCommand += " ";
+                        state.WhereCommand += n;
+
+                        Console.WriteLine("MutableWhere " + new { n, r = rAddParameterValue0 });
+
+                        state.ApplyParameter.Add(
+                            c =>
+                            {
+                                // either the actualt command or the explain command?
+
+                                //c.Parameters.AddWithValue(n, r);
+                                c.AddParameter(n, rAddParameterValue0);
+                            }
+                        );
+
+                    }
+
                 }
             );
         }
@@ -638,7 +727,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
             var StrategyDescriptor = state.Strategy.GetDescriptor();
 
-            
+
 
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
             if (StrategyDescriptor != null)

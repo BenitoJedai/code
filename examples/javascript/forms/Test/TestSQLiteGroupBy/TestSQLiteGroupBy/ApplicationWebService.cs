@@ -142,6 +142,7 @@ namespace TestSQLiteGroupBy
             var g = from z in x
 
                     // now what?
+                    // does or work yet?
                     where z.FooStateEnum == FooStateEnum.Foo0 || z.FooStateEnum == FooStateEnum.Foo2
                     where z.Ratio == SpecialRatio
 
