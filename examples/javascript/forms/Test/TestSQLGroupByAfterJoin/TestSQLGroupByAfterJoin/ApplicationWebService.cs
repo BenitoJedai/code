@@ -125,10 +125,13 @@ namespace TestSQLGroupByAfterJoin
                 //let tag =  "???" 
                 join rJoin in new Database.RightTable()
                 on l.Key equals rJoin.ClientName
-                group new { l, rJoin
+                group new
+                {
+                    l,
+                    rJoin
                     //, tag = "???" 
                 } by rJoin.ClientName into result
-                select new DatabaseJoinViewRow
+                select new // DatabaseJoinViewRow
                 {
                     Tag = x.tag,
 
@@ -143,7 +146,13 @@ namespace TestSQLGroupByAfterJoin
                     //Tag = result.Last().tag,
 
                     Timestamp = result.Last().rJoin.Timestamp
-                };
+                } into xx
+
+                where xx.Payment != "6"
+                //where xx.Payment == "9"
+
+                select xx
+                ;
             //var q0 = q.ToArray();
             var q0 = q.AsDataTable();
 
