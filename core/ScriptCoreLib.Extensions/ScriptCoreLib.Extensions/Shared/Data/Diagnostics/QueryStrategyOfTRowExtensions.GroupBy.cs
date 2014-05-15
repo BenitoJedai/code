@@ -36,9 +36,9 @@ namespace System.Data
             IJoinQueryStrategy upperJoin { get; set; }
 
 
-             IQueryStrategy source { get; }
-             Expression keySelector { get; }
-             Expression elementSelector { get; }
+            IQueryStrategy source { get; }
+            Expression keySelector { get; }
+            Expression elementSelector { get; }
         }
 
         class GroupByQueryStrategy<TSource, TKey, TElement> :
@@ -87,9 +87,14 @@ namespace System.Data
                  Expression<Func<TSource, TKey>> keySelector
             )
         {
+            // script: error JSC1000: Java : unable to emit ldtoken at 'System.Data.QueryStrategyOfTRowExtensions.GroupBy'#0006: typeof(T) not supported due to type erasure
+            // http://stackoverflow.com/questions/1466689/linq-identity-function
+            // X:\jsc.svn\examples\java\test\JVMCLRIdentityExpression\JVMCLRIdentityExpression\Program.cs
+
             return GroupBy(
                 source,
                 keySelector,
+                //Expression.Lambda<
                 x => x
             );
         }
@@ -107,6 +112,8 @@ namespace System.Data
 
             Console.WriteLine("GroupBy " + new { keySelector });
 
+
+            // script: error JSC1000: Java : unable to emit ldtoken at 'System.Data.QueryStrategyOfTRowExtensions.GroupBy'#0006: typeof(T) not supported due to type erasure
             var GroupBy = new GroupByQueryStrategy<TSource, TKey, TElement>
             {
                 source = source,

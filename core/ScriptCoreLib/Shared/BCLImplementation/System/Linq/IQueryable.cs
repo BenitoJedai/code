@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
     [Script(Implements = typeof(global::System.Linq.IQueryable))]
-    internal static class __IQueryable : __IEnumerable
+    internal  interface __IQueryable : __IEnumerable
     {
         // x:\jsc.svn\examples\javascript\future\asyncorderbyexpression\asyncorderbyexpression\applicationcontrol.cs
 

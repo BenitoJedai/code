@@ -38,6 +38,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         // behave like StringBuilder where core data is mutable?
         public static void MutableWhere(IQueryStrategy that, LambdaExpression filter)
         {
+
+
             // to make it immutable, we would need to have Clone method
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140112/count
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515

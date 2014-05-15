@@ -391,8 +391,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                      NodeType = ExpressionType.Lambda,
 
                      Body = body,
+
+                     // X:\jsc.svn\examples\java\test\JVMCLRIdentityExpression\JVMCLRIdentityExpression\Program.cs
                      Parameters = new global::System.Collections.ObjectModel.ReadOnlyCollection<ParameterExpression>(
-                         parameters
+                         parameters.ToList()
                      )
                  };
         }
