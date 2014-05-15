@@ -122,9 +122,15 @@ namespace TestSQLGroupByAfterJoin
 
 
             var za = from l in new Database.LeftTable()
+
+                     orderby l.Timestamp
+
                      //.AsEnumerable()
                      //join rJoin in new Database.RightTable() on l.Key equals rJoin.ClientName // into test
                      join rJoin in new Database.RightTable()
+
+                     //orderby rJoin.ti
+
                          //.AsEnumerable()
                      on l.Key equals rJoin.ClientName
                      // into test
@@ -214,7 +220,7 @@ namespace TestSQLGroupByAfterJoin
 
 
 
-            
+
 
 
 
