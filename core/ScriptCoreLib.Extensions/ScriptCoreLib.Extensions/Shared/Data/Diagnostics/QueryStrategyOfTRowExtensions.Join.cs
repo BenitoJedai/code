@@ -42,6 +42,7 @@ namespace System.Data
             // ? gDescendingByKeyReferenced
 
             IJoinQueryStrategy upperJoin { get; set; }
+            IGroupByQueryStrategy upperGroupBy { get; set; }
         }
 
         class JoinQueryStrategy<TOuter, TInner, TKey, TResult> : XQueryStrategy<TResult>, IJoinQueryStrategy
@@ -52,6 +53,7 @@ namespace System.Data
             public Expression<Func<TOuter, TInner, TResult>> resultSelector;
 
             public IJoinQueryStrategy upperJoin { get; set; }
+            public IGroupByQueryStrategy upperGroupBy { get; set; }
 
             #region IJoinQueryStrategy
             Expression IJoinQueryStrategy.resultSelectorExpression
@@ -353,11 +355,44 @@ namespace System.Data
                     var asMemberInitExpressionByParameter0 = default(ParameterExpression);
                     var asMemberInitExpressionByParameter1 = default(ParameterExpression);
 
+                    #region upperGroupBy
                     if (asMemberInitExpression == null)
-                    {
+                        if (that.upperGroupBy != null)
+                            if (that.upperGroupBy.source == that)
+                            {
+                                asMemberInitExpression = (that.upperGroupBy.elementSelector as LambdaExpression).Body as MemberInitExpression;
+                                asMemberInitExpressionByParameter0 = (that.upperGroupBy.elementSelector as LambdaExpression).Parameters[0];
 
+
+
+                                if (asMemberInitExpression == null)
+                                {
+                                    // ???
+
+                                    if (that.upperGroupBy.upperSelect.source == that.upperGroupBy)
+                                    {
+                                        asMemberInitExpression = (that.upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                        //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                        asMemberInitExpressionByParameter1 = (that.upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Parameters[0];
+
+                                        //if (asMemberInitExpression != null)
+                                        //    AddToSelectCommand(
+                                        //               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
+                                        //               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
+                                        //               );
+                                    }
+
+
+
+                                }
+                            }
+                    #endregion
+
+
+
+                    #region upperJoin
+                    if (asMemberInitExpression == null)
                         if (that.upperJoin != null)
-                        {
                             if (that.upperJoin.xouter == that)
                             {
                                 asMemberInitExpression = (that.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
@@ -411,8 +446,8 @@ namespace System.Data
                                 }
 
                             }
-                        }
-                    }
+                    #endregion
+
 
 
 
@@ -677,6 +712,16 @@ namespace System.Data
                                             var asFParameterExpression = asFMethodCallExpression.Arguments[0] as ParameterExpression;
                                             if (asFParameterExpression != null)
                                             {
+                                                // is it our parameter?
+                                                if (asLambdaExpression.Parameters[0].Name != asFParameterExpression.Name)
+                                                    if (asLambdaExpression.Parameters[1].Name != asFParameterExpression.Name)
+                                                    {
+                                                        // not sure. whats the actual name of the field?
+                                                        //AddToSelectCommand(asFieldExpression.Member.Name + " as " + TargetMemberName);
+                                                        AddToSelectCommand(TargetMemberName + " as " + asFieldExpression.Member.Name);
+                                                        return;
+                                                    }
+
                                                 AddToSelectCommand(asFParameterExpression.Name + "." + asFieldExpression.Member.Name + " as " + TargetMemberName);
 
 
