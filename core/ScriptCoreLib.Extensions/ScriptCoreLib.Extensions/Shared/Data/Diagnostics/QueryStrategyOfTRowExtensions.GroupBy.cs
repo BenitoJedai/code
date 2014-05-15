@@ -246,8 +246,10 @@ namespace System.Data
                      // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
 
                      var s_SelectCommand = "select s.`" +
-                         GroupingKeyFieldExpression.Member.Name + "_"
-                         + GroupBy_asMemberExpression.Member.Name
+
+
+                         (GroupingKeyFieldExpression != null ? (GroupingKeyFieldExpression.Member.Name + "_") : "")
+                          + GroupBy_asMemberExpression.Member.Name
                          + "` as `Grouping.Key`";
 
 
@@ -488,7 +490,7 @@ namespace System.Data
                                                  state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "`";
 
                                                  s_SelectCommand += ",\n\t s.`"
-                                                    + GroupingKeyFieldExpression.Member.Name + "_"
+                                                    + (GroupingKeyFieldExpression != null ? (GroupingKeyFieldExpression.Member.Name + "_") : "")
                                                      + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                                  return;
                                              }
@@ -712,7 +714,9 @@ namespace System.Data
                                              state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                              s_SelectCommand += ",\n\t s.`"
 
-                                                 + GroupingKeyFieldExpression.Member.Name + "_"
+
+                                                 + (GroupingKeyFieldExpression != null ? (GroupingKeyFieldExpression.Member.Name + "_") : "")
+
                                                  + GroupBy_asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                              return;
