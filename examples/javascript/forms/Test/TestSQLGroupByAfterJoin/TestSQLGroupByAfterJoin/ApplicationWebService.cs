@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -117,6 +118,52 @@ namespace TestSQLGroupByAfterJoin
 
             // http://stackoverflow.com/questions/7325278/group-by-in-linq
 
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+
+
+            var za = from l in new Database.LeftTable()
+                     //.AsEnumerable()
+                     //join rJoin in new Database.RightTable() on l.Key equals rJoin.ClientName // into test
+                     join rJoin in new Database.RightTable()
+                         //.AsEnumerable()
+                     on l.Key equals rJoin.ClientName
+                     // into test
+
+                     // can we do away this select?
+                     // our group by likes explicit views!
+                     select new
+                     {
+                         xClientName = l.Key,
+
+
+                         FirstName = l.FirstName,
+
+                         //ClientName = result.Last().FirstName,
+                         //ClientName = ((DatabaseLeftTableRow)l).FirstName,
+                         Payment = rJoin.Payment,
+                         Tag = rJoin.Tag,
+                         Timestamp = rJoin.Timestamp
+                     } into rJoin
+
+                     //from z in test
+
+                     //group test by test.ClientName into result
+
+                     group rJoin by rJoin.xClientName into result
+
+                     // select again
+                     select new DatabaseJoinViewRow
+                     {
+                         ClientName = result.Last().xClientName
+                     };
+
+
+            var za0 = za.AsDataTable();
+            Debugger.Break();
+            var za1 = za.AsEnumerable();
+
+
+
             var tag = "???";
             var x = new { tag };
 
@@ -133,10 +180,15 @@ namespace TestSQLGroupByAfterJoin
                 } by rJoin.ClientName into result
                 select new // DatabaseJoinViewRow
                 {
-                    Tag = x.tag,
+                    //zoo = "zoo",
+                    zoo = tag,
 
 
                     ClientName = result.Key,
+
+                    Tag = x.tag,
+
+
                     //ClientName = rj
 
                     FirstName = result.Last().l.FirstName,
@@ -146,15 +198,23 @@ namespace TestSQLGroupByAfterJoin
                     //Tag = result.Last().tag,
 
                     Timestamp = result.Last().rJoin.Timestamp
-                } into xx
+                }
+                //into xx
 
-                where xx.Payment != "6"
-                //where xx.Payment == "9"
+                //where xx.Payment != "6"
+                ////where xx.Payment == "9"
 
-                select xx
+                //select xx
                 ;
             //var q0 = q.ToArray();
             var q0 = q.AsDataTable();
+
+
+
+
+
+
+            
 
 
 
@@ -174,6 +234,8 @@ namespace TestSQLGroupByAfterJoin
                      select new DatabaseJoinViewRow
                      {
                          ClientName = l.Key,
+
+
                          FirstName = l.FirstName,
 
                          //ClientName = result.Last().FirstName,

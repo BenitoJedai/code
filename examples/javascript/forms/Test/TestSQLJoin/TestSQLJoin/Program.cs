@@ -12,6 +12,8 @@ namespace TestSQLJoin
         public static void Main(string[] args)
         {
 #if DEBUG
+            new ApplicationWebService().GetTheViewData();
+
 			DesktopFormsExtensions.Launch(
 				() => new ApplicationControl()
 			);

@@ -111,11 +111,7 @@ namespace System.Data
 
                      // X:\jsc.svn\examples\javascript\forms\test\TestNestedSQLiteGrouping\TestNestedSQLiteGrouping\ApplicationWebService.cs
 
-                     var asGroupByQueryStrategy = that.source as IGroupByQueryStrategy;
-                     if (asGroupByQueryStrategy != null)
-                     {
-                         asGroupByQueryStrategy.upperSelect = that;
-                     }
+                     (that.source as IGroupByQueryStrategy).With(q => q.upperSelect = that);
 
                      var s = QueryStrategyExtensions.AsCommandBuilder(that.source);
 

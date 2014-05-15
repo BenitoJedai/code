@@ -155,11 +155,14 @@ namespace TestSQLJoin
             //Book1Extensions.
 
 
+            var z11 = z.Take(11);
 
 
+            var a0 = z11.AsDataTable();
+            var a1 = z11.AsEnumerable();
 
             // client cannot handle too much data! yet.
-            return z.Take(11).AsEnumerable();
+            return a1;
         }
 
     }
