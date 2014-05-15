@@ -7,6 +7,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     [Script(Implements = typeof(global::System.Reflection.MemberInfo))]
     public abstract class __MemberInfo
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MemberInfo.cs
+
+        public abstract Type DeclaringType { get; }
+
+
         public abstract string Name
         {
             get;

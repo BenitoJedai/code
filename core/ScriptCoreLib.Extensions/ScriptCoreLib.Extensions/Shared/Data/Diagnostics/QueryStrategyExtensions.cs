@@ -555,7 +555,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         {
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
 
-            Console.WriteLine("AsDataTable");
+            Console.WriteLine("AsDataTable " + new { Strategy });
 
             if (Strategy == null)
             {

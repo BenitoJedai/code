@@ -78,5 +78,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         {
             return (__MethodInfo)(object)e;
         }
+
+        public override ParameterInfo[] GetParameters()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Type DeclaringType
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

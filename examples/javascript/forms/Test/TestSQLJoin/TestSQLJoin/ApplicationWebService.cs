@@ -48,7 +48,7 @@ namespace TestSQLJoin
         // 4.5
         // under .net the IEnumerable is not buffered. the caller needs to enforce it ?
         public
-            async
+            //async
             Task<IEnumerable<Book1TheViewRow>> GetTheViewData()
         {
             // http://stackoverflow.com/questions/38549/difference-between-inner-and-outer-join
@@ -84,11 +84,14 @@ namespace TestSQLJoin
             #endregion
 
 
+            Console.WriteLine("after inserts");
+
             var DealerContact = new Book1.DealerContact();
             var Dealer = new Book1.Dealer();
             var DealerOther = new Book1.DealerOther();
             var View = new Book1.TheView();
 
+            Console.WriteLine("at 94");
 
             // can we join twice, taking the first and then the last?
             var z =
@@ -154,15 +157,20 @@ namespace TestSQLJoin
 
             //Book1Extensions.
 
+            Console.WriteLine("at 160");
 
             var z11 = z.Take(11);
 
+            Console.WriteLine("at 164");
 
             var a0 = z11.AsDataTable();
+
+            Console.WriteLine("at 168");
+
             var a1 = z11.AsEnumerable();
 
             // client cannot handle too much data! yet.
-            return a1;
+            return a1.AsResult();
         }
 
     }

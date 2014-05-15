@@ -9,9 +9,9 @@ using java.lang;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
-	[Script(Implements = typeof(MethodBase))]
-	internal abstract class __MethodBase : __MemberInfo
-	{
+    [Script(Implements = typeof(MethodBase))]
+    internal abstract class __MethodBase : __MemberInfo
+    {
         public virtual bool InternalIsAbstract()
         {
             throw new NotImplementedException();
@@ -46,14 +46,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
         public bool IsFamily { get { return InternalIsFamily(); } }
 
-		public object Invoke(object obj, object[] parameters)
-		{
+        public object Invoke(object obj, object[] parameters)
+        {
             return InternalInvoke(obj, parameters);
-		}
+        }
 
 
 
-		public abstract ParameterInfo[] GetParameters();
+        public abstract ParameterInfo[] GetParameters();
 
 
         public override string ToString()
@@ -65,18 +65,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             w.Append(this.Name);
             w.Append("(");
 
+            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
             var p = this.GetParameters();
-            for (int i = 0; i < p.Length; i++)
+            if (p == null)
             {
-                if (i > 0)
-                    w.Append(", ");
-
-                w.Append(p[i].ParameterType.FullName);
+                w.Append("?");
             }
+            else
+            {
+                for (int i = 0; i < p.Length; i++)
+                {
+                    if (i > 0)
+                        w.Append(", ");
 
+                    w.Append(p[i].ParameterType.FullName);
+                }
+
+            }
             w.Append(")");
 
             return w.ToString();
         }
-	}
+    }
 }
