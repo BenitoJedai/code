@@ -308,6 +308,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                             state.WhereCommand += "<";
                         else if (body.NodeType == ExpressionType.GreaterThan)
                             state.WhereCommand += ">";
+                        else if (body.NodeType == ExpressionType.NotEqual)
+                            state.WhereCommand += "<>";
                         else
                             Debugger.Break();
 

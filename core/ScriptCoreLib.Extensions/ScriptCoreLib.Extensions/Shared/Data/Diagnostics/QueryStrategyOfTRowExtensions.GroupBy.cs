@@ -256,6 +256,12 @@ namespace System.Data
                      #region asMethodCallExpression
                      if (GroupBy.upperSelect != null)
                      {
+                         // (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body = {new <>f__AnonymousType2`5(Tag = value(TestSQLGroupByAfterJoin.ApplicationWebService+<>c__DisplayClass4).x.tag, ClientName = result.Key, FirstName = result.Last().l.FirstName, Payment = result.Last().rJoin.Payment, Timestamp = result.Last().rJoin.Timestamp)}
+
+
+
+                         #region asMethodCallExpression
+
                          var asMethodCallExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MethodCallExpression;
                          if (asMethodCallExpression != null)
                          {
@@ -304,6 +310,8 @@ namespace System.Data
                                  //return;
                              }
                          }
+                         #endregion
+
                      }
                      #endregion
 
@@ -850,19 +858,29 @@ namespace System.Data
                          // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
                          // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
 
-                         if (string.IsNullOrEmpty(state.WhereCommand))
-                             if (string.IsNullOrEmpty(state.OrderByCommand))
-                                 if (string.IsNullOrEmpty(state.LimitCommand))
-                                 {
-                                     // we might not need the outer select?
+                         // what if the where clause is not yet attached?
+                         // http://stackoverflow.com/questions/9253244/sql-having-vs-where
 
 
-                                     state.SelectCommand = s_SelectCommand;
-                                     state.FromCommand =
-                                         "from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s "
-                                         + "\n group by `Grouping.Key`";
-                                 }
+                         // !!! we can allow this optimzation once where functions on its own nesting level!
 
+
+                         {
+
+                             //if (string.IsNullOrEmpty(state.WhereCommand))
+                             //    if (string.IsNullOrEmpty(state.OrderByCommand))
+                             //        if (string.IsNullOrEmpty(state.LimitCommand))
+                             //        {
+                             //            // we might not need the outer select?
+
+
+                             //            state.SelectCommand = s_SelectCommand;
+                             //            state.FromCommand =
+                             //                "from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s "
+                             //                + "\n group by `Grouping.Key`";
+                             //        }
+
+                         }
 
                      }
                      else
