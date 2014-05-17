@@ -158,7 +158,8 @@ namespace UIAutomationEvents
                 }
                 );
 
-                that.Agree().ContinueWithResult(
+                // Uncaught Error: InvalidOperationException: we can only continue with global methods for now... { Target = [object Object] }
+                that.Agree(that.page.email).ContinueWithResult(
                     message =>
                 {
                     // indicate got data
@@ -228,10 +229,13 @@ namespace UIAutomationEvents
 
         //public Action<Expression<Action>> yield;
 
+
+        // Error	7	Async methods cannot have ref or out parameters	X:\jsc.svn\examples\javascript\UIAutomationEvents\UIAutomationEvents\Application.cs	232	52	UIAutomationEvents
+
         [Obsolete("is it also called by History.GoForward?")]
-        public async Task<string> Agree()
+        public async Task<string> Agree(string email = "?")
         {
-            Console.WriteLine("enter agree");
+            Console.WriteLine("enter agree " + new { email });
 
             // Events = Count = 0
             // 		Events	Cannot access a non-static member of outer type 'UIAutomationEvents.ApplicationWebService' via nested type 'UIAutomationEvents.ApplicationWebService.Agree'	
