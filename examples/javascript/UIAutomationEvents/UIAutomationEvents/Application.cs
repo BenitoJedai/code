@@ -100,7 +100,9 @@ namespace UIAutomationEvents
                 // indicate we are sending data to server
                 css.style.backgroundColor = "yellow";
 
-                new IStyle(that.page.HideMe)
+                //new IStyle(that.page.HideMe)
+                // we want it to be undone at back button!
+                new IStyle(that.page.HideMe.css)
                 {
                     marginTop = -that.page.HideMe.clientHeight + "px"
                 };
@@ -169,7 +171,7 @@ namespace UIAutomationEvents
         public List<UIEvent> Events = new List<UIEvent>();
 
 
-        public Action<Expression<Action>> yield;
+        //public Action<Expression<Action>> yield;
 
         [Obsolete("is it also called by History.GoForward?")]
         public async Task<string> Agree()

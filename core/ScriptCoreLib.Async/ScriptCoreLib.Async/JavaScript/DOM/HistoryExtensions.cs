@@ -617,6 +617,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             // exclusive parent means a sub state will undo parent, so they wont exist at the same time
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131222-form
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
+            // X:\jsc.svn\examples\javascript\UIAutomationEvents\UIAutomationEvents\Application.cs
+            // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
+            // does the forward button work?
 
             Console.WriteLine("HistoryExtensions pushState before yield");
 
