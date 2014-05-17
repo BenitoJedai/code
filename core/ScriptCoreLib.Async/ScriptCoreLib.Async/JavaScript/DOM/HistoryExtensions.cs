@@ -57,6 +57,12 @@ namespace ScriptCoreLib.JavaScript.DOM
                 if (state == null)
                     return;
 
+                if (state.state == null)
+                {
+                    Console.WriteLine("(state.state == null)");
+                }
+
+
                 //dynamic state = xstate;
 
                 // if there is parent, we have to restore that first?
@@ -65,11 +71,50 @@ namespace ScriptCoreLib.JavaScript.DOM
                 string url = state.url;
                 bool exclusive = state.exclusive;
 
-                Console.WriteLine("onpopstate " + new { sourcehint, hint, url, exclusive, state.state });
+                // 0:226852ms onpopstate { sourcehint = e.state , hint = ScriptCoreLib.JavaScript.DOM.HistoryExtensions.pushState, url = /, exclusive = 0, 
+                // state =  } 
+                Console.WriteLine("onpopstate.y " + new
+                {
+                    sourcehint,
+                    hint,
+                    url,
+                    exclusive,
 
+                    // 0:25692ms onpopstate { sourcehint = e.state , MethodToken = , invoke = [object Object] } 
+                    state.invoke,
+                    state.state
+                });
+
+
+                //0:45199ms HistoryExtensions at onpopstate view-source:38792
+                //0:45200ms onpopstate { sourcehint = e.state , hint = ScriptCoreLib.JavaScript.DOM.HistoryExtensions.pushState, url = /, exclusive = 0, state =  } view-source:38792
+                //0:45202ms onpopstate { sourcehint = history.state , hint = ScriptCoreLib.JavaScript.DOM.HistoryExtensions.pushState, url = /, exclusive = 0, state =  } view-source:38792
+                //0:45202ms onpopstate did we just move forward? { Count = 1 } view-source:38792
+                //0:45203ms preparing the task for { MethodToken =  } view-source:38792
+                //0:45204ms NextStyle added to InternalHistoryAwareSheets { Count = 2 } view-source:38792
+                //0:45204ms enter IFunction.ByName { name =  } view-source:38792
+                //0:45207ms returning the task view-source:38792
+
+                // who is setting the invoke? how can it be empty?
+                // see :687
                 dynamic invoke = state.invoke;
 
-                string MethodToken = invoke.function;
+                // what if our dynamic is broken ???
+                // roslyn $function ?
+                // script: error JSC1000: No implementation found for this native method, please implement [static Microsoft.CSharp.RuntimeBinder.Binder.GetIndex(Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, System.Type, System.Collections.Generic.IEnumerable`1[[Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]])]
+                //string MethodToken0 = Expando.Of(invoke)["function"];
+                //string MethodToken0 = Expando.Of(state.invoke)["function"].GetValue();
+                //Debugger.Break();
+
+                // wtf??
+                // 0:40145ms onpopstate.y { sourcehint = e.state , MethodToken = , MethodToken0 = undefined, invoke = [object Object] } 
+
+                //string MethodToken = invoke.function;
+                string MethodToken = invoke.MethodToken;
+
+                // :226853ms { MethodToken = , invoke = [object Object] } 
+                Console.WriteLine("onpopstate.y " + new { sourcehint, MethodToken, invoke });
+
                 object arguments = invoke.arguments;
                 object arg0 = ((object[])arguments)[0];
 
@@ -105,7 +150,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 x.Push(
                     delegate
                     {
-                        Console.WriteLine("preparing the task");
+                        Console.WriteLine("preparing the task for " + new { MethodToken });
 
                         var z = new TaskCompletionSource<__entry>();
 
@@ -128,6 +173,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                         var NextStyle = new IStyleSheet();
                         NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " -> " + url);
                         IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
+
+                        Console.WriteLine("NextStyle added to InternalHistoryAwareSheets " + new { IStyleSheet.InternalHistoryAwareSheets.Count });
 
                         IFunction.ByName(MethodToken).ContinueWithResult(
                             f =>
@@ -172,6 +219,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             #endregion
 
             // crude cast. 
+            // why are we calling both?
             y("e.state ", x_e_state, (HistoryDetails)e.state);
             y("history.state ", x_history_state, (HistoryDetails)Native.window.history.state);
 
@@ -490,7 +538,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                         // arguments:
 
-                        invoke = new { function = MethodToken, arguments = new object[] { state } }
+                        //invoke = new { function = MethodToken, arguments = new object[] { state } }
+                        invoke = new { MethodToken, arguments = new object[] { state } }
                     };
 
                     Console.WriteLine("before history.replaceState");
@@ -638,14 +687,28 @@ namespace ScriptCoreLib.JavaScript.DOM
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
             // X:\jsc.svn\examples\javascript\UIAutomationEvents\UIAutomationEvents\Application.cs
             // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestHistoryForwardEvent\TestHistoryForwardEvent\Application.cs
             // does the forward button work?
+
+            var delay = Stopwatch.StartNew();
 
             Console.WriteLine("HistoryExtensions pushState before yield");
 
+            // when is the yield called?
             HistoryExtensions.yield(
                  delegate
                  {
-                     Console.WriteLine("HistoryExtensions pushState at yield");
+                     //0:3083ms HistoryExtensions pushState before yield
+                     //0:3086ms HistoryExtensions pushState.yield { ElapsedMilliseconds = 3, state =  }
+                     //0:3087ms HistoryExtensions pushState.yield before: { exclusive = 0, length = 1, MethodToken = AgAABgY2dze_awFR4sqxY4A, data_invoke = { function = AgAABgY2dze_awFR4sqxY4A, arguments = { foo = foo } }, data = [object Object] }
+
+                     Console.WriteLine("HistoryExtensions pushState.yield " + new
+                     {
+                         delay.ElapsedMilliseconds,
+                         // whats the current state?
+                         Native.window.history.state
+                     }
+                     );
 
                      if (yield.Target != null)
                          if (yield.Target != Native.self)
@@ -657,8 +720,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                      var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
 
+                     //var data_invoke = new { function = MethodToken, arguments = new object[] { state } };
+                     var data_invoke = new { MethodToken, arguments = new object[] { state } };
                      var data = new HistoryDetails
                      {
+                         // is this the previous state?
                          state = Native.window.history.state,
 
                          hint = "ScriptCoreLib.JavaScript.DOM.HistoryExtensions.pushState",
@@ -668,21 +734,50 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                          // arguments:
 
-                         invoke = new { function = MethodToken, arguments = new object[] { state } }
+                         //invoke = new { function = MethodToken, arguments = new object[] { state } }
+                         invoke = data_invoke
                      };
 
+
+                     //0:22850ms HistoryExtensions pushState before: { exclusive = 0, length = 1 } view-source:38792
+                     //0:22851ms HistoryExtensions pushState after: { length = 2 } 
+
+                     // X:\jsc.svn\examples\javascript\Test\TestHistoryForwardEvent\TestHistoryForwardEvent\Application.cs
                      // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
-                     Console.WriteLine("HistoryExtensions pushState before: " + new { exclusive, Native.window.history.length });
+                     Console.WriteLine("HistoryExtensions pushState.yield before: " + new
+                     {
+                         MethodToken,
+
+                         exclusive,
+                         Native.window.history.length,
+                         data_invoke,
+                         data
+                     });
 
 
                      var current = new { Native.document.location.href };
 
                      // fck ie
+                     //   y("history.state ", x_history_state, (HistoryDetails)Native.window.history.state);
                      Native.window.history.pushState(data, "", url);
 
+                     //0:137143ms HistoryExtensions pushState before yield view-source:38792
+                     //0:137145ms HistoryExtensions pushState.yield view-source:38792
+                     //0:137147ms HistoryExtensions pushState.yield before: { exclusive = 0, length = 1, MethodToken = AgAABgY2dze_awFR4sqxY4A, data_invoke = { function = AgAABgY2dze_awFR4sqxY4A, arguments = { foo = foo } }, data = [object Object] } view-source:38792
+                     //0:137149ms HistoryExtensions pushState after: { length = 2, state = [object Object] } 
 
+                     //Console.WriteLine("HistoryExtensions pushState.yield after: " + new
+                     //{
+                     //    Native.window.history.length,
+                     //    Native.window.history.state
+                     //});
 
-                     Console.WriteLine("HistoryExtensions pushState after: " + new { Native.window.history.length });
+                     //var data1 = (HistoryDetails)Native.window.history.state;
+
+                     //Console.WriteLine("HistoryExtensions pushState.yield after: " + new
+                     //{
+                     //    data1.invoke
+                     //});
 
 
                      #region __unwind

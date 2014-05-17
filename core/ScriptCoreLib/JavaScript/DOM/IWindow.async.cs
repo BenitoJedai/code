@@ -107,6 +107,9 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
             #endregion
 
+
+
+            #region onscrollToBottom
             [Obsolete("how to name this?")]
             public Task<IEvent> onscrollToBottom
             {
@@ -136,6 +139,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                     return x.Task;
                 }
             }
+            #endregion
+
+
+
         }
 
         [System.Obsolete("is this the best way to expose events as async?")]

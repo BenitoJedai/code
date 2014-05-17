@@ -33,6 +33,8 @@ namespace TestHistoryForwardEvent
             //  Native.window.history.pushState(
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
 
+            // and the problem was. 'function' should not be used with dynamic!!!
+
             page.State2.onclick +=
                 e =>
                 {

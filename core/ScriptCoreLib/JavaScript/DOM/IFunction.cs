@@ -102,6 +102,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static Task<IFunction> ByName(string name, object target = null)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestHistoryForwardEvent\TestHistoryForwardEvent\Application.cs
+            Console.WriteLine("enter IFunction.ByName " + new { name });
+
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\HistoryExtensions.cs
+
             // tested by
             // X:\jsc.svn\examples\javascript\WorkerInsideSecondaryApplication\WorkerInsideSecondaryApplicationWithStateReplaceTwice\Application.cs
 
@@ -118,7 +123,10 @@ namespace ScriptCoreLib.JavaScript.DOM
                     var f = (IFunction)Expando.InternalGetMember(target, name);
 
                     x.SetResult(f);
+                    return;
                 }
+
+                // ?
             };
 
             y();
