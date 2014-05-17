@@ -65,6 +65,7 @@ namespace UIAutomationEvents
             window.onfocus += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.onfocus));
             window.onblur += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.onblur));
             window.onscroll += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.onscroll));
+            //redux
             window.ondeviceorientation += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.ondeviceorientation));
             window.onresize += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.onresize));
 
@@ -92,6 +93,46 @@ namespace UIAutomationEvents
             {
                 transition = "margin-top 300ms linear"
             };
+
+
+            new IStyle(that.page.EULA.css)
+            {
+                borderLeft = "1em solid yellow",
+                transition = "border-left 600ms linear",
+            };
+
+            new IStyle(that.page.EULA.css[that.page.EULA.async.onscrollToBottom])
+            {
+                borderLeft = "1em solid green"
+            };
+
+
+            //Native.window.async.onscrollToBottom
+            //page.EULA.onscroll
+            //page.email.async.onscr
+
+            //page.EULA.onscroll +=
+            //    delegate
+            //{
+            //    Console.WriteLine(new
+            //    {
+            //        page.EULA.scrollTop,
+            //        page.EULA.scrollHeight,
+            //        page.EULA.clientHeight
+            //    });
+            //};
+
+
+            //page.EULA.async.onscrollToBottom.With(
+            //    async onscrollToBottom =>
+            //    {
+            //        await onscrollToBottom;
+
+            //        page.EULA.style.borderLeft = "1em solid green";
+            //    }
+            //);
+
+
 
 
             page.YesIAgree.Historic(
@@ -158,11 +199,12 @@ namespace UIAutomationEvents
 
 
     [MonitoringDescription("tier split happens here. like pirates of carribean?")]
-    public partial class ApplicationWebService
+    public partial class ApplicationWebService : IDisposable
     {
         // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Ultra\Library\StringConversionsForStopwatch.cs
         // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\ILStringConversions.cs
 
+        // what about events, properties and byref arguments?
         // what about stacktrace?
         // what about exceptions?
         // do we support expressions yet?
@@ -170,6 +212,19 @@ namespace UIAutomationEvents
         // basically this is our datasource
         public List<UIEvent> Events = new List<UIEvent>();
 
+        // can we databind to html elements?
+
+        //      error at CopyType:
+        //       * Method 'Dispose' in type 'UIAutomationEvents.Application' from assembly 'UIAutomationEvents.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+        //       * UIAutomationEvents.Application 02000009
+        //fix compiler to wait for UIAutomationEvents.Application 02000009
+        //void IDisposable.Dispose()
+        [Obsolete("cannot make it explicit interface yet?")]
+        public void Dispose()
+        {
+            Console.WriteLine("enter Dispose");
+
+        }
 
         //public Action<Expression<Action>> yield;
 
@@ -185,7 +240,7 @@ namespace UIAutomationEvents
             var scope = new { this.Events };
 
             var rule =
-                from e in Events
+                from e in Events.SelectMany(x => x.NestedEvents.Concat(new[] { x }))
                 where e.Data.StartsWith("EULA")
                 where e.DOMEvent == IHTMLEvents.onscroll
                 select e;

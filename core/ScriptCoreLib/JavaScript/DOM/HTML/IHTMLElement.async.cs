@@ -110,6 +110,41 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     return x.Task;
                 }
             }
+
+
+
+
+            #region onscrollToBottom
+            [Obsolete("how to name this?")]
+            public Task<IEvent> onscrollToBottom
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    // X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\Application.cs
+                    // X:\jsc.svn\examples\javascript\UIAutomationEvents\UIAutomationEvents\Application.cs
+
+                    var x = new TaskCompletionSource<IEvent>();
+
+                    that.onscroll +=
+                          e =>
+                          {
+                              if (x == null)
+                                  return;
+
+
+
+                              if (that.scrollHeight - 1 <= that.clientHeight + that.scrollTop)
+                              {
+                                  x.SetResult(e);
+                                  x = null;
+                              }
+                          };
+
+                    return x.Task;
+                }
+            }
+            #endregion
         }
 
         [System.Obsolete("is this the best way to expose events as async?")]

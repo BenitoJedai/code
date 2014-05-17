@@ -1,7 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHistoryForwardEvent", "TestHistoryForwardEvent\TestHistoryForwardEvent.csproj", "{0E064B3C-A2A3-485B-BD4E-C8C2B924DD17}"
+	ProjectSection(ProjectDependencies) = postProject
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {88C3C260-D1DA-4FB3-A53D-79462913E80C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\..\..\..\core\ScriptCoreLib.Async\ScriptCoreLib.Async\ScriptCoreLib.Async.csproj", "{88C3C260-D1DA-4FB3-A53D-79462913E80C}"
 EndProject
