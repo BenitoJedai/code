@@ -45,7 +45,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             e.stopImmediatePropagation();
 
 
-
+            // why 2 of them?
             var x_history_state = new Stack<Func<Task<__entry>>>();
             var x_e_state = new Stack<Func<Task<__entry>>>();
 
@@ -101,14 +101,16 @@ namespace ScriptCoreLib.JavaScript.DOM
                 };
 
 
+                // whats the x?
                 x.Push(
                     delegate
                     {
+                        Console.WriteLine("preparing the task");
+
                         var z = new TaskCompletionSource<__entry>();
 
                         #region missing ?
-                        var sw = new Stopwatch();
-                        sw.Start();
+                        var sw = Stopwatch.StartNew();
 
                         if (!Expando.Of(Native.self).Contains(MethodToken))
                         {
@@ -157,6 +159,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 );
                             }
                         );
+
+                        Console.WriteLine("returning the task");
 
                         return z.Task;
                     }
@@ -249,16 +253,28 @@ namespace ScriptCoreLib.JavaScript.DOM
             #region did we just move backward
             if ((HistoryScope.inline_unwind.Count - 1) == x_history_state.Count)
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
+
                 // Application onpopstate { e = { state = 0 }, history = { state = 1 }, Count = 0 }
 
                 //  Native.window.performance.navigation.type,
-                Console.WriteLine(" did we just move backward?");
+                Console.WriteLine(" did we just move backward? " + new
+                {
+                    unwind_data = HistoryScope.inline_unwind_data.Count,
+                    unwind = HistoryScope.inline_unwind.Count,
+                });
 
                 var unwind_data = (HistoryDetails)HistoryScope.inline_unwind_data.Pop();
                 var unwind = HistoryScope.inline_unwind.Pop();
 
                 // if exclusive we have to reactivete the remaining as if full reload?
-                Console.WriteLine(new { unwind, unwind_data.url, unwind_data.exclusive, HistoryScope.inline_unwind.Count });
+                Console.WriteLine(new
+                {
+                    unwind,
+                    unwind_data.url,
+                    unwind_data.exclusive,
+                    HistoryScope.inline_unwind.Count
+                });
 
                 var reload = unwind();
 
@@ -289,7 +305,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 if (unwind_data.exclusive)
                 {
-
                     HistoryScope.inline_unwind_data.Clear();
                     HistoryScope.inline_unwind.Clear();
 
@@ -306,9 +321,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             #region did we just move forward?
             if ((HistoryScope.inline_unwind.Count + 1) == x_history_state.Count)
             {
-                Console.WriteLine("onpopstate did we just move forward?");
+                // X:\jsc.svn\examples\javascript\test\TestHistoryForwardEvent\TestHistoryForwardEvent\Application.cs
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
 
-                //var unwind = await x_history_state.First()();
+                Console.WriteLine("onpopstate did we just move forward? " + new { x_history_state.Count });
+
+                // where is it added to that list so we can invoke it?
                 x_history_state.First()().ContinueWithResult(
                     z =>
                     {
