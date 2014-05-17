@@ -71,8 +71,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
             // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
             //X:\jsc.svn\examples\javascript\Test\TestHistoricWithBaseElement\TestHistoricWithBaseElement\Application.cs
+            // X:\jsc.svn\examples\javascript\test\TestHistoryForwardEvent\TestHistoryForwardEvent\Application.cs
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131222-form
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
 
             //var url = "/#/" + e.innerText.Replace(" ", "+").ToLower();
 
