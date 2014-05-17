@@ -30,6 +30,12 @@ namespace CSSHistoric
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
+
+
+
+
+
             //0:9ms HistoryExtensions enter view-source:35994
             //0:15ms Foo.Historic view-source:35994
             //0:16ms enter Historic: { domain = 192.168.1.91, baseURI = http://192.168.1.91:20443/#/bar, location = http://192.168.1.91:20443/#/bar, href = http://192.168.1.91:20443/#/foo } view-source:35994
