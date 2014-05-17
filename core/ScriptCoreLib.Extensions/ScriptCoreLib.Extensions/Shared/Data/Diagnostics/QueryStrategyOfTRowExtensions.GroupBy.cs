@@ -176,7 +176,18 @@ namespace System.Data
 
 
 
-
+                     //AsDataTable { Strategy = System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4@17f3214 }
+                     //InternalGetConnectionString { key = { DataSource = file:Book1.xlsx.sqlite, ReadOnly = false, InternalUser = root, InternalHost = localhost, InternalInstanceName = instance_name } }
+                     //Join CommandBuilder { that = System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4@17f3214 }
+                     //Join CommandBuilder  ...  { asLambdaExpression = { Body = MemberInitExpression { NewExpression = NewExpression { Constructor = .ctor(), Type = TestSQLJoin.Data.Book1TheViewRow } }, Parameter
+                     //Join CommandBuilder building FromCommand...
+                     //Join CommandBuilder { that = System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4@5c6936 }
+                     //Join CommandBuilder  ...  { asLambdaExpression = { Body = NewExpression { Constructor = .ctor(java.lang.Object, java.lang.Object), Type = __AnonymousTypes__TestSQLJoin_ApplicationWebService.
+                     //Join CommandBuilder building FromCommand...
+                     //Join CommandBuilder building SelectCommand...
+                     //Join CommandBuilder  ...  { asMemberInitExpression =  }
+                     //Join CommandBuilder building SelectCommand... upperJoin
+                     //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type =  }
 
 
                      var asMemberInitExpression = default(MemberInitExpression);
@@ -202,7 +213,7 @@ namespace System.Data
                              // we are outer?
 
                              //GroupBy.upperJoin.resultSelectorExpression as LambdaExpression)
-                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.resultSelectorExpression ).Body as MemberInitExpression;
+                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
                              asMemberInitExpressionByParameter0 = ((LambdaExpression)GroupBy.upperJoin.resultSelectorExpression).Parameters[0];
 
 
@@ -212,9 +223,9 @@ namespace System.Data
 
                                  if (GroupBy.upperJoin.upperJoin.xouter == GroupBy.upperJoin)
                                  {
-                                     asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.resultSelectorExpression ).Body as MemberInitExpression;
+                                     asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
                                      //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                     asMemberInitExpressionByParameter1 = (( LambdaExpression)GroupBy.upperJoin.upperJoin.resultSelectorExpression ).Parameters[0];
+                                     asMemberInitExpressionByParameter1 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.resultSelectorExpression).Parameters[0];
 
 
 
@@ -224,9 +235,9 @@ namespace System.Data
 
                                          if (GroupBy.upperJoin.upperJoin.upperJoin.xouter == GroupBy.upperJoin.upperJoin)
                                          {
-                                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression  ).Body as MemberInitExpression;
+                                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
                                              //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                             asMemberInitExpressionByParameter2 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression ).Parameters[0];
+                                             asMemberInitExpressionByParameter2 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression).Parameters[0];
 
                                          }
 
@@ -296,8 +307,6 @@ namespace System.Data
 
 
                      var s_SelectCommand = "select s.`" +
-
-
                          GroupingKeyFieldExpressionName
                          + "` as `Grouping.Key`";
 
@@ -397,7 +406,7 @@ namespace System.Data
                                  state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                  s_SelectCommand += ",\n\t s.`"
-                                    + GroupingKeyFieldExpressionName  + "` as `" + asMemberAssignment.Member.Name + "`";
+                                    + GroupingKeyFieldExpressionName + "` as `" + asMemberAssignment.Member.Name + "`";
                                  return;
                              }
                              #endregion

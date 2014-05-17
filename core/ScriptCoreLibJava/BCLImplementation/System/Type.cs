@@ -161,10 +161,69 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public ConstructorInfo GetConstructor(global::System.Type[] parameters)
         {
-            Console.WriteLine("GetConstructor " + new { FullName, parameters });
+            //            Type.GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_696_0_2, Length = 2, InternalTypeDescription = class __AnonymousTypes__TestS
+            //Type.GetConstructor { parameter = TestSQLJoin.Data.Book1DealerContactRow, InternalTypeDescription = class TestSQLJoin.Data.Book1DealerContactRow }
+            //Type.GetConstructor { parameter = TestSQLJoin.Data.Book1DealerRow, InternalTypeDescription = class TestSQLJoin.Data.Book1DealerRow }
+            //Type.GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_696_0_2, constructor = .ctor(), InternalConstructor = , DeclaringType =  }
+
+
+
+            var constructors = this.GetConstructors();
+
+
+            var constructor1 = constructors.FirstOrDefault(x => x.GetParameters().Length == parameters.Length);
+            if (constructor1 != null)
+            {
+                if (constructor1.GetParameters().All(x => x.ParameterType == typeof(object)))
+                {
+                    //                    java.lang.Object, rt
+                    //generic ctor?
+                    //Type.GetConstructor { FullName = __AnonymousTypes__JVMCLRAnonymousTypeConstructor__i__d_jvm.__f__AnonymousType_47__27__51_0_1, parameters = 1, InternalTypeDescription = class __AnonymousTypes__JVMCLRAnonymousTypeConstructor__i__d_jvm.__f__AnonymousType_47__27__51_0_1 }
+                    //Type.GetConstructor { parameter = java.lang.Integer, InternalTypeDescription = class java.lang.Integer }
+                    //Type.GetConstructor { SourceConstructor = .ctor(java.lang.Object) }
+
+                    //X:\jsc.svn\examples\java\Test\JVMCLRAnonymousTypeConstructor\JVMCLRAnonymousTypeConstructor\bin\Release>
+
+                    //Console.WriteLine("generic ctor?");
+                    return constructor1;
+                }
+            }
+
+            Console.WriteLine("Type.GetConstructor " + new
+            {
+                this.FullName,
+                parameters = parameters.Length,
+                this.InternalTypeDescription
+            });
+
+
+
+            //Type.GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_696_0_2, parameters = 2, InternalTypeDescription = class __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_696_0_2 }
+            //Type.GetConstructor { parameter = TestSQLJoin.Data.Book1DealerContactRow, InternalTypeDescription = class TestSQLJoin.Data.Book1DealerContactRow }
+            //Type.GetConstructor { parameter = TestSQLJoin.Data.Book1DealerRow, InternalTypeDescription = class TestSQLJoin.Data.Book1DealerRow }
+            //Type.GetConstructor { cc = [LScriptCoreLibJava.BCLImplementation.System.Reflection.__ConstructorInfo;@93072 }
+            //Type.GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_696_0_2, constructor = .ctor(), InternalConstructor = , DeclaringType =  }
+
+            foreach (__Type parameter in parameters)
+            {
+                Console.WriteLine("Type.GetConstructor " + new { parameter, parameter.InternalTypeDescription });
+            }
+
+
+
+            foreach (var SourceConstructor in constructors)
+            {
+                Console.WriteLine("Type.GetConstructor " + new { SourceConstructor });
+
+            }
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140111-iquery/ldtoken
             // like enum.ToString, javascript cannot do New Expressions while java might..
+
+            //GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_694_0_2, parameters = [LScriptCoreLibJava.BCLImplementation.System.__Type;@f9651 }
+            //GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_694_0_2, cc = .ctor() }
+            //Expression.New { constructor = .ctor(), DeclaringType = , arguments = ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1@1e5182f, members = [LScriptCoreLibJava.BCLImpl
+
             // X:\jsc.svn\examples\java\Test\JVMCLRNewExpression\JVMCLRNewExpression\Program.cs
 
 
@@ -173,22 +232,41 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             {
                 c.Add(ScriptCoreLibJava.Extensions.BCLImplementationExtensions.ToClass(item));
             }
-            var m = default(Constructor);
+            var InternalConstructor = default(Constructor);
 
             try
             {
-                m = this.InternalTypeDescription.getConstructor(c.ToArray());
+                InternalConstructor = this.InternalTypeDescription.getConstructor(c.ToArray());
             }
             catch
             {
 
             }
 
-            var cc = (__ConstructorInfo)m;
+            // X:\jsc.svn\examples\java\test\JVMCLRAnonymousTypeConstructor\JVMCLRAnonymousTypeConstructor\Program.cs
 
-            Console.WriteLine("GetConstructor " + new { FullName, cc });
+            if (InternalConstructor == null)
+                throw new InvalidOperationException("InternalConstructor == null");
 
-            return cc;
+            var constructor = (__ConstructorInfo)InternalConstructor;
+
+            //Type.GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_696_0_2, parameters = [LScriptCoreLibJava.BCLImplementation.System.__Type;@1c1e816 }
+            //Type.GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_696_0_2, cc = .ctor(), InternalConstructor = , DeclaringType =  }
+
+            Console.WriteLine(
+                "Type.GetConstructor " + new
+                {
+                    FullName,
+
+                    constructor,
+                    constructor.InternalConstructor,
+
+                    // ?
+                    constructor.DeclaringType
+                }
+            );
+
+            return constructor;
         }
 
         public MethodInfo GetMethod(string name, global::System.Type[] parameters)

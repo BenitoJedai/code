@@ -50,6 +50,19 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
         public static NewExpression New(ConstructorInfo constructor, IEnumerable<Expression> arguments, params MemberInfo[] members)
         {
+            //GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_694_0_2, parameters = [LScriptCoreLibJava.BCLImplementation.System.__Type;@f9651 }
+            //GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_694_0_2, cc = .ctor() }
+            //Expression.New { constructor = .ctor(), DeclaringType = , 
+
+            // arguments = ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1@1e5182f, 
+            // members = [LScriptCoreLibJava.BCLImplementation.System.Reflection.__MethodInfo;@196e0b0 }
+
+            //GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_694_0_2, parameters = [LScriptCoreLibJava.BCLImplementation.System.__Type;@f9651 }
+            //GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_694_0_2, cc = .ctor() }
+            //Expression.New { constructor = .ctor(), DeclaringType = , arguments = ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1@1e5182f, members = [LScriptCoreLibJava.BCLImpl
+
+            //Lambda { body = NewExpression { Constructor = .ctor(), Type =  } }
+
             Console.WriteLine("Expression.New " + new { constructor, constructor.DeclaringType, arguments, members });
             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Join.cs
 

@@ -21,8 +21,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         public override string ToString()
         {
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
+            //Console.WriteLine("Expression.New " + new { constructor, constructor.DeclaringType });
 
-            return "NewExpression " + new { Constructor }.ToString();
+            return "NewExpression " + new { Constructor, Type }.ToString();
         }
 
     }
