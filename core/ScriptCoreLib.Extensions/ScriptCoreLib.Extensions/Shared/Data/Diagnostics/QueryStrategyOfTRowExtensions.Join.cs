@@ -132,6 +132,8 @@ namespace System.Data
                 //var asNewExpression = resultSelector as NewExpression;
                 var asLambdaExpression = resultSelector as LambdaExpression;
 
+                Console.WriteLine("Join CommandBuilder  ...  " + new { asLambdaExpression });
+
                 // can we assume 
                 //+		(new System.Linq.Expressions.Expression.ParameterExpressionProxy(xouter_Paramerer as System.Linq.Expressions.TypedParameterExpression)).Type	{Name = "Book1DealerContactRow" FullName = "TestSQLJoin.Data.Book1DealerContactRow"}	System.Type {System.RuntimeType}
                 //+		xouter	{TestSQLJoin.__Book1_DealerContact}	TestSQLJoin.IQueryStrategy<TestSQLJoin.Data.Book1DealerContactRow> {TestSQLJoin.__Book1_DealerContact}
@@ -305,7 +307,33 @@ namespace System.Data
                 #endregion
 
 
+
+                //Join CommandBuilder  ...  { asLambdaExpression = { Body = MemberInitExpression { NewExpression = NewExpression {
+                //Join CommandBuilder building FromCommand...
+                //Join CommandBuilder { that = System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4@5c6936 }
+                //Join CommandBuilder  ...  { asLambdaExpression = { Body = NewExpression { Constructor = .ctor(java.lang.Object,
+                //Join CommandBuilder building FromCommand...
+                //Join CommandBuilder building SelectCommand...
+                //Join CommandBuilder  ...  { asMemberInitExpression =  }
+
+                //Join CommandBuilder  ...  { asLambdaExpression = (contact, dealer) => new <>f__AnonymousType0`2(contact = contact, dealer = dealer) }
+                //Join CommandBuilder building FromCommand...
+                //Join CommandBuilder building SelectCommand...
+                //Join CommandBuilder  ...  { asMemberInitExpression = , Body = new <>f__AnonymousType0`2(contact = contact, dealer = dealer) }
+                //Join CommandBuilder building SelectCommand... upperJoin
+                //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type = TestSQLJoin.Data.Book1TheViewRow }
+
                 var asMemberInitExpression = asLambdaExpression.Body as MemberInitExpression;
+
+
+
+                //Join CommandBuilder  ...  { asMemberInitExpression =  }
+                //Join CommandBuilder building SelectCommand... upperJoin
+                //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type =  }
+
+                Console.WriteLine("Join CommandBuilder  ...  " + new { asMemberInitExpression, asLambdaExpression.Body });
+
+
                 var asMemberInitExpressionByParameter0 = default(ParameterExpression);
                 var asMemberInitExpressionByParameter1 = default(ParameterExpression);
 
@@ -316,6 +344,7 @@ namespace System.Data
                         if (that.upperGroupBy.source == that)
                         {
                             Console.WriteLine("Join CommandBuilder building SelectCommand... upperGroupBy");
+
                             asMemberInitExpression = (that.upperGroupBy.elementSelector as LambdaExpression).Body as MemberInitExpression;
                             asMemberInitExpressionByParameter0 = (that.upperGroupBy.elementSelector as LambdaExpression).Parameters[0];
 
@@ -351,13 +380,14 @@ namespace System.Data
                     if (that.upperJoin != null)
                         if (that.upperJoin.xouter == that)
                         {
-                            Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin");
-                            asMemberInitExpression = (that.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
-                            asMemberInitExpressionByParameter0 = (that.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                            Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin " + new { that.upperJoin.resultSelectorExpression });
+
+                            asMemberInitExpression = ((LambdaExpression)that.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
+                            asMemberInitExpressionByParameter0 = ((LambdaExpression)that.upperJoin.resultSelectorExpression).Parameters[0];
 
 
-                            var asMemberExpression = (that.upperJoin.outerKeySelector as LambdaExpression).Body as MemberExpression;
-                            var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
+                            var asMemberExpression = ((LambdaExpression)that.upperJoin.outerKeySelector).Body as MemberExpression;
+                            var asMMemberExpression = (MemberExpression)asMemberExpression.Expression;
 
                             //if (asMemberInitExpression != null)
 
@@ -387,9 +417,12 @@ namespace System.Data
 
                                 if (that.upperJoin.upperJoin.xouter == that.upperJoin)
                                 {
-                                    asMemberInitExpression = (that.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                    asMemberInitExpression = ((LambdaExpression)that.upperJoin.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
                                     //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                    asMemberInitExpressionByParameter1 = (that.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                    asMemberInitExpressionByParameter1 = ((LambdaExpression)that.upperJoin.upperJoin.resultSelectorExpression).Parameters[0];
+
+                                    Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin " + new { asMemberInitExpression });
+
 
                                     //if (asMemberInitExpression != null)
                                     //    AddToSelectCommand(
@@ -404,6 +437,11 @@ namespace System.Data
 
                         }
                 #endregion
+
+
+
+                if (asMemberInitExpression != null)
+                    Console.WriteLine("Join CommandBuilder  ...  " + new { asMemberInitExpression, asMemberInitExpression.Type });
 
 
 
@@ -461,9 +499,14 @@ namespace System.Data
                     //        at System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4.Invoke(QueryStrategyOfTRowExtensions_JoinQueryStrategy_4.java:465)
                     //        ... 99 more
 
-                    // Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type =  }
+                    //Join CommandBuilder  ...  { asMemberInitExpression = , Body = NewExpression { Constructor = .ctor(java.lang.Object, java.lang.Object), Type = __AnonymousTypes__TestSQLJoin_ApplicationWebService
+                    //Join CommandBuilder building SelectCommand... upperJoin
+                    //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type =  }
 
                     Console.WriteLine("Join CommandBuilder building SelectCommand... ImplicitConstantFields " + new { asMemberInitExpression.Type });
+
+                    if (asMemberInitExpression.Type == null)
+                        throw new InvalidOperationException("asMemberInitExpression.Type == null");
 
                     // shall we generate any missing bindings as constants?
                     // so if we do a group by and Last on it
@@ -1133,6 +1176,7 @@ namespace System.Data
             )
         {
             Console.WriteLine("Join " + new { resultSelector });
+            //Join { resultSelector = { Body = NewExpression { Constructor = .ctor(), Type =  }, Parameters = ScriptCoreLib.Shared.BCLImplementation.System.Collections.ObjectModel.__ReadOnlyCollection_1@1beead4 } }
 
 
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs

@@ -15,6 +15,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
         public global::java.lang.reflect.Constructor InternalConstructor;
 
+
+
+        //Implementation not found for type import :
+        //type: System.Reflection.ConstructorInfo
+        //method: Boolean op_Inequality(System.Reflection.ConstructorInfo, System.Reflection.ConstructorInfo)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
+
+
+        public static bool operator !=(__ConstructorInfo left, __ConstructorInfo right)
+        {
+            return (object)left != (object)right;
+        }
+
+        public static bool operator ==(__ConstructorInfo left, __ConstructorInfo right)
+        {
+            return (object)left == (object)right;
+
+        }
+
+
         public override string Name
         {
             get { return ".ctor"; }
