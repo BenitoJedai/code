@@ -25,6 +25,7 @@ namespace System.Data
     {
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+        // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\Program.cs
 
         #region XQueryStrategy
         class XQueryStrategy<TRow> : IQueryStrategy<TRow>
