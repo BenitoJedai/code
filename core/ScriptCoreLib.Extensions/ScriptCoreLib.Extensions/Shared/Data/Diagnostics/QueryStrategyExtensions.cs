@@ -140,7 +140,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                                 var xColumnName0 = asMethodCallExpression.Object as MemberExpression;
 
-                                var n = "@arg" + state.ApplyParameter.Count;
+                                var n = "@where" + state.ApplyParameter.Count;
 
                                 // http://stackoverflow.com/questions/16180117/instr-function-sqlite-for-android
 
@@ -236,7 +236,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                             if (asConstantExpression != null)
                             {
                                 var rAddParameterValue0 = asConstantExpression.Value;
-                                var n = "@arg" + state.ApplyParameter.Count;
+                                var n = "@where" + state.ApplyParameter.Count;
 
                                 state.WhereCommand += " ";
                                 state.WhereCommand += n;
@@ -401,7 +401,9 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                         else
                             Debugger.Break();
 
-                        var n = "@arg" + state.ApplyParameter.Count;
+
+                        // arg name collision
+                        var n = "@where" + state.ApplyParameter.Count;
 
                         state.WhereCommand += " ";
                         state.WhereCommand += n;

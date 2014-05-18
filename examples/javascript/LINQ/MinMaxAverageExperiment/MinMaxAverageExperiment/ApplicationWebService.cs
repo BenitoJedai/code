@@ -56,6 +56,10 @@ namespace MinMaxAverageExperiment
 
                      select new
                      {
+                         xxfoo = "bar",
+
+                         k.Timestamp,
+
                          k.Key,
 
 
@@ -67,11 +71,15 @@ namespace MinMaxAverageExperiment
                          ToUpper = k.path.ToUpper(),
 
                          // www.w3schools.com/sql/sql_func_len.asp
-                         k.path.Length
+                         k.path.Length,
+
                      };
 
             // what about our own PrimaryConstructor for select?
             var uc0 = uc.AsDataTable();
+            var uc1 = uc.AsGenericEnumerable();
+            var uc2 = uc.FirstOrDefault();
+
 
             //        Select { selector = k => new <> f__AnonymousType0`2(path = k.path, Length = k.path.Length) }
             //        AsDataTable {
