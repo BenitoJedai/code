@@ -38,8 +38,8 @@ namespace PageNavigationExperiment
 
 
                 new IHTMLDiv
-                                    {
-                                        innerHTML = @"
+                {
+                    innerHTML = @"
                     <style>
                     html {
                         transition: border-top 500ms linear;
@@ -47,7 +47,7 @@ namespace PageNavigationExperiment
                     }
 
                     </style>"
-                                    }.With(
+                }.With(
                     async div =>
                     {
                         //await Native.window.requestAnimationFrameAsync;
@@ -84,10 +84,10 @@ namespace PageNavigationExperiment
 
                 new IHTMLButton { innerText = "animate" }.AttachToDocument().WhenClicked(
                     delegate
-                    {
-                        IStyleSheet.Default["body.third"].style.borderLeft = "5em red solid";
+                {
+                    IStyleSheet.Default["body.third"].style.borderLeft = "5em red solid";
 
-                    }
+                }
                 );
 
                 IStyleSheet.Default["body.third"].style.borderLeft = "4em blue solid";
@@ -98,7 +98,7 @@ namespace PageNavigationExperiment
                 }.AttachToDocument();
 
                 page.Yield.WhenClicked(
-                    async delegate
+                    async button =>
                     {
                         var z = await this.GetSpecialString();
 
@@ -107,7 +107,7 @@ namespace PageNavigationExperiment
                 );
 
                 page.Data.WhenClicked(
-                    delegate
+                    async button =>
                     {
 
                         Native.window.history.pushState(
@@ -155,16 +155,16 @@ namespace PageNavigationExperiment
 
                                 grid.DataSourceChanged +=
                                     delegate
-                                    {
-                                        Console.WriteLine("DataSourceChanged");
+                                {
+                                    Console.WriteLine("DataSourceChanged");
 
-                                        (grid.DataSource as DataTable).With(
-                                            data =>
+                                    (grid.DataSource as DataTable).With(
+                                        data =>
                                             {
                                                 f.Text = data.TableName;
                                             }
-                                        );
-                                    };
+                                    );
+                                };
 
                                 f.Show();
 
@@ -217,7 +217,7 @@ namespace PageNavigationExperiment
                 Native.window.alert("hello! " + new { message });
             };
 
-   
+
             //((IHTMLElement)Native.document.body.parentNode).style.borderTop = "1em yellow yellow";
 
             //IStyleSheet.Default["html"].style.borderTop = "1em yellow yellow";
@@ -283,7 +283,7 @@ html {
 
                     colors();
 
-       
+
 
 
                     var st = new Stopwatch();
@@ -301,7 +301,7 @@ html {
             #endregion
 
 
-    
+
 
 
             //page.Location = Native.document.location.hash;
@@ -399,7 +399,9 @@ html {
                         __that = xthat;
                         Console.WriteLine("restore state!"); ;
                         Native.document.title = xtitle;
-                        Native.document.body.parentNode.replaceChild(hidden.querySelectorAll("body")[0], Native.document.body);
+
+                        //Native.document.body.parentNode.replaceChild(hidden.querySelectorAll("body")[0], Native.document.body);
+                        Native.document.body.parentNode.replaceChild(hidden.querySelectorAll("body").First(), Native.document.body);
                     }
                 );
             };
@@ -408,14 +410,14 @@ html {
 
 
             page.GoThirdPageViaCode.WhenClicked(
-                async delegate
+                  async button =>
                 {
                     GoThirdPage();
                 }
             );
 
             page.GoThirdPageViaLocation.WhenClicked(
-                  async delegate
+                  async button =>
                   {
                       Native.document.location.href = "/third-page";
                   }
@@ -583,7 +585,8 @@ html {
                         __that = xthat;
                         Console.WriteLine("restore state!"); ;
                         Native.document.title = xtitle;
-                        Native.document.body.parentNode.replaceChild(hidden.querySelectorAll("body")[0], Native.document.body);
+                        //Native.document.body.parentNode.replaceChild(hidden.querySelectorAll("body")[0], Native.document.body);
+                        Native.document.body.parentNode.replaceChild(hidden.querySelectorAll("body").First(), Native.document.body);
                     }
                 );
             };

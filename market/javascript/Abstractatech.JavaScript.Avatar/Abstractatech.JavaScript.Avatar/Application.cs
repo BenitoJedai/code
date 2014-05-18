@@ -48,6 +48,16 @@ namespace Abstractatech.JavaScript.Avatar
 
     public static class ApplicationImplementation
     {
+        // not roslyn friendly yet!
+
+
+        //02000031 Abstractatech.JavaScript.Avatar.ApplicationImplementation+<MakeCamGrabber>d__1+<MoveNext>0600002d
+        //script: error JSC1000: *** stack is empty, invalid pop?
+        //script: error JSC1000: error at Abstractatech.JavaScript.Avatar.ApplicationImplementation+<MakeCamGrabber>d__1+<MoveNext>0600002d.<069a> pop.try,
+        // assembly: V:\Abstractatech.JavaScript.Avatar.Application.exe
+        // type: Abstractatech.JavaScript.Avatar.ApplicationImplementation+<MakeCamGrabber>d__1+<MoveNext>0600002d, Abstractatech.JavaScript.Avatar.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+
+
         public static async void MakeCamGrabber(
             IHTMLDiv c,
             bool sizeToWindow = false,
@@ -141,7 +151,7 @@ namespace Abstractatech.JavaScript.Avatar
 
 
             c.css.hover.empty.before.style.color = "yellow";
-            #endregion
+        #endregion
 
 
         retry:
@@ -318,22 +328,22 @@ namespace Abstractatech.JavaScript.Avatar
                             Console.WriteLine(
                                 // { Avatar640x480 = 54843, Avatar96gif = 54734 } 
                                 new
-                                {
-                                    Avatar640x480 = base64.Length,
-                                    Avatar96gif = gif.Length
-                                }
+                            {
+                                Avatar640x480 = base64.Length,
+                                Avatar96gif = gif.Length
+                            }
                             );
 
 
                             if (yield != null)
                                 yield(
                                     new WebCamAvatarsSheet1Row
-                                    {
-                                        Avatar640x480 = base64,
-                                        Avatar96frame1 = Native.window.localStorage[localStorageKeys.frames[0]],
-                                        // do we want to report frames?
-                                        Avatar96gif = gif
-                                    }
+                                {
+                                    Avatar640x480 = base64,
+                                    Avatar96frame1 = Native.window.localStorage[localStorageKeys.frames[0]],
+                                    // do we want to report frames?
+                                    Avatar96gif = gif
+                                }
                                 );
 
 

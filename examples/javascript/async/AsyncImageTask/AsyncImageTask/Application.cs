@@ -58,7 +58,12 @@ namespace AsyncImageTask
 
                     // reloading visual studio helped here!
                     //IHTMLImageAsyncExtensions.
+
+                    // is this the culprit?
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140518-1/roslyn
+
                     await i;
+                    //await i.async.onl;
 
 
                     //Native.window.performance.getEntries().WithEach(
