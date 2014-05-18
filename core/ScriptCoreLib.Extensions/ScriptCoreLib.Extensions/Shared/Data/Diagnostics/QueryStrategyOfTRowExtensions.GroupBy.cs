@@ -429,8 +429,8 @@ namespace System.Data
                                  // special!
                                  state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
-                                 s_SelectCommand += ",\n\t s.`"
-                                    + GroupingKeyFieldExpressionName + "` as `" + asMemberAssignment.Member.Name + "`";
+                                 s_SelectCommand += ",\n\t "
+                                    + GroupingKeyFieldExpressionName + " as `" + asMemberAssignment.Member.Name + "`";
                                  return;
                              }
                              #endregion
@@ -842,10 +842,10 @@ namespace System.Data
                                      var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as MemberExpression;
 
                                      state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t s.`"
+                                     s_SelectCommand += ",\n\t "
 
 
-                                         + GroupingKeyFieldExpressionName + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         + GroupingKeyFieldExpressionName + " as `" + asMemberAssignment.Member.Name + "`";
 
                                      return;
                                  }
