@@ -20,9 +20,10 @@ namespace ColorDisco
         public int i;
 
 
-        public async Task<string> yield()
+        //public async Task<string> yield()
+        public async Task yield()
         {
-
+            // where else have we done css remoting?
 
             var r = new Random();
 
@@ -34,7 +35,7 @@ namespace ColorDisco
                 ")";
 
 
-            return "ok";
+            //return "ok";
         }
     }
 

@@ -51,10 +51,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         //script: error JSC1000: Method: get_InternalSiblingsIncludingThis, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control; emm
         [Obsolete("why does this fail for roslyn?")]
         // x:\jsc.svn\examples\javascript\future\asyncorderbyexpression\asyncorderbyexpression\applicationcontrol.cs
+        // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
+        // X:\jsc.svn\examples\javascript\LINQ\test\TestInternalSiblingsIncludingThis\TestInternalSiblingsIncludingThis\Application.cs
         public IEnumerable<__Control> InternalSiblingsIncludingThis
         {
             get
             {
+                // what if roslyn optimizes it
+                // and jsc stack rewriter is not allowed to rewrite it?
+
                 return from p in new[] { this.Parent }
                        where p != null
                        from i in Enumerable.Range(0, p.Controls.Count)

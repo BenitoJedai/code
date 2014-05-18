@@ -36,6 +36,8 @@ namespace ColorDisco
 
         public async void go()
         {
+            // tested with roslyn.
+
             Native.document.body.css.style.transition = "background-color 100ms linear";
 
             this.body = Native.document.body;
