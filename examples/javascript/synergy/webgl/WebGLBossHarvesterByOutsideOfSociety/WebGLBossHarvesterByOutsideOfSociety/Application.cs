@@ -76,6 +76,15 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             renderer.domElement.AttachToDocument();
 
 
+            //           0200001f WebGLBossHarvesterByOutsideOfSociety.Application +<> c__DisplayClass2
+            //           script: error JSC1000: unsupported flow detected, try to simplify.
+            //Assembly V:\WebGLBossHarvesterByOutsideOfSociety.Application.exe
+            //DeclaringType WebGLBossHarvesterByOutsideOfSociety.Application +<> c__DisplayClass2,
+            //OwnerMethod <.ctor > b__5
+            //Offset 005b
+            // did the problem just dissapear?
+
+            #region harvester_md5mesh
             new THREE.JSONLoader().load(
                 new WebGLBossHarvesterByOutsideOfSociety.Models.harvester_md5mesh().Content.src,
                 (Action<dynamic>)
@@ -242,6 +251,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                     }
                )
            );
+            #endregion
 
             //var harvester_src = new WebGLBossHarvesterByOutsideOfSociety.Models.harvester().Content.src;
 
@@ -264,15 +274,17 @@ namespace WebGLBossHarvesterByOutsideOfSociety
             };
             Native.window.onresize +=
               delegate
-              {
-                  AtResize();
-              };
+            {
+                AtResize();
+            };
 
             AtResize();
             #endregion
 
             Console.WriteLine("renderer ready!");
 
+
+            #region onmousedown
             Native.document.onmousedown +=
                  e =>
                  {
@@ -293,6 +305,7 @@ namespace WebGLBossHarvesterByOutsideOfSociety
                          return;
                      }
                  };
+            #endregion
 
 
 

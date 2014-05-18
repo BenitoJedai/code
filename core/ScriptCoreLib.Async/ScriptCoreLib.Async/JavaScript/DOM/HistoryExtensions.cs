@@ -38,8 +38,21 @@ namespace ScriptCoreLib.JavaScript.DOM
         public static Action<Action> yield;
 
 
+
+
+        //02000038 ScriptCoreLib.JavaScript.DOM.HistoryExtensions+<>c__DisplayClass6
+        //script: error JSC1000: unsupported flow detected, try to simplify.
+        // Assembly V:\AsyncImageTask.Application.exe
+        // DeclaringType ScriptCoreLib.JavaScript.DOM.HistoryExtensions+<>c__DisplayClass6, AsyncImageTask.Application, Version= 1.0.0.0, Culture= neutral, PublicKeyToken= null
+        // OwnerMethod<onpopstate> b__8
+        // Offset 00be
+        // .Try ommiting the return, break or continue instruction.
+        //script: error JSC1000: Method: <onpopstate>b__8, Type: ScriptCoreLib.JavaScript.DOM.HistoryExtensions+<>c__DisplayClass6; emmiting failed : System.InvalidOperationException: unsupported flow detected, try to simplify.
+
         static void onpopstate(PopStateEvent e)
         {
+            // not roslyn friendly yet!
+
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
@@ -124,17 +137,17 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 Func<TaskCompletionSource<HistoryScope<object>>> __get_unwind =
                     delegate
-                    {
-                        // ok, something is listening to inline unwind.
-                        // lets wait for the event then and not reload
+                {
+                    // ok, something is listening to inline unwind.
+                    // lets wait for the event then and not reload
 
-                        Console.WriteLine("__get_unwind");
+                    Console.WriteLine("__get_unwind");
 
-                        if (__unwind == null)
-                            __unwind = new TaskCompletionSource<HistoryScope<object>>();
+                    if (__unwind == null)
+                        __unwind = new TaskCompletionSource<HistoryScope<object>>();
 
-                        return __unwind;
-                    };
+                    return __unwind;
+                };
                 #endregion
 
 
@@ -149,35 +162,35 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // whats the x?
                 x.Push(
                     delegate
+                {
+                    Console.WriteLine("preparing the task for " + new { MethodToken });
+
+                    var z = new TaskCompletionSource<__entry>();
+
+                    #region missing ?
+                    var sw = Stopwatch.StartNew();
+
+                    if (!Expando.Of(Native.self).Contains(MethodToken))
                     {
-                        Console.WriteLine("preparing the task for " + new { MethodToken });
-
-                        var z = new TaskCompletionSource<__entry>();
-
-                        #region missing ?
-                        var sw = Stopwatch.StartNew();
-
-                        if (!Expando.Of(Native.self).Contains(MethodToken))
-                        {
-                            //{ hint = typeof(y) } missing { MethodToken = CAAABoz2jD6nJMVTcci_a_bQ }
+                        //{ hint = typeof(y) } missing { MethodToken = CAAABoz2jD6nJMVTcci_a_bQ }
 
 
-                            Console.WriteLine(new { hint } + " missing " + new { MethodToken });
+                        Console.WriteLine(new { hint } + " missing " + new { MethodToken });
 
-                            //Could not load type 'ctor>b__6>d__17' from assembly 'WorkerInsideSecondaryApplicationWithStateReplace.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
-                            // script: error JSC1000: No implementation found for this native method, please implement [System.Threading.Tasks.Task.ContinueWith(System.Action`1[[System.Threading.Tasks.Task, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
-                        }
-                        #endregion
+                        //Could not load type 'ctor>b__6>d__17' from assembly 'WorkerInsideSecondaryApplicationWithStateReplace.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
+                        // script: error JSC1000: No implementation found for this native method, please implement [System.Threading.Tasks.Task.ContinueWith(System.Action`1[[System.Threading.Tasks.Task, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
+                    }
+                    #endregion
 
-                        // test the refresh!
-                        var NextStyle = new IStyleSheet();
-                        NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " -> " + url);
-                        IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
+                    // test the refresh!
+                    var NextStyle = new IStyleSheet();
+                    NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " -> " + url);
+                    IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
 
-                        Console.WriteLine("NextStyle added to InternalHistoryAwareSheets " + new { IStyleSheet.InternalHistoryAwareSheets.Count });
+                    Console.WriteLine("NextStyle added to InternalHistoryAwareSheets " + new { IStyleSheet.InternalHistoryAwareSheets.Count });
 
-                        IFunction.ByName(MethodToken).ContinueWithResult(
-                            f =>
+                    IFunction.ByName(MethodToken).ContinueWithResult(
+                        f =>
                             {
                                 // { hint = typeof(y) } ok { MethodToken = CQAABoz2jD6nJMVTcci_a_bQ, ElapsedMilliseconds = 171 }
                                 Console.WriteLine(new { hint } + " ok " + new { MethodToken, sw.ElapsedMilliseconds });
@@ -189,28 +202,28 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                                 z.SetResult(
                                     new __entry
-                                    {
-                                        unwind_data = state,
-                                        unwind =
+                                {
+                                    unwind_data = state,
+                                    unwind =
                                            delegate
-                                           {
-                                               if (__unwind == null)
-                                                   return true;
+                                    {
+                                        if (__unwind == null)
+                                            return true;
 
-                                               // time to do inline unwind.
-                                               __unwind.SetResult(scope);
+                                        // time to do inline unwind.
+                                        __unwind.SetResult(scope);
 
-                                               return false;
-                                           }
+                                        return false;
                                     }
+                                }
                                 );
                             }
-                        );
+                    );
 
-                        Console.WriteLine("returning the task");
+                    Console.WriteLine("returning the task");
 
-                        return z.Task;
-                    }
+                    return z.Task;
+                }
                 );
 
                 var parent = (HistoryDetails)state.state;
@@ -504,112 +517,112 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             HistoryExtensions.yield(
                 delegate
+            {
+
+                //Console.WriteLine("enter replaceState");
+
+                if (yield.Target != null)
+                    if (yield.Target != Native.self)
+                        throw new InvalidOperationException("we can only continue with global methods for now... " + new { yield.Target });
+
+                var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
+
+
+                var data_state = (HistoryDetails)Native.window.history.state;
+
+                // HistoryExtensions onpopstate { state = [object Object], e = { state = 7 }, history = { state = 7 }, Count = 2 }
+
+                //        m.state = h.state;
+                //m.hint = 'ScriptCoreLib.JavaScript.DOM.HistoryExtensions.replaceState';
+
+                if (data_state != null)
+                    data_state = (HistoryDetails)data_state.state;
+
+
+                var data = new HistoryDetails
                 {
+                    // parent
+                    state = data_state,
 
-                    //Console.WriteLine("enter replaceState");
+                    hint = "ScriptCoreLib.JavaScript.DOM.HistoryExtensions.replaceState",
 
-                    if (yield.Target != null)
-                        if (yield.Target != Native.self)
-                            throw new InvalidOperationException("we can only continue with global methods for now... " + new { yield.Target });
+                    exclusive = exclusive,
+                    url = url,
 
-                    var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
+                    // arguments:
 
+                    //invoke = new { function = MethodToken, arguments = new object[] { state } }
+                    invoke = new { MethodToken, arguments = new object[] { state } }
+                };
 
-                    var data_state = (HistoryDetails)Native.window.history.state;
-
-                    // HistoryExtensions onpopstate { state = [object Object], e = { state = 7 }, history = { state = 7 }, Count = 2 }
-
-                    //        m.state = h.state;
-                    //m.hint = 'ScriptCoreLib.JavaScript.DOM.HistoryExtensions.replaceState';
-
-                    if (data_state != null)
-                        data_state = (HistoryDetails)data_state.state;
+                Console.WriteLine("before history.replaceState");
+                // IE throws __exc	Argument not optional
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
 
 
-                    var data = new HistoryDetails
+                Native.window.history.replaceState(data, "", url);
+                Console.WriteLine("after history.replaceState");
+
+                #region __unwind
+                TaskCompletionSource<HistoryScope<T>> __unwind = null;
+
+                Func<TaskCompletionSource<HistoryScope<T>>> __get_unwind =
+                    delegate
+                {
+                    // ok, something is listening to inline unwind.
+                    // lets wait for the event then and not reload
+
+                    Console.WriteLine("__get_unwind [inline]");
+
+                    if (__unwind == null)
+                        __unwind = new TaskCompletionSource<HistoryScope<T>>();
+
+                    return __unwind;
+                };
+                #endregion
+
+                var scope = new HistoryScope<T> { __state = state, __TaskCompletionSource = __get_unwind };
+
+                if (HistoryScope.inline_unwind.Count > 0)
+                {
+                    HistoryScope.inline_unwind_data.Pop();
+                    var unwind = HistoryScope.inline_unwind.Pop();
+                    var reload = unwind();
+
+                    if (reload)
                     {
-                        // parent
-                        state = data_state,
+                        throw new NotImplementedException("cant reload here can we");
+                    }
+                }
 
-                        hint = "ScriptCoreLib.JavaScript.DOM.HistoryExtensions.replaceState",
+                #region exclusive
+                if (exclusive)
+                {
+                    // this state is market exlusive.
+                    // as such. we shall destroy any other state before we continue.
+                    // if we go back in time
+                    // we have to reactivate them ofcourse.
 
-                        exclusive = exclusive,
-                        url = url,
+                    Console.WriteLine("HistoryExtensions pushState exlusive scope " + new { url });
 
-                        // arguments:
-
-                        //invoke = new { function = MethodToken, arguments = new object[] { state } }
-                        invoke = new { MethodToken, arguments = new object[] { state } }
-                    };
-
-                    Console.WriteLine("before history.replaceState");
-                    // IE throws __exc	Argument not optional
-                    // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
-
-
-                    Native.window.history.replaceState(data, "", url);
-                    Console.WriteLine("after history.replaceState");
-
-                    #region __unwind
-                    TaskCompletionSource<HistoryScope<T>> __unwind = null;
-
-                    Func<TaskCompletionSource<HistoryScope<T>>> __get_unwind =
-                        delegate
-                        {
-                            // ok, something is listening to inline unwind.
-                            // lets wait for the event then and not reload
-
-                            Console.WriteLine("__get_unwind [inline]");
-
-                            if (__unwind == null)
-                                __unwind = new TaskCompletionSource<HistoryScope<T>>();
-
-                            return __unwind;
-                        };
-                    #endregion
-
-                    var scope = new HistoryScope<T> { __state = state, __TaskCompletionSource = __get_unwind };
-
-                    if (HistoryScope.inline_unwind.Count > 0)
+                    foreach (var unwind in HistoryScope.inline_unwind.AsEnumerable())
                     {
-                        HistoryScope.inline_unwind_data.Pop();
-                        var unwind = HistoryScope.inline_unwind.Pop();
                         var reload = unwind();
 
                         if (reload)
                         {
-                            throw new NotImplementedException("cant reload here can we");
+                            throw new NotImplementedException("exclusve scope needs to unwind prior states, yet one of them asks for full reload. what to do?");
                         }
                     }
 
-                    #region exclusive
-                    if (exclusive)
-                    {
-                        // this state is market exlusive.
-                        // as such. we shall destroy any other state before we continue.
-                        // if we go back in time
-                        // we have to reactivate them ofcourse.
+                    Console.WriteLine("disable all history aware styles, who is reenabling them?");
 
-                        Console.WriteLine("HistoryExtensions pushState exlusive scope " + new { url });
-
-                        foreach (var unwind in HistoryScope.inline_unwind.AsEnumerable())
-                        {
-                            var reload = unwind();
-
-                            if (reload)
-                            {
-                                throw new NotImplementedException("exclusve scope needs to unwind prior states, yet one of them asks for full reload. what to do?");
-                            }
-                        }
-
-                        Console.WriteLine("disable all history aware styles, who is reenabling them?");
-
-                        IStyleSheet.InternalHistoryAwareSheets.AsEnumerable()
+                    IStyleSheet.InternalHistoryAwareSheets.AsEnumerable()
                             // the application .ctor is not rerun? so we cannot even keep the primary style can we?
                             //.Skip(1)
                             .WithEachIndex(
 
-                            (style, i) =>
+                        (style, i) =>
                             {
 
                                 Console.WriteLine("new exclusive state, will disable historic css " + new { i } + style.Owner.getAttribute("historic-url"));
@@ -619,49 +632,49 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                                 style.disabled = true;
                             }
-                        );
-                    }
-                    #endregion
-
-                    HistoryScope.inline_unwind_data.Push(data);
-                    HistoryScope.inline_unwind.Push(
-                         delegate
-                         {
-                             if (__unwind == null)
-                                 return true;
-
-                             // time to do inline unwind.
-                             __unwind.SetResult(scope);
-
-                             return false;
-                         }
                     );
-
-                    //var css = IStyleSheet.InternalHistoryAwareSheets.Pop();
-                    //if (css != null)
-                    //    css.disabled = true;
-
-                    var css = IStyleSheet.InternalHistoryAwareSheets.Pop();
-                    if (css != null)
-                    {
-                        Console.WriteLine("replace: remove css " + css.Owner.getAttribute("historic-url")
-                            );
-
-                        css.disabled = true;
-                        css.Owner.Orphanize();
-                    }
-
-                    //IStyleSheet.InternalHistoryAwareSheets.Push(new IStyleSheet());
-
-                    var NextStyle = new IStyleSheet();
-                    NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " => " + url);
-                    IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
-
-                    Console.WriteLine("before yield");
-                    yield(scope);
-
-                    Console.WriteLine("replaceState: " + new { HistoryScope.inline_unwind.Count });
                 }
+                #endregion
+
+                HistoryScope.inline_unwind_data.Push(data);
+                HistoryScope.inline_unwind.Push(
+                     delegate
+                {
+                    if (__unwind == null)
+                        return true;
+
+                    // time to do inline unwind.
+                    __unwind.SetResult(scope);
+
+                    return false;
+                }
+                );
+
+                //var css = IStyleSheet.InternalHistoryAwareSheets.Pop();
+                //if (css != null)
+                //    css.disabled = true;
+
+                var css = IStyleSheet.InternalHistoryAwareSheets.Pop();
+                if (css != null)
+                {
+                    Console.WriteLine("replace: remove css " + css.Owner.getAttribute("historic-url")
+                        );
+
+                    css.disabled = true;
+                    css.Owner.Orphanize();
+                }
+
+                //IStyleSheet.InternalHistoryAwareSheets.Push(new IStyleSheet());
+
+                var NextStyle = new IStyleSheet();
+                NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " => " + url);
+                IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
+
+                Console.WriteLine("before yield");
+                yield(scope);
+
+                Console.WriteLine("replaceState: " + new { HistoryScope.inline_unwind.Count });
+            }
              );
 
         }
@@ -697,145 +710,145 @@ namespace ScriptCoreLib.JavaScript.DOM
             // when is the yield called?
             HistoryExtensions.yield(
                  delegate
-                 {
-                     //0:3083ms HistoryExtensions pushState before yield
-                     //0:3086ms HistoryExtensions pushState.yield { ElapsedMilliseconds = 3, state =  }
-                     //0:3087ms HistoryExtensions pushState.yield before: { exclusive = 0, length = 1, MethodToken = AgAABgY2dze_awFR4sqxY4A, data_invoke = { function = AgAABgY2dze_awFR4sqxY4A, arguments = { foo = foo } }, data = [object Object] }
+            {
+                //0:3083ms HistoryExtensions pushState before yield
+                //0:3086ms HistoryExtensions pushState.yield { ElapsedMilliseconds = 3, state =  }
+                //0:3087ms HistoryExtensions pushState.yield before: { exclusive = 0, length = 1, MethodToken = AgAABgY2dze_awFR4sqxY4A, data_invoke = { function = AgAABgY2dze_awFR4sqxY4A, arguments = { foo = foo } }, data = [object Object] }
 
-                     Console.WriteLine("HistoryExtensions pushState.yield " + new
-                     {
-                         delay.ElapsedMilliseconds,
-                         // whats the current state?
-                         Native.window.history.state
-                     }
-                     );
+                Console.WriteLine("HistoryExtensions pushState.yield " + new
+                {
+                    delay.ElapsedMilliseconds,
+                    // whats the current state?
+                    Native.window.history.state
+                }
+                );
 
-                     if (yield.Target != null)
-                         if (yield.Target != Native.self)
-                             throw new InvalidOperationException(
-                                 "we can only continue with global methods for now... " + new { yield.Target }
-                             );
-
-
-
-                     var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
-
-                     //var data_invoke = new { function = MethodToken, arguments = new object[] { state } };
-                     var data_invoke = new { MethodToken, arguments = new object[] { state } };
-                     var data = new HistoryDetails
-                     {
-                         // is this the previous state?
-                         state = Native.window.history.state,
-
-                         hint = "ScriptCoreLib.JavaScript.DOM.HistoryExtensions.pushState",
-
-                         exclusive = exclusive,
-                         url = url,
-
-                         // arguments:
-
-                         //invoke = new { function = MethodToken, arguments = new object[] { state } }
-                         invoke = data_invoke
-                     };
+                if (yield.Target != null)
+                    if (yield.Target != Native.self)
+                        throw new InvalidOperationException(
+                            "we can only continue with global methods for now... " + new { yield.Target }
+                        );
 
 
-                     //0:22850ms HistoryExtensions pushState before: { exclusive = 0, length = 1 } view-source:38792
-                     //0:22851ms HistoryExtensions pushState after: { length = 2 } 
 
-                     // X:\jsc.svn\examples\javascript\Test\TestHistoryForwardEvent\TestHistoryForwardEvent\Application.cs
-                     // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
-                     Console.WriteLine("HistoryExtensions pushState.yield before: " + new
-                     {
-                         MethodToken,
+                var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
 
-                         exclusive,
-                         Native.window.history.length,
-                         data_invoke,
-                         data
-                     });
+                //var data_invoke = new { function = MethodToken, arguments = new object[] { state } };
+                var data_invoke = new { MethodToken, arguments = new object[] { state } };
+                var data = new HistoryDetails
+                {
+                    // is this the previous state?
+                    state = Native.window.history.state,
 
+                    hint = "ScriptCoreLib.JavaScript.DOM.HistoryExtensions.pushState",
 
-                     var current = new { Native.document.location.href };
+                    exclusive = exclusive,
+                    url = url,
 
-                     // fck ie
-                     //   y("history.state ", x_history_state, (HistoryDetails)Native.window.history.state);
-                     Native.window.history.pushState(data, "", url);
+                    // arguments:
 
-                     //0:137143ms HistoryExtensions pushState before yield view-source:38792
-                     //0:137145ms HistoryExtensions pushState.yield view-source:38792
-                     //0:137147ms HistoryExtensions pushState.yield before: { exclusive = 0, length = 1, MethodToken = AgAABgY2dze_awFR4sqxY4A, data_invoke = { function = AgAABgY2dze_awFR4sqxY4A, arguments = { foo = foo } }, data = [object Object] } view-source:38792
-                     //0:137149ms HistoryExtensions pushState after: { length = 2, state = [object Object] } 
-
-                     //Console.WriteLine("HistoryExtensions pushState.yield after: " + new
-                     //{
-                     //    Native.window.history.length,
-                     //    Native.window.history.state
-                     //});
-
-                     //var data1 = (HistoryDetails)Native.window.history.state;
-
-                     //Console.WriteLine("HistoryExtensions pushState.yield after: " + new
-                     //{
-                     //    data1.invoke
-                     //});
+                    //invoke = new { function = MethodToken, arguments = new object[] { state } }
+                    invoke = data_invoke
+                };
 
 
-                     #region __unwind
-                     TaskCompletionSource<HistoryScope<T>> __unwind = null;
+                //0:22850ms HistoryExtensions pushState before: { exclusive = 0, length = 1 } view-source:38792
+                //0:22851ms HistoryExtensions pushState after: { length = 2 } 
 
-                     Func<TaskCompletionSource<HistoryScope<T>>> __get_unwind =
-                         delegate
-                         {
-                             // ok, something is listening to inline unwind.
-                             // lets wait for the event then and not reload
+                // X:\jsc.svn\examples\javascript\Test\TestHistoryForwardEvent\TestHistoryForwardEvent\Application.cs
+                // http://stackoverflow.com/questions/6460377/html5-history-api-what-is-the-max-size-the-state-object-can-be
+                Console.WriteLine("HistoryExtensions pushState.yield before: " + new
+                {
+                    MethodToken,
 
-                             Console.WriteLine("HistoryExtensions pushState __get_unwind [inline]");
-
-                             if (__unwind == null)
-                                 __unwind = new TaskCompletionSource<HistoryScope<T>>();
-
-                             return __unwind;
-                         };
-                     #endregion
-
-                     var scope = new HistoryScope<T>
-                     {
-                         __state = state,
-                         __TaskCompletionSource = __get_unwind
-                     };
+                    exclusive,
+                    Native.window.history.length,
+                    data_invoke,
+                    data
+                });
 
 
-                     #region exclusive
-                     if (exclusive)
-                     {
-                         // this state is market exlusive.
-                         // as such. we shall destroy any other state before we continue.
-                         // if we go back in time
-                         // we have to reactivate them ofcourse.
+                var current = new { Native.document.location.href };
 
-                         Console.WriteLine("HistoryExtensions pushState exlusive scope " + new { url });
+                // fck ie
+                //   y("history.state ", x_history_state, (HistoryDetails)Native.window.history.state);
+                Native.window.history.pushState(data, "", url);
 
-                         foreach (var unwind in HistoryScope.inline_unwind.AsEnumerable())
-                         {
-                             var reload = unwind();
+                //0:137143ms HistoryExtensions pushState before yield view-source:38792
+                //0:137145ms HistoryExtensions pushState.yield view-source:38792
+                //0:137147ms HistoryExtensions pushState.yield before: { exclusive = 0, length = 1, MethodToken = AgAABgY2dze_awFR4sqxY4A, data_invoke = { function = AgAABgY2dze_awFR4sqxY4A, arguments = { foo = foo } }, data = [object Object] } view-source:38792
+                //0:137149ms HistoryExtensions pushState after: { length = 2, state = [object Object] } 
 
-                             if (reload)
-                             {
-                                 throw new NotImplementedException("exclusve scope needs to unwind prior states, yet one of them asks for full reload. what to do?");
-                             }
-                         }
+                //Console.WriteLine("HistoryExtensions pushState.yield after: " + new
+                //{
+                //    Native.window.history.length,
+                //    Native.window.history.state
+                //});
 
-                         //0:1ms HistoryExtensions pushState exlusive scope { url = http://192.168.1.91:13905/#/foo } view-source:35994
-                         //0:1ms HistoryExtensions pushState before enter scope { url = http://192.168.1.91:13905/#/foo } 
+                //var data1 = (HistoryDetails)Native.window.history.state;
 
-                         Console.WriteLine("disable all history aware styles, who is reenabling them?");
+                //Console.WriteLine("HistoryExtensions pushState.yield after: " + new
+                //{
+                //    data1.invoke
+                //});
 
-                         IStyleSheet.InternalHistoryAwareSheets.AsEnumerable()
+
+                #region __unwind
+                TaskCompletionSource<HistoryScope<T>> __unwind = null;
+
+                Func<TaskCompletionSource<HistoryScope<T>>> __get_unwind =
+                    delegate
+                {
+                    // ok, something is listening to inline unwind.
+                    // lets wait for the event then and not reload
+
+                    Console.WriteLine("HistoryExtensions pushState __get_unwind [inline]");
+
+                    if (__unwind == null)
+                        __unwind = new TaskCompletionSource<HistoryScope<T>>();
+
+                    return __unwind;
+                };
+                #endregion
+
+                var scope = new HistoryScope<T>
+                {
+                    __state = state,
+                    __TaskCompletionSource = __get_unwind
+                };
+
+
+                #region exclusive
+                if (exclusive)
+                {
+                    // this state is market exlusive.
+                    // as such. we shall destroy any other state before we continue.
+                    // if we go back in time
+                    // we have to reactivate them ofcourse.
+
+                    Console.WriteLine("HistoryExtensions pushState exlusive scope " + new { url });
+
+                    foreach (var unwind in HistoryScope.inline_unwind.AsEnumerable())
+                    {
+                        var reload = unwind();
+
+                        if (reload)
+                        {
+                            throw new NotImplementedException("exclusve scope needs to unwind prior states, yet one of them asks for full reload. what to do?");
+                        }
+                    }
+
+                    //0:1ms HistoryExtensions pushState exlusive scope { url = http://192.168.1.91:13905/#/foo } view-source:35994
+                    //0:1ms HistoryExtensions pushState before enter scope { url = http://192.168.1.91:13905/#/foo } 
+
+                    Console.WriteLine("disable all history aware styles, who is reenabling them?");
+
+                    IStyleSheet.InternalHistoryAwareSheets.AsEnumerable()
                              // the application .ctor is not rerun? so we cannot even keep the primary style can we?
                              //.Skip(1)
                              .WithEachIndex(
 
-                             (style, i) =>
+                        (style, i) =>
                              {
 
                                  Console.WriteLine("new exclusive state, will disable historic css " + new { i } + style.Owner.getAttribute("historic-url"));
@@ -845,39 +858,39 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                                  style.disabled = true;
                              }
-                         );
+                    );
 
-                     }
-                     #endregion
+                }
+                #endregion
 
-                     HistoryScope.inline_unwind_data.Push(data);
-                     HistoryScope.inline_unwind.Push(
-                          delegate
-                          {
-                              if (__unwind == null)
-                                  return true;
+                HistoryScope.inline_unwind_data.Push(data);
+                HistoryScope.inline_unwind.Push(
+                     delegate
+                {
+                    if (__unwind == null)
+                        return true;
 
-                              // time to do inline unwind.
-                              __unwind.SetResult(scope);
+                    // time to do inline unwind.
+                    __unwind.SetResult(scope);
 
-                              return false;
-                          }
-                     );
+                    return false;
+                }
+                );
 
 
-                     // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
+                // X:\jsc.svn\examples\javascript\CSS\Test\CSSHistoric\CSSHistoric\Application.cs
 
-                     ;
+                ;
 
-                     var NextStyle = new IStyleSheet();
-                     NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " -> " + url);
-                     IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
+                var NextStyle = new IStyleSheet();
+                NextStyle.Owner.setAttribute("historic-url", IStyleSheet.all.Owner.getAttribute("historic-url") + " -> " + url);
+                IStyleSheet.InternalHistoryAwareSheets.Push(NextStyle);
 
-                     // activate the scope
-                     Console.WriteLine("HistoryExtensions pushState before enter scope " + new { url });
-                     yield(scope);
-                     Console.WriteLine("HistoryExtensions pushState " + new { HistoryScope.inline_unwind.Count });
-                 }
+                // activate the scope
+                Console.WriteLine("HistoryExtensions pushState before enter scope " + new { url });
+                yield(scope);
+                Console.WriteLine("HistoryExtensions pushState " + new { HistoryScope.inline_unwind.Count });
+            }
              );
 
         }

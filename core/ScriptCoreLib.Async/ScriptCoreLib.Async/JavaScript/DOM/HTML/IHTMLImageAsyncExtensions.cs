@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     {
         // tested by
         // X:\jsc.svn\examples\javascript\HulaGirl\HulaGirl\Library\HulaGirl.cs
+        // X:\jsc.svn\examples\javascript\async\AsyncImageTask\AsyncImageTask\Application.cs
 
         public static TaskAwaiter<IHTMLImage> GetAwaiter(this IHTMLImage i)
         {
