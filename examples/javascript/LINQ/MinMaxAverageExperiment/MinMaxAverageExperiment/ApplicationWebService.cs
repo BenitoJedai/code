@@ -31,7 +31,7 @@ namespace MinMaxAverageExperiment
             var x = new PerformanceResourceTimingData2.ApplicationResourcePerformance();
 
             x.Insert(
-                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 44, path = " /foo/BAR/ " }
+                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 44, path = " /zfoo/BAR/ " }
             );
 
 
@@ -52,6 +52,7 @@ namespace MinMaxAverageExperiment
             var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
 
                      where !string.IsNullOrEmpty(k.path)
+                     where k.path.Contains("zfoo")
 
                      select new
                      {

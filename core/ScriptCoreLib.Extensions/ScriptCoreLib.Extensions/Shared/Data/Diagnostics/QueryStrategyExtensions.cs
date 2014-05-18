@@ -122,6 +122,52 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     //-filter.Body { Not(IsNullOrEmpty(k.path))}
                     //System.Linq.Expressions.Expression { System.Linq.Expressions.UnaryExpression}
 
+
+                    // +		filter.Body	{k.path.Contains("foo")}	System.Linq.Expressions.Expression {System.Linq.Expressions.InstanceMethodCallExpressionN}
+
+                    {
+                        var asMethodCallExpression = filter.Body as MethodCallExpression;
+                        if (asMethodCallExpression != null)
+                        {
+                            if (asMethodCallExpression.Method.Name == "Contains")
+                            {
+                                // http://stackoverflow.com/questions/8054942/string-isnullorempty-in-linq-to-sql-query
+                                // http://connect.microsoft.com/VisualStudio/feedback/details/367077/i-want-to-use-string-isnullorempty-in-linq-to-sql-statements
+                                // http://stackoverflow.com/questions/15663207/how-to-use-null-or-empty-string-in-sql
+                                // x:\jsc.svn\examples\javascript\linq\minmaxaverageexperiment\minmaxaverageexperiment\applicationwebservice.cs
+
+                                var arg1 = asMethodCallExpression.Arguments[0] as ConstantExpression;
+
+                                var xColumnName0 = asMethodCallExpression.Object as MemberExpression;
+
+                                var n = "@arg" + state.ApplyParameter.Count;
+
+                                // http://stackoverflow.com/questions/16180117/instr-function-sqlite-for-android
+
+                                state.WhereCommand += "(replace(";
+                                state.WhereCommand += "`" + xColumnName0.Member.Name + "`, " + n;
+                                state.WhereCommand += ", '')<>`" + xColumnName0.Member.Name + "`)";
+
+                                var rAddParameterValue0 = arg1.Value;
+                                state.ApplyParameter.Add(
+                                    c =>
+                                    {
+                                        // either the actualt command or the explain command?
+
+                                        //c.Parameters.AddWithValue(n, r);
+                                        c.AddParameter(n, rAddParameterValue0);
+                                    }
+                                );
+
+                                return;
+                            }
+                        }
+                    }
+
+
+
+
+                    #region IsNullOrEmpty
                     var asUnaryExpression = filter.Body as UnaryExpression;
                     if (asUnaryExpression != null)
                     {
@@ -154,6 +200,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                             }
                         }
                     }
+                    #endregion
 
 
                     // for op_Equals

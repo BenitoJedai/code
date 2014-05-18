@@ -25,26 +25,6 @@ namespace TestSQLJoin
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140429
         // X:\jsc.svn\examples\javascript\test\TestLINQJoin\TestLINQJoin\Application.cs
 
-        //[Obsolete("future jsc shall find references by deep inspection.")]
-        //void References()
-        //{
-        //    // {"Could not load file or assembly 'System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null"}
-        //    { var ref0 = typeof(IQueryStrategy); }
-        //    { var ref0 = typeof(System.Data.SQLite.SQLiteConnection); }
-        //}
-
-
-
-
-
-
-
-
-        // Error	3	Could not find an implementation of the query pattern for source type 'TestSQLJoin.Data.Book1.DealerContact'.  'Join' not found.	X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs	34	33	TestSQLJoin
-        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
-
-
-
         // http://stackoverflow.com/questions/485398/how-to-create-a-join-in-an-expression-tree-for-linq
         // http://msdn.microsoft.com/en-us/library/bb399415(v=vs.110).aspx
 
@@ -159,6 +139,36 @@ namespace TestSQLJoin
 
 
             //Book1Extensions.
+
+
+
+
+            //            select 0 as Key,
+            //         __h__TransparentIdentifier0.contact_Timestamp as Timestamp,
+            //         'no tag' as Tag,
+            //         0 as DealerOther,
+            //         other.DealerOtherText as DealerOtherText,
+            //         __h__TransparentIdentifier0.dealer_Key as Dealer,
+            //         __h__TransparentIdentifier0.contact_Key as DealerContact,
+            //         __h__TransparentIdentifier0.contact_DealerContactText as DealerContactText,
+            //         __h__TransparentIdentifier0.dealer_DealerText as DealerText
+            //from (select contact.DealerId as contact_DealerId,
+            //                 0 as Key,
+            //                 contact.Timestamp as contact_Timestamp,
+            //                 'no tag' as Tag,
+            //                 0 as DealerOther,
+            //                 dealer.Key as dealer_Key,
+            //                 contact.Key as contact_Key,
+            //                 contact.DealerContactText as contact_DealerContactText,
+            //                 dealer.DealerText as dealer_DealerText
+            //        from `Book1.DealerContact` as contact inner join `Book1.Dealer` as dealer
+            //        on contact.`DealerId` = dealer.`ID`
+            //        ) as __h__TransparentIdentifier0 inner join `Book1.DealerOther` as other
+            //on __h__TransparentIdentifier0.`contact_DealerId` = other.`ID`
+            //limit @arg0
+
+
+
 
             Console.WriteLine("at 160");
 

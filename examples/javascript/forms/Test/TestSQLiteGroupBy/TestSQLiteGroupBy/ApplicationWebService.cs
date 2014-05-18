@@ -45,10 +45,7 @@ namespace TestSQLiteGroupBy
             // http://stackoverflow.com/questions/473575/unity-framework-dependencyattribute-only-works-for-public-properties
 
 
-            //[FileNotFoundException]: Could not load file or assembly &#39;System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null&#39; or one of its dependencies. The system cannot find the file specified.
-            //   at ScriptCoreLib.Shared.Data.Diagnostics.InternalWithConnectionLambda.WithConnection(String DataSource)
-            //   at ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda.WithConnection(String DataSource)
-            //   at TestSQLiteGroupBy.Data.Book1.Middle..ctor(String DataSource)
+
 
             var x = new Book1.Middle
             {
