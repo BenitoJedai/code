@@ -156,7 +156,8 @@ namespace System.Data
 
                      (GroupBy.source as IJoinQueryStrategy).With(q => q.upperGroupBy = GroupBy);
 
-
+                     // GroupBy.keySelector.Body = {1}
+                     // +		GroupBy.keySelector.Body	{1}	System.Linq.Expressions.Expression {System.Linq.Expressions.ConstantExpression}
                      var GroupBy_asMemberExpression = GroupBy.keySelector.Body as MemberExpression;
 
 
@@ -295,20 +296,43 @@ namespace System.Data
 
                      //+		GroupBy_asMemberExpression	{<>h__TransparentIdentifier0.rJoin.ClientName}	System.Linq.Expressions.MemberExpression {System.Linq.Expressions.FieldExpression}
                      // what if we are not grouping a join?
-                     var GroupingKeyFieldExpression = GroupBy_asMemberExpression.Expression as MemberExpression;
-
-                     // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
 
 
-                     var GroupingKeyFieldExpressionName = GroupBy_asMemberExpression.Member.Name;
-                     if (GroupingKeyFieldExpression != null)
-                         GroupingKeyFieldExpressionName = GroupingKeyFieldExpression.Member.Name + "_" + GroupBy_asMemberExpression.Member.Name;
+                     var GroupingKeyFieldExpressionName = default(string);
+
+                     if (GroupBy_asMemberExpression != null)
+                     {
+                         var GroupingKeyFieldExpression = GroupBy_asMemberExpression.Expression as MemberExpression;
+
+                         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
 
 
+                         if (GroupingKeyFieldExpression != null)
+                             GroupingKeyFieldExpressionName = "s.`" + GroupingKeyFieldExpression.Member.Name + "_" + GroupBy_asMemberExpression.Member.Name + "`";
+                         else
+                             GroupingKeyFieldExpressionName = "s.`" + GroupBy_asMemberExpression.Member.Name + "`";
+                     }
 
-                     var s_SelectCommand = "select s.`" +
+
+                     var GroupBy_asC = GroupBy.keySelector.Body as ConstantExpression;
+                     if (GroupBy_asC != null)
+                     {
+                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                         if (GroupBy_asC.Value is int)
+                             if ((int)GroupBy_asC.Value == 1)
+                             {
+                                 GroupingKeyFieldExpressionName = "1";
+                             }
+                     }
+
+
+                     if (GroupingKeyFieldExpressionName == null)
+                         Debugger.Break();
+
+                     var s_SelectCommand = "select " +
                          GroupingKeyFieldExpressionName
-                         + "` as `Grouping.Key`";
+                         + " as `Grouping.Key`";
 
 
                      #region asMethodCallExpression

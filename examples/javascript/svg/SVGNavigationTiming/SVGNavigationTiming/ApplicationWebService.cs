@@ -152,6 +152,7 @@ namespace SVGNavigationTiming
                 new[] {
                     new Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                     {
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140518-1/roslyn
                         // move to sql?
                         name = "Average", duration = (long)data.Average(x => x.duration)
                     },
