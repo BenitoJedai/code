@@ -31,38 +31,7 @@ namespace SVGNavigationTiming
 
         // http://stackoverflow.com/questions/1606867/how-to-prevent-a-net-application-to-use-an-assembly-from-the-gac
 
-        //Cannot process request because the process (1044) has exited.
-        // Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
-        // can jsc security analyzer go one level deeper? atleast on [script] [merge] assemblies?
-        public XApplicationPerformanceWebService()
-        {
-#if SQLite
-            //1a60:01:01 RewriteToAssembly error: System.IO.FileNotFoundException: Could not load file or assembly 'System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
-            //File name: 'System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' ---> System.IO.FileNotFoundException: Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.
-            //File name: 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139'
 
-            //=== Pre-bind state information ===
-            //LOG: DisplayName = System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139
-            // (Fully-specified)
-            //LOG: Appbase = file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/
-            //LOG: Initial PrivatePath = NULL
-            //Calling assembly : jsc.meta, Version=0.86.0.518, Culture=neutral, PublicKeyToken=null.
-            //===
-            //LOG: This bind starts in default load context.
-            //LOG: Using application configuration file: X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\bin\Debug\SVGNavigationTiming.exe.Config
-            //LOG: Using host configuration file:
-            //LOG: Using machine configuration file from C:\Windows\Microsoft.NET\Framework\v4.0.30319\config\machine.config.
-            //LOG: Redirect found in application configuration file: 1.0.89.0 redirected to 1.0.90.0.
-            //LOG: Post-policy reference: System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139
-            //LOG: Attempting download of new URL file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/System.Data.SQLite.DLL.
-            //LOG: Attempting download of new URL file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/System.Data.SQLite/System.Data.SQLite.DLL.
-            //LOG: Attempting download of new URL file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/System.Data.SQLite.EXE.
-            //LOG: Attempting download of new URL file:///X:/jsc.svn/examples/javascript/svg/SVGNavigationTiming/SVGNavigationTiming/bin/Debug/System.Data.SQLite/System.Data.SQLite.EXE.
-
-            { var r = typeof(global::System.Data.SQLite.SQLiteCommand); }
-            { var r = typeof(global::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda); }
-#endif
-        }
 
         /// <summary>
         /// This Method is a javascript callable method.
@@ -142,11 +111,13 @@ namespace SVGNavigationTiming
     #region IExploreApplicationPerformance
     public partial class XApplicationPerformanceWebService : IExploreApplicationPerformance
     {
-        public Task<DataTable> GetApplicationPerformance()
+        public async Task<DataTable> GetApplicationPerformance()
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
 
-            return new Design.PerformanceResourceTimingData2.ApplicationPerformance();
+            var x = new Design.PerformanceResourceTimingData2.ApplicationPerformance();
+
+            return x.AsDataTable();
         }
 
         [Obsolete("we could allow the client tell use, by which parameter to order by")]
@@ -196,11 +167,11 @@ namespace SVGNavigationTiming
                     },
 
 
- //                    Implementation not found for type import :
- //type: System.Linq.Enumerable
- //method: System.Collections.Generic.IEnumerable`1[System.Linq.IGrouping`2[TKey,TSource]] GroupBy[TSource,TKey](System.Collections.Generic.IEnumerable`1[TSource], System.Func`2[TSource,TKey])
- //Did you forget to add the [Script] attribute?
- //Please double check the signature!
+                    //                    Implementation not found for type import :
+                    //type: System.Linq.Enumerable
+                    //method: System.Collections.Generic.IEnumerable`1[System.Linq.IGrouping`2[TKey,TSource]] GroupBy[TSource,TKey](System.Collections.Generic.IEnumerable`1[TSource], System.Func`2[TSource,TKey])
+                    //Did you forget to add the [Script] attribute?
+                    //Please double check the signature!
 
                     //    new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                     //{
@@ -208,7 +179,7 @@ namespace SVGNavigationTiming
                     //    name = "Median", duration = (long)data.Median(x => x.duration)
                     //},
 
-                }
+            }
             );
 
 
@@ -225,16 +196,20 @@ namespace SVGNavigationTiming
         }
 
 
-        public Task<DataTable> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey key)
+
+
+
+        public async Task<IEnumerable<PerformanceResourceTimingData2ApplicationResourcePerformanceRow>> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey key)
         {
             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
 
-            return
-                from k in new Design.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+            return (
+                from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
                 where k.ApplicationPerformance == key
                 orderby k.path descending
-                select k;
+                select k
+            ).AsEnumerable();
         }
 
 
@@ -388,6 +363,9 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
     {
         Task<DataTable> GetApplicationPerformance();
         Task<DataTable> GetSimilarApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationResourcePerformanceRow k);
-        Task<DataTable> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey k);
+
+
+        Task<IEnumerable<PerformanceResourceTimingData2ApplicationResourcePerformanceRow>> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey key);
+        //Task<DataTable> GetApplicationResourcePerformance(PerformanceResourceTimingData2ApplicationPerformanceKey k);
     }
 }

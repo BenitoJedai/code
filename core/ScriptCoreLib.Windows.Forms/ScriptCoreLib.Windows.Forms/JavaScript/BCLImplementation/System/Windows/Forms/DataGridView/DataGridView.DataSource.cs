@@ -530,16 +530,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                                 // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.BaseCollection.GetEnumerator()]
                                 // columns reordered?
 
-                                for (int ci = 0; ci < this.Columns.Count; ci++)
+                                for (int ColumnIndex = 0; ColumnIndex < this.Columns.Count; ColumnIndex++)
                                 {
-                                    DataGridViewColumn c = this.Columns[ci];
+                                    DataGridViewColumn c = this.Columns[ColumnIndex];
+
+
+
+                                    Console.WriteLine(
+                                        new { ColumnIndex, c.DataPropertyName, c.Name }
+                                        );
+
+
+                                    //X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
+                                    var DataPropertyName = c.DataPropertyName;
+
+                                    if (string.IsNullOrEmpty(DataPropertyName))
+                                    {
+                                        // regular datatables dont seem to have DataPropertyName?
+
+                                        DataPropertyName = c.Name;
+                                    }
+
 
                                     var cc = new DataGridViewTextBoxCell
                                     {
                                         // two way binding?
                                         //ReadOnly = true,
 
-                                        Value = DataBoundItem[c.DataPropertyName]
+                                        Value = DataBoundItem[DataPropertyName]
 
                                         // Timestamp / datetime thingis need special attention?
                                     };

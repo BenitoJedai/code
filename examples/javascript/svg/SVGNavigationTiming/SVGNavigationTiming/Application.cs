@@ -78,6 +78,12 @@ namespace SVGNavigationTiming
                 {
 
 
+                    //                 0200004f ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control
+                    //                 script: error JSC1000: Method: get_InternalSiblingsIncludingThis, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control; emmiting failed : System.Exception: recursion detected at stack 32
+                    //at jsc.RecursionGuard..ctor(RecursionGuard parent) in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 31
+                    //at jsc.RecursionGuard.get_Lock() in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 47
+
+
                     var f = new ApplicationPerformanceForm(this);
 
 
@@ -337,7 +343,7 @@ namespace Abstractatech.JavaScript.ApplicationPerformance
 
                               };
 
-                          kg.DataSource = kdata;
+                          kg.DataSource = kdata.AsDataTable();
                       };
 
 
@@ -559,19 +565,19 @@ namespace ScriptCoreLib.JavaScript.DOM
                    var CurrentApplicationPerformance0 =
                                    await service.AtApplicationPerformance(
                                        new PerformanceResourceTimingData2ApplicationPerformanceRow
-                                       {
-                                           Timestamp = DateTime.Now,
+                   {
+                       Timestamp = DateTime.Now,
 
-                                           connectStart = (long)timing.connectStart,
-                                           connectEnd = (long)timing.connectEnd,
-                                           requestStart = (long)timing.requestStart,
-                                           responseStart = (long)timing.responseStart,
-                                           responseEnd = (long)timing.responseEnd,
-                                           domLoading = (long)timing.domLoading,
-                                           domComplete = (long)timing.domComplete,
-                                           loadEventStart = (long)timing.loadEventStart,
-                                           loadEventEnd = (long)timing.loadEventEnd,
-                                       }
+                       connectStart = (long)timing.connectStart,
+                       connectEnd = (long)timing.connectEnd,
+                       requestStart = (long)timing.requestStart,
+                       responseStart = (long)timing.responseStart,
+                       responseEnd = (long)timing.responseEnd,
+                       domLoading = (long)timing.domLoading,
+                       domComplete = (long)timing.domComplete,
+                       loadEventStart = (long)timing.loadEventStart,
+                       loadEventEnd = (long)timing.loadEventEnd,
+                   }
                                     );
                    var CurrentApplicationPerformance = CurrentApplicationPerformance0;
                    #endregion
@@ -624,23 +630,23 @@ namespace ScriptCoreLib.JavaScript.DOM
                                {
 
                                    e = new PerformanceResourceTimingElement
-                                  {
-                                      text = new IHTMLCode { new { t.name, t.entryType, t.duration } },
+                                   {
+                                       text = new IHTMLCode { new { t.name, t.entryType, t.duration } },
 
-                                      StartTime = new { t.startTime }.ToString(),
+                                       StartTime = new { t.startTime }.ToString(),
 
-                                      connectEnd = new { t.connectEnd }.ToString(),
-                                      connectStart = new { t.connectStart }.ToString(),
-                                      TCP = "TCP " + (long)(t.connectEnd - t.connectStart),
+                                       connectEnd = new { t.connectEnd }.ToString(),
+                                       connectStart = new { t.connectStart }.ToString(),
+                                       TCP = "TCP " + (long)(t.connectEnd - t.connectStart),
 
-                                      RequestStart = new { t.requestStart }.ToString(),
-                                      ResponseStart = new { t.responseStart }.ToString(),
-                                      ResponseEnd = new { t.responseEnd }.ToString(),
+                                       RequestStart = new { t.requestStart }.ToString(),
+                                       ResponseStart = new { t.responseStart }.ToString(),
+                                       ResponseEnd = new { t.responseEnd }.ToString(),
 
-                                      Request = "Request " + (long)(t.responseStart - t.requestStart),
-                                      Response = "Response " + (long)(t.responseEnd - t.responseStart)
+                                       Request = "Request " + (long)(t.responseStart - t.requestStart),
+                                       Response = "Response " + (long)(t.responseEnd - t.responseStart)
 
-                                  };
+                                   };
 
 
                                    // are we supposed to show it?
@@ -668,25 +674,25 @@ namespace ScriptCoreLib.JavaScript.DOM
                                    // why not report in batch?
                                    await service.AtApplicationResourcePerformance(
                                      new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
-                                     {
-                                         // a signed key, can we check it?
-                                         ApplicationPerformance = CurrentApplicationPerformance,
+                                   {
+                                       // a signed key, can we check it?
+                                       ApplicationPerformance = CurrentApplicationPerformance,
 
-                                         Timestamp = DateTime.Now,
+                                       Timestamp = DateTime.Now,
 
-                                         startTime = (long)t.startTime,
+                                       startTime = (long)t.startTime,
 
-                                         duration = (long)t.duration,
+                                       duration = (long)t.duration,
 
-                                         entryType = t.entryType,
-                                         name = t.name,
+                                       entryType = t.entryType,
+                                       name = t.name,
 
-                                         connectStart = (long)t.connectStart,
-                                         connectEnd = (long)t.connectEnd,
-                                         requestStart = (long)t.requestStart,
-                                         responseStart = (long)t.responseStart,
-                                         responseEnd = (long)t.responseEnd,
-                                     }
+                                       connectStart = (long)t.connectStart,
+                                       connectEnd = (long)t.connectEnd,
+                                       requestStart = (long)t.requestStart,
+                                       responseStart = (long)t.responseStart,
+                                       responseEnd = (long)t.responseEnd,
+                                   }
                                   );
                                }
 

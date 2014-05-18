@@ -2,6 +2,12 @@ using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using SVGNavigationTiming.Design;
 using System;
 using System.Linq;
+using System.Data;
+
+
+
+
+
 
 namespace SVGNavigationTiming
 {
@@ -34,12 +40,29 @@ namespace SVGNavigationTiming
 
             //Unhandled Exception: System.AccessViolationException: Attempted to read or write protected memory. This is often an indication that other memory is corrupt.
 
-            var zz = new[] {
-             
+
+            // QueryStrategyOfTRowExtensions
+
+
+
+            // https://connect.microsoft.com/VisualStudio/feedback/details/850741/roslyn-csharp-compiler-doesnt-recognize-extensionattribute
+
+
+            var zz =
+                //QueryStrategyOfTRowExtensions.AsDataTable(
+
+                // public static DataTable AsDataTable(IEnumerable<PerformanceResourceTimingData2ApplicationPerformanceRow> value);
+                // this is missing? roslyn not seeing it?
+                //PerformanceResourceTimingData2Conversions.AsDataTable(
+
+
+                    new[] {
+
                 new PerformanceResourceTimingData2ApplicationPerformanceRow {
-                
+
                     Key = (PerformanceResourceTimingData2ApplicationPerformanceKey)77
                 }
+            
             }.AsDataTable();
 
 
