@@ -37,6 +37,23 @@ namespace AsyncWindowUncaughtError
             // { e = { message = Uncaught TypeError: Cannot set property 'innerHTML' of null, lineno = 54985, filename = http://192.168.43.252:2855/view-source } }
 
             //Debugger.Break();
+            // http://www.tutorialspoint.com/java/lang/throwable_setstacktrace.htm
+
+            // CallerMemberName
+
+            System.Runtime.Remoting.Messaging.CallContext.SetData("onerror", e);
+
+            var z = new Exception(
+                e.message
+            );
+
+
+            // http://reflector.webtropy.com/default.aspx/4@0/4@0/untmp/DEVDIV_TFS/Dev10/Releases/RTMRel/ndp/clr/src/BCL/System/Runtime/Remoting/StackBuilderSink@cs/1305376/StackBuilderSink@cs
+            // http://stackoverflow.com/questions/15410661/is-it-possible-to-get-a-good-stack-trace-with-net-async-methods
+
+            //ExceptionExtensions.TryDebuggerBreak();
+            // 		z.StackTrace	null	string
+
 
             Console.WriteLine(new { e });
         }
