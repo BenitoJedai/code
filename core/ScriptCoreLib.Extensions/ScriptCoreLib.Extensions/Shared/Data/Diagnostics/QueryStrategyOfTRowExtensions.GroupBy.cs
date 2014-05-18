@@ -756,6 +756,57 @@ namespace System.Data
                                  }
                                  #endregion
 
+
+                                 #region  min( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Min")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                     if (arg1 != null)
+                                     {
+                                         var asMemberExpression = arg1.Body as MemberExpression;
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t min(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  max( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Max")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                     if (arg1 != null)
+                                     {
+                                         var asMemberExpression = arg1.Body as MemberExpression;
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t max(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  avg( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Average")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                     if (arg1 != null)
+                                     {
+                                         var asMemberExpression = arg1.Body as MemberExpression;
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t avg(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
                              }
                              #endregion
 

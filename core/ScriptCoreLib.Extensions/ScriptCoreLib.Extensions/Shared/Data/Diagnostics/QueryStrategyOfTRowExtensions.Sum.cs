@@ -28,29 +28,29 @@ namespace System.Data
 
         #region select sum
         // can this be used in a join?
-        [Obsolete("this is somewhat like select foo and then sum, or like orderby. what about summing vec3"
-            )]
+        //[Obsolete("this is somewhat like select foo and then sum, or like orderby. what about summing vec3"
+        //    )]
         public static long Sum<TElement>(this IQueryStrategy<TElement> Strategy, Expression<Func<TElement, long>> selector)
         {
-            // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
-            // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm
-            //throw new NotImplementedException("sqlite does not have it yet");
-            // http://sqlite.1065341.n5.nabble.com/SUM-and-NULL-values-td2257.html
-
-            var body = ((MemberExpression)((LambdaExpression)selector).Body);
-
-            // do we need to check our db schema or is reflection the schema for us?
-            #region ColumnName
-            var ColumnName = "";
-
-            ColumnName = body.Member.Name;
-            #endregion
-
-
+            // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
 
             return ((Task<long>)Strategy.GetDescriptor().GetWithConnection()(
                 c =>
                 {
+
+                    // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
+                    // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm
+                    // http://sqlite.1065341.n5.nabble.com/SUM-and-NULL-values-td2257.html
+
+                    var body = ((MemberExpression)((LambdaExpression)selector).Body);
+
+                    // do we need to check our db schema or is reflection the schema for us?
+                    #region ColumnName
+                    var ColumnName = "";
+
+                    ColumnName = body.Member.Name;
+                    #endregion
+
                     var state = QueryStrategyExtensions.AsCommandBuilder(Strategy);
 
                     // override
@@ -148,6 +148,179 @@ namespace System.Data
             )).Result;
         }
         #endregion
+
+
+
+
+
+        public static TResult Min<TElement, TResult>(this IQueryStrategy<TElement> Strategy, Expression<Func<TElement, TResult>> selector)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+            return ((Task<TResult>)Strategy.GetDescriptor().GetWithConnection()(
+                c =>
+                {
+
+                    // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
+                    // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm
+                    // http://sqlite.1065341.n5.nabble.com/SUM-and-NULL-values-td2257.html
+
+                    var body = ((MemberExpression)((LambdaExpression)selector).Body);
+
+                    // do we need to check our db schema or is reflection the schema for us?
+                    #region ColumnName
+                    var ColumnName = "";
+
+                    ColumnName = body.Member.Name;
+                    #endregion
+
+                    var state = QueryStrategyExtensions.AsCommandBuilder(Strategy);
+
+                    // override
+                    state.SelectCommand = "select min(`" + ColumnName + "`) ";
+
+                    //var cmd = new SQLiteCommand(state.ToString(), c);
+                    var cmd = c.CreateCommand(state.ToString());
+
+                    foreach (var item in state.ApplyParameter)
+                    {
+                        item(cmd);
+                    }
+
+                    var s = new TaskCompletionSource<TResult>();
+
+                    // will it compile to java???
+                    s.SetResult(
+                    (TResult)cmd.ExecuteScalar()
+                    );
+
+                    //var r = cmd.ExecuteReader();
+
+                    //if (r.NextResult())
+                    //{
+                    //    //ex = {"No current row"}
+                    //    s.SetResult(
+                    //        r.GetInt64(0)
+                    //    );
+                    //}
+
+                    return s.Task;
+                }
+            )).Result;
+        }
+
+        public static TResult Max<TElement, TResult>(this IQueryStrategy<TElement> Strategy, Expression<Func<TElement, TResult>> selector)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+            return ((Task<TResult>)Strategy.GetDescriptor().GetWithConnection()(
+                c =>
+                {
+
+                    // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
+                    // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm
+                    // http://sqlite.1065341.n5.nabble.com/SUM-and-NULL-values-td2257.html
+
+                    var body = ((MemberExpression)((LambdaExpression)selector).Body);
+
+                    // do we need to check our db schema or is reflection the schema for us?
+                    #region ColumnName
+                    var ColumnName = "";
+
+                    ColumnName = body.Member.Name;
+                    #endregion
+
+                    var state = QueryStrategyExtensions.AsCommandBuilder(Strategy);
+
+                    // override
+                    state.SelectCommand = "select max(`" + ColumnName + "`) ";
+
+                    //var cmd = new SQLiteCommand(state.ToString(), c);
+                    var cmd = c.CreateCommand(state.ToString());
+
+                    foreach (var item in state.ApplyParameter)
+                    {
+                        item(cmd);
+                    }
+
+                    var s = new TaskCompletionSource<TResult>();
+
+                    // will it compile to java???
+                    s.SetResult(
+                    (TResult)cmd.ExecuteScalar()
+                    );
+
+                    //var r = cmd.ExecuteReader();
+
+                    //if (r.NextResult())
+                    //{
+                    //    //ex = {"No current row"}
+                    //    s.SetResult(
+                    //        r.GetInt64(0)
+                    //    );
+                    //}
+
+                    return s.Task;
+                }
+            )).Result;
+        }
+
+
+        public static TResult Average<TElement, TResult>(this IQueryStrategy<TElement> Strategy, Expression<Func<TElement, TResult>> selector)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+            return ((Task<TResult>)Strategy.GetDescriptor().GetWithConnection()(
+                c =>
+                {
+
+                    // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
+                    // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm
+                    // http://sqlite.1065341.n5.nabble.com/SUM-and-NULL-values-td2257.html
+
+                    var body = ((MemberExpression)((LambdaExpression)selector).Body);
+
+                    // do we need to check our db schema or is reflection the schema for us?
+                    #region ColumnName
+                    var ColumnName = "";
+
+                    ColumnName = body.Member.Name;
+                    #endregion
+
+                    var state = QueryStrategyExtensions.AsCommandBuilder(Strategy);
+
+                    // override
+                    state.SelectCommand = "select avg(`" + ColumnName + "`) ";
+
+                    //var cmd = new SQLiteCommand(state.ToString(), c);
+                    var cmd = c.CreateCommand(state.ToString());
+
+                    foreach (var item in state.ApplyParameter)
+                    {
+                        item(cmd);
+                    }
+
+                    var s = new TaskCompletionSource<TResult>();
+
+                    // will it compile to java???
+                    s.SetResult(
+                    (TResult)cmd.ExecuteScalar()
+                    );
+
+                    //var r = cmd.ExecuteReader();
+
+                    //if (r.NextResult())
+                    //{
+                    //    //ex = {"No current row"}
+                    //    s.SetResult(
+                    //        r.GetInt64(0)
+                    //    );
+                    //}
+
+                    return s.Task;
+                }
+            )).Result;
+        }
 
 
     }
