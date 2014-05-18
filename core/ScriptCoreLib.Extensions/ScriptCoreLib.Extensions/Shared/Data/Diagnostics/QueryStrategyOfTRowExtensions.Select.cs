@@ -589,7 +589,7 @@ namespace System.Data
 
                                      var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
                                      if (asMemberExpression != null)
-                                         {
+                                     {
 
                                          state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                          s_SelectCommand += ",\n\t upper(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
@@ -770,6 +770,100 @@ namespace System.Data
             return that;
         }
 
+
+        [Obsolete("non grouping methods shall use FirstOrDefault")]
+        public static TElement First<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+        {
+            throw new NotImplementedException();
+        }
+
+        //[Obsolete("non grouping methods shall use FirstOrDefault")]
+        public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Obsolete("make sure to apply Take 1")]
+        public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
+        {
+            return source.AsGenericEnumerable().FirstOrDefault();
+        }
+
+        [Obsolete("AsEnumerable")]
+        public static IEnumerable<TSource> AsGenericEnumerable<TSource>(this IQueryStrategy<TSource> source)
+        {
+            var asISelectQueryStrategy = source as ISelectQueryStrategy;
+
+            // +		(new System.Linq.Expressions.Expression.LambdaExpressionProxy(c as System.Linq.Expressions.Expression<System.Func<MinMaxAverageExperiment.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow,<>f__AnonymousType0<MinMaxAverageExperiment.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceKey,string,string,string,string,string,string,int>>>)).Body	{new <>f__AnonymousType0`8(Key = k.Key, path = k.path, Trim = k.path.Trim(), TrimStart = k.path.TrimStart(new [] {}), TrimEnd = k.path.TrimEnd(new [] {}), ToLower = k.path.ToLower(), ToUpper = k.path.ToUpper(), Length = k.path.Length)}	System.Linq.Expressions.Expression {System.Linq.Expressions.NewExpression}
+            var asNewExpression = (asISelectQueryStrategy.selectorExpression as LambdaExpression).Body as NewExpression;
+
+
+
+            //Activator.CreateInstance(
+            // how do we do this on JVM, JS, AS?
+            //var x = asNewExpression.Constructor.Invoke(
+            //    parameters:
+            //        new object[]
+            //        {
+            //            //    k.Key,
+            //            0,
+            //            //    k.path,
+            //            "",
+            //            //    Trim = k.path.Trim(),
+            //            "",
+            //            //    TrimStart = k.path.TrimStart(),
+            //            "",
+            //            //    TrimEnd = k.path.TrimEnd(),
+            //            "",
+            //            //    ToLower = k.path.ToLower(),
+            //            "",
+            //            //    ToUpper = k.path.ToUpper(),
+            //            "",
+            //            //    // www.w3schools.com/sql/sql_func_len.asp
+            //            //    k.path.Length
+            //            0,
+            //        }
+            //);
+
+
+            var asDataTable = source.AsDataTable();
+
+            var z = asDataTable.Rows.AsEnumerable().Select(
+                SourceRow =>
+                {
+                    //Additional information: Object of type 'System.String' cannot be converted to type 'MinMaxAverageExperiment.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceKey'.
+                    //Additional information: Object of type 'System.Int64' cannot be converted to type 'System.Int32'.
+
+                    var parameters = asNewExpression.Members.Select(
+                         SourceMember =>
+                         {
+                             var asString = SourceRow[SourceMember.Name];
+
+                             var asPropertyInfo = SourceMember as PropertyInfo;
+                             if (asPropertyInfo.PropertyType == typeof(long) || asPropertyInfo.PropertyType.IsEnum)
+                                 return Convert.ToInt64(asString);
+
+                             if (asPropertyInfo.PropertyType == typeof(int))
+                                 return Convert.ToInt32(asString);
+
+                             // ref ScriptCoreLib.Ultra
+                             if (asPropertyInfo.PropertyType == typeof(DateTime))
+                                 return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(asString);
+
+                             return asString;
+                         }
+                    ).ToArray();
+
+                    var x = asNewExpression.Constructor.Invoke(
+                        parameters
+                    );
+
+                    return (TSource)x;
+                }
+            ).ToArray();
+
+            return z.AsEnumerable();
+        }
     }
 }
 

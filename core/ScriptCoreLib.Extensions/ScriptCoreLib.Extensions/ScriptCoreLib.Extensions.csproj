@@ -134,12 +134,19 @@
   <ItemGroup>
     <Folder Include="Android\" />
     <Folder Include="GLSL\" />
+    <Folder Include="Query\" />
     <Folder Include="Shared\Maze\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj">
+      <Project>{e1c195a9-73eb-458a-afc4-f8c9995e0e4f}</Project>
+      <Name>ScriptCoreLib.Ultra</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
