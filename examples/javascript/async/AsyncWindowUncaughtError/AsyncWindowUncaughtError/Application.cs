@@ -40,6 +40,23 @@ namespace AsyncWindowUncaughtError
 
             page.Header.css[Native.window.async.onerror].style.backgroundColor = "red";
 
+            (this as IUncaughtErrorHandler).With(
+                h =>
+                {
+                    Native.window.onerror += e =>
+                    {
+                        h.onerror(
+                            new IUncaughtErrorHandlerArguments
+                            {
+                                message = e.message,
+                                lineno = e.lineno,
+                                filename = e.filename
+                            }
+                        );
+                    };
+                }
+            );
+
             // { message = Uncaught TypeError: Cannot set property 'innerHTML' of null, lineno = 50549, filename = http://192.168.43.252:13969/view-source }
             Native.window.onerror +=
                 e =>

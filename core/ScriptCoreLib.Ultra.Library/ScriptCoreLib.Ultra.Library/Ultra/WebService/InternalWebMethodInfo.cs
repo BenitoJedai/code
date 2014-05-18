@@ -48,6 +48,7 @@ namespace ScriptCoreLib.Ultra.WebService
             //AddField { FieldName = field_Foo, FieldValue = 7 }
 
             // tested by
+            // x:\jsc.svn\examples\javascript\test\testienumerableforservice\testienumerableforservice\applicationwebservice.cs
             // X:\jsc.svn\examples\javascript\Test\TestWebServiceTaskFields\TestWebServiceTaskFields\ApplicationWebService.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201310/20131011-fields
 
@@ -85,6 +86,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
         public static void AddParameter(InternalWebMethodInfo that, string Name, string Value)
         {
+            //Console.WriteLine("InternalWebMethodInfo.AddParameter " + new { Name, Value });
+
             if (that.InternalParameters == null)
                 that.InternalParameters = new ArrayList();
 
@@ -116,6 +119,7 @@ namespace ScriptCoreLib.Ultra.WebService
             }.ToString();
         }
 
+        [Obsolete]
         public string ToQueryString()
         {
             return "?" + QueryKey + "=" + MetadataToken;
@@ -170,7 +174,12 @@ namespace ScriptCoreLib.Ultra.WebService
             return r;
         }
 
+
+
+
+
         public HttpContext InternalContext;
+        [Obsolete("is that it, just store the context?")]
         public void LoadParameters(HttpContext c)
         {
             this.InternalContext = c;

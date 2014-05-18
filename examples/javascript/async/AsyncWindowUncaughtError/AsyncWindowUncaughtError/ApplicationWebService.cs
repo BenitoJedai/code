@@ -3,7 +3,9 @@ using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,7 +17,7 @@ namespace AsyncWindowUncaughtError
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
     /// </summary>
-    public class ApplicationWebService
+    public class ApplicationWebService : IUncaughtErrorHandler
     {
         /// <summary>
         /// This Method is a javascript callable method.
@@ -27,6 +29,47 @@ namespace AsyncWindowUncaughtError
             // Send it back to the caller.
             y(e);
         }
+
+
+        //public void window_onerror(string message, int lineno, string filename)
+        public void onerror(IUncaughtErrorHandlerArguments e)
+        {
+            // { e = { message = Uncaught TypeError: Cannot set property 'innerHTML' of null, lineno = 54985, filename = http://192.168.43.252:2855/view-source } }
+
+            //Debugger.Break();
+
+            Console.WriteLine(new { e });
+        }
+    }
+
+
+
+    //class ErrorEvent(string message, int lineno, string filename) {  }
+    [Obsolete("experimental. used by IUncaughtErrorHandler.")]
+    public sealed class IUncaughtErrorHandlerArguments
+    {
+        public string message;
+
+        // can we get the .NET IL info of it?
+        // does jsc store IL info for inspection?
+
+        public int lineno;
+        public string filename;
+
+        public override string ToString()
+        {
+            return new { message, lineno, filename }.ToString();
+        }
+    }
+
+    [Description("events like java have returned! :)")]
+    [Obsolete("experimental. like IDispose.")]
+    interface IUncaughtErrorHandler
+    {
+
+
+        [Obsolete("what about web workers?")]
+        void onerror(IUncaughtErrorHandlerArguments e);
 
     }
 }
