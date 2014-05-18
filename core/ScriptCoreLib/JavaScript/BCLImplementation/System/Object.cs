@@ -62,6 +62,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(int);
         }
 
+
+        // X:\jsc.svn\examples\javascript\test\TestToString\TestToString\Application.cs
         public new virtual string ToString()
         {
             return default(string);

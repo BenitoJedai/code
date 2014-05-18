@@ -266,6 +266,8 @@ namespace ScriptCoreLib.Ultra.WebService
                 };
 
                 // Method not found: '?'.
+                // Additional information: Attempt by method 'mscorlib.<02000005IEnumerable\+ConvertToString>.ConvertToString(System.Collections.Generic.IEnumerable`1<TestIEnumerableForService.foo>)' 
+                // to access method '<>f__AnonymousType6`1<System.__Canon>..ctor(System.__Canon)' failed.
                 g.Invoke(Constructor);
 
                 WriteInternalFields(Constructor);
@@ -537,9 +539,10 @@ namespace ScriptCoreLib.Ultra.WebService
                 }
                 else
                 {
+                    // is it also supposed to load the fields?
                     handler.WebMethod.LoadParameters(that.Context);
 
-                    //Console.WriteLine("enter invoke " + new { handler.WebMethod });
+                    Console.WriteLine("enter invoke " + new { handler.WebMethod });
 
                     //about to load params for { WebMethod = { IsConstructor = false, MetadataToken = 06000002, Name = Insert, TypeFullName = WebCamAvatarsExperiment.ApplicationWebService, Parameters = 1 } }
                     //about to invoke { WebMethod = { IsConstructor = false, MetadataToken = 06000002, Name = Insert, TypeFullName = WebCamAvatarsExperiment.ApplicationWebService, Parameters = 1 } }
@@ -555,6 +558,8 @@ namespace ScriptCoreLib.Ultra.WebService
                     var WebMethodStopwatch = Stopwatch.StartNew();
 
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140405/task
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
+                    // defined by X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WebService.cs
                     g.Invoke(handler.WebMethod);
 
 
@@ -584,6 +589,7 @@ namespace ScriptCoreLib.Ultra.WebService
                         WriteInternalFields(handler.WebMethod);
 
                         // no yields
+                        // why is handler.WebMethod.Results null??
                         #region 204
                         if (handler.WebMethod.Results.Length == 0)
                             if (handler.WebMethod.TaskResult == null)
