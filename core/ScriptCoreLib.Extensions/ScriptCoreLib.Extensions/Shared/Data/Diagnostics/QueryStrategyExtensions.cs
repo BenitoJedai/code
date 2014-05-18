@@ -72,17 +72,17 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
             //Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_MethodCallExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
             Console.WriteLine("MutableWhere "
-                //    + new
-                //{
-                //    body.Method,
+            //    + new
+            //{
+            //    body.Method,
 
             //    //NodeType	Equal	System.Linq.Expressions.ExpressionType
-                //    body.NodeType,
+            //    body.NodeType,
 
 
             //    ColumnName = lColumnName0,
-                //    Right = rAddParameterValue0
-                //}
+            //    Right = rAddParameterValue0
+            //}
             );
 
 
@@ -117,7 +117,43 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
 
 
+                    // x:\jsc.svn\examples\javascript\linq\minmaxaverageexperiment\minmaxaverageexperiment\applicationwebservice.cs
 
+                    //-filter.Body { Not(IsNullOrEmpty(k.path))}
+                    //System.Linq.Expressions.Expression { System.Linq.Expressions.UnaryExpression}
+
+                    var asUnaryExpression = filter.Body as UnaryExpression;
+                    if (asUnaryExpression != null)
+                    {
+                        // Operand = {IsNullOrEmpty(k.path)}
+
+                        if (asUnaryExpression.NodeType == ExpressionType.Not)
+                        {
+
+
+                            var asMethodCallExpression = asUnaryExpression.Operand as MethodCallExpression;
+                            if (asMethodCallExpression != null)
+                            {
+                                if (asMethodCallExpression.Method.Name == "IsNullOrEmpty")
+                                {
+                                    // http://stackoverflow.com/questions/8054942/string-isnullorempty-in-linq-to-sql-query
+                                    // http://connect.microsoft.com/VisualStudio/feedback/details/367077/i-want-to-use-string-isnullorempty-in-linq-to-sql-statements
+                                    // http://stackoverflow.com/questions/15663207/how-to-use-null-or-empty-string-in-sql
+                                    // x:\jsc.svn\examples\javascript\linq\minmaxaverageexperiment\minmaxaverageexperiment\applicationwebservice.cs
+
+                                    var arg1 = asMethodCallExpression.Arguments[0] as MemberExpression;
+
+                                    var xColumnName0 = arg1.Member.Name;
+
+
+                                    state.WhereCommand += "not(";
+                                    state.WhereCommand += "`" + xColumnName0 + "` is null or length(`" + xColumnName0 + "`) = 0";
+                                    state.WhereCommand += ")";
+                                    return;
+                                }
+                            }
+                        }
+                    }
 
 
                     // for op_Equals
@@ -126,6 +162,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     // do we need to check our db schema or is reflection the schema for us?
 
 
+
+                    #region WriteExpression
                     Action<BinaryExpression> WriteExpression =
                         (xbody) =>
                         {
@@ -172,6 +210,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                             Debugger.Break();
                         };
+                    #endregion
 
                     if (body.NodeType == ExpressionType.OrElse)
                     {
@@ -754,9 +793,9 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             // time to build the CommandText
             return AsCommandBuilder(
                 new CommandBuilderState
-                {
-                    Strategy = Strategy,
-                }
+            {
+                Strategy = Strategy,
+            }
             );
         }
     }

@@ -31,21 +31,55 @@ namespace MinMaxAverageExperiment
             var x = new PerformanceResourceTimingData2.ApplicationResourcePerformance();
 
             x.Insert(
-                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 44, path = "/foo/BAR/" }
+                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 44, path = " /foo/BAR/ " }
             );
 
+
+            //            select 0 as foo,
+            //         g.`path` as `path`,
+            //         g.`ToLower` as `ToLower`,
+            //         g.`ToUpper` as `ToUpper`,
+            //         g.`Length` as `Length`
+            //from(
+            //        select 0 as foo,
+            //                 s.`path` as `path`,
+            //                 lower(s.`path`) as `ToLower`,
+            //                 upper(s.`path`) as `ToUpper`,
+            //                 length(s.`path`) as `Length`
+            //         from `PerformanceResourceTimingData2.ApplicationResourcePerformance` as s
+            //) as g
+
             var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                     //where !string.IsNullOrEmpty(k.path)
+
+                     where !string.IsNullOrEmpty(k.path)
+
                      select new
                      {
+                         k.Key,
+
+
                          k.path,
+                         Trim = k.path.Trim(),
+                         TrimStart = k.path.TrimStart(),
+                         TrimEnd = k.path.TrimEnd(),
+                         ToLower = k.path.ToLower(),
+                         ToUpper = k.path.ToUpper(),
+
+                         // www.w3schools.com/sql/sql_func_len.asp
                          k.path.Length
                      };
 
             // what about our own PrimaryConstructor for select?
             var uc0 = uc.AsDataTable();
 
+            //        Select { selector = k => new <> f__AnonymousType0`2(path = k.path, Length = k.path.Length) }
+            //        AsDataTable {
+            //            Strategy = System.Data.QueryStrategyOfTRowExtensions + SelectQueryStrategy`2[MinMax
+            //Select CommandBuilder
+            //select `Key`, `name`, `path`, `entryType`, `duration`, `startTime`, `connectStart`, `connectEnd
+            //from `PerformanceResourceTimingData2.ApplicationResourcePerformance`
 
+            Debugger.Break();
 
             x.Insert(
                  new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 999 }
