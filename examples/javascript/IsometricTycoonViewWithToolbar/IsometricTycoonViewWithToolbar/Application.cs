@@ -33,6 +33,12 @@ namespace IsometricTycoonViewWithToolbar
         public Application(IDefault page)
         {
 
+
+            // Unhandled Exception: System.InvalidOperationException: Method: get_InternalSiblingsIncludingThis, 
+            // Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control; emmiting failed : System.Exception: recursion detected at stack 32
+
+
+
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>
