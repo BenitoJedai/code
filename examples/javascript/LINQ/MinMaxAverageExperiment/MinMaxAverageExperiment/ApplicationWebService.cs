@@ -31,8 +31,21 @@ namespace MinMaxAverageExperiment
             var x = new PerformanceResourceTimingData2.ApplicationResourcePerformance();
 
             x.Insert(
-                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 44 }
+                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 44, path = "/foo/BAR/" }
             );
+
+            var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                     //where !string.IsNullOrEmpty(k.path)
+                     select new
+                     {
+                         k.path,
+                         k.path.Length
+                     };
+
+            // what about our own PrimaryConstructor for select?
+            var uc0 = uc.AsDataTable();
+
+
 
             x.Insert(
                  new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 999 }
