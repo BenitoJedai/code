@@ -44,18 +44,21 @@ namespace MinMaxAverageExperiment
             // http://blogs.msdn.com/b/mattwar/archive/2008/07/08/linq-building-an-iqueryable-provider-part-x.aspx
             // http://oakleafblog.blogspot.com/2008/07/linq-and-entity-framework-posts-for_14.html
 
+
+            var min = new PerformanceResourceTimingData2.ApplicationResourcePerformance().Min(k => k.duration);
+
             var e = from z in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
                         // .AsEnumerable()
                     group z by 1 into g
                     select new
                     {
-                        //Min = g.Min(k => k.duration),
-                        //Max = g.Max(k => k.duration),
-                        //Average = g.Average(k => k.duration),
+                        Min = g.Min(k => k.duration),
+                        Max = g.Max(k => k.duration),
+                        Average = g.Average(k => k.duration),
 
-                        Count = g.Count()
+                        Count = g.Count(),
+                        Sum = g.Sum(k => k.duration)
 
-                        //min = z.duration.Min(),
                         //max = z.duration.Max(),
                         //avg = z.duration.Average(),
                     };
@@ -85,6 +88,18 @@ namespace MinMaxAverageExperiment
             //         from `PerformanceResourceTimingData2.ApplicationResourcePerformance` as s
             //         group by `Grouping.Key`
             //) as g
+
+            //select g.`Grouping.Key`,
+            //         g.`Count` as `Count`,
+            //         g.`Sum` as `Sum`
+            //from(
+            //        select 1 as `Grouping.Key`,
+            //                 count(*) as `Count`,
+            //                 sum(s.`duration`) as `Sum`
+            //         from `PerformanceResourceTimingData2.ApplicationResourcePerformance` as s
+            //         group by `Grouping.Key`
+            //) as g
+
 
             Debugger.Break();
         }
