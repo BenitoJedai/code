@@ -36,6 +36,7 @@ namespace WebServiceLatencyBenchmarker
 
             int Counter = 0;
 
+            // look async. does roslyn work for us? it does work.
             Action loop = async delegate
             {
                 while (true)
@@ -53,7 +54,7 @@ namespace WebServiceLatencyBenchmarker
                     var DelayString = "" + Convert.ToInt32(Delay.ElapsedMilliseconds) + "ms";
 
                     // jsc: this will cause an if block which is not supported just yet
-                    // new IHTMLDiv { innerText = "" + NowString }.AttachToDocument();
+                    //new IHTMLDiv { innerText = "" + DelayString }.AttachToDocument();
 
                     WriteLine("Reply #" + Counter + " from " + host + " time=" + DelayString);
                 }

@@ -37,13 +37,14 @@ namespace WebCamAvatarsExperiment
 
             page.Reset.WhenClicked(
                 delegate
-                {
-                    this.Reset();
-                }
+            {
+                this.Reset();
+            }
             );
 
             page.NewImage.WhenClicked(
-                async button =>
+                //async 
+                button =>
                 {
                     var overlay = new IHTMLDiv { }.AttachTo(Native.document.documentElement);
                     overlay.style.position = IStyle.PositionEnum.@fixed;
