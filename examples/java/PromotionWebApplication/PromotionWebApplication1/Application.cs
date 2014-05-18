@@ -849,6 +849,7 @@ namespace PromotionWebApplication1
 #if !DEBUG
             // we will compare the win32 relative paths here...
             var publish = path.SkipUntilOrEmpty("/download/").Replace("/", @"\");
+            
             var p = new Publish();
 
             if (p.ContainsKey(publish))
