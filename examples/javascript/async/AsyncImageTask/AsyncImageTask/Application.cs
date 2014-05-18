@@ -4,7 +4,9 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
+
 using ScriptCoreLib.JavaScript.DOM.HTML;
+
 using ScriptCoreLib.JavaScript.Extensions;
 using System;
 using System.Linq;
@@ -21,9 +23,8 @@ namespace AsyncImageTask
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -54,6 +55,9 @@ namespace AsyncImageTask
 
 
                     //await j;
+
+                    // reloading visual studio helped here!
+                    //IHTMLImageAsyncExtensions.
                     await i;
 
 

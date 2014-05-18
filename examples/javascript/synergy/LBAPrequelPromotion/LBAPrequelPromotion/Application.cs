@@ -37,6 +37,20 @@ namespace LBAPrequelPromotion
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // what is roslyn doing that is breaking async for us?
+
+
+            //           02000002 LBAPrequelPromotion.Application
+            //           script: error JSC1000: unsupported flow detected, try to simplify.
+            //Assembly V:\LBAPrequelPromotion.Application.exe
+            //DeclaringType LBAPrequelPromotion.Application, LBAPrequelPromotion.Application, Version = 1.0.0.0, Culture = neutral, PublicKeyToken = null
+            //            OwnerMethod.ctor
+            //            Offset 0065
+            //            .Try ommiting the return, break or continue instruction.
+            // not ready for roslyn!
+
+
+
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>
@@ -73,7 +87,7 @@ namespace LBAPrequelPromotion
 
             var onpause = new SAMPLES036 { volume = 0.3, autobuffer = true };
             var onunpause = new SAMPLES219 { autobuffer = true };
-            
+
             onunpause.load();
 
             page.p96.InvokeOnComplete(
@@ -84,7 +98,7 @@ namespace LBAPrequelPromotion
                       delegate
                       {
 
-                         
+
 
 
                           var diagnostics = new IHTMLIFrame { src = "https://docs.google.com/a/jsc-solutions.net/spreadsheet/embeddedform?formkey=dFhMb2UxVnBYUnNnUE16LUNiUzJJSVE6MQ", frameBorder = "0" };

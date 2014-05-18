@@ -49,7 +49,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         //0200004f ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control
         //script: error JSC1000: Method: get_InternalSiblingsIncludingThis, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control; emm
-        [Obsolete("why does this fail for roslyn?")]
+        [Obsolete("why does this fail for roslyn? roslyn likes dup opcodes. jsc rewriter needs to simplify it.")]
         // x:\jsc.svn\examples\javascript\future\asyncorderbyexpression\asyncorderbyexpression\applicationcontrol.cs
         // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
         // X:\jsc.svn\examples\javascript\LINQ\test\TestInternalSiblingsIncludingThis\TestInternalSiblingsIncludingThis\Application.cs

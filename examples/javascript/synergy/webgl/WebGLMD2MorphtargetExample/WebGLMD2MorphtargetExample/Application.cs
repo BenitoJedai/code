@@ -118,18 +118,20 @@ namespace WebGLMD2MorphtargetExample
 
             var material = new THREE.MeshPhongMaterial(
                 new
-                {
-                    map = THREE.ImageUtils.loadTexture(
+            {
+                map = THREE.ImageUtils.loadTexture(
                         new HTML.Images.FromAssets.blade_black().src
                     ),
-                    ambient = 0x999999,
-                    color = 0xffffff,
-                    specular = 0xffffff,
-                    shininess = 25,
-                    morphTargets = true
-                }
+                ambient = 0x999999,
+                color = 0xffffff,
+                specular = 0xffffff,
+                shininess = 25,
+                morphTargets = true
+            }
             );
 
+
+            #region tris_md2
             new THREE.JSONLoader().load(
                 new global::WebGLMD2MorphtargetExample.Data.tris_md2().Content.src,
                  new Action<object>(
@@ -183,11 +185,13 @@ namespace WebGLMD2MorphtargetExample
 
                             renderer.render(scene, camera);
 
-                            await Native.window.requestAnimationFrameAsync;
+                            //await Native.window.requestAnimationFrameAsync;
+                            await Native.window.async.onframe;
                         };
                     }
                 )
             );
+            #endregion
 
 
 

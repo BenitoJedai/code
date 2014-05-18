@@ -1,3 +1,42 @@
+#define ASYNC0
+#define ASYNC1
+#define ASYNC2
+
+#region ROSLYN IS BROKEN?
+/*
+>	Microsoft.CodeAnalysis.dll!Microsoft.CodeAnalysis.Text.TextSpan.FromBounds(int start, int end) + 0xaa bytes	
+ 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.AbstractIndentationService.AbstractIndenter.GetIndentationOfPosition(Microsoft.VisualStudio.Text.SnapshotPoint position, int addedSpaces) + 0x45 bytes	
+ 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.AbstractIndentationService.AbstractIndenter.GetIndentationOfLine(Microsoft.VisualStudio.Text.ITextSnapshotLine lineToMatch, int addedSpaces) + 0xa4 bytes	
+ 	Microsoft.CodeAnalysis.CSharp.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.CSharp.Formatting.Indentation.CSharpIndentationService.Indenter.GetDefaultIndentationFromTokenLine(Microsoft.CodeAnalysis.SyntaxToken token, int? additionalSpace) + 0x28f bytes	
+ 	Microsoft.CodeAnalysis.CSharp.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.CSharp.Formatting.Indentation.CSharpIndentationService.Indenter.GetDefaultIndentationFromToken(Microsoft.CodeAnalysis.SyntaxToken token) + 0x7d bytes	
+ 	Microsoft.CodeAnalysis.CSharp.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.CSharp.Formatting.Indentation.CSharpIndentationService.Indenter.GetIndentationBasedOnToken(Microsoft.CodeAnalysis.SyntaxToken token) + 0xa22 bytes	
+ 	Microsoft.CodeAnalysis.CSharp.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.CSharp.Formatting.Indentation.CSharpIndentationService.Indenter.GetDesiredIndentation() + 0x32b bytes	
+ 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.AbstractIndentationService.GetDesiredIndentationAsync(Microsoft.CodeAnalysis.Document document, int lineNumber, System.Threading.CancellationToken cancellationToken) + 0x217 bytes	
+ 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.SmartIndent.GetDesiredIndentation(Microsoft.VisualStudio.Text.ITextSnapshotLine lineToBeIndented, System.Threading.CancellationToken cancellationToken) + 0xcf bytes	
+ 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.SmartIndent.GetDesiredIndentation(Microsoft.VisualStudio.Text.ITextSnapshotLine line) + 0x10 bytes	
+ 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.SmartIndentationService.GetDesiredIndentation(Microsoft.VisualStudio.Text.Editor.ITextView textView, Microsoft.VisualStudio.Text.ITextSnapshotLine line) + 0x1b bytes	
+ 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.CaretElement.MapXCoordinate(Microsoft.VisualStudio.Text.Formatting.ITextViewLine textLine, double xCoordinate, bool userSpecifiedXCoordinate) + 0xc9 bytes	
+ 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.CaretElement.MoveTo(Microsoft.VisualStudio.Text.Formatting.ITextViewLine textLine, double xCoordinate, bool captureHorizontalPosition) + 0x47 bytes	
+ 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.CaretElement.MoveTo(Microsoft.VisualStudio.Text.Formatting.ITextViewLine textLine, double xCoordinate) + 0x16 bytes	
+ 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Operations.Implementation.EditorOperations.MoveCaret(Microsoft.VisualStudio.Text.Formatting.ITextViewLine textLine, double horizontalOffset, bool extendSelection) + 0x12d bytes	
+ 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.MasterMouseProcessor.HandleMouseLeftButtonDown(bool shift, bool alt, System.Windows.Point pt) + 0xa6 bytes	
+ 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.MasterMouseProcessor.DefaultMouseLeftButtonDownHandler(object sender, System.Windows.Input.MouseButtonEventArgs e) + 0xa4 bytes	
+ 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Utilities.WpfMouseProcessor.UIElement_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) + 0x12b bytes	
+ 	PresentationCore.dll!System.Windows.Input.MouseButtonEventArgs.InvokeEventHandler(System.Delegate genericHandler, object genericTarget) + 0x2c bytes	
+ 	PresentationCore.dll!System.Windows.RoutedEventArgs.InvokeHandler(System.Delegate handler, object target) + 0x33 bytes	
+ 	PresentationCore.dll!System.Windows.RoutedEventHandlerInfo.InvokeHandler(object target, System.Windows.RoutedEventArgs routedEventArgs) + 0x44 bytes	
+ 	PresentationCore.dll!System.Windows.EventRoute.InvokeHandlersImpl(object source, System.Windows.RoutedEventArgs args, bool reRaised) + 0xce bytes	
+ 	PresentationCore.dll!System.Windows.UIElement.ReRaiseEventAs(System.Windows.DependencyObject sender, System.Windows.RoutedEventArgs args, System.Windows.RoutedEvent newEvent) + 0x108 bytes	
+ 	PresentationCore.dll!System.Windows.UIElement.OnMouseDownThunk(object sender, System.Windows.Input.MouseButtonEventArgs e) + 0xee bytes	
+ 	PresentationCore.dll!System.Windows.Input.MouseButtonEventArgs.InvokeEventHandler(System.Delegate genericHandler, object genericTarget) + 0x2c bytes	
+
+*/
+#endregion
+
+
+
+
+
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -27,6 +66,8 @@ namespace WebGLEarthByBjorn
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // X:\jsc.svn\examples\javascript\async\AsyncImageTask\AsyncImageTask\Application.cs
+
         public IHTMLCanvas canvas;
 
 
@@ -68,9 +109,9 @@ namespace WebGLEarthByBjorn
 
             var renderer = new THREE.WebGLRenderer(
                    new
-                   {
-                       preserveDrawingBuffer = true
-                   }
+            {
+                preserveDrawingBuffer = true
+            }
 
                 );
             renderer.setSize();
@@ -83,13 +124,28 @@ namespace WebGLEarthByBjorn
 
 
 
+
+            //            will rebuild stack for { Consumer = { Consumer0 = [0x009c] callvirt + 0 - 2{[0x0078]
+            //        ldsfld     +1 -0} {[0x0097]
+            //    ldsfld     +1 -0} , IsConsumer = True, AllSingleStackInstruction = True } }
+            //stack rewrite for 00000090
+            //InitializeInternalInlineWorkerConstructors.WithEach { Count = 0 }
+            //....09d0:01:01 RewriteToAssembly error: System.Runtime.InteropServices.COMException (0x801312E4): Field of ByRef type. (Exception from HRESULT: 0x801312E4)
+            //   at System.Reflection.Emit.TypeBuilder.TermCreateClass(RuntimeModule module, Int32 tk, ObjectHandleOnStack type)
+            //   at System.Reflection.Emit.TypeBuilder.CreateTypeNoLock()
+            //   at System.Reflection.Emit.TypeBuilder.CreateType()
+            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass11c.<WriteSwitchRewrite>b__10e(TypeRewriteArguments e) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteSwitchRewrite.cs:line 1985
+
+
             #region sphere
             var sphere = new THREE.Mesh(
                 new THREE.SphereGeometry(radius, segments, segments),
                 new THREE.MeshPhongMaterial(
                         new
-                        {
-                            map = new THREE.Texture().With(
+            {
+#if ASYNC0
+                map = new THREE.Texture().With(
+
                                 async s =>
                                 {
                                     //0:75ms event: _2_no_clouds_4k_low view-source:36543
@@ -107,6 +163,9 @@ namespace WebGLEarthByBjorn
 
                                     Console.WriteLine("event: _2_no_clouds_4k_low");
                                     s.image = await new _2_no_clouds_4k_low();
+                                    //s.image = new _2_no_clouds_4k_low();
+                                    //await s.image;
+
                                     s.needsUpdate = true;
                                     Console.WriteLine("event: _2_no_clouds_4k_low done");
 
@@ -118,16 +177,20 @@ namespace WebGLEarthByBjorn
                                     Console.WriteLine("event: _2_no_clouds_4k done");
                                 }
                             ),
+#endif
 
-                            bumpMap = THREE.ImageUtils.loadTexture(
+
+                bumpMap = THREE.ImageUtils.loadTexture(
                                 new elev_bump_4k().src
                                 //new elev_bump_4k_low().src
                                 ),
 
 
-                            // applies onyl to shaders to create the shadow
-                            bumpScale = 0.005,
-                            specularMap = new THREE.Texture().With(
+                // applies onyl to shaders to create the shadow
+                bumpScale = 0.005,
+
+#if ASYNC1
+                specularMap = new THREE.Texture().With(
                                 async s =>
                                 {
                                     Console.WriteLine("event: water_4k_low");
@@ -143,11 +206,12 @@ namespace WebGLEarthByBjorn
                                     Console.WriteLine("event: water_4k done");
                                 }
                             ),
+                #endif
 
 
-                            //specular =    new THREE.Color("grey")								
-                            specular = new THREE.Color(0xa0a0a0)
-                        })
+                //specular =    new THREE.Color("grey")								
+                specular = new THREE.Color(0xa0a0a0)
+            })
             );
             #endregion
 
@@ -161,19 +225,20 @@ namespace WebGLEarthByBjorn
             #region clouds
             var clouds = new THREE.Mesh(
                     new THREE.SphereGeometry(
-                //radius + 0.003,
+                        //radius + 0.003,
                         radius + 0.006,
                         segments, segments),
                     new THREE.MeshPhongMaterial(
                         new
-                        {
-                            //map = THREE.ImageUtils.loadTexture(
-                            //    //new fair_clouds_4k().src
-                            //    new fair_clouds_4k_low().src
-                            //    ),
+            {
+                //map = THREE.ImageUtils.loadTexture(
+                //    //new fair_clouds_4k().src
+                //    new fair_clouds_4k_low().src
+                //    ),
+#if ASYNC2
 
 
-                            map = new THREE.Texture().With(
+                map = new THREE.Texture().With(
                                 async s =>
                                 {
                                     Console.WriteLine("event: fair_clouds_4k_low");
@@ -189,9 +254,11 @@ namespace WebGLEarthByBjorn
                                     Console.WriteLine("event: fair_clouds_4k done");
                                 }
                             ),
+#endif
 
-                            transparent = true
-                        })
+
+                transparent = true
+            })
                 );
             clouds.rotation.y = rotation;
             scene.add(clouds);
@@ -206,10 +273,10 @@ namespace WebGLEarthByBjorn
                     new THREE.SphereGeometry(90, 64, 64),
                     new THREE.MeshBasicMaterial(
                     new
-                    {
-                        map = THREE.ImageUtils.loadTexture(new galaxy_starfield().src),
-                        side = THREE.BackSide
-                    })
+            {
+                map = THREE.ImageUtils.loadTexture(new galaxy_starfield().src),
+                side = THREE.BackSide
+            })
                 );
             scene.add(stars);
 
@@ -230,23 +297,23 @@ namespace WebGLEarthByBjorn
 
             var
                 old = new
+            {
+                sphere = new
                 {
-                    sphere = new
-                    {
-                        sphere.rotation.x,
-                        sphere.rotation.y
+                    sphere.rotation.x,
+                    sphere.rotation.y
 
-                    },
-                    clouds = new
-                    {
-                        clouds.rotation.x,
-                        clouds.rotation.y,
-                    },
+                },
+                clouds = new
+                {
+                    clouds.rotation.x,
+                    clouds.rotation.y,
+                },
 
 
-                    CursorX = 0,
-                    CursorY = 0
-                };
+                CursorX = 0,
+                CursorY = 0
+            };
 
             #region onmousedown
             this.canvas.onmousedown +=
@@ -403,15 +470,15 @@ namespace WebGLEarthByBjorn
 
             Native.window.onresize +=
                 delegate
-                {
+            {
 
 
-                    //if (canvas.parentNode == Native.document.body)
+                //if (canvas.parentNode == Native.document.body)
 
-                    // are we embedded?
-                    if (page != null)
-                        renderer.setSize();
-                };
+                // are we embedded?
+                if (page != null)
+                    renderer.setSize();
+            };
 
 
             //new IStyle(this.canvas.css.before)
