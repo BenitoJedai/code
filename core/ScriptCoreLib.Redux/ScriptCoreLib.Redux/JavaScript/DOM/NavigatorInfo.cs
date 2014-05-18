@@ -24,6 +24,19 @@ namespace ScriptCoreLib.JavaScript.DOM
                 "return navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;"
             ).apply(null);
 
+            // Failed to execute 'webkitGetUserMedia' on 'Navigator': The callback provided as parameter 3 is not a function.
+
+
+            if (errorCallback == null)
+            {
+                errorCallback =
+                    err =>
+                    {
+                        // X:\jsc.svn\market\javascript\Abstractatech.JavaScript.Avatar\Abstractatech.JavaScript.Avatar\Application.cs
+                        Console.WriteLine(new { err.code });
+                    };
+            }
+
 
             f.apply(Native.window.navigator,
               new { video, audio },
