@@ -19,6 +19,12 @@ namespace BSONExperiment
 
         private void ApplicationControl_Load(object sender, System.EventArgs e)
         {
+       
+
+        }
+
+        private void button1_Click(object sender, System.EventArgs e)
+        {
             // https://github.com/scriptcs/scriptcs/pull/525
 
             // how do we use bson writer?
@@ -45,7 +51,6 @@ namespace BSONExperiment
 
 
             Debugger.Break();
-
         }
 
     }
