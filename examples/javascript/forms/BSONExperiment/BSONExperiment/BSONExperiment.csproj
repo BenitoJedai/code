@@ -150,8 +150,11 @@
       <DependentUpon>ApplicationControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="opensource\github\Newtonsoft.Json\Src\Newtonsoft.Json\Bson\" />
+    <Compile Include="X:\opensource\github\Newtonsoft.Json\Src\Newtonsoft.Json\**\*.cs">
+      <Link>opensource\github\Newtonsoft.Json\Src\Newtonsoft.Json\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
