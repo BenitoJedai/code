@@ -513,6 +513,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
             return a;
         }
+
+
+ //        Implementation not found for type import :
+ //type: System.String
+ //method: System.String Format(System.String, System.Object[])
+ //Did you forget to add the [Script] attribute?
+ //Please double check the signature!
+        //X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
     }
 
 }
