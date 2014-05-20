@@ -18,9 +18,10 @@ namespace AsyncFinally
 
         private async void button1_Click(object sender, System.EventArgs e)
         {
+            // X:\jsc.svn\examples\javascript\forms\BSONExperiment\BSONExperiment\ApplicationControl.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20150520/async-finally
             // 4.5
-
+            // X:\jsc.svn\examples\rewrite\test\TestAsyncFinally\TestAsyncFinally\Program.cs
 
             try
             {
@@ -35,7 +36,7 @@ namespace AsyncFinally
                 button1.Text = "enter finally";
 
                 // cannot do that before roslyn
-                //await Task.Delay(200);
+                await Task.Delay(200);
 
                 button1.Text = "exit finally";
             }
