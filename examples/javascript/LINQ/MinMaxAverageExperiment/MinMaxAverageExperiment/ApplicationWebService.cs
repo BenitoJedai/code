@@ -119,6 +119,47 @@ namespace MinMaxAverageExperiment
                         //avg = z.duration.Average(),
                     };
 
+            //            select 0 as foo,
+            //         g.`Min` as `Min`,
+            //         g.`Max` as `Max`,
+            //         g.`Average` as `Average`,
+            //         g.`Count` as `Count`,
+            //         g.`Sum` as `Sum`
+            //from(
+            //        select 0 as foo,
+            //                 min(s.`duration`) as `Min`,
+            //                 max(s.`duration`) as `Max`,
+            //                 avg(s.`duration`) as `Average`,
+            //                 count(*) as `Count`,
+            //                 sum(s.`duration`) as `Sum`
+            //         from(select g.`Grouping.Key`,
+            //                         g.`Min` as `Min`,
+            //                         g.`Max` as `Max`,
+            //                         g.`Average` as `Average`,
+            //                         g.`Count` as `Count`,
+            //                         g.`Sum` as `Sum`
+            //                from(
+            //                        select 1 as `Grouping.Key`,
+            //                                 min(s.`duration`) as `Min`,
+            //                                 max(s.`duration`) as `Max`,
+            //                                 avg(s.`duration`) as `Average`,
+            //                                 count(*) as `Count`,
+            //                                 sum(s.`duration`) as `Sum`
+            //                         from `PerformanceResourceTimingData2.ApplicationResourcePerformance` as s
+            //                         group by `Grouping.Key`
+            //                ) as g
+            //                ) as s
+            //) as g
+
+            //before Fill
+
+            //ScriptCoreLib.Extensions::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda.WithConnection
+
+            // error: {
+            //                Message = no such column: s.duration, ex = System.Data.SQLite.SQLiteSyntaxException(0x80004005): no such column:
+            //                s.duration
+
+
             // [0] = { Min = 44, Max = 999, Average = 521.5, Count = 2 }
 
 
