@@ -1,0 +1,45 @@
+using AsyncFinally;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace AsyncFinally
+{
+    public partial class ApplicationControl : UserControl
+    {
+        public ApplicationControl()
+        {
+            this.InitializeComponent();
+        }
+
+        private async void button1_Click(object sender, System.EventArgs e)
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20150520/async-finally
+            // 4.5
+
+
+            try
+            {
+                button1.Text = "enter try";
+
+                await Task.Delay(200);
+
+                button1.Text = "exit try";
+            }
+            finally
+            {
+                button1.Text = "enter finally";
+
+                // cannot do that before roslyn
+                //await Task.Delay(200);
+
+                button1.Text = "exit finally";
+            }
+        }
+
+    }
+}
