@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAsyncFinally", "TestAsyncFinally\TestAsyncFinally.csproj", "{8623A342-ECB7-4DC9-8F61-F3B8694B1AE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAsync", "TestAsync\TestAsync.csproj", "{58DD562F-CB4D-474A-B2BE-0D1A80E688DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{8623A342-ECB7-4DC9-8F61-F3B8694B1AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8623A342-ECB7-4DC9-8F61-F3B8694B1AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8623A342-ECB7-4DC9-8F61-F3B8694B1AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58DD562F-CB4D-474A-B2BE-0D1A80E688DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58DD562F-CB4D-474A-B2BE-0D1A80E688DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58DD562F-CB4D-474A-B2BE-0D1A80E688DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58DD562F-CB4D-474A-B2BE-0D1A80E688DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
