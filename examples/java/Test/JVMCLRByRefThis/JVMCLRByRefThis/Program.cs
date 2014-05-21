@@ -37,7 +37,8 @@ namespace JVMCLRByRefThis
 
             Console.WriteLine("enter MoveNext " + new { state });
 
-            //var loc0 = this;
+            var loc0 = this;
+            __forwardref(ref loc0);
 
             //- javac
             //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRByRefThis\Program.java
@@ -47,8 +48,7 @@ namespace JVMCLRByRefThis
 
             // does JVM support it?
             // would jsc have to transform all struct methods into static byrefs?
-            __forwardref(ref this);
-            //__forwardref(ref loc0);
+            //__forwardref(ref this);
 
             Console.WriteLine("exit MoveNext " + new { state });
 
