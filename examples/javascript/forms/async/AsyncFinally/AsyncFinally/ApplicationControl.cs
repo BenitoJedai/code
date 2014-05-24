@@ -22,6 +22,8 @@ namespace AsyncFinally
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20150520/async-finally
             // 4.5
             // X:\jsc.svn\examples\rewrite\test\TestAsyncFinally\TestAsyncFinally\Program.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Runtime\ExceptionServices\ExceptionDispatchInfo.cs
 
             try
             {

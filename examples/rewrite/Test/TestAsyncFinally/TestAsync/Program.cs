@@ -40,6 +40,26 @@ namespace TestAsync
             i.Wait();
         }
 
+
+        //X:\jsc.svn\examples\rewrite\Test\TestAsyncFinally\TestAsync\bin\Debug>xTestAsync.exe
+        //TestAsync.Program+<Invoke>d__0 <0000> ldc.i4.1
+        //TestAsync.Program+<Invoke>d__0 <000e> ldloc.2
+        //TestAsync.Program+<Invoke>d__0 <0012> br.s, to be optimized away
+        //TestAsync.Program+<Invoke>d__0 <001b> br.s, to be optimized away
+        //TestAsync.Program+<Invoke>d__0 <001d> nop
+        //enter try
+        //TestAsync.Program+<Invoke>d__0 <004d> ldarg.0
+        //TestAsync.Program+<Invoke>d__0 <00eb> nop
+        //TestAsync.Program+<Invoke>d__0 <0000> ldc.i4.1
+        //TestAsync.Program+<Invoke>d__0 <000e> ldloc.2
+        //TestAsync.Program+<Invoke>d__0 <0019> br.s, to be optimized away
+        //TestAsync.Program+<Invoke>d__0 <006e> ldarg.0
+        //TestAsync.Program+<Invoke>d__0 <008c> ldloca.s
+        //exit try { ElapsedMilliseconds = 1201 }
+        //TestAsync.Program+<Invoke>d__0 <00bc> leave.s, to be optimized away
+        //TestAsync.Program+<Invoke>d__0 <00d6> nop
+        //TestAsync.Program+<Invoke>d__0 <00eb> nop
+
         static async Task Invoke()
         {
             // X:\jsc.svn\examples\javascript\forms\async\AsyncFinally\AsyncFinally\ApplicationControl.cs
@@ -51,13 +71,15 @@ namespace TestAsync
             //exit finally
 
 
-            var s = Stopwatch.StartNew();
+            //var s = Stopwatch.StartNew();
 
             Console.WriteLine("enter try");
 
-            await Task.Delay(1200);
+            //await Task.Delay(1200);
 
-            Console.WriteLine("exit try " + new { s.ElapsedMilliseconds });
+            //Console.WriteLine("exit try " + new { s.ElapsedMilliseconds });
+
+            // what makes us hang?
         }
     }
 }

@@ -8,12 +8,13 @@ namespace TestByRefThis
 {
 
     public
-        class
-        //struct
+        //class
+        struct
         Class1
     {
         public void invoke()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
             // Error	1	Cannot pass '<this>' as a ref or out argument because it is read-only	X:\jsc.svn\examples\java\async\Test\TestByRefThis\TestByRefThis\Class1.cs	13	24	TestByRefThis
 
             var that = this;

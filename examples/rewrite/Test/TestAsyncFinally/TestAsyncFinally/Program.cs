@@ -24,6 +24,8 @@ namespace TestAsyncFinally
 
         static async Task Invoke()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
+
             // X:\jsc.svn\examples\javascript\forms\async\AsyncFinally\AsyncFinally\ApplicationControl.cs
 
             //enter try
@@ -34,23 +36,23 @@ namespace TestAsyncFinally
 
             try
             {
-                var s = Stopwatch.StartNew();
+                //var s = Stopwatch.StartNew();
 
                 Console.WriteLine("enter try");
 
-                await Task.Delay(1200);
+                //await Task.Delay(1200);
 
-                Console.WriteLine("exit try " + new { s.ElapsedMilliseconds });
+                //Console.WriteLine("exit try " + new { s.ElapsedMilliseconds });
             }
             finally
             {
                 Console.WriteLine("enter finally");
 
                 // cannot do that before roslyn
-                //await Task.Delay(200);
-
-                Console.WriteLine("exit finally");
+                // Error	1	Cannot await in the body of a finally clause	X:\jsc.svn\examples\rewrite\Test\TestAsyncFinally\TestAsyncFinally\Program.cs	50	17	TestAsyncFinally
+                await Task.Delay(200);
             }
+            Console.WriteLine("exit finally");
         }
     }
 }
