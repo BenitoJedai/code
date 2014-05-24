@@ -30,6 +30,44 @@ namespace JVMCLRAsync
 
     static class Program
     {
+        // this still works! :D
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
+
+        //java.lang.Object, rt
+        //JVMCLRAsync.Program+<<Main>b__0>d__7 <0000> ldc.i4.1
+        //JVMCLRAsync.Program+<<Main>b__0>d__7 <0011> br, to be optimized away
+        //JVMCLRAsync.Program+<<Main>b__0>d__7 <001b> br, to be optimized away
+        //JVMCLRAsync.Program+<<Main>b__0>d__7 <0020> nop
+        //hi from goo
+        //JVMCLRAsync.Program+<<Main>b__0>d__7 <002c> leave, to be optimized away
+        //JVMCLRAsync.Program+<<Main>b__0>d__7 <0056> nop
+        //JVMCLRAsync.Program+<<Main>b__0>d__7 <006b> nop
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <0000> ldc.i4.1
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <0011> br, to be optimized away
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <001b> br, to be optimized away
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <0020> nop
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <0056> nop
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <006c> nop
+        //{ Result = hi from foo }
+        //JVMCLRAsync.Program+<>c__DisplayClass5+<<Main>b__2>d__b <0000> ldc.i4.1
+        //JVMCLRAsync.Program+<>c__DisplayClass5+<<Main>b__2>d__b <0011> ldloc.3
+        //JVMCLRAsync.Program+<>c__DisplayClass5+<<Main>b__2>d__b <0018> br, to be optimized away
+        //JVMCLRAsync.Program+<>c__DisplayClass5+<<Main>b__2>d__b <0027> br, to be optimized away
+        //JVMCLRAsync.Program+<>c__DisplayClass5+<<Main>b__2>d__b <002c> nop
+        //enter foo2
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <0000> ldc.i4.1
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <0011> br, to be optimized away
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <001b> br, to be optimized away
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <0020> nop
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <0056> nop
+        //JVMCLRAsync.Program+<<Main>b__1>d__9 <006c> nop
+        //JVMCLRAsync.Program+<>c__DisplayClass5+<<Main>b__2>d__b <009f> ldloca.s
+        //exit foo2
+        //JVMCLRAsync.Program+<>c__DisplayClass5+<<Main>b__2>d__b <00f9> nop
+        //JVMCLRAsync.Program+<>c__DisplayClass5+<<Main>b__2>d__b <010f> nop
+        //{ Result = hi from foo }
+        //System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

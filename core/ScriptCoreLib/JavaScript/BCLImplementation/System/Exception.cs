@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    using ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.ExceptionServices;
     using ScriptCoreLib.JavaScript.Runtime;
 
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
@@ -49,5 +50,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         #endregion
 
+
+
+
+
+        [Script(DefineAsStatic = true)]
+        public void RestoreExceptionDispatchInfo(__ExceptionDispatchInfo e)
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
+            // X:\jsc.svn\examples\javascript\forms\async\AsyncFinally\AsyncFinally\ApplicationControl.cs
+
+            // ?
+            //Console.WriteLine();
+        }
     }
 }
