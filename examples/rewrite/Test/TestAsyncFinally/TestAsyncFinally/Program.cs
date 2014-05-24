@@ -48,9 +48,12 @@ namespace TestAsyncFinally
             {
                 Console.WriteLine("enter finally");
 
+                // X:\jsc.svn\examples\javascript\test\TestRoslynForEach\TestRoslynForEach\Application.cs
+                // X:\jsc.svn\examples\javascript\forms\BSONExperiment\BSONExperiment\ApplicationControl.cs
+
                 // cannot do that before roslyn
                 // Error	1	Cannot await in the body of a finally clause	X:\jsc.svn\examples\rewrite\Test\TestAsyncFinally\TestAsyncFinally\Program.cs	50	17	TestAsyncFinally
-                await Task.Delay(200);
+                //await Task.Delay(200);
             }
             Console.WriteLine("exit finally");
         }
