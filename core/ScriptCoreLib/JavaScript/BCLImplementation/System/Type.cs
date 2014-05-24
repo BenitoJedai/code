@@ -117,6 +117,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return a.ToArray();
         }
 
+
+
+
+
         public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
         {
             return new __Type { TypeHandle = TypeHandle };
@@ -171,6 +175,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 return ((__TypeReflection)(object)AsExpando().constructor);
             }
         }
+
+
+
+        public Type[] GetInterfaces()
+        {
+            // does jsc keep interface type info yet?
+            // X:\jsc.svn\examples\javascript\Test\TestRoslynYieldReturn\TestRoslynYieldReturn\Application.cs
+
+            return new Type[0];
+        }
+
 
         public override object[] GetCustomAttributes(bool inherit)
         {
