@@ -48,15 +48,7 @@ namespace Abstractatech.JavaScript.Avatar
 
     public static class ApplicationImplementation
     {
-        // not roslyn friendly yet!
-
-
-        //02000031 Abstractatech.JavaScript.Avatar.ApplicationImplementation+<MakeCamGrabber>d__1+<MoveNext>0600002d
-        //script: error JSC1000: *** stack is empty, invalid pop?
-        //script: error JSC1000: error at Abstractatech.JavaScript.Avatar.ApplicationImplementation+<MakeCamGrabber>d__1+<MoveNext>0600002d.<069a> pop.try,
-        // assembly: V:\Abstractatech.JavaScript.Avatar.Application.exe
-        // type: Abstractatech.JavaScript.Avatar.ApplicationImplementation+<MakeCamGrabber>d__1+<MoveNext>0600002d, Abstractatech.JavaScript.Avatar.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-
+        // 20140526 roslyn friendly!
 
         public static async void MakeCamGrabber(
             IHTMLDiv c,
