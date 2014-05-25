@@ -125,28 +125,23 @@ namespace WebGLEarthByBjorn
 
 
 
-            //            will rebuild stack for { Consumer = { Consumer0 = [0x009c] callvirt + 0 - 2{[0x0078]
-            //        ldsfld     +1 -0} {[0x0097]
-            //    ldsfld     +1 -0} , IsConsumer = True, AllSingleStackInstruction = True } }
-            //stack rewrite for 00000090
-            //InitializeInternalInlineWorkerConstructors.WithEach { Count = 0 }
-            //....09d0:01:01 RewriteToAssembly error: System.Runtime.InteropServices.COMException (0x801312E4): Field of ByRef type. (Exception from HRESULT: 0x801312E4)
+            //....11d4:01:01 RewriteToAssembly error: System.Runtime.InteropServices.COMException(0x801312E4): Field of ByRef type. (Exception from HRESULT: 0x801312E4)
             //   at System.Reflection.Emit.TypeBuilder.TermCreateClass(RuntimeModule module, Int32 tk, ObjectHandleOnStack type)
             //   at System.Reflection.Emit.TypeBuilder.CreateTypeNoLock()
             //   at System.Reflection.Emit.TypeBuilder.CreateType()
-            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass11c.<WriteSwitchRewrite>b__10e(TypeRewriteArguments e) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteSwitchRewrite.cs:line 1985
-
+            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<> c__DisplayClass13b.< WriteSwitchRewrite > b__129(TypeRewriteArguments e) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteSwitchRewrite.cs:line 2675
+            //   at System.Action`1.Invoke(T obj)
 
             #region sphere
             var sphere = new THREE.Mesh(
-                new THREE.SphereGeometry(radius, segments, segments),
-                new THREE.MeshPhongMaterial(
-                        new
+                    new THREE.SphereGeometry(radius, segments, segments),
+                    new THREE.MeshPhongMaterial(
+                            new
             {
 #if ASYNC0
                 map = new THREE.Texture().With(
 
-                                async s =>
+                                    async s =>
                                 {
                                     //0:75ms event: _2_no_clouds_4k_low view-source:36543
                                     //Application Cache Progress event (1 of 2) http://192.168.1.72:22248/view-source 192.168.1.72/:1
@@ -160,6 +155,7 @@ namespace WebGLEarthByBjorn
                                     // ~ tilde to open css editor?
 
 
+                                    // not roslyn friendly?
 
                                     Console.WriteLine("event: _2_no_clouds_4k_low");
                                     s.image = await new _2_no_clouds_4k_low();
@@ -176,12 +172,12 @@ namespace WebGLEarthByBjorn
                                     s.needsUpdate = true;
                                     Console.WriteLine("event: _2_no_clouds_4k done");
                                 }
-                            ),
+                                ),
 #endif
 
 
                 bumpMap = THREE.ImageUtils.loadTexture(
-                                new elev_bump_4k().src
+                                    new elev_bump_4k().src
                                 //new elev_bump_4k_low().src
                                 ),
 
@@ -191,7 +187,7 @@ namespace WebGLEarthByBjorn
 
 #if ASYNC1
                 specularMap = new THREE.Texture().With(
-                                async s =>
+                                    async s =>
                                 {
                                     Console.WriteLine("event: water_4k_low");
                                     s.image = await new water_4k_low();
@@ -205,14 +201,14 @@ namespace WebGLEarthByBjorn
                                     s.needsUpdate = true;
                                     Console.WriteLine("event: water_4k done");
                                 }
-                            ),
-                #endif
+                                ),
+#endif
 
 
                 //specular =    new THREE.Color("grey")								
                 specular = new THREE.Color(0xa0a0a0)
             })
-            );
+                );
             #endregion
 
             // http://stackoverflow.com/questions/12447734/three-js-updateing-texture-on-plane

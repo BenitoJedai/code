@@ -64,9 +64,9 @@ namespace NatureBoyTestPadExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        // not roslyn friendly?
 
         /// <summary>
         /// This is a javascript application.
