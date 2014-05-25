@@ -57,7 +57,11 @@ namespace jsc.Library
 
         public int TransientTransactionCounter;
 
-        public event Action<TKey> Resolve;
+
+
+        // either override the dictionary or the resolve method itself?
+        public Action<TKey> Resolve;
+        //public event Action<TKey> Resolve;
 
         public object Tag;
 
