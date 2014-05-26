@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IErrorEvent : IEvent
     {
+        // http://www.w3.org/TR/html5/webappapis.html#the-errorevent-interface
         // X:\jsc.svn\examples\javascript\async\AsyncWindowUncaughtError\AsyncWindowUncaughtError\Application.cs
 
         public readonly string message;

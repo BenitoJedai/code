@@ -5,15 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{849DAC8A-608A-4E55-8A9D-EAD16342759C}</ProjectGuid>
+    <ProjectGuid>{04C7423C-8032-4B65-8507-C04A7EDA9456}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AsyncWindowUncaughtError</RootNamespace>
-    <AssemblyName>AsyncWindowUncaughtError</AssemblyName>
+    <RootNamespace>TestChainedAsync</RootNamespace>
+    <AssemblyName>TestChainedAsync</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>AsyncWindowUncaughtError.Program</StartupObject>
-    <TargetFrameworkProfile />
+    <StartupObject>TestChainedAsync.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +34,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -116,8 +113,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="AsyncWindowUncaughtError.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AsyncWindowUncaughtError.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestChainedAsync.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestChainedAsync.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
@@ -132,7 +129,6 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

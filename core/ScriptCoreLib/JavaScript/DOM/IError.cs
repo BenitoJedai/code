@@ -5,10 +5,19 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://www.w3.org/TR/domcore/#domexception
     // http://www.w3.org/TR/domcore/#interface-domerror
 	[Script(HasNoPrototype = true, ExternalTarget = "Error")]
 	public class IError 
 	{
-		public string name;
+        // https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Stack
+        // http://msdn.microsoft.com/en-us/library/ie/hh699850(v=vs.94).aspx
+
+        public string name;
+
+        // ??
+        // X:\jsc.svn\examples\javascript\async\AsyncWindowUncaughtError\AsyncWindowUncaughtError\Application.cs
+        public object stack;
 	}
 }
