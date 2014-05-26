@@ -50,7 +50,8 @@ namespace AsyncWindowUncaughtError
                             {
                                 message = e.message,
                                 lineno = e.lineno,
-                                filename = e.filename
+                                filename = e.filename,
+                                stack = "" + e.error.stack
                             }
                         );
                     };

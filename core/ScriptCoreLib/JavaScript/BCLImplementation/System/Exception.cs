@@ -57,6 +57,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public void RestoreExceptionDispatchInfo(__ExceptionDispatchInfo e)
         {
+            // X:\jsc.svn\examples\javascript\async\AsyncWindowUncaughtError\AsyncWindowUncaughtError\Application.cs
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140524
             // X:\jsc.svn\examples\javascript\forms\async\AsyncFinally\AsyncFinally\ApplicationControl.cs
 

@@ -136,7 +136,7 @@ namespace UIAutomationEvents
 
 
             page.YesIAgree.Historic(
-                 (HistoryScope<object> scope) =>
+                 async (HistoryScope<object> scope) =>
             {
                 // indicate we are sending data to server
                 css.style.backgroundColor = "yellow";
@@ -149,7 +149,13 @@ namespace UIAutomationEvents
                 };
 
 
+                // X:\jsc.svn\examples\javascript\async\test\TestChainedAsync\TestChainedAsync\Application.cs
+
+
                 // we are basically grouping it
+
+
+                // why is it destroying rewrite?
                 new UIEvent(UIEventsOfInterestAndSignificance.ClickAgree, NestedEvents: that.Events.ToArray()).With(
                     e =>
                 {
@@ -158,35 +164,26 @@ namespace UIAutomationEvents
                 }
                 );
 
-                // Uncaught Error: InvalidOperationException: we can only continue with global methods for now... { Target = [object Object] }
-                that.Agree(that.page.email).ContinueWithResult(
-                    message =>
-                {
-                    // indicate got data
-                    css.style.backgroundColor = "cyan";
 
 
-                    var x = new IHTMLPre { new { message } }.AttachToDocument();
-                    that.Events.Add(
-                        new UIEvent(UIEventsOfInterestAndSignificance.ClickAgreeComplete, Data: new { message }.ToString())
-                    );
+                var message = await that.Agree(that.page.email);
+                // indicate got data
+                css.style.backgroundColor = "cyan";
 
-                    //await scope;
-                    // workaround roslyn async gen changes
-                    scope.TaskCompletionSource.Task.ContinueWith(
-                        delegate
-                    {
-                        // indicate we went back in time
-                        // css will be undone bj scriptcorelib!
 
-                        // back button!
-                        x.Orphanize();
-                        that.Events.Add(
-                            new UIEvent(UIEventsOfInterestAndSignificance.ClickAgreeHistoryGoBack)
-                        );
-                    }
-                    );
-                }
+                var x = new IHTMLPre { new { message } }.AttachToDocument();
+                that.Events.Add(
+                    new UIEvent(UIEventsOfInterestAndSignificance.ClickAgreeComplete, Data: new { message }.ToString())
+                );
+
+                await scope;
+                // indicate we went back in time
+                // css will be undone bj scriptcorelib!
+
+                // back button!
+                x.Orphanize();
+                that.Events.Add(
+                    new UIEvent(UIEventsOfInterestAndSignificance.ClickAgreeHistoryGoBack)
                 );
 
 

@@ -1,42 +1,3 @@
-#define ASYNC0
-#define ASYNC1
-#define ASYNC2
-
-#region ROSLYN IS BROKEN?
-/*
->	Microsoft.CodeAnalysis.dll!Microsoft.CodeAnalysis.Text.TextSpan.FromBounds(int start, int end) + 0xaa bytes	
- 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.AbstractIndentationService.AbstractIndenter.GetIndentationOfPosition(Microsoft.VisualStudio.Text.SnapshotPoint position, int addedSpaces) + 0x45 bytes	
- 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.AbstractIndentationService.AbstractIndenter.GetIndentationOfLine(Microsoft.VisualStudio.Text.ITextSnapshotLine lineToMatch, int addedSpaces) + 0xa4 bytes	
- 	Microsoft.CodeAnalysis.CSharp.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.CSharp.Formatting.Indentation.CSharpIndentationService.Indenter.GetDefaultIndentationFromTokenLine(Microsoft.CodeAnalysis.SyntaxToken token, int? additionalSpace) + 0x28f bytes	
- 	Microsoft.CodeAnalysis.CSharp.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.CSharp.Formatting.Indentation.CSharpIndentationService.Indenter.GetDefaultIndentationFromToken(Microsoft.CodeAnalysis.SyntaxToken token) + 0x7d bytes	
- 	Microsoft.CodeAnalysis.CSharp.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.CSharp.Formatting.Indentation.CSharpIndentationService.Indenter.GetIndentationBasedOnToken(Microsoft.CodeAnalysis.SyntaxToken token) + 0xa22 bytes	
- 	Microsoft.CodeAnalysis.CSharp.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.CSharp.Formatting.Indentation.CSharpIndentationService.Indenter.GetDesiredIndentation() + 0x32b bytes	
- 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.AbstractIndentationService.GetDesiredIndentationAsync(Microsoft.CodeAnalysis.Document document, int lineNumber, System.Threading.CancellationToken cancellationToken) + 0x217 bytes	
- 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.SmartIndent.GetDesiredIndentation(Microsoft.VisualStudio.Text.ITextSnapshotLine lineToBeIndented, System.Threading.CancellationToken cancellationToken) + 0xcf bytes	
- 	Microsoft.CodeAnalysis.EditorFeatures.dll!Microsoft.CodeAnalysis.Editor.Implementation.SmartIndent.SmartIndent.GetDesiredIndentation(Microsoft.VisualStudio.Text.ITextSnapshotLine line) + 0x10 bytes	
- 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.SmartIndentationService.GetDesiredIndentation(Microsoft.VisualStudio.Text.Editor.ITextView textView, Microsoft.VisualStudio.Text.ITextSnapshotLine line) + 0x1b bytes	
- 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.CaretElement.MapXCoordinate(Microsoft.VisualStudio.Text.Formatting.ITextViewLine textLine, double xCoordinate, bool userSpecifiedXCoordinate) + 0xc9 bytes	
- 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.CaretElement.MoveTo(Microsoft.VisualStudio.Text.Formatting.ITextViewLine textLine, double xCoordinate, bool captureHorizontalPosition) + 0x47 bytes	
- 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.CaretElement.MoveTo(Microsoft.VisualStudio.Text.Formatting.ITextViewLine textLine, double xCoordinate) + 0x16 bytes	
- 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Operations.Implementation.EditorOperations.MoveCaret(Microsoft.VisualStudio.Text.Formatting.ITextViewLine textLine, double horizontalOffset, bool extendSelection) + 0x12d bytes	
- 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.MasterMouseProcessor.HandleMouseLeftButtonDown(bool shift, bool alt, System.Windows.Point pt) + 0xa6 bytes	
- 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Editor.Implementation.MasterMouseProcessor.DefaultMouseLeftButtonDownHandler(object sender, System.Windows.Input.MouseButtonEventArgs e) + 0xa4 bytes	
- 	Microsoft.VisualStudio.Platform.VSEditor.dll!Microsoft.VisualStudio.Text.Utilities.WpfMouseProcessor.UIElement_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) + 0x12b bytes	
- 	PresentationCore.dll!System.Windows.Input.MouseButtonEventArgs.InvokeEventHandler(System.Delegate genericHandler, object genericTarget) + 0x2c bytes	
- 	PresentationCore.dll!System.Windows.RoutedEventArgs.InvokeHandler(System.Delegate handler, object target) + 0x33 bytes	
- 	PresentationCore.dll!System.Windows.RoutedEventHandlerInfo.InvokeHandler(object target, System.Windows.RoutedEventArgs routedEventArgs) + 0x44 bytes	
- 	PresentationCore.dll!System.Windows.EventRoute.InvokeHandlersImpl(object source, System.Windows.RoutedEventArgs args, bool reRaised) + 0xce bytes	
- 	PresentationCore.dll!System.Windows.UIElement.ReRaiseEventAs(System.Windows.DependencyObject sender, System.Windows.RoutedEventArgs args, System.Windows.RoutedEvent newEvent) + 0x108 bytes	
- 	PresentationCore.dll!System.Windows.UIElement.OnMouseDownThunk(object sender, System.Windows.Input.MouseButtonEventArgs e) + 0xee bytes	
- 	PresentationCore.dll!System.Windows.Input.MouseButtonEventArgs.InvokeEventHandler(System.Delegate genericHandler, object genericTarget) + 0x2c bytes	
-
-*/
-#endregion
-
-
-
-
-
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -125,12 +86,7 @@ namespace WebGLEarthByBjorn
 
 
 
-            //....11d4:01:01 RewriteToAssembly error: System.Runtime.InteropServices.COMException(0x801312E4): Field of ByRef type. (Exception from HRESULT: 0x801312E4)
-            //   at System.Reflection.Emit.TypeBuilder.TermCreateClass(RuntimeModule module, Int32 tk, ObjectHandleOnStack type)
-            //   at System.Reflection.Emit.TypeBuilder.CreateTypeNoLock()
-            //   at System.Reflection.Emit.TypeBuilder.CreateType()
-            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<> c__DisplayClass13b.< WriteSwitchRewrite > b__129(TypeRewriteArguments e) in x:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteSwitchRewrite.cs:line 2675
-            //   at System.Action`1.Invoke(T obj)
+
 
             #region sphere
             var sphere = new THREE.Mesh(
@@ -138,24 +94,23 @@ namespace WebGLEarthByBjorn
                     new THREE.MeshPhongMaterial(
                             new
             {
-#if ASYNC0
                 map = new THREE.Texture().With(
 
                                     async s =>
                                 {
-                                    //0:75ms event: _2_no_clouds_4k_low view-source:36543
-                                    //Application Cache Progress event (1 of 2) http://192.168.1.72:22248/view-source 192.168.1.72/:1
-                                    //Application Cache Progress event (2 of 2)  192.168.1.72/:1
-                                    //Application Cache Cached event 192.168.1.72/:1
-                                    //1:1018ms event: _2_no_clouds_4k_low done view-source:36543
-                                    //1:1019ms event: _2_no_clouds_4k view-source:36543
-                                    //event.returnValue is deprecated. Please use the standard event.preventDefault() instead. view-source:2995
-                                    //1:16445ms event: _2_no_clouds_4k done 
+                                //0:75ms event: _2_no_clouds_4k_low view-source:36543
+                                //Application Cache Progress event (1 of 2) http://192.168.1.72:22248/view-source 192.168.1.72/:1
+                                //Application Cache Progress event (2 of 2)  192.168.1.72/:1
+                                //Application Cache Cached event 192.168.1.72/:1
+                                //1:1018ms event: _2_no_clouds_4k_low done view-source:36543
+                                //1:1019ms event: _2_no_clouds_4k view-source:36543
+                                //event.returnValue is deprecated. Please use the standard event.preventDefault() instead. view-source:2995
+                                //1:16445ms event: _2_no_clouds_4k done 
 
-                                    // ~ tilde to open css editor?
+                                // ~ tilde to open css editor?
 
 
-                                    // not roslyn friendly?
+
 
                                     Console.WriteLine("event: _2_no_clouds_4k_low");
                                     s.image = await new _2_no_clouds_4k_low();
@@ -173,7 +128,6 @@ namespace WebGLEarthByBjorn
                                     Console.WriteLine("event: _2_no_clouds_4k done");
                                 }
                                 ),
-#endif
 
 
                 bumpMap = THREE.ImageUtils.loadTexture(
@@ -185,7 +139,6 @@ namespace WebGLEarthByBjorn
                 // applies onyl to shaders to create the shadow
                 bumpScale = 0.005,
 
-#if ASYNC1
                 specularMap = new THREE.Texture().With(
                                     async s =>
                                 {
@@ -202,7 +155,6 @@ namespace WebGLEarthByBjorn
                                     Console.WriteLine("event: water_4k done");
                                 }
                                 ),
-#endif
 
 
                 //specular =    new THREE.Color("grey")								
@@ -231,7 +183,6 @@ namespace WebGLEarthByBjorn
                 //    //new fair_clouds_4k().src
                 //    new fair_clouds_4k_low().src
                 //    ),
-#if ASYNC2
 
 
                 map = new THREE.Texture().With(
@@ -250,7 +201,6 @@ namespace WebGLEarthByBjorn
                                     Console.WriteLine("event: fair_clouds_4k done");
                                 }
                             ),
-#endif
 
 
                 transparent = true
