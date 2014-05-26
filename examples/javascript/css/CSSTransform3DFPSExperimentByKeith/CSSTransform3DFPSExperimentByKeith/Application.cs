@@ -23,9 +23,8 @@ namespace CSSTransform3DFPSExperimentByKeith
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -41,10 +40,10 @@ namespace CSSTransform3DFPSExperimentByKeith
 
             new Design.Library.threedee().Content.AttachToHead().onload +=
                 delegate
-                {
-                    InitializeContent();
+            {
+                InitializeContent();
 
-                };
+            };
         }
 
         private
@@ -52,6 +51,23 @@ namespace CSSTransform3DFPSExperimentByKeith
             //static 
             void InitializeContent()
         {
+            //        script: error JSC1000: Method: InitializeContent, Type: CSSTransform3DFPSExperimentByKeith.Application; emmiting failed : System.InvalidOperationException: unsupported flow detected, try to simplify.
+            // Assembly V:\CSSTransform3DFPSExperimentByKeith.Application.exe
+            // DeclaringType CSSTransform3DFPSExperimentByKeith.Application, CSSTransform3DFPSExperimentByKeith.Application, Version = 1.0.0.0, Culture = neutral, PublicKeyToken = null
+            //         OwnerMethod InitializeContent
+            //         Offset 00a0
+            //         .Try ommiting the return, break or continue instruction.
+            //          at jsc.Script.CompilerBase.BreakToDebugger(String e) in x:\jsc.internal.svn\compiler\jsc\Languages\CompilerBase.cs:line 266
+            //   at jsc.ILBlock.PrestatementBlock.AddPrestatement(Prestatement p) in x:\jsc.internal.svn\compiler\jsc\CodeModel\ILBlock.cs:line 1654
+            //   at jsc.ILBlock.PrestatementBlock.Populate(ILInstruction First, ILInstruction Last) in x:\jsc.internal.svn\compiler\jsc\CodeModel\ILBlock.cs:line 1606
+            //   at jsc.ILBlock.PrestatementBlock.Populate() in x:\jsc.internal.svn\compiler\jsc\CodeModel\ILBlock.cs:line 1433
+            //   at jsc.ILBlock.get_Prestatements() in x:\jsc.internal.svn\compiler\jsc\CodeModel\ILBlock.cs:line 1759
+            //   at jsc.Languages.JavaScript.MethodBodyOptimizer.TryOptimize(IdentWriter w, ILBlock xb) in x:\jsc.internal.svn\compiler\jsc\Languages\JavaScript\MethodBodyOptimizer.cs:line 89
+            //   at jsc.IL2Script.EmitBody(IdentWriter w, MethodBase SourceMethod, Boolean define_self) in x:\jsc.internal.svn\compiler\jsc\Languages\JavaScript\IL2Script.cs:line 576
+
+            //Unhandled Exception: System.InvalidOperationException: Method: InitializeContent, Type: CSSTransform3DFPSExperimentByKeith.Application; emmiting failed : System.InvalidOperationException: unsupported flow detected, try to simplify.
+
+
             //dynamic window = Native.Window;
 
             //dynamic __osxPlane = window.__osxPlane;
@@ -81,9 +97,9 @@ namespace CSSTransform3DFPSExperimentByKeith
                  (int)(__wall_c.clientHeight * zoom * scale)
             );
 
-            dynamic ds = discover.style;
+            //dynamic ds = discover.style;
 
-            ds.zoom = (100.0 / zoom) + "%";
+            //ds.zoom = (100.0 / zoom) + "%";
 
             discover.AttachTo(__wall_c);
 
@@ -92,15 +108,16 @@ namespace CSSTransform3DFPSExperimentByKeith
             c.GetHTMLTarget().className = "nolock";
 
 
+            #region button1
             c.button1.Click +=
                 delegate
-                {
-                    var cf = new Form1();
+            {
+                var cf = new Form1();
 
-                    cf.Show();
+                cf.Show();
 
-                    cf.FormClosing +=
-                        (ss, ee) =>
+                cf.FormClosing +=
+                    (ss, ee) =>
                         {
                             if (cf.WindowState == FormWindowState.Normal)
                             {
@@ -112,27 +129,31 @@ namespace CSSTransform3DFPSExperimentByKeith
                             }
                         };
 
-                    cf.GetHTMLTarget().className = "nolock";
+                cf.GetHTMLTarget().className = "nolock";
 
-                };
+            };
+            #endregion
+
+
+            #region button2
             c.button2.Click +=
                 delegate
-                {
-                    var cf = new Form();
+            {
+                var cf = new Form();
 
-                    var cw = new WebBrowser { Dock = DockStyle.Fill };
+                var cw = new WebBrowser { Dock = DockStyle.Fill };
 
-                    cf.Controls.Add(cw);
+                cf.Controls.Add(cw);
 
-                    cw.Navigate(
-                "http://discover.xavalon.net"
+                cw.Navigate(
+            "http://discover.xavalon.net"
 
-                         //"/"
+                        //"/"
 
                         );
 
-                    cf.FormClosing +=
-                        (ss, ee) =>
+                cf.FormClosing +=
+                    (ss, ee) =>
                         {
                             if (cf.WindowState == FormWindowState.Normal)
                             {
@@ -143,14 +164,15 @@ namespace CSSTransform3DFPSExperimentByKeith
                                 }
                             }
                         };
-                    cf.Show();
+                cf.Show();
 
-                    //Console.WriteLine("button2.Click");
-                    cf.GetHTMLTarget().className = "nolock";
+                //Console.WriteLine("button2.Click");
+                cf.GetHTMLTarget().className = "nolock";
 
-                    //cf.GetHTMLTarget().style.border = "2px solid red";
+                //cf.GetHTMLTarget().style.border = "2px solid red";
 
-                };
+            };
+            #endregion
 
             c.BackColor = Color.Transparent;
 
@@ -168,6 +190,8 @@ namespace CSSTransform3DFPSExperimentByKeith
 
 
 
+
+            #region onkeydown
             Native.Document.body.onkeydown += e =>
             {
                 //Console.WriteLine(new { e.KeyCode });
@@ -196,7 +220,10 @@ namespace CSSTransform3DFPSExperimentByKeith
                     window.keyState.straferight = false;
 
             };
+            #endregion
 
+
+            #region isnolock
             Func<INode, bool> isnolock =
                 p =>
                 {
@@ -212,7 +239,11 @@ namespace CSSTransform3DFPSExperimentByKeith
 
                     return nolock;
                 };
+            #endregion
 
+
+
+            #region onmousemove
             Native.Document.body.tabIndex = 101;
             Native.Document.body.onmousedown +=
                 e =>
@@ -254,10 +285,14 @@ namespace CSSTransform3DFPSExperimentByKeith
                          Native.Document.exitPointerLock();
                      }
                  };
+            #endregion
 
 
 
-            Action loop = delegate
+
+
+            #region onframe
+            Native.window.onframe += delegate
             {
                 // is external target working bot ways?
                 //window.speed = window.speed;
@@ -338,9 +373,10 @@ namespace CSSTransform3DFPSExperimentByKeith
 
 
             };
+            #endregion
 
 
-            loop.AtAnimationFrame();
+
         }
 
 
@@ -411,18 +447,6 @@ namespace CSSTransform3DFPSExperimentByKeith
 
     static class X
     {
-        public static void AtAnimationFrame(this Action e)
-        {
-            Action x = null;
 
-            x = delegate
-            {
-                e();
-                Native.window.requestAnimationFrame += x;
-
-            };
-
-            Native.window.requestAnimationFrame += x;
-        }
     }
 }
