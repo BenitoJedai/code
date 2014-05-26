@@ -295,10 +295,10 @@ namespace WebGLYomotsuTPS
             var planeGeometry = new THREE.PlaneGeometry(1000, 1000);
             var planeMaterial = new THREE.MeshLambertMaterial(
                 new
-                {
-                    map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.bg().src),
-                    color = 0xffffff
-                }
+            {
+                map = THREE.ImageUtils.loadTexture(new HTML.Images.FromAssets.bg().src),
+                color = 0xffffff
+            }
             );
 
             planeMaterial.map.repeat.x = 300;
@@ -328,9 +328,9 @@ namespace WebGLYomotsuTPS
 
                 var ii = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(
                     new
-                    {
-                        color = (Convert.ToInt32(0xffffff * random.NextDouble()))
-                    }));
+                {
+                    color = (Convert.ToInt32(0xffffff * random.NextDouble()))
+                }));
                 ii.position.x = i % 2 * 5 - 2.5f;
                 ii.position.y = .5f;
                 ii.position.z = -1 * i * 4;
@@ -355,16 +355,16 @@ namespace WebGLYomotsuTPS
 
             var material = new THREE.MeshPhongMaterial(
                 new
-                {
-                    map = THREE.ImageUtils.loadTexture(
+            {
+                map = THREE.ImageUtils.loadTexture(
                         new HTML.Images.FromAssets._1().src
                     ),
-                    ambient = 0x999999,
-                    color = 0xffffff,
-                    specular = 0xffffff,
-                    shininess = 25,
-                    morphTargets = true
-                }
+                ambient = 0x999999,
+                color = 0xffffff,
+                specular = 0xffffff,
+                shininess = 25,
+                morphTargets = true
+            }
             );
 
 
@@ -389,6 +389,9 @@ namespace WebGLYomotsuTPS
                                 #region player_motion
                                 Action<motion> player_changeMotion = motion =>
                                 {
+                                    Console.WriteLine(
+                                        new { motion, md2frames.run, md2frames.stand });
+
                                     player_motion = motion;
 
                                     //    player.state = md2frames[motion][3].state;
@@ -440,6 +443,11 @@ namespace WebGLYomotsuTPS
                                             moveState_right = true;
                                         }
 
+                                        var isStand = player_motion == md2frames.stand;
+                                        Console.WriteLine(
+                                            new { e.KeyCode, moveState_front, moveState_Backwards, isStand }
+                                            );
+
                                         if (moveState_front || moveState_Backwards || moveState_left || moveState_right)
                                             if (player_motion == md2frames.stand)
                                                 player_changeMotion(md2frames.run);
@@ -484,9 +492,9 @@ namespace WebGLYomotsuTPS
                                         move();
                                     else
                                         if (player_motion == md2frames.run)
-                                            player_changeMotion(md2frames.stand);
-                                        else if (player_motion == md2frames.crwalk)
-                                            player_changeMotion(md2frames.crstand);
+                                        player_changeMotion(md2frames.stand);
+                                    else if (player_motion == md2frames.crwalk)
+                                        player_changeMotion(md2frames.crstand);
 
 
 
@@ -563,9 +571,9 @@ namespace WebGLYomotsuTPS
 
                                 Native.window.onresize +=
                                     delegate
-                                    {
-                                        AtResize();
-                                    };
+                                {
+                                    AtResize();
+                                };
 
                                 AtResize();
                                 #endregion
@@ -573,16 +581,16 @@ namespace WebGLYomotsuTPS
                                 #region requestFullscreen
                                 Native.document.body.ondblclick +=
                                     delegate
-                                    {
-                                        if (IsDisposed)
-                                            return;
+                                {
+                                    if (IsDisposed)
+                                        return;
 
-                                        // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+                                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                                        Native.document.body.requestFullscreen();
+                                    Native.document.body.requestFullscreen();
 
-                                        //AtResize();
-                                    };
+                                    //AtResize();
+                                };
                                 #endregion
 
 
