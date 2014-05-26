@@ -202,6 +202,17 @@ namespace WebGLYomotsuMD2Model
 
                             player_mesh.time = 0;
                             player_mesh.duration = 1000 * ((animMax - animMin) / animFps);
+
+                            Console.WriteLine(
+                                "setFrameRange " +
+                                new
+                                {
+                                    motion.min,
+                                    motion.max,
+                                    motion.fps
+                                }
+                                );
+
                             player_mesh.setFrameRange(animMin, animMax);
                         };
 
