@@ -221,7 +221,20 @@ public class GIFEncoderWorker
             ,
             xx =>
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140526/stack
+
+                var src = default(string);
+
+                // is this killing the rewrite?
                 Action<int> yield = xx.Item1.Report;
+
+                // wtf?
+
+                //0200003f GIFEncoderWorker
+                //script: error JSC1000: Method: <.ctor>b__1, Type: GIFEncoderWorker; emmiting failed : System.NullReferenceException: Object reference not set to an instance of an object.
+                //   at jsc.IL2ScriptGenerator.OpCode_newobj(IdentWriter w, Prestatement p, ILInstruction i, ILFlowStackItem[] s) in x:\jsc.internal.svn\compiler\jsc\Languages\JavaScript\IL2ScriptGenerator.OpCodes.Newobj.cs:line 151
+
+                yield(0);
 
                 var x = xx.Item2;
                 var state = new
@@ -243,6 +256,7 @@ public class GIFEncoderWorker
                 encoder.setDelay(x.delay);
                 //encoder.setTransparent(x.transparentColor);
                 encoder.start();
+                //#if OK
 
                 x.frames.WithEachIndex(
                     (frame, index) =>
@@ -255,13 +269,15 @@ public class GIFEncoderWorker
                         yield(index);
                     }
                 );
+                //#endif
 
                 Console.WriteLine("finish");
 
                 encoder.finish();
 
                 var bytes = Encoding.ASCII.GetBytes(encoder.stream().getData());
-                var src = "data:image/gif;base64," + Convert.ToBase64String(bytes);
+
+                src = "data:image/gif;base64," + Convert.ToBase64String(bytes);
 
                 return src;
             }

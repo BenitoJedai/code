@@ -225,6 +225,7 @@ namespace com.abstractatech.multimouse.Schema
                         AsWithConnection_memory = new SQLiteConnection(new SQLiteConnectionStringBuilder
                         {
                             DataSource = PointerSync.MemoryDataSource ?
+                            // this wont work with XSQLite?
                                 ":memory:"
                                 : csb.DataSource
                         }.ConnectionString);

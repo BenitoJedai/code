@@ -86,8 +86,14 @@ namespace SVGCSSContent
                     );
 
                     button.Orphanize();
-                    s.setAttribute("width", div.clientWidth + 0);
-                    s.setAttribute("height", div.clientHeight + 0);
+
+                    //s.width
+                    //s.setAttribute("width", div.clientWidth + 0);
+                    //s.setAttribute("height", div.clientHeight + 0);
+
+                    s.width = div.clientWidth;
+                    s.height = div.clientHeight;
+
                     div.AttachTo(f);
 
 
