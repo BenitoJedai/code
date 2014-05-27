@@ -93,6 +93,18 @@ namespace ScriptCoreLib.JavaScript.DOM
                     //34ms { right = { selectorText = input[style-id="1"]:checked, selectorElement =  } } 
 
                     // should we cache the monkier on the element?
+
+
+                    if (this.ownerDocument.documentElement == this)
+                    {
+                        // tested by
+                        // X:\jsc.svn\examples\javascript\VirtualElementEvents\VirtualElementEvents\Application.cs
+
+                        value.__isroot = true;
+                        value.descendantMode = true;
+                    }
+
+
                     return value;
                 }
             }

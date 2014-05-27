@@ -480,5 +480,24 @@ else if (that.webkitCancelFullScreen) {
         {
             __exitPointerLock(this);
         }
+
+
+
+
+
+        public IHTMLElementGrouping this[IHTMLElement.HTMLElementEnum selectorByNodeName]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // allow handlers
+
+                return new IHTMLElementGrouping
+                {
+                    contextElement = this.documentElement,
+                    selectorByNodeName = selectorByNodeName
+                };
+            }
+        }
     }
 }
