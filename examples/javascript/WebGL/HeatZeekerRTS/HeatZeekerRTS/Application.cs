@@ -144,11 +144,16 @@ namespace HeatZeekerRTS
             // if howering?
 
 
+            new IStyle(css[IHTMLElement.HTMLElementEnum.div])
+            {
+
+                transition = "border 100ms linear"
+            };
 
 
             new IStyle(!css[IHTMLElement.HTMLElementEnum.div].hover)
             {
-                border = "1px solid rgba(0,0,0,0.0)"
+                border = "1px solid rgba(255,0,0,0.7)"
             };
 
             new IStyle(css[IHTMLElement.HTMLElementEnum.head] | css[IHTMLElement.HTMLElementEnum.title])
@@ -186,6 +191,9 @@ namespace HeatZeekerRTS
             // http://stackoverflow.com/questions/7747526/why-wont-my-html5-audio-loop
 
 
+
+
+            #region playmusic
             Action playmusic = null;
 
             playmusic = delegate
@@ -222,6 +230,7 @@ namespace HeatZeekerRTS
             };
 
             playmusic();
+            #endregion
 
 
             //body[typeof(IHTMLDiv)].onclick += { };
@@ -254,19 +263,28 @@ namespace HeatZeekerRTS
             body.oncontextmenu +=
                  e =>
                 {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     if (e.Element.nodeName == "DIV")
                     {
                         //e.Element.Orphanize();
-                        e.preventDefault();
-                        e.stopPropagation();
+
 
                         ((IHTMLElement)e.Element).Orphanize();
                     }
 
                 };
 
-            body.onclick +=
-                e =>
+
+            //document[e => e.Element is IHTMLDiv]
+
+
+            // query selector.
+            //document[IHTMLElement.HTMLElementEnum.div].
+
+            document.documentElement.onclick +=
+                   e =>
                 {
                     //e.Element
 
@@ -282,16 +300,26 @@ namespace HeatZeekerRTS
                         new snd_dooropen().play();
                     }
 
+
                     if (e.Element.nodeName == "IMG")
                     {
+                        new snd_dooropen().play();
+
                         Console.WriteLine(
                             new
                         {
                             div,
-                            e.Element.nodeName
+                            e.Element.nodeName,
+
+                            e.OffsetX,
+                            e.OffsetY
                         }
 
                             );
+
+                        //var fixleft = e.CursorX - body.scrollLeft;
+
+
 
                         new IHTMLDiv().AttachToDocument().style.SetLocation(
                             e.OffsetX,
@@ -299,12 +327,11 @@ namespace HeatZeekerRTS
                         );
 
                     }
-
                 };
 
 
 
-            body.onmousemove +=
+            document.documentElement.onmousemove +=
                 e =>
                 {
                     // edit and continue yet?
