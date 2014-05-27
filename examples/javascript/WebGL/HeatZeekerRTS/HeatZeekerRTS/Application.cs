@@ -60,6 +60,41 @@ namespace HeatZeekerRTS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region AtFormCreated
+            FormStyler.AtFormCreated =
+                 s =>
+                 {
+                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                 };
+            #endregion
+
+
+
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultTitle = "Heat Zeeker";
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Promotion3D_iso1_tiltshift_128().src;
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
+                );
+
+                return;
+            }
+            #endregion
+
+
+
+
+
             // position: fixed; top: 0; left: 0; right: 0; 
 
             //background: linear - gradient(to bottom, rgba(0, 0, 0, 0.9) 0 %, rgba(0, 0, 0, 0) 100 %); /* W3C */
@@ -247,7 +282,7 @@ namespace HeatZeekerRTS
                     {
 
                         // why wont it play?
-                        title = "  music.onended ";
+                        //title = "  music.onended ";
 
                         //music.currentTime = 0;
                         //music.play();
@@ -373,26 +408,26 @@ namespace HeatZeekerRTS
                     //body.scrollTop = fixtop * (body.scrollHeight) / document.documentElement.clientHeight;
                     body.scrollTop = e.CursorY * (body.scrollHeight) / document.documentElement.clientHeight;
 
-                    title = new
-                    {
-                        //body.scrollTop,
+                    //title = new
+                    //{
+                    //    //body.scrollTop,
 
-                        ////fixtop,
-                        //body.scrollHeight,
-                        ////body.clientHeight,
-                        //document.documentElement.clientHeight,
-                        x = fixleft,
-                        y = e.CursorY,
+                    //    ////fixtop,
+                    //    //body.scrollHeight,
+                    //    ////body.clientHeight,
+                    //    //document.documentElement.clientHeight,
+                    //    x = fixleft,
+                    //    y = e.CursorY,
 
-                        ////e.OffsetX,
-                        ////e.CursorX,
+                    //    ////e.OffsetX,
+                    //    ////e.CursorX,
 
-                        //body.scrollLeft,
+                    //    //body.scrollLeft,
 
-                        //body.scrollWidth,
+                    //    //body.scrollWidth,
 
-                        //body.clientWidth
-                    };
+                    //    //body.clientWidth
+                    //};
 
                 };
         }
