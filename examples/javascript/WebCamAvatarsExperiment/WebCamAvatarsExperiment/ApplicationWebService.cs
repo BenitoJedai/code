@@ -18,13 +18,13 @@ namespace WebCamAvatarsExperiment
     /// </summary>
     public class ApplicationWebService
     {
-        public ApplicationWebService()
-        {
-            // +		$exception	{"Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"}	System.Exception {System.IO.FileNotFoundException}
+        //public ApplicationWebService()
+        //{
+        //    // +		$exception	{"Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"}	System.Exception {System.IO.FileNotFoundException}
 
-            { Type sqlLitec = typeof(System.Data.SQLite.SQLiteConnection); }
-            { Type ext = typeof(System.Data.SQLite.SQLiteConnectionStringBuilderExtensions); }
-        }
+        //    { Type sqlLitec = typeof(System.Data.SQLite.SQLiteConnection); }
+        //    { Type ext = typeof(System.Data.SQLite.SQLiteConnectionStringBuilderExtensions); }
+        //}
         public void Insert0(string base64)
         {
             Console.WriteLine(new { base64.Length });
@@ -40,29 +40,29 @@ namespace WebCamAvatarsExperiment
 
         public void Reset()
         {
-            new global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1.Queries().WithConnection(
-                c =>
-                {
-                    #region drop
-                    Action<string> dropsql = sql =>
-                    {
-                        try
-                        {
-                            Console.WriteLine(new { sql });
-                            var xvalue = new System.Data.SQLite.SQLiteCommand(sql, c).ExecuteNonQuery();
-                        }
-                        catch
-                        {
-                        }
-                    };
-                    #endregion
+            //new global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1.Queries().WithConnection(
+            //    c =>
+            //    {
+            //        #region drop
+            //        Action<string> dropsql = sql =>
+            //        {
+            //            try
+            //            {
+            //                Console.WriteLine(new { sql });
+            //                var xvalue = new System.Data.SQLite.SQLiteCommand(sql, c).ExecuteNonQuery();
+            //            }
+            //            catch
+            //            {
+            //            }
+            //        };
+            //        #endregion
 
 
-                    dropsql(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1.Queries.DropCommandText);
+            //        dropsql(global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1.Queries.DropCommandText);
 
-                    return "".AsResult();
-                }
-            );
+            //        return "".AsResult();
+            //    }
+            //);
 
         }
 

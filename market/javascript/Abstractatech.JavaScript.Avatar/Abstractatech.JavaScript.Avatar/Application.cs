@@ -49,6 +49,18 @@ namespace Abstractatech.JavaScript.Avatar
     public static class ApplicationImplementation
     {
         // 20140526 roslyn friendly!
+        // and broken again
+
+        //        script: error JSC1000:
+        //error:
+        //  statement cannot be a load instruction(or is it a bug?)
+        //  [0x000a]
+        //        ldarg.0    +1 -0
+
+        // assembly: V:\Abstractatech.JavaScript.Avatar.Application.exe
+        // type: Abstractatech.JavaScript.Avatar.ApplicationImplementation+<MakeCamGrabber>d__1+<MoveNext>0600002d, Abstractatech.JavaScript.Avatar.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+        // offset: 0x000a
+        //  method:Int32<06ad> call.try(<MoveNext>0600002d, <MakeCamGrabber>d__1 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[ScriptCoreLib.JavaScript.DOM.HTML.IHTMLImage] ByRef, System.Runtime.CompilerServic
 
         public static async void MakeCamGrabber(
             IHTMLDiv c,
@@ -143,11 +155,19 @@ namespace Abstractatech.JavaScript.Avatar
 
 
             c.css.hover.empty.before.style.color = "yellow";
-        #endregion
+            #endregion
 
 
+
+
+            var retry = 0;
         retry:
-            css.content = "either drag a picture here -or- click here to use your webcam";
+            retry++;
+
+            Console.WriteLine(new { retry });
+
+
+            css.contentText = "either drag a picture here -or- click here to use your webcam";
 
             var snapshot = new CanvasRenderingContext2D(640, 480);
 
@@ -347,8 +367,10 @@ namespace Abstractatech.JavaScript.Avatar
             }
             #endregion
 
-
+            Console.WriteLine("await c.async.onclick");
             await c.async.onclick;
+            Console.WriteLine("await c.async.onclick done");
+
             c.Clear();
 
             css.content = "awaiting for video";
