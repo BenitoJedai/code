@@ -24,6 +24,10 @@ using HeatZeekerRTS.HTML.Audio.FromAssets;
 
 static class XNative
 {
+    // for intellisense? or will roslyn allow to import enums too?
+    public static IHTMLElement.HTMLElementEnum img = IHTMLElement.HTMLElementEnum.img;
+    public static IHTMLElement.HTMLElementEnum div = IHTMLElement.HTMLElementEnum.div;
+
     //public dynamic title;
     public static object title
     {
@@ -56,6 +60,10 @@ namespace HeatZeekerRTS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // position: fixed; top: 0; left: 0; right: 0; 
+
+            //background: linear - gradient(to bottom, rgba(0, 0, 0, 0.9) 0 %, rgba(0, 0, 0, 0) 100 %); /* W3C */
+
             // X:\jsc.svn\examples\javascript\svg\SVGCSSContent\SVGCSSContent\Application.cs
             // jsc where id the svg cursor example?
             // X:\jsc.svn\examples\javascript\android\MultiMouse\MultiMouse.SVGCursor
@@ -151,9 +159,18 @@ namespace HeatZeekerRTS
             };
 
 
+
+
             new IStyle(!css[IHTMLElement.HTMLElementEnum.div].hover)
+            //new IStyle(css.hover & !css[IHTMLElement.HTMLElementEnum.div].hover)
             {
                 border = "1px solid rgba(255,0,0,0.7)"
+            };
+
+            new IStyle(css[IHTMLElement.HTMLElementEnum.div].active)
+            {
+                // while mouse down be cyan
+                border = "1px solid rgba(255,255,0,0.7)"
             };
 
             new IStyle(css[IHTMLElement.HTMLElementEnum.head] | css[IHTMLElement.HTMLElementEnum.title])
@@ -169,6 +186,20 @@ namespace HeatZeekerRTS
 
                 zIndex = 100
             };
+
+            // X:\jsc.svn\examples\javascript\android\com.abstractatech.gamification.craft\com.abstractatech.gamification.craft\Design\App.htm
+
+            new IStyle(IHTMLElement.HTMLElementEnum.head)
+            {
+                top = "0px",
+                left = "0px",
+                right = "0px",
+                height = "3em",
+
+                background = "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%,rgba(0,0,0,0) 100%)" /* W3C */
+            };
+
+
 
             // https://bugs.webkit.org/show_bug.cgi?id=56543
             //(css[IHTMLElement.HTMLElementEnum.title].style as dynamic).webkitTextSizeAdjust = "none";
@@ -235,45 +266,47 @@ namespace HeatZeekerRTS
 
             //body[typeof(IHTMLDiv)].onclick += { };
 
-            //body.onmouseover[typeof(IHTMLDiv)] += 
 
-
-            body.onmouseover +=
-                e =>
+            document.onmousedown +=
+                                e =>
                 {
-                    if (e.Element.nodeName == "DIV")
-                    {
-                        new flag { volume = 0.3 }.play();
-                    }
+                    e.preventDefault();
+
                 };
 
-            body.onmouseout +=
+            document[div].onmouseover +=
                 e =>
                 {
-                    if (e.Element.nodeName == "DIV")
-                    {
-                        // should jsc prebuffer all audio linked into app?
-                        // and fonts?
+                    new flag { volume = 0.3 }.play();
 
-                        new tick { volume = 0.3 }.play();
-                    }
+                    page.hud_look.Hide();
+                };
+
+            document[div].onmouseout +=
+                e =>
+                {
+
+                    // should jsc prebuffer all audio linked into app?
+                    // and fonts?
+                    new tick { volume = 0.3 }.play();
+
+                    page.hud_look.Show();
                 };
 
 
-            body.oncontextmenu +=
+            document.oncontextmenu +=
                  e =>
                 {
                     e.preventDefault();
                     e.stopPropagation();
+                };
 
-                    if (e.Element.nodeName == "DIV")
-                    {
-                        //e.Element.Orphanize();
+            document[div].oncontextmenu +=
+                 e =>
+                {
+                    new buzzer { volume = 0.2 }.play();
 
-
-                        ((IHTMLElement)e.Element).Orphanize();
-                    }
-
+                    ((IHTMLElement)e.Element).Orphanize();
                 };
 
 
@@ -283,51 +316,42 @@ namespace HeatZeekerRTS
             // query selector.
             //document[IHTMLElement.HTMLElementEnum.div].
 
-            document.documentElement.onclick +=
-                   e =>
+
+            // X:\jsc.svn\examples\javascript\VirtualElementEvents\VirtualElementEvents\Application.cs
+
+
+            document[div].onclick += delegate
+            {
+                new snd_dooropen().play();
+
+            };
+
+            document[img].onclick += e =>
+            {
+                new snd_dooropen().play();
+
+                Console.WriteLine(
+                                                    new
                 {
-                    //e.Element
+                    div,
+                    e.Element.nodeName,
 
-                    // native isinst. do we support that yet?
-                    var div = e.Element is IHTMLDiv;
+                    e.OffsetX,
+                    e.OffsetY
+                }
 
+                                                    );
 
-                    //4:3426ms { { div = false, nodeName = DIV } }
-                    //4:33440ms { { div = false, nodeName = IMG } }
-
-                    if (e.Element.nodeName == "DIV")
-                    {
-                        new snd_dooropen().play();
-                    }
-
-
-                    if (e.Element.nodeName == "IMG")
-                    {
-                        new snd_dooropen().play();
-
-                        Console.WriteLine(
-                            new
-                        {
-                            div,
-                            e.Element.nodeName,
-
-                            e.OffsetX,
-                            e.OffsetY
-                        }
-
-                            );
-
-                        //var fixleft = e.CursorX - body.scrollLeft;
+                //var fixleft = e.CursorX - body.scrollLeft;
 
 
 
-                        new IHTMLDiv().AttachToDocument().style.SetLocation(
-                            e.OffsetX,
-                            e.OffsetY
-                        );
+                new IHTMLDiv().AttachToDocument().style.SetLocation(
+                    e.OffsetX,
+                    e.OffsetY
+                );
 
-                    }
-                };
+            };
 
 
 
@@ -351,23 +375,23 @@ namespace HeatZeekerRTS
 
                     title = new
                     {
-                        e.CursorY,
-                        body.scrollTop,
+                        //body.scrollTop,
 
-                        //fixtop,
-                        body.scrollHeight,
-                        //body.clientHeight,
-                        document.documentElement.clientHeight,
-                        fixleft,
+                        ////fixtop,
+                        //body.scrollHeight,
+                        ////body.clientHeight,
+                        //document.documentElement.clientHeight,
+                        x = fixleft,
+                        y = e.CursorY,
 
-                        //e.OffsetX,
-                        //e.CursorX,
+                        ////e.OffsetX,
+                        ////e.CursorX,
 
-                        body.scrollLeft,
+                        //body.scrollLeft,
 
-                        body.scrollWidth,
+                        //body.scrollWidth,
 
-                        body.clientWidth
+                        //body.clientWidth
                     };
 
                 };

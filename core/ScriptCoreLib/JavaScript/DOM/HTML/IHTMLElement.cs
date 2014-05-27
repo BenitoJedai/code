@@ -113,27 +113,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
 
-        [Script(DefineAsStatic = true)]
-        public IEnumerable<IHTMLElement> querySelectorAll(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum selectors)
-        {
-            // tested by
-            // X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
 
-            var n = (IElement)this;
-            var s = (string)(object)selectors;
-
-            // hack cast
-            return (IEnumerable<IHTMLElement>)(System.Linq.Enumerable.AsEnumerable(n.querySelectorAll(s)));
-        }
-
-        [Script(DefineAsStatic = true)]
-        new public IEnumerable<IHTMLElement> querySelectorAll(string selectors)
-        {
-            var n = (IElement)this;
-
-            // hack cast
-            return (IEnumerable<IHTMLElement>)(System.Linq.Enumerable.AsEnumerable(n.querySelectorAll(selectors)));
-        }
 
         // element is like exception. its a base class. not ot be created. not to be thrown.
 
@@ -1308,6 +1288,50 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-   
+
+
+        [Script(DefineAsStatic = true)]
+        public IEnumerable<IHTMLElement> querySelectorAll(ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement.HTMLElementEnum selectors)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\Test\RemoveByQuerySelectorAll\RemoveByQuerySelectorAll\Application.cs
+
+            var n = (IElement)this;
+            var s = (string)(object)selectors;
+
+            // hack cast
+            return (IEnumerable<IHTMLElement>)(System.Linq.Enumerable.AsEnumerable(n.querySelectorAll(s)));
+        }
+
+        [Script(DefineAsStatic = true)]
+        new public IEnumerable<IHTMLElement> querySelectorAll(string selectors)
+        {
+            var n = (IElement)this;
+
+            // hack cast
+            return (IEnumerable<IHTMLElement>)(System.Linq.Enumerable.AsEnumerable(n.querySelectorAll(selectors)));
+        }
+
+
+
+
+        public IHTMLElementGrouping this[IHTMLElement.HTMLElementEnum selectorByNodeName]
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // allow handlers
+
+                return new IHTMLElementGrouping
+                {
+                    contextElement = this,
+                    selectorByNodeName = selectorByNodeName
+                };
+            }
+        }
+
     }
+
+
+   
 }

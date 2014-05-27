@@ -72,6 +72,7 @@ namespace ScriptCoreLib.JavaScript
         }
 
         // dynamic ?
+        #region self
         static object __self;
 
         public static object self
@@ -87,6 +88,8 @@ namespace ScriptCoreLib.JavaScript
                 return __self;
             }
         }
+        #endregion
+
 
         static public IWindow window;
 
@@ -173,9 +176,9 @@ namespace ScriptCoreLib.JavaScript
                 // X:\jsc.svn\examples\javascript\Forms\Test\CSSFormsButtonCursor\CSSFormsButtonCursor\Application.cs
 
                 // root is special
-                x.__isroot = true;
+                //x.__isroot = true;
 
-                x.descendantMode = true;
+                //x.descendantMode = true;
 
                 return x;
             }

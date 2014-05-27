@@ -23,6 +23,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // circular ref?
         INodeConvertible<IHTMLElement>
     {
+        // see also
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLElementGrouping.cs
 
 
         #region async
