@@ -373,6 +373,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 //Console.WriteLine("css.style " + new { this.rule.selectorText });
 
+                if (Native.document == null)
+                {
+                    // are we in a web worker?
+                    // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripButton.cs
+                    return (CSSStyleDeclaration)new object();
+                }
 
                 return this.rule.style;
             }
