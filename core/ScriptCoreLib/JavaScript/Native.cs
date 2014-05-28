@@ -169,6 +169,18 @@ namespace ScriptCoreLib.JavaScript
         {
             get
             {
+                // tested by
+                // x:\jsc.svn\examples\javascript\webgl\heatzeekerrts\heatzeekerrts\application.cs
+
+                if (Native.document == null)
+                {
+                    // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripButton.cs
+
+                    return new CSSStyleRuleMonkier { };
+
+                }
+
+
                 // http://www.w3schools.com/cssref/sel_root.asp
                 var x = Native.document.documentElement.css;
 

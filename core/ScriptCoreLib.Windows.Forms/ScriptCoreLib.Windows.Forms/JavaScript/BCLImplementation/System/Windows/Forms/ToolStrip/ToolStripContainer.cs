@@ -19,7 +19,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public IHTMLDiv InternalElement = typeof(__ToolStripContainer);
 
-
+        // x:\jsc.svn\examples\javascript\webgl\heatzeekerrts\heatzeekerrts\application.cs
+        // will this work when document is not available?
         static IStyle InternalStyle = new IStyle(typeof(__ToolStripContainer))
         {
             overflow = IStyle.OverflowEnum.hidden

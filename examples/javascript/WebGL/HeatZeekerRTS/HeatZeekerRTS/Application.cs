@@ -186,6 +186,8 @@ namespace HeatZeekerRTS
             // can we show another color
             // if howering?
 
+            title = "Heat Zeeker";
+
 
             new IStyle(css[IHTMLElement.HTMLElementEnum.div])
             {

@@ -94,6 +94,17 @@ namespace ScriptCoreLib.JavaScript.DOM
         static IStyle InternalConstructor(Type e)
         {
             // X:\jsc.svn\examples\javascript\CSS\Test\CSSNewIStyle\CSSNewIStyle\Application.cs
+            // x:\jsc.svn\examples\javascript\webgl\heatzeekerrts\heatzeekerrts\application.cs
+
+            // c = jQgABjls6jSgl0UFIggGlQ(hwgABjls6jSgl0UFIggGlQ(), b).pwQABmASXzSNfpl_bHJLUOA();
+            // we are being called by static ctor?
+            // are we in a worker?
+
+            if (Native.document == null)
+            {
+                // send a fake type back
+                return (IStyle)new object();
+            }
 
             return IStyleSheet.all[e].style;
         }
