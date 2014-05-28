@@ -119,6 +119,13 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140528
+                // X:\jsc.svn\examples\javascript\forms\test\TestWebWorker\TestWebWorker\ApplicationControl.cs
+
+                if (Native.document == null)
+                    // fake it. css not available for workers
+                    return new CSSStyleRuleProxy { };
+
                 // 23ms CSSStyleRuleProxy this[string pseudoSelector] { selectorText = , pseudoSelector = div[style-id='0'], x = div[style-id='0'] } 
                 var newselectorText = this.selectorText + subselectorText;
 
@@ -285,6 +292,15 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140528
+                // X:\jsc.svn\examples\javascript\forms\test\TestWebWorker\TestWebWorker\ApplicationControl.cs
+
+                if (Native.document == null)
+                    // fake it. css not available for workers
+                    return new CSSStyleRuleMonkier { };
+
+
+
                 // X:\jsc.svn\examples\javascript\Forms\Test\CSSFormsButtonCursor\CSSFormsButtonCursor\Application.cs
 
                 // child nodes?

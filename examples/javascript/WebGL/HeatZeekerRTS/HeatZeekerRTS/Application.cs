@@ -60,6 +60,8 @@ namespace HeatZeekerRTS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // chrome://extensions/
+
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>
