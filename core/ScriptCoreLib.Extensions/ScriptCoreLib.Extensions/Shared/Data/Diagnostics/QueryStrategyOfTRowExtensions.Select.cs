@@ -729,6 +729,11 @@ namespace System.Data
                          #region asNewExpression
                          var asNewExpression = (that.selector as LambdaExpression).Body as NewExpression;
 
+                         /*
+                          *  var temp2 = (from t in new xmonese_core.Transactions()
+                    select t); //.FirstOrDefault();
+
+                          */
                          asNewExpression.Arguments.WithEachIndex(
                              (SourceArgument, index) =>
                              {
