@@ -34,9 +34,6 @@ namespace TestSelectWhereToLowerContains
             // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereSelect\TestWhereSelect\ApplicationWebService.cs
             // x:\jsc.svn\examples\javascript\linq\test\testselectwheretolowercontains\testselectwheretolowercontains\applicationwebservice.cs
 
-
-
-
             var x = new PerformanceResourceTimingData2.ApplicationResourcePerformance();
 
             // += ?
@@ -51,41 +48,7 @@ namespace TestSelectWhereToLowerContains
                      //where k.path.Contains("BAR")
                      select k;
 
-            //            select `Key`, `name`, `path`, `entryType`, `duration`, `startTime`, `connectStart`, `connectEnd`, `requestStart`, `responseStart`, `responseEnd`, `ApplicationPerformance`, `Tag`, `Timestamp`
-            //from `PerformanceResourceTimingData2.ApplicationResourcePerformance`
-            // where `duration` = @where0
-
-
-            //select new
-            //{
-            //    duration = k.duration,
-            //    path = k.path
-            //};
-
-            // Error	251	Could not find an implementation of the query pattern for source type 'ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy<<anonymous type: long duration, string path>>'.  'SelectMany' not found.	X:\jsc.svn\examples\javascript\LINQ\test\TestSelectIntoNewExpression\TestSelectIntoNewExpression\ApplicationWebService.cs	48	32	TestSelectIntoNewExpression
-            //into g join z in  new PerformanceResourceTimingData2.ApplicationResourcePerformance() on g.path equals z.path
-            //select new { z, g }
-
-            //from kk in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
-            //select kk
-
-
-            ;
-
-            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Select.cs
-
-
-
             var dt = uc.AsDataTable();
-
-            //FillColumns { i = 13, columName = Timestamp }
-            //Fill { n = Key, ft = System.Int32, value = 1, valueType = System.Int32 }
-
-            //            select 0 as foo,
-            //         s.`duration` as `duration`,
-            //         s.`path` as `path`
-            //from `PerformanceResourceTimingData2.ApplicationResourcePerformance` as s
-
 
             Debugger.Break();
         }

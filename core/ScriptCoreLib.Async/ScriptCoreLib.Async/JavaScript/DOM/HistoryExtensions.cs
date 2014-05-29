@@ -681,12 +681,17 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+        // testd by
+        // X:\jsc.svn\examples\javascript\future\HistoricSnapshotMashup\HistoricSnapshotMashup\Application.cs
+
         public static void pushState<T>(this History h, T state, Action<HistoryScope<T>> yield)
         {
 
             pushState(h, state, Native.document.location.pathname, exclusive: false, yield: yield);
         }
 
+
+        
         public static void pushState<T>(
             this History h,
             T state,

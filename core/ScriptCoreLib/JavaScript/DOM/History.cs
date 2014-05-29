@@ -9,6 +9,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class History
     {
+        // X:\jsc.svn\examples\javascript\future\HistoricSnapshotMashup\HistoricSnapshotMashup\Application.cs
+        public readonly int length;
+
         public readonly object state;
 
         public void back()
