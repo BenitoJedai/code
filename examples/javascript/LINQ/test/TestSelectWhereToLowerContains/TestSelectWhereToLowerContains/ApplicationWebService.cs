@@ -24,7 +24,7 @@ namespace TestSelectWhereToLowerContains
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2()
+        public  void WebMethod2(string ff = "bar")
         {
             // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
@@ -43,8 +43,17 @@ namespace TestSelectWhereToLowerContains
             );
 
 
+
+            //var ff = "bar";
+            //var z = new { ff };
+
+
             var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                     where k.path.ToLower().Contains("bar")
+                     where k.path.ToLower().Contains(
+                         //z.ff
+                         ff
+                         //"bar"
+                         )
                      //where k.path.Contains("BAR")
                      select k;
 
