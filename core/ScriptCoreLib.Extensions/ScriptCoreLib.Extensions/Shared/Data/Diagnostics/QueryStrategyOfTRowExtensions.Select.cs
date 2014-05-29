@@ -112,7 +112,12 @@ namespace System.Data
                      // X:\jsc.svn\examples\javascript\forms\test\TestNestedSQLiteGrouping\TestNestedSQLiteGrouping\ApplicationWebService.cs
                      // +		Body	{new <>f__AnonymousType0`2(path = k.path, Length = k.path.Length)}	System.Linq.Expressions.Expression {System.Linq.Expressions.NewExpression}
 
-                     var asMemberInitExpression = ((LambdaExpression)that.selector).Body as MemberInitExpression;
+
+
+                     var asLambdaExpression = that.selector as LambdaExpression;
+                     var xouter_Paramerer = asLambdaExpression.Parameters[0];
+
+                     var asMemberInitExpression = (asLambdaExpression).Body as MemberInitExpression;
 
                      (that.source as IGroupByQueryStrategy).With(q => q.upperSelect = that);
 
@@ -131,6 +136,21 @@ namespace System.Data
                      var asMemberInitExpressionByParameter1 = default(ParameterExpression);
                      var asMemberInitExpressionByParameter2 = default(ParameterExpression);
 
+
+
+                     var SelectCommand = default(string);
+
+
+                     #region AddToSelectCommand
+                     Action<string> AddToSelectCommand =
+                         x =>
+                    {
+                        if (SelectCommand == null)
+                            SelectCommand = "select " + x;
+                        else
+                            SelectCommand += ",\n\t " + x;
+                    };
+                     #endregion
 
                      var s_SelectCommand = "select 0 as foo";
 
@@ -722,20 +742,576 @@ namespace System.Data
                      #endregion
 
 
-                     if (asMemberInitExpression == null)
+
+
+                     // asMemberInitExpression should mean select into row specific values?
+                     if (asMemberInitExpression != null)
                      {
-                         state.SelectCommand = "select 0 as foo";
+                         // ??
+                         // jsc, can you think of a test for this situation?
+                         // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectIntoMemberInitExpression\TestSelectIntoMemberInitExpression\ApplicationWebService.cs
+                         // asMemberInitExpression = {new PerformanceResourceTimingData2ApplicationResourcePerformanceRow() {duration = k.duration, path = k.path}}
 
-                         #region asNewExpression
+                         if (asMemberInitExpression.Type == null)
+                             throw new InvalidOperationException("asMemberInitExpression.Type == null");
+
+                         #region ImplicitConstantFields
+                         var ImplicitConstantFields = asMemberInitExpression.Type.GetFields().Where(
+                            SourceField =>
+                            {
+                                Console.WriteLine("Join CommandBuilder building SelectCommand... " + new { SourceField });
+
+
+                                if (asMemberInitExpression.Bindings.Any(y => y.Member.Name == SourceField.Name))
+                                    return false;
+
+                                return true;
+                            }
+                        );
+
+
+
+                         var __ref0 = "";
+
+                         var ImplicitConstantBindings1 = GetBindings(asMemberInitExpression, ImplicitConstantFields);
+                         #endregion
+
+
+                         #region asNewExpression.Bindings COPY from join
+                         ImplicitConstantBindings1.WithEach(
+                             mm =>
+                        {
+                            __ref0 = "keep it non static";
+
+
+                            var TargetMemberName = mm.SourceField.Name;
+
+                            Console.WriteLine("Join CommandBuilder building SelectCommand... " + new { TargetMemberName });
+
+
+                            var SourceBinding = mm.SourceBinding;
+
+                            #region ImplicitConstantBindings
+                            if (SourceBinding == null)
+                            {
+                                // seems to be a default?
+
+                                if (mm.SourceField.FieldType == typeof(string))
+                                {
+                                    // NULL?
+                                    AddToSelectCommand("'' as " + TargetMemberName);
+                                }
+                                else
+                                {
+                                    // long?
+                                    AddToSelectCommand("0 as " + TargetMemberName);
+                                }
+
+                                return;
+                            }
+                            #endregion
+
+                            // the name we want it to appear at later
+
+
+
+
+                            // this looks like CustomAttributeBuilder thing.
+
+
+                            var asMemberAssignment = SourceBinding as MemberAssignment;
+
+                            Console.WriteLine(new { asMemberAssignment });
+                            // SourceBinding = {Content = <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last().UpdatedContent}
+
+                            #region asConstantExpression
+                            var asConstantExpression = asMemberAssignment.Expression as ConstantExpression;
+                            if (asConstantExpression != null)
+                            {
+                                if (asConstantExpression.Type == typeof(string))
+                                {
+                                    // NULL?
+                                    AddToSelectCommand("'" + asConstantExpression.Value + "' as " + TargetMemberName);
+                                }
+                                else
+                                {
+                                    // long?
+                                    AddToSelectCommand("" + asConstantExpression.Value + " as " + TargetMemberName);
+                                }
+
+                                return;
+                            }
+                            #endregion
+
+
+                            // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
+
+
+                            // +		asMemberAssignment.Expression	{Convert(g.ParentContentKey)}	System.Linq.Expressions.Expression {System.Linq.Expressions.UnaryExpression}
+
+
+                            #region asUnaryExpression
+                            var asUnaryExpression = asMemberAssignment.Expression as UnaryExpression;
+                            if (asUnaryExpression != null)
+                            {
+                                // +		(new System.Linq.Expressions.Expression.UnaryExpressionProxy(asUnaryExpression)).Operand	{g.ParentContentKey}	System.Linq.Expressions.Expression {System.Linq.Expressions.FieldExpression}
+                                var asUnaryExpression_Operand_asFieldExpression = asUnaryExpression.Operand as MemberExpression;
+                                if (asUnaryExpression_Operand_asFieldExpression != null)
+                                {
+
+
+
+                                    var asUnaryExpression_Operand_asFMemberExpression = asUnaryExpression_Operand_asFieldExpression.Expression as MemberExpression;
+                                    if (asUnaryExpression_Operand_asFMemberExpression != null)
+                                    {
+                                        // what level are we operating at?
+                                        // 		(new System.Linq.Expressions.Expression.ParameterExpressionProxy((
+                                        // new System.Linq.Expressions.Expression.MemberExpressionProxy(
+                                        // asUnaryExpression_Operand_asFMemberExpression as System.Linq.Expressions.PropertyExpression)).Expression as System.Linq.Expressions.TypedParameterExpression)).Name	"<>h__TransparentIdentifier0"	string
+
+
+
+
+
+
+
+                                        if (asLambdaExpression.Parameters.Any(p => p.Name == asUnaryExpression_Operand_asFMemberExpression.Member.Name))
+                                        {
+                                            AddToSelectCommand(
+                                                 asUnaryExpression_Operand_asFMemberExpression.Member.Name + "." +
+                                                 asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                 + " as " + asUnaryExpression_Operand_asFMemberExpression.Member.Name + "_" + asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                 );
+                                            return;
+                                        }
+
+
+                                        var asUnaryExpression_Operand_asFMMemberExpression = asUnaryExpression_Operand_asFMemberExpression.Expression as MemberExpression;
+                                        if (asUnaryExpression_Operand_asFMMemberExpression != null)
+                                        {
+                                            // asUnaryExpression_Operand_asFMemberExpression.Expression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0}
+                                            //var __projection = asUnaryExpression_Operand_asFMMemberExpression.Expression as ParameterExpression;
+                                            //var __projection = asUnaryExpression_Operand_asFMemberExpression.Expression as ParameterExpression;
+
+                                            AddToSelectCommand(
+
+                                                asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "."
+                                                + asUnaryExpression_Operand_asFMemberExpression.Member.Name + "_" +
+                                                asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                + " as " + TargetMemberName
+                                                );
+                                            return;
+                                        }
+
+
+                                        {
+
+                                            // asUnaryExpression_Operand_asFMemberExpression.Expression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0}
+                                            var __projection = asUnaryExpression_Operand_asFMemberExpression.Expression as ParameterExpression;
+
+                                            AddToSelectCommand(
+                                                __projection.Name.Replace("<>", "__") + "."
+                                                + asUnaryExpression_Operand_asFMemberExpression.Member.Name + "_" +
+                                                asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                                + " as " + TargetMemberName
+                                                );
+                                        }
+                                        return;
+                                    }
+
+                                    {
+                                        // reduce? flatten?  nested join?
+                                        //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
+                                        var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as ParameterExpression;
+                                        AddToSelectCommand(
+                                            __projection.Name.Replace("<>", "__") + "." +
+                                            asUnaryExpression_Operand_asFieldExpression.Member.Name
+                                            + " as " + TargetMemberName
+                                            );
+                                    }
+
+                                    return;
+                                }
+                            }
+                            #endregion
+
+
+                            // asFieldExpression = {<>h__TransparentIdentifier0.contact.Timestamp}
+
+
+                            // asFieldExpression {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.MiddleSheetz.Content}
+
+                            #region asFieldExpression
+                            var asFieldExpression = asMemberAssignment.Expression as MemberExpression;
+                            if (asFieldExpression != null)
+                            {
+                                Console.WriteLine(new { asFieldExpression });
+
+
+                                #region asFMethodCallExpression
+                                var asFMethodCallExpression = asFieldExpression.Expression as MethodCallExpression;
+                                if (asFMethodCallExpression != null)
+                                {
+                                    if (asFMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
+                                    {
+                                        #region asFParameterExpression
+                                        var asFParameterExpression = asFMethodCallExpression.Arguments[0] as ParameterExpression;
+                                        if (asFParameterExpression != null)
+                                        {
+                                            // is it our parameter?
+                                            if (asLambdaExpression.Parameters[0].Name != asFParameterExpression.Name)
+                                                if (asLambdaExpression.Parameters[1].Name != asFParameterExpression.Name)
+                                                {
+                                                    // not sure. whats the actual name of the field?
+                                                    //AddToSelectCommand(asFieldExpression.Member.Name + " as " + TargetMemberName);
+                                                    AddToSelectCommand(TargetMemberName + " as " + asFieldExpression.Member.Name);
+                                                    return;
+                                                }
+
+                                            AddToSelectCommand(asFParameterExpression.Name + "." + asFieldExpression.Member.Name + " as " + TargetMemberName);
+
+
+                                            return;
+                                        }
+                                        #endregion
+
+
+
+                                        var asFMemberExpression = asFMethodCallExpression.Arguments[0] as MemberExpression;
+                                        if (asFMemberExpression != null)
+                                        {
+                                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+
+                                            var asFMMemberExpression = asFMemberExpression.Expression as MemberExpression;
+                                            if (asFMMemberExpression != null)
+                                            {
+                                                #region __projection1
+                                                var __projection1 = asFMMemberExpression.Expression as ParameterExpression;
+                                                if (__projection1 != null)
+                                                {
+                                                    if (asMemberInitExpressionByParameter1 != null)
+                                                        if (asMemberInitExpressionByParameter0 != null)
+                                                        {
+                                                            if (asMemberInitExpressionByParameter1 != __projection1)
+                                                                return;
+                                                        }
+
+
+                                                    // um . what level are we at?
+                                                    var pp = asLambdaExpression.Parameters;
+                                                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+
+                                                    if (asMemberInitExpressionByParameter1 != null)
+                                                        if (asMemberInitExpressionByParameter0 != null)
+                                                        {
+                                                            AddToSelectCommand(
+                                                            asFMemberExpression.Member.Name + "." + asFieldExpression.Member.Name + " as "
+                                                            + asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                            );
+
+                                                            return;
+                                                        }
+
+                                                    if (asMemberInitExpressionByParameter0 != null)
+                                                    {
+                                                        //           __h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as UpdatedContent_UpdatedContent,
+
+                                                        AddToSelectCommand(
+                                                            asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "." +
+                                                           asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name + " as "
+                                                           + asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                           );
+                                                        return;
+                                                    }
+
+
+
+                                                    AddToSelectCommand(
+                                                          asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "." +
+                                                         asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name + " as "
+                                                         + asFieldExpression.Member.Name
+                                                         );
+                                                    return;
+                                                }
+                                                #endregion
+
+                                            }
+
+                                            #region __projection0
+                                            var __projection0 = asFMemberExpression.Expression as ParameterExpression;
+                                            if (__projection0 != null)
+                                            {
+                                                if (asMemberInitExpressionByParameter0 != null)
+                                                {
+                                                    if (asMemberInitExpressionByParameter0 != __projection0)
+                                                        return;
+
+                                                    //__h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as Content,
+                                                    //
+                                                    //   UpdatesByMiddlesheet.`UpdatedContent` as  `UpdatesByMiddlesheet_UpdatedContent`,
+
+
+                                                    // is it available for us?
+                                                    if (asLambdaExpression.Parameters[0].Name != asFMemberExpression.Member.Name)
+                                                        if (asLambdaExpression.Parameters[1].Name != asFMemberExpression.Member.Name)
+                                                            return;
+
+                                                    AddToSelectCommand(
+                                                         asFMemberExpression.Member.Name + "." + asFieldExpression.Member.Name + " as "
+                                                         + asFMemberExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                         );
+
+                                                    return;
+
+                                                }
+                                                AddToSelectCommand(
+                                                    __projection0.Name.Replace("<>", "__") + "." +
+                                                    asFMemberExpression.Member.Name
+                                                    + "_" + asFieldExpression.Member.Name + " as " + TargetMemberName
+                                                    );
+                                                return;
+                                            }
+                                            #endregion
+
+                                        }
+                                    }
+                                }
+                                #endregion
+
+
+
+                                #region asFieldExpression_Expression_asFieldExpression
+                                var asFFieldExpression = asFieldExpression.Expression as MemberExpression;
+                                if (asFFieldExpression != null)
+                                {
+
+                                    //// Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
+                                    //// X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
+                                    //// var SpecialConstant = new { u = "44" };
+
+                                    var asFPropertyInfo = asFFieldExpression.Member as FieldInfo;
+                                    var asPropertyInfo = asFieldExpression.Member as PropertyInfo;
+                                    //if (asPropertyInfo != null)
+                                    //{
+                                    //    // CLR
+
+                                    #region asFFConstantExpression
+                                    var asFFConstantExpression = asFFieldExpression.Expression as ConstantExpression;
+                                    if (asFFConstantExpression != null)
+                                    {
+                                        // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
+
+                                        var value0 = asFPropertyInfo.GetValue(asFFConstantExpression.Value);
+                                        var value1 = asPropertyInfo.GetValue(value0, null);
+
+
+                                        if (value1 is string)
+                                        {
+                                            // NULL?
+                                            AddToSelectCommand(
+                                                " '" + value1 + "' as `" + asMemberAssignment.Member.Name + "`");
+                                        }
+                                        else
+                                        {
+                                            // long?
+                                            AddToSelectCommand(" " + value1 + " as `" + asMemberAssignment.Member.Name + "`");
+                                        }
+
+                                        return;
+                                    }
+                                    #endregion
+
+
+
+
+
+
+                                    var asFMMemberExpression = asFFieldExpression.Expression as MemberExpression;
+                                    if (asFMMemberExpression != null)
+                                    {
+                                        #region __projection1
+                                        var __projection1 = asFMMemberExpression.Expression as ParameterExpression;
+                                        if (__projection1 != null)
+                                        {
+                                            if (asMemberInitExpressionByParameter1 != null)
+                                                if (asMemberInitExpressionByParameter0 != null)
+                                                {
+                                                    if (asMemberInitExpressionByParameter1 != __projection1)
+                                                        return;
+                                                }
+
+
+                                            // um . what level are we at?
+                                            var pp = asLambdaExpression.Parameters;
+                                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+
+                                            if (asMemberInitExpressionByParameter1 != null)
+                                                if (asMemberInitExpressionByParameter0 != null)
+                                                {
+                                                    AddToSelectCommand(
+                                                    asFFieldExpression.Member.Name + "." + asFieldExpression.Member.Name + " as "
+                                                    + asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                    );
+
+                                                    return;
+                                                }
+
+                                            if (asMemberInitExpressionByParameter0 != null)
+                                            {
+                                                //           __h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as UpdatedContent_UpdatedContent,
+
+                                                AddToSelectCommand(
+                                                    asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "." +
+                                                   asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name + " as "
+                                                   + asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name
+                                                   );
+                                                return;
+                                            }
+
+
+
+                                            AddToSelectCommand(
+                                                  asLambdaExpression.Parameters[0].Name.Replace("<>", "__") + "." +
+                                                 asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name + " as "
+                                                 + asFieldExpression.Member.Name
+                                                 );
+                                            return;
+                                        }
+                                        #endregion
+
+
+                                    }
+
+                                    // reduce? flatten?  nested join?
+                                    //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
+                                    var __projection0 = asFFieldExpression.Expression as ParameterExpression;
+                                    if (__projection0 != null)
+                                    {
+                                        if (asMemberInitExpressionByParameter0 != null)
+                                        {
+                                            if (asMemberInitExpressionByParameter0 != __projection0)
+                                                return;
+
+                                            //__h__TransparentIdentifier0.UpdatesByMiddlesheet_UpdatedContent as Content,
+                                            //
+                                            //   UpdatesByMiddlesheet.`UpdatedContent` as  `UpdatesByMiddlesheet_UpdatedContent`,
+
+                                            // is it available for us?
+                                            if (asLambdaExpression.Parameters[0].Name != asFFieldExpression.Member.Name)
+                                                if (asLambdaExpression.Parameters[1].Name != asFFieldExpression.Member.Name)
+                                                    return;
+
+                                            AddToSelectCommand(
+                                                asFFieldExpression.Member.Name + "." + asFieldExpression.Member.Name + " as "
+                                                 + asFFieldExpression.Member.Name + "_" + asFieldExpression.Member.Name);
+
+                                            return;
+
+                                        }
+
+                                        AddToSelectCommand(
+                                            __projection0.Name.Replace("<>", "__") + "." +
+                                            asFFieldExpression.Member.Name
+                                            + "_" + asFieldExpression.Member.Name + " as " + TargetMemberName);
+                                        return;
+                                    }
+                                }
+                                #endregion
+
+
+
+                                #region asFConstantExpression
+                                {
+                                    var asFConstantExpression = asFieldExpression.Expression as ConstantExpression;
+                                    if (asFConstantExpression != null)
+                                    {
+                                        // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
+
+                                        var asMPropertyInfo = asFieldExpression.Member as FieldInfo;
+                                        var value1 = asMPropertyInfo.GetValue(asFConstantExpression.Value);
+
+                                        if (value1 is string)
+                                        {
+                                            // NULL?
+                                            AddToSelectCommand("'" + value1 + "' as `" + asMemberAssignment.Member.Name + "`");
+                                        }
+                                        else
+                                        {
+                                            // long?
+                                            AddToSelectCommand("  " + value1 + " as `" + asMemberAssignment.Member.Name + "`");
+                                        }
+
+                                        return;
+                                    }
+                                }
+                                #endregion
+
+
+                                #region asTypedParameterExpression
+                                // http://dotnetinside.com/cn/type/System.Core/TypedParameterExpression/4.0.0.0
+                                //var asTypedParameterExpression = asFieldExpression.Expression as TypedParameterExpression
+                                var asTypedParameterExpression = asFieldExpression.Expression as ParameterExpression;
+                                if (asTypedParameterExpression != null)
+                                {
+                                    // is it available for us?
+                                    if (asLambdaExpression.Parameters[0] != asTypedParameterExpression)
+                                        if (asLambdaExpression.Parameters[1] != asTypedParameterExpression)
+                                            return;
+
+
+                                    var SourceContextName = asTypedParameterExpression.Name;
+                                    var SourceMemberName = asFieldExpression.Member.Name;
+
+
+
+
+                                    // magic happens here!
+                                    AddToSelectCommand(SourceContextName + "." + SourceMemberName + " as " + TargetMemberName);
+                                    return;
+                                }
+                                #endregion
+
+
+                            }
+                            #endregion
+
+                            Console.WriteLine(".Join does not support " + new { TargetMemberName });
+                            Debugger.Break();
+                        }
+
+                         );
+                         #endregion
+
+
+                         //(new System.Linq.Expressions.Expression.ParameterExpressionProxy((new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.ParameterExpression>((new System.Linq.Expressions.Expression.LambdaExpressionProxy(that.selector as System.Linq.Expressions.Expression<System.Func<TestSelectIntoMemberInitExpression.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow, TestSelectIntoMemberInitExpression.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow>>)).Parameters as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.ParameterExpression>)).Items[0] as System.Linq.Expressions.TypedParameterExpression)).Name
+
+
+                         var FromCommand =
+                             "from "
+                                 + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                 + " as " + xouter_Paramerer.Name.Replace("<>", "__");
+
+                         state.FromCommand = FromCommand;
+                     }
+                     else
+                     {
+                         // when does this happen?
+
+                         //SelectCommand = "select 0 as foo";
+
+
+                         // NewExpression shuld mean new { x, y }
+
+
                          var asNewExpression = (that.selector as LambdaExpression).Body as NewExpression;
-
-                         /*
-                          *  var temp2 = (from t in new xmonese_core.Transactions()
-                    select t); //.FirstOrDefault();
-
-                          */
-                         asNewExpression.Arguments.WithEachIndex(
-                             (SourceArgument, index) =>
+                         if (asNewExpression != null)
+                         {
+                             #region asNewExpression
+                             asNewExpression.Arguments.WithEachIndex(
+                                 (SourceArgument, index) =>
                              {
                                  var TargetMember = asNewExpression.Members[index];
                                  var asMemberAssignment = new { Member = TargetMember };
@@ -743,24 +1319,42 @@ namespace System.Data
 
                                  WriteExpression(index, SourceArgument, TargetMember);
                              }
-                         );
-                         #endregion
+                             );
 
-                         var g = s_SelectCommand
-                             + "\n from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s ";
 
-                         state.FromCommand =
-                              "from (\n\t"
-                                + g.Replace("\n", "\n\t")
-                                + "\n) as g";
+                             SelectCommand = s_SelectCommand;
+
+                             var FromCommand =
+                       "from "
+                           + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                           //+ " as " + xouter_Paramerer.Name.Replace("<>", "__");
+                           + " as s";
+
+                             //var g = s_SelectCommand
+                             //    + "\n from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s ";
+
+                             state.FromCommand = FromCommand;
+
+                             //"from (\n\t"
+                             //  + g.Replace("\n", "\n\t")
+                             //  + "\n) as g";
+                             #endregion
+                         }
+                         else
+                         {
+                             // what if we do select x?
+                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelect\TestSelect\ApplicationWebService.cs
+
+                             SelectCommand = s.SelectCommand;
+                             state.FromCommand = s.FromCommand;
+
+                             // um. what if we do a where on it?
+                         }
                      }
-                     else
-                     {
-                         // ??
 
-                         state.SelectCommand = s.SelectCommand;
-                         state.FromCommand = s.FromCommand;
-                     }
+
+                     state.SelectCommand = SelectCommand;
+
 
                      //state.ApplyParameter.AddRange(s.ApplyParameter);
 

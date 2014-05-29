@@ -138,27 +138,67 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                                 var arg1 = asMethodCallExpression.Arguments[0] as ConstantExpression;
 
+
+                                // asMethodCallExpression.Object = {k.path.ToLower()}
                                 var xColumnName0 = asMethodCallExpression.Object as MemberExpression;
+                                if (xColumnName0 != null)
+                                {
+                                    var n = "@where" + state.ApplyParameter.Count;
 
-                                var n = "@where" + state.ApplyParameter.Count;
+                                    // http://stackoverflow.com/questions/16180117/instr-function-sqlite-for-android
 
-                                // http://stackoverflow.com/questions/16180117/instr-function-sqlite-for-android
+                                    state.WhereCommand += "(replace(";
+                                    state.WhereCommand += "`" + xColumnName0.Member.Name + "`, " + n;
+                                    state.WhereCommand += ", '')<>`" + xColumnName0.Member.Name + "`)";
 
-                                state.WhereCommand += "(replace(";
-                                state.WhereCommand += "`" + xColumnName0.Member.Name + "`, " + n;
-                                state.WhereCommand += ", '')<>`" + xColumnName0.Member.Name + "`)";
-
-                                var rAddParameterValue0 = arg1.Value;
-                                state.ApplyParameter.Add(
-                                    c =>
+                                    var rAddParameterValue0 = arg1.Value;
+                                    state.ApplyParameter.Add(
+                                        c =>
                                     {
                                         // either the actualt command or the explain command?
 
                                         //c.Parameters.AddWithValue(n, r);
                                         c.AddParameter(n, rAddParameterValue0);
                                     }
-                                );
+                                    );
 
+                                    return;
+                                }
+
+                                var asMMethodCallExpression = asMethodCallExpression.Object as MethodCallExpression;
+                                if (asMMethodCallExpression != null)
+                                {
+                                    // x:\jsc.svn\examples\javascript\linq\test\testselectwheretolowercontains\testselectwheretolowercontains\applicationwebservice.cs
+
+                                    if (asMMethodCallExpression.Method.Name == "ToLower")
+                                    {
+                                        var xMColumnName0 = asMMethodCallExpression.Object as MemberExpression;
+
+                                        var n = "@where" + state.ApplyParameter.Count;
+
+                                        // http://stackoverflow.com/questions/16180117/instr-function-sqlite-for-android
+
+                                        state.WhereCommand += "(replace(";
+                                        state.WhereCommand += "lower(`" + xMColumnName0.Member.Name + "`), " + n;
+                                        state.WhereCommand += ", '')<>lower(`" + xMColumnName0.Member.Name + "`))";
+
+                                        var rAddParameterValue0 = arg1.Value;
+                                        state.ApplyParameter.Add(
+                                            c =>
+                                            {
+                                                // either the actualt command or the explain command?
+
+                                                //c.Parameters.AddWithValue(n, r);
+                                                c.AddParameter(n, rAddParameterValue0);
+                                            }
+                                        );
+
+                                        return;
+                                    }
+
+                                }
+
+                                Debugger.Break();
                                 return;
                             }
                         }
@@ -611,6 +651,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
 
         #region select count
+        [Obsolete("to be removed from here?")]
         public static long Count(IQueryStrategy Strategy)
         {
             return ((Task<long>)Strategy.GetDescriptor().GetWithConnection()(
@@ -639,6 +680,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
 
 
+        [Obsolete("to be removed from here?")]
         public static DataTable AsDataTable(IQueryStrategy Strategy)
         {
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs

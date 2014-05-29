@@ -324,7 +324,7 @@ namespace System.Data
                 //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type = TestSQLJoin.Data.Book1TheViewRow }
 
                 var asMemberInitExpression = asLambdaExpression.Body as MemberInitExpression;
-
+                // asLambdaExpression.Body = {new <>f__AnonymousType1`3(Key = k.Key, path = k.path, pathToLower = kk.path)}
 
 
                 //Join CommandBuilder  ...  { asMemberInitExpression =  }
@@ -448,6 +448,7 @@ namespace System.Data
 
                 if (asMemberInitExpression == null)
                 {
+                    #region guess the field?
                     // ex = {"near \"?\": syntax error"}
 
                     // should we select every column available for us?
@@ -491,7 +492,7 @@ namespace System.Data
 
 
                     //select `contact_Key`, `contact_DealerId`, `contact_DealerContactText`, `contact_Tag`, `contact_Timestamp` `dealer_Key`, `dealer_ID`, `dealer_DealerText`, `dealer_Tag`, `dealer_Timestamp`
-
+                    #endregion
                 }
                 else
                 {

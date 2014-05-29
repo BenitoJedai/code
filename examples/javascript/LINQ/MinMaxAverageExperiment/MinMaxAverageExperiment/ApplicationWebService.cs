@@ -27,6 +27,7 @@ namespace MinMaxAverageExperiment
         public void WebMethod2()
         {
             // X:\jsc.svn\examples\javascript\svg\SVGNavigationTiming\SVGNavigationTiming\ApplicationWebService.cs
+            // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
 
             var x = new PerformanceResourceTimingData2.ApplicationResourcePerformance();
 

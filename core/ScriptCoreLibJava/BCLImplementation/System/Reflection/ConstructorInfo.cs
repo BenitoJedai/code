@@ -15,7 +15,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
         public global::java.lang.reflect.Constructor InternalConstructor;
 
+        //        Implementation not found for type import :
+        //type: System.Reflection.ConstructorInfo
+        //method: System.Object Invoke(System.Object[])
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+        public object Invoke(object[] parameters)
+        {
+            // require by
+            // X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\ApplicationWebService.cs
 
+            throw new NotImplementedException();
+        }
 
         //Implementation not found for type import :
         //type: System.Reflection.ConstructorInfo

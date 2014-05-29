@@ -14,6 +14,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
 
+
+
+        //Implementation not found for type import :
+        //type: System.Type
+        //method: Boolean get_IsEnum()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+        public virtual bool IsEnum
+        {
+            get
+            {
+                // jsc erases enum typeinfo for jvm.
+
+                return false;
+            }
+        }
+
+
         public override string ToString()
         {
             if (IsNative)
