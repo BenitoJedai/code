@@ -136,7 +136,6 @@
   <ItemGroup>
     <Folder Include="Android\" />
     <Folder Include="GLSL\" />
-    <Folder Include="Query\" />
     <Folder Include="Shared\Maze\" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +148,9 @@
       <Project>{e1c195a9-73eb-458a-afc4-f8c9995e0e4f}</Project>
       <Name>ScriptCoreLib.Ultra</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Query\todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

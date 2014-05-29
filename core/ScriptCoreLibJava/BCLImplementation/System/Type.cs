@@ -13,6 +13,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
+
+
+
+        //Implementation not found for type import :
+        //type: System.Type
+        //method: Boolean get_IsEnum()
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+        public virtual bool IsEnum
+        {
+            get
+            {
+                // jsc erases enum typeinfo for jvm.
+
+                return false;
+            }
+        }
+
+
         public static __Type GetType(string typeName)
         {
             var c = default(java.lang.Class);

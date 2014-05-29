@@ -127,12 +127,14 @@ namespace SVGNavigationTiming
             //async 
             Task<DataTable> GetSimilarApplicationResourcePerformance(Design.PerformanceResourceTimingData2ApplicationResourcePerformanceRow k)
         {
-            // 02000051 SVGNavigationTiming.XApplicationPerformanceWebService::<>f__AnonymousType$371$3`2
-            //pt: error JSC1000: *** stack is empty, invalid pop?
-            //pt: error JSC1000: error at SVGNavigationTiming.XApplicationPerformanceWebService+<GetSimilarApplicationResourcePerformance>d__10+<MoveNext>0600004b.<0149> ldsfld.try,
-            //embly: W:\SVGNavigationTiming.XApplicationPerformanceWebService.exe
-            //e: SVGNavigationTiming.XApplicationPerformanceWebService+<GetSimilarApplicationResourcePerformance>d__10+<MoveNext>0600004b, SVGNavigationTiming.XApplicationPerformanceWebService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-
+            //           internal compiler error at method
+            //assembly: W:\SVGNavigationTiming.XApplicationPerformanceWebService.exe at Y:\SVGNavigationTiming.XApplicationPerformanceWebService\staging.java
+            //type: SVGNavigationTiming.XApplicationPerformanceWebService, SVGNavigationTiming.XApplicationPerformanceWebService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            //method: GetSimilarApplicationResourcePerformance
+            //recursion detected at stack 32
+            //   at jsc.RecursionGuard..ctor(RecursionGuard parent) in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 31
+            //  at jsc.RecursionGuard.get_Lock() in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 47
+            //  at jsc.ILBlock.Prestatement.ValidateInlineAssigment(Prestatement p) in x:\jsc.internal.svn\compiler\jsc\CodeModel\ILBlock.cs:line 725
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140114
             // http://msdn.microsoft.com/en-us/library/aa287599(v=vs.71).aspx

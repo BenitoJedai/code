@@ -68,6 +68,7 @@ namespace HeatZeekerRTS
                  {
                      s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
+                     // this is working?
                      var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
                  };
             #endregion

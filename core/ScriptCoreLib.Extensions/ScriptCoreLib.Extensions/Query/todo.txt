@@ -1,0 +1,6 @@
+﻿all xlsx, xsqlite work
+needs to be move into a separate nuget.
+so we could service it out of band.
+
+windows forms should stop dependency on scriptcorelib.query
+some .css work could move into .query tho.

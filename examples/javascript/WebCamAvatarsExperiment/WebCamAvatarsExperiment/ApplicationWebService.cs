@@ -18,20 +18,13 @@ namespace WebCamAvatarsExperiment
     /// </summary>
     public class ApplicationWebService
     {
-        //public ApplicationWebService()
-        //{
-        //    // +		$exception	{"Could not load file or assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"}	System.Exception {System.IO.FileNotFoundException}
-
-        //    { Type sqlLitec = typeof(System.Data.SQLite.SQLiteConnection); }
-        //    { Type ext = typeof(System.Data.SQLite.SQLiteConnectionStringBuilderExtensions); }
-        //}
+    
         public void Insert0(string base64)
         {
             Console.WriteLine(new { base64.Length });
             // { Length = 52398 }
         }
 
-        //+		$exception	{"Could not load file or assembly 'System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139' or one of its dependencies. The system cannot find the file specified.":"System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139"}	System.Exception {System.IO.FileNotFoundException}
 
 
         // ctor shall be invoked for page builder
