@@ -512,7 +512,8 @@ namespace System.Data
                                  {
 
                                      state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t count(*) as `" + asMemberAssignment.Member.Name + "`";
+                                     //s_SelectCommand += ",\n\t count(*) as `" + asMemberAssignment.Member.Name + "`";
+                                     s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                      return;
                                  }
@@ -527,7 +528,8 @@ namespace System.Data
                                          var asMemberExpression = arg1.Body as MemberExpression;
 
                                          state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                          return;
                                      }
                                  }
@@ -545,7 +547,8 @@ namespace System.Data
                                          var asMemberExpression = arg1.Body as MemberExpression;
 
                                          state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t min(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t min(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                          return;
                                      }
                                  }
@@ -562,7 +565,8 @@ namespace System.Data
                                          var asMemberExpression = arg1.Body as MemberExpression;
 
                                          state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t max(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t max(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                          return;
                                      }
                                  }
@@ -579,7 +583,8 @@ namespace System.Data
                                          var asMemberExpression = arg1.Body as MemberExpression;
 
                                          state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t avg(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t avg(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                          return;
                                      }
                                  }
@@ -667,7 +672,7 @@ namespace System.Data
                                  #endregion
 
 
-
+                                 #region FirstOrDefault
                                  // https://www.youtube.com/watch?v=pt8VYOfr8To
                                  if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "FirstOrDefault")
                                  {
@@ -684,6 +689,7 @@ namespace System.Data
                                          return;
                                      }
                                  }
+                                 #endregion
 
                              }
                              #endregion

@@ -50,36 +50,36 @@ namespace MinMaxAverageExperiment
             //         from `PerformanceResourceTimingData2.ApplicationResourcePerformance` as s
             //) as g
 
-            var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
+            //var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
 
-                     where !string.IsNullOrEmpty(k.path)
-                     where k.path.Contains("zfoo")
+            //         where !string.IsNullOrEmpty(k.path)
+            //         where k.path.Contains("zfoo")
 
-                     select new
-                     {
-                         xxfoo = "bar",
+            //         select new
+            //         {
+            //             xxfoo = "bar",
 
-                         k.Timestamp,
+            //             k.Timestamp,
 
-                         k.Key,
+            //             k.Key,
 
 
-                         k.path,
-                         Trim = k.path.Trim(),
-                         TrimStart = k.path.TrimStart(),
-                         TrimEnd = k.path.TrimEnd(),
-                         ToLower = k.path.ToLower(),
-                         ToUpper = k.path.ToUpper(),
+            //             k.path,
+            //             Trim = k.path.Trim(),
+            //             TrimStart = k.path.TrimStart(),
+            //             TrimEnd = k.path.TrimEnd(),
+            //             ToLower = k.path.ToLower(),
+            //             ToUpper = k.path.ToUpper(),
 
-                         // www.w3schools.com/sql/sql_func_len.asp
-                         k.path.Length,
+            //             // www.w3schools.com/sql/sql_func_len.asp
+            //             k.path.Length,
 
-                     };
+            //         };
 
-            // what about our own PrimaryConstructor for select?
-            var uc0 = uc.AsDataTable();
-            var uc1 = uc.AsGenericEnumerable();
-            var uc2 = uc.FirstOrDefault();
+            //// what about our own PrimaryConstructor for select?
+            //var uc0 = uc.AsDataTable();
+            //var uc1 = uc.AsGenericEnumerable();
+            //var uc2 = uc.FirstOrDefault();
 
 
             //        Select { selector = k => new <> f__AnonymousType0`2(path = k.path, Length = k.path.Length) }
@@ -102,7 +102,7 @@ namespace MinMaxAverageExperiment
             // http://oakleafblog.blogspot.com/2008/07/linq-and-entity-framework-posts-for_14.html
 
 
-            var min = new PerformanceResourceTimingData2.ApplicationResourcePerformance().Min(k => k.duration);
+            //var min = new PerformanceResourceTimingData2.ApplicationResourcePerformance().Min(k => k.duration);
 
             var e = from z in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
                         // .AsEnumerable()
@@ -121,36 +121,36 @@ namespace MinMaxAverageExperiment
                     };
 
             //            select 0 as foo,
-            //         g.`Min` as `Min`,
-            //         g.`Max` as `Max`,
-            //         g.`Average` as `Average`,
-            //         g.`Count` as `Count`,
-            //         g.`Sum` as `Sum`
-            //from(
-            //        select 0 as foo,
-            //                 min(s.`duration`) as `Min`,
-            //                 max(s.`duration`) as `Max`,
-            //                 avg(s.`duration`) as `Average`,
-            //                 count(*) as `Count`,
-            //                 sum(s.`duration`) as `Sum`
-            //         from(select g.`Grouping.Key`,
-            //                         g.`Min` as `Min`,
-            //                         g.`Max` as `Max`,
-            //                         g.`Average` as `Average`,
-            //                         g.`Count` as `Count`,
-            //                         g.`Sum` as `Sum`
-            //                from(
-            //                        select 1 as `Grouping.Key`,
-            //                                 min(s.`duration`) as `Min`,
-            //                                 max(s.`duration`) as `Max`,
-            //                                 avg(s.`duration`) as `Average`,
-            //                                 count(*) as `Count`,
-            //                                 sum(s.`duration`) as `Sum`
-            //                         from `PerformanceResourceTimingData2.ApplicationResourcePerformance` as s
-            //                         group by `Grouping.Key`
-            //                ) as g
-            //                ) as s
-            //) as g
+            //         min(s.`duration`) as `Min`,
+            //         max(s.`duration`) as `Max`,
+            //         avg(s.`duration`) as `Average`,
+            //         count(*) as `Count`,
+            //         sum(s.`duration`) as `Sum`
+            //from(select g.`Grouping.Key`,
+            //                 g.`Min` as `Min`,
+            //                 g.`Max` as `Max`,
+            //                 g.`Average` as `Average`,
+            //                 g.`Count` as `Count`,
+            //                 g.`Sum` as `Sum`
+            //        from(
+            //                select 1 as `Grouping.Key`,
+            //                         min(s.`duration`) as `Min`,
+            //                         max(s.`duration`) as `Max`,
+            //                         avg(s.`duration`) as `Average`,
+            //                         count(*) as `Count`,
+            //                         sum(s.`duration`) as `Sum`
+            //                 from `PerformanceResourceTimingData2.ApplicationResourcePerformance` as s
+            //                 group by `Grouping.Key`
+            //        ) as g
+            //        ) as s
+
+            //before Fill
+
+            //ScriptCoreLib.Extensions::ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda.WithConnection
+
+            // error: {
+            //                Message = no such column: s.duration, ex = System.Data.SQLite.SQLiteSyntaxException(0x80004005): no such column:
+            //                s.duration
 
             //before Fill
 
