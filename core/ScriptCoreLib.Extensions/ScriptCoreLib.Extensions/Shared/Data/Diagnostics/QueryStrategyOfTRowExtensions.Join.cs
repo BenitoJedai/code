@@ -415,6 +415,11 @@ namespace System.Data
                             {
                                 // ???
 
+                                // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
+                                if (that.upperJoin.upperJoin == null)
+                                    Debugger.Break();
+
+
                                 if (that.upperJoin.upperJoin.xouter == that.upperJoin)
                                 {
                                     asMemberInitExpression = ((LambdaExpression)that.upperJoin.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
