@@ -72,17 +72,17 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
             //Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_MethodCallExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
             Console.WriteLine("MutableWhere "
-            //    + new
-            //{
-            //    body.Method,
+                //    + new
+                //{
+                //    body.Method,
 
             //    //NodeType	Equal	System.Linq.Expressions.ExpressionType
-            //    body.NodeType,
+                //    body.NodeType,
 
 
             //    ColumnName = lColumnName0,
-            //    Right = rAddParameterValue0
-            //}
+                //    Right = rAddParameterValue0
+                //}
             );
 
 
@@ -138,6 +138,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                                 var arg1 = asMethodCallExpression.Arguments[0] as ConstantExpression;
 
+                                #region x.Contains(?)
 
                                 // asMethodCallExpression.Object = {k.path.ToLower()}
                                 var xColumnName0 = asMethodCallExpression.Object as MemberExpression;
@@ -154,17 +155,19 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                                     var rAddParameterValue0 = arg1.Value;
                                     state.ApplyParameter.Add(
                                         c =>
-                                    {
-                                        // either the actualt command or the explain command?
+                                        {
+                                            // either the actualt command or the explain command?
 
-                                        //c.Parameters.AddWithValue(n, r);
-                                        c.AddParameter(n, rAddParameterValue0);
-                                    }
+                                            //c.Parameters.AddWithValue(n, r);
+                                            c.AddParameter(n, rAddParameterValue0);
+                                        }
                                     );
 
                                     return;
                                 }
+                                #endregion
 
+                                #region x.ToLower().Contains(?)
                                 var asMMethodCallExpression = asMethodCallExpression.Object as MethodCallExpression;
                                 if (asMMethodCallExpression != null)
                                 {
@@ -197,6 +200,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                                     }
 
                                 }
+                                #endregion
 
                                 Debugger.Break();
                                 return;
@@ -254,11 +258,21 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                     Action<BinaryExpression> WriteExpression =
                         (xbody) =>
                         {
-                            var xbody_left = xbody.Left as UnaryExpression;
-                            var xColumnName0 = (xbody_left.Operand as MemberExpression).Member.Name;
+                            var xasMemberExpression = xbody.Left as MemberExpression;
+                            if (xasMemberExpression != null)
+                            {
+                                var xColumnName0 = xasMemberExpression.Member.Name;
+                                state.WhereCommand += "`" + xColumnName0 + "` ";
+
+                            }
+                            else
+                            {
+                                var xasUnaryExpression = xbody.Left as UnaryExpression;
+                                var xColumnName0 = (xasUnaryExpression.Operand as MemberExpression).Member.Name;
 
 
-                            state.WhereCommand += "`" + xColumnName0 + "` ";
+                                state.WhereCommand += "`" + xColumnName0 + "` ";
+                            }
 
                             if (xbody.NodeType == ExpressionType.Equal)
                                 state.WhereCommand += "=";
@@ -272,6 +286,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                             // -		(new System.Linq.Expressions.Expression.BinaryExpressionProxy(x_asLogicalBinaryExpression0 as System.Linq.Expressions.LogicalBinaryExpression)).Right	{0}	System.Linq.Expressions.Expression {System.Linq.Expressions.ConstantExpression}
 
 
+                            #region asConstantExpression
                             var asConstantExpression = xbody.Right as ConstantExpression;
                             if (asConstantExpression != null)
                             {
@@ -294,6 +309,87 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                                 );
                                 return;
                             }
+                            #endregion
+
+
+                            #region yasMemberExpression
+                            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOrUnaryExpression\TestSelectOrUnaryExpression\ApplicationWebService.cs
+                            var yasMemberExpression = xbody.Right as MemberExpression;
+                            if (yasMemberExpression != null)
+                            {
+                                // 		test	0x0000000000000017	long
+
+                                var yasMConstantExpression = yasMemberExpression.Expression as ConstantExpression;
+                                if (yasMConstantExpression != null)
+                                {
+                                    //yasMemberExpression.Member 
+                                    var yasMemberExpressionField = yasMemberExpression.Member as FieldInfo;
+
+                                    var rAddParameterValue0 = yasMemberExpressionField.GetValue(yasMConstantExpression.Value);
+                                    var n = "@where" + state.ApplyParameter.Count;
+
+                                    state.WhereCommand += " ";
+                                    state.WhereCommand += n;
+
+                                    Console.WriteLine("MutableWhere OrElse " + new { n, rAddParameterValue0 });
+
+                                    state.ApplyParameter.Add(
+                                        c =>
+                                        {
+                                            // either the actualt command or the explain command?
+
+                                            //c.Parameters.AddWithValue(n, r);
+                                            c.AddParameter(n, rAddParameterValue0);
+                                        }
+                                    );
+                                    return;
+                                }
+                            }
+                            #endregion
+
+
+                            #region yUnaryExpression
+                            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOrUnaryExpression\TestSelectOrUnaryExpression\ApplicationWebService.cs
+                            var yUnaryExpression = xbody.Right as UnaryExpression;
+                            if (yUnaryExpression != null)
+                            {
+                                #region yasMemberExpression
+                                // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOrUnaryExpression\TestSelectOrUnaryExpression\ApplicationWebService.cs
+                                var yyasMemberExpression = yUnaryExpression.Operand as MemberExpression;
+                                if (yyasMemberExpression != null)
+                                {
+                                    // 		test	0x0000000000000017	long
+
+                                    var yyasMConstantExpression = yyasMemberExpression.Expression as ConstantExpression;
+                                    if (yyasMConstantExpression != null)
+                                    {
+                                        //yasMemberExpression.Member 
+                                        var yyasMemberExpressionField = yyasMemberExpression.Member as FieldInfo;
+
+                                        var rAddParameterValue0 = yyasMemberExpressionField.GetValue(yyasMConstantExpression.Value);
+                                        var n = "@where" + state.ApplyParameter.Count;
+
+                                        state.WhereCommand += " ";
+                                        state.WhereCommand += n;
+
+                                        Console.WriteLine("MutableWhere OrElse " + new { n, rAddParameterValue0 });
+
+                                        state.ApplyParameter.Add(
+                                            c =>
+                                            {
+                                                // either the actualt command or the explain command?
+
+                                                //c.Parameters.AddWithValue(n, r);
+                                                c.AddParameter(n, rAddParameterValue0);
+                                            }
+                                        );
+                                        return;
+                                    }
+                                }
+                                #endregion
+                            }
+                            #endregion
+
 
                             Debugger.Break();
                         };

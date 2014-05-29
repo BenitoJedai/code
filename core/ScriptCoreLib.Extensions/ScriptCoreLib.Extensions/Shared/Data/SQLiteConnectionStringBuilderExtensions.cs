@@ -205,7 +205,9 @@ namespace System.Data.SQLite
 
                         Console.WriteLine(text);
 
-                        //Debugger.Break();
+
+                        if (Debugger.IsAttached)
+                            Debugger.Break();
 
                         throw new InvalidOperationException(text);
                     }

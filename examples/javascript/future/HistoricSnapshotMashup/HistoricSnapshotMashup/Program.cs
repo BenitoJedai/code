@@ -1,7 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
 
-namespace TestSelectOrUnaryExpression
+namespace HistoricSnapshotMashup
 {
     /// <summary>
     /// You can debug your application by hitting F5.
@@ -10,7 +10,6 @@ namespace TestSelectOrUnaryExpression
     {
         public static void Main(string[] args)
         {
-            new ApplicationWebService().WebMethod2();
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
