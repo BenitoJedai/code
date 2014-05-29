@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -34,7 +35,35 @@ namespace TestWhereJoinTTGroupBySelectLast
                 new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 45, path = " /zfoo/BAR/ " }
             );
 
+            var temp = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                       where k.duration == 45
+                       select k;
 
+            var q = from k in temp
+
+                    join u in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on k.duration equals u.duration
+
+                    //join uu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on k.duration equals uu.duration
+
+                    join uu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u.duration equals uu.duration
+                    join uuu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on uu.duration equals uuu.duration
+                    join uuuu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on uuu.duration equals uuuu.duration
+                    join uuuuu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on uuuu.duration equals uuuuu.duration
+
+                    group k by k.duration into g
+
+                    select new
+                    {
+                        g.Key,
+
+
+                        path = g.Last().path
+                    };
+
+            var dt = q.AsDataTable();
+
+
+            Debugger.Break();
         }
 
     }
