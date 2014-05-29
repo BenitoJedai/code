@@ -50,6 +50,8 @@ namespace TestWhereJoinTTGroupBySelectLast
                     join uuuu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on uuu.duration equals uuuu.duration
                     join uuuuu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on uuuu.duration equals uuuuu.duration
 
+                    // does not yet work does it.
+
                     group k by k.duration into g
 
                     select new

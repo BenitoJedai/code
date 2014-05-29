@@ -101,20 +101,20 @@
     <Compile Include="JavaScript\DOM\FileExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
     <Compile Include="JavaScript\Extensions\FormExtensions.cs" />
+    <Compile Include="Query\IQueryStrategy.cs" />
+    <Compile Include="Query\QueryStrategyExtensions.cs" />
+    <Compile Include="Query\QueryStrategyOfTRowExtensions.Count.cs" />
+    <Compile Include="Query\QueryStrategyOfTRowExtensions.cs" />
+    <Compile Include="Query\QueryStrategyOfTRowExtensions.GroupBy.cs" />
+    <Compile Include="Query\QueryStrategyOfTRowExtensions.Join.cs" />
+    <Compile Include="Query\QueryStrategyOfTRowExtensions.Select.cs" />
+    <Compile Include="Query\QueryStrategyOfTRowExtensions.Sum.cs" />
     <Compile Include="Shared\BCLImplementation\System\CharExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilderExtensions.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\EnumerableExtensions.cs" />
     <Compile Include="Shared\Components\ApplicationWebServiceComponent.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Select.cs" />
-    <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.GroupBy.cs" />
-    <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Join.cs" />
-    <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Sum.cs" />
-    <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Count.cs" />
-    <Compile Include="Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.cs" />
-    <Compile Include="Shared\Data\Diagnostics\IQueryStrategy.cs" />
-    <Compile Include="Shared\Data\Diagnostics\QueryStrategyExtensions.cs" />
     <Compile Include="Shared\Data\Diagnostics\WithConnectionLambda.cs" />
     <Compile Include="Shared\Data\DynamicDataReader.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDataReaderExtensions.cs" />
