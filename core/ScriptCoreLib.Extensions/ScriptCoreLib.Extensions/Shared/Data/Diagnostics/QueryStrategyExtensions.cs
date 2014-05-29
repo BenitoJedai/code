@@ -72,17 +72,17 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
             //Console.WriteLine("IBook1Sheet1Queryable.Where " + new { f_Body_as_MethodCallExpression.Method, f_Body_Left_as_MemberExpression.Member.Name, f_Body_Right_as_ConstantExpression.Value });
             Console.WriteLine("MutableWhere "
-                //    + new
-                //{
-                //    body.Method,
+            //    + new
+            //{
+            //    body.Method,
 
             //    //NodeType	Equal	System.Linq.Expressions.ExpressionType
-                //    body.NodeType,
+            //    body.NodeType,
 
 
             //    ColumnName = lColumnName0,
-                //    Right = rAddParameterValue0
-                //}
+            //    Right = rAddParameterValue0
+            //}
             );
 
 
@@ -136,7 +136,49 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                                 // http://stackoverflow.com/questions/15663207/how-to-use-null-or-empty-string-in-sql
                                 // x:\jsc.svn\examples\javascript\linq\minmaxaverageexperiment\minmaxaverageexperiment\applicationwebservice.cs
 
-                                var arg1 = asMethodCallExpression.Arguments[0] as ConstantExpression;
+                                var rAddParameterValue0 = default(object);
+
+                                var arg0ConstantExpression = asMethodCallExpression.Arguments[0] as ConstantExpression;
+                                if (arg0ConstantExpression != null)
+                                {
+                                    rAddParameterValue0 = arg0ConstantExpression.Value;
+                                }
+                                else
+                                {
+                                    var arg0MemberExpression = asMethodCallExpression.Arguments[0] as MemberExpression;
+                                    if (arg0MemberExpression != null)
+                                    {
+                                        var arg0MConstantExpression = arg0MemberExpression.Expression as ConstantExpression;
+                                        if (arg0MConstantExpression != null)
+                                        {
+
+                                            var f = arg0MemberExpression.Member as FieldInfo;
+                                            rAddParameterValue0 = f.GetValue(arg0MConstantExpression.Value);
+                                        }
+                                        else
+                                        {
+                                            var arg0MMemberExpression = arg0MemberExpression.Expression as MemberExpression;
+                                            var arg0MMConstantExpression = arg0MMemberExpression.Expression as ConstantExpression;
+                                            if (arg0MMConstantExpression != null)
+                                            {
+                                                var ff = arg0MMemberExpression.Member as FieldInfo;
+
+                                                var vv = ff.GetValue(arg0MMConstantExpression.Value);
+
+                                                // +		arg0MemberExpression.Member	{System.String ff}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
+
+                                                var p = arg0MemberExpression.Member as PropertyInfo;
+
+                                                //vv = { ff = "bar" }
+                                                rAddParameterValue0 = p.GetValue(vv, null);
+                                            }
+                                            else
+                                                Debugger.Break();
+                                        }
+                                    }
+                                    else
+                                        Debugger.Break();
+                                }
 
                                 #region x.Contains(?)
 
@@ -152,7 +194,6 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                                     state.WhereCommand += "`" + xColumnName0.Member.Name + "`, " + n;
                                     state.WhereCommand += ", '')<>`" + xColumnName0.Member.Name + "`)";
 
-                                    var rAddParameterValue0 = arg1.Value;
                                     state.ApplyParameter.Add(
                                         c =>
                                         {
@@ -185,7 +226,6 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                                         state.WhereCommand += "lower(`" + xMColumnName0.Member.Name + "`), " + n;
                                         state.WhereCommand += ", '')<>lower(`" + xMColumnName0.Member.Name + "`))";
 
-                                        var rAddParameterValue0 = arg1.Value;
                                         state.ApplyParameter.Add(
                                             c =>
                                             {
