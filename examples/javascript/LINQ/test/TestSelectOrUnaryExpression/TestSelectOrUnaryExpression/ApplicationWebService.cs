@@ -24,7 +24,7 @@ namespace TestSelectOrUnaryExpression
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(long test)
+        public void WebMethod2(long test = 23, PerformanceResourceTimingData2ApplicationResourcePerformanceKey ke = (PerformanceResourceTimingData2ApplicationResourcePerformanceKey) 6)
         {
             var x = new PerformanceResourceTimingData2.ApplicationResourcePerformance();
 
@@ -33,12 +33,12 @@ namespace TestSelectOrUnaryExpression
                 new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 45, startTime = 1 }
             );
             x.Insert(
-               new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 20,startTime = 23}
+               new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 20, startTime = 23 }
            );
 
 
             var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                     where k.duration == test || k.startTime == test
+                     where k.Key == ke || k.startTime == test
                      select k;
 
             var dt = uc.AsDataTable();

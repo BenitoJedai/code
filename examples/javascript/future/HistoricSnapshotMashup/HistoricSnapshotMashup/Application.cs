@@ -17,6 +17,7 @@ using HistoricSnapshotMashup;
 using HistoricSnapshotMashup.Design;
 using HistoricSnapshotMashup.HTML.Pages;
 using ScriptCoreLib.JavaScript.Native;
+using HistoricSnapshotMashup.Data;
 
 namespace HistoricSnapshotMashup
 {
@@ -36,6 +37,9 @@ namespace HistoricSnapshotMashup
             body.css.after
         };
 
+
+        static List<HistoricsTheEntryRow> replay = new List<HistoricsTheEntryRow>();
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -46,6 +50,8 @@ namespace HistoricSnapshotMashup
             service = this;
 
 
+            new IStyle(IHTMLElement.HTMLElementEnum.head).display = IStyle.DisplayEnum.block;
+            new IStyle(IHTMLElement.HTMLElementEnum.title).display = IStyle.DisplayEnum.block;
 
             // UI Automation
 
@@ -61,7 +67,14 @@ namespace HistoricSnapshotMashup
 
                     // contentText wont work on non pseudo?
                     pseudo[index % 2].contentText =
-                        new { index, x = e.CursorX, y = e.CursorY, z = window.history.length }
+                        new
+                    {
+                        random,
+                        index,
+                        x = e.CursorX,
+                        y = e.CursorY,
+                        z = window.history.length
+                    }
                     .ToString();
 
                     pseudo[index % 2].style.SetLocation(
@@ -74,6 +87,46 @@ namespace HistoricSnapshotMashup
 
                     //current.memory
                 };
+
+            //document.documentElement.click();
+
+
+            // do not resume if browser has historic data.
+            if (window.history.length != 1)
+                // cant we use console as body?
+                //body.innerText = "will not try to resume, as there is history. start a new clean tab insead.";
+                document.title = "will not try to resume, as there is history. start a new clean tab insead.";
+            else
+
+                // resume only works if a new tab is spawned without any history!
+                Resume(
+                    e =>
+                    {
+                        if (!e.Any())
+                            return;
+
+                        if (!window.confirm("resume state of " + e.Count()))
+                        {
+                            ForgetAll();
+                            return;
+                        }
+
+                        replay = e.ToList();
+
+                        foreach (var item in e)
+                        {
+                            // lets start to replay.
+                            // ?
+
+                            document.body.click();
+
+                            break;
+                        }
+                        // fake
+                        //Console.WriteLine("click " + new { e.x, e.y });
+
+                    }
+                );
 
             document.onclick +=
                 e =>
@@ -90,29 +143,45 @@ namespace HistoricSnapshotMashup
                     //HistoryExtensions.pushState(
                     //    h: window.history,
 
+                    long x = e.CursorX;
+                    long y = e.CursorY;
+
+                    if (replay.Any())
+                    {
+                        x = replay[0].x;
+                        y = replay[0].y;
+                    }
+
                     window.history.pushState(
                         state: new
                     {
                         index,
 
-                        x = e.CursorX,
-                        y = e.CursorY
+                        x,
+                        y
                     },
 
 
                         yield: async scope =>
                         {
-                            // prepare new data to be saved
-                            service.data.Add(
-                                new Data.HistoricsTheEntryRow
+                            if (replay.Any())
                             {
-                                x = scope.state.x,
-                                y = scope.state.y,
-                                index = scope.state.index,
+                                service.data.Add(replay[0]);
+                                replay.RemoveAt(0);
                             }
-                            );
+                            else
+                            {
+                                // prepare new data to be saved
+                                service.data.Add(
+                                    new Data.HistoricsTheEntryRow
+                                {
+                                    x = scope.state.x,
+                                    y = scope.state.y,
+                                    index = scope.state.index,
+                                }
+                                );
 
-
+                            }
 
                             // make it stale
                             pseudo[index % 2].style.color = "gray";
@@ -124,13 +193,37 @@ namespace HistoricSnapshotMashup
 
                             //pseudo[index % 2].contentText = new { index, z = window.history.length }.ToString();
                             pseudo[index % 2].contentText =
-                                 new { index, x = scope.state.x, y = scope.state.y, z = window.history.length }
-                             .ToString();
+                                 new
+                            {
+                                service.random,
+                                index,
+                                x = scope.state.x,
+                                y = scope.state.y,
+                                z = window.history.length
+                            }
+                                     .ToString();
+
+                            var pre = new IHTMLPre {
+                                new
+                                {
+                                    service.random,
+                                    index,
+                                    x = scope.state.x,
+                                    y = scope.state.y,
+                                    z = window.history.length
+                                }
+                            }.AttachToDocument();
+
+
+                            pre.style.SetLocation(
+                                (int)scope.state.x,
+                                (int)scope.state.y
+                              );
 
                             pseudo[index % 2].style.SetLocation(
-                                scope.state.x,
-                                scope.state.y
-                              );
+                                        (int)scope.state.x,
+                                        (int)scope.state.y
+                                      );
 
 
                             pseudo[index % 2].style.backgroundColor = "yellow";
@@ -142,9 +235,16 @@ namespace HistoricSnapshotMashup
 
 
 
+
                             await scope;
 
+                            pre.Orphanize();
+
                             // so. what state did we remove?
+                            var forget = service.data.Last();
+                            // pop. does jsc tier split support stack?
+                            service.data.RemoveAt(service.data.Count - 1);
+                            service.Forget(forget);
 
                             Console.WriteLine("exit scope " + new { index });
 
