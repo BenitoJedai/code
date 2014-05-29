@@ -93,8 +93,21 @@ namespace ScriptCoreLib.JavaScript
 
         static public IWindow window;
 
+        //public static class async
+        //{ 
+        //    onframe   
+        //}
+
+
         // alias for window.document. not available for web workers
         static public IHTMLDocument document;
+
+
+        public static IHTMLBody body
+        {
+            // X:\jsc.svn\examples\javascript\future\HistoricSnapshotMashup\HistoricSnapshotMashup\Application.cs
+            get { return document.body; }
+        }
 
         static public IScreen screen;
         static public DedicatedWorkerGlobalScope worker;

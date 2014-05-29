@@ -665,6 +665,26 @@ namespace System.Data
                                      }
                                  }
                                  #endregion
+
+
+
+                                 // https://www.youtube.com/watch?v=pt8VYOfr8To
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "FirstOrDefault")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
+                                     // can we ask for sql?
+
+
+                                     var arg0 = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                     if (arg0 != null)
+                                     {
+
+                                         // we dont know yet how to get sql of that thing do we
+                                         s_SelectCommand += ",\n\t 0 as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+
                              }
                              #endregion
 
