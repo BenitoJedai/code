@@ -25,7 +25,7 @@ namespace System.Data
     public static partial class QueryStrategyOfTRowExtensions
     {
         [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
-        interface ISelectQueryStrategy
+        public interface ISelectQueryStrategy
         {
             // allow to inspect upper select . what if there are multiple upper selects?
             Expression selectorExpression { get; }
@@ -437,6 +437,17 @@ namespace System.Data
 
 
                                  state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                 if (that.source is IGroupByQueryStrategy)
+                                 {
+                                     if (asMemberExpression.Member.Name == "Key")
+                                     {
+                                         s_SelectCommand += ",\n\t s.`Grouping.Key` as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+
                                  s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                  return;
@@ -1332,49 +1343,66 @@ namespace System.Data
                          // NewExpression shuld mean new { x, y }
 
 
-                         var asNewExpression = (that.selector as LambdaExpression).Body as NewExpression;
-                         if (asNewExpression != null)
+                         var asLMemberExpression = asLambdaExpression.Body as MemberExpression;
+                         if (asLMemberExpression != null)
                          {
-                             #region asNewExpression
-                             asNewExpression.Arguments.WithEachIndex(
-                                 (SourceArgument, index) =>
+                             // scalar?
+                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
+                             // Member = {System.String path}
+
+                             WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member);
+
+                             SelectCommand = s_SelectCommand;
+
+                             var FromCommand =
+                                  "from "
+                                      + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                                                   //+ " as " + xouter_Paramerer.Name.Replace("<>", "__");
+                                                                   + " as s";
+
+                             state.FromCommand = FromCommand;
+                         }
+                         else
+                         {
+
+                             var asLNewExpression = asLambdaExpression.Body as NewExpression;
+                             if (asLNewExpression != null)
                              {
-                                 var TargetMember = asNewExpression.Members[index];
+                                 #region asNewExpression
+                                 asLNewExpression.Arguments.WithEachIndex(
+                                     (SourceArgument, index) =>
+                             {
+                                 var TargetMember = asLNewExpression.Members[index];
                                  var asMemberAssignment = new { Member = TargetMember };
 
 
                                  WriteExpression(index, SourceArgument, TargetMember);
                              }
-                             );
+                                 );
 
 
-                             SelectCommand = s_SelectCommand;
+                                 SelectCommand = s_SelectCommand;
 
-                             var FromCommand =
-                       "from "
-                           + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
-                           //+ " as " + xouter_Paramerer.Name.Replace("<>", "__");
-                           + " as s";
+                                 var FromCommand =
+                                   "from "
+                                       + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                   //+ " as " + xouter_Paramerer.Name.Replace("<>", "__");
+                                   + " as s";
 
-                             //var g = s_SelectCommand
-                             //    + "\n from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s ";
+                                 state.FromCommand = FromCommand;
 
-                             state.FromCommand = FromCommand;
+                                 #endregion
+                             }
+                             else
+                             {
+                                 // what if we do select x?
+                                 // X:\jsc.svn\examples\javascript\LINQ\test\TestSelect\TestSelect\ApplicationWebService.cs
 
-                             //"from (\n\t"
-                             //  + g.Replace("\n", "\n\t")
-                             //  + "\n) as g";
-                             #endregion
-                         }
-                         else
-                         {
-                             // what if we do select x?
-                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelect\TestSelect\ApplicationWebService.cs
+                                 SelectCommand = s.SelectCommand;
+                                 state.FromCommand = s.FromCommand;
 
-                             SelectCommand = s.SelectCommand;
-                             state.FromCommand = s.FromCommand;
-
-                             // um. what if we do a where on it?
+                                 // um. what if we do a where on it?
+                             }
                          }
                      }
 
@@ -1408,87 +1436,8 @@ namespace System.Data
             throw new NotImplementedException();
         }
 
-        [Obsolete("make sure to apply Take 1")]
-        public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
-        {
-            return source.AsGenericEnumerable().FirstOrDefault();
-        }
-
-        [Obsolete("AsEnumerable")]
-        public static IEnumerable<TSource> AsGenericEnumerable<TSource>(this IQueryStrategy<TSource> source)
-        {
-            var asISelectQueryStrategy = source as ISelectQueryStrategy;
-
-            // +		(new System.Linq.Expressions.Expression.LambdaExpressionProxy(c as System.Linq.Expressions.Expression<System.Func<MinMaxAverageExperiment.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow,<>f__AnonymousType0<MinMaxAverageExperiment.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceKey,string,string,string,string,string,string,int>>>)).Body	{new <>f__AnonymousType0`8(Key = k.Key, path = k.path, Trim = k.path.Trim(), TrimStart = k.path.TrimStart(new [] {}), TrimEnd = k.path.TrimEnd(new [] {}), ToLower = k.path.ToLower(), ToUpper = k.path.ToUpper(), Length = k.path.Length)}	System.Linq.Expressions.Expression {System.Linq.Expressions.NewExpression}
-            var asNewExpression = (asISelectQueryStrategy.selectorExpression as LambdaExpression).Body as NewExpression;
 
 
-
-            //Activator.CreateInstance(
-            // how do we do this on JVM, JS, AS?
-            //var x = asNewExpression.Constructor.Invoke(
-            //    parameters:
-            //        new object[]
-            //        {
-            //            //    k.Key,
-            //            0,
-            //            //    k.path,
-            //            "",
-            //            //    Trim = k.path.Trim(),
-            //            "",
-            //            //    TrimStart = k.path.TrimStart(),
-            //            "",
-            //            //    TrimEnd = k.path.TrimEnd(),
-            //            "",
-            //            //    ToLower = k.path.ToLower(),
-            //            "",
-            //            //    ToUpper = k.path.ToUpper(),
-            //            "",
-            //            //    // www.w3schools.com/sql/sql_func_len.asp
-            //            //    k.path.Length
-            //            0,
-            //        }
-            //);
-
-
-            var asDataTable = source.AsDataTable();
-
-            var z = asDataTable.Rows.AsEnumerable().Select(
-                SourceRow =>
-                {
-                    //Additional information: Object of type 'System.String' cannot be converted to type 'MinMaxAverageExperiment.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceKey'.
-                    //Additional information: Object of type 'System.Int64' cannot be converted to type 'System.Int32'.
-
-                    var parameters = asNewExpression.Members.Select(
-                         SourceMember =>
-                         {
-                             var asString = SourceRow[SourceMember.Name];
-
-                             var asPropertyInfo = SourceMember as PropertyInfo;
-                             if (asPropertyInfo.PropertyType == typeof(long) || asPropertyInfo.PropertyType.IsEnum)
-                                 return Convert.ToInt64(asString);
-
-                             if (asPropertyInfo.PropertyType == typeof(int))
-                                 return Convert.ToInt32(asString);
-
-                             // ref ScriptCoreLib.Ultra
-                             if (asPropertyInfo.PropertyType == typeof(DateTime))
-                                 return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(asString);
-
-                             return asString;
-                         }
-                    ).ToArray();
-
-                    var x = asNewExpression.Constructor.Invoke(
-                        parameters
-                    );
-
-                    return (TSource)x;
-                }
-            ).ToArray();
-
-            return z.AsEnumerable();
-        }
     }
 }
 

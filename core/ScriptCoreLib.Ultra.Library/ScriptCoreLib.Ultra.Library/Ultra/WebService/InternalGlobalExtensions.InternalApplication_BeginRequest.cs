@@ -118,6 +118,9 @@ namespace ScriptCoreLib.Ultra.WebService
             //    item.LoadParameters(that.Context);
             //}
 
+
+            // X:\jsc.svn\examples\javascript\test\TestBaseFieldSync\TestBaseFieldSync\ApplicationWebService.cs
+
             #region WriteInternalFields InternalFields -> AppendCookie
             Action<InternalWebMethodInfo> WriteInternalFields =
                 x =>
@@ -499,28 +502,7 @@ namespace ScriptCoreLib.Ultra.WebService
             }
             #endregion
 
-            //---------------------------
-            //Microsoft Visual Studio Express 2012 for Web
-            //---------------------------
-            //Source file: X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalGlobalExtensions.InternalApplication_BeginRequest.cs
-
-            //Module: C:\Users\Arvo\AppData\Local\Temp\Temporary ASP.NET Files\root\859044d8\ccb7784\assembly\dl3\a7ce0579\3c3b0c15_5e26cf01\ScriptCoreLib.Ultra.Library.dll
-
-            //Process: [6160] com.abstractatech.analytics.exe
-
-
-
-            //The source file is different from when the module was built. Would you like the debugger to use it anyway?
-            //---------------------------
-            //Yes   No   
-            //---------------------------
-
-
-            // MKUltra? what??
-            // Could not load type 'ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy' from assembly 'ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'.
-
-            //{Cannot evaluate expression because debugging information has been optimized away .:Cannot evaluate expression because debugging information has been optimized away .}
-
+           
             g.Serve(handler);
 
             if (IsComplete)

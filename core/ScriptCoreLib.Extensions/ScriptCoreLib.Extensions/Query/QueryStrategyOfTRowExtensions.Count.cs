@@ -24,6 +24,12 @@ namespace System.Data
     [Obsolete("the first generic extension method for all jsc data layer rows")]
     public static partial class QueryStrategyOfTRowExtensions
     {
+        public static long Count<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
+        {
+            return source.Where(filter).Count();
+
+        }
+
         #region select count
         //[Obsolete("this is the first method we made generic. would it work for a group now?")]
         public static long Count<TElement>(this IQueryStrategy<TElement> Strategy)

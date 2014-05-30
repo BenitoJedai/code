@@ -27,7 +27,7 @@ namespace System.Data
         // would group by work as distinct too?
 
         [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
-        interface IGroupByQueryStrategy
+        public interface IGroupByQueryStrategy
         {
             // allow to inspect upper select . what if there are multiple upper selects?
             ISelectQueryStrategy upperSelect { get; set; }
@@ -805,6 +805,25 @@ namespace System.Data
                                          s_SelectCommand += ",\n\t avg(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
                                          return;
                                      }
+                                 }
+                                 #endregion
+
+                                 #region  lower( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToLower")
+                                 {
+                                     var asMMemberExpression = asMethodCallExpression.Object as MemberExpression;
+
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+                                     // does it matter when we do the to lower?
+                                     // before group by
+                                     // or after? or both?
+                                     // whats the benefit?
+
+                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     s_SelectCommand += ",\n\t lower(s.`" + asMMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                     return;
+
+
                                  }
                                  #endregion
                              }

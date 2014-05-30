@@ -46,31 +46,22 @@ namespace System.Data
 
                 return InternalGetDescriptor();
             }
+
+            public Type GetElementType()
+            {
+                // not sure. replaced by selectorExpression?
+                return null;
+            }
         }
         #endregion
 
 
 
 
-        #region Sum
-        //public static long Sum<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source, Expression<Func<TElement, long>> f)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public static double Sum<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source, Expression<Func<TElement, double>> f)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        #endregion
+    
 
 
-        // referenced by the asset compiler
-        public static DataTable AsDataTable<TElement>(this IQueryStrategy<TElement> Strategy)
-        {
-            return QueryStrategyExtensions.AsDataTable(Strategy);
-        }
-
+   
 
 
         // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable.Methods.cs

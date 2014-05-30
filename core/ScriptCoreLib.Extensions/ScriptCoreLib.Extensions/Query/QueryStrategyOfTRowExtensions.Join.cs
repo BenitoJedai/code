@@ -30,7 +30,7 @@ namespace System.Data
 
 
         [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
-        interface IJoinQueryStrategy
+        public interface IJoinQueryStrategy
         {
             // allow to inspect upper select . what if there are multiple upper selects?
             Expression resultSelectorExpression { get; }
