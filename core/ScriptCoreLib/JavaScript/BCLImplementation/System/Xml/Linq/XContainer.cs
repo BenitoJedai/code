@@ -39,6 +39,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             InternalValueInitialize();
 
+
+            #region int
+            // X:\jsc.svn\examples\javascript\LINQ\test\vb\TestXMLSelect\TestXMLSelect\Application.vb
+
+            //   i = !(b instanceof wNCFl85B5DOD64VaExqsNg);
+            //if (content is int)
+            if (ScriptCoreLib.JavaScript.Runtime.Expando.IsNativeNumberObject(content))
+            {
+                if (this.InternalValue == null)
+                {
+                    // web worker mode? do we need to store elements on our own?
+                }
+                else
+                {
+                    this.InternalValue.appendChild(
+                        this.InternalValue.ownerDocument.createTextNode(Convert.ToString((int)content))
+                    );
+                }
+
+                return;
+            }
+            #endregion
+
+
             #region string
             {
                 var e = content as string;

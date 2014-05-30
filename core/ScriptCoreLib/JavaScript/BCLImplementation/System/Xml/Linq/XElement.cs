@@ -130,6 +130,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
             );
         }
 
+        public void SetAttributeValue(XName name, object value)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\JavaScript\Extensions\INodeExtensionsWithXLinq.cs
+
+            var a = this.Attribute(name);
+            if (a == null)
+            {
+                this.Add(new XAttribute(name, value));
+                return;
+            }
+
+            a.Value = global::System.Convert.ToString(value);
+        }
+
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Xml.Linq.XElement.SetAttributeValue(System.Xml.Linq.XName, System.Object)]
+
 
         public static XElement Parse(string text)
         {

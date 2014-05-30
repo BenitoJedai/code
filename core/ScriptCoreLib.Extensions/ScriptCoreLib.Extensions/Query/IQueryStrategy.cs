@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.Shared.Data.Diagnostics
 {
+
     // ?
     public interface IQueryStrategyGroupingBuilder<TSource>
     {
@@ -30,9 +31,16 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         public Expression<Func<TSource, TKey>> keySelector { get; set; }
     }
 
+
+
+    // used by order by GroupingKey detection
+    public interface IQueryStrategyGrouping
+    {
+    }
+
     [Obsolete("to make intellisense happy, and dispay only supported methods")]
     //public interface IQueryStrategyGrouping<out TKey, out TElement> : IQueryStrategy<TElement>
-    public interface IQueryStrategyGrouping<out TKey, TElement> : IQueryStrategy<TElement>
+    public interface IQueryStrategyGrouping<out TKey, TElement> : IQueryStrategy<TElement>, IQueryStrategyGrouping
     {
         TKey Key { get; }
     }
@@ -62,6 +70,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         List<Action<QueryStrategyExtensions.CommandBuilderState>> GetCommandBuilder();
 
 
+
+        Type GetElementType();
         // Stack<Apply>
     }
 

@@ -80,6 +80,11 @@ namespace ScriptCoreLib.Ultra.WebService
             //--> ");
 
             // view-source:http://skycraft.io/
+
+
+            // should we provde some statistics?
+
+                //this.References.
             WriteLine(@"<!doctype html>
 <!-- 
 
@@ -128,9 +133,9 @@ Visit http://my.jsc-solutions.net to gear up!
             //html.AddFirst(
             html.Add(
                 new XElement("script",
-                // will jvm autoclose this element?
+                    // will jvm autoclose this element?
                     new XAttribute("src",
-                //global::ScriptCoreLib.j
+                        //global::ScriptCoreLib.j
                         "view-source"), " "
                 )
             );

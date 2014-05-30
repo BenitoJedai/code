@@ -15,7 +15,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public string InternalValue;
 
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Xml.Linq.XAttribute.Remove()]
+      
+
         public void Remove()
         {
             // X:\jsc.svn\examples\javascript\css\Test\CSSSearchUserFeedback\CSSSearchUserFeedback\Application.cs
