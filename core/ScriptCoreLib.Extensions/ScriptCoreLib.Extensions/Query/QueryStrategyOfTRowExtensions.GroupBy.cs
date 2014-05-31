@@ -27,17 +27,18 @@ namespace System.Data
         // would group by work as distinct too?
 
         [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
-        public interface IGroupByQueryStrategy
+        public interface IGroupByQueryStrategy : INestedQueryStrategy
         {
             // allow to inspect upper select . what if there are multiple upper selects?
-            ISelectQueryStrategy upperSelect { get; set; }
+            //ISelectQueryStrategy upperSelect { get; set; }
 
             // what if we are in a join?
-            IJoinQueryStrategy upperJoin { get; set; }
+           // IJoinQueryStrategy upperJoin { get; set; }
 
 
             IQueryStrategy source { get; }
             Expression keySelector { get; }
+
             Expression elementSelector { get; }
         }
 
@@ -52,6 +53,7 @@ namespace System.Data
 
             public ISelectQueryStrategy upperSelect { get; set; }
             public IJoinQueryStrategy upperJoin { get; set; }
+            public IGroupByQueryStrategy upperGroupBy { get; set; }
 
             #region IGroupByQueryStrategy
             IQueryStrategy IGroupByQueryStrategy.source
@@ -113,7 +115,8 @@ namespace System.Data
             Console.WriteLine("GroupBy " + new { keySelector });
 
 
-            // script: error JSC1000: Java : unable to emit ldtoken at 'System.Data.QueryStrategyOfTRowExtensions.GroupBy'#0006: typeof(T) not supported due to type erasure
+            // script: error JSC1000: Java : unable to emit ldtoken at 'System.Data.QueryStrategyOfTRowExtensions.GroupBy'#0006: 
+            // typeof(T) not supported due to type erasure
             var GroupBy = new GroupByQueryStrategy<TSource, TKey, TElement>
             {
                 source = source,
@@ -214,8 +217,8 @@ namespace System.Data
                              // we are outer?
 
                              //GroupBy.upperJoin.resultSelectorExpression as LambdaExpression)
-                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
-                             asMemberInitExpressionByParameter0 = ((LambdaExpression)GroupBy.upperJoin.resultSelectorExpression).Parameters[0];
+                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.selectorExpression).Body as MemberInitExpression;
+                             asMemberInitExpressionByParameter0 = ((LambdaExpression)GroupBy.upperJoin.selectorExpression).Parameters[0];
 
 
                              if (asMemberInitExpression == null)
@@ -224,9 +227,9 @@ namespace System.Data
 
                                  if (GroupBy.upperJoin.upperJoin.xouter == GroupBy.upperJoin)
                                  {
-                                     asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
+                                     asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.selectorExpression).Body as MemberInitExpression;
                                      //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                     asMemberInitExpressionByParameter1 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.resultSelectorExpression).Parameters[0];
+                                     asMemberInitExpressionByParameter1 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.selectorExpression).Parameters[0];
 
 
 
@@ -236,9 +239,9 @@ namespace System.Data
 
                                          if (GroupBy.upperJoin.upperJoin.upperJoin.xouter == GroupBy.upperJoin.upperJoin)
                                          {
-                                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
+                                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.selectorExpression).Body as MemberInitExpression;
                                              //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                             asMemberInitExpressionByParameter2 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.resultSelectorExpression).Parameters[0];
+                                             asMemberInitExpressionByParameter2 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.selectorExpression).Parameters[0];
 
                                          }
 
