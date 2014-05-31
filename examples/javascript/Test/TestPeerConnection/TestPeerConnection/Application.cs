@@ -60,23 +60,136 @@ namespace TestPeerConnection
 
             // Uncaught ReferenceError: RTCPeerConnection is not defined
             // wtf?
-            var peer = new RTCPeerConnection();
+
+
+            // {{ RTCPeerConnection = undefined }}
+            //new IHTMLPre { new { w.RTCPeerConnection } }.AttachToDocument();
+            // {{ webkitRTCPeerConnection = function RTCPeerConnection() { [native code] } }}
+            //new IHTMLPre { new { w.webkitRTCPeerConnection } }.AttachToDocument();
+
+            // wtf chrome? stop prefixing
+            var w = Native.window as dynamic;
+            w.RTCPeerConnection = w.webkitRTCPeerConnection;
+            // Uncaught TypeError: Failed to construct 'RTCPeerConnection': 1 argument required, but only 0 present.
+
+            // http://stackoverflow.com/questions/22470291/rtcdatachannels-readystate-is-not-open
+
+            // after Chrome 31, you can use SCTP based data channels.
+            // http://stackoverflow.com/questions/21585681/send-image-data-over-rtc-data-channel
+            // https://code.google.com/p/chromium/issues/detail?id=295771
+            // https://gist.github.com/shacharz/9661930
+
+
+
+            // http://chimera.labs.oreilly.com/books/1230000000545/ch18.html#_tracking_ice_gathering_and_connectivity_status
+            var peer = new RTCPeerConnection(
+                new { iceServers = new object[0]},
+                null
+
+            // https://groups.google.com/forum/#!topic/discuss-webrtc/y2A97iCByTU
+
+            //constraints: new {
+            //    optional = new[]
+            //    {
+            //        new {  RtpDataChannels = true }
+            //    }
+            //} 
+            );
 
             // how the hell cann I connect two p2p?
             // i see we need to do data
 
             //peer.setLocalDescription
+            // https://groups.google.com/forum/#!topic/discuss-webrtc/zK_5yUqiqsE
+            // X:\jsc.svn\examples\javascript\xml\VBDisplayServerDebuggerPresence\VBDisplayServerDebuggerPresence\ApplicationWebService.vb
+            // https://code.google.com/p/webrtc/source/browse/trunk/samples/js/base/adapter.js
+            // http://www.webrtc.org/faq-recent-topics
+
+            // http://stackoverflow.com/questions/14134090/how-is-a-webrtc-peer-connection-established
+
+            peer.onicecandidate = new Action<RTCPeerConnectionIceEvent>(
+                (RTCPeerConnectionIceEvent e) =>
+                {
+                    if (e.candidate != null)
+                    {
+                        new IHTMLPre { "onicecandidate: " + new { e.candidate.candidate
+    }
+}.AttachToDocument();
 
 
+
+peer.addIceCandidate(e.candidate,
+                            new Action(
+                                delegate
+                        {
+                            new IHTMLPre { "addIceCandidate" }.AttachToDocument();
+                        }
+                                ));
+                    }
+                }
+            );
+
+            // http://stackoverflow.com/questions/15484729/why-doesnt-onicecandidate-work
+            // http://www.skylinetechnologies.com/Blog/Article/48/Peer-to-Peer-Media-Streaming-with-WebRTC-and-SignalR.aspx
+
+            peer.createOffer(
+    new Action<RTCSessionDescription>(
+        (RTCSessionDescription x) =>
+                    {
+
+                        new IHTMLPre { "after createOffer " + new { x.sdp } }.AttachToDocument();
+
+peer.setLocalDescription(x,
+                            new Action(
+                                delegate
+                        {
+                            // // send the offer to a server that can negotiate with a remote client
+                            new IHTMLPre { "after setLocalDescription " }.AttachToDocument();
+                        }
+                            )
+                        );
+
+                        peer.setRemoteDescription(x,
+                              new Action(
+                                  delegate
+                        {
+                            // // send the offer to a server that can negotiate with a remote client
+                            new IHTMLPre { "after setRemoteDescription " }.AttachToDocument();
+                        }
+                              )
+                          );
+                    }
+    )
+);
+
+
+
+            peer.createAnswer(
+                                new Action<RTCSessionDescription>(
+                    (RTCSessionDescription x) =>
+                    {
+
+                        new IHTMLPre { "after createAnswer " + new { x.sdp } }.AttachToDocument();
+                    }
+                                    ));
+
+
+            // https://groups.google.com/forum/#!topic/discuss-webrtc/wbcgYMrIii4
+            // https://groups.google.com/forum/#!msg/discuss-webrtc/wbcgYMrIii4/aZ12cENVTxEJ
+            // http://blog.printf.net/articles/2013/05/17/webrtc-without-a-signaling-server/
+
+            //peer.onconn
+
+            // https://github.com/cjb/serverless-webrtc/blob/master/js/serverless-webrtc.js
             peer.ondatachannel = new Action<RTCDataChannelEvent>(
                 (RTCDataChannelEvent e) =>
                 {
                     //Console.WriteLine("ondatachannel");
                     new IHTMLPre { "ondatachannel" }.AttachToDocument();
 
-                    var c = e.channel;
+var c = e.channel;
 
-                    c.onmessage = new Action<MessageEvent>(
+c.onmessage = new Action<MessageEvent>(
                         (MessageEvent ee) =>
                         {
                             new IHTMLPre { new { ee.data } }.AttachToDocument();
@@ -88,23 +201,40 @@ namespace TestPeerConnection
                 }
             );
 
-            new IHTMLButton { "create send channel" }.AttachToDocument().WhenClicked(
-                async button =>
+            // jsc cant the idl generator understand optinal?
+            RTCDataChannel dc = peer.createDataChannel("label1", null);
+
+
+// {{ id = 65535, label = label1, readyState = connecting }}
+new IHTMLPre { new { dc.id, dc.label, dc.readyState } }.AttachToDocument();
+
+new IHTMLButton { "awaiting to open..." }.AttachToDocument().With(
+     button =>
                 {
-                    // jsc cant the idl generator understand optinal?
-                    RTCDataChannel dc = peer.createDataChannel("label1", null);
 
-                    button.innerText = "send";
+    // !!! can our IDL compiler generate events and async at the same time?
+    dc.onopen = new Action<IEvent>(
+        async ee =>
+                        {
 
-                    while (true)
-                    {
-                        await button.async.onclick;
 
-                        new IHTMLPre { "send" }.AttachToDocument();
+                            button.innerText = "send";
 
-                        dc.send("data to send");
-                    }
-                }
+                            while (true)
+                            {
+                                await button.async.onclick;
+
+                                new IHTMLPre { "send" }.AttachToDocument();
+
+                                // Failed to execute 'send' on 'RTCDataChannel': RTCDataChannel.readyState is not 'open'
+                                dc.send("data to send");
+                            }
+
+                        }
+    );
+
+
+}
             );
 
             //connection.createOffer
