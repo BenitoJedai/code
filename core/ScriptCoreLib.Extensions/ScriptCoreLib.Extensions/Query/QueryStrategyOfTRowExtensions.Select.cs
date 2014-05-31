@@ -25,7 +25,7 @@ namespace System.Data
     public static partial class QueryStrategyOfTRowExtensions
     {
         [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
-        public interface ISelectQueryStrategy
+        public interface ISelectQueryStrategy : INestedQueryStrategy
         {
             // allow to inspect upper select . what if there are multiple upper selects?
             Expression selectorExpression { get; }
@@ -40,6 +40,12 @@ namespace System.Data
             public IQueryStrategy<TSource> source;
             public Expression<Func<TSource, TResult>> selector;
 
+
+
+
+            public ISelectQueryStrategy upperSelect { get; set; }
+            public IJoinQueryStrategy upperJoin { get; set; }
+            public IGroupByQueryStrategy upperGroupBy { get; set; }
 
 
             #region ISelectQueryStrategy
@@ -119,7 +125,9 @@ namespace System.Data
 
                      var asMemberInitExpression = (asLambdaExpression).Body as MemberInitExpression;
 
-                     (that.source as IGroupByQueryStrategy).With(q => q.upperSelect = that);
+                     (that.source as INestedQueryStrategy).With(q => q.upperSelect = that);
+
+                     // x:\jsc.svn\examples\javascript\linq\test\testjoinselectanonymoustype\testjoinselectanonymoustype\applicationwebservice.cs
 
                      var s = QueryStrategyExtensions.AsCommandBuilder(that.source);
 
@@ -403,19 +411,24 @@ namespace System.Data
                                      // asMMemberExpression = {result.Last().l}
                                      // asMemberExpression = {result.Last().l.FirstName}
 
-                                     var asMMMCall = asMMemberExpression.Expression as MethodCallExpression;
-                                     if (asMMMCall != null)
-                                     {
-                                         //asMMMCall = {result.Last()}
+
+                                     // um we are in a select. canot to Last can we.
+                                     //var asMMMCall = asMMemberExpression.Expression as MethodCallExpression;
+                                     //if (asMMMCall != null)
+                                     //{
+                                     //    //asMMMCall = {result.Last()}
 
 
-                                         if (asMMMCall.Method.Name.TakeUntilIfAny("_") == "Last")
-                                         {
-                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                             s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                             return;
-                                         }
-                                     }
+                                     //    if (asMMMCall.Method.Name.TakeUntilIfAny("_") == "Last")
+                                     //    {
+                                     //        state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     //        s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     //        return;
+                                     //    }
+                                     //}
+
+                                     s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     return;
                                  }
 
                              }
@@ -772,7 +785,16 @@ namespace System.Data
                              }
                              #endregion
 
+                             var asEParameterExpression = asExpression as ParameterExpression;
+                             if (asEParameterExpression != null)
+                             {
+                                 // using the let keyword?
 
+                                 // x:\jsc.svn\examples\javascript\linq\test\testjoinselectanonymoustype\testjoinselectanonymoustype\applicationwebservice.cs
+
+                                 s_SelectCommand += ",\n\t " + asEParameterExpression.Name + " as `" + asMemberAssignment.Member.Name + "`";
+                                 return;
+                             }
 
                              Debugger.Break();
                          };
