@@ -579,9 +579,12 @@ namespace System.Data
 
                         Console.WriteLine("MutableWhere " + new { n, r = rAddParameterValue0 });
 
+                        // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
                         state.ApplyParameter.Add(
                             c =>
                             {
+                                // um. the upper scope isnt calling this here, in a join, why?
+
                                 // either the actualt command or the explain command?
 
                                 //c.Parameters.AddWithValue(n, r);

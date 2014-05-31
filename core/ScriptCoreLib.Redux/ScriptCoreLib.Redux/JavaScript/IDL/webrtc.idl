@@ -1,3 +1,4 @@
+// http://www.w3.org/TR/webrtc/
 // http://dev.w3.org/2011/webrtc/editor/webrtc.html
 
 // http://www.webrtc.org/reference/native-apis
@@ -40,13 +41,31 @@ interface RTCPeerConnectionIceEvent : Event {
 
 //partial 
 // X:\jsc.svn\examples\javascript\test\TestPeerConnection\TestPeerConnection\Application.cs
-[Constructor()]
+//[ Constructor (RTCConfiguration configuration, optional MediaConstraints constraints)]
+[ Constructor (any configuration, optional any constraints)]
 interface RTCPeerConnection {
 
+	// http://mxr.mozilla.org/mozilla-central/source/dom/media/PeerConnection.js
+
 	//void                  createOffer (RTCSessionDescriptionCallback successCallback, RTCPeerConnectionErrorCallback failureCallback, optional RTCOfferOptions options);
+	//void                  createOffer (RTCSessionDescriptionCallback successCallback);
+	//void                  createOffer (function<RTCSessionDescription sdp> successCallback);
+
+	void                  createOffer (function<RTCSessionDescription> successCallback);
 	//void                  createAnswer (RTCSessionDescriptionCallback successCallback, RTCPeerConnectionErrorCallback failureCallback, optional RTCOfferAnswerOptions options);
 
+	void                  createAnswer (function<RTCSessionDescription> successCallback);
 
+
+	 //void                  setLocalDescription (RTCSessionDescription description, VoidFunction successCallback, RTCPeerConnectionErrorCallback failureCallback);
+	 void                  setLocalDescription (RTCSessionDescription description, function successCallback);
+
+	 //     void                  setRemoteDescription (RTCSessionDescription description, VoidFunction successCallback, RTCPeerConnectionErrorCallback failureCallback);
+	 void                  setRemoteDescription (RTCSessionDescription description, function successCallback);
+
+
+
+	 // RTCPeerConnection Interface Extensions
 	//RTCDataChannel createDataChannel (DOMString label, optional RTCDataChannelInit dataChannelDict);
 	RTCDataChannel createDataChannel (DOMString label, optional any dataChannelDict);
 	attribute EventHandler ondatachannel;
@@ -56,10 +75,24 @@ interface RTCPeerConnection {
 
 
 
-	void setIdentityProvider (DOMString provider, optional DOMString protocol, optional DOMString username);
-	void getIdentityAssertion ();
-	//readonly    attribute RTCIdentityAssertion? peerIdentity;
-	attribute EventHandler          onidentityresult;
+	//void setIdentityProvider (DOMString provider, optional DOMString protocol, optional DOMString username);
+	//void getIdentityAssertion ();
+	////readonly    attribute RTCIdentityAssertion? peerIdentity;
+	//attribute EventHandler          onidentityresult;
+
+	// https://bugzilla.mozilla.org/show_bug.cgi?id=1014304
+
+	        attribute EventHandler           onnegotiationneeded;
+
+			// X:\jsc.svn\examples\javascript\p2p\RTCPeerIPAddress\RTCPeerIPAddress\Application.cs
+                attribute EventHandler           onicecandidate;
+	//void                  addIceCandidate (RTCIceCandidate candidate, VoidFunction successCallback, RTCPeerConnectionErrorCallback failureCallback);
+	void                  addIceCandidate (RTCIceCandidate candidate, function successCallback);
+
+                attribute EventHandler           onsignalingstatechange;
+                attribute EventHandler           onaddstream;
+                attribute EventHandler           onremovestream;
+                attribute EventHandler           oniceconnectionstatechange;
 
 };
 
@@ -71,7 +104,11 @@ interface RTCDataChannel : EventTarget {
 	readonly    attribute DOMString           protocol;
 	readonly    attribute boolean             negotiated;
 	readonly    attribute unsigned short?     id;
+
 	//readonly    attribute RTCDataChannelState readyState;
+	// can CLR do string enums yet?
+	readonly    attribute string readyState;
+
 	readonly    attribute unsigned long       bufferedAmount;
 	attribute EventHandler        onopen;
 	attribute EventHandler        onerror;

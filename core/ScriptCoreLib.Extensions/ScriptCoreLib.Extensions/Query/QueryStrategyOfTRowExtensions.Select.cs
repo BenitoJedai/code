@@ -139,6 +139,7 @@ namespace System.Data
 
 
                      var SelectCommand = default(string);
+                     var s_SelectCommand = "select 0 as foo";
 
 
                      #region AddToSelectCommand
@@ -152,7 +153,6 @@ namespace System.Data
                     };
                      #endregion
 
-                     var s_SelectCommand = "select 0 as foo";
 
 
                      #region WriteMemberExpression COPY from GroupBy
@@ -1364,20 +1364,20 @@ namespace System.Data
                          }
                          else
                          {
-
+                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectIntoNewExpression\TestSelectIntoNewExpression\ApplicationWebService.cs
                              var asLNewExpression = asLambdaExpression.Body as NewExpression;
                              if (asLNewExpression != null)
                              {
                                  #region asNewExpression
                                  asLNewExpression.Arguments.WithEachIndex(
                                      (SourceArgument, index) =>
-                             {
-                                 var TargetMember = asLNewExpression.Members[index];
-                                 var asMemberAssignment = new { Member = TargetMember };
+                                    {
+                                        var TargetMember = asLNewExpression.Members[index];
+                                        var asMemberAssignment = new { Member = TargetMember };
 
 
-                                 WriteExpression(index, SourceArgument, TargetMember);
-                             }
+                                        WriteExpression(index, SourceArgument, TargetMember);
+                                    }
                                  );
 
 

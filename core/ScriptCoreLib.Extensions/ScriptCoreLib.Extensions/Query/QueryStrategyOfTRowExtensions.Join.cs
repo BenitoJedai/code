@@ -291,8 +291,15 @@ namespace System.Data
                 Console.WriteLine("Join CommandBuilder building SelectCommand...");
 
 
+                // ?? not used in here
+                var asMemberInitExpressionByParameter0 = default(ParameterExpression);
+                var asMemberInitExpressionByParameter1 = default(ParameterExpression);
+                var asMemberInitExpressionByParameter2 = default(ParameterExpression);
+
+
                 #region SelectCommand
                 var SelectCommand = default(string);
+                var s_SelectCommand = "select 0 as foo";
 
 
                 #region AddToSelectCommand
@@ -305,6 +312,631 @@ namespace System.Data
                             SelectCommand += ",\n\t " + x;
                     };
                 #endregion
+
+                #region WriteMemberExpression COPY from GroupBy
+                Action<int, MemberExpression, MemberInfo> WriteMemberExpression =
+                    (index, asMemberExpression, asMemberAssignment_Member) =>
+                         {
+                             var asMemberAssignment = new { Member = asMemberAssignment_Member };
+
+                             // +		Member	{TestSQLiteGroupBy.Data.GooStateEnum Key}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
+
+                             // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\Expression.cs
+
+
+                             //{ index = 7, asMemberAssignment = MemberAssignment { Expression = MemberExpression { expression = MethodCallExpression { Object = , Method = java.lang.Object Last(TestSQLiteGroupBy.IQueryStrategyGrouping_2) }, field = double x }
+                             //{ index = 7, asMemberExpression = MemberExpression { expression = MethodCallExpression { Object = , Method = java.lang.Object Last(TestSQLiteGroupBy.IQueryStrategyGrouping_2) }, field = double x } }
+                             //{ index = 7, Member = double x, Name = x }
+                             //{ index = 7, asMemberExpressionMethodCallExpression = MethodCallExpression { Object = , Method = java.lang.Object Last(TestSQLiteGroupBy.IQueryStrategyGrouping_2) } }
+
+
+                             Console.WriteLine(new { index, asMemberExpression.Member, asMemberExpression.Member.Name });
+
+                             ////#region let z <- Grouping.Key
+                             ////var IsKey = asMemberExpression.Member.Name == "Key";
+
+                             ////// if not a property we may still have the getter in JVM
+                             ////IsKey |= asMemberExpression.Member.Name == "get_Key";
+
+                             ////if (IsKey)
+                             ////{
+                             ////    // special!
+                             ////    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                             ////    s_SelectCommand += ",\n\t s.`"
+                             ////       + GroupingKeyFieldExpressionName + "` as `" + asMemberAssignment.Member.Name + "`";
+                             ////    return;
+                             ////}
+                             ////#endregion
+
+                             // Method = {TestSQLiteGroupBy.Data.Book1MiddleRow First[GooStateEnum,Book1MiddleRow](TestSQLiteGroupBy.IQueryStrategyGrouping`2[TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow])}
+
+                             #region asMemberExpressionMethodCallExpression
+                             var asMemberExpressionMethodCallExpression = asMemberExpression.Expression as MethodCallExpression;
+                             Console.WriteLine(new { index, asMemberExpressionMethodCallExpression });
+                             if (asMemberExpressionMethodCallExpression != null)
+                             {
+                                 if (asMemberInitExpressionByParameter1 != null)
+                                 {
+
+                                     // ?
+                                 }
+                                 else if (asMemberInitExpressionByParameter0 != null)
+                                 {
+                                     if (asMemberInitExpressionByParameter0 != asMemberExpressionMethodCallExpression.Arguments[0])
+                                     {
+                                         // group by within a join, where this select is not part of this outer source!
+
+                                         return;
+                                     }
+                                 }
+                                 Console.WriteLine(new { index, asMemberExpressionMethodCallExpression, asMemberExpressionMethodCallExpression.Method.Name });
+
+
+                             }
+                             #endregion
+
+
+                             //                                                 -		asMemberAssignment.Expression	{value(SQLiteWithDataGridViewX.ApplicationWebService+<>c__DisplayClass1b).SpecialConstant.u}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
+
+
+                             //                                 +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberAssignment.Expression as System.Linq.Expressions.PropertyExpression)).Member	{System.String u}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
+                             //+		(new System.Linq.Expressions.Expression.ConstantExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberAssignment.Expression as System.Linq.Expressions.PropertyExpression)).Expression as System.Linq.Expressions.FieldExpression)).Expression as System.Linq.Expressions.ConstantExpression)).Value	{SQLiteWithDataGridViewX.ApplicationWebService.}	object {SQLiteWithDataGridViewX.ApplicationWebService.}
+
+                             //                                 -		Value	{SQLiteWithDataGridViewX.ApplicationWebService.}	object {SQLiteWithDataGridViewX.ApplicationWebService.}
+                             //-		SpecialConstant	{ u = "44" }	<Anonymous Type>
+                             //        u	"44"	string
+
+
+
+
+                             #region asMConstantExpression
+                             //         var SpecialConstant_u = "44";
+                             var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
+                             if (asMConstantExpression != null)
+                             {
+                                 var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
+                                 var rAddParameterValue0 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+
+                                 // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+
+                                 var n = "@arg" + state.ApplyParameter.Count;
+
+                                 state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                 s_SelectCommand += ",\n\t " + n + " as `" + asMemberAssignment.Member.Name + "`";
+
+                                 state.ApplyParameter.Add(
+                                     c =>
+                                     {
+                                         // either the actualt command or the explain command?
+
+                                         //c.Parameters.AddWithValue(n, r);
+                                         c.AddParameter(n, rAddParameterValue0);
+                                     }
+                                 );
+
+                                 return;
+
+                                 //if (rAddParameterValue0 is string)
+                                 //{
+                                 //    // the outer select might be optimized away!
+                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                 //    s_SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                 //}
+                                 //else
+                                 //{
+                                 //    // long?
+                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                 //    s_SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
+                                 //}
+
+                                 //return;
+                             }
+                             #endregion
+
+
+
+                             var xasMParameterExpression = asMemberExpression.Expression as ParameterExpression;
+                             if (xasMParameterExpression != null)
+                             {
+
+                             }
+
+
+                             #region asMMemberExpression
+                             var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
+                             if (asMMemberExpression != null)
+                             {
+                                 // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
+                                 // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
+                                 // var SpecialConstant = new { u = "44" };
+
+
+                                 if (asMemberInitExpressionByParameter1 != null)
+                                 {
+                                     // ???
+                                     // +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberExpression as System.Linq.Expressions.FieldExpression)).Expression	
+                                     // {<>h__TransparentIdentifier0.MiddleSheetz}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
+
+                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+                                     //Debugger.Break();
+                                     return;
+
+                                     //var asFieldInfo = asMemberExpression.Member as FieldInfo;
+                                     //if (asFieldInfo != null)
+                                     //{
+                                     //    //asMemberExpressionMethodCallExpression = {<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last()}
+
+                                     //    state.SelectCommand += ",\n\t g.`" + asFieldInfo.Name + "` as `" + asFieldInfo.Name + "`";
+                                     //    s_SelectCommand += ",\n\t s.`" + asFieldInfo.Name + "` as `" + asFieldInfo.Name + "`";
+                                     //    return;
+                                     //}
+                                 }
+
+                                 var asMMFieldInfo = asMMemberExpression.Member as FieldInfo;
+
+                                 #region asPropertyInfo
+                                 var asPropertyInfo = asMemberExpression.Member as PropertyInfo;
+                                 if (asPropertyInfo != null)
+                                 {
+
+
+                                     if (asPropertyInfo.Name == "Length")
+                                     {
+                                         // http://www.sqlite.org/lang_corefunc.html
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t len(s.`" + asMMFieldInfo.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t length(s.`" + asMMFieldInfo.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+
+                                         return;
+                                     }
+
+
+                                     // CLR
+
+                                     var asC = asMMemberExpression.Expression as ConstantExpression;
+
+                                     // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
+
+                                     var value0 = asMMFieldInfo.GetValue(asC.Value);
+                                     var rAddParameterValue0 = asPropertyInfo.GetValue(value0, null);
+
+
+
+                                     var n = "@arg" + state.ApplyParameter.Count;
+                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     s_SelectCommand += ",\n\t " + n + " as `" + asMemberAssignment.Member.Name + "`";
+
+                                     state.ApplyParameter.Add(
+                                         c =>
+                                         {
+                                             // either the actualt command or the explain command?
+
+                                             //c.Parameters.AddWithValue(n, r);
+                                             c.AddParameter(n, rAddParameterValue0);
+                                         }
+                                     );
+
+                                     //if (rAddParameterValue0 is string)
+                                     //{
+                                     //    // NULL?
+                                     //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                     //}
+                                     //else
+                                     //{
+                                     //    // long?
+                                     //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
+                                     //}
+
+                                     return;
+                                 }
+                                 #endregion
+
+
+
+                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
+                                 // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+                                 var asMMMemberInfo = asMMemberExpression.Member as MemberInfo;
+                                 if (asMMMemberInfo != null)
+                                 {
+                                     // asMMemberExpression = {result.Last().l}
+                                     // asMemberExpression = {result.Last().l.FirstName}
+
+                                     var asMMMCall = asMMemberExpression.Expression as MethodCallExpression;
+                                     if (asMMMCall != null)
+                                     {
+                                         //asMMMCall = {result.Last()}
+
+
+                                         if (asMMMCall.Method.Name.TakeUntilIfAny("_") == "Last")
+                                         {
+                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             return;
+                                         }
+                                     }
+
+                                     // asMMemberExpression = {<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k}
+
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
+                                     s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     return;
+                                 }
+
+                             }
+                             #endregion
+
+                             #region asMMemberExpressionParameterExpression
+                             var asMMemberExpressionParameterExpression = asMemberExpression.Expression as ParameterExpression;
+                             if (asMMemberExpressionParameterExpression != null)
+                             {
+                                 if (asMemberInitExpressionByParameter0 != null)
+                                 {
+                                     if (asMemberInitExpressionByParameter0 != asMMemberExpressionParameterExpression)
+                                     {
+                                         // group by within a join, where this select is not part of this outer source!
+
+                                         return;
+                                     }
+                                 }
+
+
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
+                                 var asMParameterExpression = asMemberExpression.Expression as ParameterExpression;
+                                 s_SelectCommand += ",\n\t " + asMParameterExpression.Name + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                 return;
+                             }
+                             #endregion
+
+
+                             //asMMemberExpression.Member
+                             Debugger.Break();
+                         };
+                #endregion
+
+
+                #region WriteExpression COPY from GroupBy
+                Action<int, Expression, MemberInfo> WriteExpression =
+                    (index, asExpression, TargetMember) =>
+                         {
+                             var asMemberAssignment = new { Expression = asExpression, Member = TargetMember };
+
+                             // what about nesed joins?
+
+                             var asEParameterExpression = asExpression as ParameterExpression;
+                             if (asEParameterExpression != null)
+                             {
+                                 // does it mean we want all fields?
+                                 // or were we supposed to figure out what needs to be selected?
+
+                                 var xu = that.upperJoin;
+                                 // resultSelectorExpression = {(<>h__TransparentIdentifier0, uu) => new <>f__AnonymousType1`4(
+                                 // kkey = <>h__TransparentIdentifier0.k.Key, 
+                                 // kpath = <>h__TransparentIdentifier0.k.path, 
+                                 // upath = <>h__TransparentIdentifier0.u.requestStart, 
+                                 // uupath = uu.requestStart)}
+
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
+
+                                 //                                 select 0 as foo,
+                                 //         s.`k_kkey` as `kkey`,
+                                 //         s.`k_kpath` as `kpath`,
+                                 //         s.`u_upath` as `upath`,
+                                 //         uu.`requestStart` as `uupath`
+                                 //from(select 0 as foo,
+                                 //                 k as `k`,
+
+                                 // level1
+
+
+                                 //                                 select 0 as foo,
+                                 //         s.`k_kkey` as `kkey`,
+                                 //         s.`k_kpath` as `kpath`,
+                                 //         s.`u_upath` as `upath`,
+                                 //         s.`uu_uupath` as `uupath`,
+                                 //         uuu.`requestStart` as `uuupath`
+                                 //from(select 0 as foo,
+                                 //                 <> h__TransparentIdentifier0 as `<> h__TransparentIdentifier0`,
+                                 //                 uu as `uu`
+                                 //        from(select 0 as foo,
+                                 //                         k as `k`,
+                                 //                         u as `u`
+                                 //                from(select `Key`, `name`, `path`, `entryType`, `duration`, `startTime`, `connectStart`, `connectEnd`, `requestStart`, `responseStart`, `responseEnd`, `ApplicationPerformance`, `Tag`, `Timestamp`
+                                 //                        from `PerformanceResourceTimingData2.ApplicationResourcePerformance`
+                                 //                         where `requestStart` > @where0
+                                 //                        ) as k inner join `PerformanceResourceTimingData2.ApplicationPerformance` as u
+                                 //                on k.`requestStart` = u.`requestStart`
+                                 //                ) as __h__TransparentIdentifier0 inner join `PerformanceResourceTimingData2.ApplicationPerformance` as uu
+                                 //        on __h__TransparentIdentifier0.`u_requestStart` = uu.`requestStart`
+                                 //        ) as __h__TransparentIdentifier1 inner join `PerformanceResourceTimingData2.ApplicationPerformance` as uuu
+                                 //on __h__TransparentIdentifier1.`uu_requestStart` = uuu.`requestStart`
+
+                                 // level2
+                                 //Debugger.Break();
+
+                                 s_SelectCommand += ",\n\t " + asEParameterExpression.Name + " as `" + asMemberAssignment.Member.Name + "`";
+                                 return;
+                             }
+
+
+
+
+                             #region asMConstantExpression
+                             {
+                                 var asMConstantExpression = asMemberAssignment.Expression as ConstantExpression;
+                                 if (asMConstantExpression != null)
+                                 {
+                                     var asMPropertyInfo = asMemberAssignment.Member as FieldInfo;
+                                     //var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+                                     var rAddParameterValue0 = asMConstantExpression.Value;
+
+                                     var n = "@arg" + state.ApplyParameter.Count;
+
+
+                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     s_SelectCommand += ",\n\t " + n + " as `" + asMemberAssignment.Member.Name + "`";
+
+                                     state.ApplyParameter.Add(
+                                         c =>
+                                         {
+                                             // either the actualt command or the explain command?
+
+                                             //c.Parameters.AddWithValue(n, r);
+                                             c.AddParameter(n, rAddParameterValue0);
+                                         }
+                                     );
+
+
+                                     //if (rAddParameterValue0 is string)
+                                     //{
+                                     //    // NULL?
+                                     //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                     //}
+                                     //else
+                                     //{
+                                     //    // long?
+                                     //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
+                                     //}
+
+                                     return;
+                                 }
+                             }
+                             #endregion
+
+                             //                                 -		asMemberAssignment.Expression	{GroupByGoo.Count()}	System.Linq.Expressions.Expression {System.Linq.Expressions.MethodCallExpressionN}
+                             //+		Method	{Int64 Count(ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy`1[TestSQLiteGroupBy.Data.Book1MiddleRow])}	System.Reflection.MethodInfo {System.Reflection.RuntimeMethodInfo}
+
+                             #region asMethodCallExpression
+                             var asMethodCallExpression = asMemberAssignment.Expression as MethodCallExpression;
+                             if (asMethodCallExpression != null)
+                             {
+                                 Console.WriteLine(new { index, asMethodCallExpression.Method });
+
+                                 #region count(*) special!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Count")
+                                 {
+
+                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     //s_SelectCommand += ",\n\t count(*) as `" + asMemberAssignment.Member.Name + "`";
+                                     s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     return;
+                                 }
+                                 #endregion
+
+                                 #region  sum( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")
+                                 {
+                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                     if (arg1 != null)
+                                     {
+                                         var asMemberExpression = arg1.Body as MemberExpression;
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+
+                                 #region  min( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Min")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                     if (arg1 != null)
+                                     {
+                                         var asMemberExpression = arg1.Body as MemberExpression;
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t min(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  max( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Max")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                     if (arg1 != null)
+                                     {
+                                         var asMemberExpression = arg1.Body as MemberExpression;
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t max(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  avg( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Average")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                     if (arg1 != null)
+                                     {
+                                         var asMemberExpression = arg1.Body as MemberExpression;
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t avg(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+
+                                 #region  lower( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToLower")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                     if (asMemberExpression != null)
+                                     {
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t lower(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  upper( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToUpper")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                     if (asMemberExpression != null)
+                                     {
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t upper(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  ltrim( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "TrimStart")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                     if (asMemberExpression != null)
+                                     {
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t ltrim(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  rtrim( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "TrimEnd")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                     if (asMemberExpression != null)
+                                     {
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t rtrim(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                                 #region  trim( special!!
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Trim")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                     if (asMemberExpression != null)
+                                     {
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t trim(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+
+                                 #region FirstOrDefault
+                                 // https://www.youtube.com/watch?v=pt8VYOfr8To
+                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "FirstOrDefault")
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
+                                     // can we ask for sql?
+
+
+                                     var arg0 = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                     if (arg0 != null)
+                                     {
+
+                                         // we dont know yet how to get sql of that thing do we
+                                         s_SelectCommand += ",\n\t 0 as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+                                 }
+                                 #endregion
+
+                             }
+                             #endregion
+
+
+
+                             #region asMemberExpression
+                             {
+                                 // m_getterMethod = {TestSQLiteGroupBy.Data.GooStateEnum get_Key()}
+
+                                 var asMemberExpression = asMemberAssignment.Expression as MemberExpression;
+                                 Console.WriteLine(new { index, asMemberExpression });
+                                 if (asMemberExpression != null)
+                                 {
+                                     WriteMemberExpression(index, asMemberExpression, TargetMember);
+                                     return;
+                                 }
+                             }
+                             #endregion
+
+                             #region  asMemberAssignment.Expression = {Convert(GroupByGoo.First())}
+                             var asUnaryExpression = asMemberAssignment.Expression as UnaryExpression;
+
+                             Console.WriteLine(new { index, asUnaryExpression });
+
+                             if (asUnaryExpression != null)
+                             {
+
+
+
+
+                             }
+                             #endregion
+
+
+
+                             Debugger.Break();
+                         };
+                #endregion
+
 
 
 
@@ -323,6 +955,12 @@ namespace System.Data
                 //Join CommandBuilder building SelectCommand... upperJoin
                 //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type = TestSQLJoin.Data.Book1TheViewRow }
 
+
+
+                // X:\jsc.svn\examples\javascript\linq\test\TestSelectIntoNewExpression\TestSelectIntoNewExpression\ApplicationWebService.cs
+                // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
+                var asLMemberExpression = asLambdaExpression.Body as MemberExpression;
+                var asLNewExpression = asLambdaExpression.Body as NewExpression;
                 var asMemberInitExpression = asLambdaExpression.Body as MemberInitExpression;
                 // asLambdaExpression.Body = {new <>f__AnonymousType1`3(Key = k.Key, path = k.path, pathToLower = kk.path)}
 
@@ -334,116 +972,115 @@ namespace System.Data
                 Console.WriteLine("Join CommandBuilder  ...  " + new { asMemberInitExpression, asLambdaExpression.Body });
 
 
-                var asMemberInitExpressionByParameter0 = default(ParameterExpression);
-                var asMemberInitExpressionByParameter1 = default(ParameterExpression);
+                if (asLNewExpression == null)
+                {
 
-
-                #region upperGroupBy
-                if (asMemberInitExpression == null)
-                    if (that.upperGroupBy != null)
-                        if (that.upperGroupBy.source == that)
-                        {
-                            Console.WriteLine("Join CommandBuilder building SelectCommand... upperGroupBy");
-
-                            asMemberInitExpression = (that.upperGroupBy.elementSelector as LambdaExpression).Body as MemberInitExpression;
-                            asMemberInitExpressionByParameter0 = (that.upperGroupBy.elementSelector as LambdaExpression).Parameters[0];
-
-
-
-                            if (asMemberInitExpression == null)
+                    #region upperGroupBy
+                    if (asMemberInitExpression == null)
+                        if (that.upperGroupBy != null)
+                            if (that.upperGroupBy.source == that)
                             {
-                                // ???
+                                Console.WriteLine("Join CommandBuilder building SelectCommand... upperGroupBy");
 
-                                if (that.upperGroupBy.upperSelect.source == that.upperGroupBy)
+                                asMemberInitExpression = (that.upperGroupBy.elementSelector as LambdaExpression).Body as MemberInitExpression;
+                                asMemberInitExpressionByParameter0 = (that.upperGroupBy.elementSelector as LambdaExpression).Parameters[0];
+
+
+
+                                if (asMemberInitExpression == null)
                                 {
-                                    asMemberInitExpression = (that.upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MemberInitExpression;
-                                    //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                    asMemberInitExpressionByParameter1 = (that.upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Parameters[0];
+                                    // ???
 
-                                    //if (asMemberInitExpression != null)
-                                    //    AddToSelectCommand(
-                                    //               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
-                                    //               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
-                                    //               );
+                                    if (that.upperGroupBy.upperSelect.source == that.upperGroupBy)
+                                    {
+                                        asMemberInitExpression = (that.upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MemberInitExpression;
+                                        //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                        asMemberInitExpressionByParameter1 = (that.upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Parameters[0];
+
+                                        //if (asMemberInitExpression != null)
+                                        //    AddToSelectCommand(
+                                        //               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
+                                        //               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
+                                        //               );
+                                    }
+
+
+
+                                }
+                            }
+                    #endregion
+
+
+
+                    #region upperJoin
+                    if (asMemberInitExpression == null)
+                        if (that.upperJoin != null)
+                            if (that.upperJoin.xouter == that)
+                            {
+                                Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin " + new { that.upperJoin.resultSelectorExpression });
+
+                                asMemberInitExpression = ((LambdaExpression)that.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
+                                asMemberInitExpressionByParameter0 = ((LambdaExpression)that.upperJoin.resultSelectorExpression).Parameters[0];
+
+
+                                var asMemberExpression = ((LambdaExpression)that.upperJoin.outerKeySelector).Body as MemberExpression;
+                                var asMMemberExpression = (MemberExpression)asMemberExpression.Expression;
+
+                                //if (asMemberInitExpression != null)
+
+
+                                if (asLambdaExpression.Parameters.Any(p => p.Name == asMMemberExpression.Member.Name))
+                                {
+                                    // we seem to have that table!
+                                    AddToSelectCommand(
+                                               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
+                                               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
+                                               );
+                                }
+                                else
+                                {
+                                    // we seem to get it by projection?
+
+                                    AddToSelectCommand(
+                                         asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + " as "
+                                         + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
+                                         );
                                 }
 
 
-
-                            }
-                        }
-                #endregion
-
-
-
-                #region upperJoin
-                if (asMemberInitExpression == null)
-                    if (that.upperJoin != null)
-                        if (that.upperJoin.xouter == that)
-                        {
-                            Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin " + new { that.upperJoin.resultSelectorExpression });
-
-                            asMemberInitExpression = ((LambdaExpression)that.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
-                            asMemberInitExpressionByParameter0 = ((LambdaExpression)that.upperJoin.resultSelectorExpression).Parameters[0];
-
-
-                            var asMemberExpression = ((LambdaExpression)that.upperJoin.outerKeySelector).Body as MemberExpression;
-                            var asMMemberExpression = (MemberExpression)asMemberExpression.Expression;
-
-                            //if (asMemberInitExpression != null)
-
-
-                            if (asLambdaExpression.Parameters.Any(p => p.Name == asMMemberExpression.Member.Name))
-                            {
-                                // we seem to have that table!
-                                AddToSelectCommand(
-                                           asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
-                                           + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
-                                           );
-                            }
-                            else
-                            {
-                                // we seem to get it by projection?
-
-                                AddToSelectCommand(
-                                     asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + " as "
-                                     + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
-                                     );
-                            }
-
-
-                            if (asMemberInitExpression == null)
-                            {
-                                // ???
-
-                                // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
-                                if (that.upperJoin.upperJoin == null)
-                                    Debugger.Break();
-
-
-                                if (that.upperJoin.upperJoin.xouter == that.upperJoin)
+                                if (asMemberInitExpression == null)
                                 {
-                                    asMemberInitExpression = ((LambdaExpression)that.upperJoin.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
-                                    //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                    asMemberInitExpressionByParameter1 = ((LambdaExpression)that.upperJoin.upperJoin.resultSelectorExpression).Parameters[0];
+                                    // ???
 
-                                    Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin " + new { asMemberInitExpression });
+                                    // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
+                                    if (that.upperJoin.upperJoin == null)
+                                        Debugger.Break();
 
 
-                                    //if (asMemberInitExpression != null)
-                                    //    AddToSelectCommand(
-                                    //               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
-                                    //               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
-                                    //               );
+                                    if (that.upperJoin.upperJoin.xouter == that.upperJoin)
+                                    {
+                                        asMemberInitExpression = ((LambdaExpression)that.upperJoin.upperJoin.resultSelectorExpression).Body as MemberInitExpression;
+                                        //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
+                                        asMemberInitExpressionByParameter1 = ((LambdaExpression)that.upperJoin.upperJoin.resultSelectorExpression).Parameters[0];
+
+                                        Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin " + new { asMemberInitExpression });
+
+
+                                        //if (asMemberInitExpression != null)
+                                        //    AddToSelectCommand(
+                                        //               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
+                                        //               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
+                                        //               );
+                                    }
+
+
+
                                 }
 
-
-
                             }
+                    #endregion
 
-                        }
-                #endregion
-
-
+                }
 
                 if (asMemberInitExpression != null)
                     Console.WriteLine("Join CommandBuilder  ...  " + new { asMemberInitExpression, asMemberInitExpression.Type });
@@ -453,51 +1090,74 @@ namespace System.Data
 
                 if (asMemberInitExpression == null)
                 {
-                    #region guess the field?
-                    // ex = {"near \"?\": syntax error"}
-
-                    // should we select every column available for us?
-                    // or should we only select the ones being selected down the road?
-
-                    // asLambdaExpression = {(contact, dealer) => new <>f__AnonymousType0`2(contact = contact, dealer = dealer)}
-                    //<>h__TransparentIdentifier0.contact_DealerContactText as DealerContactText,
-                    // <>h__TransparentIdentifier0.dealer_DealerText as DealerText
-
-
-                    // xouter_c "select `Key`, `DealerId`, `DealerContactText`, `Tag`, `Timestamp`"
-                    // xinner_c "select `Key`, `ID`, `DealerText`, `Tag`, `Timestamp`"
-                    var xouter_c = xouter.GetDescriptor().GetSelectAllColumnsText();
-                    var xinner_c = xinner.GetDescriptor().GetSelectAllColumnsText();
-
-                    //xouter_SelectAll.Strategy.GetDescriptor().GetSelectAllColumnsText();
+                    if (asLMemberExpression != null)
+                    {
+                        WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member);
+                        SelectCommand = s_SelectCommand;
+                    }
+                    else if (asLNewExpression != null)
+                    {
+                        asLNewExpression.Arguments.WithEachIndex(
+                                     (SourceArgument, index) =>
+                                    {
+                                        var TargetMember = asLNewExpression.Members[index];
+                                        var asMemberAssignment = new { Member = TargetMember };
 
 
-                    // where is SkipUntilOrEmpty
-                    // Error	22	The type 'System.Windows.UIElement' is defined in an assembly that is not referenced. You must add a reference to assembly 'PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs	307	25	ScriptCoreLib.Extensions
-                    // Error	22	The type 'System.Windows.DependencyObject' is defined in an assembly that is not referenced. You must add a reference to assembly 'WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs	309	25	ScriptCoreLib.Extensions
+                                        WriteExpression(index, SourceArgument, TargetMember);
+                                    }
+                                 );
+
+                        SelectCommand = s_SelectCommand;
+                    }
+                    else
+                    {
+                        #region guess the field?
+                        // ex = {"near \"?\": syntax error"}
+
+                        // should we select every column available for us?
+                        // or should we only select the ones being selected down the road?
+
+                        // asLambdaExpression = {(contact, dealer) => new <>f__AnonymousType0`2(contact = contact, dealer = dealer)}
+                        //<>h__TransparentIdentifier0.contact_DealerContactText as DealerContactText,
+                        // <>h__TransparentIdentifier0.dealer_DealerText as DealerText
 
 
-                    var f0 = xouter_c.SkipUntilOrEmpty("select").Split(
-                        new[] { " `" }, StringSplitOptions.RemoveEmptyEntries
-                    ).Select(x => xouter_Paramerer_Name + ".`" + x.TakeUntilIfAny("`") + "` as  `" + xouter_Paramerer_Name + "_" + x.TakeUntilIfAny("`") + "`").ToArray();
+                        // xouter_c "select `Key`, `DealerId`, `DealerContactText`, `Tag`, `Timestamp`"
+                        // xinner_c "select `Key`, `ID`, `DealerText`, `Tag`, `Timestamp`"
+                        var xouter_c = xouter.GetDescriptor().GetSelectAllColumnsText();
+                        var xinner_c = xinner.GetDescriptor().GetSelectAllColumnsText();
 
-                    var f1 = xinner_c.SkipUntilOrEmpty("select").Split(
-                          new[] { " `" }, StringSplitOptions.RemoveEmptyEntries
-                      ).Select(x => xinner_Paramerer.Name + ".`" + x.TakeUntilOrEmpty("`") + "` as  `" + xinner_Paramerer.Name + "_" + x.TakeUntilIfAny("`") + "`").ToArray();
-
-                    var ff = f0.Concat(f1).ToArray();
-
-                    // hack it, since we cannot ask for column data yet
-                    SelectCommand =
-                        "select " +
-                        string.Join(", \n\t", ff);
+                        //xouter_SelectAll.Strategy.GetDescriptor().GetSelectAllColumnsText();
 
 
+                        // where is SkipUntilOrEmpty
+                        // Error	22	The type 'System.Windows.UIElement' is defined in an assembly that is not referenced. You must add a reference to assembly 'PresentationCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs	307	25	ScriptCoreLib.Extensions
+                        // Error	22	The type 'System.Windows.DependencyObject' is defined in an assembly that is not referenced. You must add a reference to assembly 'WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.	X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs	309	25	ScriptCoreLib.Extensions
+
+
+                        var f0 = xouter_c.SkipUntilOrEmpty("select").Split(
+                            new[] { " `" }, StringSplitOptions.RemoveEmptyEntries
+                        ).Select(x => xouter_Paramerer_Name + ".`" + x.TakeUntilIfAny("`") + "` as  `" + xouter_Paramerer_Name + "_" + x.TakeUntilIfAny("`") + "`").ToArray();
+
+                        var f1 = xinner_c.SkipUntilOrEmpty("select").Split(
+                              new[] { " `" }, StringSplitOptions.RemoveEmptyEntries
+                          ).Select(x => xinner_Paramerer.Name + ".`" + x.TakeUntilOrEmpty("`") + "` as  `" + xinner_Paramerer.Name + "_" + x.TakeUntilIfAny("`") + "`").ToArray();
+
+                        var ff = f0.Concat(f1).ToArray();
+
+                        // hack it, since we cannot ask for column data yet
+                        SelectCommand =
+                            "select " +
+                            string.Join(", \n\t", ff);
 
 
 
-                    //select `contact_Key`, `contact_DealerId`, `contact_DealerContactText`, `contact_Tag`, `contact_Timestamp` `dealer_Key`, `dealer_ID`, `dealer_DealerText`, `dealer_Tag`, `dealer_Timestamp`
-                    #endregion
+
+
+                        //select `contact_Key`, `contact_DealerId`, `contact_DealerContactText`, `contact_Tag`, `contact_Timestamp` `dealer_Key`, `dealer_ID`, `dealer_DealerText`, `dealer_Tag`, `dealer_Timestamp`
+                        #endregion
+                    }
                 }
                 else
                 {
@@ -1081,6 +1741,11 @@ namespace System.Data
                 // not sure what fields are we reading
                 //"select DealerContactText, DealerText, x.Key as Dealer, y.Key as DealerContact";
 
+
+
+                // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
+                state.ApplyParameter.AddRange(xouter_SelectAll.ApplyParameter);
+                state.ApplyParameter.AddRange(xinner_SelectAll.ApplyParameter);
 
 
                 // ex = {"no such column: Book1.DealerContact.ID"}
