@@ -37,13 +37,7 @@ static class XNative
         }
     }
 
-    public static IHTMLBody body
-    {
-        get
-        {
-            return document.body;
-        }
-    }
+    
 }
 
 namespace HeatZeekerRTS

@@ -1,4 +1,5 @@
 // http://dev.w3.org/2011/webrtc/editor/webrtc.html
+
 // http://www.webrtc.org/reference/native-apis
 // http://www.webrtc.org/reference/getting-started/
 // http://www.easyrtc.com/
@@ -38,18 +39,27 @@ interface RTCPeerConnectionIceEvent : Event {
 
 
 //partial 
+// X:\jsc.svn\examples\javascript\test\TestPeerConnection\TestPeerConnection\Application.cs
+[Constructor()]
 interface RTCPeerConnection {
-	//RTCDataChannel createDataChannel ([TreatNullAs=EmptyString] DOMString label, optional RTCDataChannelInit dataChannelDict);
+
+	//void                  createOffer (RTCSessionDescriptionCallback successCallback, RTCPeerConnectionErrorCallback failureCallback, optional RTCOfferOptions options);
+	//void                  createAnswer (RTCSessionDescriptionCallback successCallback, RTCPeerConnectionErrorCallback failureCallback, optional RTCOfferAnswerOptions options);
+
+
+	//RTCDataChannel createDataChannel (DOMString label, optional RTCDataChannelInit dataChannelDict);
+	RTCDataChannel createDataChannel (DOMString label, optional any dataChannelDict);
 	attribute EventHandler ondatachannel;
+	//attribute function<RTCDataChannelEvent> ondatachannel;
 
 	//void getStats (MediaStreamTrack? selector, RTCStatsCallback successCallback, RTCPeerConnectionErrorCallback failureCallback);
 
 
 
-	   void setIdentityProvider (DOMString provider, optional DOMString protocol, optional DOMString username);
-    void getIdentityAssertion ();
-    //readonly    attribute RTCIdentityAssertion? peerIdentity;
-                attribute EventHandler          onidentityresult;
+	void setIdentityProvider (DOMString provider, optional DOMString protocol, optional DOMString username);
+	void getIdentityAssertion ();
+	//readonly    attribute RTCIdentityAssertion? peerIdentity;
+	attribute EventHandler          onidentityresult;
 
 };
 
@@ -99,11 +109,11 @@ interface RTCDTMFToneChangeEvent : Event {
 };
 
 interface RTCStatsReport {
-    //getter RTCStats (DOMString id);
+	//getter RTCStats (DOMString id);
 };
 
 //[Constructor(DOMString type, MediaStreamEventInit eventInitDict)]
 [Constructor(DOMString type, any eventInitDict)]
 interface MediaStreamEvent : Event {
-    //readonly    attribute MediaStream? stream;
+	//readonly    attribute MediaStream? stream;
 };
