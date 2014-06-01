@@ -122,6 +122,9 @@ namespace System.Data
         }
 
         //[Obsolete("mutable")]
+
+        static MethodInfo refOrderByDescending = new Func<IQueryStrategy<object>, Expression<Func<object, bool>>, IQueryStrategy<object>>(QueryStrategyOfTRowExtensions.OrderByDescending).Method;
+
         public static IQueryStrategy<TElement> OrderByDescending<TElement, TKey>(this IQueryStrategy<TElement> source, Expression<Func<TElement, TKey>> keySelector)
         {
             MutableOrderBy(

@@ -40,35 +40,43 @@ namespace TestSelectOfSelect
             // += ?
 
             x.Insert(
-                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 45, path = " /zfoo/BAR/ " }
+                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 45, connectStart = 49, path = " /zfoo/BAR/ " }
             );
 
             x.Insert(
-                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 46, path = " /zfoo/BAR/ " }
+                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 49, path = " /zfoo/BAR/ selected by scalar selector first " }
             );
 
+            x.Insert(
+              new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 49, path = " /zfoo/BAR/ selected by scalar selector last " }
+          );
+
+
+            // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
 
             var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
                      select new
                      {
                          k.path,
 
-                         other =
-                            (
+                         // wont show up for AsDataTable as more queries need to be made?
+                         other = (
                             // Error	1	An expression tree may not contain a call or invocation that uses optional arguments	X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs	58	40	TestSelectOfSelect
 
-
                             from kk in new PerformanceResourceTimingData2.ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite")
-                            where kk.duration == 46
+                            where kk.duration == 47
+                            orderby kk.Key descending
                             select kk.path
-                            ).FirstOrDefault()
+
+                            // either first or last?
+                         ).FirstOrDefault()
 
                      };
 
             var dt = uc.AsDataTable();
 
 
-
+            var ff = uc.FirstOrDefault();
 
             Debugger.Break();
         }

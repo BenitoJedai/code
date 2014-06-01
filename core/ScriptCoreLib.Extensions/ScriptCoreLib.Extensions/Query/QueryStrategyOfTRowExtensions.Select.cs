@@ -63,6 +63,10 @@ namespace System.Data
 
         }
 
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
+        static MethodInfo refSelect = new Func<IQueryStrategy<object>, Expression<Func<object, object>>, IQueryStrategy<object>>(QueryStrategyOfTRowExtensions.Select).Method;
+        // 
         public static IQueryStrategy<TResult>
             Select
             <TSource, TResult>
@@ -148,7 +152,8 @@ namespace System.Data
 
                      var SelectCommand = default(string);
                      //var s_SelectCommand = "select 0 as foo";
-                     var s_SelectCommand = "select 'Select' as diagnostics";
+                     //var s_SelectCommand = "select 'Select' as diagnostics";
+                     var s_SelectCommand = "select -- diagnostics";
 
 
                      #region AddToSelectCommand
@@ -774,7 +779,7 @@ namespace System.Data
 
                                      Debugger.Break();
                                  }
-#endregion
+                                 #endregion
 
                                  if (asMethodCallExpression.Method.DeclaringType == typeof(QueryStrategyOfTRowExtensions))
                                  {
@@ -867,7 +872,7 @@ namespace System.Data
 
                                      #region FirstOrDefault
                                      // https://www.youtube.com/watch?v=pt8VYOfr8To
-                                     if (asMethodCallExpression.Method.Name  == refFirstOrDefault.Name)
+                                     if (asMethodCallExpression.Method.Name == refFirstOrDefault.Name)
                                      {
                                          // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
                                          // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
@@ -888,13 +893,90 @@ namespace System.Data
                                          }
 
 
-                                         var arg0 = asMethodCallExpression.Arguments[0] as MethodCallExpression;
-                                         if (arg0 != null)
+                                         var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                         if (arg0ElementsBySelect != null)
                                          {
+                                             // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
+                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
 
-                                             // we dont know yet how to get sql of that thing do we
-                                             s_SelectCommand += ",\n\t 0 as `" + asMemberAssignment.Member.Name + "`";
-                                             return;
+                                             // arg0 = {new ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite").Where(kk => (kk.duration == 46)).Select(kk => kk.path)}
+                                             // asMethodCallExpression = {new ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite").Where(kk => (kk.duration == 46)).Select(kk => kk.path).FirstOrDefault()}
+                                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
+
+
+                                             // select
+                                             if (arg0ElementsBySelect.Method.Name == refSelect.Name)
+                                             {
+                                                 // __source = {new ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite").Where(kk => (kk.duration == 46))}
+                                                 var __Select_selector = arg0ElementsBySelect.Arguments[1] as UnaryExpression;
+                                                 var __Select_source = arg0ElementsBySelect.Arguments[0] as MethodCallExpression;
+                                                 if (__Select_source != null)
+                                                 {
+
+                                                     // orderby
+                                                     if (__Select_source.Method.Name == refOrderByDescending.Name)
+                                                     {
+                                                         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.OrderBy.cs
+                                                         var __OrderByDescending_keySelector = __Select_source.Arguments[1] as UnaryExpression;
+                                                         var __OrderByDescending_source = __Select_source.Arguments[0] as MethodCallExpression;
+
+
+                                                         // where
+                                                         if (__OrderByDescending_source.Method.Name == refWhere.Name)
+                                                         {
+                                                             // Operand = {kk => (kk.duration == 46)}
+                                                             var __Where_filter = __OrderByDescending_source.Arguments[1] as UnaryExpression;
+                                                             var __Where_source = __OrderByDescending_source.Arguments[0] as NewExpression;
+
+                                                             // from
+                                                             if (__Where_source != null)
+                                                             {
+                                                                 // do we have enough information to perfrm sql rendering?
+                                                                 // Constructor = {Void .ctor(System.String)}
+
+                                                                 // is it really our own table, jsc data layer? :P are they in the same database as current source?
+
+
+                                                                 var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
+                                                                 var xTable = __Where_source.Constructor.Invoke(
+                                                                     parameters: new[] { xTable_datasource }
+                                                                 );
+
+                                                                 // rror: { Message = Object of type 'System.Linq.Expressions.Expression`1[System.Func`2[TestSelectOfSelect.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow,System.Boolean]]' cannot be converted to type 'System.Linq.Expressions.Expression`1[System.Func`2[TestSelectOfSelect.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow,TestSelectOfSelect.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceKey]]'.,
+
+                                                                 // xTable = {TestSelectOfSelect.Data.PerformanceResourceTimingData2.ApplicationResourcePerformance}
+                                                                 // step into
+                                                                 // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
+                                                                 var xTable_Where = __OrderByDescending_source.Method.Invoke(null,
+                                                                     parameters: new[] { xTable, __Where_filter.Operand }
+                                                                 );
+
+                                                                 var xTable_Where_OrderByDescending = __Select_source.Method.Invoke(null,
+                                                                    parameters: new[] { xTable, __OrderByDescending_keySelector.Operand }
+                                                                );
+
+                                                                 var xTable_Where_Select = (IQueryStrategy)arg0ElementsBySelect.Method.Invoke(null,
+                                                                     parameters: new[] { xTable_Where_OrderByDescending, __Select_selector.Operand }
+                                                                 );
+
+                                                                 var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select);
+                                                                 var scalarsubquery = xSelectScalar.ToString();
+
+                                                                 // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                                                 // do we have to 
+                                                                 // we dont know yet how to get sql of that thing do we
+                                                                 s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                                                 state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+
+                                                                 return;
+                                                             }
+                                                         }
+                                                     }
+                                                 }
+                                             }
                                          }
                                      }
                                      #endregion
@@ -904,7 +986,7 @@ namespace System.Data
 
                                  Console.WriteLine(new { index, asMethodCallExpression.Method });
 
-                      
+
 
                                  Debugger.Break();
                              }
