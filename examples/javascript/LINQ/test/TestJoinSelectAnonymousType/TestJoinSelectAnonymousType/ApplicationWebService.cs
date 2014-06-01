@@ -101,6 +101,8 @@ from(select 0 as foo,
                     join u5 in new PerformanceResourceTimingData2.ApplicationPerformance() on u4.requestStart equals u5.requestStart
 
                     let x = 7
+                    //let z = "hello there"
+                    //let a = new { x = 7 }
 
                     //select k.path;
 
@@ -108,18 +110,21 @@ from(select 0 as foo,
                     {
                         kkey = u0.Key,
 
+                        //a.x,
+
                         x,
+                        //z,
 
                         kpath = u0.path,
-                        upath = u1.requestStart,
-                        uupath = u2.requestStart,
-                        u3path = u3.requestStart,
-                        u4path = u4.requestStart,
-                        u5path = u5.requestStart,
+                        u1requestStart = u1.requestStart,
+                        u2requestStart = u2.requestStart,
+                        u3requestStart = u3.requestStart,
+                        u4requestStart = u4.requestStart,
+                        u5requestStart = u5.requestStart,
                     };
 
 
-            var dt = q.AsDataTable();
+            var dt = q.Take(5).AsDataTable();
 
             Debugger.Break();
         }
