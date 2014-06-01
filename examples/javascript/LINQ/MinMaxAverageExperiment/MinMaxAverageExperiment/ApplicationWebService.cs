@@ -106,15 +106,15 @@ namespace MinMaxAverageExperiment
 
             var e = from z in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
                         // .AsEnumerable()
-                    group z by 1 into g
+                    group z by 1 into gg
                     select new
                     {
-                        Min = g.Min(k => k.duration),
-                        Max = g.Max(k => k.duration),
-                        Average = g.Average(k => k.duration),
+                        Min = gg.Min(k => k.duration),
+                        Max = gg.Max(k => k.duration),
+                        Average = gg.Average(k => k.duration),
 
-                        Count = g.Count(),
-                        Sum = g.Sum(k => k.duration)
+                        Count = gg.Count(),
+                        Sum = gg.Sum(k => k.duration)
 
                         //max = z.duration.Max(),
                         //avg = z.duration.Average(),

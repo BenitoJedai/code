@@ -640,11 +640,9 @@ namespace System.Data
                                  #region count(*) special!
                                  if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Count")
                                  {
-
-                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     //s_SelectCommand += ",\n\t count(*) as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
+                                     s_SelectCommand += ",\n\t "
+                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                           + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
                                      return;
                                  }
                                  #endregion
@@ -656,10 +654,9 @@ namespace System.Data
                                      if (arg1 != null)
                                      {
                                          var asMemberExpression = arg1.Body as MemberExpression;
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         //s_SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t "
+                                            + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                            + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
                                          return;
                                      }
                                  }
@@ -675,10 +672,9 @@ namespace System.Data
                                      if (arg1 != null)
                                      {
                                          var asMemberExpression = arg1.Body as MemberExpression;
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         //s_SelectCommand += ",\n\t min(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t "
+                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                             + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
                                          return;
                                      }
                                  }
@@ -693,10 +689,9 @@ namespace System.Data
                                      if (arg1 != null)
                                      {
                                          var asMemberExpression = arg1.Body as MemberExpression;
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         //s_SelectCommand += ",\n\t max(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t "
+                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                             + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
                                          return;
                                      }
                                  }
@@ -711,10 +706,9 @@ namespace System.Data
                                      if (arg1 != null)
                                      {
                                          var asMemberExpression = arg1.Body as MemberExpression;
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         //s_SelectCommand += ",\n\t avg(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t "
+                                              + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                              + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
                                          return;
                                      }
                                  }
@@ -730,7 +724,7 @@ namespace System.Data
                                      var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
                                      if (asMemberExpression != null)
                                      {
-                                         var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
+                                         //var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
 
                                          s_SelectCommand += ",\n\t lower("
                                              + that.selector.Parameters[0].Name.Replace("<>", "__")
