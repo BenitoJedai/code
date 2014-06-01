@@ -46,10 +46,12 @@ namespace TestSelectAndSubSelect
 //limit @arg1
 
             var q = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
+                    let zzz = "!"
                     let zz = "???"
                     let z = "!!!"
                     select new
                     {
+                        zzz,
                         zz,
                         z,
                         x.Tag,
