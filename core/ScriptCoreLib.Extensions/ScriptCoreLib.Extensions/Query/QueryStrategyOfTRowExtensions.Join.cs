@@ -306,7 +306,7 @@ namespace System.Data
 
                 #region SelectCommand
                 var SelectCommand = default(string);
-                var s_SelectCommand = "select 0 as foo";
+                var s_SelectCommand = "select 'Join' as diagnostics";
 
 
                 #region AddToSelectCommand
@@ -779,17 +779,50 @@ namespace System.Data
                                          var asSelectQueryStrategy = uu as ISelectQueryStrategy;
                                          if (asSelectQueryStrategy != null)
                                          {
+                                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601
+
                                              var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
                                              var xasNewExpression = xasLambdaExpression.Body as NewExpression;
 
                                              foreach (var item in xasNewExpression.Arguments)
                                              {
+                                                 // item = {g.Key}
+                                                 // what if the outer select wants the key?
+                                                 // we need to know what is being selected for the key?
+                                                 // item = {g.Last().path}
+
                                                  // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
                                                  // .u0}
 
                                                  var xasMemberExpression = item as MemberExpression;
                                                  if (xasMemberExpression != null)
                                                  {
+                                                     // is this select doing a group by?
+                                                     var xasGroupByQueryStrategy = asSelectQueryStrategy.source as IGroupByQueryStrategy;
+                                                     if (xasGroupByQueryStrategy != null)
+                                                     {
+                                                         // first or last?
+                                                         // or aggregate?
+
+                                                         var xasMethodCallExpression = xasMemberExpression.Expression as MethodCallExpression;
+                                                         if (xasMethodCallExpression != null)
+                                                         {
+                                                             // could we actually do a ref?
+
+                                                             // public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+                                                             // will it work for jvm? will they equal?
+                                                             var refLast = new Func<IQueryStrategyGrouping<long, object>, object>(QueryStrategyOfTRowExtensions.Last);
+
+                                                             // generic info mismatch?
+                                                             if (xasMethodCallExpression.Method.Name == refLast.Method.Name)
+                                                             {
+                                                                 s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                             }
+                                                         }
+                                                     }
+
+
                                                      var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
                                                      if (xasMMemberExpression != null)
                                                      {

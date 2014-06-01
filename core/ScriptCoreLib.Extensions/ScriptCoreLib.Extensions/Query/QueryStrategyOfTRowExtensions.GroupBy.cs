@@ -33,7 +33,7 @@ namespace System.Data
             //ISelectQueryStrategy upperSelect { get; set; }
 
             // what if we are in a join?
-           // IJoinQueryStrategy upperJoin { get; set; }
+            // IJoinQueryStrategy upperJoin { get; set; }
 
 
             IQueryStrategy source { get; }
@@ -641,11 +641,17 @@ namespace System.Data
                                      {
                                          //asMMMCall = {result.Last()}
 
+                                         var refLast = new Func<IQueryStrategyGrouping<long, object>, object>(QueryStrategyOfTRowExtensions.Last);
 
-                                         if (asMMMCall.Method.Name.TakeUntilIfAny("_") == "Last")
+                                         if (asMMMCall.Method.Name == refLast.Method.Name)
                                          {
-                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                             s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             // group by is not supposed to rename.
+                                             // select will do that.
+                                             // x:\jsc.svn\examples\javascript\linq\test\testwherejointtgroupbyselectlast\testwherejointtgroupbyselectlast\applicationwebservice.cs
+                                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601
+
+                                             state.SelectCommand += ",\n\t g.`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`";
                                              return;
                                          }
                                      }
