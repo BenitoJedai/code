@@ -506,7 +506,31 @@ namespace System.Data
 
                                 rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
                             }
-                            else Debugger.Break();
+                            else
+                            {
+                                // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
+                                var asRParameterExpression = f_Body_Right.Expression as ParameterExpression;
+                                if (asRParameterExpression != null)
+                                {
+
+                                    if (body.NodeType == ExpressionType.Equal)
+                                        state.WhereCommand += "=";
+                                    else if (body.NodeType == ExpressionType.LessThan)
+                                        state.WhereCommand += "<";
+                                    else if (body.NodeType == ExpressionType.GreaterThan)
+                                        state.WhereCommand += ">";
+                                    else if (body.NodeType == ExpressionType.NotEqual)
+                                        state.WhereCommand += "<>";
+                                    else
+                                        Debugger.Break();
+
+
+                                    state.WhereCommand += " " + asRParameterExpression.Name + ".`" + f_Body_Right.Member.Name + "` ";
+                                    return;
+                                }
+
+                                Debugger.Break();
+                            }
 
                         }
                         else if (body.Right is UnaryExpression)

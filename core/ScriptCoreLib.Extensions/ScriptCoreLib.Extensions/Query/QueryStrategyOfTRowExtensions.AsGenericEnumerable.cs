@@ -695,6 +695,11 @@ namespace System.Data
                                     return XName.Get((string)asString);
                                 }
 
+                                // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
+                                // why DBNull exists??
+                                if (asString == DBNull.Value)
+                                    return null;
+
                                 return asString;
                             }
                            ).ToArray();

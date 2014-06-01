@@ -64,7 +64,8 @@ namespace TestSelectOfSelect
                             // Error	1	An expression tree may not contain a call or invocation that uses optional arguments	X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs	58	40	TestSelectOfSelect
 
                             from kk in new PerformanceResourceTimingData2.ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite")
-                            where kk.duration == 47
+                                //where kk.duration == 47
+                            where kk.duration == k.connectStart
                             orderby kk.Key descending
                             select kk.path
 
