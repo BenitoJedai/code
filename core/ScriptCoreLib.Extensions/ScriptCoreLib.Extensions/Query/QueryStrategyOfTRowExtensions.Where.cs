@@ -603,6 +603,8 @@ namespace System.Data
 
 
         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+
+        static MethodInfo refWhere = new Func<IQueryStrategy<object>, Expression<Func<object, bool>>, IQueryStrategy<object>>(QueryStrategyOfTRowExtensions.Where).Method;
         public static IQueryStrategy<TElement> Where<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
         {
             MutableWhere(
