@@ -33,11 +33,14 @@ namespace System.Data
 
             IQueryStrategy source { get; }
 
+            string scalarAggregateOperand { get; set; }
             // ? gDescendingByKeyReferenced
         }
 
         class SelectQueryStrategy<TSource, TResult> : XQueryStrategy<TResult>, ISelectQueryStrategy
         {
+            public string scalarAggregateOperand { get; set; }
+
             public IQueryStrategy<TSource> source;
             public Expression<Func<TSource, TResult>> selector;
 
@@ -559,6 +562,16 @@ namespace System.Data
                                      }
                                  }
 
+
+                                 if (!string.IsNullOrEmpty(that.scalarAggregateOperand))
+                                 {
+                                     s_SelectCommand += ",\n\t " + that.scalarAggregateOperand + "("
+                                        + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                        + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+
+                                     return;
+                                 }
+
                                  s_SelectCommand += ",\n\t "
                                  + that.selector.Parameters[0].Name.Replace("<>", "__")
                                  + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
@@ -850,51 +863,11 @@ namespace System.Data
                                      }
                                      #endregion
 
-                                     #region  avg( special!!
-                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Average")
-                                     {
-                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                         if (arg1 != null)
-                                         {
-                                             var asMemberExpression = arg1.Body as MemberExpression;
-                                             s_SelectCommand += ",\n\t "
-                                                  + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                                  + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                             return;
-                                         }
-                                     }
-                                     #endregion
 
 
-
-
-                                     #region FirstOrDefault
-                                     // https://www.youtube.com/watch?v=pt8VYOfr8To
-                                     if (asMethodCallExpression.Method.Name == refFirstOrDefault.Name)
-                                     {
-                                         // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
-                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
-                                         // can we ask for sql?
-
-
-                                         // [0] = {Invoke(value(TestSelectAndSubSelect.ApplicationWebService+<>c__DisplayClass0).child1, Convert(<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x))}
-
-                                         // +		(new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.Expression>((new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Arguments as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.Expression>)).Items[0]	{Invoke(value(TestSelectAndSubSelect.ApplicationWebService+<>c__DisplayClass0).child1, <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x)}	System.Linq.Expressions.Expression {System.Linq.Expressions.InvocationExpression}
-                                         var asMInvocationExpression = asMethodCallExpression.Arguments[0] as InvocationExpression;
-                                         if (asMInvocationExpression != null)
-                                         {
-                                             // just mark the inputs to be used in select.
-                                             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
-                                             // 554
-
-                                             return;
-                                         }
-
-
-                                         var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
-                                         if (arg0ElementsBySelect != null)
+                                     #region subquery
+                                     Func<MethodCallExpression, IQueryStrategy> subquery =
+                                         arg0ElementsBySelect =>
                                          {
                                              // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
                                              // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
@@ -980,21 +953,9 @@ namespace System.Data
                                                              var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
                                                              var xTable_Where_Select = doSelect(xTable_Where_OrderByDescending);
 
-                                                             #region s_SelectCommand
-                                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select);
-                                                             var scalarsubquery = xSelectScalar.ToString();
-
-                                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
-
-                                                             // do we have to 
-                                                             // we dont know yet how to get sql of that thing do we
-                                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
 
 
-                                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
-                                                             #endregion
-
-                                                             return;
+                                                             return xTable_Where_Select;
                                                          }
                                                      }
                                                  }
@@ -1034,24 +995,107 @@ namespace System.Data
                                                          //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
                                                          var xTable_Where_Select = doSelect(xTable_Where);
 
-                                                         #region s_SelectCommand
-                                                         var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select);
-                                                         var scalarsubquery = xSelectScalar.ToString();
 
-                                                         // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
-
-                                                         // do we have to 
-                                                         // we dont know yet how to get sql of that thing do we
-                                                         s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
-
-
-                                                         state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
-                                                         #endregion
-
-                                                         return;
+                                                         return xTable_Where_Select;
                                                      }
                                                  }
                                              }
+
+                                             Debugger.Break();
+                                             return null;
+                                         };
+                                     #endregion
+
+                                     #region  avg( special!!
+                                     if (asMethodCallExpression.Method.Name == refAverage.Name)
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+                                         // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
+
+                                         if (asMethodCallExpression.Arguments.Count == 2)
+                                         {
+                                             var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                             if (arg1 != null)
+                                             {
+                                                 var asMemberExpression = arg1.Body as MemberExpression;
+                                                 s_SelectCommand += ",\n\t "
+                                                      + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                      + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                                 return;
+                                             }
+                                         }
+
+                                         var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                         if (arg0ElementsBySelect != null)
+                                         {
+                                             var xTable_Where_Select0 = subquery(arg0ElementsBySelect);
+                                             var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
+
+                                             xTable_Where_Select.scalarAggregateOperand = "avg";
+
+                                             #region s_SelectCommand
+                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
+                                             var scalarsubquery = xSelectScalar.ToString();
+
+                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                             // do we have to 
+                                             // we dont know yet how to get sql of that thing do we
+                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                             #endregion
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+
+                                     #region FirstOrDefault
+                                     // https://www.youtube.com/watch?v=pt8VYOfr8To
+                                     if (asMethodCallExpression.Method.Name == refFirstOrDefault.Name)
+                                     {
+                                         // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
+                                         // can we ask for sql?
+
+
+                                         // [0] = {Invoke(value(TestSelectAndSubSelect.ApplicationWebService+<>c__DisplayClass0).child1, Convert(<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x))}
+
+                                         // +		(new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.Expression>((new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Arguments as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.Expression>)).Items[0]	{Invoke(value(TestSelectAndSubSelect.ApplicationWebService+<>c__DisplayClass0).child1, <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x)}	System.Linq.Expressions.Expression {System.Linq.Expressions.InvocationExpression}
+                                         var asMInvocationExpression = asMethodCallExpression.Arguments[0] as InvocationExpression;
+                                         if (asMInvocationExpression != null)
+                                         {
+                                             // just mark the inputs to be used in select.
+                                             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
+                                             // 554
+
+                                             return;
+                                         }
+
+
+                                         var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                         if (arg0ElementsBySelect != null)
+                                         {
+                                             var xTable_Where_Select = subquery(arg0ElementsBySelect);
+
+                                             #region s_SelectCommand
+                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select);
+                                             var scalarsubquery = xSelectScalar.ToString();
+
+                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                             // do we have to 
+                                             // we dont know yet how to get sql of that thing do we
+                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                             #endregion
+
+                                             return;
+
                                          }
                                      }
                                      #endregion
