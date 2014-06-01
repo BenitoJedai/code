@@ -339,7 +339,7 @@ namespace System.Data
                                         }
                                         #endregion
 
-                                        #region xasIMConstantExpression
+                                        #region xDelegate
                                         if (xDelegate != null)
                                         {
                                             // Value = {SelectToUpperIntoNewExpression.ApplicationWebService.}
@@ -449,8 +449,8 @@ namespace System.Data
                                                 //                               Additional information: Column 'datagroup3.1.0' does not belong to table .
                                                 //                        datagroup3 = new XElement("tag", new XElement("u", ss.Tag), "text element", new XAttribute("style", "color:red;")),
                                                 // PrefixedTargetName = "datagroup3.1.0"
-                                                var PrefixedTargetName = GetPrefixedTargetName() + "." + i;
-                                                var xasString = SourceRow[PrefixedTargetName];
+                                                var PrefixedTargetName1 = GetPrefixedTargetName() + "." + i;
+                                                var xasString = SourceRow[PrefixedTargetName1];
 
                                                 if (xElementType == typeof(long) || xElementType.IsEnum)
                                                     return Convert.ToInt64(xasString);
@@ -520,6 +520,7 @@ namespace System.Data
                                 }
                                 #endregion
 
+                                #region xasMemberExpression
                                 var xasMemberExpression = SourceArgument as MemberExpression;
                                 if (xasMemberExpression != null)
                                 {
@@ -537,6 +538,109 @@ namespace System.Data
                                                 var asSSNewExpression = asSSLambdaExpression.Body as NewExpression;
                                                 if (asSSNewExpression.Members[1].Name == xasMemberExpression.Member.Name)
                                                 {
+                                                    var asSSNMethodCallExpression = asSSNewExpression.Arguments[1] as MethodCallExpression;
+                                                    if (asSSNMethodCallExpression != null)
+                                                    {
+                                                        // http://stackoverflow.com/questions/141203/when-would-i-need-a-securestring-in-net
+                                                        // can we actually call sub queries nw?
+
+
+                                                        //asSSNMethodCallExpression.Method.Invoke(
+                                                        //    asSSNMethodCallExpression.Object,
+                                                        //    null
+                                                        //    //asSSNMethodCallExpression.Arguments
+                                                        //);
+
+                                                        // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
+
+
+
+
+
+
+                                                        var fFirstOrDefault = asSSNMethodCallExpression.Method;
+                                                        if (fFirstOrDefault.Name == refFirstOrDefault.Name)
+                                                        {
+                                                            var arg0InvocationExpression = asSSNMethodCallExpression.Arguments[0] as InvocationExpression;
+
+                                                            // [0] = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x}
+
+                                                            #region xparameters
+                                                            var xparameters = arg0InvocationExpression.Arguments.Select(
+                                                                   (xSourceArgument, i) =>
+                                                                {
+                                                                    var xElementType = xSourceArgument.Type;
+
+                                                                    // Additional information: Column 'qq.x' does not belong to table .
+                                                                    //var xasString = SourceRow[GetPrefixedTargetName() + "." + (xSourceArgument as MemberExpression).Member.Name];
+                                                                    // System.Data.dll
+                                                                    //Additional information: Column 'x' does not belong to table.
+                                                                    // Additional information: Column 'Key' does not belong to table .
+
+                                                                    var xasString = SourceRow[(xSourceArgument as MemberExpression).Member.Name];
+
+                                                                    if (xElementType == typeof(long) || xElementType.IsEnum)
+                                                                        return Convert.ToInt64(xasString);
+
+                                                                    if (xElementType == typeof(int))
+                                                                        return Convert.ToInt32(xasString);
+
+                                                                    // ref ScriptCoreLib.Ultra
+                                                                    if (xElementType == typeof(DateTime))
+                                                                        return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
+
+                                                                    if (xElementType == typeof(XElement))
+                                                                        return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                                                             global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)xasString)
+                                                                           );
+
+                                                                    //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
+                                                                    if (xElementType == typeof(XName))
+                                                                    {
+                                                                        return XName.Get((string)xasString);
+                                                                    }
+
+                                                                    return xasString;
+                                                                }
+                                                                ).ToArray();
+                                                            #endregion
+
+
+                                                            // Expression = {value(TestSelectAndSubSelect.ApplicationWebService+<>c__DisplayClass0).child1}
+
+                                                            var arg0IMemberExpression = arg0InvocationExpression.Expression as MemberExpression;
+                                                            if (arg0IMemberExpression != null)
+                                                            {
+                                                                // Expression = {value(TestSelectAndSubSelect.ApplicationWebService+<>c__DisplayClass0)}
+
+                                                                var arg0IMConstantExpression = arg0IMemberExpression.Expression as ConstantExpression;
+                                                                if (arg0IMConstantExpression != null)
+                                                                {
+                                                                    var xFieldInfo = arg0IMemberExpression.Member as FieldInfo;
+
+                                                                    var xDelegate = (Delegate)xFieldInfo.GetValue(arg0IMConstantExpression.Value);
+
+                                                                    var xElements = xDelegate.Method.Invoke(
+                                                                        null,
+                                                                        xparameters
+                                                                    );
+
+
+                                                                    var xxx = fFirstOrDefault.Invoke(null, new[] { xElements });
+
+
+                                                                    return xxx;
+                                                                }
+                                                            }
+
+                                                            Debugger.Break();
+                                                            return null;
+                                                        }
+
+                                                        Debugger.Break();
+                                                    }
+
+
                                                     var asSSNNewExpression = asSSNewExpression.Arguments[1] as NewExpression;
                                                     if (asSSNNewExpression != null)
                                                         return yieldNewExpression(asSSNNewExpression,
@@ -550,6 +654,7 @@ namespace System.Data
 
                                     }
                                 }
+                                #endregion
 
                                 #region xasConstantExpression
                                 var xasConstantExpression = SourceArgument as ConstantExpression;
@@ -565,8 +670,9 @@ namespace System.Data
                                 // Additional information: Column 'datagroup1' does not belong to table .
                                 // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
 
+                                var PrefixedTargetName = GetPrefixedTargetName();
 
-                                var asString = SourceRow[GetPrefixedTargetName()];
+                                var asString = SourceRow[PrefixedTargetName];
 
                                 if (SourceType == typeof(long) || SourceType.IsEnum)
                                     return Convert.ToInt64(asString);
