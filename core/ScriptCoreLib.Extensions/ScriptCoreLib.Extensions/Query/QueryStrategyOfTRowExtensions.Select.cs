@@ -362,6 +362,15 @@ namespace System.Data
 
 
                                      // CLR
+                                     var asMMParameterExpression = asMMemberExpression.Expression as ParameterExpression;
+                                     if (asMMParameterExpression != null)
+                                     {
+
+                                         s_SelectCommand += ",\n\t " + asPropertyInfo.Name + " as `" + asMemberAssignment.Member.Name + "`";
+
+                                         return;
+                                     }
+
 
                                      var asC = asMMemberExpression.Expression as ConstantExpression;
 
@@ -427,7 +436,9 @@ namespace System.Data
                                      //    }
                                      //}
 
-                                     s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     s_SelectCommand += ",\n\t "
+                                     + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                     + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                      return;
                                  }
 
@@ -461,7 +472,9 @@ namespace System.Data
                                      }
                                  }
 
-                                 s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                 s_SelectCommand += ",\n\t "
+                                 + that.selector.Parameters[0].Name.Replace("<>","__")
+                                 + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                  return;
                              }
@@ -792,8 +805,130 @@ namespace System.Data
 
                                  // x:\jsc.svn\examples\javascript\linq\test\testjoinselectanonymoustype\testjoinselectanonymoustype\applicationwebservice.cs
 
-                                 s_SelectCommand += ",\n\t " + asEParameterExpression.Name + " as `" + asMemberAssignment.Member.Name + "`";
-                                 return;
+                                 if (asEParameterExpression == that.selector.Parameters[0])
+                                 {
+
+                                     #region projectionWalker
+                                     Action<IJoinQueryStrategy> projectionWalker = null;
+
+                                     projectionWalker =
+                                         yy =>
+                                         {
+                                             if (yy == null)
+                                                 return;
+
+                                             // show the inherited fields
+                                             //s_SelectCommand += ",\n\t-- 0   " + (yy.selectorExpression as LambdaExpression).Parameters[0].Name;
+                                             #region  // go up
+                                             {
+
+                                                 INestedQueryStrategy uu = that;
+
+                                                 while (uu != null)
+                                                 {
+                                                     var asSelectQueryStrategy = uu as ISelectQueryStrategy;
+                                                     if (asSelectQueryStrategy != null)
+                                                     {
+                                                         var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
+                                                         var xasNewExpression = xasLambdaExpression.Body as NewExpression;
+
+                                                         foreach (var item in xasNewExpression.Arguments)
+                                                         {
+                                                             // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
+                                                             // .u0}
+
+                                                             var xasMemberExpression = item as MemberExpression;
+                                                             if (xasMemberExpression != null)
+                                                             {
+                                                                 var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
+                                                                 if (xasMMemberExpression != null)
+                                                                 {
+                                                                     if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
+                                                                     {
+                                                                         s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name.Replace("<>", "__") + "." + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + " as `" + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                     }
+                                                                 }
+                                                             }
+                                                         }
+                                                     }
+
+                                                     if (uu.upperSelect != null)
+                                                         uu = uu.upperSelect;
+                                                     else if (uu.upperJoin != null)
+                                                         uu = uu.upperJoin;
+                                                     else if (uu.upperGroupBy != null)
+                                                         uu = uu.upperGroupBy;
+                                                     else
+                                                         break;
+                                                 }
+                                             }
+                                             #endregion
+
+
+                                             //s_SelectCommand += ",\n\t--  1  " + (yy.selectorExpression as LambdaExpression).Parameters[1].Name;
+                                             #region  // go up
+                                             {
+
+                                                 INestedQueryStrategy uu = that;
+
+                                                 while (uu != null)
+                                                 {
+                                                     var asSelectQueryStrategy = uu as ISelectQueryStrategy;
+                                                     if (asSelectQueryStrategy != null)
+                                                     {
+                                                         var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
+                                                         var xasNewExpression = xasLambdaExpression.Body as NewExpression;
+
+                                                         foreach (var item in xasNewExpression.Arguments)
+                                                         {
+                                                             // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
+                                                             // .u0}
+
+                                                             var xasMemberExpression = item as MemberExpression;
+                                                             if (xasMemberExpression != null)
+                                                             {
+                                                                 var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
+                                                                 if (xasMMemberExpression != null)
+                                                                 {
+                                                                     if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
+                                                                     {
+                                                                         s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name.Replace("<>", "__") + "." + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + " as `" + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                     }
+                                                                 }
+                                                             }
+                                                         }
+                                                     }
+
+                                                     if (uu.upperSelect != null)
+                                                         uu = uu.upperSelect;
+                                                     else if (uu.upperJoin != null)
+                                                         uu = uu.upperJoin;
+                                                     else if (uu.upperGroupBy != null)
+                                                         uu = uu.upperGroupBy;
+                                                     else
+                                                         break;
+                                                 }
+                                             }
+                                             #endregion
+
+
+                                             projectionWalker(yy.xouter as IJoinQueryStrategy);
+                                             projectionWalker(yy.xinner as IJoinQueryStrategy);
+                                         };
+                                     #endregion
+
+                                     projectionWalker(that.source as IJoinQueryStrategy);
+
+                                     return;
+
+                                 }
+
+
+
+                                 //s_SelectCommand += ",\n\t " + asEParameterExpression.Name + " as `" + asMemberAssignment.Member.Name + "`";
+                                 //return;
                              }
 
                              Debugger.Break();
@@ -1408,8 +1543,7 @@ namespace System.Data
                                  var FromCommand =
                                    "from "
                                        + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
-                                   //+ " as " + xouter_Paramerer.Name.Replace("<>", "__");
-                                   + " as s";
+                                   + " as " + that.selector.Parameters[0].Name.Replace("<>", "__");
 
                                  state.FromCommand = FromCommand;
 

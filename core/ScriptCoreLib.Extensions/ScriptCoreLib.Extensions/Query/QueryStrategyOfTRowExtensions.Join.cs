@@ -1134,6 +1134,7 @@ namespace System.Data
 
                 if (asLNewExpression == null)
                 {
+                    Debugger.Break();
 
                     #region upperGroupBy
                     if (asMemberInitExpression == null)
