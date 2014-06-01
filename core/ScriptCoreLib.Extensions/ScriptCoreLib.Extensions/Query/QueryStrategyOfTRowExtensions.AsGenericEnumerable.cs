@@ -428,37 +428,59 @@ namespace System.Data
 
                                          for (int i = 0; i < xx.Length; i++)
                                          {
-                                             #region GetValue
-                                             Func<object> GetValue = delegate
+                                             var SourceExpression = xasNewArrayExpression.Expressions[i];
+
+                                             var xxx = default(object);
+
+
+                                             // do we have special elements?
+                                             var xxasNewExpression = SourceExpression as NewExpression;
+                                             if (xxasNewExpression != null)
                                              {
-                                                 var xasString = SourceRow[GetPrefixedTargetName() + "." + i];
+                                                 xxx = yieldNewExpression(xxasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember), Tuple.Create(i, SourceMember) }).ToArray());
 
-                                                 if (xElementType == typeof(long) || xElementType.IsEnum)
-                                                     return Convert.ToInt64(xasString);
+                                             }
+                                             else
+                                             {
 
-                                                 if (xElementType == typeof(int))
-                                                     return Convert.ToInt32(xasString);
-
-                                                 // ref ScriptCoreLib.Ultra
-                                                 if (xElementType == typeof(DateTime))
-                                                     return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
-
-                                                 if (xElementType == typeof(XElement))
-                                                     return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
-                                                          global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)xasString)
-                                                        );
-
-                                                 //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
-                                                 if (xElementType == typeof(XName))
+                                                 #region GetValue
+                                                 Func<object> GetValue = delegate
                                                  {
-                                                     return XName.Get((string)xasString);
-                                                 }
+                                                     //                               Additional information: Column 'datagroup3.1.0' does not belong to table .
+                                                     //                        datagroup3 = new XElement("tag", new XElement("u", ss.Tag), "text element", new XAttribute("style", "color:red;")),
+                                                     // PrefixedTargetName = "datagroup3.1.0"
+                                                     var PrefixedTargetName = GetPrefixedTargetName() + "." + i;
+                                                     var xasString = SourceRow[PrefixedTargetName];
 
-                                                 return xasString;
-                                             };
-                                             #endregion
+                                                     if (xElementType == typeof(long) || xElementType.IsEnum)
+                                                         return Convert.ToInt64(xasString);
 
-                                             var xxx = GetValue();
+                                                     if (xElementType == typeof(int))
+                                                         return Convert.ToInt32(xasString);
+
+                                                     // ref ScriptCoreLib.Ultra
+                                                     if (xElementType == typeof(DateTime))
+                                                         return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
+
+                                                     if (xElementType == typeof(XElement))
+                                                         return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                                              global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)xasString)
+                                                            );
+
+                                                     //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
+                                                     if (xElementType == typeof(XName))
+                                                     {
+                                                         return XName.Get((string)xasString);
+                                                     }
+
+                                                     return xasString;
+                                                 };
+                                                 #endregion
+
+                                                 xxx = GetValue();
+
+                                      
+                                             }
 
                                              // http://stackoverflow.com/questions/9022059/dynamically-create-an-array-and-set-the-elements
                                              xx.SetValue(
@@ -485,11 +507,29 @@ namespace System.Data
                                      }
                                      #endregion
 
+                                     #region xasMemberInitExpression
+                                     var xasMemberInitExpression = SourceArgument as MemberInitExpression;
+                                     if (xasMemberInitExpression != null)
+                                     {
+                                         var xMNewExpression = xasMemberInitExpression.NewExpression;
+                                         var xx = yieldNewExpression(xMNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
+
+                                         // indexer init?
+
+                                         return xx;
+                                     }
+                                     #endregion
 
 
 
+                                     var xasConstantExpression = SourceArgument as ConstantExpression;
+                                     if (xasConstantExpression != null)
+                                     {
+                                         // we sent the value to sql server, and now want it back.
+                                         // the ony benefit might be to use it in a where clause?
 
-
+                                         return xasConstantExpression.Value;
+                                     }
 
                                      // Additional information: Column 'datagroup1' does not belong to table .
                                      // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs

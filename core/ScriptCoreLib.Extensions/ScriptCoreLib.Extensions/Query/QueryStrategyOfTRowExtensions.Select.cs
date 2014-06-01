@@ -1033,6 +1033,30 @@ namespace System.Data
                              }
                              #endregion
 
+
+                             // asExpression = {Invoke(value(SelectToUpperIntoNewExpression.ApplicationWebService+<>c__DisplayClass0).Special, ss.Tag)}
+
+                             #region asInvocationExpression
+                             var asInvocationExpression = asExpression as InvocationExpression;
+                             if (asInvocationExpression != null)
+                             {
+                                 asInvocationExpression.Arguments.WithEachIndex(
+                                    (SourceArgument, i) =>
+                                    {
+
+                                        // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
+                                        var SourceMember = default(MemberInfo);
+
+
+                                        // c# extension operators for enumerables, thanks
+                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null);
+                                    }
+                                 );
+
+                                 return;
+                             }
+                             #endregion
+
                              #region asNewExpression
                              var asNewExpression = asExpression as NewExpression;
                              if (asNewExpression != null)
@@ -1058,36 +1082,42 @@ namespace System.Data
                              }
                              #endregion
 
-                             // asExpression = {Invoke(value(SelectToUpperIntoNewExpression.ApplicationWebService+<>c__DisplayClass0).Special, ss.Tag)}
 
-                             #region asInvocationExpression
-                             var asInvocationExpression = asExpression as InvocationExpression;
-                             if (asInvocationExpression != null)
+                             // roslyn allows dictionary indexer intit
+                             #region asEMemberInitExpression
+                             var asEMemberInitExpression = asExpression as MemberInitExpression;
+                             if (asEMemberInitExpression != null)
                              {
-                                 asInvocationExpression.Arguments.WithEachIndex(
+                                 var asEMNewExpression = asEMemberInitExpression.NewExpression;
+
+                                 asEMNewExpression.Arguments.WithEachIndex(
                                     (SourceArgument, i) =>
                                     {
 
                                         // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
                                         var SourceMember = default(MemberInfo);
 
+                                        if (asEMNewExpression.Members != null)
+                                            SourceMember = asEMNewExpression.Members[i];
 
                                         // c# extension operators for enumerables, thanks
                                         WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null);
                                     }
                                  );
 
+                                 asEMemberInitExpression.Bindings.WithEachIndex(
+                                    (SourceBinding, i) =>
+                                    {
+                                        // roslyn seems to be missing the indexer arguments!
+                                        Debugger.Break();
+
+                                        //WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null);
+                                    }
+                                 );
+
                                  return;
                              }
                              #endregion
-
-
-                             // roslyn allows dictionary indexer intit
-                             var asEMemberInitExpression = asExpression as MemberInitExpression;
-                             if (asEMemberInitExpression != null)
-                             {
-
-                             }
 
                              Debugger.Break();
                          };
