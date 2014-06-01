@@ -35,31 +35,28 @@ namespace TestWhereJoinTTGroupBySelectLast
                 new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 45, path = " /zfoo/BAR/ " }
             );
 
-            var temp = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                       where k.duration == 45
-                       select k;
+ 
 
-            var q = from k in temp
+            var q = from u0 in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
 
-                    join u in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on k.duration equals u.duration
+                    join u1 in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u0.duration equals u1.duration
+                    join u2 in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u1.duration equals u2.duration
+                    join u3 in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u2.duration equals u3.duration
+                    join u4 in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u3.duration equals u4.duration
+                    join u5 in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u4.duration equals u5.duration
 
-                    //join uu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on k.duration equals uu.duration
-
-                    join uu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u.duration equals uu.duration
-                    join uuu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on uu.duration equals uuu.duration
-                    join uuuu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on uuu.duration equals uuuu.duration
-                    join uuuuu in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on uuuu.duration equals uuuuu.duration
-
-                    // does not yet work does it.
-
-                    group k by k.duration into g
+                    // whats not selected into new group is lost?
+                    group new { u0, u1 } by u0.duration into g
 
                     select new
                     {
                         g.Key,
 
+                        
+                        last_u0_path = g.Last().u0.path,
+                        last_u1_path = g.Last().u1.path,
 
-                        path = g.Last().path
+                        //firstpath = g.First().u.path
                     };
 
             var dt = q.AsDataTable();

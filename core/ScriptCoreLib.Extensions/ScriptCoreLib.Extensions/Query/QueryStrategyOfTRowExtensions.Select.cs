@@ -147,7 +147,8 @@ namespace System.Data
 
 
                      var SelectCommand = default(string);
-                     var s_SelectCommand = "select 0 as foo";
+                     //var s_SelectCommand = "select 0 as foo";
+                     var s_SelectCommand = "select 'Select' as diagnostics";
 
 
                      #region AddToSelectCommand
@@ -244,8 +245,16 @@ namespace System.Data
                                          return;
                                      }
 
-                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+
+
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
+                                     s_SelectCommand += ",\n\t "
+                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                           + ".`"  + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     //s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                      return;
                                  }
                              }
@@ -467,13 +476,17 @@ namespace System.Data
                                  {
                                      if (asMemberExpression.Member.Name == "Key")
                                      {
-                                         s_SelectCommand += ",\n\t s.`Grouping.Key` as `" + asMemberAssignment.Member.Name + "`";
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
+
+                                         s_SelectCommand += ",\n\t "
+                                            + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                            + ".`Grouping.Key` as `" + asMemberAssignment.Member.Name + "`";
                                          return;
                                      }
                                  }
 
                                  s_SelectCommand += ",\n\t "
-                                 + that.selector.Parameters[0].Name.Replace("<>","__")
+                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
                                  + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                  return;
