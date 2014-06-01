@@ -34,27 +34,40 @@ namespace TestSelectAndSubSelect
                 new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow { ApplicationPerformance = k, name = "!" }
             );
 
-//            select 'Select' as diagnostics,
-//         __h__TransparentIdentifier0.`z` as `z`,
-//         __h__TransparentIdentifier0.`x_Tag` as `Tag`,
-//         __h__TransparentIdentifier0.`x_connectStart` as `connect.connectStart`,
-//         __h__TransparentIdentifier0.`x_connectEnd` as `connect.connectEnd`
-//from(select 'Select' as diagnostics,
-//                 @arg0 as `z`
-//        from `PerformanceResourceTimingData2.ApplicationPerformance` as x
-//        ) as __h__TransparentIdentifier0
-//limit @arg1
+            //            select 'Select' as diagnostics,
+            //         __h__TransparentIdentifier0.`z` as `z`,
+            //         __h__TransparentIdentifier0.`x_Tag` as `Tag`,
+            //         __h__TransparentIdentifier0.`x_connectStart` as `connect.connectStart`,
+            //         __h__TransparentIdentifier0.`x_connectEnd` as `connect.connectEnd`
+            //from(select 'Select' as diagnostics,
+            //                 @arg0 as `z`
+            //        from `PerformanceResourceTimingData2.ApplicationPerformance` as x
+            //        ) as __h__TransparentIdentifier0
+            //limit @arg1
 
             var q = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
                     let zzz = "!"
                     let zz = "???"
-                    let z = "!!!"
+                    //let qq = new { u = "!!!", x.Tag }
+
+                    let qq = new object()
+
                     select new
                     {
                         zzz,
                         zz,
-                        z,
+
+                        qq,
+
+                        //  __h__TransparentIdentifier1.`zz` as `z.zz`,
+                        fz = new { zz, x.Tag },
+
                         x.Tag,
+
+                        //x.connectStart,
+                        //x.connectEnd
+
+                        // cant detect those members just yet
                         connect = new { x.connectStart, x.connectEnd }
                     };
 

@@ -240,326 +240,357 @@ namespace System.Data
 
                             var parameters = asNewExpression.Arguments.Select(
                                 (SourceArgument, index) =>
-                                 {
-
-
-
-                                     var SourceType = SourceArgument.Type;
-                                     var SourceMember = default(MemberInfo);
-
-                                     if (asNewExpression.Members != null)
-                                     {
-                                         SourceMember = asNewExpression.Members[index];
-                                         SourceType = (SourceMember as PropertyInfo).PropertyType;
-                                     }
-                                     else
-                                     {
-                                         //asNewExpression.
-                                     }
-
-                                     #region GetPrefixedTargetName
-                                     Func<string> GetPrefixedTargetName = delegate
-                                     {
-                                         var w = "";
-
-
-                                         foreach (var item in prefixes)
-                                         {
-                                             if (item.Item2 == null)
-                                                 w += item.Item1 + ".";
-                                             else
-                                                 w += item.Item2.Name + ".";
-                                         }
-                                         if (SourceMember == null)
-                                             w += index;
-                                         else
-                                             w += SourceMember.Name;
-
-                                         return w;
-                                     };
-                                     #endregion
-
-
-
-                                     #region xasInvocationExpression
-                                     var xasInvocationExpression = SourceArgument as InvocationExpression;
-                                     if (xasInvocationExpression != null)
-                                     {
-                                         // x:\jsc.svn\examples\javascript\linq\test\selecttoupperintonewexpression\selecttoupperintonewexpression\applicationwebservice.cs
-
-                                         // Member = {System.Func`2[System.String,System.String] Special}
-                                         var xasIMemberExpression = xasInvocationExpression.Expression as MemberExpression;
-                                         if (xasIMemberExpression != null)
-                                         {
-                                             // Value = {SelectToUpperIntoNewExpression.ApplicationWebService.}
-
-                                             // xasIMemberExpression.Expression = {value(SelectToUpperIntoNewExpression.ApplicationWebService+<>c__DisplayClass0).loc1}
-
-                                             var xDelegate = default(Delegate);
-                                             var xDelegateObject = default(object);
-
-                                             #region xasIMConstantExpression
-                                             var xasIMConstantExpression = xasIMemberExpression.Expression as ConstantExpression;
-                                             if (xasIMConstantExpression != null)
-                                             {
-                                                 // Value = {SelectToUpperIntoNewExpression.ApplicationWebService.}
-
-                                                 var xFieldInfo = xasIMemberExpression.Member as FieldInfo;
-
-                                                 //  Additional information: Unable to cast object of type 'System.Func`2[System.String,System.String]' to type 'System.Reflection.MethodInfo'.
-
-                                                 xDelegate = (Delegate)xFieldInfo.GetValue(
-                                                 xasIMConstantExpression.Value
-                                                );
-                                                 xDelegateObject = xasIMConstantExpression.Value;
-                                             }
-                                             #endregion
-
-                                             #region xasIMMemberExpression
-                                             var xasIMMemberExpression = xasIMemberExpression.Expression as MemberExpression;
-                                             if (xasIMMemberExpression != null)
-                                             {
-                                                 var xasIMMConstantExpression = xasIMMemberExpression.Expression as ConstantExpression;
-                                                 var xFieldInfo = xasIMMemberExpression.Member as FieldInfo;
-
-
-                                                 var loc1 = xFieldInfo.GetValue(
-                                                  xasIMMConstantExpression.Value
-                                                 );
-
-                                                 var xPropertyInfo = xasIMemberExpression.Member as PropertyInfo;
-
-                                                 // Additional information: Object does not match target type.
-
-                                                 //xasIMConstantExpression = xasIMMConstantExpression;
-                                                 xDelegate = (Delegate)xPropertyInfo.GetValue(
-                                                     loc1, null
-                                                 );
-                                                 xDelegateObject = xasIMMConstantExpression.Value;
-                                             }
-                                             #endregion
-
-                                             #region xasIMConstantExpression
-                                             if (xDelegate != null)
-                                             {
-                                                 // Value = {SelectToUpperIntoNewExpression.ApplicationWebService.}
-
-
-
-                                                 #region xparameters
-                                                 var xparameters = xasInvocationExpression.Arguments.Select(
-                                                        (xSourceArgument, i) =>
-                                                        {
-                                                            var xElementType = xSourceArgument.Type;
-
-                                                            var xasString = SourceRow[GetPrefixedTargetName() + "." + i];
-
-                                                            if (xElementType == typeof(long) || xElementType.IsEnum)
-                                                                return Convert.ToInt64(xasString);
-
-                                                            if (xElementType == typeof(int))
-                                                                return Convert.ToInt32(xasString);
-
-                                                            // ref ScriptCoreLib.Ultra
-                                                            if (xElementType == typeof(DateTime))
-                                                                return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
-
-                                                            if (xElementType == typeof(XElement))
-                                                                return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
-                                                                     global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)xasString)
-                                                                   );
-
-                                                            //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
-                                                            if (xElementType == typeof(XName))
-                                                            {
-                                                                return XName.Get((string)xasString);
-                                                            }
-
-                                                            return xasString;
-                                                        }
-                                                     ).ToArray();
-                                                 #endregion
-                                                 //  Additional information: Non -static method requires a target.
-
-                                                 if (!xDelegate.Method.IsStatic)
-                                                 {
-                                                     var xxx = xDelegate.Method.Invoke(
-                                                         xDelegateObject,
-
-                                                         xparameters
-                                                     );
-
-                                                     return xxx;
-                                                 }
-
-                                                 var xx = xDelegate.Method.Invoke(
-                                                     null,
-
-                                                     xparameters
-                                                 );
-
-                                                 return xx;
-                                             }
-                                             #endregion
-
-
-                                         }
-
-
-                                         Debugger.Break();
-                                     }
-                                     #endregion
-
-                                     #region xasNewArrayExpression
-                                     var xasNewArrayExpression = SourceArgument as NewArrayExpression;
-                                     if (xasNewArrayExpression != null)
-                                     {
-                                         // Type = {Name = "Int64[]" FullName = "System.Int64[]"}
-
-                                         // how do we build a new array?
-
-                                         // will this work for JVM?
-
-                                         var xElementType = xasNewArrayExpression.Type.GetElementType();
-                                         var xx = Array.CreateInstance(
-                                             elementType: xElementType,
-                                             length: xasNewArrayExpression.Expressions.Count
-                                         );
-
-                                         for (int i = 0; i < xx.Length; i++)
-                                         {
-                                             var SourceExpression = xasNewArrayExpression.Expressions[i];
-
-                                             var xxx = default(object);
-
-
-                                             // do we have special elements?
-                                             var xxasNewExpression = SourceExpression as NewExpression;
-                                             if (xxasNewExpression != null)
-                                             {
-                                                 xxx = yieldNewExpression(xxasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember), Tuple.Create(i, SourceMember) }).ToArray());
-
-                                             }
-                                             else
-                                             {
-
-                                                 #region GetValue
-                                                 Func<object> GetValue = delegate
-                                                 {
-                                                     //                               Additional information: Column 'datagroup3.1.0' does not belong to table .
-                                                     //                        datagroup3 = new XElement("tag", new XElement("u", ss.Tag), "text element", new XAttribute("style", "color:red;")),
-                                                     // PrefixedTargetName = "datagroup3.1.0"
-                                                     var PrefixedTargetName = GetPrefixedTargetName() + "." + i;
-                                                     var xasString = SourceRow[PrefixedTargetName];
-
-                                                     if (xElementType == typeof(long) || xElementType.IsEnum)
-                                                         return Convert.ToInt64(xasString);
-
-                                                     if (xElementType == typeof(int))
-                                                         return Convert.ToInt32(xasString);
-
-                                                     // ref ScriptCoreLib.Ultra
-                                                     if (xElementType == typeof(DateTime))
-                                                         return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
-
-                                                     if (xElementType == typeof(XElement))
-                                                         return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
-                                                              global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)xasString)
-                                                            );
-
-                                                     //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
-                                                     if (xElementType == typeof(XName))
-                                                     {
-                                                         return XName.Get((string)xasString);
-                                                     }
-
-                                                     return xasString;
-                                                 };
-                                                 #endregion
-
-                                                 xxx = GetValue();
-
-                                      
-                                             }
-
-                                             // http://stackoverflow.com/questions/9022059/dynamically-create-an-array-and-set-the-elements
-                                             xx.SetValue(
-                                                 xxx,
-                                                 i
-                                             );
-
-                                             //Array
-                                             //xx[]
-                                         }
-
-                                         return xx;
-                                     }
-                                     #endregion
-
-                                     #region xasNewExpression
-                                     var xasNewExpression = SourceArgument as NewExpression;
-                                     if (xasNewExpression != null)
-                                     {
-                                         //return CreateFromSourceElementType(asPropertyInfo.PropertyType);
-                                         var xx = yieldNewExpression(xasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
-
-                                         return xx;
-                                     }
-                                     #endregion
-
-                                     #region xasMemberInitExpression
-                                     var xasMemberInitExpression = SourceArgument as MemberInitExpression;
-                                     if (xasMemberInitExpression != null)
-                                     {
-                                         var xMNewExpression = xasMemberInitExpression.NewExpression;
-                                         var xx = yieldNewExpression(xMNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
-
-                                         // indexer init?
-
-                                         return xx;
-                                     }
-                                     #endregion
-
-
-
-                                     var xasConstantExpression = SourceArgument as ConstantExpression;
-                                     if (xasConstantExpression != null)
-                                     {
-                                         // we sent the value to sql server, and now want it back.
-                                         // the ony benefit might be to use it in a where clause?
-
-                                         return xasConstantExpression.Value;
-                                     }
-
-                                     // Additional information: Column 'datagroup1' does not belong to table .
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
-
-
-                                     var asString = SourceRow[GetPrefixedTargetName()];
-
-                                     if (SourceType == typeof(long) || SourceType.IsEnum)
-                                         return Convert.ToInt64(asString);
-
-                                     if (SourceType == typeof(int))
-                                         return Convert.ToInt32(asString);
-
-                                     // ref ScriptCoreLib.Ultra
-                                     if (SourceType == typeof(DateTime))
-                                         return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(asString);
-
-                                     if (SourceType == typeof(XElement))
-                                         return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
-                                              global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)asString)
+                            {
+
+
+
+                                var SourceType = SourceArgument.Type;
+                                var SourceMember = default(MemberInfo);
+
+                                if (asNewExpression.Members != null)
+                                {
+                                    SourceMember = asNewExpression.Members[index];
+                                    SourceType = (SourceMember as PropertyInfo).PropertyType;
+                                }
+                                else
+                                {
+                                    //asNewExpression.
+                                }
+
+                                #region GetPrefixedTargetName
+                                Func<string> GetPrefixedTargetName = delegate
+                                {
+                                    var w = "";
+
+
+                                    foreach (var item in prefixes)
+                                    {
+                                        if (item.Item2 == null)
+                                            w += item.Item1 + ".";
+                                        else
+                                            w += item.Item2.Name + ".";
+                                    }
+                                    if (SourceMember == null)
+                                        w += index;
+                                    else
+                                        w += SourceMember.Name;
+
+                                    return w;
+                                };
+                                #endregion
+
+
+
+                                #region xasInvocationExpression
+                                var xasInvocationExpression = SourceArgument as InvocationExpression;
+                                if (xasInvocationExpression != null)
+                                {
+                                    // x:\jsc.svn\examples\javascript\linq\test\selecttoupperintonewexpression\selecttoupperintonewexpression\applicationwebservice.cs
+
+                                    // Member = {System.Func`2[System.String,System.String] Special}
+                                    var xasIMemberExpression = xasInvocationExpression.Expression as MemberExpression;
+                                    if (xasIMemberExpression != null)
+                                    {
+                                        // Value = {SelectToUpperIntoNewExpression.ApplicationWebService.}
+
+                                        // xasIMemberExpression.Expression = {value(SelectToUpperIntoNewExpression.ApplicationWebService+<>c__DisplayClass0).loc1}
+
+                                        var xDelegate = default(Delegate);
+                                        var xDelegateObject = default(object);
+
+                                        #region xasIMConstantExpression
+                                        var xasIMConstantExpression = xasIMemberExpression.Expression as ConstantExpression;
+                                        if (xasIMConstantExpression != null)
+                                        {
+                                            // Value = {SelectToUpperIntoNewExpression.ApplicationWebService.}
+
+                                            var xFieldInfo = xasIMemberExpression.Member as FieldInfo;
+
+                                            //  Additional information: Unable to cast object of type 'System.Func`2[System.String,System.String]' to type 'System.Reflection.MethodInfo'.
+
+                                            xDelegate = (Delegate)xFieldInfo.GetValue(
+                                            xasIMConstantExpression.Value
+                                           );
+                                            xDelegateObject = xasIMConstantExpression.Value;
+                                        }
+                                        #endregion
+
+                                        #region xasIMMemberExpression
+                                        var xasIMMemberExpression = xasIMemberExpression.Expression as MemberExpression;
+                                        if (xasIMMemberExpression != null)
+                                        {
+                                            var xasIMMConstantExpression = xasIMMemberExpression.Expression as ConstantExpression;
+                                            var xFieldInfo = xasIMMemberExpression.Member as FieldInfo;
+
+
+                                            var loc1 = xFieldInfo.GetValue(
+                                             xasIMMConstantExpression.Value
                                             );
 
-                                     //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
-                                     if (SourceType == typeof(XName))
-                                     {
-                                         return XName.Get((string)asString);
-                                     }
+                                            var xPropertyInfo = xasIMemberExpression.Member as PropertyInfo;
 
-                                     return asString;
-                                 }
+                                            // Additional information: Object does not match target type.
+
+                                            //xasIMConstantExpression = xasIMMConstantExpression;
+                                            xDelegate = (Delegate)xPropertyInfo.GetValue(
+                                                loc1, null
+                                            );
+                                            xDelegateObject = xasIMMConstantExpression.Value;
+                                        }
+                                        #endregion
+
+                                        #region xasIMConstantExpression
+                                        if (xDelegate != null)
+                                        {
+                                            // Value = {SelectToUpperIntoNewExpression.ApplicationWebService.}
+
+
+
+                                            #region xparameters
+                                            var xparameters = xasInvocationExpression.Arguments.Select(
+                                                   (xSourceArgument, i) =>
+                                            {
+                                                var xElementType = xSourceArgument.Type;
+
+                                                var xasString = SourceRow[GetPrefixedTargetName() + "." + i];
+
+                                                if (xElementType == typeof(long) || xElementType.IsEnum)
+                                                    return Convert.ToInt64(xasString);
+
+                                                if (xElementType == typeof(int))
+                                                    return Convert.ToInt32(xasString);
+
+                                                // ref ScriptCoreLib.Ultra
+                                                if (xElementType == typeof(DateTime))
+                                                    return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
+
+                                                if (xElementType == typeof(XElement))
+                                                    return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                                         global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)xasString)
+                                                       );
+
+                                                //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
+                                                if (xElementType == typeof(XName))
+                                                {
+                                                    return XName.Get((string)xasString);
+                                                }
+
+                                                return xasString;
+                                            }
+                                                ).ToArray();
+                                            #endregion
+                                            //  Additional information: Non -static method requires a target.
+
+                                            if (!xDelegate.Method.IsStatic)
+                                            {
+                                                var xxx = xDelegate.Method.Invoke(
+                                                    xDelegateObject,
+
+                                                    xparameters
+                                                );
+
+                                                return xxx;
+                                            }
+
+                                            var xx = xDelegate.Method.Invoke(
+                                                null,
+
+                                                xparameters
+                                            );
+
+                                            return xx;
+                                        }
+                                        #endregion
+
+
+                                    }
+
+
+                                    Debugger.Break();
+                                }
+                                #endregion
+
+                                #region xasNewArrayExpression
+                                var xasNewArrayExpression = SourceArgument as NewArrayExpression;
+                                if (xasNewArrayExpression != null)
+                                {
+                                    // Type = {Name = "Int64[]" FullName = "System.Int64[]"}
+
+                                    // how do we build a new array?
+
+                                    // will this work for JVM?
+
+                                    var xElementType = xasNewArrayExpression.Type.GetElementType();
+                                    var xx = Array.CreateInstance(
+                                        elementType: xElementType,
+                                        length: xasNewArrayExpression.Expressions.Count
+                                    );
+
+                                    for (int i = 0; i < xx.Length; i++)
+                                    {
+                                        var SourceExpression = xasNewArrayExpression.Expressions[i];
+
+                                        var xxx = default(object);
+
+
+                                        // do we have special elements?
+                                        var xxasNewExpression = SourceExpression as NewExpression;
+                                        if (xxasNewExpression != null)
+                                        {
+                                            xxx = yieldNewExpression(xxasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember), Tuple.Create(i, SourceMember) }).ToArray());
+
+                                        }
+                                        else
+                                        {
+
+                                            #region GetValue
+                                            Func<object> GetValue = delegate
+                                            {
+                                                //                               Additional information: Column 'datagroup3.1.0' does not belong to table .
+                                                //                        datagroup3 = new XElement("tag", new XElement("u", ss.Tag), "text element", new XAttribute("style", "color:red;")),
+                                                // PrefixedTargetName = "datagroup3.1.0"
+                                                var PrefixedTargetName = GetPrefixedTargetName() + "." + i;
+                                                var xasString = SourceRow[PrefixedTargetName];
+
+                                                if (xElementType == typeof(long) || xElementType.IsEnum)
+                                                    return Convert.ToInt64(xasString);
+
+                                                if (xElementType == typeof(int))
+                                                    return Convert.ToInt32(xasString);
+
+                                                // ref ScriptCoreLib.Ultra
+                                                if (xElementType == typeof(DateTime))
+                                                    return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
+
+                                                if (xElementType == typeof(XElement))
+                                                    return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                                         global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)xasString)
+                                                       );
+
+                                                //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
+                                                if (xElementType == typeof(XName))
+                                                {
+                                                    return XName.Get((string)xasString);
+                                                }
+
+                                                return xasString;
+                                            };
+                                            #endregion
+
+                                            xxx = GetValue();
+
+
+                                        }
+
+                                        // http://stackoverflow.com/questions/9022059/dynamically-create-an-array-and-set-the-elements
+                                        xx.SetValue(
+                                            xxx,
+                                            i
+                                        );
+
+                                        //Array
+                                        //xx[]
+                                    }
+
+                                    return xx;
+                                }
+                                #endregion
+
+                                #region xasNewExpression
+                                var xasNewExpression = SourceArgument as NewExpression;
+                                if (xasNewExpression != null)
+                                {
+                                    //return CreateFromSourceElementType(asPropertyInfo.PropertyType);
+                                    var xx = yieldNewExpression(xasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
+
+                                    return xx;
+                                }
+                                #endregion
+
+                                #region xasMemberInitExpression
+                                var xasMemberInitExpression = SourceArgument as MemberInitExpression;
+                                if (xasMemberInitExpression != null)
+                                {
+                                    var xMNewExpression = xasMemberInitExpression.NewExpression;
+                                    var xx = yieldNewExpression(xMNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
+
+                                    // indexer init?
+
+                                    return xx;
+                                }
+                                #endregion
+
+                                var xasMemberExpression = SourceArgument as MemberExpression;
+                                if (xasMemberExpression != null)
+                                {
+                                    var asSelectQueryStrategy = source as ISelectQueryStrategy;
+                                    if (asSelectQueryStrategy != null)
+                                    {
+                                        // +		selector	{<>h__TransparentIdentifier1 => new <>f__AnonymousType2`2(<>h__TransparentIdentifier1 = <>h__TransparentIdentifier1, qq = new <>f__AnonymousType3`1(u = "!!!"))}	System.Linq.Expressions.Expression<System.Func<<>f__AnonymousType1<<>f__AnonymousType0<TestSelectAndSubSelect.Data.PerformanceResourceTimingData2ApplicationPerformanceRow,string>,string>,<>f__AnonymousType2<<>f__AnonymousType1<<>f__AnonymousType0<TestSelectAndSubSelect.Data.PerformanceResourceTimingData2ApplicationPerformanceRow,string>,string>,<>f__AnonymousType3<string>>>>
+                                        var asSSelectQueryStrategy = asSelectQueryStrategy.source as ISelectQueryStrategy;
+                                        if (asSSelectQueryStrategy != null)
+                                        {
+                                            var asSSLambdaExpression = asSSelectQueryStrategy.selectorExpression as LambdaExpression;
+                                            if (asSSLambdaExpression != null)
+                                            {
+                                                // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
+                                                var asSSNewExpression = asSSLambdaExpression.Body as NewExpression;
+                                                if (asSSNewExpression.Members[1].Name == xasMemberExpression.Member.Name)
+                                                {
+                                                    var asSSNNewExpression = asSSNewExpression.Arguments[1] as NewExpression;
+                                                    if (asSSNNewExpression != null)
+                                                        return yieldNewExpression(asSSNNewExpression,
+                                                            prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray()
+                                                             );
+                                                }
+                                            }
+
+                                        }
+
+
+                                    }
+                                }
+
+                                #region xasConstantExpression
+                                var xasConstantExpression = SourceArgument as ConstantExpression;
+                                if (xasConstantExpression != null)
+                                {
+                                    // we sent the value to sql server, and now want it back.
+                                    // the ony benefit might be to use it in a where clause?
+
+                                    return xasConstantExpression.Value;
+                                }
+                                #endregion
+
+                                // Additional information: Column 'datagroup1' does not belong to table .
+                                // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+
+
+                                var asString = SourceRow[GetPrefixedTargetName()];
+
+                                if (SourceType == typeof(long) || SourceType.IsEnum)
+                                    return Convert.ToInt64(asString);
+
+                                if (SourceType == typeof(int))
+                                    return Convert.ToInt32(asString);
+
+                                // ref ScriptCoreLib.Ultra
+                                if (SourceType == typeof(DateTime))
+                                    return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(asString);
+
+                                if (SourceType == typeof(XElement))
+                                    return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                         global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)asString)
+                                       );
+
+                                //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
+                                if (SourceType == typeof(XName))
+                                {
+                                    return XName.Get((string)asString);
+                                }
+
+                                return asString;
+                            }
                            ).ToArray();
 
                             var x = asNewExpression.Constructor.Invoke(
