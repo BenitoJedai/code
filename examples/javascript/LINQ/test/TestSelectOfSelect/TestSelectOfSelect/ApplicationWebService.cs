@@ -78,7 +78,7 @@ namespace TestSelectOfSelect
                             from kk in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
                                 //where kk.duration == 47
                             where kk.duration == k.connectStart
-                            orderby kk.Key descending
+                            //orderby kk.Key descending
                             select kk.path
 
                             // either first or last?
