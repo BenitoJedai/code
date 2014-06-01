@@ -35,7 +35,7 @@ namespace TestWhereJoinTTGroupBySelectLast
                 new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 45, path = " /zfoo/BAR/ " }
             );
 
- 
+
 
             var q = from u0 in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
 
@@ -46,20 +46,23 @@ namespace TestWhereJoinTTGroupBySelectLast
                     join u5 in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u4.duration equals u5.duration
 
                     // whats not selected into new group is lost?
-                    group new { u0, u1 } by u0.duration into g
+                    // are we propagating the group by key selector yet?
+                    group new { u0, u1, u5 } by u5.duration into g
 
                     select new
                     {
                         g.Key,
 
-                        
-                        last_u0_path = g.Last().u0.path,
-                        last_u1_path = g.Last().u1.path,
+
+                        //last_u0_path = g.Last().u0.path,
+                        //last_u1_path = g.Last().u1.path.ToUpper(),
+                        //last_u1_path = g.Last().u1.path.ToLower(),
+                        last_u0_path = g.Last().u0.path.ToLower(),
 
                         //firstpath = g.First().u.path
                     };
 
-            var dt = q.AsDataTable();
+            var dt = q.Take(5).AsDataTable();
 
 
             Debugger.Break();
