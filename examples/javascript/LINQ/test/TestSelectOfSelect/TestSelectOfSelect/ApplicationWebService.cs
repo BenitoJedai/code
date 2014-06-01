@@ -53,6 +53,17 @@ namespace TestSelectOfSelect
 
 
             // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
+            // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+
+            //  from k in new PerformanceResourceTimingData2 
+            // could allow to query on meta and stats?
+            // what about access control and logging?
+            // what about saving stacktrace?
+            // on every acccess?
+            // with full debugging details?
+            // intellitrace way?
+            // with locals visible?
 
             var uc = from k in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
                      select new
@@ -63,7 +74,8 @@ namespace TestSelectOfSelect
                          other = (
                             // Error	1	An expression tree may not contain a call or invocation that uses optional arguments	X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs	58	40	TestSelectOfSelect
 
-                            from kk in new PerformanceResourceTimingData2.ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite")
+                            //from kk in new PerformanceResourceTimingData2.ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite")
+                            from kk in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
                                 //where kk.duration == 47
                             where kk.duration == k.connectStart
                             orderby kk.Key descending
