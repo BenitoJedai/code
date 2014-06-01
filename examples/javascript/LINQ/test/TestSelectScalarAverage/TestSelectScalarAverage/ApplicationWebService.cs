@@ -34,31 +34,52 @@ namespace TestSelectScalarAverage
                 );
 
                 new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance().Insert(
-                    new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow { ApplicationPerformance = k, name = "!first" },
-                    new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow { ApplicationPerformance = k, name = "!last" }
+                    new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow { ApplicationPerformance = k, name = "!first", connectStart = 6 },
+                    new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow { ApplicationPerformance = k, name = "!last", connectStart = 140 }
                 );
             }
 
+            var kall = new Data.PerformanceResourceTimingData2.ApplicationPerformance().AsDataTable();
+            var all = new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance().AsDataTable();
+
 
             var uc = from k in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
+                     //let avg = (
+                     //       from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                     //       where kk.ApplicationPerformance == k.Key
+                     //       select kk.connectStart
+                     //    ).Average()
                      select new
                      {
+                         k.Key,
+
                          k.Tag,
+
+                         //avg,
+                         avg = (
+                            from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                            where kk.ApplicationPerformance == k.Key
+                            select kk.connectStart
+                         ).Average(),
 
                          first = (
                             from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
                             where kk.ApplicationPerformance == k.Key
-                            select kk.path
+                            select kk.name
                          ).FirstOrDefault(),
 
                          last = (
                             from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
                             where kk.ApplicationPerformance == k.Key
                             orderby kk.Key descending
-                            select kk.path
+                            select kk.name
                          ).FirstOrDefault()
 
-                     };
+                     } into g
+                     orderby g.avg descending
+                     select g;
+
+
 
             var dt = uc.AsDataTable();
 

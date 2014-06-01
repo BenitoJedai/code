@@ -508,6 +508,7 @@ namespace System.Data
                             }
                             else
                             {
+                                // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
                                 // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
                                 var asRParameterExpression = f_Body_Right.Expression as ParameterExpression;
                                 if (asRParameterExpression != null)
@@ -566,7 +567,32 @@ namespace System.Data
 
                                 rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
                             }
-                            else Debugger.Break();
+                            else
+                            {
+                                // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
+                                // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
+                                var asRParameterExpression = f_Body_Right.Expression as ParameterExpression;
+                                if (asRParameterExpression != null)
+                                {
+
+                                    if (body.NodeType == ExpressionType.Equal)
+                                        state.WhereCommand += "=";
+                                    else if (body.NodeType == ExpressionType.LessThan)
+                                        state.WhereCommand += "<";
+                                    else if (body.NodeType == ExpressionType.GreaterThan)
+                                        state.WhereCommand += ">";
+                                    else if (body.NodeType == ExpressionType.NotEqual)
+                                        state.WhereCommand += "<>";
+                                    else
+                                        Debugger.Break();
+
+
+                                    state.WhereCommand += " " + asRParameterExpression.Name + ".`" + f_Body_Right.Member.Name + "` ";
+                                    return;
+                                }
+
+                                Debugger.Break();
+                            }
                         }
                         else
                         {
