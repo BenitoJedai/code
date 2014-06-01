@@ -26,25 +26,21 @@ namespace System.Data
     {
 
 
-        [Obsolete("non grouping methods shall use FirstOrDefault")]
-        public static TElement First<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+        static MethodInfo refLast = new Func<IQueryStrategyGrouping<long, object>, object>(QueryStrategyOfTRowExtensions.Last).Method;
+
+
+
+        //[Obsolete("non grouping methods shall use FirstOrDefault")]
+        public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
         {
-            // first to be used in groups
+            // reverse and take 1 ?
+            // can we reverse yet? reorder by Key desc?
+            // then we could also do ElementAt
+            // but. would we be able to to reverse on nested orderbys?
+            // would have to flip all selectors
+            // in a way the group by already implements reverse ordering?
 
             throw new NotImplementedException();
-        }
-
-
-
-        //[Obsolete("make sure to apply Take 1")]
-        [Obsolete("experimental")]
-        public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
-        {
-            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectFirstOrDefault\TestSelectFirstOrDefault\ApplicationWebService.cs
-            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
-
-
-            return source.Take(1).AsGenericEnumerable().FirstOrDefault();
         }
     }
 }

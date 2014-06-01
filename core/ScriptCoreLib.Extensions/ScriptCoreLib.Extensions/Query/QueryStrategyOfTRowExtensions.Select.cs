@@ -1593,17 +1593,10 @@ namespace System.Data
         }
 
 
-        [Obsolete("non grouping methods shall use FirstOrDefault")]
-        public static TElement First<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
-        {
-            throw new NotImplementedException();
-        }
 
-        //[Obsolete("non grouping methods shall use FirstOrDefault")]
-        public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
-        {
-            throw new NotImplementedException();
-        }
+
+
+
 
 
 

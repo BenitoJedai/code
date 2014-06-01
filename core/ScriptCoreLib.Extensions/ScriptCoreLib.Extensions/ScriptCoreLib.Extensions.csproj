@@ -105,6 +105,7 @@
     <Compile Include="Query\IQueryStrategyInsert.cs" />
     <Compile Include="Query\QueryStrategyExtensions.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.AsDataTable.cs" />
+    <Compile Include="Query\QueryStrategyOfTRowExtensions.Last.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.Where.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.OrderBy.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.Take.cs" />
