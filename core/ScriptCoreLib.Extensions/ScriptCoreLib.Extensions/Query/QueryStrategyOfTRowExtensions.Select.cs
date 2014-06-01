@@ -953,6 +953,7 @@ namespace System.Data
                                                                     // Operand = {kk => (kk.duration == 46)}
                                                                     var __Where_filter = __OrderByDescending_source.Arguments[1] as UnaryExpression;
 
+                                                                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
                                                                     var xTable_Where = (IQueryStrategy)__OrderByDescending_source.Method.Invoke(null,
                                                                          parameters: new object[] { xTable, __Where_filter.Operand }
                                                                      );
@@ -970,21 +971,16 @@ namespace System.Data
 
                                                              // is it really our own table, jsc data layer? :P are they in the same database as current source?
 
-
                                                              //var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
                                                              var xTable = (IQueryStrategy)__Where_source.Constructor.Invoke(
                                                                  parameters: null
                                                              );
 
-                                                             // rror: { Message = Object of type 'System.Linq.Expressions.Expression`1[System.Func`2[TestSelectOfSelect.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow,System.Boolean]]' cannot be converted to type 'System.Linq.Expressions.Expression`1[System.Func`2[TestSelectOfSelect.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow,TestSelectOfSelect.Data.PerformanceResourceTimingData2ApplicationResourcePerformanceKey]]'.,
-
-                                                             // xTable = {TestSelectOfSelect.Data.PerformanceResourceTimingData2.ApplicationResourcePerformance}
-                                                             // step into
-                                                             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
                                                              var xTable_Where = doWhere(xTable);
                                                              var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
                                                              var xTable_Where_Select = doSelect(xTable_Where_OrderByDescending);
 
+                                                             #region s_SelectCommand
                                                              var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select);
                                                              var scalarsubquery = xSelectScalar.ToString();
 
@@ -996,9 +992,63 @@ namespace System.Data
 
 
                                                              state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                                             #endregion
 
                                                              return;
                                                          }
+                                                     }
+                                                 }
+                                                 else if (__Select_source.Method.Name == refWhere.Name)
+                                                 {
+                                                     #region doWhere
+                                                     Func<IQueryStrategy, IQueryStrategy> doWhere =
+                                                        xTable =>
+                                                                {
+                                                                    // Operand = {kk => (kk.duration == 46)}
+                                                                    var __Where_filter = __Select_source.Arguments[1] as UnaryExpression;
+
+                                                                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
+                                                                    var xTable_Where = (IQueryStrategy)__Select_source.Method.Invoke(null,
+                                                                         parameters: new object[] { xTable, __Where_filter.Operand }
+                                                                     );
+
+                                                                    return xTable_Where;
+                                                                };
+                                                     #endregion
+
+                                                     // from
+                                                     var __Where_source = __Select_source.Arguments[0] as NewExpression;
+                                                     if (__Where_source != null)
+                                                     {
+                                                         // do we have enough information to perfrm sql rendering?
+                                                         // Constructor = {Void .ctor(System.String)}
+
+                                                         // is it really our own table, jsc data layer? :P are they in the same database as current source?
+
+                                                         //var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
+                                                         var xTable = (IQueryStrategy)__Where_source.Constructor.Invoke(
+                                                             parameters: null
+                                                         );
+
+                                                         var xTable_Where = doWhere(xTable);
+                                                         //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                         var xTable_Where_Select = doSelect(xTable_Where);
+
+                                                         #region s_SelectCommand
+                                                         var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select);
+                                                         var scalarsubquery = xSelectScalar.ToString();
+
+                                                         // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                                         // do we have to 
+                                                         // we dont know yet how to get sql of that thing do we
+                                                         s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                                         state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                                         #endregion
+
+                                                         return;
                                                      }
                                                  }
                                              }
