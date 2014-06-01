@@ -143,7 +143,6 @@ namespace System.Data
                      //var asMemberInitExpression = default(MemberInitExpression);
                      var asMemberInitExpressionByParameter0 = default(ParameterExpression);
                      var asMemberInitExpressionByParameter1 = default(ParameterExpression);
-                     var asMemberInitExpressionByParameter2 = default(ParameterExpression);
 
 
 
@@ -311,7 +310,6 @@ namespace System.Data
 
                                  var n = "@arg" + state.ApplyParameter.Count;
 
-                                 state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                  s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
 
                                  state.ApplyParameter.Add(
@@ -338,26 +336,12 @@ namespace System.Data
                                  // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
                                  // var SpecialConstant = new { u = "44" };
 
+                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
 
                                  if (asMemberInitExpressionByParameter1 != null)
                                  {
-                                     // ???
-                                     // +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberExpression as System.Linq.Expressions.FieldExpression)).Expression	
-                                     // {<>h__TransparentIdentifier0.MiddleSheetz}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
-
-                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
-                                     //Debugger.Break();
+                                     Debugger.Break();
                                      return;
-
-                                     //var asFieldInfo = asMemberExpression.Member as FieldInfo;
-                                     //if (asFieldInfo != null)
-                                     //{
-                                     //    //asMemberExpressionMethodCallExpression = {<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last()}
-
-                                     //    state.SelectCommand += ",\n\t g.`" + asFieldInfo.Name + "` as `" + asFieldInfo.Name + "`";
-                                     //    s_SelectCommand += ",\n\t s.`" + asFieldInfo.Name + "` as `" + asFieldInfo.Name + "`";
-                                     //    return;
-                                     //}
                                  }
 
                                  var asMMFieldInfo = asMMemberExpression.Member as FieldInfo;
@@ -385,7 +369,9 @@ namespace System.Data
                                      if (asMMParameterExpression != null)
                                      {
 
-                                         s_SelectCommand += ",\n\t " + asPropertyInfo.Name + " as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t "
+                                            + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                             + ".`" + asPropertyInfo.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                          return;
                                      }
@@ -413,18 +399,6 @@ namespace System.Data
                                              c.AddParameter(n, rAddParameterValue0);
                                          }
                                      );
-
-                                     //if (rAddParameterValue0 is string)
-                                     //{
-                                     //    // NULL?
-                                     //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
-                                     //else
-                                     //{
-                                     //    // long?
-                                     //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
-
                                      return;
                                  }
                                  #endregion
@@ -436,25 +410,6 @@ namespace System.Data
                                  var asMMMemberInfo = asMMemberExpression.Member as MemberInfo;
                                  if (asMMMemberInfo != null)
                                  {
-                                     // asMMemberExpression = {result.Last().l}
-                                     // asMemberExpression = {result.Last().l.FirstName}
-
-
-                                     // um we are in a select. canot to Last can we.
-                                     //var asMMMCall = asMMemberExpression.Expression as MethodCallExpression;
-                                     //if (asMMMCall != null)
-                                     //{
-                                     //    //asMMMCall = {result.Last()}
-
-
-                                     //    if (asMMMCall.Method.Name.TakeUntilIfAny("_") == "Last")
-                                     //    {
-                                     //        state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     //        s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     //        return;
-                                     //    }
-                                     //}
-
                                      s_SelectCommand += ",\n\t "
                                      + that.selector.Parameters[0].Name.Replace("<>", "__")
                                      + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
@@ -567,7 +522,22 @@ namespace System.Data
                                      //var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
                                      var rAddParameterValue0 = asMConstantExpression.Value;
 
-                                     var n = "@arg" + state.ApplyParameter.Count;
+
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
+
+                                     var n = "@";
+
+                                     INestedQueryStrategy u = that;
+                                     while (u.upperSelect != null)
+                                     {
+
+                                         n += "_";
+                                         u = u.upperSelect;
+
+                                     }
+
+
+                                     n += "arg" + state.ApplyParameter.Count;
 
                                      s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
 
