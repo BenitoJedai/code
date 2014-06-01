@@ -164,10 +164,34 @@ namespace System.Data
 
 
 
-                     #region WriteMemberExpression COPY from GroupBy
-                     Action<int, MemberExpression, MemberInfo> WriteMemberExpression =
-                         (index, asMemberExpression, asMemberAssignment_Member) =>
+                     #region WriteMemberExpression
+                     Action<int, MemberExpression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteMemberExpression =
+                         (index, asMemberExpression, asMemberAssignment_Member, prefixes, valueSelector) =>
                          {
+                             #region GetPrefixedTargetName
+                             Func<string> GetPrefixedTargetName = delegate
+                             {
+                                 var w = "";
+
+
+                                 foreach (var item in prefixes)
+                                 {
+                                     if (item.Item2 == null)
+                                         w += item.Item1 + ".";
+                                     else
+                                         w += item.Item2.Name + ".";
+                                 }
+
+                                 // for primary constructors we know position.
+                                 if (asMemberAssignment_Member == null)
+                                     w += index;
+                                 else
+                                     w += asMemberAssignment_Member.Name;
+
+                                 return w;
+                             };
+                             #endregion
+
                              var asMemberAssignment = new { Member = asMemberAssignment_Member };
 
                              // +		Member	{TestSQLiteGroupBy.Data.GooStateEnum Key}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
@@ -287,7 +311,7 @@ namespace System.Data
                                  var n = "@arg" + state.ApplyParameter.Count;
 
                                  state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                 s_SelectCommand += ",\n\t " + n + " as `" + asMemberAssignment.Member.Name + "`";
+                                 s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
 
                                  state.ApplyParameter.Add(
                                      c =>
@@ -300,21 +324,6 @@ namespace System.Data
                                  );
 
                                  return;
-
-                                 //if (rAddParameterValue0 is string)
-                                 //{
-                                 //    // the outer select might be optimized away!
-                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                 //    s_SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                 //}
-                                 //else
-                                 //{
-                                 //    // long?
-                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                 //    s_SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                 //}
-
-                                 //return;
                              }
                              #endregion
 
@@ -447,7 +456,7 @@ namespace System.Data
 
                                      s_SelectCommand += ",\n\t "
                                      + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                     + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
                                      return;
                                  }
 
@@ -469,7 +478,6 @@ namespace System.Data
                                  }
 
 
-                                 state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
 
                                  if (that.source is IGroupByQueryStrategy)
@@ -485,9 +493,26 @@ namespace System.Data
                                      }
                                  }
 
+
+
+
+                                 if (valueSelector != null)
+                                 {
+                                     if (valueSelector.Name == "ToUpper")
+                                     {
+                                         // we are being selected intou a data group?
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+
+                                         s_SelectCommand += ",\n\t upper("
+                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                           + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+                                         return;
+                                     }
+                                 }
+
                                  s_SelectCommand += ",\n\t "
                                  + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                 + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                 + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
 
                                  return;
                              }
@@ -500,11 +525,37 @@ namespace System.Data
                      #endregion
 
 
-                     #region WriteExpression COPY from GroupBy
-                     Action<int, Expression, MemberInfo> WriteExpression =
-                         (index, asExpression, TargetMember) =>
+                     #region WriteExpression 
+                     Action<int, Expression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteExpression = null;
+
+                     WriteExpression =
+                         (index, asExpression, TargetMember, prefixes, valueSelector) =>
                          {
                              var asMemberAssignment = new { Expression = asExpression, Member = TargetMember };
+
+                             #region GetPrefixedTargetName
+                             Func<string> GetPrefixedTargetName = delegate
+                             {
+                                 var w = "";
+
+
+                                 foreach (var item in prefixes)
+                                 {
+                                     if (item.Item2 == null)
+                                         w += item.Item1 + ".";
+                                     else
+                                         w += item.Item2.Name + ".";
+                                 }
+
+                                 // for primary constructors we know position.
+                                 if (TargetMember == null)
+                                     w += index;
+                                 else
+                                     w += TargetMember.Name;
+
+                                 return w;
+                             };
+                             #endregion
 
                              #region asMConstantExpression
                              {
@@ -518,30 +569,17 @@ namespace System.Data
                                      var n = "@arg" + state.ApplyParameter.Count;
 
 
-                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t " + n + " as `" + asMemberAssignment.Member.Name + "`";
+                                     //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
 
                                      state.ApplyParameter.Add(
                                          c =>
                                          {
                                              // either the actualt command or the explain command?
-
-                                             //c.Parameters.AddWithValue(n, r);
                                              c.AddParameter(n, rAddParameterValue0);
                                          }
                                      );
 
-
-                                     //if (rAddParameterValue0 is string)
-                                     //{
-                                     //    // NULL?
-                                     //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
-                                     //else
-                                     //{
-                                     //    // long?
-                                     //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
 
                                      return;
                                  }
@@ -555,6 +593,18 @@ namespace System.Data
                              var asMethodCallExpression = asMemberAssignment.Expression as MethodCallExpression;
                              if (asMethodCallExpression != null)
                              {
+                                 if (asMethodCallExpression.Method.DeclaringType != typeof(string))
+                                     if (asMethodCallExpression.Method.DeclaringType != typeof(QueryStrategyOfTRowExtensions))
+                                     {
+                                         // user call on select?
+                                         // x:\jsc.svn\examples\javascript\linq\test\selecttoupperintonewexpression\selecttoupperintonewexpression\applicationwebservice.cs
+
+                                         // asMethodCallExpression.Method = {System.String StaticSpecial(System.String)}
+                                         // asMethodCallExpression.Method = {System.Tuple`2[System.String,System.Int64] Create[String,Int64](System.String, Int64)}
+
+                                         Debugger.Break();
+                                     }
+
                                  Console.WriteLine(new { index, asMethodCallExpression.Method });
 
                                  #region count(*) special!
@@ -645,18 +695,16 @@ namespace System.Data
                                  if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToLower")
                                  {
                                      // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
 
                                      var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
                                      if (asMemberExpression != null)
                                      {
                                          var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
 
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t lower(g.`"
-
-                                         + asMMemberExpression.Member.Name
-                                            + "_" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t lower("
+                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                             + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
                                          return;
                                      }
                                  }
@@ -666,13 +714,16 @@ namespace System.Data
                                  if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToUpper")
                                  {
                                      // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
 
                                      var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
                                      if (asMemberExpression != null)
                                      {
 
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t upper(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t upper("
+                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                             + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
                                          return;
                                      }
                                  }
@@ -759,7 +810,8 @@ namespace System.Data
                                  Console.WriteLine(new { index, asMemberExpression });
                                  if (asMemberExpression != null)
                                  {
-                                     WriteMemberExpression(index, asMemberExpression, TargetMember);
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+                                     WriteMemberExpression(index, asMemberExpression, TargetMember, prefixes, null);
                                      return;
                                  }
                              }
@@ -772,6 +824,14 @@ namespace System.Data
 
                              if (asUnaryExpression != null)
                              {
+                                 var asUConstantExpression = asUnaryExpression.Operand as ConstantExpression;
+                                 if (asUConstantExpression != null)
+                                 {
+                                     WriteExpression(index, asUConstantExpression, TargetMember, prefixes, valueSelector);
+
+                                     return;
+                                 }
+
                                  #region asUnaryExpression_Operand_asFieldExpression
                                  var asUnaryExpression_Operand_asFieldExpression = asUnaryExpression.Operand as MemberExpression;
                                  if (asUnaryExpression_Operand_asFieldExpression != null)
@@ -816,6 +876,8 @@ namespace System.Data
                              }
                              #endregion
 
+
+                             #region asEParameterExpression
                              var asEParameterExpression = asExpression as ParameterExpression;
                              if (asEParameterExpression != null)
                              {
@@ -947,6 +1009,84 @@ namespace System.Data
 
                                  //s_SelectCommand += ",\n\t " + asEParameterExpression.Name + " as `" + asMemberAssignment.Member.Name + "`";
                                  //return;
+                             }
+                             #endregion
+
+                             #region asNewArrayExpression
+                             var asNewArrayExpression = asExpression as NewArrayExpression;
+                             if (asNewArrayExpression != null)
+                             {
+                                 asNewArrayExpression.Expressions.WithEachIndex(
+                                (SourceArgument, i) =>
+                                    {
+
+                                        // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
+                                        var SourceMember = default(MemberInfo);
+
+
+
+                                        // c# extension operators for enumerables, thanks
+                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null);
+                                    }
+                             );
+                                 return;
+                             }
+                             #endregion
+
+                             #region asNewExpression
+                             var asNewExpression = asExpression as NewExpression;
+                             if (asNewExpression != null)
+                             {
+                                 // pre select level 1 fields?
+                                 // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+
+                                 asNewExpression.Arguments.WithEachIndex(
+                                    (SourceArgument, i) =>
+                                    {
+
+                                        // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
+                                        var SourceMember = default(MemberInfo);
+
+                                        if (asNewExpression.Members != null)
+                                            SourceMember = asNewExpression.Members[i];
+
+                                        // c# extension operators for enumerables, thanks
+                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null);
+                                    }
+                                 );
+                                 return;
+                             }
+                             #endregion
+
+                             // asExpression = {Invoke(value(SelectToUpperIntoNewExpression.ApplicationWebService+<>c__DisplayClass0).Special, ss.Tag)}
+
+                             #region asInvocationExpression
+                             var asInvocationExpression = asExpression as InvocationExpression;
+                             if (asInvocationExpression != null)
+                             {
+                                 asInvocationExpression.Arguments.WithEachIndex(
+                                    (SourceArgument, i) =>
+                                    {
+
+                                        // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
+                                        var SourceMember = default(MemberInfo);
+
+
+                                        // c# extension operators for enumerables, thanks
+                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null);
+                                    }
+                                 );
+
+                                 return;
+                             }
+                             #endregion
+
+
+                             // roslyn allows dictionary indexer intit
+                             var asEMemberInitExpression = asExpression as MemberInitExpression;
+                             if (asEMemberInitExpression != null)
+                             {
+
                              }
 
                              Debugger.Break();
@@ -1529,7 +1669,7 @@ namespace System.Data
                                  // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
                                  if (asLMMemberExpression != null)
                                  {
-                                     WriteMemberExpression(0, asLMMemberExpression, asLMMemberExpression.Member);
+                                     WriteMemberExpression(0, asLMMemberExpression, asLMMemberExpression.Member, new Tuple<int, MemberInfo>[0], asLMethodCallExpression.Method);
                                      SelectCommand = s_SelectCommand;
 
                                      var FromCommand =
@@ -1552,7 +1692,7 @@ namespace System.Data
                                  // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
                                  // Member = {System.String path}
 
-                                 WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member);
+                                 WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member, new Tuple<int, MemberInfo>[0], null);
                                  SelectCommand = s_SelectCommand;
 
                                  var FromCommand =
@@ -1575,7 +1715,7 @@ namespace System.Data
                                         var asMemberAssignment = new { Member = TargetMember };
 
 
-                                        WriteExpression(index, SourceArgument, TargetMember);
+                                        WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
                                     }
                                      );
 
