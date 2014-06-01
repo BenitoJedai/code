@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace System.Data
 {
@@ -568,8 +569,6 @@ namespace System.Data
 
                                      var n = "@arg" + state.ApplyParameter.Count;
 
-
-                                     //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                      s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
 
                                      state.ApplyParameter.Add(
@@ -593,6 +592,36 @@ namespace System.Data
                              var asMethodCallExpression = asMemberAssignment.Expression as MethodCallExpression;
                              if (asMethodCallExpression != null)
                              {
+                                 var refXNameGet = new Func<string, string, XName>(XName.Get);
+
+                                 if (asMethodCallExpression.Method == refXNameGet.Method)
+                                 {
+                                     var asMConstantExpression = asMethodCallExpression.Arguments[0] as ConstantExpression;
+                                     if (asMConstantExpression != null)
+                                     {
+                                         var asMPropertyInfo = asMemberAssignment.Member as FieldInfo;
+                                         //var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+                                         var rAddParameterValue0 = asMConstantExpression.Value;
+
+                                         var n = "@arg" + state.ApplyParameter.Count;
+
+                                         s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
+
+                                         state.ApplyParameter.Add(
+                                             c =>
+                                         {
+                                             // either the actualt command or the explain command?
+                                             c.AddParameter(n, rAddParameterValue0);
+                                         }
+                                         );
+
+
+                                         return;
+                                     }
+                                 }
+
+
+                                 //if (asMethodCallExpression.Method.DeclaringType != typeof(XName))
                                  if (asMethodCallExpression.Method.DeclaringType != typeof(string))
                                      if (asMethodCallExpression.Method.DeclaringType != typeof(QueryStrategyOfTRowExtensions))
                                      {
@@ -601,6 +630,7 @@ namespace System.Data
 
                                          // asMethodCallExpression.Method = {System.String StaticSpecial(System.String)}
                                          // asMethodCallExpression.Method = {System.Tuple`2[System.String,System.Int64] Create[String,Int64](System.String, Int64)}
+                                         // asMethodCallExpression.Method = {System.Xml.Linq.XName Get(System.String, System.String)}
 
                                          Debugger.Break();
                                      }
@@ -824,54 +854,11 @@ namespace System.Data
 
                              if (asUnaryExpression != null)
                              {
-                                 var asUConstantExpression = asUnaryExpression.Operand as ConstantExpression;
-                                 if (asUConstantExpression != null)
-                                 {
-                                     WriteExpression(index, asUConstantExpression, TargetMember, prefixes, valueSelector);
+                                 // x:\jsc.svn\examples\javascript\linq\test\vb\testselectintoxelementwithattribute\testselectintoxelementwithattribute\applicationwebservice.vb
 
-                                     return;
-                                 }
-
-                                 #region asUnaryExpression_Operand_asFieldExpression
-                                 var asUnaryExpression_Operand_asFieldExpression = asUnaryExpression.Operand as MemberExpression;
-                                 if (asUnaryExpression_Operand_asFieldExpression != null)
-                                 {
-                                     // reduce? flatten?  nested join?
-                                     //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
-                                     var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as MemberExpression;
-
-                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t s.`"
-
-
-                                         + GroupingKeyFieldExpressionName + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                     return;
-                                 }
-                                 #endregion
-
-                                 #region asMemberExpressionMethodCallExpression
-                                 var asMemberExpressionMethodCallExpression = asUnaryExpression.Operand as MethodCallExpression;
-                                 if (asMemberExpressionMethodCallExpression != null)
-                                 {
-                                     Console.WriteLine(new { index, asMemberExpressionMethodCallExpression.Method });
-                                     // special! op_Implicit
-                                     if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
-                                     {
-                                         gDescendingByKeyReferenced = true;
-                                         state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-
-                                     if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
-                                     {
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
+                                 WriteExpression(index, asUnaryExpression.Operand, TargetMember, prefixes, valueSelector);
+                                 return
+                                 ;
 
                              }
                              #endregion
@@ -1741,8 +1728,14 @@ namespace System.Data
                                      asLNewExpression.Arguments.WithEachIndex(
                                          (SourceArgument, index) =>
                                     {
-                                        var TargetMember = asLNewExpression.Members[index];
-                                        var asMemberAssignment = new { Member = TargetMember };
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\vb\TestSelectIntoXElementWithAttribute\TestSelectIntoXElementWithAttribute\ApplicationWebService.vb
+
+                                        var TargetMember = default(MemberInfo);
+
+                                        if (asLNewExpression.Members != null)
+                                        {
+                                            TargetMember = asLNewExpression.Members[index];
+                                        }
 
 
                                         WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
