@@ -54,10 +54,12 @@ namespace TestWhereJoinTTGroupBySelectLast
                         g.Key,
 
 
-                        //last_u0_path = g.Last().u0.path,
+                        last_u0_path = g.Last().u0.path,
                         //last_u1_path = g.Last().u1.path.ToUpper(),
                         //last_u1_path = g.Last().u1.path.ToLower(),
-                        last_u0_path = g.Last().u0.path.ToLower(),
+
+                         // will it be detectd?
+                        last_u0_path_lower = g.Last().u0.path.ToLower(),
 
                         //firstpath = g.First().u.path
                     };

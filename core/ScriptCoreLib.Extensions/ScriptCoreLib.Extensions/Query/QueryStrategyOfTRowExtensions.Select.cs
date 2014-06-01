@@ -655,7 +655,7 @@ namespace System.Data
                                          state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                          s_SelectCommand += ",\n\t lower(g.`"
 
-                                         +  asMMemberExpression.Member.Name
+                                         + asMMemberExpression.Member.Name
                                             + "_" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
                                          return;
                                      }
@@ -1518,34 +1518,58 @@ namespace System.Data
                          // NewExpression shuld mean new { x, y }
 
 
-                         var asLMemberExpression = asLambdaExpression.Body as MemberExpression;
-                         if (asLMemberExpression != null)
+                         var asLMethodCallExpression = asLambdaExpression.Body as MethodCallExpression;
+                         if (asLMethodCallExpression != null)
                          {
-                             // scalar?
-                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
-                             // Member = {System.String path}
+                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectToUpper\TestSelectToUpper\ApplicationWebService.cs
 
-                             WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member);
+                             if (asLMethodCallExpression.Method.Name == "ToUpper")
+                             {
+                                 var asLMMemberExpression = asLMethodCallExpression.Object as MemberExpression;
+                                 // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
+                                 if (asLMMemberExpression != null)
+                                 {
+                                     WriteMemberExpression(0, asLMMemberExpression, asLMMemberExpression.Member);
+                                     SelectCommand = s_SelectCommand;
 
-                             SelectCommand = s_SelectCommand;
+                                     var FromCommand =
+                                          "from "
+                                              + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                          + " as " + xouter_Paramerer.Name.Replace("<>", "__");
+                                     state.FromCommand = FromCommand;
 
-                             var FromCommand =
-                                  "from "
-                                      + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
-                                                                   //+ " as " + xouter_Paramerer.Name.Replace("<>", "__");
-                                                                   + " as s";
-
-                             state.FromCommand = FromCommand;
+                                 }
+                             }
+                             else
+                                 Debugger.Break();
                          }
                          else
                          {
-                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectIntoNewExpression\TestSelectIntoNewExpression\ApplicationWebService.cs
-                             var asLNewExpression = asLambdaExpression.Body as NewExpression;
-                             if (asLNewExpression != null)
+                             var asLMemberExpression = asLambdaExpression.Body as MemberExpression;
+                             if (asLMemberExpression != null)
                              {
-                                 #region asNewExpression
-                                 asLNewExpression.Arguments.WithEachIndex(
-                                     (SourceArgument, index) =>
+                                 // scalar?
+                                 // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
+                                 // Member = {System.String path}
+
+                                 WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member);
+                                 SelectCommand = s_SelectCommand;
+
+                                 var FromCommand =
+                                      "from "
+                                          + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                      + " as " + xouter_Paramerer.Name.Replace("<>", "__");
+                                 state.FromCommand = FromCommand;
+                             }
+                             else
+                             {
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectIntoNewExpression\TestSelectIntoNewExpression\ApplicationWebService.cs
+                                 var asLNewExpression = asLambdaExpression.Body as NewExpression;
+                                 if (asLNewExpression != null)
+                                 {
+                                     #region asNewExpression
+                                     asLNewExpression.Arguments.WithEachIndex(
+                                         (SourceArgument, index) =>
                                     {
                                         var TargetMember = asLNewExpression.Members[index];
                                         var asMemberAssignment = new { Member = TargetMember };
@@ -1553,29 +1577,30 @@ namespace System.Data
 
                                         WriteExpression(index, SourceArgument, TargetMember);
                                     }
-                                 );
+                                     );
 
 
-                                 SelectCommand = s_SelectCommand;
+                                     SelectCommand = s_SelectCommand;
 
-                                 var FromCommand =
-                                   "from "
-                                       + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
-                                   + " as " + that.selector.Parameters[0].Name.Replace("<>", "__");
+                                     var FromCommand =
+                                       "from "
+                                           + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                       + " as " + that.selector.Parameters[0].Name.Replace("<>", "__");
 
-                                 state.FromCommand = FromCommand;
+                                     state.FromCommand = FromCommand;
 
-                                 #endregion
-                             }
-                             else
-                             {
-                                 // what if we do select x?
-                                 // X:\jsc.svn\examples\javascript\LINQ\test\TestSelect\TestSelect\ApplicationWebService.cs
+                                     #endregion
+                                 }
+                                 else
+                                 {
+                                     // what if we do select x?
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelect\TestSelect\ApplicationWebService.cs
 
-                                 SelectCommand = s.SelectCommand;
-                                 state.FromCommand = s.FromCommand;
+                                     SelectCommand = s.SelectCommand;
+                                     state.FromCommand = s.FromCommand;
 
-                                 // um. what if we do a where on it?
+                                     // um. what if we do a where on it?
+                                 }
                              }
                          }
                      }

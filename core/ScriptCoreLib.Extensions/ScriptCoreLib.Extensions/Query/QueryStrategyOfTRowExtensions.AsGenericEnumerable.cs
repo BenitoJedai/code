@@ -151,6 +151,63 @@ namespace System.Data
                         var asLambdaExpression = asISelectQueryStrategy.selectorExpression as LambdaExpression;
 
 
+                        // X:\jsc.svn\examples\javascript\linq\test\TestSelectToUpper\TestSelectToUpper\ApplicationWebService.cs
+
+
+
+
+                        #region yieldMemberExpression
+                        Func<MemberExpression, TSource> yieldMemberExpression =
+                            asMemberExpression =>
+                            {
+                                // asMemberExpression = {k.path}
+                                // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
+
+                                var asFieldInfo = asMemberExpression.Member as FieldInfo;
+                                var asString = SourceRow[asMemberExpression.Member.Name];
+
+
+                                if (asFieldInfo.FieldType == typeof(long) || asFieldInfo.FieldType.IsEnum)
+                                    return (TSource)(object)Convert.ToInt64(asString);
+
+                                if (asFieldInfo.FieldType == typeof(int))
+                                    return (TSource)(object)Convert.ToInt32(asString);
+
+                                // ref ScriptCoreLib.Ultra
+                                if (asFieldInfo.FieldType == typeof(DateTime))
+                                    return (TSource)(object)global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(asString);
+
+                                if (asFieldInfo.FieldType == typeof(XElement))
+                                {
+                                    //e.il.Emit(OpCodes.Call, e.context.MethodCache[new Func<string, string>(x => StringConversions.UTF8FromBase64StringOrDefault(x)).ToReferencedMethod()]);
+                                    //e.il.Emit(OpCodes.Call, e.context.MethodCache[new Func<string, XElement>(x => StringConversions.ConvertStringToXElement(x)).ToReferencedMethod()]);
+
+                                    // X:\jsc.svn\examples\javascript\LINQ\test\vb\TestXMLSelect\TestXMLSelect\ApplicationWebService.vb
+                                    return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                        global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)asString)
+                                        );
+                                }
+
+                                return (TSource)(object)asString;
+                            };
+                        #endregion
+
+
+                        #region MethodCallExpression
+                        var asMethodCallExpression = asLambdaExpression.Body as MethodCallExpression;
+                        if (asMethodCallExpression != null)
+                        {
+                            if (asMethodCallExpression.Method.Name == "ToUpper")
+                            {
+                                // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Select.cs
+                                // X:\jsc.svn\examples\javascript\linq\test\TestSelectToUpper\TestSelectToUpper\ApplicationWebService.cs
+
+                                var asMMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                return yieldMemberExpression(asMMemberExpression);
+                            }
+                        }
+                        #endregion
+
                         #region  asParameterExpression
                         var asParameterExpression = asLambdaExpression.Body as ParameterExpression;
                         if (asParameterExpression != null)
@@ -163,38 +220,12 @@ namespace System.Data
 
 
                         #region asMemberExpression
-                        var asMemberExpression = asLambdaExpression.Body as MemberExpression;
-                        if (asMemberExpression != null)
                         {
-                            // asMemberExpression = {k.path}
-                            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
-
-                            var asFieldInfo = asMemberExpression.Member as FieldInfo;
-                            var asString = SourceRow[asMemberExpression.Member.Name];
-
-
-                            if (asFieldInfo.FieldType == typeof(long) || asFieldInfo.FieldType.IsEnum)
-                                return (TSource)(object)Convert.ToInt64(asString);
-
-                            if (asFieldInfo.FieldType == typeof(int))
-                                return (TSource)(object)Convert.ToInt32(asString);
-
-                            // ref ScriptCoreLib.Ultra
-                            if (asFieldInfo.FieldType == typeof(DateTime))
-                                return (TSource)(object)global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(asString);
-
-                            if (asFieldInfo.FieldType == typeof(XElement))
+                            var asMemberExpression = asLambdaExpression.Body as MemberExpression;
+                            if (asMemberExpression != null)
                             {
-                                //e.il.Emit(OpCodes.Call, e.context.MethodCache[new Func<string, string>(x => StringConversions.UTF8FromBase64StringOrDefault(x)).ToReferencedMethod()]);
-                                //e.il.Emit(OpCodes.Call, e.context.MethodCache[new Func<string, XElement>(x => StringConversions.ConvertStringToXElement(x)).ToReferencedMethod()]);
-
-                                // X:\jsc.svn\examples\javascript\LINQ\test\vb\TestXMLSelect\TestXMLSelect\ApplicationWebService.vb
-                                return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
-                                    global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)asString)
-                                    );
+                                return yieldMemberExpression(asMemberExpression);
                             }
-
-                            return (TSource)(object)asString;
                         }
                         #endregion
 
