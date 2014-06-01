@@ -39,6 +39,15 @@ namespace System.Data
              {
                  //MutableWhere { Method = Boolean op_Equality(System.String, System.String), Left = Goo, Right = Goo0 }
 
+                 // could we get a histogram of whts the most popular count?
+                 // lets assume 1. lets not waste arguments.
+                 if (count == 1)
+                 {
+                     // dont waste
+                     state.LimitCommand = "limit " + 1;
+                     return;
+                 }
+
                  var n = "@arg" + state.ApplyParameter.Count;
 
                  // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201401/20140119

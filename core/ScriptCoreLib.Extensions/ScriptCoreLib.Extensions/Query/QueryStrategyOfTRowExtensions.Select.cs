@@ -163,6 +163,7 @@ namespace System.Data
                      #endregion
 
 
+                     Action<int, Expression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteExpression = null;
 
                      #region WriteMemberExpression
                      Action<int, MemberExpression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteMemberExpression =
@@ -332,6 +333,24 @@ namespace System.Data
                              var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
                              if (asMMemberExpression != null)
                              {
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
+
+                                 //        s_SelectCommand += ",\n\t "
+                                 //+ that.selector.Parameters[0].Name.Replace("<>", "__")
+                                 //+ ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+
+
+                                 s_SelectCommand += ",\n\t "
+                                   + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                   + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+
+
+                                 //s_SelectCommand += ",\n\t "
+                                 //         + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                 //          + ".`" + asPropertyInfo.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                 return;
+
                                  // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
                                  // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
                                  // var SpecialConstant = new { u = "44" };
@@ -369,9 +388,7 @@ namespace System.Data
                                      if (asMMParameterExpression != null)
                                      {
 
-                                         s_SelectCommand += ",\n\t "
-                                            + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                             + ".`" + asPropertyInfo.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
 
                                          return;
                                      }
@@ -433,6 +450,54 @@ namespace System.Data
                                      }
                                  }
 
+                                 var asSelectQueryStrategy = (that.source as ISelectQueryStrategy);
+                                 if (asSelectQueryStrategy != null)
+                                 {
+                                     // +		selector	{<>h__TransparentIdentifier1 => new <>f__AnonymousType2`2(<>h__TransparentIdentifier1 = <>h__TransparentIdentifier1, 
+                                     // qq = new <>f__AnonymousType3`1(u = "!!!"))}	
+                                     // System.Linq.Expressions.Expression<System.Func<<>f__AnonymousType1<<>f__AnonymousType0<TestSelectAndSubSelect.Data.PerformanceResourceTimingData2ApplicationPerformanceRow,string>,string>,<>f__AnonymousType2<<>f__AnonymousType1<<>f__AnonymousType0<TestSelectAndSubSelect.Data.PerformanceResourceTimingData2ApplicationPerformanceRow,string>,string>,<>f__AnonymousType3<string>>>>
+
+
+                                     var asSLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
+                                     if (asSLambdaExpression != null)
+                                     {
+                                         //Body = { new <> f__AnonymousType2`2(<> h__TransparentIdentifier1 = <> h__TransparentIdentifier1, qq = new <> f__AnonymousType3`1(u = "!!!"))}
+                                         var asSLNewExpression = asSLambdaExpression.Body as NewExpression;
+                                         if (asSLNewExpression != null)
+                                         {
+
+                                             if (asSLNewExpression.Members[1].Name == asMemberExpression.Member.Name)
+                                             {
+                                                 // i think we may have that value on stack!
+                                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
+
+                                                 // [1] = {new <>f__AnonymousType3`1(u = "!!!")}
+
+
+                                                 var asSLNNewExpression = asSLNewExpression.Arguments[1] as NewExpression;
+                                                 if (asSLNNewExpression != null)
+                                                 {
+                                                     asSLNNewExpression.Arguments.WithEachIndex(
+                                                         (xSourceArgument, xIndex) =>
+                                                         {
+                                                             var m = asSLNNewExpression.Members[xIndex];
+
+                                                             s_SelectCommand += ",\n\t "
+                                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                                + ".`" + asMemberExpression.Member.Name + "." + m.Name + "` as `" + GetPrefixedTargetName() + "." + m.Name + "`";
+
+                                                             //WriteExpression (xIndex, xSourceArgument, asSLNNewExpression.Members[xIndex], prefixes, null);
+                                                         }
+                                                     );
+                                                     return;
+                                                 }
+
+                                             }
+
+
+                                         }
+                                     }
+                                 }
 
 
 
@@ -482,7 +547,6 @@ namespace System.Data
 
 
                      #region WriteExpression 
-                     Action<int, Expression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteExpression = null;
 
                      WriteExpression =
                          (index, asExpression, TargetMember, prefixes, valueSelector) =>
@@ -838,6 +902,106 @@ namespace System.Data
 
                                  if (asEParameterExpression == that.selector.Parameters[0])
                                  {
+                                     Action<ISelectQueryStrategy> selectProjectionWalker = null;
+
+                                     selectProjectionWalker =
+                                        yy =>
+                                        {
+                                            // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
+                                            if (yy == null)
+                                                return;
+                                            #region  // go up
+                                            {
+
+                                                INestedQueryStrategy uu = that;
+
+                                                while (uu != null)
+                                                {
+                                                    #region asSelectQueryStrategy
+                                                    var asSelectQueryStrategy = uu as ISelectQueryStrategy;
+                                                    if (asSelectQueryStrategy != null)
+                                                    {
+                                                        var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
+                                                        var xasNewExpression = xasLambdaExpression.Body as NewExpression;
+
+                                                        foreach (var item in xasNewExpression.Arguments)
+                                                        {
+                                                            // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
+                                                            // .u0}
+
+                                                            // item = {new <>f__AnonymousType4`2(connectStart = <>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x.connectStart, connectEnd = <>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x.connectEnd)}
+                                                            var yasNewExpression = item as NewExpression;
+                                                            if (yasNewExpression != null)
+                                                            {
+                                                                yasNewExpression.Arguments.WithEachIndex(
+                                                                    (ySourceArgument, yindex) =>
+                                                                    {
+                                                                        var yasSMemberExpression = ySourceArgument as MemberExpression;
+                                                                        if (yasSMemberExpression != null)
+                                                                        {
+                                                                            var yasSMMemberExpression = yasSMemberExpression.Expression as MemberExpression;
+                                                                            if (yasSMMemberExpression != null)
+                                                                            {
+                                                                                if (yasSMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
+                                                                                {
+
+                                                                                    s_SelectCommand += ",\n\t "
+                                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                    + "."
+                                                                                    //+ xasMMemberExpression.Member.Name + "_" 
+                                                                                    + yasSMemberExpression.Member.Name + " as `"
+                                                                                    //+ xasMMemberExpression.Member.Name + "_" 
+                                                                                    + yasSMemberExpression.Member.Name + "`";
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                );
+
+                                                            }
+
+                                                            #region xasMemberExpression
+                                                            var xasMemberExpression = item as MemberExpression;
+                                                            if (xasMemberExpression != null)
+                                                            {
+                                                                var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
+                                                                if (xasMMemberExpression != null)
+                                                                {
+                                                                    if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
+                                                                    {
+                                                                        s_SelectCommand += ",\n\t "
+                                                                            + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                            + "."
+                                                                            //+ xasMMemberExpression.Member.Name + "_" 
+                                                                            + xasMemberExpression.Member.Name + " as `"
+                                                                            //+ xasMMemberExpression.Member.Name + "_" 
+                                                                            + xasMemberExpression.Member.Name + "`";
+
+                                                                    }
+                                                                }
+                                                            }
+                                                            #endregion
+                                                        }
+                                                    }
+                                                    #endregion
+
+                                                    if (uu.upperSelect != null)
+                                                        uu = uu.upperSelect;
+                                                    else if (uu.upperJoin != null)
+                                                        uu = uu.upperJoin;
+                                                    else if (uu.upperGroupBy != null)
+                                                        uu = uu.upperGroupBy;
+                                                    else
+                                                        break;
+                                                }
+                                            }
+                                            #endregion
+
+                                            // deeper?
+                                            selectProjectionWalker(yy.source as ISelectQueryStrategy);
+                                        };
+
+                                     selectProjectionWalker(that);
 
                                      #region projectionWalker
                                      Action<IJoinQueryStrategy> projectionWalker = null;
@@ -857,6 +1021,7 @@ namespace System.Data
 
                                                  while (uu != null)
                                                  {
+                                                     #region asSelectQueryStrategy
                                                      var asSelectQueryStrategy = uu as ISelectQueryStrategy;
                                                      if (asSelectQueryStrategy != null)
                                                      {
@@ -883,6 +1048,7 @@ namespace System.Data
                                                              }
                                                          }
                                                      }
+                                                     #endregion
 
                                                      if (uu.upperSelect != null)
                                                          uu = uu.upperSelect;
@@ -905,6 +1071,7 @@ namespace System.Data
 
                                                  while (uu != null)
                                                  {
+                                                     #region asSelectQueryStrategy
                                                      var asSelectQueryStrategy = uu as ISelectQueryStrategy;
                                                      if (asSelectQueryStrategy != null)
                                                      {
@@ -931,6 +1098,7 @@ namespace System.Data
                                                              }
                                                          }
                                                      }
+                                                     #endregion
 
                                                      if (uu.upperSelect != null)
                                                          uu = uu.upperSelect;
@@ -1691,20 +1859,29 @@ namespace System.Data
                                      #region asNewExpression
                                      asLNewExpression.Arguments.WithEachIndex(
                                          (SourceArgument, index) =>
-                                    {
-                                        // X:\jsc.svn\examples\javascript\LINQ\test\vb\TestSelectIntoXElementWithAttribute\TestSelectIntoXElementWithAttribute\ApplicationWebService.vb
+                                            {
+                                                //s_SelectCommand += "\n\t-- " + new { index, SourceArgument };
 
-                                        var TargetMember = default(MemberInfo);
+                                                // X:\jsc.svn\examples\javascript\LINQ\test\vb\TestSelectIntoXElementWithAttribute\TestSelectIntoXElementWithAttribute\ApplicationWebService.vb
 
-                                        if (asLNewExpression.Members != null)
-                                        {
-                                            TargetMember = asLNewExpression.Members[index];
-                                        }
+                                                var TargetMember = default(MemberInfo);
+
+                                                if (asLNewExpression.Members != null)
+                                                {
+                                                    TargetMember = asLNewExpression.Members[index];
+                                                }
 
 
-                                        WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
-                                    }
+                                                WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
+                                            }
                                      );
+                                     #endregion
+
+                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
+
+
+
+
 
 
                                      SelectCommand = s_SelectCommand;
@@ -1716,7 +1893,6 @@ namespace System.Data
 
                                      state.FromCommand = FromCommand;
 
-                                     #endregion
                                  }
                                  else
                                  {
