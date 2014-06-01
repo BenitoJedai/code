@@ -30,6 +30,10 @@ namespace System.Data
 
 
 
+
+        // http://stackoverflow.com/questions/3179021/sha1-hashing-in-sqlite-how
+        // while SQLite might allow iproc user funtions, appengine mysql likely will not.
+
         //[Obsolete("non grouping methods shall use FirstOrDefault")]
         public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
         {

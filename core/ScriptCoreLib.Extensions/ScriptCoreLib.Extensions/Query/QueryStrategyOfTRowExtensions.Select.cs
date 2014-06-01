@@ -251,7 +251,7 @@ namespace System.Data
                                      // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
                                      s_SelectCommand += ",\n\t "
                                            + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                           + ".`"  + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                           + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                      //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                      //s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
@@ -649,9 +649,14 @@ namespace System.Data
                                      var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
                                      if (asMemberExpression != null)
                                      {
+                                         var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
+
 
                                          state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t lower(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t lower(g.`"
+
+                                         +  asMMemberExpression.Member.Name
+                                            + "_" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
                                          return;
                                      }
                                  }

@@ -817,10 +817,15 @@ namespace System.Data
                                  }
                                  #endregion
 
+
+
+                                 //var refToLower = new Func<string, Func<string>>(x => x.ToLower)().Method;
+
                                  #region  lower( special!!
                                  if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToLower")
                                  {
                                      var asMMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                     var asMMMemberExpression = asMMemberExpression.Expression as MemberExpression;
 
                                      // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
                                      // does it matter when we do the to lower?
@@ -828,8 +833,17 @@ namespace System.Data
                                      // or after? or both?
                                      // whats the benefit?
 
-                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t lower(s.`" + asMMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                     //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     state.SelectCommand += ",\n\t g.`"
+                                     + asMMMemberExpression.Member.Name + "_"
+                                     + asMMemberExpression.Member.Name + "`";
+
+                                     //s_SelectCommand += ",\n\t lower(s.`" + asMMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                     // the select will do the lowering?
+                                     s_SelectCommand += ",\n\t s.`"
+                                     + asMMMemberExpression.Member.Name + "_"
+                                     + asMMemberExpression.Member.Name + "`";
+
                                      return;
 
 

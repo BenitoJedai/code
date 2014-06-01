@@ -235,7 +235,8 @@ namespace System.Data
                 var FromCommand =
                     "from "
                         + xouter_SelectAll.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
-                        + " as " + xouter_Paramerer_Name.Replace("<>", "__") + " inner join "
+                        + " as " + xouter_Paramerer_Name.Replace("<>", "__")
+                        + "\n inner join "
                         + xinner_SelectAll.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
                         + " as " + xinner_Paramerer.Name.Replace("<>", "__");
                 #endregion
@@ -673,34 +674,7 @@ namespace System.Data
 
                                                  while (uu != null)
                                                  {
-                                                     #region asIGroupByQueryStrategy
-                                                     var asIGroupByQueryStrategy = uu as IGroupByQueryStrategy;
-                                                     if (asIGroupByQueryStrategy != null)
-                                                     {
-                                                         var asIGLambda = asIGroupByQueryStrategy.keySelector as LambdaExpression;
-                                                         if (asIGLambda != null)
-                                                         {
-                                                             var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
-                                                             if (asIGLMemberExpression != null)
-                                                             {
-                                                                 // is it available on this level?
-                                                                 // or are we supposed to proxy it?
 
-                                                                 s_SelectCommand += ",\n\t "
-                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                                    + ".`"
-                                                                    + (yy.selectorExpression as LambdaExpression).Parameters[0].Name + "_" + asIGLMemberExpression.Member.Name
-                                                                    + "` as `"
-                                                                    + (yy.selectorExpression as LambdaExpression).Parameters[0].Name + "_" + asIGLMemberExpression.Member.Name
-                                                                    + "`";
-
-
-                                                             }
-
-
-                                                         }
-                                                     }
-                                                     #endregion
 
 
                                                      var asSelectQueryStrategy = uu as ISelectQueryStrategy;
@@ -805,37 +779,41 @@ namespace System.Data
                                      #endregion
 
                                      projectionWalker(that.xouter as IJoinQueryStrategy);
+
+                               
                                  }
 
-                                 #region  // go up
+                                 if (xinner_Paramerer == asExpression)
                                  {
+                                     var asIGLambda = that.innerKeySelector as LambdaExpression;
+                                     if (asIGLambda != null)
+                                     {
+                                         // um. leftside vs riight side?
+
+                                         var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
+                                         if (asIGLMemberExpression != null)
+                                         {
+                                             // is it available on this level?
+                                             // or are we supposed to proxy it?
+
+                                             s_SelectCommand += ",\n\t " + xinner_Paramerer.Name + "." + asIGLMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + asIGLMemberExpression.Member.Name + "`";
+
+                                         }
+
+
+                                     }
+                                 }
+
+
+
+                                     #region  // go up
+                                     {
 
                                      INestedQueryStrategy uu = that;
 
                                      while (uu != null)
                                      {
-                                         #region asIGroupByQueryStrategy
-                                         var asIGroupByQueryStrategy = uu as IGroupByQueryStrategy;
-                                         if (asIGroupByQueryStrategy != null)
-                                         {
-                                             var asIGLambda = asIGroupByQueryStrategy.keySelector as LambdaExpression;
-                                             if (asIGLambda != null)
-                                             {
-                                                 var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
-                                                 if (asIGLMemberExpression != null)
-                                                 {
-                                                     // is it available on this level?
-                                                     // or are we supposed to proxy it?
-
-                                                     s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name + "." + asIGLMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + asIGLMemberExpression.Member.Name + "`";
-
-
-                                                 }
-
-
-                                             }
-                                         }
-                                         #endregion
+                                      
 
                                          #region asSelectQueryStrategy
                                          var asSelectQueryStrategy = uu as ISelectQueryStrategy;
@@ -1231,6 +1209,8 @@ namespace System.Data
 
                 if (asLNewExpression == null)
                 {
+                    // should no longer happen?
+
                     Debugger.Break();
 
                     #region upperGroupBy
