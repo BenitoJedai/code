@@ -474,12 +474,35 @@ namespace System.Data
                                                  // [1] = {new <>f__AnonymousType3`1(u = "!!!")}
 
 
+                                                 var asSLNMethodCallExpression = asSLNewExpression.Arguments[1] as MethodCallExpression;
+                                                 if (asSLNMethodCallExpression != null)
+                                                 {
+
+                                                     // mark the inputs for our selector
+                                                     // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
+                                                     // 554
+
+                                                     return;
+                                                 }
+
+
                                                  var asSLNNewExpression = asSLNewExpression.Arguments[1] as NewExpression;
                                                  if (asSLNNewExpression != null)
                                                  {
                                                      asSLNNewExpression.Arguments.WithEachIndex(
                                                          (xSourceArgument, xIndex) =>
                                                          {
+                                                             if (asSLNNewExpression.Members == null)
+                                                             {
+                                                                 // are we reselecting optional args?
+
+                                                                 s_SelectCommand += ",\n\t "
+                                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                                + ".`" + asMemberExpression.Member.Name + "." + xIndex + "` as `" + GetPrefixedTargetName() + "." + xIndex + "`";
+
+                                                                 return;
+                                                             }
+
                                                              var m = asSLNNewExpression.Members[xIndex];
 
                                                              s_SelectCommand += ",\n\t "
@@ -656,205 +679,234 @@ namespace System.Data
 
 
                                  //if (asMethodCallExpression.Method.DeclaringType != typeof(XName))
-                                 if (asMethodCallExpression.Method.DeclaringType != typeof(string))
-                                     if (asMethodCallExpression.Method.DeclaringType != typeof(QueryStrategyOfTRowExtensions))
+
+                                 #region string::
+                                 if (asMethodCallExpression.Method.DeclaringType == typeof(string))
+                                 {
+                                     #region  lower( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToLower")
                                      {
-                                         // user call on select?
-                                         // x:\jsc.svn\examples\javascript\linq\test\selecttoupperintonewexpression\selecttoupperintonewexpression\applicationwebservice.cs
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
 
-                                         // asMethodCallExpression.Method = {System.String StaticSpecial(System.String)}
-                                         // asMethodCallExpression.Method = {System.Tuple`2[System.String,System.Int64] Create[String,Int64](System.String, Int64)}
-                                         // asMethodCallExpression.Method = {System.Xml.Linq.XName Get(System.String, System.String)}
+                                         var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                         if (asMemberExpression != null)
+                                         {
+                                             //var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
 
-                                         Debugger.Break();
+                                             s_SelectCommand += ",\n\t lower("
+                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                 + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
                                      }
+                                     #endregion
+
+                                     #region  upper( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToUpper")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+
+                                         var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                         if (asMemberExpression != null)
+                                         {
+
+                                             //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t upper("
+                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                 + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     #region  ltrim( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "TrimStart")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                         if (asMemberExpression != null)
+                                         {
+
+                                             s_SelectCommand += ",\n\t ltrim("
+                                                                    + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                                    + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     #region  rtrim( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "TrimEnd")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                         if (asMemberExpression != null)
+                                         {
+
+                                             s_SelectCommand += ",\n\t rtrim("
+                                                                     + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                                     + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     #region  trim( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Trim")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                         if (asMemberExpression != null)
+                                         {
+
+                                             s_SelectCommand += ",\n\t trim("
+                                                                        + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                                        + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     Debugger.Break();
+                                 }
+#endregion
+
+                                 if (asMethodCallExpression.Method.DeclaringType == typeof(QueryStrategyOfTRowExtensions))
+                                 {
+                                     // user call on select?
+                                     // x:\jsc.svn\examples\javascript\linq\test\selecttoupperintonewexpression\selecttoupperintonewexpression\applicationwebservice.cs
+
+                                     // asMethodCallExpression.Method = {System.String StaticSpecial(System.String)}
+                                     // asMethodCallExpression.Method = {System.Tuple`2[System.String,System.Int64] Create[String,Int64](System.String, Int64)}
+                                     // asMethodCallExpression.Method = {System.Xml.Linq.XName Get(System.String, System.String)}
+
+                                     #region count(*) special!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Count")
+                                     {
+                                         s_SelectCommand += ",\n\t "
+                                               + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                               + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                         return;
+                                     }
+                                     #endregion
+
+                                     #region  sum( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")
+                                     {
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+                                             s_SelectCommand += ",\n\t "
+                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+
+                                     #region  min( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Min")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+                                             s_SelectCommand += ",\n\t "
+                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                 + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     #region  max( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Max")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+                                             s_SelectCommand += ",\n\t "
+                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                 + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     #region  avg( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Average")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+                                             s_SelectCommand += ",\n\t "
+                                                  + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                  + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+
+
+
+                                     #region FirstOrDefault
+                                     // https://www.youtube.com/watch?v=pt8VYOfr8To
+                                     if (asMethodCallExpression.Method.Name  == refFirstOrDefault.Name)
+                                     {
+                                         // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
+                                         // can we ask for sql?
+
+
+                                         // [0] = {Invoke(value(TestSelectAndSubSelect.ApplicationWebService+<>c__DisplayClass0).child1, Convert(<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x))}
+
+                                         // +		(new System.Collections.Generic.Mscorlib_CollectionDebugView<System.Linq.Expressions.Expression>((new System.Linq.Expressions.Expression.MethodCallExpressionProxy(asMethodCallExpression as System.Linq.Expressions.MethodCallExpressionN)).Arguments as System.Runtime.CompilerServices.TrueReadOnlyCollection<System.Linq.Expressions.Expression>)).Items[0]	{Invoke(value(TestSelectAndSubSelect.ApplicationWebService+<>c__DisplayClass0).child1, <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x)}	System.Linq.Expressions.Expression {System.Linq.Expressions.InvocationExpression}
+                                         var asMInvocationExpression = asMethodCallExpression.Arguments[0] as InvocationExpression;
+                                         if (asMInvocationExpression != null)
+                                         {
+                                             // just mark the inputs to be used in select.
+                                             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
+                                             // 554
+
+                                             return;
+                                         }
+
+
+                                         var arg0 = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                         if (arg0 != null)
+                                         {
+
+                                             // we dont know yet how to get sql of that thing do we
+                                             s_SelectCommand += ",\n\t 0 as `" + asMemberAssignment.Member.Name + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     Debugger.Break();
+                                 }
 
                                  Console.WriteLine(new { index, asMethodCallExpression.Method });
 
-                                 #region count(*) special!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Count")
-                                 {
-                                     s_SelectCommand += ",\n\t "
-                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                           + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                     return;
-                                 }
-                                 #endregion
+                      
 
-                                 #region  sum( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")
-                                 {
-                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                     if (arg1 != null)
-                                     {
-                                         var asMemberExpression = arg1.Body as MemberExpression;
-                                         s_SelectCommand += ",\n\t "
-                                            + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                            + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-
-                                 #region  min( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Min")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                     if (arg1 != null)
-                                     {
-                                         var asMemberExpression = arg1.Body as MemberExpression;
-                                         s_SelectCommand += ",\n\t "
-                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                             + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-                                 #region  max( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Max")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                     if (arg1 != null)
-                                     {
-                                         var asMemberExpression = arg1.Body as MemberExpression;
-                                         s_SelectCommand += ",\n\t "
-                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                             + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-                                 #region  avg( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Average")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                     if (arg1 != null)
-                                     {
-                                         var asMemberExpression = arg1.Body as MemberExpression;
-                                         s_SelectCommand += ",\n\t "
-                                              + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                              + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-
-                                 #region  lower( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToLower")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
-
-                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
-                                     if (asMemberExpression != null)
-                                     {
-                                         //var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
-
-                                         s_SelectCommand += ",\n\t lower("
-                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                             + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-                                 #region  upper( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToUpper")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
-
-                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
-                                     if (asMemberExpression != null)
-                                     {
-
-                                         //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t upper("
-                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                             + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-                                 #region  ltrim( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "TrimStart")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
-                                     if (asMemberExpression != null)
-                                     {
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t ltrim(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-                                 #region  rtrim( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "TrimEnd")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
-                                     if (asMemberExpression != null)
-                                     {
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t rtrim(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-                                 #region  trim( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Trim")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                     var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
-                                     if (asMemberExpression != null)
-                                     {
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t trim(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
-
-                                 #region FirstOrDefault
-                                 // https://www.youtube.com/watch?v=pt8VYOfr8To
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "FirstOrDefault")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
-                                     // can we ask for sql?
-
-
-                                     var arg0 = asMethodCallExpression.Arguments[0] as MethodCallExpression;
-                                     if (arg0 != null)
-                                     {
-
-                                         // we dont know yet how to get sql of that thing do we
-                                         s_SelectCommand += ",\n\t 0 as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-
+                                 Debugger.Break();
                              }
                              #endregion
 

@@ -35,11 +35,13 @@ namespace System.Data
         }
 
 
+        static MethodInfo refFirstOrDefault = new Func<IQueryStrategy<object>, object>(QueryStrategyOfTRowExtensions.FirstOrDefault).Method;
 
-        //[Obsolete("make sure to apply Take 1")]
-        [Obsolete("experimental")]
+
+        //[Obsolete("experimental")]
         public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
         {
+            // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectFirstOrDefault\TestSelectFirstOrDefault\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
 
