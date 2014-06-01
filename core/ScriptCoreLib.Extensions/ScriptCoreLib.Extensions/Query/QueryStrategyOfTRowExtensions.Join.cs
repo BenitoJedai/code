@@ -673,11 +673,42 @@ namespace System.Data
 
                                                  while (uu != null)
                                                  {
+                                                     #region asIGroupByQueryStrategy
+                                                     var asIGroupByQueryStrategy = uu as IGroupByQueryStrategy;
+                                                     if (asIGroupByQueryStrategy != null)
+                                                     {
+                                                         var asIGLambda = asIGroupByQueryStrategy.keySelector as LambdaExpression;
+                                                         if (asIGLambda != null)
+                                                         {
+                                                             var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
+                                                             if (asIGLMemberExpression != null)
+                                                             {
+                                                                 // is it available on this level?
+                                                                 // or are we supposed to proxy it?
+
+                                                                 s_SelectCommand += ",\n\t "
+                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                    + ".`"
+                                                                    + (yy.selectorExpression as LambdaExpression).Parameters[0].Name + "_" + asIGLMemberExpression.Member.Name
+                                                                    + "` as `"
+                                                                    + (yy.selectorExpression as LambdaExpression).Parameters[0].Name + "_" + asIGLMemberExpression.Member.Name
+                                                                    + "`";
+
+
+                                                             }
+
+
+                                                         }
+                                                     }
+                                                     #endregion
+
+
                                                      var asSelectQueryStrategy = uu as ISelectQueryStrategy;
                                                      if (asSelectQueryStrategy != null)
                                                      {
                                                          var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
                                                          var xasNewExpression = xasLambdaExpression.Body as NewExpression;
+                                                         // xasNewExpression = {new <>f__AnonymousType5`3(Key = g.Key, last_u0_path = g.Last().u0.path, last_u1_path = g.Last().u1.path)}
 
                                                          foreach (var item in xasNewExpression.Arguments)
                                                          {
@@ -690,9 +721,16 @@ namespace System.Data
                                                                  var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
                                                                  if (xasMMemberExpression != null)
                                                                  {
+                                                                     // (yy.selectorExpression as LambdaExpression).Parameters[0].Name = "u0"
                                                                      if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
                                                                      {
-                                                                         s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name.Replace("<>", "__") + "." + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + " as `" + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+                                                                         s_SelectCommand += ",\n\t "
+                                                                         + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                         + "."
+                                                                         + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
+                                                                         + " as `"
+                                                                         + xasMMemberExpression.Member.Name
+                                                                         + "_" + xasMemberExpression.Member.Name + "`";
 
                                                                      }
                                                                  }
@@ -776,6 +814,30 @@ namespace System.Data
 
                                      while (uu != null)
                                      {
+                                         #region asIGroupByQueryStrategy
+                                         var asIGroupByQueryStrategy = uu as IGroupByQueryStrategy;
+                                         if (asIGroupByQueryStrategy != null)
+                                         {
+                                             var asIGLambda = asIGroupByQueryStrategy.keySelector as LambdaExpression;
+                                             if (asIGLambda != null)
+                                             {
+                                                 var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
+                                                 if (asIGLMemberExpression != null)
+                                                 {
+                                                     // is it available on this level?
+                                                     // or are we supposed to proxy it?
+
+                                                     s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name + "." + asIGLMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + asIGLMemberExpression.Member.Name + "`";
+
+
+                                                 }
+
+
+                                             }
+                                         }
+                                         #endregion
+
+                                         #region asSelectQueryStrategy
                                          var asSelectQueryStrategy = uu as ISelectQueryStrategy;
                                          if (asSelectQueryStrategy != null)
                                          {
@@ -798,6 +860,8 @@ namespace System.Data
                                                  if (xasMemberExpression != null)
                                                  {
                                                      // is this select doing a group by?
+                                                     // we need to first find the select and then its source as group by
+                                                     // as otherwise just looking at groupby would not tell us which fields are of interest
                                                      var xasGroupByQueryStrategy = asSelectQueryStrategy.source as IGroupByQueryStrategy;
                                                      if (xasGroupByQueryStrategy != null)
                                                      {
@@ -811,10 +875,9 @@ namespace System.Data
 
                                                              // public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
                                                              // will it work for jvm? will they equal?
-                                                             var refLast = new Func<IQueryStrategyGrouping<long, object>, object>(QueryStrategyOfTRowExtensions.Last);
 
                                                              // generic info mismatch?
-                                                             if (xasMethodCallExpression.Method.Name == refLast.Method.Name)
+                                                             if (xasMethodCallExpression.Method.Name == refLast.Name)
                                                              {
                                                                  s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
 
@@ -835,6 +898,7 @@ namespace System.Data
                                                  }
                                              }
                                          }
+                                         #endregion
 
                                          if (uu.upperSelect != null)
                                              uu = uu.upperSelect;
