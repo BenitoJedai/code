@@ -22,13 +22,13 @@ Public Class ApplicationWebService
 
     Public info As XElement =
         <div><%= New With {
-                                  System.Diagnostics.Process.GetCurrentProcess().ProcessName,
-                                  Thread.CurrentThread.ManagedThreadId,
-                                  Environment.CommandLine,
-                                  Environment.Version,
-                                  Environment.UserName,
-                                  Debugger.IsAttached
-                                  } %></div>
+            System.Diagnostics.Process.GetCurrentProcess().ProcessName,
+            Thread.CurrentThread.ManagedThreadId,
+            Environment.CommandLine,
+            Environment.Version,
+            Environment.UserName,
+            Debugger.IsAttached
+            } %></div>
 
 
 End Class
