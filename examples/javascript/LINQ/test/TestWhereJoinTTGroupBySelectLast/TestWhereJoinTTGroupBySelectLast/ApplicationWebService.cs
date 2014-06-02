@@ -26,18 +26,20 @@ namespace TestWhereJoinTTGroupBySelectLast
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2()
         {
+            // PerformanceResourceTimingData2.ThreadLocal.Diagnostics.AfterFirstOrDefault += 
 
             var x = new PerformanceResourceTimingData2.ApplicationResourcePerformance();
 
             // += ?
 
             x.Insert(
-                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 45, path = " /zfoo/BAR/ " }
+                new PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 46, path = " /zfoo/BAR/ " }
             );
 
-
+            var cc = new PerformanceResourceTimingData2.ApplicationResourcePerformance().Count();
 
             var q = from u0 in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                    where u0.duration == 46
 
                     join u1 in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u0.duration equals u1.duration
                     join u2 in new PerformanceResourceTimingData2.ApplicationResourcePerformance() on u1.duration equals u2.duration
@@ -47,25 +49,40 @@ namespace TestWhereJoinTTGroupBySelectLast
 
                     // whats not selected into new group is lost?
                     // are we propagating the group by key selector yet?
-                    group new { u0, u1, u5 } by u5.duration into g
+
+
+                    // shall jsc flatten the inner joins at this point?
+                    group new { u0, u1, u5 } by u5.duration into ggg
+
+
+                    // no cant do that yet
+                    //let    last_u0_path_lower = ggg.Last().u0.path.ToLower()
 
                     select new
                     {
-                        g.Key,
+
+                        // could we select everything in the last element?
+                        //last = ggg.Last(),
+
+                        //last_u0_path_lower,
+                        last_u0_path_lower = ggg.Last().u0.path.ToLower(),
+                        last_u0_path = ggg.Last().u0.path,
 
 
-                        last_u0_path = g.Last().u0.path,
+                        ggg.Key,
+
+
                         //last_u1_path = g.Last().u1.path.ToUpper(),
                         //last_u1_path = g.Last().u1.path.ToLower(),
 
-                         // will it be detectd?
-                        last_u0_path_lower = g.Last().u0.path.ToLower(),
+                        // will it be detectd?
 
                         //firstpath = g.First().u.path
                     };
 
             var dt = q.Take(5).AsDataTable();
 
+            var f = q.FirstOrDefault();
 
             Debugger.Break();
         }

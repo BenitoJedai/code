@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace System.Data
 {
@@ -41,12 +42,27 @@ namespace System.Data
         //[Obsolete("experimental")]
         public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
         {
+            // will it work for jvm?
+            var t = new StackTrace(0, true);
+            var s = Stopwatch.StartNew();
+
+            Console.WriteLine();
+
             // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectFirstOrDefault\TestSelectFirstOrDefault\ApplicationWebService.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
 
 
-            return source.Take(1).AsGenericEnumerable().FirstOrDefault();
+
+            var value = source.Take(1).AsGenericEnumerable().FirstOrDefault();
+
+            var caller = t.GetFrame(1);
+            Console.WriteLine(
+                Process.GetCurrentProcess().Id.ToString("x4") + ":"
+                + Thread.CurrentThread.ManagedThreadId.ToString("x4")
+                + " FirstOrDefault " + new { s.ElapsedMilliseconds, Debugger.IsAttached, caller = caller.ToString() });
+
+            return value;
         }
     }
 }
