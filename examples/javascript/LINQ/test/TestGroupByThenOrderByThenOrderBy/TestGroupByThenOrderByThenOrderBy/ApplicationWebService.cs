@@ -99,7 +99,8 @@ namespace TestGroupByThenOrderByThenOrderBy
 
 
                         // can we do toLower here?
-                        path = gg.Last().path.ToLower()
+                        //path = gg.Last().path.ToLower()
+                        path = gg.Last().path
                     } into ggg
 
                     orderby ggg.path descending, ggg.count descending
@@ -111,9 +112,9 @@ namespace TestGroupByThenOrderByThenOrderBy
 
             var dt = g.AsDataTable();
 
+            var ff = g.FirstOrDefault();
 
-
-
+            Debugger.Break();
 
             // datagridview string formatter.
             // how can we show webbrowser inside datagridview?
