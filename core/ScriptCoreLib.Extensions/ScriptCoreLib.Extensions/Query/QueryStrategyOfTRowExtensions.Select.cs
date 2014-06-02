@@ -1049,7 +1049,17 @@ namespace System.Data
                                      #region count(*) special!
                                      if (asMethodCallExpression.Method.Name == refCount.Name)
                                      {
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+
                                          // arg0ElementsBySelect = {new ApplicationResourcePerformance().Where(kk => (Convert(kk.ApplicationPerformance) == Convert(k.Key)))}
+
+                                         var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
+                                         if (arg0Elements_ParameterExpression != null)
+                                         {
+                                             s_SelectCommand += ",\n\t " + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             return;
+                                         }
+
                                          var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
                                          if (arg0ElementsBySelect != null)
                                          {
@@ -1178,6 +1188,8 @@ namespace System.Data
                                      // https://www.youtube.com/watch?v=pt8VYOfr8To
                                      if (asMethodCallExpression.Method.Name == refFirstOrDefault.Name)
                                      {
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+
                                          // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
                                          // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
                                          // can we ask for sql?
