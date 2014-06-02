@@ -44,12 +44,24 @@ namespace TestSelectScalarAverage
 
 
             var uc = from k in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                     //let avg = (
-                     //       from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                     //       where kk.ApplicationPerformance == k.Key
-                     //       select kk.connectStart
-                     //    ).Average()
-                     // selec string bufffer?
+
+                         //let avg = (
+                         //       from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                         //       where kk.ApplicationPerformance == k.Key
+                         //       select kk.connectStart
+                         //    ).Average()
+                         // selec string bufffer?
+
+
+                     let count = (
+                             from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                             where kk.ApplicationPerformance == k.Key
+                             select kk.connectStart
+                          ).Count()
+
+                     where count > 1
+                     //where count > 2
+
                      select new
                      {
                          k.Key,
@@ -58,6 +70,15 @@ namespace TestSelectScalarAverage
                          k.Tag,
 
                          //avg,
+
+                         count,
+
+                         //count = (
+                         //   from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                         //   where kk.ApplicationPerformance == k.Key
+                         //   select kk.connectStart
+                         //).Count(),
+
                          avg = (
                             from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
                             where kk.ApplicationPerformance == k.Key

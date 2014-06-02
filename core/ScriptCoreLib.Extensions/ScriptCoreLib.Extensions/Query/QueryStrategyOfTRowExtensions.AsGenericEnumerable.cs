@@ -554,13 +554,21 @@ namespace System.Data
                                                         // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
 
 
-
-
-
-
-                                                        var fFirstOrDefault = asSSNMethodCallExpression.Method;
-                                                        if (fFirstOrDefault.Name == refFirstOrDefault.Name)
+                                                        if (asSSNMethodCallExpression.Method.Name == refCount.Name)
                                                         {
+                                                            // x:\jsc.svn\examples\javascript\linq\test\testselectscalaraverage\testselectscalaraverage\applicationwebservice.cs
+                                                            //SourceRow
+
+                                                            var xasString = SourceRow[(SourceArgument as MemberExpression).Member.Name];
+
+                                                            return Convert.ToInt64(xasString);
+                                                        }
+
+
+                                                        #region fFirstOrDefault
+                                                        if (asSSNMethodCallExpression.Method.Name == refFirstOrDefault.Name)
+                                                        {
+                                                            var fFirstOrDefault = asSSNMethodCallExpression.Method;
                                                             var arg0InvocationExpression = asSSNMethodCallExpression.Arguments[0] as InvocationExpression;
 
                                                             // [0] = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x}
@@ -636,6 +644,8 @@ namespace System.Data
                                                             Debugger.Break();
                                                             return null;
                                                         }
+                                                        #endregion
+
 
                                                         Debugger.Break();
                                                     }

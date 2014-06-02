@@ -541,7 +541,6 @@ namespace System.Data
                             var f_Body_Right = (MemberExpression)((UnaryExpression)body.Right).Operand;
 
                             var f_Body_Right_as_ConstantExpression = f_Body_Right.Expression as ConstantExpression;
-                            var f_Body_Right_as_MemberExpression = f_Body_Right.Expression as MemberExpression;
 
                             //var f_Body_Right_Expression = (ConstantExpression)f_Body_Right.Expression;
 
@@ -554,44 +553,81 @@ namespace System.Data
                                 var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
                                 rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
                             }
-                            else if (f_Body_Right_as_MemberExpression != null)
-                            {
-                                // we are doing a where against object field passed method argument
-
-                                var z = (FieldInfo)f_Body_Right_as_MemberExpression.Member;
-
-                                var zE = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
-
-                                var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
-
-
-                                rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
-                            }
                             else
                             {
-                                // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
-                                // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
-                                var asRParameterExpression = f_Body_Right.Expression as ParameterExpression;
-                                if (asRParameterExpression != null)
+                                var asRMemberExpression = f_Body_Right.Expression as MemberExpression;
+                                if (asRMemberExpression != null)
                                 {
+                                    // we are doing a where against object field passed method argument
 
-                                    if (body.NodeType == ExpressionType.Equal)
-                                        state.WhereCommand += "=";
-                                    else if (body.NodeType == ExpressionType.LessThan)
-                                        state.WhereCommand += "<";
-                                    else if (body.NodeType == ExpressionType.GreaterThan)
-                                        state.WhereCommand += ">";
-                                    else if (body.NodeType == ExpressionType.NotEqual)
-                                        state.WhereCommand += "<>";
-                                    else
+                                    var zE = asRMemberExpression.Expression as ConstantExpression;
+                                    if (zE != null)
+                                    {
+                                        var asRFieldInfo = asRMemberExpression.Member as FieldInfo;
+                                        if (asRFieldInfo != null)
+                                        {
+
+                                            var f_Body_Right_Expression_Value = asRFieldInfo.GetValue(zE.Value);
+
+
+                                            rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                                        }
                                         Debugger.Break();
+                                    }
+                                    else
+                                    {
+                                        var asRMParameterExpression = asRMemberExpression.Expression as ParameterExpression;
+                                        if (asRMParameterExpression != null)
+                                        {
+                                            if (body.NodeType == ExpressionType.Equal)
+                                                state.WhereCommand += "=";
+                                            else if (body.NodeType == ExpressionType.LessThan)
+                                                state.WhereCommand += "<";
+                                            else if (body.NodeType == ExpressionType.GreaterThan)
+                                                state.WhereCommand += ">";
+                                            else if (body.NodeType == ExpressionType.NotEqual)
+                                                state.WhereCommand += "<>";
+                                            else
+                                                Debugger.Break();
 
 
-                                    state.WhereCommand += " " + asRParameterExpression.Name + ".`" + f_Body_Right.Member.Name + "` ";
-                                    return;
+                                            state.WhereCommand += " " +
+                                            asRMParameterExpression.Name.Replace("<>", "__")
+                                            + ".`" + f_Body_Right.Member.Name + "` ";
+
+                                            return;
+                                        }
+                                    }
+
+
+
                                 }
+                                else
+                                {
+                                    // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
+                                    // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
+                                    var asRParameterExpression = f_Body_Right.Expression as ParameterExpression;
+                                    if (asRParameterExpression != null)
+                                    {
 
-                                Debugger.Break();
+                                        if (body.NodeType == ExpressionType.Equal)
+                                            state.WhereCommand += "=";
+                                        else if (body.NodeType == ExpressionType.LessThan)
+                                            state.WhereCommand += "<";
+                                        else if (body.NodeType == ExpressionType.GreaterThan)
+                                            state.WhereCommand += ">";
+                                        else if (body.NodeType == ExpressionType.NotEqual)
+                                            state.WhereCommand += "<>";
+                                        else
+                                            Debugger.Break();
+
+
+                                        state.WhereCommand += " " + asRParameterExpression.Name + ".`" + f_Body_Right.Member.Name + "` ";
+                                        return;
+                                    }
+
+                                    Debugger.Break();
+                                }
                             }
                         }
                         else
