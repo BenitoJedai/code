@@ -49,10 +49,12 @@ namespace TestSelectScalarAverage
                      //       where kk.ApplicationPerformance == k.Key
                      //       select kk.connectStart
                      //    ).Average()
+                     // selec string bufffer?
                      select new
                      {
                          k.Key,
 
+                         //w = new StringBuilder(
                          k.Tag,
 
                          //avg,
