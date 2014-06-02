@@ -229,33 +229,18 @@ namespace System.Data
                         }
                         #endregion
 
-                        #region asNewExpression
 
                         Func<NewExpression, Tuple<int, MemberInfo>[], object> yieldNewExpression = null;
 
-                        yieldNewExpression = (asNewExpression, prefixes) =>
-                        {
 
-
-
-                            var parameters = asNewExpression.Arguments.Select(
-                                (SourceArgument, index) =>
+                        Func<MemberInfo, Expression, int, Tuple<int, MemberInfo>[], object> GetArgumentValue =
+                            (MemberInfo SourceMember, Expression SourceArgument, int index, Tuple<int, MemberInfo>[] prefixes) =>
                             {
 
 
 
                                 var SourceType = SourceArgument.Type;
-                                var SourceMember = default(MemberInfo);
 
-                                if (asNewExpression.Members != null)
-                                {
-                                    SourceMember = asNewExpression.Members[index];
-                                    SourceType = (SourceMember as PropertyInfo).PropertyType;
-                                }
-                                else
-                                {
-                                    //asNewExpression.
-                                }
 
                                 #region GetPrefixedTargetName
                                 Func<string> GetPrefixedTargetName = delegate
@@ -772,7 +757,29 @@ namespace System.Data
                                     return null;
 
                                 return asString;
-                            }
+                            };
+
+
+                        #region asNewExpression
+
+
+                        yieldNewExpression = (asNewExpression, prefixes) =>
+                        {
+
+
+
+                            var parameters = asNewExpression.Arguments.Select(
+                               (a, i) =>
+                                {
+                                    var SourceMember = default(MemberInfo);
+
+                                    if (asNewExpression.Members != null)
+                                    {
+                                        SourceMember = asNewExpression.Members[i];
+                                    }
+
+                                    return GetArgumentValue(SourceMember, a, i, prefixes);
+                                }
                            ).ToArray();
 
                             var x = asNewExpression.Constructor.Invoke(
@@ -795,6 +802,40 @@ namespace System.Data
                         }
                         #endregion
 
+                        //+asLambdaExpression.Body { new PerformanceResourceTimingData2ApplicationResourcePerformanceRow() { path = ggg.Last().u.path }}
+                        //System.Linq.Expressions.Expression { System.Linq.Expressions.MemberInitExpression}
+
+                        #region xasMemberInitExpression
+                        {
+                            var xasMemberInitExpression = asLambdaExpression.Body as MemberInitExpression;
+                            if (xasMemberInitExpression != null)
+                            {
+                                var xMNewExpression = xasMemberInitExpression.NewExpression;
+                                var xx = yieldNewExpression(xMNewExpression, new Tuple<int, MemberInfo>[0]);
+
+                                // indexer init?
+
+                                xasMemberInitExpression.Bindings.WithEachIndex(
+                                    (SourceBinding, i) =>
+                                    {
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectIntoViewRow\TestSelectIntoViewRow\ApplicationWebService.cs
+
+                                        var mm = SourceBinding as MemberAssignment;
+
+                                        var v = GetArgumentValue(SourceBinding.Member, mm.Expression, i, new Tuple<int, MemberInfo>[0]);
+
+
+                                        var xFieldInfo = SourceBinding.Member as FieldInfo;
+                                        if (xFieldInfo != null)
+                                            xFieldInfo.SetValue(xx, v);
+                                    }
+                                );
+
+
+                                return (TSource)xx;
+                            }
+                        }
+                        #endregion
                     }
                     else
                     {

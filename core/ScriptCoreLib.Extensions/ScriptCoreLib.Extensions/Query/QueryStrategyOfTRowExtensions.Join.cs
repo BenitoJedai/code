@@ -812,26 +812,33 @@ namespace System.Data
                                                      {
                                                          var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
                                                          var xasNewExpression = xasLambdaExpression.Body as NewExpression;
-
-                                                         foreach (var item in xasNewExpression.Arguments)
+                                                         if (xasNewExpression != null)
                                                          {
-                                                             // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
-                                                             // .u0}
-
-                                                             var xasMemberExpression = item as MemberExpression;
-                                                             if (xasMemberExpression != null)
+                                                             foreach (var item in xasNewExpression.Arguments)
                                                              {
-                                                                 var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
-                                                                 if (xasMMemberExpression != null)
-                                                                 {
-                                                                     if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
-                                                                     {
-                                                                         s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name.Replace("<>", "__") + "." + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + " as `" + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+                                                                 // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
+                                                                 // .u0}
 
+                                                                 var xasMemberExpression = item as MemberExpression;
+                                                                 if (xasMemberExpression != null)
+                                                                 {
+                                                                     var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
+                                                                     if (xasMMemberExpression != null)
+                                                                     {
+                                                                         if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
+                                                                         {
+                                                                             s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name.Replace("<>", "__") + "." + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + " as `" + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                         }
                                                                      }
                                                                  }
                                                              }
                                                          }
+                                                         else
+                                                         {
+                                                             Debugger.Break();
+                                                         }
+
                                                      }
 
                                                      if (uu.upperSelect != null)
@@ -901,24 +908,14 @@ namespace System.Data
                                              // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601
 
                                              var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
-                                             var xasNewExpression = xasLambdaExpression.Body as NewExpression;
-
-                                             foreach (var item in xasNewExpression.Arguments)
-                                             {
-                                                 // item = {g.Key}
-                                                 // what if the outer select wants the key?
-                                                 // we need to know what is being selected for the key?
-                                                 // item = {g.Last().path}
-
-                                                 // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
-                                                 // .u0}
 
 
 
 
-                                                 #region itemWriteMemberExpression
-                                                 Action<MemberExpression> itemWriteMemberExpression =
-                                                     xasMemberExpression =>
+
+                                             #region itemWriteMemberExpression
+                                             Action<MemberExpression> itemWriteMemberExpression =
+                                                 xasMemberExpression =>
                                                      {
                                                          // is this select doing a group by?
                                                          // we need to first find the select and then its source as group by
@@ -962,31 +959,91 @@ namespace System.Data
                                                              }
                                                          }
                                                      };
-                                                 #endregion
+                                             #endregion
 
 
+                                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectIntoViewRow\TestSelectIntoViewRow\ApplicationWebService.cs
+                                             var xasNewExpression = xasLambdaExpression.Body as NewExpression;
+                                             if (xasNewExpression != null)
+                                             {
 
-
-                                                 var yasMethodCallExpression = item as MethodCallExpression;
-                                                 if (yasMethodCallExpression != null)
+                                                 foreach (var item in xasNewExpression.Arguments)
                                                  {
-                                                     if (yasMethodCallExpression.Method.Name == "ToLower")
+                                                     // item = {g.Key}
+                                                     // what if the outer select wants the key?
+                                                     // we need to know what is being selected for the key?
+                                                     // item = {g.Last().path}
+
+                                                     // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
+                                                     // .u0}
+
+
+
+
+
+
+                                                     var yasMethodCallExpression = item as MethodCallExpression;
+                                                     if (yasMethodCallExpression != null)
                                                      {
-                                                         var yitem = yasMethodCallExpression.Object as MemberExpression;
+                                                         if (yasMethodCallExpression.Method.Name == "ToLower")
+                                                         {
+                                                             var yitem = yasMethodCallExpression.Object as MemberExpression;
 
-                                                         itemWriteMemberExpression(yitem);
+                                                             itemWriteMemberExpression(yitem);
 
+                                                         }
+                                                     }
+
+
+                                                     {
+                                                         var xasMemberExpression = item as MemberExpression;
+                                                         if (xasMemberExpression != null)
+                                                         {
+                                                             itemWriteMemberExpression(xasMemberExpression);
+                                                         }
                                                      }
                                                  }
-
-
+                                             }
+                                             else
+                                             {
+                                                 var xasMemberInitExpression = xasLambdaExpression.Body as MemberInitExpression;
+                                                 if (xasMemberInitExpression != null)
                                                  {
-                                                     var xasMemberExpression = item as MemberExpression;
-                                                     if (xasMemberExpression != null)
-                                                     {
-                                                         itemWriteMemberExpression(xasMemberExpression);
-                                                     }
+                                                     //xasLambdaExpression.Body = { new PerformanceResourceTimingData2ApplicationResourcePerformanceRow() { path = g.Last().path }}
+
+                                                     xasMemberInitExpression.Bindings.WithEachIndex(
+                                                         (xitem, i) =>
+                                                         {
+                                                             var xasMemberAssignment = xitem as MemberAssignment;
+                                                             var item = xasMemberAssignment.Expression;
+
+                                                             var yasMethodCallExpression = item as MethodCallExpression;
+                                                             if (yasMethodCallExpression != null)
+                                                             {
+                                                                 if (yasMethodCallExpression.Method.Name == "ToLower")
+                                                                 {
+                                                                     var yitem = yasMethodCallExpression.Object as MemberExpression;
+
+                                                                     itemWriteMemberExpression(yitem);
+
+                                                                 }
+                                                             }
+
+
+                                                             {
+                                                                 var xasMemberExpression = item as MemberExpression;
+                                                                 if (xasMemberExpression != null)
+                                                                 {
+                                                                     itemWriteMemberExpression(xasMemberExpression);
+                                                                 }
+                                                             }
+
+                                                         }
+                                                     );
                                                  }
+                                                 else
+                                                     Debugger.Break();
+
                                              }
                                          }
                                          #endregion
@@ -1325,112 +1382,6 @@ namespace System.Data
                     // should no longer happen?
 
                     Debugger.Break();
-
-                    #region upperGroupBy
-                    if (asMemberInitExpression == null)
-                        if (that.upperGroupBy != null)
-                            if (that.upperGroupBy.source == that)
-                            {
-                                Console.WriteLine("Join CommandBuilder building SelectCommand... upperGroupBy");
-
-                                asMemberInitExpression = (that.upperGroupBy.elementSelector as LambdaExpression).Body as MemberInitExpression;
-                                asMemberInitExpressionByParameter0 = (that.upperGroupBy.elementSelector as LambdaExpression).Parameters[0];
-
-
-
-                                if (asMemberInitExpression == null)
-                                {
-                                    // ???
-
-                                    if (that.upperGroupBy.upperSelect.source == that.upperGroupBy)
-                                    {
-                                        asMemberInitExpression = (that.upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Body as MemberInitExpression;
-                                        //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                        asMemberInitExpressionByParameter1 = (that.upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Parameters[0];
-
-                                        //if (asMemberInitExpression != null)
-                                        //    AddToSelectCommand(
-                                        //               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
-                                        //               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
-                                        //               );
-                                    }
-
-
-
-                                }
-                            }
-                    #endregion
-
-
-
-                    #region upperJoin
-                    if (asMemberInitExpression == null)
-                        if (that.upperJoin != null)
-                            if (that.upperJoin.xouter == that)
-                            {
-                                Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin " + new { that.upperJoin.selectorExpression });
-
-                                asMemberInitExpression = ((LambdaExpression)that.upperJoin.selectorExpression).Body as MemberInitExpression;
-                                asMemberInitExpressionByParameter0 = ((LambdaExpression)that.upperJoin.selectorExpression).Parameters[0];
-
-
-                                var asMemberExpression = ((LambdaExpression)that.upperJoin.outerKeySelector).Body as MemberExpression;
-                                var asMMemberExpression = (MemberExpression)asMemberExpression.Expression;
-
-                                //if (asMemberInitExpression != null)
-
-
-                                if (asLambdaExpression.Parameters.Any(p => p.Name == asMMemberExpression.Member.Name))
-                                {
-                                    // we seem to have that table!
-                                    AddToSelectCommand(
-                                               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
-                                               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
-                                               );
-                                }
-                                else
-                                {
-                                    // we seem to get it by projection?
-
-                                    AddToSelectCommand(
-                                         asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + " as "
-                                         + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
-                                         );
-                                }
-
-
-                                if (asMemberInitExpression == null)
-                                {
-                                    // ???
-
-                                    // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
-                                    if (that.upperJoin.upperJoin == null)
-                                        Debugger.Break();
-
-
-                                    if (that.upperJoin.upperJoin.xouter == that.upperJoin)
-                                    {
-                                        asMemberInitExpression = ((LambdaExpression)that.upperJoin.upperJoin.selectorExpression).Body as MemberInitExpression;
-                                        //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                        asMemberInitExpressionByParameter1 = ((LambdaExpression)that.upperJoin.upperJoin.selectorExpression).Parameters[0];
-
-                                        Console.WriteLine("Join CommandBuilder building SelectCommand... upperJoin " + new { asMemberInitExpression });
-
-
-                                        //if (asMemberInitExpression != null)
-                                        //    AddToSelectCommand(
-                                        //               asMMemberExpression.Member.Name + "." + asMemberExpression.Member.Name + " as "
-                                        //               + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name
-                                        //               );
-                                    }
-
-
-
-                                }
-
-                            }
-                    #endregion
-
                 }
 
                 if (asMemberInitExpression != null)
