@@ -484,6 +484,17 @@ namespace System.Data
                                      }
 
                                      state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     var asIJoinQueryStrategy = GroupBy.source as IJoinQueryStrategy;
+                                     if (asIJoinQueryStrategy != null)
+                                     {
+                                         var asJLambdaExpression = (asIJoinQueryStrategy.selectorExpression as LambdaExpression);
+
+                                         // X:\jsc.svn\examples\javascript\linq\test\TestSelectIntoViewRow\TestSelectIntoViewRow\ApplicationWebService.cs
+                                         s_SelectCommand += ",\n\t s.`" + asJLambdaExpression.Parameters[0].Name + "_" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+
                                      s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                      return;
                                  }
