@@ -280,6 +280,55 @@ namespace System.Data
                                 #endregion
 
 
+                                #region GetValue
+                                Func<object> GetValue = delegate
+                                {
+                                    //                               Additional information: Column 'datagroup3.1.0' does not belong to table .
+                                    //                        datagroup3 = new XElement("tag", new XElement("u", ss.Tag), "text element", new XAttribute("style", "color:red;")),
+                                    // PrefixedTargetName = "datagroup3.1.0"
+                                    //var PrefixedTargetName1 = GetPrefixedTargetName() + "." + i;
+                                    var PrefixedTargetName1 = GetPrefixedTargetName();
+                                    var xasString = SourceRow[PrefixedTargetName1];
+
+                                    if (SourceType == typeof(long) || SourceType.IsEnum)
+                                    {
+                                        // well what if sql returns double avg. we need int64.
+                                        // we could ask sql to cast it tho..
+
+                                        var i8 = default(long);
+                                        if (!long.TryParse((string)xasString, out i8))
+                                        {
+                                            var __double = Convert.ToDouble(xasString);
+
+                                            // which way are we rounding?
+                                            i8 = (long)__double;
+                                        }
+
+                                        //return Convert.ToInt64(xasString);
+                                        return i8;
+                                    }
+
+                                    if (SourceType == typeof(int))
+                                        return Convert.ToInt32(xasString);
+
+                                    // ref ScriptCoreLib.Ultra
+                                    if (SourceType == typeof(DateTime))
+                                        return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
+
+                                    if (SourceType == typeof(XElement))
+                                        return (TSource)(object)global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                             global::ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault((string)xasString)
+                                           );
+
+                                    //Additional information: Object of type 'System.String' cannot be converted to type 'System.Xml.Linq.XName'.
+                                    if (SourceType == typeof(XName))
+                                    {
+                                        return XName.Get((string)xasString);
+                                    }
+
+                                    return xasString;
+                                };
+                                #endregion
 
                                 #region xasInvocationExpression
                                 var xasInvocationExpression = SourceArgument as InvocationExpression;
@@ -444,7 +493,7 @@ namespace System.Data
                                         {
 
                                             #region GetValue
-                                            Func<object> GetValue = delegate
+                                            Func<object> xGetValue = delegate
                                             {
                                                 //                               Additional information: Column 'datagroup3.1.0' does not belong to table .
                                                 //                        datagroup3 = new XElement("tag", new XElement("u", ss.Tag), "text element", new XAttribute("style", "color:red;")),
@@ -477,7 +526,7 @@ namespace System.Data
                                             };
                                             #endregion
 
-                                            xxx = GetValue();
+                                            xxx = xGetValue();
 
 
                                         }
@@ -552,6 +601,18 @@ namespace System.Data
                                                         //);
 
                                                         // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
+
+                                                        if (asSSNMethodCallExpression.Method.Name == refAverage.Name)
+                                                        {
+                                                            // x:\jsc.svn\examples\javascript\linq\test\testselectscalaraverage\testselectscalaraverage\applicationwebservice.cs
+                                                            //SourceRow
+
+                                                            var xasString = SourceRow[(SourceArgument as MemberExpression).Member.Name];
+
+                                                            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectAboveAverage\TestSelectAboveAverage\ApplicationWebService.cs
+                                                            // whats the datatype?
+                                                            return GetValue();
+                                                        }
 
 
                                                         if (asSSNMethodCallExpression.Method.Name == refCount.Name)
