@@ -14,6 +14,8 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 
 		public WebMethod2Expression()
 		{
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140602
+
             // PHP does not yet support XLinq
             // Java does not yet support Generics
 
