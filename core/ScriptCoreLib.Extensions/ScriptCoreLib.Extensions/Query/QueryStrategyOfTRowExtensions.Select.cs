@@ -490,6 +490,10 @@ namespace System.Data
                                                      // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
                                                      // 554
 
+                                                     s_SelectCommand += ",\n\t "
+                                                              + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                              + ".`" + asMemberExpression.Member.Name  + "` as `" + GetPrefixedTargetName() + "`";
+
                                                      return;
                                                  }
 
@@ -803,68 +807,6 @@ namespace System.Data
                                      // asMethodCallExpression.Method = {System.Tuple`2[System.String,System.Int64] Create[String,Int64](System.String, Int64)}
                                      // asMethodCallExpression.Method = {System.Xml.Linq.XName Get(System.String, System.String)}
 
-                                     #region count(*) special!
-                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Count")
-                                     {
-                                         s_SelectCommand += ",\n\t "
-                                               + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                               + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                         return;
-                                     }
-                                     #endregion
-
-                                     #region  sum( special!!
-                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")
-                                     {
-                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                         if (arg1 != null)
-                                         {
-                                             var asMemberExpression = arg1.Body as MemberExpression;
-                                             s_SelectCommand += ",\n\t "
-                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                                + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                             return;
-                                         }
-                                     }
-                                     #endregion
-
-
-                                     #region  min( special!!
-                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Min")
-                                     {
-                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                         if (arg1 != null)
-                                         {
-                                             var asMemberExpression = arg1.Body as MemberExpression;
-                                             s_SelectCommand += ",\n\t "
-                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                                 + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                             return;
-                                         }
-                                     }
-                                     #endregion
-
-                                     #region  max( special!!
-                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Max")
-                                     {
-                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                         if (arg1 != null)
-                                         {
-                                             var asMemberExpression = arg1.Body as MemberExpression;
-                                             s_SelectCommand += ",\n\t "
-                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                                 + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                             return;
-                                         }
-                                     }
-                                     #endregion
-
-
-
                                      #region subquery
                                      Func<MethodCallExpression, IQueryStrategy> subquery =
                                          arg0ElementsBySelect =>
@@ -877,9 +819,9 @@ namespace System.Data
                                              // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
 
 
-                                             // select
                                              if (arg0ElementsBySelect.Method.Name == refSelect.Name)
                                              {
+                                                 #region select
 
                                                  #region doSelect
                                                  Func<IQueryStrategy, IQueryStrategy> doSelect =
@@ -999,12 +941,135 @@ namespace System.Data
                                                          return xTable_Where_Select;
                                                      }
                                                  }
+                                                 #endregion
+                                             }
+                                             else if (arg0ElementsBySelect.Method.Name == refWhere.Name)
+                                             {
+                                                 #region doWhere
+                                                 Func<IQueryStrategy, IQueryStrategy> doWhere =
+                                                    xTable =>
+                                                                {
+                                                                    // Operand = {kk => (kk.duration == 46)}
+                                                                    var __Where_filter = arg0ElementsBySelect.Arguments[1] as UnaryExpression;
+
+                                                                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
+                                                                    var xTable_Where = (IQueryStrategy)arg0ElementsBySelect.Method.Invoke(null,
+                                                                         parameters: new object[] { xTable, __Where_filter.Operand }
+                                                                     );
+
+                                                                    return xTable_Where;
+                                                                };
+                                                 #endregion
+
+                                                 // from
+                                                 var __Where_source = arg0ElementsBySelect.Arguments[0] as NewExpression;
+                                                 if (__Where_source != null)
+                                                 {
+                                                     // do we have enough information to perfrm sql rendering?
+                                                     // Constructor = {Void .ctor(System.String)}
+
+                                                     // is it really our own table, jsc data layer? :P are they in the same database as current source?
+
+                                                     //var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
+                                                     var xTable = (IQueryStrategy)__Where_source.Constructor.Invoke(
+                                                         parameters: null
+                                                     );
+
+                                                     var xTable_Where = doWhere(xTable);
+                                                     //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                     //var xTable_Where_Select = doSelect(xTable_Where);
+
+
+                                                     return xTable_Where;
+                                                 }
                                              }
 
                                              Debugger.Break();
                                              return null;
                                          };
                                      #endregion
+
+                                     #region count(*) special!
+                                     if (asMethodCallExpression.Method.Name == refCount.Name)
+                                     {
+                                         // arg0ElementsBySelect = {new ApplicationResourcePerformance().Where(kk => (Convert(kk.ApplicationPerformance) == Convert(k.Key)))}
+                                         var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                         if (arg0ElementsBySelect != null)
+                                         {
+                                             var xTable_Where_Select0 = subquery(arg0ElementsBySelect);
+                                             var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
+
+                                             xTable_Where_Select.scalarAggregateOperand = "count";
+
+                                             #region s_SelectCommand
+                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
+                                             var scalarsubquery = xSelectScalar.ToString();
+
+                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                             // do we have to 
+                                             // we dont know yet how to get sql of that thing do we
+                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                             #endregion
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     #region  sum( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")
+                                     {
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+                                             s_SelectCommand += ",\n\t "
+                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+
+                                     #region  min( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Min")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+                                             s_SelectCommand += ",\n\t "
+                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                 + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+                                     #region  max( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Max")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+                                             s_SelectCommand += ",\n\t "
+                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                 + ".`" + asMemberAssignment.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+
 
                                      #region  avg( special!!
                                      if (asMethodCallExpression.Method.Name == refAverage.Name)

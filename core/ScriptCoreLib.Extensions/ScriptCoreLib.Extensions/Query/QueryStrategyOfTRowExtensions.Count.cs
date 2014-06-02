@@ -30,6 +30,8 @@ namespace System.Data
 
         }
 
+        static MethodInfo refCount = new Func<IQueryStrategy<object>, long>(QueryStrategyOfTRowExtensions.Count).Method;
+
         #region select count
         //[Obsolete("this is the first method we made generic. would it work for a group now?")]
         public static long Count<TElement>(this IQueryStrategy<TElement> Strategy)
