@@ -528,8 +528,30 @@ namespace System.Data
                                     else
                                         Debugger.Break();
 
+                                    var asISelectQueryStrategy = that as ISelectQueryStrategy;
+                                    var asISLambdaExpression = asISelectQueryStrategy.selectorExpression as LambdaExpression;
 
-                                    state.WhereCommand += " " + asRParameterExpression.Name + ".`" + f_Body_Right.Member.Name + "` ";
+                                    if (asISelectQueryStrategy != null)
+                                    {
+                                        if (asISelectQueryStrategy.upperSelect != null)
+                                        {
+                                            var uL = asISelectQueryStrategy.upperSelect.selectorExpression as LambdaExpression;
+                                            if (uL != null)
+                                            {
+                                                if (uL.Parameters[0].Name == asRParameterExpression.Name)
+                                                {
+                                                    // are we in the wrong level?
+                                                    // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectAboveAverage\TestSelectAboveAverage\ApplicationWebService.cs
+                                                    //state.WhereCommand += " " + asISLambdaExpression.Parameters[0].Name.Replace("<>", "__") + ".`" + f_Body_Right.Member.Name + "` ";
+                                                    state.WhereCommand += " `" + f_Body_Right.Member.Name + "` ";
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectAboveAverage\TestSelectAboveAverage\ApplicationWebService.cs
+                                    state.WhereCommand += " " + asRParameterExpression.Name.Replace("<>", "__") + ".`" + f_Body_Right.Member.Name + "` ";
                                     return;
                                 }
 
@@ -615,7 +637,7 @@ namespace System.Data
                                             }
 
 
-                                                var asRMMParameterExpression = asRMMemberExpression.Expression as ParameterExpression;
+                                            var asRMMParameterExpression = asRMMemberExpression.Expression as ParameterExpression;
                                             if (asRMMParameterExpression != null)
                                             {
                                                 if (body.NodeType == ExpressionType.Equal)

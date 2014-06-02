@@ -27,6 +27,7 @@ namespace TestSelectScalarAverage
         {
             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
             // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
+            // x:\jsc.svn\examples\javascript\linq\test\testselectscalaraverage\testselectscalaraverage\applicationwebservice.cs
 
             {
                 var k = new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
