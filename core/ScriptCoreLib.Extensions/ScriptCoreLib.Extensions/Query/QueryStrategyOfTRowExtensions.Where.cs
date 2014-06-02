@@ -118,6 +118,7 @@ namespace System.Data
 
                     // +		filter.Body	{k.path.Contains("foo")}	System.Linq.Expressions.Expression {System.Linq.Expressions.InstanceMethodCallExpressionN}
 
+                    #region MethodCallExpression
                     {
                         var asMethodCallExpression = filter.Body as MethodCallExpression;
                         if (asMethodCallExpression != null)
@@ -240,6 +241,8 @@ namespace System.Data
                             }
                         }
                     }
+                    #endregion
+
 
 
 
@@ -576,6 +579,66 @@ namespace System.Data
                                     }
                                     else
                                     {
+                                        // filter.Body = {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier0.k.Key))}
+
+                                        // filter.Body = {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k.Key))}
+
+                                        var asRMMemberExpression = asRMemberExpression.Expression as MemberExpression;
+                                        if (asRMMemberExpression != null)
+                                        {
+                                            // {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k.Key))}
+
+                                            var asRMMMemberExpression = asRMMemberExpression.Expression as MemberExpression;
+                                            if (asRMMMemberExpression != null)
+                                            {
+                                                var asRMMMParameterExpression = asRMMMemberExpression.Expression as ParameterExpression;
+                                                if (asRMMMParameterExpression != null)
+                                                {
+                                                    if (body.NodeType == ExpressionType.Equal)
+                                                        state.WhereCommand += "=";
+                                                    else if (body.NodeType == ExpressionType.LessThan)
+                                                        state.WhereCommand += "<";
+                                                    else if (body.NodeType == ExpressionType.GreaterThan)
+                                                        state.WhereCommand += ">";
+                                                    else if (body.NodeType == ExpressionType.NotEqual)
+                                                        state.WhereCommand += "<>";
+                                                    else
+                                                        Debugger.Break();
+
+
+                                                    state.WhereCommand += " " +
+                                                    asRMMMParameterExpression.Name.Replace("<>", "__")
+                                                    + ".`" + f_Body_Right.Member.Name + "` ";
+
+                                                    return;
+                                                }
+                                            }
+
+
+                                                var asRMMParameterExpression = asRMMemberExpression.Expression as ParameterExpression;
+                                            if (asRMMParameterExpression != null)
+                                            {
+                                                if (body.NodeType == ExpressionType.Equal)
+                                                    state.WhereCommand += "=";
+                                                else if (body.NodeType == ExpressionType.LessThan)
+                                                    state.WhereCommand += "<";
+                                                else if (body.NodeType == ExpressionType.GreaterThan)
+                                                    state.WhereCommand += ">";
+                                                else if (body.NodeType == ExpressionType.NotEqual)
+                                                    state.WhereCommand += "<>";
+                                                else
+                                                    Debugger.Break();
+
+
+                                                state.WhereCommand += " " +
+                                                asRMMParameterExpression.Name.Replace("<>", "__")
+                                                + ".`" + f_Body_Right.Member.Name + "` ";
+
+                                                return;
+                                            }
+
+                                        }
+
                                         var asRMParameterExpression = asRMemberExpression.Expression as ParameterExpression;
                                         if (asRMParameterExpression != null)
                                         {

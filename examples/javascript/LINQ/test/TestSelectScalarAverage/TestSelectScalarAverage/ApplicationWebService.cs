@@ -45,12 +45,12 @@ namespace TestSelectScalarAverage
 
             var uc = from k in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
 
-                         //let avg = (
-                         //       from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                         //       where kk.ApplicationPerformance == k.Key
-                         //       select kk.connectStart
-                         //    ).Average()
-                         // selec string bufffer?
+                     let avg = (
+                            from kk in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
+                            where kk.ApplicationPerformance == k.Key
+                            select kk.connectStart
+                         ).Average()
+                     // selec string bufffer?
 
 
                      let count = (
@@ -58,6 +58,9 @@ namespace TestSelectScalarAverage
                              where kk.ApplicationPerformance == k.Key
                              select kk.connectStart
                           ).Count()
+
+
+                     let c = new { count }
 
                      where count > 1
                      //where count > 2
@@ -70,6 +73,8 @@ namespace TestSelectScalarAverage
                          k.Tag,
 
                          //avg,
+
+                         c,
 
                          count,
 
