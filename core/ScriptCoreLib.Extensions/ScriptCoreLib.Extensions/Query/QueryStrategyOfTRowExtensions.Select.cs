@@ -342,11 +342,36 @@ namespace System.Data
                              if (asMMemberExpression != null)
                              {
                                  // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
+                                 // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
 
-                                 //        s_SelectCommand += ",\n\t "
-                                 //+ that.selector.Parameters[0].Name.Replace("<>", "__")
-                                 //+ ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                 var asIGroupByQueryStrategy = that.source as IGroupByQueryStrategy;
+                                 if (asIGroupByQueryStrategy != null)
+                                 {
+                                     // our grouping has to flatten last and possibly also last selections
+                                     // what if we wanted something in the middle too?
+                                     // like instead of last, or first we want 2nd from last?
 
+                                     if (valueSelector != null)
+                                     {
+                                         if (valueSelector.Name == "ToLower")
+                                         {
+                                             // we are being selected intou a data group?
+                                             // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+
+                                             s_SelectCommand += ",\n\t lower("
+                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+
+                                             return;
+                                         }
+                                     }
+
+                                     s_SelectCommand += ",\n\t "
+                                         + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                         + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+
+                                     return;
+                                 }
 
                                  s_SelectCommand += ",\n\t "
                                    + that.selector.Parameters[0].Name.Replace("<>", "__")
@@ -710,15 +735,18 @@ namespace System.Data
                                      {
                                          // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
                                          // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
 
                                          var asMemberExpression = asMethodCallExpression.Object as MemberExpression;
                                          if (asMemberExpression != null)
                                          {
                                              //var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
 
-                                             s_SelectCommand += ",\n\t lower("
-                                                 + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                                 + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+
+                                             WriteMemberExpression(index, asMemberExpression, TargetMember, prefixes, asMethodCallExpression.Method);
+                                             //s_SelectCommand += ",\n\t lower("
+                                             //    + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                             //    + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
                                              return;
                                          }
                                      }

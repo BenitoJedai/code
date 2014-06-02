@@ -523,6 +523,8 @@ namespace System.Data
                                         state.WhereCommand += "<";
                                     else if (body.NodeType == ExpressionType.GreaterThan)
                                         state.WhereCommand += ">";
+                                    else if (body.NodeType == ExpressionType.GreaterThanOrEqual)
+                                        state.WhereCommand += ">=";
                                     else if (body.NodeType == ExpressionType.NotEqual)
                                         state.WhereCommand += "<>";
                                     else
