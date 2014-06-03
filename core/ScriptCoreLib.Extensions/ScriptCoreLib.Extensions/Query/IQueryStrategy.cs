@@ -80,8 +80,11 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     }
 
 
+
+    // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+    // can JVM support out params, or does typeerasure work around it anyhow?
     [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
-    public interface IQueryStrategy<TRow> : IQueryStrategy
+    public interface IQueryStrategy<out TRow> : IQueryStrategy
     {
         // this class exists to make LINQ happy
 
