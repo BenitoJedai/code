@@ -33,8 +33,10 @@ namespace System.Data
         static MethodInfo refCount = new Func<IQueryStrategy<object>, long>(QueryStrategyOfTRowExtensions.Count).Method;
 
         #region select count
+        // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
         //[Obsolete("this is the first method we made generic. would it work for a group now?")]
-        public static long Count<TElement>(this IQueryStrategy<TElement> Strategy)
+        //public static long Count<TElement>(this IQueryStrategy<TElement> Strategy)
+        public static long Count(this IQueryStrategy Strategy)
         {
             return ((Task<long>)Strategy.GetDescriptor().GetWithConnection()(
                 c =>

@@ -20,8 +20,30 @@ namespace System.Data
             return x;
         }
 
+        // is this used by the inserts?
+        // can we do the type conversion over here?
         public static IDbCommand AddParameter(this IDbCommand x, string ParameterName, object Value)
         {
+            // X:\jsc.svn\examples\javascript\linq\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
+
+
+            // X:\jsc.svn\examples\javascript\linq\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+            // if we have datetimes, are they security timestamped?
+            // do they also contain signature of the data at the same time
+
+            // will is work for jvm?
+            if (Value is DateTime)
+            {
+                // in insert we are doing special conversions.
+                // for where arguments we need to do the same.
+                // X:\jsc.svn\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\Ultra\Library\StringConversionsForStopwatch.cs
+
+                var i8 = ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertToInt64((DateTime)Value);
+                // shouldnt this happen in AddParam anyhow?
+                Value = i8;
+            }
+
             //Console.WriteLine("AddParameter enter " + new { x, ParameterName });
             var newParameter = x.CreateParameter();
             //Console.WriteLine("AddParameter " + new { newParameter });

@@ -495,19 +495,61 @@ namespace System.Data
 
                                 var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
                                 rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+
+
                             }
                             else if (f_Body_Right_as_MemberExpression != null)
                             {
                                 // we are doing a where against object field passed method argument
 
-                                var z = (FieldInfo)f_Body_Right_as_MemberExpression.Member;
+                                var xFieldInfo = f_Body_Right_as_MemberExpression.Member as FieldInfo;
+                                if (xFieldInfo != null)
+                                {
+                                    var aMConstantExpression = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
 
-                                var zE = f_Body_Right_as_MemberExpression.Expression as ConstantExpression;
-
-                                var f_Body_Right_Expression_Value = z.GetValue(zE.Value);
+                                    var value1 = xFieldInfo.GetValue(aMConstantExpression.Value);
 
 
-                                rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                                    var xxFieldInfo = f_Body_Right.Member as FieldInfo;
+                                    if (xxFieldInfo != null)
+                                    {
+                                        rAddParameterValue0 = xxFieldInfo.GetValue(value1);
+                                    }
+                                    else
+                                    {
+                                        // f_Body_Right.Member = {System.DateTime x24}
+
+                                        var xxPropertyInfo = f_Body_Right.Member as PropertyInfo;
+                                        var value2 = xxPropertyInfo.GetValue(value1, null);
+
+                                        rAddParameterValue0 = value2;
+                                    }
+                                }
+                                else
+                                {
+                                    // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+                                    var xPropertyInfo = f_Body_Right_as_MemberExpression.Member as PropertyInfo;
+                                    if (xPropertyInfo != null)
+                                    {
+                                        var asMMemberExpression = f_Body_Right_as_MemberExpression.Expression as MemberExpression;
+                                        if (asMMemberExpression != null)
+                                        {
+                                            var asMMConstantExpression = asMMemberExpression.Expression as ConstantExpression;
+                                            if (asMMConstantExpression != null)
+                                            {
+                                                // Value = {MashableVelocityGraph.ApplicationWebService.}
+
+                                                //var value1 = ((PropertyInfo)asMMemberExpression.Member).GetValue(asMMConstantExpression.Value, null);
+                                                var value1 = ((FieldInfo)asMMemberExpression.Member).GetValue(asMMConstantExpression.Value);
+                                                var value2 = xPropertyInfo.GetValue(value1, null);
+
+                                                //rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(value2);
+                                                rAddParameterValue0 = ((PropertyInfo)f_Body_Right.Member).GetValue(value2, null);
+                                            }
+
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
@@ -736,8 +778,14 @@ namespace System.Data
                             state.WhereCommand += "=";
                         else if (body.NodeType == ExpressionType.LessThan)
                             state.WhereCommand += "<";
+
+                        else if (body.NodeType == ExpressionType.LessThanOrEqual)
+                            state.WhereCommand += "<=";
+
                         else if (body.NodeType == ExpressionType.GreaterThan)
                             state.WhereCommand += ">";
+                        else if (body.NodeType == ExpressionType.GreaterThanOrEqual)
+                            state.WhereCommand += ">=";
                         else if (body.NodeType == ExpressionType.NotEqual)
                             state.WhereCommand += "<>";
                         else

@@ -10,6 +10,8 @@ using System.Diagnostics;
 using ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics;
 namespace ScriptCoreLib.Library
 {
+    // used by extensions
+    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
     public static class StringConversionsForStopwatch
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131224
@@ -49,6 +51,8 @@ namespace ScriptCoreLib.Library
 
         public static long DateTimeConvertToInt64(DateTime e)
         {
+            // X:\jsc.svn\examples\javascript\linq\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+
             var ticks = e.ToUniversalTime().Ticks;
 
             // for SQLite
