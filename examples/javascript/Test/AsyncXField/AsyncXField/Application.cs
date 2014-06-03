@@ -45,13 +45,18 @@ namespace AsyncXField
 
     }
 
-    partial class ApplicationWebService
+    public class XApp
     {
         /// <summary>
         /// The static content defined in the HTML file will be update to the dynamic content once application is running.
         /// </summary>
         public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
 
+    }
+
+    partial class ApplicationWebService : XApp
+    {
+      
         public async Task Invoke()
         {
             this.Header.Add(
