@@ -52,5 +52,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection
             return DynamicContainer.GetValue(obj, InternalName);
         }
 
+
+        public override Type DeclaringType
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

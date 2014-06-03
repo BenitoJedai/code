@@ -23,21 +23,21 @@ namespace DynamicExperssionEvaluatorExperiment
         {
 
             Console.WriteLine(
-                new { Namespace, TypeName, MethodName }
+                new { Namespace, TypeName, MethodName, args }
                 );
         }
 
     }
 
 
-    public class DynamicApplicationWebService : DynamicObject
+    public class DynamicApplicationWebServiceX : DynamicObject
     {
-        public DynamicApplicationWebService Context;
+        public DynamicApplicationWebServiceX Context;
         public GetMemberBinder ContextTryGetMember;
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            result = new DynamicApplicationWebService { Context = this, ContextTryGetMember = binder };
+            result = new DynamicApplicationWebServiceX { Context = this, ContextTryGetMember = binder };
 
             return true;
         }
@@ -49,7 +49,13 @@ namespace DynamicExperssionEvaluatorExperiment
             new ApplicationWebService().TryInvokeMember(
                 Namespace: this.Context.ContextTryGetMember.Name,
                 TypeName: this.ContextTryGetMember.Name,
-                MethodName: binder.Name
+                MethodName: binder.Name,
+
+
+                args: new XElement("args",
+                    from x in args
+                    select new XElement("item", x)
+                )
 
             );
 

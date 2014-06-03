@@ -244,5 +244,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 return n;
             }
         }
+
+        public override Type DeclaringType
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
