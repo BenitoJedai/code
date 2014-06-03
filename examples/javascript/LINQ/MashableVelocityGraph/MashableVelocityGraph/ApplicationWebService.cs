@@ -35,13 +35,13 @@ namespace MashableVelocityGraph
             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\IDbConnectionExtensions.cs
 
             new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
-                // timestamp is special and insert will override it!
-                // shall jsc signify that with [Obsolete attribute?]
+            // timestamp is special and insert will override it!
+            // shall jsc signify that with [Obsolete attribute?]
 
             // will timestamp also include signature, hash or ID signature? or is it good
-                // enough if we sign previous data row?
-                // does security metadata need to live in a different table? a generic security table?
-                //DateTime.Now.AddDays(-1)
+            // enough if we sign previous data row?
+            // does security metadata need to live in a different table? a generic security table?
+            //DateTime.Now.AddDays(-1)
             new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },
 
             new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1) },
@@ -54,7 +54,11 @@ namespace MashableVelocityGraph
             new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
             new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
             new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) }
+            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
+
+
+            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-5) }
+
             );
 
             // get counts by day for last 5 days?
@@ -72,15 +76,15 @@ namespace MashableVelocityGraph
 
             var qtotal = (
                 from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                //where x.EventTime <= t48
-                //where x.EventTime >= t24
+                    //where x.EventTime <= t48
+                    //where x.EventTime >= t24
                 select x
              ).Count();
 
             // qtotal_last24 = 2
             var qtotal_last24 = (
                 from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                //where x.EventTime <= t48
+                    //where x.EventTime <= t48
                 where x.EventTime >= t24
                 select x
                 ).Count();
@@ -88,7 +92,7 @@ namespace MashableVelocityGraph
             // qtotal_last72 = 28
             var qtotal_last72 = (
                 from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                //where x.EventTime <= t48
+                    //where x.EventTime <= t48
                 where x.EventTime >= t72
                 select x
                 ).Count();
@@ -104,7 +108,7 @@ namespace MashableVelocityGraph
             {
                 Func<DateTime, DateTime, IQueryStrategy> f =
                     (x0, x24) =>
-                        //(IQueryStrategy<Data.PerformanceResourceTimingData2ApplicationPerformanceRow>)
+                    //(IQueryStrategy<Data.PerformanceResourceTimingData2ApplicationPerformanceRow>)
                     from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
                     where x.EventTime <= x0
                     where x.EventTime > x24
@@ -132,7 +136,21 @@ namespace MashableVelocityGraph
                 //    from index new Data.PerformanceResourceTimingData2<long>(Enumerable.Range(0, 4))
                 //    select index;
 
+                // select last visible date 
+                // and count 5 days from there?
+                // select many? new [] {}
 
+
+
+                // what about recording UI activity/ fps and seeing it as histogram?
+
+
+
+
+
+
+
+                var asw = Stopwatch.StartNew();
                 var a = from offset in Enumerable.Range(0, 4) // Data.PerformanceResourceTimingData2.Range
 
                         let x0 = DateTime.Now.AddDays(-offset)
@@ -143,6 +161,8 @@ namespace MashableVelocityGraph
                             where x.EventTime <= x0
                             where x.EventTime > x24
                             select x
+
+                        let count = countable.Count()
 
                         // can we do a count for all at once?
                         // http://dev.mysql.com/doc/refman/5.0/en/union.html
@@ -155,11 +175,70 @@ namespace MashableVelocityGraph
                             Date = new { offset }.ToString()
                         };
 
+                var aa = a.ToArray();
+                asw.Stop();
+
+                //Console.WriteLine(new { asw.ElapsedMilliseconds });
+
+
+                var z_notcontinious = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance().AsGenericEnumerable()
+                                          // this will not show missing dates now would it
+                                      let Date = x.EventTime.Date
+                                      group x by Date into g
+
+                                      let Count = g.Count()
+                                      select new { Date = g.Key, Count };
+
+
+
+
+                // Error	15	Could not find an implementation of the query pattern for source type 
+                // 'MashableVelocityGraph.Data.PerformanceResourceTimingData2.ApplicationPerformance'. 
+                // 'SelectMany' not found.	X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs	198	31	MashableVelocityGraph
+
+
+                var zs = Stopwatch.StartNew();
+                var z_continious =
+                    from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
+                        .AsGenericEnumerable()
+                    from offset in Enumerable.Range(0, 7)
+                    group x by new { offset } into g
+
+                    let AllCount = g.Count()
+
+                    let ByGroupDate =
+                        from y in g
+                        let GroupDate = DateTime.Now.Date.AddDays(-g.Key.offset)
+                        let Date = y.EventTime.Date
+                        where Date == GroupDate
+                        select y
+
+                    let Count = ByGroupDate.Count()
+
+                    select new Data.VisualizationzDateToCountRow
+                    {
+                        Date = new { g.Key.offset }.ToString(),
+
+                        Count = Count
+                    };
+
+
+                var z_continious0 = z_continious.ToArray();
+                zs.Stop();
+
+                //a: { ElapsedMilliseconds = 50 }
+                //z: { ElapsedMilliseconds = 54 }
+
+                Console.WriteLine("a: " + new { asw.ElapsedMilliseconds });
+                Console.WriteLine("z: " + new { zs.ElapsedMilliseconds });
+                //a: { ElapsedMilliseconds = 44 }
+                //z: { ElapsedMilliseconds = 1928 }
 
                 //a.First().AsGenericEnumerable
 
                 //var m = a.Select(x => x.Count()).ToArray();
-                return a;
+                return z_continious0;
+                //return aa;
 
 
 

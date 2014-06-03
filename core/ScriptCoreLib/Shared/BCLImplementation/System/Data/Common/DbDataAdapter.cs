@@ -35,6 +35,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 
         public int Fill(DataTable dataTable)
         {
+            // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+
             //  The number of rows successfully added 
 
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
@@ -96,7 +98,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
                             // tested by
                             // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
 
-                            Console.WriteLine("Fill " + new { n, ft, value, valueType });
+                            //Console.WriteLine("Fill " + new { n, ft, value, valueType });
 
                             row[n] = value;
                         }

@@ -1377,18 +1377,8 @@ namespace System.Data
                 Console.WriteLine("Join CommandBuilder  ...  " + new { asMemberInitExpression, asLambdaExpression.Body });
 
 
-                if (asLNewExpression == null)
-                {
-                    // should no longer happen?
-
-                    Debugger.Break();
-                }
-
-                if (asMemberInitExpression != null)
-                    Console.WriteLine("Join CommandBuilder  ...  " + new { asMemberInitExpression, asMemberInitExpression.Type });
-
-
-
+           
+    
 
                 if (asMemberInitExpression == null)
                 {
@@ -1472,10 +1462,28 @@ namespace System.Data
                     //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type =  }
 
                     Console.WriteLine("Join CommandBuilder building SelectCommand... ImplicitConstantFields " + new { asMemberInitExpression.Type });
+                    // X:\jsc.svn\examples\javascript\LINQ\test\TestJoinGroupByIntoViewRow\TestJoinGroupByIntoViewRow\ApplicationWebService.cs
 
                     if (asMemberInitExpression.Type == null)
                         throw new InvalidOperationException("asMemberInitExpression.Type == null");
 
+                    asMemberInitExpression.Bindings.WithEachIndex(
+                         (SourceBinding, i) =>
+                            {
+                                var asMemberAssignment = SourceBinding as MemberAssignment;
+
+                                Console.WriteLine(new { asMemberAssignment });
+                                // SourceBinding = {Content = <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last().UpdatedContent}
+
+                                WriteExpression(i, asMemberAssignment.Expression, asMemberAssignment.Member
+                                    //, new Tuple<int, MemberInfo>[0], null
+                                    );
+
+                            }
+                     );
+                    SelectCommand = s_SelectCommand;
+
+#if false
                     // shall we generate any missing bindings as constants?
                     // so if we do a group by and Last on it
                     // we are atleast able to select the constants?
@@ -1515,7 +1523,7 @@ namespace System.Data
 
                             var SourceBinding = mm.SourceBinding;
 
-                            #region ImplicitConstantBindings
+                    #region ImplicitConstantBindings
                             if (SourceBinding == null)
                             {
                                 // seems to be a default?
@@ -1533,7 +1541,7 @@ namespace System.Data
 
                                 return;
                             }
-                            #endregion
+                    #endregion
 
                             // the name we want it to appear at later
 
@@ -1548,7 +1556,7 @@ namespace System.Data
                             Console.WriteLine(new { asMemberAssignment });
                             // SourceBinding = {Content = <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last().UpdatedContent}
 
-                            #region asConstantExpression
+                    #region asConstantExpression
                             var asConstantExpression = asMemberAssignment.Expression as ConstantExpression;
                             if (asConstantExpression != null)
                             {
@@ -1565,7 +1573,7 @@ namespace System.Data
 
                                 return;
                             }
-                            #endregion
+                    #endregion
 
 
                             // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
@@ -1574,7 +1582,7 @@ namespace System.Data
                             // +		asMemberAssignment.Expression	{Convert(g.ParentContentKey)}	System.Linq.Expressions.Expression {System.Linq.Expressions.UnaryExpression}
 
 
-                            #region asUnaryExpression
+                    #region asUnaryExpression
                             var asUnaryExpression = asMemberAssignment.Expression as UnaryExpression;
                             if (asUnaryExpression != null)
                             {
@@ -1657,7 +1665,7 @@ namespace System.Data
                                     return;
                                 }
                             }
-                            #endregion
+                    #endregion
 
 
                             // asFieldExpression = {<>h__TransparentIdentifier0.contact.Timestamp}
@@ -1665,20 +1673,20 @@ namespace System.Data
 
                             // asFieldExpression {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.MiddleSheetz.Content}
 
-                            #region asFieldExpression
+                    #region asFieldExpression
                             var asFieldExpression = asMemberAssignment.Expression as MemberExpression;
                             if (asFieldExpression != null)
                             {
                                 Console.WriteLine(new { asFieldExpression });
 
 
-                                #region asFMethodCallExpression
+                    #region asFMethodCallExpression
                                 var asFMethodCallExpression = asFieldExpression.Expression as MethodCallExpression;
                                 if (asFMethodCallExpression != null)
                                 {
                                     if (asFMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
                                     {
-                                        #region asFParameterExpression
+                    #region asFParameterExpression
                                         var asFParameterExpression = asFMethodCallExpression.Arguments[0] as ParameterExpression;
                                         if (asFParameterExpression != null)
                                         {
@@ -1697,7 +1705,7 @@ namespace System.Data
 
                                             return;
                                         }
-                                        #endregion
+                    #endregion
 
 
 
@@ -1710,7 +1718,7 @@ namespace System.Data
                                             var asFMMemberExpression = asFMemberExpression.Expression as MemberExpression;
                                             if (asFMMemberExpression != null)
                                             {
-                                                #region __projection1
+                    #region __projection1
                                                 var __projection1 = asFMMemberExpression.Expression as ParameterExpression;
                                                 if (__projection1 != null)
                                                 {
@@ -1759,11 +1767,11 @@ namespace System.Data
                                                          );
                                                     return;
                                                 }
-                                                #endregion
+                    #endregion
 
                                             }
 
-                                            #region __projection0
+                    #region __projection0
                                             var __projection0 = asFMemberExpression.Expression as ParameterExpression;
                                             if (__projection0 != null)
                                             {
@@ -1797,16 +1805,16 @@ namespace System.Data
                                                     );
                                                 return;
                                             }
-                                            #endregion
+                    #endregion
 
                                         }
                                     }
                                 }
-                                #endregion
+                    #endregion
 
 
 
-                                #region asFieldExpression_Expression_asFieldExpression
+                    #region asFieldExpression_Expression_asFieldExpression
                                 var asFFieldExpression = asFieldExpression.Expression as MemberExpression;
                                 if (asFFieldExpression != null)
                                 {
@@ -1821,7 +1829,7 @@ namespace System.Data
                                     //{
                                     //    // CLR
 
-                                    #region asFFConstantExpression
+                    #region asFFConstantExpression
                                     var asFFConstantExpression = asFFieldExpression.Expression as ConstantExpression;
                                     if (asFFConstantExpression != null)
                                     {
@@ -1845,7 +1853,7 @@ namespace System.Data
 
                                         return;
                                     }
-                                    #endregion
+                    #endregion
 
 
 
@@ -1855,7 +1863,7 @@ namespace System.Data
                                     var asFMMemberExpression = asFFieldExpression.Expression as MemberExpression;
                                     if (asFMMemberExpression != null)
                                     {
-                                        #region __projection1
+                    #region __projection1
                                         var __projection1 = asFMMemberExpression.Expression as ParameterExpression;
                                         if (__projection1 != null)
                                         {
@@ -1904,7 +1912,7 @@ namespace System.Data
                                                  );
                                             return;
                                         }
-                                        #endregion
+                    #endregion
 
 
                                     }
@@ -1943,11 +1951,11 @@ namespace System.Data
                                         return;
                                     }
                                 }
-                                #endregion
+                    #endregion
 
 
 
-                                #region asFConstantExpression
+                    #region asFConstantExpression
                                 {
                                     var asFConstantExpression = asFieldExpression.Expression as ConstantExpression;
                                     if (asFConstantExpression != null)
@@ -1971,10 +1979,10 @@ namespace System.Data
                                         return;
                                     }
                                 }
-                                #endregion
+                    #endregion
 
 
-                                #region asTypedParameterExpression
+                    #region asTypedParameterExpression
                                 // http://dotnetinside.com/cn/type/System.Core/TypedParameterExpression/4.0.0.0
                                 //var asTypedParameterExpression = asFieldExpression.Expression as TypedParameterExpression
                                 var asTypedParameterExpression = asFieldExpression.Expression as ParameterExpression;
@@ -1996,11 +2004,11 @@ namespace System.Data
                                     AddToSelectCommand(SourceContextName + "." + SourceMemberName + " as " + TargetMemberName);
                                     return;
                                 }
-                                #endregion
+                    #endregion
 
 
                             }
-                            #endregion
+                    #endregion
 
                             Console.WriteLine(".Join does not support " + new { TargetMemberName });
                             Debugger.Break();
@@ -2008,6 +2016,8 @@ namespace System.Data
 
                     );
                     #endregion
+
+#endif
 
                 }
                 #endregion
