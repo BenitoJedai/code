@@ -55,6 +55,21 @@ namespace TestLINQTryParse
             //} , m = Boolean TryParse(System.String, Double ByRef) }
 
 
+            //            0200001e TestLINQTryParse.Application +<> c__DisplayClass0
+            //{
+            //                Location =
+            //               assembly: V:\TestLINQTryParse.Application.exe
+            //               type: TestLINQTryParse.Application +<> c__DisplayClass0, TestLINQTryParse.Application, Version = 1.0.0.0, Culture = neutral, PublicKeyToken = null
+            // offset:
+            //                0x0008
+            //  method:<> f__AnonymousType$236$0`2[System.String,<> f__AnonymousType$239$1`1[System.Int32]] <.ctor > b__2(System.String) }
+            //        script: error JSC1000: Method: <.ctor > b__2, Type: TestLINQTryParse.Application +<> c__DisplayClass0; emmiting failed : System.NotImplementedException: { ParameterType = System.Int32 &, p = [0x0027] stloc.0 + 0 - 1{[0x0022]
+            //        newobj     +1 -2{[0x0000]
+            //        lda
+            //at jsc.IdentWriter.JavaScript_WriteParameters(Prestatement p, ILInstruction i, ILFlowStackItem[] s, Int32 offset, MethodBase m) in x:\jsc.internal.svn\compiler\jsc\Languages\IdentWriter.cs:line 836
+
+
+
             var z = from s in all
                         //let zz = double.TryParse(s, out var r8) ? new { r8 } : new { r8 = 0.0 }
                     let zz = int.TryParse(s, out int i4) ? new { i4 } : new { i4 = 0 }

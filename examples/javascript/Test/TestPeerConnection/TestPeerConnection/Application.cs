@@ -30,6 +30,8 @@ namespace TestPeerConnection
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://github.com/XSockets/WebRTC
+
 
             // jsc when was the last time we tried p2p?
             // var peer = new PeerConnection(iceServers, optional); where iceServers = null this is working without internet

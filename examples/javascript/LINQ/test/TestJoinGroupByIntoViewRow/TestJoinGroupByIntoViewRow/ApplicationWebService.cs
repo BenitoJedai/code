@@ -49,13 +49,14 @@ namespace TestJoinGroupByIntoViewRow
                 };
 
             var s = from i in q
-                //group u by u.path into ggg
-                group i by i.path into ggg
-                //let u = g.Last()
-                select new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
-                {
-                    path = ggg.Last().path
-                };
+                        //group u by u.path into ggg
+                    group i by i.path into ggg
+                    //let u = g.Last()
+                    select new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+                    {
+                        //path = ggg.Last().path.ToLower()
+                        path = ggg.Last().path
+                    };
 
             var f = q.FirstOrDefault();
 

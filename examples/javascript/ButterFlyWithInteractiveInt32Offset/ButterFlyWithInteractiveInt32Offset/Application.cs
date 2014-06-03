@@ -32,18 +32,8 @@ namespace ButterFlyWithInteractiveInt32Offset
 
             new ButterFlyWithInteractiveInt32Offset.Library.Butterfly(page.PageContainer);
 
-            //Native.Document.body.onclick +=
-            //    delegate
-            //    {
-            //        page.PageContainer.requestFullscreen();
-            //    };
 
-            //@"Hello world".ToDocumentTitle();
-            //// Send data from JavaScript to the server tier
-            //service.WebMethod2(
-            //    @"A string from JavaScript.",
-            //    value => value.ToDocumentTitle()
-            //);
+
         }
 
     }

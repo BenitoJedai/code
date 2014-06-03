@@ -92,7 +92,7 @@
             this.visualizationzDateToCountBindingSourceBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.visualizationzDateToCountBindingSourceBindingNavigator.Name = "visualizationzDateToCountBindingSourceBindingNavigator";
             this.visualizationzDateToCountBindingSourceBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.visualizationzDateToCountBindingSourceBindingNavigator.Size = new System.Drawing.Size(390, 25);
+            this.visualizationzDateToCountBindingSourceBindingNavigator.Size = new System.Drawing.Size(1062, 25);
             this.visualizationzDateToCountBindingSourceBindingNavigator.TabIndex = 0;
             this.visualizationzDateToCountBindingSourceBindingNavigator.Text = "bindingNavigator1";
             // 
@@ -208,8 +208,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.visualizationzDateToCountBindingSourceDataGridView);
-            this.splitContainer1.Size = new System.Drawing.Size(390, 285);
-            this.splitContainer1.SplitterDistance = 130;
+            this.splitContainer1.Size = new System.Drawing.Size(1062, 285);
+            this.splitContainer1.SplitterDistance = 354;
             this.splitContainer1.TabIndex = 3;
             // 
             // chart1
@@ -228,7 +228,7 @@
             series1.XValueMember = "Date";
             series1.YValueMembers = "Count";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(130, 285);
+            this.chart1.Size = new System.Drawing.Size(354, 285);
             this.chart1.TabIndex = 3;
             this.chart1.Text = "chart1";
             // 
@@ -246,7 +246,7 @@
             this.visualizationzDateToCountBindingSourceDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.visualizationzDateToCountBindingSourceDataGridView.Location = new System.Drawing.Point(0, 0);
             this.visualizationzDateToCountBindingSourceDataGridView.Name = "visualizationzDateToCountBindingSourceDataGridView";
-            this.visualizationzDateToCountBindingSourceDataGridView.Size = new System.Drawing.Size(256, 285);
+            this.visualizationzDateToCountBindingSourceDataGridView.Size = new System.Drawing.Size(704, 285);
             this.visualizationzDateToCountBindingSourceDataGridView.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1
@@ -286,7 +286,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.visualizationzDateToCountBindingSourceBindingNavigator);
             this.Name = "UserControl1";
-            this.Size = new System.Drawing.Size(390, 310);
+            this.Size = new System.Drawing.Size(1062, 310);
             ((System.ComponentModel.ISupportInitialize)(this.visualizationzDateToCountBindingSourceBindingNavigator)).EndInit();
             this.visualizationzDateToCountBindingSourceBindingNavigator.ResumeLayout(false);
             this.visualizationzDateToCountBindingSourceBindingNavigator.PerformLayout();

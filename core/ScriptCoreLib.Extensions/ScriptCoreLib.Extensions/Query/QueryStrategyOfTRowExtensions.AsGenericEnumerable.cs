@@ -145,10 +145,22 @@ namespace System.Data
                         };
                     #endregion
 
+
+                    var asLambdaExpression = default(LambdaExpression);
+
                     var asISelectQueryStrategy = source as ISelectQueryStrategy;
                     if (asISelectQueryStrategy != null)
+                        asLambdaExpression = asISelectQueryStrategy.selectorExpression as LambdaExpression;
+                    else
                     {
-                        var asLambdaExpression = asISelectQueryStrategy.selectorExpression as LambdaExpression;
+                        var asIJoinQueryStrategy = source as IJoinQueryStrategy;
+                        if (asIJoinQueryStrategy != null)
+                            asLambdaExpression = asIJoinQueryStrategy.selectorExpression as LambdaExpression;
+
+                    }
+
+                    if (asLambdaExpression != null)
+                    {
 
 
                         // X:\jsc.svn\examples\javascript\linq\test\TestSelectToUpper\TestSelectToUpper\ApplicationWebService.cs
@@ -232,7 +244,7 @@ namespace System.Data
 
                         Func<NewExpression, Tuple<int, MemberInfo>[], object> yieldNewExpression = null;
 
-
+                        #region GetArgumentValue
                         Func<MemberInfo, Expression, int, Tuple<int, MemberInfo>[], object> GetArgumentValue =
                             (MemberInfo SourceMember, Expression SourceArgument, int index, Tuple<int, MemberInfo>[] prefixes) =>
                             {
@@ -758,6 +770,7 @@ namespace System.Data
 
                                 return asString;
                             };
+#endregion
 
 
                         #region asNewExpression
