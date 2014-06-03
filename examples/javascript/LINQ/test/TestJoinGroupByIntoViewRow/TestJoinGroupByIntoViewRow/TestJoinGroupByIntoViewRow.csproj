@@ -5,15 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{112533B9-A79B-4B15-A925-4E154B2350E6}</ProjectGuid>
+    <ProjectGuid>{24699911-2981-4BF8-BE79-884B70B0610A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UIAutomationEvents</RootNamespace>
-    <AssemblyName>UIAutomationEvents</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>TestJoinGroupByIntoViewRow</RootNamespace>
+    <AssemblyName>TestJoinGroupByIntoViewRow</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>UIAutomationEvents.Program</StartupObject>
-    <TargetFrameworkProfile />
+    <StartupObject>TestJoinGroupByIntoViewRow.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,11 +113,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="UIAutomationEvents.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\UIAutomationEvents.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestSelectIntoViewRow.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestSelectIntoViewRow.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="TestJoinGroupByIntoViewRow.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestJoinGroupByIntoViewRow.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -130,8 +132,10 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <None Include="app.config" />
+    <None Include="Data\PerformanceResourceTimingData2.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationPerformanceBindingSource.datasource" />
+    <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationResourcePerformanceBindingSource.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
