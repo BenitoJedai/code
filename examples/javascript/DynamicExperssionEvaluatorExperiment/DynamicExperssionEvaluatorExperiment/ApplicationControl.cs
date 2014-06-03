@@ -17,7 +17,7 @@ namespace DynamicExperssionEvaluatorExperiment
 
         private void button1_Click(object sender, System.EventArgs e)
         {
-            dynamic global = new DynamicApplicationWebService();
+            dynamic global = new DynamicApplicationWebServiceX();
 
 
             // not yet. jsc cannot handle complex il yet.

@@ -13,5 +13,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection
             get { return ""; }
 
         }
+
+        public override Type DeclaringType
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
