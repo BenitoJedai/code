@@ -30,14 +30,18 @@ namespace TestSelectManyRange
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2()
         {
+            //new Data.PerformanceResourceTimingData2.ApplicationPerformance().Clear();
+
             new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
                 new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },
-                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1) }
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1), domComplete = 5 }
             );
+
 
             // http://www.sqlite.org/lang_select.html#fromclause
             // http://stackoverflow.com/questions/774475/what-joins-does-sqlite-support
             var q = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
+                    where x.domComplete == 5
                         // .AsGenericEnumerable()
                     from y in Enumerable.Range(0, 3)
                     select new { x, y };
@@ -47,7 +51,9 @@ namespace TestSelectManyRange
             //     (x, y) => new { x, y }
             //);
 
-            var qa = q.ToArray();
+            var dt = q.AsDataTable();
+
+            //var qa = q.ToArray();
 
             Debugger.Break();
 
