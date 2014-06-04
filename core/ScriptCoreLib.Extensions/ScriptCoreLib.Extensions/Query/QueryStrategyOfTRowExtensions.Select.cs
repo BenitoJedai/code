@@ -246,7 +246,7 @@ namespace System.Data
 
                              // Method = {TestSQLiteGroupBy.Data.Book1MiddleRow First[GooStateEnum,Book1MiddleRow](TestSQLiteGroupBy.IQueryStrategyGrouping`2[TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow])}
 
-                             #region asMemberExpressionMethodCallExpression
+                             #region WriteMemberExpression:asMemberExpressionMethodCallExpression
                              var asMemberExpressionMethodCallExpression = asMemberExpression.Expression as MethodCallExpression;
                              Console.WriteLine(new { index, asMemberExpressionMethodCallExpression });
                              if (asMemberExpressionMethodCallExpression != null)
@@ -329,7 +329,7 @@ namespace System.Data
 
 
 
-                             #region asMConstantExpression
+                             #region WriteMemberExpression:asMConstantExpression
                              //         var SpecialConstant_u = "44";
                              var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
                              if (asMConstantExpression != null)
@@ -359,7 +359,7 @@ namespace System.Data
 
 
 
-                             #region asMMemberExpression
+                             #region WriteMemberExpression:asMMemberExpression
                              var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
                              if (asMMemberExpression != null)
                              {
@@ -402,6 +402,18 @@ namespace System.Data
                                  #endregion
 
 
+
+
+                                 if (index < 0)
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
+
+                                     s_SelectCommand +=
+                                    that.selector.Parameters[0].Name.Replace("<>", "__")
+                                   + ".`" + asMemberExpression.Member.Name + "`";
+
+                                     return;
+                                 }
                                  s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
                                    + that.selector.Parameters[0].Name.Replace("<>", "__")
                                    + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
@@ -410,7 +422,7 @@ namespace System.Data
                              }
                              #endregion
 
-                             #region asMMemberExpressionParameterExpression
+                             #region WriteMemberExpression:asMMemberExpressionParameterExpression
                              var asMMemberExpressionParameterExpression = asMemberExpression.Expression as ParameterExpression;
                              if (asMMemberExpressionParameterExpression != null)
                              {
@@ -500,7 +512,7 @@ namespace System.Data
                                          }
                                      }
                                  }
-#endregion
+                                 #endregion
 
 
 
@@ -575,6 +587,19 @@ namespace System.Data
                                      return;
                                  }
 
+
+                                 if (index < 0)
+                                 {
+                                     // are we part of binary expression?
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
+
+                                     s_SelectCommand +=
+                                     that.selector.Parameters[0].Name.Replace("<>", "__")
+                                     + ".`" + asMemberExpression.Member.Name + "`";
+
+                                     return;
+                                 }
+
                                  s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
                                  + that.selector.Parameters[0].Name.Replace("<>", "__")
                                  + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
@@ -621,7 +646,7 @@ namespace System.Data
                              };
                              #endregion
 
-                             #region asMConstantExpression
+                             #region WriteExpression:asMConstantExpression
                              {
                                  var asMConstantExpression = asMemberAssignment.Expression as ConstantExpression;
                                  if (asMConstantExpression != null)
@@ -647,7 +672,10 @@ namespace System.Data
 
                                      n += "arg" + state.ApplyParameter.Count;
 
-                                     s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
+                                     if (index < 0)
+                                        s_SelectCommand += n ;
+                                     else
+                                         s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
 
                                      state.ApplyParameter.Add(
                                          c =>
@@ -666,7 +694,7 @@ namespace System.Data
                              //                                 -		asMemberAssignment.Expression	{GroupByGoo.Count()}	System.Linq.Expressions.Expression {System.Linq.Expressions.MethodCallExpressionN}
                              //+		Method	{Int64 Count(ScriptCoreLib.Shared.Data.Diagnostics.IQueryStrategy`1[TestSQLiteGroupBy.Data.Book1MiddleRow])}	System.Reflection.MethodInfo {System.Reflection.RuntimeMethodInfo}
 
-                             #region asMethodCallExpression
+                             #region WriteExpression:asMethodCallExpression
                              var asMethodCallExpression = asMemberAssignment.Expression as MethodCallExpression;
                              if (asMethodCallExpression != null)
                              {
@@ -1239,7 +1267,7 @@ namespace System.Data
 
 
 
-                             #region asMemberExpression
+                             #region WriteExpression:asMemberExpression
                              {
                                  // m_getterMethod = {TestSQLiteGroupBy.Data.GooStateEnum get_Key()}
 
@@ -1271,7 +1299,7 @@ namespace System.Data
                              #endregion
 
 
-                             #region asEParameterExpression
+                             #region WriteExpression:asEParameterExpression
                              var asEParameterExpression = asExpression as ParameterExpression;
                              if (asEParameterExpression != null)
                              {
@@ -1315,30 +1343,84 @@ namespace System.Data
                                                             {
                                                                 yasNewExpression.Arguments.WithEachIndex(
                                                                     (ySourceArgument, yindex) =>
+                                                                {
+                                                                    var yasSMemberExpression = ySourceArgument as MemberExpression;
+                                                                    if (yasSMemberExpression != null)
                                                                     {
-                                                                        var yasSMemberExpression = ySourceArgument as MemberExpression;
-                                                                        if (yasSMemberExpression != null)
+                                                                        var yasSMMemberExpression = yasSMemberExpression.Expression as MemberExpression;
+                                                                        if (yasSMMemberExpression != null)
                                                                         {
-                                                                            var yasSMMemberExpression = yasSMemberExpression.Expression as MemberExpression;
-                                                                            if (yasSMMemberExpression != null)
+                                                                            if (yasSMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
                                                                             {
-                                                                                if (yasSMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
-                                                                                {
 
-                                                                                    s_SelectCommand += ",\n\t "
-                                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                                                    + "."
+                                                                                s_SelectCommand += ",\n\t "
+                                                                                + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                + "."
                                                                                     //+ xasMMemberExpression.Member.Name + "_" 
                                                                                     + yasSMemberExpression.Member.Name + " as `"
                                                                                     //+ xasMMemberExpression.Member.Name + "_" 
                                                                                     + yasSMemberExpression.Member.Name + "`";
-                                                                                }
                                                                             }
                                                                         }
                                                                     }
+                                                                }
                                                                 );
 
                                                             }
+
+
+                                                            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
+                                                            var xxBinaryExpression = item as BinaryExpression;
+                                                            if (xxBinaryExpression != null)
+                                                            {
+                                                                {
+                                                                    var zxasMemberExpression = xxBinaryExpression.Left as MemberExpression;
+                                                                    if (zxasMemberExpression != null)
+                                                                    {
+                                                                        var xasMMemberExpression = zxasMemberExpression.Expression as ParameterExpression;
+                                                                        if (xasMMemberExpression != null)
+                                                                        {
+
+                                                                            if (xasMMemberExpression.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
+                                                                            {
+                                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                    + ".`"
+                                                                            //+ xasMMemberExpression.Member.Name + "_" 
+                                                                            + zxasMemberExpression.Member.Name + "` as `"
+                                                                            //+ xasMMemberExpression.Member.Name + "_" 
+                                                                            + zxasMemberExpression.Member.Name + "`";
+
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                {
+                                                                    var zxasMemberExpression = xxBinaryExpression.Right as MemberExpression;
+                                                                    if (zxasMemberExpression != null)
+                                                                    {
+                                                                        var xasMMemberExpression = zxasMemberExpression.Expression as ParameterExpression;
+                                                                        if (xasMMemberExpression != null)
+                                                                        {
+
+                                                                            if (xasMMemberExpression.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
+                                                                            {
+                                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                    + ".`"
+                                                                            //+ xasMMemberExpression.Member.Name + "_" 
+                                                                            + zxasMemberExpression.Member.Name + "` as `"
+                                                                            //+ xasMMemberExpression.Member.Name + "_" 
+                                                                            + zxasMemberExpression.Member.Name + "`";
+
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+
+
 
                                                             #region xasMemberExpression
                                                             var xasMemberExpression = item as MemberExpression;
@@ -1506,7 +1588,7 @@ namespace System.Data
                              }
                              #endregion
 
-                             #region asNewArrayExpression
+                             #region WriteExpression:asNewArrayExpression
                              var asNewArrayExpression = asExpression as NewArrayExpression;
                              if (asNewArrayExpression != null)
                              {
@@ -1530,7 +1612,7 @@ namespace System.Data
 
                              // asExpression = {Invoke(value(SelectToUpperIntoNewExpression.ApplicationWebService+<>c__DisplayClass0).Special, ss.Tag)}
 
-                             #region asInvocationExpression
+                             #region WriteExpression:asInvocationExpression
                              var asInvocationExpression = asExpression as InvocationExpression;
                              if (asInvocationExpression != null)
                              {
@@ -1551,7 +1633,7 @@ namespace System.Data
                              }
                              #endregion
 
-                             #region asNewExpression
+                             #region WriteExpression:asNewExpression
                              var asNewExpression = asExpression as NewExpression;
                              if (asNewExpression != null)
                              {
@@ -1575,7 +1657,7 @@ namespace System.Data
 
 
                              // roslyn allows dictionary indexer intit
-                             #region asEMemberInitExpression
+                             #region WriteExpression:asEMemberInitExpression
                              var asEMemberInitExpression = asExpression as MemberInitExpression;
                              if (asEMemberInitExpression != null)
                              {
@@ -1609,6 +1691,35 @@ namespace System.Data
                                  return;
                              }
                              #endregion
+
+
+                             var xBinaryExpression = asExpression as BinaryExpression;
+                             if (xBinaryExpression != null)
+                             {
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
+
+                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t";
+                                 s_SelectCommand += "( ";
+
+                                 WriteExpression(-1, xBinaryExpression.Left, null, prefixes, null);
+
+                                 if (xBinaryExpression.NodeType == ExpressionType.Add)
+                                     s_SelectCommand += " + ";
+                                 else if (xBinaryExpression.NodeType == ExpressionType.Multiply)
+                                     s_SelectCommand += " * ";
+                                 else if (xBinaryExpression.NodeType == ExpressionType.Divide)
+                                     s_SelectCommand += " / ";
+
+                                 else
+                                     Debugger.Break();
+
+
+                                 WriteExpression(-1, xBinaryExpression.Right, null, prefixes, null);
+
+                                 s_SelectCommand += ")";
+                                 s_SelectCommand += " as `" + TargetMember.Name + "`";
+                                 return;
+                             }
 
                              Debugger.Break();
                          };
