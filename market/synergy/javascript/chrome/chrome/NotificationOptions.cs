@@ -114,7 +114,7 @@ namespace chrome
 
             )
         {
-            //Console.WriteLine("Notification .ctor");
+            Console.WriteLine("Notification .ctor");
 
             if (title == null)
             {
@@ -136,6 +136,7 @@ namespace chrome
                 );
             }
 
+            Console.WriteLine("Notification .ctor :139");
             AllNotifications.Add(this);
 
             this._title = title;
@@ -153,10 +154,15 @@ namespace chrome
             // wait for any property initialization
 
             //Console.WriteLine("before Delay");
+
+            Console.WriteLine("Notification .ctor :158");
+
             Task.Delay(1).GetAwaiter().OnCompleted(
                 delegate
                 {
-                    Console.WriteLine("at Delay " + new { this._title, this._message });
+                Console.WriteLine("Notification .ctor :63");
+
+                Console.WriteLine("at Delay " + new { this._title, this._message });
 
                     // tested by
                     // X:\jsc.svn\examples\javascript\chrome\ChromeNotificationExperiment\ChromeNotificationExperiment\Application.cs

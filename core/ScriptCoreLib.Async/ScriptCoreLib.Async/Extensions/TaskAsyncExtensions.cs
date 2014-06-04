@@ -26,7 +26,7 @@ namespace System.Threading.Tasks
     public static class TaskAsyncIProgressExtensions
     {
 
-
+        // defined only for 4.5
         public static Task<TSource> StartNewWithProgress<TSource>(this TaskFactory that,
             TSource state,
             Func<Tuple<IProgress<TSource>, TSource>, TSource> function,
