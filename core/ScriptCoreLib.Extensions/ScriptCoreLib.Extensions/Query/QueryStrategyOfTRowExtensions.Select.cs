@@ -66,6 +66,17 @@ namespace System.Data
 
         }
 
+        // can we get diagnostics on every line we write to sql?
+        static readonly Func<string> CommentLineNumber =
+            delegate
+        {
+            // what would happen id we did this elsewhere?
+            var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
+
+            // http://dev.mysql.com/doc/refman/5.0/en/comments.html
+            return " /* " + f.GetFileName().SkipUntilLastOrEmpty("\\") + ":" + f.GetFileLineNumber() + " */ ";
+        };
+
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
         static MethodInfo refSelect = new Func<IQueryStrategy<object>, Expression<Func<object, object>>, IQueryStrategy<object>>(QueryStrategyOfTRowExtensions.Select).Method;
@@ -156,9 +167,16 @@ namespace System.Data
                      var SelectCommand = default(string);
                      //var s_SelectCommand = "select 0 as foo";
                      //var s_SelectCommand = "select 'Select' as diagnostics";
-                     var s_SelectCommand = "select -- diagnostics";
 
 
+
+
+
+                     var s_SelectCommand =
+                         CommentLineNumber() +
+                         "select -- diagnostics ";
+
+                     // are we using it or what?
                      #region AddToSelectCommand
                      Action<string> AddToSelectCommand =
                          x =>
@@ -256,7 +274,7 @@ namespace System.Data
                                  }
                                  Console.WriteLine(new { index, asMemberExpressionMethodCallExpression, asMemberExpressionMethodCallExpression.Method.Name });
 
-                                 // special!
+                                 // special! do we have reverse yet?
                                  if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
                                  {
                                      gDescendingByKeyReferenced = true;
@@ -265,7 +283,8 @@ namespace System.Data
                                      return;
                                  }
 
-                                 if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
+
+                                 if (asMemberExpressionMethodCallExpression.Method.Name == refLast.Name)
                                  {
                                      if (asMemberInitExpressionByParameter0 != null)
                                      {
@@ -278,11 +297,21 @@ namespace System.Data
                                          return;
                                      }
 
+                                     if (source is IGroupByQueryStrategy)
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
+                                         // that grouping thing already did the aliasing for us?
+
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                           + ".`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
 
 
-
+                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140604
                                      // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
-                                     s_SelectCommand += ",\n\t "
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
                                            + that.selector.Parameters[0].Name.Replace("<>", "__")
                                            + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
@@ -344,6 +373,7 @@ namespace System.Data
                                  // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
                                  // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
 
+                                 #region asIGroupByQueryStrategy
                                  var asIGroupByQueryStrategy = that.source as IGroupByQueryStrategy;
                                  if (asIGroupByQueryStrategy != null)
                                  {
@@ -351,8 +381,10 @@ namespace System.Data
                                      // what if we wanted something in the middle too?
                                      // like instead of last, or first we want 2nd from last?
 
+                                     #region string::
                                      if (valueSelector != null)
                                      {
+                                         // for all string::
                                          if (valueSelector.Name == "ToLower")
                                          {
                                              // we are being selected intou a data group?
@@ -365,107 +397,23 @@ namespace System.Data
                                              return;
                                          }
                                      }
+                                     #endregion
 
-                                     s_SelectCommand += ",\n\t "
+
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
                                          + that.selector.Parameters[0].Name.Replace("<>", "__")
                                          + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
 
                                      return;
                                  }
-
-                                 s_SelectCommand += ",\n\t "
-                                   + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                   + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-
-
-                                 //s_SelectCommand += ",\n\t "
-                                 //         + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                 //          + ".`" + asPropertyInfo.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                 return;
-
-                                 // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
-                                 // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
-                                 // var SpecialConstant = new { u = "44" };
-
-                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
-
-                                 if (asMemberInitExpressionByParameter1 != null)
-                                 {
-                                     Debugger.Break();
-                                     return;
-                                 }
-
-                                 var asMMFieldInfo = asMMemberExpression.Member as FieldInfo;
-
-                                 #region asPropertyInfo
-                                 var asPropertyInfo = asMemberExpression.Member as PropertyInfo;
-                                 if (asPropertyInfo != null)
-                                 {
-
-
-                                     if (asPropertyInfo.Name == "Length")
-                                     {
-                                         // http://www.sqlite.org/lang_corefunc.html
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         //s_SelectCommand += ",\n\t len(s.`" + asMMFieldInfo.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t length(s.`" + asMMFieldInfo.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-
-                                         return;
-                                     }
-
-
-                                     // CLR
-                                     var asMMParameterExpression = asMMemberExpression.Expression as ParameterExpression;
-                                     if (asMMParameterExpression != null)
-                                     {
-
-
-
-                                         return;
-                                     }
-
-
-                                     var asC = asMMemberExpression.Expression as ConstantExpression;
-
-                                     // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
-
-                                     var value0 = asMMFieldInfo.GetValue(asC.Value);
-                                     var rAddParameterValue0 = asPropertyInfo.GetValue(value0, null);
-
-
-
-                                     var n = "@arg" + state.ApplyParameter.Count;
-                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t " + n + " as `" + asMemberAssignment.Member.Name + "`";
-
-                                     state.ApplyParameter.Add(
-                                         c =>
-                                         {
-                                             // either the actualt command or the explain command?
-
-                                             //c.Parameters.AddWithValue(n, r);
-                                             c.AddParameter(n, rAddParameterValue0);
-                                         }
-                                     );
-                                     return;
-                                 }
                                  #endregion
 
 
+                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                   + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                   + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
 
-                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
-                                 // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
-                                 var asMMMemberInfo = asMMemberExpression.Member as MemberInfo;
-                                 if (asMMMemberInfo != null)
-                                 {
-                                     s_SelectCommand += ",\n\t "
-                                     + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                     + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-                                     return;
-                                 }
-
+                                 return;
                              }
                              #endregion
 
@@ -483,6 +431,7 @@ namespace System.Data
                                      }
                                  }
 
+                                 #region asSelectQueryStrategy
                                  var asSelectQueryStrategy = (that.source as ISelectQueryStrategy);
                                  if (asSelectQueryStrategy != null)
                                  {
@@ -558,21 +507,53 @@ namespace System.Data
                                          }
                                      }
                                  }
+#endregion
 
 
 
-                                 if (that.source is IGroupByQueryStrategy)
+                                 #region asIGroupByQueryStrategy
+                                 var asIGroupByQueryStrategy = that.source as IGroupByQueryStrategy;
+                                 if (asIGroupByQueryStrategy != null)
                                  {
+                                     #region Key
                                      if (asMemberExpression.Member.Name == "Key")
                                      {
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
                                          // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
 
-                                         s_SelectCommand += ",\n\t "
-                                            + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                            + ".`Grouping.Key` as `" + asMemberAssignment.Member.Name + "`";
+                                         var asSSLambdaExpression = asIGroupByQueryStrategy.keySelector as LambdaExpression;
+
+
+                                         var asSSNNewExpression = asSSLambdaExpression.Body as NewExpression;
+                                         if (asSSNNewExpression != null)
+                                         {
+                                             asSSNNewExpression.Arguments.WithEachIndex(
+                                                (SourceArgument, i) =>
+                                                {
+                                                    // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
+                                                    var SourceMember = default(MemberInfo);
+                                                    if (asSSNNewExpression.Members != null)
+                                                        SourceMember = asSSNNewExpression.Members[i];
+                                                    // c# extension operators for enumerables, thanks
+                                                    WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, asMemberExpression.Member) }).ToArray(), null);
+                                                }
+                                            );
+                                             return;
+                                         }
+
+                                         WriteExpression(
+                                             index, asSSLambdaExpression.Body, asMemberExpression.Member, prefixes, null);
                                          return;
                                      }
+                                     #endregion
+
+                                     // asMemberExpression
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                         + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                         + ".`" + asMMemberExpressionParameterExpression.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+                                     return;
                                  }
+                                 #endregion
 
 
 
@@ -601,7 +582,7 @@ namespace System.Data
                                      return;
                                  }
 
-                                 s_SelectCommand += ",\n\t "
+                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
                                  + that.selector.Parameters[0].Name.Replace("<>", "__")
                                  + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
 
@@ -1053,10 +1034,28 @@ namespace System.Data
 
                                          // arg0ElementsBySelect = {new ApplicationResourcePerformance().Where(kk => (Convert(kk.ApplicationPerformance) == Convert(k.Key)))}
 
+                                         var arg0Elements_MemberExpression = asMethodCallExpression.Arguments[0] as MemberExpression;
+                                         if (arg0Elements_MemberExpression != null)
+                                         {
+                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
+
+                                             var arg0Elements_MParameterExpression = arg0Elements_MemberExpression.Expression as ParameterExpression;
+
+
+                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                               + arg0Elements_MParameterExpression.Name.Replace("<>", "__")
+                                                + ".`" + asMemberAssignment.Member.Name
+                                                + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                             return;
+                                         }
+
                                          var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
                                          if (arg0Elements_ParameterExpression != null)
                                          {
-                                             s_SelectCommand += ",\n\t " + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                                + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
                                              return;
                                          }
 
@@ -1283,6 +1282,7 @@ namespace System.Data
                              var asEParameterExpression = asExpression as ParameterExpression;
                              if (asEParameterExpression != null)
                              {
+                                 // used in select
                                  // using the let keyword?
 
                                  // x:\jsc.svn\examples\javascript\linq\test\testjoinselectanonymoustype\testjoinselectanonymoustype\applicationwebservice.cs
@@ -1510,11 +1510,6 @@ namespace System.Data
                                      return;
 
                                  }
-
-
-
-                                 //s_SelectCommand += ",\n\t " + asEParameterExpression.Name + " as `" + asMemberAssignment.Member.Name + "`";
-                                 //return;
                              }
                              #endregion
 
@@ -1573,13 +1568,10 @@ namespace System.Data
                                  asNewExpression.Arguments.WithEachIndex(
                                     (SourceArgument, i) =>
                                     {
-
                                         // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
                                         var SourceMember = default(MemberInfo);
-
                                         if (asNewExpression.Members != null)
                                             SourceMember = asNewExpression.Members[i];
-
                                         // c# extension operators for enumerables, thanks
                                         WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null);
                                     }
