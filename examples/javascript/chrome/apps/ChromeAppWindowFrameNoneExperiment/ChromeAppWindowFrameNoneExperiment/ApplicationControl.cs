@@ -34,5 +34,9 @@ namespace ChromeAppWindowFrameNoneExperiment
             this.ParentForm.Text = "ParentChanged";
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
