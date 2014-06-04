@@ -25,11 +25,18 @@ namespace System.Data
     //[Obsolete("the first generic extension method for all jsc data layer rows")]
     public static partial class QueryStrategyOfTRowExtensions
     {
+        public static TSource[] ToArray<TSource>(this IQueryStrategy<TSource> source)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
+
+            return source.AsGenericEnumerable().ToArray();
+        }
+
         //[Obsolete("AsEnumerable. jsc has to bake in all metadata for callsite, like dynamic and linq expressions.")]
         [Obsolete("experimental")]
         public static IEnumerable<TSource> AsGenericEnumerable<TSource>(this IQueryStrategy<TSource> source)
         {
-
+            // we will replace the code gened version. will need to make sure it works for appengine and android
 
             // X:\jsc.svn\examples\javascript\LINQ\test\vb\TestXMLSelect\TestXMLSelect\ApplicationWebService.vb
             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
@@ -570,9 +577,33 @@ namespace System.Data
                                 var xasMemberExpression = SourceArgument as MemberExpression;
                                 if (xasMemberExpression != null)
                                 {
+
+
                                     var asSelectQueryStrategy = source as ISelectQueryStrategy;
                                     if (asSelectQueryStrategy != null)
                                     {
+                                        #region asSIGroupByQueryStrategy
+                                        var asSIGroupByQueryStrategy = asSelectQueryStrategy.source as IGroupByQueryStrategy;
+                                        if (asSIGroupByQueryStrategy != null)
+                                        {
+                                            if (xasMemberExpression.Member.Name == "Key")
+                                            {
+                                                // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
+                                                // are we selecting a complex key?
+                                                var asSSLambdaExpression = asSIGroupByQueryStrategy.keySelector as LambdaExpression;
+                                                if (asSSLambdaExpression != null)
+                                                {
+                                                    var asSSNNewExpression = asSSLambdaExpression.Body as NewExpression;
+                                                    if (asSSNNewExpression != null)
+                                                        return yieldNewExpression(asSSNNewExpression,
+                                                            prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray()
+                                                             );
+                                                }
+                                            }
+                                        }
+                                        #endregion
+
+
                                         // +		selector	{<>h__TransparentIdentifier1 => new <>f__AnonymousType2`2(<>h__TransparentIdentifier1 = <>h__TransparentIdentifier1, qq = new <>f__AnonymousType3`1(u = "!!!"))}	System.Linq.Expressions.Expression<System.Func<<>f__AnonymousType1<<>f__AnonymousType0<TestSelectAndSubSelect.Data.PerformanceResourceTimingData2ApplicationPerformanceRow,string>,string>,<>f__AnonymousType2<<>f__AnonymousType1<<>f__AnonymousType0<TestSelectAndSubSelect.Data.PerformanceResourceTimingData2ApplicationPerformanceRow,string>,string>,<>f__AnonymousType3<string>>>>
                                         var asSSelectQueryStrategy = asSelectQueryStrategy.source as ISelectQueryStrategy;
                                         if (asSSelectQueryStrategy != null)
@@ -770,7 +801,7 @@ namespace System.Data
 
                                 return asString;
                             };
-#endregion
+                        #endregion
 
 
                         #region asNewExpression
@@ -794,6 +825,10 @@ namespace System.Data
                                     return GetArgumentValue(SourceMember, a, i, prefixes);
                                 }
                            ).ToArray();
+
+
+                            // 
+                            //Additional information: Object of type 'System.String' cannot be converted to type '<>f__AnonymousType1`1[System.String]'.
 
                             var x = asNewExpression.Constructor.Invoke(
                                 parameters
