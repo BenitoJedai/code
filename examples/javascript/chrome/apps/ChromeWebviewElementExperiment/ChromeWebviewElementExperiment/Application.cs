@@ -30,7 +30,7 @@ namespace ChromeWebviewElementExperiment
         public Application(IApp page)
         {
             #region switch to chrome AppWindow
-            if (Expando.InternalIsMember(Native.Window, "chrome"))
+            if (Expando.InternalIsMember(Native.window, "chrome"))
                 if (chrome.app.runtime != null)
                 {
 
@@ -45,8 +45,8 @@ namespace ChromeWebviewElementExperiment
 
                     // no HTML layout yet
 
-                    if (Native.Window.opener == null)
-                        if (Native.Window.parent == Native.Window.self)
+                    if (Native.window.opener == null)
+                        if (Native.window.parent == Native.window.self)
                         {
 
 
@@ -67,7 +67,7 @@ namespace ChromeWebviewElementExperiment
 
                                         // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
                                         chrome.app.window.create(
-                                            Native.Document.location.pathname,
+                                            Native.document.location.pathname,
                                             null,
                                             new Action<AppWindow>(
                                                 appwindow =>
@@ -133,7 +133,7 @@ namespace ChromeWebviewElementExperiment
 
                     // http://developer.chrome.com/apps/webview_tag.html
                     // http://stackoverflow.com/questions/16635739/google-chrome-app-webview-behavior
-                    var webview = Native.Document.createElement("webview");
+                    var webview = Native.document.createElement("webview");
                     // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
                     webview.setAttribute("partition", "p1");
                     webview.setAttribute("src", uri);
