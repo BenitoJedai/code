@@ -38,15 +38,66 @@ namespace TestSelectManyRange
             );
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+            //            select  /* QueryStrategyOfTRowExtensions.SelectMany.cs:105 */  -- ,
+            // /* QueryStrategyOfTRowExtensions.SelectMany.cs:476 */  x.`Key` as `Key`,
+            // /* QueryStrategyOfTRowExtensions.SelectMany.cs:476 */  x.`EventTime` as `EventTime`,
+            // /* QueryStrategyOfTRowExtensions.SelectMany.cs:476 */  x.`domComplete` as `domComplete`,
+            // /* QueryStrategyOfTRowExtensions.SelectMany.cs:1183 */          y.`y` as `y`
+            //from(select `Key`, `connectStart`, `connectEnd`, `requestStart`, `responseStart`, `responseEnd`, `domLoading`, `domComplete`, `loadEventStart`, `loadEventEnd`, `EventTime`, `Tag`, `Timestamp`
+            //        from `PerformanceResourceTimingData2.ApplicationPerformance`
+            //         where `domComplete` = @where0
+            //        ) as x,
+            // /* QueryStrategyOfTRowExtensions.SelectMany.cs:1582 */  (
+            //    select(@argRangeFrom1 + x0.x * 10 + x1.x) as y from
+            //   (select 0 as x union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) as x0,
+            //    (select 0 as x union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) as x1
+            //    limit @argRangeCount1
+            //) as y
+
+
+
+
+
+            // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+
             // http://www.sqlite.org/lang_select.html#fromclause
             // http://stackoverflow.com/questions/774475/what-joins-does-sqlite-support
             var q = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
                     where x.domComplete == 5
                     // .AsGenericEnumerable()
-                    from y in Enumerable.Range(33, 3)
-                    select new { x, y };
+                    from offset in Enumerable.Range(33, 3)
+                    select new
+                    {
+                        x.Key,
+                        x.EventTime,
+                        x.domComplete,
+                        offset
+                    } into x
 
-          
+                    group x by new { x.offset } into g
+                    //group x by new { x.offset } into g
+                    select new
+                    {
+                        offset = g.Key.offset,
+                        
+                        Count = g.Count(),
+
+
+                    };
+
+
 
             var dt = q.AsDataTable();
 

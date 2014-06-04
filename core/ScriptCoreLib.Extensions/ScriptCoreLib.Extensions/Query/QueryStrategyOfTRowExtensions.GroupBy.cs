@@ -208,6 +208,9 @@ namespace System.Data
                      #region upperJoin
                      if (GroupBy.upperJoin != null)
                      {
+                         Debugger.Break();
+
+
                          //var j = from iu in new Schema.MiddleSheetUpdates()
                          //        group iu by iu.MiddleSheet into g
                          //        join im in new Schema.MiddleSheet() on g.Key equals im.Key
@@ -303,58 +306,14 @@ namespace System.Data
                      // what if we are not grouping a join?
 
 
-                     var GroupingKeyFieldExpressionName = default(string);
-
-                     if (GroupBy_asMemberExpression != null)
-                     {
-                         var GroupingKeyFieldExpression = GroupBy_asMemberExpression.Expression as MemberExpression;
-
-                         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
 
 
-                         if (GroupingKeyFieldExpression != null)
-                             GroupingKeyFieldExpressionName = "s.`" + GroupingKeyFieldExpression.Member.Name + "_" + GroupBy_asMemberExpression.Member.Name + "`";
-                         else
-                             GroupingKeyFieldExpressionName = "s.`" + GroupBy_asMemberExpression.Member.Name + "`";
-                     }
 
-
-                     #region ConstantExpression
-                     var GroupBy_asC = GroupBy.keySelector.Body as ConstantExpression;
-                     if (GroupBy_asC != null)
-                     {
-                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                         if (GroupBy_asC.Value is int)
-                             if ((int)GroupBy_asC.Value == 1)
-                             {
-                                 GroupingKeyFieldExpressionName = "1";
-                             }
-                     }
-                     #endregion
 
                      // GroupBy.keySelector.Body = {new <>f__AnonymousType1`2(duration = y.duration, path = y.path)}
                      // X:\jsc.svn\examples\javascript\linq\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
 
-                     var kasNewExpression = GroupBy.keySelector.Body as NewExpression;
-                     if (kasNewExpression != null)
-                     {
-                         kasNewExpression.Arguments.WithEachIndex(
-                             (SourceBinding, i) =>
-                             {
-                                 var xm = SourceBinding as MemberExpression;
-                                 if (xm != null)
-                                 {
-                                     GroupingKeyFieldExpressionName = "s.`" + xm.Member.Name + "`";
-                                 }
-                             }
-                         );
 
-
-                     }
-
-                     if (GroupingKeyFieldExpressionName == null)
-                         Debugger.Break();
 
                      //var s_SelectCommand = "select " + CommentLineNumber()
                      //   + GroupingKeyFieldExpressionName
@@ -458,11 +417,11 @@ namespace System.Data
 
                              if (IsKey)
                              {
-                                     var asSSNNewExpression = keySelector.Body as NewExpression;
-                                     if (asSSNNewExpression != null)
-                                     {
-                                         asSSNNewExpression.Arguments.WithEachIndex(
-                                            (SourceArgument, i) =>
+                                 var asSSNNewExpression = keySelector.Body as NewExpression;
+                                 if (asSSNNewExpression != null)
+                                 {
+                                     asSSNNewExpression.Arguments.WithEachIndex(
+                                        (SourceArgument, i) =>
                                                 {
                                                     // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
                                                     var SourceMember = default(MemberInfo);
@@ -472,9 +431,9 @@ namespace System.Data
                                                     //WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, asMemberExpression.Member) }).ToArray(), null);
                                                     WriteExpression(i, SourceArgument, SourceMember);
                                                 }
-                                        );
-                                         return;
-                                     }
+                                    );
+                                     return;
+                                 }
 
                                  WriteExpression(index, keySelector.Body, asMemberExpression.Member);
 
@@ -605,7 +564,7 @@ namespace System.Data
 
 
 
-                             #region asMMemberExpression
+                             #region WriteMemberExpression:asMMemberExpression
                              var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
                              if (asMMemberExpression != null)
                              {
@@ -636,50 +595,52 @@ namespace System.Data
                                  }
 
                                  var asMMFieldInfo = asMMemberExpression.Member as FieldInfo;
-
-                                 #region asPropertyInfo
-                                 var asPropertyInfo = asMemberExpression.Member as PropertyInfo;
-                                 if (asPropertyInfo != null)
+                                 if (asMMFieldInfo != null)
                                  {
-                                     // CLR
+                                     #region asPropertyInfo
+                                     var asPropertyInfo = asMemberExpression.Member as PropertyInfo;
+                                     if (asPropertyInfo != null)
+                                     {
+                                         // CLR
 
-                                     var asC = asMMemberExpression.Expression as ConstantExpression;
+                                         var asC = asMMemberExpression.Expression as ConstantExpression;
 
-                                     // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
+                                         // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
 
-                                     var value0 = asMMFieldInfo.GetValue(asC.Value);
-                                     var rAddParameterValue0 = asPropertyInfo.GetValue(value0, null);
+                                         var value0 = asMMFieldInfo.GetValue(asC.Value);
+                                         var rAddParameterValue0 = asPropertyInfo.GetValue(value0, null);
 
 
 
-                                     var n = "@arg" + state.ApplyParameter.Count;
-                                     state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t " + n + " as `" + asMemberAssignment.Member.Name + "`";
+                                         var n = "@arg" + state.ApplyParameter.Count;
+                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t " + n + " as `" + asMemberAssignment.Member.Name + "`";
 
-                                     state.ApplyParameter.Add(
-                                         c =>
+                                         state.ApplyParameter.Add(
+                                             c =>
                                          {
                                              // either the actualt command or the explain command?
 
                                              //c.Parameters.AddWithValue(n, r);
                                              c.AddParameter(n, rAddParameterValue0);
                                          }
-                                     );
+                                         );
 
-                                     //if (rAddParameterValue0 is string)
-                                     //{
-                                     //    // NULL?
-                                     //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
-                                     //else
-                                     //{
-                                     //    // long?
-                                     //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
+                                         //if (rAddParameterValue0 is string)
+                                         //{
+                                         //    // NULL?
+                                         //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
+                                         //}
+                                         //else
+                                         //{
+                                         //    // long?
+                                         //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
+                                         //}
 
-                                     return;
+                                         return;
+                                     }
+                                     #endregion
                                  }
-                                 #endregion
 
 
 
@@ -696,6 +657,8 @@ namespace System.Data
                                      {
                                          //asMMMCall = {result.Last()}
 
+
+                                         // Last is for grouping?
                                          var refLast = new Func<IQueryStrategyGrouping<long, object>, object>(QueryStrategyOfTRowExtensions.Last);
 
                                          if (asMMMCall.Method.Name == refLast.Method.Name)
@@ -729,6 +692,14 @@ namespace System.Data
                                              return;
                                          }
                                      }
+
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectManyRange\TestSelectManyRange\ApplicationWebService.cs
+
+                                     state.SelectCommand += ",\n" + CommentLineNumber() + "\t g.`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`";
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                      + "s.`" + asMemberExpression.Member.Name + "`"
+                                      + " as `" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`";
+                                     return;
                                  }
 
                              }
@@ -1247,10 +1218,12 @@ namespace System.Data
                                      var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as MemberExpression;
 
                                      state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t "
+
+                                     Debugger.Break();
+                                     //s_SelectCommand += ",\n\t "
 
 
-                                         + GroupingKeyFieldExpressionName + " as `" + asMemberAssignment.Member.Name + "`";
+                                     //    + GroupingKeyFieldExpressionName + " as `" + asMemberAssignment.Member.Name + "`";
 
                                      return;
                                  }
@@ -1349,6 +1322,7 @@ namespace System.Data
                      // can we group by multiple fields?
                      // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
 
+                     #region  keySelector
                      var zkasNewExpression = GroupBy.keySelector.Body as NewExpression;
                      if (zkasNewExpression != null)
                      {
@@ -1369,14 +1343,31 @@ namespace System.Data
                      }
                      else
                      {
-                         var xm = GroupBy.keySelector.Body as MemberExpression;
-                         if (xm != null)
+
+                         var GroupBy_asC = GroupBy.keySelector.Body as ConstantExpression;
+                         if (GroupBy_asC != null)
                          {
-                             g += "\n" + CommentLineNumber() + "\t"
-                                  + "s.`" + xm.Member.Name + "`";
+                             // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                             if (GroupBy_asC.Value is int)
+                                 if ((int)GroupBy_asC.Value == 1)
+                                 {
+                                     g += "\n" + CommentLineNumber() + "\t"
+                                      + "1";
+                                 }
                          }
-                         else Debugger.Break();
+                         else
+                         {
+                             var xm = GroupBy.keySelector.Body as MemberExpression;
+                             if (xm != null)
+                             {
+                                 g += "\n" + CommentLineNumber() + "\t"
+                                      + "s.`" + xm.Member.Name + "`";
+                             }
+                             else Debugger.Break();
+                         }
                      }
+                     #endregion
 
 
                      state.FromCommand =
