@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace TestSelectManyRange
+namespace TestSelectMath
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -33,7 +33,7 @@ namespace TestSelectManyRange
             //new Data.PerformanceResourceTimingData2.ApplicationPerformance().Clear();
 
             new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
-                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { connectStart = 5, connectEnd = 13, EventTime = DateTime.Now.AddDays(-0) },
                 new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1), domComplete = 5 }
             );
 
@@ -75,26 +75,14 @@ namespace TestSelectManyRange
             // http://www.sqlite.org/lang_select.html#fromclause
             // http://stackoverflow.com/questions/774475/what-joins-does-sqlite-support
             var q = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                    where x.domComplete == 5
-                    // .AsGenericEnumerable()
-                    from offset in Enumerable.Range(33, 3)
+                    let add = x.connectStart + x.connectEnd
+                    let mul = add / 3
+
+                    where mul > 0
+
                     select new
                     {
-                        x.Key,
-                        x.EventTime,
-                        x.domComplete,
-                        offset
-                    } into x
-
-                    group x by new { x.offset } into g
-                    //group x by new { x.offset } into g
-                    select new
-                    {
-                        offset = g.Key.offset,
-                        
-                        Count = g.Count(),
-
-
+                        mul
                     };
 
 

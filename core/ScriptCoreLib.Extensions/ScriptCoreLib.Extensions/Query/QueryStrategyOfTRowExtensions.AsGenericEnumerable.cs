@@ -884,6 +884,17 @@ namespace System.Data
                             }
                         }
                         #endregion
+
+
+
+                        var xNewArrayExpression = asLambdaExpression.Body as NewArrayExpression;
+                        if (xNewArrayExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\linq\test\TestSelectTwoOfEach\TestSelectTwoOfEach\ApplicationWebService.cs
+
+                            return default(TSource);
+                        }
+
                     }
                     else
                     {

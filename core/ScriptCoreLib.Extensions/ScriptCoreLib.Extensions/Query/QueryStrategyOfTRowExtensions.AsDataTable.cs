@@ -17,6 +17,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace System.Data
 {
@@ -28,6 +29,10 @@ namespace System.Data
         static DataTable InternalAsDataTable(IQueryStrategy Strategy)
         {
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
+
+            // will it work for jvm?
+            var st = new StackTrace(0, true);
+            var sw = Stopwatch.StartNew();
 
             Console.WriteLine("AsDataTable " + new { Strategy });
 
@@ -41,7 +46,7 @@ namespace System.Data
 
             //System.Diagnostics.Contracts.Contract.Assume
 
-            return ((Task<DataTable>)Strategy.GetDescriptor().GetWithConnection()(
+            var value = ((Task<DataTable>)Strategy.GetDescriptor().GetWithConnection()(
                 c =>
                 {
                     var state = QueryStrategyExtensions.AsCommandBuilder(Strategy);
@@ -136,6 +141,14 @@ namespace System.Data
                     return s.Task;
                 }
             )).Result;
+
+            var caller = st.GetFrame(1);
+            Console.WriteLine(
+                Process.GetCurrentProcess().Id.ToString("x4") + ":"
+                + Thread.CurrentThread.ManagedThreadId.ToString("x4")
+                + " AsDataTable " + new { sw.ElapsedMilliseconds, Debugger.IsAttached, caller = caller.ToString() });
+
+            return value;
         }
 
 
