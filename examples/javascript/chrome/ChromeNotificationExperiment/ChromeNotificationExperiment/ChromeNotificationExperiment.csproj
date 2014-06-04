@@ -116,6 +116,9 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="TestPackageAsApplication">
+      <HintPath>..\packages\TestPackageAsApplication.1.0.0.0\lib\TestPackageAsApplication.dll</HintPath>
+    </Reference>
     <Reference Include="WebGLSpiral">
       <HintPath>..\packages\WebGLSpiral.1.0.0.0\lib\WebGLSpiral.dll</HintPath>
     </Reference>
