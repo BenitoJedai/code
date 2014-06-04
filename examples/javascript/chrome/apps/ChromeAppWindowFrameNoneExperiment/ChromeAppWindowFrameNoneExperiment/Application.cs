@@ -63,9 +63,9 @@ namespace ChromeAppWindowFrameNoneExperiment
 
                 chrome.runtime.Suspend +=
                     delegate
-                    {
-                        Console.WriteLine("suspend!");
-                    };
+                {
+                    Console.WriteLine("suspend!");
+                };
 
 
                 Action later = delegate { };
@@ -73,7 +73,7 @@ namespace ChromeAppWindowFrameNoneExperiment
                 var windows = new List<AppWindow>();
 
                 #region InternalHTMLTargetAttachToDocument
-                Action<__Form, Action> InternalHTMLTargetAttachToDocument =
+                Action<__Form, Action<bool>> InternalHTMLTargetAttachToDocument =
                    async (that, yield) =>
                    {
 
@@ -85,10 +85,10 @@ namespace ChromeAppWindowFrameNoneExperiment
                        var xappwindow = await chrome.app.window.create(
                              Native.document.location.pathname,
                              new
-                             {
-                                 frame = "none"
-                                 //,transparentBackground
-                             }
+                       {
+                           frame = "none"
+                           //,transparentBackground
+                       }
                         );
 
 
@@ -106,100 +106,102 @@ namespace ChromeAppWindowFrameNoneExperiment
                                Action<IEvent> onload =
 
                                     delegate
-                                    {
-                                        var c = that;
-                                        var f = (Form)that;
-                                        var ff = c;
+                               {
+                                   var c = that;
+                                   var f = (Form)that;
+                                   var ff = c;
 
-                                        windows.Add(appwindow);
+                                   windows.Add(appwindow);
 
-                                        // http://sandipchitale.blogspot.com/2013/03/tip-webkit-app-region-css-property.html
+                                   // http://sandipchitale.blogspot.com/2013/03/tip-webkit-app-region-css-property.html
 
-                                        (ff.CaptionForeground.style as dynamic).webkitAppRegion = "drag";
+                                   (ff.CaptionForeground.style as dynamic).webkitAppRegion = "drag";
 
-                                        //(ff.ResizeGripElement.style as dynamic).webkitAppRegion = "drag";
-                                        // cant have it yet
-                                        ff.ResizeGripElement.Orphanize();
+                                   //(ff.ResizeGripElement.style as dynamic).webkitAppRegion = "drag";
+                                   // cant have it yet
+                                   ff.ResizeGripElement.Orphanize();
 
-                                        f.StartPosition = FormStartPosition.Manual;
-                                        f.MoveTo(0, 0);
+                                   f.StartPosition = FormStartPosition.Manual;
+                                   f.MoveTo(0, 0);
 
-                                        f.FormClosing +=
-                                            delegate
-                                            {
-                                                Console.WriteLine("FormClosing");
-                                                appwindow.close();
-                                            };
+                                   f.FormClosing +=
+                                       delegate
+                                   {
+                                       Console.WriteLine("FormClosing");
+                                       appwindow.close();
+                                   };
 
-                                        appwindow.onRestored.addListener(
-                                            new Action(
+                                   appwindow.onRestored.addListener(
+                                       new Action(
+                                           delegate
+                                   {
+                                       that.CaptionShadow.Hide();
+
+                                   }
+                                       )
+                                   );
+
+                                   appwindow.onMaximized.addListener(
+                                   new Action(
+                                           delegate
+                                   {
+                                       that.CaptionShadow.Show();
+
+                                   }
+                                   )
+                                   );
+
+                                   appwindow.onClosed.addListener(
+                                       new Action(
+                                           delegate
+                                   {
+                                       Console.WriteLine("onClosed");
+                                       windows.Remove(appwindow);
+
+                                       f.Close();
+                                   }
+                                   )
+                                   );
+
+                                   // wont fire yet
+                                   appwindow.contentWindow.onbeforeunload +=
+                                       delegate
+                                   {
+                                       Console.WriteLine("onbeforeunload");
+                                   };
+
+                                   appwindow.contentWindow.onresize +=
+                                                //appwindow.onBoundsChanged.addListener(
+                                                //    new Action(
                                                 delegate
-                                                {
-                                                    that.CaptionShadow.Hide();
-
-                                                }
-                                            )
-                                        );
-
-                                        appwindow.onMaximized.addListener(
-                                        new Action(
-                                                delegate
-                                                {
-                                                    that.CaptionShadow.Show();
-
-                                                }
-                                        )
-                                        );
-
-                                        appwindow.onClosed.addListener(
-                                            new Action(
-                                                delegate
-                                                {
-                                                    Console.WriteLine("onClosed");
-                                                    windows.Remove(appwindow);
-
-                                                    f.Close();
-                                                }
-                                        )
-                                        );
-
-                                        // wont fire yet
-                                        appwindow.contentWindow.onbeforeunload +=
-                                            delegate
-                                            {
-                                                Console.WriteLine("onbeforeunload");
-                                            };
-
-                                        appwindow.contentWindow.onresize +=
-                                            //appwindow.onBoundsChanged.addListener(
-                                            //    new Action(
-                                                delegate
-                                                {
-                                                    f.SizeTo(
-                                                        appwindow.contentWindow.Width,
-                                                        appwindow.contentWindow.Height
-                                                    );
-                                                }
-                                            //)
-                                            //)
+                                   {
+                                       f.SizeTo(
+                                           appwindow.contentWindow.Width,
+                                           appwindow.contentWindow.Height
+                                       );
+                                   }
+                                        //)
+                                        //)
                                         ;
 
-                                        f.SizeTo(
-                                            appwindow.contentWindow.Width,
-                                            appwindow.contentWindow.Height
-                                        );
+                                   f.SizeTo(
+                                       appwindow.contentWindow.Width,
+                                       appwindow.contentWindow.Height
+                                   );
 
 
-                                        //Console.WriteLine("appwindow contentWindow onload");
+                                   //Console.WriteLine("appwindow contentWindow onload");
 
 
-                                        that.HTMLTarget.AttachTo(
-                                            appwindow.contentWindow.document.body
-                                        );
+                                   that.HTMLTarget.AttachTo(
+                                       appwindow.contentWindow.document.body
+                                   );
 
-                                        yield();
-                                        //Console.WriteLine("appwindow contentWindow onload done");
-                                    };
+
+                                   // ????
+                                   yield(default(bool));
+                                   //Console.WriteLine("appwindow contentWindow onload done");
+                               };
                                #endregion
 
                                //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
@@ -226,42 +228,44 @@ namespace ChromeAppWindowFrameNoneExperiment
 
                         later +=
                             delegate
-                            {
+                        {
 
-                                InternalHTMLTargetAttachToDocument(that, yield);
-                            };
+                            InternalHTMLTargetAttachToDocument(that, yield);
+                        };
                     };
 
 
                 // why wait?
                 chrome.app.runtime.Launched +=
                     delegate
+                {
+                    if (later == null)
                     {
-                        if (later == null)
+                        if (windows.Count == 0)
                         {
-                            if (windows.Count == 0)
-                            {
-                                Console.WriteLine("chrome.runtime.reload");
-                                chrome.runtime.reload();
-                                return;
-                            }
-
-                            Console.WriteLine("drawAttention");
-                            windows.First().drawAttention();
-
-
+                            Console.WriteLine("chrome.runtime.reload");
+                            chrome.runtime.reload();
                             return;
                         }
 
-                        Console.WriteLine("Application onLaunched!");
-                        // signal any pending Show commands?
+                        Console.WriteLine("drawAttention");
+                        windows.First().drawAttention();
 
-                        __Form.InternalHTMLTargetAttachToDocument = InternalHTMLTargetAttachToDocument;
 
-                        later();
-                        later = null;
+                        return;
+                    }
 
-                    };
+                    Console.WriteLine("Application onLaunched!");
+                    // signal any pending Show commands?
+
+                    // what do you mean it needs to return a bool?
+                    // what happens if i dont fix it?
+                    __Form.InternalHTMLTargetAttachToDocument = InternalHTMLTargetAttachToDocument;
+
+                    later();
+                    later = null;
+
+                };
 
 
             }
@@ -281,10 +285,10 @@ namespace ChromeAppWindowFrameNoneExperiment
 
             content.button2.Click +=
                 delegate
-                {
+            {
 
-                    var www = new Worker(
-                          wworker =>
+                var www = new Worker(
+                      wworker =>
                           {
                               // running in worker context. cannot talk to outer scope yet.
 
@@ -310,15 +314,15 @@ namespace ChromeAppWindowFrameNoneExperiment
                               }
                               Console.WriteLine("Stop");
                           }
-                      );
+                  );
 
-                    www.onmessage +=
-                        e =>
+                www.onmessage +=
+                    e =>
                         {
                             Console.Write("www: " + e.data);
                         };
 
-                };
+            };
 
             new Abstractatech.ConsoleFormPackage.Library.ConsoleForm { }.InitializeConsoleFormWriter().Show();
             #endregion
