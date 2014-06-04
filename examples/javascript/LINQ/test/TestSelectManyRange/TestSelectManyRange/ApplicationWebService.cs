@@ -42,14 +42,11 @@ namespace TestSelectManyRange
             // http://stackoverflow.com/questions/774475/what-joins-does-sqlite-support
             var q = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
                     where x.domComplete == 5
-                        // .AsGenericEnumerable()
-                    from y in Enumerable.Range(0, 3)
+                    // .AsGenericEnumerable()
+                    from y in Enumerable.Range(33, 3)
                     select new { x, y };
 
-            //var z = new Data.PerformanceResourceTimingData2.ApplicationPerformance().AsGenericEnumerable().SelectMany(
-            //     x => Enumerable.Range(0, 3),
-            //     (x, y) => new { x, y }
-            //);
+          
 
             var dt = q.AsDataTable();
 

@@ -110,11 +110,11 @@ namespace System.Data
                          {
                              // ah a virtual index stream
 
-                             var cFrom = cLMethodCallExpression.Arguments[0] as ConstantExpression;
-                             var cTo = cLMethodCallExpression.Arguments[1] as ConstantExpression;
+                             var cRangeFrom = cLMethodCallExpression.Arguments[0] as ConstantExpression;
+                             var cRangeCount = cLMethodCallExpression.Arguments[1] as ConstantExpression;
 
 
-                             state.SelectCommand += ", y.y0";
+                             state.SelectCommand += ", y.y as y";
 
 
                              //select x0.x, x1.x, (x0.x * 10 + x1.x) as z from
@@ -122,9 +122,32 @@ namespace System.Data
                              //(select 0 as x union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) as x1
                              //limit 64
 
+                             var vRangeFrom = cRangeFrom.Value;
+                             var nRangeFrom = "@argRangeFrom" + state.ApplyParameter.Count;
+
+                             var vRangeCount = cRangeCount.Value;
+                             var nRangeCount = "@argRangeCount" + state.ApplyParameter.Count;
 
                              state.FromCommand +=
-                                @", (select x0 + x1 from select 1 as y0 UNION ALL select 10 as y0) as y";
+                                @", (
+    select (" + nRangeFrom + @" + x0.x * 10 + x1.x) as y from
+    (select 0 as x union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) as x0,  
+    (select 0 as x union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) as x1
+    limit " + nRangeCount + @"
+) as y";
+
+
+                             state.ApplyParameter.Add(
+                                 c =>
+                                     {
+                                         // either the actualt command or the explain command?
+
+                                         //c.Parameters.AddWithValue(n, r);
+                                         c.AddParameter(nRangeFrom, vRangeFrom);
+                                         c.AddParameter(nRangeCount, vRangeCount);
+                                     }
+                             );
+
                          }
                      }
 
