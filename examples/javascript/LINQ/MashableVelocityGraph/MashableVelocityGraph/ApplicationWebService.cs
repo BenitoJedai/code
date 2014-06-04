@@ -35,13 +35,13 @@ namespace MashableVelocityGraph
             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\IDbConnectionExtensions.cs
 
             new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
-            // timestamp is special and insert will override it!
-            // shall jsc signify that with [Obsolete attribute?]
+                // timestamp is special and insert will override it!
+                // shall jsc signify that with [Obsolete attribute?]
 
             // will timestamp also include signature, hash or ID signature? or is it good
-            // enough if we sign previous data row?
-            // does security metadata need to live in a different table? a generic security table?
-            //DateTime.Now.AddDays(-1)
+                // enough if we sign previous data row?
+                // does security metadata need to live in a different table? a generic security table?
+                //DateTime.Now.AddDays(-1)
             new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },
 
             new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1) },
@@ -61,6 +61,15 @@ namespace MashableVelocityGraph
 
             );
 
+            //error: { Message = Object reference not set to an instance of an object., ex = System.NullReferenceException: Object reference not set to an instance of an object.
+            //  at ScriptCoreLib.Extensions.StringExtensions.SkipUntilLastOrEmpty(String e, String u)
+            //  at System.Data.QueryStrategyOfTRowExtensions.<.cctor>b__de()
+            //  at System.Data.QueryStrategyOfTRowExtensions.<>c__DisplayClassa3`2.<Select>b__87(CommandBuilderState state)
+            //  at ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions.AsCommandBuilder(CommandBuilderState state)
+            //  at ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions.AsCommandBuilder(IQueryStrategy Strategy)
+            //  at System.Data.QueryStrategyOfTRowExtensions.<>c__DisplayClass2b.<Count>b__2a(IDbConnection c)
+
+
             // get counts by day for last 5 days?
 
             var t0 = DateTime.Now.AddDays(0);
@@ -76,15 +85,15 @@ namespace MashableVelocityGraph
 
             var qtotal = (
                 from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                    //where x.EventTime <= t48
-                    //where x.EventTime >= t24
+                //where x.EventTime <= t48
+                //where x.EventTime >= t24
                 select x
              ).Count();
 
             // qtotal_last24 = 2
             var qtotal_last24 = (
                 from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                    //where x.EventTime <= t48
+                //where x.EventTime <= t48
                 where x.EventTime >= t24
                 select x
                 ).Count();
@@ -92,7 +101,7 @@ namespace MashableVelocityGraph
             // qtotal_last72 = 28
             var qtotal_last72 = (
                 from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                    //where x.EventTime <= t48
+                //where x.EventTime <= t48
                 where x.EventTime >= t72
                 select x
                 ).Count();
@@ -108,7 +117,7 @@ namespace MashableVelocityGraph
             {
                 Func<DateTime, DateTime, IQueryStrategy> f =
                     (x0, x24) =>
-                    //(IQueryStrategy<Data.PerformanceResourceTimingData2ApplicationPerformanceRow>)
+                        //(IQueryStrategy<Data.PerformanceResourceTimingData2ApplicationPerformanceRow>)
                     from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
                     where x.EventTime <= x0
                     where x.EventTime > x24
@@ -182,7 +191,7 @@ namespace MashableVelocityGraph
 
 
                 var z_notcontinious = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance().AsGenericEnumerable()
-                                          // this will not show missing dates now would it
+                                      // this will not show missing dates now would it
                                       let Date = x.EventTime.Date
                                       group x by Date into g
 

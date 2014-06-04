@@ -16,24 +16,24 @@ namespace ScriptCoreLib.Library
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131224
 
-        public static string ConvertToString(Stopwatch e)
-        {
-            if (e == null)
-                return null;
+        //public static string ConvertToString(Stopwatch e)
+        //{
+        //    if (e == null)
+        //        return null;
 
 
-            // http://www.w3schools.com/tags/tag_th.asp
-            var x = new XElement("Stopwatch",
+        //    // http://www.w3schools.com/tags/tag_th.asp
+        //    var x = new XElement("Stopwatch",
 
-                new XAttribute("ElapsedMilliseconds", "" + e.ElapsedMilliseconds),
-                new XAttribute("IsRunning", "" + e.IsRunning)
+        //        new XAttribute("ElapsedMilliseconds", "" + e.ElapsedMilliseconds),
+        //        new XAttribute("IsRunning", "" + e.IsRunning)
 
-            );
+        //    );
 
-            //Console.WriteLine("StringConversionsForStopwatch.ConvertToString " + new { e.ElapsedMilliseconds, e.IsRunning });
+        //    //Console.WriteLine("StringConversionsForStopwatch.ConvertToString " + new { e.ElapsedMilliseconds, e.IsRunning });
 
-            return x.ToString();
-        }
+        //    return x.ToString();
+        //}
 
 
         public static string DateTimeConvertToString(DateTime e)
@@ -123,45 +123,45 @@ namespace ScriptCoreLib.Library
         }
 
 
-        public static Stopwatch ConvertFromString(string e)
-        {
-            // X:\jsc.svn\core\ScriptCoreLib\System\Diagnostics\StopwatchExtensions.cs
+        //public static Stopwatch ConvertFromString(string e)
+        //{
+        //    // X:\jsc.svn\core\ScriptCoreLib\System\Diagnostics\StopwatchExtensions.cs
 
-            if (string.IsNullOrEmpty(e))
-                return null;
+        //    if (string.IsNullOrEmpty(e))
+        //        return null;
 
 
-            // DataTable.ReadXML?
-            var x = XElement.Parse(e);
+        //    // DataTable.ReadXML?
+        //    var x = XElement.Parse(e);
 
-            var ElapsedMilliseconds = Convert.ToInt64(x.Attribute("ElapsedMilliseconds").Value);
-            var IsRunning = Convert.ToBoolean(x.Attribute("IsRunning").Value);
+        //    var ElapsedMilliseconds = Convert.ToInt64(x.Attribute("ElapsedMilliseconds").Value);
+        //    var IsRunning = Convert.ToBoolean(x.Attribute("IsRunning").Value);
 
-            //Console.WriteLine("StringConversionsForStopwatch.ConvertFromString CreateStopwatchAtElapsed " + new { ElapsedMilliseconds, IsRunning, x });
+        //    //Console.WriteLine("StringConversionsForStopwatch.ConvertFromString CreateStopwatchAtElapsed " + new { ElapsedMilliseconds, IsRunning, x });
 
-            //StringConversionsForStopwatch.ConvertFromString CreateStopwatchAtElapsed { ElapsedMilliseconds = 329, IsRunning = True }
-            //enter CLR_StringConversionsForStopwatchExtensions.StopwatchAtElapsed. this shall only happen in clr. { IsAttached = True }
-            //StringConversionsForStopwatch.ConvertFromString { ElapsedMilliseconds = 0, IsRunning = False }
+        //    //StringConversionsForStopwatch.ConvertFromString CreateStopwatchAtElapsed { ElapsedMilliseconds = 329, IsRunning = True }
+        //    //enter CLR_StringConversionsForStopwatchExtensions.StopwatchAtElapsed. this shall only happen in clr. { IsAttached = True }
+        //    //StringConversionsForStopwatch.ConvertFromString { ElapsedMilliseconds = 0, IsRunning = False }
 
-            // can we also wiretransfer TimeSpan yet?
-            var n = StopwatchExtensions.CreateStopwatchAtElapsed(
-                TimeSpan.FromMilliseconds(ElapsedMilliseconds)
-            );
+        //    // can we also wiretransfer TimeSpan yet?
+        //    var n = StopwatchExtensions.CreateStopwatchAtElapsed(
+        //        TimeSpan.FromMilliseconds(ElapsedMilliseconds)
+        //    );
 
-            if (!IsRunning)
-                n.Stop();
+        //    if (!IsRunning)
+        //        n.Stop();
 
-            //Console.WriteLine("StringConversionsForStopwatch.ConvertFromString " + new { n.ElapsedMilliseconds, n.IsRunning });
+        //    //Console.WriteLine("StringConversionsForStopwatch.ConvertFromString " + new { n.ElapsedMilliseconds, n.IsRunning });
 
-            return n;
-        }
+        //    return n;
+        //}
 
 
 
     }
 
 
-
+    [Obsolete("while it works it causes problems while merge rewrite?  ")]
     [Script(Implements = typeof(StopwatchExtensions))]
     public static class __StopwatchExtensions
     {
