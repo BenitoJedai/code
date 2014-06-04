@@ -37,6 +37,11 @@ namespace ScriptCoreLib.Extensions
 
         public static string SkipUntilLastOrEmpty(this string e, string u)
         {
+            if (e == null)
+                return null;
+
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Select.cs
+
             var i = e.LastIndexOf(u);
 
             if (i < 0)

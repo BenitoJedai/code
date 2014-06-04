@@ -15,6 +15,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
     {
         public static IHTMLElement AsHTMLElement(this XElement value)
         {
+            if (value == null)
+                return null;
+
             // X:\jsc.svn\examples\javascript\appengine\StopwatchTimetravelExperiment\StopwatchTimetravelExperiment\Application.cs
 
             var __XElement = (__XElement)value;
@@ -37,6 +40,10 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
         public static XElement AsXElement(this IElement e)
         {
+            // X:\jsc.svn\examples\javascript\forms\test\TestBindingSource\TestBindingSource\Application.cs
+            if (e == null)
+                return null;
+
             return (XElement)(object)new __XElement((XName)null) { InternalValue = e };
         }
 

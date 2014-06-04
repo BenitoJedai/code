@@ -75,7 +75,8 @@ namespace jsc.Library
 
         public TValue[] this[TKey[] k]
         {
-            [method: DebuggerStepThrough]
+            //[method: DebuggerStepThrough]
+            [method: DebuggerHidden]
             get
             {
                 return k.Select(kk => this[kk]).ToArray();
@@ -88,6 +89,7 @@ namespace jsc.Library
         public TValue this[TKey k]
         {
             //[method: DebuggerStepThrough]
+            [method: DebuggerHidden]
             get
             {
                 //            >	ScriptCoreLib.Ultra.Library.dll!jsc.Library.VirtualDictionary<System.Reflection.ConstructorInfo,System.Reflection.ConstructorInfo>.this[System.Reflection.ConstructorInfo].get(System.Reflection.ConstructorInfo k) Line 91 + 0x10 bytes	C#
@@ -150,6 +152,8 @@ namespace jsc.Library
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201306/20130614-ilspy
         // need reentrancy!
         //[MethodImpl(MethodImplOptions.Synchronized)]
+        [method: DebuggerNonUserCode]
+        [method: DebuggerHidden]
         private void RaiseResolve(TKey k)
         {
             var FrameCount = new StackTrace().FrameCount;
