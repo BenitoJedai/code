@@ -165,13 +165,6 @@ namespace System.Data
 
 
                      var SelectCommand = default(string);
-                     //var s_SelectCommand = "select 0 as foo";
-                     //var s_SelectCommand = "select 'Select' as diagnostics";
-
-
-
-
-
                      var s_SelectCommand =
                          CommentLineNumber() +
                          "select -- diagnostics ";
