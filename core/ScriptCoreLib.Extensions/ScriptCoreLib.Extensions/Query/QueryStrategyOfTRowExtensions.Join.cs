@@ -307,9 +307,9 @@ namespace System.Data
 
                 #region SelectCommand
                 var SelectCommand = default(string);
-                var s_SelectCommand = "select 'Join' as diagnostics";
+                var s_SelectCommand = "select " + CommentLineNumber() + " -- ";
 
-
+                // is it used?
                 #region AddToSelectCommand
                 Action<string> AddToSelectCommand =
                     x =>
@@ -592,7 +592,9 @@ namespace System.Data
 
                                  // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
                                  var asMParameterExpression = asMemberExpression.Expression as ParameterExpression;
-                                 s_SelectCommand += ",\n\t " + asMParameterExpression.Name + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                    + asMParameterExpression.Name + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
 
                                  return;
                              }
@@ -1377,8 +1379,8 @@ namespace System.Data
                 Console.WriteLine("Join CommandBuilder  ...  " + new { asMemberInitExpression, asLambdaExpression.Body });
 
 
-           
-    
+
+
 
                 if (asMemberInitExpression == null)
                 {
