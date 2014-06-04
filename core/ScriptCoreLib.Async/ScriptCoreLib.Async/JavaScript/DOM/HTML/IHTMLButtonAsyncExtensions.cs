@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     {
         // tested by
         // X:\jsc.svn\examples\javascript\AsyncButtonSequence\AsyncButtonSequence\Application.cs
+        // "X:\jsc.svn\examples\javascript\async\AsyncButtonSequence\AsyncButtonSequence.sln"
 
         [Obsolete("use button.async.onclick instead?")]
         public static TaskAwaiter<IHTMLButton> GetAwaiter(this IHTMLButton button)
