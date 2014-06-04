@@ -157,7 +157,8 @@ namespace MashableVelocityGraph
 
 
 
-
+                //                from p in localCollectionOfProducts 
+                //from c in sqlTableOfCategories 
 
                 var asw = Stopwatch.StartNew();
                 var a = from offset in Enumerable.Range(0, 4) // Data.PerformanceResourceTimingData2.Range
@@ -206,6 +207,7 @@ namespace MashableVelocityGraph
                 // 'SelectMany' not found.	X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs	198	31	MashableVelocityGraph
 
 
+                // http://community.bartdesmet.net/blogs/bart/archive/2008/08/19/probably-the-most-powerful-linq-operator-selectmany.aspx
                 var zs = Stopwatch.StartNew();
                 var z_continious =
                     from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
