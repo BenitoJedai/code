@@ -40,28 +40,43 @@ namespace TestDoubleJoinGroupBy
             // += ?
 
             x.Insert(
-                new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 46, path = " /zfoo/BAR/ " }
+                new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+            {
+                duration = 46,
+                path = " /zfoo/BAR/ ",
+
+                startTime = 77
+            }
             );
 
             new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
                 new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { domComplete = 46 }
             );
 
+            new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance().Insert(
+                new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow { startTime = 77 }
+            );
+
             var q =
                 from u in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                    //join uu in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance() on u.startTime equals uu.startTime
-                    //join u2 in new Data.PerformanceResourceTimingData2.ApplicationPerformance() on u.duration equals u2.domComplete
+
+                join uu in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance() on u.startTime equals uu.startTime
+
                 join u2 in new Data.PerformanceResourceTimingData2.ApplicationPerformance() on u.duration equals u2.domComplete
+
                 group new
                 {
                     u,
-                    //uu,
+                    uu,
 
                     u2
                 } by u.duration into nt
-                select new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+
+                select new  // Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                 {
-                    path = nt.Last().u.path,
+                    //path = nt.Last().u.path,
+                    path = nt.Last().uu.path,
+
                     //duration = (long)u.Key
                     duration = (long)nt.Last().u2.Key,
 
