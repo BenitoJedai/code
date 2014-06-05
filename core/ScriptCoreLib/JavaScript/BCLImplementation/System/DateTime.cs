@@ -81,6 +81,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
+        public DateTime Date
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\test\TestDate\TestDate\Application.cs
+                var TotalMilliseconds = this.InternalValue.getTime();
+
+                var x = (1000 * 60 * 60 * 24);
+
+                var DateTotalMilliseconds = TotalMilliseconds / x;
+
+                Console.WriteLine(new { DateTotalMilliseconds });
+
+                var ms = DateTotalMilliseconds * x;
+
+                return new __DateTime
+                {
+                    InternalValue = new IDate(ms),
+                    Kind = this.Kind
+                };
+            }
+        }
 
 
         public __DateTime(int year, int month, int day)
@@ -325,7 +347,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 w.Append(this.Second.ToString().PadLeft(2, '0'));
                 return w.ToString();
             }
-            else if (format == "ddMMMMyyyyHHmmss") 
+            else if (format == "ddMMMMyyyyHHmmss")
             {
                 var w = new StringBuilder();
                 w.Append(this.Day.ToString().PadLeft(2, '0'));
@@ -334,7 +356,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 w.Append(this.Hour.ToString().PadLeft(2, '0'));
                 w.Append(this.Minute.ToString().PadLeft(2, '0'));
                 w.Append(this.Second.ToString().PadLeft(2, '0'));
-                 return w.ToString();
+                return w.ToString();
             }
             else if (format == "dd.MMMM.yyyy HH:mm:ss")
             {
@@ -428,19 +450,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         //Tested by : E:\jsc.svn\examples\javascript\Test\TestDateTimeOperators\TestDateTimeOperators\Application.cs
         #region Operators
-        public static bool operator <= (__DateTime a, __DateTime b)
+        public static bool operator <=(__DateTime a, __DateTime b)
         {
             if (a.InternalValue.getTime() <= b.InternalValue.getTime())
                 return true;
             return false;
         }
-        public static bool operator >= (__DateTime a, __DateTime b)
+        public static bool operator >=(__DateTime a, __DateTime b)
         {
             if (a.InternalValue.getTime() >= b.InternalValue.getTime())
                 return true;
             return false;
         }
-        public static bool operator == (__DateTime a, __DateTime b)
+        public static bool operator ==(__DateTime a, __DateTime b)
         {
             if (a.InternalValue.getTime() == b.InternalValue.getTime())
                 return true;
@@ -452,13 +474,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 return true;
             return false;
         }
-        public static bool operator > (__DateTime a, __DateTime b)
+        public static bool operator >(__DateTime a, __DateTime b)
         {
             if (a.InternalValue.getTime() > b.InternalValue.getTime())
                 return true;
             return false;
         }
-        public static bool operator < (__DateTime a, __DateTime b)
+        public static bool operator <(__DateTime a, __DateTime b)
         {
             if (a.InternalValue.getTime() < b.InternalValue.getTime())
                 return true;
@@ -472,7 +494,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             {
                 return "January";
             }
-            else if(month == 2)
+            else if (month == 2)
             {
                 return "February";
             }

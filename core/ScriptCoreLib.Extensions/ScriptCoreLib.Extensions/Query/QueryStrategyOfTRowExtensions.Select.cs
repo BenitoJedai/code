@@ -404,6 +404,24 @@ namespace System.Data
 
 
 
+
+                                 if (asMMemberExpression.Type == typeof(DateTime))
+                                 {
+                                     // X:\jsc.svn\examples\javascript\Test\TestDate\TestDate\Application.cs
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestSelectDate\TestSelectDate\ApplicationWebService.cs
+                                     // how many milliseconds are there in a day?
+                                     // dividide round and multiply to get the date ms?
+
+                                     //var x = (1000 * 60 * 60 * 24);
+
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t("
+                                        + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                        + ".`" + asMMemberExpression.Member.Name + "` / (1000 * 60 * 60 * 24) * (1000 * 60 * 60 * 24)) as `" + GetPrefixedTargetName() + "`";
+
+                                     return;
+                                 }
+
+
                                  if (index < 0)
                                  {
                                      // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
