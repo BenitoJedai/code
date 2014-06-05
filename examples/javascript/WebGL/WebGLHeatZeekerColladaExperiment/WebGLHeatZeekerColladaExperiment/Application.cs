@@ -42,7 +42,7 @@ namespace WebGLHeatZeekerColladaExperiment
                 45,
                 window.aspect,
                 1,
-                2000
+                10000
                 );
             camera.position.z = 400;
 
@@ -69,35 +69,44 @@ namespace WebGLHeatZeekerColladaExperiment
             var st = new Stopwatch();
             st.Start();
 
+
+            Native.window.document.onmousemove +=
+                e =>
+                {
+                    mouseX = e.CursorX - Native.window.Width / 2;
+                    mouseY = e.CursorY - Native.window.Height / 2;
+                };
+
+
             Native.window.onframe +=
                 delegate
-                {
+            {
 
-                    oo.WithEach(
-                        x =>
-                            x.rotation.y = st.ElapsedMilliseconds * 0.00001
-                    );
-
-
-                    camera.position.x += (mouseX - camera.position.x) * .05;
-                    camera.position.y += (-mouseY - camera.position.y) * .05;
-
-                    camera.lookAt(scene.position);
-
-                    renderer.render(scene, camera);
+                oo.WithEach(
+                    x =>
+                        x.rotation.y = (st.ElapsedMilliseconds + mouseX * 100) * 0.00001
+                );
 
 
-                };
+                camera.position.x += (mouseX - camera.position.x) * .05;
+                camera.position.y += (-mouseY - camera.position.y) * .05;
+
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+
+
+            };
 
             Native.window.onresize +=
                 delegate
-                {
-                    camera.aspect = window.aspect;
-                    camera.updateProjectionMatrix();
+            {
+                camera.aspect = window.aspect;
+                camera.updateProjectionMatrix();
 
-                    renderer.setSize(window.Width, window.Height);
+                renderer.setSize(window.Width, window.Height);
 
-                };
+            };
             #endregion
 
 
@@ -106,8 +115,8 @@ namespace WebGLHeatZeekerColladaExperiment
                 // we get purple small thingy
                 "assets/WebGLHeatZeekerColladaExperiment/Promotion3D_daytime.dae"
 
-                // maybe sketchup doesnt know how to export colors?
-                //"assets/WebGLHeatZeekerColladaExperiment/sam_site.dae"
+            // maybe sketchup doesnt know how to export colors?
+            //"assets/WebGLHeatZeekerColladaExperiment/sam_site.dae"
             ).Source.Task.ContinueWithResult(
                 dae =>
                 {
