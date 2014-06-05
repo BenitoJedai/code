@@ -691,7 +691,7 @@ namespace System.Data
                                      n += "arg" + state.ApplyParameter.Count;
 
                                      if (index < 0)
-                                        s_SelectCommand += n ;
+                                         s_SelectCommand += n;
                                      else
                                          s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
 
@@ -1310,8 +1310,7 @@ namespace System.Data
                                  // x:\jsc.svn\examples\javascript\linq\test\vb\testselectintoxelementwithattribute\testselectintoxelementwithattribute\applicationwebservice.vb
 
                                  WriteExpression(index, asUnaryExpression.Operand, TargetMember, prefixes, valueSelector);
-                                 return
-                                 ;
+                                 return;
 
                              }
                              #endregion
@@ -1356,6 +1355,9 @@ namespace System.Data
                                                             // .u0}
 
                                                             // item = {new <>f__AnonymousType4`2(connectStart = <>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x.connectStart, connectEnd = <>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.x.connectEnd)}
+
+
+                                                            #region NewExpression
                                                             var yasNewExpression = item as NewExpression;
                                                             if (yasNewExpression != null)
                                                             {
@@ -1385,12 +1387,14 @@ namespace System.Data
                                                                 );
 
                                                             }
+                                                            #endregion
 
-
+                                                            #region BinaryExpression
                                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
                                                             var xxBinaryExpression = item as BinaryExpression;
                                                             if (xxBinaryExpression != null)
                                                             {
+                                                                #region Left
                                                                 {
                                                                     var zxasMemberExpression = xxBinaryExpression.Left as MemberExpression;
                                                                     if (zxasMemberExpression != null)
@@ -1413,7 +1417,10 @@ namespace System.Data
                                                                         }
                                                                     }
                                                                 }
+                                                                #endregion
 
+
+                                                                #region Right
                                                                 {
                                                                     var zxasMemberExpression = xxBinaryExpression.Right as MemberExpression;
                                                                     if (zxasMemberExpression != null)
@@ -1436,8 +1443,9 @@ namespace System.Data
                                                                         }
                                                                     }
                                                                 }
+                                                                #endregion
                                                             }
-
+                                                            #endregion
 
 
                                                             #region xasMemberExpression

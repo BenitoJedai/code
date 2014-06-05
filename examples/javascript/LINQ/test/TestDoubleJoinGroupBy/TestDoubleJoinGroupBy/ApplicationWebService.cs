@@ -30,6 +30,11 @@ namespace TestDoubleJoinGroupBy
         /// <param name="y">A callback to javascript.</param>
         public void WebMethod2()
         {
+            //error:
+            //    {
+            //        Message = Object reference not set to an instance of an object., ex = System.NullReferenceException: Object reference not set to an instance of an object.
+            // at System.Data.QueryStrategyOfTRowExtensions.JoinQueryStrategy`4.<> c__DisplayClass6.< Invoke > b__21(IJoinQueryStrategy yy) in X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Join.cs:line 689
+
             var x = new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance();
 
             // += ?
@@ -38,16 +43,29 @@ namespace TestDoubleJoinGroupBy
                 new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow { duration = 46, path = " /zfoo/BAR/ " }
             );
 
+            new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { domComplete = 46 }
+            );
+
             var q =
                 from u in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance()
-                join uu in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance() on u.startTime equals uu.startTime
+                    //join uu in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance() on u.startTime equals uu.startTime
+                    //join u2 in new Data.PerformanceResourceTimingData2.ApplicationPerformance() on u.duration equals u2.domComplete
                 join u2 in new Data.PerformanceResourceTimingData2.ApplicationPerformance() on u.duration equals u2.domComplete
-                group new {u, uu, u2} by u.duration into nt
+                group new
+                {
+                    u,
+                    //uu,
+
+                    u2
+                } by u.duration into nt
                 select new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                 {
                     path = nt.Last().u.path,
                     //duration = (long)u.Key
-                    duration = (long)nt.Last().u2.Key
+                    duration = (long)nt.Last().u2.Key,
+
+                    Tag = nt.Last().u2.Tag
                 };
 
             //var s = from i in q
@@ -61,6 +79,7 @@ namespace TestDoubleJoinGroupBy
             //            duration = (long)ggg.Last().duration
             //        };
 
+            // f = {0, ,  /zfoo/BAR/ , , 1, 0, 0, 0, 0, 0, 0, 0, , 6/5/2014 5:19:55 PM}
             var f = q.FirstOrDefault();
 
 
