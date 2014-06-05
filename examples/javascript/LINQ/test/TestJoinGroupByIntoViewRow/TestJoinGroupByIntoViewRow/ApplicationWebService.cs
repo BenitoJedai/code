@@ -45,7 +45,8 @@ namespace TestJoinGroupByIntoViewRow
 
                 select new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                 {
-                    path = u.path
+                    path = u.path,
+                    duration = (long)u.Key
                 };
 
             var s = from i in q
@@ -55,7 +56,8 @@ namespace TestJoinGroupByIntoViewRow
                     select new Data.PerformanceResourceTimingData2ApplicationResourcePerformanceRow
                     {
                         //path = ggg.Last().path.ToLower()
-                        path = ggg.Last().path
+                        path = ggg.Last().path,
+                        duration = ggg.Last().duration
                     };
 
             var f = q.FirstOrDefault();
