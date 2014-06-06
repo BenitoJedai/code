@@ -160,10 +160,16 @@ namespace System.Data
                         asLambdaExpression = asISelectQueryStrategy.selectorExpression as LambdaExpression;
                     else
                     {
-                        var asIJoinQueryStrategy = source as IJoinQueryStrategy;
-                        if (asIJoinQueryStrategy != null)
-                            asLambdaExpression = asIJoinQueryStrategy.selectorExpression as LambdaExpression;
+                        var xISelectManyQueryStrategy = source as ISelectManyQueryStrategy;
+                        if (xISelectManyQueryStrategy != null)
+                            asLambdaExpression = xISelectManyQueryStrategy.resultSelector as LambdaExpression;
+                        else
+                        {
+                            var asIJoinQueryStrategy = source as IJoinQueryStrategy;
+                            if (asIJoinQueryStrategy != null)
+                                asLambdaExpression = asIJoinQueryStrategy.selectorExpression as LambdaExpression;
 
+                        }
                     }
 
                     if (asLambdaExpression != null)
