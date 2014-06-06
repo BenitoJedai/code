@@ -46,6 +46,7 @@ namespace System.Data
 
 
 
+            public ISelectManyQueryStrategy upperSelectMany { get; set; }
             public ISelectQueryStrategy upperSelect { get; set; }
             public IJoinQueryStrategy upperJoin { get; set; }
             public IGroupByQueryStrategy upperGroupBy { get; set; }
@@ -100,6 +101,11 @@ namespace System.Data
                  state =>
                  {
                      // X:\jsc.svn\examples\javascript\linq\test\TestSelectManyRange\TestSelectManyRange\ApplicationWebService.cs
+
+
+
+                     (source as INestedQueryStrategy).With(x => x.upperSelectMany = that);
+
 
                      state.SelectCommand = "select " + CommentLineNumber() + " -- ";
                      var s_SelectCommand = "select " + CommentLineNumber() + " -- ";

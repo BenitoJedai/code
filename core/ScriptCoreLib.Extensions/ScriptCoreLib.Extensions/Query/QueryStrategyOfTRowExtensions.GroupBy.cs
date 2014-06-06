@@ -51,6 +51,7 @@ namespace System.Data
             public Expression<Func<TSource, TElement>> elementSelector { get; set; }
 
 
+            public ISelectManyQueryStrategy upperSelectMany { get; set; }
             public ISelectQueryStrategy upperSelect { get; set; }
             public IJoinQueryStrategy upperJoin { get; set; }
             public IGroupByQueryStrategy upperGroupBy { get; set; }
@@ -203,99 +204,6 @@ namespace System.Data
 
                      if (GroupBy.upperSelect != null)
                          asMemberInitExpression = ((LambdaExpression)GroupBy.upperSelect.selectorExpression).Body as MemberInitExpression;
-
-
-                     #region upperJoin
-                     if (GroupBy.upperJoin != null)
-                     {
-                         Debugger.Break();
-
-
-                         //var j = from iu in new Schema.MiddleSheetUpdates()
-                         //        group iu by iu.MiddleSheet into g
-                         //        join im in new Schema.MiddleSheet() on g.Key equals im.Key
-
-                         // if we are part of a join. are we inner our outer?
-
-                         if (GroupBy.upperJoin.xouter == GroupBy)
-                         {
-                             // we are outer?
-
-                             //GroupBy.upperJoin.resultSelectorExpression as LambdaExpression)
-                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.selectorExpression).Body as MemberInitExpression;
-                             asMemberInitExpressionByParameter0 = ((LambdaExpression)GroupBy.upperJoin.selectorExpression).Parameters[0];
-
-
-                             if (asMemberInitExpression == null)
-                             {
-                                 // ???
-
-                                 if (GroupBy.upperJoin.upperJoin.xouter == GroupBy.upperJoin)
-                                 {
-                                     asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.selectorExpression).Body as MemberInitExpression;
-                                     //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                     asMemberInitExpressionByParameter1 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.selectorExpression).Parameters[0];
-
-
-
-                                     if (asMemberInitExpression == null)
-                                     {
-                                         // ???
-
-                                         if (GroupBy.upperJoin.upperJoin.upperJoin.xouter == GroupBy.upperJoin.upperJoin)
-                                         {
-                                             asMemberInitExpression = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.selectorExpression).Body as MemberInitExpression;
-                                             //asMemberInitExpressionByParameter0 = (GroupBy.upperJoin.upperJoin.resultSelectorExpression as LambdaExpression).Parameters[0];
-                                             asMemberInitExpressionByParameter2 = ((LambdaExpression)GroupBy.upperJoin.upperJoin.upperJoin.selectorExpression).Parameters[0];
-
-                                         }
-
-
-
-                                     }
-                                 }
-
-
-
-                             }
-
-                             // [0x00000000] = {Content = g.Last().UpdatedContent}
-
-                             //var parameter0 = GroupBy.upperJoin.
-
-
-                             // (GroupBy.upperJoin.resultSelectorExpression as LambdaExpression).Body = {new <>f__AnonymousType0`2(UpdatesByMiddlesheet = UpdatesByMiddlesheet, MiddleSheetz = MiddleSheetz)}
-                             ////((GroupBy.upperJoin.resultSelectorExpression as LambdaExpression).Body as NewExpression).With(
-                             ////    __projection =>
-                             ////    {
-                             ////        // seems our upper join does not exactly know whats needed.
-                             ////        // can we go up another level?
-
-                             ////        var jj = GroupBy.upperJoin.upperJoin;
-
-                             ////        state.SelectCommand += "???";
-
-                             ////       // __projection.Arguments.WithEach(
-                             ////       //     __projectionArgument =>
-                             ////       //     {
-                             ////       //         var __projectionParameterArgument = __projectionArgument as ParameterExpression;
-
-                             ////       //         // are we supposed to flatten/ select for such upper projections?
-
-                             ////       //     }
-                             ////       //);
-                             ////    }
-                             ////);
-
-                         }
-
-                         if (GroupBy.upperJoin.xinner == GroupBy)
-                         {
-                             // we are inner?
-                             Debugger.Break();
-                         }
-                     }
-                     #endregion
 
 
 
@@ -795,14 +703,15 @@ namespace System.Data
 
 
                                  #region selectProjectionWalker
-                                 Action<ISelectQueryStrategy, ParameterExpression> selectProjectionWalker = null;
+                                 Action<INestedQueryStrategy, ParameterExpression> selectProjectionWalker = null;
 
                                  selectProjectionWalker =
-                                    (yy, arg1) =>
+                                    (yySelect, arg1) =>
                                         {
                                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
-                                            if (yy == null)
+                                            if (yySelect == null)
                                                 return;
+
                                             #region  // go up
                                             {
 
@@ -894,7 +803,14 @@ namespace System.Data
                                             #endregion
 
                                             // deeper?
-                                            selectProjectionWalker(yy.source as ISelectQueryStrategy, arg1);
+                                            var xISelectQueryStrategy = yySelect as ISelectQueryStrategy;
+                                            if (xISelectQueryStrategy != null)
+                                                selectProjectionWalker(xISelectQueryStrategy.source as ISelectQueryStrategy, arg1);
+
+                                            var xISelectManyQueryStrategy = yySelect as ISelectManyQueryStrategy;
+                                            if (xISelectManyQueryStrategy != null)
+                                                selectProjectionWalker(xISelectManyQueryStrategy.source as ISelectQueryStrategy, arg1);
+
                                         };
                                  #endregion
 
@@ -1042,7 +958,23 @@ namespace System.Data
                                              return;
                                          }
                                      }
+                                     else if (that.upperSelectMany != null)
+                                     {
+                                         // X:\jsc.svn\examples\javascript\linq\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
 
+                                         var arg1 = (that.upperSelectMany.resultSelector as LambdaExpression).Parameters[1];
+
+                                         if (asEParameterExpression == arg1)
+                                         {
+                                             // ding ding. walk that!
+
+                                             selectProjectionWalker(that.upperSelectMany, arg1);
+
+                                             projectionWalker(that.source as IJoinQueryStrategy);
+
+                                             return;
+                                         }
+                                     }
                                      Debugger.Break();
 
                                      return;
@@ -1318,32 +1250,8 @@ namespace System.Data
                      #endregion
 
 
-                     #region asNewExpression
-                     if (asMemberInitExpression == null)
-                     {
-                         var asNewExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as NewExpression;
-
-                         asNewExpression.Arguments.WithEachIndex(
-                             (SourceArgument, index) =>
-                             {
-                                 var TargetMember = asNewExpression.Members[index];
-                                 var asMemberAssignment = new { Member = TargetMember };
-
-
-                                 // ?
-                                 WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
-                             }
-                         );
-                     }
-                     #endregion
-
 
                      #region asMemberInitExpression
-
-
-
-                     //var InitBinding = asMemberInitExpression.Bindings.Select
-
                      if (asMemberInitExpression != null)
                          asMemberInitExpression.Bindings.WithEachIndex(
                              (SourceBinding, index) =>
@@ -1358,6 +1266,51 @@ namespace System.Data
                              }
                          );
                      #endregion
+
+                     #region asNewExpression
+                     if (asMemberInitExpression == null)
+                     {
+                         // X:\jsc.svn\examples\javascript\linq\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
+
+                         if (GroupBy.upperSelectMany != null)
+                         {
+                             var asNewExpression = (GroupBy.upperSelectMany.resultSelector as LambdaExpression).Body as NewExpression;
+
+                             asNewExpression.Arguments.WithEachIndex(
+                                 (SourceArgument, index) =>
+                             {
+                                 var TargetMember = asNewExpression.Members[index];
+                                 var asMemberAssignment = new { Member = TargetMember };
+
+
+                                 // ?
+                                 WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
+                             }
+                             );
+                         }
+
+
+                         if (GroupBy.upperSelect != null)
+                         {
+                             var asNewExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as NewExpression;
+
+                             asNewExpression.Arguments.WithEachIndex(
+                                 (SourceArgument, index) =>
+                             {
+                                 var TargetMember = asNewExpression.Members[index];
+                                 var asMemberAssignment = new { Member = TargetMember };
+
+
+                                 // ?
+                                 WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
+                             }
+                             );
+                         }
+
+                     }
+                     #endregion
+
+
 
 
                      var s = QueryStrategyExtensions.AsCommandBuilder(GroupBy.source);

@@ -33,6 +33,7 @@ namespace System.Data
         {
 
             ISelectQueryStrategy upperSelect { get; set; }
+            ISelectManyQueryStrategy upperSelectMany { get; set; }
             IJoinQueryStrategy upperJoin { get; set; }
             IGroupByQueryStrategy upperGroupBy { get; set; }
         }
@@ -59,6 +60,12 @@ namespace System.Data
             public Expression<Func<TInner, TKey>> innerKeySelector { get; set; }
             public Expression<Func<TOuter, TInner, TResult>> resultSelector;
 
+
+
+
+
+
+            public ISelectManyQueryStrategy upperSelectMany { get; set; }
             public ISelectQueryStrategy upperSelect { get; set; }
             public IJoinQueryStrategy upperJoin { get; set; }
             public IGroupByQueryStrategy upperGroupBy { get; set; }
@@ -861,8 +868,11 @@ namespace System.Data
                                                          #endregion
                                                      }
                                                      #endregion
+
                                                      if (uu.upperSelect != null)
                                                          uu = uu.upperSelect;
+                                                     else if (uu.upperSelectMany != null)
+                                                         uu = uu.upperSelectMany;
                                                      else if (uu.upperJoin != null)
                                                          uu = uu.upperJoin;
                                                      else if (uu.upperGroupBy != null)
@@ -955,6 +965,8 @@ namespace System.Data
 
                                                      if (uu.upperSelect != null)
                                                          uu = uu.upperSelect;
+                                                     else if (uu.upperSelect != null)
+                                                         uu = uu.upperSelectMany;
                                                      else if (uu.upperJoin != null)
                                                          uu = uu.upperJoin;
                                                      else if (uu.upperGroupBy != null)
@@ -975,6 +987,7 @@ namespace System.Data
 
 
                                      // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140605
+                                     #region asIGLambda
                                      {
                                          var asIGLambda = that.outerKeySelector as LambdaExpression;
                                          if (asIGLambda != null)
@@ -1025,13 +1038,17 @@ namespace System.Data
 
 
                                          }
+
+
                                      }
+                                     #endregion
 
                                      // yet what about upper join?
                                      // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140605
                                      // what if there is more than one?
                                      if (that.upperJoin != null)
                                      {
+                                         #region asIGLambda
                                          var asIGLambda = that.upperJoin.outerKeySelector as LambdaExpression;
                                          if (asIGLambda != null)
                                          {
@@ -1057,6 +1074,8 @@ namespace System.Data
 
 
                                          }
+                                         #endregion
+
                                      }
                                  }
 
@@ -1096,15 +1115,33 @@ namespace System.Data
 
                                      while (uu != null)
                                      {
+                                         var xasLambdaExpression = default(LambdaExpression);
+                                         var xSelect_source = default(IQueryStrategy);
+
+
+                                         //xSelectQueryStrategy.source
+                                         var xSelectQueryStrategy = uu as ISelectQueryStrategy;
+                                         if (xSelectQueryStrategy != null)
+                                         {
+                                             xasLambdaExpression = xSelectQueryStrategy.selectorExpression as LambdaExpression;
+                                             xSelect_source = xSelectQueryStrategy.source;
+                                         }
+
+
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
+                                         var xISelectManyQueryStrategy = uu as ISelectManyQueryStrategy;
+                                         if (xISelectManyQueryStrategy != null)
+                                         {
+                                             xasLambdaExpression = xISelectManyQueryStrategy.resultSelector as LambdaExpression;
+                                             xSelect_source = xISelectManyQueryStrategy.source;
+                                         }
 
 
                                          #region asSelectQueryStrategy
-                                         var asSelectQueryStrategy = uu as ISelectQueryStrategy;
-                                         if (asSelectQueryStrategy != null)
+                                         if (xasLambdaExpression != null)
                                          {
                                              // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601
 
-                                             var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
 
 
 
@@ -1160,7 +1197,7 @@ namespace System.Data
 
 
                                                         #region IGroupByQueryStrategy
-                                                        var xasGroupByQueryStrategy = asSelectQueryStrategy.source as IGroupByQueryStrategy;
+                                                        var xasGroupByQueryStrategy = xSelect_source as IGroupByQueryStrategy;
                                                         if (xasGroupByQueryStrategy != null)
                                                         {
                                                             // first or last?
@@ -1248,6 +1285,8 @@ namespace System.Data
 
                                          if (uu.upperSelect != null)
                                              uu = uu.upperSelect;
+                                         else if (uu.upperSelectMany != null)
+                                             uu = uu.upperSelectMany;
                                          else if (uu.upperJoin != null)
                                              uu = uu.upperJoin;
                                          else if (uu.upperGroupBy != null)
