@@ -528,6 +528,7 @@ namespace System.Data
                                 else
                                 {
                                     // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+                                    #region xPropertyInfo
                                     var xPropertyInfo = f_Body_Right_as_MemberExpression.Member as PropertyInfo;
                                     if (xPropertyInfo != null)
                                     {
@@ -549,12 +550,16 @@ namespace System.Data
 
                                         }
                                     }
+                                    #endregion
+
                                 }
                             }
                             else
                             {
                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
                                 // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
+
+                                #region asRParameterExpression 
                                 var asRParameterExpression = f_Body_Right.Expression as ParameterExpression;
                                 if (asRParameterExpression != null)
                                 {
@@ -598,6 +603,8 @@ namespace System.Data
                                     state.WhereCommand += " " + asRParameterExpression.Name.Replace("<>", "__") + ".`" + f_Body_Right.Member.Name + "` ";
                                     return;
                                 }
+                                #endregion
+
 
                                 Debugger.Break();
                             }
@@ -606,59 +613,93 @@ namespace System.Data
                         else if (body.Right is UnaryExpression)
                         {
                             // casting enum to long?
+                            var xExpression = ((UnaryExpression)body.Right).Operand;
 
-                            var f_Body_Right = (MemberExpression)((UnaryExpression)body.Right).Operand;
+                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140606
+                            // +		xExpression	{UNREAD}	System.Linq.Expressions.Expression {System.Linq.Expressions.ConstantExpression}
 
-                            var f_Body_Right_as_ConstantExpression = f_Body_Right.Expression as ConstantExpression;
-
-                            //var f_Body_Right_Expression = (ConstantExpression)f_Body_Right.Expression;
-
-                            //var f_Body_Right_Expression_Value = f_Body_Right_Expression.Value;
-                            //r = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
-
-                            if (f_Body_Right_as_ConstantExpression != null)
+                            var asConstantExpression = xExpression as ConstantExpression;
+                            if (asConstantExpression != null)
                             {
-
-                                var f_Body_Right_Expression_Value = f_Body_Right_as_ConstantExpression.Value;
-                                rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
+                                rAddParameterValue0 = asConstantExpression.Value;
                             }
                             else
                             {
-                                var asRMemberExpression = f_Body_Right.Expression as MemberExpression;
-                                if (asRMemberExpression != null)
+
+
+                                var xUMemberExpression = xExpression as MemberExpression;
+
+                                var xUMConstantExpression = xUMemberExpression.Expression as ConstantExpression;
+                                if (xUMConstantExpression != null)
                                 {
-                                    // we are doing a where against object field passed method argument
 
-                                    var zE = asRMemberExpression.Expression as ConstantExpression;
-                                    if (zE != null)
+                                    var f_Body_Right_Expression_Value = xUMConstantExpression.Value;
+                                    rAddParameterValue0 = ((FieldInfo)xUMemberExpression.Member).GetValue(f_Body_Right_Expression_Value);
+                                }
+                                else
+                                {
+                                    var asRMemberExpression = xUMemberExpression.Expression as MemberExpression;
+                                    if (asRMemberExpression != null)
                                     {
-                                        var asRFieldInfo = asRMemberExpression.Member as FieldInfo;
-                                        if (asRFieldInfo != null)
+                                        // we are doing a where against object field passed method argument
+
+                                        var zE = asRMemberExpression.Expression as ConstantExpression;
+                                        if (zE != null)
                                         {
-
-                                            var f_Body_Right_Expression_Value = asRFieldInfo.GetValue(zE.Value);
-
-
-                                            rAddParameterValue0 = ((FieldInfo)f_Body_Right.Member).GetValue(f_Body_Right_Expression_Value);
-                                        }
-                                        Debugger.Break();
-                                    }
-                                    else
-                                    {
-                                        // filter.Body = {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier0.k.Key))}
-
-                                        // filter.Body = {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k.Key))}
-
-                                        var asRMMemberExpression = asRMemberExpression.Expression as MemberExpression;
-                                        if (asRMMemberExpression != null)
-                                        {
-                                            // {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k.Key))}
-
-                                            var asRMMMemberExpression = asRMMemberExpression.Expression as MemberExpression;
-                                            if (asRMMMemberExpression != null)
+                                            var asRFieldInfo = asRMemberExpression.Member as FieldInfo;
+                                            if (asRFieldInfo != null)
                                             {
-                                                var asRMMMParameterExpression = asRMMMemberExpression.Expression as ParameterExpression;
-                                                if (asRMMMParameterExpression != null)
+
+                                                var f_Body_Right_Expression_Value = asRFieldInfo.GetValue(zE.Value);
+
+
+                                                rAddParameterValue0 = ((FieldInfo)xUMemberExpression.Member).GetValue(f_Body_Right_Expression_Value);
+                                            }
+                                            Debugger.Break();
+                                        }
+                                        else
+                                        {
+                                            // filter.Body = {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier0.k.Key))}
+
+                                            // filter.Body = {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k.Key))}
+
+                                            var asRMMemberExpression = asRMemberExpression.Expression as MemberExpression;
+                                            if (asRMMemberExpression != null)
+                                            {
+                                                // {(Convert(kk.ApplicationPerformance) == Convert(<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k.Key))}
+
+                                                #region asRMMMemberExpression
+                                                var asRMMMemberExpression = asRMMemberExpression.Expression as MemberExpression;
+                                                if (asRMMMemberExpression != null)
+                                                {
+                                                    var asRMMMParameterExpression = asRMMMemberExpression.Expression as ParameterExpression;
+                                                    if (asRMMMParameterExpression != null)
+                                                    {
+                                                        if (body.NodeType == ExpressionType.Equal)
+                                                            state.WhereCommand += "=";
+                                                        else if (body.NodeType == ExpressionType.LessThan)
+                                                            state.WhereCommand += "<";
+                                                        else if (body.NodeType == ExpressionType.GreaterThan)
+                                                            state.WhereCommand += ">";
+                                                        else if (body.NodeType == ExpressionType.NotEqual)
+                                                            state.WhereCommand += "<>";
+                                                        else
+                                                            Debugger.Break();
+
+
+                                                        state.WhereCommand += " " +
+                                                        asRMMMParameterExpression.Name.Replace("<>", "__")
+                                                        + ".`" + xUMemberExpression.Member.Name + "` ";
+
+                                                        return;
+                                                    }
+                                                }
+                                                #endregion
+
+
+                                                #region asRMMParameterExpression
+                                                var asRMMParameterExpression = asRMMemberExpression.Expression as ParameterExpression;
+                                                if (asRMMParameterExpression != null)
                                                 {
                                                     if (body.NodeType == ExpressionType.Equal)
                                                         state.WhereCommand += "=";
@@ -673,16 +714,18 @@ namespace System.Data
 
 
                                                     state.WhereCommand += " " +
-                                                    asRMMMParameterExpression.Name.Replace("<>", "__")
-                                                    + ".`" + f_Body_Right.Member.Name + "` ";
+                                                    asRMMParameterExpression.Name.Replace("<>", "__")
+                                                    + ".`" + xUMemberExpression.Member.Name + "` ";
 
                                                     return;
                                                 }
+                                                #endregion
+
                                             }
 
-
-                                            var asRMMParameterExpression = asRMMemberExpression.Expression as ParameterExpression;
-                                            if (asRMMParameterExpression != null)
+                                            #region asRMParameterExpression
+                                            var asRMParameterExpression = asRMemberExpression.Expression as ParameterExpression;
+                                            if (asRMParameterExpression != null)
                                             {
                                                 if (body.NodeType == ExpressionType.Equal)
                                                     state.WhereCommand += "=";
@@ -697,17 +740,28 @@ namespace System.Data
 
 
                                                 state.WhereCommand += " " +
-                                                asRMMParameterExpression.Name.Replace("<>", "__")
-                                                + ".`" + f_Body_Right.Member.Name + "` ";
+                                                asRMParameterExpression.Name.Replace("<>", "__")
+                                                + ".`" + xUMemberExpression.Member.Name + "` ";
 
                                                 return;
                                             }
+                                            #endregion
 
                                         }
 
-                                        var asRMParameterExpression = asRMemberExpression.Expression as ParameterExpression;
-                                        if (asRMParameterExpression != null)
+
+
+                                    }
+                                    else
+                                    {
+                                        // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
+                                        // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
+
+                                        #region asRParameterExpression
+                                        var asRParameterExpression = xUMemberExpression.Expression as ParameterExpression;
+                                        if (asRParameterExpression != null)
                                         {
+
                                             if (body.NodeType == ExpressionType.Equal)
                                                 state.WhereCommand += "=";
                                             else if (body.NodeType == ExpressionType.LessThan)
@@ -720,42 +774,13 @@ namespace System.Data
                                                 Debugger.Break();
 
 
-                                            state.WhereCommand += " " +
-                                            asRMParameterExpression.Name.Replace("<>", "__")
-                                            + ".`" + f_Body_Right.Member.Name + "` ";
-
+                                            state.WhereCommand += " " + asRParameterExpression.Name + ".`" + xUMemberExpression.Member.Name + "` ";
                                             return;
                                         }
+                                        #endregion
+
+                                        Debugger.Break();
                                     }
-
-
-
-                                }
-                                else
-                                {
-                                    // X:\jsc.svn\examples\javascript\linq\test\TestSelectScalarAverage\TestSelectScalarAverage\ApplicationWebService.cs
-                                    // x:\jsc.svn\examples\javascript\linq\test\testselectofselect\testselectofselect\applicationwebservice.cs
-                                    var asRParameterExpression = f_Body_Right.Expression as ParameterExpression;
-                                    if (asRParameterExpression != null)
-                                    {
-
-                                        if (body.NodeType == ExpressionType.Equal)
-                                            state.WhereCommand += "=";
-                                        else if (body.NodeType == ExpressionType.LessThan)
-                                            state.WhereCommand += "<";
-                                        else if (body.NodeType == ExpressionType.GreaterThan)
-                                            state.WhereCommand += ">";
-                                        else if (body.NodeType == ExpressionType.NotEqual)
-                                            state.WhereCommand += "<>";
-                                        else
-                                            Debugger.Break();
-
-
-                                        state.WhereCommand += " " + asRParameterExpression.Name + ".`" + f_Body_Right.Member.Name + "` ";
-                                        return;
-                                    }
-
-                                    Debugger.Break();
                                 }
                             }
                         }
