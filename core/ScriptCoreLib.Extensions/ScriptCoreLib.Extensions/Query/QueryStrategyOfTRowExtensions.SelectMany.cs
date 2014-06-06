@@ -1556,6 +1556,50 @@ namespace System.Data
 
                      // whats the additional stream about?
 
+
+
+                     var cNewArrayExpression = collectionSelector.Body as NewArrayExpression;
+                     if (cNewArrayExpression != null)
+                     {
+                         var yFromCommand = "";
+
+
+                         cNewArrayExpression.Expressions.WithEachIndex(
+                             (SourceExpression, i) =>
+                             {
+                                 //  select 0 as y union select 1 union select 2
+
+                                 var cc = SourceExpression as ConstantExpression;
+
+                                 var n = "@argNewArrayExpression" + i;
+
+
+                                 state.ApplyParameter.Add(
+                                     c =>
+                                     {
+                                         // either the actualt command or the explain command?
+
+                                         //c.Parameters.AddWithValue(n, r);
+                                         c.AddParameter(n, cc.Value);
+                                     }
+                                 );
+
+                                 if (string.IsNullOrEmpty(yFromCommand))
+                                 {
+                                     yFromCommand = "select " + n + " as y";
+
+                                 }
+                                 else
+                                 {
+                                     yFromCommand += " union select " + n;
+                                 }
+                             }
+                          );
+
+
+                         state.FromCommand += ",\n" + CommentLineNumber() + @" (" + yFromCommand + ") as y";
+                     }
+
                      #region collectionSelector
                      var cLMethodCallExpression = collectionSelector.Body as MethodCallExpression;
                      if (cLMethodCallExpression != null)
