@@ -316,19 +316,6 @@ namespace System.Data
                              #endregion
 
 
-                             //                                                 -		asMemberAssignment.Expression	{value(SQLiteWithDataGridViewX.ApplicationWebService+<>c__DisplayClass1b).SpecialConstant.u}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
-
-
-                             //                                 +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberAssignment.Expression as System.Linq.Expressions.PropertyExpression)).Member	{System.String u}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
-                             //+		(new System.Linq.Expressions.Expression.ConstantExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberAssignment.Expression as System.Linq.Expressions.PropertyExpression)).Expression as System.Linq.Expressions.FieldExpression)).Expression as System.Linq.Expressions.ConstantExpression)).Value	{SQLiteWithDataGridViewX.ApplicationWebService.}	object {SQLiteWithDataGridViewX.ApplicationWebService.}
-
-                             //                                 -		Value	{SQLiteWithDataGridViewX.ApplicationWebService.}	object {SQLiteWithDataGridViewX.ApplicationWebService.}
-                             //-		SpecialConstant	{ u = "44" }	<Anonymous Type>
-                             //        u	"44"	string
-
-
-
-
                              #region WriteMemberExpression:asMConstantExpression
                              //         var SpecialConstant_u = "44";
                              var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
@@ -871,6 +858,7 @@ namespace System.Data
                                              // asMethodCallExpression = {new ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite").Where(kk => (kk.duration == 46)).Select(kk => kk.path).FirstOrDefault()}
                                              // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
 
+                                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
 
                                              if (arg0ElementsBySelect.Method.Name == refSelect.Name)
                                              {
@@ -976,9 +964,9 @@ namespace System.Data
                                                                 };
                                                          #endregion
 
-                                                         // from
-                                                         var __Where_source = __Select_source.Arguments[0] as NewExpression;
-                                                         if (__Where_source != null)
+                                                         #region from new xTable
+                                                         var __Where_source_NewExpression = __Select_source.Arguments[0] as NewExpression;
+                                                         if (__Where_source_NewExpression != null)
                                                          {
                                                              // do we have enough information to perfrm sql rendering?
                                                              // Constructor = {Void .ctor(System.String)}
@@ -986,7 +974,7 @@ namespace System.Data
                                                              // is it really our own table, jsc data layer? :P are they in the same database as current source?
 
                                                              //var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
-                                                             var xTable = (IQueryStrategy)__Where_source.Constructor.Invoke(
+                                                             var xTable = (IQueryStrategy)__Where_source_NewExpression.Constructor.Invoke(
                                                                  parameters: null
                                                              );
 
@@ -997,6 +985,27 @@ namespace System.Data
 
                                                              return xTable_Where_Select;
                                                          }
+                                                         else
+                                                         {
+                                                             var __Where_source_ParameterExpression = __Select_source.Arguments[0] as ParameterExpression;
+                                                             if (__Where_source_ParameterExpression != null)
+                                                             {
+                                                                 var arg0 = that.selector.Parameters[0];
+                                                                 if (arg0.Name == __Where_source_ParameterExpression.Name)
+                                                                 {
+                                                                     // looks like the sub query wants to select from our parameter.
+
+                                                                     // what about mutability?
+                                                                     var xTable_Where = doWhere(that.source);
+                                                                     //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                                     var xTable_Where_Select = doSelect(xTable_Where);
+
+
+                                                                     return xTable_Where_Select;
+                                                                 }
+                                                             }
+                                                         }
+                                                         #endregion
                                                      }
                                                  }
                                                  else
@@ -1021,6 +1030,25 @@ namespace System.Data
 
 
                                                          return xTable_Where_Select;
+                                                     }
+                                                     else
+                                                     {
+                                                         var __Where_source_ParameterExpression = arg0ElementsBySelect.Arguments[0] as ParameterExpression;
+                                                         if (__Where_source_ParameterExpression != null)
+                                                         {
+                                                             var arg0 = that.selector.Parameters[0];
+                                                             if (arg0.Name == __Where_source_ParameterExpression.Name)
+                                                             {
+                                                                 // looks like the sub query wants to select from our parameter.
+
+                                                                 // what about mutability?
+                                                                 //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                                 var xTable_Where_Select = doSelect(that.source);
+
+
+                                                                 return xTable_Where_Select;
+                                                             }
+                                                         }
                                                      }
                                                  }
                                                  #endregion
@@ -1094,6 +1122,8 @@ namespace System.Data
                                              return;
                                          }
 
+
+                                         #region arg0Elements_ParameterExpression
                                          var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
                                          if (arg0Elements_ParameterExpression != null)
                                          {
@@ -1102,11 +1132,16 @@ namespace System.Data
 
                                              return;
                                          }
+                                         #endregion
 
-                                         var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
-                                         if (arg0ElementsBySelect != null)
+
+                                         #region a0MethodCallExpression
+                                         var a0MethodCallExpression = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                         if (a0MethodCallExpression != null)
                                          {
-                                             var xTable_Where_Select0 = subquery(arg0ElementsBySelect);
+                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
+
+                                             var xTable_Where_Select0 = subquery(a0MethodCallExpression);
                                              var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
 
                                              xTable_Where_Select.scalarAggregateOperand = "count";
@@ -1126,6 +1161,8 @@ namespace System.Data
                                              #endregion
                                              return;
                                          }
+                                         #endregion
+
                                      }
                                      #endregion
 
@@ -1559,7 +1596,7 @@ namespace System.Data
 
 
                                              //s_SelectCommand += ",\n\t--  1  " + (yy.selectorExpression as LambdaExpression).Parameters[1].Name;
-                                             #region  // go up
+                                             #region  // go up 2
                                              {
 
                                                  INestedQueryStrategy uu = that;
@@ -1726,6 +1763,7 @@ namespace System.Data
                              #endregion
 
 
+                             #region xBinaryExpression
                              var xBinaryExpression = asExpression as BinaryExpression;
                              if (xBinaryExpression != null)
                              {
@@ -1753,6 +1791,8 @@ namespace System.Data
                                  s_SelectCommand += " as `" + TargetMember.Name + "`";
                                  return;
                              }
+                             #endregion
+
 
                              Debugger.Break();
                          };

@@ -61,13 +61,7 @@ namespace MashableVelocityGraph
 
             );
 
-            //error: { Message = Object reference not set to an instance of an object., ex = System.NullReferenceException: Object reference not set to an instance of an object.
-            //  at ScriptCoreLib.Extensions.StringExtensions.SkipUntilLastOrEmpty(String e, String u)
-            //  at System.Data.QueryStrategyOfTRowExtensions.<.cctor>b__de()
-            //  at System.Data.QueryStrategyOfTRowExtensions.<>c__DisplayClassa3`2.<Select>b__87(CommandBuilderState state)
-            //  at ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions.AsCommandBuilder(CommandBuilderState state)
-            //  at ScriptCoreLib.Shared.Data.Diagnostics.QueryStrategyExtensions.AsCommandBuilder(IQueryStrategy Strategy)
-            //  at System.Data.QueryStrategyOfTRowExtensions.<>c__DisplayClass2b.<Count>b__2a(IDbConnection c)
+
 
 
             // get counts by day for last 5 days?
