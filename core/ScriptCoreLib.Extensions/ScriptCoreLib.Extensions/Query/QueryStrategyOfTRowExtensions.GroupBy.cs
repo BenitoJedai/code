@@ -437,7 +437,16 @@ namespace System.Data
 
                              #region let z <- Grouping.Key
                              // tested by?
-                             if (asMemberExpression.Member.DeclaringType.IsAssignableFrom(typeof(IQueryStrategyGrouping)))
+                             //if (asMemberExpression.Member.DeclaringType.IsAssignableFrom(typeof(IQueryStrategyGrouping)))
+
+                             // X:\jsc.svn\examples\javascript\linq\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
+
+                             var isGrouping = typeof(IQueryStrategyGrouping)
+                             .IsAssignableFrom(
+                                 asMemberExpression.Member.DeclaringType
+                                 );
+
+                             if (isGrouping)
                              {
                                  var IsKey = asMemberExpression.Member.Name == "Key";
 
@@ -534,20 +543,6 @@ namespace System.Data
                              }
                              #endregion
 
-
-                             //                                                 -		asMemberAssignment.Expression	{value(SQLiteWithDataGridViewX.ApplicationWebService+<>c__DisplayClass1b).SpecialConstant.u}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
-
-
-                             //                                 +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberAssignment.Expression as System.Linq.Expressions.PropertyExpression)).Member	{System.String u}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
-                             //+		(new System.Linq.Expressions.Expression.ConstantExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy((new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberAssignment.Expression as System.Linq.Expressions.PropertyExpression)).Expression as System.Linq.Expressions.FieldExpression)).Expression as System.Linq.Expressions.ConstantExpression)).Value	{SQLiteWithDataGridViewX.ApplicationWebService.}	object {SQLiteWithDataGridViewX.ApplicationWebService.}
-
-                             //                                 -		Value	{SQLiteWithDataGridViewX.ApplicationWebService.}	object {SQLiteWithDataGridViewX.ApplicationWebService.}
-                             //-		SpecialConstant	{ u = "44" }	<Anonymous Type>
-                             //        u	"44"	string
-
-
-
-
                              #region WriteMemberExpression:asMConstantExpression
                              //         var SpecialConstant_u = "44";
                              var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
@@ -574,21 +569,6 @@ namespace System.Data
                                  );
 
                                  return;
-
-                                 //if (rAddParameterValue0 is string)
-                                 //{
-                                 //    // the outer select might be optimized away!
-                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                 //    s_SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                 //}
-                                 //else
-                                 //{
-                                 //    // long?
-                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                 //    s_SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                 //}
-
-                                 //return;
                              }
                              #endregion
 
@@ -598,32 +578,6 @@ namespace System.Data
                              var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
                              if (asMMemberExpression != null)
                              {
-                                 // Member = {<>f__AnonymousType0`1[System.String] SpecialConstant}
-                                 // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridViewX\SQLiteWithDataGridViewX\ApplicationWebService.cs
-                                 // var SpecialConstant = new { u = "44" };
-
-
-                                 if (asMemberInitExpressionByParameter1 != null)
-                                 {
-                                     // ???
-                                     // +		(new System.Linq.Expressions.Expression.MemberExpressionProxy(asMemberExpression as System.Linq.Expressions.FieldExpression)).Expression	
-                                     // {<>h__TransparentIdentifier0.MiddleSheetz}	System.Linq.Expressions.Expression {System.Linq.Expressions.PropertyExpression}
-
-                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
-                                     //Debugger.Break();
-                                     return;
-
-                                     //var asFieldInfo = asMemberExpression.Member as FieldInfo;
-                                     //if (asFieldInfo != null)
-                                     //{
-                                     //    //asMemberExpressionMethodCallExpression = {<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last()}
-
-                                     //    state.SelectCommand += ",\n\t g.`" + asFieldInfo.Name + "` as `" + asFieldInfo.Name + "`";
-                                     //    s_SelectCommand += ",\n\t s.`" + asFieldInfo.Name + "` as `" + asFieldInfo.Name + "`";
-                                     //    return;
-                                     //}
-                                 }
-
                                  #region asMMFieldInfo
                                  var asMMFieldInfo = asMMemberExpression.Member as FieldInfo;
                                  if (asMMFieldInfo != null)
@@ -683,6 +637,7 @@ namespace System.Data
                                      // asMMemberExpression = {result.Last().l}
                                      // asMemberExpression = {result.Last().l.FirstName}
 
+                                     #region  asMMMCall
                                      var asMMMCall = asMMemberExpression.Expression as MethodCallExpression;
                                      if (asMMMCall != null)
                                      {
@@ -703,8 +658,8 @@ namespace System.Data
 
                                              // if its a normal select then it wont be flat, will it
 
-                                             var asIJoinQueryStrategy = (that.source as IJoinQueryStrategy);
-                                             if (asIJoinQueryStrategy != null)
+                                             var xasIJoinQueryStrategy = (that.source as IJoinQueryStrategy);
+                                             if (xasIJoinQueryStrategy != null)
                                              {
                                                  // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140604
                                                  //Debugger.Break();
@@ -723,13 +678,32 @@ namespace System.Data
                                              return;
                                          }
                                      }
+                                     #endregion
+
 
                                      // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectManyRange\TestSelectManyRange\ApplicationWebService.cs
 
+
+
                                      state.SelectCommand += ",\n" + CommentLineNumber() + "\t g.`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`";
-                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
+                                     var asIJoinQueryStrategy = (that.source as IJoinQueryStrategy);
+                                     if (asIJoinQueryStrategy != null)
+                                     {
+
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                      + "s.`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`"
+                                      + " as `" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`";
+                                     }
+                                     else
+                                     {
+
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
                                       + "s.`" + asMemberExpression.Member.Name + "`"
                                       + " as `" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`";
+                                     }
+
                                      return;
                                  }
 
@@ -1420,8 +1394,17 @@ namespace System.Data
                                  {
                                      // what if its a join?
 
-                                     g += "\n" + CommentLineNumber() + "\t"
+                                     var xmm = xm.Expression as MemberExpression;
+                                     if (xmm != null)
+                                     {
+                                         g += "\n" + CommentLineNumber() + "\t"
+                                            + "s.`" + xmm.Member.Name + "_" + xm.Member.Name + "`";
+                                     }
+                                     else
+                                     {
+                                         g += "\n" + CommentLineNumber() + "\t"
                                      + "s.`" + xm.Member.Name + "`";
+                                     }
                                  }
                              }
                          );
