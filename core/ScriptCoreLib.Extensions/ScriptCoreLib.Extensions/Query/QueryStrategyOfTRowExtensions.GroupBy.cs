@@ -112,6 +112,7 @@ namespace System.Data
             )
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+            //var ff = new StackTrace(fNeedFileInfo: true).GetFrame(2);
 
             Console.WriteLine("GroupBy " + new { keySelector });
 
@@ -179,23 +180,6 @@ namespace System.Data
 
                      // move to equals comparer?
                      // s is the inner grouping
-
-
-
-
-                     //AsDataTable { Strategy = System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4@17f3214 }
-                     //InternalGetConnectionString { key = { DataSource = file:Book1.xlsx.sqlite, ReadOnly = false, InternalUser = root, InternalHost = localhost, InternalInstanceName = instance_name } }
-                     //Join CommandBuilder { that = System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4@17f3214 }
-                     //Join CommandBuilder  ...  { asLambdaExpression = { Body = MemberInitExpression { NewExpression = NewExpression { Constructor = .ctor(), Type = TestSQLJoin.Data.Book1TheViewRow } }, Parameter
-                     //Join CommandBuilder building FromCommand...
-                     //Join CommandBuilder { that = System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4@5c6936 }
-                     //Join CommandBuilder  ...  { asLambdaExpression = { Body = NewExpression { Constructor = .ctor(java.lang.Object, java.lang.Object), Type = __AnonymousTypes__TestSQLJoin_ApplicationWebService.
-                     //Join CommandBuilder building FromCommand...
-                     //Join CommandBuilder building SelectCommand...
-                     //Join CommandBuilder  ...  { asMemberInitExpression =  }
-                     //Join CommandBuilder building SelectCommand... upperJoin
-                     //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type =  }
-
 
                      var asMemberInitExpression = default(MemberInitExpression);
                      var asMemberInitExpressionByParameter0 = default(ParameterExpression);
@@ -330,17 +314,6 @@ namespace System.Data
 
                              var asMemberAssignment = new { Member = asMemberAssignment_Member };
 
-                             // +		Member	{TestSQLiteGroupBy.Data.GooStateEnum Key}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
-
-                             // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\Expression.cs
-
-
-                             //{ index = 7, asMemberAssignment = MemberAssignment { Expression = MemberExpression { expression = MethodCallExpression { Object = , Method = java.lang.Object Last(TestSQLiteGroupBy.IQueryStrategyGrouping_2) }, field = double x }
-                             //{ index = 7, asMemberExpression = MemberExpression { expression = MethodCallExpression { Object = , Method = java.lang.Object Last(TestSQLiteGroupBy.IQueryStrategyGrouping_2) }, field = double x } }
-                             //{ index = 7, Member = double x, Name = x }
-                             //{ index = 7, asMemberExpressionMethodCallExpression = MethodCallExpression { Object = , Method = java.lang.Object Last(TestSQLiteGroupBy.IQueryStrategyGrouping_2) } }
-
-
                              Console.WriteLine(new { index, asMemberExpression.Member, asMemberExpression.Member.Name });
 
                              #region let z <- Grouping.Key
@@ -387,8 +360,6 @@ namespace System.Data
                                  }
                              }
                              #endregion
-
-                             // Method = {TestSQLiteGroupBy.Data.Book1MiddleRow First[GooStateEnum,Book1MiddleRow](TestSQLiteGroupBy.IQueryStrategyGrouping`2[TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow])}
 
                              #region WriteMemberExpression:asMemberExpressionMethodCallExpression
                              var asMemberExpressionMethodCallExpression = asMemberExpression.Expression as MethodCallExpression;
@@ -480,8 +451,6 @@ namespace System.Data
                              }
                              #endregion
 
-
-
                              #region WriteMemberExpression:asMMemberExpression
                              var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
                              if (asMMemberExpression != null)
@@ -519,17 +488,6 @@ namespace System.Data
                                          }
                                          );
 
-                                         //if (rAddParameterValue0 is string)
-                                         //{
-                                         //    // NULL?
-                                         //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                         //}
-                                         //else
-                                         //{
-                                         //    // long?
-                                         //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                         //}
-
                                          return;
                                      }
                                      #endregion
@@ -539,6 +497,7 @@ namespace System.Data
 
                                  // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
                                  // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+                                 #region asMMMemberInfo
                                  var asMMMemberInfo = asMMemberExpression.Member as MemberInfo;
                                  if (asMMMemberInfo != null)
                                  {
@@ -614,6 +573,8 @@ namespace System.Data
 
                                      return;
                                  }
+                                 #endregion
+
 
                              }
                              #endregion
@@ -1006,19 +967,6 @@ namespace System.Data
                                              c.AddParameter(n, rAddParameterValue0);
                                          }
                                      );
-
-
-                                     //if (rAddParameterValue0 is string)
-                                     //{
-                                     //    // NULL?
-                                     //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
-                                     //else
-                                     //{
-                                     //    // long?
-                                     //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
-
                                      return;
                                  }
                              }
@@ -1033,121 +981,458 @@ namespace System.Data
                              {
                                  Console.WriteLine(new { index, asMethodCallExpression.Method });
 
-                                 #region count(*) special!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Count")
+                                 #region  WriteExpression:asMethodCallExpression:QueryStrategyOfTRowExtensions::
+                                 if (asMethodCallExpression.Method.DeclaringType == typeof(QueryStrategyOfTRowExtensions))
                                  {
 
-                                     state.SelectCommand += ",\n" + CommentLineNumber() + "\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t count(*) as `" + asMemberAssignment.Member.Name + "`";
+                                     #region subquery COPY from select
+                                     Func<MethodCallExpression, IQueryStrategy> subquery =
+                                         arg0ElementsBySelect =>
+                                         {
+                                             // x:\jsc.svn\examples\javascript\linq\test\testselectandsubselect\testselectandsubselect\applicationwebservice.cs
+                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOfSelect\TestSelectOfSelect\ApplicationWebService.cs
 
-                                     return;
-                                 }
-                                 #endregion
+                                             // arg0 = {new ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite").Where(kk => (kk.duration == 46)).Select(kk => kk.path)}
+                                             // asMethodCallExpression = {new ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite").Where(kk => (kk.duration == 46)).Select(kk => kk.path).FirstOrDefault()}
+                                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
 
-                                 #region  sum( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")
-                                 {
-                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                     if (arg1 != null)
+                                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
+
+                                             if (arg0ElementsBySelect.Method.Name == refSelect.Name)
+                                             {
+                                                 #region select
+
+                                                 #region doSelect
+                                                 Func<IQueryStrategy, IQueryStrategy> doSelect =
+                                                     xTable_Where_OrderByDescending =>
+                                                     {
+                                                         var __Select_selector = arg0ElementsBySelect.Arguments[1] as UnaryExpression;
+
+                                                         var xTable_Where_Select = (IQueryStrategy)arg0ElementsBySelect.Method.Invoke(null,
+                                                             parameters: new object[] { xTable_Where_OrderByDescending, __Select_selector.Operand }
+                                                         );
+
+                                                         return xTable_Where_Select;
+                                                     };
+                                                 #endregion
+
+                                                 // __source = {new ApplicationResourcePerformance("file:PerformanceResourceTimingData2.xlsx.sqlite").Where(kk => (kk.duration == 46))}
+                                                 // orderby
+                                                 var __Select_source = arg0ElementsBySelect.Arguments[0] as MethodCallExpression;
+                                                 if (__Select_source != null)
+                                                 {
+                                                     if (__Select_source.Method.Name == refOrderByDescending.Name)
+                                                     {
+                                                         #region orderby
+                                                         #region doOrderBy
+                                                         Func<IQueryStrategy, IQueryStrategy> doOrderBy =
+                                                            xTable_Where =>
+                                                             {
+                                                                 // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.OrderBy.cs
+                                                                 var __OrderByDescending_keySelector = __Select_source.Arguments[1] as UnaryExpression;
+
+                                                                 var xTable_Where_OrderByDescending = (IQueryStrategy)__Select_source.Method.Invoke(null,
+                                                                    parameters: new object[] { xTable_Where, __OrderByDescending_keySelector.Operand }
+                                                                );
+                                                                 return xTable_Where_OrderByDescending;
+                                                             };
+                                                         #endregion
+
+                                                         // where
+                                                         var __OrderByDescending_source = __Select_source.Arguments[0] as MethodCallExpression;
+                                                         if (__OrderByDescending_source.Method.Name == refWhere.Name)
+                                                         {
+
+                                                             #region doWhere
+                                                             Func<IQueryStrategy, IQueryStrategy> doWhere =
+                                                                xTable =>
+                                                                {
+                                                                    // Operand = {kk => (kk.duration == 46)}
+                                                                    var __Where_filter = __OrderByDescending_source.Arguments[1] as UnaryExpression;
+
+                                                                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
+                                                                    var xTable_Where = (IQueryStrategy)__OrderByDescending_source.Method.Invoke(null,
+                                                                         parameters: new object[] { xTable, __Where_filter.Operand }
+                                                                     );
+
+                                                                    return xTable_Where;
+                                                                };
+                                                             #endregion
+
+                                                             // from
+                                                             var __Where_source = __OrderByDescending_source.Arguments[0] as NewExpression;
+                                                             if (__Where_source != null)
+                                                             {
+                                                                 // do we have enough information to perfrm sql rendering?
+                                                                 // Constructor = {Void .ctor(System.String)}
+
+                                                                 // is it really our own table, jsc data layer? :P are they in the same database as current source?
+
+                                                                 //var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
+                                                                 var xTable = (IQueryStrategy)__Where_source.Constructor.Invoke(
+                                                                     parameters: null
+                                                                 );
+
+                                                                 var xTable_Where = doWhere(xTable);
+                                                                 var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                                 var xTable_Where_Select = doSelect(xTable_Where_OrderByDescending);
+
+
+
+                                                                 return xTable_Where_Select;
+                                                             }
+                                                         }
+                                                         #endregion
+                                                     }
+                                                     else if (__Select_source.Method.Name == refWhere.Name)
+                                                     {
+                                                         #region doWhere
+                                                         Func<IQueryStrategy, IQueryStrategy> doWhere =
+                                                            xTable =>
+                                                                {
+                                                                    // Operand = {kk => (kk.duration == 46)}
+                                                                    var __Where_filter = __Select_source.Arguments[1] as UnaryExpression;
+
+                                                                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
+                                                                    var xTable_Where = (IQueryStrategy)__Select_source.Method.Invoke(null,
+                                                                         parameters: new object[] { xTable, __Where_filter.Operand }
+                                                                     );
+
+                                                                    return xTable_Where;
+                                                                };
+                                                         #endregion
+
+                                                         #region from new xTable
+                                                         var __Where_source_NewExpression = __Select_source.Arguments[0] as NewExpression;
+                                                         if (__Where_source_NewExpression != null)
+                                                         {
+                                                             // do we have enough information to perfrm sql rendering?
+                                                             // Constructor = {Void .ctor(System.String)}
+
+                                                             // is it really our own table, jsc data layer? :P are they in the same database as current source?
+
+                                                             //var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
+                                                             var xTable = (IQueryStrategy)__Where_source_NewExpression.Constructor.Invoke(
+                                                                 parameters: null
+                                                             );
+
+                                                             var xTable_Where = doWhere(xTable);
+                                                             //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                             var xTable_Where_Select = doSelect(xTable_Where);
+
+
+                                                             return xTable_Where_Select;
+                                                         }
+                                                         else
+                                                         {
+                                                             var __Where_source_ParameterExpression = __Select_source.Arguments[0] as ParameterExpression;
+                                                             if (__Where_source_ParameterExpression != null)
+                                                             {
+                                                                 var arg0 = that.elementSelector.Parameters[0];
+                                                                 if (arg0.Name == __Where_source_ParameterExpression.Name)
+                                                                 {
+                                                                     // looks like the sub query wants to select from our parameter.
+
+                                                                     // what about mutability?
+                                                                     var xTable_Where = doWhere(that.source);
+                                                                     //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                                     var xTable_Where_Select = doSelect(xTable_Where);
+
+
+                                                                     return xTable_Where_Select;
+                                                                 }
+                                                             }
+                                                         }
+                                                         #endregion
+                                                     }
+                                                 }
+                                                 else
+                                                 {
+                                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectAboveAverage\TestSelectAboveAverage\ApplicationWebService.cs
+                                                     var __Select_source_NewExpression = arg0ElementsBySelect.Arguments[0] as NewExpression;
+                                                     if (__Select_source_NewExpression != null)
+                                                     {
+                                                         // do we have enough information to perfrm sql rendering?
+                                                         // Constructor = {Void .ctor(System.String)}
+
+                                                         // is it really our own table, jsc data layer? :P are they in the same database as current source?
+
+                                                         //var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
+                                                         var xTable = (IQueryStrategy)__Select_source_NewExpression.Constructor.Invoke(
+                                                             parameters: null
+                                                         );
+
+                                                         //var xTable_Where = doWhere(xTable);
+                                                         //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                         var xTable_Where_Select = doSelect(xTable);
+
+
+                                                         return xTable_Where_Select;
+                                                     }
+                                                     else
+                                                     {
+                                                         var __Where_source_ParameterExpression = arg0ElementsBySelect.Arguments[0] as ParameterExpression;
+                                                         if (__Where_source_ParameterExpression != null)
+                                                         {
+                                                             var arg0 = that.elementSelector.Parameters[0];
+                                                             if (arg0.Name == __Where_source_ParameterExpression.Name)
+                                                             {
+                                                                 // looks like the sub query wants to select from our parameter.
+
+                                                                 // what about mutability?
+                                                                 //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                                 var xTable_Where_Select = doSelect(that.source);
+
+
+                                                                 return xTable_Where_Select;
+                                                             }
+                                                         }
+                                                     }
+                                                 }
+                                                 #endregion
+                                             }
+                                             else if (arg0ElementsBySelect.Method.Name == refWhere.Name)
+                                             {
+                                                 #region doWhere
+                                                 Func<IQueryStrategy, IQueryStrategy> doWhere =
+                                                    xTable =>
+                                                                {
+                                                                    // Operand = {kk => (kk.duration == 46)}
+                                                                    var __Where_filter = arg0ElementsBySelect.Arguments[1] as UnaryExpression;
+
+                                                                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
+                                                                    var xTable_Where = (IQueryStrategy)arg0ElementsBySelect.Method.Invoke(null,
+                                                                         parameters: new object[] { xTable, __Where_filter.Operand }
+                                                                     );
+
+                                                                    return xTable_Where;
+                                                                };
+                                                 #endregion
+
+                                                 // from
+                                                 var __Where_source = arg0ElementsBySelect.Arguments[0] as NewExpression;
+                                                 if (__Where_source != null)
+                                                 {
+                                                     // do we have enough information to perfrm sql rendering?
+                                                     // Constructor = {Void .ctor(System.String)}
+
+                                                     // is it really our own table, jsc data layer? :P are they in the same database as current source?
+
+                                                     //var xTable_datasource = (string)(__Where_source.Arguments[0] as ConstantExpression).Value;
+                                                     var xTable = (IQueryStrategy)__Where_source.Constructor.Invoke(
+                                                         parameters: null
+                                                     );
+
+                                                     var xTable_Where = doWhere(xTable);
+                                                     //var xTable_Where_OrderByDescending = doOrderBy(xTable_Where);
+                                                     //var xTable_Where_Select = doSelect(xTable_Where);
+
+
+                                                     return xTable_Where;
+                                                 }
+                                             }
+
+                                             Debugger.Break();
+                                             return null;
+                                         };
+                                     #endregion
+
+
+                                     #region count(*) special!
+                                     if (asMethodCallExpression.Method.Name == refCount.Name)
                                      {
-                                         var asMemberExpression = arg1.Body as MemberExpression;
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
 
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         #region arg0Elements_ParameterExpression
+                                         var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
+                                         if (arg0Elements_ParameterExpression != null)
+                                         {
+                                             var us = (that.upperSelect.selectorExpression as LambdaExpression);
+
+                                             var arg0 = us.Parameters[0];
+                                             if (arg0.Name == arg0Elements_ParameterExpression.Name)
+                                             {
+                                                 // !!! actually no, its the upper select that has to do the counting?
+
+                                                 // um we have to call ourselves, but without selecting anything and instead
+                                                 // have to add a where to it?
+
+                                                 // we are in a nested query
+                                                 #region s_SelectCommand
+                                                 ////var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(that);
+                                                 ////var scalarsubquery = xSelectScalar.ToString();
+
+                                                 ////// http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                                 // do we have to 
+                                                 // we dont know yet how to get sql of that thing do we
+
+                                                 state.SelectCommand += ",\n" + CommentLineNumber() + "\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                                 s_SelectCommand += ",\n\t ( select 7 ) as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                                 ////state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                                 #endregion
+                                                 return;
+                                             }
+
+
+                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                            + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                             return;
+                                         }
+                                         #endregion
+
+
+                                         #region a0MethodCallExpression
+                                         var a0MethodCallExpression = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                         if (a0MethodCallExpression != null)
+                                         {
+                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
+
+                                             var xTable_Where_Select0 = subquery(a0MethodCallExpression);
+                                             var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
+
+                                             xTable_Where_Select.scalarAggregateOperand = "count";
+
+                                             #region s_SelectCommand
+                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
+                                             var scalarsubquery = xSelectScalar.ToString();
+
+                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                             // do we have to 
+                                             // we dont know yet how to get sql of that thing do we
+                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                             #endregion
+                                             return;
+                                         }
+                                         #endregion
+
+                                         state.SelectCommand += ",\n" + CommentLineNumber() + "\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t count(*) as `" + asMemberAssignment.Member.Name + "`";
+
                                          return;
                                      }
-                                 }
-                                 #endregion
+                                     #endregion
 
-
-                                 #region  min( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Min")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                     if (arg1 != null)
+                                     #region  sum( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")
                                      {
-                                         var asMemberExpression = arg1.Body as MemberExpression;
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
 
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t min(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
+                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t sum(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                             return;
+                                         }
                                      }
-                                 }
-                                 #endregion
+                                     #endregion
 
-                                 #region  max( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Max")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
 
-                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                     if (arg1 != null)
+                                     #region  min( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Min")
                                      {
-                                         var asMemberExpression = arg1.Body as MemberExpression;
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
 
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t max(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+
+                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t min(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                             return;
+                                         }
                                      }
-                                 }
-                                 #endregion
+                                     #endregion
 
-                                 #region  avg( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Average")
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-                                     var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
-                                     if (arg1 != null)
+                                     #region  max( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Max")
                                      {
-                                         var asMemberExpression = arg1.Body as MemberExpression;
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
 
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t avg(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+
+                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t max(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                             return;
+                                         }
                                      }
+                                     #endregion
+
+                                     #region  avg( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Average")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
+
+                                         var arg1 = (asMethodCallExpression.Arguments[1] as UnaryExpression).Operand as LambdaExpression;
+                                         if (arg1 != null)
+                                         {
+                                             var asMemberExpression = arg1.Body as MemberExpression;
+
+                                             state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             s_SelectCommand += ",\n\t avg(s.`" + asMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+
                                  }
                                  #endregion
-
-
 
                                  //var refToLower = new Func<string, Func<string>>(x => x.ToLower)().Method;
 
-                                 #region  lower( special!!
-                                 if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToLower")
+                                 #region string::
+                                 if (asMethodCallExpression.Method.DeclaringType == typeof(string))
                                  {
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
-                                     var asMMemberExpression = asMethodCallExpression.Object as MemberExpression;
-                                     var asMMMemberExpression = asMMemberExpression.Expression as MemberExpression;
+                                     #region  lower( special!!
+                                     if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "ToLower")
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+                                         var asMMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                         var asMMMemberExpression = asMMemberExpression.Expression as MemberExpression;
 
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
-                                     // does it matter when we do the to lower?
-                                     // before group by
-                                     // or after? or both?
-                                     // whats the benefit?
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+                                         // does it matter when we do the to lower?
+                                         // before group by
+                                         // or after? or both?
+                                         // whats the benefit?
 
-                                     //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     state.SelectCommand += ",\n\t g.`"
-                                     + asMMMemberExpression.Member.Name + "_"
-                                     + asMMemberExpression.Member.Name + "`";
+                                         //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         state.SelectCommand += ",\n\t g.`"
+                                         + asMMMemberExpression.Member.Name + "_"
+                                         + asMMemberExpression.Member.Name + "`";
 
-                                     //s_SelectCommand += ",\n\t lower(s.`" + asMMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
-                                     // the select will do the lowering?
-                                     s_SelectCommand += ",\n\t s.`"
-                                     + asMMMemberExpression.Member.Name + "_"
-                                     + asMMemberExpression.Member.Name + "`";
+                                         //s_SelectCommand += ",\n\t lower(s.`" + asMMemberExpression.Member.Name + "`) as `" + asMemberAssignment.Member.Name + "`";
+                                         // the select will do the lowering?
+                                         s_SelectCommand += ",\n\t s.`"
+                                         + asMMMemberExpression.Member.Name + "_"
+                                         + asMMemberExpression.Member.Name + "`";
 
-                                     return;
+                                         return;
 
 
+                                     }
+                                     #endregion
                                  }
-                                 #endregion
+                                 #endregion 
+
                              }
                              #endregion
 
-                             #region WriteExpression:asInvocationExpression
+                             #region WriteExpression:asInvocationExpression -> WriteExpression SourceArgument
                              var asInvocationExpression = asExpression as InvocationExpression;
                              if (asInvocationExpression != null)
                              {
@@ -1170,10 +1455,7 @@ namespace System.Data
 
                              #region WriteExpression:asMemberExpression
                              {
-                                 // m_getterMethod = {TestSQLiteGroupBy.Data.GooStateEnum get_Key()}
-
                                  var asMemberExpression = asMemberAssignment.Expression as MemberExpression;
-                                 Console.WriteLine(new { index, asMemberExpression });
                                  if (asMemberExpression != null)
                                  {
                                      WriteMemberExpression(index, asMemberExpression, TargetMember, prefixes, null);
@@ -1182,62 +1464,10 @@ namespace System.Data
                              }
                              #endregion
 
-                             #region  asMemberAssignment.Expression = {Convert(GroupByGoo.First())}
+                             #region  WriteExpression:asUnaryExpression -> WriteExpression Operand
                              var asUnaryExpression = asMemberAssignment.Expression as UnaryExpression;
-
-                             Console.WriteLine(new { index, asUnaryExpression });
-
                              if (asUnaryExpression != null)
                              {
-#if TESTEDBY
-                                 #region asUnaryExpression_Operand_asFieldExpression
-                                 var asUnaryExpression_Operand_asFieldExpression = asUnaryExpression.Operand as MemberExpression;
-                                 if (asUnaryExpression_Operand_asFieldExpression != null)
-                                 {
-                                     // reduce? flatten?  nested join?
-                                     //asFieldExpression = asFieldExpression_Expression_asFieldExpression;
-                                     var __projection = asUnaryExpression_Operand_asFieldExpression.Expression as MemberExpression;
-
-                                     state.SelectCommand += ",\n" + CommentLineNumber() + "\t" 
-                                     + "g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                     //s_SelectCommand += ",\n\t "
-
-
-                                     //    + GroupingKeyFieldExpressionName + " as `" + asMemberAssignment.Member.Name + "`";
-
-                                     return;
-                                 }
-                                 #endregion
-
-                                 #region asMemberExpressionMethodCallExpression
-                                 var asMemberExpressionMethodCallExpression = asUnaryExpression.Operand as MethodCallExpression;
-                                 if (asMemberExpressionMethodCallExpression != null)
-                                 {
-                                     Console.WriteLine(new { index, asMemberExpressionMethodCallExpression.Method });
-                                     // special! op_Implicit
-                                     if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
-                                     {
-                                         gDescendingByKeyReferenced = true;
-                                         state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-
-                                     if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Last")
-                                     {
-                                         state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`Key` as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-                                 }
-                                 #endregion
-#endif
-
-
-
-
-                                 //WriteExpression(index, asUnaryExpression.Operand, TargetMember, prefixes, valueSelector);
                                  WriteExpression(index, asUnaryExpression.Operand, TargetMember, prefixes, valueSelector);
                                  return;
                              }
@@ -1272,6 +1502,7 @@ namespace System.Data
                      {
                          // X:\jsc.svn\examples\javascript\linq\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
 
+                         #region upperSelectMany
                          if (GroupBy.upperSelectMany != null)
                          {
                              var asNewExpression = (GroupBy.upperSelectMany.resultSelector as LambdaExpression).Body as NewExpression;
@@ -1288,8 +1519,10 @@ namespace System.Data
                              }
                              );
                          }
+                         #endregion
 
 
+                         #region upperSelectMany
                          if (GroupBy.upperSelect != null)
                          {
                              var asNewExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as NewExpression;
@@ -1306,6 +1539,7 @@ namespace System.Data
                              }
                              );
                          }
+                         #endregion
 
                      }
                      #endregion

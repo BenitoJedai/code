@@ -51,9 +51,16 @@ namespace TestJoinGroupSelectCastLong
 
                     join y in new Data.PerformanceResourceTimingData2.ApplicationResourcePerformance() on x.domComplete equals y.requestStart
 
-                    group new { x, y } by new { x.domComplete, y.requestStart } into gg
+                    group new { x, y } by new
+                    {
+                        x.domComplete,
+                        y.requestStart
+                        //, xxx = "?"
+                    } into gg
 
-                    from offset in new[] { 55, 12, 23 }
+                    from offset in new[] {
+                        //gg.Key.domComplete + 55,
+                        12, 23 }
                     //select new { x.domComplete, offset };
                     select new
                     {

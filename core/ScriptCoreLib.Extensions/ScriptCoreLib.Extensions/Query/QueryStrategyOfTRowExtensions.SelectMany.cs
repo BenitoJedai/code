@@ -1563,7 +1563,7 @@ namespace System.Data
                      // whats the additional stream about?
 
 
-
+                     #region cNewArrayExpression
                      var cNewArrayExpression = collectionSelector.Body as NewArrayExpression;
                      if (cNewArrayExpression != null)
                      {
@@ -1575,36 +1575,47 @@ namespace System.Data
                              {
                                  //  select 0 as y union select 1 union select 2
 
-                                 var cc = SourceExpression as ConstantExpression;
+                                 var cNAConstantExpression = SourceExpression as ConstantExpression;
+                                 if (cNAConstantExpression != null)
+                                 {
+                                     var n = "@argNewArrayExpression" + i;
 
-                                 var n = "@argNewArrayExpression" + i;
 
-
-                                 state.ApplyParameter.Add(
-                                     c =>
+                                     state.ApplyParameter.Add(
+                                         c =>
                                      {
                                          // either the actualt command or the explain command?
 
                                          //c.Parameters.AddWithValue(n, r);
-                                         c.AddParameter(n, cc.Value);
+                                         c.AddParameter(n, cNAConstantExpression.Value);
                                      }
-                                 );
+                                     );
 
-                                 if (string.IsNullOrEmpty(yFromCommand))
-                                 {
-                                     yFromCommand = "select " + n + " as y";
+                                     if (string.IsNullOrEmpty(yFromCommand))
+                                     {
+                                         yFromCommand = "select " + n + " as y";
 
+                                     }
+                                     else
+                                     {
+                                         yFromCommand += " union select " + n;
+                                     }
                                  }
                                  else
                                  {
-                                     yFromCommand += " union select " + n;
+                                     // SourceExpression = {(gg.Key.domComplete + 55)}
+
+                                     Debugger.Break();
                                  }
+
+
                              }
                           );
 
 
                          state.FromCommand += ",\n" + CommentLineNumber() + @" (" + yFromCommand + ") as y";
                      }
+                     #endregion
 
                      #region collectionSelector
                      var cLMethodCallExpression = collectionSelector.Body as MethodCallExpression;

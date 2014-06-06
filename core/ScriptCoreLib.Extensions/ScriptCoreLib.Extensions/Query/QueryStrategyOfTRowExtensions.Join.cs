@@ -431,21 +431,6 @@ namespace System.Data
                                  );
 
                                  return;
-
-                                 //if (rAddParameterValue0 is string)
-                                 //{
-                                 //    // the outer select might be optimized away!
-                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                 //    s_SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                 //}
-                                 //else
-                                 //{
-                                 //    // long?
-                                 //    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                 //    s_SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                 //}
-
-                                 //return;
                              }
                              #endregion
 
@@ -549,7 +534,7 @@ namespace System.Data
                                  #endregion
 
 
-
+                                 #region asMMMemberInfo
                                  // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
                                  // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
                                  var asMMMemberInfo = asMMemberExpression.Member as MemberInfo;
@@ -578,6 +563,8 @@ namespace System.Data
                                      s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
                                      return;
                                  }
+                                 #endregion
+
 
                              }
                              #endregion
@@ -1329,19 +1316,6 @@ namespace System.Data
                                              c.AddParameter(n, rAddParameterValue0);
                                          }
                                      );
-
-
-                                     //if (rAddParameterValue0 is string)
-                                     //{
-                                     //    // NULL?
-                                     //    state.SelectCommand += ",\n\t '" + rAddParameterValue0 + "' as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
-                                     //else
-                                     //{
-                                     //    // long?
-                                     //    state.SelectCommand += ",\n\t " + rAddParameterValue0 + " as `" + asMemberAssignment.Member.Name + "`";
-                                     //}
-
                                      return;
                                  }
                              }
@@ -1547,10 +1521,7 @@ namespace System.Data
 
                              #region WriteExpression:asMemberExpression
                              {
-                                 // m_getterMethod = {TestSQLiteGroupBy.Data.GooStateEnum get_Key()}
-
                                  var asMemberExpression = asMemberAssignment.Expression as MemberExpression;
-                                 Console.WriteLine(new { index, asMemberExpression });
                                  if (asMemberExpression != null)
                                  {
                                      WriteMemberExpression(index, asMemberExpression, TargetMember);
@@ -1580,22 +1551,6 @@ namespace System.Data
                 #endregion
 
 
-
-
-                //Join CommandBuilder  ...  { asLambdaExpression = { Body = MemberInitExpression { NewExpression = NewExpression {
-                //Join CommandBuilder building FromCommand...
-                //Join CommandBuilder { that = System.Data.QueryStrategyOfTRowExtensions_JoinQueryStrategy_4@5c6936 }
-                //Join CommandBuilder  ...  { asLambdaExpression = { Body = NewExpression { Constructor = .ctor(java.lang.Object,
-                //Join CommandBuilder building FromCommand...
-                //Join CommandBuilder building SelectCommand...
-                //Join CommandBuilder  ...  { asMemberInitExpression =  }
-
-                //Join CommandBuilder  ...  { asLambdaExpression = (contact, dealer) => new <>f__AnonymousType0`2(contact = contact, dealer = dealer) }
-                //Join CommandBuilder building FromCommand...
-                //Join CommandBuilder building SelectCommand...
-                //Join CommandBuilder  ...  { asMemberInitExpression = , Body = new <>f__AnonymousType0`2(contact = contact, dealer = dealer) }
-                //Join CommandBuilder building SelectCommand... upperJoin
-                //Join CommandBuilder building SelectCommand... ImplicitConstantFields { Type = TestSQLJoin.Data.Book1TheViewRow }
 
 
 
@@ -1824,6 +1779,7 @@ namespace System.Data
             public MemberBinding SourceBinding;
         }
 
+        // ?
         internal static IEnumerable<xBinding> GetBindings(MemberInitExpression asMemberInitExpression, IEnumerable<FieldInfo> ImplicitConstantFields)
         {
             Console.WriteLine("Join CommandBuilder GetBindings... " + new { asMemberInitExpression });
@@ -1860,6 +1816,10 @@ namespace System.Data
             Expression<Func<TOuter, TInner, TResult>> resultSelector
             )
         {
+            var ff = new StackTrace(fNeedFileInfo: true).GetFrame(2);
+
+            var user = CommentLineNumber();
+
             Console.WriteLine("Join " + new { resultSelector });
             //Join { resultSelector = { Body = NewExpression { Constructor = .ctor(), Type =  }, Parameters = ScriptCoreLib.Shared.BCLImplementation.System.Collections.ObjectModel.__ReadOnlyCollection_1@1beead4 } }
 
