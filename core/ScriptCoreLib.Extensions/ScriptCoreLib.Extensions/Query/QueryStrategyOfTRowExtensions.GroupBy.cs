@@ -387,13 +387,39 @@ namespace System.Data
                      #endregion
 
 
-                     Action<int, Expression, MemberInfo> WriteExpression = null;
+                     //Action<int, Expression, MemberInfo> WriteExpression = null;
+                     Action<int, Expression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteExpression = null;
 
 
                      #region WriteMemberExpression
-                     Action<int, MemberExpression, MemberInfo> WriteMemberExpression =
-                         (index, asMemberExpression, asMemberAssignment_Member) =>
+                     Action<int, MemberExpression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteMemberExpression =
+                         (index, asMemberExpression, asMemberAssignment_Member, prefixes, valueSelector) =>
                          {
+                             #region GetPrefixedTargetName
+                             Func<string> GetPrefixedTargetName = delegate
+                             {
+                                 var w = "";
+
+
+                                 foreach (var item in prefixes)
+                                 {
+                                     if (item.Item2 == null)
+                                         w += item.Item1 + ".";
+                                     else
+                                         w += item.Item2.Name + ".";
+                                 }
+
+                                 // for primary constructors we know position.
+                                 if (asMemberAssignment_Member == null)
+                                     w += index;
+                                 else
+                                     w += asMemberAssignment_Member.Name;
+
+                                 return w;
+                             };
+                             #endregion
+
+
                              var asMemberAssignment = new { Member = asMemberAssignment_Member };
 
                              // +		Member	{TestSQLiteGroupBy.Data.GooStateEnum Key}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
@@ -432,13 +458,13 @@ namespace System.Data
                                                  SourceMember = asSSNNewExpression.Members[i];
                                              // c# extension operators for enumerables, thanks
                                              //WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, asMemberExpression.Member) }).ToArray(), null);
-                                             WriteExpression(i, SourceArgument, SourceMember);
+                                             WriteExpression(i, SourceArgument, SourceMember, prefixes, null);
                                          }
                                         );
                                          return;
                                      }
 
-                                     WriteExpression(index, keySelector.Body, asMemberExpression.Member);
+                                     WriteExpression(index, keySelector.Body, asMemberExpression.Member, prefixes, null);
 
                                      return;
                                  }
@@ -746,10 +772,34 @@ namespace System.Data
 
                      #region WriteExpression
                      WriteExpression =
-                         (index, asExpression, TargetMember) =>
+                            (index, asExpression, TargetMember, prefixes, valueSelector) =>
                          {
                              var asMemberAssignment = new { Expression = asExpression, Member = TargetMember };
 
+
+                             #region GetPrefixedTargetName
+                             Func<string> GetPrefixedTargetName = delegate
+                             {
+                                 var w = "";
+
+
+                                 foreach (var item in prefixes)
+                                 {
+                                     if (item.Item2 == null)
+                                         w += item.Item1 + ".";
+                                     else
+                                         w += item.Item2.Name + ".";
+                                 }
+
+                                 // for primary constructors we know position.
+                                 if (TargetMember == null)
+                                     w += index;
+                                 else
+                                     w += TargetMember.Name;
+
+                                 return w;
+                             };
+                             #endregion
 
 
                              // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
@@ -1191,7 +1241,26 @@ namespace System.Data
                              }
                              #endregion
 
+                             #region WriteExpression:asInvocationExpression
+                             var asInvocationExpression = asExpression as InvocationExpression;
+                             if (asInvocationExpression != null)
+                             {
+                                 asInvocationExpression.Arguments.WithEachIndex(
+                                    (SourceArgument, i) =>
+                                    {
 
+                                        // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
+                                        var SourceMember = default(MemberInfo);
+
+
+                                        // c# extension operators for enumerables, thanks
+                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null);
+                                    }
+                                 );
+
+                                 return;
+                             }
+                             #endregion
 
                              #region WriteExpression:asMemberExpression
                              {
@@ -1201,7 +1270,7 @@ namespace System.Data
                                  Console.WriteLine(new { index, asMemberExpression });
                                  if (asMemberExpression != null)
                                  {
-                                     WriteMemberExpression(index, asMemberExpression, TargetMember);
+                                     WriteMemberExpression(index, asMemberExpression, TargetMember, prefixes, null);
                                      return;
                                  }
                              }
@@ -1263,7 +1332,7 @@ namespace System.Data
 
 
                                  //WriteExpression(index, asUnaryExpression.Operand, TargetMember, prefixes, valueSelector);
-                                 WriteExpression(index, asUnaryExpression.Operand, TargetMember);
+                                 WriteExpression(index, asUnaryExpression.Operand, TargetMember, prefixes, valueSelector);
                                  return;
                              }
                              #endregion
@@ -1287,7 +1356,8 @@ namespace System.Data
                                  var asMemberAssignment = new { Member = TargetMember };
 
 
-                                 WriteExpression(index, SourceArgument, TargetMember);
+                                 // ?
+                                 WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
                              }
                          );
                      }
@@ -1307,7 +1377,7 @@ namespace System.Data
                                  var asMemberAssignment = SourceBinding as MemberAssignment;
                                  if (asMemberAssignment != null)
                                  {
-                                     WriteExpression(index, asMemberAssignment.Expression, asMemberAssignment.Member);
+                                     WriteExpression(index, asMemberAssignment.Expression, asMemberAssignment.Member, new Tuple<int, MemberInfo>[0], null);
                                      return;
                                  }
                                  Debugger.Break();

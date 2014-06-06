@@ -704,88 +704,90 @@ namespace System.Data
 
 
                                                                     var xasMemberExpression = xasExpression as MemberExpression;
-
-                                                                    // xasMemberAssignment.Expression = {Convert(nt.Last().u2.Key)}
-
-                                                                    // is this select doing a group by?
-                                                                    // we need to first find the select and then its source as group by
-                                                                    // as otherwise just looking at groupby would not tell us which fields are of interest
-
-
-                                                                    #region IGroupByQueryStrategy
-                                                                    var xasGroupByQueryStrategy = asSelectQueryStrategy.source as IGroupByQueryStrategy;
-                                                                    if (xasGroupByQueryStrategy != null)
+                                                                    if (xasMemberExpression != null)
                                                                     {
-                                                                        // first or last?
-                                                                        // or aggregate?
+                                                                        // xasMemberAssignment.Expression = {Convert(nt.Last().u2.Key)}
 
-                                                                        var xasMethodCallExpression = xasMemberExpression.Expression as MethodCallExpression;
-                                                                        if (xasMethodCallExpression != null)
+                                                                        // is this select doing a group by?
+                                                                        // we need to first find the select and then its source as group by
+                                                                        // as otherwise just looking at groupby would not tell us which fields are of interest
+
+
+                                                                        #region IGroupByQueryStrategy
+                                                                        var xasGroupByQueryStrategy = asSelectQueryStrategy.source as IGroupByQueryStrategy;
+                                                                        if (xasGroupByQueryStrategy != null)
                                                                         {
-                                                                            Debugger.Break();
+                                                                            // first or last?
+                                                                            // or aggregate?
 
-                                                                            // could we actually do a ref?
-
-                                                                            // public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
-                                                                            // will it work for jvm? will they equal?
-
-                                                                            // generic info mismatch?
-                                                                            if (xasMethodCallExpression.Method.Name == refLast.Name)
+                                                                            var xasMethodCallExpression = xasMemberExpression.Expression as MethodCallExpression;
+                                                                            if (xasMethodCallExpression != null)
                                                                             {
-                                                                                s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+                                                                                Debugger.Break();
 
+                                                                                // could we actually do a ref?
+
+                                                                                // public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+                                                                                // will it work for jvm? will they equal?
+
+                                                                                // generic info mismatch?
+                                                                                if (xasMethodCallExpression.Method.Name == refLast.Name)
+                                                                                {
+                                                                                    s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                                }
                                                                             }
                                                                         }
+                                                                        #endregion
+
+
+
+                                                                        #region  MemberExpression
+                                                                        var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
+                                                                        if (xasMMemberExpression != null)
+                                                                        {
+                                                                            Console.WriteLine(
+                                                                                new
+                                                                            {
+                                                                                xasMMemberExpression.Member.Name,
+                                                                                asEParameterExpression = asEParameterExpression.Name
+                                                                            }
+                                                                            );
+
+                                                                            // why would we compare these?
+                                                                            //if (xasMMemberExpression.Member.Name == asEParameterExpression.Name)
+                                                                            {
+                                                                                // (yy.selectorExpression as LambdaExpression).Parameters[0].Name = "u0"
+                                                                                if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
+                                                                                {
+                                                                                    s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                    + "."
+                                                                                    + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
+                                                                                    + " as `"
+                                                                                    + xasMMemberExpression.Member.Name
+                                                                                    + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                                }
+
+                                                                                // ?
+                                                                                if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
+                                                                                {
+                                                                                    s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                    + "."
+                                                                                    + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
+                                                                                    + " as `"
+                                                                                    + xasMMemberExpression.Member.Name
+                                                                                    + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        #endregion
                                                                     }
-                                                                    #endregion
 
-
-
-                                                                    #region  MemberExpression
-                                                                    var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
-                                                                    if (xasMMemberExpression != null)
-                                                                    {
-                                                                        Console.WriteLine(
-                                                                            new
-                                                                        {
-                                                                            xasMMemberExpression.Member.Name,
-                                                                            asEParameterExpression = asEParameterExpression.Name
-                                                                        }
-                                                                        );
-
-                                                                        // why would we compare these?
-                                                                        //if (xasMMemberExpression.Member.Name == asEParameterExpression.Name)
-                                                                        {
-                                                                            // (yy.selectorExpression as LambdaExpression).Parameters[0].Name = "u0"
-                                                                            if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
-                                                                            {
-                                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                                                + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                                                + "."
-                                                                                + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
-                                                                                + " as `"
-                                                                                + xasMMemberExpression.Member.Name
-                                                                                + "_" + xasMemberExpression.Member.Name + "`";
-
-                                                                            }
-
-                                                                            // ?
-                                                                            if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
-                                                                            {
-                                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                                                + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                                                + "."
-                                                                                + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
-                                                                                + " as `"
-                                                                                + xasMMemberExpression.Member.Name
-                                                                                + "_" + xasMemberExpression.Member.Name + "`";
-
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    #endregion
-
-                                                         };
+                                                                };
                                                          #endregion
 
 
@@ -1107,11 +1109,28 @@ namespace System.Data
 
 
 
+                                             Action<Expression> itemWriteMemberExpression = null;
 
-                                             #region itemWriteMemberExpression
-                                             Action<Expression> itemWriteMemberExpression =
+
+                                             #region WriteExpression:itemWriteMemberExpression
+                                             itemWriteMemberExpression =
                                                 xasExpression =>
                                                 {
+                                                    // xasExpression = {Invoke(value(TestLamdaFuncInsideSelectNewRow.ApplicationWebService+<>c__DisplayClass0).stringConcatFunc, nt.Last().cDataJoin.FirstName, nt.Last().cDataJoin.LastName)}
+                                                    var xInvocationExpression = xasExpression as InvocationExpression;
+                                                    if (xInvocationExpression != null)
+                                                    {
+                                                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140606
+
+                                                        xInvocationExpression.Arguments.WithEach(
+                                                            xIA =>
+                                                            {
+                                                                itemWriteMemberExpression(xIA);
+
+                                                            }
+                                                        );
+                                                    }
+
                                                     var xasUnaryExpression = xasExpression as UnaryExpression;
                                                     if (xasUnaryExpression != null)
                                                     {
@@ -1133,49 +1152,52 @@ namespace System.Data
                                                     }
 
                                                     var xasMemberExpression = xasExpression as MemberExpression;
-                                                    // is this select doing a group by?
-                                                    // we need to first find the select and then its source as group by
-                                                    // as otherwise just looking at groupby would not tell us which fields are of interest
-
-
-                                                    #region IGroupByQueryStrategy
-                                                    var xasGroupByQueryStrategy = asSelectQueryStrategy.source as IGroupByQueryStrategy;
-                                                    if (xasGroupByQueryStrategy != null)
+                                                    if (xasMemberExpression != null)
                                                     {
-                                                        // first or last?
-                                                        // or aggregate?
+                                                        // is this select doing a group by?
+                                                        // we need to first find the select and then its source as group by
+                                                        // as otherwise just looking at groupby would not tell us which fields are of interest
 
-                                                        var xasMethodCallExpression = xasMemberExpression.Expression as MethodCallExpression;
-                                                        if (xasMethodCallExpression != null)
+
+                                                        #region IGroupByQueryStrategy
+                                                        var xasGroupByQueryStrategy = asSelectQueryStrategy.source as IGroupByQueryStrategy;
+                                                        if (xasGroupByQueryStrategy != null)
                                                         {
-                                                            // could we actually do a ref?
+                                                            // first or last?
+                                                            // or aggregate?
 
-                                                            // public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
-                                                            // will it work for jvm? will they equal?
-
-                                                            // generic info mismatch?
-                                                            if (xasMethodCallExpression.Method.Name == refLast.Name)
+                                                            var xasMethodCallExpression = xasMemberExpression.Expression as MethodCallExpression;
+                                                            if (xasMethodCallExpression != null)
                                                             {
-                                                                s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+                                                                // could we actually do a ref?
+
+                                                                // public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+                                                                // will it work for jvm? will they equal?
+
+                                                                // generic info mismatch?
+                                                                if (xasMethodCallExpression.Method.Name == refLast.Name)
+                                                                {
+                                                                    s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                }
+                                                            }
+                                                        }
+                                                        #endregion
+
+
+                                                        #region xasMMemberExpression
+                                                        var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
+                                                        if (xasMMemberExpression != null)
+                                                        {
+                                                            if (xasMMemberExpression.Member.Name == asEParameterExpression.Name)
+                                                            {
+                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
 
                                                             }
                                                         }
+                                                        #endregion
                                                     }
-                                                    #endregion
-
-
-                                                    #region xasMMemberExpression
-                                                    var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
-                                                    if (xasMMemberExpression != null)
-                                                    {
-                                                        if (xasMMemberExpression.Member.Name == asEParameterExpression.Name)
-                                                        {
-                                                            s_SelectCommand += ",\n" + CommentLineNumber() + "\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
-
-                                                        }
-                                                    }
-                                                    #endregion
-                                             };
+                                                };
                                              #endregion
 
 
