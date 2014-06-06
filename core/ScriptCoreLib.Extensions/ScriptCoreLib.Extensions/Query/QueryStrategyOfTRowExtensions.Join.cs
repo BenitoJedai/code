@@ -759,7 +759,20 @@ namespace System.Data
                                                                             // (yy.selectorExpression as LambdaExpression).Parameters[0].Name = "u0"
                                                                             if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
                                                                             {
-                                                                                s_SelectCommand += ",\n\t "
+                                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                                + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                + "."
+                                                                                + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
+                                                                                + " as `"
+                                                                                + xasMMemberExpression.Member.Name
+                                                                                + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                            }
+
+                                                                            // ?
+                                                                            if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
+                                                                            {
+                                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
                                                                                 + asMemberAssignment.Member.Name.Replace("<>", "__")
                                                                                 + "."
                                                                                 + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
