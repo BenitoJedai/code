@@ -77,7 +77,8 @@ namespace TestSelectManyRange
             var q = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
                     where x.domComplete == 5
                     // .AsGenericEnumerable()
-                    from offset in Enumerable.Range(33, 3)
+                    //from offset in Enumerable.Range(33, 3)
+                    from offset in new[] { 0, 12, 23 }
                     select new
                     {
                         x.Key,
@@ -91,7 +92,7 @@ namespace TestSelectManyRange
                     select new
                     {
                         offset = g.Key.offset,
-                        
+
                         Count = g.Count(),
 
 
