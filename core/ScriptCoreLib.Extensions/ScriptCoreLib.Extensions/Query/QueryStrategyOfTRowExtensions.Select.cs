@@ -716,6 +716,7 @@ namespace System.Data
                              var asMethodCallExpression = asMemberAssignment.Expression as MethodCallExpression;
                              if (asMethodCallExpression != null)
                              {
+                                 #region XName::
                                  var refXNameGet = new Func<string, string, XName>(XName.Get);
 
                                  if (asMethodCallExpression.Method == refXNameGet.Method)
@@ -743,6 +744,8 @@ namespace System.Data
                                          return;
                                      }
                                  }
+                                 #endregion
+
 
 
                                  //if (asMethodCallExpression.Method.DeclaringType != typeof(XName))
@@ -846,6 +849,8 @@ namespace System.Data
                                  }
                                  #endregion
 
+
+                                 #region QueryStrategyOfTRowExtensions::
                                  if (asMethodCallExpression.Method.DeclaringType == typeof(QueryStrategyOfTRowExtensions))
                                  {
                                      // user call on select?
@@ -1274,6 +1279,8 @@ namespace System.Data
 
                                      Debugger.Break();
                                  }
+                                 #endregion
+
 
                                  Console.WriteLine(new { index, asMethodCallExpression.Method });
 
