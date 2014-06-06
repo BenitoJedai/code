@@ -53,14 +53,18 @@ namespace TestJoinGroupSelectCastLong
 
                     group new { x, y } by new { x.domComplete, y.requestStart } into gg
 
-                    //from offset in new[] { 12, 12, 23 }
+                    from offset in new[] { 55, 12, 23 }
                     //select new { x.domComplete, offset };
                     select new
                     {
-                         lkey = (long)gg.Last().x.Key,
-
-
                         gg.Key,
+                        offset,
+
+                        lkey = (long)gg.Last().x.Key,
+
+
+
+
                         gg.Last().x.domComplete
                     };
 

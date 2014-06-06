@@ -583,6 +583,36 @@ namespace System.Data
                                 var xasMemberExpression = SourceArgument as MemberExpression;
                                 if (xasMemberExpression != null)
                                 {
+                                    // X:\jsc.svn\examples\javascript\LINQ\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
+
+
+                                    #region xISelectManyQueryStrategy
+                                    var xISelectManyQueryStrategy = source as ISelectManyQueryStrategy;
+                                    if (xISelectManyQueryStrategy != null)
+                                    {
+                                        #region asSIGroupByQueryStrategy
+                                        var asSIGroupByQueryStrategy = xISelectManyQueryStrategy.source as IGroupByQueryStrategy;
+                                        if (asSIGroupByQueryStrategy != null)
+                                        {
+                                            if (xasMemberExpression.Member.Name == "Key")
+                                            {
+                                                // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
+                                                // are we selecting a complex key?
+                                                var asSSLambdaExpression = asSIGroupByQueryStrategy.keySelector as LambdaExpression;
+                                                if (asSSLambdaExpression != null)
+                                                {
+                                                    var asSSNNewExpression = asSSLambdaExpression.Body as NewExpression;
+                                                    if (asSSNNewExpression != null)
+                                                        return yieldNewExpression(asSSNNewExpression,
+                                                            prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray()
+                                                             );
+                                                }
+                                            }
+                                        }
+                                        #endregion
+                                    }
+                                    #endregion
+
 
 
                                     var asSelectQueryStrategy = source as ISelectQueryStrategy;
@@ -621,6 +651,7 @@ namespace System.Data
                                                 var asSSNewExpression = asSSLambdaExpression.Body as NewExpression;
                                                 if (asSSNewExpression.Members[1].Name == xasMemberExpression.Member.Name)
                                                 {
+                                                    #region asSSNMethodCallExpression
                                                     var asSSNMethodCallExpression = asSSNewExpression.Arguments[1] as MethodCallExpression;
                                                     if (asSSNMethodCallExpression != null)
                                                     {
@@ -744,6 +775,8 @@ namespace System.Data
 
                                                         Debugger.Break();
                                                     }
+                                                    #endregion
+
 
 
                                                     var asSSNNewExpression = asSSNewExpression.Arguments[1] as NewExpression;

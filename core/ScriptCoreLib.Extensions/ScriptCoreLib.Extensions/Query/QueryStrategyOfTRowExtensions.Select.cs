@@ -46,7 +46,7 @@ namespace System.Data
 
 
 
-
+            public ISelectManyQueryStrategy upperSelectMany { get; set; }
             public ISelectQueryStrategy upperSelect { get; set; }
             public IJoinQueryStrategy upperJoin { get; set; }
             public IGroupByQueryStrategy upperGroupBy { get; set; }
