@@ -29,14 +29,7 @@ namespace System.Data
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
 
 
-        public interface INestedQueryStrategy
-        {
-
-            ISelectQueryStrategy upperSelect { get; set; }
-            ISelectManyQueryStrategy upperSelectMany { get; set; }
-            IJoinQueryStrategy upperJoin { get; set; }
-            IGroupByQueryStrategy upperGroupBy { get; set; }
-        }
+    
 
         [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
         public interface IJoinQueryStrategy : INestedQueryStrategy
@@ -86,15 +79,9 @@ namespace System.Data
                 get { return xinner; }
             }
 
-
-
             Expression IJoinQueryStrategy.outerKeySelector
             {
-                get
-                {
-                    return this.outerKeySelector;
-                }
-
+                get { return this.outerKeySelector; }
             }
             #endregion
 

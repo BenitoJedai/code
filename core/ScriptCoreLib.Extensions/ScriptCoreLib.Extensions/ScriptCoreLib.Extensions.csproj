@@ -101,10 +101,12 @@
     <Compile Include="JavaScript\DOM\FileExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
     <Compile Include="JavaScript\Extensions\FormExtensions.cs" />
+    <Compile Include="Query\INestedQueryStrategy.cs" />
     <Compile Include="Query\IQueryStrategy.cs" />
     <Compile Include="Query\IQueryStrategyInsert.cs" />
     <Compile Include="Query\QueryStrategyExtensions.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.AsDataTable.cs" />
+    <Compile Include="Query\QueryStrategyOfTRowExtensions.INestedQueryStrategy.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.Last.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.Average.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.SelectMany.cs" />
