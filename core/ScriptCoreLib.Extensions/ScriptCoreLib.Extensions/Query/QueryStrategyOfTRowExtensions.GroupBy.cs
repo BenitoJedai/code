@@ -579,7 +579,7 @@ namespace System.Data
                              }
                              #endregion
 
-                             #region asMMemberExpressionParameterExpression
+                             #region WriteMemberExpression ParameterExpression
                              var asMMemberExpressionParameterExpression = asMemberExpression.Expression as ParameterExpression;
                              if (asMMemberExpressionParameterExpression != null)
                              {
@@ -1570,6 +1570,9 @@ namespace System.Data
                      // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
 
                      #region  keySelector
+                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
+                     // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCountViaJoin\TestGroupByCountViaJoin\ApplicationWebService.cs
+
                      var zkasNewExpression = GroupBy.keySelector.Body as NewExpression;
                      if (zkasNewExpression != null)
                      {
