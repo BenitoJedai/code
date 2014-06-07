@@ -1086,21 +1086,55 @@ namespace System.Data
                                                      }
                                                      else if (__Select_source.Method.Name == refWhere.Name)
                                                      {
+
                                                          #region doWhere
+                                                         var doWhere_source = __Select_source;
                                                          Func<IQueryStrategy, IQueryStrategy> doWhere =
                                                             xTable =>
                                                                 {
                                                                     // Operand = {kk => (kk.duration == 46)}
-                                                                    var __Where_filter = __Select_source.Arguments[1] as UnaryExpression;
+                                                                    var __Where_filter = doWhere_source.Arguments[1] as UnaryExpression;
 
                                                                     // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
-                                                                    var xTable_Where = (IQueryStrategy)__Select_source.Method.Invoke(null,
+                                                                    var xTable_Where = (IQueryStrategy)doWhere_source.Method.Invoke(null,
                                                                          parameters: new object[] { xTable, __Where_filter.Operand }
                                                                      );
 
                                                                     return xTable_Where;
                                                                 };
                                                          #endregion
+
+                                                         // while where?
+                                                         var __Where_source_Where2 = __Select_source.Arguments[0] as MethodCallExpression;
+                                                         if (__Where_source_Where2 != null)
+                                                         {
+
+                                                             if (__Where_source_Where2.Method.Name == refWhere.Name)
+                                                             {
+                                                                 // x:\jsc.svn\examples\javascript\linq\test\testgroupbycountviascalarwhere\testgroupbycountviascalarwhere\applicationwebservice.cs
+                                                                 var doWhere1 = doWhere;
+                                                                 #region doWhere2
+                                                                 doWhere =
+                                                                xTable =>
+                                                                {
+
+                                                                    // Operand = {kk => (kk.duration == 46)}
+                                                                    var __Where_filter = __Where_source_Where2.Arguments[1] as UnaryExpression;
+
+                                                                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Where.cs
+                                                                    var xTable_Where = (IQueryStrategy)__Where_source_Where2.Method.Invoke(null,
+                                                                         parameters: new object[] { xTable, __Where_filter.Operand }
+                                                                     );
+
+                                                                    return doWhere1(xTable_Where);
+                                                                };
+                                                                 #endregion
+
+                                                                 // can we chain where with where2 and resume?
+
+                                                                 __Select_source = __Where_source_Where2;
+                                                             }
+                                                         }
 
                                                          #region from new xTable
                                                          var __Where_source_NewExpression = __Select_source.Arguments[0] as NewExpression;
@@ -1294,9 +1328,15 @@ namespace System.Data
                                          if (a0MethodCallExpression != null)
                                          {
                                              // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
+                                             // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCountViaScalarWhere\TestGroupByCountViaScalarWhere\ApplicationWebService.cs
+
+                                             // a0MethodCallExpression = {new ApplicationPerformance().Where(xx => (xx.connectStart > 1))}
 
                                              var xTable_Where_Select0 = subquery(a0MethodCallExpression);
                                              var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
+
+                                             // ?
+                                             xTable_Where_Select.upperGroupBy = that;
 
                                              xTable_Where_Select.scalarAggregateOperand = "count";
 
@@ -1305,6 +1345,11 @@ namespace System.Data
                                              var scalarsubquery = xSelectScalar.ToString();
 
                                              // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+
+
+                                             // pass it forward
+                                             state.SelectCommand += ",\n" + CommentLineNumber() + "\t  g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
                                              // do we have to 
                                              // we dont know yet how to get sql of that thing do we

@@ -29,7 +29,7 @@ namespace System.Data
 
         #region where
         // behave like StringBuilder where core data is mutable?
-        public static void MutableWhere(IQueryStrategy that, LambdaExpression filter)
+        static void MutableWhere(IQueryStrategy that, LambdaExpression filter)
         {
 
 
@@ -549,6 +549,55 @@ namespace System.Data
                                             }
 
                                         }
+
+                                        // body.Right = {g.Key.domComplete}
+
+                                        var xParameterExpression = f_Body_Right_as_MemberExpression.Expression as ParameterExpression;
+                                        if (xParameterExpression != null)
+                                        {
+                                            // ?
+                                            // x:\jsc.svn\examples\javascript\linq\test\testgroupbycountviascalarwhere\testgroupbycountviascalarwhere\applicationwebservice.cs
+
+                                            // we are in a nested scalar select, probably in count which is doing a where against an upper parameter.
+                                            // how is it defined?
+
+
+                                            // there may not be an upper where. as they may be collapsed?
+                                            var upperScalarSelect = (that as INestedQueryStrategy).upperSelect;
+
+                                            var upperGroupBy = upperScalarSelect.upperGroupBy;
+
+
+                                            //if (xParameterExpression.Name == (upperGroupBy.elementSelector as LambdaExpression).Parameters[0].Name)
+                                            if (xParameterExpression.Name == (upperGroupBy.upperSelect.selectorExpression as LambdaExpression).Parameters[0].Name)
+                                            {
+                                                // found it!
+                                                // render sql and return!
+                                                // we are comparing to the group key in result are we not?
+
+                                                if (body.NodeType == ExpressionType.Equal)
+                                                    state.WhereCommand += "=";
+                                                else if (body.NodeType == ExpressionType.LessThan)
+                                                    state.WhereCommand += "<";
+
+                                                else if (body.NodeType == ExpressionType.LessThanOrEqual)
+                                                    state.WhereCommand += "<=";
+
+                                                else if (body.NodeType == ExpressionType.GreaterThan)
+                                                    state.WhereCommand += ">";
+                                                else if (body.NodeType == ExpressionType.GreaterThanOrEqual)
+                                                    state.WhereCommand += ">=";
+                                                else if (body.NodeType == ExpressionType.NotEqual)
+                                                    state.WhereCommand += "<>";
+                                                else
+                                                    Debugger.Break();
+
+                                                state.WhereCommand += " s.`" + f_Body_Right.Member.Name + "`";
+
+                                                return;
+                                            }
+                                        }
+
                                     }
                                     #endregion
 
@@ -883,9 +932,80 @@ namespace System.Data
 
         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
 
+
+        [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
+        public interface IWhereQueryStrategy : INestedQueryStrategy
+        {
+            Expression filter { get; }
+            IQueryStrategy source { get; }
+
+        }
+
+        class WhereQueryStrategy<TElement> : XQueryStrategy<TElement>, IWhereQueryStrategy
+        {
+            public Expression<Func<TElement, bool>> filter { get; set; }
+            public IQueryStrategy source { get; set; }
+
+            Expression IWhereQueryStrategy.filter
+            {
+                get
+                {
+                    return this.filter;
+                }
+            }
+
+            IQueryStrategy IWhereQueryStrategy.source
+            {
+                get
+                {
+                    return this.source;
+                }
+            }
+
+            public ISelectManyQueryStrategy upperSelectMany { get; set; }
+            public ISelectQueryStrategy upperSelect { get; set; }
+            public IJoinQueryStrategy upperJoin { get; set; }
+            public IGroupByQueryStrategy upperGroupBy { get; set; }
+        }
+
+
         static MethodInfo refWhere = new Func<IQueryStrategy<object>, Expression<Func<object, bool>>, IQueryStrategy<object>>(QueryStrategyOfTRowExtensions.Where).Method;
         public static IQueryStrategy<TElement> Where<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
         {
+            var xINestedQueryStrategy = source is INestedQueryStrategy;
+            if (!xINestedQueryStrategy)
+            {
+                // lets mark it as nestable, this allows where to know how to aviod name clashes.
+                // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCountViaScalarWhere\TestGroupByCountViaScalarWhere\ApplicationWebService.cs
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
+
+
+                // first step being immputable for where clauses
+                var that = new WhereQueryStrategy<TElement>
+                {
+                    source = source,
+                    filter = filter,
+
+
+
+
+                    InternalGetDescriptor =
+                    () =>
+                    {
+                        // inherit the connection/context from above
+                        var StrategyDescriptor = source.GetDescriptor();
+
+                        return StrategyDescriptor;
+                    }
+                };
+
+                MutableWhere(
+                    that, filter
+                );
+
+                return that;
+            }
+
             MutableWhere(
                 source, filter
             );
