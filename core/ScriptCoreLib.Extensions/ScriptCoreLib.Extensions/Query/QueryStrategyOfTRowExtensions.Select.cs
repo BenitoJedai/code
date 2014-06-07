@@ -1524,7 +1524,7 @@ namespace System.Data
                                                                 {
                                                                     if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
                                                                     {
-                                                                        s_SelectCommand += ",\n\t "
+                                                                        s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
                                                                             + asMemberAssignment.Member.Name.Replace("<>", "__")
                                                                             + "."
                                                                             //+ xasMMemberExpression.Member.Name + "_" 
