@@ -58,53 +58,30 @@ namespace TestSelectDateGroups
            );
 
 
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
 
             var z_continious =
-                 from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
-                     //.AsGenericEnumerable()
+                 from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance() //.AsGenericEnumerable()
                  from offset in Enumerable.Range(0, 7)
                  group x by new { offset } into g
-
-                 //let AllCount = g.Count()
-
-                 //let ByGroupDate =
-                 //    from y in g
-                 //    let GroupDate = DateTime.Now.Date.AddDays(-g.Key.offset)
-                 //    let Date = y.EventTime.Date
-                 //    where Date == GroupDate
-                 //    select y
-
-                 //let Count = ByGroupDate.Count()
-
-                 select new //Data.VisualizationzDateToCountRow
+                 select new
                  {
-                     //Date = new { g.Key.offset }.ToString(),
-                     //Date = new { g.Key.offset },
+                     //Count = g.Count(y => y.EventTime.Date == DateTime.Now.Date.AddDays(-g.Key.offset)),
 
-                     Count = g.Count(y => y.EventTime.Date == DateTime.Now.Date.AddDays(-g.Key.offset)),
-
+                     // any group select sub filters need to be translated to joins !!!
+                     Count = g.Count(y => true),
                      g.Key.offset
-
-                     //Count = (
-                     //    from y in g
-
-                     //        //let GroupDate = DateTime.Now.Date.AddDays(-g.Key.offset)
-                     //        //let Date = y.EventTime.Date
-
-                     //        //where Date == GroupDate
-
-                     //    //where y.EventTime.Date == DateTime.Now.Date.AddDays(-g.Key.offset)
-
-                     //    //select y
-                     //    select new { y.Key }
-                     //).Count()
-
-
-
-
                  };
 
-            var dt = z_continious.AsDataTable();
+            // f = { Count = 484, offset = 0 }
+            // f = { Count = 11, offset = 0 }
+
+            // how can sql give us count of g 7. we have 7 groups
+            // ah we need a count within each group!
+
+            // f = { Count = 7, offset = 0 }
+            var f = z_continious.FirstOrDefault();
+            //var dt = z_continious.AsDataTable();
 
             Debugger.Break();
 

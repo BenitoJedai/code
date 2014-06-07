@@ -1106,6 +1106,7 @@ namespace System.Data
 
                                          // arg0ElementsBySelect = {new ApplicationResourcePerformance().Where(kk => (Convert(kk.ApplicationPerformance) == Convert(k.Key)))}
 
+                                         #region count: arg0Elements_MemberExpression
                                          var arg0Elements_MemberExpression = asMethodCallExpression.Arguments[0] as MemberExpression;
                                          if (arg0Elements_MemberExpression != null)
                                          {
@@ -1121,12 +1122,44 @@ namespace System.Data
 
                                              return;
                                          }
+                                         #endregion
 
 
-                                         #region arg0Elements_ParameterExpression
+
+                                         #region count: arg0Elements_ParameterExpression
                                          var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
                                          if (arg0Elements_ParameterExpression != null)
                                          {
+                                             // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCount\TestGroupByCount\ApplicationWebService.cs
+
+                                             // does that count have a special where clause?
+                                             if (asMethodCallExpression.Arguments.Count > 1)
+                                             {
+                                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
+                                                 // are we about to scalar select a count on source?
+                                                 if (that.selector.Parameters[0].Name == arg0Elements_ParameterExpression.Name)
+                                                 {
+                                                     //yes the its talking about source.
+                                                     // if where is mutable.
+                                                     //we need a copy of source, to add our where?
+
+
+                                                     // do we need to rewrite it as an inner join?
+                                                     // otherewise we will be selecting the first scalar only?
+
+                                                     var cstate = QueryStrategyExtensions.AsCommandBuilder(that.source);
+                                                     // override
+                                                     cstate.SelectCommand = "select " + CommentLineNumber() + "\t"
+                                                + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                                     var csql = cstate.ToString();
+
+
+                                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t (" + csql.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+                                                     return;
+                                                 }
+                                             }
+
                                              s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
                                                 + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
@@ -1895,6 +1928,17 @@ namespace System.Data
                                  var asLNewExpression = asLambdaExpression.Body as NewExpression;
                                  if (asLNewExpression != null)
                                  {
+                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCount\TestGroupByCount\ApplicationWebService.cs
+
+                                     // prep the from command before select, as select may want to add new sources!
+                                     var FromCommand =
+                                         "from "
+                                             + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                         + " as " + that.selector.Parameters[0].Name.Replace("<>", "__");
+
+                                     state.FromCommand = FromCommand;
+
                                      #region asNewExpression
                                      asLNewExpression.Arguments.WithEachIndex(
                                          (SourceArgument, index) =>
@@ -1925,12 +1969,7 @@ namespace System.Data
 
                                      SelectCommand = s_SelectCommand;
 
-                                     var FromCommand =
-                                       "from "
-                                           + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
-                                       + " as " + that.selector.Parameters[0].Name.Replace("<>", "__");
 
-                                     state.FromCommand = FromCommand;
 
                                  }
                                  else

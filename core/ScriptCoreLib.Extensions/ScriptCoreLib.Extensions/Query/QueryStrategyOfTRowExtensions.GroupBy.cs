@@ -1252,6 +1252,9 @@ namespace System.Data
                                              var arg0 = us.Parameters[0];
                                              if (arg0.Name == arg0Elements_ParameterExpression.Name)
                                              {
+                                                 // are we in a scalar mode?
+
+                                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
                                                  // !!! actually no, its the upper select that has to do the counting?
 
                                                  // um we have to call ourselves, but without selecting anything and instead
@@ -1267,9 +1270,9 @@ namespace System.Data
                                                  // do we have to 
                                                  // we dont know yet how to get sql of that thing do we
 
-                                                 state.SelectCommand += ",\n" + CommentLineNumber() + "\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                                 state.SelectCommand += ",\n" + CommentLineNumber() + "\t /* upper has to do that? */ g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
-                                                 s_SelectCommand += ",\n\t ( select 7 ) as `" + asMemberAssignment.Member.Name + "`";
+                                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t ( /* upper has to do that? */ count(*) ) as `" + asMemberAssignment.Member.Name + "`";
 
 
                                                  ////state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
