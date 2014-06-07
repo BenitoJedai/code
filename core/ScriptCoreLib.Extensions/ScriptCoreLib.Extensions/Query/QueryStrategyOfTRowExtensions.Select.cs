@@ -227,207 +227,8 @@ namespace System.Data
 
                              Console.WriteLine(new { index, asMemberExpression.Member, asMemberExpression.Member.Name });
 
-                             ////#region let z <- Grouping.Key
-                             ////var IsKey = asMemberExpression.Member.Name == "Key";
 
-                             ////// if not a property we may still have the getter in JVM
-                             ////IsKey |= asMemberExpression.Member.Name == "get_Key";
-
-                             ////if (IsKey)
-                             ////{
-                             ////    // special!
-                             ////    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                             ////    s_SelectCommand += ",\n\t s.`"
-                             ////       + GroupingKeyFieldExpressionName + "` as `" + asMemberAssignment.Member.Name + "`";
-                             ////    return;
-                             ////}
-                             ////#endregion
-
-                             // Method = {TestSQLiteGroupBy.Data.Book1MiddleRow First[GooStateEnum,Book1MiddleRow](TestSQLiteGroupBy.IQueryStrategyGrouping`2[TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow])}
-
-                             #region WriteMemberExpression:asMemberExpressionMethodCallExpression
-                             var asMemberExpressionMethodCallExpression = asMemberExpression.Expression as MethodCallExpression;
-                             Console.WriteLine(new { index, asMemberExpressionMethodCallExpression });
-                             if (asMemberExpressionMethodCallExpression != null)
-                             {
-                                 if (asMemberInitExpressionByParameter1 != null)
-                                 {
-
-                                     // ?
-                                 }
-                                 else if (asMemberInitExpressionByParameter0 != null)
-                                 {
-                                     if (asMemberInitExpressionByParameter0 != asMemberExpressionMethodCallExpression.Arguments[0])
-                                     {
-                                         // group by within a join, where this select is not part of this outer source!
-
-                                         return;
-                                     }
-                                 }
-                                 Console.WriteLine(new { index, asMemberExpressionMethodCallExpression, asMemberExpressionMethodCallExpression.Method.Name });
-
-                                 // special! do we have reverse yet?
-                                 if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
-                                 {
-                                     gDescendingByKeyReferenced = true;
-                                     state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     return;
-                                 }
-
-
-                                 if (asMemberExpressionMethodCallExpression.Method.Name == refLast.Name)
-                                 {
-                                     if (asMemberInitExpressionByParameter0 != null)
-                                     {
-                                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
-
-                                         // the upper join dictates what it expects to find. no need to alias too early
-
-                                         state.SelectCommand += ",\n\t g.`" + asMemberExpression.Member.Name + "` as `" + asMemberExpression.Member.Name + "`";
-                                         s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberExpression.Member.Name + "`";
-                                         return;
-                                     }
-
-                                     if (source is IGroupByQueryStrategy)
-                                     {
-                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
-                                         // that grouping thing already did the aliasing for us?
-
-                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                           + ".`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         return;
-                                     }
-
-
-                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140604
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
-                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                           + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                     //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     //s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                     return;
-                                 }
-                             }
-                             #endregion
-
-
-                             #region WriteMemberExpression:asMConstantExpression
-                             //         var SpecialConstant_u = "44";
-                             var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
-                             if (asMConstantExpression != null)
-                             {
-                                 var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
-                                 var rAddParameterValue0 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
-
-                                 // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
-
-                                 var n = "@arg" + state.ApplyParameter.Count;
-
-                                 s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
-
-                                 state.ApplyParameter.Add(
-                                     c =>
-                                     {
-                                         // either the actualt command or the explain command?
-
-                                         //c.Parameters.AddWithValue(n, r);
-                                         c.AddParameter(n, rAddParameterValue0);
-                                     }
-                                 );
-
-                                 return;
-                             }
-                             #endregion
-
-
-
-                             #region WriteMemberExpression:asMMemberExpression
-                             var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
-                             if (asMMemberExpression != null)
-                             {
-                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
-                                 // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
-
-                                 #region asIGroupByQueryStrategy
-                                 var asIGroupByQueryStrategy = that.source as IGroupByQueryStrategy;
-                                 if (asIGroupByQueryStrategy != null)
-                                 {
-                                     // our grouping has to flatten last and possibly also last selections
-                                     // what if we wanted something in the middle too?
-                                     // like instead of last, or first we want 2nd from last?
-
-                                     #region string::
-                                     if (valueSelector != null)
-                                     {
-                                         // for all string::
-                                         if (valueSelector.Name == "ToLower")
-                                         {
-                                             // we are being selected intou a data group?
-                                             // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
-
-                                             s_SelectCommand += ",\n\t lower("
-                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                                + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
-
-                                             return;
-                                         }
-                                     }
-                                     #endregion
-
-
-                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                         + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                         + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-
-                                     return;
-                                 }
-                                 #endregion
-
-
-
-
-
-                                 if (asMMemberExpression.Type == typeof(DateTime))
-                                 {
-                                     // X:\jsc.svn\examples\javascript\Test\TestDate\TestDate\Application.cs
-                                     // X:\jsc.svn\examples\javascript\linq\test\TestSelectDate\TestSelectDate\ApplicationWebService.cs
-                                     // how many milliseconds are there in a day?
-                                     // dividide round and multiply to get the date ms?
-
-                                     //var x = (1000 * 60 * 60 * 24);
-
-                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t("
-                                        + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                        + ".`" + asMMemberExpression.Member.Name + "` / (1000 * 60 * 60 * 24) * (1000 * 60 * 60 * 24)) as `" + GetPrefixedTargetName() + "`";
-
-                                     return;
-                                 }
-
-
-                                 if (index < 0)
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
-
-                                     s_SelectCommand +=
-                                    that.selector.Parameters[0].Name.Replace("<>", "__")
-                                   + ".`" + asMemberExpression.Member.Name + "`";
-
-                                     return;
-                                 }
-                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                   + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                   + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
-
-                                 return;
-                             }
-                             #endregion
-
-                             #region WriteMemberExpression:asMMemberExpressionParameterExpression
+                             #region [0] WriteMemberExpression: ParameterExpression
                              var asMMemberExpressionParameterExpression = asMemberExpression.Expression as ParameterExpression;
                              if (asMMemberExpressionParameterExpression != null)
                              {
@@ -612,6 +413,189 @@ namespace System.Data
                                  return;
                              }
                              #endregion
+
+
+                             #region WriteMemberExpression:asMemberExpressionMethodCallExpression
+                             var asMemberExpressionMethodCallExpression = asMemberExpression.Expression as MethodCallExpression;
+                             Console.WriteLine(new { index, asMemberExpressionMethodCallExpression });
+                             if (asMemberExpressionMethodCallExpression != null)
+                             {
+                                 if (asMemberInitExpressionByParameter1 != null)
+                                 {
+
+                                     // ?
+                                 }
+                                 else if (asMemberInitExpressionByParameter0 != null)
+                                 {
+                                     if (asMemberInitExpressionByParameter0 != asMemberExpressionMethodCallExpression.Arguments[0])
+                                     {
+                                         // group by within a join, where this select is not part of this outer source!
+
+                                         return;
+                                     }
+                                 }
+                                 Console.WriteLine(new { index, asMemberExpressionMethodCallExpression, asMemberExpressionMethodCallExpression.Method.Name });
+
+                                 // special! do we have reverse yet?
+                                 if (asMemberExpressionMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "First")
+                                 {
+                                     gDescendingByKeyReferenced = true;
+                                     state.SelectCommand += ",\n\t gDescendingByKey.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     return;
+                                 }
+
+
+                                 if (asMemberExpressionMethodCallExpression.Method.Name == refLast.Name)
+                                 {
+                                     if (asMemberInitExpressionByParameter0 != null)
+                                     {
+                                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+
+                                         // the upper join dictates what it expects to find. no need to alias too early
+
+                                         state.SelectCommand += ",\n\t g.`" + asMemberExpression.Member.Name + "` as `" + asMemberExpression.Member.Name + "`";
+                                         s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberExpression.Member.Name + "`";
+                                         return;
+                                     }
+
+                                     if (source is IGroupByQueryStrategy)
+                                     {
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
+                                         // that grouping thing already did the aliasing for us?
+
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                           + ".`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                         return;
+                                     }
+
+
+                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140604
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                           + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                           + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     //state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     //s_SelectCommand += ",\n\t s.`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     return;
+                                 }
+                             }
+                             #endregion
+
+
+                             #region WriteMemberExpression:asMConstantExpression
+                             //         var SpecialConstant_u = "44";
+                             var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
+                             if (asMConstantExpression != null)
+                             {
+                                 var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
+                                 var rAddParameterValue0 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+
+                                 // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+
+                                 var n = "@arg" + state.ApplyParameter.Count;
+
+                                 s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
+
+                                 state.ApplyParameter.Add(
+                                     c =>
+                                     {
+                                         // either the actualt command or the explain command?
+
+                                         //c.Parameters.AddWithValue(n, r);
+                                         c.AddParameter(n, rAddParameterValue0);
+                                     }
+                                 );
+
+                                 return;
+                             }
+                             #endregion
+
+
+
+                             #region WriteMemberExpression:asMMemberExpression
+                             var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
+                             if (asMMemberExpression != null)
+                             {
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
+                                 // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereJoinTTGroupBySelectLast\TestWhereJoinTTGroupBySelectLast\ApplicationWebService.cs
+
+                                 #region asIGroupByQueryStrategy
+                                 var asIGroupByQueryStrategy = that.source as IGroupByQueryStrategy;
+                                 if (asIGroupByQueryStrategy != null)
+                                 {
+                                     // our grouping has to flatten last and possibly also last selections
+                                     // what if we wanted something in the middle too?
+                                     // like instead of last, or first we want 2nd from last?
+
+                                     #region string::
+                                     if (valueSelector != null)
+                                     {
+                                         // for all string::
+                                         if (valueSelector.Name == "ToLower")
+                                         {
+                                             // we are being selected intou a data group?
+                                             // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+
+                                             s_SelectCommand += ",\n\t lower("
+                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
+
+                                             return;
+                                         }
+                                     }
+                                     #endregion
+
+
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                         + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                         + ".`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+
+                                     return;
+                                 }
+                                 #endregion
+
+
+
+
+
+                                 if (asMMemberExpression.Type == typeof(DateTime))
+                                 {
+                                     // X:\jsc.svn\examples\javascript\Test\TestDate\TestDate\Application.cs
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestSelectDate\TestSelectDate\ApplicationWebService.cs
+                                     // how many milliseconds are there in a day?
+                                     // dividide round and multiply to get the date ms?
+
+                                     //var x = (1000 * 60 * 60 * 24);
+
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t("
+                                        + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                        + ".`" + asMMemberExpression.Member.Name + "` / (1000 * 60 * 60 * 24) * (1000 * 60 * 60 * 24)) as `" + GetPrefixedTargetName() + "`";
+
+                                     return;
+                                 }
+
+
+                                 if (index < 0)
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
+
+                                     s_SelectCommand +=
+                                    that.selector.Parameters[0].Name.Replace("<>", "__")
+                                   + ".`" + asMemberExpression.Member.Name + "`";
+
+                                     return;
+                                 }
+                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                   + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                   + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+
+                                 return;
+                             }
+                             #endregion
+
 
 
                              //asMMemberExpression.Member

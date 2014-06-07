@@ -276,6 +276,8 @@ namespace System.Data
                     if (xouter is IGroupByQueryStrategy)
                     {
                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
+                        // implementation out of date
+                        Debugger.Break();
 
                         FromCommand += " \non "
                             + xouter_Paramerer_Name.Replace("<>", "__") + ".`Grouping.Key`"
@@ -284,12 +286,48 @@ namespace System.Data
                     }
                     else
                     {
+                        // !!!
+                        // http://stackoverflow.com/questions/7183364/join-on-multiple-columns
 
+                        var xouterISelectQueryStrategy_source_asIGroupByQueryStrategy = (xouter as ISelectQueryStrategy).source as IGroupByQueryStrategy;
+                        var xinnerISelectQueryStrategy_source_asIGroupByQueryStrategy = (xinner as ISelectQueryStrategy).source as IGroupByQueryStrategy;
 
-                        FromCommand += " \non "
-                                + xouter_Paramerer_Name.Replace("<>", "__") + ".`" + xouter_asMemberExpression.Member.Name + "`"
-                                + " = "
-                                + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+                        if (xouterISelectQueryStrategy_source_asIGroupByQueryStrategy != null && xinnerISelectQueryStrategy_source_asIGroupByQueryStrategy != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCountViaJoin\TestGroupByCountViaJoin\ApplicationWebService.cs
+
+                            var xoNewExpression = (xouterISelectQueryStrategy_source_asIGroupByQueryStrategy.keySelector as LambdaExpression).Body as NewExpression;
+                            var xiNewExpression = (xinnerISelectQueryStrategy_source_asIGroupByQueryStrategy.keySelector as LambdaExpression).Body as NewExpression;
+
+                            // they better be the same!
+
+                            xoNewExpression.Arguments.Zip(xiNewExpression.Arguments, (o, i) => new { o, i }).WithEachIndex(
+                                (SourceKeyEquals, index) =>
+                                {
+                                    if (index == 0)
+                                        FromCommand += "\n" + CommentLineNumber() + "\t"
+                                            + "on ";
+                                    else
+                                        FromCommand += "\n" + CommentLineNumber() + "\t"
+                                            + "and ";
+
+                                    FromCommand +=
+                                             xouter_Paramerer_Name.Replace("<>", "__") + ".`" + xouter_asMemberExpression.Member.Name + "." + (SourceKeyEquals.o as MemberExpression).Member.Name + "`"
+                                            + " = "
+                                            + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "." + (SourceKeyEquals.i as MemberExpression).Member.Name + "`";
+
+                                }
+                            );
+
+                        }
+                        else
+                        {
+
+                            FromCommand += " \non "
+                                    + xouter_Paramerer_Name.Replace("<>", "__") + ".`" + xouter_asMemberExpression.Member.Name + "`"
+                                    + " = "
+                                    + xinner_Paramerer.Name + ".`" + xinner_asMemberExpression.Member.Name + "`";
+                        }
                     }
 
 
@@ -328,10 +366,37 @@ namespace System.Data
                     };
                 #endregion
 
+
+                Action<int, Expression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteExpression = null;
+
                 #region WriteMemberExpression COPY from GroupBy
-                Action<int, MemberExpression, MemberInfo> WriteMemberExpression =
-                    (index, asMemberExpression, asMemberAssignment_Member) =>
+                Action<int, MemberExpression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo> WriteMemberExpression =
+                    (index, asMemberExpression, asMemberAssignment_Member, prefixes, valueSelector) =>
                          {
+                             #region GetPrefixedTargetName
+                             Func<string> GetPrefixedTargetName = delegate
+                             {
+                                 var w = "";
+
+
+                                 foreach (var item in prefixes)
+                                 {
+                                     if (item.Item2 == null)
+                                         w += item.Item1 + ".";
+                                     else
+                                         w += item.Item2.Name + ".";
+                                 }
+
+                                 // for primary constructors we know position.
+                                 if (asMemberAssignment_Member == null)
+                                     w += index;
+                                 else
+                                     w += asMemberAssignment_Member.Name;
+
+                                 return w;
+                             };
+                             #endregion
+
                              var asMemberAssignment = new { Member = asMemberAssignment_Member };
 
                              // +		Member	{TestSQLiteGroupBy.Data.GooStateEnum Key}	System.Reflection.MemberInfo {System.Reflection.RuntimePropertyInfo}
@@ -347,22 +412,122 @@ namespace System.Data
 
                              Console.WriteLine(new { index, asMemberExpression.Member, asMemberExpression.Member.Name });
 
-                             ////#region let z <- Grouping.Key
-                             ////var IsKey = asMemberExpression.Member.Name == "Key";
 
-                             ////// if not a property we may still have the getter in JVM
-                             ////IsKey |= asMemberExpression.Member.Name == "get_Key";
+                             #region [0] WriteMemberExpression: ParameterExpression
+                             var asMMemberExpressionParameterExpression = asMemberExpression.Expression as ParameterExpression;
+                             if (asMMemberExpressionParameterExpression != null)
+                             {
+                                 if (xouter is ISelectQueryStrategy && ((ISelectQueryStrategy)xouter).source is IGroupByQueryStrategy)
+                                 {
 
-                             ////if (IsKey)
-                             ////{
-                             ////    // special!
-                             ////    state.SelectCommand += ",\n\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     // tested by?
+                                     //if (asMemberExpression.Member.DeclaringType.IsAssignableFrom(typeof(IQueryStrategyGrouping)))
 
-                             ////    s_SelectCommand += ",\n\t s.`"
-                             ////       + GroupingKeyFieldExpressionName + "` as `" + asMemberAssignment.Member.Name + "`";
-                             ////    return;
-                             ////}
-                             ////#endregion
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
+
+
+                                     if (xouter_Paramerer.Name == asMMemberExpressionParameterExpression.Name)
+                                     {
+                                         #region let z <- Grouping.Key
+                                         var IsKey = asMemberExpression.Member.Name == "Key";
+
+                                         // if not a property we may still have the getter in JVM
+                                         IsKey |= asMemberExpression.Member.Name == "get_Key";
+
+                                         if (IsKey)
+                                         {
+                                             var keySelector = (((ISelectQueryStrategy)xouter).source as IGroupByQueryStrategy).keySelector as LambdaExpression;
+
+                                             var asSSNNewExpression = keySelector.Body as NewExpression;
+                                             if (asSSNNewExpression != null)
+                                             {
+                                                 asSSNNewExpression.Arguments.WithEachIndex(
+                                                    (SourceArgument, i) =>
+                                         {
+                                             // Constructor = {Void .ctor(System.Xml.Linq.XName, System.Object)}
+                                             var SourceMember = default(MemberInfo);
+                                             if (asSSNNewExpression.Members != null)
+                                                 SourceMember = asSSNNewExpression.Members[i];
+                                             // c# extension operators for enumerables, thanks
+                                             WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, asMemberExpression.Member) }).ToArray(), null);
+                                             //WriteExpression(i, SourceArgument, SourceMember, prefixes, null);
+                                         }
+                                                );
+                                                 return;
+                                             }
+
+                                             WriteExpression(index, keySelector.Body, asMemberExpression.Member, prefixes, null);
+
+                                             return;
+                                         }
+                                         #endregion
+
+
+                                         //s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                         //   + resultSelector.Parameters[0].Name.Replace("<>", "__")
+                                         //   + ".`" + asMMemberExpressionParameterExpression.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                               + resultSelector.Parameters[0].Name.Replace("<>", "__")
+                                               + ".`" + GetPrefixedTargetName() + "` as `" + GetPrefixedTargetName() + "`";
+
+                                         return;
+                                     }
+
+
+                                     if (xinner_Paramerer.Name == asMMemberExpressionParameterExpression.Name)
+                                     {
+
+                                         //s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                         //    + resultSelector.Parameters[1].Name.Replace("<>", "__")
+                                         //    + ".`" + asMMemberExpressionParameterExpression.Name + "_" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+
+
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                               + resultSelector.Parameters[1].Name.Replace("<>", "__")
+                                               + ".`" + GetPrefixedTargetName() + "` as `" + GetPrefixedTargetName() + "`";
+
+                                         return;
+                                     }
+
+
+
+                                     // ? key
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                        + resultSelector.Parameters[0].Name.Replace("<>", "__")
+                                        + ".`" + GetPrefixedTargetName() + "` as `" + GetPrefixedTargetName() + "`";
+
+
+                                     return;
+                                 }
+
+
+
+                                 if (asMemberInitExpressionByParameter0 != null)
+                                 {
+                                     if (asMemberInitExpressionByParameter0 != asMMemberExpressionParameterExpression)
+                                     {
+                                         // group by within a join, where this select is not part of this outer source!
+
+                                         return;
+                                     }
+                                 }
+
+
+
+
+
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
+                                 var asMParameterExpression = asMemberExpression.Expression as ParameterExpression;
+                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                    + asMParameterExpression.Name + ".`" + asMemberExpression.Member.Name + "` as `" + GetPrefixedTargetName() + "`";
+
+
+                                 return;
+                             }
+                             #endregion
+
+
 
                              // Method = {TestSQLiteGroupBy.Data.Book1MiddleRow First[GooStateEnum,Book1MiddleRow](TestSQLiteGroupBy.IQueryStrategyGrouping`2[TestSQLiteGroupBy.Data.GooStateEnum,TestSQLiteGroupBy.Data.Book1MiddleRow])}
 
@@ -569,30 +734,7 @@ namespace System.Data
                              }
                              #endregion
 
-                             #region WriteMemberExpression:asMMemberExpressionParameterExpression
-                             var asMMemberExpressionParameterExpression = asMemberExpression.Expression as ParameterExpression;
-                             if (asMMemberExpressionParameterExpression != null)
-                             {
-                                 if (asMemberInitExpressionByParameter0 != null)
-                                 {
-                                     if (asMemberInitExpressionByParameter0 != asMMemberExpressionParameterExpression)
-                                     {
-                                         // group by within a join, where this select is not part of this outer source!
 
-                                         return;
-                                     }
-                                 }
-
-
-                                 // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
-                                 var asMParameterExpression = asMemberExpression.Expression as ParameterExpression;
-                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                    + asMParameterExpression.Name + ".`" + asMemberExpression.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-
-                                 return;
-                             }
-                             #endregion
 
 
                              //asMMemberExpression.Member
@@ -602,12 +744,48 @@ namespace System.Data
 
 
                 #region WriteExpression COPY from GroupBy
-                Action<int, Expression, MemberInfo> WriteExpression =
-                    (index, asExpression, TargetMember) =>
+                WriteExpression =
+                       (index, asExpression, TargetMember, prefixes, valueSelector) =>
                          {
                              var asMemberAssignment = new { Expression = asExpression, Member = TargetMember };
 
                              // what about nesed joins?
+
+                             #region [0] WriteExpression:asMemberExpression
+                             {
+                                 var asMemberExpression = asMemberAssignment.Expression as MemberExpression;
+                                 if (asMemberExpression != null)
+                                 {
+                                     WriteMemberExpression(index, asMemberExpression, TargetMember, prefixes, null);
+                                     return;
+                                 }
+                             }
+                             #endregion
+
+
+                             #region GetPrefixedTargetName
+                             Func<string> GetPrefixedTargetName = delegate
+                             {
+                                 var w = "";
+
+
+                                 foreach (var item in prefixes)
+                                 {
+                                     if (item.Item2 == null)
+                                         w += item.Item1 + ".";
+                                     else
+                                         w += item.Item2.Name + ".";
+                                 }
+
+                                 // for primary constructors we know position.
+                                 if (TargetMember == null)
+                                     w += index;
+                                 else
+                                     w += TargetMember.Name;
+
+                                 return w;
+                             };
+                             #endregion
 
 
                              #region WriteExpression:asEParameterExpression
@@ -1519,16 +1697,7 @@ namespace System.Data
 
 
 
-                             #region WriteExpression:asMemberExpression
-                             {
-                                 var asMemberExpression = asMemberAssignment.Expression as MemberExpression;
-                                 if (asMemberExpression != null)
-                                 {
-                                     WriteMemberExpression(index, asMemberExpression, TargetMember);
-                                     return;
-                                 }
-                             }
-                             #endregion
+
 
                              #region  asMemberAssignment.Expression = {Convert(GroupByGoo.First())}
                              var asUnaryExpression = asMemberAssignment.Expression as UnaryExpression;
@@ -1575,7 +1744,7 @@ namespace System.Data
                 {
                     if (asLMemberExpression != null)
                     {
-                        WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member);
+                        WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member, new Tuple<int, MemberInfo>[0], null);
                         SelectCommand = s_SelectCommand;
                     }
                     else if (asLNewExpression != null)
@@ -1587,7 +1756,7 @@ namespace System.Data
                                         var asMemberAssignment = new { Member = TargetMember };
 
 
-                                        WriteExpression(index, SourceArgument, TargetMember);
+                                        WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
                                     }
                                  );
 
@@ -1667,7 +1836,7 @@ namespace System.Data
                                 // SourceBinding = {Content = <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last().UpdatedContent}
 
                                 WriteExpression(i, asMemberAssignment.Expression, asMemberAssignment.Member
-                                    //, new Tuple<int, MemberInfo>[0], null
+                                    , new Tuple<int, MemberInfo>[0], null
                                     );
 
                             }

@@ -818,7 +818,40 @@ namespace System.Data
 
 
                         // arg name collision
-                        var n = "@where" + state.ApplyParameter.Count;
+                        var n = "";
+
+                        var xINestedQueryStrategy = that as INestedQueryStrategy;
+                        while (xINestedQueryStrategy != null)
+                        {
+
+
+                            if (xINestedQueryStrategy.upperGroupBy != null)
+                            {
+                                n = "GroupBy_" + n;
+                                xINestedQueryStrategy = xINestedQueryStrategy.upperGroupBy;
+                            }
+                            else if (xINestedQueryStrategy.upperJoin != null)
+                            {
+                                n = "Join_" + n;
+
+                                xINestedQueryStrategy = xINestedQueryStrategy.upperJoin;
+                            }
+                            else if (xINestedQueryStrategy.upperSelect != null)
+                            {
+                                n = "Select_" + n;
+
+                                xINestedQueryStrategy = xINestedQueryStrategy.upperSelect;
+                            }
+                            else if (xINestedQueryStrategy.upperSelect != null)
+                            {
+                                n = "SelectMany_" + n;
+                                xINestedQueryStrategy = xINestedQueryStrategy.upperSelectMany;
+                            }
+                            else break;
+                        }
+
+
+                        n = "@" + n + "Where" + state.ApplyParameter.Count;
 
                         state.WhereCommand += " ";
                         state.WhereCommand += n;
