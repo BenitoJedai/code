@@ -166,7 +166,8 @@ namespace System.Data
                      var SelectCommand = default(string);
                      var s_SelectCommand =
                          CommentLineNumber() +
-                         "select /* diagnostics */ ";
+                     //"select /* diagnostics */ ";
+                     "select -- diagnostics ";
 
                      // are we using it or what?
                      #region AddToSelectCommand
@@ -2148,7 +2149,7 @@ namespace System.Data
 
                              // ??
 
-                             state.WriteExpression(ref s_SelectCommand, asLUnaryExpression);
+                             state.WriteExpression(ref s_SelectCommand, asLUnaryExpression, that);
 
 
                              SelectCommand = s_SelectCommand;
@@ -2192,7 +2193,7 @@ namespace System.Data
                                      else
                                      {
 
-                                         state.WriteExpression(ref s_SelectCommand, asLMethodCallExpression);
+                                         state.WriteExpression(ref s_SelectCommand, asLMethodCallExpression, that);
 
                                      }
 

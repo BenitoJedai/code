@@ -128,7 +128,7 @@ namespace System.Data
                         // http://connect.microsoft.com/VisualStudio/feedback/details/367077/i-want-to-use-string-isnullorempty-in-linq-to-sql-statements
                         // http://stackoverflow.com/questions/15663207/how-to-use-null-or-empty-string-in-sql
                         var __WhereCommand = state.WhereCommand;
-                        state.WriteExpression(ref __WhereCommand, filter.Body);
+                        state.WriteExpression(ref __WhereCommand, filter.Body, that);
                         state.WhereCommand = __WhereCommand;
                         return;
                     }
@@ -141,7 +141,7 @@ namespace System.Data
                         {
 
                             var __WhereCommand = state.WhereCommand;
-                            state.WriteExpression(ref __WhereCommand, filter.Body);
+                            state.WriteExpression(ref __WhereCommand, filter.Body, that);
                             state.WhereCommand = __WhereCommand;
                             return;
                         }
@@ -156,7 +156,7 @@ namespace System.Data
                         {
 
                             var __WhereCommand = state.WhereCommand;
-                            state.WriteExpression(ref __WhereCommand, filter.Body);
+                            state.WriteExpression(ref __WhereCommand, filter.Body, that);
                             state.WhereCommand = __WhereCommand;
                             return;
                         }
