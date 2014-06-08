@@ -36,6 +36,9 @@ namespace System.Data
         [Obsolete("experimental")]
         public static IEnumerable<TSource> AsGenericEnumerable<TSource>(this IQueryStrategy<TSource> source)
         {
+            // same concept when building, now we are about to inspec backwards..
+            var that = new { source };
+
             // we will replace the code gened version. will need to make sure it works for appengine and android
 
             // X:\jsc.svn\examples\javascript\LINQ\test\vb\TestXMLSelect\TestXMLSelect\ApplicationWebService.vb
@@ -255,13 +258,88 @@ namespace System.Data
                         #endregion
 
 
-                        Func<NewExpression, Tuple<int, MemberInfo>[], object> yieldNewExpression = null;
+                        Func<IQueryStrategy, NewExpression, Tuple<int, MemberInfo>[], object> yieldNewExpression = null;
 
                         #region GetArgumentValue
-                        Func<MemberInfo, Expression, int, Tuple<int, MemberInfo>[], object> GetArgumentValue =
-                            (MemberInfo SourceMember, Expression SourceArgument, int index, Tuple<int, MemberInfo>[] prefixes) =>
-                            {
+                        Func<IQueryStrategy, MemberInfo, Expression, int, Tuple<int, MemberInfo>[], object> GetArgumentValue = null;
 
+                        GetArgumentValue =
+                            (IQueryStrategy that_source, MemberInfo SourceMember, Expression SourceArgument, int index, Tuple<int, MemberInfo>[] prefixes) =>
+                            {
+                                var asMemberExpression = SourceArgument as MemberExpression;
+
+                                // SourceArgument = {<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.g}
+                                // hey its our g.
+                                // we need to find the new g { x x}
+                                // x:\jsc.svn\examples\javascript\linq\test\testselectdatesthencountsimilars\testselectdatesthencountsimilars\applicationwebservice.cs
+
+                                #region flatten to find g
+                                var yy = that_source as ISelectQueryStrategy;
+
+                                // off by 1? hack it
+                                if (yy != null)
+                                    yy = yy.source as ISelectQueryStrategy;
+
+                                var yym = asMemberExpression;
+
+                                while (yym != null)
+                                {
+                                    if (yym.Expression is MemberExpression)
+                                    {
+                                        yym = yym.Expression as MemberExpression;
+                                        // go even deeper
+                                        if (yy != null)
+                                            yy = yy.source as ISelectQueryStrategy;
+                                    }
+                                    else
+                                    {
+                                        // we seem to be at the correct level.
+                                        // the generated datasources might want to implcitly be ISelectQueryStrategy ?
+                                        if (yy != null)
+                                        {
+                                            var yyLambdaExpression = yy.selectorExpression as LambdaExpression;
+
+                                            // yyNewExpression = {new <>f__AnonymousType2`2(<>h__TransparentIdentifier0 = <>h__TransparentIdentifier0, xrequestStart = <>h__TransparentIdentifier0.x.requestStart)}
+                                            // yyNewExpression = {new <>f__AnonymousType0`2(x = x, g = new <>f__AnonymousType1`3(requestStart = x.requestStart, Tag = x.Tag, EventTime = x.EventTime))}
+
+                                            var yyNewExpression = yyLambdaExpression.Body as NewExpression;
+                                            var yyi = yyNewExpression.Members.IndexOf(asMemberExpression.Member);
+                                            var yya = yyNewExpression.Arguments[yyi];
+
+                                            // we have just resolved the grouping
+                                            return GetArgumentValue(
+
+                                                // ?
+
+                                                // only allow deflattening once while we figure out how to implement more robustly
+                                                null,
+
+                                                SourceMember,
+                                                yya,
+                                                // keep the other args the same
+                                                index,
+                                                //prefixes.Concat(new[] { Tuple.Create(index, asMemberExpression.Member) }).ToArray()
+                                                prefixes
+                                            );
+
+                                            //WriteExpression(
+                                            //     // ?
+                                            //     that_source,
+
+                                            //    index, yya,
+                                            //    asMemberAssignment_Member,
+                                            //    prefixes,
+                                            //    null,
+                                            //    new[] { Tuple.Create(index, asMemberAssignment_Member) }
+                                            //   );
+                                            //return;
+                                        }
+
+                                        // ?
+                                        break;
+                                    }
+                                }
+                                #endregion
 
 
                                 var SourceType = SourceArgument.Type;
@@ -469,7 +547,7 @@ namespace System.Data
                                 }
                                 #endregion
 
-                                #region xasNewArrayExpression
+                                #region GetArgumentValue: xasNewArrayExpression
                                 var xasNewArrayExpression = SourceArgument as NewArrayExpression;
                                 if (xasNewArrayExpression != null)
                                 {
@@ -496,7 +574,9 @@ namespace System.Data
                                         var xxasNewExpression = SourceExpression as NewExpression;
                                         if (xxasNewExpression != null)
                                         {
-                                            xxx = yieldNewExpression(xxasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember), Tuple.Create(i, SourceMember) }).ToArray());
+                                            //  /* QueryStrategyOfTRowExtensions.Select.cs:869 */       (  (x.`EventTime` / (1000 * 60 * 60 * 24) * (1000 * 60 * 60 * 24)) + (1000 * 60 * 60 * 24) * @arg0) as `xx.0.z`,
+
+                                            xxx = yieldNewExpression(that_source, xxasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember), Tuple.Create(i, default(MemberInfo)) }).ToArray());
 
                                         }
                                         else
@@ -560,7 +640,7 @@ namespace System.Data
                                 if (xasNewExpression != null)
                                 {
                                     //return CreateFromSourceElementType(asPropertyInfo.PropertyType);
-                                    var xx = yieldNewExpression(xasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
+                                    var xx = yieldNewExpression(that_source, xasNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
 
                                     return xx;
                                 }
@@ -571,7 +651,7 @@ namespace System.Data
                                 if (xasMemberInitExpression != null)
                                 {
                                     var xMNewExpression = xasMemberInitExpression.NewExpression;
-                                    var xx = yieldNewExpression(xMNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
+                                    var xx = yieldNewExpression(that_source, xMNewExpression, prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray());
 
                                     // indexer init?
 
@@ -603,7 +683,7 @@ namespace System.Data
                                                 {
                                                     var asSSNNewExpression = asSSLambdaExpression.Body as NewExpression;
                                                     if (asSSNNewExpression != null)
-                                                        return yieldNewExpression(asSSNNewExpression,
+                                                        return yieldNewExpression(that_source, asSSNNewExpression,
                                                             prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray()
                                                              );
                                                 }
@@ -631,7 +711,7 @@ namespace System.Data
                                                 {
                                                     var asSSNNewExpression = asSSLambdaExpression.Body as NewExpression;
                                                     if (asSSNNewExpression != null)
-                                                        return yieldNewExpression(asSSNNewExpression,
+                                                        return yieldNewExpression(that_source, asSSNNewExpression,
                                                             prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray()
                                                              );
                                                 }
@@ -781,7 +861,7 @@ namespace System.Data
 
                                                     var asSSNNewExpression = asSSNewExpression.Arguments[1] as NewExpression;
                                                     if (asSSNNewExpression != null)
-                                                        return yieldNewExpression(asSSNNewExpression,
+                                                        return yieldNewExpression(that_source, asSSNNewExpression,
                                                             prefixes.Concat(new[] { Tuple.Create(index, SourceMember) }).ToArray()
                                                              );
                                                 }
@@ -846,7 +926,7 @@ namespace System.Data
                         #region asNewExpression
 
 
-                        yieldNewExpression = (asNewExpression, prefixes) =>
+                        yieldNewExpression = (that_source, asNewExpression, prefixes) =>
                         {
 
 
@@ -861,7 +941,10 @@ namespace System.Data
                                         SourceMember = asNewExpression.Members[i];
                                     }
 
-                                    return GetArgumentValue(SourceMember, a, i, prefixes);
+                                    return GetArgumentValue(
+                                        // ?
+                                        that_source,
+                                        SourceMember, a, i, prefixes);
                                 }
                            ).ToArray();
 
@@ -882,7 +965,7 @@ namespace System.Data
                             if (asNewExpression != null)
                             {
 
-                                var x = yieldNewExpression(asNewExpression, new Tuple<int, MemberInfo>[0]);
+                                var x = yieldNewExpression(that.source, asNewExpression, new Tuple<int, MemberInfo>[0]);
 
                                 return (TSource)x;
                             }
@@ -898,7 +981,7 @@ namespace System.Data
                             if (xasMemberInitExpression != null)
                             {
                                 var xMNewExpression = xasMemberInitExpression.NewExpression;
-                                var xx = yieldNewExpression(xMNewExpression, new Tuple<int, MemberInfo>[0]);
+                                var xx = yieldNewExpression(that.source, xMNewExpression, new Tuple<int, MemberInfo>[0]);
 
                                 // indexer init?
 
@@ -909,7 +992,10 @@ namespace System.Data
 
                                         var mm = SourceBinding as MemberAssignment;
 
-                                        var v = GetArgumentValue(SourceBinding.Member, mm.Expression, i, new Tuple<int, MemberInfo>[0]);
+                                        var v = GetArgumentValue(
+                                            source,
+
+                                            SourceBinding.Member, mm.Expression, i, new Tuple<int, MemberInfo>[0]);
 
 
                                         var xFieldInfo = SourceBinding.Member as FieldInfo;

@@ -142,7 +142,6 @@ namespace System.Data
                      var asLambdaExpression = that.selector as LambdaExpression;
                      var xouter_Paramerer = asLambdaExpression.Parameters[0];
 
-                     var asMemberInitExpression = (asLambdaExpression).Body as MemberInitExpression;
 
                      (that.source as INestedQueryStrategy).With(q => q.upperSelect = that);
 
@@ -182,11 +181,11 @@ namespace System.Data
                      #endregion
 
 
-                     Action<int, Expression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo, Tuple<int, MemberInfo>[]> WriteExpression = null;
+                     Action<IQueryStrategy, int, Expression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo, Tuple<int, MemberInfo>[]> WriteExpression = null;
 
                      #region WriteMemberExpression
-                     Action<int, MemberExpression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo, Tuple<int, MemberInfo>[]> WriteMemberExpression =
-                         (index, asMemberExpression, asMemberAssignment_Member, prefixes, valueSelector, sourceprefixes) =>
+                     Action<IQueryStrategy, int, MemberExpression, MemberInfo, Tuple<int, MemberInfo>[], MethodInfo, Tuple<int, MemberInfo>[]> WriteMemberExpression =
+                         (that_source, index, asMemberExpression, asMemberAssignment_Member, prefixes, valueSelector, sourceprefixes) =>
                          {
                              #region GetPrefixedSourceName
                              Func<string> GetPrefixedSourceName = delegate
@@ -373,13 +372,13 @@ namespace System.Data
                                                     if (asSSNNewExpression.Members != null)
                                                         SourceMember = asSSNNewExpression.Members[i];
                                                     // c# extension operators for enumerables, thanks
-                                                    WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, asMemberExpression.Member) }).ToArray(), null, sourceprefixes);
+                                                    WriteExpression(that_source, i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, asMemberExpression.Member) }).ToArray(), null, sourceprefixes);
                                                 }
                                             );
                                              return;
                                          }
 
-                                         WriteExpression(
+                                         WriteExpression(that_source,
                                              index, asSSLambdaExpression.Body, asMemberExpression.Member, prefixes, null, sourceprefixes);
                                          return;
                                      }
@@ -590,12 +589,13 @@ namespace System.Data
                                  }
                                  #endregion
 
-
-
-
                                  #region DateTime::
                                  if (asMMemberExpression.Type == typeof(DateTime))
                                  {
+                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140608
+                                     // are we at before, .Date or after?
+
+
                                      // X:\jsc.svn\examples\javascript\Test\TestDate\TestDate\Application.cs
                                      // X:\jsc.svn\examples\javascript\linq\test\TestSelectDate\TestSelectDate\ApplicationWebService.cs
                                      // how many milliseconds are there in a day?
@@ -603,15 +603,48 @@ namespace System.Data
 
                                      //var x = (1000 * 60 * 60 * 24);
 
-                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t("
-                                        + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                        + ".`" + asMMemberExpression.Member.Name + "` / (1000 * 60 * 60 * 24) * (1000 * 60 * 60 * 24)) as `" + GetPrefixedTargetName() + "`";
+
+                                     if (that.upperSelect == null)
+                                     {
+                                         // perform the Date Taking and realiasing at last step?
+
+                                         if (index < 0)
+                                         {
+                                             // we are in a binary logic?
+
+
+                                             s_SelectCommand +=
+                                             "(" + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                + ".`" + asMMemberExpression.Member.Name + "` / (1000 * 60 * 60 * 24) * (1000 * 60 * 60 * 24))";
+
+                                         }
+                                         else
+                                         {
+
+                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t("
+                                                + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                + ".`" + asMMemberExpression.Member.Name + "` / (1000 * 60 * 60 * 24) * (1000 * 60 * 60 * 24)) as `" + GetPrefixedTargetName() + "`";
+                                         }
+                                     }
+                                     else
+                                     {
+                                         // you must be playing with let keywords!
+
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                             + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                             + ".`" + asMMemberExpression.Member.Name + "`  as `" + asMMemberExpression.Member.Name + "`";
+                                     }
+
+                                     ////s_SelectCommand += ",\n" + CommentLineNumber() + "\t("
+                                     ////   + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                     ////   + ".`" + GetPrefixedSourceName() + "` / (1000 * 60 * 60 * 24) * (1000 * 60 * 60 * 24)) as `" + GetPrefixedTargetName() + "`";
+
 
                                      return;
                                  }
                                  #endregion
 
-
+                                 #region (index < 0)
                                  if (index < 0)
                                  {
                                      // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMath\TestSelectMath\ApplicationWebService.cs
@@ -622,7 +655,7 @@ namespace System.Data
 
                                      return;
                                  }
-
+                                 #endregion
 
                                  // asMemberExpression = {<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.g}
                                  // a g? 
@@ -633,16 +666,20 @@ namespace System.Data
 
                                  // do we have a reason to walk up and see how the g was put together?
 
-                                 var yy = that.source as ISelectQueryStrategy;
-                                 //var yym = asMemberExpression.Expression as MemberExpression;
+                                 // what if the expression is actually referencin another source?
+                                 // we would not know how many times we need to go deeper then!
+
+                                 // select the correct source reference to go down from. might be upper than current 
+                                 // if we are hunting for proxy data groups
+
+
+                                 #region flatten g
+                                 var yy = that_source as ISelectQueryStrategy;
                                  var yym = asMemberExpression;
 
                                  while (yym != null)
                                  {
-
                                      // selectorExpression = {x => new <>f__AnonymousType0`2(x = x, g = new <>f__AnonymousType1`3(requestStart = x.requestStart, Tag = x.Tag, EventTime = x.EventTime))}
-
-
 
                                      // we are now looking one level deeper.
                                      // do we see our g being constructed yet?
@@ -650,16 +687,18 @@ namespace System.Data
                                      // shall we go any deeper or lok for our g in this level?
                                      if (yym.Expression is MemberExpression)
                                      {
+                                         // we should only go deeper if it is referencing the deeper source
+                                         // selectorExpression = {x => new <>f__AnonymousType0`2(x = x, g0 = new <>f__AnonymousType1`3(requestStart = x.requestStart, Tag = x.Tag, EventTime = x.EventTime))}
+                                         // yym.Expression = {<>h__TransparentIdentifier0.x}
+
                                          yym = yym.Expression as MemberExpression;
-
                                          // go even deeper
-
-                                         yy = yy.source as ISelectQueryStrategy;
+                                         if (yy != null)
+                                             yy = yy.source as ISelectQueryStrategy;
                                      }
                                      else
                                      {
                                          // we seem to be at the correct level.
-
                                          // the generated datasources might want to implcitly be ISelectQueryStrategy ?
                                          if (yy != null)
                                          {
@@ -669,22 +708,31 @@ namespace System.Data
                                              // yyNewExpression = {new <>f__AnonymousType0`2(x = x, g = new <>f__AnonymousType1`3(requestStart = x.requestStart, Tag = x.Tag, EventTime = x.EventTime))}
 
                                              var yyNewExpression = yyLambdaExpression.Body as NewExpression;
-
-                                             // 		yyNewExpression.Members.IndexOf(asMemberExpression.Member )	1	int
-
                                              var yyi = yyNewExpression.Members.IndexOf(asMemberExpression.Member);
-                                             var yya = yyNewExpression.Arguments[yyi];
 
+                                             if (yyi < 0)
+                                             {
+                                                 // not defined, skip it
+                                             }
+                                             else
+                                             {
 
-                                             WriteExpression(
-                                                 index, yya,
-                                                 asMemberAssignment_Member,
-                                                 prefixes,
-                                                 null,
-                                                 new[] { Tuple.Create(index, asMemberAssignment_Member) }
-                                                );
-                                             return;
+                                                 var yya = yyNewExpression.Arguments[yyi];
 
+                                                 // if its not a group just write it?
+
+                                                 WriteExpression(
+                                                 // ?
+                                                 that_source,
+
+                                                     index, yya,
+                                                     asMemberAssignment_Member,
+                                                     prefixes,
+                                                     null,
+                                                     new[] { Tuple.Create(index, asMemberAssignment_Member) }
+                                                    );
+                                                 return;
+                                             }
                                          }
 
                                          // ?
@@ -693,6 +741,8 @@ namespace System.Data
 
 
                                  }
+                                 #endregion
+
 
 
 
@@ -715,8 +765,22 @@ namespace System.Data
                      #region WriteExpression 
 
                      WriteExpression =
-                         (index, asExpression, TargetMember, prefixes, valueSelector, sourceprefixes) =>
+                         (that_source, index, asExpression, TargetMember, prefixes, valueSelector, sourceprefixes) =>
                          {
+                             #region [0] WriteExpression:asMemberExpression
+                             {
+                                 // m_getterMethod = {TestSQLiteGroupBy.Data.GooStateEnum get_Key()}
+
+                                 var asMemberExpression = asExpression as MemberExpression;
+                                 if (asMemberExpression != null)
+                                 {
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
+                                     WriteMemberExpression(that_source, index, asMemberExpression, TargetMember, prefixes, null, sourceprefixes);
+                                     return;
+                                 }
+                             }
+                             #endregion
+
                              var asMemberAssignment = new { Expression = asExpression, Member = TargetMember };
 
                              #region GetPrefixedTargetName
@@ -795,6 +859,51 @@ namespace System.Data
                              var asMethodCallExpression = asMemberAssignment.Expression as MethodCallExpression;
                              if (asMethodCallExpression != null)
                              {
+                                 if (asMethodCallExpression.Method.DeclaringType == typeof(DateTime))
+                                 {
+                                     // x:\jsc.svn\examples\javascript\linq\test\testselectdatesthencountsimilars\testselectdatesthencountsimilars\applicationwebservice.cs
+
+
+                                     // asMethodCallExpression.Method = {System.DateTime AddDays(Double)}
+
+                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t (  ";
+
+                                     // Object = {x.EventTime.Date}
+
+                                     WriteExpression(
+                                         that_source,
+                                         -1,
+                                         asMethodCallExpression.Object,
+                                         asMemberAssignment.Member,
+                                         prefixes,
+                                         null,
+                                         sourceprefixes
+                                    );
+
+
+                                     s_SelectCommand += " + (1000 * 60 * 60 * 24) * ";
+
+                                     var arg0 = asMethodCallExpression.Arguments[0] as ConstantExpression;
+
+
+                                     WriteExpression(
+                                         that_source,
+                                         -1,
+                                         arg0,
+                                         asMemberAssignment.Member,
+                                         prefixes,
+                                         null,
+                                         sourceprefixes
+                                     );
+
+
+
+                                     s_SelectCommand += ") as `" + GetPrefixedTargetName() + "`";
+
+                                     return;
+                                 }
+
+
                                  #region XName::
                                  var refXNameGet = new Func<string, string, XName>(XName.Get);
 
@@ -845,7 +954,7 @@ namespace System.Data
                                              //var asMMemberExpression = asMemberExpression.Expression as MemberExpression;
 
 
-                                             WriteMemberExpression(index, asMemberExpression, TargetMember, prefixes, asMethodCallExpression.Method, sourceprefixes);
+                                             WriteMemberExpression(that_source, index, asMemberExpression, TargetMember, prefixes, asMethodCallExpression.Method, sourceprefixes);
                                              //s_SelectCommand += ",\n\t lower("
                                              //    + that.selector.Parameters[0].Name.Replace("<>", "__")
                                              //    + ".`" + asMemberExpression.Member.Name + "`) as `" + GetPrefixedTargetName() + "`";
@@ -1460,20 +1569,7 @@ namespace System.Data
 
 
 
-                             #region WriteExpression:asMemberExpression
-                             {
-                                 // m_getterMethod = {TestSQLiteGroupBy.Data.GooStateEnum get_Key()}
 
-                                 var asMemberExpression = asMemberAssignment.Expression as MemberExpression;
-                                 Console.WriteLine(new { index, asMemberExpression });
-                                 if (asMemberExpression != null)
-                                 {
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\SelectToUpperIntoNewExpression\SelectToUpperIntoNewExpression\ApplicationWebService.cs
-                                     WriteMemberExpression(index, asMemberExpression, TargetMember, prefixes, null, sourceprefixes);
-                                     return;
-                                 }
-                             }
-                             #endregion
 
                              #region  asMemberAssignment.Expression = {Convert(GroupByGoo.First())}
                              var asUnaryExpression = asMemberAssignment.Expression as UnaryExpression;
@@ -1484,7 +1580,7 @@ namespace System.Data
                              {
                                  // x:\jsc.svn\examples\javascript\linq\test\vb\testselectintoxelementwithattribute\testselectintoxelementwithattribute\applicationwebservice.vb
 
-                                 WriteExpression(index, asUnaryExpression.Operand, TargetMember, prefixes, valueSelector, sourceprefixes);
+                                 WriteExpression(that_source, index, asUnaryExpression.Operand, TargetMember, prefixes, valueSelector, sourceprefixes);
                                  return;
 
                              }
@@ -1660,6 +1756,9 @@ namespace System.Data
 
 
                                                                         WriteExpression(
+                                                                            // allow it do go down the levels it needs to find the g
+                                                                            asSelectQueryStrategy.source,
+                                                                            // that_source,
                                                                             index,
                                                                             xasMemberExpression,
                                                                             xasMemberExpression.Member,
@@ -1669,13 +1768,13 @@ namespace System.Data
                                                                         );
 
 
-                                                                        s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                                            + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                                            + "."
-                                                                            //+ xasMMemberExpression.Member.Name + "_" 
-                                                                            + xasMemberExpression.Member.Name + " as `"
-                                                                            //+ xasMMemberExpression.Member.Name + "_" 
-                                                                            + xasMemberExpression.Member.Name + "`";
+                                                                        //s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                        //    + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                        //    + "."
+                                                                        //    //+ xasMMemberExpression.Member.Name + "_" 
+                                                                        //    + xasMemberExpression.Member.Name + " as `"
+                                                                        //    //+ xasMMemberExpression.Member.Name + "_" 
+                                                                        //    + xasMemberExpression.Member.Name + "`";
 
                                                                     }
                                                                 }
@@ -1843,7 +1942,7 @@ namespace System.Data
 
 
                                         // c# extension operators for enumerables, thanks
-                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null, sourceprefixes);
+                                        WriteExpression(that_source, i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null, sourceprefixes);
                                     }
                              );
                                  return;
@@ -1866,7 +1965,7 @@ namespace System.Data
 
 
                                         // c# extension operators for enumerables, thanks
-                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null, sourceprefixes);
+                                        WriteExpression(that_source, i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null, sourceprefixes);
                                     }
                                  );
 
@@ -1889,7 +1988,7 @@ namespace System.Data
                                         if (asNewExpression.Members != null)
                                             SourceMember = asNewExpression.Members[i];
                                         // c# extension operators for enumerables, thanks
-                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null, sourceprefixes);
+                                        WriteExpression(that_source, i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null, sourceprefixes);
                                     }
                                  );
                                  return;
@@ -1915,7 +2014,7 @@ namespace System.Data
                                             SourceMember = asEMNewExpression.Members[i];
 
                                         // c# extension operators for enumerables, thanks
-                                        WriteExpression(i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null, sourceprefixes);
+                                        WriteExpression(that_source, i, SourceArgument, SourceMember, prefixes.Concat(new[] { Tuple.Create(index, TargetMember) }).ToArray(), null, sourceprefixes);
                                     }
                                  );
 
@@ -1943,7 +2042,7 @@ namespace System.Data
                                  s_SelectCommand += ",\n" + CommentLineNumber() + "\t";
                                  s_SelectCommand += "( ";
 
-                                 WriteExpression(-1, xBinaryExpression.Left, null, prefixes, null, sourceprefixes);
+                                 WriteExpression(that_source, -1, xBinaryExpression.Left, null, prefixes, null, sourceprefixes);
 
                                  if (xBinaryExpression.NodeType == ExpressionType.Add)
                                      s_SelectCommand += " + ";
@@ -1956,7 +2055,7 @@ namespace System.Data
                                      Debugger.Break();
 
 
-                                 WriteExpression(-1, xBinaryExpression.Right, null, prefixes, null, sourceprefixes);
+                                 WriteExpression(that_source, -1, xBinaryExpression.Right, null, prefixes, null, sourceprefixes);
 
                                  s_SelectCommand += ")";
                                  s_SelectCommand += " as `" + TargetMember.Name + "`";
@@ -1973,6 +2072,7 @@ namespace System.Data
 
 
                      // asMemberInitExpression should mean select into row specific values?
+                     var asMemberInitExpression = asLambdaExpression.Body as MemberInitExpression;
                      if (asMemberInitExpression != null)
                      {
                          // ??
@@ -1993,7 +2093,7 @@ namespace System.Data
                                 Console.WriteLine(new { asMemberAssignment });
                                 // SourceBinding = {Content = <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.UpdatesByMiddlesheet.Last().UpdatedContent}
 
-                                WriteExpression(i, asMemberAssignment.Expression, asMemberAssignment.Member,
+                                WriteExpression(that.source, i, asMemberAssignment.Expression, asMemberAssignment.Member,
                                     new Tuple<int, MemberInfo>[0], null,
                                     new Tuple<int, MemberInfo>[0]
                                     );
@@ -2030,7 +2130,9 @@ namespace System.Data
                                  // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
                                  if (asLMMemberExpression != null)
                                  {
-                                     WriteMemberExpression(0, asLMMemberExpression, asLMMemberExpression.Member, new Tuple<int, MemberInfo>[0], asLMethodCallExpression.Method,
+                                     WriteMemberExpression(
+                                         that.source,
+                                         0, asLMMemberExpression, asLMMemberExpression.Member, new Tuple<int, MemberInfo>[0], asLMethodCallExpression.Method,
                                          new Tuple<int, MemberInfo>[0]
                                          );
                                      SelectCommand = s_SelectCommand;
@@ -2055,7 +2157,7 @@ namespace System.Data
                                  // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
                                  // Member = {System.String path}
 
-                                 WriteMemberExpression(0, asLMemberExpression, asLMemberExpression.Member, new Tuple<int, MemberInfo>[0], null, new Tuple<int, MemberInfo>[0]);
+                                 WriteMemberExpression(that.source, 0, asLMemberExpression, asLMemberExpression.Member, new Tuple<int, MemberInfo>[0], null, new Tuple<int, MemberInfo>[0]);
                                  SelectCommand = s_SelectCommand;
 
                                  var FromCommand =
@@ -2097,7 +2199,9 @@ namespace System.Data
                                                 }
 
 
-                                                WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null, new Tuple<int, MemberInfo>[0]);
+                                                WriteExpression(
+                                                    that.source,
+                                                    index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null, new Tuple<int, MemberInfo>[0]);
                                             }
                                      );
                                      #endregion

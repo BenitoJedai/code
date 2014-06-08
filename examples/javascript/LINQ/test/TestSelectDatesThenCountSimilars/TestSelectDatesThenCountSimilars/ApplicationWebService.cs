@@ -34,29 +34,29 @@ namespace TestSelectDatesThenCountSimilars
 
 
             new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
-            // timestamp is special and insert will override it!
-            // shall jsc signify that with [Obsolete attribute?]
+                // timestamp is special and insert will override it!
+                // shall jsc signify that with [Obsolete attribute?]
 
-            // will timestamp also include signature, hash or ID signature? or is it good
-            // enough if we sign previous data row?
-            // does security metadata need to live in a different table? a generic security table?
-            //DateTime.Now.AddDays(-1)
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },
+                // will timestamp also include signature, hash or ID signature? or is it good
+                // enough if we sign previous data row?
+                // does security metadata need to live in a different table? a generic security table?
+                //DateTime.Now.AddDays(-1)
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },
 
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1) },
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1) },
 
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-2) },
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-2) },
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-2) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-2) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-2) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-2) },
 
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-3) },
 
 
-            new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-5) }
+                new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-5) }
 
             );
 
@@ -74,33 +74,29 @@ namespace TestSelectDatesThenCountSimilars
 
             // http://www.sqlite.org/lang_select.html#fromclause
             // http://stackoverflow.com/questions/774475/what-joins-does-sqlite-support
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140608
+
             var q = from x in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
 
-                    let g = new {  x.requestStart, x.Tag, x.EventTime }
 
-                    let xrequestStart = x.requestStart
 
-                    let xTag = x.Tag
-
-                    let xEventTime = x.EventTime
-
-                    // DateTime: members are special
-
-                    //let xEventTimeDate = x.EventTime.Date
 
                     select new
                     {
-                        g,
-
-                        //xrequestStart,
-
-                        //xEventTimeDate,
-
-                        //xTag,
+                        xEventTime = x.EventTime,
+                        xEventTimeDate = x.EventTime.Date,
 
 
-                        xEventTime
+                        xx = new[]
+                        {
+                            new { z = x.EventTime.Date.AddDays(-1) },
+                            new { z = x.EventTime.Date.AddDays(-2) },
+                            new { z = x.EventTime.Date.AddDays(-3) }
+                        }
                     };
+
+
 
             var f = q.FirstOrDefault();
 
