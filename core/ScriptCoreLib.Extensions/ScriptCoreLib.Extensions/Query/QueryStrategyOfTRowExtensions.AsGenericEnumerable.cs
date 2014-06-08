@@ -175,7 +175,23 @@ namespace System.Data
                         }
                     }
 
-                    if (asLambdaExpression != null)
+                    if (asLambdaExpression == null)
+                    {
+                        // we are not in a LINQ expression. csc did not bake us the type cookies we need.
+                        // did jsc provide us with defaults?
+                        // for all runtimes?
+
+                        // if not LINQ expression data available the table can atleast tell us the defaults
+                        // tested by?
+                        // when will jsc engage generic type erasure and type argument baking?
+                        var SourceElementType = source.GetElementType();
+                        if (SourceElementType != null)
+                        {
+                            return CreateFromSourceElementType(SourceElementType);
+                        }
+                    }
+
+
                     {
 
 
@@ -225,13 +241,32 @@ namespace System.Data
                         var asMethodCallExpression = asLambdaExpression.Body as MethodCallExpression;
                         if (asMethodCallExpression != null)
                         {
-                            if (asMethodCallExpression.Method.Name == "ToUpper")
+                            if (asMethodCallExpression.Method.ReturnType == typeof(bool))
                             {
-                                // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Select.cs
-                                // X:\jsc.svn\examples\javascript\linq\test\TestSelectToUpper\TestSelectToUpper\ApplicationWebService.cs
+                                var __value = SourceRow[0];
+                                var i4 = Convert.ToInt32(__value);
 
-                                var asMMemberExpression = asMethodCallExpression.Object as MemberExpression;
-                                return yieldMemberExpression(asMMemberExpression);
+                                var b = (i4 != 0);
+                                return (TSource)(object)(b);
+                            }
+
+                            if (asMethodCallExpression.Method.DeclaringType == typeof(string))
+                            {
+                                var refIsNullOrEmpty = new Func<string, bool>(string.IsNullOrEmpty).Method;
+
+                                if (asMethodCallExpression.Method.Name == refIsNullOrEmpty.Name)
+                                {
+
+                                }
+
+                                if (asMethodCallExpression.Method.Name == "ToUpper")
+                                {
+                                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Select.cs
+                                    // X:\jsc.svn\examples\javascript\linq\test\TestSelectToUpper\TestSelectToUpper\ApplicationWebService.cs
+
+                                    var asMMemberExpression = asMethodCallExpression.Object as MemberExpression;
+                                    return yieldMemberExpression(asMMemberExpression);
+                                }
                             }
                         }
                         #endregion
@@ -1011,6 +1046,23 @@ namespace System.Data
                         #endregion
 
 
+                        #region xUnaryExpression
+                        var xUnaryExpression = asLambdaExpression.Body as UnaryExpression;
+                        if (xUnaryExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\TestWhereIsNullOrEmpty\TestWhereIsNullOrEmpty\ApplicationWebService.cs
+
+                            var __value = SourceRow[0];
+                            if (xUnaryExpression.Type == typeof(bool))
+                            {
+                                var i4 = Convert.ToInt32(__value);
+
+                                var b = (i4 != 0);
+                                return (TSource)(object)(b);
+                            }
+                        }
+                        #endregion
+
 
                         var xNewArrayExpression = asLambdaExpression.Body as NewArrayExpression;
                         if (xNewArrayExpression != null)
@@ -1021,21 +1073,7 @@ namespace System.Data
                         }
 
                     }
-                    else
-                    {
-                        // we are not in a LINQ expression. csc did not bake us the type cookies we need.
-                        // did jsc provide us with defaults?
-                        // for all runtimes?
 
-                        // if not LINQ expression data available the table can atleast tell us the defaults
-                        // tested by?
-                        // when will jsc engage generic type erasure and type argument baking?
-                        var SourceElementType = source.GetElementType();
-                        if (SourceElementType != null)
-                        {
-                            return CreateFromSourceElementType(SourceElementType);
-                        }
-                    }
 
                     Debugger.Break();
                     return default(TSource);

@@ -166,7 +166,7 @@ namespace System.Data
                      var SelectCommand = default(string);
                      var s_SelectCommand =
                          CommentLineNumber() +
-                         "select -- diagnostics ";
+                         "select /* diagnostics */ ";
 
                      // are we using it or what?
                      #region AddToSelectCommand
@@ -859,6 +859,8 @@ namespace System.Data
                              var asMethodCallExpression = asMemberAssignment.Expression as MethodCallExpression;
                              if (asMethodCallExpression != null)
                              {
+
+                                 #region DateTime::
                                  if (asMethodCallExpression.Method.DeclaringType == typeof(DateTime))
                                  {
                                      // x:\jsc.svn\examples\javascript\linq\test\testselectdatesthencountsimilars\testselectdatesthencountsimilars\applicationwebservice.cs
@@ -902,6 +904,7 @@ namespace System.Data
 
                                      return;
                                  }
+                                 #endregion
 
 
                                  #region XName::
@@ -1373,32 +1376,45 @@ namespace System.Data
                                          var a0MethodCallExpression = asMethodCallExpression.Arguments[0] as MethodCallExpression;
                                          if (a0MethodCallExpression != null)
                                          {
-                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                              //+ arg0Elements_ParameterExpression.Name
-                                              + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                           + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                             if (source is IGroupByQueryStrategy)
+                                             {
+                                                 // groups do theyr own counting
+
+                                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                                      //+ arg0Elements_ParameterExpression.Name
+                                                      + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                                       + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                                 return;
+                                             }
+
+                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDatesThenCountSimilars\TestSelectDatesThenCountSimilars\ApplicationWebService.cs
+
 
 
                                              //// X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
 
-                                             //var xTable_Where_Select0 = subquery(a0MethodCallExpression);
-                                             //var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
+                                             var xTable_Where_Select0 = subquery(a0MethodCallExpression);
 
-                                             //xTable_Where_Select.scalarAggregateOperand = "count";
+                                             // xTable_Where_Select0 = {System.Data.QueryStrategyOfTRowExtensions.WhereQueryStrategy<TestSelectDatesThenCountSimilars.Data.PerformanceResourceTimingData2ApplicationPerformanceRow>}
 
-                                             //#region s_SelectCommand
-                                             //var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
-                                             //var scalarsubquery = xSelectScalar.ToString();
+                                             var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
 
-                                             //// http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+                                             xTable_Where_Select.scalarAggregateOperand = "count";
 
-                                             //// do we have to 
-                                             //// we dont know yet how to get sql of that thing do we
-                                             //s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+                                             #region s_SelectCommand
+                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
+                                             var scalarsubquery = xSelectScalar.ToString();
+
+                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                             // do we have to 
+                                             // we dont know yet how to get sql of that thing do we
+                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
 
 
-                                             //state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
-                                             //#endregion
+                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                             #endregion
                                              return;
                                          }
                                          #endregion
@@ -1562,6 +1578,8 @@ namespace System.Data
                                  Console.WriteLine(new { index, asMethodCallExpression.Method });
 
 
+                                 // asMethodCallExpression = {Range(0, 3).Select(u => new <>f__AnonymousType1`1(z = x.EventTime.Date.AddDays(Convert(-u))))}
+                                 // not sure, are we supposed to do a serverside selectmany?
 
                                  Debugger.Break();
                              }
@@ -2063,6 +2081,7 @@ namespace System.Data
                              }
                              #endregion
 
+                             // asExpression = {Range(0, 3).Select(u => new <>f__AnonymousType1`1(z = x.EventTime.Date.AddDays(Convert(-u))))}
 
                              Debugger.Break();
                          };
@@ -2072,6 +2091,7 @@ namespace System.Data
 
 
                      // asMemberInitExpression should mean select into row specific values?
+                     #region asMemberInitExpression
                      var asMemberInitExpression = asLambdaExpression.Body as MemberInitExpression;
                      if (asMemberInitExpression != null)
                      {
@@ -2109,6 +2129,8 @@ namespace System.Data
 
                          state.FromCommand = FromCommand;
                      }
+                     #endregion
+
                      else
                      {
                          // when does this happen?
@@ -2119,22 +2141,62 @@ namespace System.Data
                          // NewExpression shuld mean new { x, y }
 
 
-                         var asLMethodCallExpression = asLambdaExpression.Body as MethodCallExpression;
-                         if (asLMethodCallExpression != null)
+                         var asLUnaryExpression = asLambdaExpression.Body as UnaryExpression;
+                         if (asLUnaryExpression != null)
                          {
-                             // X:\jsc.svn\examples\javascript\linq\test\TestSelectToUpper\TestSelectToUpper\ApplicationWebService.cs
+                             // X:\jsc.svn\examples\javascript\linq\test\TestWhereIsNullOrEmpty\TestWhereIsNullOrEmpty\ApplicationWebService.cs
 
-                             if (asLMethodCallExpression.Method.Name == "ToUpper")
+                             // ??
+
+                             state.WriteExpression(ref s_SelectCommand, asLUnaryExpression);
+
+
+                             SelectCommand = s_SelectCommand;
+
+                             var FromCommand =
+                                  "from "
+                                      + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                  + " as " + xouter_Paramerer.Name.Replace("<>", "__");
+                             state.FromCommand = FromCommand;
+                         }
+
+                         else
+                         {
+
+                             #region asLMethodCallExpression
+                             var asLMethodCallExpression = asLambdaExpression.Body as MethodCallExpression;
+                             if (asLMethodCallExpression != null)
                              {
-                                 var asLMMemberExpression = asLMethodCallExpression.Object as MemberExpression;
-                                 // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
-                                 if (asLMMemberExpression != null)
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectToUpper\TestSelectToUpper\ApplicationWebService.cs
+                                 // X:\jsc.svn\examples\javascript\linq\test\TestWhereIsNullOrEmpty\TestWhereIsNullOrEmpty\ApplicationWebService.cs
+
+
+                                 if (asLMethodCallExpression.Method.DeclaringType == typeof(string))
                                  {
-                                     WriteMemberExpression(
-                                         that.source,
-                                         0, asLMMemberExpression, asLMMemberExpression.Member, new Tuple<int, MemberInfo>[0], asLMethodCallExpression.Method,
-                                         new Tuple<int, MemberInfo>[0]
-                                         );
+
+                                     if (asLMethodCallExpression.Method.Name == "ToUpper")
+                                     {
+                                         var asLMMemberExpression = asLMethodCallExpression.Object as MemberExpression;
+                                         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.AsGenericEnumerable.cs
+                                         if (asLMMemberExpression != null)
+                                         {
+                                             WriteMemberExpression(
+                                                 that.source,
+                                                 0, asLMMemberExpression, asLMMemberExpression.Member, new Tuple<int, MemberInfo>[0], asLMethodCallExpression.Method,
+                                                 new Tuple<int, MemberInfo>[0]
+                                                 );
+
+
+                                         }
+                                     }
+                                     else
+                                     {
+
+                                         state.WriteExpression(ref s_SelectCommand, asLMethodCallExpression);
+
+                                     }
+
+
                                      SelectCommand = s_SelectCommand;
 
                                      var FromCommand =
@@ -2142,50 +2204,55 @@ namespace System.Data
                                               + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
                                           + " as " + xouter_Paramerer.Name.Replace("<>", "__");
                                      state.FromCommand = FromCommand;
-
                                  }
+                                 else
+                                     // what are you calling?
+                                     Debugger.Break();
                              }
-                             else
-                                 Debugger.Break();
-                         }
-                         else
-                         {
-                             var asLMemberExpression = asLambdaExpression.Body as MemberExpression;
-                             if (asLMemberExpression != null)
-                             {
-                                 // scalar?
-                                 // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
-                                 // Member = {System.String path}
+                             #endregion
 
-                                 WriteMemberExpression(that.source, 0, asLMemberExpression, asLMemberExpression.Member, new Tuple<int, MemberInfo>[0], null, new Tuple<int, MemberInfo>[0]);
-                                 SelectCommand = s_SelectCommand;
-
-                                 var FromCommand =
-                                      "from "
-                                          + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
-                                      + " as " + xouter_Paramerer.Name.Replace("<>", "__");
-                                 state.FromCommand = FromCommand;
-                             }
                              else
                              {
-                                 // X:\jsc.svn\examples\javascript\linq\test\TestSelectIntoNewExpression\TestSelectIntoNewExpression\ApplicationWebService.cs
-                                 var asLNewExpression = asLambdaExpression.Body as NewExpression;
-                                 if (asLNewExpression != null)
+                                 #region asLMemberExpression
+                                 var asLMemberExpression = asLambdaExpression.Body as MemberExpression;
+                                 if (asLMemberExpression != null)
                                  {
-                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
-                                     // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCount\TestGroupByCount\ApplicationWebService.cs
+                                     // scalar?
+                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectMember\TestSelectMember\ApplicationWebService.cs
+                                     // Member = {System.String path}
 
-                                     // prep the from command before select, as select may want to add new sources!
+                                     WriteMemberExpression(that.source, 0, asLMemberExpression, asLMemberExpression.Member, new Tuple<int, MemberInfo>[0], null, new Tuple<int, MemberInfo>[0]);
+                                     SelectCommand = s_SelectCommand;
+
                                      var FromCommand =
-                                         "from "
-                                             + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
-                                         + " as " + that.selector.Parameters[0].Name.Replace("<>", "__");
-
+                                          "from "
+                                              + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                          + " as " + xouter_Paramerer.Name.Replace("<>", "__");
                                      state.FromCommand = FromCommand;
+                                 }
+                                 #endregion
 
-                                     #region asNewExpression
-                                     asLNewExpression.Arguments.WithEachIndex(
-                                         (SourceArgument, index) =>
+                                 else
+                                 {
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestSelectIntoNewExpression\TestSelectIntoNewExpression\ApplicationWebService.cs
+                                     #region asLNewExpression
+                                     var asLNewExpression = asLambdaExpression.Body as NewExpression;
+                                     if (asLNewExpression != null)
+                                     {
+                                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
+                                         // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCount\TestGroupByCount\ApplicationWebService.cs
+
+                                         // prep the from command before select, as select may want to add new sources!
+                                         var FromCommand =
+                                             "from "
+                                                 + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
+                                             + " as " + that.selector.Parameters[0].Name.Replace("<>", "__");
+
+                                         state.FromCommand = FromCommand;
+
+                                         #region asNewExpression
+                                         asLNewExpression.Arguments.WithEachIndex(
+                                             (SourceArgument, index) =>
                                             {
                                                 //s_SelectCommand += "\n\t-- " + new { index, SourceArgument };
 
@@ -2203,30 +2270,33 @@ namespace System.Data
                                                     that.source,
                                                     index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null, new Tuple<int, MemberInfo>[0]);
                                             }
-                                     );
+                                         );
+                                         #endregion
+
+                                         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
+
+
+
+
+
+
+                                         SelectCommand = s_SelectCommand;
+
+
+
+                                     }
                                      #endregion
 
-                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140601/let
+                                     else
+                                     {
+                                         // what if we do select x?
+                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestSelect\TestSelect\ApplicationWebService.cs
 
+                                         SelectCommand = s.SelectCommand;
+                                         state.FromCommand = s.FromCommand;
 
-
-
-
-
-                                     SelectCommand = s_SelectCommand;
-
-
-
-                                 }
-                                 else
-                                 {
-                                     // what if we do select x?
-                                     // X:\jsc.svn\examples\javascript\LINQ\test\TestSelect\TestSelect\ApplicationWebService.cs
-
-                                     SelectCommand = s.SelectCommand;
-                                     state.FromCommand = s.FromCommand;
-
-                                     // um. what if we do a where on it?
+                                         // um. what if we do a where on it?
+                                     }
                                  }
                              }
                          }
