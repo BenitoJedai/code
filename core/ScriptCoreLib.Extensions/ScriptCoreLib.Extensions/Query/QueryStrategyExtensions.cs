@@ -35,7 +35,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         // http://msdn.microsoft.com/en-us/library/bb310804.aspx
 
 
-        public class CommandBuilderState
+        public partial class CommandBuilderState
         {
             public IQueryStrategy Strategy;
 

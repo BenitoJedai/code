@@ -106,6 +106,7 @@
     <Compile Include="Query\IQueryStrategyInsert.cs" />
     <Compile Include="Query\QueryStrategyExtensions.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.AsDataTable.cs" />
+    <Compile Include="Query\QueryStrategyExtensions.WriteExpression.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.INestedQueryStrategy.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.Last.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.Average.cs" />

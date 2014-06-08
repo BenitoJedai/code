@@ -88,11 +88,22 @@ namespace TestSelectDatesThenCountSimilars
                         xEventTimeDate = x.EventTime.Date,
 
 
+                        byDate = (from xx in new Data.PerformanceResourceTimingData2.ApplicationPerformance()
+                                  where xx.EventTime.Date == x.EventTime.Date
+
+                                  // make sure the .Select is there
+                                  select xx.Key
+                                ).Count(),
+
+                        // where shall we generate this data?
+                        //yy = from u in Enumerable.Range(0, 3)
+                        //     select new { z = x.EventTime.Date.AddDays(-u) },
+
                         xx = new[]
                         {
-                            new { z = x.EventTime.Date.AddDays(-1) },
-                            new { z = x.EventTime.Date.AddDays(-2) },
-                            new { z = x.EventTime.Date.AddDays(-3) }
+                            new { z = x.EventTime.Date.AddDays(1) },
+                            new { z = x.EventTime.Date.AddDays(0) },
+                            new { z = x.EventTime.Date.AddDays(-1) }
                         }
                     };
 

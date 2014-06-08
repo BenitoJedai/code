@@ -47,8 +47,12 @@ namespace System.Data
                 return InternalGetDescriptor();
             }
 
+            public Func<Type> InternalGetElementType;
             public Type GetElementType()
             {
+                if (InternalGetElementType != null)
+                    return InternalGetElementType();
+
                 // not sure. replaced by selectorExpression?
                 return null;
             }
