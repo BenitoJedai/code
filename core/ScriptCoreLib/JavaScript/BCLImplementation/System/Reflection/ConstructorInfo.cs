@@ -9,6 +9,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\ConstructorInfo.cs
 
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Reflection.ConstructorInfo.op_Inequality(System.Reflection.ConstructorInfo, System.Reflection.ConstructorInfo)]
+
+        //public static bool operator !=(__ConstructorInfo left, __ConstructorInfo right)
+        //{
+        //    return false;
+        //}
+
+        //public static bool operator ==(__ConstructorInfo left, __ConstructorInfo right)
+        //{
+        //    return false;
+        //}
+
+
+
         public override string Name
         {
             get { throw new NotImplementedException(); }

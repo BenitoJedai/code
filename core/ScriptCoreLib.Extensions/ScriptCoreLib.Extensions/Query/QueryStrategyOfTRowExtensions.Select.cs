@@ -195,14 +195,14 @@ namespace System.Data
 
                                  var w = "";
 
-
-                                 foreach (var item in sourceprefixes)
-                                 {
-                                     if (item.Item2 == null)
-                                         w += item.Item1 + ".";
-                                     else
-                                         w += item.Item2.Name + ".";
-                                 }
+                                 if (sourceprefixes != null)
+                                     foreach (var item in sourceprefixes)
+                                     {
+                                         if (item.Item2 == null)
+                                             w += item.Item1 + ".";
+                                         else
+                                             w += item.Item2.Name + ".";
+                                     }
 
                                  // for primary constructors we know position.
                                  if (asMemberExpression == null)
@@ -730,7 +730,8 @@ namespace System.Data
                                                      asMemberAssignment_Member,
                                                      prefixes,
                                                      null,
-                                                     new[] { Tuple.Create(index, asMemberAssignment_Member) }
+                                                     //new[] { Tuple.Create(index, asMemberAssignment_Member) }
+                                                     null
                                                     );
                                                  return;
                                              }

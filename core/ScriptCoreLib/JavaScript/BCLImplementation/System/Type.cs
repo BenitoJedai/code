@@ -204,6 +204,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return new Type[0];
         }
 
+        public global::System.Reflection.ConstructorInfo GetConstructor(Type[] t)
+        {
+            // X:\jsc.svn\examples\javascript\linq\visualized\VisualizeWhere\VisualizeWhere\Application.cs
+
+            return null;
+        }
+
+
 
         public override object[] GetCustomAttributes(bool inherit)
         {
