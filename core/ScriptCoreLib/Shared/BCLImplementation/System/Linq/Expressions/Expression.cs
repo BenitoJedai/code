@@ -27,7 +27,16 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         #region New
         public static NewExpression New(ConstructorInfo constructor, Expression[] arguments)
         {
-            Console.WriteLine("Expression.New " + new { constructor, constructor.DeclaringType });
+            var Type = default(Type);
+
+            if ((object)constructor != null)
+                Type = constructor.DeclaringType;
+
+            Console.WriteLine("Expression.New " + new
+            {
+                constructor
+                //, constructor.DeclaringType 
+            });
             // method: System.Linq.Expressions.NewExpression New(System.Reflection.ConstructorInfo, System.Linq.Expressions.Expression[])
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
 
@@ -38,7 +47,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                     NodeType = ExpressionType.New,
 
                     Constructor = constructor,
-                    Type = constructor.DeclaringType,
+                    Type = Type,
 
                     Arguments = new global::System.Collections.ObjectModel.ReadOnlyCollection<Expression>(arguments.ToList()),
                     Members = new global::System.Collections.ObjectModel.ReadOnlyCollection<MemberInfo>(new MemberInfo[0].ToList()),
@@ -50,6 +59,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
         public static NewExpression New(ConstructorInfo constructor, IEnumerable<Expression> arguments, params MemberInfo[] members)
         {
+            // X:\jsc.svn\examples\javascript\linq\visualized\VisualizeWhere\VisualizeWhere\Application.cs
+
+            var Type = default(Type);
+
+            if ((object)constructor != null)
+                Type = constructor.DeclaringType;
+
             //GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_694_0_2, parameters = [LScriptCoreLibJava.BCLImplementation.System.__Type;@f9651 }
             //GetConstructor { FullName = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_694_0_2, cc = .ctor() }
             //Expression.New { constructor = .ctor(), DeclaringType = , 
@@ -63,7 +79,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
             //Lambda { body = NewExpression { Constructor = .ctor(), Type =  } }
 
-            Console.WriteLine("Expression.New " + new { constructor, constructor.DeclaringType, arguments, members });
+            Console.WriteLine("Expression.New " + new
+            {
+                constructor,
+                //, constructor.DeclaringType, 
+                arguments,
+                members
+            });
             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Join.cs
 
             return
@@ -73,7 +95,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                     NodeType = ExpressionType.New,
 
                     Constructor = constructor,
-                    Type = constructor.DeclaringType,
+                    Type = Type,
 
                     Arguments = new global::System.Collections.ObjectModel.ReadOnlyCollection<Expression>(arguments.ToList()),
                     Members = new global::System.Collections.ObjectModel.ReadOnlyCollection<MemberInfo>(members.ToList()),

@@ -29,7 +29,7 @@ namespace System.Data
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
 
 
-    
+
 
         [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
         public interface IJoinQueryStrategy : INestedQueryStrategy
@@ -182,11 +182,8 @@ namespace System.Data
 
                 //xouter = {TestSQLJoin.XQueryStrategy<<>f__AnonymousType0<TestSQLJoin.Data.Book1DealerContactRow,TestSQLJoin.Data.Book1DealerRow>>}
 
-                var asGroupByQueryStrategy = that.xouter as IGroupByQueryStrategy;
-                if (asGroupByQueryStrategy != null)
-                {
-                    asGroupByQueryStrategy.upperJoin = that;
-                }
+
+
 
 
                 //var __ISelectQueryStrategy = that.xouter as ISelectQueryStrategy;
@@ -195,6 +192,8 @@ namespace System.Data
 
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140513
                 (xouter as IJoinQueryStrategy).With(j => j.upperJoin = that);
+                (xouter as IGroupByQueryStrategy).With(j => j.upperJoin = that);
+                (xouter as IWhereQueryStrategy).With(j => j.upperJoin = that);
 
                 Console.WriteLine("Join CommandBuilder building FromCommand...");
 
@@ -276,8 +275,13 @@ namespace System.Data
                         // !!!
                         // http://stackoverflow.com/questions/7183364/join-on-multiple-columns
 
-                        var xouterISelectQueryStrategy_source_asIGroupByQueryStrategy = (xouter as ISelectQueryStrategy).source as IGroupByQueryStrategy;
-                        var xinnerISelectQueryStrategy_source_asIGroupByQueryStrategy = (xinner as ISelectQueryStrategy).source as IGroupByQueryStrategy;
+                        var xouterISelectQueryStrategy_source_asIGroupByQueryStrategy = default(IGroupByQueryStrategy);
+                        var xinnerISelectQueryStrategy_source_asIGroupByQueryStrategy = default(IGroupByQueryStrategy);
+                        if (xouter is ISelectQueryStrategy)
+                            xouterISelectQueryStrategy_source_asIGroupByQueryStrategy = (xouter as ISelectQueryStrategy).source as IGroupByQueryStrategy;
+
+                        if (xinner is ISelectQueryStrategy)
+                            xinnerISelectQueryStrategy_source_asIGroupByQueryStrategy = (xinner as ISelectQueryStrategy).source as IGroupByQueryStrategy;
 
                         if (xouterISelectQueryStrategy_source_asIGroupByQueryStrategy != null && xinnerISelectQueryStrategy_source_asIGroupByQueryStrategy != null)
                         {
@@ -334,7 +338,6 @@ namespace System.Data
                 // ?? not used in here
                 var asMemberInitExpressionByParameter0 = default(ParameterExpression);
                 var asMemberInitExpressionByParameter1 = default(ParameterExpression);
-                var asMemberInitExpressionByParameter2 = default(ParameterExpression);
 
 
                 #region SelectCommand
@@ -712,7 +715,17 @@ namespace System.Data
                                      // asMMemberExpression = {<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k}
 
                                      // X:\jsc.svn\examples\javascript\linq\test\TestJoinSelectAnonymousType\TestJoinSelectAnonymousType\ApplicationWebService.cs
-                                     s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     if (asMemberAssignment.Member == null)
+                                     {
+                                         // are we proxy or not?
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + asMemberExpression.Member.Name + "`";
+                                     }
+                                     else
+                                     {
+                                         s_SelectCommand += ",\n\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     }
+
                                      return;
                                  }
                                  #endregion
@@ -1260,7 +1273,7 @@ namespace System.Data
 
 
 
-                                 #region  // go up
+                                 #region  join: // go up
                                  {
 
                                      INestedQueryStrategy uu = that;
@@ -1286,6 +1299,25 @@ namespace System.Data
                                          {
                                              xasLambdaExpression = xISelectManyQueryStrategy.resultSelector as LambdaExpression;
                                              xSelect_source = xISelectManyQueryStrategy.source;
+                                         }
+
+
+                                         var xIGroupByQueryStrategy = uu as IGroupByQueryStrategy;
+                                         if (xIGroupByQueryStrategy != null)
+                                         {
+                                             // this join needs to expose the grouping key
+                                             // keySelector = {<>h__TransparentIdentifier1 => <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.t.Key}
+
+                                             var kl = xIGroupByQueryStrategy.keySelector as LambdaExpression;
+
+                                             WriteExpression(
+                                                 index,
+                                                 kl.Body,
+                                                 // we are not really selecting it beyond for group by
+                                                 null,
+                                                 prefixes,
+                                                 null
+                                            );
                                          }
 
 
@@ -1751,6 +1783,9 @@ namespace System.Data
                     }
                     else
                     {
+                        Debugger.Break();
+
+
                         #region guess the field?
                         // ex = {"near \"?\": syntax error"}
 

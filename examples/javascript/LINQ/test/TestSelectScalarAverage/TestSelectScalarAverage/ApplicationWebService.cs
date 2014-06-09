@@ -63,7 +63,7 @@ namespace TestSelectScalarAverage
 
                      let c = new { count }
 
-                     where count > 1
+                     //where count > 1
                      //where count > 2
 
                      select new
