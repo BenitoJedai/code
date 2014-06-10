@@ -45,6 +45,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override void Open()
         {
+            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectGroupByAndConstant\TestSelectGroupByAndConstant\ApplicationWebService.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
 
             // 39ms __SQLiteConnection ctor { connectionstring = Data Source=file:StressData.s3db }

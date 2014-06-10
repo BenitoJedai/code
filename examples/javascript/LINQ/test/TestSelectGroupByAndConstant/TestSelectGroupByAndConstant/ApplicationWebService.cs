@@ -36,6 +36,17 @@ namespace TestSelectGroupByAndConstant
 
             //Data.PerformanceResourceTimingData2.ApplicationPerformance.Queries.
 
+
+            IDbConnectionExtensions.VirtualCreateCommand =
+            (IDbConnection c, string CommandText) =>
+            {
+                var sql = ScriptCoreLib.PHP.Data.SQLiteToMySQLConversion.Convert(CommandText);
+                var x = c.CreateCommand();
+
+                Console.WriteLine(new { sql });
+                x.CommandText = sql;
+                return x;
+            };
             WithConnectionLambda.VirtualWithConnection =
                 DataSource =>
                 {
@@ -67,11 +78,15 @@ namespace TestSelectGroupByAndConstant
 
                         //Additional information: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT, 
 
-                        var cmd0 = c0.CreateCommand();
-                        cmd0.CommandText = "use `" + DataSource + "`";
-                        cmd0.ExecuteScalar();
+
+                        // Additional information: Unknown database 'file:performanceresourcetimingdata2.xlsx.sqlite-1'
+
+                        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
+                        c0.CreateCommand("CREATE DATABASE IF NOT EXISTS `" + DataSource + "-1`").ExecuteScalar();
+                        c0.CreateCommand("use `" + DataSource + "-1`").ExecuteScalar();
 
 
+                        // Additional information: Unknown column 'EventTime' in 'field list'
                         var ret = y(c0);
 
 
@@ -99,6 +114,7 @@ namespace TestSelectGroupByAndConstant
             //Data.PerformanceResourceTimingData2.ApplicationPerformance.Queries.Create(
 
             new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
+                // does the insert report the values to us?
                 new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },
                 new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1), domComplete = 5 }
             );
@@ -112,7 +128,7 @@ namespace TestSelectGroupByAndConstant
 
 
 
-            var LoginCount = 0;
+            var LoginCount = 33;
 
 
 

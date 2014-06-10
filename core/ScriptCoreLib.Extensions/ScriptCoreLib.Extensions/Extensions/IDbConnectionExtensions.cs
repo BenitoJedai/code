@@ -9,12 +9,20 @@ namespace System.Data
 {
     public static class IDbConnectionExtensions
     {
+        public static Func<IDbConnection, string, IDbCommand> VirtualCreateCommand;
+
+
+        // used by the asset compiler
         public static IDbCommand CreateCommand(this IDbConnection c, string CommandText)
         {
+            if (VirtualCreateCommand != null)
+                return VirtualCreateCommand(c, CommandText);
             // X:\jsc.svn\examples\javascript\forms\SQLiteWithDataGridView\SQLiteWithDataGridView\Schema\TheGridTable.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140318
 
             var x = c.CreateCommand();
+
+
             x.CommandText = CommandText;
 
             return x;
