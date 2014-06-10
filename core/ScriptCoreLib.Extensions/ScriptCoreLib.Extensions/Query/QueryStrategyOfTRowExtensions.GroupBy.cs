@@ -1548,6 +1548,7 @@ namespace System.Data
                      #region asNewExpression
                      if (asMemberInitExpression == null)
                      {
+                         // X:\jsc.svn\examples\javascript\linq\test\TestWhereThenGroup\TestWhereThenGroup\ApplicationWebService.cs
                          // X:\jsc.svn\examples\javascript\linq\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
 
                          #region upperSelectMany
@@ -1574,18 +1575,26 @@ namespace System.Data
                          if (GroupBy.upperSelect != null)
                          {
                              var asNewExpression = (GroupBy.upperSelect.selectorExpression as LambdaExpression).Body as NewExpression;
-
-                             asNewExpression.Arguments.WithEachIndex(
-                                 (SourceArgument, index) =>
+                             if (asNewExpression != null)
                              {
-                                 var TargetMember = asNewExpression.Members[index];
-                                 var asMemberAssignment = new { Member = TargetMember };
+                                 asNewExpression.Arguments.WithEachIndex(
+                                     (SourceArgument, index) =>
+                                     {
+                                         var TargetMember = asNewExpression.Members[index];
+                                         var asMemberAssignment = new { Member = TargetMember };
 
 
-                                 // ?
-                                 WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
+                                         // ?
+                                         WriteExpression(index, SourceArgument, TargetMember, new Tuple<int, MemberInfo>[0], null);
+                                     }
+                                 );
                              }
-                             );
+                             else
+                             {
+                                 // group by into g select g.Last() ?
+                                 Debugger.Break();
+                             }
+
                          }
                          #endregion
 
