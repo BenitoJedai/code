@@ -10,6 +10,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Threading;
+using ScriptCoreLib.Shared.Data.Diagnostics;
 
 namespace TestSelectGroupByAndConstant
 {
@@ -23,6 +25,64 @@ namespace TestSelectGroupByAndConstant
         /// </summary>
         public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
 
+
+        public ApplicationWebService()
+        {
+            Console.WriteLine(
+                new { Thread.CurrentThread.ManagedThreadId }
+                );
+
+            // can we override CLR SQLite to MySQL? or even use both of them?
+
+            //Data.PerformanceResourceTimingData2.ApplicationPerformance.Queries.
+
+            WithConnectionLambda.VirtualWithConnection =
+                DataSource =>
+                {
+                    Console.WriteLine("enter VirtualWithConnection");
+
+                    return y =>
+                    {
+                        // DeclaringType = {Name = "Queries" FullName = "TestSelectGroupByAndConstant.Data.PerformanceResourceTimingData2+ApplicationPerformance+Queries"}
+                        // y = {Method = {System.Threading.Tasks.Task Create(System.Data.SQLite.SQLiteConnection)}}
+                        // 
+                        Console.WriteLine("enter y VirtualWithConnection");
+
+                        // y = {Method = {System.Threading.Tasks.Task Create(System.Data.IDbConnection)}}
+
+
+
+                        var csb = new System.Data.MySQL.MySQLConnectionStringBuilder
+                        {
+                            UserID = "root",
+                            Server = "127.0.0.1",
+                        };
+
+                        var c0 = new System.Data.MySQL.MySQLConnection(csb.ToString());
+                        c0.Open();
+
+
+                        // Error	3	The type or namespace name 'MySQL' does not exist in the namespace 'System.Data' (are you missing an assembly reference?)	X:\jsc.internal.svn\compiler\jsx.reflector\ReflectorWindow.AddWebApplication.cs	26	19	jsx.reflector
+                        // TargetFrameworkAttribute
+
+                        //Additional information: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT, 
+
+                        var cmd0 = c0.CreateCommand();
+                        cmd0.CommandText = "use `" + DataSource + "`";
+                        cmd0.ExecuteScalar();
+
+
+                        var ret = y(c0);
+
+
+                        c0.Close();
+
+                        return ret;
+                    };
+                };
+        }
+
+
         /// <summary>
         /// This Method is a javascript callable method.
         /// </summary>
@@ -31,6 +91,12 @@ namespace TestSelectGroupByAndConstant
         public void WebMethod2()
         {
             //new Data.PerformanceResourceTimingData2.ApplicationPerformance().Clear();
+
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\WithConnectionLambda.cs
+            //new Data.PerformanceResourceTimingData2.ApplicationPerformance.Queries().WithConnection
+
+
+            //Data.PerformanceResourceTimingData2.ApplicationPerformance.Queries.Create(
 
             new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
                 new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },

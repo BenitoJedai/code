@@ -111,17 +111,27 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         }
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
+        // called by assets compiler
         public static Func<Func<IDbConnection, Task>, Task> WithConnection(string DataSource)
         {
             if (DesignMode)
                 return delegate { return default(Task); };
 
+            // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectGroupByAndConstant\TestSelectGroupByAndConstant\ApplicationWebService.cs
+            if (VirtualWithConnection != null)
+                return VirtualWithConnection(DataSource);
+
+
             return InternalWithConnectionLambda.WithConnection(DataSource);
         }
+
+        // ThreadLocal ?
+        public static Func<string, Func<Func<IDbConnection, Task>, Task>> VirtualWithConnection;
     }
 
     static class InternalWithConnectionLambda
     {
+        // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectGroupByAndConstant\TestSelectGroupByAndConstant\ApplicationWebService.cs
 
         public static Func<Func<IDbConnection, Task>, Task> WithConnection(string DataSource)
         {

@@ -126,6 +126,8 @@ namespace System.Data.SQLite
         public static Action<Action<SQLiteConnection>> AsWithConnection(
             this SQLiteConnectionStringBuilder csb,
             //this DbConnectionStringBuilder csb,
+
+            // used by?
             Action<SQLiteConnection> Initializer = null
             )
         {
