@@ -523,24 +523,34 @@ namespace System.Data
                              var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
                              if (asMConstantExpression != null)
                              {
-                                 var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
-                                 var rAddParameterValue0 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t ";
 
-                                 // X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
-
-                                 var n = "@arg" + state.ApplyParameter.Count;
-
-                                 s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
-
-                                 state.ApplyParameter.Add(
-                                     c =>
-                                     {
-                                         // either the actualt command or the explain command?
-
-                                         //c.Parameters.AddWithValue(n, r);
-                                         c.AddParameter(n, rAddParameterValue0);
-                                     }
+                                 state.WriteExpression(
+                                     ref s_SelectCommand,
+                                     asMemberExpression,
+                                     that
                                  );
+
+                                 s_SelectCommand += " as `" + GetPrefixedTargetName() + "`";
+
+                                 //var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
+                                 //var rAddParameterValue0 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
+
+                                 //// X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
+
+                                 //var n = "@arg" + state.ApplyParameter.Count;
+
+                                 //s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
+
+                                 //state.ApplyParameter.Add(
+                                 //    c =>
+                                 //    {
+                                 //        // either the actualt command or the explain command?
+
+                                 //        //c.Parameters.AddWithValue(n, r);
+                                 //        c.AddParameter(n, rAddParameterValue0);
+                                 //    }
+                                 //);
 
                                  return;
                              }

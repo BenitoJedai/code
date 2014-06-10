@@ -173,7 +173,8 @@ namespace System.Data
 
                      // do we need to select it?
                      //state.SelectCommand = "select g.`Grouping.Key`";
-                     state.SelectCommand = "select " + CommentLineNumber() + " -- ";
+                     state.SelectCommand = "" + CommentLineNumber() + " select -- ";
+                     var s_SelectCommand = "" + CommentLineNumber() + " select -- ";
 
                      // this can be disabled/enabled by a upper select?
                      var gDescendingByKeyReferenced = false;
@@ -213,7 +214,6 @@ namespace System.Data
 
 
                      // disable comma
-                     var s_SelectCommand = "" + CommentLineNumber() + " select -- ";
 
 
                      #region asMethodCallExpression
@@ -427,6 +427,18 @@ namespace System.Data
                              var asMConstantExpression = asMemberExpression.Expression as ConstantExpression;
                              if (asMConstantExpression != null)
                              {
+                                 if (that.upperSelect != null)
+                                 {
+                                     // X:\jsc.svn\examples\javascript\linq\test\TestSelectGroupByAndConstant\TestSelectGroupByAndConstant\ApplicationWebService.cs
+
+                                     // the upper select will be selecting their own constants
+                                     // no reason to do it inside group by
+                                     return;
+                                 }
+
+                                 // ?
+                                 Debugger.Break();
+
                                  var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
                                  var rAddParameterValue0 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
 
