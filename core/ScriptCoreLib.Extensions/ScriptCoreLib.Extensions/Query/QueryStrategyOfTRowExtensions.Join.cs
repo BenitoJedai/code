@@ -741,6 +741,20 @@ namespace System.Data
                                              + asMMemberExpression.Member.Name + "_"
                                              + asMemberExpression.Member.Name + "`";
                                          }
+                                         else if (xinner_Paramerer.Name == asMMemberExpression.Member.Name)
+                                         {
+                                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140610
+
+                                             s_SelectCommand += ",\n" + CommentLineNumber()
+                                             + "\n -- " + new { asMemberExpression }
+                                             + "\n -- " + new { xouter_Paramerer }
+                                             + "\n -- " + new { xinner_Paramerer }
+                                             + "\n "
+                                             + xinner_Paramerer.Name + ".`" + asMemberExpression.Member.Name
+                                             + "` as `"
+                                             + asMMemberExpression.Member.Name + "_"
+                                             + asMemberExpression.Member.Name + "`";
+                                         }
                                          else
                                          {
                                              // passing it by?
@@ -1300,9 +1314,11 @@ namespace System.Data
                                          {
                                              // is it available on this level?
                                              // or are we supposed to proxy it?
+                                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140610
 
                                              s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                             + xinner_Paramerer.Name + "." + asIGLMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + asIGLMemberExpression.Member.Name + "`";
+                                             + xinner_Paramerer.Name + "." + asIGLMemberExpression.Member.Name 
+                                             + " as `" + asMemberAssignment.Member.Name + "_" + asIGLMemberExpression.Member.Name + "`";
 
                                          }
 
