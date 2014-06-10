@@ -434,6 +434,9 @@ namespace System.Data
                                     if (SourceType == typeof(int))
                                         return Convert.ToInt32(xasString);
 
+                                    if (SourceType == typeof(double))
+                                        return Convert.ToDouble(xasString);
+
                                     // ref ScriptCoreLib.Ultra
                                     if (SourceType == typeof(DateTime))
                                         return global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(xasString);
@@ -926,12 +929,16 @@ namespace System.Data
                                 var PrefixedTargetName = GetPrefixedTargetName();
 
                                 var asString = SourceRow[PrefixedTargetName];
+                                // um. is our data adapter sending us strings?
 
                                 if (SourceType == typeof(long) || SourceType.IsEnum)
                                     return Convert.ToInt64(asString);
 
                                 if (SourceType == typeof(int))
                                     return Convert.ToInt32(asString);
+
+                                if (SourceType == typeof(double))
+                                    return Convert.ToDouble(asString);
 
                                 // ref ScriptCoreLib.Ultra
                                 if (SourceType == typeof(DateTime))

@@ -3,16 +3,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMySqlConnector", "TestMySqlConnector\TestMySqlConnector.csproj", "{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Android|Any CPU = Android|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		PHP|Any CPU = PHP|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}.Android|Any CPU.Build.0 = Release|Any CPU
 		{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}.PHP|Any CPU.Build.0 = Release|Any CPU
 		{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9EE4B71-5C0C-482C-A866-92D1A62D23D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
