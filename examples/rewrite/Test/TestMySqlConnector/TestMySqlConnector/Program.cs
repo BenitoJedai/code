@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.MySQL;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,14 +22,18 @@ namespace TestMySqlConnector
                 // ex = {"Authentication to host '192.168.1.211' for user 'arvo' using method
                 // 'mysql_native_password' failed with message: Reading from the stream has failed."}
 
+
+
+                var uri = new Uri("mysql://arvo:xxx@192.168.1.211");
+
                 // 192.168.1.211:3306 arvo xxx
-                //var myConnectionString = "server=127.0.0.1;database=test;uid=root;";
-                var myConnectionString = "server=192.168.1.211;database=test;uid=arvo;password=xxx;";
+                var myConnectionString = "server=127.0.0.1;database=test;uid=root;";
+                //var myConnectionString = "server=192.168.1.211;database=test;uid=arvo;password=xxx;";
                 // DbConnection
-                MySqlConnection myConnection = new MySqlConnection(myConnectionString);
+                var myConnection = new MySQLConnection(myConnectionString);
                 string selectQuery = "show databases";
                 // DbCommand
-                MySqlCommand myCommand = new MySqlCommand(selectQuery);
+                var myCommand = new MySQLCommand(selectQuery);
                 myCommand.Connection = myConnection;
                 myConnection.Open();
                 //var i = myCommand.ExecuteScalar();
