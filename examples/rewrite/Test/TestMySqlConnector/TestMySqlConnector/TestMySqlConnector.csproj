@@ -35,9 +35,16 @@
     <Reference Include="mysql.data, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\mysql.data.dll</HintPath>
+      <Aliases>xglobal</Aliases>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.XMySql">
+      <HintPath>..\..\..\..\..\market\synergy\mysql.com\mysql-connector-net-6.8.3-src\Source\MySql.Data\bin\v4.5\Debug\System.Data.XMySql.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />

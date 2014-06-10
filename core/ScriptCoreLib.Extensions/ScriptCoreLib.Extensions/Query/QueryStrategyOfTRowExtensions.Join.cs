@@ -342,7 +342,7 @@ namespace System.Data
 
                 #region SelectCommand
                 var SelectCommand = default(string);
-                var s_SelectCommand = "select " + CommentLineNumber() + " -- ";
+                var s_SelectCommand = "" + CommentLineNumber() + " select -- ";
 
                 // is it used?
                 #region AddToSelectCommand
@@ -698,6 +698,8 @@ namespace System.Data
                                      // asMMemberExpression = {result.Last().l}
                                      // asMemberExpression = {result.Last().l.FirstName}
 
+
+                                     #region asMMMCall
                                      var asMMMCall = asMMemberExpression.Expression as MethodCallExpression;
                                      if (asMMMCall != null)
                                      {
@@ -711,6 +713,8 @@ namespace System.Data
                                              return;
                                          }
                                      }
+                                     #endregion
+
 
                                      // asMMemberExpression = {<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.k}
 
@@ -718,8 +722,42 @@ namespace System.Data
 
                                      if (asMemberAssignment.Member == null)
                                      {
+                                         // asMemberExpression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.t.Key}
                                          // are we proxy or not?
-                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t s.`" + asMMemberExpression.Member.Name + "_" + asMemberExpression.Member.Name + "` as `" + asMemberExpression.Member.Name + "`";
+                                         // https://sites.google.com/a/jsc-solutions.net/backlog/20140610
+                                         // asMMemberExpression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.t}
+
+
+                                         if (xouter_Paramerer.Name == asMMemberExpression.Member.Name)
+                                         {
+
+                                             s_SelectCommand += ",\n" + CommentLineNumber()
+                                             + "\n -- " + new { asMemberExpression }
+                                             + "\n -- " + new { xouter_Paramerer }
+                                             + "\n -- " + new { xinner_Paramerer }
+                                             + "\n "
+                                             + xouter_Paramerer.Name + ".`" + asMemberExpression.Member.Name
+                                             + "` as `"
+                                             + asMMemberExpression.Member.Name + "_"
+                                             + asMemberExpression.Member.Name + "`";
+                                         }
+                                         else
+                                         {
+                                             // passing it by?
+
+                                             s_SelectCommand += ",\n" + CommentLineNumber()
+                                           + "\n -- " + new { asMemberExpression }
+                                           + "\n -- " + new { xouter_Paramerer }
+                                           + "\n -- " + new { xinner_Paramerer }
+                                           + "\n "
+                                           + xouter_Paramerer.Name.Replace("<>", "__") + ".`"
+
+                                           + asMMemberExpression.Member.Name + "_"
+                                           + asMemberExpression.Member.Name
+                                           + "` as `"
+                                           + asMMemberExpression.Member.Name + "_"
+                                           + asMemberExpression.Member.Name + "`";
+                                         }
                                      }
                                      else
                                      {
@@ -827,6 +865,7 @@ namespace System.Data
 
                                  // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140531
                                  // are we supposed to unpack our fields?
+                                 #region xouter_Paramerer
                                  if (xouter_Paramerer == asExpression)
                                  {
 
@@ -1243,6 +1282,8 @@ namespace System.Data
 
                                      }
                                  }
+                                 #endregion
+
 
 
                                  // x:\jsc.svn\examples\javascript\linq\test\testwherejointtgroupbyselectlast\testwherejointtgroupbyselectlast\applicationwebservice.cs
@@ -1308,16 +1349,42 @@ namespace System.Data
                                              // this join needs to expose the grouping key
                                              // keySelector = {<>h__TransparentIdentifier1 => <>h__TransparentIdentifier1.<>h__TransparentIdentifier0.t.Key}
 
+                                             // we are going up on both inner and outer
+                                             // which one is this?
+                                             //if (xouter_Paramerer == asExpression)
+
+                                             var scope = new { xouter_Paramerer, asExpression };
+
                                              var kl = xIGroupByQueryStrategy.keySelector as LambdaExpression;
 
-                                             WriteExpression(
-                                                 index,
-                                                 kl.Body,
-                                                 // we are not really selecting it beyond for group by
-                                                 null,
-                                                 prefixes,
-                                                 null
-                                            );
+                                             //s_SelectCommand += CommentLineNumber() + "\n -- join: // go up " + new { asExpression };
+                                             //s_SelectCommand += CommentLineNumber() + "\n -- join: // go up " + new { kl.Body };
+
+                                             // is any of the parents of kl.Body equal to asExpression?
+
+                                             var xMemberExpression = kl.Body as MemberExpression;
+                                             while (xMemberExpression != null)
+                                             {
+                                                 if (asEParameterExpression.Name == xMemberExpression.Member.Name)
+                                                 {
+                                                     // yes? are we sure?
+                                                     // https://sites.google.com/a/jsc-solutions.net/backlog/20140610
+                                                     WriteExpression(
+                                                            index,
+                                                            kl.Body,
+                                                                 // we are not really selecting it beyond for group by
+                                                                 null,
+                                                            prefixes,
+                                                            null
+                                                       );
+
+                                                     break;
+                                                 }
+                                                 xMemberExpression = xMemberExpression.Expression as MemberExpression;
+                                             }
+
+
+
                                          }
 
 

@@ -213,7 +213,7 @@ namespace System.Data
 
 
                      // disable comma
-                     var s_SelectCommand = "select " + CommentLineNumber() + " -- ";
+                     var s_SelectCommand = "" + CommentLineNumber() + " select -- ";
 
 
                      #region asMethodCallExpression
