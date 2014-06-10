@@ -33,7 +33,7 @@ namespace System.Data
         }
 
         //[Obsolete("AsEnumerable. jsc has to bake in all metadata for callsite, like dynamic and linq expressions.")]
-        [Obsolete("experimental")]
+        //[Obsolete("experimental")]
         public static IEnumerable<TSource> AsGenericEnumerable<TSource>(this IQueryStrategy<TSource> source)
         {
             // same concept when building, now we are about to inspec backwards..

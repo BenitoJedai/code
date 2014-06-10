@@ -107,8 +107,8 @@ namespace System.Data
                      (source as INestedQueryStrategy).With(x => x.upperSelectMany = that);
 
 
-                     state.SelectCommand = "select " + CommentLineNumber() + " -- ";
-                     var s_SelectCommand = "select " + CommentLineNumber() + " -- ";
+                     state.SelectCommand = "" + CommentLineNumber() + " select -- ";
+                     var s_SelectCommand = "" + CommentLineNumber() + " select -- ";
 
 
 
