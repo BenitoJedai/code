@@ -960,6 +960,16 @@ namespace System.Data
                                  var asMConstantExpression = asMemberAssignment.Expression as ConstantExpression;
                                  if (asMConstantExpression != null)
                                  {
+                                     if (that.upperSelect != null)
+                                     {
+                                         // jsc, where else do we have the exact same check?
+                                         // the upper select shall do the constant selection!
+
+
+                                         return;
+                                     }
+
+
                                      var asMPropertyInfo = asMemberAssignment.Member as FieldInfo;
                                      //var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
                                      var rAddParameterValue0 = asMConstantExpression.Value;
