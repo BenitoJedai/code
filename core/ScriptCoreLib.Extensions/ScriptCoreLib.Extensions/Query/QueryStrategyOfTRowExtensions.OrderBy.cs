@@ -37,18 +37,18 @@ namespace System.Data
              {
                  //MutableWhere { Method = Boolean op_Equality(System.String, System.String), Left = Goo, Right = Goo0 }
 
+                 var body = ((LambdaExpression)selector).Body;
 
+                 // unpack the convert?
+                 var body_as_UnaryExpression = body as UnaryExpression;
+                 var body_as_MemberExpression = body as MemberExpression;
 
 
                  #region ColumnName
                  var ColumnName = "";
 
                  // +		Member	{System.String path}	System.Reflection.MemberInfo {System.Reflection.RtFieldInfo}
-                 var body = ((LambdaExpression)selector).Body;
 
-                 // unpack the convert?
-                 var body_as_UnaryExpression = body as UnaryExpression;
-                 var body_as_MemberExpression = body as MemberExpression;
                  if (body_as_UnaryExpression != null)
                  {
                      ColumnName = ((MemberExpression)(body_as_UnaryExpression).Operand).Member.Name;
@@ -57,20 +57,39 @@ namespace System.Data
                  {
                      ColumnName = body_as_MemberExpression.Member.Name;
 
-                     if (ColumnName == "Key")
+                     // that = {System.Data.QueryStrategyOfTRowExtensions.JoinQueryStrategy<xmonese.core.Data.InternalDataSettingsRow,xmonese.core.Data.InternalDataEmployeesDataRow,xmonese.core.Data.InternalDataEmployeesKey,<>f__AnonymousType0<xmonese.core.Data.InternalDataSettingsRow,xm...
+                     var xIJoinQueryStrategy = that as QueryStrategyOfTRowExtensions.IJoinQueryStrategy;
+                     if (xIJoinQueryStrategy != null)
                      {
-                         // cant check it like that
-                         //var source_groupby = body_as_MemberExpression.Member.DeclaringType is IQueryStrategyGrouping;
+                         // cant we just use writeExpression just yet?
 
-                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
-
-                         var source_groupby = that as QueryStrategyOfTRowExtensions.IGroupByQueryStrategy;
-                         if (source_groupby != null)
+                         var xMemberExpression = body_as_MemberExpression.Expression as MemberExpression;
+                         if (xMemberExpression != null)
                          {
-                             // we are using a special name for that!
-                             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Select.cs
+                             ColumnName = xMemberExpression.Member.Name + "_" + body_as_MemberExpression.Member.Name;
+                         }
+                     }
+                     else
+                     {
 
-                             ColumnName = "Grouping.Key";
+
+                         if (ColumnName == "Key")
+                         {
+                             // cant check it like that
+                             //var source_groupby = body_as_MemberExpression.Member.DeclaringType is IQueryStrategyGrouping;
+
+                             // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+
+                             var source_groupby = that as QueryStrategyOfTRowExtensions.IGroupByQueryStrategy;
+                             if (source_groupby != null)
+                             {
+                                 // we are using a special name for that!
+                                 // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\QueryStrategyOfTRowExtensions.Select.cs
+
+                                 // no longer true.
+                                 ColumnName = "Grouping.Key";
+                                 Debugger.Break();
+                             }
                          }
                      }
                  }
