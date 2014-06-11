@@ -12,6 +12,29 @@ namespace System.Data
         public static Func<IDbConnection, string, IDbCommand> VirtualCreateCommand;
 
 
+        public static int GetLastInsertRowId(this IDbConnection c)
+        {
+            var xSQLiteConnection = c as SQLite.SQLiteConnection;
+            if (xSQLiteConnection != null)
+            {
+                return xSQLiteConnection.LastInsertRowId;
+            }
+
+            // http://stackoverflow.com/questions/12858588/mysql-last-inserted-row-id
+            // http://dev.mysql.com/doc/refman/5.6/en/information-functions.html#function_last-insert-id
+
+            var value = c.CreateCommand("select LAST_INSERT_ID()").ExecuteScalar();
+
+            if (value is long)
+            {
+                var i8 = (long)value;
+                return (int)i8;
+
+            }
+
+            return (int)value;
+        }
+
         // used by the asset compiler
         public static IDbCommand CreateCommand(this IDbConnection c, string CommandText)
         {
