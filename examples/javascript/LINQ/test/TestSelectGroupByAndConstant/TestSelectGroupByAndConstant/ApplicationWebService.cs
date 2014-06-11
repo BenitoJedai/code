@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Threading;
 using ScriptCoreLib.Shared.Data.Diagnostics;
+using System.Reflection;
 
 namespace TestSelectGroupByAndConstant
 {
@@ -26,7 +27,9 @@ namespace TestSelectGroupByAndConstant
         public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
 
 
-        public ApplicationWebService()
+   
+
+        static ApplicationWebService()
         {
             Console.WriteLine(
                 new { Thread.CurrentThread.ManagedThreadId }
@@ -82,8 +85,20 @@ namespace TestSelectGroupByAndConstant
                         // Additional information: Unknown database 'file:performanceresourcetimingdata2.xlsx.sqlite-1'
 
                         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
-                        c0.CreateCommand("CREATE DATABASE IF NOT EXISTS `" + DataSource + "-1`").ExecuteScalar();
-                        c0.CreateCommand("use `" + DataSource + "-1`").ExecuteScalar();
+
+
+                        // Additional information: Incorrect database name 'testselectgroupbyandconstant::file:performanceresourcetimingdata2.xlsx.sqlite'
+
+                        var a = Assembly.GetExecutingAssembly().GetName();
+
+                        var QDataSource = a.Name + ":" + DataSource.SkipUntilIfAny("file:").TakeUntilIfAny(".xlsx.sqlite");
+
+                        // QDataSource.Length = 76
+                        var QLengthb = QDataSource.Length;
+
+                        // Database	64
+                        c0.CreateCommand("CREATE DATABASE IF NOT EXISTS `" + QDataSource + "`").ExecuteScalar();
+                        c0.CreateCommand("use `" + QDataSource + "`").ExecuteScalar();
 
 
                         // Additional information: Unknown column 'EventTime' in 'field list'
