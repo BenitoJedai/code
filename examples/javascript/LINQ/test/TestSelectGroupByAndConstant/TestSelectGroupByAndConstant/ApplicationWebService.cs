@@ -113,7 +113,7 @@ namespace TestSelectGroupByAndConstant
 
             //Data.PerformanceResourceTimingData2.ApplicationPerformance.Queries.Create(
 
-            new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
+            var keys = new Data.PerformanceResourceTimingData2.ApplicationPerformance().Insert(
                 // does the insert report the values to us?
                 new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-0) },
                 new Data.PerformanceResourceTimingData2ApplicationPerformanceRow { EventTime = DateTime.Now.AddDays(-1), domComplete = 5 }
