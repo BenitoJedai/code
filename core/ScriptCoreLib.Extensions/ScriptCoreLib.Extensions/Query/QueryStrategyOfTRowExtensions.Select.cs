@@ -533,25 +533,6 @@ namespace System.Data
 
                                  s_SelectCommand += " as `" + GetPrefixedTargetName() + "`";
 
-                                 //var asMPropertyInfo = asMemberExpression.Member as FieldInfo;
-                                 //var rAddParameterValue0 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
-
-                                 //// X:\jsc.svn\examples\javascript\forms\Test\TestSQLGroupByAfterJoin\TestSQLGroupByAfterJoin\ApplicationWebService.cs
-
-                                 //var n = "@arg" + state.ApplyParameter.Count;
-
-                                 //s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
-
-                                 //state.ApplyParameter.Add(
-                                 //    c =>
-                                 //    {
-                                 //        // either the actualt command or the explain command?
-
-                                 //        //c.Parameters.AddWithValue(n, r);
-                                 //        c.AddParameter(n, rAddParameterValue0);
-                                 //    }
-                                 //);
-
                                  return;
                              }
                              #endregion
@@ -824,39 +805,19 @@ namespace System.Data
                                  var asMConstantExpression = asMemberAssignment.Expression as ConstantExpression;
                                  if (asMConstantExpression != null)
                                  {
-                                     var asMPropertyInfo = asMemberAssignment.Member as FieldInfo;
-                                     //var value1 = asMPropertyInfo.GetValue(asMConstantExpression.Value);
-                                     var rAddParameterValue0 = asMConstantExpression.Value;
-
-
                                      // X:\jsc.svn\examples\javascript\linq\test\TestSelectAndSubSelect\TestSelectAndSubSelect\ApplicationWebService.cs
 
-                                     var n = "@";
+                                     if (index >= 0)
+                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t ";
 
-                                     INestedQueryStrategy u = that;
-                                     while (u.upperSelect != null)
-                                     {
-
-                                         n += "_";
-                                         u = u.upperSelect;
-
-                                     }
-
-
-                                     n += "arg" + state.ApplyParameter.Count;
-
-                                     if (index < 0)
-                                         s_SelectCommand += n;
-                                     else
-                                         s_SelectCommand += ",\n\t " + n + " as `" + GetPrefixedTargetName() + "`";
-
-                                     state.ApplyParameter.Add(
-                                         c =>
-                                         {
-                                             // either the actualt command or the explain command?
-                                             c.AddParameter(n, rAddParameterValue0);
-                                         }
+                                     state.WriteExpression(
+                                         ref s_SelectCommand,
+                                         asMConstantExpression,
+                                         that
                                      );
+
+                                     if (index >= 0)
+                                         s_SelectCommand += " as `" + GetPrefixedTargetName() + "`";
 
 
                                      return;
