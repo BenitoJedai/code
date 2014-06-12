@@ -39,6 +39,43 @@ namespace System.Data
 
                  var body = ((LambdaExpression)selector).Body;
 
+
+
+
+                 if (body is BinaryExpression || body is MethodCallExpression)
+                 {
+                     var s = state.OrderByCommand;
+
+                     if (string.IsNullOrEmpty(state.OrderByCommand))
+                     {
+                         s = "order by ";
+                         state.WriteExpression(ref s, body, that);
+
+                         if (desc)
+                         {
+                             s += " desc";
+                         }
+                     }
+                     else
+                     {
+                         s += ", ";
+                         state.WriteExpression(ref s, body, that);
+
+                         if (desc)
+                         {
+                             s += " desc";
+                         }
+
+                     }
+
+                     state.OrderByCommand = s;
+
+                     return;
+                 }
+
+
+
+
                  // unpack the convert?
                  var body_as_UnaryExpression = body as UnaryExpression;
                  var body_as_MemberExpression = body as MemberExpression;

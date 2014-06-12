@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // X:\jsc.svn\examples\javascript\AsyncButtonSequence\AsyncButtonSequence\Application.cs
         // "X:\jsc.svn\examples\javascript\async\AsyncButtonSequence\AsyncButtonSequence.sln"
 
-        [Obsolete("use button.async.onclick instead?")]
+        //[Obsolete("use button.async.onclick instead?")]
         public static TaskAwaiter<IHTMLButton> GetAwaiter(this IHTMLButton button)
         {
             var y = new TaskCompletionSource<IHTMLButton>();
@@ -46,19 +46,19 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             e.onclick +=
                 async delegate
-                {
-                    if (busy)
-                        return;
+            {
+                if (busy)
+                    return;
 
-                    busy = true;
+                busy = true;
 
-                    e.disabled = true;
+                e.disabled = true;
 
-                    await h(e);
+                await h(e);
 
-                    e.disabled = false;
-                    busy = false;
-                };
+                e.disabled = false;
+                busy = false;
+            };
 
             return e;
         }
@@ -91,14 +91,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
             Console.WriteLine(
                 "enter Historic: " + new
-                {
-                    Native.document.domain,
-                    Native.document.baseURI,
+            {
+                Native.document.domain,
+                Native.document.baseURI,
 
-                    location = Native.document.location.href,
-                    xlocation,
-                    href = e.href
-                }
+                location = Native.document.location.href,
+                xlocation,
+                href = e.href
+            }
             );
 
 
@@ -191,7 +191,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                             Native.window.history.replaceState(
                                   state: new object(),
                                   url: e.href,
-                                // exlusive replace means current state will be forgotten
+                                  // exlusive replace means current state will be forgotten
                                   exclusive: true,
                                   yield: yield
                               );

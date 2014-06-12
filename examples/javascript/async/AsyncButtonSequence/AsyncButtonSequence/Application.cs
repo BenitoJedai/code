@@ -32,48 +32,59 @@ namespace AsyncButtonSequence
         {
 
             page.Button1.WhenClicked(
-                async delegate
+                async button =>
+            {
+                page.Button1.style.color = "red";
+
+                await page.Button1.async.onclick;
+                //await page.Button1;
+
+                page.Button1.style.color = "blue";
+                page.Button2.style.color = "red";
+
+
+
+                // Error	3	'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButton' 
+                // does not contain a definition for 'GetAwaiter' 
+                // and the best extension method overload 
+                // 'ScriptCoreLib.JavaScript.DOM.IXMLHttpRequestAsyncExtensions
+                // .GetAwaiter(ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest)' 
+                // requires a receiver of type 
+                // 'ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest'	X:\jsc.svn\examples\javascript\async\AsyncButtonSequence\AsyncButtonSequence\Application.cs	45	27	AsyncButtonSequence
+
+
+                await page.Button2;
+
+                page.Button2.style.color = "blue";
+                page.Button3.style.color = "red";
+
+                await page.Button3;
+
+                for (int i = 0; i < 4; i++)
                 {
+                    Native.document.title = new { i }.ToString();
+
+                    page.Button1.style.color = "green";
+                    page.Button2.style.color = "green";
+                    page.Button3.style.color = "green";
+
+                    await Task.Delay(300);
+
+
                     page.Button1.style.color = "red";
-
-                    await page.Button1.async.onclick;
-                    //await page.Button1;
-
-                    page.Button1.style.color = "blue";
                     page.Button2.style.color = "red";
-
-                    await page.Button2;
-
-                    page.Button2.style.color = "blue";
                     page.Button3.style.color = "red";
 
-                    await page.Button3;
-
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Native.document.title = new { i }.ToString();
-
-                        page.Button1.style.color = "green";
-                        page.Button2.style.color = "green";
-                        page.Button3.style.color = "green";
-
-                        await Task.Delay(300);
-
-
-                        page.Button1.style.color = "red";
-                        page.Button2.style.color = "red";
-                        page.Button3.style.color = "red";
-
-                        await Task.Delay(300);
-
-                    }
-
-
-                    page.Button1.style.color = "";
-                    page.Button2.style.color = "";
-                    page.Button3.style.color = "";
+                    await Task.Delay(300);
 
                 }
+
+
+                page.Button1.style.color = "";
+                page.Button2.style.color = "";
+                page.Button3.style.color = "";
+
+            }
             );
         }
 
