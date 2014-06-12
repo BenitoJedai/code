@@ -1,6 +1,9 @@
 ﻿// replace any with dynamic?
 // https://github.com/mrdoob/three.js/commit/fc70bb9ba7439148c10c9cb498793988d5cba899
 // https://github.com/mrdoob/three.js/blob/fc70bb9ba7439148c10c9cb498793988d5cba899/build/three.js
+// 67
+// X:\jsc.svn\examples\javascript\WebGL\WebGLMTLExperiment\WebGLMTLExperiment\Application.cs
+// "X:\opensource\github\three.js\build\three.js"
 
 
 interface THREE

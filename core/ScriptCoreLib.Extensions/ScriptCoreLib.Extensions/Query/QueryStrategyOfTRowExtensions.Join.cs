@@ -799,6 +799,8 @@ namespace System.Data
                 WriteExpression =
                        (index, asExpression, TargetMember, prefixes, valueSelector) =>
                          {
+                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140611/web
+
                              var asMemberAssignment = new { Expression = asExpression, Member = TargetMember };
 
                              // what about nesed joins?
@@ -1103,7 +1105,7 @@ namespace System.Data
 
 
                                              //s_SelectCommand += ",\n\t--  1  " + (yy.selectorExpression as LambdaExpression).Parameters[1].Name;
-                                             #region  // go up 2
+                                             #region  // go up 2 why we have two of em?
                                              {
 
                                                  INestedQueryStrategy uu = that;
@@ -1180,6 +1182,48 @@ namespace System.Data
                                                      }
                                                      #endregion
 
+                                                     var yyy = uu as IJoinQueryStrategy;
+                                                     if (yyy != null)
+                                                     {
+                                                         #region asIGLambda
+                                                         var asIGLambda = yyy.outerKeySelector as LambdaExpression;
+                                                         if (asIGLambda != null)
+                                                         {
+                                                             // um. leftside vs riight side?
+                                                             var __xouter_Paramerer = xouter_Paramerer;
+
+                                                             var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
+                                                             if (asIGLMemberExpression != null)
+                                                             {
+                                                                 // is it available on this level?
+                                                                 // or are we supposed to proxy it?
+                                                                 var xmm0 = asIGLMemberExpression.Expression as MemberExpression;
+                                                                 var xmm = xmm0;
+                                                                 while (xmm != null)
+                                                                 {
+                                                                     // asIGLMemberExpression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.t.ClientID}
+                                                                     // are any of the parent expressions equal to xouter?
+
+
+
+                                                                     if (xmm.Member.Name == __xouter_Paramerer.Name)
+                                                                     {
+                                                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                            + xouter_Paramerer.Name.Replace("<>", "__")
+                                                                            + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
+                                                                            + " as `" + xmm0.Member.Name.Replace("<>", "__")
+                                                                            + "_" + asIGLMemberExpression.Member.Name + "`";
+
+                                                                     }
+
+                                                                     xmm = xmm.Expression as MemberExpression;
+                                                                 }
+                                                             }
+
+
+                                                         }
+                                                         #endregion
+                                                     }
 
                                                      if (uu.upperSelect != null)
                                                          uu = uu.upperSelect;
@@ -1205,96 +1249,67 @@ namespace System.Data
 
 
                                      // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140605
-                                     #region asIGLambda
-                                     {
-                                         var asIGLambda = that.outerKeySelector as LambdaExpression;
-                                         if (asIGLambda != null)
-                                         {
-                                             // um. leftside vs riight side?
+                                     //#region asIGLambda
+                                     //{
+                                     //    var asIGLambda = that.outerKeySelector as LambdaExpression;
+                                     //    if (asIGLambda != null)
+                                     //    {
+                                     //        // um. leftside vs riight side?
 
-                                             var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
-                                             if (asIGLMemberExpression != null)
-                                             {
-                                                 // is it available on this level?
-                                                 // or are we supposed to proxy it?
+                                     //        var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
+                                     //        if (asIGLMemberExpression != null)
+                                     //        {
+                                     //            // is it available on this level?
+                                     //            // or are we supposed to proxy it?
 
-                                                 var asIGLMMemberExpression = asIGLMemberExpression.Expression as MemberExpression;
-                                                 if (asIGLMMemberExpression != null)
-                                                 {
-                                                     if (asIGLMMemberExpression.Member.Name == xouter_Paramerer_Name)
-                                                     {
-                                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                            + xouter_Paramerer.Name.Replace("<>", "__")
-                                                            + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
-                                                            + " as `" + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                            + "_" + asIGLMemberExpression.Member.Name + "`";
+                                     //            var asIGLMMemberExpression = asIGLMemberExpression.Expression as MemberExpression;
+                                     //            if (asIGLMMemberExpression != null)
+                                     //            {
+                                     //                if (asIGLMMemberExpression.Member.Name == xouter_Paramerer_Name)
+                                     //                {
+                                     //                    s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                     //                       + xouter_Paramerer.Name.Replace("<>", "__")
+                                     //                       + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
+                                     //                       + " as `" + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                     //                       + "_" + asIGLMemberExpression.Member.Name + "`";
 
-                                                     }
-                                                     else
-                                                     {
-                                                         // not sure. pass it forward?
+                                     //                }
+                                     //                else
+                                     //                {
+                                     //                    // not sure. pass it forward?
 
-                                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                            + xouter_Paramerer.Name.Replace("<>", "__")
-                                                            + ".`"
-                                                             + asIGLMMemberExpression.Member.Name.Replace("<>", "__")
-                                                             + "_" + asIGLMemberExpression.Member.Name.Replace("<>", "__")
-                                                             + "` as `" + asIGLMMemberExpression.Member.Name.Replace("<>", "__")
-                                                             + "_" + asIGLMemberExpression.Member.Name + "`";
-                                                     }
-                                                 }
-                                                 else
-                                                 {
+                                     //                    s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                     //                       + xouter_Paramerer.Name.Replace("<>", "__")
+                                     //                       + ".`"
+                                     //                        + asIGLMMemberExpression.Member.Name.Replace("<>", "__")
+                                     //                        + "_" + asIGLMemberExpression.Member.Name.Replace("<>", "__")
+                                     //                        + "` as `" + asIGLMMemberExpression.Member.Name.Replace("<>", "__")
+                                     //                        + "_" + asIGLMemberExpression.Member.Name + "`";
+                                     //                }
+                                     //            }
+                                     //            else
+                                     //            {
 
-                                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                        + xouter_Paramerer.Name.Replace("<>", "__")
-                                                        + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
-                                                        + " as `" + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                        + "_" + asIGLMemberExpression.Member.Name + "`";
-                                                 }
-                                             }
-
-
-                                         }
+                                     //                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                     //                   + xouter_Paramerer.Name.Replace("<>", "__")
+                                     //                   + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
+                                     //                   + " as `" + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                     //                   + "_" + asIGLMemberExpression.Member.Name + "`";
+                                     //            }
+                                     //        }
 
 
-                                     }
-                                     #endregion
+                                     //    }
+
+
+                                     //}
+                                     //#endregion
 
                                      // yet what about upper join?
                                      // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140605
                                      // what if there is more than one?
-                                     if (that.upperJoin != null)
-                                     {
-                                         #region asIGLambda
-                                         var asIGLambda = that.upperJoin.outerKeySelector as LambdaExpression;
-                                         if (asIGLambda != null)
-                                         {
-                                             // um. leftside vs riight side?
-
-                                             var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
-                                             if (asIGLMemberExpression != null)
-                                             {
-                                                 // is it available on this level?
-                                                 // or are we supposed to proxy it?
-                                                 var asIGLMMemberExpression = asIGLMemberExpression.Expression as MemberExpression;
-                                                 if (asIGLMMemberExpression != null)
-                                                     if (asIGLMMemberExpression.Member.Name == xouter_Paramerer_Name)
-                                                     {
-                                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                            + xouter_Paramerer.Name.Replace("<>", "__")
-                                                            + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
-                                                            + " as `" + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                            + "_" + asIGLMemberExpression.Member.Name + "`";
-
-                                                     }
-                                             }
 
 
-                                         }
-                                         #endregion
-
-                                     }
                                  }
                                  #endregion
 
@@ -1317,7 +1332,7 @@ namespace System.Data
                                              // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140610
 
                                              s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                             + xinner_Paramerer.Name + "." + asIGLMemberExpression.Member.Name 
+                                             + xinner_Paramerer.Name + "." + asIGLMemberExpression.Member.Name
                                              + " as `" + asMemberAssignment.Member.Name + "_" + asIGLMemberExpression.Member.Name + "`";
 
                                          }
@@ -1840,6 +1855,8 @@ namespace System.Data
                 Console.WriteLine("Join CommandBuilder  ...  " + new { asMemberInitExpression, asLambdaExpression.Body });
 
 
+                // shall this join walk up?
+                // where else have we walked up before?
 
 
                 if (asMemberInitExpression == null)
