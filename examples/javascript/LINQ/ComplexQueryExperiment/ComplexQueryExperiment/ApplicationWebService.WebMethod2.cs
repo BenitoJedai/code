@@ -27,6 +27,8 @@ namespace ComplexQueryExperiment
                     let field4 = z.field1 + z.field2
                     let field5 = z.field1 + 33
 
+                    where z.Key == (xKey)66
+                    where field5 > 44 && field5 < 77
                     where field5 > 44
                     where new { field3 }.field3 > field5
 
@@ -47,6 +49,8 @@ namespace ComplexQueryExperiment
 
                     let scalar1count = scalar1.Count()
 
+                    where scalar1count < 77
+
                     let scalar2 = new[] {
                         scalar1count - 1,
                         scalar1count,
@@ -59,9 +63,32 @@ namespace ComplexQueryExperiment
                     let field11 = field10.Date
                     let field12 = field11.AddDays(-1)
 
+
+                    let xFirstOrDefaultQuery =
+                        from zz in new xTable()
+                        where zz.Key == (xKey)77
+                        select zz
+
+                    let xFirstOrDefault = xFirstOrDefaultQuery.FirstOrDefault()
+
+
+
+                    let scalarInnerJoinQuery =
+                          from xouter in new xTable()
+                          join xinner in new xTable() on xouter.field1 equals xinner.field2
+                          select new { xouter, xinner }
+
+                    let scalarInnerJoinFirstOrDefault =
+                        scalarInnerJoinQuery.FirstOrDefault()
+
                     //select z.field1;
                     select new
                     {
+                        scalarInnerJoinFirstOrDefault,
+                        xFirstOrDefault,
+
+                        zExpression = z.field1 > z.field2,
+                        zz = z.field1 + z.field2,
                         z.field1,
                         z,
 
@@ -141,6 +168,16 @@ namespace ComplexQueryExperiment
             public int LineNumber = 0;
         }
 
+        class SQLWriterWithoutLinefeeds : IDisposable
+        {
+            public Action yield;
+            public void Dispose()
+            {
+                yield();
+            }
+
+        }
+
         class SQLWriter
         {
 
@@ -154,61 +191,209 @@ namespace ComplexQueryExperiment
                 if (context == null)
                     context = new SQLWriterContext();
 
+                #region WithoutLinefeeds
+                var WithoutLinefeedsCounter = 0;
+                var WithoutLinefeedsDirty = false;
+                Func<IDisposable> WithoutLinefeeds =
+                    delegate
+                    {
+                        WithoutLinefeedsCounter++;
+                        WithoutLinefeedsDirty = false;
+
+                        return new SQLWriterWithoutLinefeeds
+                        {
+                            yield = delegate
+                            {
+                                WithoutLinefeedsCounter--;
+                                Console.WriteLine();
+                            }
+                        };
+                    };
+                #endregion
+
+
                 Action<int, string, ConsoleColor> WriteLineWithColor =
                     (padding, text, c) =>
                     {
-                        context.LineNumber++;
-
-                        // what would happen id we did this elsewhere?
-                        var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
-
-                        // http://dev.mysql.com/doc/refman/5.0/en/comments.html
-                        var trace = "/* " + f.GetFileLineNumber().ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
-
                         var old = new { Console.ForegroundColor };
-                        Console.ForegroundColor = ConsoleColor.Gray;
 
-                        Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+                        if (WithoutLinefeedsCounter == 0 || !WithoutLinefeedsDirty)
+                        {
+                            WithoutLinefeedsDirty = true;
+                            context.LineNumber++;
+
+                            // what would happen id we did this elsewhere?
+                            var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
+
+                            // http://dev.mysql.com/doc/refman/5.0/en/comments.html
+                            var trace = "/* " + f.GetFileLineNumber().ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
+
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+
+                        }
 
 
                         Console.ForegroundColor = c;
-
-                        Console.WriteLine(text);
+                        Console.Write(text);
                         Console.ForegroundColor = old.ForegroundColor;
+
+                        if (WithoutLinefeedsCounter == 0)
+                        {
+                            Console.WriteLine();
+                        }
 
                     };
 
                 Action<int, string> WriteLine =
                     (padding, text) =>
                     {
-                        context.LineNumber++;
-
-                        // what would happen id we did this elsewhere?
-                        var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
-
-                        // http://dev.mysql.com/doc/refman/5.0/en/comments.html
-                        var trace = "/* " + f.GetFileLineNumber().ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
-
                         var old = new { Console.ForegroundColor };
-                        Console.ForegroundColor = ConsoleColor.Gray;
 
-                        Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
-
-
-                        if (text.StartsWith("let"))
+                        if (WithoutLinefeedsCounter == 0 || !WithoutLinefeedsDirty)
                         {
-                            if (upper.Any())
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                            else
-                                Console.ForegroundColor = ConsoleColor.Magenta;
-                        }
-                        else
-                            Console.ForegroundColor = old.ForegroundColor;
+                            WithoutLinefeedsDirty = true;
+                            context.LineNumber++;
 
-                        Console.WriteLine(text);
+                            // what would happen id we did this elsewhere?
+                            var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
+
+                            // http://dev.mysql.com/doc/refman/5.0/en/comments.html
+                            var trace = "/* " + f.GetFileLineNumber().ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
+
+                            Console.ForegroundColor = ConsoleColor.Gray;
+
+                            Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+
+
+                            if (text.StartsWith("let"))
+                            {
+                                if (upper.Any())
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                else
+                                    Console.ForegroundColor = ConsoleColor.Magenta;
+                            }
+                            else
+                                Console.ForegroundColor = old.ForegroundColor;
+                        }
+
+
+                        Console.Write(text);
                         Console.ForegroundColor = old.ForegroundColor;
 
+                        if (WithoutLinefeedsCounter == 0)
+                        {
+                            Console.WriteLine();
+                        }
 
+
+                    };
+
+
+                #endregion
+
+                #region WriteScalarExpression
+                Action<Expression> WriteScalarExpression = null;
+
+                WriteScalarExpression =
+                    (asExpression) =>
+                    {
+                        // zExpression = {zz => (Convert(zz.Key) == 77)}
+
+                        #region asBinaryExpression
+                        var asBinaryExpression = asExpression as BinaryExpression;
+                        if (asBinaryExpression != null)
+                        {
+                            WriteLineWithColor(1, "(", ConsoleColor.White);
+                            WriteScalarExpression(asBinaryExpression.Left);
+
+
+                            #region ExpressionType
+                            if (asBinaryExpression.NodeType == ExpressionType.Equal)
+                                WriteLineWithColor(1, " = ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.LessThan)
+                                WriteLineWithColor(1, " < ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.LessThanOrEqual)
+                                WriteLineWithColor(1, " <= ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.GreaterThan)
+                                WriteLineWithColor(1, " > ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.GreaterThanOrEqual)
+                                WriteLineWithColor(1, " >= ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.NotEqual)
+                                WriteLineWithColor(1, " <> ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.OrElse)
+                                WriteLineWithColor(1, " or ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.AndAlso)
+                                WriteLineWithColor(1, " and ", ConsoleColor.White);
+
+                            // X:\jsc.svn\examples\javascript\linq\test\TestWhereMathAdd\TestWhereMathAdd\ApplicationWebService.cs
+                            else if (asBinaryExpression.NodeType == ExpressionType.Add)
+                                WriteLineWithColor(1, " + ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.Subtract)
+                                WriteLineWithColor(1, " - ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.Multiply)
+                                WriteLineWithColor(1, " * ", ConsoleColor.White);
+                            else if (asBinaryExpression.NodeType == ExpressionType.Divide)
+                                WriteLineWithColor(1, " / ", ConsoleColor.White);
+
+                            else
+                                Debugger.Break();
+                            #endregion
+
+                            WriteScalarExpression(asBinaryExpression.Right);
+                            WriteLineWithColor(1, ")", ConsoleColor.White);
+                            return;
+                        }
+                        #endregion
+
+                        #region WriteExpression::UnaryExpression
+                        var asUnaryExpression = asExpression as UnaryExpression;
+                        if (asUnaryExpression != null)
+                        {
+                            if (asUnaryExpression.NodeType == ExpressionType.Convert)
+                            {
+                                // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOrUnaryExpression\TestSelectOrUnaryExpression\ApplicationWebService.cs
+                                //state.WriteExpression(ref s, asUnaryExpression.Operand, that);
+
+                                WriteScalarExpression(asUnaryExpression.Operand);
+                                return;
+                            }
+                            else if (asUnaryExpression.NodeType == ExpressionType.Not)
+                            {
+
+                                WriteLineWithColor(1, "not(", ConsoleColor.White);
+
+                                WriteScalarExpression(asUnaryExpression.Operand);
+
+                                WriteLineWithColor(1, ")", ConsoleColor.White);
+                                return;
+                            }
+                            else Debugger.Break();
+
+                            return;
+                        }
+                        #endregion
+
+                        #region zMemberExpression
+                        var zMemberExpression = asExpression as MemberExpression;
+                        if (zMemberExpression != null)
+                        {
+                            WriteLine(2, zMemberExpression.Member.Name);
+                            return;
+                        }
+                        #endregion
+
+                        #region xConstantExpression
+                        var xConstantExpression = asExpression as ConstantExpression;
+                        if (xConstantExpression != null)
+                        {
+                            //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
+                            WriteLine(1, "@constant");
+                            return;
+                        }
+                        #endregion
+
+                        Debugger.Break();
                     };
                 #endregion
 
@@ -218,12 +403,22 @@ namespace ComplexQueryExperiment
                 {
                     var sql = new SQLWriter(xOrderBy.source, upper.Concat(new[] { source }), context);
 
-                    WriteLine(0, "orderby");
 
-                    foreach (var item in xOrderBy.keySelector)
-                    {
-                        WriteLine(1, "let ?");
-                    }
+                    xOrderBy.keySelector.WithEachIndex(
+                        (oExpression, oExpressionIndex) =>
+                        {
+                            using (WithoutLinefeeds())
+                            {
+                                if (oExpressionIndex == 0)
+                                    WriteLine(0, "orderby ");
+                                else
+                                    WriteLine(0, ", ");
+
+                                WriteScalarExpression(oExpression.Body);
+                            }
+                        }
+                    );
+
                     return;
                 }
                 #endregion
@@ -233,12 +428,23 @@ namespace ComplexQueryExperiment
                 if (xWhere != null)
                 {
                     var sql = new SQLWriter(xWhere.source, upper.Concat(new[] { source }), context);
-                    WriteLine(0, "where");
 
-                    foreach (var item in xWhere.filter)
-                    {
-                        WriteLine(1, "let ?");
-                    }
+                    xWhere.filter.WithEachIndex(
+                        (wExpression, wExpressionIndex) =>
+                        {
+                            using (WithoutLinefeeds())
+                            {
+                                if (wExpressionIndex == 0)
+                                    WriteLine(0, "where ");
+                                else
+                                    WriteLine(1, "and ");
+
+                                WriteScalarExpression(wExpression.Body);
+                            }
+                        }
+                    );
+
+
                     return;
                 }
                 #endregion
@@ -287,6 +493,63 @@ namespace ComplexQueryExperiment
                               // whatif its a nested query?
 
                               // !!!
+
+
+                              #region FirstOrDefault
+                              if (xxMethodCallExpression.Method.Name == "FirstOrDefault")
+                              {
+                                  WriteLineWithColor(1, ("let " + GetTargetName()) + " <- (", ConsoleColor.White);
+
+                                  var __source = xxMethodCallExpression.Arguments[0] as MemberExpression;
+                                  // __source = {<>h__TransparentIdentifierd.xFirstOrDefaultQuery}
+
+                                  var __source_asParameterExpression = __source.Expression as ParameterExpression;
+
+                                  // assigned by let
+                                  if (xSelect.selector.Parameters[0] == __source_asParameterExpression)
+                                  {
+                                      // in that case get the damn argument
+                                      var xxSelect = xSelect.source as xSelect;
+                                      var xxNewExpression = xxSelect.selector.Body as NewExpression;
+
+                                      var ii = xxNewExpression.Members.IndexOf(__source.Member);
+                                      var aa = xxNewExpression.Arguments[ii];
+
+                                      // whats aa? the where clause?
+                                      // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
+
+                                      var aaMethodCallExpression = aa as MethodCallExpression;
+                                      if (aaMethodCallExpression.Method.Name == "Where")
+                                      {
+                                          var aa_filterQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                          var aa_source = aaMethodCallExpression.Arguments[0];
+
+                                          var oNewExpression = aa_source as NewExpression;
+                                          var newsource = oNewExpression.Constructor.Invoke(new object[0]);
+
+                                          var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                                  new object[] {
+                                                          newsource,
+                                                          aa_filterQuote.Operand
+                                                      }
+                                              );
+
+                                          var sqalarsql = new SQLWriter(
+                                              newsource2,
+                                              upper.Concat(new[] { source }).ToArray(),
+                                              context
+                                          );
+                                      }
+                                  }
+
+                                  WriteLineWithColor(1, ")", ConsoleColor.White);
+                                  return;
+                              }
+                              #endregion
+
+
+
+                              #region Count
                               if (xxMethodCallExpression.Method.Name == "Count")
                               {
                                   // scalar sub query?
@@ -303,11 +566,9 @@ namespace ComplexQueryExperiment
 
                                       var m = count_source.Expression as MemberExpression;
                                       // m = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5}
-                                      var mp0 = m.Expression as ParameterExpression;
+                                      var mp0ParameterExpression = m.Expression as ParameterExpression;
 
-                                      var p0 = xSelect.selector.Parameters[0];
-
-                                      if (p0 == mp0)
+                                      if (xSelect.selector.Parameters[0] == mp0ParameterExpression)
                                       {
                                           // found it!
                                           // we should access the missing value via outer source?
@@ -339,14 +600,12 @@ namespace ComplexQueryExperiment
 
                                                   // i think we need to call that method.
 
-                                                  var OrderBy_keySelector = aaMethodCallExpression.Arguments[1] as UnaryExpression;
-                                                  var OrderBy_source = aaMethodCallExpression.Arguments[0];
+                                                  var aa_keySelector = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                                  var aa_source = aaMethodCallExpression.Arguments[0];
 
                                                   // OrderBy_source = {new xTable()}
 
-                                                  var oNewExpression = OrderBy_source as NewExpression;
-
-
+                                                  var oNewExpression = aa_source as NewExpression;
                                                   var newsource = oNewExpression.Constructor.Invoke(new object[0]);
                                                   // newsource = {ComplexQueryExperiment.xTable}
 
@@ -356,7 +615,7 @@ namespace ComplexQueryExperiment
                                                   var oOrdered = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
                                                       new object[] {
                                                           newsource,
-                                                          OrderBy_keySelector.Operand
+                                                          aa_keySelector.Operand
                                                       }
                                                   );
 
@@ -371,11 +630,14 @@ namespace ComplexQueryExperiment
                                       }
                                   }
 
+
                                   WriteLineWithColor(1, ")", ConsoleColor.White);
                                   return;
 
                               }
+                              #endregion
 
+                              // what other methods have we referenced yet?
                               WriteLineWithColor(1, ("let " + GetTargetName()) + " <- " + xxMethodCallExpression.Method.Name + "(?)", ConsoleColor.White);
                               return;
                           }
@@ -393,18 +655,11 @@ namespace ComplexQueryExperiment
                                   return;
                               }
 
-
-
-
                               var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
                               if (zMMemberExpression != null)
                               {
                                   // walk the source
-
-
-
                                   // upper to deeper
-
 
                                   #region diagnostics
                                   //var member1 = (Expression)zMMemberExpression;
@@ -445,11 +700,8 @@ namespace ComplexQueryExperiment
                                   //}
                                   #endregion
 
-
-
                                   //var p1 = xSelect.source;
                                   //p1 = (zsource as xSelect).source;
-
                                   // whatif we shall not look at our zsource?
                                   var p1 = (zsource as xSelect).source;
 
@@ -591,8 +843,11 @@ namespace ComplexQueryExperiment
                           var xConstantExpression = zExpression as ConstantExpression;
                           if (xConstantExpression != null)
                           {
-                              //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
-                              WriteLine(1, ("let " + GetTargetName()) + " <- constant");
+                              using (WithoutLinefeeds())
+                              {
+                                  WriteLine(1, ("let " + GetTargetName()) + " <- ");
+                                  WriteScalarExpression(xConstantExpression);
+                              }
                               return;
                           }
                           #endregion
@@ -601,7 +856,11 @@ namespace ComplexQueryExperiment
                           var xxBinaryExpression = zExpression as BinaryExpression;
                           if (xxBinaryExpression != null)
                           {
-                              WriteLine(1, ("let " + GetTargetName()) + " <- ? + ?");
+                              using (WithoutLinefeeds())
+                              {
+                                  WriteLine(1, ("let " + GetTargetName()) + " <- ");
+                                  WriteScalarExpression(xxBinaryExpression);
+                              }
                               return;
                           }
                           #endregion
@@ -737,6 +996,10 @@ namespace ComplexQueryExperiment
                                                             var aMethodCallExpression = a as MethodCallExpression;
                                                             if (aMethodCallExpression != null)
                                                             {
+
+                                                                if (aMethodCallExpression.Method.Name == "FirstOrDefault")
+                                                                    break;
+
                                                                 if (aMethodCallExpression.Method.Name == "Count")
                                                                 //if (aMethodCallExpression.Method.DeclaringType == typeof(FrikkingExpressionBuilder))
                                                                 {
@@ -851,8 +1114,12 @@ namespace ComplexQueryExperiment
         class xWhere
         {
             public IQueryStrategy source;
-            public IEnumerable<Expression> filter;
+            public IEnumerable<LambdaExpression> filter;
 
+            public override string ToString()
+            {
+                return (source as xSelect).selector.Parameters[0].Name;
+            }
         }
 
         class xWhere<TElement> : xWhere, IQueryStrategy<TElement>
@@ -917,7 +1184,7 @@ namespace ComplexQueryExperiment
             public IQueryStrategy source;
 
 
-            public IEnumerable<Expression> keySelector;
+            public IEnumerable<LambdaExpression> keySelector;
         }
 
         public class xOrderBy<TElement> : xOrderBy, IQueryStrategy<TElement>
@@ -960,6 +1227,17 @@ namespace ComplexQueryExperiment
             return 0;
         }
 
-
+        public static
+            IQueryStrategy<TResult>
+            Join<TOuter, TInner, TKey, TResult>(
+            this IQueryStrategy<TOuter> xouter,
+            IQueryStrategy<TInner> xinner,
+            Expression<Func<TOuter, TKey>> outerKeySelector,
+            Expression<Func<TInner, TKey>> innerKeySelector,
+            Expression<Func<TOuter, TInner, TResult>> resultSelector
+            )
+        {
+            return null;
+        }
     }
 }
