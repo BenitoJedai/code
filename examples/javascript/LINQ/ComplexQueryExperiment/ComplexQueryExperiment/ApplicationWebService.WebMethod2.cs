@@ -34,10 +34,17 @@ namespace ComplexQueryExperiment
 
                     orderby field8, field7, field6, field5 > 33
 
+                    let scalar1 =
+                        from zz in new xTable()
+                        select zz
+
+                    let scalar1count = scalar1.Count()
+
                     let field9 = new { field3, field7, x = new { field4 }, y = new[] { field5, field6 } }
 
 
-                    select z.field1;
+                    //select z.field1;
+                    select new { f11 = z.field1, f12 = z.field1, f13 = z.field1 + 3, z };
 
             //select scalarLambda(field5);
 
@@ -76,26 +83,66 @@ namespace ComplexQueryExperiment
 
     static class FrikkingExpressionBuilder
     {
+        class SQLWriterContext
+        {
+            public int LineNumber = 0;
+        }
+
         class SQLWriter
         {
 
-
-            public SQLWriter(IQueryStrategy source, IEnumerable<IQueryStrategy> upper)
+            public SQLWriter(IQueryStrategy source, IEnumerable<IQueryStrategy> upper, SQLWriterContext context = null)
             {
                 // selector = {<>h__TransparentIdentifier6 => <>h__TransparentIdentifier6.<>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
 
                 // convert to SQL!
 
+                #region WriteLine
+                if (context == null)
+                    context = new SQLWriterContext();
+
+                Action<int, string, ConsoleColor> WriteLineWithColor  =
+                    (padding, text, c) =>
+                    {
+                        context.LineNumber++;
+
+                        // what would happen id we did this elsewhere?
+                        var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
+
+                        // http://dev.mysql.com/doc/refman/5.0/en/comments.html
+                        var trace = "/* " + f.GetFileLineNumber().ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
+
+                        var old = new { Console.ForegroundColor };
+                        Console.ForegroundColor = ConsoleColor.Gray;
+
+                        Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+
+                        if (text.StartsWith("let"))
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        else
+                            Console.ForegroundColor = old.ForegroundColor;
+
+                        Console.WriteLine(text);
+                        Console.ForegroundColor = old.ForegroundColor;
+
+                    };
+                #endregion
+
+                Action<int, string> WriteLine =
+                    (padding, text, c) =>
+                    {
+
+                    };
 
                 #region xOrderBy
                 var xOrderBy = source as xOrderBy;
                 if (xOrderBy != null)
                 {
-                    var sql = new SQLWriter(xOrderBy.source, upper.Concat(new[] { source }));
+                    var sql = new SQLWriter(xOrderBy.source, upper.Concat(new[] { source }), context);
 
                     foreach (var item in xOrderBy.keySelector)
                     {
-                        Console.WriteLine("".PadLeft(upper.Count(), ' ') + "orderby ?");
+                        WriteLine(0, "orderby ?");
                     }
                     return;
                 }
@@ -105,11 +152,11 @@ namespace ComplexQueryExperiment
                 var xWhere = source as xWhere;
                 if (xWhere != null)
                 {
-                    var sql = new SQLWriter(xWhere.source, upper.Concat(new[] { source }));
+                    var sql = new SQLWriter(xWhere.source, upper.Concat(new[] { source }), context);
 
                     foreach (var item in xWhere.filter)
                     {
-                        Console.WriteLine("".PadLeft(upper.Count(), ' ') + "where ?");
+                        WriteLine(0, "where ?");
                     }
                     return;
                 }
@@ -120,13 +167,13 @@ namespace ComplexQueryExperiment
                 // (source as xSelect).selector.Body = {<>h__TransparentIdentifier6 . <>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
                 var x = (source as xSelect).selector.Body;
 
-                Console.WriteLine("".PadLeft(upper.Count(), ' ') + "select");
+                WriteLine(0, "select");
 
                 var sInvocationExpression = (source as xSelect).selector.Body as InvocationExpression;
                 if (sInvocationExpression != null)
                 {
                     // that lambda shall be run during readout, not within db
-                    Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("f(?)"));
+                    WriteLine(1, "f(?)");
                 }
                 else
                 {
@@ -134,7 +181,7 @@ namespace ComplexQueryExperiment
                     if (sMemberExpression != null)
                     {
                         // the parameter name is not entirely correct. we need a flattened projection instead.
-                        Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + (source as xSelect).selector.Parameters[0].Name + "::" + sMemberExpression.Member.Name);
+                        WriteLine(1, (source as xSelect).selector.Parameters[0].Name + "::" + sMemberExpression.Member.Name);
                     }
                     else
                     {
@@ -145,7 +192,7 @@ namespace ComplexQueryExperiment
                         {
                             // scalar select
                             // this will look like roslyn dictionary indexer initializer
-                            Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? > ?"));
+                            WriteLine(1, ("? > ?"));
                         }
                         else
                         {
@@ -172,7 +219,11 @@ namespace ComplexQueryExperiment
                                         var xxMethodCallExpression = item.a as MethodCallExpression;
                                         if (xxMethodCallExpression != null)
                                         {
-                                            Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("let " + item.m.Name) + " <- lower(?)");
+                                            // whatif its a nested query?
+
+
+
+                                            WriteLine(1, ("let " + item.m.Name) + " <- " + xxMethodCallExpression.Method.Name + "(?)");
                                             continue;
                                         }
                                         #endregion
@@ -182,7 +233,7 @@ namespace ComplexQueryExperiment
                                         var xxBinaryExpression = item.a as BinaryExpression;
                                         if (xxBinaryExpression != null)
                                         {
-                                            Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("let " + item.m.Name) + " <- ? + ?");
+                                            WriteLine(1, ("let " + item.m.Name) + " <- ? + ?");
                                             continue;
                                         }
                                         #endregion
@@ -192,7 +243,7 @@ namespace ComplexQueryExperiment
                                         if (xConstantExpression != null)
                                         {
                                             //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
-                                            Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("let " + item.m.Name) + " <- constant");
+                                            WriteLine(1, ("let " + item.m.Name) + " <- constant");
                                             continue;
                                         }
                                         #endregion
@@ -202,8 +253,18 @@ namespace ComplexQueryExperiment
                                         var xParameterExpression = item.a as ParameterExpression;
                                         if (xParameterExpression != null)
                                         {
+                                            // + (source as xSelect).selector.Parameters[0].Name);
                                             // whats available for proxy? whats used from upper?
-                                            Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + (xParameterExpression.Name + "+* as " + item.m.Name + "+*"));
+
+                                            var upper_xSelect = (upper.Last() as xSelect);
+
+                                            // as above so below
+                                            // skip orderby and where?
+                                            if (upper_xSelect != null)
+                                                WriteLine(1, "let " + (upper.Last() as xSelect).selector.Parameters[0].Name + "." + item.m.Name + " <- " + xParameterExpression.Name);
+                                            else
+                                                WriteLine(1, "let ?." + item.m.Name + " <- " + xParameterExpression.Name);
+                                            //WriteLine(1, (xParameterExpression.Name + "+* as " + item.m.Name + "+*"));
                                             continue;
                                         }
                                         #endregion
@@ -212,7 +273,7 @@ namespace ComplexQueryExperiment
                                         var xxNewArrayExpression = item.a as NewArrayExpression;
                                         if (xxNewArrayExpression != null)
                                         {
-                                            Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("let " + item.m.Name) + " <- new[]{?}");
+                                            WriteLine(1, ("let " + item.m.Name) + " <- new[]{?}");
                                             continue;
                                         }
                                         #endregion
@@ -224,7 +285,7 @@ namespace ComplexQueryExperiment
                                         {
                                             // let
 
-                                            Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("let " + item.m.Name) + " <- ?");
+                                            WriteLine(1, ("let " + item.m.Name) + " <- ?");
                                             //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("?:* as " + item.m.Name));
 
 
@@ -250,12 +311,12 @@ namespace ComplexQueryExperiment
 
                                                 if (xMParameterExpression == null)
                                                 {
-                                                    Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("let " + item.m.Name) + " <- ?");
+                                                    WriteLine(1, ("let " + item.m.Name) + " <- ?");
                                                     //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + "? as " + item.m.Name + "+*");
                                                 }
                                                 else
                                                 {
-                                                    Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + xMParameterExpression.Name + ":" + xMMemberExpression.Member.Name + "." + (xMemberExpression.Member.Name + "+* as " + item.m.Name + "+*"));
+                                                    WriteLine(1, xMParameterExpression.Name + ":" + xMMemberExpression.Member.Name + "." + (xMemberExpression.Member.Name + "+* as " + item.m.Name + "+*"));
                                                 }
                                             }
                                             else
@@ -264,7 +325,7 @@ namespace ComplexQueryExperiment
                                                 var xMParameterExpression = xMemberExpression.Expression as ParameterExpression;
 
                                                 // assume non scalar, members and array elements by default
-                                                Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + xMParameterExpression.Name + ":" + (xMemberExpression.Member.Name + "+* as " + item.m.Name + "+*"));
+                                                WriteLine(1, xMParameterExpression.Name + ":" + (xMemberExpression.Member.Name + "+* as " + item.m.Name + "+*"));
                                             }
 
                                             continue;
@@ -289,21 +350,22 @@ namespace ComplexQueryExperiment
                 {
                     // there needs to be an external source. a table in db?
 
-                    Console.WriteLine("".PadLeft(upper.Count(), ' ') + "from xTable as " + (source as xSelect).selector.Parameters[0].Name);
+                    WriteLine(0, "from xTable as " + (source as xSelect).selector.Parameters[0].Name);
                 }
                 else
                 {
-                    Console.WriteLine("".PadLeft(upper.Count(), ' ') + "from (");
+                    WriteLine(0, "from (");
 
                     var xsource = new SQLWriter(
                         (source as xSelect).source,
-                        upper.Concat(new[] { source })
+                        upper.Concat(new[] { source }),
+                        context
                     );
 
                     // render the source and with parent
 
 
-                    Console.WriteLine("".PadLeft(upper.Count(), ' ') + ") as " + (source as xSelect).selector.Parameters[0].Name);
+                    WriteLine(0, ") as " + (source as xSelect).selector.Parameters[0].Name);
                 }
 
                 //Debugger.Break();
@@ -422,6 +484,12 @@ namespace ComplexQueryExperiment
                 source = source,
                 keySelector = new[] { keySelector }
             };
+        }
+
+        // first lets allow scalar subqueries
+        public static long Count(this IQueryStrategy Strategy)
+        {
+            return 0;
         }
     }
 }
