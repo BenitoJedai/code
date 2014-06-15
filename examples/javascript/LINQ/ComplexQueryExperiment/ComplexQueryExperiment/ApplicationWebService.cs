@@ -20,7 +20,7 @@ namespace ComplexQueryExperiment
     }
 
     interface IQueryStrategy
-    { 
+    {
     }
 
     interface IQueryStrategy<TElementType> : IQueryStrategy
@@ -32,17 +32,41 @@ namespace ComplexQueryExperiment
         public xTable()
         {
             // select all known fields. and then some.
-            Expression<Func<xRow, object>> selector = (x) => new { x.field1, x.field2};
+            //Expression<Func<xRow, object>> selector = (x) => new
+            //{
+            //    x.Key,
+            //    x.field1,
+            //    x.field2,
+            //    x.Timestamp,
+            //    x.Tag
+            //};
+
+            Expression<Func<xRow, xRow>> selector = (xTableDefaultSelector) => new xRow
+            {
+                Key = xTableDefaultSelector.Key,
+                field1 = xTableDefaultSelector.field1,
+                field2 = xTableDefaultSelector.field2,
+                Timestamp = xTableDefaultSelector.Timestamp,
+                Tag = xTableDefaultSelector.Tag
+            };
 
             // compiler generated
             this.selector = selector;
         }
     }
 
+    enum xKey : long { }
+
     class xRow
     {
+        public xKey Key;
+
         public int field1;
         public int field2;
+
+        public DateTime Timestamp;
+        public string Tag;
+
     }
 
 
