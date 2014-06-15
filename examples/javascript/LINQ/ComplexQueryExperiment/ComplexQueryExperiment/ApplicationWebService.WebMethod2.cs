@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using ScriptCoreLib.Extensions;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace ComplexQueryExperiment
 {
@@ -29,22 +31,73 @@ namespace ComplexQueryExperiment
                     where new { field3 }.field3 > field5
 
                     let field6 = field3 + field4 + field5
-                    let field7 = new { z.field1, field6 }
+
+                    // whats wrong here?
+                    let field7 = new { ff1 = z.field1, field6 }
+
+
+                    let scalar1 =
+                        from zz in new xTable()
+                        orderby zz.Key
+                        select zz
+
                     let field8 = "???".ToLower()
 
                     orderby field8, field7, field6, field5 > 33
 
-                    let scalar1 =
-                        from zz in new xTable()
-                        select zz
-
                     let scalar1count = scalar1.Count()
 
-                    let field9 = new { field3, field7, x = new { field4 }, y = new[] { field5, field6 } }
+                    let scalar2 = new[] {
+                        scalar1count - 1,
+                        scalar1count,
+                        scalar1count + 1
+                    }
 
+                    // field3 not found?
+                    let field9 = new { field3, field7, x = new { field4 }, y = new[] { field5, field6 } }
+                    let field10 = z.Timestamp
+                    let field11 = field10.Date
+                    let field12 = field11.AddDays(-1)
 
                     //select z.field1;
-                    select new { f11 = z.field1, f12 = z.field1, f13 = z.field1 + 3, z };
+                    select new
+                    {
+                        z.field1,
+                        z,
+
+
+                        z.Timestamp,
+
+                        field3,
+
+                        a = new
+                        {
+                            scalar2,
+
+
+                            Tag1 = z.Tag,
+                            Tag2 = z.Tag.ToLower(),
+
+                            c2 = 2,
+                            c3 = new { c4 = 4 },
+                        },
+
+                        scalar2,
+
+                        c1 = 1,
+                        f11 = z.field1,
+                        f12 = z.field1,
+                        f13 = z.field1 + 3,
+                        xml = new XElement("xml",
+                            new XAttribute("tag", z.Tag)
+                            ),
+
+
+                        aa = new[] {
+                            z.Tag,
+                            z.Tag
+                            }
+                    };
 
             //select scalarLambda(field5);
 
@@ -72,7 +125,7 @@ namespace ComplexQueryExperiment
             // order by
             // typed ctor
 
-            Debugger.Break();
+            Console.ReadKey();
         }
 
         // we need to extract alll above into a hige frikking expression tree
@@ -101,7 +154,7 @@ namespace ComplexQueryExperiment
                 if (context == null)
                     context = new SQLWriterContext();
 
-                Action<int, string, ConsoleColor> WriteLineWithColor  =
+                Action<int, string, ConsoleColor> WriteLineWithColor =
                     (padding, text, c) =>
                     {
                         context.LineNumber++;
@@ -117,22 +170,47 @@ namespace ComplexQueryExperiment
 
                         Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
 
+
+                        Console.ForegroundColor = c;
+
+                        Console.WriteLine(text);
+                        Console.ForegroundColor = old.ForegroundColor;
+
+                    };
+
+                Action<int, string> WriteLine =
+                    (padding, text) =>
+                    {
+                        context.LineNumber++;
+
+                        // what would happen id we did this elsewhere?
+                        var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
+
+                        // http://dev.mysql.com/doc/refman/5.0/en/comments.html
+                        var trace = "/* " + f.GetFileLineNumber().ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
+
+                        var old = new { Console.ForegroundColor };
+                        Console.ForegroundColor = ConsoleColor.Gray;
+
+                        Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+
+
                         if (text.StartsWith("let"))
-                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        {
+                            if (upper.Any())
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                            else
+                                Console.ForegroundColor = ConsoleColor.Magenta;
+                        }
                         else
                             Console.ForegroundColor = old.ForegroundColor;
 
                         Console.WriteLine(text);
                         Console.ForegroundColor = old.ForegroundColor;
 
+
                     };
                 #endregion
-
-                Action<int, string> WriteLine =
-                    (padding, text, c) =>
-                    {
-
-                    };
 
                 #region xOrderBy
                 var xOrderBy = source as xOrderBy;
@@ -140,9 +218,11 @@ namespace ComplexQueryExperiment
                 {
                     var sql = new SQLWriter(xOrderBy.source, upper.Concat(new[] { source }), context);
 
+                    WriteLine(0, "orderby");
+
                     foreach (var item in xOrderBy.keySelector)
                     {
-                        WriteLine(0, "orderby ?");
+                        WriteLine(1, "let ?");
                     }
                     return;
                 }
@@ -153,19 +233,438 @@ namespace ComplexQueryExperiment
                 if (xWhere != null)
                 {
                     var sql = new SQLWriter(xWhere.source, upper.Concat(new[] { source }), context);
+                    WriteLine(0, "where");
 
                     foreach (var item in xWhere.filter)
                     {
-                        WriteLine(0, "where ?");
+                        WriteLine(1, "let ?");
                     }
                     return;
                 }
                 #endregion
 
+                var xSelect = source as xSelect;
+
+
+
+                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjection = null;
+
+                WriteProjection =
+                    // do we need zsource?
+                      (zsource, zExpression, Target) =>
+                      {
+                          //Console.WriteLine(new { zsource, zExpression });
+
+                          #region GetTargetName
+                          Func<string> GetTargetName =
+                              delegate
+                              {
+                                  var w = "";
+
+                                  foreach (var item in Target)
+                                  {
+                                      if (item.Item1 == null)
+                                          w += "[" + item.Item2 + "]";
+                                      else
+                                      {
+                                          if (!string.IsNullOrEmpty(w))
+                                              w += ".";
+
+                                          w += item.Item1.Name + "";
+                                      }
+
+                                  }
+
+                                  return w;
+                              };
+                          #endregion
+
+
+                          #region xxMethodCallExpression
+                          var xxMethodCallExpression = zExpression as MethodCallExpression;
+                          if (xxMethodCallExpression != null)
+                          {
+                              // whatif its a nested query?
+
+                              // !!!
+                              if (xxMethodCallExpression.Method.Name == "Count")
+                              {
+                                  // scalar sub query?
+                                  WriteLineWithColor(1, ("let " + GetTargetName()) + " <- select count(*) from (", ConsoleColor.White);
+
+
+                                  var count_source = xxMethodCallExpression.Arguments[0] as MemberExpression;
+                                  // [0x00000000] = {<>h__TransparentIdentifier6.scalar1}
+                                  // [0x00000000] = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5.scalar1}
+
+                                  if (count_source != null)
+                                  {
+                                      // looks like we saved that query somewhere via let?
+
+                                      var m = count_source.Expression as MemberExpression;
+                                      // m = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5}
+                                      var mp0 = m.Expression as ParameterExpression;
+
+                                      var p0 = xSelect.selector.Parameters[0];
+
+                                      if (p0 == mp0)
+                                      {
+                                          // found it!
+                                          // we should access the missing value via outer source?
+
+                                          //var xxSelect = xSelect.source as xSelect;
+                                          var xxOrderBy = xSelect.source as xOrderBy;
+                                          var xxSelect = xxOrderBy.source as xSelect;
+
+                                          var pp0 = xxSelect.selector.Parameters[0];
+                                          if (pp0.Name == m.Member.Name)
+                                          {
+                                              // yet again?
+                                              // xxMethodCallExpression = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5.scalar1.Count()}
+                                              // how is scalar1 being set?
+
+                                              var xxxSelect = xxSelect.source as xSelect;
+
+                                              var xxNewExpression = xxxSelect.selector.Body as NewExpression;
+                                              if (xxNewExpression != null)
+                                              {
+                                                  var ii = xxNewExpression.Members.IndexOf(count_source.Member);
+                                                  var aa = xxNewExpression.Arguments[ii];
+
+                                                  // this is how it is built.
+
+                                                  // aa = {new xTable().OrderBy(zz => zz.Key)}
+
+                                                  var aaMethodCallExpression = aa as MethodCallExpression;
+
+                                                  // i think we need to call that method.
+
+                                                  var OrderBy_keySelector = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                                  var OrderBy_source = aaMethodCallExpression.Arguments[0];
+
+                                                  // OrderBy_source = {new xTable()}
+
+                                                  var oNewExpression = OrderBy_source as NewExpression;
+
+
+                                                  var newsource = oNewExpression.Constructor.Invoke(new object[0]);
+                                                  // newsource = {ComplexQueryExperiment.xTable}
+
+                                                  // Additional information: Object of type 'System.Linq.Expressions.UnaryExpression' cannot be converted to type 
+                                                  // 'System.Linq.Expressions.Expression`1[System.Func`2[ComplexQueryExperiment.xRow,ComplexQueryExperiment.xKey]]'.
+
+                                                  var oOrdered = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                                      new object[] {
+                                                          newsource,
+                                                          OrderBy_keySelector.Operand
+                                                      }
+                                                  );
+
+                                                  var sqalarsql = new SQLWriter(
+                                                      oOrdered,
+                                                      upper.Concat(new[] { source }).ToArray(),
+                                                      context
+                                                  );
+
+                                              }
+                                          }
+                                      }
+                                  }
+
+                                  WriteLineWithColor(1, ")", ConsoleColor.White);
+                                  return;
+
+                              }
+
+                              WriteLineWithColor(1, ("let " + GetTargetName()) + " <- " + xxMethodCallExpression.Method.Name + "(?)", ConsoleColor.White);
+                              return;
+                          }
+                          #endregion
+
+
+                          #region zMemberExpression
+                          var zMemberExpression = zExpression as MemberExpression;
+                          if (zMemberExpression != null)
+                          {
+
+                              if (zMemberExpression.Member.DeclaringType == typeof(DateTime))
+                              {
+                                  WriteLineWithColor(1, ("let " + GetTargetName()) + " <- date(?)", ConsoleColor.White);
+                                  return;
+                              }
+
+
+
+
+                              var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
+                              if (zMMemberExpression != null)
+                              {
+                                  // walk the source
+
+
+
+                                  // upper to deeper
+
+
+                                  #region diagnostics
+                                  //var member1 = (Expression)zMMemberExpression;
+                                  //while (member1 is MemberExpression)
+                                  //{
+                                  //    Console.WriteLine(new { member1 });
+
+                                  //    member1 = ((MemberExpression)member1).Expression;
+                                  //}
+
+                                  //var member1p = (ParameterExpression)member1;
+
+                                  //// we have rewinded to the parameter
+                                  //Console.WriteLine(new { member1p });
+                                  //Console.WriteLine();
+
+                                  //// now replay to get the value?
+                                  ////var source1 = source;
+                                  //var source1 = zsource;
+
+                                  //if (member1p.Name != source1.ToString())
+                                  //{
+                                  //    Debugger.Break();
+
+                                  //}
+
+                                  //while (source1 != null)
+                                  //{
+                                  //    Console.WriteLine(new { source1 });
+
+                                  //    if (source1 is xSelect)
+                                  //        source1 = (source1 as xSelect).source;
+                                  //    else if (source1 is xOrderBy)
+                                  //        source1 = (source1 as xOrderBy).source;
+                                  //    else if (source1 is xWhere)
+                                  //        source1 = (source1 as xWhere).source;
+                                  //    else Debugger.Break();
+                                  //}
+                                  #endregion
+
+
+
+                                  //var p1 = xSelect.source;
+                                  //p1 = (zsource as xSelect).source;
+
+                                  // whatif we shall not look at our zsource?
+                                  var p1 = (zsource as xSelect).source;
+
+                                  var depth = 0;
+                                  while (zMMemberExpression.Expression is MemberExpression)
+                                  {
+                                      //if (zMemberExpression.Member.Name == "field1")
+                                      //WriteLineWithColor(4, ">" + new { depth, p1, zMemberExpression.Member, zMM = zMMemberExpression.Member.Name, zMMemberExpression }, ConsoleColor.Cyan);
+
+
+                                      depth++;
+
+                                      zMMemberExpression = zMMemberExpression.Expression as MemberExpression;
+
+
+                                      if (p1 is xWhere)
+                                          p1 = (p1 as xWhere).source;
+
+                                      if (p1 is xOrderBy)
+                                          p1 = (p1 as xOrderBy).source;
+
+                                      if (p1 is xWhere)
+                                          p1 = (p1 as xWhere).source;
+
+                                      if (p1 is xSelect)
+                                          p1 = (p1 as xSelect).source;
+
+                                      else Debugger.Break();
+                                  }
+
+                                  var pp0 = zMMemberExpression.Expression as ParameterExpression;
+                                  var pp1 = default(IQueryStrategy);
+
+
+                                  if (p1 is xWhere)
+                                      p1 = (p1 as xWhere).source;
+
+                                  if (p1 is xOrderBy)
+                                      p1 = (p1 as xOrderBy).source;
+
+                                  if (p1 is xWhere)
+                                      p1 = (p1 as xWhere).source;
+
+                                  if (p1 is xSelect)
+                                      pp1 = (p1 as xSelect).source;
+                                  //else if (p1 is xOrderBy)
+                                  //    pp1 = ((p1 as xOrderBy).source as xSelect).source;
+                                  //else if (p1 is xWhere)
+                                  //    pp1 = ((p1 as xWhere).source as xSelect).source;
+                                  else
+                                      Debugger.Break();
+
+                                  if (pp1 is xWhere)
+                                      pp1 = (pp1 as xWhere).source;
+
+                                  if (pp1 is xOrderBy)
+                                      pp1 = (pp1 as xOrderBy).source;
+
+                                  if (pp1 is xWhere)
+                                      pp1 = (pp1 as xWhere).source;
+
+
+                                  //if (zMemberExpression.Member.Name == "field1")
+                                  //    WriteLineWithColor(4, ">" + new { depth, pp1 }, ConsoleColor.Cyan);
+
+
+                                  var aa = default(Expression);
+
+                                  if (!(pp1 is xSelect))
+                                  {
+                                      WriteLine(1, ("let " + GetTargetName()) + " <- ??? nested not select");
+
+                                      return;
+                                  }
+
+
+
+                                  var xxMemberInitExpression = (pp1 as xSelect).selector.Body as MemberInitExpression;
+                                  if (xxMemberInitExpression != null)
+                                  {
+                                      // 		xxMemberInitExpression.Bindings[4].Member == zMemberExpression.Member	true	bool
+
+                                      var ii = xxMemberInitExpression.Bindings.Select(xx => xx.Member).ToList().IndexOf(zMemberExpression.Member);
+                                      if (ii < 0)
+                                      {
+                                          WriteLine(1, ("let " + GetTargetName()) + " <- ??? wrong level ???");
+                                          return;
+                                      }
+
+                                      aa = (xxMemberInitExpression.Bindings[ii] as MemberAssignment).Expression;
+
+                                      //aa = xxMemberInitExpression.new[ii].;
+                                  }
+                                  else
+                                  {
+                                      var xxNewExpression = (pp1 as xSelect).selector.Body as NewExpression;
+
+                                      var ii = xxNewExpression.Members.IndexOf(zMemberExpression.Member);
+                                      if (ii < 0)
+                                      {
+                                          WriteLine(1, ("let " + GetTargetName()) + " <- ??? wrong level ???");
+
+                                          return;
+                                      }
+
+                                      aa = xxNewExpression.Arguments[ii];
+                                  }
+
+                                  // is it a complex object?
+                                  // aa = {new [] {(<>h__TransparentIdentifier7.scalar1count - 1), <>h__TransparentIdentifier7.scalar1count, (<>h__TransparentIdentifier7.scalar1count + 1)}}
+
+
+
+                                  WriteProjection(
+                                      pp1,
+                                      //zsource,
+                                      aa,
+                                      Target
+
+                                  );
+                                  return;
+                              }
+
+                              WriteLine(1, ("let " + GetTargetName()) + " <- " + zMemberExpression.Member.Name);
+                              return;
+                          }
+                          #endregion
+
+                          #region zUnaryExpression
+                          var zUnaryExpression = zExpression as UnaryExpression;
+                          if (zUnaryExpression != null)
+                          {
+                              WriteLine(1, ("let " + GetTargetName()) + " <- unary");
+                              return;
+                          }
+                          #endregion
+
+                          #region xConstantExpression
+                          var xConstantExpression = zExpression as ConstantExpression;
+                          if (xConstantExpression != null)
+                          {
+                              //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
+                              WriteLine(1, ("let " + GetTargetName()) + " <- constant");
+                              return;
+                          }
+                          #endregion
+
+                          #region xBinaryExpression
+                          var xxBinaryExpression = zExpression as BinaryExpression;
+                          if (xxBinaryExpression != null)
+                          {
+                              WriteLine(1, ("let " + GetTargetName()) + " <- ? + ?");
+                              return;
+                          }
+                          #endregion
+
+                          #region xxNewArrayExpression
+                          var xxNewArrayExpression = zExpression as NewArrayExpression;
+                          if (xxNewArrayExpression != null)
+                          {
+                              xxNewArrayExpression.Expressions.WithEachIndex(
+                                    (SourceArgument, SourceArgumentIndex) =>
+                                        WriteProjection(
+                                            zsource,
+                                            SourceArgument,
+                                            Target.Concat(new[] { Tuple.Create(default(MemberInfo), SourceArgumentIndex) }).ToArray()
+                                        )
+                              );
+                              return;
+                          }
+                          #endregion
+
+                          #region xxNewExpression
+                          var zNewExpression = zExpression as NewExpression;
+                          if (zNewExpression != null)
+                          {
+                              //WriteLine(1, "    new " + xxNewExpression.Type.Name);
+
+                              zNewExpression.Arguments.WithEachIndex(
+                                  (SourceArgument, SourceArgumentIndex) =>
+                                      WriteProjection(
+                                      zsource,
+                                          SourceArgument,
+                                          Target.Concat(new[] { Tuple.Create(
+                                              zNewExpression.Members == null ? null : zNewExpression.Members[SourceArgumentIndex],
+                                              SourceArgumentIndex
+                                              )
+                                          }).ToArray()
+                                      )
+                              );
+                              return;
+                          }
+                          #endregion
+
+                          #region zParameterExpression
+                          var zParameterExpression = zExpression as ParameterExpression;
+                          if (zParameterExpression != null)
+                          {
+                              WriteLine(1, ("proxy " + GetTargetName()) + "");
+                              return;
+                          }
+                          #endregion
+
+
+                          Debugger.Break();
+                      };
+
+
+
+                var xSelect_source = xSelect.source;
+
 
                 // what are looking at? select selector will know the name of the source
                 // (source as xSelect).selector.Body = {<>h__TransparentIdentifier6 . <>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
-                var x = (source as xSelect).selector.Body;
+                var x = xSelect.selector.Body;
 
                 WriteLine(0, "select");
 
@@ -197,7 +696,7 @@ namespace ComplexQueryExperiment
                         else
                         {
 
-                            var xNewArrayExpression = (source as xSelect).selector.Body as NewArrayExpression;
+                            var xNewArrayExpression = xSelect.selector.Body as NewArrayExpression;
                             if (xNewArrayExpression != null)
                             {
                                 // this will look like roslyn dictionary indexer initializer
@@ -207,146 +706,110 @@ namespace ComplexQueryExperiment
                             }
                             else
                             {
-                                var xNewExpression = (source as xSelect).selector.Body as NewExpression;
+                                var xNewExpression = xSelect.selector.Body as NewExpression;
                                 if (xNewExpression != null)
                                 {
                                     // we are selecting a group for upper select arent we.
 
+                                    #region xArguments, merge unless its a scalar subselect
+                                    var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
 
-                                    foreach (var item in xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m }))
+                                    // are we able to merge with sub selects?
+                                    if (upper.Any())
                                     {
-                                        #region xxMethodCallExpression
-                                        var xxMethodCallExpression = item.a as MethodCallExpression;
-                                        if (xxMethodCallExpression != null)
+                                        var ySelect = xSelect_source as xSelect;
+                                        while (ySelect != null)
                                         {
-                                            // whatif its a nested query?
-
-
-
-                                            WriteLine(1, ("let " + item.m.Name) + " <- " + xxMethodCallExpression.Method.Name + "(?)");
-                                            continue;
-                                        }
-                                        #endregion
-
-
-                                        #region xBinaryExpression
-                                        var xxBinaryExpression = item.a as BinaryExpression;
-                                        if (xxBinaryExpression != null)
-                                        {
-                                            WriteLine(1, ("let " + item.m.Name) + " <- ? + ?");
-                                            continue;
-                                        }
-                                        #endregion
-
-                                        #region xConstantExpression
-                                        var xConstantExpression = item.a as ConstantExpression;
-                                        if (xConstantExpression != null)
-                                        {
-                                            //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
-                                            WriteLine(1, ("let " + item.m.Name) + " <- constant");
-                                            continue;
-                                        }
-                                        #endregion
-
-
-                                        #region xParameterExpression
-                                        var xParameterExpression = item.a as ParameterExpression;
-                                        if (xParameterExpression != null)
-                                        {
-                                            // + (source as xSelect).selector.Parameters[0].Name);
-                                            // whats available for proxy? whats used from upper?
-
-                                            var upper_xSelect = (upper.Last() as xSelect);
-
-                                            // as above so below
-                                            // skip orderby and where?
-                                            if (upper_xSelect != null)
-                                                WriteLine(1, "let " + (upper.Last() as xSelect).selector.Parameters[0].Name + "." + item.m.Name + " <- " + xParameterExpression.Name);
-                                            else
-                                                WriteLine(1, "let ?." + item.m.Name + " <- " + xParameterExpression.Name);
-                                            //WriteLine(1, (xParameterExpression.Name + "+* as " + item.m.Name + "+*"));
-                                            continue;
-                                        }
-                                        #endregion
-
-                                        #region xxNewArrayExpression
-                                        var xxNewArrayExpression = item.a as NewArrayExpression;
-                                        if (xxNewArrayExpression != null)
-                                        {
-                                            WriteLine(1, ("let " + item.m.Name) + " <- new[]{?}");
-                                            continue;
-                                        }
-                                        #endregion
-
-
-                                        #region xxNewExpression
-                                        var xxNewExpression = item.a as NewExpression;
-                                        if (xxNewExpression != null)
-                                        {
-                                            // let
-
-                                            WriteLine(1, ("let " + item.m.Name) + " <- ?");
-                                            //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("?:* as " + item.m.Name));
-
-
-                                            //Debugger.Break();
-                                            continue;
-                                        }
-                                        #endregion
-
-                                        #region xMemberExpression
-                                        var xMemberExpression = item.a as MemberExpression;
-                                        if (xMemberExpression != null)
-                                        {
-                                            // we are selecting a field. was it flattened for us?
-                                            // xMemberExpression = {<>h__TransparentIdentifier6.field9}
-
-                                            var xMMemberExpression = xMemberExpression.Expression as MemberExpression;
-                                            if (xMMemberExpression != null)
+                                            var yNewExpression = ySelect.selector.Body as NewExpression;
+                                            if (yNewExpression != null)
                                             {
-                                                // we are selecting only one field of a datagroup
-                                                var xMParameterExpression = xMMemberExpression.Expression as ParameterExpression;
-
-                                                // assume non scalar, members and array elements by default
-
-                                                if (xMParameterExpression == null)
+                                                if (yNewExpression.Arguments.Count == 2)
                                                 {
-                                                    WriteLine(1, ("let " + item.m.Name) + " <- ?");
-                                                    //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + "? as " + item.m.Name + "+*");
-                                                }
-                                                else
-                                                {
-                                                    WriteLine(1, xMParameterExpression.Name + ":" + xMMemberExpression.Member.Name + "." + (xMemberExpression.Member.Name + "+* as " + item.m.Name + "+*"));
+                                                    var yParameterExpression = yNewExpression.Arguments[0] as ParameterExpression;
+                                                    if (yParameterExpression != null)
+                                                    {
+                                                        if (yParameterExpression.Name == ySelect.selector.Parameters[0].Name)
+                                                        {
+                                                            var a = yNewExpression.Arguments[1];
+
+                                                            // unless its a scalar subselect?
+
+                                                            var aMethodCallExpression = a as MethodCallExpression;
+                                                            if (aMethodCallExpression != null)
+                                                            {
+                                                                if (aMethodCallExpression.Method.Name == "Count")
+                                                                //if (aMethodCallExpression.Method.DeclaringType == typeof(FrikkingExpressionBuilder))
+                                                                {
+                                                                    break;
+                                                                }
+                                                            }
+
+                                                            var m = yNewExpression.Members[1];
+                                                            WriteLineWithColor(1, "merge " + yParameterExpression.Name + "." + m.Name, ConsoleColor.Gray);
+
+                                                            var item =
+                                                                  new
+                                                                  {
+                                                                      a = a,
+                                                                      m = m,
+                                                                      source = xSelect_source
+                                                                  };
+
+
+                                                            // we seem to be able to merge!
+                                                            xSelect_source = ySelect.source;
+                                                            ySelect = xSelect_source as xSelect;
+
+
+
+
+                                                            WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
+
+                                                            continue;
+                                                        }
+                                                    }
                                                 }
                                             }
-                                            else
-                                            {
 
-                                                var xMParameterExpression = xMemberExpression.Expression as ParameterExpression;
-
-                                                // assume non scalar, members and array elements by default
-                                                WriteLine(1, xMParameterExpression.Name + ":" + (xMemberExpression.Member.Name + "+* as " + item.m.Name + "+*"));
-                                            }
-
-                                            continue;
+                                            break;
                                         }
-                                        #endregion
-
-
-                                        Debugger.Break();
                                     }
+                                    #endregion
 
 
+                                    foreach (var item in xArguments)
+                                    {
+                                        WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
+                                    }
+                                }
+                                else
+                                {
+                                    var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
+                                    if (xMemberInitExpression != null)
+                                    {
+                                        xMemberInitExpression.Bindings.WithEachIndex(
+                                            (SourceBinding, SourceBindingIndex) =>
+                                            {
+                                                var item = new
+                                                {
+                                                    a = (SourceBinding as MemberAssignment).Expression,
+                                                    m = SourceBinding.Member
+                                                };
 
+                                                WriteProjection(source, item.a, new[] { Tuple.Create(item.m, -1) });
+                                            }
+                                        );
+
+                                    }
+                                    else Debugger.Break();
 
                                 }
-                                else Debugger.Break();
                             }
                         }
                     }
                 }
 
-                if ((source as xSelect).source == null)
+                if (xSelect_source == null)
                 {
                     // there needs to be an external source. a table in db?
 
@@ -357,7 +820,7 @@ namespace ComplexQueryExperiment
                     WriteLine(0, "from (");
 
                     var xsource = new SQLWriter(
-                        (source as xSelect).source,
+                       xSelect_source,
                         upper.Concat(new[] { source }),
                         context
                     );
@@ -423,6 +886,11 @@ namespace ComplexQueryExperiment
         {
             public IQueryStrategy source;
             public LambdaExpression selector;
+
+            public override string ToString()
+            {
+                return selector.Parameters[0].Name;
+            }
         }
 
         class xSelect<TResult> : xSelect, IQueryStrategy<TResult>
@@ -491,5 +959,7 @@ namespace ComplexQueryExperiment
         {
             return 0;
         }
+
+
     }
 }
