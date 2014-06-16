@@ -1,6 +1,7 @@
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Query.Experimental;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,15 +20,9 @@ namespace ComplexQueryExperiment
 
     }
 
-    interface IQueryStrategy
-    {
-    }
 
-    interface IQueryStrategy<TElementType> : IQueryStrategy
-    {
-    }
 
-    class xTable : ComplexQueryExperiment.FrikkingExpressionBuilder.xSelect, IQueryStrategy<xRow>
+    class xTable : QueryExpressionBuilder.xSelect, IQueryStrategy<xRow>
     {
         public xTable()
         {

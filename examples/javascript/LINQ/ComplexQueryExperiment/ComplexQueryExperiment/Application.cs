@@ -17,6 +17,7 @@ using ComplexQueryExperiment;
 using ComplexQueryExperiment.Design;
 using ComplexQueryExperiment.HTML.Pages;
 using System.IO;
+using ScriptCoreLib.Query.Experimental;
 
 namespace ComplexQueryExperiment
 {
