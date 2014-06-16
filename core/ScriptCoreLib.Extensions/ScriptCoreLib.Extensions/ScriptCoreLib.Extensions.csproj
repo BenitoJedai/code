@@ -101,6 +101,12 @@
     <Compile Include="JavaScript\DOM\FileExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
     <Compile Include="JavaScript\Extensions\FormExtensions.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.OrderBy.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.GroupBy.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.Join.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.Where.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.Select.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.cs" />
     <Compile Include="Query\INestedQueryStrategy.cs" />
     <Compile Include="Query\IQueryStrategy.cs" />
     <Compile Include="Query\IQueryStrategyInsert.cs" />
