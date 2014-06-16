@@ -39,7 +39,6 @@ namespace ComplexQueryExperiment
             Console.SetOut(new xConsole());
 
             // ternary op not supported
-            // it compiles to js but runtime info is missing for now 
 
             var x = from z in new xTable()
                     //select z;
