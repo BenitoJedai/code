@@ -1614,7 +1614,7 @@ namespace System.Data
                              else
                              {
                                  // group by into g select g.Last() ?
-                                 Debugger.Break();
+                                 // Debugger.Break();
                              }
 
                          }
@@ -1639,8 +1639,10 @@ namespace System.Data
                      // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
 
                      var g = s_SelectCommand
-                              + "\n from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s "
-                              + "\n group by ";
+                              + "\n"
+                              + "from " + s.GetQualifiedTableNameOrToString().Replace("\n", "\n\t") + " as s " // s needs to go at some point
+                              + "\n"
+                              + "group by ";
 
                      // can we group by multiple fields?
                      // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs

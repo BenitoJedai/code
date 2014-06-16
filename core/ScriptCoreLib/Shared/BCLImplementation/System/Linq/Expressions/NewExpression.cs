@@ -12,6 +12,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     internal class __NewExpression : __Expression
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+        // script: error JSC1000: No implementation found for this native method, please implement [System.Linq.Expressions.NewArrayExpression.get_Expressions()]
+        //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken?
 
         public ReadOnlyCollection<Expression> Arguments { get; set; }
         public ConstructorInfo Constructor { get; set; }

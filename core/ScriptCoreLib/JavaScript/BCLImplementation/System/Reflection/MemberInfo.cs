@@ -33,5 +33,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public abstract object[] GetCustomAttributes(Type x, bool inherit);
         public abstract object[] GetCustomAttributes(bool inherit);
+
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Reflection.MemberInfo.op_Equality(System.Reflection.MemberInfo, System.Reflection.MemberInfo)]
+        // X:\jsc.svn\examples\javascript\LINQ\ComplexQueryExperiment\ComplexQueryExperiment\Application.cs
+
+        public static bool operator !=(__MemberInfo left, __MemberInfo right)
+        {
+            //return left.Name != right.Name;
+            return (object)left != (object)right;
+        }
+
+        public static bool operator ==(__MemberInfo left, __MemberInfo right)
+        {
+            //return left.Name == right.Name;
+            return (object)left == (object)right;
+        }
     }
 }

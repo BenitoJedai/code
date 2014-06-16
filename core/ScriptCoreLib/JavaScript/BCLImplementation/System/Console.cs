@@ -87,12 +87,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             SystemSounds.Beep.Play();
         }
 
+        // X:\jsc.svn\examples\javascript\VisualConsole\VisualConsole\Application.cs
+        public static string Title
+        {
+            get { return Native.document.title; }
+            set { Native.document.title = value; }
+        }
+
         #region SetOut
         static global::System.IO.TextWriter InternalOut;
         public static global::System.IO.TextWriter Out
         {
             get
             {
+                // X:\jsc.svn\examples\javascript\VisualConsole\VisualConsole\Application.cs
+
                 if (InternalOut == null)
                     InternalOut = new __OutWriter();
 

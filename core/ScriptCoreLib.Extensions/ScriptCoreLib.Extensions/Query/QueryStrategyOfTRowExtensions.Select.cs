@@ -67,14 +67,14 @@ namespace System.Data
         }
 
         // can we get diagnostics on every line we write to sql?
-        static readonly Func<string> CommentLineNumber =
+        public static readonly Func<string> CommentLineNumber =
             delegate
         {
             // what would happen id we did this elsewhere?
             var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
 
             // http://dev.mysql.com/doc/refman/5.0/en/comments.html
-            return " /* " + f.GetFileName().SkipUntilLastOrEmpty("\\") + ":" + f.GetFileLineNumber() + " */ ";
+            return " /* " + f.GetFileName().SkipUntilLastOrEmpty("\\") + ":" + f.GetFileLineNumber().ToString().PadRight(5) + " */ ";
         };
 
 
@@ -2122,8 +2122,6 @@ namespace System.Data
                              // ??
 
                              state.WriteExpression(ref s_SelectCommand, asLUnaryExpression, that);
-
-
                              SelectCommand = s_SelectCommand;
 
                              var FromCommand =
@@ -2265,7 +2263,12 @@ namespace System.Data
                                          // what if we do select x?
                                          // X:\jsc.svn\examples\javascript\LINQ\test\TestSelect\TestSelect\ApplicationWebService.cs
 
-                                         SelectCommand = s.SelectCommand;
+                                         s_SelectCommand += "\n" + CommentLineNumber() + "\t";
+                                         state.WriteExpression(ref s_SelectCommand, asLambdaExpression.Body, that);
+                                         SelectCommand = s_SelectCommand;
+
+                                         //SelectCommand = s.SelectCommand;
+
                                          state.FromCommand = s.FromCommand;
 
                                          // um. what if we do a where on it?

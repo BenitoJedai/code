@@ -63,7 +63,8 @@ namespace ComplexQueryExperiment
                     let field11 = field10.Date
                     let field12 = field11.AddDays(-1)
 
-
+                    // can we scalar select all referenced fields?
+                    // does it mean we have to ask each field separatly?
                     let xFirstOrDefaultQuery =
                         from zz in new xTable()
                         where zz.Key == (xKey)77
@@ -71,7 +72,18 @@ namespace ComplexQueryExperiment
 
                     let xFirstOrDefault = xFirstOrDefaultQuery.FirstOrDefault()
 
+                    let xGroupByQuery =
+                        from zz in new xTable()
+                        group zz by new { zz.field1 } into gg
+                        // can we select the whole group as scalar?
+                        //select gg
+                        select gg.Key
 
+                    let xGroupByFirstOrDefault = xGroupByQuery.FirstOrDefault()
+                    where xGroupByFirstOrDefault != null
+
+
+                    where (from zz in new xTable() where zz.field1 < 33 select zz).Count() < 4
 
                     let scalarInnerJoinQuery =
                           from xouter in new xTable()
@@ -84,12 +96,14 @@ namespace ComplexQueryExperiment
                     //select z.field1;
                     select new
                     {
+                        xGroupByFirstOrDefault.field1,
+
                         scalarInnerJoinFirstOrDefault,
                         xFirstOrDefault,
 
                         zExpression = z.field1 > z.field2,
                         zz = z.field1 + z.field2,
-                        z.field1,
+                        //z.field1,
                         z,
 
 
@@ -183,6 +197,8 @@ namespace ComplexQueryExperiment
 
             public SQLWriter(IQueryStrategy source, IEnumerable<IQueryStrategy> upper, SQLWriterContext context = null)
             {
+                //Console.Clear();
+
                 // selector = {<>h__TransparentIdentifier6 => <>h__TransparentIdentifier6.<>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
 
                 // convert to SQL!
@@ -388,10 +404,22 @@ namespace ComplexQueryExperiment
                         if (xConstantExpression != null)
                         {
                             //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
-                            WriteLine(1, "@constant");
+                            WriteLine(1, "@constant " + new { xConstantExpression.Value });
                             return;
                         }
                         #endregion
+
+                        #region xMethodCallExpression
+                        var xMethodCallExpression = asExpression as MethodCallExpression;
+                        if (xMethodCallExpression != null)
+                        {
+                            // can we do a count in where yet?
+                            // xMethodCallExpression = {new xTable().Where(zz => (zz.field1 < 33)).Count()}
+                            WriteLine(1, xMethodCallExpression.Method.Name + "()");
+                            return;
+                        }
+                        #endregion
+
 
                         Debugger.Break();
                     };
@@ -449,10 +477,9 @@ namespace ComplexQueryExperiment
                 }
                 #endregion
 
-                var xSelect = source as xSelect;
 
 
-
+                #region WriteProjection
                 Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjection = null;
 
                 WriteProjection =
@@ -485,6 +512,7 @@ namespace ComplexQueryExperiment
                               };
                           #endregion
 
+                          var zSelect = source as xSelect;
 
                           #region xxMethodCallExpression
                           var xxMethodCallExpression = zExpression as MethodCallExpression;
@@ -506,10 +534,10 @@ namespace ComplexQueryExperiment
                                   var __source_asParameterExpression = __source.Expression as ParameterExpression;
 
                                   // assigned by let
-                                  if (xSelect.selector.Parameters[0] == __source_asParameterExpression)
+                                  if (zSelect.selector.Parameters[0] == __source_asParameterExpression)
                                   {
                                       // in that case get the damn argument
-                                      var xxSelect = xSelect.source as xSelect;
+                                      var xxSelect = zSelect.source as xSelect;
                                       var xxNewExpression = xxSelect.selector.Body as NewExpression;
 
                                       var ii = xxNewExpression.Members.IndexOf(__source.Member);
@@ -519,18 +547,46 @@ namespace ComplexQueryExperiment
                                       // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
 
                                       var aaMethodCallExpression = aa as MethodCallExpression;
-                                      if (aaMethodCallExpression.Method.Name == "Where")
-                                      {
-                                          var aa_filterQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
-                                          var aa_source = aaMethodCallExpression.Arguments[0];
 
-                                          var oNewExpression = aa_source as NewExpression;
-                                          var newsource = oNewExpression.Constructor.Invoke(new object[0]);
+                                      if (aaMethodCallExpression.Method.Name == "Select")
+                                      {
+                                          var aa_kQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                          var aa_source = aaMethodCallExpression.Arguments[0] as MethodCallExpression;
+
+                                          var aaa_sQuote = aa_source.Arguments[1] as UnaryExpression;
+                                          var aaa_source = aa_source.Arguments[0] as NewExpression;
+                                          var aaa_sourcei = aaa_source.Constructor.Invoke(new object[0]);
+
+                                          var newsource2 = (IQueryStrategy)aa_source.Method.Invoke(null,
+                                                new object[] {
+                                                    aaa_sourcei,
+                                                    aaa_sQuote.Operand
+                                                }
+                                          );
+
+                                          var newsource3 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                                    new object[] {
+                                                                newsource2,
+                                                                aa_kQuote.Operand
+                                                            }
+                                              );
+
+                                          var sqalarsql = new SQLWriter(
+                                               newsource2,
+                                               upper.Concat(new[] { source }).ToArray(),
+                                               context
+                                           );
+                                      }
+                                      else if (aaMethodCallExpression.Method.Name == "GroupBy")
+                                      {
+                                          var aa_kQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                          var aa_source = aaMethodCallExpression.Arguments[0] as NewExpression;
+                                          var aa_sourcei = aa_source.Constructor.Invoke(new object[0]);
 
                                           var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
                                                   new object[] {
-                                                          newsource,
-                                                          aa_filterQuote.Operand
+                                                          aa_sourcei,
+                                                          aa_kQuote.Operand
                                                       }
                                               );
 
@@ -540,7 +596,63 @@ namespace ComplexQueryExperiment
                                               context
                                           );
                                       }
+                                      else if (aaMethodCallExpression.Method.Name == "Join")
+                                      {
+                                          #region Join
+                                          // can we ve fast templates of the quoted params??
+
+                                          var aa_outer = aaMethodCallExpression.Arguments[0] as NewExpression;
+                                          var aa_outeri = aa_outer.Constructor.Invoke(new object[0]);
+
+                                          var aa_inner = aaMethodCallExpression.Arguments[1];
+                                          var aa_inneri = aa_outer.Constructor.Invoke(new object[0]);
+
+                                          var aa_of = aaMethodCallExpression.Arguments[2] as UnaryExpression;
+                                          var aa_if = aaMethodCallExpression.Arguments[3] as UnaryExpression;
+                                          var aa_rs = aaMethodCallExpression.Arguments[4] as UnaryExpression;
+
+                                          var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                                 new object[] {
+                                                          aa_outeri,
+                                                          aa_inneri,
+                                                          aa_of.Operand,
+                                                          aa_if.Operand,
+                                                          aa_rs.Operand
+                                                      }
+                                             );
+
+                                          var sqalarsql = new SQLWriter(
+                                              newsource2,
+                                              upper.Concat(new[] { source }).ToArray(),
+                                              context
+                                          );
+                                          #endregion
+                                      }
+                                      else if (aaMethodCallExpression.Method.Name == "Where")
+                                      {
+                                          #region Where
+                                          var aa_filterQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                          var aa_source = aaMethodCallExpression.Arguments[0] as NewExpression;
+                                          var aa_sourcei = aa_source.Constructor.Invoke(new object[0]);
+
+                                          var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                                  new object[] {
+                                                          aa_sourcei,
+                                                          aa_filterQuote.Operand
+                                                      }
+                                              );
+
+                                          var sqalarsql = new SQLWriter(
+                                              newsource2,
+                                              upper.Concat(new[] { source }).ToArray(),
+                                              context
+                                          );
+                                          #endregion
+
+                                      }
+                                      else WriteLineWithColor(1, "?", ConsoleColor.White);
                                   }
+                                  else WriteLineWithColor(1, "?", ConsoleColor.White);
 
                                   WriteLineWithColor(1, ")", ConsoleColor.White);
                                   return;
@@ -568,13 +680,13 @@ namespace ComplexQueryExperiment
                                       // m = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5}
                                       var mp0ParameterExpression = m.Expression as ParameterExpression;
 
-                                      if (xSelect.selector.Parameters[0] == mp0ParameterExpression)
+                                      if (zSelect.selector.Parameters[0] == mp0ParameterExpression)
                                       {
                                           // found it!
                                           // we should access the missing value via outer source?
 
                                           //var xxSelect = xSelect.source as xSelect;
-                                          var xxOrderBy = xSelect.source as xOrderBy;
+                                          var xxOrderBy = zSelect.source as xOrderBy;
                                           var xxSelect = xxOrderBy.source as xSelect;
 
                                           var pp0 = xxSelect.selector.Parameters[0];
@@ -887,13 +999,31 @@ namespace ComplexQueryExperiment
                           {
                               //WriteLine(1, "    new " + xxNewExpression.Type.Name);
 
+                              // ternary op does not work
+                              if (zNewExpression.Members == null)
+                              {
+                                  zNewExpression.Arguments.WithEachIndex(
+                                        (SourceArgument, SourceArgumentIndex) =>
+                                            WriteProjection(
+                                            zsource,
+                                                SourceArgument,
+                                                Target.Concat(new[] { Tuple.Create(
+                                                                  default(MemberInfo) ,
+                                                                  SourceArgumentIndex
+                                                                  )
+                                                              }).ToArray()
+                                            )
+                                    );
+                                  return;
+                              }
+
                               zNewExpression.Arguments.WithEachIndex(
                                   (SourceArgument, SourceArgumentIndex) =>
                                       WriteProjection(
                                       zsource,
                                           SourceArgument,
                                           Target.Concat(new[] { Tuple.Create(
-                                              zNewExpression.Members == null ? null : zNewExpression.Members[SourceArgumentIndex],
+                                              zNewExpression.Members[SourceArgumentIndex],
                                               SourceArgumentIndex
                                               )
                                           }).ToArray()
@@ -915,6 +1045,73 @@ namespace ComplexQueryExperiment
 
                           Debugger.Break();
                       };
+                #endregion
+
+                #region xGroupBy
+                var xGroupBy = source as xGroupBy;
+                if (xGroupBy != null)
+                {
+                    WriteLine(0, "select ?");
+
+                    WriteLine(0, "from (");
+                    var sql0 = new SQLWriter(xGroupBy.source, upper.Concat(new[] { source }), context);
+                    WriteLine(0, ") as ?");
+
+                    //using (WithoutLinefeeds())
+                    {
+                        WriteLine(0, "group by ");
+                        WriteProjection(source, xGroupBy.keySelector.Body, new Tuple<MemberInfo, int>[0]);
+                        //WriteScalarExpression(xGroupBy.keySelector.Body);
+                    }
+                    return;
+                }
+                #endregion
+
+
+                #region xJoin
+                var xJoin = source as xJoin;
+                if (xJoin != null)
+                {
+                    WriteLine(0, "select");
+
+                    var xNewExpression = xJoin.resultSelector.Body as NewExpression;
+                    if (xNewExpression != null)
+                    {
+                        // we are selecting a group for upper select arent we.
+                        var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
+                        foreach (var item in xArguments)
+                        {
+                            WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
+                        }
+                    }
+                    else Debugger.Break();
+
+                    // resultSelector = {(xouter, xinner) => new <>f__AnonymousType13`2(xouter = xouter, xinner = xinner)}
+
+                    WriteLine(0, "from (");
+                    var sql0 = new SQLWriter(xJoin.outer, upper.Concat(new[] { source }), context);
+                    WriteLine(0, ") as outer");
+
+                    WriteLine(0, "inner join (");
+
+                    var sql1 = new SQLWriter(xJoin.inner, upper.Concat(new[] { source }), context);
+
+                    WriteLine(0, ") as inner");
+
+                    using (WithoutLinefeeds())
+                    {
+                        WriteLine(0, "on ");
+                        WriteScalarExpression(xJoin.outerKeySelector.Body);
+                        WriteLine(0, " == ");
+                        WriteScalarExpression(xJoin.innerKeySelector.Body);
+                    }
+
+                    return;
+                }
+                #endregion
+
+                var xSelect = source as xSelect;
+
 
 
 
@@ -969,9 +1166,9 @@ namespace ComplexQueryExperiment
                                 if (xNewExpression != null)
                                 {
                                     // we are selecting a group for upper select arent we.
+                                    var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
 
                                     #region xArguments, merge unless its a scalar subselect
-                                    var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
 
                                     // are we able to merge with sub selects?
                                     if (upper.Any())
@@ -1148,6 +1345,8 @@ namespace ComplexQueryExperiment
             };
         }
 
+
+        #region Select
         // allow xTable to predefine a select
         public class xSelect
         {
@@ -1174,11 +1373,12 @@ namespace ComplexQueryExperiment
                 selector = selector
             };
         }
+        #endregion
 
 
 
 
-
+        #region OrderBy
         public class xOrderBy
         {
             public IQueryStrategy source;
@@ -1220,6 +1420,8 @@ namespace ComplexQueryExperiment
                 keySelector = new[] { keySelector }
             };
         }
+        #endregion
+
 
         // first lets allow scalar subqueries
         public static long Count(this IQueryStrategy Strategy)
@@ -1227,17 +1429,89 @@ namespace ComplexQueryExperiment
             return 0;
         }
 
+
+
+
+
+
+        #region xJoin
+        public class xJoin
+        {
+            public IQueryStrategy outer;
+            public IQueryStrategy inner;
+
+
+            public LambdaExpression outerKeySelector;
+            public LambdaExpression innerKeySelector;
+
+            public LambdaExpression resultSelector;
+        }
+
+        public class xJoin<TElement> : xJoin, IQueryStrategy<TElement>
+        {
+        }
+
+
         public static
             IQueryStrategy<TResult>
             Join<TOuter, TInner, TKey, TResult>(
-            this IQueryStrategy<TOuter> xouter,
-            IQueryStrategy<TInner> xinner,
+            this IQueryStrategy<TOuter> outer,
+            IQueryStrategy<TInner> inner,
             Expression<Func<TOuter, TKey>> outerKeySelector,
             Expression<Func<TInner, TKey>> innerKeySelector,
             Expression<Func<TOuter, TInner, TResult>> resultSelector
             )
         {
-            return null;
+            return new xJoin<TResult>
+            {
+                outer = outer,
+                inner = inner,
+                outerKeySelector = outerKeySelector,
+                innerKeySelector = innerKeySelector,
+                resultSelector = resultSelector
+            };
         }
+        #endregion
+
+
+        #region GroupBy
+        public class xGroupBy
+        {
+            public IQueryStrategy source;
+            public LambdaExpression keySelector;
+        }
+
+        public class xGroupBy<TElement> : xGroupBy, IQueryStrategy<TElement>
+        {
+        }
+
+
+        // used by order by GroupingKey detection
+        public interface IQueryStrategyGrouping
+        {
+        }
+
+        [Obsolete("to make intellisense happy, and dispay only supported methods")]
+        //public interface IQueryStrategyGrouping<out TKey, out TElement> : IQueryStrategy<TElement>
+        public interface IQueryStrategyGrouping<out TKey, TElement> : IQueryStrategy<TElement>, IQueryStrategyGrouping
+        {
+            TKey Key { get; }
+        }
+
+        public static IQueryStrategy<IQueryStrategyGrouping<TKey, TSource>>
+             GroupBy
+             <TSource, TKey>(
+                 this IQueryStrategy<TSource> source,
+                 Expression<Func<TSource, TKey>> keySelector
+            )
+        {
+            return new xGroupBy<IQueryStrategyGrouping<TKey, TSource>>
+            {
+                source = source,
+                keySelector = keySelector,
+            };
+        }
+        #endregion
+
     }
 }
