@@ -56,9 +56,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             return left.Name == right.Name;
         }
 
+        public Type InternalDeclaringType;
+
         public override Type DeclaringType
         {
-            get { throw new NotImplementedException(); }
+            get { return InternalDeclaringType; }
         }
     }
 }

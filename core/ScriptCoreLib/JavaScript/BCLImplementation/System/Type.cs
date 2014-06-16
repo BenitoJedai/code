@@ -97,14 +97,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             {
                 // we do not have the type information. behave as if dynamic
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
-                return r = new __FieldInfo { _Name = name };
+                return r = new __FieldInfo { _Name = name, InternalDeclaringType = this };
             }
 
             foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value).GetFields())
             {
                 if (m.Name == name)
                 {
-                    r = new __FieldInfo { _Name = m.Name };
+                    r = new __FieldInfo { _Name = m.Name, InternalDeclaringType = this };
 
                     break;
                 }
@@ -127,7 +127,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             foreach (var m in AsExpando().GetFields())
             {
-                a.Add(new __FieldInfo { _Name = m.Name });
+                a.Add(new __FieldInfo { _Name = m.Name, InternalDeclaringType = this });
 
             }
 

@@ -226,10 +226,15 @@ namespace System.Data
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140515
 
                 var FromCommand =
-                    "from "
+                    "from"
+                        + "\n"
+
                         + xouter_SelectAll.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
                         + " as " + xouter_Paramerer_Name.Replace("<>", "__")
-                        + "\n inner join "
+
+                        + "\n"
+
+                        + "inner join "
                         + xinner_SelectAll.GetQualifiedTableNameOrToString().Replace("\n", "\n\t")
                         + " as " + xinner_Paramerer.Name.Replace("<>", "__");
                 #endregion
@@ -730,12 +735,14 @@ namespace System.Data
 
                                          if (xouter_Paramerer.Name == asMMemberExpression.Member.Name)
                                          {
+                                             // detected by the walker?
+                                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140613
 
-                                             s_SelectCommand += ",\n" + CommentLineNumber()
-                                             + "\n -- " + new { asMemberExpression }
-                                             + "\n -- " + new { xouter_Paramerer }
-                                             + "\n -- " + new { xinner_Paramerer }
-                                             + "\n "
+                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                             //+ "\n -- " + new { asMemberExpression }
+                                             //+ "\n -- " + new { xouter_Paramerer }
+                                             //+ "\n -- " + new { xinner_Paramerer }
+                                             //+ "\n "
                                              + xouter_Paramerer.Name + ".`" + asMemberExpression.Member.Name
                                              + "` as `"
                                              + asMMemberExpression.Member.Name + "_"
@@ -759,11 +766,11 @@ namespace System.Data
                                          {
                                              // passing it by?
 
-                                             s_SelectCommand += ",\n" + CommentLineNumber()
-                                           + "\n -- " + new { asMemberExpression }
-                                           + "\n -- " + new { xouter_Paramerer }
-                                           + "\n -- " + new { xinner_Paramerer }
-                                           + "\n "
+                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                           //+ "\n -- " + new { asMemberExpression }
+                                           //+ "\n -- " + new { xouter_Paramerer }
+                                           //+ "\n -- " + new { xinner_Paramerer }
+                                           //+ "\n "
                                            + xouter_Paramerer.Name.Replace("<>", "__") + ".`"
 
                                            + asMMemberExpression.Member.Name + "_"
@@ -896,30 +903,31 @@ namespace System.Data
 
                                              // show the inherited fields
                                              //s_SelectCommand += ",\n\t-- 0   " + (yy.selectorExpression as LambdaExpression).Parameters[0].Name;
-                                             #region  // go up
+                                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140613
+                                             #region  // go up, looking only at ISelectQueryStrategy ?
                                              {
 
                                                  INestedQueryStrategy uu = that;
 
                                                  while (uu != null)
                                                  {
-
-
-                                                     #region asSelectQueryStrategy
-                                                     var asSelectQueryStrategy = uu as ISelectQueryStrategy;
-                                                     if (asSelectQueryStrategy != null)
+                                                     if (that == yy)
                                                      {
-                                                         var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
+                                                         #region asSelectQueryStrategy
+                                                         var asSelectQueryStrategy = uu as ISelectQueryStrategy;
+                                                         if (asSelectQueryStrategy != null)
+                                                         {
+                                                             var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
 
 
-                                                         // +		xasLambdaExpression.Body	{new PerformanceResourceTimingData2ApplicationResourcePerformanceRow() {path = nt.Last().u.path, duration = Convert(nt.Last().u2.Key)}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
+                                                             // +		xasLambdaExpression.Body	{new PerformanceResourceTimingData2ApplicationResourcePerformanceRow() {path = nt.Last().u.path, duration = Convert(nt.Last().u2.Key)}}	System.Linq.Expressions.Expression {System.Linq.Expressions.MemberInitExpression}
 
 
 
 
-                                                         #region itemWriteMemberExpression
-                                                         Action<Expression> itemWriteMemberExpression =
-                                                             xasExpression =>
+                                                             #region itemWriteMemberExpression
+                                                             Action<Expression> itemWriteMemberExpression =
+                                                                 xasExpression =>
                                                                 {
                                                                     var xasUnaryExpression = xasExpression as UnaryExpression;
                                                                     if (xasUnaryExpression != null)
@@ -987,21 +995,36 @@ namespace System.Data
                                                                                 // (yy.selectorExpression as LambdaExpression).Parameters[0].Name = "u0"
                                                                                 if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
                                                                                 {
-                                                                                    s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                                                                    + "."
-                                                                                    + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
-                                                                                    + " as `"
-                                                                                    + xasMMemberExpression.Member.Name
-                                                                                    + "_" + xasMemberExpression.Member.Name + "`";
+                                                                                    if (asMemberAssignment.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[0].Name)
+                                                                                    {
+                                                                                        // we are rendering that field some where else...
+                                                                                        //       /* QueryStrategyOfTRowExtensions.Join.cs:1529 */  
+                                                                                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140612
 
+
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                                        + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                        + "."
+                                                                                        + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
+                                                                                        + " as `"
+                                                                                        + xasMMemberExpression.Member.Name
+                                                                                        + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                                    }
                                                                                 }
 
                                                                                 // ?
                                                                                 if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
                                                                                 {
+                                                                                    var scope = new { asMemberAssignment, xasMMemberExpression };
+
+
                                                                                     s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                                                                    + asMemberAssignment.Member.Name.Replace("<>", "__")
+                                                                                    //+ scope.xasMMemberExpression.Member.Name.Replace("<>", "__")
+                                                                                    + scope.asMemberAssignment.Member.Name.Replace("<>", "__")
                                                                                     + "."
                                                                                     + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name
                                                                                     + " as `"
@@ -1015,20 +1038,20 @@ namespace System.Data
                                                                     }
 
                                                                 };
-                                                         #endregion
+                                                             #endregion
 
 
 
 
-                                                         #region MemberInitExpression
-                                                         var xMemberInitExpression = xasLambdaExpression.Body as MemberInitExpression;
-                                                         if (xMemberInitExpression != null)
-                                                         {
-                                                             var asEMNewExpression = xMemberInitExpression.NewExpression;
+                                                             #region MemberInitExpression
+                                                             var xMemberInitExpression = xasLambdaExpression.Body as MemberInitExpression;
+                                                             if (xMemberInitExpression != null)
+                                                             {
+                                                                 var asEMNewExpression = xMemberInitExpression.NewExpression;
 
 
-                                                             xMemberInitExpression.Bindings.WithEachIndex(
-                                                                  (SourceBinding, i) =>
+                                                                 xMemberInitExpression.Bindings.WithEachIndex(
+                                                                      (SourceBinding, i) =>
                                                                   {
                                                                       var xasMemberAssignment = SourceBinding as MemberAssignment;
 
@@ -1036,58 +1059,59 @@ namespace System.Data
 
                                                                       itemWriteMemberExpression(xasMemberAssignment.Expression);
                                                                   }
-                                                             );
-
-                                                         }
-                                                         #endregion
-
-
-
-                                                         #region xasNewExpression
-                                                         var xasNewExpression = xasLambdaExpression.Body as NewExpression;
-                                                         // xasNewExpression = {new <>f__AnonymousType5`3(Key = g.Key, last_u0_path = g.Last().u0.path, last_u1_path = g.Last().u1.path)}
-                                                         if (xasNewExpression != null)
-                                                         {
-                                                             foreach (var item in xasNewExpression.Arguments)
-                                                             {
-                                                                 // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
-                                                                 // .u0}
-
-
-
-
-
-                                                                 #region MethodCallExpression
-                                                                 var yasMethodCallExpression = item as MethodCallExpression;
-                                                                 if (yasMethodCallExpression != null)
-                                                                 {
-                                                                     if (yasMethodCallExpression.Method.Name == "ToLower")
-                                                                     {
-                                                                         var yitem = yasMethodCallExpression.Object as MemberExpression;
-
-                                                                         itemWriteMemberExpression(yitem);
-
-                                                                     }
-                                                                 }
-                                                                 #endregion
-
-                                                                 #region MemberExpression
-                                                                 {
-                                                                     var xasMemberExpression = item as MemberExpression;
-                                                                     if (xasMemberExpression != null)
-                                                                     {
-                                                                         itemWriteMemberExpression(xasMemberExpression);
-
-
-                                                                     }
-                                                                 }
-                                                                 #endregion
+                                                                 );
 
                                                              }
+                                                             #endregion
+
+
+
+                                                             #region xasNewExpression
+                                                             var xasNewExpression = xasLambdaExpression.Body as NewExpression;
+                                                             // xasNewExpression = {new <>f__AnonymousType5`3(Key = g.Key, last_u0_path = g.Last().u0.path, last_u1_path = g.Last().u1.path)}
+                                                             if (xasNewExpression != null)
+                                                             {
+                                                                 foreach (var item in xasNewExpression.Arguments)
+                                                                 {
+                                                                     // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
+                                                                     // .u0}
+
+
+
+
+
+                                                                     #region MethodCallExpression
+                                                                     var yasMethodCallExpression = item as MethodCallExpression;
+                                                                     if (yasMethodCallExpression != null)
+                                                                     {
+                                                                         if (yasMethodCallExpression.Method.Name == "ToLower")
+                                                                         {
+                                                                             var yitem = yasMethodCallExpression.Object as MemberExpression;
+
+                                                                             itemWriteMemberExpression(yitem);
+
+                                                                         }
+                                                                     }
+                                                                     #endregion
+
+                                                                     #region MemberExpression
+                                                                     {
+                                                                         var xasMemberExpression = item as MemberExpression;
+                                                                         if (xasMemberExpression != null)
+                                                                         {
+                                                                             itemWriteMemberExpression(xasMemberExpression);
+
+
+                                                                         }
+                                                                     }
+                                                                     #endregion
+
+                                                                 }
+                                                             }
+                                                             #endregion
                                                          }
                                                          #endregion
                                                      }
-                                                     #endregion
 
                                                      if (uu.upperSelect != null)
                                                          uu = uu.upperSelect;
@@ -1105,54 +1129,79 @@ namespace System.Data
 
 
                                              //s_SelectCommand += ",\n\t--  1  " + (yy.selectorExpression as LambdaExpression).Parameters[1].Name;
-                                             #region  // go up 2 why we have two of em?
+                                             #region  // go up 2 why we have two of em? remove the one above?
                                              {
 
                                                  INestedQueryStrategy uu = that;
 
                                                  while (uu != null)
                                                  {
-                                                     #region asSelectQueryStrategy
-                                                     var asSelectQueryStrategy = uu as ISelectQueryStrategy;
-                                                     if (asSelectQueryStrategy != null)
+                                                     // ???
+                                                     //if (that != yy)
                                                      {
-                                                         var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
-
-                                                         var xasNewExpression = xasLambdaExpression.Body as NewExpression;
-                                                         if (xasNewExpression != null)
+                                                         #region asSelectQueryStrategy
+                                                         var asSelectQueryStrategy = uu as ISelectQueryStrategy;
+                                                         if (asSelectQueryStrategy != null)
                                                          {
-                                                             foreach (var item in xasNewExpression.Arguments)
+                                                             var xasLambdaExpression = asSelectQueryStrategy.selectorExpression as LambdaExpression;
+
+                                                             // we are in a join
+                                                             // we will walk down on joins
+                                                             // and up
+                                                             // once in select we know we need to proxy fields.
+                                                             // need to unpack the mentioned fields.
+                                                             // either NewExpression or MemberInitExpression or scalar
+
+                                                             // 
+
+
+                                                             state.WriteExpressionAlias(
+                                                                 ref s_SelectCommand,
+                                                                 xasLambdaExpression,
+                                                                 that
+                                                             );
+                                                             // return?
+
+
+
+                                                             #region xasNewExpression
+                                                             var xasNewExpression = xasLambdaExpression.Body as NewExpression;
+                                                             if (xasNewExpression != null)
                                                              {
-                                                                 // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
-                                                                 // .u0}
-
-                                                                 #region xasMemberExpression
-                                                                 var xasMemberExpression = item as MemberExpression;
-                                                                 if (xasMemberExpression != null)
+                                                                 foreach (var item in xasNewExpression.Arguments)
                                                                  {
-                                                                     var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
-                                                                     if (xasMMemberExpression != null)
-                                                                     {
-                                                                         if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
-                                                                         {
-                                                                             s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name.Replace("<>", "__") + "." + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + " as `" + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+                                                                     // Expression = {<> h__TransparentIdentifier5.<> h__TransparentIdentifier4.<> h__TransparentIdentifier3.<> h__TransparentIdentifier2.<> h__TransparentIdentifier1.<> h__TransparentIdentifier0
+                                                                     // .u0}
 
+                                                                     #region xasMemberExpression
+                                                                     var xasMemberExpression = item as MemberExpression;
+                                                                     if (xasMemberExpression != null)
+                                                                     {
+                                                                         var xasMMemberExpression = xasMemberExpression.Expression as MemberExpression;
+                                                                         if (xasMMemberExpression != null)
+                                                                         {
+                                                                             if (xasMMemberExpression.Member.Name == (yy.selectorExpression as LambdaExpression).Parameters[1].Name)
+                                                                             {
+                                                                                 s_SelectCommand += ",\n\t " + asMemberAssignment.Member.Name.Replace("<>", "__") + "." + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + " as `" + xasMMemberExpression.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+
+                                                                             }
                                                                          }
                                                                      }
+                                                                     #endregion
                                                                  }
-                                                                 #endregion
                                                              }
-                                                         }
-                                                         else
-                                                         {
-                                                             #region asLMemberInitExpression
-                                                             var asLMemberInitExpression = xasLambdaExpression.Body as MemberInitExpression;
-                                                             if (asLMemberInitExpression != null)
+                                                             #endregion
+
+                                                             else
                                                              {
-                                                                 /// X:\jsc.svn\examples\javascript\LINQ\test\TestDoubleJoinGroupBy\TestDoubleJoinGroupBy\ApplicationWebService.cs
-                                                                 /// 
-                                                                 asLMemberInitExpression.Bindings.WithEachIndex(
-                                                                    (SourceBinding, i) =>
+                                                                 #region asLMemberInitExpression
+                                                                 var asLMemberInitExpression = xasLambdaExpression.Body as MemberInitExpression;
+                                                                 if (asLMemberInitExpression != null)
+                                                                 {
+                                                                     /// X:\jsc.svn\examples\javascript\LINQ\test\TestDoubleJoinGroupBy\TestDoubleJoinGroupBy\ApplicationWebService.cs
+                                                                     /// 
+                                                                     asLMemberInitExpression.Bindings.WithEachIndex(
+                                                                        (SourceBinding, i) =>
                                                                      {
                                                                          var xasMemberAssignment = SourceBinding as MemberAssignment;
 
@@ -1172,20 +1221,24 @@ namespace System.Data
                                                                              }
                                                                          }
                                                                          #endregion
+                                                                     }
+                                                                      );
                                                                  }
-                                                                  );
+                                                                 // else Debugger.Break();
+                                                                 #endregion
                                                              }
-                                                             else Debugger.Break();
-                                                             #endregion
+
                                                          }
-
+                                                         #endregion
                                                      }
-                                                     #endregion
 
+                                                     #region IJoinQueryStrategy
                                                      var yyy = uu as IJoinQueryStrategy;
                                                      if (yyy != null)
                                                      {
                                                          #region asIGLambda
+                                                         // i see. we are trying to figure out what keys are being referenced
+                                                         // so we know we should expose them on this level too
                                                          var asIGLambda = yyy.outerKeySelector as LambdaExpression;
                                                          if (asIGLambda != null)
                                                          {
@@ -1210,8 +1263,11 @@ namespace System.Data
                                                                      {
                                                                          s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
                                                                             + xouter_Paramerer.Name.Replace("<>", "__")
-                                                                            + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
-                                                                            + " as `" + xmm0.Member.Name.Replace("<>", "__")
+                                                                            + "."
+                                                                             + "`" + xmm0.Member.Name.Replace(" <> ", "__")
+
+                                                                              + "_" + asIGLMemberExpression.Member.Name.Replace("<>", "__")
+                                                                            + "` as `" + xmm0.Member.Name.Replace("<>", "__")
                                                                             + "_" + asIGLMemberExpression.Member.Name + "`";
 
                                                                      }
@@ -1224,6 +1280,7 @@ namespace System.Data
                                                          }
                                                          #endregion
                                                      }
+                                                     #endregion
 
                                                      if (uu.upperSelect != null)
                                                          uu = uu.upperSelect;
@@ -1245,65 +1302,14 @@ namespace System.Data
                                          };
                                      #endregion
 
-                                     projectionWalker(that.xouter as IJoinQueryStrategy);
+                                     //projectionWalker(that.xouter as IJoinQueryStrategy);
+
+                                     // we do need to be looking at the outer upper join  outer key selectors!
+                                     projectionWalker(that);
 
 
                                      // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140605
-                                     //#region asIGLambda
-                                     //{
-                                     //    var asIGLambda = that.outerKeySelector as LambdaExpression;
-                                     //    if (asIGLambda != null)
-                                     //    {
-                                     //        // um. leftside vs riight side?
 
-                                     //        var asIGLMemberExpression = asIGLambda.Body as MemberExpression;
-                                     //        if (asIGLMemberExpression != null)
-                                     //        {
-                                     //            // is it available on this level?
-                                     //            // or are we supposed to proxy it?
-
-                                     //            var asIGLMMemberExpression = asIGLMemberExpression.Expression as MemberExpression;
-                                     //            if (asIGLMMemberExpression != null)
-                                     //            {
-                                     //                if (asIGLMMemberExpression.Member.Name == xouter_Paramerer_Name)
-                                     //                {
-                                     //                    s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                     //                       + xouter_Paramerer.Name.Replace("<>", "__")
-                                     //                       + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
-                                     //                       + " as `" + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                     //                       + "_" + asIGLMemberExpression.Member.Name + "`";
-
-                                     //                }
-                                     //                else
-                                     //                {
-                                     //                    // not sure. pass it forward?
-
-                                     //                    s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                     //                       + xouter_Paramerer.Name.Replace("<>", "__")
-                                     //                       + ".`"
-                                     //                        + asIGLMMemberExpression.Member.Name.Replace("<>", "__")
-                                     //                        + "_" + asIGLMemberExpression.Member.Name.Replace("<>", "__")
-                                     //                        + "` as `" + asIGLMMemberExpression.Member.Name.Replace("<>", "__")
-                                     //                        + "_" + asIGLMemberExpression.Member.Name + "`";
-                                     //                }
-                                     //            }
-                                     //            else
-                                     //            {
-
-                                     //                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
-                                     //                   + xouter_Paramerer.Name.Replace("<>", "__")
-                                     //                   + "." + asIGLMemberExpression.Member.Name.Replace("<>", "__")
-                                     //                   + " as `" + asMemberAssignment.Member.Name.Replace("<>", "__")
-                                     //                   + "_" + asIGLMemberExpression.Member.Name + "`";
-                                     //            }
-                                     //        }
-
-
-                                     //    }
-
-
-                                     //}
-                                     //#endregion
 
                                      // yet what about upper join?
                                      // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140605
@@ -1357,23 +1363,29 @@ namespace System.Data
 
 
                                          //xSelectQueryStrategy.source
+                                         #region xSelectQueryStrategy
                                          var xSelectQueryStrategy = uu as ISelectQueryStrategy;
                                          if (xSelectQueryStrategy != null)
                                          {
                                              xasLambdaExpression = xSelectQueryStrategy.selectorExpression as LambdaExpression;
                                              xSelect_source = xSelectQueryStrategy.source;
                                          }
+                                         #endregion
+
 
 
                                          // X:\jsc.svn\examples\javascript\LINQ\test\TestJoinGroupSelectCastLong\TestJoinGroupSelectCastLong\ApplicationWebService.cs
+                                         #region xISelectManyQueryStrategy
                                          var xISelectManyQueryStrategy = uu as ISelectManyQueryStrategy;
                                          if (xISelectManyQueryStrategy != null)
                                          {
                                              xasLambdaExpression = xISelectManyQueryStrategy.resultSelector as LambdaExpression;
                                              xSelect_source = xISelectManyQueryStrategy.source;
                                          }
+                                         #endregion
 
 
+                                         #region xIGroupByQueryStrategy
                                          var xIGroupByQueryStrategy = uu as IGroupByQueryStrategy;
                                          if (xIGroupByQueryStrategy != null)
                                          {
@@ -1417,6 +1429,8 @@ namespace System.Data
 
 
                                          }
+                                         #endregion
+
 
 
                                          #region asSelectQueryStrategy
@@ -1436,6 +1450,9 @@ namespace System.Data
                                                 xasExpression =>
                                                 {
                                                     // xasExpression = {Invoke(value(TestLamdaFuncInsideSelectNewRow.ApplicationWebService+<>c__DisplayClass0).stringConcatFunc, nt.Last().cDataJoin.FirstName, nt.Last().cDataJoin.LastName)}
+
+
+                                                    #region xInvocationExpression
                                                     var xInvocationExpression = xasExpression as InvocationExpression;
                                                     if (xInvocationExpression != null)
                                                     {
@@ -1449,7 +1466,10 @@ namespace System.Data
                                                             }
                                                         );
                                                     }
+                                                    #endregion
 
+
+                                                    #region xasUnaryExpression
                                                     var xasUnaryExpression = xasExpression as UnaryExpression;
                                                     if (xasUnaryExpression != null)
                                                     {
@@ -1457,18 +1477,24 @@ namespace System.Data
                                                         // allow the cast
                                                         xasExpression = xasUnaryExpression.Operand;
                                                     }
+                                                    #endregion
 
 
+
+                                                    #region yasMethodCallExpression
                                                     var yasMethodCallExpression = xasExpression as MethodCallExpression;
                                                     if (yasMethodCallExpression != null)
                                                     {
                                                         if (yasMethodCallExpression.Method.Name == "ToLower")
                                                         {
+                                                            // tested by?
                                                             xasExpression = yasMethodCallExpression.Object as MemberExpression;
 
 
                                                         }
                                                     }
+                                                    #endregion
+
 
                                                     var xasMemberExpression = xasExpression as MemberExpression;
                                                     if (xasMemberExpression != null)
@@ -1510,7 +1536,16 @@ namespace System.Data
                                                         {
                                                             if (xasMMemberExpression.Member.Name == asEParameterExpression.Name)
                                                             {
-                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t " + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+                                                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140613
+
+                                                                // debugger. dont forget scope!
+                                                                var scope = new { uu, that, xouter_Paramerer, asExpression };
+
+                                                                // WriteExpression:asEParameterExpression
+                                                                s_SelectCommand += ",\n" + CommentLineNumber() + "\t "
+                                                                + asMemberAssignment.Member.Name + "." + xasMemberExpression.Member.Name
+                                                                + " as `" + asMemberAssignment.Member.Name + "_" + xasMemberExpression.Member.Name + "`";
+
 
                                                             }
                                                         }
@@ -1558,8 +1593,7 @@ namespace System.Data
                                                          }
                                                      );
                                                  }
-                                                 else
-                                                     Debugger.Break();
+                                                 //else Debugger.Break();
 
                                              }
                                          }

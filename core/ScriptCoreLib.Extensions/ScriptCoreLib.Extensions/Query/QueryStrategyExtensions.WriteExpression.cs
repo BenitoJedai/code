@@ -398,6 +398,77 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             Debugger.Break();
         }
 
+
+
+
+
+        // upper select needs us to proxy some fields
+        public static void WriteExpressionAlias(
+            this CommandBuilderState state,
+            // either WhereCommand or SelectCommand
+            // byref against locals will likely work better than fields 
+            ref string s,
+            Expression asExpression,
+
+            IQueryStrategy that
+        )
+        {
+            // asExpression = {nt => new <>f__AnonymousType5`1(AccountToID = nt.Last().t.OtherPartyIBAN)}
+            // asExpression = {nt => nt.Last().t.OtherPartyIBAN}
+            // asExpression = {nt => 2}
+
+            #region LambdaExpression - upper selector
+            var xLambdaExpression = asExpression as LambdaExpression;
+            if (xLambdaExpression != null)
+            {
+                // look the join needs to proxy fields and the upper select isnt selecting scalar..
+
+                // um. we do need to flatten it.
+
+                //var xasNewExpression = xasLambdaExpression.Body as NewExpression;
+                // 
+
+
+                WriteExpressionAlias(
+                    state,
+                    ref s,
+                    xLambdaExpression.Body,
+                    that
+                );
+
+                return;
+            }
+            #endregion
+
+            #region xConstantExpression
+            var xConstantExpression = asExpression as ConstantExpression;
+            if (xConstantExpression != null)
+            {
+                // lets not try to proxy the constant.
+                // the upper select will render it itself
+                return;
+            }
+            #endregion
+
+            // +		asExpression	{nt.Last().t.OtherPartyIBAN}	System.Linq.Expressions.Expression {System.Linq.Expressions.FieldExpression}
+            var xMemberExpression = asExpression as MemberExpression;
+            if (xMemberExpression != null)
+            {
+                // scalar field selection?
+
+                s += "\n" + QueryStrategyOfTRowExtensions.CommentLineNumber() + "\t"
+                    // shall we look at 'that' and try to understand whats the name of the member?
+                    + xMemberExpression.Member.Name + " as " + xMemberExpression.Member.Name;
+
+
+
+
+                return;
+            }
+
+            Debugger.Break();
+
+        }
     }
 }
 

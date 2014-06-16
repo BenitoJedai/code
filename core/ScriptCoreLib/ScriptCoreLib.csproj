@@ -181,9 +181,12 @@
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\Task.cs" />
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="Shared\BCLImplementation\System\DateTimeDaysInMonth.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackFrame.cs" />
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\InvocationExpression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\NewArrayExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\IQueryable.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.GroupJoin.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.GroupBy.cs" />

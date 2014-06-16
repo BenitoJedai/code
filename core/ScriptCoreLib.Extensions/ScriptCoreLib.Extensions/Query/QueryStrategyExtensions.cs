@@ -84,7 +84,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
                                     }
 
 
-                return "(" + this.ToString() + ")";
+                return "(\n" + this.ToString() + ")";
             }
         }
 
@@ -94,6 +94,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
 
 
+        [DebuggerHidden]
         public static CommandBuilderState AsCommandBuilder(CommandBuilderState state)
         {
             // time to build the CommandText
@@ -119,6 +120,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
             return state;
         }
 
+        [DebuggerHidden]
         public static CommandBuilderState AsCommandBuilder(IQueryStrategy Strategy)
         {
             // time to build the CommandText

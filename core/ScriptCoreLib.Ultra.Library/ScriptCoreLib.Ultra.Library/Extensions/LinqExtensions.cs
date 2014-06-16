@@ -137,7 +137,9 @@ namespace ScriptCoreLib.Extensions
             return collection;
         }
 
-        [System.Diagnostics.DebuggerStepThrough]
+        //[System.Diagnostics.DebuggerStepThrough]
+        [System.Diagnostics.DebuggerHidden]
+        [System.Diagnostics.DebuggerNonUserCode]
         public static IEnumerable<T> WithEachIndex<T>(this IEnumerable<T> collection, Action<T, int> h) where T : class
         {
             if (collection != null)

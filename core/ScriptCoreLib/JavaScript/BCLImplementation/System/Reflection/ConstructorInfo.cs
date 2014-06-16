@@ -22,6 +22,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         //}
 
 
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Reflection.ConstructorInfo.Invoke(System.Object[])]
+        public object Invoke(object[] parameters)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\ComplexQueryExperiment\ComplexQueryExperiment\Application.cs
+            // Activator?
+
+            return null;
+        }
 
         public override string Name
         {
