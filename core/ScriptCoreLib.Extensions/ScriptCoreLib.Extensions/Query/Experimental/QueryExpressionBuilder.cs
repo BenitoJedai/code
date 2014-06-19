@@ -44,7 +44,7 @@ namespace ScriptCoreLib.Query.Experimental
 
         }
 
-        class SQLWriter
+        partial class SQLWriter<TElement>
         {
 
             public SQLWriter(IQueryStrategy source, IEnumerable<IQueryStrategy> upper, SQLWriterContext context = null)
@@ -92,9 +92,9 @@ namespace ScriptCoreLib.Query.Experimental
 
                             // what would happen id we did this elsewhere?
                             var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
-
+                            var FileLineNumber = f.GetFileLineNumber();
                             // http://dev.mysql.com/doc/refman/5.0/en/comments.html
-                            var trace = "/* " + f.GetFileLineNumber().ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
+                            var trace = "/* " + FileLineNumber.ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
 
                             Console.ForegroundColor = ConsoleColor.Gray;
                             Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
@@ -126,8 +126,9 @@ namespace ScriptCoreLib.Query.Experimental
                             // what would happen id we did this elsewhere?
                             var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
 
+                            var FileLineNumber = f.GetFileLineNumber();
                             // http://dev.mysql.com/doc/refman/5.0/en/comments.html
-                            var trace = "/* " + f.GetFileLineNumber().ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
+                            var trace = "/* " + FileLineNumber.ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
 
                             Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -247,6 +248,13 @@ namespace ScriptCoreLib.Query.Experimental
                         if (zMemberExpression != null)
                         {
                             {
+                                var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
+                                if (zMMemberExpression != null)
+                                {
+                                    WriteLineWithColor(2, zMMemberExpression.Member.Name + ".", ConsoleColor.Magenta);
+                                }
+
+
                                 var zMParameterExpression = zMemberExpression.Expression as ParameterExpression;
                                 if (zMParameterExpression != null)
                                 {
@@ -290,7 +298,7 @@ namespace ScriptCoreLib.Query.Experimental
                 var xOrderBy = source as xOrderBy;
                 if (xOrderBy != null)
                 {
-                    var sql = new SQLWriter(xOrderBy.source, upper.Concat(new[] { source }), context);
+                    var sql = new SQLWriter<TElement>(xOrderBy.source, upper.Concat(new[] { source }), context);
 
 
                     xOrderBy.keySelector.WithEachIndex(
@@ -316,7 +324,7 @@ namespace ScriptCoreLib.Query.Experimental
                 var xWhere = source as xWhere;
                 if (xWhere != null)
                 {
-                    var sql = new SQLWriter(xWhere.source, upper.Concat(new[] { source }), context);
+                    var sql = new SQLWriter<TElement>(xWhere.source, upper.Concat(new[] { source }), context);
 
                     xWhere.filter.WithEachIndex(
                         (wExpression, wExpressionIndex) =>
@@ -336,6 +344,380 @@ namespace ScriptCoreLib.Query.Experimental
 
                     return;
                 }
+                #endregion
+
+
+
+
+                #region WriteScalarCount
+                Action<IQueryStrategy, MethodCallExpression, Func<string>> WriteScalarCount =
+                     (zsource, xxMethodCallExpression, GetTargetName) =>
+                     {
+                         var zSelect = zsource as xSelect;
+
+                         // scalar sub query?
+                         WriteLineWithColor(1, ("let " + GetTargetName()) + " <- select count(*) from (", ConsoleColor.White);
+
+
+                         var count_source = xxMethodCallExpression.Arguments[0] as MemberExpression;
+                         // [0x00000000] = {<>h__TransparentIdentifier6.scalar1}
+                         // [0x00000000] = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5.scalar1}
+
+                         if (count_source != null)
+                         {
+                             // looks like we saved that query somewhere via let?
+
+                             var m = count_source.Expression as MemberExpression;
+                             // m = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5}
+                             var mp0ParameterExpression = m.Expression as ParameterExpression;
+
+                             if (zSelect.selector.Parameters[0] == mp0ParameterExpression)
+                             {
+                                 // found it!
+                                 // we should access the missing value via outer source?
+
+                                 //var xxSelect = xSelect.source as xSelect;
+                                 var xxOrderBy = zSelect.source as xOrderBy;
+                                 var xxSelect = xxOrderBy.source as xSelect;
+
+                                 var pp0 = xxSelect.selector.Parameters[0];
+                                 if (pp0.Name == m.Member.Name)
+                                 {
+                                     // yet again?
+                                     // xxMethodCallExpression = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5.scalar1.Count()}
+                                     // how is scalar1 being set?
+
+                                     var xxxSelect = xxSelect.source as xSelect;
+
+                                     var xxNewExpression = xxxSelect.selector.Body as NewExpression;
+                                     if (xxNewExpression != null)
+                                     {
+                                         var ii = xxNewExpression.Members.IndexOf(count_source.Member);
+                                         var aa = xxNewExpression.Arguments[ii];
+
+                                         // this is how it is built.
+
+                                         // aa = {new xTable().OrderBy(zz => zz.Key)}
+
+                                         var aaMethodCallExpression = aa as MethodCallExpression;
+
+                                         // i think we need to call that method.
+
+                                         var aa_keySelector = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                         var aa_source = aaMethodCallExpression.Arguments[0];
+
+                                         // OrderBy_source = {new xTable()}
+
+                                         var oNewExpression = aa_source as NewExpression;
+                                         var newsource = oNewExpression.Constructor.Invoke(new object[0]);
+                                         // newsource = {ComplexQueryExperiment.xTable}
+
+                                         // Additional information: Object of type 'System.Linq.Expressions.UnaryExpression' cannot be converted to type 
+                                         // 'System.Linq.Expressions.Expression`1[System.Func`2[ComplexQueryExperiment.xRow,ComplexQueryExperiment.xKey]]'.
+
+                                         var oOrdered = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                             new object[] {
+                                                          newsource,
+                                                          aa_keySelector.Operand
+                                                      }
+                                         );
+
+                                         var sqalarsql = new SQLWriter<TElement>(
+                                             oOrdered,
+                                             upper.Concat(new[] { source }).ToArray(),
+                                             context
+                                         );
+
+                                     }
+                                 }
+                             }
+                         }
+
+
+                         WriteLineWithColor(1, ")", ConsoleColor.White);
+                     };
+                #endregion
+
+
+
+                #region WriteScalarFirstOrDefault
+                Action<IQueryStrategy, MethodCallExpression, Func<string>> WriteScalarFirstOrDefault =
+                    (zsource, xxMethodCallExpression, GetTargetName) =>
+                    {
+
+
+
+                        var zSelect = zsource as xSelect;
+
+
+                        Action<Expression> yaa =
+                            aa =>
+                            {
+                                // ?
+                                WriteLineWithColor(1, ("let " + GetTargetName()) + " <- (", ConsoleColor.White);
+
+                                // whats aa? the where clause?
+                                // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
+
+                                var aaMethodCallExpression = aa as MethodCallExpression;
+
+                                if (aaMethodCallExpression.Method.Name == SelectReference.Method.Name)
+                                {
+                                    #region Select
+                                    var aa_selectorQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                    var aa_source = aaMethodCallExpression.Arguments[0] as MethodCallExpression;
+
+                                    var aaa_sQuote = aa_source.Arguments[1] as UnaryExpression;
+                                    // the let key word!
+                                    // [0x00000001] = {<>h__TransparentIdentifier2 => (<>h__TransparentIdentifier2.xx.field1 == 44)}
+                                    var aaa_source = aa_source.Arguments[0] as NewExpression;
+
+                                    if (aaa_source != null)
+                                    {
+                                        var aaa_sourcei = aaa_source.Constructor.Invoke(new object[0]);
+
+                                        var newsource2 = (IQueryStrategy)aa_source.Method.Invoke(null,
+                                              new object[] {
+                                                    aaa_sourcei,
+                                                    aaa_sQuote.Operand
+                                                }
+                                        );
+
+                                        var newsource3 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                                  new object[] {
+                                                                newsource2,
+                                                                aa_selectorQuote.Operand
+                                                            }
+                                            );
+
+                                        var sqalarsql = new SQLWriter<TElement>(
+                                             newsource2,
+                                             upper.Concat(new[] { source }).ToArray(),
+                                             context
+                                         );
+                                    }
+                                    else
+                                    {
+
+                                        var aaa2_source = aa_source.Arguments[0] as MethodCallExpression;
+                                        // select
+
+                                        var aaaa_sQuote = aaa2_source.Arguments[1] as UnaryExpression;
+                                        var aaaa_source = aaa2_source.Arguments[0] as NewExpression;
+
+                                        var aaaa_sourcei = aaaa_source.Constructor.Invoke(new object[0]);
+
+
+                                        var newsource3 = (IQueryStrategy)aaa2_source.Method.Invoke(null,
+                                             new object[] {
+                                                    aaaa_sourcei,
+                                                    aaaa_sQuote.Operand
+                                                }
+                                       );
+
+                                        var newsource2 = (IQueryStrategy)aa_source.Method.Invoke(null,
+                                             new object[] {
+                                                    newsource3,
+                                                    aaa_sQuote.Operand
+                                                }
+                                       );
+
+                                        var sqalarsql = new SQLWriter<TElement>(
+                                             newsource2,
+                                             upper.Concat(new[] { source }).ToArray(),
+                                             context
+                                         );
+
+                                    }
+                                    #endregion
+                                }
+                                else if (aaMethodCallExpression.Method.Name == GroupByReference.Method.Name)
+                                {
+                                    #region GroupBy
+                                    var aa_kQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                    var aa_source = aaMethodCallExpression.Arguments[0] as NewExpression;
+                                    var aa_sourcei = aa_source.Constructor.Invoke(new object[0]);
+
+                                    var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                            new object[] {
+                                                          aa_sourcei,
+                                                          aa_kQuote.Operand
+                                                      }
+                                        );
+
+                                    var sqalarsql = new SQLWriter<TElement>(
+                                        newsource2,
+                                        upper.Concat(new[] { source }).ToArray(),
+                                        context
+                                    );
+                                    #endregion
+                                }
+                                else if (aaMethodCallExpression.Method.Name == JoinReference.Method.Name)
+                                {
+                                    #region Join
+                                    // can we ve fast templates of the quoted params??
+
+                                    var aa_outer = aaMethodCallExpression.Arguments[0] as NewExpression;
+                                    var aa_outeri = aa_outer.Constructor.Invoke(new object[0]);
+
+                                    var aa_inner = aaMethodCallExpression.Arguments[1];
+                                    var aa_inneri = aa_outer.Constructor.Invoke(new object[0]);
+
+                                    var aa_of = aaMethodCallExpression.Arguments[2] as UnaryExpression;
+                                    var aa_if = aaMethodCallExpression.Arguments[3] as UnaryExpression;
+                                    var aa_rs = aaMethodCallExpression.Arguments[4] as UnaryExpression;
+
+                                    var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                           new object[] {
+                                                          aa_outeri,
+                                                          aa_inneri,
+                                                          aa_of.Operand,
+                                                          aa_if.Operand,
+                                                          aa_rs.Operand
+                                                      }
+                                       );
+
+                                    var sqalarsql = new SQLWriter<TElement>(
+                                        newsource2,
+                                        upper.Concat(new[] { source }).ToArray(),
+                                        context
+                                    );
+                                    #endregion
+                                }
+                                else if (aaMethodCallExpression.Method.Name == WhereReference.Method.Name)
+                                {
+                                    #region Where
+                                    var aa_filterQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
+                                    var aa_source = aaMethodCallExpression.Arguments[0] as NewExpression;
+                                    var aa_sourcei = aa_source.Constructor.Invoke(new object[0]);
+
+                                    var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
+                                            new object[] {
+                                                          aa_sourcei,
+                                                          aa_filterQuote.Operand
+                                                      }
+                                        );
+
+                                    var sqalarsql = new SQLWriter<TElement>(
+                                        newsource2,
+                                        upper.Concat(new[] { source }).ToArray(),
+                                        context
+                                    );
+                                    #endregion
+
+                                }
+                                else WriteLineWithColor(1, "?", ConsoleColor.White);
+
+                                WriteLineWithColor(1, ")", ConsoleColor.White);
+                            };
+
+
+                        var __source = xxMethodCallExpression.Arguments[0] as MemberExpression;
+                        // [0x00000000] = {new xTable().Select(xx => new <>f__AnonymousType0`1(field2 = xx.field2))}
+                        // __source = {<>h__TransparentIdentifierd.xFirstOrDefaultQuery}
+
+                        var __source_asMemberExpression = __source.Expression as MemberExpression;
+                        if (__source_asMemberExpression != null)
+                        {
+                            // __source_asMemberExpression = {<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0}
+
+
+                            // i think we have to dig deeper.
+                            // __source_asMemberExpression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0}
+                            // not sure. now what??
+                            // we need to reload the saved query.
+                            // do we need to walk up?
+                            // how do we walk up?
+                            // and by up we mean in?
+
+                            var innersource = zSelect.source as xSelect;
+                            // innersource = {select <>h__TransparentIdentifier0}
+                            // selector = {<>h__TransparentIdentifier0 => new <>f__AnonymousType3`2(<>h__TransparentIdentifier0 = <>h__TransparentIdentifier0, gap1 = 0)}
+                            // ok that inner source seems to have h__TransparentIdentifier0
+                            // do we need to go another level?
+
+                            var innersource2 = innersource.source as xSelect;
+
+                            var __source_asMMemberExpression = __source_asMemberExpression.Expression as MemberExpression;
+                            if (__source_asMMemberExpression != null)
+                            {
+                                // 3
+
+                                var innersource3 = innersource2.source as xSelect;
+
+                                var __source_asMMMemberExpression = __source_asMMemberExpression.Expression as MemberExpression;
+                                if (__source_asMMMemberExpression != null)
+                                {
+
+                                    var innersource4 = innersource3.source as xSelect;
+
+                                    var xxNewExpression = innersource4.selector.Body as NewExpression;
+
+                                    var ii = xxNewExpression.Members.IndexOf(__source.Member);
+                                    var aa = xxNewExpression.Arguments[ii];
+
+                                    // now what?
+                                    // we have found another select. yay.
+                                    // would that work?
+                                    yaa(aa);
+                                    return;
+                                }
+                                else
+                                {
+
+
+                                    var xxNewExpression = innersource3.selector.Body as NewExpression;
+
+                                    var ii = xxNewExpression.Members.IndexOf(__source.Member);
+                                    var aa = xxNewExpression.Arguments[ii];
+
+                                    // now what?
+                                    // we have found another select. yay.
+                                    // would that work?
+                                    yaa(aa);
+                                    return;
+                                }
+                            }
+                            else
+                            // whats that good for?
+                            // selector = {x => new <>f__AnonymousType2`2(x = x, scalar0 = new xTable().Select(xx => new <>f__AnonymousType0`2(xx = xx, inception2 = xx.field2)).Where(<>h__TransparentIdentifier3 => (<>h__TransparentIdentifier3.xx.field1 == 44)).Select(<>h__TransparentIdentifier3 => ...
+                            // ok this seems to atleast have the member we need to load
+                            {
+                                var xxNewExpression = innersource2.selector.Body as NewExpression;
+
+                                var ii = xxNewExpression.Members.IndexOf(__source.Member);
+                                var aa = xxNewExpression.Arguments[ii];
+
+                                // now what?
+                                // we have found another select. yay.
+                                // would that work?
+                                yaa(aa);
+                                return;
+                            }
+                        }
+
+                        var __source_asParameterExpression = __source.Expression as ParameterExpression;
+
+
+                        // assigned by let
+                        if (zSelect.selector.Parameters[0] == __source_asParameterExpression)
+                        {
+                            // in that case get the damn argument
+                            var xxSelect = zSelect.source as xSelect;
+                            var xxNewExpression = xxSelect.selector.Body as NewExpression;
+
+                            var ii = xxNewExpression.Members.IndexOf(__source.Member);
+                            var aa = xxNewExpression.Arguments[ii];
+
+                            yaa(aa);
+                        }
+                        else
+                        {
+                            // do we have a let in between?
+                            WriteLineWithColor(2, "?", ConsoleColor.Red);
+                        }
+
+                    };
                 #endregion
 
 
@@ -384,235 +766,36 @@ namespace ScriptCoreLib.Query.Experimental
 
                               // !!!
 
-
-                              #region FirstOrDefault
-                              if (xxMethodCallExpression.Method.Name == "FirstOrDefault")
+                              if (xxMethodCallExpression.Method.DeclaringType == typeof(QueryExpressionBuilder))
                               {
-                                  WriteLineWithColor(1, ("let " + GetTargetName()) + " <- (", ConsoleColor.White);
-
-                                  var __source = xxMethodCallExpression.Arguments[0] as MemberExpression;
-                                  // __source = {<>h__TransparentIdentifierd.xFirstOrDefaultQuery}
-
-                                  var __source_asParameterExpression = __source.Expression as ParameterExpression;
-
-                                  // assigned by let
-                                  if (zSelect.selector.Parameters[0] == __source_asParameterExpression)
+                                  #region FirstOrDefault
+                                  if (xxMethodCallExpression.Method.Name == FirstOrDefaultReference.Method.Name)
                                   {
-                                      // in that case get the damn argument
-                                      var xxSelect = zSelect.source as xSelect;
-                                      var xxNewExpression = xxSelect.selector.Body as NewExpression;
+                                      // what about inline testing?
 
-                                      var ii = xxNewExpression.Members.IndexOf(__source.Member);
-                                      var aa = xxNewExpression.Arguments[ii];
+                                      WriteScalarFirstOrDefault(zsource, xxMethodCallExpression, GetTargetName);
 
-                                      // whats aa? the where clause?
-                                      // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
-
-                                      var aaMethodCallExpression = aa as MethodCallExpression;
-
-                                      if (aaMethodCallExpression.Method.Name == "Select")
-                                      {
-                                          var aa_kQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
-                                          var aa_source = aaMethodCallExpression.Arguments[0] as MethodCallExpression;
-
-                                          var aaa_sQuote = aa_source.Arguments[1] as UnaryExpression;
-                                          var aaa_source = aa_source.Arguments[0] as NewExpression;
-                                          var aaa_sourcei = aaa_source.Constructor.Invoke(new object[0]);
-
-                                          var newsource2 = (IQueryStrategy)aa_source.Method.Invoke(null,
-                                                new object[] {
-                                                    aaa_sourcei,
-                                                    aaa_sQuote.Operand
-                                                }
-                                          );
-
-                                          var newsource3 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
-                                                    new object[] {
-                                                                newsource2,
-                                                                aa_kQuote.Operand
-                                                            }
-                                              );
-
-                                          var sqalarsql = new SQLWriter(
-                                               newsource2,
-                                               upper.Concat(new[] { source }).ToArray(),
-                                               context
-                                           );
-                                      }
-                                      else if (aaMethodCallExpression.Method.Name == "GroupBy")
-                                      {
-                                          var aa_kQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
-                                          var aa_source = aaMethodCallExpression.Arguments[0] as NewExpression;
-                                          var aa_sourcei = aa_source.Constructor.Invoke(new object[0]);
-
-                                          var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
-                                                  new object[] {
-                                                          aa_sourcei,
-                                                          aa_kQuote.Operand
-                                                      }
-                                              );
-
-                                          var sqalarsql = new SQLWriter(
-                                              newsource2,
-                                              upper.Concat(new[] { source }).ToArray(),
-                                              context
-                                          );
-                                      }
-                                      else if (aaMethodCallExpression.Method.Name == "Join")
-                                      {
-                                          #region Join
-                                          // can we ve fast templates of the quoted params??
-
-                                          var aa_outer = aaMethodCallExpression.Arguments[0] as NewExpression;
-                                          var aa_outeri = aa_outer.Constructor.Invoke(new object[0]);
-
-                                          var aa_inner = aaMethodCallExpression.Arguments[1];
-                                          var aa_inneri = aa_outer.Constructor.Invoke(new object[0]);
-
-                                          var aa_of = aaMethodCallExpression.Arguments[2] as UnaryExpression;
-                                          var aa_if = aaMethodCallExpression.Arguments[3] as UnaryExpression;
-                                          var aa_rs = aaMethodCallExpression.Arguments[4] as UnaryExpression;
-
-                                          var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
-                                                 new object[] {
-                                                          aa_outeri,
-                                                          aa_inneri,
-                                                          aa_of.Operand,
-                                                          aa_if.Operand,
-                                                          aa_rs.Operand
-                                                      }
-                                             );
-
-                                          var sqalarsql = new SQLWriter(
-                                              newsource2,
-                                              upper.Concat(new[] { source }).ToArray(),
-                                              context
-                                          );
-                                          #endregion
-                                      }
-                                      else if (aaMethodCallExpression.Method.Name == "Where")
-                                      {
-                                          #region Where
-                                          var aa_filterQuote = aaMethodCallExpression.Arguments[1] as UnaryExpression;
-                                          var aa_source = aaMethodCallExpression.Arguments[0] as NewExpression;
-                                          var aa_sourcei = aa_source.Constructor.Invoke(new object[0]);
-
-                                          var newsource2 = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
-                                                  new object[] {
-                                                          aa_sourcei,
-                                                          aa_filterQuote.Operand
-                                                      }
-                                              );
-
-                                          var sqalarsql = new SQLWriter(
-                                              newsource2,
-                                              upper.Concat(new[] { source }).ToArray(),
-                                              context
-                                          );
-                                          #endregion
-
-                                      }
-                                      else WriteLineWithColor(1, "?", ConsoleColor.White);
+                                      return;
                                   }
-                                  else WriteLineWithColor(1, "?", ConsoleColor.White);
-
-                                  WriteLineWithColor(1, ")", ConsoleColor.White);
-                                  return;
-                              }
-                              #endregion
+                                  #endregion
 
 
 
-                              #region Count
-                              if (xxMethodCallExpression.Method.Name == "Count")
-                              {
-                                  // scalar sub query?
-                                  WriteLineWithColor(1, ("let " + GetTargetName()) + " <- select count(*) from (", ConsoleColor.White);
-
-
-                                  var count_source = xxMethodCallExpression.Arguments[0] as MemberExpression;
-                                  // [0x00000000] = {<>h__TransparentIdentifier6.scalar1}
-                                  // [0x00000000] = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5.scalar1}
-
-                                  if (count_source != null)
+                                  #region Count
+                                  if (xxMethodCallExpression.Method == CountReference.Method)
                                   {
-                                      // looks like we saved that query somewhere via let?
+                                      // tested by?
+                                      WriteScalarCount(zsource, xxMethodCallExpression, GetTargetName);
 
-                                      var m = count_source.Expression as MemberExpression;
-                                      // m = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5}
-                                      var mp0ParameterExpression = m.Expression as ParameterExpression;
+                                      return;
 
-                                      if (zSelect.selector.Parameters[0] == mp0ParameterExpression)
-                                      {
-                                          // found it!
-                                          // we should access the missing value via outer source?
-
-                                          //var xxSelect = xSelect.source as xSelect;
-                                          var xxOrderBy = zSelect.source as xOrderBy;
-                                          var xxSelect = xxOrderBy.source as xSelect;
-
-                                          var pp0 = xxSelect.selector.Parameters[0];
-                                          if (pp0.Name == m.Member.Name)
-                                          {
-                                              // yet again?
-                                              // xxMethodCallExpression = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5.scalar1.Count()}
-                                              // how is scalar1 being set?
-
-                                              var xxxSelect = xxSelect.source as xSelect;
-
-                                              var xxNewExpression = xxxSelect.selector.Body as NewExpression;
-                                              if (xxNewExpression != null)
-                                              {
-                                                  var ii = xxNewExpression.Members.IndexOf(count_source.Member);
-                                                  var aa = xxNewExpression.Arguments[ii];
-
-                                                  // this is how it is built.
-
-                                                  // aa = {new xTable().OrderBy(zz => zz.Key)}
-
-                                                  var aaMethodCallExpression = aa as MethodCallExpression;
-
-                                                  // i think we need to call that method.
-
-                                                  var aa_keySelector = aaMethodCallExpression.Arguments[1] as UnaryExpression;
-                                                  var aa_source = aaMethodCallExpression.Arguments[0];
-
-                                                  // OrderBy_source = {new xTable()}
-
-                                                  var oNewExpression = aa_source as NewExpression;
-                                                  var newsource = oNewExpression.Constructor.Invoke(new object[0]);
-                                                  // newsource = {ComplexQueryExperiment.xTable}
-
-                                                  // Additional information: Object of type 'System.Linq.Expressions.UnaryExpression' cannot be converted to type 
-                                                  // 'System.Linq.Expressions.Expression`1[System.Func`2[ComplexQueryExperiment.xRow,ComplexQueryExperiment.xKey]]'.
-
-                                                  var oOrdered = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
-                                                      new object[] {
-                                                          newsource,
-                                                          aa_keySelector.Operand
-                                                      }
-                                                  );
-
-                                                  var sqalarsql = new SQLWriter(
-                                                      oOrdered,
-                                                      upper.Concat(new[] { source }).ToArray(),
-                                                      context
-                                                  );
-
-                                              }
-                                          }
-                                      }
                                   }
-
-
-                                  WriteLineWithColor(1, ")", ConsoleColor.White);
-                                  return;
-
+                                  #endregion
                               }
-                              #endregion
 
                               // what other methods have we referenced yet?
 
+                              #region string
                               if (xxMethodCallExpression.Method.DeclaringType == typeof(string))
                               {
                                   if (xxMethodCallExpression.Method.Name == "ToUpper")
@@ -637,6 +820,8 @@ namespace ScriptCoreLib.Query.Experimental
                                       return;
                                   }
                               }
+                              #endregion
+
 
                               WriteLineWithColor(1, ("let " + GetTargetName()) + " <- " + xxMethodCallExpression.Method.Name + "(?)", ConsoleColor.White);
 
@@ -951,7 +1136,7 @@ namespace ScriptCoreLib.Query.Experimental
                     WriteLine(0, "select ?");
 
                     WriteLine(0, "from (");
-                    var sql0 = new SQLWriter(xGroupBy.source, upper.Concat(new[] { source }), context);
+                    var sql0 = new SQLWriter<TElement>(xGroupBy.source, upper.Concat(new[] { source }), context);
                     WriteLine(0, ") as ?");
 
                     //using (WithoutLinefeeds())
@@ -986,12 +1171,12 @@ namespace ScriptCoreLib.Query.Experimental
                     // resultSelector = {(xouter, xinner) => new <>f__AnonymousType13`2(xouter = xouter, xinner = xinner)}
 
                     WriteLine(0, "from (");
-                    var sql0 = new SQLWriter(xJoin.outer, upper.Concat(new[] { source }), context);
+                    var sql0 = new SQLWriter<TElement>(xJoin.outer, upper.Concat(new[] { source }), context);
                     WriteLine(0, ") as outer");
 
                     WriteLine(0, "inner join (");
 
-                    var sql1 = new SQLWriter(xJoin.inner, upper.Concat(new[] { source }), context);
+                    var sql1 = new SQLWriter<TElement>(xJoin.inner, upper.Concat(new[] { source }), context);
 
                     WriteLine(0, ") as inner");
 
@@ -1078,73 +1263,77 @@ namespace ScriptCoreLib.Query.Experimental
                                         // we are selecting a group for upper select arent we.
                                         var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
 
-                                        #region xArguments, merge unless its a scalar subselect
+                                        // disable merge for now.
+                                        //#region xArguments, merge unless its a scalar subselect
 
-                                        // are we able to merge with sub selects?
-                                        if (upper.Any())
-                                        {
-                                            var ySelect = xSelect_source as xSelect;
-                                            while (ySelect != null)
-                                            {
-                                                var yNewExpression = ySelect.selector.Body as NewExpression;
-                                                if (yNewExpression != null)
-                                                {
-                                                    if (yNewExpression.Arguments.Count == 2)
-                                                    {
-                                                        var yParameterExpression = yNewExpression.Arguments[0] as ParameterExpression;
-                                                        if (yParameterExpression != null)
-                                                        {
-                                                            if (yParameterExpression.Name == ySelect.selector.Parameters[0].Name)
-                                                            {
-                                                                var a = yNewExpression.Arguments[1];
+                                        //// are we able to merge with sub selects?
+                                        //if (upper.Any())
+                                        //{
+                                        //    var ySelect = xSelect_source as xSelect;
+                                        //    while (ySelect != null)
+                                        //    {
+                                        //        var yNewExpression = ySelect.selector.Body as NewExpression;
+                                        //        if (yNewExpression != null)
+                                        //        {
+                                        //            if (yNewExpression.Arguments.Count == 2)
+                                        //            {
+                                        //                var yParameterExpression = yNewExpression.Arguments[0] as ParameterExpression;
+                                        //                if (yParameterExpression != null)
+                                        //                {
+                                        //                    if (yParameterExpression.Name == ySelect.selector.Parameters[0].Name)
+                                        //                    {
+                                        //                        var a = yNewExpression.Arguments[1];
 
-                                                                // unless its a scalar subselect?
+                                        //                        // unless its a scalar subselect?
 
-                                                                var aMethodCallExpression = a as MethodCallExpression;
-                                                                if (aMethodCallExpression != null)
-                                                                {
+                                        //                        var aMethodCallExpression = a as MethodCallExpression;
+                                        //                        if (aMethodCallExpression != null)
+                                        //                        {
 
-                                                                    if (aMethodCallExpression.Method.Name == "FirstOrDefault")
-                                                                        break;
+                                        //                            if (aMethodCallExpression.Method.Name == "FirstOrDefault")
+                                        //                                break;
 
-                                                                    if (aMethodCallExpression.Method.Name == "Count")
-                                                                    //if (aMethodCallExpression.Method.DeclaringType == typeof(FrikkingExpressionBuilder))
-                                                                    {
-                                                                        break;
-                                                                    }
-                                                                }
+                                        //                            if (aMethodCallExpression.Method.Name == "Count")
+                                        //                            //if (aMethodCallExpression.Method.DeclaringType == typeof(FrikkingExpressionBuilder))
+                                        //                            {
+                                        //                                break;
+                                        //                            }
+                                        //                        }
 
-                                                                var m = yNewExpression.Members[1];
-                                                                WriteLineWithColor(1, "merge " + yParameterExpression.Name + "." + m.Name, ConsoleColor.Gray);
+                                        //                        // disable merge for now.
+                                        //                        break;
 
-                                                                var item =
-                                                                      new
-                                                                      {
-                                                                          a = a,
-                                                                          m = m,
-                                                                          source = xSelect_source
-                                                                      };
+                                        //                        var m = yNewExpression.Members[1];
+                                        //                        WriteLineWithColor(1, "merge " + yParameterExpression.Name + "." + m.Name, ConsoleColor.Gray);
 
-
-                                                                // we seem to be able to merge!
-                                                                xSelect_source = ySelect.source;
-                                                                ySelect = xSelect_source as xSelect;
-
+                                        //                        var item =
+                                        //                              new
+                                        //                              {
+                                        //                                  a = a,
+                                        //                                  m = m,
+                                        //                                  source = xSelect_source
+                                        //                              };
 
 
+                                        //                        // we seem to be able to merge!
+                                        //                        xSelect_source = ySelect.source;
+                                        //                        ySelect = xSelect_source as xSelect;
 
-                                                                WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
 
-                                                                continue;
-                                                            }
-                                                        }
-                                                    }
-                                                }
 
-                                                break;
-                                            }
-                                        }
-                                        #endregion
+
+                                        //                        WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
+
+                                        //                        continue;
+                                        //                    }
+                                        //                }
+                                        //            }
+                                        //        }
+
+                                        //        break;
+                                        //    }
+                                        //}
+                                        //#endregion
 
 
                                         foreach (var item in xArguments)
@@ -1195,7 +1384,7 @@ namespace ScriptCoreLib.Query.Experimental
                 {
                     WriteLine(0, "from (");
 
-                    var xsource = new SQLWriter(
+                    var xsource = new SQLWriter<TElement>(
                        xSelect_source,
                         upper.Concat(new[] { source }),
                         context
@@ -1216,28 +1405,12 @@ namespace ScriptCoreLib.Query.Experimental
             }
         }
 
-        public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
-        {
-            // cache it?
-            var sql = new SQLWriter(source, new IQueryStrategy[0].AsEnumerable());
-
-
-            return default(TElement);
-        }
 
 
 
 
 
 
-
-
-
-        // first lets allow scalar subqueries
-        public static long Count(this IQueryStrategy Strategy)
-        {
-            return 0;
-        }
 
 
 
