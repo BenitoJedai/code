@@ -11,6 +11,17 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
+        partial class SQLWriter<TElement>
+        {
+            public static readonly Func<
+                IQueryStrategy<object>,
+                IQueryStrategy<object>,
+                Expression<Func<object, object>>,
+                Expression<Func<object, object>>,
+                Expression<Func<object, object, TElement>>,
+                IQueryStrategy<TElement>
+            > JoinReference = Join;
+        }
 
 
         #region xJoin

@@ -12,6 +12,10 @@ namespace ScriptCoreLib.Query.Experimental
     public static partial class QueryExpressionBuilder
     {
 
+        partial class SQLWriter<TElement>
+        {
+            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<IQueryStrategyGrouping<object, TElement>>> GroupByReference = GroupBy;
+        }
 
 
 
@@ -40,11 +44,7 @@ namespace ScriptCoreLib.Query.Experimental
         }
 
         public static IQueryStrategy<IQueryStrategyGrouping<TKey, TSource>>
-             GroupBy
-             <TSource, TKey>(
-                 this IQueryStrategy<TSource> source,
-                 Expression<Func<TSource, TKey>> keySelector
-            )
+             GroupBy<TSource, TKey>(this IQueryStrategy<TSource> source, Expression<Func<TSource, TKey>> keySelector)
         {
             return new xGroupBy<IQueryStrategyGrouping<TKey, TSource>>
             {

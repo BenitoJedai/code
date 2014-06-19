@@ -11,7 +11,10 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-      
+        partial class SQLWriter<TElement>
+        {
+            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, TElement>>, IQueryStrategy<TElement>> SelectReference = Select;
+        }
 
         #region Select
         // allow xTable to predefine a select
@@ -22,7 +25,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             public override string ToString()
             {
-                return selector.Parameters[0].Name;
+                return "select " + selector.Parameters[0].Name;
             }
         }
 
