@@ -25,14 +25,24 @@ namespace TestLINQ
                     select new { xx.field2 }
                 )
 
-                let gap1 = 0
+                let gap1 =
+                    from xx in new xTable()
+                    select new { xx.field2 }
+
                 let gap2 = 0
                 //let gap3 = 0
-                let gap3 = new { gap1, gap2 }
+                let gap3 = 1
+                let gap4 = 2
+                let gap5 = 3
+                let gap6 = 6
+                let gap7 = 7
 
-                let scalar1 = scalar0.FirstOrDefault()
+                //where gap5 > 4
 
-                select new { x, scalar1 };
+                //let scalar1 = scalar0.FirstOrDefault()
+                let count1 = gap1.Count()
+
+                select new { x, gap3 };
 
             //select x.Key;
             //select x.field1 + x.field2;
