@@ -482,6 +482,8 @@ interface THREE.WebGLRenderer
 [Constructor(THREE.WebGLRenderer r)]
 interface THREE.EffectComposer 
 { 
+    // defined where?
+
 	void addPass(any e);
 	void render(double e);
 
@@ -552,7 +554,7 @@ interface THREE.Ray
 };
 
 [Constructor(any geometry, any material)]
-interface THREE.ParticleSystem 
+interface THREE.ParticleSystem : THREE.Object3D
 { 
 	attribute THREE.Vector3  position;
 
@@ -583,6 +585,13 @@ interface THREE.Material
 {
 
 };
+
+[Constructor(any e)]
+interface THREE.ParticleSystemMaterial : THREE.Material
+{
+	// X:\jsc.svn\examples\javascript\synergy\webgl\WebGLDNAByOutsideOfSociety\WebGLDNAByOutsideOfSociety\Application.cs
+};
+
 
 [Constructor()]
 interface THREE.MeshFaceMaterial : THREE.Material
