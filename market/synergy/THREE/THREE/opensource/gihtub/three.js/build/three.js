@@ -93,7 +93,7 @@ THREE.VertexColors = 2;
 
 // blending modes
 
-THREE.NoBlending = 0;
+THREE.NoBlending = 0;Vector
 THREE.NormalBlending = 1;
 THREE.AdditiveBlending = 2;
 THREE.SubtractiveBlending = 3;

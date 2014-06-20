@@ -19,6 +19,7 @@ using WebGLDNAByOutsideOfSociety.HTML.Pages;
 using ScriptCoreLib.JavaScript.Native;
 using System.Math;
 using System.Diagnostics;
+using WebGLDNAByOutsideOfSociety.HTML.Images.FromAssets;
 
 namespace WebGLDNAByOutsideOfSociety
 {
@@ -27,6 +28,14 @@ namespace WebGLDNAByOutsideOfSociety
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        //{ FixupHintPath = X:\jsc.svn\examples\javascript\synergy\webgl\WebGLDNAByOutsideOfSociety\packages\THREE.1.0.0.0 }
+        //    will need to find package  { id = THREE
+        //}
+        //will find package  { id = THREE }
+        //already exists { id = THREE }
+        // jsc, isnt there a more up to date version on disk????
+
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -76,7 +85,7 @@ namespace WebGLDNAByOutsideOfSociety
 
             }
 
-            var mat = new THREE.MeshBasicMaterial(new { wireframe = true, color = 0xb2ffd8});
+            var mat = new THREE.MeshBasicMaterial(new { wireframe = true, color = 0xb2ffd8 });
             var mesh = new THREE.Mesh(pg, mat);
             mesh.rotation.x = -Math.PI / 2;
             scene.add(mesh);
@@ -89,33 +98,34 @@ namespace WebGLDNAByOutsideOfSociety
             // c#, you can look ahead an realize how long our array needs to be!
             var vertices_tmp = new double[vl][];
 
-            for (var i = 0; i<vl; i++)
+            for (var i = 0; i < vl; i++)
             {
                 var p = vertices[i];
 
                 geometry.vertices[i] = p.clone();
-                vertices_tmp[i] =new[] { p.x, p.y, p.z, 0, 0 };
+                vertices_tmp[i] = new[] { p.x, p.y, p.z, 0, 0 };
 
             }
 
 
             var material = new THREE.ParticleBasicMaterial(
-                new {
-                    map = THREE.ImageUtils.loadTexture("bob.png"),
-                    color = 0xb2ffd8, 
-                    depthTest = false, 
-                    size = 5, 
-                    blending = THREE.NormalBlending
-                } );
+                new
+            {
+                map = THREE.ImageUtils.loadTexture(new bob().src),
+                color = 0xb2ffd8,
+                depthTest = false,
+                size = 5,
+                blending = THREE.NormalBlending
+            });
 
-			var pmesh = new THREE.ParticleSystem( geometry, material );
-			scene.add(pmesh);
+            var pmesh = new THREE.ParticleSystem(geometry, material);
+            scene.add(pmesh);
 
-			// renderer
-			var renderer = new THREE.WebGLRenderer(new {antialias = false});
-			renderer.setSize( );
-			renderer.setClearColorHex( 0x000000, 1 );
-			renderer.autoClear = false;
+            // renderer
+            var renderer = new THREE.WebGLRenderer(new { antialias = false });
+            renderer.setSize();
+            //renderer.setClearColorHex( 0x000000, 1 );
+            renderer.autoClear = false;
             //THREEx.WindowResize(renderer, camera);
 
             renderer.domElement.AttachToDocument();
@@ -149,25 +159,18 @@ namespace WebGLDNAByOutsideOfSociety
 
             window.onframe +=
                 delegate
-                {
-                    time = new Date().getTime();
-                    delta = time - oldTime;
-                    oldTime = time;
+            {
 
-                    if (isNaN(delta) || delta > 1000 || delta == 0)
-                    {
-                        delta = 1000 / 60;
-                    }
 
-                    mesh.rotation.x += 0.02 + Abs(Sin(time / 3000)) / 40;
-                    pmesh.rotation.x = mesh.rotation.x;
+                mesh.rotation.x += 0.02 + Abs(Sin(time / 3000)) / 40;
+                pmesh.rotation.x = mesh.rotation.x;
 
-                    mesh.scale.y = Cos(time / 2500) * 2.0;
-                    pmesh.scale.y = mesh.scale.y;
-               
-                    renderer.clear();
-                    composer.render();
-                };
+                mesh.scale.y = Cos(time / 2500) * 2.0;
+                pmesh.scale.y = mesh.scale.y;
+
+                renderer.clear();
+                composer.render();
+            };
 
         }
 

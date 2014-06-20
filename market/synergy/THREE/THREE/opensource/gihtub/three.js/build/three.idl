@@ -15,7 +15,19 @@ interface THREE
 	static attribute THREE.MathType Math; 
 
 	static attribute long DoubleSide; 
-	static attribute long AdditiveBlending; 
+
+
+	// blending modes
+
+	// enum Blending {} ?
+
+	const long NoBlending = 0;
+	const long NormalBlending = 1;
+	const long AdditiveBlending = 2;
+	const long SubtractiveBlending = 3;
+	const long MultiplyBlending = 4;
+	const long CustomBlending = 5;
+
 
 	// enum colors?
 	const long VertexColors = 2;
@@ -304,6 +316,7 @@ interface THREE.Vector3
 
 	double length();
 
+	THREE.Vector3 clone();
 };
 
 [Constructor(), Constructor(double x, double y, double z, double q)]
@@ -477,6 +490,8 @@ interface THREE.EffectComposer
 [Constructor]
 interface THREE.Geometry 
 { 
+	attribute sequence<THREE.Vector3>        vertices;
+
 	attribute sequence<THREE.Geometry>        faces;
 	attribute sequence<THREE.Color>        vertexColors;
 

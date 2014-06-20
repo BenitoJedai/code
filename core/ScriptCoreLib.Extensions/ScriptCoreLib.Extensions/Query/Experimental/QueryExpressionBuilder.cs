@@ -447,9 +447,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                        var zSelect = zsource as xSelect;
-
-
+                        #region yaa
                         Action<Expression> yaa =
                             aa =>
                             {
@@ -610,80 +608,28 @@ namespace ScriptCoreLib.Query.Experimental
 
                                 WriteLineWithColor(1, ")", ConsoleColor.White);
                             };
-
+                        #endregion
 
                         var __source = xxMethodCallExpression.Arguments[0] as MemberExpression;
-                        // [0x00000000] = {new xTable().Select(xx => new <>f__AnonymousType0`1(field2 = xx.field2))}
-                        // __source = {<>h__TransparentIdentifierd.xFirstOrDefaultQuery}
-
-                        var __source_asMemberExpression = __source.Expression as MemberExpression;
-                        if (__source_asMemberExpression != null)
-                        {
-                            // __source_asMemberExpression = {<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0}
 
 
-                            // i think we have to dig deeper.
-                            // __source_asMemberExpression = {<>h__TransparentIdentifier1.<>h__TransparentIdentifier0}
-                            // not sure. now what??
-                            // we need to reload the saved query.
-                            // do we need to walk up?
-                            // how do we walk up?
-                            // and by up we mean in?
+                        #region walker
+                        Action<xSelect, Expression> walker = null;
 
-                            var innersource = zSelect.source as xSelect;
-                            // innersource = {select <>h__TransparentIdentifier0}
-                            // selector = {<>h__TransparentIdentifier0 => new <>f__AnonymousType3`2(<>h__TransparentIdentifier0 = <>h__TransparentIdentifier0, gap1 = 0)}
-                            // ok that inner source seems to have h__TransparentIdentifier0
-                            // do we need to go another level?
-
-                            var innersource2 = innersource.source as xSelect;
-
-                            var __source_asMMemberExpression = __source_asMemberExpression.Expression as MemberExpression;
-                            if (__source_asMMemberExpression != null)
+                        walker =
+                            (xinnersource, __source_Expression) =>
                             {
-                                // 3
-
-                                var innersource3 = innersource2.source as xSelect;
-
-                                var __source_asMMMemberExpression = __source_asMMemberExpression.Expression as MemberExpression;
-                                if (__source_asMMMemberExpression != null)
+                                var __source_asMemberExpression = __source_Expression as MemberExpression;
+                                if (__source_asMemberExpression != null)
                                 {
+                                    var xxinnersource = xinnersource.source as xSelect;
 
-                                    var innersource4 = innersource3.source as xSelect;
-
-                                    var xxNewExpression = innersource4.selector.Body as NewExpression;
-
-                                    var ii = xxNewExpression.Members.IndexOf(__source.Member);
-                                    var aa = xxNewExpression.Arguments[ii];
-
-                                    // now what?
-                                    // we have found another select. yay.
-                                    // would that work?
-                                    yaa(aa);
+                                    
+                                    walker(xxinnersource, __source_asMemberExpression.Expression);
                                     return;
                                 }
-                                else
-                                {
 
-
-                                    var xxNewExpression = innersource3.selector.Body as NewExpression;
-
-                                    var ii = xxNewExpression.Members.IndexOf(__source.Member);
-                                    var aa = xxNewExpression.Arguments[ii];
-
-                                    // now what?
-                                    // we have found another select. yay.
-                                    // would that work?
-                                    yaa(aa);
-                                    return;
-                                }
-                            }
-                            else
-                            // whats that good for?
-                            // selector = {x => new <>f__AnonymousType2`2(x = x, scalar0 = new xTable().Select(xx => new <>f__AnonymousType0`2(xx = xx, inception2 = xx.field2)).Where(<>h__TransparentIdentifier3 => (<>h__TransparentIdentifier3.xx.field1 == 44)).Select(<>h__TransparentIdentifier3 => ...
-                            // ok this seems to atleast have the member we need to load
-                            {
-                                var xxNewExpression = innersource2.selector.Body as NewExpression;
+                                var xxNewExpression = xinnersource.selector.Body as NewExpression;
 
                                 var ii = xxNewExpression.Members.IndexOf(__source.Member);
                                 var aa = xxNewExpression.Arguments[ii];
@@ -692,31 +638,13 @@ namespace ScriptCoreLib.Query.Experimental
                                 // we have found another select. yay.
                                 // would that work?
                                 yaa(aa);
-                                return;
-                            }
-                        }
-
-                        var __source_asParameterExpression = __source.Expression as ParameterExpression;
+                            };
+                        #endregion
 
 
-                        // assigned by let
-                        if (zSelect.selector.Parameters[0] == __source_asParameterExpression)
-                        {
-                            // in that case get the damn argument
-                            var xxSelect = zSelect.source as xSelect;
-                            var xxNewExpression = xxSelect.selector.Body as NewExpression;
+                        var zSelect = zsource as xSelect;
 
-                            var ii = xxNewExpression.Members.IndexOf(__source.Member);
-                            var aa = xxNewExpression.Arguments[ii];
-
-                            yaa(aa);
-                        }
-                        else
-                        {
-                            // do we have a let in between?
-                            WriteLineWithColor(2, "?", ConsoleColor.Red);
-                        }
-
+                        walker(zSelect.source as xSelect, __source.Expression);
                     };
                 #endregion
 
