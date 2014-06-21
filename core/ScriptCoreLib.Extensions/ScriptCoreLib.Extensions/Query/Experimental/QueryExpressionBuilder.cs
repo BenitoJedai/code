@@ -9,9 +9,47 @@ using System.Reflection;
 
 namespace ScriptCoreLib.Query.Experimental
 {
+    #region example generated data layer
+    public class xTable : QueryExpressionBuilder.xSelect<xRow>
+    {
+        public xTable()
+        {
+
+            Expression<Func<xRow, xRow>> selector = (xTableDefaultSelector) => new xRow
+            {
+                Key = xTableDefaultSelector.Key,
+                field1 = xTableDefaultSelector.field1,
+                field2 = xTableDefaultSelector.field2,
+                Timestamp = xTableDefaultSelector.Timestamp,
+                Tag = xTableDefaultSelector.Tag
+            };
+
+            this.selector = selector;
+        }
+    }
+
+
+    public enum xKey : long { }
+
+    public class xRow
+    {
+        public xKey Key;
+
+        public int field1;
+        public int field2;
+
+        public DateTime Timestamp;
+        public string Tag;
+
+    }
+    #endregion
+
+
     [Obsolete("name clash with the old version. check namespaces!")]
     public interface IQueryStrategy
     {
+
+
     }
 
     [Obsolete("name clash with the old version. check namespaces!")]
@@ -758,6 +796,7 @@ namespace ScriptCoreLib.Query.Experimental
                           #endregion
 
 
+
                           #region zMemberExpression
                           var zMemberExpression = zExpression as MemberExpression;
                           if (zMemberExpression != null)
@@ -945,7 +984,10 @@ namespace ScriptCoreLib.Query.Experimental
                               // X:\jsc.svn\examples\javascript\LINQ\test\TestLINQ\UnitTestProject1\ApplicationWebService\ApplicationWebService select x.cs
                               using (WithoutLinefeeds())
                               {
-                                  WriteLine(1, ("let " + GetTargetName()) + " <- ");
+
+                                    WriteLine(1, "let ");
+                                    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                  WriteLine(1, " <- ");
                                   WriteScalarExpression(zExpression);
                               }
                               return;
@@ -961,13 +1003,15 @@ namespace ScriptCoreLib.Query.Experimental
                           }
                           #endregion
 
-                          #region xConstantExpression
+                          #region WriteProjection:xConstantExpression
                           var xConstantExpression = zExpression as ConstantExpression;
                           if (xConstantExpression != null)
                           {
                               using (WithoutLinefeeds())
                               {
-                                  WriteLine(1, ("let " + GetTargetName()) + " <- ");
+                                  WriteLine(1, "let ");
+                                  WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                  WriteLine(1, " <- ");
                                   WriteScalarExpression(xConstantExpression);
                               }
                               return;
@@ -1043,11 +1087,19 @@ namespace ScriptCoreLib.Query.Experimental
                           }
                           #endregion
 
-                          #region zParameterExpression
+                          #region WriteProjection:zParameterExpression
                           var zParameterExpression = zExpression as ParameterExpression;
                           if (zParameterExpression != null)
                           {
-                              WriteLine(1, ("proxy " + GetTargetName()) + "");
+
+                              using (WithoutLinefeeds())
+                              {
+
+                                  WriteLine(1, "proxy ");
+                                  WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                  WriteLine(1, " {...}");
+                              }
+
                               return;
                           }
                           #endregion
