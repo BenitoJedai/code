@@ -138,8 +138,6 @@
     <Compile Include="Application.cs" />
     <Compile Include="ApplicationWebService\ApplicationWebService.cs" />
     <Compile Include="ApplicationWebService\ApplicationWebService select x.cs" />
-    <Compile Include="ApplicationWebService\ApplicationWebService select x.Key.cs" />
-    <Compile Include="ApplicationWebService\ApplicationWebService select scalar array.cs" />
     <Compile Include="Program.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
