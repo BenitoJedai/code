@@ -31,36 +31,5 @@ namespace TestLINQ
  
     }
 
-    public class xTable : QueryExpressionBuilder.xSelect<xRow>
-    {
-        public xTable()
-        {
-
-            Expression<Func<xRow, xRow>> selector = (xTableDefaultSelector) => new xRow
-             {
-                 Key = xTableDefaultSelector.Key,
-                 field1 = xTableDefaultSelector.field1,
-                 field2 = xTableDefaultSelector.field2,
-                 Timestamp = xTableDefaultSelector.Timestamp,
-                 Tag = xTableDefaultSelector.Tag
-             };
-
-            this.selector = selector;
-        }
-    }
-
-
-    public enum xKey : long { }
-
-    public class xRow
-    {
-        public xKey Key;
-
-        public int field1;
-        public int field2;
-
-        public DateTime Timestamp;
-        public string Tag;
-
-    }
+    
 }

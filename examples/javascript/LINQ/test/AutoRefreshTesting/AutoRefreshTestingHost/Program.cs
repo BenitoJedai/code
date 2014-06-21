@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace AutoRefreshTestingHost
             Console.WriteLine("enter InternalMain");
 
             wDispose();
+            Console.WriteLine("enter InternalMain wDispose.");
 
             // are we already watching the filesystem?
             // reset monitoring..
@@ -53,24 +55,25 @@ namespace AutoRefreshTestingHost
                 // can we do a security rewrite?
                 //   // jsc.meta.exe RewriteToAssembly /EntryPointAssembly:"jsc.meta.exe" /AssemblyMerge:"jsc.meta.exe" /AssemblyMerge:"jsc.exe"  /Output:"jscc.exe"
 
-                var count = Directory.GetFiles(Path.GetDirectoryName(exe), "*.exe").Count();
-                var Output = exe + "." + count + ".exe";
-                var ww = Stopwatch.StartNew();
+                //var count = Directory.GetFiles(Path.GetDirectoryName(exe), "*.exe").Count();
+                //var Output = exe + "." + count + ".exe";
+                //var ww = Stopwatch.StartNew();
 
-                {
-                    var p = Process.Start(
-                         new ProcessStartInfo(@"c:/util/jsc/bin/jsc.meta.exe")
-                         {
-                             Arguments = "RewriteToAssembly /EntryPointAssembly:" + exe + " /AssemblyMerge:" + exe + " /Output:" + Output,
+                //{
+                //    var p = Process.Start(
+                //         new ProcessStartInfo(@"c:/util/jsc/bin/jsc.meta.exe")
+                //         {
+                //             Arguments = "RewriteToAssembly /EntryPointAssembly:" + exe + " /AssemblyMerge:" + exe + " /Output:" + Output,
 
-                             // can we share our console with that sub process?
-                             UseShellExecute = false,
-                         }
-                     );
+                //             // can we share our console with that sub process?
+                //             UseShellExecute = false,
+                //         }
+                //     );
 
-                    p.WaitForExit();
-                }
-                Console.WriteLine("security rebuild done! " + new { ww.ElapsedMilliseconds });
+                //    p.WaitForExit();
+                //}
+                //Console.WriteLine("security rebuild done! " + new { ww.ElapsedMilliseconds });
+                // we will loose pdb data. line numbers will be missing! can jsc keep them?
 
                 var old = new { Console.ForegroundColor, Console.BackgroundColor };
                 Console.Clear();
@@ -78,12 +81,14 @@ namespace AutoRefreshTestingHost
                 {
                     // run the new version
                     var p = Process.Start(
-                         new ProcessStartInfo(Output)
+                        //new ProcessStartInfo(Output)
+                         new ProcessStartInfo(exe)
                          {
                              WorkingDirectory = Path.GetDirectoryName(exe),
 
                              // can we share our console with that sub process?
                              UseShellExecute = false,
+
                          }
                      );
 
@@ -116,13 +121,16 @@ namespace AutoRefreshTestingHost
             }
             #endregion
 
+            var rebuilding = false;
+
             #region yFileSystemWatcher
             Action<string> yFileSystemWatcher =
                 path =>
                 {
                     //Console.WriteLine(new { path });
 
-                    var w = new FileSystemWatcher(path, "*.cs");
+                    //var w = new FileSystemWatcher(path, "*.cs");
+                    var w = new FileSystemWatcher(path);
 
                     wDispose +=
                         delegate
@@ -130,36 +138,60 @@ namespace AutoRefreshTestingHost
                             if (w == null)
                                 return;
 
-                            w.Dispose();
+                            var ww = w;
                             w = null;
+                            Thread.Yield();
+                            ww.Dispose();
                         };
                     // if there is a change, we could rerun msbuild?
                     // that would call post build event and we would be called again would we not?
                     w.IncludeSubdirectories = true;
                     w.EnableRaisingEvents = true;
 
-                    w.Changed +=
+                    FileSystemEventHandler yChanged =
+
+
                         (xsender, xargs) =>
                         {
+                            if (xargs.FullPath.Contains(@"\obj\"))
+                                return;
+                            //if (!w.EnableRaisingEvents)
+                            //    return;
+                            if (rebuilding)
+                                return;
+
+                            rebuilding = true;
+                            Console.Title += " rebuilding...";
+                            //w.EnableRaisingEvents = false;
+
                             var sln = args.FirstOrDefault(x => x.EndsWith(".sln"));
 
                             // { ChangeType = Changed, FullPath = X:\jsc.svn\examples\javascript\LINQ\test\AutoRefreshTesting\AutoRefreshTesting\obj\Debug }
 
                             Console.WriteLine(
-                                new { xargs.ChangeType, xargs.FullPath }
+                                new { Thread.CurrentThread.ManagedThreadId, xargs.ChangeType, xargs.FullPath }
                                 );
+
+                            Thread.Sleep(100);
+
+                            if (w == null)
+                                return;
+
+
 
                             // are we supposed to udp broadcast now?
                             // are we supposed to have roslyn look at comments?
                             // unless there are no other changes to happen lets do a backgroun build.
 
-                            w.Dispose();
+                            //w.Dispose();
 
                             var msbuild = Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe";
                             //  { msbuild = C:\Windows\system32\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe }
 
                             var ww = Stopwatch.StartNew();
-                            Console.WriteLine("lets rebuild! " + new { msbuild });
+                            //Console.WriteLine("lets rebuild! " + new { msbuild });
+
+
                             //Thread.Sleep(1000);
 
                             // %SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
@@ -177,8 +209,25 @@ namespace AutoRefreshTestingHost
 
                             p.WaitForExit();
 
-                            Console.WriteLine("rebuild done! " + new { ww.ElapsedMilliseconds });
+                            //Console.WriteLine("rebuild done! " + new { ww.ElapsedMilliseconds });
+
+                            // if there were errors we need to wait the next ctrl s otheriwse we will be reloaded.
+
+                            //nhandled Exception: System.ObjectDisposedException: Cannot access a disposed object.
+                            //bject name: 'FileSystemWatcher'.
+                            //  at System.IO.FileSystemWatcher.StartRaisingEvents()
+                            //  at System.IO.FileSystemWatcher.set_EnableRaisingEvents(Boolean value)
+
+                            // unless we were reset!
+                            //if (w != null)
+                            //w.EnableRaisingEvents = true;
+
+                            rebuilding = false;
                         };
+
+                    w.Created += yChanged;
+                    w.Changed += yChanged;
+
                 };
             #endregion
 
@@ -194,14 +243,38 @@ namespace AutoRefreshTestingHost
             }
 
             // since we are not really parsing .sln files we need to be told what other projects to keep an eye on for updates..
-            foreach (var sln0 in args.Where(x => x.EndsWith(".csproj")))
+            //foreach (var sln0 in args.Where(x => x.EndsWith(".csproj")))
+            foreach (var sln0 in args.Where(x => x.EndsWith(".dll")))
             {
                 // well start monitoring the directory.
                 var path = Path.GetDirectoryName(sln0);
+
+                //             Unhandled Exception: System.ArgumentException: The directory name C:\util\jsc\bin\ScriptCoreLib.Extensions.dll is invalid.
+                //at System.IO.FileSystemWatcher..ctor(String path, String filter)
+
                 yFileSystemWatcher(path);
             }
 
         }
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetWindowPos(
+            IntPtr hWnd,
+            IntPtr hWndInsertAfter,
+            int x,
+            int y,
+            int cx,
+            int cy,
+            int uFlags);
+
+        private const int HWND_TOPMOST = -1;
+        private const int SWP_NOMOVE = 0x0002;
+        private const int SWP_NOSIZE = 0x0001;
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
 
         // called by post build event
         static void Main(string[] args)
@@ -219,7 +292,18 @@ namespace AutoRefreshTestingHost
             Console.WriteLine(new { AsServer } + " continue?");
             if (AsServer)
             {
-                Console.WriteLine("time to create a server?");
+                //IntPtr hWnd = Process.GetCurrentProcess().MainWindowHandle;
+                IntPtr hWnd = GetConsoleWindow();
+
+                Console.WriteLine("time to create a server?" + new { hWnd });
+
+                // are we top most?
+
+
+                SetWindowPos(hWnd,
+                    new IntPtr(HWND_TOPMOST),
+                    0, 0, 0, 0,
+                    SWP_NOMOVE | SWP_NOSIZE);
 
                 var pipeServer = new NamedPipeServerStream(
                     "foo", PipeDirection.In,
