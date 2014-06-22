@@ -7,7 +7,8 @@ class Program
         var f = (
             from x in new xTable()
             //let yy = 6
-            let xx = 9
+            let xx = "piiksuland!"
+
 
 
 

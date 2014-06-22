@@ -105,6 +105,7 @@ namespace AutoRefreshTestingHost
             // start /WAIT cmd /C c:/util/jsc/bin/jsc.meta.exe RewriteToAssembly /EntryPointAssembly:$(TargetPath) /AssemblyMerge:$(TargetPath)  /Output:"c:/util/jsc/bin/jsc.bc.exe"
             // http://msdn.microsoft.com/en-us/magazine/cc163781.aspx
             // c:/util/jsc/bin/jsc.bc.exe $(ProjectPath) /rewrite /clear /run $(TargetPath) "C:\util\jsc\bin\ScriptCoreLib.Extensions.dll"
+            // we should really be looking at whats the output of the .csproj and then what are the references. instead of asking it to be explictly defined.
             // X:\jsc.svn\examples\javascript\Test\TestFirstBackgroundCompiler\TestFirstBackgroundCompiler\Application.cs
 
             // if everything is exactly the same
@@ -348,17 +349,26 @@ namespace AutoRefreshTestingHost
                             if (w == null)
                                 return;
 
-                            // { ManagedThreadId = 7, ChangeType = Created, FullPath = X:\jsc.svn\examples\javascript\Test\TestFirstBackgroundCompiler\TestFirstBackgroundCompiler\bin\Debug\staging\TestFirstBackgroundCompiler.Application\web\Application.htm }
-                            if (xargs.FullPath.Contains(@"\obj\"))
+                            if (rebuilding)
                                 return;
-                            if (xargs.FullPath.Contains(@"\bin\"))
-                                return;
+
+                            if (args.Contains(xargs.FullPath))
+                            {
+                                // seems to be a specific file we are interested in?
+                            }
+                            else
+                            {
+                                // { ManagedThreadId = 7, ChangeType = Created, FullPath = X:\jsc.svn\examples\javascript\Test\TestFirstBackgroundCompiler\TestFirstBackgroundCompiler\bin\Debug\staging\TestFirstBackgroundCompiler.Application\web\Application.htm }
+                                if (xargs.FullPath.Contains(@"\obj\"))
+                                    return;
+                                if (xargs.FullPath.Contains(@"\bin\"))
+                                    return;
+                            }
 
 
                             //if (!w.EnableRaisingEvents)
                             //    return;
-                            if (rebuilding)
-                                return;
+        
                             rebuilding = true;
                             Console.Title += " rebuilding...";
                             //w.EnableRaisingEvents = false;
