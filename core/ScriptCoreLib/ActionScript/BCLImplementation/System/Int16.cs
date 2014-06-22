@@ -43,13 +43,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             {
                 return 1;
             }
-            if (!(value is short))
+            if ((value is short))
             {
-                throw new ArgumentException("MustBeInt16");
+                return CompareTo((short)value);
             }
 
 
-            return CompareTo((short)value);
+            throw new ArgumentException("MustBeInt16");
         }
 
 

@@ -43,13 +43,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             {
                 return 1;
             }
-            if (!(value is long))
+            if ((value is long))
             {
-                throw new ArgumentException("MustBeInt32");
+                return CompareTo((long)value);
             }
 
 
-            return CompareTo((long)value);
+            throw new ArgumentException("MustBeInt32");
         }
 
 

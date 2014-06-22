@@ -33,7 +33,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return 0;
         }
 
- 
+
 
 
         [Script(DefineAsStatic = true)]
@@ -43,13 +43,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             {
                 return 1;
             }
-            if (!(value is int))
+
+            //       if ((value as  int) == null)
+            //^
+
+            // X:\jsc.svn\examples\actionscript\test\TestIsInt32\TestIsInt32\Class1.cs
+            if ((value is int))
             {
-                throw new ArgumentException("MustBeInt32");
+                return CompareTo((int)value);
+
             }
 
-
-            return CompareTo((int)value);
+            throw new ArgumentException("MustBeInt32");
         }
 
 

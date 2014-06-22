@@ -16,8 +16,12 @@ using System.Xml.Linq;
 using WebGLDNAByOutsideOfSociety;
 using WebGLDNAByOutsideOfSociety.Design;
 using WebGLDNAByOutsideOfSociety.HTML.Pages;
-using ScriptCoreLib.JavaScript.Native;
-using System.Math;
+
+//Application.cs(19,7): error CS0138: A using namespace directive can only be applied to namespaces; 'ScriptCoreLib.JavaScript.Native' is a type not a namespace [X:\jsc.svn\examples\javascript\synergy\webgl\WebGLDNAByOutsideOfSociety\WebGLDNAByOutsideOfSociety\WebGLDNAByOutsideOfSociety.csproj]
+//Application.cs(20,7): error CS0138: A using namespace directive can only be applied to namespaces; 'System.Math' is a type not a namespace [X:\jsc.svn\examples\javascript\synergy\webgl\WebGLDNAByOutsideOfSociety\WebGLDNAByOutsideOfSociety\WebGLDNAByOutsideOfSociety.csproj]
+// jsc.bc cannot use roslyn via msbuild yet?
+//using ScriptCoreLib.JavaScript.Native;
+//using System.Math;
 using System.Diagnostics;
 using WebGLDNAByOutsideOfSociety.HTML.Images.FromAssets;
 
@@ -35,7 +39,7 @@ namespace WebGLDNAByOutsideOfSociety
             var scene = new THREE.Scene();
             scene.fog = new THREE.Fog(0x000000, 20, 70);
 
-            var camera = new THREE.PerspectiveCamera(70, window.aspect, 1, 10000);
+            var camera = new THREE.PerspectiveCamera(70, Native.window.aspect, 1, 10000);
             camera.position.z = -50;
             camera.lookAt(scene.position);
             scene.add(camera);
@@ -45,13 +49,13 @@ namespace WebGLDNAByOutsideOfSociety
 
             for (var i = 0; i < il; i++)
             {
-                pg.vertices[i].z = (4 + (i / 15.0)) * Cos(i / 5.0);
-                pg.vertices[i].y = (6 + (i / 30.0)) * Sin(i / 5.0);
+                pg.vertices[i].z = (4 + (i / 15.0)) * Math.Cos(i / 5.0);
+                pg.vertices[i].y = (6 + (i / 30.0)) * Math.Sin(i / 5.0);
             }
 
             var mat = new THREE.MeshBasicMaterial(new { wireframe = true, color = 0xb2ffd8 });
             var mesh = new THREE.Mesh(pg, mat);
-            mesh.rotation.x = -PI / 2;
+            mesh.rotation.x = -Math.PI / 2;
             scene.add(mesh);
 
             var vertices = pg.vertices;
@@ -88,18 +92,20 @@ namespace WebGLDNAByOutsideOfSociety
             renderer.setSize();
             renderer.autoClear = false;
             renderer.domElement.AttachToDocument();
+            //renderer.domElement.style.position = IStyle.PositionEnum.@fixed;
+            renderer.domElement.style.SetLocation(0, 0);
 
             var w = Stopwatch.StartNew();
 
-            window.onframe +=
+            Native.window.onframe +=
                 delegate
             {
                 var time = w.ElapsedMilliseconds;
 
-                mesh.rotation.x += 0.02 + Abs(Sin(time / 3000.0)) / 40;
+                mesh.rotation.x += 0.02 + Math.Abs(Math.Sin(time / 3000.0)) / 40;
                 pmesh.rotation.x = mesh.rotation.x;
 
-                mesh.scale.y = Cos(time / 2500.0) * 2.0;
+                mesh.scale.y = Math.Cos(time / 2500.0) * 2.0;
                 pmesh.scale.y = mesh.scale.y;
 
                 renderer.render(scene, camera);
