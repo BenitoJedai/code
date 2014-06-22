@@ -7,9 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRefreshTestingHost", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile", "..\..\..\..\..\core\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile.csproj", "{8B8C61EA-D890-403D-9B40-3ACCB679BB20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon", "..\..\..\..\..\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj", "{0910EC49-6697-4664-8A71-F09CAEC02E88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
+		Assets|Any CPU = Assets|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		PHP|Any CPU = PHP|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -17,6 +22,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.Android|Any CPU.ActiveCfg = Release|Any CPU
 		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.Android|Any CPU.Build.0 = Release|Any CPU
+		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.Assets|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.Assets|Any CPU.Build.0 = Debug|Any CPU
 		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.PHP|Any CPU.ActiveCfg = Release|Any CPU
@@ -24,6 +31,8 @@ Global
 		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3698D4B-6BE7-4070-A915-30021C0A6AA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD355BE2-9B13-40BC-A981-7388BAF34D7D}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{AD355BE2-9B13-40BC-A981-7388BAF34D7D}.Assets|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD355BE2-9B13-40BC-A981-7388BAF34D7D}.Assets|Any CPU.Build.0 = Debug|Any CPU
 		{AD355BE2-9B13-40BC-A981-7388BAF34D7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD355BE2-9B13-40BC-A981-7388BAF34D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD355BE2-9B13-40BC-A981-7388BAF34D7D}.PHP|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,12 +40,34 @@ Global
 		{AD355BE2-9B13-40BC-A981-7388BAF34D7D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.ActiveCfg = Android|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Any CPU.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Any CPU.Build.0 = Android|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Android|Any CPU.ActiveCfg = Assets|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Android|Any CPU.Build.0 = Assets|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.PHP|Any CPU.ActiveCfg = Assets|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.PHP|Any CPU.Build.0 = Assets|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B8C61EA-D890-403D-9B40-3ACCB679BB20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Android|Any CPU.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

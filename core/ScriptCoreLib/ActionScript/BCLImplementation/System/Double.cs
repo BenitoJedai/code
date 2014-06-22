@@ -45,13 +45,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             {
                 return 1;
             }
-            if (!(value is double))
+
+            // X:\jsc.svn\examples\actionscript\test\TestIsInt32\TestIsInt32\Class1.cs
+            if ((value is double))
             {
-                throw new ArgumentException("MustBeDouble");
+                return CompareTo((double)value);
             }
 
 
-            return CompareTo((double)value);
+            throw new ArgumentException("MustBeDouble");
         }
 
 

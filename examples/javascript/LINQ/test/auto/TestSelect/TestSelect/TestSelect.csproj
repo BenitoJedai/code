@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AD355BE2-9B13-40BC-A981-7388BAF34D7D}</ProjectGuid>
+    <ProjectGuid>{A13B6353-82CB-48F8-8403-CD233FF649F6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoRefreshTestingHost</RootNamespace>
-    <AssemblyName>AutoRefreshTestingHost</AssemblyName>
+    <RootNamespace>TestSelect</RootNamespace>
+    <AssemblyName>TestSelect</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,37 +32,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
     <Reference Include="ScriptCoreLib.Extensions">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Components.Volatile">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.Volatile.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Library, Version=4.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT cmd /C c:/util/jsc/bin/jsc.meta.exe RewriteToAssembly /EntryPointAssembly:$(TargetPath) /AssemblyMerge:$(TargetPath)  /Output:"c:/util/jsc/bin/jsc.bc.exe"</PostBuildEvent>
+    <PostBuildEvent>X:\jsc.svn\examples\javascript\LINQ\test\AutoRefreshTesting\AutoRefreshTestingHost\bin\Debug\AutoRefreshTestingHost.exe $(SolutionPath) $(ProjectPath) $(TargetPath) "C:\util\jsc\bin\ScriptCoreLib.Extensions.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

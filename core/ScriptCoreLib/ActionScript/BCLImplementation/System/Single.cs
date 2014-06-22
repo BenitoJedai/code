@@ -45,13 +45,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             {
                 return 1;
             }
-            if (!(value is float))
+
+            // X:\jsc.svn\examples\actionscript\test\TestIsInt32\TestIsInt32\Class1.cs
+            if ((value is float))
             {
-                throw new ArgumentException("MustBeDouble");
+                return CompareTo((float)value);
             }
 
 
-            return CompareTo((float)value);
+            throw new ArgumentException("MustBeDouble");
         }
 
 
