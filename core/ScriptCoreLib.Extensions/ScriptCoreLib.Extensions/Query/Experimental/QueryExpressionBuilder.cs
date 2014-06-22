@@ -312,7 +312,7 @@ namespace ScriptCoreLib.Query.Experimental
                         {
                             //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
                             //WriteLine(1, "@constant " + new { xConstantExpression.Value });
-                            WriteLineWithColor(1, "@arg " + xConstantExpression.Value , ConsoleColor.Red);
+                            WriteLineWithColor(1, "@arg " + xConstantExpression.Value, ConsoleColor.Red);
                             return;
                         }
                         #endregion
