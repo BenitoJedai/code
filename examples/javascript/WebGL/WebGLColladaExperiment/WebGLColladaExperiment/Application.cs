@@ -91,7 +91,8 @@ namespace WebGLColladaExperiment
 
 
                     //camera.aspect = window.aspect;
-                    camera.aspect = canvas.clientWidth / (double)canvas.clientHeight;
+                    //camera.aspect = canvas.clientWidth / (double)canvas.clientHeight;
+                    camera.aspect = canvas.aspect;
                     camera.updateProjectionMatrix();
 
 
@@ -122,17 +123,45 @@ namespace WebGLColladaExperiment
                 };
             #endregion
 
-
             new truck().Source.Task.ContinueWithResult(
+                   dae =>
+                    {
+                        //dae.scale.x = 30;
+                        //dae.scale.y = 30;
+                        //dae.scale.z = 30;
+                        dae.position.z = 65;
+
+                        dae.scale.x = 10;
+                        dae.scale.y = 10;
+                        dae.scale.z = 10;
+
+                        dae.position.y = -80;
+
+                        scene.add(dae);
+                        oo.Add(dae);
+
+
+                    }
+               );
+
+
+            new skpBOX().Source.Task.ContinueWithResult(
                 dae =>
                 {
+                    //dae.scale.x = 30;
+                    //dae.scale.y = 30;
+                    //dae.scale.z = 30;
+
+
+                    dae.scale.x = 1;
+                    dae.scale.y = 1;
+                    dae.scale.z = 1;
 
                     dae.position.y = -80;
-
+          
                     scene.add(dae);
                     oo.Add(dae);
 
-                    dae.scale = new THREE.Vector3(30, 30, 30);
 
                 }
             );
@@ -152,6 +181,19 @@ namespace WebGLColladaExperiment
 
         }
     }
+
+    [Obsolete("jsc should generate this")]
+    class skpBOX : THREE_ColladaAsset
+    {
+        public skpBOX()
+            : base(
+                "assets/WebGLColladaExperiment/skpBOX.dae"
+                )
+        {
+
+        }
+    }
+
 
     public class THREE_ColladaAsset
     {

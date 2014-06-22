@@ -417,6 +417,19 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public readonly int clientWidth;
         public readonly int clientHeight;
 
+        public double aspect
+        {
+            // used by THREE.PerspectiveCamera
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                // X:\jsc.svn\examples\javascript\WebGL\WebGLOBJExperiment\WebGLOBJExperiment\Application.cs
+                // X:\jsc.svn\examples\javascript\WebGL\WebGLColladaExperiment\WebGLColladaExperiment\Application.cs
+
+                return clientWidth / (double)clientHeight;
+            }
+        }
+
         public int scrollLeft;
         public int scrollTop;
 
@@ -1333,5 +1346,5 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     }
 
 
-   
+
 }

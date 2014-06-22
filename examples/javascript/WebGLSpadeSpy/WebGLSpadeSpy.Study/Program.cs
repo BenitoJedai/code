@@ -99,6 +99,8 @@ namespace WebGLSpadeSpy.Study
             Action<string> print_map =
                 vxl =>
                 {
+                    // Could not find a part of the path 'Z:\media\Program Files\Ace of Spades\vxl\normandie.vxl'.
+
                     var bytes = System.IO.File.ReadAllBytes(vxl);
 
                     fixed (byte* ptr = bytes)
@@ -182,10 +184,10 @@ namespace WebGLSpadeSpy.Study
             #endregion
 
 
-            print_map(@"Z:\media\Program Files\Ace of Spades\vxl\normandie.vxl");
-            print_map(@"Z:\media\Program Files\Ace of Spades\vxl\island.vxl");
-            print_map(@"Z:\media\Program Files\Ace of Spades\vxl\urbantankfightfinal.vxl");
-            print_map(@"Z:\media\Program Files\Ace of Spades\vxl\forestriver0.vxl");
+            print_map(@"X:\jsc.community\spade-builder\Maps\normandie.vxl");
+            print_map(@"X:\jsc.community\spade-builder\Maps\island.vxl");
+            //print_map(@"X:\jsc.community\spade-builder\Maps\urbantankfightfinal.vxl");
+            //print_map(@"X:\jsc.community\spade-builder\Maps\forestriver0.vxl");
 
             Console.ReadKey(true);
         }

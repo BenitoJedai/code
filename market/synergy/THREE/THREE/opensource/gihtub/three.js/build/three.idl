@@ -375,6 +375,8 @@ interface THREE.Object3D
 
 	void add(any mesh);
 	void traverse(function<any> mesh);
+
+	void updateMatrix();
 };
 
 
@@ -497,6 +499,8 @@ interface THREE.Geometry
 	attribute sequence<THREE.Geometry>        faces;
 	attribute sequence<THREE.Color>        vertexColors;
 
+	// http://stackoverflow.com/questions/22348843/three-js-what-does-computecentroids-do
+	// um. collada thingy wants to use computeCentroids.
 };
 
 [Constructor]

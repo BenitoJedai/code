@@ -1,15 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLColladaExperiment", "WebGLColladaExperiment\WebGLColladaExperiment.csproj", "{8C170164-C4E6-4BEE-9C24-D1E4CCC28665}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {7B5C94C5-F6AA-42BA-815B-34DD472A47AC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\market\synergy\THREE\THREE\THREE.csproj", "{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{DDD72B52-9737-4D2A-8885-EEFA2BDBA446}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLOBJExperiment", "..\WebGLOBJExperiment\WebGLOBJExperiment\WebGLOBJExperiment.csproj", "{E17EDF56-36ED-4A1C-BEBE-5E68594253DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButterFlyWithInteractiveInt32Offset", "..\..\ButterFlyWithInteractiveInt32Offset\ButterFlyWithInteractiveInt32Offset\ButterFlyWithInteractiveInt32Offset.csproj", "{8A11634A-BB26-4F7A-BB7F-0501AEB04522}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +34,10 @@ Global
 		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC}.Debug|x86.Build.0 = Debug|x86
 		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC}.Release|x86.ActiveCfg = Release|x86
 		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC}.Release|x86.Build.0 = Release|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Debug|x86.ActiveCfg = Debug|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Debug|x86.Build.0 = Debug|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Release|x86.ActiveCfg = Release|x86
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +45,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {DDD72B52-9737-4D2A-8885-EEFA2BDBA446}
 		{E17EDF56-36ED-4A1C-BEBE-5E68594253DC} = {DDD72B52-9737-4D2A-8885-EEFA2BDBA446}
+		{8A11634A-BB26-4F7A-BB7F-0501AEB04522} = {DDD72B52-9737-4D2A-8885-EEFA2BDBA446}
 	EndGlobalSection
 EndGlobal

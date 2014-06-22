@@ -16,29 +16,30 @@ using System.Xml.Linq;
 using HeatZeekerRTS;
 using HeatZeekerRTS.Design;
 using HeatZeekerRTS.HTML.Pages;
-using ScriptCoreLib.JavaScript.Native;
-using XNative;
+//using ScriptCoreLib.JavaScript.Native;
+// jsc.bc cannot use roslyn just yet
+//using XNative;
 using HeatZeekerRTS.HTML.Images.FromAssets;
 using ScriptCoreLib.JavaScript.DOM.SVG;
 using HeatZeekerRTS.HTML.Audio.FromAssets;
 
-static class XNative
-{
-    // for intellisense? or will roslyn allow to import enums too?
-    public static IHTMLElement.HTMLElementEnum img = IHTMLElement.HTMLElementEnum.img;
-    public static IHTMLElement.HTMLElementEnum div = IHTMLElement.HTMLElementEnum.div;
+//static class XNative
+//{
+//    // for intellisense? or will roslyn allow to import enums too?
+//    public static IHTMLElement.HTMLElementEnum img = IHTMLElement.HTMLElementEnum.img;
+//    public static IHTMLElement.HTMLElementEnum div = IHTMLElement.HTMLElementEnum.div;
 
-    //public dynamic title;
-    public static object title
-    {
-        set
-        {
-            document.title = value.ToString();
-        }
-    }
+//    //public dynamic title;
+//    public static object title
+//    {
+//        set
+//        {
+//            document.title = value.ToString();
+//        }
+//    }
 
     
-}
+//}
 
 namespace HeatZeekerRTS
 {
@@ -56,6 +57,7 @@ namespace HeatZeekerRTS
         {
             // chrome://extensions/
 
+#if FCHROME
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>
@@ -89,6 +91,7 @@ namespace HeatZeekerRTS
             #endregion
 
 
+    #endif
 
 
 
@@ -155,9 +158,9 @@ namespace HeatZeekerRTS
 
                     //.AttachToDocument();
 
-                    css.style.cursorImage = svg;
+                    Native.css.style.cursorImage = svg;
 
-                    new IStyle(css[IHTMLElement.HTMLElementEnum.div].hover)
+                    new IStyle(Native.css[IHTMLElement.HTMLElementEnum.div].hover)
                     {
                         // last change was abut adding pointer
                         // jsc jit could atleast let us know how it looks like
@@ -183,31 +186,66 @@ namespace HeatZeekerRTS
             // can we show another color
             // if howering?
 
-            title = "Heat Zeeker";
+            Native.document.title = "Heat Zeeker";
 
 
-            new IStyle(css[IHTMLElement.HTMLElementEnum.div])
+            new IStyle(Native.css[IHTMLElement.HTMLElementEnum.div])
             {
 
                 transition = "border 100ms linear"
             };
 
 
+            // can we add a health bar, by the background compiler?
+            // is .before already used at all?
+            // can jsc do timetravel and sneak this new code into live app while we hit ctrl s?
+            //new IStyle(Native.css[IHTMLElement.HTMLElementEnum.div].before)
+            //{
+            //    content = "''",
 
+            //    //marginTop = "-0.5em",
 
-            new IStyle(!css[IHTMLElement.HTMLElementEnum.div].hover)
+            //    position = IStyle.PositionEnum.absolute,
+
+            //    left = "0px",
+            //    bottom = "105%",
+
+            //    height = "1em",
+            //    right = "0px",
+
+            //    backgroundColor = "rgba(0,255,0,1.0)"
+            //};
+
+            new IStyle(!Native.css[IHTMLElement.HTMLElementEnum.div].hover)
             //new IStyle(css.hover & !css[IHTMLElement.HTMLElementEnum.div].hover)
             {
                 border = "1px solid rgba(255,0,0,0.7)"
             };
 
-            new IStyle(css[IHTMLElement.HTMLElementEnum.div].active)
+            new IStyle(Native.css[IHTMLElement.HTMLElementEnum.div].hover.before)
+            {
+                content = "''",
+
+                //marginTop = "-0.5em",
+
+                position = IStyle.PositionEnum.absolute,
+
+                left = "0px",
+                bottom = "105%",
+
+                height = "1em",
+                right = "0px",
+
+                backgroundColor = "rgba(0,255,0,1.0)"
+            };
+
+            new IStyle(Native.css[IHTMLElement.HTMLElementEnum.div].active)
             {
                 // while mouse down be cyan
                 border = "1px solid rgba(255,255,0,0.7)"
             };
 
-            new IStyle(css[IHTMLElement.HTMLElementEnum.head] | css[IHTMLElement.HTMLElementEnum.title])
+            new IStyle(Native.css[IHTMLElement.HTMLElementEnum.head] | Native.css[IHTMLElement.HTMLElementEnum.title])
             {
                 display = IStyle.DisplayEnum.block,
                 //position = IStyle.PositionEnum.absolute,
@@ -247,7 +285,7 @@ namespace HeatZeekerRTS
 
             // wwould jsc be able to tell me whats the difference by adding this line?
             //body.style.overflowY = IStyle.OverflowEnum.hidden;
-            body.style.overflow = IStyle.OverflowEnum.hidden;
+            Native.body.style.overflow = IStyle.OverflowEnum.hidden;
 
 
 
@@ -301,14 +339,14 @@ namespace HeatZeekerRTS
             //body[typeof(IHTMLDiv)].onclick += { };
 
 
-            document.onmousedown +=
+            Native.document.onmousedown +=
                                 e =>
                 {
                     e.preventDefault();
 
                 };
 
-            document[div].onmouseover +=
+            Native.document[IHTMLElement.HTMLElementEnum.div].onmouseover +=
                 e =>
                 {
                     new flag { volume = 0.3 }.play();
@@ -316,7 +354,7 @@ namespace HeatZeekerRTS
                     page.hud_look.Hide();
                 };
 
-            document[div].onmouseout +=
+            Native.document[IHTMLElement.HTMLElementEnum.div].onmouseout +=
                 e =>
                 {
 
@@ -328,14 +366,14 @@ namespace HeatZeekerRTS
                 };
 
 
-            document.oncontextmenu +=
+            Native.document.oncontextmenu +=
                  e =>
                 {
                     e.preventDefault();
                     e.stopPropagation();
                 };
 
-            document[div].oncontextmenu +=
+            Native.document[IHTMLElement.HTMLElementEnum.div].oncontextmenu +=
                  e =>
                 {
                     new buzzer { volume = 0.2 }.play();
@@ -354,20 +392,20 @@ namespace HeatZeekerRTS
             // X:\jsc.svn\examples\javascript\VirtualElementEvents\VirtualElementEvents\Application.cs
 
 
-            document[div].onclick += delegate
+            Native.document[IHTMLElement.HTMLElementEnum.div].onclick += delegate
             {
                 new snd_dooropen().play();
 
             };
 
-            document[img].onclick += e =>
+            Native.document[IHTMLElement.HTMLElementEnum.img].onclick += e =>
             {
                 new snd_dooropen().play();
 
                 Console.WriteLine(
                                                     new
                 {
-                    div,
+                    IHTMLElement.HTMLElementEnum.div,
                     e.Element.nodeName,
 
                     e.OffsetX,
@@ -389,13 +427,13 @@ namespace HeatZeekerRTS
 
 
 
-            document.documentElement.onmousemove +=
+            Native.document.documentElement.onmousemove +=
                 e =>
                 {
                     // edit and continue yet?
                     // either msbuild or roslyn?
 
-                    var fixleft = e.CursorX - body.scrollLeft;
+                    var fixleft = e.CursorX - Native.body.scrollLeft;
                     //var fixtop = e.CursorY - body.scrollTop;
                     // fixleft spans from 0 ... clientwidth
                     // scrollleft shal follow it from 0 to scrollWidth - ?view width * zoom?
@@ -403,9 +441,9 @@ namespace HeatZeekerRTS
                     // scroll width oes not know about zoom
                     // we did this already for pipe mania
                     // and webgl earth
-                    body.scrollLeft = fixleft * (body.scrollWidth) / body.clientWidth;
+                    Native.body.scrollLeft = fixleft * (Native.body.scrollWidth) / Native.body.clientWidth;
                     //body.scrollTop = fixtop * (body.scrollHeight) / document.documentElement.clientHeight;
-                    body.scrollTop = e.CursorY * (body.scrollHeight) / document.documentElement.clientHeight;
+                    Native.body.scrollTop = e.CursorY * (Native.body.scrollHeight) / Native.document.documentElement.clientHeight;
 
                     //title = new
                     //{
