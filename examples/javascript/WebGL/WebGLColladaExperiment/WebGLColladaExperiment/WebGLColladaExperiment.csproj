@@ -133,12 +133,14 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="web\assets\WebGLColladaExperiment\HZCannon_capture_009_04032013_192834.png" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <EmbeddedResource Include="web\assets\WebGLColladaExperiment\truck.dae">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="web\assets\WebGLColladaExperiment\skpBOX.dae" />
+    <EmbeddedResource Include="web\assets\WebGLColladaExperiment\HZCannon.dae" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

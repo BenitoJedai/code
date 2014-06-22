@@ -123,39 +123,42 @@ namespace WebGLColladaExperiment
                 };
             #endregion
 
-            new truck().Source.Task.ContinueWithResult(
-                   dae =>
-                    {
-                        //dae.scale.x = 30;
-                        //dae.scale.y = 30;
-                        //dae.scale.z = 30;
-                        dae.position.z = 65;
+            //new truck().Source.Task.ContinueWithResult(
+            //       dae =>
+            //        {
+            //            //dae.scale.x = 30;
+            //            //dae.scale.y = 30;
+            //            //dae.scale.z = 30;
+            //            dae.position.z = 65;
 
-                        dae.scale.x = 10;
-                        dae.scale.y = 10;
-                        dae.scale.z = 10;
+            //            dae.scale.x = 10;
+            //            dae.scale.y = 10;
+            //            dae.scale.z = 10;
 
-                        dae.position.y = -80;
+            //            dae.position.y = -80;
 
-                        scene.add(dae);
-                        oo.Add(dae);
-
-
-                    }
-               );
+            //            scene.add(dae);
+            //            oo.Add(dae);
 
 
-            new skpBOX().Source.Task.ContinueWithResult(
+            //        }
+            //   );
+
+            var ref0 = "assets/WebGLColladaExperiment/HZCannon_capture_009_04032013_192834.png";
+
+            new HZCannon().Source.Task.ContinueWithResult(
                 dae =>
                 {
                     //dae.scale.x = 30;
                     //dae.scale.y = 30;
                     //dae.scale.z = 30;
 
+                    dae.castShadow = true;
+                    dae.receiveShadow = true;
 
-                    dae.scale.x = 1;
-                    dae.scale.y = 1;
-                    dae.scale.z = 1;
+                    dae.scale.x = 3;
+                    dae.scale.y = 3;
+                    dae.scale.z = 3;
 
                     dae.position.y = -80;
           
@@ -193,6 +196,19 @@ namespace WebGLColladaExperiment
 
         }
     }
+
+    [Obsolete("jsc should generate this")]
+    class HZCannon : THREE_ColladaAsset
+    {
+        public HZCannon()
+            : base(
+                "assets/WebGLColladaExperiment/HZCannon.dae"
+                )
+        {
+
+        }
+    }
+
 
 
     public class THREE_ColladaAsset
