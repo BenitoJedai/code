@@ -91,9 +91,17 @@ namespace WebGLDNAByOutsideOfSociety
             var renderer = new THREE.WebGLRenderer(new { antialias = false });
             renderer.setSize();
             renderer.autoClear = false;
+
             renderer.domElement.AttachToDocument();
             //renderer.domElement.style.position = IStyle.PositionEnum.@fixed;
             renderer.domElement.style.SetLocation(0, 0);
+            renderer.setSize();
+
+            Native.window.onresize +=
+                delegate
+                {
+            renderer.setSize();
+            };
 
             var w = Stopwatch.StartNew();
 

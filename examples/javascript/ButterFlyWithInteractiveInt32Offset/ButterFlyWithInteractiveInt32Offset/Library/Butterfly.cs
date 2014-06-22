@@ -100,28 +100,25 @@ Click to capture pointer lock and see how the butterfly warps from left to right
                     overlay.style.SetSize(64, 64);
                     overlay.AttachToDocument();
 
-                    Action update =
+                   Native.window.onframe +=
                         delegate
                         {
                             e.style.backgroundPosition = x + "px " + y + "px";
 
                             overlay.style.SetLocation(
-                                x + 66.ToInteractiveInt32Form(),
+                                // how does this work with the background compiler?
+                                // once browser clicks save, visual studio asks if
+                                // to accept, and bacground compiler
+                                // starts a new compilation
+                                // so, the running app could first be able
+                                // to inspect, whats new?
+                                // and if only the same constant was changed,
+                                // it can be discarded. same with comments.
+                                x + 67.ToInteractiveInt32Form(),
                                 y + 2.ToInteractiveInt32Form()
                             );
 
                         };
-
-                    Action loop = null;
-
-                    loop += delegate
-                    {
-                        update();
-
-                        Native.window.requestAnimationFrame += loop;
-                    };
-
-                    Native.window.requestAnimationFrame += loop;
 
                     e.onmousemove +=
                         delegate(IEvent i)
@@ -151,7 +148,6 @@ Click to capture pointer lock and see how the butterfly warps from left to right
                             #endregion
 
 
-                            update();
 
                         };
 

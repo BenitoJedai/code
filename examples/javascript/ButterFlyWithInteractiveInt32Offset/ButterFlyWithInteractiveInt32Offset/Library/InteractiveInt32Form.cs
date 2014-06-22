@@ -108,9 +108,15 @@ namespace ScriptCoreLib.Extensions
                  );
             }
 
-            e = int.Parse(f.textBox1.Text);
+            //e = int.Parse(f.textBox1.Text);
 
-            return e;
+            // jsc wont like this yet:
+            //int.TryParse(f.textBox1.Text, out e);
+
+            var loc1 = e;
+            int.TryParse(f.textBox1.Text, out loc1);
+
+            return loc1;
         }
 
 
