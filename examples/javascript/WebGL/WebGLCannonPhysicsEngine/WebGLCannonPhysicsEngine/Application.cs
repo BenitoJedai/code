@@ -28,7 +28,6 @@ namespace WebGLCannonPhysicsEngine
     {
         // inspired by http://granular.cs.umu.se/cannon.js/examples/threejs_fps.html
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.

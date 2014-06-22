@@ -358,6 +358,10 @@ interface THREE.MeshLambertMaterial
 [Constructor()]
 interface THREE.Object3D
 { 
+	attribute boolean castShadow;
+	attribute boolean receiveShadow;
+
+
 	attribute THREE.Object3D  parent;
 
 	attribute long        id;
