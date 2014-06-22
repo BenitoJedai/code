@@ -1212,8 +1212,9 @@ namespace ScriptCoreLib.Query.Experimental
                     var sInvocationExpression = (source as xSelect).selector.Body as InvocationExpression;
                     if (sInvocationExpression != null)
                     {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectInvocationExpression\Program.cs
                         // that lambda shall be run during readout, not within db
-                        WriteLine(1, "f(?)");
+                        WriteLine(1, "f(?, ?)");
                     }
                     else
                     {
