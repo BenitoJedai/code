@@ -21,6 +21,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectInvocationExpression", "TestSelectInvocationExpression\TestSelectInvocationExpression.csproj", "{232B1257-1197-4FAE-BE2E-BE40A35B5DF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGroupBy", "TestGroupBy\TestGroupBy.csproj", "{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGroupBySelectKeyAndLast", "TestGroupBySelectKeyAndLast\TestGroupBySelectKeyAndLast.csproj", "{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJoin", "TestJoin\TestJoin.csproj", "{6DA1D398-22CD-4456-997A-9316B2FC4C03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJoinOnNewExpression", "TestJoinOnNewExpression\TestJoinOnNewExpression.csproj", "{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -109,6 +117,38 @@ Global
 		{232B1257-1197-4FAE-BE2E-BE40A35B5DF0}.PHP|Any CPU.Build.0 = Release|Any CPU
 		{232B1257-1197-4FAE-BE2E-BE40A35B5DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{232B1257-1197-4FAE-BE2E-BE40A35B5DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}.Android|Any CPU.Build.0 = Release|Any CPU
+		{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3EB04B2-26AF-408C-A819-D6EADF5C88C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}.Android|Any CPU.Build.0 = Release|Any CPU
+		{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA02ECA6-0832-4616-A235-87BD8CF2BFE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA1D398-22CD-4456-997A-9316B2FC4C03}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA1D398-22CD-4456-997A-9316B2FC4C03}.Android|Any CPU.Build.0 = Release|Any CPU
+		{6DA1D398-22CD-4456-997A-9316B2FC4C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA1D398-22CD-4456-997A-9316B2FC4C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA1D398-22CD-4456-997A-9316B2FC4C03}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA1D398-22CD-4456-997A-9316B2FC4C03}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{6DA1D398-22CD-4456-997A-9316B2FC4C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA1D398-22CD-4456-997A-9316B2FC4C03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}.Android|Any CPU.Build.0 = Release|Any CPU
+		{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64AC0FFD-A928-4ED2-84BD-CFB92CA20EA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

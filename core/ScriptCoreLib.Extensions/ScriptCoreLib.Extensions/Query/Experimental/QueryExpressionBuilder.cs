@@ -207,7 +207,7 @@ namespace ScriptCoreLib.Query.Experimental
                     {
                         // zExpression = {zz => (Convert(zz.Key) == 77)}
 
-                        #region asBinaryExpression
+                        #region WriteScalarExpression:asBinaryExpression
                         var asBinaryExpression = asExpression as BinaryExpression;
                         if (asBinaryExpression != null)
                         {
@@ -253,7 +253,7 @@ namespace ScriptCoreLib.Query.Experimental
                         }
                         #endregion
 
-                        #region WriteExpression::UnaryExpression
+                        #region WriteScalarExpression::UnaryExpression
                         var asUnaryExpression = asExpression as UnaryExpression;
                         if (asUnaryExpression != null)
                         {
@@ -281,7 +281,7 @@ namespace ScriptCoreLib.Query.Experimental
                         }
                         #endregion
 
-                        #region zMemberExpression
+                        #region WriteScalarExpression:zMemberExpression
                         var zMemberExpression = asExpression as MemberExpression;
                         if (zMemberExpression != null)
                         {
@@ -317,7 +317,7 @@ namespace ScriptCoreLib.Query.Experimental
                         }
                         #endregion
 
-                        #region xMethodCallExpression
+                        #region WriteScalarExpression:xMethodCallExpression
                         var xMethodCallExpression = asExpression as MethodCallExpression;
                         if (xMethodCallExpression != null)
                         {
@@ -809,7 +809,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                          #region zMemberExpression
+                          #region WriteProjection:zMemberExpression
                           var zMemberExpression = zExpression as MemberExpression;
                           if (zMemberExpression != null)
                           {
@@ -869,6 +869,15 @@ namespace ScriptCoreLib.Query.Experimental
                                   //var p1 = xSelect.source;
                                   //p1 = (zsource as xSelect).source;
                                   // whatif we shall not look at our zsource?
+                                  // wont work?
+
+                                  // if (!(zsource is xSelect))
+                                  {
+                                      WriteLine(1, ("let " + GetTargetName()) + " <- ?");
+
+                                      return;
+                                  }
+
                                   var p1 = (zsource as xSelect).source;
 
                                   var depth = 0;
@@ -999,8 +1008,8 @@ namespace ScriptCoreLib.Query.Experimental
 
                                   WriteLine(1, "let ");
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                  WriteLine(1, " <- ");
-                                  WriteScalarExpression(zExpression);
+                                  WriteLine(1, " <- ? " + zMemberExpression.Member.Name);
+                                  //WriteScalarExpression(zExpression);
                               }
                               return;
                           }
@@ -1059,7 +1068,7 @@ namespace ScriptCoreLib.Query.Experimental
                           }
                           #endregion
 
-                          #region xxNewExpression
+                          #region WriteProjection:xxNewExpression
                           var zNewExpression = zExpression as NewExpression;
                           if (zNewExpression != null)
                           {
@@ -1117,6 +1126,25 @@ namespace ScriptCoreLib.Query.Experimental
                           #endregion
 
 
+                          #region WriteProjection:InvocationExpression
+                          var sInvocationExpression = zExpression as InvocationExpression;
+                          if (sInvocationExpression != null)
+                          {
+                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectInvocationExpression\Program.cs
+                              // that lambda shall be run during readout, not within db
+                              //WriteLine(1, "f(?, ?)");
+
+                              sInvocationExpression.Arguments.WithEachIndex(
+                                  (SourceArgument, index) =>
+                                  {
+                                      WriteProjection(zsource, SourceArgument, Target.Concat(new[] { Tuple.Create(default(MemberInfo), index) }).ToArray());
+                                  }
+                              );
+
+                              return;
+                          }
+                          #endregion
+
                           Debugger.Break();
                       };
                 #endregion
@@ -1125,15 +1153,42 @@ namespace ScriptCoreLib.Query.Experimental
                 var xGroupBy = source as xGroupBy;
                 if (xGroupBy != null)
                 {
-                    WriteLine(0, "select ?");
+                    // proxy x?
+                    // elementSelector = {<>h__TransparentIdentifier3 => <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x}
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBy\Program.cs
+
+                    WriteLine(0, "select");
+
+                    if (xGroupBy.elementSelector == null)
+                    {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBySelectKeyAndLast\Program.cs
+                        WriteLine(1, "proxy { Key, Last() ... }");
+                    }
+                    else
+                    {
+                        WriteProjection(source, xGroupBy.elementSelector.Body, new Tuple<MemberInfo, int>[0]);
+                    }
+                    // elementSelector = {<>h__TransparentIdentifier3 => new <>f__AnonymousType4`3(x = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x, xFoo = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.xFoo, xKey = <>h__TransparentIdentifier3.xKey)}
+
+                    // proxy the key
+                    // proxy the outer
 
                     WriteLine(0, "from (");
                     var sql0 = new SQLWriter<TElement>(xGroupBy.source, upper.Concat(new[] { source }), context);
-                    WriteLine(0, ") as ?");
+
+                    // keySelector = {<>h__TransparentIdentifier3 => new <>f__AnonymousType3`3(xKey = <>h__TransparentIdentifier3.xKey, xFoo = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.xFoo, g3 = (<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x.field2 + 2))}
+
+                    using (WithoutLinefeeds())
+                    {
+                        WriteLine(0, ") as ");
+                        WriteLineWithColor(0, xGroupBy.keySelector.Parameters[0].Name, ConsoleColor.Magenta);
+                    }
 
                     //using (WithoutLinefeeds())
                     {
                         WriteLine(0, "group by ");
+
+                        // we need it unpacked
                         WriteProjection(source, xGroupBy.keySelector.Body, new Tuple<MemberInfo, int>[0]);
                         //WriteScalarExpression(xGroupBy.keySelector.Body);
                     }
@@ -1158,19 +1213,63 @@ namespace ScriptCoreLib.Query.Experimental
                             WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
                         }
                     }
-                    else Debugger.Break();
+                    else
+                    {
+                        Debugger.Break();
+                    }
 
                     // resultSelector = {(xouter, xinner) => new <>f__AnonymousType13`2(xouter = xouter, xinner = xinner)}
 
                     WriteLine(0, "from (");
                     var sql0 = new SQLWriter<TElement>(xJoin.outer, upper.Concat(new[] { source }), context);
-                    WriteLine(0, ") as outer");
+                    using (WithoutLinefeeds())
+                    {
+                        WriteLine(0, ") as ");
+                        WriteLineWithColor(0, xJoin.outerKeySelector.Parameters[0].Name, ConsoleColor.Magenta);
+                    }
 
                     WriteLine(0, "inner join (");
 
                     var sql1 = new SQLWriter<TElement>(xJoin.inner, upper.Concat(new[] { source }), context);
 
-                    WriteLine(0, ") as inner");
+                    using (WithoutLinefeeds())
+                    {
+                        WriteLine(0, ") as ");
+                        WriteLineWithColor(0, xJoin.innerKeySelector.Parameters[0].Name, ConsoleColor.Magenta);
+                    }
+
+
+
+                    var oNewExpression = xJoin.outerKeySelector.Body as NewExpression;
+                    if (oNewExpression != null)
+                    {
+                        var iNewExpression = xJoin.innerKeySelector.Body as NewExpression;
+
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
+
+                        var xArguments = oNewExpression.Arguments.Zip(iNewExpression.Arguments, (a, m) => new { a, m, source }).ToList();
+                        var xi = -1;
+                        foreach (var item in xArguments)
+                        {
+                            xi++;
+
+                            using (WithoutLinefeeds())
+                            {
+
+                                if (xi == 0)
+                                    WriteLine(0, "on ");
+                                else
+                                    WriteLine(0, "and ");
+
+
+                                WriteScalarExpression(item.a);
+                                WriteLine(0, " == ");
+                                WriteScalarExpression(item.m);
+                            }
+                        }
+
+                        return;
+                    }
 
                     using (WithoutLinefeeds())
                     {
@@ -1214,7 +1313,15 @@ namespace ScriptCoreLib.Query.Experimental
                     {
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectInvocationExpression\Program.cs
                         // that lambda shall be run during readout, not within db
-                        WriteLine(1, "f(?, ?)");
+                        //WriteLine(1, "f(?, ?)");
+
+                        sInvocationExpression.Arguments.WithEachIndex(
+                            (SourceArgument, index) =>
+                            {
+                                WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index) });
+                            }
+                        );
+
                     }
                     else
                     {
