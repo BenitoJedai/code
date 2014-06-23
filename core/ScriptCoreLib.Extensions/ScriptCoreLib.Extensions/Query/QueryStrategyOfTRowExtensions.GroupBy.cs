@@ -107,7 +107,6 @@ namespace System.Data
              <TSource, TKey, TElement>(
                  this IQueryStrategy<TSource> source,
                  Expression<Func<TSource, TKey>> keySelector,
-
                  Expression<Func<TSource, TElement>> elementSelector
             )
         {

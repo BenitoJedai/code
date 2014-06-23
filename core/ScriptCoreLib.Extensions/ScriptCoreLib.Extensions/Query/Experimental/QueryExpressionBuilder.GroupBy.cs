@@ -19,11 +19,11 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-        #region GroupBy
         public class xGroupBy
         {
             public IQueryStrategy source;
             public LambdaExpression keySelector;
+            public LambdaExpression elementSelector;
         }
 
         public class xGroupBy<TElement> : xGroupBy, IQueryStrategy<TElement>
@@ -44,7 +44,8 @@ namespace ScriptCoreLib.Query.Experimental
         }
 
         public static IQueryStrategy<IQueryStrategyGrouping<TKey, TSource>>
-             GroupBy<TSource, TKey>(this IQueryStrategy<TSource> source, Expression<Func<TSource, TKey>> keySelector)
+             GroupBy<TSource, TKey>(this IQueryStrategy<TSource> source, 
+            Expression<Func<TSource, TKey>> keySelector)
         {
             return new xGroupBy<IQueryStrategyGrouping<TKey, TSource>>
             {
@@ -52,8 +53,20 @@ namespace ScriptCoreLib.Query.Experimental
                 keySelector = keySelector,
             };
         }
-        #endregion
 
+        public static IQueryStrategy<IQueryStrategyGrouping<TKey, TElement>>
+             GroupBy<TSource, TKey, TElement>(this IQueryStrategy<TSource> source,
+                 Expression<Func<TSource, TKey>> keySelector,
+                 Expression<Func<TSource, TElement>> elementSelector
+            )
+        {
+            return new xGroupBy<IQueryStrategyGrouping<TKey, TElement>>
+            {
+                source = source,
+                keySelector = keySelector,
+                elementSelector = elementSelector 
+            };
+        }
 
     }
 

@@ -7,8 +7,8 @@ namespace TestSelectInvocationExpression
     {
         static void Main(string[] args)
         {
-            Func<string, string> ff =
-                arg0 => "[" + arg0 + "]";
+            Func<string, string, string> ff =
+                (arg0, arg1) => "[" + arg0 + "]";
 
             var f = (
                 from x in new xTable()
@@ -19,7 +19,16 @@ namespace TestSelectInvocationExpression
 
 
 
-                select ff(x.Tag)
+                //select ff(x.Tag, xx)
+                select new
+                {
+                    c = xx,
+
+                    a = new[] { 
+                        new { g = ff(x.Tag, xx) }, 
+                        new { g = ff(x.Tag, "other") } 
+                    }
+                }
 
             ).FirstOrDefault();
 

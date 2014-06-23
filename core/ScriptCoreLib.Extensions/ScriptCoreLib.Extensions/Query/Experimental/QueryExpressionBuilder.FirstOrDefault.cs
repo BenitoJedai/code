@@ -25,7 +25,13 @@ namespace ScriptCoreLib.Query.Experimental
             return default(TElement);
         }
 
+        public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
+        //public static TElement Last<TElement>(this IQueryStrategy<TElement> source)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBy\Program.cs
 
+            return default(TElement);
+        }
 
     }
 
