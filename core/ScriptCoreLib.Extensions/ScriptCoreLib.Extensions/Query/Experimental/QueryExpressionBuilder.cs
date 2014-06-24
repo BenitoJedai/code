@@ -117,6 +117,41 @@ namespace ScriptCoreLib.Query.Experimental
                     };
                 #endregion
 
+                Action<int, string> WriteCommentLine  =
+                  (padding, text) =>
+                  {
+                      var c = ConsoleColor.Green;
+
+                      var old = new { Console.ForegroundColor };
+
+                      if (WithoutLinefeedsCounter == 0 || !WithoutLinefeedsDirty)
+                      {
+                          WithoutLinefeedsDirty = true;
+                          context.LineNumber++;
+
+                          // what would happen id we did this elsewhere?
+                          var f = new StackTrace(fNeedFileInfo: true).GetFrame(1);
+                          var FileLineNumber = f.GetFileLineNumber();
+                          // http://dev.mysql.com/doc/refman/5.0/en/comments.html
+                          var trace = "/* " + FileLineNumber.ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
+
+                          Console.ForegroundColor = ConsoleColor.Gray;
+                          Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+
+                      }
+
+
+                      Console.ForegroundColor = c;
+                      Console.Write("/* " + text + " */");
+                      Console.ForegroundColor = old.ForegroundColor;
+
+                      if (WithoutLinefeedsCounter == 0)
+                      {
+                          Console.WriteLine();
+                      }
+
+                  };
+
 
                 Action<int, string, ConsoleColor> WriteLineWithColor =
                     (padding, text, c) =>
@@ -393,6 +428,16 @@ namespace ScriptCoreLib.Query.Experimental
                      (zsource, xxMethodCallExpression, GetTargetName) =>
                      {
                          // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarCount\Program.cs
+                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
+
+
+                         var aParameterExpression = xxMethodCallExpression.Arguments[0] as ParameterExpression;
+                         if (aParameterExpression != null)
+                         {
+                             // if we are applied on a group by we need to move it down a level?
+                             WriteLine(1, ("let " + GetTargetName()) + " <-  count(" + aParameterExpression.Name + ")");
+                             return;
+                         }
 
                          var zSelect = zsource as xSelect;
 
@@ -773,9 +818,47 @@ namespace ScriptCoreLib.Query.Experimental
 
                               // what other methods have we referenced yet?
 
+                              if (xxMethodCallExpression.Method.DeclaringType == typeof(Tuple))
+                              {
+                                  // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectTuple\Program.cs
+
+                                  xxMethodCallExpression.Arguments.WithEachIndex(
+                                           (SourceArgument, SourceArgumentIndex) =>
+                                               WriteProjection(
+                                               zsource,
+                                                   SourceArgument,
+                                                   Target.Concat(new[] { Tuple.Create(
+                                                                                          default(MemberInfo) ,
+                                                                                          SourceArgumentIndex
+                                                                                          )
+                                                                                      }).ToArray()
+                                               )
+                                       );
+                                  return;
+                              }
+
                               #region string
                               if (xxMethodCallExpression.Method.DeclaringType == typeof(string))
                               {
+                                  if (xxMethodCallExpression.Method.Name == "Concat")
+                                  {
+
+                                      xxMethodCallExpression.Arguments.WithEachIndex(
+                                              (SourceArgument, SourceArgumentIndex) =>
+                                                  WriteProjection(
+                                                  zsource,
+                                                      SourceArgument,
+                                                      Target.Concat(new[] { Tuple.Create(
+                                                                                                                      default(MemberInfo) ,
+                                                                                                                      SourceArgumentIndex
+                                                                                                                      )
+                                                                                                                  }).ToArray()
+                                                  )
+                                          );
+                                      return;
+                                  }
+
+
                                   if (xxMethodCallExpression.Method.Name == "ToUpper")
                                   {
                                       using (WithoutLinefeeds())
@@ -1019,6 +1102,22 @@ namespace ScriptCoreLib.Query.Experimental
                           var zUnaryExpression = zExpression as UnaryExpression;
                           if (zUnaryExpression != null)
                           {
+                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectXElement\Program.cs
+                              // Method = {System.Xml.Linq.XName op_Implicit(System.String)}
+
+                              if (zUnaryExpression.NodeType == ExpressionType.Convert)
+                              {
+                                  using (WithoutLinefeeds())
+                                  {
+                                      WriteLine(1, "let ");
+                                      WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                      WriteLine(1, " <- ");
+                                      WriteScalarExpression(zUnaryExpression.Operand);
+                                  }
+
+                                  return;
+                              }
+
                               WriteLine(1, ("let " + GetTargetName()) + " <- unary");
                               return;
                           }
@@ -1297,107 +1396,211 @@ namespace ScriptCoreLib.Query.Experimental
 
                 WriteLine(0, "select");
 
-                var sParameterExpression = (source as xSelect).selector.Body as ParameterExpression;
-                if (sParameterExpression != null)
-                {
-                    // that lambda shall be run during readout, not within db
-                    //WriteLine(1, "f(?)");
 
-                    WriteProjection(source, sParameterExpression, new Tuple<MemberInfo, int>[0]);
-                }
-                else
-                {
 
-                    var sInvocationExpression = (source as xSelect).selector.Body as InvocationExpression;
-                    if (sInvocationExpression != null)
+                Action WriteSelectProjection =
+                    delegate
                     {
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectInvocationExpression\Program.cs
-                        // that lambda shall be run during readout, not within db
-                        //WriteLine(1, "f(?, ?)");
+                        // time to write our projection of selection fields
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectString\Program.cs
+                        // this is a lambda to allow returns
 
-                        sInvocationExpression.Arguments.WithEachIndex(
-                            (SourceArgument, index) =>
-                            {
-                                WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index) });
+
+                        #region WriteSelectProjection:ListInitExpression
+                        var xListInitExpression = xSelect.selector.Body as ListInitExpression;
+                        if (xListInitExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectStringDictionary\Program.cs
+                            // [0x00000000] = {Void Add(System.String, System.String)("hello", x.Tag)}
+                            WriteCommentLine(1, "ListInitExpression");
+                            WriteProjection(source, xListInitExpression.NewExpression, new Tuple<MemberInfo, int>[0]);
+
+                            xListInitExpression.Initializers.WithEachIndex(
+                                (SourceInitializer, index) =>
+                                {
+
+                                    SourceInitializer.Arguments.WithEachIndex(
+                                        (SourceArgument, aindex) =>
+                                        {
+
+                                            WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index), Tuple.Create(default(MemberInfo), aindex) });
+                                        }
+                                    );
+
+                                    //WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index) });
+                                }
+                            );
+
+                            return;
+                        }
+                        #endregion
+
+
+                        #region WriteSelectProjection:MemberInitExpression
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberInitExpression\Program.cs
+                        var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
+                        if (xMemberInitExpression != null)
+                        {
+                            WriteCommentLine(1, "MemberInitExpression");
+
+                            WriteProjection(source, xMemberInitExpression.NewExpression, new Tuple<MemberInfo, int>[0]);
+
+                            // what about XElement?
+
+                            xMemberInitExpression.Bindings.WithEachIndex(
+                                (SourceBinding, SourceBindingIndex) =>
+                                {
+                                    var item = new
+                                    {
+                                        a = (SourceBinding as MemberAssignment).Expression,
+                                        m = SourceBinding.Member
+                                    };
+
+                                    WriteProjection(source, item.a, new[] { Tuple.Create(item.m, -1) });
+                                }
+                            );
+                            return;
+                        }
+                        #endregion
+
+
+
+
+                        #region WriteSelectProjection:NewExpression
+                        var xNewExpression = xSelect.selector.Body as NewExpression;
+                        if (xNewExpression != null)
+                        {
+                            WriteCommentLine(1, "NewExpression");
+
+                            if (xNewExpression.Members == null)
+                            { 
+                                // all arguments are for ctor?
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectNewExpressionConstructor\Program.cs
+                                xNewExpression.Arguments.WithEachIndex(
+                                      (SourceArgument, index) =>
+                                      {
+
+                                          WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index) });
+                                      }
+                                  );
+                                return;
+
                             }
-                        );
 
-                    }
-                    else
-                    {
+                            // xNewExpression = {new XElement(Convert("hello"), x.Tag)}
+
+                            // we are selecting a group for upper select arent we.
+                            var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
+                            foreach (var item in xArguments)
+                            {
+                                WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
+                            }
+                            return;
+                        }
+                        #endregion
+
+                        #region WriteSelectProjection:MethodCallExpression
+                        var xMethodCallExpression = xSelect.selector.Body as MethodCallExpression;
+                        if (xMethodCallExpression != null)
+                        {
+                            WriteCommentLine(1, "MethodCallExpression");
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectTuple\Program.cs
+                            WriteProjection(source, xMethodCallExpression, new Tuple<MemberInfo, int>[0]);
+                            return;
+                        }
+                        #endregion
+
+
+                        #region WriteSelectProjection:InvocationExpression
+                        var sInvocationExpression = (source as xSelect).selector.Body as InvocationExpression;
+                        if (sInvocationExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectInvocationExpression\Program.cs
+                            // that lambda shall be run during readout, not within db
+                            //WriteLine(1, "f(?, ?)");
+
+                            sInvocationExpression.Arguments.WithEachIndex(
+                                (SourceArgument, index) =>
+                                {
+                                    WriteProjection(source, SourceArgument, new[] { Tuple.Create(default(MemberInfo), index) });
+                                }
+                            );
+                            return;
+                        }
+                        #endregion
+
+                        #region WriteSelectProjection:ParameterExpression
+                        var sParameterExpression = (source as xSelect).selector.Body as ParameterExpression;
+                        if (sParameterExpression != null)
+                        {
+                            // that lambda shall be run during readout, not within db
+                            // ? tested by?
+                            WriteProjection(source, sParameterExpression, new Tuple<MemberInfo, int>[0]);
+                            return;
+                        }
+                        #endregion
+
+                        #region WriteSelectProjection:MemberExpression
                         var sMemberExpression = (source as xSelect).selector.Body as MemberExpression;
                         if (sMemberExpression != null)
                         {
+                            WriteCommentLine(1, "MemberExpression");
+
                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectKey\Program.cs
                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberExpression\Program.cs
 
                             using (WithoutLinefeeds())
                                 WriteScalarExpression(sMemberExpression);
+
+                            return;
                         }
-                        else
+                        #endregion
+
+                        #region WriteSelectProjection:BinaryExpression
+                        var xBinaryExpression = (source as xSelect).selector.Body as BinaryExpression;
+                        if (xBinaryExpression != null)
                         {
-                            // look we can select array from single row, in db this would be a union. for reading the data out, we just need to prefix with index.
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectStringConcat\Program.cs
+                            WriteCommentLine(1, "BinaryExpression");
 
-                            var xBinaryExpression = (source as xSelect).selector.Body as BinaryExpression;
-                            if (xBinaryExpression != null)
-                            {
-                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectBinaryExpression\Program.cs
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectBinaryExpression\Program.cs
 
-                                // scalar select
-                                // this will look like roslyn dictionary indexer initializer
-                                using (WithoutLinefeeds())
-                                    WriteScalarExpression(xBinaryExpression);
-                            }
-                            else
-                            {
+                            // scalar select
+                            // this will look like roslyn dictionary indexer initializer
+                            using (WithoutLinefeeds())
+                                WriteScalarExpression(xBinaryExpression);
 
-                                var xNewArrayExpression = xSelect.selector.Body as NewArrayExpression;
-                                if (xNewArrayExpression != null)
-                                {
-                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectArray\Program.cs
-                                    // no longer merging.
-                                    WriteProjection(source, xNewArrayExpression, new Tuple<MemberInfo, int>[0]);
-                                }
-                                else
-                                {
-                                    var xNewExpression = xSelect.selector.Body as NewExpression;
-                                    if (xNewExpression != null)
-                                    {
-                                        // we are selecting a group for upper select arent we.
-                                        var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
-                                        foreach (var item in xArguments)
-                                        {
-                                            WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberInitExpression\Program.cs
-                                        var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
-                                        if (xMemberInitExpression != null)
-                                        {
-                                            xMemberInitExpression.Bindings.WithEachIndex(
-                                                (SourceBinding, SourceBindingIndex) =>
-                                                {
-                                                    var item = new
-                                                    {
-                                                        a = (SourceBinding as MemberAssignment).Expression,
-                                                        m = SourceBinding.Member
-                                                    };
-
-                                                    WriteProjection(source, item.a, new[] { Tuple.Create(item.m, -1) });
-                                                }
-                                            );
-
-                                        }
-                                        else Debugger.Break();
-
-                                    }
-                                }
-                            }
+                            return;
                         }
-                    }
-                }
+                        #endregion
+
+                        #region WriteSelectProjection:NewArrayExpression
+                        var xNewArrayExpression = xSelect.selector.Body as NewArrayExpression;
+                        if (xNewArrayExpression != null)
+                        {
+                            WriteCommentLine(1, "NewArrayExpression");
+
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectArray\Program.cs
+                            // no longer merging.
+                            WriteProjection(source, xNewArrayExpression, new Tuple<MemberInfo, int>[0]);
+                            return;
+                        }
+                        #endregion
+
+               
+
+                        // look we can select array from single row, in db this would be a union. for reading the data out, we just need to prefix with index.
+
+
+                        Debugger.Break();
+
+
+                    };
+
+                WriteSelectProjection();
+
+
+
 
                 if (xSelect_source == null)
                 {
