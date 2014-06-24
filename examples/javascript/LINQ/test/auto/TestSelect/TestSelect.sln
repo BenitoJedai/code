@@ -49,6 +49,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectStringConcat", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectInto", "TestSelectInto\TestSelectInto.csproj", "{899137EB-FDB1-47BE-8632-986F3ECF17A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectIntoLet", "TestSelectIntoLet\TestSelectIntoLet.csproj", "{5A38C68E-B114-4317-B827-1C2A19FCA081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJoinThree", "TestJoinThree\TestJoinThree.csproj", "{8BD60C33-883D-418E-BEC8-ADB8DC842C12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -249,6 +253,22 @@ Global
 		{899137EB-FDB1-47BE-8632-986F3ECF17A0}.PHP|Any CPU.Build.0 = Release|Any CPU
 		{899137EB-FDB1-47BE-8632-986F3ECF17A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{899137EB-FDB1-47BE-8632-986F3ECF17A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A38C68E-B114-4317-B827-1C2A19FCA081}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{5A38C68E-B114-4317-B827-1C2A19FCA081}.Android|Any CPU.Build.0 = Release|Any CPU
+		{5A38C68E-B114-4317-B827-1C2A19FCA081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A38C68E-B114-4317-B827-1C2A19FCA081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A38C68E-B114-4317-B827-1C2A19FCA081}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{5A38C68E-B114-4317-B827-1C2A19FCA081}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{5A38C68E-B114-4317-B827-1C2A19FCA081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A38C68E-B114-4317-B827-1C2A19FCA081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BD60C33-883D-418E-BEC8-ADB8DC842C12}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD60C33-883D-418E-BEC8-ADB8DC842C12}.Android|Any CPU.Build.0 = Release|Any CPU
+		{8BD60C33-883D-418E-BEC8-ADB8DC842C12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD60C33-883D-418E-BEC8-ADB8DC842C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD60C33-883D-418E-BEC8-ADB8DC842C12}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD60C33-883D-418E-BEC8-ADB8DC842C12}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{8BD60C33-883D-418E-BEC8-ADB8DC842C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD60C33-883D-418E-BEC8-ADB8DC842C12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
