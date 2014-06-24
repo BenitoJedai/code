@@ -6,12 +6,13 @@ using System.Linq.Expressions;
 using System.Text;
 using ScriptCoreLib.Extensions;
 using System.Reflection;
+using System.Data;
 
 namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-        public static void Insert<TElement>(this IQueryStrategy<TElement> source, TElement value)
+        public static void Insert<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         {
 
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
@@ -21,32 +22,49 @@ namespace ScriptCoreLib.Query.Experimental
             var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
 
             // insert into `PerformanceResourceTimingData2.ApplicationPerformance` (`connectStart`, `connectEnd`, `requestStart`, `responseStart`, `responseEnd`, `domLoading`, `domComplete`, `loadEventStart`, `loadEventEnd`, `EventTime`, `Tag`, `Timestamp`)  values (@connectStart
-            // 
-            Console.WriteLine("insert into `" + xSelect.selector.Parameters[0].Name + "` (");
+
+
+
+            var c = cc.CreateCommand();
+
+            var w = new StringBuilder();
+
+            w.AppendLine("insert into `" + xSelect.selector.Parameters[0].Name + "` (");
 
             xMemberInitExpression.Bindings.Where(SourceBinding => SourceBinding.Member.Name != "Key").WithEachIndex(
                 (SourceBinding, i) =>
                 {
                     if (i > 0)
-                        Console.Write(", ");
+                        w.Append(", ");
 
-                    Console.Write("`" + SourceBinding.Member.Name + "`");
+                    w.Append("`" + SourceBinding.Member.Name + "`");
                 }
             );
 
-            Console.WriteLine(") values (");
+            w.Append(") values (");
 
             xMemberInitExpression.Bindings.Where(SourceBinding => SourceBinding.Member.Name != "Key").WithEachIndex(
                   (SourceBinding, i) =>
                   {
                       if (i > 0)
-                          Console.Write(", ");
+                          w.Append(", ");
 
-                      Console.Write("@" + SourceBinding.Member.Name + "");
+                      w.Append("@" + SourceBinding.Member.Name + "");
+
+                      var f = SourceBinding.Member as FieldInfo;
+
+                      c.AddParameter(
+                          ParameterName: "@" + SourceBinding.Member.Name + "",
+                          Value: f.GetValue(value)
+                       );
                   }
               );
 
-            Console.WriteLine(")");
+            w.Append(")");
+            c.CommandText = w.ToString();
+            var n = c.ExecuteNonQuery();
+            //var nKey = cc.
+
 
             //                public const string CreateCommandText = @"create table 
             // if not exists `PerformanceResourceTimingData2.ApplicationPerformance` (

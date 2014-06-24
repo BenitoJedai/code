@@ -6,12 +6,13 @@ using System.Linq.Expressions;
 using System.Text;
 using ScriptCoreLib.Extensions;
 using System.Reflection;
+using System.Data;
 
 namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-        public static void Create<TElement>(this IQueryStrategy<TElement> source)
+        public static void Create<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
 
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
@@ -20,43 +21,51 @@ namespace ScriptCoreLib.Query.Experimental
 
             var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
 
-            Console.WriteLine("create table if not exists `" + xSelect.selector.Parameters[0].Name + "` (");
+            var w = new StringBuilder();
+
+            w.AppendLine("create table if not exists `" + xSelect.selector.Parameters[0].Name + "` (");
 
             xMemberInitExpression.Bindings.WithEachIndex(
                 (SourceBinding, i) =>
                 {
                     if (i > 0)
-                        Console.WriteLine(",");
+                        w.AppendLine(",");
 
-                    Console.Write("`" + SourceBinding.Member.Name + "`");
+                    w.Append("`" + SourceBinding.Member.Name + "`");
 
                     if (SourceBinding.Member.Name == "Key")
                     {
-                        Console.Write(" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT");
+                        w.Append(" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT");
                         return;
                     }
 
                     var f = SourceBinding.Member as FieldInfo;
                     if (f.FieldType == typeof(string))
                     {
-                        Console.Write(" TEXT");
+                        w.Append(" TEXT");
                         return;
                     }
                     if (f.FieldType == typeof(DateTime))
                     {
-                        Console.Write(" BIGINT NOT NULL");
+                        w.Append(" BIGINT NOT NULL");
                         return;
                     }
                     if (f.FieldType == typeof(long))
                     {
-                        Console.Write(" BIGINT NOT NULL");
+                        w.Append(" BIGINT NOT NULL");
                         return;
                     }
                     Debugger.Break();
                 }
             );
 
-            Console.WriteLine(")");
+            w.AppendLine(")");
+
+            var c = cc.CreateCommand(CommandText: w.ToString());
+
+            var n = c.ExecuteNonQuery();
+
+            Console.WriteLine(new { n });
 
             //                public const string CreateCommandText = @"create table 
             // if not exists `PerformanceResourceTimingData2.ApplicationPerformance` (
