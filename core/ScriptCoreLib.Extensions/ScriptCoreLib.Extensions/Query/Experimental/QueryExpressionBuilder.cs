@@ -1375,6 +1375,8 @@ namespace ScriptCoreLib.Query.Experimental
                 var xJoin = source as xJoin;
                 if (xJoin != null)
                 {
+                    WriteCommentLine(0, "xJoin");
+
                     WriteLine(0, "select");
 
                     var xNewExpression = xJoin.resultSelector.Body as NewExpression;
