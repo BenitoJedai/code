@@ -86,14 +86,12 @@ namespace ScriptCoreLib.Query.Experimental
 
         partial class SQLWriter<TElement>
         {
-            public DbCommand Command;
-
             public SQLWriter(
                 IQueryStrategy source,
                 IEnumerable<IQueryStrategy> upper,
                 SQLWriterContext context = null,
                 ParameterExpression upperParameter = null,
-                IDbConnection cc = null)
+                 IDbCommand Command = null)
             {
 
                 Action<string> Write =
@@ -105,8 +103,7 @@ namespace ScriptCoreLib.Query.Experimental
                         Console.Write(text);
                     };
 
-                if (cc != null)
-                    Command = (DbCommand)cc.CreateCommand();
+        
 
 
                 // selector = {<>h__TransparentIdentifier6 => <>h__TransparentIdentifier6.<>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
@@ -481,7 +478,12 @@ namespace ScriptCoreLib.Query.Experimental
                 {
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByDescending\Program.cs
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderBy\Program.cs
-                    var sql = new SQLWriter<TElement>(xOrderBy.source, upper.Concat(new[] { source }), context, upperParameter: xOrderBy.keySelector.First().keySelector.Parameters[0]);
+                    var sql = new SQLWriter<TElement>(
+                        xOrderBy.source, 
+                        upper.Concat(new[] { source }), 
+                        context, 
+                        upperParameter: xOrderBy.keySelector.First().keySelector.Parameters[0],
+                        Command: Command);
 
                     using (WithoutLinefeeds())
                     {
@@ -510,7 +512,13 @@ namespace ScriptCoreLib.Query.Experimental
                 var xWhere = source as xWhere;
                 if (xWhere != null)
                 {
-                    var sql = new SQLWriter<TElement>(xWhere.source, upper.Concat(new[] { source }), context, upperParameter: xWhere.filter.First().Parameters[0]);
+                    var sql = new SQLWriter<TElement>(
+                        xWhere.source, 
+                        upper.Concat(new[] { source }), 
+                        context, upperParameter: 
+                        xWhere.filter.First().Parameters[0],
+                        Command: Command
+                        );
 
                     xWhere.filter.WithEachIndex(
                         (wExpression, wExpressionIndex) =>
@@ -631,7 +639,8 @@ namespace ScriptCoreLib.Query.Experimental
                                              var sqalarsql = new SQLWriter<TElement>(
                                                  oOrdered,
                                                  upper.Concat(new[] { source }).ToArray(),
-                                                 context
+                                                 context,
+                                                 Command: Command
                                              );
 
                                          }
@@ -718,7 +727,8 @@ namespace ScriptCoreLib.Query.Experimental
                                         var sqalarsql = new SQLWriter<TElement>(
                                              newsource2,
                                              upper.Concat(new[] { source }).ToArray(),
-                                             context
+                                             context,
+                                             Command: Command
                                          );
                                     }
                                     else
@@ -750,7 +760,8 @@ namespace ScriptCoreLib.Query.Experimental
                                         var sqalarsql = new SQLWriter<TElement>(
                                              newsource2,
                                              upper.Concat(new[] { source }).ToArray(),
-                                             context
+                                             context,
+                                             Command: Command
                                          );
 
                                     }
@@ -773,7 +784,8 @@ namespace ScriptCoreLib.Query.Experimental
                                     var sqalarsql = new SQLWriter<TElement>(
                                         newsource2,
                                         upper.Concat(new[] { source }).ToArray(),
-                                        context
+                                        context,
+                                        Command: Command
                                     );
                                     #endregion
                                 }
@@ -805,7 +817,8 @@ namespace ScriptCoreLib.Query.Experimental
                                     var sqalarsql = new SQLWriter<TElement>(
                                         newsource2,
                                         upper.Concat(new[] { source }).ToArray(),
-                                        context
+                                        context,
+                                        Command: Command
                                     );
                                     #endregion
                                 }
@@ -826,7 +839,8 @@ namespace ScriptCoreLib.Query.Experimental
                                     var sqalarsql = new SQLWriter<TElement>(
                                         newsource2,
                                         upper.Concat(new[] { source }).ToArray(),
-                                        context
+                                        context,
+                                        Command: Command
                                     );
                                     #endregion
 
@@ -1844,7 +1858,12 @@ namespace ScriptCoreLib.Query.Experimental
                     // proxy the outer
 
                     WriteLine(0, "from (");
-                    var sql0 = new SQLWriter<TElement>(xGroupBy.source, upper.Concat(new[] { source }), context, upperParameter: xGroupBy.keySelector.Parameters[0]);
+                    var sql0 = new SQLWriter<TElement>(
+                        xGroupBy.source, 
+                        upper.Concat(new[] { source }), 
+                        context, 
+                        upperParameter: xGroupBy.keySelector.Parameters[0],
+                        Command: Command);
 
                     // keySelector = {<>h__TransparentIdentifier3 => new <>f__AnonymousType3`3(xKey = <>h__TransparentIdentifier3.xKey, xFoo = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.xFoo, g3 = (<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x.field2 + 2))}
 
@@ -1896,7 +1915,12 @@ namespace ScriptCoreLib.Query.Experimental
                     // resultSelector = {(xouter, xinner) => new <>f__AnonymousType13`2(xouter = xouter, xinner = xinner)}
 
                     WriteLine(0, "from (");
-                    var sql0 = new SQLWriter<TElement>(xJoin.outer, upper.Concat(new[] { source }), context, upperParameter: xJoin.outerKeySelector.Parameters[0]);
+                    var sql0 = new SQLWriter<TElement>(
+                        xJoin.outer, 
+                        upper.Concat(new[] { source }), 
+                        context, 
+                        upperParameter: xJoin.outerKeySelector.Parameters[0],
+                        Command: Command);
                     using (WithoutLinefeeds())
                     {
                         WriteLine(0, ") as ");
@@ -1905,7 +1929,12 @@ namespace ScriptCoreLib.Query.Experimental
 
                     WriteLine(0, "inner join (");
 
-                    var sql1 = new SQLWriter<TElement>(xJoin.inner, upper.Concat(new[] { source }), context, upperParameter: xJoin.innerKeySelector.Parameters[0]);
+                    var sql1 = new SQLWriter<TElement>(
+                        xJoin.inner, 
+                        upper.Concat(new[] { source }), 
+                        context, 
+                        upperParameter: xJoin.innerKeySelector.Parameters[0],
+                        Command: Command);
 
                     using (WithoutLinefeeds())
                     {
@@ -2196,7 +2225,8 @@ namespace ScriptCoreLib.Query.Experimental
                        xSelect_source,
                         upper.Concat(new[] { source }),
                         context,
-                        upperParameter: (source as xSelect).selector.Parameters[0]
+                        upperParameter: (source as xSelect).selector.Parameters[0],
+                        Command: Command
                     );
 
                     // render the source and with parent
