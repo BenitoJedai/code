@@ -542,6 +542,8 @@ namespace ScriptCoreLib.Query.Experimental
                 Action<IQueryStrategy, MethodCallExpression, Func<string>> WriteScalarFirstOrDefault =
                     (zsource, xxMethodCallExpression, GetTargetName) =>
                     {
+                        // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
+
                         var zSelect = zsource as xSelect;
 
 
@@ -759,33 +761,268 @@ namespace ScriptCoreLib.Query.Experimental
                     };
                 #endregion
 
-                Action<IQueryStrategy, ParameterExpression, Tuple<MemberInfo, int>[]> WriteProjectionProxy = null;
+                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjectionProxy = null;
                 Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjection = null;
 
 
                 #region WriteProjectionProxy
 
                 WriteProjectionProxy =
-                    (zsource, zParameterExpression, Target) =>
+                    (zsource, zExpression, Target) =>
                     {
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
-                        using (WithoutLinefeeds())
-                        {
-                            // we have to unpack everything?
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
 
-                            WriteLine(1, "proxy ");
 
-                            if (upperParameter != null)
+                        #region GetTargetName
+                        Func<string> GetTargetName =
+                            delegate
                             {
-                                WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
-                                WriteLine(1, " ");
+                                var w = "";
+
+                                if (Target != null)
+                                    foreach (var item in Target)
+                                    {
+                                        if (item.Item1 == null)
+                                            w += "[" + item.Item2 + "]";
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(w))
+                                                w += ".";
+
+                                            w += item.Item1.Name + "";
+                                        }
+
+                                    }
+
+                                return w;
+                            };
+                        #endregion
+
+
+
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
+
+                        #region WriteProjectionProxy:zParameterExpression
+                        var zParameterExpression = zExpression as ParameterExpression;
+                        if (zParameterExpression != null)
+                        {
+
+                            #region zGroupBy
+                            var zGroupBy = zsource as xGroupBy;
+                            if (zGroupBy != null)
+                            {
+                                var zzSelect = zGroupBy.source as xSelect;
+                                if (zzSelect != null)
+                                {
+                                    WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target);
+                                    return;
+                                }
+
+                                var zzJoin = zGroupBy.source as xJoin;
+                                if (zzJoin != null)
+                                {
+                                    WriteProjectionProxy(zzJoin, zzJoin.resultSelector.Body, Target);
+                                    return;
+                                }
+                            }
+                            #endregion
+
+                            #region zSelect
+                            var zSelect = zsource as xSelect;
+                            if (zSelect != null)
+                            {
+                                var zzGroupBy = zSelect.source as xGroupBy;
+                                if (zzGroupBy != null)
+                                {
+                                    WriteProjectionProxy(
+                                        zzGroupBy,
+                                        zzGroupBy.elementSelector.Body,
+                                        Target.Concat(new[] { new Tuple<MemberInfo, int>(LastReference.Method, -1) }).ToArray()
+                                    );
+
+                                    return;
+                                }
+
+                                var zzSelect = zSelect.source as xSelect;
+                                if (zzSelect != null)
+                                {
+                                    WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target);
+                                    return;
+                                }
+
+                                var zzJoin = zSelect.source as xJoin;
+                                if (zzJoin != null)
+                                {
+                                    WriteProjectionProxy(zzJoin, zzJoin.resultSelector.Body, Target);
+                                    return;
+                                }
+                            }
+                            #endregion
+
+
+                            #region zJoin
+                            var zJoin = zsource as xJoin;
+                            if (zJoin != null)
+                            {
+                                if (zParameterExpression.Name == zJoin.outerKeySelector.Parameters[0].Name)
+                                {
+                                    var zzSelect = zJoin.outer as xSelect;
+
+                                    WriteProjectionProxy(
+                                        zzSelect,
+                                        zzSelect.selector.Body,
+                                        Target
+                                    );
+                                    return;
+                                }
+
+                                if (zParameterExpression.Name == zJoin.innerKeySelector.Parameters[0].Name)
+                                {
+                                    var zzSelect = zJoin.inner as xSelect;
+
+                                    WriteProjectionProxy(
+                                        zzSelect,
+                                        zzSelect.selector.Body,
+                                        Target
+                                    );
+                                    return;
+                                }
+                            }
+                            #endregion
+
+
+                        }
+                        #endregion
+
+
+                        #region WriteProjection:MemberInitExpression
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberInitExpression\Program.cs
+                        var zMemberInitExpression = zExpression as MemberInitExpression;
+                        if (zMemberInitExpression != null)
+                        {
+                            WriteCommentLine(1, "MemberInitExpression");
+
+                            WriteProjectionProxy(zsource, zMemberInitExpression.NewExpression, Target);
+
+                            // what about XElement?
+
+                            zMemberInitExpression.Bindings.WithEachIndex(
+                                (SourceBinding, SourceBindingIndex) =>
+                                {
+                                    var item = new
+                                    {
+                                        a = (SourceBinding as MemberAssignment).Expression,
+                                        m = SourceBinding.Member
+                                    };
+
+                                    WriteProjectionProxy(zsource, item.a, Target.Concat(new[] { Tuple.Create(item.m, -1) }).ToArray());
+                                }
+                            );
+                            return;
+                        }
+                        #endregion
+
+
+                        #region WriteProjectionProxy:xxNewExpression
+                        var zNewExpression = zExpression as NewExpression;
+                        if (zNewExpression != null)
+                        {
+                            //WriteLine(1, "    new " + xxNewExpression.Type.Name);
+
+                            // ternary op does not work
+                            if (zNewExpression.Members == null)
+                            {
+                                zNewExpression.Arguments.WithEachIndex(
+                                      (SourceArgument, SourceArgumentIndex) =>
+                                          WriteProjectionProxy(
+                                          zsource,
+                                              SourceArgument,
+                                              Target.Concat(new[] { Tuple.Create(
+                                                                  default(MemberInfo) ,
+                                                                  SourceArgumentIndex
+                                                                  )
+                                                              }).ToArray()
+                                          )
+                                  );
+                                return;
                             }
 
-                            //WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                            WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
-                            WriteLine(1, " {...}");
+                            zNewExpression.Arguments.WithEachIndex(
+                                (SourceArgument, SourceArgumentIndex) =>
+                                    WriteProjectionProxy(
+                                    zsource,
+                                        SourceArgument,
+                                        Target.Concat(new[] { Tuple.Create(
+                                              zNewExpression.Members[SourceArgumentIndex],
+                                              SourceArgumentIndex
+                                              )
+                                          }).ToArray()
+                                    )
+                            );
+                            return;
                         }
+                        #endregion
 
+                        #region WriteProjectionProxy:zMemberExpression
+                        var zMemberExpression = zExpression as MemberExpression;
+                        if (zMemberExpression != null)
+                        {
+                            using (WithoutLinefeeds())
+                            {
+                                // we have to unpack everything?
+
+                                WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
+
+                                if (upperParameter != null)
+                                {
+                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                    WriteLine(1, " ");
+                                }
+
+                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
+
+                                var zGroupBy = source as xGroupBy;
+                                if (zGroupBy != null)
+                                {
+                                    WriteLine(1, " <- " + zGroupBy.keySelector.Parameters[0].Name + " " + zMemberExpression.Member.Name);
+                                    return;
+                                }
+
+                                WriteLine(1, " {...}");
+                            }
+                            return;
+                        }
+                        #endregion
+
+                        // zExpression = {1}
+                        #region WriteProjectionProxy:zConstantExpression
+                        var zConstantExpression = zExpression as ConstantExpression;
+                        if (zConstantExpression != null)
+                        {
+                            using (WithoutLinefeeds())
+                            {
+                                // we have to unpack everything?
+
+                                WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
+
+                                if (upperParameter != null)
+                                {
+                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                    WriteLine(1, " ");
+                                }
+
+                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
+                                WriteLine(1, " {...}");
+                            }
+                            return;
+                        }
+                        #endregion
+
+
+
+                        Debugger.Break();
                     };
                 #endregion
 
@@ -829,6 +1066,24 @@ namespace ScriptCoreLib.Query.Experimental
                           var zParameterExpression = zExpression as ParameterExpression;
                           if (zParameterExpression != null)
                           {
+                              //using (WithoutLinefeeds())
+                              //{
+                              //    // we have to unpack everything?
+
+                              //    WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
+
+                              //    if (upperParameter != null)
+                              //    {
+                              //        WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                              //        WriteLine(1, " ");
+                              //    }
+
+                              //    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                              //    //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
+                              //    WriteLine(1, " {...}");
+                              //}
+
+
                               WriteProjectionProxy(zsource, zParameterExpression, Target);
 
 
@@ -925,7 +1180,16 @@ namespace ScriptCoreLib.Query.Experimental
                                   {
                                       using (WithoutLinefeeds())
                                       {
-                                          WriteLineWithColor(1, ("let " + GetTargetName()) + " <- upper(", ConsoleColor.White);
+                                          WriteLine(1, "let ");
+                                          if (upperParameter != null)
+                                          {
+                                              WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                              WriteLine(1, " ");
+                                          }
+                                          WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                          WriteLine(1, " <- ");
+
+                                          WriteLineWithColor(1, "upper(", ConsoleColor.White);
                                           WriteScalarExpression(xxMethodCallExpression.Object);
                                           WriteLineWithColor(1, ")", ConsoleColor.White);
                                       }
@@ -936,7 +1200,16 @@ namespace ScriptCoreLib.Query.Experimental
                                   {
                                       using (WithoutLinefeeds())
                                       {
-                                          WriteLineWithColor(1, ("let " + GetTargetName()) + " <- lower(", ConsoleColor.White);
+                                          WriteLine(1, "let ");
+                                          if (upperParameter != null)
+                                          {
+                                              WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                              WriteLine(1, " ");
+                                          }
+                                          WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                          WriteLine(1, " <- ");
+
+                                          WriteLineWithColor(1, "lower(", ConsoleColor.White);
                                           WriteScalarExpression(xxMethodCallExpression.Object);
                                           WriteLineWithColor(1, ")", ConsoleColor.White);
                                       }
@@ -946,7 +1219,21 @@ namespace ScriptCoreLib.Query.Experimental
                               #endregion
 
 
-                              WriteLineWithColor(1, ("let " + GetTargetName()) + " <- " + xxMethodCallExpression.Method.Name + "(?)", ConsoleColor.White);
+
+
+                              using (WithoutLinefeeds())
+                              {
+                                  WriteLine(1, "let ");
+                                  if (upperParameter != null)
+                                  {
+                                      WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                      WriteLine(1, " ");
+                                  }
+                                  WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                  WriteLine(1, " <- ");
+
+                                  WriteLineWithColor(1, xxMethodCallExpression.Method.Name + "(?)", ConsoleColor.White);
+                              }
 
                               return;
                           }
@@ -977,15 +1264,32 @@ namespace ScriptCoreLib.Query.Experimental
                                           WriteLineWithColor(0, mp.Name, ConsoleColor.DarkCyan);
                                       }
 
-
-                                      WriteLine(1, " ");
-                                      if (zMemberExpression == m)
+                                      // m.Expression = {<>h__TransparentIdentifier0.g.Last()}
+                                      var mMethodCallExpression = m.Expression as MethodCallExpression;
+                                      if (mMethodCallExpression != null)
                                       {
-                                          WriteLineWithColor(1, m.Member.Name, ConsoleColor.Cyan);
-                                      }
-                                      else
+                                          // for group by we shall support Last
 
-                                          WriteLineWithColor(1, m.Member.Name, ConsoleColor.DarkCyan);
+
+                                          var a0m = mMethodCallExpression.Arguments[0] as MemberExpression;
+
+                                          if (a0m != null)
+                                          {
+                                              y(a0m);
+                                          }
+
+                                          WriteLine(1, ".");
+                                          WriteLineWithColor(1, "Last", ConsoleColor.White);
+                                      }
+
+                                      WriteLine(1, ".");
+                                      //if (zMemberExpression == m)
+                                      //{
+                                      WriteLineWithColor(1, m.Member.Name, ConsoleColor.Cyan);
+                                      //}
+                                      //else
+
+                                      //    WriteLineWithColor(1, m.Member.Name, ConsoleColor.DarkCyan);
                                   };
                               #endregion
 
@@ -1088,7 +1392,16 @@ namespace ScriptCoreLib.Query.Experimental
                           {
                               using (WithoutLinefeeds())
                               {
-                                  WriteLine(1, ("let " + GetTargetName()) + " <- ");
+                                  WriteLine(1, "let ");
+
+                                  if (upperParameter != null)
+                                  {
+                                      WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                      WriteLine(1, " ");
+                                  }
+
+                                  WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                  WriteLine(1, " <- ");
                                   WriteScalarExpression(xxBinaryExpression);
                               }
                               return;
@@ -1172,6 +1485,33 @@ namespace ScriptCoreLib.Query.Experimental
                           }
                           #endregion
 
+                          #region WriteProjection:MemberInitExpression
+                          // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberInitExpression\Program.cs
+                          var zMemberInitExpression = zExpression as MemberInitExpression;
+                          if (zMemberInitExpression != null)
+                          {
+                              WriteCommentLine(1, "MemberInitExpression");
+
+                              WriteProjection(zsource, zMemberInitExpression.NewExpression, Target);
+
+                              // what about XElement?
+
+                              zMemberInitExpression.Bindings.WithEachIndex(
+                                  (SourceBinding, SourceBindingIndex) =>
+                                  {
+                                      var item = new
+                                      {
+                                          a = (SourceBinding as MemberAssignment).Expression,
+                                          m = SourceBinding.Member
+                                      };
+
+                                      WriteProjection(zsource, item.a, Target.Concat(new[] { Tuple.Create(item.m, -1) }).ToArray());
+                                  }
+                              );
+                              return;
+                          }
+                          #endregion
+
                           Debugger.Break();
                       };
                 #endregion
@@ -1188,16 +1528,28 @@ namespace ScriptCoreLib.Query.Experimental
 
                     WriteLine(0, "select");
 
-                    if (xGroupBy.elementSelector == null)
                     {
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByConstant\Program.cs
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBySelectKeyAndLast\Program.cs
-                        WriteLine(1, "proxy { Key, Last() ... }");
+                        //WriteLine(1, "proxy { Key, Last() ... }");
+
+
+                        // IQueryStrategyGrouping
+
+                        // sending over the key?
+                        WriteProjection(
+                            source,
+                            xGroupBy.keySelector.Body,
+                               new[] { new Tuple<MemberInfo, int>(KeyReference.Method, -1) }
+                        );
+
+
+                        WriteProjection(source, xGroupBy.elementSelector.Body,
+                             new[] { new Tuple<MemberInfo, int>(LastReference.Method, -1) }
+                            );
+
                     }
-                    else
-                    {
-                        WriteProjection(source, xGroupBy.elementSelector.Body, new Tuple<MemberInfo, int>[0]);
-                    }
+
                     // elementSelector = {<>h__TransparentIdentifier3 => new <>f__AnonymousType4`3(x = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x, xFoo = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.xFoo, xKey = <>h__TransparentIdentifier3.xKey)}
 
                     // proxy the key
@@ -1217,6 +1569,8 @@ namespace ScriptCoreLib.Query.Experimental
                     //using (WithoutLinefeeds())
                     {
                         WriteLine(0, "group by ");
+
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBy\Program.cs
 
                         // we need it unpacked
                         WriteProjection(source, xGroupBy.keySelector.Body, new Tuple<MemberInfo, int>[0]);
@@ -1402,7 +1756,7 @@ namespace ScriptCoreLib.Query.Experimental
                         var xNewExpression = xSelect.selector.Body as NewExpression;
                         if (xNewExpression != null)
                         {
-                            WriteCommentLine(1, "NewExpression");
+                            //WriteCommentLine(1, "NewExpression");
 
                             if (xNewExpression.Members == null)
                             {
