@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using ScriptCoreLib.Extensions;
 using System.Reflection;
+using System.IO;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -33,6 +34,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             return default(TElement);
         }
+
 
     }
 

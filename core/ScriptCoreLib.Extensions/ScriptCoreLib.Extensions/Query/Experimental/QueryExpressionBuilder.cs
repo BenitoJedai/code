@@ -1152,6 +1152,31 @@ namespace ScriptCoreLib.Query.Experimental
                         }
                         #endregion
 
+                        #region WriteProjectionProxy:zBinaryExpression
+                        var zBinaryExpression = zExpression as BinaryExpression;
+                        if (zBinaryExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+                            using (WithoutLinefeeds())
+                            {
+                                // we have to unpack everything?
+
+                                WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
+
+                                if (upperParameter != null)
+                                {
+                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                    WriteLine(1, " ");
+                                }
+
+                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
+                                WriteLine(1, " <- " + GetTargetName());
+                            }
+                            return;
+                        }
+                        #endregion
+
                         #region WriteProjectionProxy:zMethodCallExpression
                         var zMethodCallExpression = zExpression as MethodCallExpression;
                         if (zMethodCallExpression != null)
