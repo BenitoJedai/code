@@ -337,6 +337,71 @@ namespace ScriptCoreLib.Query.Experimental
                         var zMemberExpression = asExpression as MemberExpression;
                         if (zMemberExpression != null)
                         {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWhere\Program.cs
+                            // are we looking at a constant?
+
+                            var GetValue = default(Func<object>);
+
+                            #region xConstantExpression
+                            Action<MemberExpression, Action<object>> yy = null;
+
+                            yy = (xx, yield) =>
+                            {
+                                #region atyield
+                                Action<object> atyield =
+                                    __value =>
+                                    {
+                                        var xPropertyInfo = xx.Member as PropertyInfo;
+                                        if (xPropertyInfo != null)
+                                        {
+                                            yield(
+                                                xPropertyInfo.GetValue(__value, null)
+                                            );
+                                            return;
+                                        }
+
+
+                                        var xFieldInfo = xx.Member as FieldInfo;
+                                        if (xFieldInfo != null)
+                                        {
+                                            yield(
+                                                xFieldInfo.GetValue(__value)
+                                            );
+                                            // __value2 = { u = { n = C } }
+                                            return;
+                                        }
+                                    };
+                                #endregion
+
+
+                                var xConstantExpression = xx.Expression as ConstantExpression;
+                                if (xConstantExpression != null)
+                                {
+                                    // z = { u = { n = C } }
+                                    atyield(xConstantExpression.Value);
+                                }
+
+
+                                if (xx.Expression is MemberExpression)
+                                    yy(xx.Expression as MemberExpression, atyield);
+                            };
+                            #endregion
+
+                            yy(zMemberExpression,
+                                 __value =>
+                                 {
+                                     GetValue = () => __value;
+                                 }
+                            );
+
+                            if (GetValue != null)
+                            {
+                                var __value = GetValue();
+                                WriteLineWithColor(1, "@arg(" + __value + ")", ConsoleColor.Red);
+                                return;
+                            }
+
+
                             using (WithoutLinefeeds())
                             {
                                 var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
@@ -360,13 +425,15 @@ namespace ScriptCoreLib.Query.Experimental
                         #endregion
 
                         #region WriteScalarExpression:xConstantExpression
-                        var xConstantExpression = asExpression as ConstantExpression;
-                        if (xConstantExpression != null)
                         {
-                            //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
-                            //WriteLine(1, "@constant " + new { xConstantExpression.Value });
-                            WriteLineWithColor(1, "@arg(" + xConstantExpression.Value + ")", ConsoleColor.Red);
-                            return;
+                            var xConstantExpression = asExpression as ConstantExpression;
+                            if (xConstantExpression != null)
+                            {
+                                //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
+                                //WriteLine(1, "@constant " + new { xConstantExpression.Value });
+                                WriteLineWithColor(1, "@arg(" + xConstantExpression.Value + ")", ConsoleColor.Red);
+                                return;
+                            }
                         }
                         #endregion
 
@@ -390,23 +457,28 @@ namespace ScriptCoreLib.Query.Experimental
                 var xOrderBy = source as xOrderBy;
                 if (xOrderBy != null)
                 {
-                    var sql = new SQLWriter<TElement>(xOrderBy.source, upper.Concat(new[] { source }), context);
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByDescending\Program.cs
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderBy\Program.cs
+                    var sql = new SQLWriter<TElement>(xOrderBy.source, upper.Concat(new[] { source }), context, upperParameter: xOrderBy.keySelector.First().keySelector.Parameters[0]);
 
-
-                    xOrderBy.keySelector.WithEachIndex(
-                        (oExpression, oExpressionIndex) =>
-                        {
-                            using (WithoutLinefeeds())
+                    using (WithoutLinefeeds())
+                    {
+                        xOrderBy.keySelector.WithEachIndex(
+                            (oExpression, oExpressionIndex) =>
                             {
+
                                 if (oExpressionIndex == 0)
                                     WriteLine(0, "orderby ");
                                 else
                                     WriteLine(0, ", ");
 
-                                WriteScalarExpression(oExpression.Body);
+                                WriteScalarExpression(oExpression.keySelector.Body);
+
+                                if (!oExpression.ascending)
+                                    WriteLine(0, " desc");
                             }
-                        }
-                    );
+                        );
+                    }
 
                     return;
                 }
@@ -416,7 +488,7 @@ namespace ScriptCoreLib.Query.Experimental
                 var xWhere = source as xWhere;
                 if (xWhere != null)
                 {
-                    var sql = new SQLWriter<TElement>(xWhere.source, upper.Concat(new[] { source }), context);
+                    var sql = new SQLWriter<TElement>(xWhere.source, upper.Concat(new[] { source }), context, upperParameter: xWhere.filter.First().Parameters[0]);
 
                     xWhere.filter.WithEachIndex(
                         (wExpression, wExpressionIndex) =>
@@ -831,11 +903,20 @@ namespace ScriptCoreLib.Query.Experimental
                             y =
                                 zzsource =>
                                 {
+                                    var zzOrderBy = zzsource as xOrderBy;
+                                    if (zzOrderBy != null)
+                                    {
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWhere\Program.cs
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByDescending\Program.cs
+
+                                        y(zzOrderBy.source);
+                                        return;
+                                    }
+
                                     var zzWhere = zzsource as xWhere;
                                     if (zzWhere != null)
                                     {
                                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWhere\Program.cs
-
                                         y(zzWhere.source);
                                         return;
                                     }
@@ -861,7 +942,7 @@ namespace ScriptCoreLib.Query.Experimental
                                         return;
                                     }
 
-                                    
+
 
                                     var zzJoin = zzsource as xJoin;
                                     if (zzJoin != null)

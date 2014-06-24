@@ -101,6 +101,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWhere", "TestWhere\Test
 		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestOrderBy", "TestOrderBy\TestOrderBy.csproj", "{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestOrderByDescending", "TestOrderByDescending\TestOrderByDescending.csproj", "{53152AF4-3B7D-4A9C-8EA6-373573A63583}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLetOrderBy", "TestLetOrderBy\TestLetOrderBy.csproj", "{5AB4055D-BAAE-4A13-AD33-4169650D97D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -365,6 +377,30 @@ Global
 		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.PHP|Any CPU.Build.0 = Release|Any CPU
 		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}.Android|Any CPU.Build.0 = Release|Any CPU
+		{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F33954C-4F9A-4F5F-879A-B2AB4C16AD92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53152AF4-3B7D-4A9C-8EA6-373573A63583}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{53152AF4-3B7D-4A9C-8EA6-373573A63583}.Android|Any CPU.Build.0 = Release|Any CPU
+		{53152AF4-3B7D-4A9C-8EA6-373573A63583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53152AF4-3B7D-4A9C-8EA6-373573A63583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53152AF4-3B7D-4A9C-8EA6-373573A63583}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{53152AF4-3B7D-4A9C-8EA6-373573A63583}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{53152AF4-3B7D-4A9C-8EA6-373573A63583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53152AF4-3B7D-4A9C-8EA6-373573A63583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AB4055D-BAAE-4A13-AD33-4169650D97D0}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{5AB4055D-BAAE-4A13-AD33-4169650D97D0}.Android|Any CPU.Build.0 = Release|Any CPU
+		{5AB4055D-BAAE-4A13-AD33-4169650D97D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AB4055D-BAAE-4A13-AD33-4169650D97D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AB4055D-BAAE-4A13-AD33-4169650D97D0}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{5AB4055D-BAAE-4A13-AD33-4169650D97D0}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{5AB4055D-BAAE-4A13-AD33-4169650D97D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AB4055D-BAAE-4A13-AD33-4169650D97D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
