@@ -6,6 +6,8 @@ using System.Linq.Expressions;
 using System.Text;
 using ScriptCoreLib.Extensions;
 using System.Reflection;
+using System.Data;
+using System.Data.Common;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -84,10 +86,28 @@ namespace ScriptCoreLib.Query.Experimental
 
         partial class SQLWriter<TElement>
         {
+            public DbCommand Command;
 
-            public SQLWriter(IQueryStrategy source, IEnumerable<IQueryStrategy> upper, SQLWriterContext context = null, ParameterExpression upperParameter = null)
+            public SQLWriter(
+                IQueryStrategy source,
+                IEnumerable<IQueryStrategy> upper,
+                SQLWriterContext context = null,
+                ParameterExpression upperParameter = null,
+                IDbConnection cc = null)
             {
-                //Console.Clear();
+
+                Action<string> Write =
+                    text =>
+                    {
+                        if (Command != null)
+                            Command.CommandText += text;
+
+                        Console.Write(text);
+                    };
+
+                if (cc != null)
+                    Command = (DbCommand)cc.CreateCommand();
+
 
                 // selector = {<>h__TransparentIdentifier6 => <>h__TransparentIdentifier6.<>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
 
@@ -143,18 +163,20 @@ namespace ScriptCoreLib.Query.Experimental
                           var trace = "/* " + FileLineNumber.ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
 
                           Console.ForegroundColor = ConsoleColor.Gray;
-                          Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+                          Write(trace + "".PadLeft(upper.Count() + padding, ' '));
 
                       }
 
 
                       Console.ForegroundColor = c;
-                      Console.Write("/* " + text + " */");
+
+                      Write("/* " + text + " */");
+
                       Console.ForegroundColor = old.ForegroundColor;
 
                       if (WithoutLinefeedsCounter == 0)
                       {
-                          Console.WriteLine();
+                          Write("\r\n");
                       }
 
                   };
@@ -178,18 +200,18 @@ namespace ScriptCoreLib.Query.Experimental
                             var trace = "/* " + FileLineNumber.ToString().PadLeft(4, '0') + ":" + context.LineNumber.ToString().PadLeft(4, '0') + " */ ";
 
                             Console.ForegroundColor = ConsoleColor.Gray;
-                            Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+                            Write(trace + "".PadLeft(upper.Count() + padding, ' '));
 
                         }
 
 
                         Console.ForegroundColor = c;
-                        Console.Write(text);
+                        Write(text);
                         Console.ForegroundColor = old.ForegroundColor;
 
                         if (WithoutLinefeedsCounter == 0)
                         {
-                            Console.WriteLine();
+                            Write("\r\n");
                         }
 
                     };
@@ -215,7 +237,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                             Console.ForegroundColor = ConsoleColor.Gray;
 
-                            Console.Write(trace + "".PadLeft(upper.Count() + padding, ' '));
+                            Write(trace + "".PadLeft(upper.Count() + padding, ' '));
 
 
                             if (text.StartsWith("let"))
@@ -230,12 +252,12 @@ namespace ScriptCoreLib.Query.Experimental
                         }
 
 
-                        Console.Write(text);
+                        Write(text);
                         Console.ForegroundColor = old.ForegroundColor;
 
                         if (WithoutLinefeedsCounter == 0)
                         {
-                            Console.WriteLine();
+                            Write("\r\n");
                         }
 
 
@@ -1017,7 +1039,7 @@ namespace ScriptCoreLib.Query.Experimental
                                         m = SourceBinding.Member
                                     };
 
-                                    WriteProjectionProxy(zsource, item.a, Target.Concat(new[] { Tuple.Create(item.m, -1) }).ToArray());
+                                    WriteProjectionProxy(zsource, item.a, Target.Concat(new[] { Tuple.Create(item.m, SourceBindingIndex) }).ToArray());
                                 }
                             );
                             return;
@@ -1074,54 +1096,50 @@ namespace ScriptCoreLib.Query.Experimental
                                 // we have to unpack everything?
 
 
-                                WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
+                                WriteCommentLine(1, "proxy");
 
-                                if (upperParameter != null)
-                                {
-                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
-                                    WriteLine(1, " ");
-                                }
+                                if (Target.Last().Item2 > 0)
+                                    WriteLine(1, ", ");
 
-                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                                //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
-
-
-
-                                var zGroupBy = source as xGroupBy;
-                                if (zGroupBy != null)
-                                {
-                                    WriteLine(1, " <- " + zGroupBy.keySelector.Parameters[0].Name + " " + zMemberExpression.Member.Name);
-                                    return;
-                                }
 
                                 var zSelect = source as xSelect;
                                 if (zSelect != null)
                                 {
-                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
-                                    var zzJoin = zSelect.source as xJoin;
-                                    if (zzJoin != null)
-                                    {
-
-                                        //WriteLine(1, " <- " + zSelect.selector.Parameters[0].Name + " ? " + zMemberExpression.Member.Name);
-                                        WriteLine(1, " <- " + GetTargetName());
-                                        return;
-                                    }
-
-
                                     var zzGroupBy = zSelect.source as xGroupBy;
                                     if (zzGroupBy != null)
                                     {
 
                                         WriteLine(1, " <- " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
+                                        WriteLine(1, " as ");
+                                        if (upperParameter != null)
+                                        {
+                                            WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                            WriteLine(1, " ");
+                                        }
+                                        WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
                                         return;
                                     }
 
+                                    WriteLine(1, " " + zSelect.selector.Parameters[0].Name + "." + GetTargetName());
+                                    WriteLine(1, " as ");
+                                    if (upperParameter != null)
+                                    {
+                                        WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                        WriteLine(1, " ");
+                                    }
+                                    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                    return;
                                 }
 
-
-
                                 WriteLine(1, " <- " + GetTargetName());
-                                //WriteLine(1, " {...}");
+                                WriteLine(1, " as ");
+                                if (upperParameter != null)
+                                {
+                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                    WriteLine(1, " ");
+                                }
+                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+
                             }
                             return;
                         }
@@ -1466,17 +1484,16 @@ namespace ScriptCoreLib.Query.Experimental
                               using (WithoutLinefeeds())
                               {
 
-                                  WriteLine(1, "let ");
+                                  WriteCommentLine(1, "let");
 
-                                  if (upperParameter != null)
-                                  {
-                                      WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
-                                      WriteLine(1, " ");
-                                  }
+                                  if (Target.Last().Item2 > 0)
+                                      WriteLine(1, ", ");
 
-                                  WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
 
-                                  WriteLine(1, " <- ");
+                                  WriteLine(1, " ");
+
+
+
 
                                   // tested by?
                                   if (zMemberExpression.Member.DeclaringType == typeof(DateTime))
@@ -1491,6 +1508,15 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
 
                                   y(zMemberExpression);
+                                  WriteLine(1, " as ");
+
+                                  if (upperParameter != null)
+                                  {
+                                      WriteCommentLine(0, upperParameter.Name);
+                                      WriteLine(1, " ");
+                                  }
+
+                                  WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                               }
                               return;
                           }
@@ -2005,7 +2031,7 @@ namespace ScriptCoreLib.Query.Experimental
                                         m = SourceBinding.Member
                                     };
 
-                                    WriteProjection(source, item.a, new[] { Tuple.Create(item.m, -1) });
+                                    WriteProjection(source, item.a, new[] { Tuple.Create(item.m, SourceBindingIndex) });
                                 }
                             );
                             return;
@@ -2158,7 +2184,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                     using (WithoutLinefeeds())
                     {
-                        WriteLine(0, "from xTable as ");
+                        WriteLine(0, "from ");
                         WriteLineWithColor(0, "" + (source as xSelect).selector.Parameters[0].Name, ConsoleColor.Magenta);
                     }
                 }

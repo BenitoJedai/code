@@ -1,5 +1,6 @@
 ﻿using ScriptCoreLib.Query.Experimental;
 using System;
+using System.Data.SQLite;
 using System.Linq.Expressions;
 
 class Program
@@ -56,18 +57,31 @@ class Program
     static void Main(string[] args)
     {
         // string DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
-        // insert into `PerformanceResourceTimingData2.ApplicationPerformance` (`connectStart`, `connectEnd`, `requestStart`, `responseStart`, `responseEnd`, `domLoading`, `domComplete`, `loadEventStart`, `loadEventEnd`, `EventTime`, `Tag`, `Timestamp`)  values (@connectStart
+
+        var cc = new SQLiteConnection(
+            new SQLiteConnectionStringBuilder
+            {
+                DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
+            }.ToString()
+        );
+
+        cc.Open();
+
+
+
         var n = new xApplicationPerformance();
 
-        n.Create();
+        n.Create(cc);
 
-        n.Insert(
-            new xPerformanceResourceTimingData2ApplicationPerformanceRow {
+        n.Insert(cc,
+            new xPerformanceResourceTimingData2ApplicationPerformanceRow
+            {
                 connectStart = 5,
                 connectEnd = 13,
-                EventTime = DateTime.Now.AddDays(-0) 
+                EventTime = DateTime.Now.AddDays(-0)
             }
         );
+
 
         //n.Insert();
         //var nn = new TestSelectMath.PerformanceResourceTimingData2.ApplicationPerformance();
@@ -80,17 +94,23 @@ class Program
 
         //var q = from x in new TestSelectMath.PerformanceResourceTimingData2.ApplicationPerformance()
         var q = from x in new xApplicationPerformance()
-                let add = x.connectStart + x.connectEnd
-                let mul = add / 3
+                select x;
 
-                where mul > 0
+        var z = q.AsDataTable(cc);
 
-                select new
-                {
-                    mul
-                };
+        cc.Close();
 
-        var f = q.FirstOrDefault();
+        //        let add = x.connectStart + x.connectEnd
+        //        let mul = add / 3
+
+        //        where mul > 0
+
+        //        select new
+        //        {
+        //            mul
+        //        };
+
+        //var f = q.FirstOrDefault();
 
         //var z = f.x.field1;
 
