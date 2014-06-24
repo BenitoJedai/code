@@ -25,7 +25,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
         #region xJoin
-        public class xJoin
+        public class xJoin : IQueryStrategy
         {
             public IQueryStrategy outer;
             public IQueryStrategy inner;
@@ -35,6 +35,11 @@ namespace ScriptCoreLib.Query.Experimental
             public LambdaExpression innerKeySelector;
 
             public LambdaExpression resultSelector;
+
+            public override string ToString()
+            {
+                return "join " + resultSelector.Parameters[0].Name + " " + resultSelector.Parameters[1].Name;
+            }
         }
 
         public class xJoin<TElement> : xJoin, IQueryStrategy<TElement>

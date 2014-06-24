@@ -18,7 +18,7 @@ namespace ScriptCoreLib.Query.Experimental
 
         #region Select
         // allow xTable to predefine a select
-        public class xSelect
+        public class xSelect : IQueryStrategy
         {
             public IQueryStrategy source;
             public LambdaExpression selector;

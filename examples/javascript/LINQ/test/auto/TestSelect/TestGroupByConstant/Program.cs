@@ -8,6 +8,9 @@ class Program
             from x in new xTable()
 
             group x by 1 into g
+
+            let gap2 = 2
+
             select new { g.Key }
 
         ).FirstOrDefault();

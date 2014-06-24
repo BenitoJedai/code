@@ -15,15 +15,29 @@ namespace ScriptCoreLib.Query.Experimental
         partial class SQLWriter<TElement>
         {
             public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<IQueryStrategyGrouping<object, TElement>>> GroupByReference = GroupBy;
+
+
+            public static readonly Func<IQueryStrategyGrouping<long, TElement>, long> KeyReference = Key;
+
+            [Obsolete("we need a MemberInfo for Key")]
+            public static TKey Key< TKey, TElement>(IQueryStrategyGrouping< TKey, TElement> g)
+            {
+                return g.Key;
+            }
         }
 
 
 
-        public class xGroupBy
+        public class xGroupBy : IQueryStrategy
         {
             public IQueryStrategy source;
             public LambdaExpression keySelector;
             public LambdaExpression elementSelector;
+
+            public override string ToString()
+            {
+                return "groupby " + keySelector.Parameters[0].Name ;
+            }
         }
 
         public class xGroupBy<TElement> : xGroupBy, IQueryStrategy<TElement>
@@ -47,10 +61,16 @@ namespace ScriptCoreLib.Query.Experimental
              GroupBy<TSource, TKey>(this IQueryStrategy<TSource> source, 
             Expression<Func<TSource, TKey>> keySelector)
         {
+            Expression<Func<TSource, TSource>> elementSelector = e => e;
+
+
             return new xGroupBy<IQueryStrategyGrouping<TKey, TSource>>
             {
                 source = source,
                 keySelector = keySelector,
+
+                // better than null?
+                elementSelector = elementSelector
             };
         }
 

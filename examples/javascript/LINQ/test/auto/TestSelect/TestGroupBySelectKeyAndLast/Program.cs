@@ -9,7 +9,14 @@ class Program
 
             group x by x.field1 into g
 
-            select new { g.Key, last = g.Last() }
+            let gKey = g.Key
+            select new {
+                
+                gKey, 
+                
+                //last = g.Last(), 
+                lastTag = g.Last().Tag
+            }
 
         ).FirstOrDefault();
 

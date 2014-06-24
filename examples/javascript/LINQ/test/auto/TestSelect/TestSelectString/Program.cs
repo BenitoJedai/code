@@ -6,8 +6,10 @@ class Program
     {
         var f = (
             from x in new xTable()
+            
+            let xTagUpper = x.Tag.ToUpper()
 
-            select (x.Tag  + "a").ToUpper()
+            select (x.Tag  + xTagUpper).ToUpper()
             //string.Concat(
             ////new[]
             ////{
