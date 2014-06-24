@@ -6,16 +6,10 @@ class Program
     {
         var f = (
             from x in new xTable()
-            select x
 
-            ////let yy = 6
-            //let xx = "piiksuland!"
+            group x by new{ a = 1} into g
+            select new { g.Key }
 
-
-
-
-
-            //select new { x, xx, z = new { x.field1, x } }
         ).FirstOrDefault();
 
         //var z = f.x.field1;

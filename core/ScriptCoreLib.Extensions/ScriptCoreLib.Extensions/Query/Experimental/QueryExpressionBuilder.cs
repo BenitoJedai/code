@@ -85,13 +85,16 @@ namespace ScriptCoreLib.Query.Experimental
         partial class SQLWriter<TElement>
         {
 
-            public SQLWriter(IQueryStrategy source, IEnumerable<IQueryStrategy> upper, SQLWriterContext context = null)
+            public SQLWriter(IQueryStrategy source, IEnumerable<IQueryStrategy> upper, SQLWriterContext context = null, ParameterExpression upperParameter = null)
             {
                 //Console.Clear();
 
                 // selector = {<>h__TransparentIdentifier6 => <>h__TransparentIdentifier6.<>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
 
                 // convert to SQL!
+
+                var xSelect = source as xSelect;
+
 
                 #region WriteLine
                 if (context == null)
@@ -117,7 +120,7 @@ namespace ScriptCoreLib.Query.Experimental
                     };
                 #endregion
 
-                Action<int, string> WriteCommentLine  =
+                Action<int, string> WriteCommentLine =
                   (padding, text) =>
                   {
                       var c = ConsoleColor.Green;
@@ -539,15 +542,29 @@ namespace ScriptCoreLib.Query.Experimental
                 Action<IQueryStrategy, MethodCallExpression, Func<string>> WriteScalarFirstOrDefault =
                     (zsource, xxMethodCallExpression, GetTargetName) =>
                     {
-
+                        var zSelect = zsource as xSelect;
 
 
                         #region yaa
                         Action<Expression> yaa =
                             aa =>
                             {
-                                // ?
-                                WriteLineWithColor(1, ("let " + GetTargetName()) + " <- (", ConsoleColor.White);
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarFirstOrDefault\Program.cs
+
+                                using (WithoutLinefeeds())
+                                {
+                                    WriteLine(1, "let ");
+                                    var uSelect = upper.LastOrDefault() as xSelect;
+                                    if (uSelect != null)
+                                    {
+                                        WriteLineWithColor(0, uSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
+                                        WriteLine(1, " ");
+                                    }
+
+                                    WriteLineWithColor(1, GetTargetName(), ConsoleColor.Cyan);
+                                    // ?
+                                    WriteLineWithColor(1, " <- (", ConsoleColor.White);
+                                }
 
                                 // whats aa? the where clause?
                                 // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
@@ -737,7 +754,6 @@ namespace ScriptCoreLib.Query.Experimental
                         #endregion
 
 
-                        var zSelect = zsource as xSelect;
 
                         walker(zSelect.source as xSelect, __source.Expression);
                     };
@@ -781,7 +797,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                           var zSelect = source as xSelect;
 
-                          #region xxMethodCallExpression
+                          #region WriteProjection:xxMethodCallExpression
                           var xxMethodCallExpression = zExpression as MethodCallExpression;
                           if (xxMethodCallExpression != null)
                           {
@@ -818,6 +834,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                               // what other methods have we referenced yet?
 
+                              #region Tuple
                               if (xxMethodCallExpression.Method.DeclaringType == typeof(Tuple))
                               {
                                   // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectTuple\Program.cs
@@ -836,10 +853,13 @@ namespace ScriptCoreLib.Query.Experimental
                                        );
                                   return;
                               }
+                              #endregion
+
 
                               #region string
                               if (xxMethodCallExpression.Method.DeclaringType == typeof(string))
                               {
+                                  #region Concat
                                   if (xxMethodCallExpression.Method.Name == "Concat")
                                   {
 
@@ -857,6 +877,8 @@ namespace ScriptCoreLib.Query.Experimental
                                           );
                                       return;
                                   }
+                                  #endregion
+
 
 
                                   if (xxMethodCallExpression.Method.Name == "ToUpper")
@@ -955,8 +977,23 @@ namespace ScriptCoreLib.Query.Experimental
                                   // wont work?
 
                                   // if (!(zsource is xSelect))
+                                 using (WithoutLinefeeds())
                                   {
-                                      WriteLine(1, ("let " + GetTargetName()) + " <- ?");
+
+
+                                      WriteLine(1, "let ");
+
+                                      if (upperParameter != null)
+                                      {
+                                          WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                          WriteLine(1, " ");
+                                      }
+
+
+                                      WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                      WriteLine(1, " <- ");
+
+                                      WriteLine(1, "?");
 
                                       return;
                                   }
@@ -1090,6 +1127,15 @@ namespace ScriptCoreLib.Query.Experimental
                               {
 
                                   WriteLine(1, "let ");
+
+                                  if (upperParameter != null)
+                                  {
+                                      WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                      WriteLine(1, " ");
+                                  }
+
+                        
+
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                   WriteLine(1, " <- ? " + zMemberExpression.Member.Name);
                                   //WriteScalarExpression(zExpression);
@@ -1110,6 +1156,13 @@ namespace ScriptCoreLib.Query.Experimental
                                   using (WithoutLinefeeds())
                                   {
                                       WriteLine(1, "let ");
+
+                                      if (zSelect != null)
+                                      {
+                                          WriteLineWithColor(0, zSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
+                                          WriteLine(1, " ");
+                                      }
+
                                       WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                       WriteLine(1, " <- ");
                                       WriteScalarExpression(zUnaryExpression.Operand);
@@ -1129,7 +1182,17 @@ namespace ScriptCoreLib.Query.Experimental
                           {
                               using (WithoutLinefeeds())
                               {
+
+
                                   WriteLine(1, "let ");
+
+                                  if (upperParameter != null)
+                                  {
+                                      WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                      WriteLine(1, " ");
+                                  }
+
+
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                   WriteLine(1, " <- ");
                                   WriteScalarExpression(xConstantExpression);
@@ -1211,12 +1274,21 @@ namespace ScriptCoreLib.Query.Experimental
                           var zParameterExpression = zExpression as ParameterExpression;
                           if (zParameterExpression != null)
                           {
-
+                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
                               using (WithoutLinefeeds())
                               {
+                                  // we have to unpack everything?
 
                                   WriteLine(1, "proxy ");
-                                  WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+
+                                  if (upperParameter != null)
+                                  {
+                                      WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                      WriteLine(1, " ");
+                                  }
+
+                                  //WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                  WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
                                   WriteLine(1, " {...}");
                               }
 
@@ -1252,6 +1324,8 @@ namespace ScriptCoreLib.Query.Experimental
                 var xGroupBy = source as xGroupBy;
                 if (xGroupBy != null)
                 {
+                    WriteCommentLine(0, "xGroupBy");
+
                     // proxy x?
                     // elementSelector = {<>h__TransparentIdentifier3 => <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x}
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBy\Program.cs
@@ -1260,6 +1334,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                     if (xGroupBy.elementSelector == null)
                     {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByConstant\Program.cs
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBySelectKeyAndLast\Program.cs
                         WriteLine(1, "proxy { Key, Last() ... }");
                     }
@@ -1273,7 +1348,7 @@ namespace ScriptCoreLib.Query.Experimental
                     // proxy the outer
 
                     WriteLine(0, "from (");
-                    var sql0 = new SQLWriter<TElement>(xGroupBy.source, upper.Concat(new[] { source }), context);
+                    var sql0 = new SQLWriter<TElement>(xGroupBy.source, upper.Concat(new[] { source }), context, upperParameter: xGroupBy.keySelector.Parameters[0]);
 
                     // keySelector = {<>h__TransparentIdentifier3 => new <>f__AnonymousType3`3(xKey = <>h__TransparentIdentifier3.xKey, xFoo = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.xFoo, g3 = (<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x.field2 + 2))}
 
@@ -1320,7 +1395,7 @@ namespace ScriptCoreLib.Query.Experimental
                     // resultSelector = {(xouter, xinner) => new <>f__AnonymousType13`2(xouter = xouter, xinner = xinner)}
 
                     WriteLine(0, "from (");
-                    var sql0 = new SQLWriter<TElement>(xJoin.outer, upper.Concat(new[] { source }), context);
+                    var sql0 = new SQLWriter<TElement>(xJoin.outer, upper.Concat(new[] { source }), context, upperParameter: xJoin.outerKeySelector.Parameters[0]);
                     using (WithoutLinefeeds())
                     {
                         WriteLine(0, ") as ");
@@ -1329,7 +1404,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                     WriteLine(0, "inner join (");
 
-                    var sql1 = new SQLWriter<TElement>(xJoin.inner, upper.Concat(new[] { source }), context);
+                    var sql1 = new SQLWriter<TElement>(xJoin.inner, upper.Concat(new[] { source }), context, upperParameter: xJoin.innerKeySelector.Parameters[0]);
 
                     using (WithoutLinefeeds())
                     {
@@ -1382,7 +1457,6 @@ namespace ScriptCoreLib.Query.Experimental
                 }
                 #endregion
 
-                var xSelect = source as xSelect;
 
 
 
@@ -1473,7 +1547,7 @@ namespace ScriptCoreLib.Query.Experimental
                             WriteCommentLine(1, "NewExpression");
 
                             if (xNewExpression.Members == null)
-                            { 
+                            {
                                 // all arguments are for ctor?
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectNewExpressionConstructor\Program.cs
                                 xNewExpression.Arguments.WithEachIndex(
@@ -1587,7 +1661,7 @@ namespace ScriptCoreLib.Query.Experimental
                         }
                         #endregion
 
-               
+
 
                         // look we can select array from single row, in db this would be a union. for reading the data out, we just need to prefix with index.
 
@@ -1620,7 +1694,8 @@ namespace ScriptCoreLib.Query.Experimental
                     var xsource = new SQLWriter<TElement>(
                        xSelect_source,
                         upper.Concat(new[] { source }),
-                        context
+                        context,
+                        upperParameter: (source as xSelect).selector.Parameters[0]
                     );
 
                     // render the source and with parent
