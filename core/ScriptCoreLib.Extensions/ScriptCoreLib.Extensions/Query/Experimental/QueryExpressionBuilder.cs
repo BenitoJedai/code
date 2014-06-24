@@ -918,209 +918,38 @@ namespace ScriptCoreLib.Query.Experimental
                           var zMemberExpression = zExpression as MemberExpression;
                           if (zMemberExpression != null)
                           {
+                 
 
-                              if (zMemberExpression.Member.DeclaringType == typeof(DateTime))
-                              {
-                                  WriteLineWithColor(1, ("let " + GetTargetName()) + " <- date(?)", ConsoleColor.White);
-                                  return;
-                              }
+                              #region y
+                              Action<MemberExpression> y = null;
 
-                              #region zMMemberExpression
-                              var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
-                              if (zMMemberExpression != null)
-                              {
-                                  // walk the source
-                                  // upper to deeper
-
-                                  #region diagnostics
-                                  //var member1 = (Expression)zMMemberExpression;
-                                  //while (member1 is MemberExpression)
-                                  //{
-                                  //    Console.WriteLine(new { member1 });
-
-                                  //    member1 = ((MemberExpression)member1).Expression;
-                                  //}
-
-                                  //var member1p = (ParameterExpression)member1;
-
-                                  //// we have rewinded to the parameter
-                                  //Console.WriteLine(new { member1p });
-                                  //Console.WriteLine();
-
-                                  //// now replay to get the value?
-                                  ////var source1 = source;
-                                  //var source1 = zsource;
-
-                                  //if (member1p.Name != source1.ToString())
-                                  //{
-                                  //    Debugger.Break();
-
-                                  //}
-
-                                  //while (source1 != null)
-                                  //{
-                                  //    Console.WriteLine(new { source1 });
-
-                                  //    if (source1 is xSelect)
-                                  //        source1 = (source1 as xSelect).source;
-                                  //    else if (source1 is xOrderBy)
-                                  //        source1 = (source1 as xOrderBy).source;
-                                  //    else if (source1 is xWhere)
-                                  //        source1 = (source1 as xWhere).source;
-                                  //    else Debugger.Break();
-                                  //}
-                                  #endregion
-
-                                  //var p1 = xSelect.source;
-                                  //p1 = (zsource as xSelect).source;
-                                  // whatif we shall not look at our zsource?
-                                  // wont work?
-
-                                  // if (!(zsource is xSelect))
-                                 using (WithoutLinefeeds())
+                              y = m =>
                                   {
-
-
-                                      WriteLine(1, "let ");
-
-                                      if (upperParameter != null)
+                                      var mm = m.Expression as MemberExpression;
+                                      if (mm != null)
                                       {
-                                          WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
-                                          WriteLine(1, " ");
+                                          y(mm);
+                                      }
+
+                                      var mp = m.Expression as ParameterExpression;
+                                      if (mp != null)
+                                      {
+                                          WriteLineWithColor(0, mp.Name, ConsoleColor.DarkCyan);
                                       }
 
 
-                                      WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                      WriteLine(1, " <- ");
-
-                                      WriteLine(1, "?");
-
-                                      return;
-                                  }
-
-                                  var p1 = (zsource as xSelect).source;
-
-                                  var depth = 0;
-                                  while (zMMemberExpression.Expression is MemberExpression)
-                                  {
-                                      //if (zMemberExpression.Member.Name == "field1")
-                                      //WriteLineWithColor(4, ">" + new { depth, p1, zMemberExpression.Member, zMM = zMMemberExpression.Member.Name, zMMemberExpression }, ConsoleColor.Cyan);
-
-
-                                      depth++;
-
-                                      zMMemberExpression = zMMemberExpression.Expression as MemberExpression;
-
-
-                                      if (p1 is xWhere)
-                                          p1 = (p1 as xWhere).source;
-
-                                      if (p1 is xOrderBy)
-                                          p1 = (p1 as xOrderBy).source;
-
-                                      if (p1 is xWhere)
-                                          p1 = (p1 as xWhere).source;
-
-                                      if (p1 is xSelect)
-                                          p1 = (p1 as xSelect).source;
-
-                                      else Debugger.Break();
-                                  }
-
-                                  var pp0 = zMMemberExpression.Expression as ParameterExpression;
-                                  var pp1 = default(IQueryStrategy);
-
-
-                                  if (p1 is xWhere)
-                                      p1 = (p1 as xWhere).source;
-
-                                  if (p1 is xOrderBy)
-                                      p1 = (p1 as xOrderBy).source;
-
-                                  if (p1 is xWhere)
-                                      p1 = (p1 as xWhere).source;
-
-                                  if (p1 is xSelect)
-                                      pp1 = (p1 as xSelect).source;
-                                  //else if (p1 is xOrderBy)
-                                  //    pp1 = ((p1 as xOrderBy).source as xSelect).source;
-                                  //else if (p1 is xWhere)
-                                  //    pp1 = ((p1 as xWhere).source as xSelect).source;
-                                  else
-                                      Debugger.Break();
-
-                                  if (pp1 is xWhere)
-                                      pp1 = (pp1 as xWhere).source;
-
-                                  if (pp1 is xOrderBy)
-                                      pp1 = (pp1 as xOrderBy).source;
-
-                                  if (pp1 is xWhere)
-                                      pp1 = (pp1 as xWhere).source;
-
-
-                                  //if (zMemberExpression.Member.Name == "field1")
-                                  //    WriteLineWithColor(4, ">" + new { depth, pp1 }, ConsoleColor.Cyan);
-
-
-                                  var aa = default(Expression);
-
-                                  if (!(pp1 is xSelect))
-                                  {
-                                      WriteLine(1, ("let " + GetTargetName()) + " <- ??? nested not select");
-
-                                      return;
-                                  }
-
-
-
-                                  var xxMemberInitExpression = (pp1 as xSelect).selector.Body as MemberInitExpression;
-                                  if (xxMemberInitExpression != null)
-                                  {
-                                      // 		xxMemberInitExpression.Bindings[4].Member == zMemberExpression.Member	true	bool
-
-                                      var ii = xxMemberInitExpression.Bindings.Select(xx => xx.Member).ToList().IndexOf(zMemberExpression.Member);
-                                      if (ii < 0)
+                                      WriteLine(1, " ");
+                                      if (zMemberExpression == m)
                                       {
-                                          WriteLine(1, ("let " + GetTargetName()) + " <- ??? wrong level ???");
-                                          return;
+                                          WriteLineWithColor(1, m.Member.Name, ConsoleColor.Cyan);
                                       }
+                                      else
 
-                                      aa = (xxMemberInitExpression.Bindings[ii] as MemberAssignment).Expression;
-
-                                      //aa = xxMemberInitExpression.new[ii].;
-                                  }
-                                  else
-                                  {
-                                      var xxNewExpression = (pp1 as xSelect).selector.Body as NewExpression;
-
-                                      var ii = xxNewExpression.Members.IndexOf(zMemberExpression.Member);
-                                      if (ii < 0)
-                                      {
-                                          WriteLine(1, ("let " + GetTargetName()) + " <- ??? wrong level ???");
-
-                                          return;
-                                      }
-
-                                      aa = xxNewExpression.Arguments[ii];
-                                  }
-
-                                  // is it a complex object?
-                                  // aa = {new [] {(<>h__TransparentIdentifier7.scalar1count - 1), <>h__TransparentIdentifier7.scalar1count, (<>h__TransparentIdentifier7.scalar1count + 1)}}
-
-
-
-                                  WriteProjection(
-                                      pp1,
-                                      //zsource,
-                                      aa,
-                                      Target
-
-                                  );
-                                  return;
-                              }
+                                          WriteLineWithColor(1, m.Member.Name, ConsoleColor.DarkCyan);
+                                  };
                               #endregion
 
+                   
 
                               // X:\jsc.svn\examples\javascript\LINQ\test\TestLINQ\UnitTestProject1\ApplicationWebService\ApplicationWebService select x.cs
                               using (WithoutLinefeeds())
@@ -1134,17 +963,29 @@ namespace ScriptCoreLib.Query.Experimental
                                       WriteLine(1, " ");
                                   }
 
-                        
-
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                  WriteLine(1, " <- ? " + zMemberExpression.Member.Name);
-                                  //WriteScalarExpression(zExpression);
+
+                                  WriteLine(1, " <- ");
+
+                                  // tested by?
+                                  if (zMemberExpression.Member.DeclaringType == typeof(DateTime))
+                                  {
+                                      WriteLineWithColor(1, "date(", ConsoleColor.White);
+                                      
+                                      // date of what?
+                                      y(zMemberExpression.Expression as MemberExpression);
+
+                                      WriteLineWithColor(1, ")", ConsoleColor.White);
+                                      return;
+                                  }
+
+                                  y(zMemberExpression);
                               }
                               return;
                           }
                           #endregion
 
-                          #region zUnaryExpression
+                          #region WriteProjection:zUnaryExpression
                           var zUnaryExpression = zExpression as UnaryExpression;
                           if (zUnaryExpression != null)
                           {
@@ -1201,7 +1042,7 @@ namespace ScriptCoreLib.Query.Experimental
                           }
                           #endregion
 
-                          #region xBinaryExpression
+                          #region WriteProjection:xBinaryExpression
                           var xxBinaryExpression = zExpression as BinaryExpression;
                           if (xxBinaryExpression != null)
                           {
@@ -1214,7 +1055,7 @@ namespace ScriptCoreLib.Query.Experimental
                           }
                           #endregion
 
-                          #region xxNewArrayExpression
+                          #region WriteProjection:xxNewArrayExpression
                           var xxNewArrayExpression = zExpression as NewArrayExpression;
                           if (xxNewArrayExpression != null)
                           {
@@ -1291,6 +1132,8 @@ namespace ScriptCoreLib.Query.Experimental
                                   WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
                                   WriteLine(1, " {...}");
                               }
+
+                              
 
                               return;
                           }
