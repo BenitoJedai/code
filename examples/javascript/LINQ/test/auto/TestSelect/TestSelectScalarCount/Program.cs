@@ -11,18 +11,18 @@ class Program
         var f = (
             from x in new xTable()
 
-            //let y = 
+            let y =
+                from z in new xTable()
+                where z.field1 == x.field1
+                select z.Key
+
+            let c = y.Count()
+
+            //let c = (
             //    from z in new xTable()
             //    where z.field1 == x.field1
             //    select z
-
-            //let c = y.Count()
-
-            let c = (
-                from z in new xTable()
-                where z.field1 == x.field1
-                select z
-            ).Count()
+            //).Count()
 
 
             select c
