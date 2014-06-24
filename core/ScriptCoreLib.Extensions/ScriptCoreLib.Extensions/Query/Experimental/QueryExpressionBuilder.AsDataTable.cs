@@ -8,6 +8,7 @@ using ScriptCoreLib.Extensions;
 using System.Reflection;
 using System.Data;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
+using System.Data.Common;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -18,11 +19,12 @@ namespace ScriptCoreLib.Query.Experimental
 
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
 
+            var c = (DbCommand)cc.CreateCommand();
 
-            var w = new SQLWriter<TElement>(source, new IQueryStrategy[0].AsEnumerable(), cc: cc);
+            var w = new SQLWriter<TElement>(source, new IQueryStrategy[0].AsEnumerable(), Command: c);
 
 
-            var a = new __DbDataAdapter { SelectCommand = w.Command };
+            var a = new __DbDataAdapter { SelectCommand = c };
 
             var t = new DataTable();
             a.Fill(t);
