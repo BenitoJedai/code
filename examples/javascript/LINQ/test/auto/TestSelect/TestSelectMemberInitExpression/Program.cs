@@ -11,7 +11,7 @@ class Program
 
 
 
-            select new xRow
+            select new xElement(xx, xx)
             {
                 field1 = x.field1
             }
@@ -20,5 +20,15 @@ class Program
 
         //var z = f.x.field1;
 
+    }
+
+    class xElement
+    {
+        public xElement(string name, string content)
+        {
+
+        }
+
+        public int field1;
     }
 }
