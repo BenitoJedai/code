@@ -23,7 +23,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             public override string ToString()
             {
-                return (source as xSelect).selector.Parameters[0].Name;
+                return "where " + filter.First().Parameters[0].Name;
             }
         }
 
