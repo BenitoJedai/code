@@ -759,10 +759,38 @@ namespace ScriptCoreLib.Query.Experimental
                     };
                 #endregion
 
+                Action<IQueryStrategy, ParameterExpression, Tuple<MemberInfo, int>[]> WriteProjectionProxy = null;
+                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjection = null;
+
+
+                #region WriteProjectionProxy
+
+                WriteProjectionProxy =
+                    (zsource, zParameterExpression, Target) =>
+                    {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
+                        using (WithoutLinefeeds())
+                        {
+                            // we have to unpack everything?
+
+                            WriteLine(1, "proxy ");
+
+                            if (upperParameter != null)
+                            {
+                                WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                WriteLine(1, " ");
+                            }
+
+                            //WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                            WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
+                            WriteLine(1, " {...}");
+                        }
+
+                    };
+                #endregion
 
 
                 #region WriteProjection
-                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjection = null;
 
                 WriteProjection =
                     // do we need zsource?
@@ -796,6 +824,18 @@ namespace ScriptCoreLib.Query.Experimental
                           #endregion
 
                           var zSelect = source as xSelect;
+
+                          #region WriteProjection:zParameterExpression
+                          var zParameterExpression = zExpression as ParameterExpression;
+                          if (zParameterExpression != null)
+                          {
+                              WriteProjectionProxy(zsource, zParameterExpression, Target);
+
+
+                              return;
+                          }
+                          #endregion
+
 
                           #region WriteProjection:xxMethodCallExpression
                           var xxMethodCallExpression = zExpression as MethodCallExpression;
@@ -918,7 +958,7 @@ namespace ScriptCoreLib.Query.Experimental
                           var zMemberExpression = zExpression as MemberExpression;
                           if (zMemberExpression != null)
                           {
-                 
+
 
                               #region y
                               Action<MemberExpression> y = null;
@@ -949,7 +989,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   };
                               #endregion
 
-                   
+
 
                               // X:\jsc.svn\examples\javascript\LINQ\test\TestLINQ\UnitTestProject1\ApplicationWebService\ApplicationWebService select x.cs
                               using (WithoutLinefeeds())
@@ -971,7 +1011,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (zMemberExpression.Member.DeclaringType == typeof(DateTime))
                                   {
                                       WriteLineWithColor(1, "date(", ConsoleColor.White);
-                                      
+
                                       // date of what?
                                       y(zMemberExpression.Expression as MemberExpression);
 
@@ -1111,33 +1151,6 @@ namespace ScriptCoreLib.Query.Experimental
                           }
                           #endregion
 
-                          #region WriteProjection:zParameterExpression
-                          var zParameterExpression = zExpression as ParameterExpression;
-                          if (zParameterExpression != null)
-                          {
-                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
-                              using (WithoutLinefeeds())
-                              {
-                                  // we have to unpack everything?
-
-                                  WriteLine(1, "proxy ");
-
-                                  if (upperParameter != null)
-                                  {
-                                      WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
-                                      WriteLine(1, " ");
-                                  }
-
-                                  //WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                                  WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
-                                  WriteLine(1, " {...}");
-                              }
-
-                              
-
-                              return;
-                          }
-                          #endregion
 
 
                           #region WriteProjection:InvocationExpression
