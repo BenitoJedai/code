@@ -96,7 +96,6 @@ namespace ScriptCoreLib.Query.Experimental
                 var xSelect = source as xSelect;
 
 
-                #region WriteLine
                 if (context == null)
                     context = new SQLWriterContext();
 
@@ -106,20 +105,25 @@ namespace ScriptCoreLib.Query.Experimental
                 Func<IDisposable> WithoutLinefeeds =
                     delegate
                     {
+                        if (WithoutLinefeedsCounter == 0)
+                            WithoutLinefeedsDirty = false;
+
                         WithoutLinefeedsCounter++;
-                        WithoutLinefeedsDirty = false;
 
                         return new SQLWriterWithoutLinefeeds
                         {
                             yield = delegate
                             {
                                 WithoutLinefeedsCounter--;
-                                Console.WriteLine();
+
+                                if (WithoutLinefeedsCounter == 0)
+                                    Console.WriteLine();
                             }
                         };
                     };
                 #endregion
 
+                #region WriteCommentLine
                 Action<int, string> WriteCommentLine =
                   (padding, text) =>
                   {
@@ -154,8 +158,9 @@ namespace ScriptCoreLib.Query.Experimental
                       }
 
                   };
+                #endregion
 
-
+                #region WriteLineWithColor
                 Action<int, string, ConsoleColor> WriteLineWithColor =
                     (padding, text, c) =>
                     {
@@ -188,7 +193,9 @@ namespace ScriptCoreLib.Query.Experimental
                         }
 
                     };
+                #endregion
 
+                #region WriteLine
                 Action<int, string> WriteLine =
                     (padding, text) =>
                     {
@@ -249,44 +256,51 @@ namespace ScriptCoreLib.Query.Experimental
                         var asBinaryExpression = asExpression as BinaryExpression;
                         if (asBinaryExpression != null)
                         {
-                            WriteLineWithColor(1, "(", ConsoleColor.White);
-                            WriteScalarExpression(asBinaryExpression.Left);
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectBinaryExpression\Program.cs
+
+                            using (WithoutLinefeeds())
+                            {
+
+                                WriteLineWithColor(1, "(", ConsoleColor.White);
+                                WriteScalarExpression(asBinaryExpression.Left);
 
 
-                            #region ExpressionType
-                            if (asBinaryExpression.NodeType == ExpressionType.Equal)
-                                WriteLineWithColor(1, " = ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.LessThan)
-                                WriteLineWithColor(1, " < ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.LessThanOrEqual)
-                                WriteLineWithColor(1, " <= ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.GreaterThan)
-                                WriteLineWithColor(1, " > ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.GreaterThanOrEqual)
-                                WriteLineWithColor(1, " >= ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.NotEqual)
-                                WriteLineWithColor(1, " <> ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.OrElse)
-                                WriteLineWithColor(1, " or ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.AndAlso)
-                                WriteLineWithColor(1, " and ", ConsoleColor.White);
+                                #region ExpressionType
+                                if (asBinaryExpression.NodeType == ExpressionType.Equal)
+                                    WriteLineWithColor(1, " = ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.LessThan)
+                                    WriteLineWithColor(1, " < ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.LessThanOrEqual)
+                                    WriteLineWithColor(1, " <= ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.GreaterThan)
+                                    WriteLineWithColor(1, " > ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.GreaterThanOrEqual)
+                                    WriteLineWithColor(1, " >= ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.NotEqual)
+                                    WriteLineWithColor(1, " <> ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.OrElse)
+                                    WriteLineWithColor(1, " or ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.AndAlso)
+                                    WriteLineWithColor(1, " and ", ConsoleColor.White);
 
-                            // X:\jsc.svn\examples\javascript\linq\test\TestWhereMathAdd\TestWhereMathAdd\ApplicationWebService.cs
-                            else if (asBinaryExpression.NodeType == ExpressionType.Add)
-                                WriteLineWithColor(1, " + ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.Subtract)
-                                WriteLineWithColor(1, " - ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.Multiply)
-                                WriteLineWithColor(1, " * ", ConsoleColor.White);
-                            else if (asBinaryExpression.NodeType == ExpressionType.Divide)
-                                WriteLineWithColor(1, " / ", ConsoleColor.White);
+                                // X:\jsc.svn\examples\javascript\linq\test\TestWhereMathAdd\TestWhereMathAdd\ApplicationWebService.cs
+                                else if (asBinaryExpression.NodeType == ExpressionType.Add)
+                                    WriteLineWithColor(1, " + ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.Subtract)
+                                    WriteLineWithColor(1, " - ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.Multiply)
+                                    WriteLineWithColor(1, " * ", ConsoleColor.White);
+                                else if (asBinaryExpression.NodeType == ExpressionType.Divide)
+                                    WriteLineWithColor(1, " / ", ConsoleColor.White);
 
-                            else
-                                Debugger.Break();
-                            #endregion
+                                else
+                                    Debugger.Break();
+                                #endregion
 
-                            WriteScalarExpression(asBinaryExpression.Right);
-                            WriteLineWithColor(1, ")", ConsoleColor.White);
+                                WriteScalarExpression(asBinaryExpression.Right);
+                                WriteLineWithColor(1, ")", ConsoleColor.White);
+                            }
+
                             return;
                         }
                         #endregion
@@ -323,6 +337,7 @@ namespace ScriptCoreLib.Query.Experimental
                         var zMemberExpression = asExpression as MemberExpression;
                         if (zMemberExpression != null)
                         {
+                            using (WithoutLinefeeds())
                             {
                                 var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
                                 if (zMMemberExpression != null)
@@ -545,7 +560,11 @@ namespace ScriptCoreLib.Query.Experimental
                         // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
 
                         var zSelect = zsource as xSelect;
-
+                        if (zSelect == null)
+                        {
+                            WriteLine(1, "?");
+                            return;
+                        }
 
                         #region yaa
                         Action<Expression> yaa =
@@ -806,24 +825,59 @@ namespace ScriptCoreLib.Query.Experimental
                         var zParameterExpression = zExpression as ParameterExpression;
                         if (zParameterExpression != null)
                         {
+                            #region y
+                            Action<IQueryStrategy> y = null;
+
+                            y =
+                                zzsource =>
+                                {
+                                    var zzWhere = zzsource as xWhere;
+                                    if (zzWhere != null)
+                                    {
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWhere\Program.cs
+
+                                        y(zzWhere.source);
+                                        return;
+                                    }
+
+                                    var zzGroupBy = zzsource as xGroupBy;
+                                    if (zzGroupBy != null)
+                                    {
+                                        // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
+
+                                        WriteProjectionProxy(
+                                            zzGroupBy,
+                                            zzGroupBy.elementSelector.Body,
+                                            Target
+                                        );
+
+                                        return;
+                                    }
+
+                                    var zzSelect = zzsource as xSelect;
+                                    if (zzSelect != null)
+                                    {
+                                        WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target);
+                                        return;
+                                    }
+
+                                    
+
+                                    var zzJoin = zzsource as xJoin;
+                                    if (zzJoin != null)
+                                    {
+                                        WriteProjectionProxy(zzJoin, zzJoin.resultSelector.Body, Target);
+                                        return;
+                                    }
+                                };
+                            #endregion
 
                             #region zGroupBy
                             var zGroupBy = zsource as xGroupBy;
                             if (zGroupBy != null)
                             {
-                                var zzSelect = zGroupBy.source as xSelect;
-                                if (zzSelect != null)
-                                {
-                                    WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target);
-                                    return;
-                                }
-
-                                var zzJoin = zGroupBy.source as xJoin;
-                                if (zzJoin != null)
-                                {
-                                    WriteProjectionProxy(zzJoin, zzJoin.resultSelector.Body, Target);
-                                    return;
-                                }
+                                y(zGroupBy.source);
+                                return;
                             }
                             #endregion
 
@@ -831,31 +885,8 @@ namespace ScriptCoreLib.Query.Experimental
                             var zSelect = zsource as xSelect;
                             if (zSelect != null)
                             {
-                                var zzGroupBy = zSelect.source as xGroupBy;
-                                if (zzGroupBy != null)
-                                {
-                                    WriteProjectionProxy(
-                                        zzGroupBy,
-                                        zzGroupBy.elementSelector.Body,
-                                        Target.Concat(new[] { new Tuple<MemberInfo, int>(LastReference.Method, -1) }).ToArray()
-                                    );
-
-                                    return;
-                                }
-
-                                var zzSelect = zSelect.source as xSelect;
-                                if (zzSelect != null)
-                                {
-                                    WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target);
-                                    return;
-                                }
-
-                                var zzJoin = zSelect.source as xJoin;
-                                if (zzJoin != null)
-                                {
-                                    WriteProjectionProxy(zzJoin, zzJoin.resultSelector.Body, Target);
-                                    return;
-                                }
+                                y(zSelect.source);
+                                return;
                             }
                             #endregion
 
@@ -864,27 +895,17 @@ namespace ScriptCoreLib.Query.Experimental
                             var zJoin = zsource as xJoin;
                             if (zJoin != null)
                             {
+                                // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinFive\Program.cs
+
                                 if (zParameterExpression.Name == zJoin.outerKeySelector.Parameters[0].Name)
                                 {
-                                    var zzSelect = zJoin.outer as xSelect;
-
-                                    WriteProjectionProxy(
-                                        zzSelect,
-                                        zzSelect.selector.Body,
-                                        Target
-                                    );
+                                    y(zJoin.outer);
                                     return;
                                 }
 
                                 if (zParameterExpression.Name == zJoin.innerKeySelector.Parameters[0].Name)
                                 {
-                                    var zzSelect = zJoin.inner as xSelect;
-
-                                    WriteProjectionProxy(
-                                        zzSelect,
-                                        zzSelect.selector.Body,
-                                        Target
-                                    );
+                                    y(zJoin.inner);
                                     return;
                                 }
                             }
@@ -971,6 +992,7 @@ namespace ScriptCoreLib.Query.Experimental
                             {
                                 // we have to unpack everything?
 
+
                                 WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
 
                                 if (upperParameter != null)
@@ -982,6 +1004,8 @@ namespace ScriptCoreLib.Query.Experimental
                                 WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
                                 //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
 
+
+
                                 var zGroupBy = source as xGroupBy;
                                 if (zGroupBy != null)
                                 {
@@ -989,7 +1013,34 @@ namespace ScriptCoreLib.Query.Experimental
                                     return;
                                 }
 
-                                WriteLine(1, " {...}");
+                                var zSelect = source as xSelect;
+                                if (zSelect != null)
+                                {
+                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
+                                    var zzJoin = zSelect.source as xJoin;
+                                    if (zzJoin != null)
+                                    {
+
+                                        //WriteLine(1, " <- " + zSelect.selector.Parameters[0].Name + " ? " + zMemberExpression.Member.Name);
+                                        WriteLine(1, " <- " + GetTargetName());
+                                        return;
+                                    }
+
+
+                                    var zzGroupBy = zSelect.source as xGroupBy;
+                                    if (zzGroupBy != null)
+                                    {
+
+                                        WriteLine(1, " <- " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
+                                        return;
+                                    }
+
+                                }
+
+
+
+                                WriteLine(1, " <- " + GetTargetName());
+                                //WriteLine(1, " {...}");
                             }
                             return;
                         }
@@ -1014,13 +1065,37 @@ namespace ScriptCoreLib.Query.Experimental
 
                                 WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
                                 //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
-                                WriteLine(1, " {...}");
+                                WriteLine(1, " <- " + GetTargetName());
                             }
                             return;
                         }
                         #endregion
 
+                        #region WriteProjectionProxy:zMethodCallExpression
+                        var zMethodCallExpression = zExpression as MethodCallExpression;
+                        if (zMethodCallExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarCount\Program.cs
+                            using (WithoutLinefeeds())
+                            {
+                                // we have to unpack everything?
 
+                                WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
+
+                                if (upperParameter != null)
+                                {
+                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                    WriteLine(1, " ");
+                                }
+
+                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
+                                //WriteLine(1, " <- " + GetTargetName());
+                                WriteLine(1, " <- ?");
+                            }
+                            return;
+                        }
+                        #endregion
 
                         Debugger.Break();
                     };
@@ -1066,27 +1141,7 @@ namespace ScriptCoreLib.Query.Experimental
                           var zParameterExpression = zExpression as ParameterExpression;
                           if (zParameterExpression != null)
                           {
-                              //using (WithoutLinefeeds())
-                              //{
-                              //    // we have to unpack everything?
-
-                              //    WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
-
-                              //    if (upperParameter != null)
-                              //    {
-                              //        WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
-                              //        WriteLine(1, " ");
-                              //    }
-
-                              //    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                              //    //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
-                              //    WriteLine(1, " {...}");
-                              //}
-
-
                               WriteProjectionProxy(zsource, zParameterExpression, Target);
-
-
                               return;
                           }
                           #endregion
@@ -1102,13 +1157,20 @@ namespace ScriptCoreLib.Query.Experimental
 
                               if (xxMethodCallExpression.Method.DeclaringType == typeof(QueryExpressionBuilder))
                               {
+                                  #region Last
+                                  if (xxMethodCallExpression.Method.Name == LastReference.Method.Name)
+                                  {
+                                      // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
+                                      WriteProjection(zsource, xxMethodCallExpression.Arguments[0], Target);
+                                      return;
+                                  }
+                                  #endregion
+
                                   #region FirstOrDefault
                                   if (xxMethodCallExpression.Method.Name == FirstOrDefaultReference.Method.Name)
                                   {
                                       // what about inline testing?
-
                                       WriteScalarFirstOrDefault(zsource, xxMethodCallExpression, GetTargetName);
-
                                       return;
                                   }
                                   #endregion
@@ -1120,7 +1182,6 @@ namespace ScriptCoreLib.Query.Experimental
                                   {
                                       // tested by?
                                       WriteScalarCount(zsource, xxMethodCallExpression, GetTargetName);
-
                                       return;
 
                                   }
@@ -1367,8 +1428,6 @@ namespace ScriptCoreLib.Query.Experimental
                           {
                               using (WithoutLinefeeds())
                               {
-
-
                                   WriteLine(1, "let ");
 
                                   if (upperParameter != null)
@@ -1376,7 +1435,6 @@ namespace ScriptCoreLib.Query.Experimental
                                       WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
                                       WriteLine(1, " ");
                                   }
-
 
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                   WriteLine(1, " <- ");
@@ -1516,6 +1574,104 @@ namespace ScriptCoreLib.Query.Experimental
                       };
                 #endregion
 
+                #region WriteScalarExpressionArray
+                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteScalarExpressionArray =
+                      (zsource, zExpression, Target) =>
+                      {
+                          // lets make the order by operator happy. need to present all fields we need to group it by
+
+                          // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
+                          var zMethodCallExpression = zExpression as MethodCallExpression;
+                          if (zMethodCallExpression != null)
+                          {
+                              WriteLine(1, "?");
+                              return;
+                          }
+
+                          #region MemberExpression
+                          var zMemberExpression = zExpression as MemberExpression;
+                          if (zMemberExpression != null)
+                          {
+                              WriteScalarExpression(zExpression);
+                              return;
+                          }
+                          #endregion
+
+                          #region ConstantExpression
+                          var zConstantExpression = zExpression as ConstantExpression;
+                          if (zConstantExpression != null)
+                          {
+                              WriteScalarExpression(zConstantExpression);
+                              return;
+                          }
+                          #endregion
+
+
+                          #region NewArrayExpression
+                          var zNewArrayExpression = zExpression as NewArrayExpression;
+                          if (zNewArrayExpression != null)
+                          {
+                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByArray\Program.cs
+
+                              zNewArrayExpression.Expressions.WithEachIndex(
+                                   (SourceArgument, SourceArgumentIndex) =>
+                                       WriteScalarExpression(
+                                       //zsource,
+                                           SourceArgument
+                                       //,
+                                       //Target.Concat(new[] { Tuple.Create(default(MemberInfo), SourceArgumentIndex) }).ToArray()
+                                       )
+                             );
+                              return;
+                          }
+                          #endregion
+
+                          #region WriteProjection:xxNewExpression
+                          var zNewExpression = zExpression as NewExpression;
+                          if (zNewExpression != null)
+                          {
+                              //WriteLine(1, "    new " + xxNewExpression.Type.Name);
+
+                              // ternary op does not work
+                              if (zNewExpression.Members == null)
+                              {
+                                  zNewExpression.Arguments.WithEachIndex(
+                                        (SourceArgument, SourceArgumentIndex) =>
+                                            WriteScalarExpression(
+                                            //zsource,
+                                                SourceArgument //,
+                                            //Target.Concat(new[] { Tuple.Create(
+                                            //                  default(MemberInfo) ,
+                                            //                  SourceArgumentIndex
+                                            //                  )
+                                            //              }).ToArray()
+                                            )
+                                    );
+                                  return;
+                              }
+
+                              zNewExpression.Arguments.WithEachIndex(
+                                  (SourceArgument, SourceArgumentIndex) =>
+                                      WriteScalarExpression(
+                                      //zsource,
+                                          SourceArgument //,
+                                      //Target.Concat(new[] { Tuple.Create(
+                                      //    zNewExpression.Members[SourceArgumentIndex],
+                                      //    SourceArgumentIndex
+                                      //    )
+                                      //}).ToArray()
+                                      )
+                              );
+                              return;
+                          }
+                          #endregion
+
+                          Debugger.Break();
+                      };
+                #endregion
+
+
+
                 #region xGroupBy
                 var xGroupBy = source as xGroupBy;
                 if (xGroupBy != null)
@@ -1573,8 +1729,9 @@ namespace ScriptCoreLib.Query.Experimental
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBy\Program.cs
 
                         // we need it unpacked
-                        WriteProjection(source, xGroupBy.keySelector.Body, new Tuple<MemberInfo, int>[0]);
-                        //WriteScalarExpression(xGroupBy.keySelector.Body);
+                        //WriteProjection(source, xGroupBy.keySelector.Body, new Tuple<MemberInfo, int>[0]);
+
+                        WriteScalarExpressionArray(source, xGroupBy.keySelector.Body, new Tuple<MemberInfo, int>[0]);
                     }
                     return;
                 }

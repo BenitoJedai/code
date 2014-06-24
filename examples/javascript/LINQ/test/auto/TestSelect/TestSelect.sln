@@ -8,12 +8,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectArray", "TestSelectArray\TestSelectArray.csproj", "{AB6C9849-57A1-4ACB-8358-7DC111F64ABC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectBinaryExpression", "TestSelectBinaryExpression\TestSelectBinaryExpression.csproj", "{DB5E0686-991D-4067-8C42-6DF8765E0092}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectMemberInitExpression", "TestSelectMemberInitExpression\TestSelectMemberInitExpression.csproj", "{1169082B-C705-4DFB-AAF9-818C9AE36B27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectMemberExpression", "TestSelectMemberExpression\TestSelectMemberExpression.csproj", "{1B1AF41B-1D04-4B70-8C66-A142D520AE68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectScalarCount", "TestSelectScalarCount\TestSelectScalarCount.csproj", "{9143102C-2547-46AB-B81F-1EFD3660AEF4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectScalarFirstOrDefault", "TestSelectScalarFirstOrDefault\TestSelectScalarFirstOrDefault.csproj", "{BA44B1F7-778A-4368-B79E-9D999B79ABE2}"
 EndProject
@@ -43,6 +49,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGroupByConstant", "Test
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGroupByNewExpressionConstant", "TestGroupByNewExpressionConstant\TestGroupByNewExpressionConstant.csproj", "{C1FDDFB1-47FF-449D-80DE-A91C493B5953}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectString", "TestSelectString\TestSelectString.csproj", "{36B6EFDE-F934-4C8E-8C55-A7B9128945C1}"
 EndProject
@@ -68,8 +77,29 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJoinFive", "TestJoinFive\TestJoinFive.csproj", "{FEA36829-6772-4956-8DE5-001D69F21FA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSelectDate", "TestSelectDate\TestSelectDate.csproj", "{71B9D208-7CDA-4474-821B-DEE6574CB512}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGroupByScalarFirstOrDefault", "TestGroupByScalarFirstOrDefault\TestGroupByScalarFirstOrDefault.csproj", "{D1E3ED8A-44EA-4733-987C-C05450086AEF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGroupByScalar", "TestGroupByScalar\TestGroupByScalar.csproj", "{7A34C523-341B-40F1-8E4A-756D43DFDE8B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGroupByArray", "TestGroupByArray\TestGroupByArray.csproj", "{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWhere", "TestWhere\TestWhere.csproj", "{7DE773E3-82E9-41AB-9529-E22F5B324E75}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -311,6 +341,30 @@ Global
 		{D1E3ED8A-44EA-4733-987C-C05450086AEF}.PHP|Any CPU.Build.0 = Release|Any CPU
 		{D1E3ED8A-44EA-4733-987C-C05450086AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1E3ED8A-44EA-4733-987C-C05450086AEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A34C523-341B-40F1-8E4A-756D43DFDE8B}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{7A34C523-341B-40F1-8E4A-756D43DFDE8B}.Android|Any CPU.Build.0 = Release|Any CPU
+		{7A34C523-341B-40F1-8E4A-756D43DFDE8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A34C523-341B-40F1-8E4A-756D43DFDE8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A34C523-341B-40F1-8E4A-756D43DFDE8B}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{7A34C523-341B-40F1-8E4A-756D43DFDE8B}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{7A34C523-341B-40F1-8E4A-756D43DFDE8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A34C523-341B-40F1-8E4A-756D43DFDE8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}.Android|Any CPU.Build.0 = Release|Any CPU
+		{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41B7BA99-876F-4BFD-BF16-5462AD9D0D9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.Android|Any CPU.Build.0 = Release|Any CPU
+		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE773E3-82E9-41AB-9529-E22F5B324E75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
