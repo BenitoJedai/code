@@ -80,14 +80,28 @@ namespace ScriptCoreLib.Query.Experimental
                 var xNewExpression = xSelect.selector.Body as NewExpression;
                 if (xNewExpression != null)
                 {
-                    var xRow = (TElement)xNewExpression.Constructor.Invoke(new object[0]);
+                    var args = xNewExpression.Arguments.Select(
+                       (SourceArgument, i) =>
+                       {
+                           var xMemberExpression = SourceArgument as MemberExpression;
 
-                    xNewExpression.Arguments.WithEachIndex(
-                        (SourceArgument, i) =>
-                        {
+                           var k = "" + xMemberExpression.Member.Name;
 
-                        }
-                    );
+                           var v = r[k];
+
+                           // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
+                           var f = xMemberExpression.Member as FieldInfo;
+
+                           if (f.FieldType == typeof(DateTime))
+                               v = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(v);
+
+                           return v;
+                       }
+                   ).ToArray();
+
+                    var xRow = (TElement)xNewExpression.Constructor.Invoke(args);
+
+
 
                     return xRow;
                 }

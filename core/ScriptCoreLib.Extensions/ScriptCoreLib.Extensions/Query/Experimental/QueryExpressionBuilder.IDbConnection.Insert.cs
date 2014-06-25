@@ -52,10 +52,19 @@ namespace ScriptCoreLib.Query.Experimental
                       w.Append("@" + SourceBinding.Member.Name + "");
 
                       var f = SourceBinding.Member as FieldInfo;
+                      var v = f.GetValue(value);
+
+                      if (SourceBinding.Member.Name == "Timestamp")
+                      {
+                          // we are supposed to ask a signed security timestamp from HSM.
+
+                          var now = DateTime.Now;
+                          v = now;
+                      }
 
                       c.AddParameter(
                           ParameterName: "@" + SourceBinding.Member.Name + "",
-                          Value: f.GetValue(value)
+                          Value: v
                        );
                   }
               );

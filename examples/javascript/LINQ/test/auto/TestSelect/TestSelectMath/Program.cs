@@ -97,9 +97,13 @@ class Program
 
         //var q = from x in new TestSelectMath.PerformanceResourceTimingData2.ApplicationPerformance()
         var q = from x in new xApplicationPerformance()
-                select x;
+                orderby x.Timestamp descending
+                //select x;
+                select new { x.connectStart, x.connectEnd, x.Timestamp };
 
         var f = q.FirstOrDefault(cc0);
+
+        Console.WriteLine(new { f.connectStart, f.connectEnd, f.Timestamp });
         //var zz = q.AsEnumerable(cc);
 
         //var z = q.AsDataTable(cc);
