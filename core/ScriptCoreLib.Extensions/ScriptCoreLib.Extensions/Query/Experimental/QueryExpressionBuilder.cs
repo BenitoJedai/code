@@ -2118,10 +2118,13 @@ namespace ScriptCoreLib.Query.Experimental
 
                             // we are selecting a group for upper select arent we.
                             var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
-                            foreach (var item in xArguments)
-                            {
-                                WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
-                            }
+                            xArguments.WithEachIndex(
+                                     (item, index) =>
+                                     {
+                                         WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, index) });
+                                     }
+                            );
+
                             return;
                         }
                         #endregion
