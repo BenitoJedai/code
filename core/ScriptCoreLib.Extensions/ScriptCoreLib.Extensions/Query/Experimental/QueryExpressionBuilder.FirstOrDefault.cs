@@ -7,6 +7,7 @@ using System.Text;
 using ScriptCoreLib.Extensions;
 using System.Reflection;
 using System.IO;
+using System.Data;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -18,6 +19,11 @@ namespace ScriptCoreLib.Query.Experimental
             public static readonly Func<IQueryStrategyGrouping<long, TElement>, TElement> LastReference = Last;
         }
 
+        public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
+        {
+            return source.Take(1).AsEnumerable(cc).FirstOrDefault();
+        }
+
         public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
         {
             // cache it?
@@ -26,6 +32,8 @@ namespace ScriptCoreLib.Query.Experimental
 
             return default(TElement);
         }
+
+
 
         public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
         //public static TElement Last<TElement>(this IQueryStrategy<TElement> source)

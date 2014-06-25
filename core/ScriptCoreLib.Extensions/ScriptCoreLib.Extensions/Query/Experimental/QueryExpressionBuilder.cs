@@ -103,7 +103,7 @@ namespace ScriptCoreLib.Query.Experimental
                         Console.Write(text);
                     };
 
-        
+
 
 
                 // selector = {<>h__TransparentIdentifier6 => <>h__TransparentIdentifier6.<>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
@@ -134,7 +134,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 WithoutLinefeedsCounter--;
 
                                 if (WithoutLinefeedsCounter == 0)
-                                    Console.WriteLine();
+                                    Write("\r\n");
                             }
                         };
                     };
@@ -472,6 +472,29 @@ namespace ScriptCoreLib.Query.Experimental
                     };
                 #endregion
 
+
+                #region xTake
+                var xTake = source as xTake;
+                if (xTake != null)
+                {
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByDescending\Program.cs
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderBy\Program.cs
+                    var sql = new SQLWriter<TElement>(
+                        xTake.source,
+                        upper.Concat(new[] { source }),
+                        context,
+                        upperParameter: upperParameter,
+                        Command: Command);
+
+                    using (WithoutLinefeeds())
+                    {
+                        WriteLine(0, "limit " + xTake.count);
+                    }
+
+                    return;
+                }
+                #endregion
+
                 #region xOrderBy
                 var xOrderBy = source as xOrderBy;
                 if (xOrderBy != null)
@@ -479,9 +502,9 @@ namespace ScriptCoreLib.Query.Experimental
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByDescending\Program.cs
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderBy\Program.cs
                     var sql = new SQLWriter<TElement>(
-                        xOrderBy.source, 
-                        upper.Concat(new[] { source }), 
-                        context, 
+                        xOrderBy.source,
+                        upper.Concat(new[] { source }),
+                        context,
                         upperParameter: xOrderBy.keySelector.First().keySelector.Parameters[0],
                         Command: Command);
 
@@ -513,9 +536,9 @@ namespace ScriptCoreLib.Query.Experimental
                 if (xWhere != null)
                 {
                     var sql = new SQLWriter<TElement>(
-                        xWhere.source, 
-                        upper.Concat(new[] { source }), 
-                        context, upperParameter: 
+                        xWhere.source,
+                        upper.Concat(new[] { source }),
+                        context, upperParameter:
                         xWhere.filter.First().Parameters[0],
                         Command: Command
                         );
@@ -1859,9 +1882,9 @@ namespace ScriptCoreLib.Query.Experimental
 
                     WriteLine(0, "from (");
                     var sql0 = new SQLWriter<TElement>(
-                        xGroupBy.source, 
-                        upper.Concat(new[] { source }), 
-                        context, 
+                        xGroupBy.source,
+                        upper.Concat(new[] { source }),
+                        context,
                         upperParameter: xGroupBy.keySelector.Parameters[0],
                         Command: Command);
 
@@ -1916,9 +1939,9 @@ namespace ScriptCoreLib.Query.Experimental
 
                     WriteLine(0, "from (");
                     var sql0 = new SQLWriter<TElement>(
-                        xJoin.outer, 
-                        upper.Concat(new[] { source }), 
-                        context, 
+                        xJoin.outer,
+                        upper.Concat(new[] { source }),
+                        context,
                         upperParameter: xJoin.outerKeySelector.Parameters[0],
                         Command: Command);
                     using (WithoutLinefeeds())
@@ -1930,9 +1953,9 @@ namespace ScriptCoreLib.Query.Experimental
                     WriteLine(0, "inner join (");
 
                     var sql1 = new SQLWriter<TElement>(
-                        xJoin.inner, 
-                        upper.Concat(new[] { source }), 
-                        context, 
+                        xJoin.inner,
+                        upper.Concat(new[] { source }),
+                        context,
                         upperParameter: xJoin.innerKeySelector.Parameters[0],
                         Command: Command);
 
