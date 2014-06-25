@@ -102,6 +102,8 @@
     <Compile Include="JavaScript\DOM\FileExtensions.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLButtonExtensions.cs" />
     <Compile Include="JavaScript\Extensions\FormExtensions.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.Take.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.AsEnumerable.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.AsDataTable.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.Insert.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.Create.cs" />

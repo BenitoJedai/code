@@ -13,6 +13,9 @@ class Program
             Expression<Func<xPerformanceResourceTimingData2ApplicationPerformanceRow, xPerformanceResourceTimingData2ApplicationPerformanceRow>> selector =
                 (xApplicationPerformance) => new xPerformanceResourceTimingData2ApplicationPerformanceRow
                 {
+                    // : Field 'connectEnd' defined on type 'Program+xPerformanceResourceTimingData2ApplicationPerformanceRow' is not a field on the target object 
+                    // which is of type 'Program+xApplicationPerformance'.
+
                     connectEnd = xApplicationPerformance.connectEnd,
                     connectStart = xApplicationPerformance.connectStart,
                     domComplete = xApplicationPerformance.domComplete,
@@ -58,22 +61,22 @@ class Program
     {
         // string DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
 
-        var cc = new SQLiteConnection(
+        var cc0 = new SQLiteConnection(
             new SQLiteConnectionStringBuilder
             {
                 DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
             }.ToString()
         );
 
-        cc.Open();
+        cc0.Open();
 
 
-
+        // ThreadLocal SynchronizationContext aware ConnectionPool?
         var n = new xApplicationPerformance();
 
-        n.Create(cc);
+        n.Create(cc0);
 
-        n.Insert(cc,
+        n.Insert(cc0,
             new xPerformanceResourceTimingData2ApplicationPerformanceRow
             {
                 connectStart = 5,
@@ -96,9 +99,12 @@ class Program
         var q = from x in new xApplicationPerformance()
                 select x;
 
-        var z = q.AsDataTable(cc);
+        var f = q.FirstOrDefault(cc0);
+        //var zz = q.AsEnumerable(cc);
 
-        cc.Close();
+        //var z = q.AsDataTable(cc);
+
+        cc0.Close();
 
         //        let add = x.connectStart + x.connectEnd
         //        let mul = add / 3
