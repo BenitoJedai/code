@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using TestWebSQLDatabase;
 using TestWebSQLDatabase.Design;
 using TestWebSQLDatabase.HTML.Pages;
+using System.Diagnostics;
 
 namespace TestWebSQLDatabase
 {
@@ -37,60 +38,67 @@ namespace TestWebSQLDatabase
             // what if the IE logo on rebuild would indicate what browser can run the current app based on analysis?
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
 
+            // http://programmers.stackexchange.com/questions/220254/why-is-web-sql-database-deprecated
+            // Should you go with Web SQL now? I don't expect the vendors that currently support it (like Google and Apple) to drop it any time soon, but IE and Firefox won't be adding it, and since it's deprecated, why invest in it? 
+            // We (developers) can still use this technology. No browser vendor requested removal of this technology, nor plan to remove it. Developers are the voice of the web. We can just still using it, maybe Mozilla will change mind ;-)
+            // Forget Mozilla on this issue. If you want persistent, reliable and query enabled storage for your hybrid mobile apps, especially for Phonegap, this is the storage method to use.
+
+            // X:\jsc.svn\javascript\Examples\GoogleGears\GGearAlpha\js\GoogleGearsAdvanced.cs
+
+            //new { }.With(
+            new IHTMLButton { "go" }.AttachToDocument().onclick +=
+                async delegate
+                {
+                    new IHTMLPre { "about to connnect..." }.AttachToDocument();
+
+
+                    var db = await Native.window.openDatabase();
+
+                    // about to connnect... done {{ db = [object Database], version =  }}
+                    new IHTMLPre { "about to connnect... done " }.AttachToDocument();
+
+                    Debugger.Break();
+                    // jsc async using, finally not yet called?
+                    db.transaction(
+                        callback:
+                            tx =>
+                    {
+                        new IHTMLPre { "in transaction " }.AttachToDocument();
+
+                        tx.executeSql(
+                            sqlStatement: "CREATE TABLE IF NOT EXISTS Employee_Table (xid, Name, Location)"
+                        );
+
+                        tx.executeSql("insert into Employee_Table(xid, Name, Location) values(0, 'foo', 'bar')",
+                            callback:
+                                (SQLTransaction xtx, SQLResultSet r) =>
+                        {
+                            new IHTMLPre { "after insert" }.AttachToDocument();
+                        }
+                        );
+
+                        tx.executeSql("SELECT * FROM Employee_Table",
+                             callback:
+                                 (SQLTransaction xtx, SQLResultSet r) =>
+                        {
+                            new IHTMLPre { "after SELECT" }.AttachToDocument();
+                        }
+                        );
+                    }
+                    );
+
+                    new IHTMLPre { "after transaction " }.AttachToDocument();
+
+
+                };
+
+
+
+            // http://www.w3.org/TR/webdatabase/
+
+
         }
 
     }
-
-    #region example generated data layer
-    public class xApplicationPerformance : QueryExpressionBuilder.xSelect<xPerformanceResourceTimingData2ApplicationPerformanceRow>
-    {
-        public xApplicationPerformance()
-        {
-            Expression<Func<xPerformanceResourceTimingData2ApplicationPerformanceRow, xPerformanceResourceTimingData2ApplicationPerformanceRow>> selector =
-                (xApplicationPerformance) => new xPerformanceResourceTimingData2ApplicationPerformanceRow
-            {
-                // : Field 'connectEnd' defined on type 'Program+xPerformanceResourceTimingData2ApplicationPerformanceRow' is not a field on the target object 
-                // which is of type 'Program+xApplicationPerformance'.
-
-                connectEnd = xApplicationPerformance.connectEnd,
-                connectStart = xApplicationPerformance.connectStart,
-                domComplete = xApplicationPerformance.domComplete,
-                domLoading = xApplicationPerformance.domLoading,
-                EventTime = xApplicationPerformance.EventTime,
-                Key = xApplicationPerformance.Key,
-                loadEventEnd = xApplicationPerformance.loadEventEnd,
-                loadEventStart = xApplicationPerformance.loadEventStart,
-                requestStart = xApplicationPerformance.requestStart,
-                responseEnd = xApplicationPerformance.responseEnd,
-                responseStart = xApplicationPerformance.responseStart,
-                Tag = xApplicationPerformance.Tag,
-                Timestamp = xApplicationPerformance.Timestamp
-            };
-
-            this.selector = selector;
-        }
-    }
-
-
-    public enum xPerformanceResourceTimingData2ApplicationPerformanceKey : long { }
-
-    public class xPerformanceResourceTimingData2ApplicationPerformanceRow
-    {
-        public long connectEnd;
-        public long connectStart;
-        public long domComplete;
-        public long domLoading;
-        public DateTime EventTime;
-        public xPerformanceResourceTimingData2ApplicationPerformanceKey Key;
-        public long loadEventEnd;
-        public long loadEventStart;
-        public long requestStart;
-        public long responseEnd;
-        public long responseStart;
-        public string Tag;
-        public DateTime Timestamp;
-
-    }
-    #endregion
 
 }

@@ -497,13 +497,6 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-        /// <summary>
-        /// DatabaseName, DatabaseVersion, DisplayName, EstimatedSize
-        /// 
-        /// see: http://creativepark.net/blog/entry/id/1191
-        /// </summary>
-        [System.Obsolete]
-        public IFunction openDatabase;
 
 
 
