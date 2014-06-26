@@ -92,8 +92,9 @@ namespace ScriptCoreLib.Query.Experimental
                            // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
                            var f = xMemberExpression.Member as FieldInfo;
 
-                           if (f.FieldType == typeof(DateTime))
-                               v = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(v);
+                           if (f != null)
+                               if (f.FieldType == typeof(DateTime))
+                                   v = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(v);
 
                            return v;
                        }

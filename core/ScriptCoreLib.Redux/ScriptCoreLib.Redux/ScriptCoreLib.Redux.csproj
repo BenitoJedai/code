@@ -74,6 +74,7 @@
     <None Include="JavaScript\IDL\workers.idl" />
     <None Include="JavaScript\IDL\progressevents.idl" />
     <None Include="JavaScript\IDL\webrtc.idl" />
+    <None Include="JavaScript\IDL\shadowdom.idl" />
     <Content Include="JavaScript\IDL\getusermedia.idl" />
     <Content Include="JavaScript\IDL\typedarrays.idl" />
     <Content Include="JavaScript\IDL\webgl.idl" />

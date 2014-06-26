@@ -1,0 +1,20 @@
+// http://www.w3.org/TR/shadow-dom/
+// http://soledadpenades.com/2014/01/02/shadow-dom-in-firefox/
+// http://blog.romanliutikov.com/post/62104274790/web-components
+// X:\jsc.svn\examples\javascript\test\TestShadowDOM\TestShadowDOM\Application.cs
+// 20140626 the spec seems hard to understand
+
+//partial interface Element {
+//    ShadowRoot createShadowRoot ();
+//    NodeList   getDestinationInsertionPoints ();
+//    readonly    attribute ShadowRoot? shadowRoot;
+//};blog.romanliutikov.com/post/62104274790/web-components
+//
+//interface HTMLContentElement : HTMLElement {
+//                attribute DOMString select;
+//    NodeList getDistributedNodes ();
+//};
+//
+//interface HTMLShadowElement : HTMLElement {
+//    NodeList getDistributedNodes ();
+//};
