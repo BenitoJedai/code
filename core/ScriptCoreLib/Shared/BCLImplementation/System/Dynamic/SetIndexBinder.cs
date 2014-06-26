@@ -10,8 +10,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
     public class __SetIndexBinder : __DynamicMetaObjectBinder
     {
         public CSharpBinderFlags flags;
-
-      
         public Type context;
         public IEnumerable<CSharpArgumentInfo> argumentInfo;
 

@@ -10,8 +10,24 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
 {
     [Script(Implements = typeof(global::Microsoft.CSharp.RuntimeBinder.Binder))]
-    public static class __Binder
+    public static partial class __Binder
     {
+        // how does this 
+
+        public static CallSiteBinder GetIndex(CSharpBinderFlags flags, Type context, IEnumerable<CSharpArgumentInfo> argumentInfo)
+        {
+            // X:\jsc.svn\examples\javascript\test\TestDynamicGetIndex\TestDynamicGetIndex\Application.cs
+
+
+            return (CallSiteBinder)(object)new __GetIndexBinder
+            {
+
+                flags = flags,
+                context = context,
+                argumentInfo = argumentInfo
+            };
+        }
+
         public static CallSiteBinder SetIndex(
             CSharpBinderFlags flags,
             Type context,

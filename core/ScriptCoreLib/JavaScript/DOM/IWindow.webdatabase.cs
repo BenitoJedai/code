@@ -25,41 +25,70 @@ namespace ScriptCoreLib.JavaScript.DOM
         //   Database openDatabase(in DOMString name, in DOMString version, in DOMString displayName, in unsigned long estimatedSize, in optional DatabaseCallback creationCallback);
 
         // web workers can do it sync
-        [Script(DefineAsStatic = true)]
-        public Task<Database> openDatabase(
+        //[Script(DefineAsStatic = true)]
+        public Database openDatabase(
             string name = "database.sqlite",
             string version = "1.0",
+            //string version = "",
             string displayName = "Web SQL",
 
             // AppCache allows 5MB, how much for db?
-            ulong estimatedSize = 2 * 1024 * 1024
+            ulong estimatedSize = 2 * 1024 * 1024,
+
+            Action<Database> creationCallback = null
             )
         {
             // tested by
             // x:\jsc.svn\examples\javascript\test\testwebsqldatabase\testwebsqldatabase\application.cs
 
-            var t = new TaskCompletionSource<Database>();
+            //var t = new TaskCompletionSource<Database>();
 
-            dynamic window = Native.window;
-            IFunction openDatabase = window.openDatabase;
+            //dynamic window = Native.window;
+            //IFunction openDatabase = window.openDatabase;
 
-            IFunction creationCallback = new Action<Database>(
-               (Database db) =>
-               {
-                   t.SetResult(db);
-               }
-           );
+            //// and optionally a callback to be invoked if the database has not yet been created
+            //// IFunction creationCallback = new Action<Database>(
+            ////    (Database db) =>
+            ////    {
+            ////        Console.WriteLine("openDatabase async SetResult");
+            ////        t.SetResult(db);
+            ////    }
+            ////);
 
-            // http://www.w3.org/TR/webdatabase/
+            //// http://www.w3.org/TR/webdatabase/
 
-            openDatabase.apply(Native.window,
-                name, version, displayName, estimatedSize, creationCallback
-            );
+            //// Failed to execute 'openDatabase' on 'Window': unable to open database, version mismatch, '1.0' does not match the currentVersion of ''
 
-            return t.Task;
+            //var __openDatabase = openDatabase.apply(Native.window,
+            //    name, version, displayName, estimatedSize //, creationCallback
+            //);
+
+            //// already open?
+            ////Console.WriteLine("openDatabase sync " + new { __openDatabase });
+
+            ////return t.Task;
+            //return __openDatabase;
+            return null;
         }
     }
 
+
+
+
+    //    interface SQLResultSetRowList {
+    //  readonly attribute unsigned long length;
+    //  getter any item(in unsigned long index);
+    //};
+
+    [Script(InternalConstructor = true)]
+    public class SQLResultSetRowList
+    {
+        public readonly ulong length;
+        public dynamic item(ulong index)
+        {
+            return null;
+        }
+    }
 
     #region SQLResultSet
 
@@ -76,6 +105,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public readonly long insertId;
         public readonly long rowsAffected;
+        public readonly SQLResultSetRowList rows;
     }
     #endregion
 

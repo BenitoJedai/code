@@ -31,6 +31,8 @@ namespace TestWebSQLDatabase
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://cheggeng.github.io/Bucket/docs/files/src_drivers_WebSQL.js.html
+
             // as per http://www.c-sharpcorner.com/UploadFile/75a48f/html-5-web-sql-database/
             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.cs
             // A Web SQL database only works in the latest versions of Safari, Google Chrome and Opera browsers.
@@ -47,50 +49,81 @@ namespace TestWebSQLDatabase
 
             //new { }.With(
             new IHTMLButton { "go" }.AttachToDocument().onclick +=
-                async delegate
+                 delegate
+            {
+                new IHTMLPre { "about to connnect..." }.AttachToDocument();
+
+
+                var db = Native.window.openDatabase();
+
+                // about to connnect... done {{ db = [object Database], version =  }}
+                new IHTMLPre { "about to connnect... done " }.AttachToDocument();
+
+                new IHTMLButton { "do transaction" }.AttachToDocument().onclick +=
+                    delegate
                 {
-                    new IHTMLPre { "about to connnect..." }.AttachToDocument();
+                    // https://code.google.com/p/chromium/issues/detail?id=324593
 
-
-                    var db = await Native.window.openDatabase();
-
-                    // about to connnect... done {{ db = [object Database], version =  }}
-                    new IHTMLPre { "about to connnect... done " }.AttachToDocument();
 
                     //Debugger.Break();
                     // jsc async using, finally not yet called?
                     db.transaction(
-                        callback:
-                            tx =>
-                    {
-                        new IHTMLPre { "in transaction " }.AttachToDocument();
-
-                        tx.executeSql(
-                            sqlStatement: "CREATE TABLE IF NOT EXISTS Employee_Table (xid, Name, Location)"
-                        );
-
-                        tx.executeSql("insert into Employee_Table(xid, Name, Location) values(0, 'foo', 'bar')",
-                            callback:
-                            (SQLTransaction xtx, SQLResultSet r) =>
-                            {
-                                new IHTMLPre { "after insert " + new { r.insertId, r.rowsAffected } }.AttachToDocument();
-                            }
-                        );
-
-                        tx.executeSql("SELECT * FROM Employee_Table",
-                             callback:
-                                 (SQLTransaction xtx, SQLResultSet r) =>
+                    callback:
+                        tx =>
                         {
-                            new IHTMLPre { "after SELECT" }.AttachToDocument();
+                            new IHTMLPre { "enter transaction " }.AttachToDocument();
+
+                            tx.executeSql(
+                                sqlStatement: "CREATE TABLE IF NOT EXISTS Employee_Table (xid, Name, Location)"
+                            );
+
+                            tx.executeSql("insert into Employee_Table(xid, Name, Location) values(0, 'foo', 'bar')",
+                                callback:
+                                (SQLTransaction xtx, SQLResultSet r) =>
+                                {
+                                    // after insert {{ insertId = 1, rowsAffected = 1 }}
+                                    // Uncaught InvalidAccessError: Failed to read the 'insertId' property from 'SQLResultSet': The query didn't result in any rows being added. 
+
+                                    new IHTMLPre { "after insert " + new { r.insertId, r.rowsAffected } }.AttachToDocument();
+                                }
+                            );
+
+                            tx.executeSql("SELECT xid, Name, Location FROM Employee_Table",
+                                 callback:
+                                (SQLTransaction xtx, SQLResultSet r) =>
+                                {
+                                    new IHTMLPre { "after SELECT " + new { r.rowsAffected, r.rows.length } }.AttachToDocument();
+
+
+                                    for (uint i = 0; i < r.rows.length; i++)
+                                    {
+                                        var o = r.rows.item(i);
+
+                                        // row {{ i = 0, o = [object Object] }}
+                                        //new IHTMLPre { "row " + new { i, o } }.AttachToDocument();
+
+                                        // row {{ i = 0, z = {{ xid = 0, Name = foo, Location = bar }} }}
+                                        // script: error JSC1000: No implementation found for this native method, please implement [static Microsoft.CSharp.RuntimeBinder.Binder.GetIndex(Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, System.Type, System.Collections.Generic.IEnumerable`1[[Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]])]
+
+                                        var z = new { o.xid, Name = o["Name"], o.Location };
+                                        //var z = new { o.xid, o.Name, o.Location };
+
+                                        new IHTMLPre { "row " + new { i, z } }.AttachToDocument();
+                                    }
+                                }
+                            );
+
+                            new IHTMLPre { "exit transaction " }.AttachToDocument();
+
                         }
-                        );
-                    }
-                    );
+                );
 
                     new IHTMLPre { "after transaction " }.AttachToDocument();
-
-
                 };
+
+
+
+            };
 
 
 
