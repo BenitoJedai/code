@@ -100,7 +100,9 @@ namespace TestWebSQLDatabase
 
                                     for (uint i = 0; i < r.rows.length; i++)
                                     {
-                                        var o = r.rows.item(i);
+                                        //var o = r.rows.item(i);
+                                        // rewrite skips dynamicAttribute
+                                        dynamic o = r.rows.item(i);
 
 
                                         var z = new { o.xid, Name = o["Name"], o.Location };
