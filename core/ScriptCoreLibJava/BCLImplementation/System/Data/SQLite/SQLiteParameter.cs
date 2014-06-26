@@ -12,6 +12,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteParameter")]
     internal class __SQLiteParameter : __DbParameter
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs
 
         public override string ParameterName { get; set; }
         public override object Value { get; set; }

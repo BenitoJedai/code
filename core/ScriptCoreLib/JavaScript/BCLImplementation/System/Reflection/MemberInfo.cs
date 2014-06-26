@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Reflection\MemberInfo.cs
 
+
         public abstract Type DeclaringType { get; }
 
 
@@ -33,6 +34,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public abstract object[] GetCustomAttributes(Type x, bool inherit);
         public abstract object[] GetCustomAttributes(bool inherit);
+
+        public virtual bool IsDefined(Type attributeType, bool inherit)
+        {
+            throw new NotImplementedException();
+        }
 
         // script: error JSC1000: No implementation found for this native method, please implement [static System.Reflection.MemberInfo.op_Equality(System.Reflection.MemberInfo, System.Reflection.MemberInfo)]
         // X:\jsc.svn\examples\javascript\LINQ\ComplexQueryExperiment\ComplexQueryExperiment\Application.cs

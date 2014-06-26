@@ -84,7 +84,7 @@ namespace ScriptCoreLib.Query.Experimental
 
         }
 
-        partial class SQLWriter<TElement>
+         partial class SQLWriter<TElement>
         {
             //0200004f ScriptCoreLib.Query.Experimental.QueryExpressionBuilder+SQLWriter`1+<>c__DisplayClass64
             //script: error JSC1000: unsupported flow detected, try to simplify.
@@ -1018,6 +1018,8 @@ namespace ScriptCoreLib.Query.Experimental
 
                             w += "`";
 
+                            var needToClose = false;
+
                             if (Target != null)
                                 foreach (var item in Target)
                                 {
@@ -1028,7 +1030,10 @@ namespace ScriptCoreLib.Query.Experimental
                                         if (i > 0)
                                         {
                                             if (i == 1)
+                                            {
                                                 w += ".`";
+                                                needToClose = true;
+                                            }
                                             else
                                                 w += ".";
                                         }
@@ -1042,7 +1047,8 @@ namespace ScriptCoreLib.Query.Experimental
                                     i++;
                                 }
 
-                            w += "`";
+                            if (needToClose)
+                                w += "`";
 
                             return w;
                         };
@@ -1411,7 +1417,7 @@ namespace ScriptCoreLib.Query.Experimental
                       // do we need zsource?
                       (zsource, zExpression, Target) =>
                       {
-                          WriteCommentLine(1, "WriteProjection");
+                          //WriteCommentLine(1, "WriteProjection");
 
                           //Console.WriteLine(new { zsource, zExpression });
 

@@ -13,28 +13,24 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteCommand")]
     internal class __SQLiteCommand : __DbCommand
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
-        // see also: X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
 
         public __SQLiteConnection InternalConnection;
         public override string CommandText { get; set; }
 
 
 
-        public override global::System.Data.Common.DbParameter CreateDbParameter()
-        {
-            return (global::System.Data.Common.DbParameter)(object)new __SQLiteParameter();
-        }
-
-
         public __SQLiteCommand(string sql, __SQLiteConnection c)
         {
             this.InternalConnection = (__SQLiteConnection)(object)c;
             this.CommandText = sql;
-
             this.Parameters = new __SQLiteParameterCollection { };
         }
 
+        #region InternalCreateStatement
         [Script]
         internal class __InternalCreateStatement
         {
@@ -46,6 +42,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             //Console.WriteLine("InternalCreateStatement...");
 
+            #region sql
             var sql = this.CommandText;
             var parameters = this.Parameters.InternalParameters;
             var index =
@@ -59,6 +56,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                 // java seems to like indexed parameters instead
                 sql = sql.Replace(p.ParameterName, "?");
             }
+            #endregion
 
 
             //Console.WriteLine("InternalCreateStatement: " + sql);
@@ -69,6 +67,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
             var db = InternalConnection.db;
 
+            #region ExecuteNonQuery
             Func<int> ExecuteNonQuery = delegate
            {
                if (parameters.Count > 0)
@@ -82,7 +81,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                db.execSQL(sql);
                return 0;
            };
+            #endregion
 
+            #region ExecuteReader
             Func<__SQLiteDataReader> ExecuteReader = delegate
             {
                 var selectionArgs = default(string[]);
@@ -113,6 +114,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                 var cursor = db.rawQuery(sql, selectionArgs);
                 return new __SQLiteDataReader { cursor = cursor };
             };
+            #endregion
+
 
             return new __InternalCreateStatement
             {
@@ -120,13 +123,17 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                 ExecuteReader = ExecuteReader
             };
         }
+        #endregion
 
+        #region ExecuteNonQuery
         public override int ExecuteNonQuery()
         {
             Console.WriteLine("__SQLiteCommand.ExecuteNonQuery " + new { this.CommandText, this.InternalConnection.InternalReadOnly });
 
             return InternalCreateStatement().ExecuteNonQuery();
         }
+        #endregion
+
 
         #region ExecuteReader
         public override global::System.Data.Common.DbDataReader __DbCommand_ExecuteReader()
@@ -146,12 +153,20 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         }
         #endregion
 
+        #region Parameters
+        public override global::System.Data.Common.DbParameter CreateDbParameter()
+        {
+            return (global::System.Data.Common.DbParameter)(object)new __SQLiteParameter();
+        }
+
         public __SQLiteParameterCollection Parameters { get; set; }
 
         public override global::System.Data.Common.DbParameterCollection DbParameterCollection
         {
             get { return Parameters; }
         }
+        #endregion
+
     }
 
 }

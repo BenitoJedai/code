@@ -14,6 +14,7 @@ namespace ScriptCoreLib.Query.Experimental
     {
         public static void Create<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
+            // X:\jsc.svn\examples\javascript\test\TestMemberInitExpression\TestMemberInitExpression\Application.cs
 
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
 
@@ -65,7 +66,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             var n = c.ExecuteNonQuery();
 
-            Console.WriteLine(new { n });
+            //Console.WriteLine(new { n });
 
             //                public const string CreateCommandText = @"create table 
             // if not exists `PerformanceResourceTimingData2.ApplicationPerformance` (

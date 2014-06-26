@@ -14,12 +14,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
     {
         public SQLResultSet r;
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+        // X:\jsc.svn\examples\javascript\linq\WebSQLXElement\WebSQLXElement\Application.cs
 
         public long InternalIndex = -1;
 
         public override void Close()
         {
-            throw new NotImplementedException();
+            // can we close it?
+
+            this.r = null;
+            this.InternalIndex = -2;
         }
 
         public override bool Read()

@@ -8,11 +8,47 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    [Script(HasNoPrototype = true)]
+    public class IEvent<TTargetElement> : IEvent where TTargetElement : INode
+    {
+        [Obsolete("experimental")]
+        public new TTargetElement Element
+        {
+            // X:\jsc.svn\examples\javascript\linq\WebSQLXElement\WebSQLXElement\Application.cs
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return (TTargetElement)((IEvent)this).Element;
+            }
+        }
+
+    }
+
     // http://www.w3.org/TR/DOM-Level-2-Events/idl-definitions.html
     // http://www.w3.org/TR/DOM-Level-3-Events/
     [Script(HasNoPrototype = true)]
     public class IEvent
     {
+        #region Element
+        [Script(OptimizedCode = @"
+            if (a0['target'] != void(0)) 
+                return a0.target;
+            if (a0['srcElement'] != void(0)) 
+                return a0.srcElement;
+            ")]
+        internal static INode InternalElement(object a0) { return default(INode); }
+
+        public INode Element
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return InternalElement(this);
+            }
+        }
+
+        #endregion
+
         // http://www.javascriptkit.com/jsref/event.shtml
         // http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/objects/obj_event.asp
 
@@ -308,25 +344,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         static internal void InternalPreventDefault(object a) { }
         #endregion
 
-        #region Element
-        [Script(OptimizedCode = @"
-            if (a0['target'] != void(0)) 
-                return a0.target;
-            if (a0['srcElement'] != void(0)) 
-                return a0.srcElement;
-            ")]
-        internal static INode InternalEvent(object a0) { return default(INode); }
 
-        public INode Element
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return InternalEvent(this);
-            }
-        }
-
-        #endregion
 
 
         //internal void initMouseEvent(object type, object canBubble, object cancelable, object view,
