@@ -8,7 +8,7 @@ using System.Xml.Linq;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     [Script(InternalConstructor = true)]
-    public class IHTMLButton : IHTMLElement
+    public class IHTMLButton : IHTMLElement<IHTMLButton>
     {
         public bool disabled;
 

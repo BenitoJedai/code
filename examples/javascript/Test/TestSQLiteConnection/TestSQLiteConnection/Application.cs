@@ -33,12 +33,18 @@ namespace TestSQLiteConnection
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // Application Cache NoUpdate event 
+
             // X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
 
 
+            new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
+                delegate
+            {
+                Foo.Invoke();
+            };
 
-            Foo.Invoke();
-            Foo.Invoke2();
+            //Foo.Invoke2();
 
         }
 
@@ -101,6 +107,7 @@ namespace TestSQLiteConnection
     {
         public static async Task Invoke()
         {
+            
             #region SQLiteConnection
             var cc0 = new SQLiteConnection(
                 new SQLiteConnectionStringBuilder
@@ -153,38 +160,68 @@ namespace TestSQLiteConnection
                 // 0:1348ms {{ LastInsertRowId = 1 }}
             }
 
-            cc0.Close();
             #endregion
 
 
-        }
+            // X:\jsc.svn\examples\javascript\linq\WebSQLXElement\WebSQLXElement\Application.cs
+            var n = new xApplicationPerformance();
 
-        public static void Invoke2()
-        {
+            Console.WriteLine("before create");
+            n.Create(cc0);
+
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Insert.cs
+            Console.WriteLine("before insert");
+            await n.InsertAsync(cc0,
+                new xPerformanceResourceTimingData2ApplicationPerformanceRow
+            {
+                connectStart = 5,
+                connectEnd = 13,
+                EventTime = DateTime.Now.AddDays(-0),
+                Tag = "what about xml?"
+            }
+            );
+
+
+            //await Task.Delay(10);
+
+            Console.WriteLine("after insert " + new { cc0.LastInsertRowId });
+
             var q = from x in new xApplicationPerformance()
 
                         //let gap1 = 1
 
-                    orderby x.Timestamp descending
+                        //orderby x.Timestamp descending
 
-                    //let gap2 = 1
-                    //let gap3 = 1
-                    //select x;
-                    select new
-                    {
-                        ///* 0000:0002 */  /* WriteProjection */
-                        ///* 0000:0003 */  /* let */ `x`.`connectStart` as _6wAABgsu8D2ea0LF3_aPlKg
+                        //let gap2 = 1
+                        //let gap3 = 1
+                        //select x;
+                    select x;
 
-                        x.connectStart,
-                        x.connectEnd,
-                        x.Timestamp
-                        //,  gap2, gap3 
-                    };
+            //    new
+            //{
+            //    ///* 0000:0002 */  /* WriteProjection */
+            //    ///* 0000:0003 */  /* let */ `x`.`connectStart` as _6wAABgsu8D2ea0LF3_aPlKg
 
-            var f = q.FirstOrDefault();
 
-            Console.WriteLine(new { f });
+            //    x.connectStart,
+            //    x.connectEnd,
+            //    x.Timestamp
+            //    //,  gap2, gap3 
+            //};
 
+            // X:\jsc.svn\examples\javascript\test\TestMemberInitExpression\TestMemberInitExpression\Application.cs
+
+            Console.WriteLine("before FirstOrDefaultAsync");
+
+            //q.Count();
+
+            var f = await q.FirstOrDefaultAsync(cc0);
+
+            // 0:14956ms {{ f = [object Object] }} 
+
+            Console.WriteLine(new { f.connectStart, f.connectEnd, f.Tag });
+
+            cc0.Close();
         }
 
     }

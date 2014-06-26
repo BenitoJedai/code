@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 
@@ -10,11 +11,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     {
         internal string _Name;
 
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Reflection.FieldInfo.get_FieldType()]
-        public  Type FieldType
+        public virtual FieldAttributes Attributes
         {
             get
             {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Type InternalDeclaringType;
+
+        public override Type DeclaringType
+        {
+            get { return InternalDeclaringType; }
+        }
+
+        public virtual RuntimeFieldHandle FieldHandle
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public virtual Type FieldType
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\test\TestSpecialFieldInfo\TestSpecialFieldInfo\Application.cs
                 // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
                 return typeof(string);
             }
@@ -22,29 +46,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public override string Name
         {
+            // X:\jsc.svn\examples\javascript\test\TestSpecialFieldInfo\TestSpecialFieldInfo\Application.cs
             get { return _Name; }
         }
 
-        public override string ToString()
+
+        public virtual Type ReflectedType
         {
-            return this.Name;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public object GetValue(object obj)
-        {
-            return global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMember(obj, _Name);
-
-        }
-
-        public void SetValue(object obj, object value)
-        {
-            global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(obj, _Name, value);
-        }
-
-        public static implicit operator global::System.Reflection.FieldInfo(__FieldInfo e)
-        {
-            return (global::System.Reflection.FieldInfo)(object)e;
-        }
 
         public override object[] GetCustomAttributes(bool inherit)
         {
@@ -54,6 +68,38 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         public override object[] GetCustomAttributes(Type x, bool inherit)
         {
             throw new NotImplementedException();
+        }
+
+
+
+        public virtual object GetValue(object obj)
+        {
+            return global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMember(obj, _Name);
+
+        }
+
+
+
+        public virtual void SetValue(object obj, object value)
+        {
+            global::ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(obj, _Name, value);
+        }
+
+        public virtual void SetValue(object obj, object value, BindingFlags invokeAttr, Binder binder, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+
+
+        public static implicit operator global::System.Reflection.FieldInfo(__FieldInfo e)
+        {
+            return (global::System.Reflection.FieldInfo)(object)e;
         }
 
         public static bool operator !=(__FieldInfo left, __FieldInfo right)
@@ -66,11 +112,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             return left.Name == right.Name;
         }
 
-        public Type InternalDeclaringType;
 
-        public override Type DeclaringType
-        {
-            get { return InternalDeclaringType; }
-        }
     }
 }

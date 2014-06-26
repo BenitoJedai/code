@@ -14,20 +14,34 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
+        public static DbCommand GetSelectCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
+        {
+            var c = (DbCommand)cc.CreateCommand();
 
+            var w = new SQLWriter<TElement>(source, new IQueryStrategy[0].AsEnumerable(), Command: c);
+
+            return c;
+        }
 
         public static IEnumerable<TElement> AsEnumerable<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             Console.WriteLine("enter AsEnumerable");
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
 
-            var c = (DbCommand)cc.CreateCommand();
-
-            var w = new SQLWriter<TElement>(source, new IQueryStrategy[0].AsEnumerable(), Command: c);
+            var c = GetSelectCommand(source, cc);
 
 
+
+            Console.WriteLine("before ExecuteReader");
+            // this wont work for chrome?
             var r = c.ExecuteReader();
+            Console.WriteLine("after ExecuteReader");
 
+            return ReadToElements(r, source);
+        }
+
+        public static IEnumerable<TElement> ReadToElements<TElement>(DbDataReader r, IQueryStrategy<TElement> source)
+        {
             while (r.Read())
             {
                 Console.WriteLine("enter AsEnumerable Read");
@@ -36,11 +50,9 @@ namespace ScriptCoreLib.Query.Experimental
             }
 
             r.Dispose();
-
-            Console.WriteLine("exit AsEnumerable");
         }
 
-        private static TElement ReadToElement<TElement>(DbDataReader r, IQueryStrategy source, Tuple<MemberInfo, int>[] Target)
+        public static TElement ReadToElement<TElement>(DbDataReader r, IQueryStrategy source, Tuple<MemberInfo, int>[] Target)
         {
             var xTake = source as xTake;
             if (xTake != null)
@@ -54,7 +66,11 @@ namespace ScriptCoreLib.Query.Experimental
                 var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
                 if (xMemberInitExpression != null)
                 {
-                    var xRow = (TElement)xMemberInitExpression.NewExpression.Constructor.Invoke(new object[0]);
+                    var xRow = default(TElement);
+
+                    // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
+                    xRow = (TElement)Activator.CreateInstance(xMemberInitExpression.NewExpression.Type);
+                    //xRow = xMemberInitExpression.NewExpression.Constructor.Invoke(new object[0]);
 
                     xMemberInitExpression.Bindings.WithEachIndex(
                         (SourceBinding, i) =>

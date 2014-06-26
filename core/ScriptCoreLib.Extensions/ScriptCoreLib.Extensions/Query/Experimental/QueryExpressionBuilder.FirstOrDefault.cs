@@ -19,11 +19,9 @@ namespace ScriptCoreLib.Query.Experimental
             public static readonly Func<IQueryStrategyGrouping<long, TElement>, TElement> LastReference = Last;
         }
 
-        public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
-        {
-            return source.Take(1).AsEnumerable(cc).FirstOrDefault();
-        }
 
+
+        [Obsolete]
         public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
         {
             // cache it?

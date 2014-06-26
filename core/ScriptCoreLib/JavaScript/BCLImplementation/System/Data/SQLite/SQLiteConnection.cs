@@ -26,20 +26,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
             return (global::System.Data.Common.DbCommand)(object)new __SQLiteCommand("", this);
         }
 
-        public Database InternalDatabase;
+        public Database db;
         public SQLResultSet InternalLastSQLResultSet;
 
         public override void Open()
         {
             // ignore connectionstring datasource for now.
-            InternalDatabase = Native.window.openDatabase();
+            db = Native.window.openDatabase();
 
         }
 
         public override void Close()
         {
             // we cant close it can we?
-            InternalDatabase = null;
+            db = null;
         }
 
         public override void Dispose()

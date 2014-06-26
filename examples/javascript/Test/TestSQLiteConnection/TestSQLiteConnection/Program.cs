@@ -11,7 +11,6 @@ namespace TestSQLiteConnection
         public static void Main(string[] args)
         {
             Foo.Invoke().Wait();
-            Foo.Invoke2();
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }

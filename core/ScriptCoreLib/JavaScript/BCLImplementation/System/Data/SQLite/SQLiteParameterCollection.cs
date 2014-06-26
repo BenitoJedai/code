@@ -12,16 +12,42 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs
 
+        public List<__SQLiteParameter> InternalParameters = new List<__SQLiteParameter>();
 
+        public override int InternalAdd(object value)
+        {
+            var p = value as __SQLiteParameter;
+
+            AddWithValue(
+                p.ParameterName,
+                p.Value
+            );
+
+
+            return InternalParameters.Count;
+        }
+        public __SQLiteParameter AddWithValue(string name, object value)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\IDbConnectionExtensions.cs
+
+            var n = new __SQLiteParameter { ParameterName = name, Value = value };
+
+            InternalParameters.Add(n);
+
+            return n;
+        }
+
+
+        public override int Count
+        {
+            get { return this.InternalParameters.Count; }
+        }
 
         public static implicit operator DbParameterCollection(__SQLiteParameterCollection e)
         {
             return (DbParameterCollection)(object)e;
         }
 
-        public override int Count
-        {
-            get { throw new NotImplementedException(); }
-        }
+
     }
 }

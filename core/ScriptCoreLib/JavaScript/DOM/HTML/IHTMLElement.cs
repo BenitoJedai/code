@@ -81,6 +81,31 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
     }
 
+
+    [Obsolete("experimental")]
+    [Script(InternalConstructor = true)]
+    public /* abstract */ partial class IHTMLElement<T> : IHTMLElement where T : IHTMLElement
+    {
+        // X:\jsc.svn\examples\javascript\linq\WebSQLXElement\WebSQLXElement\Application.cs
+
+        #region event onclick
+        public event System.Action<IEvent<T>> onclick
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "click");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "click");
+            }
+        }
+        #endregion
+    }
+
+
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLElement.idl
     [Script(InternalConstructor = true)]
     public /* abstract */ partial class IHTMLElement :
