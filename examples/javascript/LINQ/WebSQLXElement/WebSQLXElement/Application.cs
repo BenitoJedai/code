@@ -76,6 +76,7 @@ namespace WebSQLXElement
                 {
                     // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
 
+                    #region cc
                     var cc0 = new SQLiteConnection(
                         new SQLiteConnectionStringBuilder
                     {
@@ -88,6 +89,7 @@ namespace WebSQLXElement
                     var n = new xApplicationPerformance();
 
                     n.Create(cc0);
+                    #endregion
 
 
                     await n.InsertAsync(cc0,
