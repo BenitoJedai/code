@@ -17,6 +17,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteCommand")]
     internal class __SQLiteCommand : __DbCommand
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
         // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
         // X:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
@@ -221,12 +223,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             return value;
         }
 
-        public new __SQLiteParameterCollection Parameters { get; set; }
 
         //Y:\SVGNavigationTiming.XApplicationPerformanceWebService\staging.java\web\java\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\__SQLiteCommand.java:297: error: get_DbParameterCollection() in __SQLiteCommand cannot override get_DbParameterCollection() in __DbCommand
         //    protected  __DbParameterCollection get_DbParameterCollection()
         //                                       ^
         //  attempting to assign weaker access privileges; was public
+
+        public new __SQLiteParameterCollection Parameters { get; set; }
 
         public override DbParameterCollection DbParameterCollection
         {

@@ -103,6 +103,8 @@
     <Compile Include="Extensions\CoreFileInfoExtensions.cs" />
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\ConstructorInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\ParameterInfo.cs" />

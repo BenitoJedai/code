@@ -19,6 +19,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
         {
         }
 
+        public override global::System.Data.Common.DbCommand CreateDbCommand()
+        {
+            return (global::System.Data.Common.DbCommand)(object)new __SQLiteCommand("", this);
+        }
+
         public override void Open()
         {
         }

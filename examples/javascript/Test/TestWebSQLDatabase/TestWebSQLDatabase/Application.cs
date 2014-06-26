@@ -31,6 +31,8 @@ namespace TestWebSQLDatabase
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
+
             // http://cheggeng.github.io/Bucket/docs/files/src_drivers_WebSQL.js.html
 
             // as per http://www.c-sharpcorner.com/UploadFile/75a48f/html-5-web-sql-database/
@@ -88,28 +90,24 @@ namespace TestWebSQLDatabase
                                 }
                             );
 
+                            new IHTMLPre { "before SELECT" }.AttachToDocument();
                             tx.executeSql("SELECT xid, Name, Location FROM Employee_Table",
                                  callback:
                                 (SQLTransaction xtx, SQLResultSet r) =>
                                 {
-                                    new IHTMLPre { "after SELECT " + new { r.rowsAffected, r.rows.length } }.AttachToDocument();
+                                    new IHTMLPre { "enter SELECT " + new { r.rowsAffected, r.rows.length } }.AttachToDocument();
 
 
                                     for (uint i = 0; i < r.rows.length; i++)
                                     {
                                         var o = r.rows.item(i);
 
-                                        // row {{ i = 0, o = [object Object] }}
-                                        //new IHTMLPre { "row " + new { i, o } }.AttachToDocument();
-
-                                        // row {{ i = 0, z = {{ xid = 0, Name = foo, Location = bar }} }}
-                                        // script: error JSC1000: No implementation found for this native method, please implement [static Microsoft.CSharp.RuntimeBinder.Binder.GetIndex(Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, System.Type, System.Collections.Generic.IEnumerable`1[[Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]])]
 
                                         var z = new { o.xid, Name = o["Name"], o.Location };
-                                        //var z = new { o.xid, o.Name, o.Location };
 
                                         new IHTMLPre { "row " + new { i, z } }.AttachToDocument();
                                     }
+                                    new IHTMLPre { "exit SELECT " }.AttachToDocument();
                                 }
                             );
 
