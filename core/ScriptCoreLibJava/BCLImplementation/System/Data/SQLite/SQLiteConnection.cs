@@ -13,6 +13,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
     internal class __SQLiteConnection : __DbConnection
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
+
         public int BusyTimeout { get; set; }
 
         public java.sql.Connection InternalConnection;

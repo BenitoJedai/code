@@ -10,6 +10,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     {
         internal string _Name;
 
+        // script: error JSC1000: No implementation found for this native method, please implement [System.Reflection.FieldInfo.get_FieldType()]
+        public  Type FieldType
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
+                return typeof(string);
+            }
+        }
+
         public override string Name
         {
             get { return _Name; }
