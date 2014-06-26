@@ -163,57 +163,6 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        #region async
-        #region setTimeout
-        public int setTimeout(string code, int time)
-        {
-            return default(int);
-        }
-
-        public int setTimeout(IFunction code, int time)
-        {
-            return default(int);
-        }
-
-        [Script(DefineAsStatic = true)]
-        //internal 
-        public int setTimeout(System.Action code, int time)
-        {
-            return setTimeout(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
-        }
-        #endregion
-
-        #region setInterval
-        public int setInterval(string code, int time)
-        {
-            return default(int);
-        }
-
-        public int setInterval(IFunction code, int time)
-        {
-            return default(int);
-        }
-
-        [Script(DefineAsStatic = true)]
-        //internal 
-        public
-            int setInterval(System.Action code, int time)
-        {
-            return setInterval(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
-        }
-        #endregion
-
-
-        public void clearTimeout(int i)
-        {
-
-        }
-
-        public void clearInterval(int i)
-        {
-
-        }
-        #endregion
 
 
 

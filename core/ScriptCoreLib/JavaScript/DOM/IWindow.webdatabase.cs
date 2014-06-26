@@ -19,7 +19,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         // http://www.w3.org/TR/webdatabase/
 
-      
+
         // see: http://creativepark.net/blog/entry/id/1191
         // X:\jsc.svn\examples\javascript\test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
         //   Database openDatabase(in DOMString name, in DOMString version, in DOMString displayName, in unsigned long estimatedSize, in optional DatabaseCallback creationCallback);
@@ -74,7 +74,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class SQLResultSet
     {
-
+        public readonly long insertId;
+        public readonly long rowsAffected;
     }
     #endregion
 
