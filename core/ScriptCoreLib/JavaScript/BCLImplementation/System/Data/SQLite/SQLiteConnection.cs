@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
+﻿using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public __SQLiteConnection(string connectionstring)
         {
+            this.ConnectionString = connectionstring;
         }
 
         public override global::System.Data.Common.DbCommand CreateDbCommand()
@@ -24,26 +26,31 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
             return (global::System.Data.Common.DbCommand)(object)new __SQLiteCommand("", this);
         }
 
+        public Database InternalDatabase;
+        public SQLResultSet InternalLastSQLResultSet;
+
         public override void Open()
         {
+            // ignore connectionstring datasource for now.
+            InternalDatabase = Native.window.openDatabase();
+
         }
 
         public override void Close()
         {
+            // we cant close it can we?
+            InternalDatabase = null;
         }
 
         public override void Dispose()
         {
         }
 
-        //        0200005e System.Data.IDbConnectionExtensions
-        //no implementation for System.Data.SQLite.SQLiteConnection 4c618da5-288c-3fe4-a06f-5e12ef83b1d5
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.SQLite.SQLiteConnection.get_LastInsertRowId()]
         public int LastInsertRowId
         {
             get
             {
-                return -1;
+                return (int)InternalLastSQLResultSet.insertId;
             }
         }
     }
