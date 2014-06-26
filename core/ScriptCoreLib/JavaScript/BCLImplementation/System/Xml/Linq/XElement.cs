@@ -34,6 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
             }
         }
 
+        #region ctor
         public __XElement()
             : this("item", null, null)
         {
@@ -72,6 +73,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             this.InternalValue = ((__XElement)(object)other).InternalElement.cloneNode(true);
         }
+        #endregion
+
 
         public string Value
         {
@@ -202,6 +205,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 new[] { (XElement)(object)this },
                 this.Elements().SelectMany(k => k.DescendantsAndSelf())
             );
+        }
+
+
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Xml.Linq.XElement.op_Explicit(System.Xml.Linq.XElement)]
+        public static explicit operator string(__XElement element)
+        {
+            // X:\jsc.svn\examples\javascript\linq\VBWebSQLXElement\VBWebSQLXElement\Application.vb
+
+            return element.ToString();
         }
 
         public static implicit operator XElement(__XElement x)
