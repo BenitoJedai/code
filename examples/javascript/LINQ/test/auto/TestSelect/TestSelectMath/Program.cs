@@ -59,6 +59,8 @@ class Program
 
     static void Main(string[] args)
     {
+        Console.WriteLine("i am a zombie");
+
         // string DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
 
         var cc0 = new SQLiteConnection(
@@ -97,13 +99,21 @@ class Program
 
         //var q = from x in new TestSelectMath.PerformanceResourceTimingData2.ApplicationPerformance()
         var q = from x in new xApplicationPerformance()
+
+                //let gap1 = 1
+
                 orderby x.Timestamp descending
+
+                //let gap2 = 1
+                //let gap3 = 1
                 //select x;
-                select new { x.connectStart, x.connectEnd, x.Timestamp };
+                select new { x.connectStart, x.connectEnd, x.Timestamp
+                    //,  gap2, gap3 
+                };
 
         var f = q.FirstOrDefault(cc0);
 
-        Console.WriteLine(new { f.connectStart, f.connectEnd, f.Timestamp });
+        Console.WriteLine(new { f });
         //var zz = q.AsEnumerable(cc);
 
         //var z = q.AsDataTable(cc);

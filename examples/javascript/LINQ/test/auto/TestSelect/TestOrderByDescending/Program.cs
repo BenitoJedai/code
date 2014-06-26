@@ -7,7 +7,9 @@ class Program
         var f = (
             from x in new xTable()
 
-            orderby x.field1 descending, x.field2, x.field1 + x.field2 descending
+            let xBinary = x.field1 + x.field2 
+
+            orderby x.field1 descending, x.field2, xBinary descending
 
             let gap1 = 1
 

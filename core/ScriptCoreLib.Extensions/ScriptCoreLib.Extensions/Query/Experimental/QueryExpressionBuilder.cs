@@ -495,6 +495,69 @@ namespace ScriptCoreLib.Query.Experimental
                 }
                 #endregion
 
+
+                #region WriteOrderByKeySelector
+                Action<IQueryStrategy, Expression, Expression, Tuple<MemberInfo, int>[]> WriteOrderByKeySelector = null;
+
+                WriteOrderByKeySelector =
+                    (zsource, keySelector, zExpression, Target) =>
+                    {
+
+                        // we need to subselect
+                        var zSelect = zsource as xSelect;
+
+
+                        // what are we referencing in orderby?
+                        // zMemberExpression = {<>h__TransparentIdentifier0.x.field1}
+                        var zMemberExpression = keySelector as MemberExpression;
+                        if (zMemberExpression != null)
+                        {
+                            var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
+                            if (zMMemberExpression != null)
+                            {
+                                var zMMParameterExpression = zMMemberExpression.Expression as ParameterExpression;
+                                if (zMMParameterExpression != null)
+                                {
+                                    WriteLine(1, zMMemberExpression.Member.Name + "." + zMemberExpression.Member.Name);
+                                    return;
+                                }
+                            }
+
+
+                            var zMParameterExpression = zMemberExpression.Expression as ParameterExpression;
+                            if (zMParameterExpression != null)
+                            {
+                                var zMemberInitExpression = zSelect.selector.Body as MemberInitExpression;
+                                if (zMemberInitExpression != null)
+                                {
+                                    var ii = zMemberInitExpression.Bindings.Select(xx => xx.Member).ToList().IndexOf(zMemberExpression.Member);
+                                    var aa = zMemberInitExpression.Bindings[ii] as MemberAssignment;
+
+                                    WriteScalarExpression(aa.Expression);
+                                    return;
+                                }
+
+                                var zNewExpression = zSelect.selector.Body as NewExpression;
+                                if (zNewExpression != null)
+                                {
+                                    var ii = zNewExpression.Members.IndexOf(zMemberExpression.Member);
+                                    var aa = zNewExpression.Arguments[ii];
+
+
+                                    // zNewExpression = {new <>f__AnonymousType0`2(x = x, foo = x.field1)}
+                                    // oExpression.keySelector.Body = {<>h__TransparentIdentifier0.foo}
+                                    WriteScalarExpression(aa);
+                                    return;
+                                }
+                            }
+                        }
+
+
+                        Debugger.Break();
+                    };
+                #endregion
+
+
                 #region xOrderBy
                 var xOrderBy = source as xOrderBy;
                 if (xOrderBy != null)
@@ -515,11 +578,16 @@ namespace ScriptCoreLib.Query.Experimental
                             {
 
                                 if (oExpressionIndex == 0)
-                                    WriteLine(0, "orderby ");
+                                    WriteLine(0, "order by ");
                                 else
                                     WriteLine(0, ", ");
 
-                                WriteScalarExpression(oExpression.keySelector.Body);
+                                WriteOrderByKeySelector(
+                                    xOrderBy.source,
+                                    oExpression.keySelector.Body,
+                                    null,
+                                    new Tuple<MemberInfo, int>[0]
+                                );
 
                                 if (!oExpression.ascending)
                                     WriteLine(0, " desc");
@@ -923,6 +991,47 @@ namespace ScriptCoreLib.Query.Experimental
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
 
 
+                        #region GetTargetNameWithQuotes
+                        Func<string> GetTargetNameWithQuotes =
+                            delegate
+                            {
+                                var w = "";
+                                var i = 0;
+
+                                w += "`";
+
+                                if (Target != null)
+                                    foreach (var item in Target)
+                                    {
+                                        if (item.Item1 == null)
+                                            w += "[" + item.Item2 + "]";
+                                        else
+                                        {
+                                            if (i > 0)
+                                            {
+                                                if (i == 1)
+                                                    w += ".`";
+                                                else
+                                                    w += ".";
+                                            }
+
+                                            w += item.Item1.Name + "";
+                                        }
+
+                                        if (i == 0)
+                                            w += "`";
+
+                                        i++;
+                                    }
+
+                                w += "`";
+
+                                return w;
+                            };
+                        #endregion
+
+
+
                         #region GetTargetName
                         Func<string> GetTargetName =
                             delegate
@@ -1136,7 +1245,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 WriteCommentLine(1, "proxy");
 
                                 if (Target.Last().Item2 > 0)
-                                    WriteLine(1, ", ");
+                                    WriteLine(1, ",");
 
 
                                 var zSelect = source as xSelect;
@@ -1157,14 +1266,18 @@ namespace ScriptCoreLib.Query.Experimental
                                         return;
                                     }
 
-                                    WriteLine(1, " " + zSelect.selector.Parameters[0].Name + "." + GetTargetName());
+                                    WriteLine(1, " ");
+                                    WriteLine(1, "" + GetTargetNameWithQuotes());
+
                                     WriteLine(1, " as ");
                                     if (upperParameter != null)
                                     {
-                                        WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                        WriteCommentLine(0, upperParameter.Name);
                                         WriteLine(1, " ");
                                     }
+                                    WriteLine(1, "`");
                                     WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                    WriteLine(1, "`");
                                     return;
                                 }
 
@@ -1191,17 +1304,28 @@ namespace ScriptCoreLib.Query.Experimental
                             {
                                 // we have to unpack everything?
 
-                                WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
+                                WriteCommentLine(1, "proxy");
+
+                                if (Target.Last().Item2 > 0)
+                                    WriteLine(1, ", ");
+
+
+                            
+                                WriteLine(1, "" + GetTargetNameWithQuotes());
+                                //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
+
+                                WriteLine(1, " as ");
 
                                 if (upperParameter != null)
                                 {
-                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                    WriteCommentLine(0, upperParameter.Name);
                                     WriteLine(1, " ");
                                 }
 
+
+                                WriteLine(1, "`");
                                 WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                                //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
-                                WriteLine(1, " <- " + GetTargetName());
+                                WriteLine(1, "`");
                             }
                             return;
                         }
@@ -1469,6 +1593,9 @@ namespace ScriptCoreLib.Query.Experimental
                           {
 
 
+
+                              var isQuoteMode = false;
+
                               #region y
                               Action<MemberExpression> y = null;
 
@@ -1480,10 +1607,14 @@ namespace ScriptCoreLib.Query.Experimental
                                           y(mm);
                                       }
 
+
                                       var mp = m.Expression as ParameterExpression;
                                       if (mp != null)
                                       {
+                                          WriteLine(1, "`");
                                           WriteLineWithColor(0, mp.Name, ConsoleColor.DarkCyan);
+                                          WriteLine(1, "`");
+
                                       }
 
                                       // m.Expression = {<>h__TransparentIdentifier0.g.Last()}
@@ -1507,6 +1638,13 @@ namespace ScriptCoreLib.Query.Experimental
                                       WriteLine(1, ".");
                                       //if (zMemberExpression == m)
                                       //{
+
+                                      if (!isQuoteMode)
+                                      {
+                                          WriteLine(1, "`");
+                                          isQuoteMode = true;
+                                      }
+
                                       WriteLineWithColor(1, m.Member.Name, ConsoleColor.Cyan);
                                       //}
                                       //else
@@ -1545,6 +1683,14 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
 
                                   y(zMemberExpression);
+
+                                  // true always?
+                                  if (isQuoteMode)
+                                  {
+                                      WriteLine(1, "`");
+                                      isQuoteMode = false;
+                                  }
+
                                   WriteLine(1, " as ");
 
                                   if (upperParameter != null)
@@ -1597,17 +1743,24 @@ namespace ScriptCoreLib.Query.Experimental
                           {
                               using (WithoutLinefeeds())
                               {
-                                  WriteLine(1, "let ");
+                                  WriteCommentLine(1, "let");
+
+                                  if (Target.Last().Item2 > 0)
+                                      WriteLine(1, ", ");
+
+
+                                  WriteLine(1, " ");
+
+                                  WriteScalarExpression(xConstantExpression);
+                                  WriteLine(1, " as ");
 
                                   if (upperParameter != null)
                                   {
-                                      WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                      WriteCommentLine(0, upperParameter.Name);
                                       WriteLine(1, " ");
                                   }
 
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                  WriteLine(1, " <- ");
-                                  WriteScalarExpression(xConstantExpression);
                               }
                               return;
                           }
@@ -2245,7 +2398,7 @@ namespace ScriptCoreLib.Query.Experimental
                 }
                 else
                 {
-                    WriteLine(0, "from (");
+                    WriteLine(0, "from /* */ (");
 
                     var xsource = new SQLWriter<TElement>(
                        xSelect_source,
@@ -2261,8 +2414,9 @@ namespace ScriptCoreLib.Query.Experimental
 
                     using (WithoutLinefeeds())
                     {
-                        WriteLine(0, ") as ");
+                        WriteLine(0, ") as `");
                         WriteLineWithColor(0, "" + (source as xSelect).selector.Parameters[0].Name, ConsoleColor.Magenta);
+                        WriteLine(0, "`");
                     }
                 }
 
