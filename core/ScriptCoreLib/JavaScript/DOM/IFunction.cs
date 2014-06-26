@@ -15,6 +15,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         public Expando prototype;
 
+        #region ctor
         //[System.Obsolete("Chrome Applications will not like this unless jsc makes them literal functions via [Script(OptimizedCode...")]
         public IFunction(string body)
         {
@@ -35,6 +36,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
 
         }
+        #endregion
 
 
 
@@ -88,11 +90,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+        [Obsolete]
         public static IFunction Of(object target, string name)
         {
             return Expando.Of(target).GetMember<IFunction>(name);
         }
 
+        [Obsolete]
         public static IFunction Of(string name)
         {
             // tested by x:\jsc.svn\examples\javascript\Test\TestThreadStart\TestThreadStart\Application.cs
@@ -147,11 +151,15 @@ namespace ScriptCoreLib.JavaScript.DOM
             return x.Task;
         }
 
+        // used by?
+        [Obsolete]
         public static IFunction Of(System.Action h)
         {
             return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
         }
 
+        // used by?
+        [Obsolete]
         public static IFunction Of<TArg>(System.Action<TArg> h)
         {
             return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
@@ -185,12 +193,14 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+        [Obsolete]
         [Script(DefineAsStatic = true)]
         public void Export(string name)
         {
             Expando.ExportCallback(name, this);
         }
 
+        [Obsolete]
         public static void Export(string name, System.Action h)
         {
             IFunction.Of(h).Export(name);

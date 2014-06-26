@@ -57,7 +57,7 @@ namespace TestWebSQLDatabase
                     // about to connnect... done {{ db = [object Database], version =  }}
                     new IHTMLPre { "about to connnect... done " }.AttachToDocument();
 
-                    Debugger.Break();
+                    //Debugger.Break();
                     // jsc async using, finally not yet called?
                     db.transaction(
                         callback:
@@ -71,10 +71,10 @@ namespace TestWebSQLDatabase
 
                         tx.executeSql("insert into Employee_Table(xid, Name, Location) values(0, 'foo', 'bar')",
                             callback:
-                                (SQLTransaction xtx, SQLResultSet r) =>
-                        {
-                            new IHTMLPre { "after insert" }.AttachToDocument();
-                        }
+                            (SQLTransaction xtx, SQLResultSet r) =>
+                            {
+                                new IHTMLPre { "after insert " + new { r.insertId, r.rowsAffected } }.AttachToDocument();
+                            }
                         );
 
                         tx.executeSql("SELECT * FROM Employee_Table",

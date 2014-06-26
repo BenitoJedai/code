@@ -28,9 +28,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public IFunction InternalMethodReference;
 
+
+        // X:\jsc.svn\examples\javascript\test\TestIDLDelegateToFunction\TestIDLDelegateToFunction\Class1.cs
+        [method: ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.AsFunction)]
+        [Obsolete("called by the compiler")]
+        public static IFunction AsFunction(__Delegate x)
+        {
+            if (x == null)
+                return null;
+
+            return x.InvokePointer;
+        }
+
+
         // TODO: dom events and delay events do not support truly multiple targets
         public IFunction InvokePointer
         {
+
             get
             {
                 if (InternalMethodReference == null)
@@ -88,7 +102,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
-
+        // X:\jsc.svn\examples\javascript\test\TestIDLDelegateToFunction\TestIDLDelegateToFunction\Class1.cs
+        // special!
         [Script(OptimizedCode = "return function() { return o[p].apply(o, arguments); }")]
         internal static IFunction InternalGetAsyncInvoke(object o, global::System.IntPtr p)
         {
@@ -141,8 +156,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static bool IsEqual(__Delegate a, __Delegate b)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
+
             if ((object)a == null)
-                return false;
+                if ((object)b == null)
+                    return true;
+                else
+                    return false;
 
             if ((object)b == null)
                 return false;

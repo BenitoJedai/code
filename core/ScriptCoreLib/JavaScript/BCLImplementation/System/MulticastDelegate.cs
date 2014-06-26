@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.MulticastDelegate))]
     internal class __MulticastDelegate : __Delegate
     {
+        // X:\jsc.svn\examples\javascript\test\TestIDLDelegateToFunction\TestIDLDelegateToFunction\Class1.cs
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.List)]
         IArray<__Delegate> list = new IArray<__Delegate>();
 
