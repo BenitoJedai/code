@@ -541,8 +541,11 @@ namespace ScriptCoreLib.Query.Experimental
                                     var ii = zMemberInitExpression.Bindings.Select(xx => xx.Member).ToList().IndexOf(zMemberExpression.Member);
                                     var aa = zMemberInitExpression.Bindings[ii] as MemberAssignment;
 
-                                    WriteScalarExpression(aa.Expression);
-                                    return;
+                                    if (aa != null)
+                                    {
+                                        WriteScalarExpression(aa.Expression);
+                                        return;
+                                    }
                                 }
 
                                 var zNewExpression = zSelect.selector.Body as NewExpression;
@@ -551,17 +554,21 @@ namespace ScriptCoreLib.Query.Experimental
                                     var ii = zNewExpression.Members.IndexOf(zMemberExpression.Member);
                                     var aa = zNewExpression.Arguments[ii];
 
-
-                                    // zNewExpression = {new <>f__AnonymousType0`2(x = x, foo = x.field1)}
-                                    // oExpression.keySelector.Body = {<>h__TransparentIdentifier0.foo}
-                                    WriteScalarExpression(aa);
-                                    return;
+                                    if (aa != null)
+                                    {
+                                        // zNewExpression = {new <>f__AnonymousType0`2(x = x, foo = x.field1)}
+                                        // oExpression.keySelector.Body = {<>h__TransparentIdentifier0.foo}
+                                        WriteScalarExpression(aa);
+                                        return;
+                                    }
                                 }
                             }
                         }
 
+                        WriteLine(1, "?");
 
-                        Debugger.Break();
+                        if (Debugger.IsAttached)
+                            Debugger.Break();
                     };
                 #endregion
 

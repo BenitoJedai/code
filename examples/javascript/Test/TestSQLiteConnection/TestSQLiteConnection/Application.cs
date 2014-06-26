@@ -38,6 +38,7 @@ namespace TestSQLiteConnection
 
 
             Foo.Invoke();
+            Foo.Invoke2();
 
         }
 
@@ -155,6 +156,11 @@ namespace TestSQLiteConnection
             cc0.Close();
             #endregion
 
+
+        }
+
+        public static void Invoke2()
+        {
             var q = from x in new xApplicationPerformance()
 
                         //let gap1 = 1
@@ -166,6 +172,9 @@ namespace TestSQLiteConnection
                     //select x;
                     select new
                     {
+                        ///* 0000:0002 */  /* WriteProjection */
+                        ///* 0000:0003 */  /* let */ `x`.`connectStart` as _6wAABgsu8D2ea0LF3_aPlKg
+
                         x.connectStart,
                         x.connectEnd,
                         x.Timestamp
@@ -177,5 +186,6 @@ namespace TestSQLiteConnection
             Console.WriteLine(new { f });
 
         }
+
     }
 }

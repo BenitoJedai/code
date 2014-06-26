@@ -369,30 +369,36 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             InternalDump(Native.window, e);
         }
 
+        static string __WritePending = "";
+
         public static void Write(object e)
         {
+            // capture console colors?
+            __WritePending += e;
+
             //if (_ci == null)
-            Dump("" + e);
+            //Dump("" + e);
             //else
             //    _ci.WriteString(e + "");
         }
 
         public static void WriteLine(string e)
         {
-
-
-            //Write(e);
-            Dump(e);
-            //Write("\n");
+            Dump(__WritePending + e);
+            __WritePending = "";
         }
 
         public static void WriteLine(object e)
         {
-            Dump("" + e);
-            //Write(e);
-            //Write("\n");
+            WriteLine("" + e);
         }
 
+        public static void WriteLine()
+        {
+            WriteLine("");
+        }
+
+        [Obsolete]
         public void Dispose()
         {
             _ident--;
@@ -405,9 +411,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         #endregion
 
-
+        // ?
         public static bool ShowLogAsStatus = false;
 
+        [Obsolete]
         public static void Log(string p)
         {
             if (Native.Document == null)
@@ -420,22 +427,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             WriteLine(IDate.Now.toLocaleString() + " " + p);
         }
 
+        [Obsolete]
         public static void LogError(string u)
         {
             Log("*** " + u);
 
         }
 
+        [Obsolete]
         public static void LogError(object u)
         {
             Log("*** " + u.ToString());
 
         }
 
-        public static void WriteLine()
-        {
-            WriteLine("");
-        }
+
     }
 
 }
