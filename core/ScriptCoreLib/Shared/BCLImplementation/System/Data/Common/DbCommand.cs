@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 using System.Data.Common;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
@@ -24,6 +25,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         #endregion
 
 
+        public virtual Task<DbDataReader> __DbCommand_ExecuteReaderAsync()
+        {
+            return null;
+        }
         public virtual DbDataReader __DbCommand_ExecuteReader()
         {
             return null;
@@ -37,10 +42,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         }
 
 
-        //Error	20	'ScriptCoreLib.Shared.BCLImplementation.System.Data.Common.__DbCommand'
-        // does not implement interface member 'ScriptCoreLib.Shared.BCLImplementation.System.Data.__IDbCommand.ExecuteReader()'
-        // . 'ScriptCoreLib.Shared.BCLImplementation.System.Data.Common.__DbCommand.ExecuteReader()' cannot implement 'ScriptCoreLib.Shared.BCLImplementation.System.Data.__IDbCommand.ExecuteReader()' because it does not have the matching return type of 'System.Data.IDataReader'.	X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbCommand.cs	11	27	ScriptCoreLib
-
+        public virtual Task<DbDataReader> ExecuteReaderAsync()
+        {
+            // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
+            return __DbCommand_ExecuteReaderAsync();
+        }
 
         public virtual DbDataReader ExecuteReader()
         {
@@ -49,6 +55,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
 
             return __DbCommand_ExecuteReader();
+        }
+
+
+        // X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
+        // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
+        public virtual Task<int> ExecuteNonQueryAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public abstract int ExecuteNonQuery();

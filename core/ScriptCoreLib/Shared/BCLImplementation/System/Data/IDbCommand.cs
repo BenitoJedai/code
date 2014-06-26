@@ -24,6 +24,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 
         IDataReader ExecuteReader();
 
+
         object ExecuteScalar();
 
         //message = "\n\n Implementation not found for type import : \n type: System.Data.IDbCommand\n method: System.Object ExecuteScalar()\n Did you forget to add the [Script] attribute? \n Please double check the signature! \n \n assembly: V:\\XSLXAssetWithXElement.Applicat...

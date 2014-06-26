@@ -42,6 +42,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
             get;
             set;
         }
+
+        public static implicit operator global::System.Data.Common.DbDataReader(__DbDataReader r)
+        {
+            return (global::System.Data.Common.DbDataReader)(object)r;
+        }
+
     }
 
 }
