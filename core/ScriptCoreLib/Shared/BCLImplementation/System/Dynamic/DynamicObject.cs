@@ -24,6 +24,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
             return default(bool);
         }
 
+        public virtual bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
+        {
+            // X:\jsc.svn\examples\javascript\test\TestDynamicGetIndex\TestDynamicGetIndex\Application.cs
+
+            result = default(object);
+
+            return default(bool);
+        }
+
         public virtual bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = default(object);

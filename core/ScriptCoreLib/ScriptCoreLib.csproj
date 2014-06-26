@@ -184,6 +184,7 @@
     <Compile Include="PHP\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="Shared\BCLImplementation\System\DateTimeDaysInMonth.cs" />
     <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackFrame.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Dynamic\GetIndexBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />

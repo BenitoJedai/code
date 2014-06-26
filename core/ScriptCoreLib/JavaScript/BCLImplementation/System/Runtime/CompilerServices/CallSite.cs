@@ -28,6 +28,49 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
             // see also: X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\Microsoft\CSharp\RuntimeBinder\Binder.cs
 
+            #region __GetIndexBinder
+            {
+                var xGetIndexBinder = (object)binder as __GetIndexBinder;
+                if (xGetIndexBinder != null)
+                {
+                    var r = new Func<__CallSite, object, object, object>(
+                        (site, subject, key) =>
+                        {
+                            // X:\jsc.svn\examples\javascript\test\TestDynamicGetIndex\TestDynamicGetIndex\Application.cs
+
+                            // tested by?
+                            var x = subject as DynamicObject;
+                            if (x != null)
+                            {
+                                //Console.WriteLine("__SetMemberBinder DynamicObject");
+                                var result = default(object);
+
+                                if (x.TryGetIndex((GetIndexBinder)(object)xGetIndexBinder, new[] { key }, out result))
+                                {
+                                    return result;
+                                }
+                            }
+
+                            //Console.WriteLine("__CallSite __GetIndexBinder " + new { subject, key });
+
+                            var value = ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMember(
+                                subject, key
+                            );
+
+                            //var value = new IFunction("subject", "name", "return subject[name];").apply(null,
+                            //    subject,
+                            //    GetMember.Name
+                            //);
+
+                            return value;
+                        }
+                    );
+                    return r;
+                }
+            }
+            #endregion
+
+
             #region __SetIndexBinder
             {
                 var __SetIndexBinder = (object)binder as __SetIndexBinder;
