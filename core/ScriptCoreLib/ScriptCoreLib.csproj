@@ -114,6 +114,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\TimeZone.cs" />
+    <Compile Include="JavaScript\DOM\IWindow.webdatabase.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLElementGrouping.cs" />
     <Compile Include="JavaScript\DOM\IWindow.onframe.cs" />
     <Compile Include="JavaScript\DOM\IErrorEvent.cs" />
