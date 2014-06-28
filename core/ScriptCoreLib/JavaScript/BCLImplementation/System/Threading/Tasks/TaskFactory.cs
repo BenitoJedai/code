@@ -76,7 +76,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 var MethodType = typeof(FuncOfTaskOfObjectArrayToObject).Name;
 
                 #region MethodToken
-                var MethodToken = ((__MethodInfo)xfunction.Method).MethodToken;
+                var MethodToken = ((__MethodInfo)xfunction.Method).InternalMethodToken;
 
                 if (xfunction.Target != null)
                     if (xfunction.Target != Native.self)
@@ -90,7 +90,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                             throw new InvalidOperationException(message);
                         }
 
-                        MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).MethodToken;
+                        MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).InternalMethodToken;
                     }
                 #endregion
 

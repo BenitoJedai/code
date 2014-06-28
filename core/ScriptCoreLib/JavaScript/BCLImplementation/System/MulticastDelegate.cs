@@ -32,7 +32,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return this;
         }
 
-        protected override __Delegate  RemoveImpl(__Delegate d)
+        protected override __Delegate RemoveImpl(__Delegate d)
         {
             var j = -1;
 
@@ -44,16 +44,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                     break;
                 }
             }
- 	 
+
             if (j > -1)
                 list.splice(j, 1);
-            
+
             if (list.length == 0)
                 return null;
 
             return this;
         }
 
+
+        public static implicit operator MulticastDelegate(__MulticastDelegate e)
+        {
+            return (MulticastDelegate)(object)e;
+        }
 
     }
 

@@ -9,20 +9,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     [Script(Implements = typeof(global::System.Reflection.MethodInfo))]
     public class __MethodInfo : __MethodBase
     {
+        // X:\jsc.svn\examples\javascript\async\Test\TestDelegateObjectScopeInspection\TestDelegateObjectScopeInspection\Application.cs
+
         // Error	2	Inconsistent accessibility: base class 'ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection.__MethodBase' is less accessible than class 'ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection.__MethodInfo'	X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Reflection\MethodInfo.cs	8	18	ScriptCoreLib
 
 
         // string instead?
         // prototyp + string?
         // IFunction?
-        public string MethodToken;
+
+
+        #region use IntPtr instead?
+        public string InternalMethodToken;
 
         public IFunction InternalMethodReference;
+        #endregion
 
 
         public override string Name
         {
-            get { return MethodToken; }
+            get { return InternalMethodToken; }
         }
 
         public override object[] GetCustomAttributes(Type x, bool inherit)
@@ -39,7 +45,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         {
             // is jsc setting it to be string for methods?
 
-            return new { MethodToken }.ToString();
+            return new { InternalMethodToken }.ToString();
         }
 
 

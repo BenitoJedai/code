@@ -35,6 +35,23 @@ namespace TestDelegateObjectScopeInspection
             // X:\jsc.svn\examples\javascript\async\test\TestDelayInsideWorker\TestDelayInsideWorker\Application.cs
 
 
+            Foo.Invoke();
+
+        }
+    }
+
+    public static class Foo
+    {
+        public static void Invoke()
+        {
+//            before delegate { { scopeField1 = field1 } }
+//enter Inspection { { y = [object Object], Method = { InternalMethodToken = sAAABnvguzW_b3wQRWrbnyg }, Target = [object Object] } }
+//            { { xRowType = < Namespace >.__c__DisplayClass0 } }
+//            { { nRow = [object Object] } }
+//            { { yy = [object Object] } }
+//            inside the delegate { { scopeField1 = null } }
+//{ { z = null } }
+
             var scopeField1 = "field1";
 
             Console.WriteLine("before delegate " + new { scopeField1 });
@@ -47,8 +64,6 @@ namespace TestDelegateObjectScopeInspection
                 return scopeField1;
             }
             );
-
-
         }
 
         static void Inspection(Func<string> y)
@@ -62,10 +77,46 @@ namespace TestDelegateObjectScopeInspection
             var xRowType = y.Target.GetType();
 
             Console.WriteLine(new { xRowType });
-            
+            // {{ xRowType = <Namespace>.__c__DisplayClass0 }}
+
+            var nRow = Activator.CreateInstance(xRowType);
+
+            Console.WriteLine(new { nRow });
+
             // can we send the type across the threads?
 
-            var z = y();
+            //var yy = new Func<string>(nRow, y.Method);
+            // MulticastDelegate
+            // protected MulticastDelegate(object target, string method); ???
+            //var yy = default(MulticastDelegate);
+
+            // script: error JSC1000: No implementation found for this native method, please implement [static System.Delegate.CreateDelegate(System.Type, System.Object, System.Reflection.MethodInfo)]
+            //var y_withChangedTarget = (Func<string>)Delegate.CreateDelegate(typeof(Func<string>), nRow, y.Method);
+
+            // script: error JSC1000: No implementation found for this native method, please implement [System.Type.GetConstructors(System.Reflection.BindingFlags)]
+            //var ctors = typeof(Func<string>).GetConstructors(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+
+            // [0] = {Void .ctor(System.Object, IntPtr)}
+            //var yy = Activator.CreateInstance(typeof(Func<string>),
+            //    nRow,
+            //    y.Method
+            //);
+
+            var yy = (Func<string>)Delegate.CreateDelegate(typeof(Func<string>), nRow, y.Method);
+
+
+            Console.WriteLine(new { yy });
+
+            //var yy = new Func<string>(nRow, y.Method);
+
+
+            var z = yy();
+            // wont work yet
+
+            // Uncaught TypeError: undefined is not a function 
+            //var z = y_withChangedTarget();
+            // we cannot call it can we? why event make a delegate?
+            //var z = y_withChangedTarget;
 
             Console.WriteLine(new { z });
         }
