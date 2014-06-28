@@ -386,6 +386,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                          }
                          #endregion
 
+
+                         #region ContinueWithResult
+                         {
+                             dynamic ContinueWithResult = zdata.ContinueWithResult;
+                             if ((object)ContinueWithResult != null)
+                             {
+                                 // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
+                                 object Result = ContinueWithResult.Result;
+
+                                 Console.WriteLine("Task ContinueWithResult " + new { Result });
+
+                                 //0:7506ms Task ContinueWithResult view-source:40742
+                                 //0:7508ms { Result = [object Object] } 
+
+                                 var xResult = new TaskCompletionSource<object>();
+                                 //xResult.SetResult(Result);
+                                 xResult.SetResult(Result);
+                                 this.InternalSetCompleteAndYield((TResult)(object)xResult.Task);
+                             }
+                         }
+                         #endregion
+
                          #region yield
                          {
                              dynamic yield = zdata.yield;
@@ -394,7 +416,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                                  object value = yield.value;
 
-                                 //Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
+                                 Console.WriteLine("__Task.InternalStart inner complete " + new { yield = new { value } });
 
                                  this.InternalDispose = delegate
                                  {
