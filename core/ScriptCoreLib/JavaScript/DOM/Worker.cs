@@ -560,9 +560,23 @@ namespace ScriptCoreLib.JavaScript.DOM
                         value_TaskOfT.ContinueWith(
                             t =>
                             {
-                                Console.WriteLine("async worker done " + new { t.Result});
+                                Console.WriteLine("async worker done " + new { t.Result });
 
-                                var ContinueWithResult = new { t.Result };
+                                // null?
+                                var ResultType = t.Result.GetType();
+                                var ResultTypeIndex = __Type.GetTypeIndex("workerResult", ResultType);
+
+                                var ResultTypeSerializableMembers = FormatterServices.GetSerializableMembers(ResultType);
+                                var ResultObjectData = FormatterServices.GetObjectData(t.Result, ResultTypeSerializableMembers);
+
+                                var ContinueWithResult = new
+                                {
+                                    ResultTypeIndex,
+                                    ResultObjectData,
+
+                                    t.Result
+
+                                };
 
                                 zdata.ContinueWithResult = ContinueWithResult;
 

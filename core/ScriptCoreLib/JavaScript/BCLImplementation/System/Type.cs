@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
 using System.Reflection;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
+using System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -333,5 +334,63 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get { throw new NotImplementedException(); }
         }
+
+
+        #region GetTypeIndex
+        // used by X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs
+        public static object GetTypeIndex(string Name, Type TargetType)
+        {
+            var AllMemberNames = Expando.Of(Native.self).GetMemberNames();
+
+            var TargetTypeHandle = TargetType.TypeHandle;
+
+            var prototype = (object)TargetTypeHandle.Value;
+
+
+            //function IzkeSBiD_aTGMsWPjgYVYEg() {}
+            //IzkeSBiD_aTGMsWPjgYVYEg.TypeName = "IDataParameter";
+            //IzkeSBiD_aTGMsWPjgYVYEg.Assembly = _7ryscGGN80KExNOXH5xlgw;
+            //IzkeSBiD_aTGMsWPjgYVYEg.Interfaces = 
+            //{
+            //  f7G82WqfyzOLoZ_b8v0KVxw: 1
+            //};
+
+            //var type$IzkeSBiD_aTGMsWPjgYVYEg = IzkeSBiD_aTGMsWPjgYVYEg.prototype;
+            //type$IzkeSBiD_aTGMsWPjgYVYEg.constructor = IzkeSBiD_aTGMsWPjgYVYEg;
+
+
+            var prototype_constructor = Expando.InternalGetMember(prototype, "constructor");
+            if (prototype_constructor == null)
+                return null;
+
+
+            //0:4257ms { Name = foo, prototype_constructor_TypeName =  } 
+
+            var prototype_constructor_TypeName = Expando.InternalGetMember(prototype_constructor, "TypeName");
+            if (prototype_constructor_TypeName == null)
+                return null;
+
+            //Console.WriteLine(new { Name, prototype_constructor_TypeName });
+
+            var TargetTypeIndex = AllMemberNames.FirstOrDefault(
+                  item =>
+                  {
+                      dynamic self = Native.self;
+                      object value = self[item];
+
+                      if (value == prototype)
+                      {
+                          //Console.WriteLine(new { item, f });
+                          return true;
+                      }
+
+                      return false;
+                  }
+            );
+
+            return TargetTypeIndex;
+        }
+        #endregion
+
     }
 }

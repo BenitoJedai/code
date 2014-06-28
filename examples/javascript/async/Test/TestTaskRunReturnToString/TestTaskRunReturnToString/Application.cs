@@ -17,6 +17,7 @@ using TestTaskRunReturnToString;
 using TestTaskRunReturnToString.Design;
 using TestTaskRunReturnToString.HTML.Pages;
 using System.Threading;
+using System.Diagnostics;
 
 namespace TestTaskRunReturnToString
 {
@@ -25,6 +26,8 @@ namespace TestTaskRunReturnToString
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        string bar = "xxx";
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -36,22 +39,34 @@ namespace TestTaskRunReturnToString
                 {
                     e.Element.innerText = "working... " + new { Thread.CurrentThread.ManagedThreadId };
 
-
-                    var bar = "xxx";
+                    //                    0:2171ms Task scope { MemberName = bar, IsString = true, IsNumber = false, TypeIndex =  }
+                    //0:2216ms Task scope { MemberName = __4__this, IsString = false, IsNumber = false, TypeIndex = type$C0HYdVszjTu8aXYpHQQHEA }
+                    //var bar = "xxx";
 
                     var r = await Task.Run(async delegate
                     {
-                        Console.WriteLine("enter " + new { bar });
+                        // given we are switching to backround thread here, what if we mirrored the state to server too,
+                        // would be able to look at async stack?
 
-                        await Task.Delay(1000);
+                        var s = Stopwatch.StartNew();
 
-                        Console.WriteLine("exit " + new { bar });
+                        this.data = "enter " + new { Thread.CurrentThread.ManagedThreadId, bar };
+                        Console.WriteLine(new { this.data });
+
+                        await this.WebMethod2();
+
+                        //await Task.Delay(1000);
+
+                        Console.WriteLine("exit " + new { Thread.CurrentThread.ManagedThreadId, bar });
+
 
                         return new
                         {
                             Thread.CurrentThread.ManagedThreadId,
                             //foo = 55
                             bar,
+
+                            s.ElapsedMilliseconds
                         };
                     }
                     );
@@ -59,6 +74,8 @@ namespace TestTaskRunReturnToString
 
                     // can we have level1 typeinfo for us?
                     e.Element.innerText = "done " + new { r };
+                    // yes it is there now.
+                    // done {{ r = {{ ManagedThreadId = 10, bar = xxx }} }}
                 };
         }
 

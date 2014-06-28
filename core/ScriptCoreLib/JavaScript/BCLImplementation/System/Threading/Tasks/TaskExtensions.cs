@@ -11,7 +11,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     {
         public static Task<TResult> Unwrap<TResult>(Task<Task<TResult>> task)
         {
-            Console.WriteLine("enter Unwrap");
+            //Console.WriteLine("enter Unwrap");
 
             // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
@@ -26,9 +26,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 {
                     var xTask = r.Result;
 
-                    var isTaskOfT = xTask is Task<object>;
-
-                    Console.WriteLine("async worker running ? " + new { xTask, isTaskOfT });
+                    //var isTaskOfT = xTask is Task<object>;
+                    //Console.WriteLine("async worker running ? " + new { xTask, isTaskOfT });
 
                     xTask.ContinueWith(
                         rr =>

@@ -40,7 +40,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             var MethodType = typeof(FuncOfObjectToObject).Name;
 
 
-            var AllMemberNames = Expando.Of(Native.self).GetMemberNames();
 
             // what if this is a GUI task?
 
@@ -76,59 +75,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             var MethodToken = ((__MethodInfo)xfunction.Method).InternalMethodToken;
 
 
-            #region GetTypeIndex
-            Func<string, Type, object> GetTypeIndex =
-                (Name, TargetType) =>
-                {
-                    var TargetTypeHandle = TargetType.TypeHandle;
-
-                    var prototype = (object)TargetTypeHandle.Value;
-
-
-                    //function IzkeSBiD_aTGMsWPjgYVYEg() {}
-                    //IzkeSBiD_aTGMsWPjgYVYEg.TypeName = "IDataParameter";
-                    //IzkeSBiD_aTGMsWPjgYVYEg.Assembly = _7ryscGGN80KExNOXH5xlgw;
-                    //IzkeSBiD_aTGMsWPjgYVYEg.Interfaces = 
-                    //{
-                    //  f7G82WqfyzOLoZ_b8v0KVxw: 1
-                    //};
-
-                    //var type$IzkeSBiD_aTGMsWPjgYVYEg = IzkeSBiD_aTGMsWPjgYVYEg.prototype;
-                    //type$IzkeSBiD_aTGMsWPjgYVYEg.constructor = IzkeSBiD_aTGMsWPjgYVYEg;
-
-
-                    var prototype_constructor = Expando.InternalGetMember(prototype, "constructor");
-                    if (prototype_constructor == null)
-                        return null;
-
-
-                    //0:4257ms { Name = foo, prototype_constructor_TypeName =  } 
-
-                    var prototype_constructor_TypeName = Expando.InternalGetMember(prototype_constructor, "TypeName");
-                    if (prototype_constructor_TypeName == null)
-                        return null;
-
-                    //Console.WriteLine(new { Name, prototype_constructor_TypeName });
-
-                    var TargetTypeIndex = AllMemberNames.FirstOrDefault(
-                          item =>
-                          {
-                              dynamic self = Native.self;
-                              object value = self[item];
-
-                              if (value == prototype)
-                              {
-                                  //Console.WriteLine(new { item, f });
-                                  return true;
-                              }
-
-                              return false;
-                          }
-                    );
-
-                    return TargetTypeIndex;
-                };
-            #endregion
 
             #region MethodTargetTypeIndex
             var MethodTargetTypeIndex = default(object);
@@ -143,7 +89,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                     var TargetType = xfunction.Target.GetType();
 
-                    MethodTargetTypeIndex = GetTypeIndex("TargetType", TargetType);
+                    MethodTargetTypeIndex = __Type.GetTypeIndex("TargetType", TargetType);
 
 
                     // lets hope all the fields are transferable!
@@ -180,7 +126,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                             //var isString = MemberType == typeof(string);
                             //var isInt32 = MemberType == typeof(int);
                             var IsNumber = Expando.Of(MemberValue).IsNumber;
-                            var TypeIndex = GetTypeIndex(MemberName, MemberType);
+                            var TypeIndex = __Type.GetTypeIndex(MemberName, MemberType);
 
                             //0:4812ms __Task scope { MemberName = scope1, isString = false, isInt32 = false } view-source:40687
                             //0:4814ms __Task scope { MemberName = e, isString = false, isInt32 = false } 
@@ -214,7 +160,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             if (state != null)
             {
                 stateType = state.GetType();
-                stateTypeHandleIndex = GetTypeIndex("state", stateType);
+                stateTypeHandleIndex = __Type.GetTypeIndex("state", stateType);
                 var state_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
                 // Failed to execute 'postMessage' on 'Worker': An object could not be cloned.
                 state_ObjectData = FormatterServices.GetObjectData(state, state_SerializableMembers);
@@ -394,15 +340,46 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                                  // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
                                  object Result = ContinueWithResult.Result;
 
-                                 Console.WriteLine("Task ContinueWithResult " + new { Result });
+                                 // primitives wont have index
+                                 object ResultTypeIndex = ContinueWithResult.ResultTypeIndex;
+                                 object ResultObjectData = ContinueWithResult.ResultObjectData;
 
-                                 //0:7506ms Task ContinueWithResult view-source:40742
-                                 //0:7508ms { Result = [object Object] } 
+                                 Console.WriteLine("Task ContinueWithResult " + new { ResultTypeIndex });
 
-                                 var xResult = new TaskCompletionSource<object>();
-                                 //xResult.SetResult(Result);
-                                 xResult.SetResult(Result);
-                                 this.InternalSetCompleteAndYield((TResult)(object)xResult.Task);
+                                 if (ResultTypeIndex != null)
+                                 {
+                                     // X:\jsc.svn\examples\javascript\async\test\TestTaskRunReturnToString\TestTaskRunReturnToString\Application.cs
+
+                                     dynamic self = Native.self;
+
+                                     var ResultType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[ResultTypeIndex]));
+                                     var zResult = FormatterServices.GetUninitializedObject(ResultType);
+                                     var zResultTypeSerializableMembers = FormatterServices.GetSerializableMembers(ResultType);
+
+                                     FormatterServices.PopulateObjectMembers(
+                                         zResult,
+                                         zResultTypeSerializableMembers,
+                                         (object[])ResultObjectData
+                                     );
+
+                                     var xResult = new TaskCompletionSource<object>();
+                                     //xResult.SetResult(Result);
+                                     xResult.SetResult(zResult);
+                                     this.InternalSetCompleteAndYield((TResult)(object)xResult.Task);
+
+                                 }
+                                 else
+                                 {
+                                     // :7170ms Task ContinueWithResult { ResultTypeIndex = type$rfUTAxaiVTOCOkKbE6i0hg } 
+
+                                     //0:7506ms Task ContinueWithResult view-source:40742
+                                     //0:7508ms { Result = [object Object] } 
+
+                                     var xResult = new TaskCompletionSource<object>();
+                                     //xResult.SetResult(Result);
+                                     xResult.SetResult(Result);
+                                     this.InternalSetCompleteAndYield((TResult)(object)xResult.Task);
+                                 }
                              }
                          }
                          #endregion
