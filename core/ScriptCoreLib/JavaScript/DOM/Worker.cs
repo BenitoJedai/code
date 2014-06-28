@@ -47,6 +47,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public void postMessage(object message, MessagePort[] transfer) { }
 
+
+        #region ctor
         public Worker(string uri = ScriptApplicationSource)
         {
 
@@ -60,6 +62,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
 
         }
+        #endregion
 
         public void terminate()
         {
@@ -699,7 +702,13 @@ namespace ScriptCoreLib.JavaScript.DOM
             // why would it be null?
 
             if (AtWrite != null)
-                AtWrite(value + "\n");
+            {
+                AtWrite(value);
+
+                // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
+                // what if someone wants to show a line break as <br />
+                AtWrite("\r\n");
+            }
 
         }
 
