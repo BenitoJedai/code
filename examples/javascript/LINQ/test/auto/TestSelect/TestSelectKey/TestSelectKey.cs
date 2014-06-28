@@ -7,7 +7,7 @@ class TestSelectKey
         var f = (
             from x in new xTable()
             //let yy = 6
-            let xx = "not used"
+            let xx = "hello world"
 
 
 

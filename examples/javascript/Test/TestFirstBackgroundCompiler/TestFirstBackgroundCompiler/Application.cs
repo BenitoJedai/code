@@ -47,7 +47,7 @@ namespace TestFirstBackgroundCompiler
             new IHTMLPre { "but we will d a full cycle. if only one type was changed" }.AttachToDocument();
             new IHTMLPre { "a localized change then could we update running app without restart?" }.AttachToDocument();
 
-            page.AddingAButtonCtrlsWillCauseAssetsToBeRebuilt.style.color = "red";
+            page.AddingAButtonCtrlsWillCauseAssetsToBeRebuilt.style.color = "blue";
             page.AddingAButtonCtrlsWillCauseAssetsToBeRebuilt.onclick +=
                 delegate
                 {
