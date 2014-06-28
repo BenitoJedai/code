@@ -6,14 +6,14 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     [Script]
-    internal sealed class __AssemblyNameValue
+    public sealed class __AssemblyNameValue
     {
         public string Name;
         public string FullName;
     }
 
     [Script(Implements = typeof(global::System.Reflection.AssemblyName))]
-    internal sealed class __AssemblyName
+    public sealed class __AssemblyName
     {
         public __AssemblyValue __Value;
         public __AssemblyNameValue __NameValue;

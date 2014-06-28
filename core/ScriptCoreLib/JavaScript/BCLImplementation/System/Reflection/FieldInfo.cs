@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     [Script(Implements = typeof(global::System.Reflection.FieldInfo))]
-    internal class __FieldInfo : __MemberInfo
+    public class __FieldInfo : __MemberInfo
     {
         internal string _Name;
 

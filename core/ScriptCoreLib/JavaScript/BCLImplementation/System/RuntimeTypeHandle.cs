@@ -5,8 +5,10 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     [Script(Implements = typeof(global::System.RuntimeTypeHandle))]
-    internal sealed class __RuntimeTypeHandle
+    public sealed class __RuntimeTypeHandle
     {
+        // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
+
         // is this used?
         public __RuntimeTypeHandle()
         {
