@@ -112,6 +112,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\ParameterInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\ExceptionServices\ExceptionDispatchInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\Serialization\FormatterServices.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskExtensions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Run.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ContinueWith.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs" />

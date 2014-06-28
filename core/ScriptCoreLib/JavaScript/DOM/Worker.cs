@@ -547,12 +547,43 @@ namespace ScriptCoreLib.JavaScript.DOM
                     }
 
                     var value = MethodTokenReference.apply(MethodTarget, xstate);
-                    //var value = MethodTokenReference.apply(null, state);
-                    var yield = new { value };
 
-                    //Console.WriteLine(new { yield });
+                    // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
-                    zdata.yield = yield;
+
+                    var value_TaskOfT = value as __Task<object>;
+                    if (value_TaskOfT != null)
+                    {
+                        // special situation
+                        Console.WriteLine("async worker");
+
+                        value_TaskOfT.ContinueWith(
+                            t =>
+                            {
+                                Console.WriteLine("async worker done " + new { t.Result});
+
+                                var ContinueWithResult = new { t.Result };
+
+                                zdata.ContinueWithResult = ContinueWithResult;
+
+                                foreach (MessagePort port in e.ports)
+                                {
+                                    port.postMessage((object)zdata, new MessagePort[0]);
+                                }
+                            }
+                        );
+
+                    }
+                    else
+                    {
+
+
+                        var yield = new { value };
+
+                        //Console.WriteLine(new { yield });
+
+                        zdata.yield = yield;
+                    }
                     #endregion
                     // now what?
                 }
