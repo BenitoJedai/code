@@ -13,7 +13,8 @@ namespace ComplexQueryExperiment
 {
     public partial class ApplicationWebService
     {
-        public async void WebMethod2()
+        //public async void WebMethod2()
+        public void WebMethod2()
         {
             // running out of brain power are we?
             // we need a high level overview.
@@ -47,20 +48,21 @@ namespace ComplexQueryExperiment
 
                     let field8 = "???".ToLower()
 
-                    orderby field8, field7, field6, field5 > 33
+                    //orderby field8, field7, field6, field5 > 33
 
-                    let scalar1count = scalar1.Count()
+                    // doesnt work anymore?
+                    //let scalar1count = scalar1.Count()
 
-                    where scalar1count < 77
+                    //where scalar1count < 77
 
-                    let scalar2 = new[] {
-                        scalar1count - 1,
-                        scalar1count,
-                        scalar1count + 1
-                    }
+                    //let scalar2 = new[] {
+                    //    scalar1count - 1,
+                    //    scalar1count,
+                    //    scalar1count + 1
+                    //}
 
-                    // field3 not found?
-                    let field9 = new { field3, field7, x = new { field4 }, y = new[] { field5, field6 } }
+                    //// field3 not found?
+                    //let field9 = new { field3, field7, x = new { field4 }, y = new[] { field5, field6 } }
                     let field10 = z.Timestamp
                     let field11 = field10.Date
                     let field12 = field11.AddDays(-1)
@@ -115,7 +117,7 @@ namespace ComplexQueryExperiment
 
                         a = new
                         {
-                            scalar2,
+                            //scalar2,
 
 
                             Tag1 = z.Tag,
@@ -125,7 +127,7 @@ namespace ComplexQueryExperiment
                             c3 = new { c4 = 4 },
                         },
 
-                        scalar2,
+                        //scalar2,
 
                         c1 = 1,
                         f11 = z.field1,
@@ -136,10 +138,12 @@ namespace ComplexQueryExperiment
                             ),
 
 
-                        aa = new[] {
-                            z.Tag,
-                            z.Tag
-                            }
+
+                            // not supported anymore?
+                        //aa = new[] {
+                        //    z.Tag,
+                        //    z.Tag
+                        //    }
                     };
 
             //select scalarLambda(field5);
@@ -168,7 +172,7 @@ namespace ComplexQueryExperiment
             // order by
             // typed ctor
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
 
