@@ -34,14 +34,9 @@ namespace WebWorkerExperiment
         {
             new ConsoleForm { HandleFormClosing = false }.InitializeConsoleFormWriter().PopupInsteadOfClosing().Show();
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
 
-            Native.Window.onmessage += e =>
+
+            Native.window.onmessage += e =>
             {
                 Console.WriteLine("Window onmessage: " + new { e.data });
             };
@@ -95,15 +90,16 @@ namespace WebWorkerExperiment
                 //onmessage: { data = mirror: { data = from app to worker  } }
 
 
-                w.onmessage = IFunction.OfDelegate(
+                w.onmessage +=  //IFunction.OfDelegate(
                     new Action<MessageEvent>(
                         e =>
                         {
                             Console.WriteLine("onmessage: " + new { e.data });
                             // onmessage: { data = hello from worker? 1 }
                         }
-                    )
-                );
+                    );
+
+                //);
 
 
                 w.postMessage("from app to worker ");
@@ -197,7 +193,7 @@ namespace WebWorkerExperiment
                 //);
 
 
-                self.onmessage = IFunction.OfDelegate(
+                self.onmessage += // IFunction.OfDelegate(
                     new Action<MessageEvent>(
                         e =>
                         {
@@ -205,8 +201,8 @@ namespace WebWorkerExperiment
                                 "mirror: " + new { e.data }
                             );
                         }
-                    )
-                );
+                    );
+                //);
 
                 //foreach (var MemberName in w.GetMemberNames())
                 //{

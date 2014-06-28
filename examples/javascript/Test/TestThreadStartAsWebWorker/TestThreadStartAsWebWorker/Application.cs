@@ -48,6 +48,8 @@ namespace TestThreadStartAsWebWorker
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140628
+
             // X:\jsc.svn\examples\java\ParallelForEachExperiment\ParallelForEachExperiment\ApplicationControl.cs
 
             var t = new Thread(
@@ -82,18 +84,14 @@ namespace TestThreadStartAsWebWorker
             t.JoinAsync(
                 delegate
                 {
+                    //                    0:18ms working on the other thread
+                    //0:122ms { goo = from thread }
+
                     Console.WriteLine(new { ooo.goo });
                 }
             );
 
-            //t.IsAlive
 
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
         }
 
     }
