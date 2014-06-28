@@ -352,7 +352,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             var MethodType = typeof(FuncOfObjectToObject).Name;
 
             #region MethodToken
-            var MethodToken = ((__MethodInfo)function.Method).MethodToken;
+            var MethodToken = ((__MethodInfo)function.Method).InternalMethodToken;
 
             if (function.Target != null)
                 if (function.Target != Native.self)
@@ -364,7 +364,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     if (InternalTaskExtensionsScope_function == null)
                         throw new InvalidOperationException("InternalInitializeInlineWorker: inline scope sharing not yet implemented");
 
-                    MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).MethodToken;
+                    MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).InternalMethodToken;
                 }
             #endregion
 
@@ -653,7 +653,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             var MethodType = typeof(FuncOfTaskToObject).Name;
 
             #region MethodToken
-            var MethodToken = ((__MethodInfo)xfunction.Method).MethodToken;
+            var MethodToken = ((__MethodInfo)xfunction.Method).InternalMethodToken;
 
             if (xfunction.Target != null)
                 if (xfunction.Target != Native.self)
@@ -663,7 +663,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     if (InternalTaskExtensionsScope_function == null)
                         throw new InvalidOperationException("inline scope sharing not yet implemented");
 
-                    MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).MethodToken;
+                    MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).InternalMethodToken;
                 }
             #endregion
 

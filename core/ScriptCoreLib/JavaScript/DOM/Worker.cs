@@ -192,7 +192,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             Action<DedicatedWorkerGlobalScope> yield
             )
         {
-            var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
+            var MethodToken = ((__MethodInfo)yield.Method).InternalMethodToken;
 
             Console.WriteLine("InternalInlineWorker InternalConstructor " + new
             {

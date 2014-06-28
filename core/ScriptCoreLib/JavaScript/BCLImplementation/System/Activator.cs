@@ -10,6 +10,41 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Activator))]
     internal class __Activator
     {
+        public static object CreateInstance(Type type, params object[] args)
+        {
+            //  var ctor$dRwABhEmij_awUY_aNs2ypYA = pcI2XBEmij_awUY_aNs2ypYA.ctor = $ctor$(null, 'dRwABhEmij_awUY_aNs2ypYA', type$pcI2XBEmij_awUY_aNs2ypYA);
+            //  var ctor$rwAABqwhHjSCn60Jy_bMQpA = $ctor$(null, 'rwAABqwhHjSCn60Jy_bMQpA', type$fAZ65awhHjSCn60Jy_bMQpA);
+
+            // X:\jsc.svn\examples\javascript\test\TestActivatorWithArgs\TestActivatorWithArgs\Application.cs
+
+            // can we get the default ctor with args?
+            var ctor = (IFunction)Expando.InternalGetMember(
+                ((__Type)type).AsExpando().constructor, "ctor");
+
+            // 0:31ms { type = <Namespace>.Foo, ctor = function (b)
+
+
+            //Console.WriteLine(new { type, ctor });
+            //[Script(OptimizedCode = @"return new f();")]
+
+            // how to apply ctor args correctly?
+
+            if (args.Length == 0)
+                return new IFunction("f",
+                    "return new f();").apply(null, ctor);
+
+            if (args.Length == 1)
+                return new IFunction("f", "a",
+                    "return new f(a);").apply(null, ctor, args[0]);
+
+            if (args.Length == 2)
+                return new IFunction("f", "a", "b",
+                    "return new f(a, b);").apply(null, ctor, args[0], args[1]);
+
+            // manually add more or make it more elegant?
+            throw new NotImplementedException();
+            //return ctor.CreateType();
+        }
 
         public static object CreateInstance(Type e)
         {

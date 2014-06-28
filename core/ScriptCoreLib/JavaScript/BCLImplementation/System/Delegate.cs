@@ -6,6 +6,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
     using ScriptCoreLib.JavaScript.DOM;
+    using System.Reflection;
 
     [Script(Implements = typeof(global::System.Delegate))]
     internal class __Delegate
@@ -72,7 +73,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
                 var m = new __MethodInfo
                 {
-                    MethodToken = MethodToken,
+                    InternalMethodToken = MethodToken,
                     InternalMethodReference = InternalMethodReference
                 };
 
@@ -110,6 +111,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return default(IFunction);
         }
 
+
+        #region Combine
         public static __Delegate Combine(__Delegate a, __Delegate b)
         {
             if ((object)a == null)
@@ -146,7 +149,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             throw new global::System.Exception("use MulticastDelegate instead");
         }
+        #endregion
 
+
+        #region IsEqual
         public override bool Equals(object obj)
         {
             return IsEqual(this, (BCLImplementation.System.__Delegate)obj);
@@ -189,6 +195,50 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public override int GetHashCode()
         {
             return default(int);
+        }
+        #endregion
+
+
+
+
+        public static Delegate CreateDelegate(Type type, object firstArgument, global::System.Reflection.MethodInfo method)
+        {
+            // X:\jsc.svn\examples\javascript\async\Test\TestDelegateObjectScopeInspection\TestDelegateObjectScopeInspection\Application.cs
+
+            //   firstArgument:
+            //     The object to which the delegate is bound, or null to treat method as static
+
+            // can we actually call the type.ctor?
+
+            __MethodInfo m = method;
+
+            // um. we are marking it as IntPtr but actually it seems we are using string.
+
+            //var MethodToken = (string)(object)this.InternalMethod;
+            // reverse of .Method
+            var xIntPtr = (IntPtr)(object)m.InternalMethodToken;
+
+            // [0] = {Void .ctor(System.Object, IntPtr)}
+            //var yy = Activator.CreateInstance(typeof(Func<string>),
+            //    nRow,
+            //    y.Method
+            //);
+
+            // can we call CreateInstance with args?
+            var withType = Activator.CreateInstance(
+                type,
+                firstArgument,
+                xIntPtr
+            );
+
+
+            //var typeless = new __MulticastDelegate(
+            //    firstArgument,
+            //    i
+            //);
+
+
+            return (MulticastDelegate)withType;
         }
     }
 
