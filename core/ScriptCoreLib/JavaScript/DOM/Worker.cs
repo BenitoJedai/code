@@ -293,8 +293,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             string MethodType,
 
 
-object state_SerializableMembers,
-object state_ObjectData,
+            object state_SerializableMembers,
+            object state_ObjectData,
 
             object stateTypeHandleIndex,
             object state,
@@ -485,6 +485,7 @@ object state_ObjectData,
                 }
                 else if (MethodType == typeof(FuncOfObjectToObject).Name)
                 {
+                    #region FuncOfObjectToObject
                     // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
 
                     // X:\jsc.svn\examples\javascript\Test\TestGetUninitializedObject\TestGetUninitializedObject\Application.cs
@@ -508,12 +509,13 @@ object state_ObjectData,
                     //Console.WriteLine(new { yield });
 
                     zdata.yield = yield;
-
+                    #endregion
                     // now what?
                 }
                 else if (MethodType == typeof(FuncOfTaskToObject).Name)
                 {
                     // tested by?
+                    #region FuncOfTaskToObject
                     // need to reconstruct the caller task?
 
 
@@ -523,13 +525,14 @@ object state_ObjectData,
                     //Console.WriteLine(new { yield });
 
                     zdata.yield = yield;
-
+                    #endregion
                     // now what?
                 }
                 else if (MethodType == typeof(FuncOfTaskOfObjectArrayToObject).Name)
                 {
                     // tested by?
 
+                    #region FuncOfTaskOfObjectArrayToObject
                     // need to reconstruct the caller task?
 
                     Console.WriteLine("__worker_onfirstmessage: " + new { TaskArray = TaskArray.Length });
@@ -550,7 +553,7 @@ object state_ObjectData,
                     //Console.WriteLine(new { yield });
 
                     zdata.yield = yield;
-
+                    #endregion
                     // now what?
                 }
 

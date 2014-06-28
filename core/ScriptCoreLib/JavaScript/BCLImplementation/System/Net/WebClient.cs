@@ -166,7 +166,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
                     xx += "&";
                 }
 
-                var evalue = Native.window.escape(data[item]).Replace("+", "%" + ((byte)'+').ToString("x2"));
+                // X:\jsc.svn\examples\javascript\async\AsyncComputeAndThenCallServer\AsyncComputeAndThenCallServer\Application.cs
+                // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/escape
+                //var evalue = Native.window.escape(data[item]).Replace("+", "%" + ((byte)'+').ToString("x2"));
+                var evalue = Native.escape(data[item]).Replace("+", "%" + ((byte)'+').ToString("x2"));
                 xx += item + "=" + evalue;
             }
 

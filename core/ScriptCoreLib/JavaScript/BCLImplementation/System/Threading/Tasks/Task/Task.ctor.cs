@@ -36,7 +36,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
 
-            #region self[?]
+            #region stateTypeHandleIndex
 
             var stateType = state.GetType();
             //var stateTypeHandle = Type.GetTypeHandle(state);
@@ -121,6 +121,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 //var OnReportMethod = OnReportAction.Method;
 
 
+
+                #region IsIProgress
                 var IsIProgress = state is __IProgress<object>;
 
                 var AsTuple2 = state as __Tuple<object, object>;
@@ -146,6 +148,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     x = (__IProgress<object>)AsTuple2.Item1;
                     AsTuple2.Item1 = null;
                 }
+                #endregion
 
                 Console.WriteLine("InternalInitializeInlineWorker: " + new { IsIProgress, IsTuple2_Item1_IsIProgress, state });
 
