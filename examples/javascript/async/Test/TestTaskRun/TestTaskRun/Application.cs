@@ -57,6 +57,9 @@ namespace TestTaskRun
                     //var t = Task.Run(delegate
                     var t = Task.Factory.StartNew(delegate
                     {
+                        //Thread.SpinWait(
+                        Thread.Sleep(1000);
+
                         return new
                         {
                             Thread.CurrentThread.ManagedThreadId,
