@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Activator))]
     internal class __Activator
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Runtime\Serialization\FormatterServices.cs
+
         public static object CreateInstance(Type type, params object[] args)
         {
             //  var ctor$dRwABhEmij_awUY_aNs2ypYA = pcI2XBEmij_awUY_aNs2ypYA.ctor = $ctor$(null, 'dRwABhEmij_awUY_aNs2ypYA', type$pcI2XBEmij_awUY_aNs2ypYA);

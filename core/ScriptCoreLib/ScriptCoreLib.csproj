@@ -111,6 +111,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\ParameterInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\ExceptionServices\ExceptionDispatchInfo.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Runtime\Serialization\FormatterServices.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\UInt64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\UInt32.cs" />
@@ -194,8 +195,10 @@
     <Compile Include="Shared\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ElementInit.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\Expression\Expression.Lambda.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\Expression\Expression.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\Expression\Expression.New.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ListInitExpression.cs" />
-    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\Expression.New.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\InvocationExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\NewArrayExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\IQueryable.cs" />
@@ -565,7 +568,6 @@
     <Compile Include="JavaScript\Runtime\Fader.cs" />
     <Compile Include="Properties\AbstractatechInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Queryable.cs" />
-    <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\Expression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Nullable.cs" />
     <Compile Include="Shared\BCLImplementation\System\EventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\EventArgs.cs" />

@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+//using Reflection;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.DOM;
+using System.Reflection;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    using Reflection;
-    using ScriptCoreLib.JavaScript.Runtime;
-    using ScriptCoreLib.JavaScript.DOM;
-    using System.Reflection;
+
 
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
@@ -75,23 +77,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
 
-
-        private RuntimeTypeHandle _TypeHandle;
+        // where is this used?
 
         public RuntimeTypeHandle TypeHandle
         {
-            get { return _TypeHandle; }
-            set { _TypeHandle = value; }
+            get;
+            set;
         }
 
 
 
 
-
+        #region GetFields
         public __FieldInfo GetField(string name)
         {
             __FieldInfo r = null;
-
 
             if (this.IsNative)
             {
@@ -100,7 +100,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 return r = new __FieldInfo { _Name = name, InternalDeclaringType = this };
             }
 
-            foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value).GetFields())
+            foreach (var m in global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(this.TypeHandle.Value).GetFields())
             {
                 if (m.Name == name)
                 {
@@ -114,16 +114,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return r;
         }
 
-        public Expando AsExpando()
-        {
-            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
 
-            return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(_TypeHandle.Value);
+
+        //public abstract FieldInfo[] GetFields(BindingFlags bindingAttr)
+        public virtual FieldInfo[] GetFields(BindingFlags bindingAttr)
+        {
+            // X:\jsc.svn\examples\javascript\async\Test\TestDelegateObjectScopeInspection\TestDelegateObjectScopeInspection\Application.cs
+            // do know how to treat binding attr?
+
+            return GetFields();
         }
 
-        public __FieldInfo[] GetFields()
+        public FieldInfo[] GetFields()
         {
-            var a = new List<__FieldInfo>();
+            var a = new List<FieldInfo>();
 
             foreach (var m in AsExpando().GetFields())
             {
@@ -134,10 +138,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             return a.ToArray();
         }
+        #endregion
 
 
 
 
+        public Expando AsExpando()
+        {
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Activator.cs
+
+            return global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(this.TypeHandle.Value);
+        }
 
         public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
         {
@@ -201,6 +212,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             // does jsc keep interface type info yet?
             // X:\jsc.svn\examples\javascript\Test\TestRoslynYieldReturn\TestRoslynYieldReturn\Application.cs
 
+            // wo do dont we, how else the as is works?
             return new Type[0];
         }
 
@@ -213,6 +225,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
+
+
+        #region GetCustomAttributes
         public override object[] GetCustomAttributes(bool inherit)
         {
             return GetCustomAttributes(null, false);
@@ -244,6 +259,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             return i.ToArray();
         }
+        #endregion
 
 
 

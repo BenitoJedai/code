@@ -7,6 +7,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.RuntimeTypeHandle))]
     internal sealed class __RuntimeTypeHandle
     {
+        // is this used?
         public __RuntimeTypeHandle()
         {
 
@@ -15,15 +16,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         // special method invoked on typeof(Type) statement
         public __RuntimeTypeHandle(IntPtr e)
         {
-            _Value = e;
+            this.Value = e;
         }
 
-        private IntPtr _Value;
 
         public IntPtr Value
         {
-            get { return _Value; }
-            set { _Value = value; }
+            get;
+            set;
         }
 
         public static implicit operator RuntimeTypeHandle(__RuntimeTypeHandle e)
