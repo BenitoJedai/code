@@ -22,7 +22,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public void InternalInitializeInlineWorker(
             Func<object, TResult> function,
+
             object state,
+
             CancellationToken c,
             TaskCreationOptions o,
             TaskScheduler s)
@@ -34,18 +36,86 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 Debugger.Break();
             }
 
+
+            var AllMemberNames = Expando.Of(Native.self).GetMemberNames();
+
+            // what if this is a GUI task?
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
+            var MethodType = typeof(FuncOfObjectToObject).Name;
+
+            #region MethodToken
+
+            Delegate xfunction = function;
+
+
+            if (function.Target != null)
+                if (function.Target != Native.self)
+                {
+                    // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
+                    // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
+
+                    var TargetType = function.Target.GetType();
+
+                    //Console.WriteLine("InternalInitializeInlineWorker " + new { Target = function.Target.ToString(), TargetType });
+
+
+                    Delegate InternalTaskExtensionsScope_function = (function.Target as dynamic).InternalTaskExtensionsScope_function;
+                    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\TaskExtensions.cs
+
+                    if (InternalTaskExtensionsScope_function != null)
+                    {
+                        //MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).InternalMethodToken;
+
+                        xfunction = InternalTaskExtensionsScope_function;
+                    }
+                }
+            #endregion
+
+            var MethodToken = ((__MethodInfo)xfunction.Method).InternalMethodToken;
+
+
+            #region MethodTargetTypeIndex
+            var MethodTargetTypeIndex = default(object);
+            var MethodTargetObjectData = default(object);
+
+            // we need to send in also the this argument of the function, lets find whats the token of the type
+            if (xfunction.Target != null)
+            {
+                // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
+
+                var TargetType = xfunction.Target.GetType();
+                var TargetTypeHandle = TargetType.TypeHandle;
+
+                MethodTargetTypeIndex = AllMemberNames.FirstOrDefault(
+                    item =>
+                    {
+                        dynamic self = Native.self;
+                        object value = self[item];
+
+                        if (value == (object)TargetTypeHandle.Value)
+                            return true;
+
+                        return false;
+                    }
+                );
+
+
+                // lets hope all the fields are transferable!
+                MethodTargetObjectData = FormatterServices.GetObjectData(xfunction.Target, FormatterServices.GetSerializableMembers(TargetType));
+            }
+            #endregion
+
+
+
             // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
 
             #region stateTypeHandleIndex
 
             var stateType = state.GetType();
-            //var stateTypeHandle = Type.GetTypeHandle(state);
             var stateTypeHandle = stateType.TypeHandle;
-            var scope = Expando.Of(Native.self).GetMemberNames();
-
-            Console.WriteLine(new { scope.Length });
-
-            var stateTypeHandleIndex = scope.FirstOrDefault(
+            //Console.WriteLine(new { scope.Length });
+            var stateTypeHandleIndex = AllMemberNames.FirstOrDefault(
                 item =>
                 {
                     dynamic self = Native.self;
@@ -60,27 +130,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             #endregion
 
-            // what if this is a GUI task?
-
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
-            var MethodType = typeof(FuncOfObjectToObject).Name;
-
-            #region MethodToken
-            var MethodToken = ((__MethodInfo)function.Method).InternalMethodToken;
-
-            if (function.Target != null)
-                if (function.Target != Native.self)
-                {
-                    // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
-
-                    Delegate InternalTaskExtensionsScope_function = (function.Target as dynamic).InternalTaskExtensionsScope_function;
-
-                    if (InternalTaskExtensionsScope_function == null)
-                        throw new InvalidOperationException("InternalInitializeInlineWorker: inline scope sharing not yet implemented");
-
-                    MethodToken = ((__MethodInfo)InternalTaskExtensionsScope_function.Method).InternalMethodToken;
-                }
-            #endregion
 
 
 
@@ -163,6 +212,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     new
                     {
                         InternalInlineWorker.InternalThreadCounter,
+
+
+                        MethodTargetObjectData,
+                        MethodTargetTypeIndex,
+
                         MethodToken,
                         MethodType,
 

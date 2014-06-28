@@ -289,6 +289,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         static void __worker_onfirstmessage(MessageEvent e,
             int InternalThreadCounter,
              object data___string,
+
+            object MethodTargetObjectData,
+            object MethodTargetTypeIndex,
               string MethodToken,
             string MethodType,
 
@@ -336,21 +339,28 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
             dynamic self = Native.self;
-            RuntimeTypeHandle xh = new __RuntimeTypeHandle((IntPtr)self[stateTypeHandleIndex]);
-            var stateType = Type.GetTypeFromHandle(xh);
+
+            var stateType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[stateTypeHandleIndex]));
+
+            // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
+            var MethodTargetType = default(Type);
+
+            if (MethodTargetTypeIndex != null)
+                MethodTargetType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[MethodTargetTypeIndex]));
             // stateType = <Namespace>.xFoo,
 
 
-            var MethodTokenReference = IFunction.Of(MethodToken);
-            // what if we are being called from within a secondary app?
 
-            //  stateTypeHandleIndex = type$XjKww8iSKT_aFTpY_bSs5vBQ,
+            // MethodTargetTypeIndex = type$GV0nCx_bM8z6My5NDh7GXlQ, 
 
             Console.WriteLine(
                 "__worker_onfirstmessage: " +
                 new
                 {
                     Native.worker.location.href,
+
+                    MethodTargetTypeIndex,
+                    MethodTargetType,
 
                     MethodToken,
                     MethodType,
@@ -370,6 +380,31 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
             );
 
+            #region MethodTokenReference
+            var MethodTokenReference = default(IFunction);
+            var MethodTarget = default(object);
+
+            if (MethodTargetType == null)
+            {
+                MethodTokenReference = IFunction.Of(MethodToken);
+            }
+            else
+            {
+                MethodTarget = FormatterServices.GetUninitializedObject(MethodTargetType);
+
+
+                FormatterServices.PopulateObjectMembers(
+                    MethodTarget,
+                     FormatterServices.GetSerializableMembers(MethodTargetType),
+                    (object[])MethodTargetObjectData
+                );
+
+                MethodTokenReference = (MethodTarget as dynamic)[MethodToken];
+            }
+
+            // what if we are being called from within a secondary app?
+
+            //  stateTypeHandleIndex = type$XjKww8iSKT_aFTpY_bSs5vBQ,
             if (MethodTokenReference == null)
             {
                 // tested at
@@ -379,6 +414,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     new { MethodToken } + " function is not available at " + new { Native.worker.location.href }
                 );
             }
+            #endregion
 
             //Console.WriteLine(
             //     new
@@ -502,7 +538,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     // MethodType = FuncOfObjectToObject
                     //Console.WriteLine("as FuncOfObjectToObject");
 
-                    var value = MethodTokenReference.apply(null, xstate);
+                    var value = MethodTokenReference.apply(MethodTarget, xstate);
                     //var value = MethodTokenReference.apply(null, state);
                     var yield = new { value };
 
@@ -607,6 +643,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                             int InternalThreadCounter = e_data.InternalThreadCounter;
                             object data___string = e_data.__string;
+
+
+                            // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
+                            object MethodTargetObjectData = e_data.MethodTargetObjectData;
+                            object MethodTargetTypeIndex = e_data.MethodTargetTypeIndex;
                             string MethodToken = e_data.MethodToken;
                             string MethodType = e_data.MethodType;
 
@@ -671,6 +712,9 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 e,
                                 InternalThreadCounter,
                                 data___string,
+
+                                MethodTargetObjectData,
+                                MethodTargetTypeIndex,
                                 MethodToken,
                                 MethodType,
 
