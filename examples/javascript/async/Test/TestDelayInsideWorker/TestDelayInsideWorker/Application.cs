@@ -39,19 +39,51 @@ namespace TestDelayInsideWorker
             // we should color automated messages in a different color than the ones from Application
             Console.SetOut(new xConsole());
 
-            new IHTMLButton { "go" }.AttachToDocument().onclick +=
+            // Starting with the .NET Framework 4.5, you can use the Run method with an Action object as a quick way to call StartNew with default parameters. 
+            // For more information and code examples, see Task.Run vs Task.Factory.StartNew in the Parallel Programming with .NET blog.
+            // http://blogs.msdn.com/b/pfxteam/archive/2011/10/24/10229468.aspx
+
+            new IHTMLButton { "Task Run await" }.AttachToDocument().onclick +=
                 async e =>
+                {
+                    // namespace System.Threading.Tasks
+                    // public static Task<TResult> Run<TResult>(Func<Task<TResult>> function);
+                    // vscript: error JSC1000: No implementation found for this native method, please implement [static System.Threading.Tasks.Task.Run(System.Func`1[[System.Threading.Tasks.Task`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
+                    // there does not seem to be a way to send in the state?
+                    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs
+                    // If you really wanted the Task<int>, you could use Task.Factory.StartNew, which doesn't do the automatic unwrapping. Or you could force the compiler not to see the result as a task, e.g. instead of doing:
+                    // http://en.wikipedia.org/wiki/DWIM
+
+                    var t = Task.Run(async () =>
+                    {
+                        Console.WriteLine("task: " + new { Thread.CurrentThread.ManagedThreadId });
+
+                        await Task.Delay(1000);
+                        return 42;
+                    });
+
+                    int result = await t;
+
+                    Console.WriteLine(new { result });
+                };
+
+
+            new IHTMLButton { "go" }.AttachToDocument().onclick +=
+            async e =>
             {
 
+                // where is it defined?
+                // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\TaskExtensions.cs
                 var z = await Task.Factory.StartNew(
                      new { data = "whats the hash for this?" },
-                        async  scope =>
+                        //async  
+                        scope =>
                         {
                             // will this get signaled to UI thread? only string are to be synchronized for now?
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("hi " + new { Thread.CurrentThread.ManagedThreadId });
 
-                            await Task.Delay(2000);
+                            //await Task.Delay(2000);
 
                             return new { result = "ok" };
                         }
