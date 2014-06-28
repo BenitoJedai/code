@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 {
     public static class AsyncJavaScriptStringExtensions
     {
+        // tested by ?
         public static async Task<string> ToDocumentTitle(this Task<string> title)
         {
             var value = await title;
