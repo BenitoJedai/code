@@ -104,11 +104,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public static bool operator !=(__FieldInfo left, __FieldInfo right)
         {
-            return left.Name != right.Name;
+            return !(left == right);
         }
 
         public static bool operator ==(__FieldInfo left, __FieldInfo right)
         {
+            if ((object)left == null)
+                if ((object)right == null)
+                    return true;
+                else
+                    return false;
+            else
+                if ((object)right == null)
+                    return false;
+
             return left.Name == right.Name;
         }
 

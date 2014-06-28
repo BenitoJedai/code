@@ -17,6 +17,7 @@ using TestDelegateObjectScopeInspection;
 using TestDelegateObjectScopeInspection.Design;
 using TestDelegateObjectScopeInspection.HTML.Pages;
 using System.IO;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace TestDelegateObjectScopeInspection
 {
@@ -44,22 +45,24 @@ namespace TestDelegateObjectScopeInspection
     {
         public static void Invoke()
         {
-//            before delegate { { scopeField1 = field1 } }
-//enter Inspection { { y = [object Object], Method = { InternalMethodToken = sAAABnvguzW_b3wQRWrbnyg }, Target = [object Object] } }
-//            { { xRowType = < Namespace >.__c__DisplayClass0 } }
-//            { { nRow = [object Object] } }
-//            { { yy = [object Object] } }
-//            inside the delegate { { scopeField1 = null } }
-//{ { z = null } }
+            //            before delegate { { scopeField1 = field1 } }
+            //enter Inspection { { y = [object Object], Method = { InternalMethodToken = sAAABnvguzW_b3wQRWrbnyg }, Target = [object Object] } }
+            //            { { xRowType = < Namespace >.__c__DisplayClass0 } }
+            //            { { nRow = [object Object] } }
+            //            { { yy = [object Object] } }
+            //            inside the delegate { { scopeField1 = null } }
+            //{ { z = null } }
 
             var scopeField1 = "field1";
+            var scopeField2 = 7;
+            var scopeField3 = new { foo = "bar" };
 
-            Console.WriteLine("before delegate " + new { scopeField1 });
+            Console.WriteLine("before delegate " + new { scopeField1, scopeField2, scopeField3 });
 
             Inspection(
                 delegate
             {
-                Console.WriteLine("inside the delegate  " + new { scopeField1 });
+                Console.WriteLine("inside the delegate  " + new { scopeField1, scopeField2, scopeField3 });
 
                 return scopeField1;
             }
@@ -68,6 +71,7 @@ namespace TestDelegateObjectScopeInspection
 
         static void Inspection(Func<string> y)
         {
+            //Serializer
             // enter Inspection {{ y = [object Object], Method = { MethodToken = owAABhluGjmdbjAyX2PIQA }, Target = [object Object] }}
             Console.WriteLine("enter Inspection " + new { y, y.Method, y.Target });
 
@@ -81,7 +85,49 @@ namespace TestDelegateObjectScopeInspection
 
             var nRow = Activator.CreateInstance(xRowType);
 
+            //Activator.GetObject(
+
+
+            //{ { MemberName = scopeField1 } }
+            //{ { MemberName = sQAABnvguzW_b3wQRWrbnyg } }
+            //{ { MemberName = sAAABnvguzW_b3wQRWrbnyg } }
+            //{ { Name = scopeField1 } }
+
+            //var tt = Expando.Of(y.Target);
+
+            //foreach (var MemberName in tt.GetMemberNames())
+            //{
+            //    Console.WriteLine(new { MemberName });
+            //}
+
+
+            var xFields = xRowType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+
+            foreach (var item in xFields)
+            {
+                // {{ Name = scopeField1, value = field1 }}
+
+                var value = item.GetValue(y.Target);
+
+                // {{ Name = scopeField1, value = field1, isString = false }}
+                var isString = value is string;
+                var isInt32 = value is int;
+
+                //{ { Name = scopeField1, value = field1, isString = false, isInt32 = false } }
+                //{ { Name = scopeField2, value = 7, isString = false, isInt32 = false } }
+                //{ { Name = scopeField3, value = { { foo = bar } }, isString = false, isInt32 = false } }
+                // is operator does not seem to be working for us!
+
+                Console.WriteLine(new { item.Name, value, isString, isInt32 });
+
+                // we are copying data! it musts be transferable
+                item.SetValue(nRow, value);
+            }
+
+
             Console.WriteLine(new { nRow });
+
+            //xRowType.GetFields(
 
             // can we send the type across the threads?
 
@@ -90,7 +136,6 @@ namespace TestDelegateObjectScopeInspection
             // protected MulticastDelegate(object target, string method); ???
             //var yy = default(MulticastDelegate);
 
-            // script: error JSC1000: No implementation found for this native method, please implement [static System.Delegate.CreateDelegate(System.Type, System.Object, System.Reflection.MethodInfo)]
             //var y_withChangedTarget = (Func<string>)Delegate.CreateDelegate(typeof(Func<string>), nRow, y.Method);
 
             // script: error JSC1000: No implementation found for this native method, please implement [System.Type.GetConstructors(System.Reflection.BindingFlags)]

@@ -10,7 +10,7 @@ namespace TestDelegateObjectScopeInspection
     {
         public static void Main(string[] args)
         {
-            Foo.Invoke();
+            //Foo.Invoke();
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
