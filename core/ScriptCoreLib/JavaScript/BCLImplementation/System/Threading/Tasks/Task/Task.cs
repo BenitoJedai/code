@@ -18,7 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.aspx
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
-    internal class __Task
+    internal partial class __Task
     {
         public Action InternalDispose;
         public void Dispose()
@@ -27,6 +27,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 InternalDispose();
 
         }
+
+
+        //script: error JSC1000: No implementation found for this native method, please implement [static System.Threading.Tasks.Task.Run(System.F
 
         [Obsolete("jsc would have to write all application into a global async")]
         public void Wait()

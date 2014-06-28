@@ -41,7 +41,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.Serializatio
 
         public static object[] GetObjectData(object obj, MemberInfo[] members)
         {
-            Console.WriteLine("enter GetObjectData");
+            //Console.WriteLine("enter GetObjectData");
 
             var a = new List<object>();
             foreach (var item in members)

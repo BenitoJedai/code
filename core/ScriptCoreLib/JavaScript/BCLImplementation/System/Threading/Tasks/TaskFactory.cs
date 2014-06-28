@@ -261,10 +261,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         #endregion
 
 
-        public Task<TResult> StartNew<TResult>(
-            Func<object, TResult> function,
-            object state
-            )
+        // X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
+        public Task<TResult> StartNew<TResult>(Func<TResult> function)
+        {
+            var x = new __Task<TResult>(function, state: null);
+
+            x.Start();
+
+            return x;
+        }
+
+        public Task<TResult> StartNew<TResult>(Func<object, TResult> function, object state)
         {
             if (state == null)
             {

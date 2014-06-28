@@ -340,7 +340,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             dynamic self = Native.self;
 
-            var stateType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[stateTypeHandleIndex]));
+            var stateType = default(Type);
+
+            if (stateTypeHandleIndex != null)
+                stateType = Type.GetTypeFromHandle(new __RuntimeTypeHandle((IntPtr)self[stateTypeHandleIndex]));
 
             // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
             var MethodTargetType = default(Type);
@@ -523,20 +526,25 @@ namespace ScriptCoreLib.JavaScript.DOM
                 {
                     #region FuncOfObjectToObject
                     // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
-
+                    // X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
                     // X:\jsc.svn\examples\javascript\Test\TestGetUninitializedObject\TestGetUninitializedObject\Application.cs
 
-                    var xstate = FormatterServices.GetUninitializedObject(stateType);
-                    var xstate_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
+                    var xstate = default(object);
 
-                    FormatterServices.PopulateObjectMembers(
-                        xstate,
-                        xstate_SerializableMembers,
-                        (object[])state_ObjectData
-                    );
+                    if (stateType != null)
+                    {
+                        xstate = FormatterServices.GetUninitializedObject(stateType);
+                        var xstate_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
 
-                    // MethodType = FuncOfObjectToObject
-                    //Console.WriteLine("as FuncOfObjectToObject");
+                        FormatterServices.PopulateObjectMembers(
+                            xstate,
+                            xstate_SerializableMembers,
+                            (object[])state_ObjectData
+                        );
+
+                        // MethodType = FuncOfObjectToObject
+                        //Console.WriteLine("as FuncOfObjectToObject");
+                    }
 
                     var value = MethodTokenReference.apply(MethodTarget, xstate);
                     //var value = MethodTokenReference.apply(null, state);

@@ -73,7 +73,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return (bool)Expando.InternalIsMember(AsExpando().constructor, "IsNative");
+                var constructor = AsExpando().constructor;
+
+
+
+                // ScriptCoreLib has marked that type as Native?
+                return (bool)Expando.InternalIsMember(constructor, "IsNative");
             }
         }
 
