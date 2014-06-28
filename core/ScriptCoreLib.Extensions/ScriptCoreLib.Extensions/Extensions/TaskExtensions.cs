@@ -54,6 +54,10 @@ namespace System.Threading.Tasks
             if (function == null)
                 throw new Exception("function missing");
 
+            // You need to pass a state object to the delegate to reduce memory pressure from lambda variable capture.
+            // http://blog.stephencleary.com/2013/08/startnew-is-dangerous.html
+            // X:\jsc.svn\examples\javascript\async\test\TestDelayInsideWorker\TestDelayInsideWorker\Application.cs
+
             // tested by
             // X:\jsc.svn\examples\javascript\forms\TaskRunExperiment\TaskRunExperiment\ApplicationControl.cs
             // X:\jsc.svn\examples\javascript\WebCamToGIFAnimation\WebCamToGIFAnimation\Application.cs

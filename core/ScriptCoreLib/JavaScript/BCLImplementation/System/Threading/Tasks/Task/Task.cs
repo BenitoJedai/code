@@ -28,9 +28,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         }
 
-
+        [Obsolete("jsc would have to write all application into a global async")]
         public void Wait()
         {
+            
             throw new NotImplementedException();
         }
 
