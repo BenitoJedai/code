@@ -115,6 +115,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
+
+        // not available in workers?
         public string escape(string e)
         {
             return default(string);

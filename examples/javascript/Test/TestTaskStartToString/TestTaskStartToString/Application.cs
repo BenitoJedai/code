@@ -37,12 +37,17 @@ namespace TestTaskStartToString
 
             Console.SetOut(new xConsole());
 
+            // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
 
             new xFoo { }.With(
                 async state =>
                 {
                     //var x = await Task.Factory.StartNew(
 
+
+                    // we can now send over typeInfo and fields. 
+                    // can we also send delegates?
+                    // can we receive task?
                     var t = new Task<xFoo>(
                             state:
                             state,
