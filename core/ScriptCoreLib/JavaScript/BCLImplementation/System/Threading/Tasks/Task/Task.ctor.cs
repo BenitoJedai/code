@@ -21,7 +21,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     {
 
         public void InternalInitializeInlineWorker(
-            Func<object, TResult> function,
+            //Func<object, TResult> function,
+            Delegate function,
 
             object state,
 
@@ -29,12 +30,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             TaskCreationOptions o,
             TaskScheduler s)
         {
-            if (state == null)
-            {
-                // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
-                // what happened? also, as interface cannot handle ull yet
-                Debugger.Break();
-            }
+            Delegate xfunction = function;
+
+
+            // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
+            // what happened? also, as interface cannot handle ull yet
+
+
+            var MethodType = typeof(FuncOfObjectToObject).Name;
 
 
             var AllMemberNames = Expando.Of(Native.self).GetMemberNames();
@@ -42,25 +45,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             // what if this is a GUI task?
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
-            var MethodType = typeof(FuncOfObjectToObject).Name;
 
             #region MethodToken
 
-            Delegate xfunction = function;
 
 
-            if (function.Target != null)
-                if (function.Target != Native.self)
+            if (xfunction.Target != null)
+                if (xfunction.Target != Native.self)
                 {
                     // X:\jsc.svn\examples\javascript\Test\TestMemoryStreamPerformance\TestMemoryStreamPerformance\Application.cs
                     // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
 
-                    var TargetType = function.Target.GetType();
+                    var TargetType = xfunction.Target.GetType();
 
                     //Console.WriteLine("InternalInitializeInlineWorker " + new { Target = function.Target.ToString(), TargetType });
 
 
-                    Delegate InternalTaskExtensionsScope_function = (function.Target as dynamic).InternalTaskExtensionsScope_function;
+                    Delegate InternalTaskExtensionsScope_function = (xfunction.Target as dynamic).InternalTaskExtensionsScope_function;
                     // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\TaskExtensions.cs
 
                     if (InternalTaskExtensionsScope_function != null)
@@ -75,35 +76,130 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             var MethodToken = ((__MethodInfo)xfunction.Method).InternalMethodToken;
 
 
+            #region GetTypeIndex
+            Func<string, Type, object> GetTypeIndex =
+                (Name, TargetType) =>
+                {
+                    var TargetTypeHandle = TargetType.TypeHandle;
+
+                    var prototype = (object)TargetTypeHandle.Value;
+
+
+                    //function IzkeSBiD_aTGMsWPjgYVYEg() {}
+                    //IzkeSBiD_aTGMsWPjgYVYEg.TypeName = "IDataParameter";
+                    //IzkeSBiD_aTGMsWPjgYVYEg.Assembly = _7ryscGGN80KExNOXH5xlgw;
+                    //IzkeSBiD_aTGMsWPjgYVYEg.Interfaces = 
+                    //{
+                    //  f7G82WqfyzOLoZ_b8v0KVxw: 1
+                    //};
+
+                    //var type$IzkeSBiD_aTGMsWPjgYVYEg = IzkeSBiD_aTGMsWPjgYVYEg.prototype;
+                    //type$IzkeSBiD_aTGMsWPjgYVYEg.constructor = IzkeSBiD_aTGMsWPjgYVYEg;
+
+
+                    var prototype_constructor = Expando.InternalGetMember(prototype, "constructor");
+                    if (prototype_constructor == null)
+                        return null;
+
+
+                    //0:4257ms { Name = foo, prototype_constructor_TypeName =  } 
+
+                    var prototype_constructor_TypeName = Expando.InternalGetMember(prototype_constructor, "TypeName");
+                    if (prototype_constructor_TypeName == null)
+                        return null;
+
+                    //Console.WriteLine(new { Name, prototype_constructor_TypeName });
+
+                    var TargetTypeIndex = AllMemberNames.FirstOrDefault(
+                          item =>
+                          {
+                              dynamic self = Native.self;
+                              object value = self[item];
+
+                              if (value == prototype)
+                              {
+                                  //Console.WriteLine(new { item, f });
+                                  return true;
+                              }
+
+                              return false;
+                          }
+                    );
+
+                    return TargetTypeIndex;
+                };
+            #endregion
+
             #region MethodTargetTypeIndex
             var MethodTargetTypeIndex = default(object);
-            var MethodTargetObjectData = default(object);
+            var MethodTargetObjectData = default(object[]);
 
             // we need to send in also the this argument of the function, lets find whats the token of the type
             if (xfunction.Target != null)
-            {
-                // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
+                // functions bound to self/window are considered to be static
+                if (xfunction.Target != Native.self)
+                {
+                    // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
 
-                var TargetType = xfunction.Target.GetType();
-                var TargetTypeHandle = TargetType.TypeHandle;
+                    var TargetType = xfunction.Target.GetType();
 
-                MethodTargetTypeIndex = AllMemberNames.FirstOrDefault(
-                    item =>
+                    MethodTargetTypeIndex = GetTypeIndex("TargetType", TargetType);
+
+
+                    // lets hope all the fields are transferable!
+
+                    var MethodTargetSerializableMembers = FormatterServices.GetSerializableMembers(TargetType);
+
+                    //foreach (var item in MethodTargetSerializableMembers)
+                    //{
+                    //    // do we have usage/security information available from the analyzer?
+                    //    Console.WriteLine("__Task will share scope, field " + item.Name);
+                    //    // for scope sharing first we may see IEvent. that cannot be sent over
+                    //    // as it is not a primitive and not under our control either
+                    //    // how can we exclude it?
+                    //    // we should also know who exactyl can use it in the inner scope
+                    //}
+
+                    MethodTargetObjectData = FormatterServices.GetObjectData(xfunction.Target, MethodTargetSerializableMembers);
+
+                    for (int i = 0; i < MethodTargetObjectData.Length; i++)
                     {
-                        dynamic self = Native.self;
-                        object value = self[item];
+                        var MemberName = MethodTargetSerializableMembers[i].Name;
+                        var MemberValue = MethodTargetObjectData[i];
 
-                        if (value == (object)TargetTypeHandle.Value)
-                            return true;
+                        if (MemberValue != null)
+                        {
+                            //0:6967ms __Task scope { MemberName = foo, isString = false, isInt32 = false, idx = vgAABBwAgD2RX0Pk4wU2RQ } 
+                            // 0:5749ms __Task scope { MemberName = foo, isString = false, isInt32 = false, idx = vgAABBwAgD2RX0Pk4wU2RQ, MemberType = <Namespace>. }
+                            // 0:3093ms __Task scope { MemberName = row, isString = false, isInt32 = false, idx = type$_2LWH6_a6FzTCDOJSbur6JKQ, MemberType = <Namespace>.xRow } 
 
-                        return false;
+                            // is it our type/secure or not? or is it primitive?
+                            var MemberType = MemberValue.GetType();
+
+                            var IsString = Expando.Of(MemberValue).IsString;
+                            //var isString = MemberType == typeof(string);
+                            //var isInt32 = MemberType == typeof(int);
+                            var IsNumber = Expando.Of(MemberValue).IsNumber;
+                            var TypeIndex = GetTypeIndex(MemberName, MemberType);
+
+                            //0:4812ms __Task scope { MemberName = scope1, isString = false, isInt32 = false } view-source:40687
+                            //0:4814ms __Task scope { MemberName = e, isString = false, isInt32 = false } 
+
+
+
+                            // null it out as we are not able to clone that object for the other thread
+                            if (TypeIndex == null)
+                                if (!IsString)
+                                    if (!IsNumber)
+                                        MethodTargetObjectData[i] = null;
+
+                            Console.WriteLine(
+                                "Task scope " +
+                                new { MemberName, IsString, IsNumber, TypeIndex }
+                            );
+                        }
                     }
-                );
-
-
-                // lets hope all the fields are transferable!
-                MethodTargetObjectData = FormatterServices.GetObjectData(xfunction.Target, FormatterServices.GetSerializableMembers(TargetType));
-            }
+                }
             #endregion
 
 
@@ -111,23 +207,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
 
             #region stateTypeHandleIndex
+            var stateTypeHandleIndex = default(object);
+            var stateType = default(Type);
+            var state_ObjectData = default(object);
 
-            var stateType = state.GetType();
-            var stateTypeHandle = stateType.TypeHandle;
-            //Console.WriteLine(new { scope.Length });
-            var stateTypeHandleIndex = AllMemberNames.FirstOrDefault(
-                item =>
-                {
-                    dynamic self = Native.self;
-                    object value = self[item];
-
-                    if (value == (object)stateTypeHandle.Value)
-                        return true;
-
-                    return false;
-                }
-            );
-
+            if (state != null)
+            {
+                stateType = state.GetType();
+                stateTypeHandleIndex = GetTypeIndex("state", stateType);
+                var state_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
+                // Failed to execute 'postMessage' on 'Worker': An object could not be cloned.
+                state_ObjectData = FormatterServices.GetObjectData(state, state_SerializableMembers);
+            }
             #endregion
 
 
@@ -170,6 +261,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 //var OnReportMethod = OnReportAction.Method;
 
 
+                // workaround until null as interface works.
+                state = new object();
 
                 #region IsIProgress
                 var IsIProgress = state is __IProgress<object>;
@@ -202,10 +295,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 Console.WriteLine("InternalInitializeInlineWorker: " + new { IsIProgress, IsTuple2_Item1_IsIProgress, state });
 
 
-                var state_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
 
-                // Failed to execute 'postMessage' on 'Worker': An object could not be cloned.
-                var state_ObjectData = FormatterServices.GetObjectData(state, state_SerializableMembers);
 
                 #region postMessage
                 worker.postMessage(
@@ -422,8 +512,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         }
 
-        public __Task(Func<object, TResult> function, object state)
+        //public __Task(Func<object, TResult> function, object state)
+        public __Task(Delegate function, object state)
         {
+            // X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
+
             InternalInitializeInlineWorker(
                 function,
                 state,
