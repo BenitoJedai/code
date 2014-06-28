@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,6 +33,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 // what happened? also, as interface cannot handle ull yet
                 Debugger.Break();
             }
+
+            // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
+
+            #region self[?]
+
+            var stateType = state.GetType();
+            //var stateTypeHandle = Type.GetTypeHandle(state);
+            var stateTypeHandle = stateType.TypeHandle;
+            var scope = Expando.Of(Native.self).GetMemberNames();
+
+            Console.WriteLine(new { scope.Length });
+
+            var stateTypeHandleIndex = scope.FirstOrDefault(
+                item =>
+                {
+                    dynamic self = Native.self;
+                    object value = self[item];
+
+                    if (value == (object)stateTypeHandle.Value)
+                        return true;
+
+                    return false;
+                }
+            );
+
+            #endregion
 
             // what if this is a GUI task?
 
@@ -122,6 +149,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                 Console.WriteLine("InternalInitializeInlineWorker: " + new { IsIProgress, IsTuple2_Item1_IsIProgress, state });
 
+
+                var state_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
+
+                // Failed to execute 'postMessage' on 'Worker': An object could not be cloned.
+                var state_ObjectData = FormatterServices.GetObjectData(state, state_SerializableMembers);
+
                 #region postMessage
                 worker.postMessage(
                     new
@@ -134,6 +167,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                         // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
                         // fields
+
+
+
+                        state_SerializableMembers = default(object),
+                        state_ObjectData,
+
+                        stateTypeHandleIndex,
+
                         state = state,
 
 

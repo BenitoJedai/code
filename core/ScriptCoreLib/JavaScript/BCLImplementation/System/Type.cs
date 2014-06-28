@@ -12,8 +12,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
     [Script(Implements = typeof(global::System.Type))]
-    internal class __Type : __MemberInfo
+    public class __Type : __MemberInfo
     {
+        // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
 
 
@@ -78,6 +79,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
         // where is this used?
+
+
+        public static RuntimeTypeHandle GetTypeHandle(object o)
+        {
+            // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs
+
+            return o.GetType().TypeHandle;
+        }
 
         public RuntimeTypeHandle TypeHandle
         {

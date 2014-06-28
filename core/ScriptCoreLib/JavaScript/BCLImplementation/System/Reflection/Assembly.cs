@@ -7,7 +7,7 @@ using System.Reflection;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
     [Script]
-    internal class __AssemblyValue
+    public class __AssemblyValue
     {
         internal string FullName;
 
@@ -18,7 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
     }
 
     [Script(Implements = typeof(global::System.Reflection.Assembly))]
-    internal class __Assembly
+    public class __Assembly
     {
         public virtual AssemblyName GetName()
         {

@@ -11,6 +11,8 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
 using System.Diagnostics;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 using ScriptCoreLib.Shared.BCLImplementation.System;
+using System.Runtime.Serialization;
+using System.Reflection;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -290,7 +292,13 @@ namespace ScriptCoreLib.JavaScript.DOM
               string MethodToken,
             string MethodType,
 
+
+object state_SerializableMembers,
+object state_ObjectData,
+
+            object stateTypeHandleIndex,
             object state,
+
             bool IsIProgress,
             bool IsTuple2_Item1_IsIProgress,
 
@@ -326,8 +334,17 @@ namespace ScriptCoreLib.JavaScript.DOM
             __Thread.InternalCurrentThread.ManagedThreadId = InternalThreadCounter;
             __Thread.InternalCurrentThread.IsBackground = true;
 
+
+            dynamic self = Native.self;
+            RuntimeTypeHandle xh = new __RuntimeTypeHandle((IntPtr)self[stateTypeHandleIndex]);
+            var stateType = Type.GetTypeFromHandle(xh);
+            // stateType = <Namespace>.xFoo,
+
+
             var MethodTokenReference = IFunction.Of(MethodToken);
             // what if we are being called from within a secondary app?
+
+            //  stateTypeHandleIndex = type$XjKww8iSKT_aFTpY_bSs5vBQ,
 
             Console.WriteLine(
                 "__worker_onfirstmessage: " +
@@ -344,6 +361,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     Thread.CurrentThread.ManagedThreadId,
 
+                    // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
+                    stateTypeHandleIndex,
+                    stateType,
                     state
 
                     //MethodTokenReference
@@ -465,9 +485,24 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
                 else if (MethodType == typeof(FuncOfObjectToObject).Name)
                 {
+                    // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
+
+                    // X:\jsc.svn\examples\javascript\Test\TestGetUninitializedObject\TestGetUninitializedObject\Application.cs
+
+                    var xstate = FormatterServices.GetUninitializedObject(stateType);
+                    var xstate_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
+
+                    FormatterServices.PopulateObjectMembers(
+                        xstate,
+                        xstate_SerializableMembers,
+                        (object[])state_ObjectData
+                    );
+
+                    // MethodType = FuncOfObjectToObject
                     //Console.WriteLine("as FuncOfObjectToObject");
 
-                    var value = MethodTokenReference.apply(null, state);
+                    var value = MethodTokenReference.apply(null, xstate);
+                    //var value = MethodTokenReference.apply(null, state);
                     var yield = new { value };
 
                     //Console.WriteLine(new { yield });
@@ -478,6 +513,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
                 else if (MethodType == typeof(FuncOfTaskToObject).Name)
                 {
+                    // tested by?
                     // need to reconstruct the caller task?
 
 
@@ -492,6 +528,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
                 else if (MethodType == typeof(FuncOfTaskOfObjectArrayToObject).Name)
                 {
+                    // tested by?
+
                     // need to reconstruct the caller task?
 
                     Console.WriteLine("__worker_onfirstmessage: " + new { TaskArray = TaskArray.Length });
@@ -574,6 +612,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
                             // used byTask.ctor 
+
+                            // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
+
+
+                            object state_SerializableMembers = e_data.state_SerializableMembers;
+                            object state_ObjectData = e_data.state_ObjectData;
+
+                            object stateTypeHandleIndex = e_data.stateTypeHandleIndex;
                             object state = e_data.state;
 
 
@@ -589,7 +635,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                             // jsc, why cant i do arrays?
 
 
-                            #region TaskArray
+                            #region TaskArray ?
                             var __TaskArray = (object[])(object)e_data.TaskArray;
 
                             //Console.WriteLine(new { __TaskArray });
@@ -625,7 +671,13 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 MethodToken,
                                 MethodType,
 
+
+                                state_SerializableMembers,
+                                state_ObjectData,
+
+                                stateTypeHandleIndex,
                                 state,
+
                                 IsIProgress,
                                 IsTuple2_Item1_IsIProgress,
 
