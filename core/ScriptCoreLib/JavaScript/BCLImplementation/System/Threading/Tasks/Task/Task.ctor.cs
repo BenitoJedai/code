@@ -360,9 +360,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                              // thread is writing to console isnt it.
                              // we have requested to be notified of it on the main thread instead.
 
-
-                             if (AtWrite == "\r\n")
-                                 Console.WriteLine();
+                             if (AtWrite.EndsWith("\r\n"))
+                                 Console.WriteLine(AtWrite.Substring(0, AtWrite.Length - 2));
                              else
                                  Console.Write(AtWrite);
                          }

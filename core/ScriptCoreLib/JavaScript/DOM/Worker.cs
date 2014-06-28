@@ -841,11 +841,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             if (AtWrite != null)
             {
-                AtWrite(value);
+                AtWrite(value + "\r\n");
 
                 // X:\jsc.svn\examples\javascript\test\TestTaskStartToString\TestTaskStartToString\Application.cs
                 // what if someone wants to show a line break as <br />
-                AtWrite("\r\n");
+                //AtWrite("\r\n");
             }
 
         }
