@@ -208,37 +208,44 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                 // workaround until null as interface works.
-                state = new object();
+
+                if (state == null)
+                    state = new object();
 
                 #region IsIProgress
                 var IsIProgress = state is __IProgress<object>;
 
-                var AsTuple2 = state as __Tuple<object, object>;
+                //var AsTuple2 = state as __Tuple<object, object>;
                 var IsTuple2_Item1_IsIProgress = default(bool);
 
-                if (AsTuple2 != null)
-                {
-                    IsTuple2_Item1_IsIProgress = AsTuple2.Item1 is __IProgress<object>;
-                }
+                //if (AsTuple2 != null)
+                //{
+                //    IsTuple2_Item1_IsIProgress = AsTuple2.Item1 is __IProgress<object>;
+                //}
 
 
                 // InternalInitializeInlineWorker: { IsIProgress = true, state = [object Object] }
-                var x = default(__IProgress<object>);
+                var xProgress = default(__IProgress<object>);
 
                 if (IsIProgress)
                 {
-                    x = (__IProgress<object>)state;
+                    // X:\jsc.svn\examples\javascript\async\test\TestWorkerProgress\TestWorkerProgress\Application.cs
+                    xProgress = (__IProgress<object>)state;
                     state = null;
+                    state_ObjectData = null;
+                    stateTypeHandleIndex = null;
                 }
 
                 if (IsTuple2_Item1_IsIProgress)
                 {
-                    x = (__IProgress<object>)AsTuple2.Item1;
-                    AsTuple2.Item1 = null;
+                    // since we allow also scope sharing, lets stop supporting Tuple<progress, ?> for now..
+                    //// 
+                    //xProgress = (__IProgress<object>)AsTuple2.Item1;
+                    //AsTuple2.Item1 = null;
                 }
                 #endregion
 
-                Console.WriteLine("InternalInitializeInlineWorker: " + new { IsIProgress, IsTuple2_Item1_IsIProgress, state });
+                //Console.WriteLine("InternalInitializeInlineWorker: " + new { IsIProgress, IsTuple2_Item1_IsIProgress, state });
 
 
 
@@ -413,7 +420,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                          #region __IProgress_Report
-                         if (x != null)
+                         if (xProgress != null)
                          {
                              dynamic __IProgress_Report = zdata.__IProgress_Report;
 
@@ -427,7 +434,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                                  //Console.WriteLine("InternalInitializeInlineWorker Report: " + new { __IProgress_Report = new { value } });
 
 
-                                 x.Report(value);
+                                 xProgress.Report(value);
                              }
                          }
                          #endregion

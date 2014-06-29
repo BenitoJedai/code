@@ -296,9 +296,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             string MethodType,
 
 
-            object state_SerializableMembers,
             object state_ObjectData,
-
             object stateTypeHandleIndex,
             object state,
 
@@ -429,6 +427,25 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             // whats the type?
 
+
+
+            var xstate = default(object);
+
+            if (stateType != null)
+            {
+                xstate = FormatterServices.GetUninitializedObject(stateType);
+                var xstate_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
+
+                FormatterServices.PopulateObjectMembers(
+                    xstate,
+                    xstate_SerializableMembers,
+                    (object[])state_ObjectData
+                );
+
+                // MethodType = FuncOfObjectToObject
+                //Console.WriteLine("as FuncOfObjectToObject");
+            }
+
             #region CreateProgress
             Func<__Progress<object>> CreateProgress =
                 () => new __Progress<object>(
@@ -447,15 +464,17 @@ namespace ScriptCoreLib.JavaScript.DOM
                     }
                 );
 
-
+            // X:\jsc.svn\examples\javascript\async\Test\TestWorkerProgress\TestWorkerProgress\Application.cs
             if (IsIProgress)
-                state = CreateProgress();
+                xstate = CreateProgress();
 
             if (IsTuple2_Item1_IsIProgress)
             {
-                var xx = ((__Tuple<object, object>)state);
+                // since we allow also scope sharing, lets stop supporting Tuple<progress, ?> for now..
+                // ?
+                //var xx = ((__Tuple<object, object>)xstate);
 
-                xx.Item1 = CreateProgress();
+                //xx.Item1 = CreateProgress();
             }
             #endregion
 
@@ -529,22 +548,6 @@ namespace ScriptCoreLib.JavaScript.DOM
                     // X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
                     // X:\jsc.svn\examples\javascript\Test\TestGetUninitializedObject\TestGetUninitializedObject\Application.cs
 
-                    var xstate = default(object);
-
-                    if (stateType != null)
-                    {
-                        xstate = FormatterServices.GetUninitializedObject(stateType);
-                        var xstate_SerializableMembers = FormatterServices.GetSerializableMembers(stateType);
-
-                        FormatterServices.PopulateObjectMembers(
-                            xstate,
-                            xstate_SerializableMembers,
-                            (object[])state_ObjectData
-                        );
-
-                        // MethodType = FuncOfObjectToObject
-                        //Console.WriteLine("as FuncOfObjectToObject");
-                    }
 
                     var value = MethodTokenReference.apply(MethodTarget, xstate);
 
@@ -704,6 +707,8 @@ namespace ScriptCoreLib.JavaScript.DOM
                             string MethodToken = e_data.MethodToken;
                             string MethodType = e_data.MethodType;
 
+
+                            // X:\jsc.svn\examples\javascript\async\test\TestWorkerProgress\TestWorkerProgress\Application.cs
                             bool IsIProgress = e_data.IsIProgress;
                             bool IsTuple2_Item1_IsIProgress = e_data.IsTuple2_Item1_IsIProgress;
 
@@ -713,7 +718,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                             // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
 
 
-                            object state_SerializableMembers = e_data.state_SerializableMembers;
+                            //object state_SerializableMembers = e_data.state_SerializableMembers;
                             object state_ObjectData = e_data.state_ObjectData;
 
                             object stateTypeHandleIndex = e_data.stateTypeHandleIndex;
@@ -772,7 +777,6 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 MethodType,
 
 
-                                state_SerializableMembers,
                                 state_ObjectData,
 
                                 stateTypeHandleIndex,
