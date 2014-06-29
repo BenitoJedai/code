@@ -28,12 +28,10 @@ namespace GGearAlpha.js
 
 
 
-    [Script, ScriptApplicationEntryPoint]
     public class GoogleGearsAdvanced
     {
         public GoogleGearsAdvanced()
         {
-            TestActivator();
 
             //Native.Window.alert("alert 1");
 
@@ -91,37 +89,23 @@ namespace GGearAlpha.js
                     // at this point we have the image and we know how large it is
                     //AppendError(workspace0, "loading 3...");
 
-
                     // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
-                    // script: error JSC1000: Missing Script Attribute? Native constructor was invoked, please implement [System.Data.SQLite.SQLiteConnection..ctor()]
-                    var cc = new SQLiteConnection("");
+                    var cc = new SQLiteConnection();
+                    cc.Open();
+                    // Cannot read property 'transaction' of null"
 
 
-                    GoogleGearsFactory.Database db = null;
+                    new xPostcard().Create(cc);
 
-                    try
-                    {
-                        //                db = new GoogleGearsFactory.Database();
-
-                        //                db.open("demo1");
-                        //                //db.execute("drop table Postcards");
-                        //                db.execute(@"
-                        //create table if not exists  Postcards
-                        //(Id varchar(255), Text varchar(255), X int, Y int, Zoom100 int)
-                        //        ");
-
-                        new xPostcard().Create(cc);
-
-
-                    }
-                    catch (System.Exception exc)
-                    {
-                        var err_msg = exc.Message;
-                        AppendError(workspace0, err_msg);
-                    }
+                    //catch (System.Exception exc)
+                    //{
+                    //    var err_msg = exc.Message;
+                    //    AppendError(workspace0, err_msg);
+                    //}
 
                     //AppendError(workspace0, "loading 4...");
 
+                    #region Spawn
                     Func<PostcardEntry, Postcard> Spawn =
                         template =>
                         {
@@ -160,13 +144,6 @@ namespace GGearAlpha.js
                                         Y = p2.CurrentDrag.Position.Y
                                     }
                                     );
-
-                                    //if (db != null)
-                                    //{
-                                    //    db.Insert("Postcards",
-                                    //        new PostcardEntry { Id = p2.Id, Text = p2.Text, Zoom100 = (int)System.Math.Floor(p2.Zoom * 100), X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }
-                                    //    );
-                                    //}
                                 }
                                 catch (System.Exception exc)
                                 {
@@ -184,7 +161,18 @@ namespace GGearAlpha.js
                                 System.Console.WriteLine("dispose: " + p2.Id);
                                 p2.Dispose();
 
-                                db.execute("delete from Postcards where Id = ?", p2.Id);
+                                //db.execute("delete from Postcards where Id = ?", p2.Id);
+
+                                Console.WriteLine("delete:");
+                                //(
+                                //     from x in new xPostcard()
+                                //     where x.Id == p2.Id
+                                //     select x
+                                // ).Delete(cc);
+
+                                new xPostcard().Where(x => x.Id == p2.Id).Delete(cc);
+                                Console.WriteLine("delete: done?");
+
                             };
 
                             p2.Changed +=
@@ -192,12 +180,20 @@ namespace GGearAlpha.js
                             {
                                 System.Console.WriteLine("changed: " + new PostcardEntry { Id = p2.Id, Text = p2.Text, Zoom100 = (int)System.Math.Floor(p2.Zoom * 100), X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }.ToString());
 
-                                if (db != null)
+                                Console.WriteLine("delete:");
+
+                                new xPostcard().Where(x => x.Id == p2.Id).Delete(cc);
+
+                                new xPostcard().Insert(
+                                    cc, new xPostcardRow
                                 {
-                                    db.DeleteAndInsert("Postcards",
-                                        new PostcardEntry { Id = p2.Id, Text = p2.Text, Zoom100 = (int)System.Math.Floor(p2.Zoom * 100), X = p2.CurrentDrag.Position.X, Y = p2.CurrentDrag.Position.Y }
-                                    );
+                                    Id = p2.Id,
+                                    Text = p2.Text,
+                                    Zoom100 = (int)System.Math.Floor(p2.Zoom * 100),
+                                    X = p2.CurrentDrag.Position.X,
+                                    Y = p2.CurrentDrag.Position.Y
                                 }
+                                );
                             };
 
                             System.Console.WriteLine("item: " + template.ToString());
@@ -215,7 +211,7 @@ namespace GGearAlpha.js
 
                             return p2;
                         };
-
+                    #endregion
 
 
                     workspace.onclick +=
@@ -232,30 +228,25 @@ namespace GGearAlpha.js
                         async delegate
                     {
                         var query = from Data in new xPostcard()
-                                        //"select * from Postcards",
-                                        //typeof(PostcardEntry)
-                                        //)
                                     select Data;
-
-                        //select new __Type1 { Control = Spawn(Data), Data = Data };
 
                         foreach (var v in await query.AsEnumerableAsync(cc))
                         {
                             Spawn(
-                                new PostcardEntry { Id = v.Id,
-                                    Text = v.Text,
-                                    X = (int)v.X,
-                                    Y = (int)v.Y,
-                                    Zoom100 = (int)v.Zoom100,
-                                   
-                                }
+                                new PostcardEntry
+                            {
+                                Id = v.Id,
+                                Text = v.Text,
+                                X = (int)v.X,
+                                Y = (int)v.Y,
+                                Zoom100 = (int)v.Zoom100,
+
+                            }
                             );
                         }
                     }
                     );
                     #endregion
-
-                    //LoadFromDatabase(db, Spawn);
             }
             )
             );
@@ -263,65 +254,11 @@ namespace GGearAlpha.js
             Native.Document.body.appendChild(shadow);
         }
 
-        private static void TestActivator()
-        {
-            // bug in jsc.exe
-            // System.Activator does not respect inheritance 28.06.2007
 
 
-            //System.Diagnostics.Debugger.Break();
-
-            //var t = typeof(PostcardEntry);
-            //var x = t.Create();
 
 
-            //if (!Expando.Of(x).Contains("Id"))
-            //    throw new System.Exception("Member is missing");
-        }
-
-
-        [Script]
-        class __Type1
-        {
-            public Postcard Control;
-            public PostcardEntry Data;
-        }
-
-
-        private static void LoadFromDatabase(GoogleGearsFactory.Database db, Func<PostcardEntry, Postcard> Spawn)
-        {
-            if (db != null)
-            {
-#if DEBUG
-#else                        
-                        try
-                        {
-#endif
-                var query = from Data in db.AsEnumerable<PostcardEntry>(
-                                                "select * from Postcards",
-                                                typeof(PostcardEntry)
-                                            )
-                            select new __Type1 { Control = Spawn(Data), Data = Data };
-
-                foreach (var v in query)
-                {
-
-                    //Dump(v.Data, shadow, null);
-
-                    System.Console.WriteLine("item: " + v.Data.ToString());
-
-                }
-
-#if DEBUG
-#else
-                        }
-                        catch (System.Exception exc)
-                        {
-                            //AppendError(workspace0, exc.Message);
-                        }
-#endif
-            }
-        }
+  
 
         private static void CreateStyles()
         {

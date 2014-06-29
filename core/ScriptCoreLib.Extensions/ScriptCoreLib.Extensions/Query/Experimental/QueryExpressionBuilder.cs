@@ -84,7 +84,7 @@ namespace ScriptCoreLib.Query.Experimental
 
         }
 
-         partial class SQLWriter<TElement>
+        partial class SQLWriter<TElement>
         {
             //0200004f ScriptCoreLib.Query.Experimental.QueryExpressionBuilder+SQLWriter`1+<>c__DisplayClass64
             //script: error JSC1000: unsupported flow detected, try to simplify.
@@ -147,6 +147,24 @@ namespace ScriptCoreLib.Query.Experimental
                     };
                 };
                 #endregion
+
+                // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Application.cs
+                Action<Action> DoWithoutLinefeeds =
+                y =>
+                {
+                    if (WithoutLinefeedsCounter == 0)
+                        WithoutLinefeedsDirty = false;
+
+                    WithoutLinefeedsCounter++;
+
+                    y();
+
+                    WithoutLinefeedsCounter--;
+
+                    if (WithoutLinefeedsCounter == 0)
+                        Write("\r\n");
+                };
+
 
                 #region WriteCommentLine
                 Action<int, string> WriteCommentLine =
@@ -1261,60 +1279,64 @@ namespace ScriptCoreLib.Query.Experimental
                         var zMemberExpression = zExpression as MemberExpression;
                         if (zMemberExpression != null)
                         {
-                            using (WithoutLinefeeds())
-                            {
-                                // we have to unpack everything?
-
-
-                                WriteCommentLine(1, "proxy");
-
-                                if (Target.Last().Item2 > 0)
-                                    WriteLine(1, ",");
-
-
-                                var zSelect = source as xSelect;
-                                if (zSelect != null)
+                            // js still dont like using/return
+                            DoWithoutLinefeeds(
+                                delegate
                                 {
-                                    var zzGroupBy = zSelect.source as xGroupBy;
-                                    if (zzGroupBy != null)
-                                    {
+                                    // we have to unpack everything?
 
-                                        WriteLine(1, " <- " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
+
+                                    WriteCommentLine(1, "proxy");
+
+                                    if (Target.Last().Item2 > 0)
+                                        WriteLine(1, ",");
+
+
+                                    var zSelect = source as xSelect;
+                                    if (zSelect != null)
+                                    {
+                                        var zzGroupBy = zSelect.source as xGroupBy;
+                                        if (zzGroupBy != null)
+                                        {
+
+                                            WriteLine(1, " <- " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
+                                            WriteLine(1, " as ");
+                                            if (upperParameter != null)
+                                            {
+                                                WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                                WriteLine(1, " ");
+                                            }
+                                            WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                            return;
+                                        }
+
+                                        WriteLine(1, " ");
+                                        WriteLine(1, "" + GetTargetNameWithQuotes());
+
                                         WriteLine(1, " as ");
                                         if (upperParameter != null)
                                         {
-                                            WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                            WriteCommentLine(0, upperParameter.Name);
                                             WriteLine(1, " ");
                                         }
+                                        WriteLine(1, "`");
                                         WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                        WriteLine(1, "`");
                                         return;
                                     }
 
-                                    WriteLine(1, " ");
-                                    WriteLine(1, "" + GetTargetNameWithQuotes());
-
+                                    WriteLine(1, " <- " + GetTargetName());
                                     WriteLine(1, " as ");
                                     if (upperParameter != null)
                                     {
-                                        WriteCommentLine(0, upperParameter.Name);
+                                        WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
                                         WriteLine(1, " ");
                                     }
-                                    WriteLine(1, "`");
                                     WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                                    WriteLine(1, "`");
-                                    return;
-                                }
 
-                                WriteLine(1, " <- " + GetTargetName());
-                                WriteLine(1, " as ");
-                                if (upperParameter != null)
-                                {
-                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
-                                    WriteLine(1, " ");
                                 }
-                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                            );
 
-                            }
                             return;
                         }
                         #endregion

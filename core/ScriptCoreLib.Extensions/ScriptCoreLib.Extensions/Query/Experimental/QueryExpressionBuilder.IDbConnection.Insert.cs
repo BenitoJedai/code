@@ -36,7 +36,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             w.AppendLine("insert into `" + xSelect.selector.Parameters[0].Name + "` (");
 
-            Console.WriteLine("before Bindings");
+            //Console.WriteLine("before Bindings");
 
             xMemberInitExpression.Bindings.Where(SourceBinding => SourceBinding.Member.Name != "Key").WithEachIndex(
                 (SourceBinding, i) =>
@@ -69,7 +69,7 @@ namespace ScriptCoreLib.Query.Experimental
                           v = now;
                       }
 
-                      Console.WriteLine("before AddParameter");
+                      //Console.WriteLine("before AddParameter");
 
                       c.AddParameter(
                           ParameterName: "@" + SourceBinding.Member.Name + "",

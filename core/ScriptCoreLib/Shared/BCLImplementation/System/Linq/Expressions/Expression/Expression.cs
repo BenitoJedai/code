@@ -279,32 +279,6 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
 
 
-        //        Implementation not found for type import :
-        //type: System.Linq.Expressions.Expression
-        //method: System.Linq.Expressions.MemberInitExpression MemberInit(System.Linq.Expressions.NewExpression, System.Linq.Expressions.MemberBinding[])
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
-
-
-
-        public static MemberInitExpression MemberInit(NewExpression NewExpression, MemberBinding[] Bindings)
-        {
-            Console.WriteLine("MemberInit " + new { NewExpression });
-
-            return
-                (MemberInitExpression)(object)
-                new __MemberInitExpression
-                {
-
-                    // ??
-                    NodeType = ExpressionType.MemberInit,
-
-                    NewExpression = NewExpression,
-                    Bindings = new global::System.Collections.ObjectModel.ReadOnlyCollection<MemberBinding>(Bindings.ToList())
-                };
-        }
-
-
 
 
 
