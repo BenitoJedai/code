@@ -50,13 +50,16 @@ namespace TestWebSQLDatabase
             // X:\jsc.svn\javascript\Examples\GoogleGears\GGearAlpha\js\GoogleGearsAdvanced.cs
 
             //new { }.With(
+
+            #region go
             new IHTMLButton { "go" }.AttachToDocument().onclick +=
                  delegate
             {
                 new IHTMLPre { "about to connnect..." }.AttachToDocument();
 
 
-                var db = Native.window.openDatabase();
+                //var db = Native.window.openDatabase();
+                var db = Native.openDatabase();
 
                 // about to connnect... done {{ db = [object Database], version =  }}
                 new IHTMLPre { "about to connnect... done " }.AttachToDocument();
@@ -124,9 +127,82 @@ namespace TestWebSQLDatabase
 
 
             };
+            #endregion
 
 
+            #region go
+            new IHTMLButton { "go worker" }.AttachToDocument().onclick += async delegate
+            {
+                //new IHTMLPre { "about to connnect..." }.AttachToDocument();
 
+                var x = await Task.Run(delegate
+                {
+                    var db = Native.openDatabase();
+
+                    var results = new TaskCompletionSource<string>();
+
+                    #region transaction
+                    db.transaction(
+                    callback:
+                        tx =>
+                            {
+                                tx.executeSql(
+                                    sqlStatement: "CREATE TABLE IF NOT EXISTS Employee_Table (xid, Name, Location)"
+                                );
+
+                                #region insert
+                                tx.executeSql("insert into Employee_Table(xid, Name, Location) values(0, 'foo', 'bar')",
+                                    callback:
+                                    (SQLTransaction xtx, SQLResultSet r) =>
+                                    {
+
+                                        //new IHTMLPre { "after insert " + new { r.insertId, r.rowsAffected } }.AttachToDocument();
+                                    }
+                                );
+                                #endregion
+
+                                #region SELECT
+                                tx.executeSql("SELECT xid, Name, Location FROM Employee_Table",
+                                     callback:
+                                    (SQLTransaction xtx, SQLResultSet r) =>
+                                    {
+                                        var w = "";
+
+                                        for (uint i = 0; i < r.rows.length; i++)
+                                        {
+                                            //var o = r.rows.item(i);
+                                            // rewrite skips dynamicAttribute
+                                            dynamic o = r.rows.item(i);
+
+
+                                            var z = new { o.xid, Name = o["Name"], o.Location };
+
+                                            //new IHTMLPre { "row " + new { i, z } }.AttachToDocument();
+                                            w += ", row " + new { i, z };
+
+
+                                        }
+
+                                        results.SetResult(w);
+                                    }
+                                );
+                                #endregion
+
+
+                            }
+                    );
+                    #endregion
+
+
+                    return results.Task;
+
+                });
+
+                new IHTMLPre { x }.AttachToDocument();
+
+            };
+
+            #endregion
             // http://www.w3.org/TR/webdatabase/
 
 

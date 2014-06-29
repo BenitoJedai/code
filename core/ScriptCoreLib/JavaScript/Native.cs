@@ -365,6 +365,28 @@ namespace ScriptCoreLib.JavaScript
 
             return Native.worker.unescape(i);
         }
+
+        public static Database openDatabase(
+            string name = "database.sqlite",
+            string version = "1.0",
+            //string version = "",
+            string displayName = "Web SQL",
+
+            // AppCache allows 5MB, how much for db?
+            ulong estimatedSize = 2 * 1024 * 1024,
+
+            Action<Database> creationCallback = null
+        )
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
+
+            if (Native.window != null)
+            {
+                return Native.window.openDatabase(name, version, displayName, estimatedSize, creationCallback);
+            }
+
+            return Native.worker.openDatabase(name, version, displayName, estimatedSize, creationCallback);
+        }
     }
 
 

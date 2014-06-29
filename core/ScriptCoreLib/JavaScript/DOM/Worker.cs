@@ -833,11 +833,18 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public class InternalInlineWorkerTextWriter : TextWriter
     {
+        // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
+
+        public bool Disabled = true;
+
         public Action<string> AtWrite;
         //public Action<string> AtWriteLine;
 
         public override void Write(object value)
         {
+            if (Disabled)
+                return;
+
             if (AtWrite != null)
                 AtWrite("" + value);
         }
@@ -845,12 +852,20 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public override void Write(string value)
         {
+            if (Disabled)
+                return;
+
+
             if (AtWrite != null)
                 AtWrite(value);
         }
 
         public override void WriteLine(string value)
         {
+            if (Disabled)
+                return;
+
+
             // why would it be null?
 
             if (AtWrite != null)
