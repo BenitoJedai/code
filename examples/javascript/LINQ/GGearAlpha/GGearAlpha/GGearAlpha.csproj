@@ -99,6 +99,10 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.XSQLite.1.0.0.0\lib\System.Data.XSQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
@@ -121,7 +125,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\Assets.cs" />
     <Compile Include="Library\DynamicEnumerable.cs" />
     <Compile Include="Library\DynamicEnumerator.cs" />
     <Compile Include="Library\Extensions.cs" />
@@ -152,10 +155,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-		if $(ConfigurationName)==Release (
-		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
-		)</PostBuildEvent>
+    <PostBuildEvent>c:/util/jsc/bin/jsc.bc.exe $(ProjectPath) /rewrite /clear /run $(TargetPath) "C:\util\jsc\bin\ScriptCoreLib.Extensions.dll"</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
 		            </PreBuildEvent>
   </PropertyGroup>
