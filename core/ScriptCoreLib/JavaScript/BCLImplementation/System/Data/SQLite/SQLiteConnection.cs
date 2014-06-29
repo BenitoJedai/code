@@ -16,6 +16,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public override string ConnectionString { get; set; }
 
+        // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Library\GoogleGearsAdvanced.cs
+        public __SQLiteConnection()
+            : this("")
+        { 
+        }
+
         public __SQLiteConnection(string connectionstring)
         {
             this.ConnectionString = connectionstring;
