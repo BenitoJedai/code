@@ -31,6 +31,8 @@ namespace TestWorkerScopeProgress
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\async\test\TestScopeWithDelegate\TestScopeWithDelegate\Application.cs
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140629
             // can we get support for any level1 scope progress elements?
             // after that we may want to allow Tasks being sent back to the worker.
@@ -54,6 +56,19 @@ namespace TestWorkerScopeProgress
                 }
             );
 
+            // http://www.w3schools.com/tags/tag_progress.asp
+            //new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.pro
+            var p = new IHTMLElement("progress").AttachToDocument();
+
+            p.setAttribute("value", 20);
+            p.setAttribute("max", 100);
+
+            IProgress<int> set_progress = new Progress<int>(
+                x =>
+                    {
+                        p.setAttribute("value", x);
+                    }
+            );
 
 
             Native.css.style.transition = "background-color 300ms linear";
@@ -84,7 +99,11 @@ namespace TestWorkerScopeProgress
                         set_backgroundColor.Report("yellow");
 
                         // this will confuse task to be Task<?> ?
-                        await Task.Delay(1300);
+                        for (int i = 20; i <= 100; i += 2)
+                        {
+                            set_progress.Report(i);
+                            await Task.Delay(100);
+                        }
 
                         set_backgroundColor.Report("cyan");
 

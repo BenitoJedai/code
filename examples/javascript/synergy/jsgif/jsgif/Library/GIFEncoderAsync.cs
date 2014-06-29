@@ -177,6 +177,7 @@ public class GIFEncoderWorker
 {
     public readonly Task<string> Task;
 
+    [Obsolete]
     public TaskAwaiter<string> GetAwaiter()
     {
         return this.Task.GetAwaiter();
@@ -195,6 +196,13 @@ public class GIFEncoderWorker
         Action<int> AtFrame = null
         )
     {
+        // X:\jsc.svn\examples\javascript\async\test\TestScopeWithDelegate\TestScopeWithDelegate\Application.cs
+
+        //MethodTargetObjectData: Array[2]
+        //0: type$Wp_akjqSvXzyEjEqVpOKCvA._8gAABqSvXzyEjEqVpOKCvA
+        //AtFrame: $ctor$.f
+
+        Console.WriteLine("enter GIFEncoderWorker");
         var progress = (new Progress<int>(
              x =>
              {
@@ -207,7 +215,7 @@ public class GIFEncoderWorker
 
 
         this.Task = System.Threading.Tasks.Task.Factory.StartNew(
-             Tuple.Create(progress,
+            //Tuple.Create(progress,
                     new
                     {
                         width,
@@ -217,16 +225,19 @@ public class GIFEncoderWorker
                         //transparentColor, 
                         frames = frames.ToArray()
                     }
-                )
+            //)
             ,
-            xx =>
+            x =>
             {
+                Console.WriteLine("in GIFEncoderWorker");
+
                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140526/stack
 
                 var src = default(string);
 
                 // is this killing the rewrite?
-                Action<int> yield = xx.Item1.Report;
+                //Action<int> yield = xx.Item1.Report;
+                Action<int> yield = progress.Report;
 
                 // wtf?
 
@@ -236,7 +247,7 @@ public class GIFEncoderWorker
 
                 yield(0);
 
-                var x = xx.Item2;
+                //var x = xx.Item2;
                 var state = new
                 {
                     x.width,
