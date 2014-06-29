@@ -16,9 +16,59 @@ using System.Xml.Linq;
 using GGearAlpha;
 using GGearAlpha.Design;
 using GGearAlpha.HTML.Pages;
+using ScriptCoreLib.Query.Experimental;
+using System.Linq.Expressions;
 
 namespace GGearAlpha
 {
+    #region example generated data layer
+    public class xPostcard : QueryExpressionBuilder.xSelect<xPostcardRow>
+    {
+        public xPostcard()
+        {
+            Expression<Func<xPostcardRow, xPostcardRow>> selector =
+                (xPostcard) => new xPostcardRow
+            {
+                Key = xPostcard.Key,
+
+                Id = xPostcard.Id,
+
+                Text = xPostcard.Text,
+                X = xPostcard.X,
+                Y = xPostcard.Y,
+                Zoom100 = xPostcard.Zoom100,
+
+                Tag = xPostcard.Tag,
+                Timestamp = xPostcard.Timestamp,
+
+            };
+
+            this.selector = selector;
+        }
+    }
+
+
+    public enum xPostcardKey : long { }
+
+    public class xPostcardRow
+    {
+        public xPostcardKey Key;
+
+        public string Id;
+        public string Text;
+
+        public long X;
+        public long Y;
+        public long Zoom100;
+
+        public string Tag;
+        public DateTime Timestamp;
+
+    }
+    #endregion
+
+
+
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
@@ -43,6 +93,10 @@ namespace GGearAlpha
 
             //Unhandled Exception: System.NullReferenceException: Object reference not set to an instance of an object.
             //   at jsc.ILBlock.PrestatementBlock.Populate(ILInstruction First, ILInstruction Last) in x:\jsc.internal.svn\c
+
+            // we do have to update the way we refernce images.in 2014 we haev AssetsLibrary. :) what about 2021? timetravel?
+            // http://gearsblog.blogspot.com/2011/03/stopping-gears.html
+            // once images are restored, lets switch to SQLite api.
 
             new js.GoogleGearsAdvanced();
         }
