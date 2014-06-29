@@ -12,16 +12,6 @@ namespace jsgif
     /// </summary>
     public class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript. JSC supports string data type for all platforms.</param>
-        /// <param name="y">A callback to javascript. In the future all platforms will allow Action&lt;XElementConvertable&gt; delegates.</param>
-        public void WebMethod2(string e, Action<string> y)
-        {
-            // Send it back to the caller.
-            y(e);
-        }
-
+  
     }
 }

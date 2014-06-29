@@ -13,14 +13,26 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
         // script: error JSC1000: Missing Script Attribute? Native constructor was invoked, please implement [System.Diagnostics.StackTrace..ctor(System.Boolean)]
 
         public __StackTrace()
-            : this(true)
+            : this(0, true)
         {
 
         }
 
+        //Implementation not found for type import :
+        //type: System.Diagnostics.StackTrace
+        //method: Void .ctor(Int32, Boolean)
+        //Did you forget to add the [Script] attribute?
+        //Please double check the signature!
+
         public __StackTrace(bool fNeedFileInfo)
+            : this(0, fNeedFileInfo)
         {
 
+        }
+
+        public __StackTrace(int skipFrames, bool fNeedFileInfo)
+        {
+            // X:\jsc.svn\examples\javascript\WebCamAvatarsExperiment\WebCamAvatarsExperiment\Application.cs
         }
 
         public override string ToString()

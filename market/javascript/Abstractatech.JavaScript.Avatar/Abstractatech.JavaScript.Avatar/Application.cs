@@ -456,6 +456,8 @@ namespace Abstractatech.JavaScript.Avatar
             quality: 0.5
             );
             }
+
+            // can we use SQL instead now?
             Native.window.localStorage[localStorageKeys.img640x480] = firstTry;
 
 
