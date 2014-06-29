@@ -290,7 +290,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             int InternalThreadCounter,
              object data___string,
 
-            object MethodTargetObjectData,
+            bool[] MethodTargetObjectDataIsProgress,
+            object[] MethodTargetObjectData,
             object MethodTargetTypeIndex,
               string MethodToken,
             string MethodType,
@@ -393,12 +394,48 @@ namespace ScriptCoreLib.JavaScript.DOM
             {
                 MethodTarget = FormatterServices.GetUninitializedObject(MethodTargetType);
 
+                var MethodTargetTypeSerializableMembers = FormatterServices.GetSerializableMembers(MethodTargetType);
+
+                #region MethodTargetObjectDataIsProgress
+                // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+
+                for (int i = 0; i < MethodTargetTypeSerializableMembers.Length; i++)
+                {
+                    var MethodTargetTypeSerializableMember = MethodTargetTypeSerializableMembers[i] as FieldInfo;
+                    var MethodTargetTypeSerializableMemberIsProgress = MethodTargetObjectDataIsProgress[i];
+
+                    if (MethodTargetTypeSerializableMemberIsProgress)
+                    {
+                        Console.WriteLine(new { MethodTargetTypeSerializableMember, MethodTargetTypeSerializableMemberIsProgress });
+
+                        var ii = i;
+                        MethodTargetObjectData[ii] = new __Progress<object>(
+                            ProgressEvent =>
+                            {
+                                dynamic zdata = new object();
+
+                                zdata.MethodTargetObjectDataProgressReport = new { ProgressEvent, ii };
+
+                                foreach (MessagePort port in e.ports)
+                                {
+                                    port.postMessage((object)zdata, new MessagePort[0]);
+                                }
+
+                                //Console.WriteLine(new { MethodTargetTypeSerializableMember, MethodTargetTypeSerializableMemberIsProgress, ProgressEvent });
+                            }
+                        );
+                    }
+                }
+                #endregion
 
                 FormatterServices.PopulateObjectMembers(
                     MethodTarget,
-                     FormatterServices.GetSerializableMembers(MethodTargetType),
-                    (object[])MethodTargetObjectData
+                    MethodTargetTypeSerializableMembers,
+                    MethodTargetObjectData
                 );
+
+
+
 
                 MethodTokenReference = (MethodTarget as dynamic)[MethodToken];
             }
@@ -429,6 +466,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+            #region xstate
             var xstate = default(object);
 
             if (stateType != null)
@@ -445,6 +483,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 // MethodType = FuncOfObjectToObject
                 //Console.WriteLine("as FuncOfObjectToObject");
             }
+            #endregion
 
             #region CreateProgress
             Func<__Progress<object>> CreateProgress =
@@ -546,19 +585,37 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
-
+                    var value_Task = value as __Task;
                     var value_TaskOfT = value as __Task<object>;
+
+                    // 0:25611ms Task Run function has returned { value_Task = [object Object], value_TaskOfT = [object Object] } 
+                    Console.WriteLine("worker Task Run function has returned " + new { value_Task, value_TaskOfT });
+                    // 0:4284ms Task Run function has returned { value_Task = { IsCompleted = 1, Result =  }, value_TaskOfT = { IsCompleted = 1, Result =  } } 
+                    // 0:5523ms Task Run function has returned { value_Task = { IsCompleted = false, Result =  }, value_TaskOfT = { IsCompleted = false, Result =  } } 
+
                     if (value_TaskOfT != null)
                     {
                         // special situation
-                        Console.WriteLine("async worker");
 
+                        // if IsCompleted, called twice? or heard twice?
                         value_TaskOfT.ContinueWith(
                             t =>
                             {
-                                Console.WriteLine("async worker done " + new { t.Result });
+                                Console.WriteLine("worker Task Run ContinueWith " + new { t });
+
+                                dynamic zzdata = new object();
 
                                 // null?
+                                if (t.Result == null)
+                                {
+                                    zzdata.ContinueWithResult = new { t.Result };
+                                    foreach (MessagePort port in e.ports)
+                                    {
+                                        port.postMessage((object)zzdata, new MessagePort[0]);
+                                    }
+                                    return;
+                                }
+
                                 var ResultType = t.Result.GetType();
                                 var ResultTypeIndex = __Type.GetTypeIndex("workerResult", ResultType);
 
@@ -574,11 +631,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                                 };
 
-                                zdata.ContinueWithResult = ContinueWithResult;
+                                zzdata.ContinueWithResult = ContinueWithResult;
 
                                 foreach (MessagePort port in e.ports)
                                 {
-                                    port.postMessage((object)zdata, new MessagePort[0]);
+                                    port.postMessage((object)zzdata, new MessagePort[0]);
                                 }
                             }
                         );
@@ -587,18 +644,11 @@ namespace ScriptCoreLib.JavaScript.DOM
                     else
                     {
 
-                        var value_Task = value as __Task;
                         if (value_Task != null)
                         {
                             // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
-                            Console.WriteLine("async worker");
 
-                            value_TaskOfT.ContinueWith(
-                                t =>
-                                {
-                                    Console.WriteLine("async worker done");
-                                }
-                            );
+                            throw new NotImplementedException();
                         }
                         else
                         {
@@ -711,7 +761,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
                             // X:\jsc.svn\examples\javascript\async\AsyncNonStaticHandler\AsyncNonStaticHandler\Application.cs
-                            object MethodTargetObjectData = e_data.MethodTargetObjectData;
+
+                            // dynamic to array not supported yet?
+                            object MethodTargetObjectDataIsProgress0 = e_data.MethodTargetObjectDataIsProgress;
+                            var MethodTargetObjectDataIsProgress = (bool[])MethodTargetObjectDataIsProgress0;
+
+                            // type$AAAAAAAAAAAAAAAAAAAAAA
+                            // dynamic to array not supported yet?
+                            object MethodTargetObjectData0 = e_data.MethodTargetObjectData;
+                            var MethodTargetObjectData = (object[])MethodTargetObjectData0;
+
                             object MethodTargetTypeIndex = e_data.MethodTargetTypeIndex;
                             string MethodToken = e_data.MethodToken;
                             string MethodType = e_data.MethodType;
@@ -780,6 +839,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 InternalThreadCounter,
                                 data___string,
 
+                                MethodTargetObjectDataIsProgress,
                                 MethodTargetObjectData,
                                 MethodTargetTypeIndex,
                                 MethodToken,

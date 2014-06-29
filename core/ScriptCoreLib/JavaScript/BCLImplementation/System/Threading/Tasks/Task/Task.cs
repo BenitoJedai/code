@@ -20,6 +20,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal partial class __Task
     {
+        public override string ToString()
+        {
+            return new { IsCompleted }.ToString();
+        }
+
         public Action InternalDispose;
         public void Dispose()
         {
@@ -162,6 +167,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             return t;
         }
 
+
+        #region Factory
         public static __TaskFactory InternalFactory
         {
             get
@@ -178,6 +185,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 return InternalFactory;
             }
         }
+        #endregion
 
 
 
@@ -281,6 +289,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script]
     internal delegate object FuncOfTaskToObject(Task task);
 
+
+    // tested by?
     [Script]
     internal delegate object FuncOfTaskOfObjectArrayToObject(Task<object>[] task);
 
@@ -288,6 +298,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
     internal partial class __Task<TResult> : __Task
     {
+        public override string ToString()
+        {
+            return new { IsCompleted, this.Result }.ToString();
+        }
+
         // see also: http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.getawaiter(v=vs.110).aspx
 
 

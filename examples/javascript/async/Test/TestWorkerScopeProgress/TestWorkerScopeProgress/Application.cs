@@ -51,9 +51,21 @@ namespace TestWorkerScopeProgress
                     new IHTMLPre {
                         new { x, Thread.CurrentThread.ManagedThreadId }
                     }.AttachToDocument();
-
                 }
             );
+
+
+
+            Native.css.style.transition = "background-color 300ms linear";
+
+            // future jsc will allow a background thread to directly talk to the DOM, while creating a callsite in the background
+            IProgress<string> set_backgroundColor = new Progress<string>(
+                x =>
+                {
+                    Native.css.style.backgroundColor = x;
+                }
+            );
+
 
             var foo = "foo";
 
@@ -69,7 +81,12 @@ namespace TestWorkerScopeProgress
                         // we could also support direct delegates?
                         progress.Report("inside worker " + new { foo, Thread.CurrentThread.ManagedThreadId });
 
-                        await Task.Delay(300);
+                        set_backgroundColor.Report("yellow");
+
+                        // this will confuse task to be Task<?> ?
+                        await Task.Delay(1300);
+
+                        set_backgroundColor.Report("cyan");
 
                         Console.WriteLine("exit worker " + new { foo, Thread.CurrentThread.ManagedThreadId });
 
