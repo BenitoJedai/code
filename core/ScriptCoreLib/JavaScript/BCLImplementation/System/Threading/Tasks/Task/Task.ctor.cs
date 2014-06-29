@@ -79,6 +79,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             #region MethodTargetTypeIndex
             var MethodTargetTypeIndex = default(object);
             var MethodTargetObjectData = default(object[]);
+            var MethodTargetObjectDataProgress = default(__IProgress<object>[]);
+            var MethodTargetObjectDataIsProgress = default(bool[]);
 
             // we need to send in also the this argument of the function, lets find whats the token of the type
             if (xfunction.Target != null)
@@ -107,6 +109,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     //}
 
                     MethodTargetObjectData = FormatterServices.GetObjectData(xfunction.Target, MethodTargetSerializableMembers);
+
+                    // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+                    MethodTargetObjectDataProgress = new __IProgress<object>[MethodTargetObjectData.Length];
+                    MethodTargetObjectDataIsProgress = new bool[MethodTargetObjectData.Length];
 
                     for (int i = 0; i < MethodTargetObjectData.Length; i++)
                     {
@@ -147,7 +153,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                             // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
                             var IsProgress = MemberValue is __IProgress<object>;
                             if (IsProgress)
+                            {
+                                MethodTargetObjectDataProgress[i] = (__IProgress<object>)MemberValue;
                                 MethodTargetObjectData[i] = null;
+
+                                // let worker know we want progress reports sent back to us
+                                MethodTargetObjectDataIsProgress[i] = true;
+                            }
 
 
                             Console.WriteLine(
@@ -226,15 +238,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                 #region IsIProgress
                 var IsIProgress = state is __IProgress<object>;
 
-                //var AsTuple2 = state as __Tuple<object, object>;
-                var IsTuple2_Item1_IsIProgress = default(bool);
-
-                //if (AsTuple2 != null)
-                //{
-                //    IsTuple2_Item1_IsIProgress = AsTuple2.Item1 is __IProgress<object>;
-                //}
-
-
                 // InternalInitializeInlineWorker: { IsIProgress = true, state = [object Object] }
                 var xProgress = default(__IProgress<object>);
 
@@ -246,20 +249,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     state_ObjectData = null;
                     stateTypeHandleIndex = null;
                 }
-
-                if (IsTuple2_Item1_IsIProgress)
-                {
-                    // since we allow also scope sharing, lets stop supporting Tuple<progress, ?> for now..
-                    //// 
-                    //xProgress = (__IProgress<object>)AsTuple2.Item1;
-                    //AsTuple2.Item1 = null;
-                }
                 #endregion
 
                 //Console.WriteLine("InternalInitializeInlineWorker: " + new { IsIProgress, IsTuple2_Item1_IsIProgress, state });
 
 
 
+                int responseCounter = 0;
 
                 #region postMessage
                 worker.postMessage(
@@ -268,6 +264,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                         InternalInlineWorker.InternalThreadCounter,
 
 
+                        MethodTargetObjectDataIsProgress,
                         MethodTargetObjectData,
                         MethodTargetTypeIndex,
 
@@ -297,6 +294,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     ,
                      e =>
                      {
+                         responseCounter++;
+
                          // what kind of write backs do we expect?
                          // for now it should be console only
 
@@ -350,19 +349,51 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                          #endregion
 
 
+                         //zdata.MethodTargetObjectDataProgressReport = new { ProgressEvent, i };
+
+                         #region MethodTargetObjectDataProgressReport
+                         {
+                             // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+
+                             dynamic MethodTargetObjectDataProgressReport = zdata.MethodTargetObjectDataProgressReport;
+                             if ((object)MethodTargetObjectDataProgressReport != null)
+                             {
+                                 object ProgressEvent = MethodTargetObjectDataProgressReport.ProgressEvent;
+                                 int ii = MethodTargetObjectDataProgressReport.ii;
+
+                                 MethodTargetObjectDataProgress[ii].Report(
+                                     ProgressEvent
+                                );
+                             }
+                         }
+                         #endregion
+
+
                          #region ContinueWithResult
                          {
                              dynamic ContinueWithResult = zdata.ContinueWithResult;
                              if ((object)ContinueWithResult != null)
                              {
+                                 responseCounter++;
+
                                  // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
+
+                                 var ResultTypeIndex = default(object);
+                                 var ResultObjectData = default(object);
+
                                  object Result = ContinueWithResult.Result;
 
                                  // primitives wont have index
-                                 object ResultTypeIndex = ContinueWithResult.ResultTypeIndex;
-                                 object ResultObjectData = ContinueWithResult.ResultObjectData;
+                                 if (Result != null)
+                                 {
+                                     // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
 
-                                 Console.WriteLine("Task ContinueWithResult " + new { ResultTypeIndex });
+                                     ResultTypeIndex = ContinueWithResult.ResultTypeIndex;
+                                     ResultObjectData = ContinueWithResult.ResultObjectData;
+                                 }
+
+                                 // are we getting multiple responses?
+                                 Console.WriteLine("Task ContinueWithResult " + new { responseCounter, ResultTypeIndex, Result });
 
                                  if (ResultTypeIndex != null)
                                  {
