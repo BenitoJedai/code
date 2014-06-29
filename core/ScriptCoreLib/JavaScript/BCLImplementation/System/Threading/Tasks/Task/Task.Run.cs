@@ -22,6 +22,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         // X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
         // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
+        public static Task Run<TResult>(Func<Task> function)
+        {
+            // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+
+            return Task.Factory.StartNew(function).Unwrap();
+        }
+
         public static Task<TResult> Run<TResult>(Func<Task<TResult>> function)
         {
             return Task.Factory.StartNew(function).Unwrap();

@@ -139,9 +139,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                                     if (!IsNumber)
                                         MethodTargetObjectData[i] = null;
 
+                            // we do not know yet how to handle cloning events on level2
+                            var IsDelegate = MemberValue is Delegate;
+                            if (IsDelegate)
+                                MethodTargetObjectData[i] = null;
+
+                            // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+                            var IsProgress = MemberValue is __IProgress<object>;
+                            if (IsProgress)
+                                MethodTargetObjectData[i] = null;
+
+
                             Console.WriteLine(
                                 "Task scope " +
-                                new { MemberName, IsString, IsNumber, TypeIndex }
+                                new { MemberName, IsString, IsNumber, IsDelegate, IsProgress, TypeIndex }
                             );
                         }
                     }
@@ -279,7 +290,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
 
                         IsIProgress,
-                        IsTuple2_Item1_IsIProgress,
+                        //IsTuple2_Item1_IsIProgress,
 
                         __string = (object)xdata___string
                     }

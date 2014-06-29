@@ -42,5 +42,40 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
             return x.Task;
         }
+
+
+        public static Task Unwrap(Task<Task> task)
+        {
+            // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+
+            //Console.WriteLine("enter Unwrap");
+
+            // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
+
+            //async worker done0:3872ms 
+            //0:3872ms Task ContinueWithResult
+            //0:3873ms async worker running ? { xTask = [object Object] }
+            //Uncaught TypeError: undefined is not a function 
+            var x = new TaskCompletionSource<object>();
+
+            task.ContinueWith(
+                (Task<Task> r) =>
+                {
+                    var xTask = r.Result;
+
+
+                    xTask.ContinueWith(
+                        rr =>
+                        {
+                            x.SetResult(
+                                new object()
+                            );
+                        }
+                    );
+                }
+            );
+
+            return x.Task;
+        }
     }
 }

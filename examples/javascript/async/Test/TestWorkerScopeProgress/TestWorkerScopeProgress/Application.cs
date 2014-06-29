@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using TestWorkerScopeProgress;
 using TestWorkerScopeProgress.Design;
 using TestWorkerScopeProgress.HTML.Pages;
+using System.Threading;
 
 namespace TestWorkerScopeProgress
 {
@@ -40,9 +41,43 @@ namespace TestWorkerScopeProgress
             // then we may also want to get delegate sharing..
 
 
+            //0:6113ms Task scope { MemberName = progress, IsString = false, IsNumber = false, TypeIndex = type$Iuc7fw31uTShD4lFrT9xIg }
+            //0:6161ms Task scope { MemberName = CS___9__CachedAnonymousMethodDelegate6, IsString = false, IsNumber = false, TypeIndex = type$P_aMwuiDRzTKOqkDQd7BGAw }
 
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.ctor.cs
+            IProgress<string> progress = new Progress<string>(
+                x =>
+                {
+                    new IHTMLPre {
+                        new { x, Thread.CurrentThread.ManagedThreadId }
+                    }.AttachToDocument();
+
+                }
+            );
+
+            var foo = "foo";
+
+            new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
+                async e =>
+                {
+                    progress.Report("UI " + new { foo, Thread.CurrentThread.ManagedThreadId });
+
+                    await Task.Run(async delegate
+                    {
+                        Console.WriteLine("inside worker " + new { foo, Thread.CurrentThread.ManagedThreadId });
+
+                        // we could also support direct delegates?
+                        progress.Report("inside worker " + new { foo, Thread.CurrentThread.ManagedThreadId });
+
+                        await Task.Delay(300);
+
+                        Console.WriteLine("exit worker " + new { foo, Thread.CurrentThread.ManagedThreadId });
+
+                        // we could also support direct delegates?
+                        progress.Report("exit worker " + new { foo, Thread.CurrentThread.ManagedThreadId });
+                    });
+                };
 
         }
-
     }
 }

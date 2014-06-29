@@ -301,7 +301,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             object state,
 
             bool IsIProgress,
-            bool IsTuple2_Item1_IsIProgress,
+            //bool IsTuple2_Item1_IsIProgress,
 
             __Task<object>[] TaskArray
             )
@@ -358,6 +358,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                 "__worker_onfirstmessage: " +
                 new
                 {
+                    Thread.CurrentThread.ManagedThreadId,
                     Native.worker.location.href,
 
                     MethodTargetTypeIndex,
@@ -367,15 +368,14 @@ namespace ScriptCoreLib.JavaScript.DOM
                     MethodType,
 
 
-                    IsIProgress,
-                    IsTuple2_Item1_IsIProgress,
+                    //IsTuple2_Item1_IsIProgress,
 
-                    Thread.CurrentThread.ManagedThreadId,
 
                     // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
                     stateTypeHandleIndex,
                     stateType,
-                    state
+                    state,
+                    IsIProgress,
 
                     //MethodTokenReference
                 }
@@ -468,14 +468,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             if (IsIProgress)
                 xstate = CreateProgress();
 
-            if (IsTuple2_Item1_IsIProgress)
-            {
-                // since we allow also scope sharing, lets stop supporting Tuple<progress, ?> for now..
-                // ?
-                //var xx = ((__Tuple<object, object>)xstate);
 
-                //xx.Item1 = CreateProgress();
-            }
             #endregion
 
 
@@ -594,12 +587,28 @@ namespace ScriptCoreLib.JavaScript.DOM
                     else
                     {
 
+                        var value_Task = value as __Task;
+                        if (value_Task != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\async\test\TestWorkerScopeProgress\TestWorkerScopeProgress\Application.cs
+                            Console.WriteLine("async worker");
 
-                        var yield = new { value };
+                            value_TaskOfT.ContinueWith(
+                                t =>
+                                {
+                                    Console.WriteLine("async worker done");
+                                }
+                            );
+                        }
+                        else
+                        {
 
-                        //Console.WriteLine(new { yield });
+                            var yield = new { value };
 
-                        zdata.yield = yield;
+                            //Console.WriteLine(new { yield });
+
+                            zdata.yield = yield;
+                        }
                     }
                     #endregion
                     // now what?
@@ -710,7 +719,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                             // X:\jsc.svn\examples\javascript\async\test\TestWorkerProgress\TestWorkerProgress\Application.cs
                             bool IsIProgress = e_data.IsIProgress;
-                            bool IsTuple2_Item1_IsIProgress = e_data.IsTuple2_Item1_IsIProgress;
+                            //bool IsTuple2_Item1_IsIProgress = e_data.IsTuple2_Item1_IsIProgress;
 
 
                             // used byTask.ctor 
@@ -783,7 +792,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                                 state,
 
                                 IsIProgress,
-                                IsTuple2_Item1_IsIProgress,
+                                //IsTuple2_Item1_IsIProgress,
 
                                 TaskArray
                                 );
@@ -839,7 +848,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
 
-        public bool Disabled = true;
+        //public bool Disabled = true;
+        public bool Disabled = false;
 
         public Action<string> AtWrite;
         //public Action<string> AtWriteLine;
