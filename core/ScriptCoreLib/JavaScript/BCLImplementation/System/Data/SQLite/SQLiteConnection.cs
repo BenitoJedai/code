@@ -31,8 +31,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public override void Open()
         {
+            // X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
+
             // ignore connectionstring datasource for now.
-            db = Native.window.openDatabase();
+            //db = Native.window.openDatabase();
+            db = Native.openDatabase();
 
         }
 

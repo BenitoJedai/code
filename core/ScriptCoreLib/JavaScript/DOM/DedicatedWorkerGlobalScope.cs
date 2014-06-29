@@ -82,6 +82,21 @@ namespace ScriptCoreLib.JavaScript.DOM
             return default(string);
         }
 
+        // http://www.infoq.com/news/2010/02/Web-SQL-Database
+        public Database openDatabase(
+            string name = "database.sqlite",
+            string version = "1.0",
+            //string version = "",
+            string displayName = "Web SQL",
+
+            // AppCache allows 5MB, how much for db?
+            ulong estimatedSize = 2 * 1024 * 1024,
+
+            Action<Database> creationCallback = null
+            )
+        {
+            return default(Database);
+        }
     }
 
     [Script(HasNoPrototype = true)]

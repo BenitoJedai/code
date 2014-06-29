@@ -19,6 +19,8 @@ using TestSQLiteConnection.HTML.Pages;
 using ScriptCoreLib.Query.Experimental;
 using System.Linq.Expressions;
 using System.Data.SQLite;
+using System.IO;
+using System.Diagnostics;
 
 namespace TestSQLiteConnection
 {
@@ -37,13 +39,52 @@ namespace TestSQLiteConnection
 
             // X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
 
+            //Console.SetOut(new xConsole());
 
             new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
-                delegate
+                async delegate
             {
-                Foo.Invoke();
+                var sw = Stopwatch.StartNew();
+                var f = await Foo.Invoke();
+
+                //new IHTMLPre { f.connectStart, f.connectEnd, f.Tag }.AttachToDocument();
+                new IHTMLPre { new { sw.ElapsedMilliseconds, f.connectStart, f.connectEnd, f.Tag } }.AttachToDocument();
+
+                // {{ ElapsedMilliseconds = 877, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // {{ ElapsedMilliseconds = 234, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // {{ ElapsedMilliseconds = 233, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // {{ ElapsedMilliseconds = 66, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // {{ ElapsedMilliseconds = 61, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
             };
 
+            new IHTMLButton { "invoke worker" }.AttachToDocument().onclick += async delegate
+            {
+                // http://calvinmetcalf.com/post/55957954794/web-workers-are-slower-and-thats-ok
+                // https://bugzilla.mozilla.org/show_bug.cgi?id=653967
+                // http://social.msdn.microsoft.com/forums/ie/en-US/aa17a719-d2e6-4277-a2f7-5cb05dcc66b6/indexeddb-is-extremely-slow-in-web-worker
+                // http://ejohn.org/blog/asmjs-javascript-compile-target/
+                // http://mrale.ph/blog/2013/03/28/why-asmjs-bothers-me.html
+
+                var sw = Stopwatch.StartNew();
+                var f = await Task.Run(Foo.Invoke);
+
+                new IHTMLPre { new { sw.ElapsedMilliseconds, f.connectStart, f.connectEnd, f.Tag } }.AttachToDocument();
+
+                // {{ ElapsedMilliseconds = 1018, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // {{ ElapsedMilliseconds = 914, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // {{ ElapsedMilliseconds = 1036, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // no console
+                // {{ ElapsedMilliseconds = 460, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // {{ ElapsedMilliseconds = 414, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+
+                // no log, console open
+                // {{ ElapsedMilliseconds = 585, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // no log, no console
+                // {{ ElapsedMilliseconds = 400, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+                // {{ ElapsedMilliseconds = 392, connectStart = 5.0, connectEnd = 13.0, Tag = what about xml? }}
+
+
+            };
             //Foo.Invoke2();
 
         }
@@ -105,9 +146,9 @@ namespace TestSQLiteConnection
 
     class Foo
     {
-        public static async Task Invoke()
+        public static async Task<xPerformanceResourceTimingData2ApplicationPerformanceRow> Invoke()
         {
-            
+
             #region SQLiteConnection
             var cc0 = new SQLiteConnection(
                 new SQLiteConnectionStringBuilder
@@ -222,7 +263,65 @@ namespace TestSQLiteConnection
             Console.WriteLine(new { f.connectStart, f.connectEnd, f.Tag });
 
             cc0.Close();
+
+            return f;
         }
 
     }
+
+
+    #region xConsole
+    //class xConsole : StringWriter
+    [Obsolete("jsc:js does not allow to overrider an override? we need it for SpecialFieldInfo to work!")]
+    class xConsole : TextWriter
+    {
+        // http://www.danielmiessler.com/study/encoding_encryption_hashing/
+        [Obsolete("can we have encrypted encoding?")]
+        public override Encoding Encoding
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override void Write(string value)
+        {
+            var p = new IHTMLCode { innerText = value }.AttachToDocument();
+            var s = p.style;
+
+            // jsc, enum tostring?
+            if (Console.ForegroundColor == ConsoleColor.Red)
+                s.color = "red";
+
+            if (Console.ForegroundColor == ConsoleColor.Blue)
+                s.color = "blue";
+
+            if (Console.ForegroundColor == ConsoleColor.Gray)
+                s.color = "gray";
+
+            if (Console.ForegroundColor == ConsoleColor.Yellow)
+                s.color = "yellow";
+
+            if (Console.ForegroundColor == ConsoleColor.Magenta)
+                s.color = "magneta";
+        }
+
+        public override void WriteLine(object value)
+        {
+            WriteLine("" + value);
+        }
+
+        public override void WriteLine(string value)
+        {
+            //Console.WriteLine(new { value });
+
+
+            Write(value);
+
+            new IHTMLBreak { }.AttachToDocument();
+        }
+    }
+    #endregion
+
 }
