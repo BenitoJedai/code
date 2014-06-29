@@ -29,6 +29,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         public static Task<TResult> Run<TResult>(Func<TResult> function)
         {
+            // X:\jsc.svn\examples\javascript\WorkerMD5Experiment\WorkerMD5Experiment\Application.cs
+
             //new Task(
             return Task.Factory.StartNew(function);
         }

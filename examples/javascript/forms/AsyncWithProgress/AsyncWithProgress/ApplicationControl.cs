@@ -20,6 +20,8 @@ namespace AsyncWithProgress
 
         private async void button1_Click(object sender, System.EventArgs e)
         {
+            // X:\jsc.svn\examples\javascript\async\Test\TestWorkerProgress\TestWorkerProgress\Application.cs
+
             // http://blogs.msdn.com/b/dotnet/archive/2012/06/06/async-in-4-5-enabling-progress-and-cancellation-in-async-apis.aspx
             IProgress<string> progress = new Progress<string>(
                x =>
