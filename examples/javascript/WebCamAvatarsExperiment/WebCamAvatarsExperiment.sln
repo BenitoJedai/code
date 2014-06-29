@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsgif", "..\synergy\jsgif\jsgif\jsgif.csproj", "{2B82F864-2565-470E-BE62-68C54825510F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -29,6 +31,9 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		PHP|Any CPU = PHP|Any CPU
+		PHP|Mixed Platforms = PHP|Mixed Platforms
+		PHP|x86 = PHP|x86
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
@@ -49,6 +54,11 @@ Global
 		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Debug|x86.ActiveCfg = Debug|x86
 		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Debug|x86.Build.0 = Debug|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.PHP|Any CPU.ActiveCfg = Debug|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.PHP|Mixed Platforms.ActiveCfg = Debug|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.PHP|Mixed Platforms.Build.0 = Debug|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.PHP|x86.ActiveCfg = Debug|x86
+		{243246C3-A1B7-4793-A46D-210FFB6F716A}.PHP|x86.Build.0 = Debug|x86
 		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Release|Any CPU.ActiveCfg = Release|x86
 		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{243246C3-A1B7-4793-A46D-210FFB6F716A}.Release|Mixed Platforms.Build.0 = Release|x86
@@ -69,6 +79,11 @@ Global
 		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Debug|x86.ActiveCfg = Debug|x86
 		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Debug|x86.Build.0 = Debug|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.PHP|Any CPU.ActiveCfg = Debug|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.PHP|Mixed Platforms.ActiveCfg = Debug|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.PHP|Mixed Platforms.Build.0 = Debug|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.PHP|x86.ActiveCfg = Debug|x86
+		{D05E3814-F763-46B0-955C-B27D7B5F034D}.PHP|x86.Build.0 = Debug|x86
 		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Release|Any CPU.ActiveCfg = Release|x86
 		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{D05E3814-F763-46B0-955C-B27D7B5F034D}.Release|Mixed Platforms.Build.0 = Release|x86
@@ -89,6 +104,11 @@ Global
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.PHP|x86.ActiveCfg = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -109,6 +129,11 @@ Global
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.PHP|x86.ActiveCfg = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -129,11 +154,41 @@ Global
 		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.ActiveCfg = Debug|x86
 		{2B82F864-2565-470E-BE62-68C54825510F}.Debug|x86.Build.0 = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.PHP|Any CPU.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.PHP|Mixed Platforms.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.PHP|Mixed Platforms.Build.0 = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.PHP|x86.ActiveCfg = Debug|x86
+		{2B82F864-2565-470E-BE62-68C54825510F}.PHP|x86.Build.0 = Debug|x86
 		{2B82F864-2565-470E-BE62-68C54825510F}.Release|Any CPU.ActiveCfg = Release|x86
 		{2B82F864-2565-470E-BE62-68C54825510F}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{2B82F864-2565-470E-BE62-68C54825510F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.ActiveCfg = Release|x86
 		{2B82F864-2565-470E-BE62-68C54825510F}.Release|x86.Build.0 = Release|x86
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|x86.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Any CPU.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Any CPU.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Mixed Platforms.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|Mixed Platforms.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Assets|x86.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.Build.0 = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|x86.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,5 +198,6 @@ Global
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {4E72FC39-76A4-4B35-ACE9-F40F8D7A9CB2}
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {4E72FC39-76A4-4B35-ACE9-F40F8D7A9CB2}
 		{2B82F864-2565-470E-BE62-68C54825510F} = {4E72FC39-76A4-4B35-ACE9-F40F8D7A9CB2}
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {4E72FC39-76A4-4B35-ACE9-F40F8D7A9CB2}
 	EndGlobalSection
 EndGlobal

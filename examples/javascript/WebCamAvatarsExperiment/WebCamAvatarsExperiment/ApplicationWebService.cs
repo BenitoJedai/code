@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Data.SQLite;
 
 namespace WebCamAvatarsExperiment
 {
@@ -18,7 +19,15 @@ namespace WebCamAvatarsExperiment
     /// </summary>
     public class ApplicationWebService
     {
-    
+        //        looking for referenced assemblies to be deployed for WebService...
+        //        WebCamAvatarsExperiment.ApplicationWebService
+        //        <> f__AnonymousType0`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+        //<>f__AnonymousType1`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+        //<>f__AnonymousType2`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+        //<>f__AnonymousType3`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+        //found dependancy: ScriptCoreLib.Extensions.dll
+
+
         public void Insert0(string base64)
         {
             Console.WriteLine(new { base64.Length });
@@ -86,6 +95,8 @@ namespace WebCamAvatarsExperiment
 
             try
             {
+                var ref0 = typeof(SQLiteConnection);
+
                 // Caused by: java.lang.RuntimeException: Unknown column 'Tag' in 'field list'
                 //at ScriptCoreLibJava.BCLImplementation.System.Data.SQLite.__SQLiteCommand.ExecuteNonQuery(__SQLiteCommand.java:277)
                 //at Abstractatech.JavaScript.Avatar.Design.WebCamAvatars_Sheet1_Queries.Insert(WebCamAvatars_Sheet1_Queries.java:68)
@@ -106,6 +117,7 @@ namespace WebCamAvatarsExperiment
             }
             catch
             {
+                // +		$exception	{"Could not load file or assembly 'System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null' or one of its dependencies. The system cannot find the file specified.":"System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=null"}	System.Exception {System.IO.FileNotFoundException}
                 // what the flip
                 Debugger.Break();
             }

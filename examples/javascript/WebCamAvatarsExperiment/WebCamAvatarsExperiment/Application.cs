@@ -30,6 +30,8 @@ namespace WebCamAvatarsExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+           
+
             // test it
             //base.Insert(
             //    new Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row()
