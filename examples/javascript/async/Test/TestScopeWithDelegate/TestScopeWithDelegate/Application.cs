@@ -33,6 +33,9 @@ namespace TestScopeWithDelegate
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //  Task.Factory.StartNewWithProgress(
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Extensions\TaskAsyncExtensions.cs
+
             Native.css.style.transition = "background-color 300ms linear";
 
             // future jsc will allow a background thread to directly talk to the DOM, while creating a callsite in the background

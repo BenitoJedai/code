@@ -121,6 +121,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\Assets.cs" />
+    <Compile Include="Library\DynamicEnumerable.cs" />
+    <Compile Include="Library\DynamicEnumerator.cs" />
+    <Compile Include="Library\Extensions.cs" />
+    <Compile Include="Library\GoogleGears.cs" />
+    <Compile Include="Library\GoogleGearsAdvanced.cs" />
+    <Compile Include="Library\GoogleGearsSimple.cs" />
+    <Compile Include="Library\SerializedObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
@@ -129,6 +137,17 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\back.jpg" />
+    <Content Include="Textures\green-bottom.png" />
+    <Content Include="Textures\postcard-alpha-200-unfocus.png" />
+    <Content Include="Textures\postcard-alpha-200.png" />
+    <Content Include="Textures\postcard-alpha.png" />
+    <Content Include="Textures\power.png" />
+    <Content Include="Textures\power2.png" />
+    <Content Include="Textures\Preview.png" />
+    <Content Include="Textures\shadow-bottom-100.png" />
+    <Content Include="Textures\shadow-bottom.png" />
+    <Content Include="Textures\shadow.png" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

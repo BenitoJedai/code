@@ -33,7 +33,18 @@ namespace GGearAlpha
             // 7 years later,  28.06.2007 to    20140629
             // google gears ws discontinued
             // yet today jsc allows to use websql in a worker thread in a browser.
+            // can we just do a svn move from7 years ago 
+            // and then just call
+            // "X:\jsc.svn\javascript\Examples\GoogleGears\GGearAlpha\bin\Debug\web\GoogleGearsAdvanced.htm"
 
+            //            02000038 GGearAlpha.js.GoogleGearsFactory
+            //            script: error JSC1000: invalid branch in block build -block skipped
+            //current 005b, first 0033, last 0056
+
+            //Unhandled Exception: System.NullReferenceException: Object reference not set to an instance of an object.
+            //   at jsc.ILBlock.PrestatementBlock.Populate(ILInstruction First, ILInstruction Last) in x:\jsc.internal.svn\c
+
+            new js.GoogleGearsAdvanced();
         }
 
     }

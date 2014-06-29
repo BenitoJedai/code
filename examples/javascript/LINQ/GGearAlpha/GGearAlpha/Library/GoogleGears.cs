@@ -78,29 +78,29 @@ namespace GGearAlpha.js
         {
             return
                new DynamicEnumerable<T>
-               {
+            {
 
-                   DynamicGetEnumerator = delegate
-                   {
-                       var rs = db.execute(command);
-                       bool dirty = false;
-                       T c = default(T);
+                DynamicGetEnumerator = delegate
+                {
+                    var rs = db.execute(command);
+                    bool dirty = false;
+                    T c = default(T);
 
-                       return
-                          new DynamicEnumerator<T>
-                          {
-                              // yet another bug within the compiler...
-                              // we need to wrap this action, because the method is native
-                              DynamicDispose = () => rs.close(),
-                              DynamicMoveNext = delegate
-                              {
-                                  if (dirty)
-                                      rs.next();
+                    return
+                       new DynamicEnumerator<T>
+                    {
+                        // yet another bug within the compiler...
+                        // we need to wrap this action, because the method is native
+                        DynamicDispose = () => rs.close(),
+                        DynamicMoveNext = delegate
+                        {
+                            if (dirty)
+                                rs.next();
 
-                                  dirty = true;
+                            dirty = true;
 
-                                  return rs.isValidRow().Aggregate(
-                                      valid =>
+                            return rs.isValidRow().Aggregate(
+                                valid =>
                                       {
                                           c = (T)Activator.CreateInstance(e);
 
@@ -115,16 +115,16 @@ namespace GGearAlpha.js
                                               f.SetValue(c, rs.field(i));
                                           }
                                       }
-                                  );
+                            );
 
-                              },
-                              DynamicCurrent = delegate
-                              {
-                                  return c;
-                              }
-                          };
-                   }
-               };
+                        },
+                        DynamicCurrent = delegate
+                        {
+                            return c;
+                        }
+                    };
+                }
+            };
         }
 
         static public IEnumerable<object[]> GetColumns(this GoogleGearsFactory.IRecordset rs)
@@ -250,6 +250,9 @@ namespace GGearAlpha.js
 
         internal static GoogleGearsFactory InternalConstructor()
         {
+            throw new NotImplementedException();
+            // something causes a rewrite error in here. what is it.
+
             object r = null;
 
             var error = "Google Gears is not installed or not supported for current browser!";
@@ -281,15 +284,15 @@ namespace GGearAlpha.js
                 {
                     var s = new IFunction("return !!navigator.mimeTypes['application/x-googlegears']").apply(null);
 
-	  //                  if ((typeof navigator.mimeTypes != 'undefined')
-	  //     && navigator.mimeTypes["application/x-googlegears"]) {
-	  //  factory = document.createElement("object");
-	  //  factory.style.display = "none";
-	  //  factory.width = 0;
-	  //  factory.height = 0;
-	  //  factory.type = "application/x-googlegears";
-	  //  document.documentElement.appendChild(factory);
-	  //}
+                    //                  if ((typeof navigator.mimeTypes != 'undefined')
+                    //     && navigator.mimeTypes["application/x-googlegears"]) {
+                    //  factory = document.createElement("object");
+                    //  factory.style.display = "none";
+                    //  factory.width = 0;
+                    //  factory.height = 0;
+                    //  factory.type = "application/x-googlegears";
+                    //  document.documentElement.appendChild(factory);
+                    //}
 
 
                     error = "Google Gears for safari is not yet supported (June 2007); plugin installed: " + s;
