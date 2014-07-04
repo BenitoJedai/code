@@ -19,9 +19,8 @@ namespace WebGLDraggableCubes
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -29,9 +28,12 @@ namespace WebGLDraggableCubes
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/work/knowledge-base/13-dataviz/201407/20140704
+
+
             THREE.Color ReferenceTHREE;
 
-            DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            //DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
             // "X:\opensource\github\three.js\examples\js\controls\TrackballControls.js"
 
@@ -63,6 +65,7 @@ namespace WebGLDraggableCubes
 
         private void InitializeContent()
         {
+
         }
 
     }
