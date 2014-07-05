@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM;
 using System.IO;
+using System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
@@ -368,6 +369,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public __String Replace(__String a0, __String a1)
         {
             return (__String)InternalReplace(this, a0, a1);
+        }
+
+
+        public static string Join(string separator, IEnumerable<string> values)
+        {
+            // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
+            return Join(separator, Enumerable.ToArray(values));
         }
 
         [Script(OptimizedCode = @"return a1.join(a0);")]
