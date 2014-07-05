@@ -107,13 +107,15 @@ class Program
                 //let gap2 = 1
                 //let gap3 = 1
                 //select x;
-                select new { x.connectStart, x.connectEnd, x.Timestamp
+                select new { x.Key, x.connectStart, x.connectEnd, x.Timestamp
                     //,  gap2, gap3 
                 };
 
         var f = q.FirstOrDefault(cc0);
 
         Console.WriteLine(new { f });
+
+        new xApplicationPerformance().Where(x => x.Key == f.Key).Delete(cc0);
         //var zz = q.AsEnumerable(cc);
 
         //var z = q.AsDataTable(cc);
