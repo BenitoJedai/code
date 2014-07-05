@@ -56,6 +56,16 @@ namespace ScriptCoreLib.Query.Experimental
                         w.Append(" BIGINT NOT NULL");
                         return;
                     }
+
+
+                    // x:\jsc.svn\examples\javascript\linq\ggearalpha\ggearalpha\library\googlegearsadvanced.cs
+                    // this we now seem to have, in chrome.. :)
+                    if (f.FieldType == typeof(int))
+                    {
+                        w.Append(" BIGINT NOT NULL");
+                        return;
+                    }
+
                     Debugger.Break();
                 }
             );

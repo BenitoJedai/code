@@ -96,16 +96,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public override int GetInt32(int i)
         {
-            var x = global::ScriptCoreLib.JavaScript.Runtime.Expando.Of((object)InternalCurrent);
-            var names = x.GetMemberNames().Select(xName =>
-            {
-                //Console.WriteLine(new { xName });
-                return (string)xName;
-            }).ToList();
-            var name = names[i];
+            var x = this[i];
 
-            int value = InternalCurrent[name];
-            return value;
+            // X:\jsc.svn\examples\javascript\test\TestObjectToInt32\TestObjectToInt32\Program.cs
+
+            // unless it already was stored as int? :P
+
+            var xString = "" + x;
+
+            var xDouble = 0.0;
+
+            double.TryParse(xString, out xDouble);
+
+            return (int)xDouble;
         }
 
         public override string GetName(int ordinal)
