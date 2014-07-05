@@ -12,7 +12,7 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-        public static void Create<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
+        public static IQueryStrategy<TElement> Create<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             // X:\jsc.svn\examples\javascript\test\TestMemberInitExpression\TestMemberInitExpression\Application.cs
 
@@ -93,6 +93,9 @@ namespace ScriptCoreLib.Query.Experimental
             // `EventTime` BIGINT NOT NULL, 
             // `Tag` TEXT, 
             // `Timestamp` BIGINT NOT NULL)";
+
+
+            return source;
         }
 
 

@@ -183,6 +183,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
             return x.Task;
         }
 
+        //        02000071 ScriptCoreLib.Query.Experimental.QueryExpressionBuilderAsync
+        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.Common.DbCommand.ExecuteScalarAsync()]
+        public override Task<object> ExecuteScalarAsync()
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Count.cs
+
+            var z = new TaskCompletionSource<object>();
+
+            this.ExecuteReaderAsync().ContinueWith(
+                zz =>
+                {
+                    zz.Result.Read();
+
+                    z.SetResult(zz.Result[0]);
+                }
+            );
+
+            return z.Task;
+        }
+
         #region ExecuteNonQuery
         // http://msdn.microsoft.com/en-us/library/hh223678(v=vs.110).aspx
         // http://msdn.microsoft.com/en-us/library/system.data.common.dbcommand.executenonquery(v=vs.110).aspx

@@ -525,7 +525,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     if (yield.Target != Native.self)
                         throw new InvalidOperationException("we can only continue with global methods for now... " + new { yield.Target });
 
-                var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
+                var MethodToken = ((__MethodInfo)yield.Method).InternalMethodToken;
 
 
                 var data_state = (HistoryDetails)Native.window.history.state;
@@ -736,7 +736,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-                var MethodToken = ((__MethodInfo)yield.Method).MethodToken;
+                var MethodToken = ((__MethodInfo)yield.Method).InternalMethodToken;
 
                 //var data_invoke = new { function = MethodToken, arguments = new object[] { state } };
                 var data_invoke = new { MethodToken, arguments = new object[] { state } };

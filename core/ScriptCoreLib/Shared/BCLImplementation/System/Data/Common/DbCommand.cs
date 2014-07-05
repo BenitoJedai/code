@@ -42,6 +42,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
         }
 
 
+        public virtual Task<object> ExecuteScalarAsync()
+        {
+            return null;
+        }
+
         public virtual Task<DbDataReader> ExecuteReaderAsync()
         {
             // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs

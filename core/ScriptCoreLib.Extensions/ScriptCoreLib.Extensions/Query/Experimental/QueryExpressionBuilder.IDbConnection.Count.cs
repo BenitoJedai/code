@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Query.Experimental
         {
         }
 
-        class xCount : IQueryStrategy
+         class xCount : IQueryStrategy
         {
             public IQueryStrategy source;
 
@@ -30,11 +30,20 @@ namespace ScriptCoreLib.Query.Experimental
             }
         }
 
-        class xCount<TElement> : xCount, IQueryStrategy<TElement>
+         class xCount<TElement> : xCount, IQueryStrategy<TElement>
         {
 
         }
 
+        public static IDbCommand GetCountCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
+        {
+
+            var nsource = new xCount { source = source };
+            var c = (DbCommand)cc.CreateCommand();
+            var w = new SQLWriter<TElement>(nsource, new IQueryStrategy[] { nsource }, Command: c);
+
+            return c;
+        }
 
         // chrome needs CountAsync
         public static long Count<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
@@ -46,19 +55,8 @@ namespace ScriptCoreLib.Query.Experimental
             // how was it done before?
             // tested by?
 
-            var nsource = new xCount { source = source };
-
-
-            var c = (DbCommand)cc.CreateCommand();
-
-
-            var w = new SQLWriter<TElement>(nsource, new IQueryStrategy[] { nsource }, Command: c);
-
-
-
-            //c.ExecuteNonQuery();
+            var c = GetCountCommand(source, cc);
             var x = c.ExecuteScalar();
-
             // cast?
             return (long)x;
         }
