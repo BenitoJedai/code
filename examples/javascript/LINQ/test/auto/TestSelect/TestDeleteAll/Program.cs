@@ -93,11 +93,18 @@ class Program
                     x.Timestamp
                 };
 
+
+        var c = q.Count(cc0);
         var f = q.FirstOrDefault(cc0);
+
+
+        //delete;
+        
 
         Console.WriteLine(new { f });
 
-        new xApplicationPerformance().Where(x => x.Key == f.Key).Delete(cc0);
+        new xApplicationPerformance().Delete(cc0);
+        //new xApplicationPerformance().Where(x => x.Key == f.Key).Delete(cc0);
 
         cc0.Close();
 
