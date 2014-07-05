@@ -20,30 +20,33 @@ namespace ScriptCoreLib.Query.Experimental
         {
         }
 
-        class xDelete : IQueryStrategy
+        class xCount : IQueryStrategy
         {
             public IQueryStrategy source;
 
             public override string ToString()
             {
-                return "delete";
+                return "count";
             }
         }
 
-        class xDelete<TElement> : xDelete, IQueryStrategy<TElement>
+        class xCount<TElement> : xCount, IQueryStrategy<TElement>
         {
 
         }
 
-        public static void Delete<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
+
+        // chrome needs CountAsync
+        public static long Count<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestDeleteAll\Program.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140705
 
 
             // how was it done before?
             // tested by?
 
-            var nsource = new xDelete { source = source };
+            var nsource = new xCount { source = source };
 
 
             var c = (DbCommand)cc.CreateCommand();
@@ -53,7 +56,11 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-            c.ExecuteNonQuery();
+            //c.ExecuteNonQuery();
+            var x = c.ExecuteScalar();
+
+            // cast?
+            return (long)x;
         }
 
         // http://stackoverflow.com/questions/4471277/mysql-delete-from-with-subquery-as-condition
