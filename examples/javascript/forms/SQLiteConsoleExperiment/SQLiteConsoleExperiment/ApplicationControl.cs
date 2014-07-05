@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Data.SQLite;
 
 namespace SQLiteConsoleExperiment
 {
     public partial class ApplicationControl : UserControl
 
-        // can do that yet. the referenced webservice is not correctly linked yet
+    // can do that yet. the referenced webservice is not correctly linked yet
     //: ShellWithPing.ApplicationControl
     {
         public ApplicationControl()
@@ -136,5 +137,77 @@ namespace SQLiteConsoleExperiment
 
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
+            // x:\jsc.svn\examples\javascript\linq\ggearalpha\ggearalpha\library\googlegearsadvanced.cs
+            // lets have sql in client..
+
+            var cc = new SQLiteConnection(
+
+                    new SQLiteConnectionStringBuilder
+            {
+                // wont matter on client for now
+                DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
+            }.ToString()
+
+                );
+            cc.Open();
+
+            var c = new ConsoleWindow { Text = "SQLite in client" };
+
+
+            c.AppendLine("CREATE TABLE IF NOT EXISTS Employee_Table (xid, Name, Location)");
+            c.AppendLine("insert into Employee_Table(xid, Name, Location) values(0, 'foo', 'bar')");
+            c.AppendLine("SELECT xid, Name, Location FROM Employee_Table");
+
+            c.Show();
+
+            c.AtCommand +=
+                async (sql, y) =>
+                {
+                    if (sql == "cls")
+                    {
+                        c.Clear();
+                        return;
+                    }
+
+                    {
+                        var c1 = cc.CreateCommand();
+                        c1.CommandText = sql;
+                        // allow the callback
+                        var r = await c1.ExecuteReaderAsync();
+
+                        Console.WriteLine(new { r });
+
+                        while (r.Read())
+                        {
+                            y("yield row " + new { r.FieldCount });
+                        }
+                    }
+
+                };
+
+            #region FormClosing
+            c.FormClosing +=
+                (s, a) =>
+                {
+                    if (c.DisableFormClosingHandler)
+                        return;
+
+                    //if (MessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == DialogResult.No)
+                    a.Cancel = true;
+
+
+                    c.WindowState = FormWindowState.Minimized;
+                };
+            #endregion
+
+
+
+
+            if (NewForm != null)
+                NewForm(c);
+        }
     }
 }

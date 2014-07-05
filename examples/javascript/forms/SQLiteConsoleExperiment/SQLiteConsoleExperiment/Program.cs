@@ -1,6 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using ScriptCoreLib.Desktop.Forms.Extensions;
 using System;
+using System.Diagnostics;
 
 namespace SQLiteConsoleExperiment
 {
@@ -12,12 +13,13 @@ namespace SQLiteConsoleExperiment
         public static void Main(string[] args)
         {
 #if DEBUG
-			DesktopFormsExtensions.Launch(
-				() => new ApplicationControl()
-			);
-#else
-            RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
+            if (Debugger.IsAttached)
+                DesktopFormsExtensions.Launch(
+                    () => new ApplicationControl()
+                );
 #endif
+
+            RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 
     }

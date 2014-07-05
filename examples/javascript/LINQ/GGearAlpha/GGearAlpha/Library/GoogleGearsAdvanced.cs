@@ -89,6 +89,8 @@ namespace GGearAlpha.js
                     // at this point we have the image and we know how large it is
                     //AppendError(workspace0, "loading 3...");
 
+
+                    // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
                     // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
                     var cc = new SQLiteConnection();
                     cc.Open();
