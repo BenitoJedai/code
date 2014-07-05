@@ -117,7 +117,7 @@ namespace ScriptCoreLib.Query.Experimental
             // `Timestamp` BIGINT NOT NULL)";
         }
 
-
+        
     }
 
 }
