@@ -41,6 +41,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
             }
         }
 
+
+
+        public override object this[int i]
+        {
+            get
+            {
+                // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
+                return this[GetName(i)];
+            }
+        }
         public override object this[string name]
         {
             get

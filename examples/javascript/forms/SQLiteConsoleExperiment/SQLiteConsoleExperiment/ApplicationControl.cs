@@ -163,8 +163,22 @@ namespace SQLiteConsoleExperiment
 
             c.Show();
 
+
+            //            ---------------------------
+            //Microsoft Visual Studio Express 2013 for Web
+            //-------------------------- -
+            //Error while trying to run project: Unable to start program 'X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\bin\Debug\SQLiteConsoleExperiment.exe'.
+
+
+
+            //The 32 - bit version of the Visual Studio Remote Debugging Monitor(MSVSMON.EXE) cannot be used to debug 64 - bit processes or 64 - bit dumps.Please use the 64 - bit version instead.
+            //      -------------------------- -
+            //      OK
+            //      -------------------------- -
+
+
             c.AtCommand +=
-                async (sql, y) =>
+          async (sql, y) =>
                 {
                     if (sql == "cls")
                     {
@@ -180,10 +194,46 @@ namespace SQLiteConsoleExperiment
 
                         Console.WriteLine(new { r });
 
+                        var index = 0;
+
                         while (r.Read())
                         {
-                            y("yield row " + new { r.FieldCount });
+                            if (index == 0)
+                            {
+                                y(
+                                    string.Join(
+                                        " | ",
+                                        Enumerable.Range(
+                                            0, r.FieldCount
+                                        ).Select(ordinal => r.GetName(ordinal).PadRight(20, '_'))
+                                    )
+                                );
+                            }
+
+                            // first step becoming access
+                            //y("yield row " + new { r.FieldCount });
                             //y("yield row ");
+
+
+
+                            //xid_________________ | Name________________ | Location____________
+                            //null________________ | null________________ | null________________
+
+
+                            // X:\jsc.svn\examples\javascript\test\TestPadRight\TestPadRight\Application.cs
+
+
+                            y(
+                                string.Join(
+                                    " | ",
+                                    Enumerable.Range(
+                                        0, r.FieldCount
+                                    ).Select(ordinal => r[ordinal].ToString().PadRight(20, '·'))
+                                )
+                            );
+
+                            index++;
+
                         }
                     }
 
