@@ -23,9 +23,8 @@ namespace CSSTransform3DFPSBlueprint
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -33,6 +32,7 @@ namespace CSSTransform3DFPSBlueprint
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+#if FCHROME
             #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
@@ -51,6 +51,8 @@ namespace CSSTransform3DFPSBlueprint
                 return;
             }
             #endregion
+#endif
+
 
             if (page == null)
                 return;
