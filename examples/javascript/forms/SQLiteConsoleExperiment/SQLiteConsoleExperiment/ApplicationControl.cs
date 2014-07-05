@@ -183,6 +183,7 @@ namespace SQLiteConsoleExperiment
                         while (r.Read())
                         {
                             y("yield row " + new { r.FieldCount });
+                            //y("yield row ");
                         }
                     }
 

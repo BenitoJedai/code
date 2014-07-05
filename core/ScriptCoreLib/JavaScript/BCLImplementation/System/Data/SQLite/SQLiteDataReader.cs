@@ -100,7 +100,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public override string GetName(int ordinal)
         {
-            throw new NotImplementedException();
+            // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
+            return ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMemberNames((object)this.InternalCurrent).ElementAtOrDefault(ordinal);
         }
 
         public override long GetInt64(int ordinal)
@@ -120,7 +121,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public override int FieldCount
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
+
+
+                return ScriptCoreLib.JavaScript.Runtime.Expando.InternalGetMemberNames((object)this.InternalCurrent).Length;
+            }
         }
 
         public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
