@@ -25,14 +25,14 @@ namespace ScriptCoreLib.Query.Experimental
 
         public static IEnumerable<TElement> AsEnumerable<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
-            Console.WriteLine("enter AsEnumerable");
+            //Console.WriteLine("enter AsEnumerable");
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
 
             var c = GetSelectCommand(source, cc);
 
 
 
-            Console.WriteLine("before ExecuteReader");
+            //Console.WriteLine("before ExecuteReader");
             // this wont work for chrome?
             var r = c.ExecuteReader();
             Console.WriteLine("after ExecuteReader");
@@ -67,21 +67,31 @@ namespace ScriptCoreLib.Query.Experimental
                 if (xMemberInitExpression != null)
                 {
                     var xRow = default(TElement);
+                    var xRowType = xMemberInitExpression.NewExpression.Type;
+
+                    if (xRowType == null)
+                        Debugger.Break();
+
 
                     // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
-                    xRow = (TElement)Activator.CreateInstance(xMemberInitExpression.NewExpression.Type);
+                    xRow = (TElement)Activator.CreateInstance(xRowType);
                     //xRow = xMemberInitExpression.NewExpression.Constructor.Invoke(new object[0]);
 
                     xMemberInitExpression.Bindings.WithEachIndex(
                         (SourceBinding, i) =>
                         {
                             //var k = xSelect.selector.Parameters[0].Name + SourceBinding.Member.Name;
-                            var k = "" + SourceBinding.Member.Name;
+                            var xMemberName = "" + SourceBinding.Member.Name;
 
-                            var v = r[k];
+                            var v = r[xMemberName];
 
                             // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
                             var f = SourceBinding.Member as FieldInfo;
+
+                            // is it a long?
+
+                            Console.WriteLine(new { xMemberName, f.FieldType });
+
 
                             if (f.FieldType == typeof(DateTime))
                                 v = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(v);

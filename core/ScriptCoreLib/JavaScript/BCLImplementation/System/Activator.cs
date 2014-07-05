@@ -14,6 +14,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static object CreateInstance(Type type, params object[] args)
         {
+            if ((object)type == null)
+                throw new NotSupportedException();
+
+
             //  var ctor$dRwABhEmij_awUY_aNs2ypYA = pcI2XBEmij_awUY_aNs2ypYA.ctor = $ctor$(null, 'dRwABhEmij_awUY_aNs2ypYA', type$pcI2XBEmij_awUY_aNs2ypYA);
             //  var ctor$rwAABqwhHjSCn60Jy_bMQpA = $ctor$(null, 'rwAABqwhHjSCn60Jy_bMQpA', type$fAZ65awhHjSCn60Jy_bMQpA);
 
@@ -48,8 +52,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             //return ctor.CreateType();
         }
 
-        public static object CreateInstance(Type e)
+        public static object CreateInstance(Type type)
         {
+            if ((object)type == null)
+                throw new NotSupportedException();
+
             // X:\jsc.svn\examples\javascript\forms\test\TestTypeActivatorRef\TestTypeActivatorRef\Class1.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140409
             // X:\jsc.svn\examples\javascript\test\TestTypeActivator\TestTypeActivator\Application.cs
@@ -59,7 +66,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
             var ctor = (IFunction)Expando.InternalGetMember(
-                ((__Type)e).AsExpando().constructor, "ctor");
+                ((__Type)type).AsExpando().constructor, "ctor");
 
             //var prototype = global::ScriptCoreLib.JavaScript.Runtime.Expando.Of(e.TypeHandle.Value);
 

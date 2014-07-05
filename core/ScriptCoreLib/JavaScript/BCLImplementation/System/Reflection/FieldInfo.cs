@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
@@ -19,7 +20,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
             }
         }
 
-        public Type InternalDeclaringType;
+        public __Type InternalDeclaringType;
 
         public override Type DeclaringType
         {
@@ -38,6 +39,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         {
             get
             {
+                //var type$InS4tkYSAj62HI0REItY4Q = InS4tkYSAj62HI0REItY4Q.prototype;
+                //type$InS4tkYSAj62HI0REItY4Q.constructor = InS4tkYSAj62HI0REItY4Q;
+                //type$InS4tkYSAj62HI0REItY4Q.x = null;
+                //type$InS4tkYSAj62HI0REItY4Q.y = 0;
+
+
+
+                var TargetTypeHandle = InternalDeclaringType.TypeHandle;
+                var prototype = (object)TargetTypeHandle.Value;
+
+                var defaultValueMember = Expando.Of(prototype)[_Name];
+
+                // how could we know if it is int32 or double?
+                if (defaultValueMember.IsNumber)
+                    return typeof(int);
+
+                // X:\jsc.svn\examples\javascript\test\TestFieldTypeInt32\TestFieldTypeInt32\Application.cs
+
                 // X:\jsc.svn\examples\javascript\test\TestSpecialFieldInfo\TestSpecialFieldInfo\Application.cs
                 // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
                 return typeof(string);

@@ -80,10 +80,10 @@ namespace GGearAlpha.js
 
             //AppendError(workspace0, "loading 2...");
 
-            new HTML.Images.FromAssets.postcard_alpha().With(
+            new HTML.Images.FromAssets.postcard_alpha().InvokeOnComplete(
                 postcard =>
 
-            new HTML.Images.FromAssets.postcard_alpha_200_unfocus().With(
+            new HTML.Images.FromAssets.postcard_alpha_200_unfocus().InvokeOnComplete(
                 postcard200 =>
                 {
                     // at this point we have the image and we know how large it is
@@ -130,7 +130,11 @@ namespace GGearAlpha.js
                             }
 
                             p2.Content.value = template.Text;
-                            p2.SetZoom(template.Zoom100 / 100);
+
+
+                            System.Console.WriteLine("SetZoom: " + new { template.Zoom100 });
+
+                            p2.SetZoom(template.Zoom100 / 100.0);
 
                             if (template.Id == null)
                             {
@@ -157,6 +161,8 @@ namespace GGearAlpha.js
                                 p2.Id = template.Id;
                             }
 
+
+                            #region DoubleClick
                             p2.DoubleClick +=
                                 delegate
                             {
@@ -176,7 +182,9 @@ namespace GGearAlpha.js
                                 Console.WriteLine("delete: done?");
 
                             };
+                            #endregion
 
+                            #region Changed
                             p2.Changed +=
                                 delegate
                             {
@@ -197,6 +205,7 @@ namespace GGearAlpha.js
                                 }
                                 );
                             };
+                            #endregion
 
                             System.Console.WriteLine("item: " + template.ToString());
 
@@ -234,6 +243,10 @@ namespace GGearAlpha.js
 
                         foreach (var v in await query.AsEnumerableAsync(cc))
                         {
+                            // 13:232ms {{ Text = hey, X = 355.0, Y = 243.0, Zoom100 = 30.0 }} 
+
+                            //Console.WriteLine(new { v.Text, v.X, v.Y, v.Zoom100 });
+
                             Spawn(
                                 new PostcardEntry
                             {
@@ -601,16 +614,22 @@ namespace GGearAlpha.js
                 layer.Zoom(Zoom, postcard);
                 layer.SetCenteredLocation(CurrentDrag.Position);
 
-                var x = postcard.width * Zoom / 2;
-                var y = postcard.height * Zoom / 2;
+                var x = postcard.width * Zoom / 2.0;
+                var y = postcard.height * Zoom / 2.0;
 
                 Content.style.fontSize = Zoom + "em";
+
+
+                var cw = (int)System.Math.Floor(x * 1.5);
+                var ch = (int)System.Math.Floor(y * 1.3);
+
 
 
                 Content.style.SetLocation(
                     (int)System.Math.Floor(CurrentDrag.Position.X - x + (x * 0.05)),
                     (int)System.Math.Floor(CurrentDrag.Position.Y - y + (x * 0.3)),
-                    (int)System.Math.Floor(x * 1.5), (int)System.Math.Floor(y * 1.3)
+                    cw,
+                    ch
                     );
             }
 
@@ -624,7 +643,20 @@ namespace GGearAlpha.js
 
 
                 this.layer = new div();
+
+        
+
+
+
                 this.img0 = (img)postcard200.cloneNode(false);
+
+
+                // css animation!
+
+
+                // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.InternalBeforeVisibleChanged.cs
+  
+
 
                 layer.style.backgroundColor = "red";
 
@@ -654,6 +686,14 @@ namespace GGearAlpha.js
                     delegate
                 {
                     this.img0.src = postcard200.src;
+                };
+
+
+
+                Content.onkeyup +=
+                delegate
+                {
+                    Changed.SafeInvoke();
                 };
 
                 Content.onchange +=
@@ -687,6 +727,7 @@ namespace GGearAlpha.js
 
                     z = SetZoom(z);
                     ZoomAndMove();
+                    Changed.SafeInvoke();
                 };
 
 
