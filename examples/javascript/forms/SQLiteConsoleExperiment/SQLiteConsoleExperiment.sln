@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Web
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteConsoleExperiment", "SQLiteConsoleExperiment\SQLiteConsoleExperiment.csproj", "{C7ABAFF3-E878-463F-8064-791D8211EF7C}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSMinimizeFormToSidebar", "..\..\css\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar\CSSMinimizeFormToSidebar.csproj", "{62A19ED1-E8BE-44A1-8990-28EBC8A7A678}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -132,6 +134,31 @@ Global
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Any CPU.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|Mixed Platforms.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Android|x86.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Any CPU.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Any CPU.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Mixed Platforms.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|Mixed Platforms.Build.0 = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.AppEngine|x86.ActiveCfg = Android|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Any CPU.Build.0 = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|Mixed Platforms.Build.0 = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.PHP|x86.ActiveCfg = PHP|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,5 +167,6 @@ Global
 		{0267AB63-ECEC-4ECC-A3B3-853C3138A826} = {993A5443-BDB6-4611-BCBE-CDBC44C527FA}
 		{62A19ED1-E8BE-44A1-8990-28EBC8A7A678} = {993A5443-BDB6-4611-BCBE-CDBC44C527FA}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {993A5443-BDB6-4611-BCBE-CDBC44C527FA}
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {993A5443-BDB6-4611-BCBE-CDBC44C527FA}
 	EndGlobalSection
 EndGlobal

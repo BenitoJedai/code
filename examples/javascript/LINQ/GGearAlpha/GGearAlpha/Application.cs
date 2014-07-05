@@ -88,13 +88,6 @@ namespace GGearAlpha
             // and then just call
             // "X:\jsc.svn\javascript\Examples\GoogleGears\GGearAlpha\bin\Debug\web\GoogleGearsAdvanced.htm"
 
-            //            02000038 GGearAlpha.js.GoogleGearsFactory
-            //            script: error JSC1000: invalid branch in block build -block skipped
-            //current 005b, first 0033, last 0056
-
-            //Unhandled Exception: System.NullReferenceException: Object reference not set to an instance of an object.
-            //   at jsc.ILBlock.PrestatementBlock.Populate(ILInstruction First, ILInstruction Last) in x:\jsc.internal.svn\c
-
             // we do have to update the way we refernce images.in 2014 we haev AssetsLibrary. :) what about 2021? timetravel?
             // http://gearsblog.blogspot.com/2011/03/stopping-gears.html
             // once images are restored, lets switch to SQLite api.
