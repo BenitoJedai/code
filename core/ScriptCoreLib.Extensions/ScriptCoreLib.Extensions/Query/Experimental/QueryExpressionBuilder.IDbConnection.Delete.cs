@@ -16,31 +16,46 @@ namespace ScriptCoreLib.Query.Experimental
     {
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Insert.cs
 
+        partial class SQLWriter<TElement>
+        {
+        }
+
+        class xDelete : IQueryStrategy
+        {
+            public IQueryStrategy source;
+
+            public override string ToString()
+            {
+                return "delete";
+            }
+        }
+
+        class xDelete<TElement> : xDelete, IQueryStrategy<TElement>
+        {
+
+        }
 
         public static void Delete<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
+            // how was it done before?
             // tested by?
 
-            Console.WriteLine("enter Delete ");
+            var nsource = new xDelete { source = source };
 
-            // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Library\GoogleGearsAdvanced.cs
-
-            //var c = GetInsertCommand(source, cc, value);
-            //var n = c.ExecuteNonQuery();
 
             var c = (DbCommand)cc.CreateCommand();
 
-            c.CommandText = "delete from (";
 
-            var w = new SQLWriter<TElement>(source, new IQueryStrategy[0].AsEnumerable(), Command: c);
+            var w = new SQLWriter<TElement>(nsource, new IQueryStrategy[] { nsource }, Command: c);
 
-            c.CommandText += ")";
 
-            Console.WriteLine("Delete " + new { c.CommandText });
 
             c.ExecuteNonQuery();
         }
 
+        // http://stackoverflow.com/questions/4471277/mysql-delete-from-with-subquery-as-condition
+        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+        // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Library\GoogleGearsAdvanced.cs
 
     }
 

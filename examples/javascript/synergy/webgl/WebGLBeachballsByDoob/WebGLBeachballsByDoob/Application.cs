@@ -41,9 +41,8 @@ namespace WebGLBeachballsByDoob
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -51,9 +50,10 @@ namespace WebGLBeachballsByDoob
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            // 20140704 no balls shown?
             // broken?
             // view-source:http://www.mrdoob.com/lab/javascript/beachballs/
-            Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
+            //Action Toggle = DiagnosticsConsole.ApplicationContent.BindKeyboardToDiagnosticsConsole();
 
 
             var origin = new THREE.Vector3(0, 15, 0);
@@ -90,11 +90,11 @@ namespace WebGLBeachballsByDoob
             #region AtResize
             Action AtResize = delegate
             {
-                camera.aspect = (double)Native.Window.Width / (double)Native.Window.Height;
+                camera.aspect = (double)Native.window.aspect;
                 camera.updateProjectionMatrix();
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.window.Width, Native.window.Height);
             };
-            Native.Window.onresize +=
+            Native.window.onresize +=
               delegate
               {
                   AtResize();
@@ -358,8 +358,8 @@ namespace WebGLBeachballsByDoob
                {
 
                    mouse3D.set(
-                       ((double)e.CursorX / (double)Native.Window.Width) * 2 - 1,
-                       -((double)e.CursorY / (double)Native.Window.Height) * 2 + 1,
+                       ((double)e.CursorX / (double)Native.window.Width) * 2 - 1,
+                       -((double)e.CursorY / (double)Native.window.Height) * 2 + 1,
                        0.5
                    );
 
