@@ -57,6 +57,7 @@ namespace GGearAlpha
         public string Id;
         public string Text;
 
+        // double instead?
         public long X;
         public long Y;
         public long Zoom100;

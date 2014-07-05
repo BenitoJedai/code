@@ -164,13 +164,13 @@ namespace GGearAlpha.js
                                 //db.execute("delete from Postcards where Id = ?", p2.Id);
 
                                 Console.WriteLine("delete:");
-                                //(
-                                //     from x in new xPostcard()
-                                //     where x.Id == p2.Id
-                                //     select x
-                                // ).Delete(cc);
+                                (
+                                     from x in new xPostcard()
+                                     where x.Id == p2.Id
+                                     select x
+                                 ).Delete(cc);
 
-                                new xPostcard().Where(x => x.Id == p2.Id).Delete(cc);
+                                //new xPostcard().Where(x => x.Id == p2.Id).Delete(cc);
                                 Console.WriteLine("delete: done?");
 
                             };
@@ -239,7 +239,7 @@ namespace GGearAlpha.js
                                 Text = v.Text,
                                 X = (int)v.X,
                                 Y = (int)v.Y,
-                                Zoom100 = (int)v.Zoom100,
+                                Zoom100 = Math.Max(60, (int)v.Zoom100),
 
                             }
                             );
@@ -258,7 +258,7 @@ namespace GGearAlpha.js
 
 
 
-  
+
 
         private static void CreateStyles()
         {

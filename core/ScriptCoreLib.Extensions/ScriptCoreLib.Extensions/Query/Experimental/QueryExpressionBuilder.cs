@@ -72,6 +72,8 @@ namespace ScriptCoreLib.Query.Experimental
         class SQLWriterContext
         {
             public int LineNumber = 0;
+            public IDbCommand Command;
+
         }
 
         class SQLWriterWithoutLinefeeds : IDisposable
@@ -93,6 +95,8 @@ namespace ScriptCoreLib.Query.Experimental
             // OwnerMethod<.ctor> b__3e
             // Offset 037a
             // .Try ommiting the return, break or continue instruction.
+
+
 
             public SQLWriter(
                 IQueryStrategy source,
@@ -122,7 +126,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                 if (context == null)
-                    context = new SQLWriterContext();
+                    context = new SQLWriterContext { Command = Command };
 
                 #region WithoutLinefeeds
                 var WithoutLinefeedsCounter = 0;
@@ -445,7 +449,16 @@ namespace ScriptCoreLib.Query.Experimental
                             if (GetValue != null)
                             {
                                 var __value = GetValue();
-                                WriteLineWithColor(1, "@arg(" + __value + ")", ConsoleColor.Red);
+
+
+
+                                var ParameterName = "@WriteScalarMemberExpressionArgument" + context.Command.Parameters.Count;
+                                context.Command.AddParameter(ParameterName, __value);
+
+                                //WriteLineWithColor(1, "@arg(" + xConstantExpression.Value + ")", ConsoleColor.Red);
+                                WriteLineWithColor(1, ParameterName, ConsoleColor.Red);
+
+                                //WriteLineWithColor(1, "@arg(" + __value + ")", ConsoleColor.Red);
                                 return;
                             }
 
@@ -487,7 +500,16 @@ namespace ScriptCoreLib.Query.Experimental
                             {
                                 //Console.WriteLine("".PadLeft(upper.Count() + 1, ' ') + ("? as " + item.m.Name + "+*"));
                                 //WriteLine(1, "@constant " + new { xConstantExpression.Value });
-                                WriteLineWithColor(1, "@arg(" + xConstantExpression.Value + ")", ConsoleColor.Red);
+
+                                // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
+
+
+
+                                var ParameterName = "@WriteScalarConstantExpressionArgument" + context.Command.Parameters.Count;
+                                context.Command.AddParameter(ParameterName, xConstantExpression.Value);
+
+                                //WriteLineWithColor(1, "@arg(" + xConstantExpression.Value + ")", ConsoleColor.Red);
+                                WriteLineWithColor(1, ParameterName, ConsoleColor.Red);
                                 return;
                             }
                         }
@@ -611,7 +633,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteLine(0, "delete from ");
                                     WriteLineWithColor(0, "" + xxxSelect.selector.Parameters[0].Name, ConsoleColor.Magenta);
 
-                
+
                                 }
 
                                 xxWhere.filter.WithEachIndex(
