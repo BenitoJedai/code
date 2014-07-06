@@ -15,7 +15,10 @@ namespace ScriptCoreLib.Query.Experimental
     {
         public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
-            return source.Take(1).AsEnumerable(cc).FirstOrDefault();
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+            // make sure the reader will be closed
+            var a = source.Take(1).AsEnumerable(cc).ToArray();
+            return a.FirstOrDefault();
         }
 
     }

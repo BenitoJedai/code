@@ -52,7 +52,7 @@ namespace ScriptCoreLib.Query.Experimental
             var w = new SQLWriter<TElement>(nsource, new IQueryStrategy[] { nsource }, Command: c);
 
 
-
+            // Additional information: There is already an open DataReader associated with this Connection which must be closed first.
             c.ExecuteNonQuery();
         }
 

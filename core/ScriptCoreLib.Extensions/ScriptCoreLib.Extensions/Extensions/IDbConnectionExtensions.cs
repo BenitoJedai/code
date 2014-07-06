@@ -23,6 +23,9 @@ namespace System.Data
             // http://stackoverflow.com/questions/12858588/mysql-last-inserted-row-id
             // http://dev.mysql.com/doc/refman/5.6/en/information-functions.html#function_last-insert-id
 
+
+
+            // tested by?
             var value = c.CreateCommand("select LAST_INSERT_ID()").ExecuteScalar();
 
             if (value is long)
