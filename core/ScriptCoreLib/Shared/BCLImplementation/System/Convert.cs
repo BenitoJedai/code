@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/convert.cs
     [Script(Implements = typeof(global::System.Convert))]
     public static partial class __Convert
     {

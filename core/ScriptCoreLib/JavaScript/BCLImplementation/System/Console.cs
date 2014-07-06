@@ -10,7 +10,7 @@ using System.Diagnostics;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
 
-
+    // http://referencesource.microsoft.com/#mscorlib/system/console.cs
     [Script(Implements = typeof(global::System.Console))]
     internal class __Console
     {

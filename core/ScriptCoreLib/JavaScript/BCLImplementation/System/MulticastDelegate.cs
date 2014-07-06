@@ -6,6 +6,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     using ScriptCoreLib.JavaScript.DOM;
 
+    // http://referencesource.microsoft.com/#mscorlib/system/multicastdelegate.cs
     [Script(Implements = typeof(global::System.MulticastDelegate))]
     internal class __MulticastDelegate : __Delegate
     {

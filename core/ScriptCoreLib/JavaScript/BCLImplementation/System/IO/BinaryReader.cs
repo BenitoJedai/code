@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/io/binaryreader.cs
     [Script(Implements = typeof(global::System.IO.BinaryReader))]
     internal class __BinaryReader
     {

@@ -20,6 +20,7 @@ namespace ScriptCoreLib.Query.Experimental
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
 
+        [Obsolete("we need to extend xsqlite and xmysql to have the async methods defined as interfaces")]
         public static Task<long> CountAsync<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             // in CLR and in browser this would work.
@@ -27,6 +28,9 @@ namespace ScriptCoreLib.Query.Experimental
             var z = new TaskCompletionSource<long>();
 
             var c = source.GetCountCommand(cc);
+
+
+            var xDbCommand = c as DbCommand;
 
             #region xSQLiteCommand
             var xSQLiteCommand = c as SQLiteCommand;
@@ -53,16 +57,16 @@ namespace ScriptCoreLib.Query.Experimental
             var xMySQLCommand = c as MySQLCommand;
             if (xMySQLCommand != null)
             {
-                Console.WriteLine("before xMySQLCommand ExecuteScalarAsync");
+                //Console.WriteLine("before xMySQLCommand ExecuteScalarAsync");
                 var n = xMySQLCommand.ExecuteScalarAsync();
-                Console.WriteLine("after xMySQLCommand ExecuteScalarAsync " + new { n.IsCompleted });
+                //Console.WriteLine("after xMySQLCommand ExecuteScalarAsync " + new { n.IsCompleted });
 
                 // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
 
                 n.ContinueWithResult(
                     zz =>
                     {
-                        Console.WriteLine("at xMySQLCommand ExecuteScalarAsync");
+                        //Console.WriteLine("at xMySQLCommand ExecuteScalarAsync");
 
                         z.SetResult((long)zz);
                     }

@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Task.cs
     // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.aspx
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal partial class __Task
@@ -295,6 +296,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     internal delegate object FuncOfTaskOfObjectArrayToObject(Task<object>[] task);
 
 
+
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Future.cs
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
     internal partial class __Task<TResult> : __Task
     {

@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Async", "..\.
 		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{A1716239-6192-4356-A8B3-2335BA70C0E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -95,5 +97,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {A1716239-6192-4356-A8B3-2335BA70C0E5}
+		{88C3C260-D1DA-4FB3-A53D-79462913E80C} = {A1716239-6192-4356-A8B3-2335BA70C0E5}
 	EndGlobalSection
 EndGlobal

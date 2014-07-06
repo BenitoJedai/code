@@ -7,6 +7,7 @@ using System.IO;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/text/asciiencoding.cs
 	[Script(Implements = typeof(global::System.Text.ASCIIEncoding))]
 	internal class __ASCIIEncoding : __Encoding
 	{

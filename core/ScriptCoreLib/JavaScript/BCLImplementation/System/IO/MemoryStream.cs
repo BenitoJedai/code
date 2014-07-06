@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/io/memorystream.cs
     [Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {

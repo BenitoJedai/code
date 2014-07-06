@@ -6,6 +6,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 {
+    // http://referencesource.microsoft.com/#System.Data/data/System/Data/DataRow.cs
     [Script(Implements = typeof(global::System.Data.DataRow))]
     public class __DataRow
     {

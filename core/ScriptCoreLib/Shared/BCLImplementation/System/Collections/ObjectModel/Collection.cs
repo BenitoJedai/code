@@ -6,6 +6,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.ObjectModel
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/objectmodel/collection.cs
     [Script(Implements = typeof(global::System.Collections.ObjectModel.Collection<>))]
     internal class __Collection<T> : __IList<T>, __ICollection<T>
     {

@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
     using ScriptCoreLib.JavaScript.Query;
     using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs
     [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
     internal class __List<T> : IList<T>
     {

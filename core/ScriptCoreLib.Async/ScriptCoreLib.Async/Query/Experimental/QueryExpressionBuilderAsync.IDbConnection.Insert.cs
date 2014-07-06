@@ -16,6 +16,7 @@ namespace ScriptCoreLib.Query.Experimental
         // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
 
+        [Obsolete("we need to extend xsqlite and xmysql to have the async methods defined as interfaces")]
         public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         {
             // in CLR and in browser this would work.

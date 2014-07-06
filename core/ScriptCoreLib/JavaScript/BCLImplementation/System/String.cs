@@ -8,7 +8,8 @@ using System.Linq;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
 
-
+    // http://referencesource.microsoft.com/#mscorlib/system/string.cs
+    // haha. Purpose: Your favorite String class.
     [Script(Implements = typeof(global::System.String), InternalConstructor = true)]
     internal class __String
     {

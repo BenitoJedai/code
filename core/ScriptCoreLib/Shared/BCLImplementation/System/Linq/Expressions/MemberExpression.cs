@@ -7,6 +7,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
+    // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/MemberExpression.cs
     [Script(Implements = typeof(global::System.Linq.Expressions.MemberExpression))]
     internal class __MemberExpression : __Expression
     {

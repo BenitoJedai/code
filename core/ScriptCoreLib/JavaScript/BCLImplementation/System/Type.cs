@@ -10,8 +10,7 @@ using System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-
-
+    // http://referencesource.microsoft.com/#mscorlib/system/type.cs
     [Script(Implements = typeof(global::System.Type))]
     public class __Type : __MemberInfo
     {

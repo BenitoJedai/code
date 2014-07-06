@@ -6,6 +6,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     using DOM;
 
+
+    // http://referencesource.microsoft.com/#mscorlib/system/math.cs
     [Script(Implements = typeof(global::System.Math))]
     internal class __Math
     {
