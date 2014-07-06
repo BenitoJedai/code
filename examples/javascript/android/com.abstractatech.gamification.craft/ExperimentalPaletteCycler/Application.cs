@@ -26,13 +26,12 @@ namespace ExperimentalPaletteCycler
     /// </summary>
     public sealed class Application
     {
-
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // how does this worK?
+            // run it to see what we have?
+            // seems to work. but laptp is freezing up????
+
             new forest5().With(
                 async img =>
                 {

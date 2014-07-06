@@ -51,7 +51,7 @@ namespace GGearAlpha.js
 
 
 
-            toolbar.innerHTML = "<a href='http://gears.google.com/'>get google gears</a> | <a href='http://jsc.sourceforge.net/'>jsc homepage</a> | <a href='http://zproxy.wordpress.com/'>blog</a>";
+            //toolbar.innerHTML = "<a href='http://gears.google.com/'>get google gears</a> | <a href='http://jsc.sourceforge.net/'>jsc homepage</a> | <a href='http://zproxy.wordpress.com/'>blog</a>";
             //AppendError(workspace0, "loading 1...");
 
 
@@ -80,6 +80,35 @@ namespace GGearAlpha.js
 
             //AppendError(workspace0, "loading 2...");
 
+
+
+
+            var cc = new SQLiteConnection();
+            cc.Open();
+
+            new { }.With(
+                async delegate
+            {
+                while (true)
+                {
+                    await Native.window.async.onframe;
+
+
+
+                    var Count = await new xPostcard().Create(cc).CountAsync(cc);
+
+
+                    // let UI know how many we have
+                    Native.document.title = new { Count }.ToString();
+
+                    // chrome style may not show title
+                    toolbar.innerText = new { Count }.ToString();
+                }
+            }
+            );
+
+
+
             new HTML.Images.FromAssets.postcard_alpha().InvokeOnComplete(
                 postcard =>
 
@@ -92,8 +121,7 @@ namespace GGearAlpha.js
 
                     // X:\jsc.svn\examples\javascript\forms\SQLiteConsoleExperiment\SQLiteConsoleExperiment\ApplicationControl.cs
                     // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
-                    var cc = new SQLiteConnection();
-                    cc.Open();
+
                     // Cannot read property 'transaction' of null"
 
 
@@ -161,6 +189,33 @@ namespace GGearAlpha.js
                                 p2.Id = template.Id;
                             }
 
+
+
+
+
+
+
+                            #region RightClick
+                            p2.RightClick +=
+                                delegate
+                            {
+                                System.Console.WriteLine("dispose: " + p2.Id);
+                                p2.Dispose();
+
+                                //db.execute("delete from Postcards where Id = ?", p2.Id);
+
+                                Console.WriteLine("delete:");
+                                (
+                                     from x in new xPostcard()
+                                     where x.Id == p2.Id
+                                     select x
+                                 ).Delete(cc);
+
+                                //new xPostcard().Where(x => x.Id == p2.Id).Delete(cc);
+                                Console.WriteLine("delete: done?");
+
+                            };
+                            #endregion
 
                             #region DoubleClick
                             p2.DoubleClick +=
@@ -633,6 +688,8 @@ namespace GGearAlpha.js
                     );
             }
 
+
+            public event Action RightClick;
             public event Action DoubleClick;
 
             public Postcard(img postcard, img postcard200, div workspace)
@@ -644,7 +701,7 @@ namespace GGearAlpha.js
 
                 this.layer = new div();
 
-        
+
 
 
 
@@ -655,7 +712,7 @@ namespace GGearAlpha.js
 
 
                 // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.InternalBeforeVisibleChanged.cs
-  
+
 
 
                 layer.style.backgroundColor = "red";
@@ -710,6 +767,18 @@ namespace GGearAlpha.js
                 layer.style.border = "1px solid red";
 
                 layer.onselectstart += Native.DisabledEventHandler;
+
+
+
+
+
+                layer.oncontextmenu +=
+                    delegate
+                {
+                    if (this.RightClick != null)
+                        this.RightClick();
+
+                };
 
                 layer.ondblclick +=
                     delegate

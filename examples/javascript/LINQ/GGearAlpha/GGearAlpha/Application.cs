@@ -1,3 +1,6 @@
+#define FCHROME
+
+
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -81,6 +84,66 @@ namespace GGearAlpha
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //  // ChromeTCPServer.TheServer+<>c__DisplayClass3.<z>b__5
+            // Uncaught TypeError: undefined is not a function
+            // Cannot read property 'isNewWindow' of null
+
+            // X:\jsc.svn\examples\javascript\Test\TestNativeStaticDelegateCall\TestNativeStaticDelegateCall\Application.cs
+
+            //          // ScriptCoreLib.JavaScript.DOM.IFunction.OfDelegate
+            //          this.OA4ABpQ63TiXIluLZRN7yQ = function(b)
+            //{
+            //              var c, d;
+
+            //              d = !(b == null);
+
+            //              if (!d)
+            //              {
+            //                  c = null;
+            //                  return c;
+            //              }
+
+            //              c = b.mR4ABlQajj_aYV3DTlUa8mQ();
+            //              return c;
+            //          };
+
+
+#if FCHROME
+            #region AtFormCreated
+            FormStyler.AtFormCreated =
+                 s =>
+                 {
+                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                     // this is working?
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                 };
+            #endregion
+
+
+
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                chrome.Notification.DefaultTitle = "GGearAlpha";
+                //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Promotion3D_iso1_tiltshift_128().src;
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
+                );
+
+                return;
+            }
+            #endregion
+
+
+#endif
+
             // 7 years later,  28.06.2007 to    20140629
             // google gears ws discontinued
             // yet today jsc allows to use websql in a worker thread in a browser.

@@ -164,37 +164,46 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                             // X:\jsc.svn\examples\javascript\async\test\TestScopeWithDelegate\TestScopeWithDelegate\Application.cs
                             // lets make sure no delegates are at level2 either
 
+
                             var scope2 = MethodTargetObjectData[i];
-                            if (scope2 != null)
+                            if (IsString)
                             {
-                                Console.WriteLine("will inspect scope2 as " + new { MemberName });
-
-                                var scope2Type = scope2.GetType();
-                                var scope2TypeSerializableMembers = FormatterServices.GetSerializableMembers(scope2Type);
-                                var scope2ObjectData = FormatterServices.GetObjectData(scope2, scope2TypeSerializableMembers);
-
-                                // the hacky way. later we need to refactor this a lot.
-                                for (int ii = 0; ii < scope2ObjectData.Length; ii++)
+                                // see path yet?
+                                Console.WriteLine("string: " + new { MemberName, scope2 });
+                            }
+                            else
+                            {
+                                if (scope2 != null)
                                 {
-                                    var scope2FieldName = scope2TypeSerializableMembers[ii].Name;
-                                    var scope2value = scope2ObjectData[ii];
-                                    if (scope2value != null)
+                                    Console.WriteLine("will inspect scope2 as " + new { MemberName });
+
+                                    var scope2Type = scope2.GetType();
+                                    var scope2TypeSerializableMembers = FormatterServices.GetSerializableMembers(scope2Type);
+                                    var scope2ObjectData = FormatterServices.GetObjectData(scope2, scope2TypeSerializableMembers);
+
+                                    // the hacky way. later we need to refactor this a lot.
+                                    for (int ii = 0; ii < scope2ObjectData.Length; ii++)
                                     {
-                                        var scope2IsDelegate = scope2value is Delegate;
-                                        if (scope2IsDelegate)
+                                        var scope2FieldName = scope2TypeSerializableMembers[ii].Name;
+                                        var scope2value = scope2ObjectData[ii];
+                                        if (scope2value != null)
                                         {
-                                            scope2ObjectData[ii] = null;
+                                            var scope2IsDelegate = scope2value is Delegate;
+                                            if (scope2IsDelegate)
+                                            {
+                                                scope2ObjectData[ii] = null;
 
-                                            Console.WriteLine("scope2 delegate discarded " + new { MemberName, scope2FieldName });
+                                                Console.WriteLine("scope2 delegate discarded " + new { MemberName, scope2FieldName });
 
+                                            }
                                         }
                                     }
-                                }
 
-                                // um. lets remove typeinfo?
-                                var scope2copy = FormatterServices.GetUninitializedObject(scope2Type);
-                                FormatterServices.PopulateObjectMembers(scope2copy, scope2TypeSerializableMembers, scope2ObjectData);
-                                MethodTargetObjectData[i] = scope2copy;
+                                    // um. lets remove typeinfo?
+                                    var scope2copy = FormatterServices.GetUninitializedObject(scope2Type);
+                                    FormatterServices.PopulateObjectMembers(scope2copy, scope2TypeSerializableMembers, scope2ObjectData);
+                                    MethodTargetObjectData[i] = scope2copy;
+                                }
                             }
 
 

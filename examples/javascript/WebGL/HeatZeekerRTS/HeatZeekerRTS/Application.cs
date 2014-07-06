@@ -55,6 +55,8 @@ namespace HeatZeekerRTS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140706
+
             // chrome://extensions/
 
 #if FCHROME
@@ -91,7 +93,7 @@ namespace HeatZeekerRTS
             #endregion
 
 
-    #endif
+#endif
 
 
 

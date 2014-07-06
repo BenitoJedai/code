@@ -48,6 +48,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             get
             {
+                // called by
+                // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IFunction.cs
+
                 if (InternalMethodReference == null)
                     InternalMethodReference = InternalGetAsyncInvoke(InternalTarget, InternalMethod);
 
@@ -239,6 +242,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
             return (MulticastDelegate)withType;
+        }
+
+
+        public static implicit operator __Delegate(Delegate e)
+        {
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IFunction.cs
+            return (__Delegate)(object)e;
         }
     }
 

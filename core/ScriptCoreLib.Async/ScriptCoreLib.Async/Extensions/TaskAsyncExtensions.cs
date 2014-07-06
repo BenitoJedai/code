@@ -27,7 +27,9 @@ namespace System.Threading.Tasks
     {
 
         // defined only for 4.5
-        [Obsolete]
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs
+        [Obsolete("we now support scope sharing!", error:  true)]
+        // who else is using it?
         public static Task<TSource> StartNewWithProgress<TSource>(this TaskFactory that,
             TSource state,
             Func<Tuple<IProgress<TSource>, TSource>, TSource> function,

@@ -91,6 +91,8 @@ namespace com.abstractatech.gamification.craft
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // Uncaught ReferenceError: kvYlVNrcg0qBT40xR_bUt6Q is not defined 
+
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>

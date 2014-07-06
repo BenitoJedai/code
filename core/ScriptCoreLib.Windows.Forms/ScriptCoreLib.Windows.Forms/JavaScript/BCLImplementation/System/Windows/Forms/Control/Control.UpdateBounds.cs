@@ -315,7 +315,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void InternalClientSizeChanged()
         {
-            Console.WriteLine(new { this.Name } + " enter InternalClientSizeChanged");
+            //Console.WriteLine(new { this.Name } + " enter InternalClientSizeChanged");
 
             this.clientWidth = this.HTMLTargetContainerRef.clientWidth;
             this.clientHeight = this.HTMLTargetContainerRef.clientHeight;
