@@ -485,8 +485,12 @@ namespace ScriptCoreLib.Query.Experimental
                                     }
 
                                 }
-
+                                
+                                // xMySQL likes its Keys quoted
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+                                WriteLine(1, "`");
                                 WriteLineWithColor(2, zMemberExpression.Member.Name, ConsoleColor.Cyan);
+                                WriteLine(1, "`");
                             }
 
                             return;
@@ -1912,7 +1916,13 @@ namespace ScriptCoreLib.Query.Experimental
                                       WriteLine(1, " ");
                                   }
 
+
+
+
+                                  // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+                                  WriteLine(1, "`");
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                  WriteLine(1, "`");
                               }
                               return;
                           }

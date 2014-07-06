@@ -10,12 +10,26 @@ using System.Data;
 
 namespace ScriptCoreLib.Query.Experimental
 {
+    public enum QueryExpressionBuilderDialect { SQLite, PHP };
+
     public static partial class QueryExpressionBuilder
     {
+        // X:\jsc.svn\core\ScriptCoreLib\PHP\Data\SQLiteToMySQLConversion.cs
+
+
+        [Obsolete("What about more automatic ways?")]
+        public static QueryExpressionBuilderDialect Dialect = QueryExpressionBuilderDialect.SQLite;
+
+
         public static IQueryStrategy<TElement> Create<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
-            // X:\jsc.svn\examples\javascript\test\TestMemberInitExpression\TestMemberInitExpression\Application.cs
+            //Additional information: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT,
+            //`loadEventEnd` BIGINT NOT NULL,
+            //`loadEventStart` BIGINT NOT NUL' at line 7
 
+
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+            // X:\jsc.svn\examples\javascript\test\TestMemberInitExpression\TestMemberInitExpression\Application.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
 
             var xSelect = source as xSelect;
@@ -36,7 +50,14 @@ namespace ScriptCoreLib.Query.Experimental
 
                     if (SourceBinding.Member.Name == "Key")
                     {
-                        w.Append(" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT");
+                        w.Append(" INTEGER NOT NULL PRIMARY KEY");
+
+                        if (Dialect == QueryExpressionBuilderDialect.SQLite)
+                            w.Append(" AUTOINCREMENT");
+                        else
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+                            w.Append(" AUTO_INCREMENT");
+
                         return;
                     }
 
