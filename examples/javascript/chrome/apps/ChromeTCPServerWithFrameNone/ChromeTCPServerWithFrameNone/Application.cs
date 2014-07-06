@@ -209,13 +209,13 @@ namespace ChromeTCPServer
                                                 delegate
                                                 {
 
-                                                    Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
-                                                        new
-                                                        {
-                                                            appwindow.contentWindow.Width,
-                                                            appwindow.contentWindow.Height
-                                                        }
-                                                        );
+                                                    //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
+                                                    //    new
+                                                    //    {
+                                                    //        appwindow.contentWindow.Width,
+                                                    //        appwindow.contentWindow.Height
+                                                    //    }
+                                                    //    );
 
                                                     f.Width = appwindow.contentWindow.Width;
                                                     f.Height = appwindow.contentWindow.Height;

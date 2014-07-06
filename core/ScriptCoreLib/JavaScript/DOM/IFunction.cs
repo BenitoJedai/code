@@ -186,10 +186,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public static IFunction OfDelegate(global::System.Delegate h)
         {
+            // called by
+            // // chrome.app+runtime.add_Restarted
+
             if (h == null)
                 return null;
 
-            return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
+
+            BCLImplementation.System.__Delegate hh = h;
+
+            return hh.InvokePointer;
         }
 
 

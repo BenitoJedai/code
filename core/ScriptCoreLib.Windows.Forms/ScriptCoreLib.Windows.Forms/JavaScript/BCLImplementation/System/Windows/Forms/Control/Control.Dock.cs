@@ -114,11 +114,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             var SiblingsCount = Siblings.Count();
 
 
-            Console.WriteLine(
-                "InternalChildrenAnchorUpdate "
-                +
-                  new { c.Name, c.Dock, SiblingsCount }
-                  );
+            //Console.WriteLine(
+            //    "InternalChildrenAnchorUpdate "
+            //    +
+            //      new { c.Name, c.Dock, SiblingsCount }
+            //      );
 
 
 

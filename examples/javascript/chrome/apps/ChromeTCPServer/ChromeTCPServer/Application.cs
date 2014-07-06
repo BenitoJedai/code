@@ -50,24 +50,24 @@ namespace ChromeTCPServer
                 #region more
                 chrome.runtime.MessageExternal +=
                     delegate
-                    {
-                        Console.WriteLine("MessageExternal");
+                {
+                    Console.WriteLine("MessageExternal");
 
-                    };
+                };
 
                 chrome.runtime.Message +=
                   delegate
-                  {
-                      Console.WriteLine("Message");
+                {
+                    Console.WriteLine("Message");
 
-                  };
+                };
 
                 chrome.runtime.Connect +=
                delegate
-               {
-                   Console.WriteLine("Connect");
+                {
+                    Console.WriteLine("Connect");
 
-               };
+                };
 
                 chrome.runtime.ConnectExternal +=
                     port =>
@@ -219,12 +219,19 @@ namespace ChromeTCPServer
 
         //static Dictionary<string, byte[]> CachedFiles = new Dictionary<string, byte[]>();
 
-        static x z(Tuple<IProgress<x>, x> scope)
+        static x zApplicationHandler(Tuple<IProgress<x>, x> scope)
         {
             var path = scope.Item2.path;
 
-            Console.WriteLine("at StartNewWithProgress: " + new { scope.Item2.path, Thread.CurrentThread.ManagedThreadId });
 
+
+
+
+            // 9:31827ms at StartNewWithProgress: {{ path = , ManagedThreadId = 10 }} 
+            Console.WriteLine("at zApplicationHandler: " + new { scope.Item2.path, Thread.CurrentThread.ManagedThreadId });
+
+
+            #region WriteBytes
             Action<byte[]> WriteBytes =
                 bytes =>
                 {
@@ -232,12 +239,9 @@ namespace ChromeTCPServer
                         new x { path = scope.Item2.path, PageSource = default(string), write = bytes }
                     );
                 };
+            #endregion
 
-            //                                02000054 ChromeTCPServer.TheServer+<>c__DisplayClass1b+<<Invoke>b__14>d__43+<>MoveNext
-            //script: error JSC1000:
-            //error:
-            //  statement cannot be a load instruction (or is it a bug?)
-            //  [0x00d0] ldarg.0    +1 -0
+
 
 
             #region y
@@ -301,7 +305,19 @@ namespace ChromeTCPServer
             #endregion
 
 
-            if (path == "/favicon.ico")
+            // 9:61606ms at StartNewWithProgress: {{ path = , ManagedThreadId = 10 }} 
+
+
+            if (path == "")
+            {
+                var outputString = "HTTP/1.0 200 worker thread cant see the request path ? \r\nConnection: close\r\n\r\n";
+
+                var bytes = Encoding.UTF8.GetBytes(outputString);
+                //var xx = new Uint8ClampedArray(bytes);
+                WriteBytes(bytes);
+                WriteBytes(null);
+            }
+            else if (path == "/favicon.ico")
             {
                 var outputString = "HTTP/1.0 404 go away\r\nConnection: close\r\n\r\n";
 
@@ -334,10 +350,12 @@ namespace ChromeTCPServer
             }
             else
             {
+                // explicit;ly serve view-source instead?
                 y();
             }
 
             // jsc cannot return task just yet, use progress instead
+            // 20140607 now we can.
             return scope.Item2;
         }
 
@@ -368,7 +386,7 @@ namespace ChromeTCPServer
         }
 
         public static void InvokeAsync(
-            string PageSource,
+            string __PageSource,
             Func<string, Task> open
             )
         {
@@ -381,12 +399,12 @@ namespace ChromeTCPServer
             #region chrome.runtime
             chrome.app.runtime.Restarted +=
           delegate
-          {
-              new Notification
-              {
-                  Message = "Restarted!"
-              };
-          };
+            {
+                new Notification
+                {
+                    Message = "Restarted!"
+                };
+            };
 
 
 
@@ -405,12 +423,12 @@ namespace ChromeTCPServer
 
             chrome.runtime.Startup +=
                 delegate
+            {
+                new Notification
                 {
-                    new Notification
-                    {
-                        Message = "Startup!"
-                    };
+                    Message = "Startup!"
                 };
+            };
 
 
             var t = new Stopwatch();
@@ -418,18 +436,18 @@ namespace ChromeTCPServer
 
             chrome.runtime.Suspend +=
                 delegate
+            {
+                var n = new Notification
                 {
-                    var n = new Notification
-                    {
-                        Message = "Suspend! " + new { t.ElapsedMilliseconds }
-                    };
-
-                    n.Clicked += delegate
-                    {
-                        runtime.reload();
-                    };
-
+                    Message = "Suspend! " + new { t.ElapsedMilliseconds }
                 };
+
+                n.Clicked += delegate
+                {
+                    runtime.reload();
+                };
+
+            };
             #endregion
 
             //            getNetworkList: 
@@ -473,12 +491,17 @@ namespace ChromeTCPServer
                 {
                     //var x = new TaskCompletionSource<object>();
 
+                    var PageSource = __PageSource;
 
+                    // 9:138973ms {{ input = GET /favicon.ico HTTP/1.1
                     var path = RequestLine.SkipUntilIfAny(" ").TakeUntilIfAny(" ");
 
-                    //Console.WriteLine(
-                    //    new { path }
-                    //);
+
+
+                    // 9:60202ms RequestLine: {{ path = /, RequestLine = GET / HTTP/1.1 }} 
+                    Console.WriteLine(
+                        "RequestLine: " + new { path, RequestLine }
+                    );
 
                     //{ RequestLine = GET /view-source HTTP/1.1, path = /view-source } 
 
@@ -494,45 +517,72 @@ namespace ChromeTCPServer
 
                     var yyy = new TaskCompletionSource<string>();
 
-
                     var worker = default(Task);
 
-                    worker = Task.Factory.StartNewWithProgress(
-                        new x { path = path, PageSource = PageSource, write = default(byte[]) },
-
-                        function: z,
-
-                        progress:
-                            state =>
+                    #region progress
+                    IProgress<x> progress = new Progress<x>(
+                           state =>
+                        {
+                            if (state.write == null)
                             {
-                                if (state.write == null)
-                                {
-                                    Console.WriteLine("progress done StartNewWithProgress: " + new { state.path, Thread.CurrentThread.ManagedThreadId });
+                                Console.WriteLine("progress done StartNewWithProgress: " + new { state.path, Thread.CurrentThread.ManagedThreadId });
 
-                                    yyy.SetResult(state.path);
+                                yyy.SetResult(state.path);
 
-                                    worker.Dispose();
+                                // can we terminate our thread?
+                                worker.Dispose();
 
-                                    return;
-                                }
-
-
-                                Console.WriteLine("progress StartNewWithProgress: " + new { state.path, state.write.Length, Thread.CurrentThread.ManagedThreadId });
-
-
-                                var xx = new Uint8ClampedArray(state.write);
-
-                                //nn.Title = "before headers";
-                                socketId.write(
-                                     xx.buffer
-                                );
+                                return;
                             }
-                    );
+
+
+                            Console.WriteLine("progress StartNewWithProgress: " + new { state.path, state.write.Length, Thread.CurrentThread.ManagedThreadId });
+
+
+                            var xx = new Uint8ClampedArray(state.write);
+
+                            //nn.Title = "before headers";
+                            socketId.write(
+                                 xx.buffer
+                            );
+                        }
+                       );
+                    #endregion
 
 
 
 
 
+
+                    //9:55056ms inside worker RequestLine: { { path =  } }
+                    //9:55059ms at zApplicationHandler: { { path = , ManagedThreadId = 10 } }
+
+                    worker = Task.Run(
+                                delegate
+                    {
+                        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\Worker.cs
+
+
+
+                        // wtf? where is my path?
+                        Console.WriteLine(
+                            "inside worker RequestLine: " + new { path }
+                        );
+
+                        // rebuild the scope.
+                        var scope = Tuple.Create(
+                            progress,
+                            new x { path = path, PageSource = PageSource, write = default(byte[]) }
+                        );
+
+                        return TheServer.zApplicationHandler(scope);
+                    }
+                           );
+
+                    // obsolete?
+                    // Error	115	'System.Threading.Tasks.TaskAsyncIProgressExtensions.StartNewWithProgress<TSource>(System.Threading.Tasks.TaskFactory, TSource, System.Func<System.Tuple<System.IProgress<TSource>, TSource>, TSource>, System.Action<TSource>)' is obsolete: 'we now support scope sharing!'	X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs	503	30	ChromeTCPServer
+
+                    /// what will be done by this task? socketId.disconnect
                     return yyy.Task;
                 };
             #endregion
@@ -611,6 +661,9 @@ namespace ChromeTCPServer
             #endregion
 
             // Error in response to socket.getNetworkList: illegal access
+
+
+            #region getNetworkList
             chrome.socket.getNetworkList().ContinueWithResult(
                async
                     n =>
@@ -735,13 +788,13 @@ namespace ChromeTCPServer
 
                            nn.Clicked +=
                                async delegate
-                               {
-                                   advertise();
+                           {
+                               advertise();
 
-                                   await open(uri);
+                               await open(uri);
 
-                                   ShowUri();
-                               };
+                               ShowUri();
+                           };
                        };
 
                        ShowUri();
@@ -752,13 +805,13 @@ namespace ChromeTCPServer
                        #region Launched
                        chrome.app.runtime.Launched +=
                             async delegate
-                            {
-                                advertise();
+                       {
+                           advertise();
 
-                                await open(uri);
+                           await open(uri);
 
-                                ShowUri();
-                            };
+                           ShowUri();
+                       };
                        #endregion
 
 
@@ -779,10 +832,10 @@ namespace ChromeTCPServer
 
                            Task.Delay(111).GetAwaiter().OnCompleted(
                                delegate
-                               {
-                                   Console.WriteLine("at accept " + new { delayaccept.socketId });
-                                   doaccept(delayaccept);
-                               }
+                           {
+                               Console.WriteLine("at accept " + new { delayaccept.socketId });
+                               doaccept(delayaccept);
+                           }
                            );
 
                        }
@@ -793,6 +846,9 @@ namespace ChromeTCPServer
 
                }
             );
+            #endregion
+
+
         }
     }
 }

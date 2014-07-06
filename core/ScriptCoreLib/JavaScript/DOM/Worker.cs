@@ -401,12 +401,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 for (int i = 0; i < MethodTargetTypeSerializableMembers.Length; i++)
                 {
-                    var MethodTargetTypeSerializableMember = MethodTargetTypeSerializableMembers[i] as FieldInfo;
-                    var MethodTargetTypeSerializableMemberIsProgress = MethodTargetObjectDataIsProgress[i];
+                    var xMember = MethodTargetTypeSerializableMembers[i] as FieldInfo;
+                    var xObjectData = MethodTargetObjectData[i];
+                    var xIsProgress = MethodTargetObjectDataIsProgress[i];
 
-                    if (MethodTargetTypeSerializableMemberIsProgress)
+                    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs
+                    // does our chrome tcp server get the damn path?
+                    Console.WriteLine(new { xMember, xObjectData, xIsProgress });
+
+                    if (xIsProgress)
                     {
-                        Console.WriteLine(new { MethodTargetTypeSerializableMember, MethodTargetTypeSerializableMemberIsProgress });
 
                         var ii = i;
                         MethodTargetObjectData[ii] = new __Progress<object>(
