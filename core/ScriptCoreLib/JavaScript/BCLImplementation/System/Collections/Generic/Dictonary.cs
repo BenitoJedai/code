@@ -10,7 +10,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
 
-
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/dictionary.cs
     [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>))]
     internal class __Dictionary<TKey, TValue> :
         __IDictionary<TKey, TValue>

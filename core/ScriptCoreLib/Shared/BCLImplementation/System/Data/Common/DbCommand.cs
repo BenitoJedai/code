@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
+    // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DBCommand.cs
     [Script(Implements = typeof(global::System.Data.Common.DbCommand))]
     public abstract class __DbCommand : __Component, __IDbCommand
     {

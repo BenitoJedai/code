@@ -7,6 +7,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
+    // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DataAdapter.cs
+    // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DbDataAdapter.cs
     [Script(Implements = typeof(global::System.Data.Common.DbDataAdapter))]
     public
         //abstract 

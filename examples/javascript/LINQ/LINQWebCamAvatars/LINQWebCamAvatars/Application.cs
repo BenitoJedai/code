@@ -33,21 +33,28 @@ namespace LINQWebCamAvatars
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140706/internal
+
             //            will skip DefineVersionInfoResource
             //1ec4: 01:01 RewriteToAssembly error: System.NotSupportedException: Type 'ScriptCoreLib.Query.Experimental.QueryExpressionBuilder+xCount`1' was not completed.
+
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
             var cc = new SQLiteConnection();
 
             cc.Open();
 
             // Uncaught TypeError: Cannot read property 'transaction' of null 
-
-            // {{ Count = null }}
             // count aint working?
+
+            //  method: Void MoveNext(), ex = System.IO.FileNotFoundException: Could not load file or assembly 'System.Data.XMySQL, Version=6.8.3.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.The system cannot find the file specified.
+            //File name: 'System.Data.XMySQL, Version=6.8.3.0, Culture=neutral, PublicKeyToken=null'
+
 
 
             new { }.With(
-                async delegate
+    async delegate
             {
                 var Count = await new xAvatar().Create(cc).CountAsync(cc);
                 new IHTMLPre { new { Count } }.AttachToDocument();
@@ -60,7 +67,7 @@ namespace LINQWebCamAvatars
 
                 }
             }
-            );
+);
 
             new IHTMLButton { "new image" }.AttachToDocument().onclick +=
                 e =>
@@ -87,6 +94,7 @@ namespace LINQWebCamAvatars
                     div,
                     sizeToWindow: true,
                     yield:
+                    //async y =>
                     y =>
                 {
                     // can we use async using yet?
@@ -100,6 +108,13 @@ namespace LINQWebCamAvatars
                     // save to chrome db?
 
                     new xAvatar().Insert(cc, new xAvatarRow { Avatar96gif = y.Avatar96gif });
+
+                    new xAvatar().Create(cc).CountAsync(cc).ContinueWithResult(
+                        Count =>
+                        {
+                            new IHTMLPre { new { Count } }.AttachToDocument();
+                        }
+                    );
                 }
 
                );

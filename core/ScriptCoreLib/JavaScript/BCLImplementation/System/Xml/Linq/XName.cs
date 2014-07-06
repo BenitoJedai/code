@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
-
+    // http://referencesource.microsoft.com/#System.Xml.Linq
     [Script(Implements = typeof(XName))]
     internal class __XName
     {

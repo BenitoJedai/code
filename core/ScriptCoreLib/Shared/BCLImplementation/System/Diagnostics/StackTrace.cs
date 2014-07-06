@@ -6,6 +6,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/diagnostics/stacktrace.cs
     [Script(Implements = typeof(global::System.Diagnostics.StackTrace))]
     internal class __StackTrace
     {

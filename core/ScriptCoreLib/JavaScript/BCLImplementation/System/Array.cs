@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-
+    // http://referencesource.microsoft.com/#mscorlib/system/array.cs
     [Script(Implements = typeof(global::System.Array))]
     internal class __Array
     {

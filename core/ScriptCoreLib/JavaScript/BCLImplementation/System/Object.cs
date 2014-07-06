@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/object.cs
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
     {
@@ -13,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return Expando.ReferenceEquals(objA, objB);
         }
 
+        // tested by?
         [Script(OptimizedCode = "return i.constructor.prototype;")]
         static IntPtr GetPrototype(object i)
         {

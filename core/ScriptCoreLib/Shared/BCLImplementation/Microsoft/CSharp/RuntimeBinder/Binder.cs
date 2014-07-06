@@ -9,6 +9,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
 {
+    // http://referencesource.microsoft.com/#Microsoft.CSharp/Microsoft/CSharp/RuntimeBinder/Binder.cs
     [Script(Implements = typeof(global::Microsoft.CSharp.RuntimeBinder.Binder))]
     public static partial class __Binder
     {

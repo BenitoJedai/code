@@ -7,6 +7,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
+    // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/MemberAssignment.cs
     [Script(Implements = typeof(global::System.Linq.Expressions.MemberAssignment))]
     internal class __MemberAssignment : __MemberBinding
     {

@@ -8,6 +8,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
+    // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/ListInitExpression.cs
     [Script(Implements = typeof(global::System.Linq.Expressions.ListInitExpression))]
     internal class __ListInitExpression : __Expression
     {

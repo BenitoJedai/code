@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/diagnostics/stackframe.cs
     [Script(Implements = typeof(global::System.Diagnostics.StackFrame))]
     internal class __StackFrame
     {

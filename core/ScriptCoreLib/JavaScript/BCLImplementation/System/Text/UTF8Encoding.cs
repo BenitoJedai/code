@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/text/utf8encoding.cs
     [Script(Implements = typeof(global::System.Text.UTF8Encoding))]
     internal class __UTF8Encoding : __Encoding
     {

@@ -6,6 +6,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/hashalgorithm.cs
 	[Script(Implements = typeof(global::System.Security.Cryptography.HashAlgorithm))]
 	public abstract class __HashAlgorithm
 	{

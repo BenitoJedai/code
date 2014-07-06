@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/text/encoding.cs
     [Script(Implements = typeof(global::System.Text.Encoding))]
     internal abstract class __Encoding
     {

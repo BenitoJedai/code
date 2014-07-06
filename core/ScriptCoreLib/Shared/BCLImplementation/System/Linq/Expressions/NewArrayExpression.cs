@@ -8,6 +8,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
+    // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/NewArrayExpression.cs
     [Script(Implements = typeof(global::System.Linq.Expressions.NewArrayExpression))]
     internal class __NewArrayExpression : __Expression
     {

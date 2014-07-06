@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/ConstructorInfo.cs
     [Script(Implements = typeof(global::System.Reflection.ConstructorInfo))]
     public class __ConstructorInfo : __MethodBase
     {

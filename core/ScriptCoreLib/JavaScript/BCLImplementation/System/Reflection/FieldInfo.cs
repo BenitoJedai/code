@@ -7,6 +7,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/fieldinfo.cs
     [Script(Implements = typeof(global::System.Reflection.FieldInfo))]
     public class __FieldInfo : __MemberInfo
     {
