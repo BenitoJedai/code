@@ -42,13 +42,15 @@ namespace ScriptCoreLib.Query.Experimental
 
         public static IEnumerable<TElement> ReadToElements<TElement>(DbDataReader r, IQueryStrategy<TElement> source)
         {
+            Console.WriteLine("enter AsEnumerable ");
+
             while (r.Read())
             {
-                Console.WriteLine("enter AsEnumerable Read");
 
                 yield return ReadToElement<TElement>(r, source, new Tuple<MemberInfo, int>[0]);
             }
 
+            Console.WriteLine("exit AsEnumerable ");
             r.Dispose();
         }
 

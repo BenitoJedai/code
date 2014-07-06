@@ -485,7 +485,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     }
 
                                 }
-                                
+
                                 // xMySQL likes its Keys quoted
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
                                 WriteLine(1, "`");
@@ -559,7 +559,15 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                    WriteLine(0, ")");
+
+                    using (WithoutLinefeeds())
+                    {
+                        WriteLine(0, ") as `");
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+                        // Additional information: Every derived table must have its own alias
+                        WriteLineWithColor(0, "TCountable", ConsoleColor.Magenta);
+                        WriteLine(0, "`");
+                    }
 
                     return;
                 }
@@ -2617,6 +2625,12 @@ namespace ScriptCoreLib.Query.Experimental
                     {
                         WriteLine(0, "from ");
                         WriteLineWithColor(0, "" + (source as xSelect).selector.Parameters[0].Name, ConsoleColor.Magenta);
+
+                        // Additional information: Every derived table must have its own alias
+                        //WriteLine(0, " as `");
+                        //WriteLineWithColor(0, "" + (source as xSelect).selector.Parameters[0].Name, ConsoleColor.Magenta);
+                        //WriteLine(0, "`");
+
                     }
                 }
                 else
