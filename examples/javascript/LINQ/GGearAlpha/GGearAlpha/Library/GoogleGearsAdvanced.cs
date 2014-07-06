@@ -25,8 +25,7 @@ namespace GGearAlpha.js
     using System.Linq;
     using System;
     using System.Data.SQLite;
-
-
+    using System.Threading.Tasks;
 
     public class GoogleGearsAdvanced
     {
@@ -45,7 +44,7 @@ namespace GGearAlpha.js
             var workspace = new div { className = "workspace" };
 
             workspace0.appendChild(
-                new div("You can create new postcards by clicking on the background image. You can drag those postcards by their borders. You can use your mouse wheel to zoom in or out, too. All postcards will be saved via Google Gears. Doubleclick a postcard to delete it."));
+                new div("You can create new postcards by clicking on the background image. You can drag those postcards by their borders. You can use your mouse wheel to zoom in or out, too. All postcards will be saved via webSQL. Doubleclick a postcard to delete it."));
 
             shadow.appendChild(workspace0, workspace, toolbar);
 
@@ -93,6 +92,8 @@ namespace GGearAlpha.js
                 {
                     await Native.window.async.onframe;
 
+                        // we are logging a lot. idle more for now
+                    await Task.Delay(500);
 
 
                     var Count = await new xPostcard().Create(cc).CountAsync(cc);
@@ -103,6 +104,8 @@ namespace GGearAlpha.js
 
                     // chrome style may not show title
                     toolbar.innerText = new { Count }.ToString();
+
+
                 }
             }
             );
@@ -773,8 +776,10 @@ namespace GGearAlpha.js
 
 
                 layer.oncontextmenu +=
-                    delegate
+                    delegate (IEvent e)
                 {
+                    e.preventDefault();
+
                     if (this.RightClick != null)
                         this.RightClick();
 
