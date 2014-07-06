@@ -20,10 +20,29 @@ namespace ScriptCoreLib.Query.Experimental
         {
             // in CLR and in browser this would work.
 
-            var c = QueryExpressionBuilder.GetInsertCommand(source, cc, value) as System.Data.SQLite.SQLiteCommand;
-            var n = c.ExecuteNonQueryAsync();
+            var c =  QueryExpressionBuilder.GetInsertCommand(source, cc, value);
+            // why ExecuteNonQueryAsync is not part of CLR, now we need to link in SQLite and PHP!
+            
+            var xSQLiteCommand = c as System.Data.SQLite.SQLiteCommand;
+            if (xSQLiteCommand != null)
+            {
+                var n = xSQLiteCommand.ExecuteNonQueryAsync();
+                return n;
+            }
 
-            return n;
+
+            // how would this work in the browser if scriptcorelib does not yet provide the implementation?
+            var xMySQLCommand = c as System.Data.MySQL.MySQLCommand;
+            if (xMySQLCommand != null)
+            {
+                var n = xMySQLCommand.ExecuteNonQueryAsync();
+                return n;
+            }
+
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+            // should we report back the new key?
+
+            throw new NotSupportedException();
         }
 
 

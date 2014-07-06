@@ -24,8 +24,9 @@ namespace System.Data
             // http://dev.mysql.com/doc/refman/5.6/en/information-functions.html#function_last-insert-id
 
 
-
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
             // tested by?
+            // +		$exception	{"There is already an open DataReader associated with this Connection which must be closed first."}	System.Exception {System.Data.MySQL.MySQLException}
             var value = c.CreateCommand("select LAST_INSERT_ID()").ExecuteScalar();
 
             if (value is long)

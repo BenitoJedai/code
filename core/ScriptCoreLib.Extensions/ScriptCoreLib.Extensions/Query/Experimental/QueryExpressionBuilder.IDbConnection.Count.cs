@@ -56,6 +56,9 @@ namespace ScriptCoreLib.Query.Experimental
             // tested by?
 
             var c = GetCountCommand(source, cc);
+
+            // Additional information: Every derived table must have its own alias
+            // what?
             var x = c.ExecuteScalar();
             // cast?
             return (long)x;
