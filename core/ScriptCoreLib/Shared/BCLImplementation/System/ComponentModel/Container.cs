@@ -5,6 +5,7 @@ using System.ComponentModel;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
+    // http://referencesource.microsoft.com/#System/compmod/system/componentmodel/Container.cs
     [Script(Implements = typeof(global::System.ComponentModel.Container))]
 	internal class __Container : __IContainer, IDisposable
     {

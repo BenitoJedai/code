@@ -51,7 +51,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
             Console.WriteLine("Expression.New " + new
             {
-                constructor
+                constructor,
+                Type
                 //, constructor.DeclaringType 
             });
             // method: System.Linq.Expressions.NewExpression New(System.Reflection.ConstructorInfo, System.Linq.Expressions.Expression[])

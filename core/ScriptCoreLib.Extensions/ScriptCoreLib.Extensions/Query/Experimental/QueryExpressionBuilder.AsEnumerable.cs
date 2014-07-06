@@ -65,6 +65,7 @@ namespace ScriptCoreLib.Query.Experimental
             var xSelect = source as xSelect;
             if (xSelect != null)
             {
+                #region xMemberInitExpression
                 var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
                 if (xMemberInitExpression != null)
                 {
@@ -104,7 +105,11 @@ namespace ScriptCoreLib.Query.Experimental
 
                     return xRow;
                 }
+                #endregion
 
+
+
+                #region xNewExpression
                 var xNewExpression = xSelect.selector.Body as NewExpression;
                 if (xNewExpression != null)
                 {
@@ -128,13 +133,23 @@ namespace ScriptCoreLib.Query.Experimental
                        }
                    ).ToArray();
 
-                    var xRow = (TElement)xNewExpression.Constructor.Invoke(args);
+
+
+                    // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+                    var xRowType = xNewExpression.Type;
+                    // jsc could give us the PrimaryConstructor?
+                    var xRow = (TElement)Activator.CreateInstance(xRowType, args);
+                    //var xRow = (TElement)xNewExpression.Constructor.Invoke(args);
 
 
 
                     return xRow;
                 }
+                #endregion
 
+
+
+                #region xParameterExpression
                 var xParameterExpression = xSelect.selector.Body as ParameterExpression;
                 if (xParameterExpression != null)
                 {
@@ -144,6 +159,8 @@ namespace ScriptCoreLib.Query.Experimental
                         Target.Concat(new[] { Tuple.Create(default(MemberInfo), 0) }).ToArray()
                         );
                 }
+                #endregion
+
             }
 
             return default(TElement);

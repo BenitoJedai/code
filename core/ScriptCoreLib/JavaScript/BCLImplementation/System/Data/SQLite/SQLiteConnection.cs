@@ -19,7 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
         // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Library\GoogleGearsAdvanced.cs
         public __SQLiteConnection()
             : this("")
-        { 
+        {
         }
 
         public __SQLiteConnection(string connectionstring)
@@ -51,9 +51,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
             db = null;
         }
 
-        public override void Dispose()
-        {
-        }
+        //public override void Dispose()
+        //{
+        //    this.Close();
+        //}
 
         public int LastInsertRowId
         {

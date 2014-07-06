@@ -8,6 +8,7 @@ using ScriptCoreLib.Extensions;
 using System.Reflection;
 using System.Data;
 using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -16,29 +17,41 @@ namespace ScriptCoreLib.Query.Experimental
         // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
 
-        [Obsolete("we need to extend xsqlite and xmysql to have the async methods defined as interfaces")]
+        public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, TElement value)
+        {
+            var z = new TaskCompletionSource<Task>();
+
+            // was it manually set?
+            QueryExpressionBuilder.WithConnection(
+                (IDbConnection cc) =>
+                {
+                    InsertAsync(source, cc, value).ContinueWith(z.SetResult);
+                }
+            );
+            return z.Task;
+        }
+
         public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         {
             // in CLR and in browser this would work.
 
-            var c =  QueryExpressionBuilder.GetInsertCommand(source, cc, value);
+            var xDbCommand = QueryExpressionBuilder.GetInsertCommand(source, cc, value) as DbCommand;
             // why ExecuteNonQueryAsync is not part of CLR, now we need to link in SQLite and PHP!
-            
-            var xSQLiteCommand = c as System.Data.SQLite.SQLiteCommand;
-            if (xSQLiteCommand != null)
+
+            if (xDbCommand != null)
             {
-                var n = xSQLiteCommand.ExecuteNonQueryAsync();
+                var n = xDbCommand.ExecuteNonQueryAsync();
                 return n;
             }
 
 
             // how would this work in the browser if scriptcorelib does not yet provide the implementation?
-            var xMySQLCommand = c as System.Data.MySQL.MySQLCommand;
-            if (xMySQLCommand != null)
-            {
-                var n = xMySQLCommand.ExecuteNonQueryAsync();
-                return n;
-            }
+            //var xMySQLCommand = c as System.Data.MySQL.MySQLCommand;
+            //if (xMySQLCommand != null)
+            //{
+            //    var n = xMySQLCommand.ExecuteNonQueryAsync();
+            //    return n;
+            //}
 
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
             // should we report back the new key?

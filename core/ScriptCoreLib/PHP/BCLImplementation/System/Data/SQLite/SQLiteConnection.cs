@@ -92,10 +92,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             this.InternalConnection = null;
         }
 
-        public override void Dispose()
-        {
-            this.Close();
-        }
+        //public override void Dispose()
+        //{
+        //    this.Close();
+        //}
 
 
         public long LastInsertRowId

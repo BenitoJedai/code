@@ -10,33 +10,45 @@ using System.Data;
 using System.Threading.Tasks;
 using System.Data.Common;
 using System.Data.SQLite;
-using System.Data.MySQL;
+//using System.Data.MySQL;
 
 namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilderAsync
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Count.cs
         // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
 
-        [Obsolete("we need to extend xsqlite and xmysql to have the async methods defined as interfaces")]
+        // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+        public static Task<long> CountAsync<TElement>(this IQueryStrategy<TElement> source)
+        {
+            var z = new TaskCompletionSource<long>();
+
+            // was it manually set?
+            QueryExpressionBuilder.WithConnection(
+                (IDbConnection cc) =>
+                {
+                    CountAsync(source, cc).ContinueWithResult(z.SetResult);
+                }
+            );
+            return z.Task;
+        }
+
         public static Task<long> CountAsync<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             // in CLR and in browser this would work.
 
             var z = new TaskCompletionSource<long>();
 
-            var c = source.GetCountCommand(cc);
+            var c = (DbCommand)source.GetCountCommand(cc);
 
-
+            // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DBCommand.cs
             var xDbCommand = c as DbCommand;
-
-            #region xSQLiteCommand
-            var xSQLiteCommand = c as SQLiteCommand;
-            if (xSQLiteCommand != null)
+            if (xDbCommand != null)
             {
-                var n = xSQLiteCommand.ExecuteScalarAsync();
+                var n = xDbCommand.ExecuteScalarAsync();
 
                 // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
 
@@ -49,32 +61,8 @@ namespace ScriptCoreLib.Query.Experimental
 
                 return z.Task;
             }
-            #endregion
 
 
-            // how would this work in the browser if scriptcorelib does not yet provide the implementation?
-            #region xMySQLCommand
-            var xMySQLCommand = c as MySQLCommand;
-            if (xMySQLCommand != null)
-            {
-                //Console.WriteLine("before xMySQLCommand ExecuteScalarAsync");
-                var n = xMySQLCommand.ExecuteScalarAsync();
-                //Console.WriteLine("after xMySQLCommand ExecuteScalarAsync " + new { n.IsCompleted });
-
-                // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
-
-                n.ContinueWithResult(
-                    zz =>
-                    {
-                        //Console.WriteLine("at xMySQLCommand ExecuteScalarAsync");
-
-                        z.SetResult((long)zz);
-                    }
-                );
-
-                return z.Task;
-            }
-            #endregion
 
             throw new NotSupportedException();
         }

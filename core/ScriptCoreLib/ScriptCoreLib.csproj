@@ -125,6 +125,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskCompletionSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\TimeZone.cs" />
+    <Compile Include="JavaScript\DOM\INode.Add.cs" />
     <Compile Include="JavaScript\DOM\IWindow.setTimeout.cs" />
     <Compile Include="JavaScript\DOM\IWindow.webdatabase.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLElementGrouping.cs" />
@@ -337,7 +338,7 @@
     <Compile Include="Shared\BCLImplementation\System\Data\IDataRecord.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDbTransaction.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\IDbConnection.cs" />
-    <Compile Include="Shared\BCLImplementation\System\Data\Linq\DataColumn.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\Linq\DataContext.cs" />
     <Compile Include="Shared\BCLImplementation\System\DBNull.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\DynamicMetaObject.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\SetMemberBinder.cs" />

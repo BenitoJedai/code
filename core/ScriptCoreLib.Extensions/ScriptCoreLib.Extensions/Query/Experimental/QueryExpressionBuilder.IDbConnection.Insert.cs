@@ -8,6 +8,7 @@ using ScriptCoreLib.Extensions;
 using System.Reflection;
 using System.Data;
 using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -85,17 +86,15 @@ namespace ScriptCoreLib.Query.Experimental
         }
         #endregion
 
-        //public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
-        //{
-        //    // in CLR and in browser this would work.
 
-        //    var c = GetInsertCommand(source, cc, value) as System.Data.SQLite.SQLiteCommand;
-        //    var n = c.ExecuteNonQueryA();
-        //}
 
+        [Obsolete("whats the default?")]
+        public static Action<Action<IDbConnection>> WithConnection;
+
+        [Obsolete("what should we return? rename to InsertSync ?")]
         public static void Insert<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         {
-            var c = GetInsertCommand(source, cc, value);
+            var c = GetInsertCommand(source, cc, value) as DbCommand;
             var n = c.ExecuteNonQuery();
             //var nKey = cc.
 

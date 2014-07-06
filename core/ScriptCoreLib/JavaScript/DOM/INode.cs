@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // SCRIPT5009: 'Node' is undefined 
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/core/nsIDOMElement.idl
     [Script(HasNoPrototype = true)]
-    public class INode :
+    public partial class INode :
         IEventTarget,
         IEnumerable<INode>
     {
@@ -204,146 +204,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         #endregion
 
-        [Script(DefineAsStatic = true)]
-        public void Add(INode e)
-        {
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
-
-            this.appendChild(e);
-        }
-
-        [Script(DefineAsStatic = true)]
-        public void Add(INode[] e)
-        {
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
-
-            foreach (var item in e)
-            {
-                this.appendChild(item);
-            }
-        }
-
-        [Script(DefineAsStatic = true)]
-        public virtual void Add(string e)
-        {
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
-
-            this.appendChild(new ITextNode(e));
-        }
-
-        [Script(DefineAsStatic = true)]
-        public void Add(object e)
-        {
-            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
-
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
-
-            this.appendChild(new ITextNode("" + e));
-        }
-
-        [Script(DefineAsStatic = true)]
-        public void Add(System.Func<object> e)
-        {
-            // what about implicit operators for other elements?
-            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
-
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
-
-            var x = e().ToString();
-            var text = new ITextNode(x);
-
-            this.appendChild(text);
-
-            new Timer(
-                t =>
-                {
-                    if (text.parentNode == null)
-                    {
-                        System.Console.WriteLine("INode.Add timer stopped");
-                        t.Stop();
-                        return;
-                    }
-
-                    var y = e().ToString();
-                    if (y != text.nodeValue)
-                    {
-                        text.nodeValue = y;
-
-                        return;
-                    }
-
-                    // how many iterations before we stop the timer?
-                },
-
-                // time to attach to DOM
-                duetime: 33,
-                interval: 1000 / 15
-            );
 
 
-        }
 
-        [Script(DefineAsStatic = true)]
-        public void Add(System.Func<Task<object>> e)
-        {
-            // what about implicit operators for other elements?
-            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
-
-            // Implementing Collection Initializers
-            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
-
-            var text = new ITextNode("");
-
-            this.appendChild(text);
-
-            new Timer(
-                t =>
-                {
-                    if (text.parentNode == null)
-                    {
-                        System.Console.WriteLine("INode.Add timer stopped");
-                        t.Stop();
-                        return;
-                    }
-
-                    t.Enabled = false;
-
-                    e().ContinueWith(
-                        x =>
-                        {
-                            var xx = (__Task<object>)x;
-
-                            var Result = xx.Result;
-
-
-                            var y = System.Convert.ToString(
-                                xx.Result
-                            );
-
-                            if (y != text.nodeValue)
-                            {
-                                text.nodeValue = y;
-                            }
-
-                            t.Enabled = true;
-                        }
-                    );
-
-
-                    // how many iterations before we stop the timer?
-                },
-
-                // time to attach to DOM
-                duetime: 33,
-                interval: 1000 / 15
-            );
-
-
-        }
     }
 }

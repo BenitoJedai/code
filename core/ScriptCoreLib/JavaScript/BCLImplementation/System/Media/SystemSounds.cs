@@ -7,6 +7,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Media
 {
+    // http://referencesource.microsoft.com/#System/sys/system/Media/SystemSounds.cs
     [Script(Implements = typeof(global::System.Media.SystemSounds))]
     internal class __SystemSounds
     {

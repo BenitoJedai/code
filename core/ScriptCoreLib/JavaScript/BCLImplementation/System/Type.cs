@@ -234,8 +234,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public global::System.Reflection.ConstructorInfo GetConstructor(Type[] t)
         {
             // X:\jsc.svn\examples\javascript\linq\visualized\VisualizeWhere\VisualizeWhere\Application.cs
+            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
-            return null;
+            var c = new __ConstructorInfo
+            {
+                // do we support the primaryConstructor?
+
+                InternalDeclaringType = this,
+                InternalParameterTypes = t
+            };
+
+            return c;
         }
 
 

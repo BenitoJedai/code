@@ -20,7 +20,19 @@ namespace ScriptCoreLib.Query.Experimental
         [Obsolete("What about more automatic ways?")]
         public static QueryExpressionBuilderDialect Dialect = QueryExpressionBuilderDialect.SQLite;
 
+        public static IQueryStrategy<TElement> Create<TElement>(this IQueryStrategy<TElement> source)
+        {
 
+            // was it manually set?
+            QueryExpressionBuilder.WithConnection(
+                (IDbConnection cc) =>
+                {
+                    Create(source, cc); //.ContinueWith(z.SetResult);
+                }
+            );
+
+            return source;
+        }
         public static IQueryStrategy<TElement> Create<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             //Additional information: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT,
