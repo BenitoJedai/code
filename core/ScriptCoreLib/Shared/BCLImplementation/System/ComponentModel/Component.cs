@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
+    // http://referencesource.microsoft.com/#System/compmod/system/componentmodel/Component.cs
     [Script(Implements = typeof(global::System.ComponentModel.Component))]
     public class __Component :
         __MarshalByRefObject,
@@ -16,6 +17,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
         // tested by
         // x:\jsc.svn\examples\java\Test\TestBaseCall\TestBaseCall\Class1.cs
         // X:\jsc.svn\examples\java\forms\AppletAsyncWhenReady\AppletAsyncWhenReady\ApplicationApplet.cs
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
         public virtual void Dispose(bool e)
         {
         }

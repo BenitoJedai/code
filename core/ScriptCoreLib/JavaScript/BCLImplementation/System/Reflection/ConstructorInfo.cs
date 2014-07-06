@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
@@ -34,12 +35,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public override string Name
         {
-            get { throw new NotImplementedException(); }
+            get { return ".ctor"; }
         }
+
+
+        public Type InternalDeclaringType;
+        public Type[] InternalParameterTypes;
 
         public override Type DeclaringType
         {
-            get { throw new NotImplementedException(); }
+            get { return InternalDeclaringType; }
         }
 
         public override global::System.Reflection.ParameterInfo[] GetParameters()
@@ -60,6 +65,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         public override object[] GetCustomAttributes(bool inherit)
         {
             throw new NotImplementedException();
+        }
+
+        public static implicit operator ConstructorInfo(__ConstructorInfo x)
+        {
+            return (ConstructorInfo)(object)x;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Configuration
 {
+    // http://referencesource.microsoft.com/#System/sys/system/configuration/SettingsBase.cs
     [Script(Implements = typeof(global::System.Configuration.SettingsBase))]
     internal class __SettingsBase
     {

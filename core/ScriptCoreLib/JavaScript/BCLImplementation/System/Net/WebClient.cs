@@ -11,6 +11,7 @@ using ScriptCoreLib.JavaScript.WebGL;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 {
+    // http://referencesource.microsoft.com/#System/net/System/Net/webclient.cs
     [Script(Implements = typeof(global::System.Net.WebClient))]
     public class __WebClient
     {

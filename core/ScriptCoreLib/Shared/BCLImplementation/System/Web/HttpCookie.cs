@@ -7,6 +7,7 @@ using System.Web;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/HttpCookie.cs
     [Script(Implements = typeof(global::System.Web.HttpCookie))]
     internal class __HttpCookie
     {

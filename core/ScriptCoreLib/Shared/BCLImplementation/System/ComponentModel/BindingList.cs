@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections.ObjectModel;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
 {
+    // http://referencesource.microsoft.com/#System/compmod/system/componentmodel/BindingList.cs
     [Script(Implements = typeof(global::System.ComponentModel.BindingList<>))]
     internal class __BindingList<T> : __Collection<T>, __IBindingList, __IList
     {

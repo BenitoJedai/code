@@ -15,6 +15,7 @@ namespace ScriptCoreLib.Query.Experimental
     public static partial class QueryExpressionBuilder
     {
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Insert.cs
+        // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Count.cs
 
         partial class SQLWriter<TElement>
         {
@@ -55,11 +56,11 @@ namespace ScriptCoreLib.Query.Experimental
             // how was it done before?
             // tested by?
 
-            var c = GetCountCommand(source, cc);
+            var xDbCommand = GetCountCommand(source, cc);
 
             // Additional information: Every derived table must have its own alias
             // what?
-            var x = c.ExecuteScalar();
+            var x = xDbCommand.ExecuteScalar();
             // cast?
             return (long)x;
         }
