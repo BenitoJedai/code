@@ -84,28 +84,9 @@ namespace GGearAlpha
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            //  // ChromeTCPServer.TheServer+<>c__DisplayClass3.<z>b__5
-            // Uncaught TypeError: undefined is not a function
-            // Cannot read property 'isNewWindow' of null
-
             // X:\jsc.svn\examples\javascript\Test\TestNativeStaticDelegateCall\TestNativeStaticDelegateCall\Application.cs
 
-            //          // ScriptCoreLib.JavaScript.DOM.IFunction.OfDelegate
-            //          this.OA4ABpQ63TiXIluLZRN7yQ = function(b)
-            //{
-            //              var c, d;
 
-            //              d = !(b == null);
-
-            //              if (!d)
-            //              {
-            //                  c = null;
-            //                  return c;
-            //              }
-
-            //              c = b.mR4ABlQajj_aYV3DTlUa8mQ();
-            //              return c;
-            //          };
 
 
 #if FCHROME
@@ -130,7 +111,7 @@ namespace GGearAlpha
             if (self_chrome_socket != null)
             {
                 chrome.Notification.DefaultTitle = "GGearAlpha";
-                //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Promotion3D_iso1_tiltshift_128().src;
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview128().src;
 
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
                     AppSource.Text,
