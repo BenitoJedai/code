@@ -13,14 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\market\sy
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{C22EE83E-C6B1-4657-A760-93923B0F8A99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\chrome\apps\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\..\chrome\apps\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNone", "..\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNone", "..\..\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}
 	EndProjectSection

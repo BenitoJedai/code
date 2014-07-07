@@ -22,6 +22,7 @@
   "permissions": [
   "webview",
   "fullscreen",
+  "geolocation",
   "pointerLock",
     "unlimitedStorage",
 	    "notifications",
