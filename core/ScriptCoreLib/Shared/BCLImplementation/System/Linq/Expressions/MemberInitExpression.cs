@@ -12,6 +12,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     [Script(Implements = typeof(global::System.Linq.Expressions.MemberInitExpression))]
     internal class __MemberInitExpression : __Expression
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140707/xlsx
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
 
         public ReadOnlyCollection<MemberBinding> Bindings { get; set;  }
