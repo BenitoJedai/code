@@ -22,6 +22,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         public ReadOnlyCollection<ParameterExpression> Parameters { get; set; }
 
         public Expression Body { get; set; }
+
+
+        public static implicit operator LambdaExpression(__LambdaExpression x)
+        {
+            return (LambdaExpression)(object)x;
+        }
     }
 
 }
