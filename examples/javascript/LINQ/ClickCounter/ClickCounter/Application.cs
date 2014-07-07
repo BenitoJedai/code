@@ -20,6 +20,7 @@ using ScriptCoreLib.Query.Experimental;
 using System.Linq.Expressions;
 using System.Data.SQLite;
 using System.Threading;
+using ClickCounter.Data;
 
 namespace ClickCounter
 {
@@ -46,6 +47,13 @@ namespace ClickCounter
 
         public Application(IApp page)
         {
+            //            02000069 ClickCounter.Data.xxAvatar
+            //            arg[0] is typeof ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions.__Expression
+            //arg[1] is typeof System.Linq.Expressions.ParameterExpression[]
+            //script: error JSC1000: method was found, but too late: [Lambda]
+
+
+
 
             // can we do this?
 
@@ -61,17 +69,17 @@ namespace ClickCounter
 
 
             // make sure it exists?
-            new xAvatar().Create();
+            new xxAvatar().Create();
 
 
             // how much load will we cause?
-            new IHTMLPre { "count: ", () => new xAvatar().CountAsync() }.AttachToDocument();
+            new IHTMLPre { "count: ", () => new xxAvatar().CountAsync() }.AttachToDocument();
             //new IHTMLPre { "descending: ", () => new xAvatar().CountAsync() }.AttachToDocument();
             new IHTMLPre { "descending: ",
                 () => (
-                    from x in new xAvatar()
+                    from x in new xxAvatar()
                     orderby x.Key descending
-                    select new xAvatarRow
+                    select new xxAvatarRow
                     {
                         // message: "type$zrk5B64_bQTe7tpWTj7myyA is not defined"
                         // we cannot select Key as we are missing the enum type referenced by FromHandle?
@@ -134,15 +142,15 @@ namespace ClickCounter
                  async e =>
             {
                 e.Element.disabled = true;
-                await new xAvatar().InsertAsync(
-                    new xAvatarRow
+                await new xxAvatar().InsertAsync(
+                    new xxAvatarRow
                 {
                     Tag = "hi! " + new
                     {
 
                         Thread.CurrentThread.ManagedThreadId,
 
-                        Count = await new xAvatar().CountAsync()
+                        Count = await new xxAvatar().CountAsync()
                     }
                 }
                );
@@ -167,14 +175,14 @@ namespace ClickCounter
 
 
                     // time for our DataBound DataRepeater class?
-                    await new xAvatar().InsertAsync(
-                        new xAvatarRow
+                    await new xxAvatar().InsertAsync(
+                        new xxAvatarRow
                     {
                         Tag = "hi! " + new
                         {
                             Thread.CurrentThread.ManagedThreadId,
 
-                            Count = await new xAvatar().CountAsync()
+                            Count = await new xxAvatar().CountAsync()
                         }
                     });
 
@@ -192,46 +200,46 @@ namespace ClickCounter
 
 
     #region example generated data layer
-    public class xAvatar : QueryExpressionBuilder.xSelect<xAvatarRow>
-    {
-        public xAvatar()
-        {
-            // xlsx needs to generate this?
-            Expression<Func<xAvatarRow, xAvatarRow>> selector =
-                (xAvatar) => new xAvatarRow
-            {
-                Key = xAvatar.Key,
+    //public class xAvatar : QueryExpressionBuilder.xSelect<xAvatarRow>
+    //{
+    //    public xAvatar()
+    //    {
+    //        // xlsx needs to generate this?
+    //        Expression<Func<xAvatarRow, xAvatarRow>> selector =
+    //            (xAvatar) => new xAvatarRow
+    //        {
+    //            Key = xAvatar.Key,
 
-                Avatar96gif = xAvatar.Avatar96gif,
+    //            Avatar96gif = xAvatar.Avatar96gif,
 
-                Tag = xAvatar.Tag,
-                Timestamp = xAvatar.Timestamp,
+    //            Tag = xAvatar.Tag,
+    //            Timestamp = xAvatar.Timestamp,
 
-            };
+    //        };
 
-            this.selector = selector;
-        }
-    }
-
-
-    public enum xAvatarKey : long { }
-
-    public class xAvatarRow
-    {
-        public xAvatarKey Key;
-
-        public string Avatar96gif;
-
-        public string Tag;
-        public DateTime Timestamp;
+    //        this.selector = selector;
+    //    }
+    //}
 
 
-        public override string ToString()
-        {
-            return new { Tag }.ToString();
-        }
+    //public enum xAvatarKey : long { }
 
-    }
+    //public class xAvatarRow
+    //{
+    //    public xAvatarKey Key;
+
+    //    public string Avatar96gif;
+
+    //    public string Tag;
+    //    public DateTime Timestamp;
+
+
+    //    public override string ToString()
+    //    {
+    //        return new { Tag }.ToString();
+    //    }
+
+    //}
     #endregion
 
 }
