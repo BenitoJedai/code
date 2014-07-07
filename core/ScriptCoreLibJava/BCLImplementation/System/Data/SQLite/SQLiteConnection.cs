@@ -163,7 +163,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             }
         }
 
-        public override void Dispose()
+
+
+        public override void Dispose(bool e)
         {
             this.Close();
         }

@@ -104,9 +104,9 @@
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\ConstructorInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Reflection\PropertyInfo.cs" />
@@ -288,8 +288,6 @@
     <Compile Include="JavaScript\WebGL\WebGLBuffer.cs" />
     <Compile Include="JavaScript\WebGL\WebGLObject.cs" />
     <Compile Include="JavaScript\WebGL\WebGLUniformLocation.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />
-    <Compile Include="PHP\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
     <Compile Include="PHP\BCLImplementation\System\Int64.cs" />
     <Compile Include="PHP\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="PHP\Data\mysqli_stmt.cs" />
@@ -1133,7 +1131,6 @@
     <Folder Include="PHP\BCLImplementation\System\Diagnostics\" />
     <Folder Include="PHP\Web\" />
     <Folder Include="Shared\BCLImplementation\Abstractatech\" />
-    <Folder Include="Shared\BCLImplementation\System\Data\SQLite\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

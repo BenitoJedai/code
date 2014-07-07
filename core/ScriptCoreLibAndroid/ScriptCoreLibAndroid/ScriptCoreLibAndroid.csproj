@@ -88,12 +88,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Configuration\SettingsBase.cs">
       <Link>BCLImplementation\System\Configuration\SettingsBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs">
-      <Link>BCLImplementation\System\Data\SQLite\SQLiteParameter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs">
-      <Link>BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs">
       <Link>BCLImplementation\System\DateTime.cs</Link>
     </Compile>

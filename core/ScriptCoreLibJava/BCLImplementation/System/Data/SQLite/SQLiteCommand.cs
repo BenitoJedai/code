@@ -10,6 +10,7 @@ using System.Text;
 using ScriptCoreLibJava.Extensions;
 using System.Threading;
 using System.Data.Common;
+using ScriptCoreLib.Shared.BCLImplementation.System.Data.SQLite;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {

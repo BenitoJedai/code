@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.BCLImplementation.System.Data.SQLite;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
 {
