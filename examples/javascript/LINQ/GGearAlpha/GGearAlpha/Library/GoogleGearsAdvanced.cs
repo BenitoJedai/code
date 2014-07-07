@@ -82,8 +82,8 @@ namespace GGearAlpha.js
 
 
 
-            var cc = new SQLiteConnection();
-            cc.Open();
+            //var cc = new SQLiteConnection();
+            //cc.Open();
 
             new { }.With(
                 async delegate
@@ -96,7 +96,7 @@ namespace GGearAlpha.js
                     await Task.Delay(500);
 
 
-                    var Count = await new xPostcard().Create(cc).CountAsync(cc);
+                    var Count = await new xPostcard().Create().CountAsync();
 
 
                     // let UI know how many we have
@@ -128,7 +128,7 @@ namespace GGearAlpha.js
                     // Cannot read property 'transaction' of null"
 
 
-                    new xPostcard().Create(cc);
+                    new xPostcard().Create();
 
                     //catch (System.Exception exc)
                     //{
@@ -171,7 +171,7 @@ namespace GGearAlpha.js
                             {
                                 try
                                 {
-                                    new xPostcard().Insert(cc,
+                                    new xPostcard().InsertAsync(
                                         new xPostcardRow
                                     {
                                         Id = p2.Id,
@@ -212,7 +212,7 @@ namespace GGearAlpha.js
                                      from x in new xPostcard()
                                      where x.Id == p2.Id
                                      select x
-                                 ).Delete(cc);
+                                 ).Delete();
 
                                 //new xPostcard().Where(x => x.Id == p2.Id).Delete(cc);
                                 Console.WriteLine("delete: done?");
@@ -234,7 +234,7 @@ namespace GGearAlpha.js
                                      from x in new xPostcard()
                                      where x.Id == p2.Id
                                      select x
-                                 ).Delete(cc);
+                                 ).Delete();
 
                                 //new xPostcard().Where(x => x.Id == p2.Id).Delete(cc);
                                 Console.WriteLine("delete: done?");
@@ -250,10 +250,10 @@ namespace GGearAlpha.js
 
                                 Console.WriteLine("delete:");
 
-                                new xPostcard().Where(x => x.Id == p2.Id).Delete(cc);
+                                new xPostcard().Where(x => x.Id == p2.Id).Delete();
 
-                                new xPostcard().Insert(
-                                    cc, new xPostcardRow
+                                new xPostcard().InsertAsync(
+                                    new xPostcardRow
                                 {
                                     Id = p2.Id,
                                     Text = p2.Text,
@@ -299,7 +299,7 @@ namespace GGearAlpha.js
                         var query = from Data in new xPostcard()
                                     select Data;
 
-                        foreach (var v in await query.AsEnumerableAsync(cc))
+                        foreach (var v in await query.AsEnumerableAsync())
                         {
                             // 13:232ms {{ Text = hey, X = 355.0, Y = 243.0, Zoom100 = 30.0 }} 
 

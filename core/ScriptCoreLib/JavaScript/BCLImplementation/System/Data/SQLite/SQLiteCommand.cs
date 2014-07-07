@@ -70,6 +70,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
             #region ExecuteNonQuery
             Func<Task<int>> ExecuteNonQuery = delegate
             {
+                Console.WriteLine("enter InternalCreateStatement.ExecuteNonQueryAsync");
+
                 var x = new TaskCompletionSource<int>();
 
                 // X:\jsc.svn\examples\javascript\Test\TestWebSQLDatabase\TestWebSQLDatabase\Application.cs
@@ -81,6 +83,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
                     callback:
                          tx =>
                          {
+                             Console.WriteLine("enter InternalCreateStatement.ExecuteNonQueryAsync transaction");
+
+
                              tx.executeSql(
                                  sqlStatement: sql,
 
@@ -89,10 +94,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
                                  callback:
                                        (SQLTransaction xtx, SQLResultSet r) =>
                                        {
+                                           Console.WriteLine("enter InternalCreateStatement.ExecuteNonQueryAsync callback");
+
                                            this.InternalConnection.InternalLastSQLResultSet = r;
 
                                            x.SetResult((int)r.rowsAffected);
-                                       }
+                                       },
+
+
+                                errorCallback:
+                                    (xtx, err) =>
+                                    {
+                                        Console.WriteLine("errorCallback: " + new { err.code, err.message });
+                                    }
+
+
                              );
 
                          }
@@ -209,6 +225,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
         // http://msdn.microsoft.com/en-us/library/system.data.common.dbcommand.executenonquery(v=vs.110).aspx
         public override global::System.Threading.Tasks.Task<int> ExecuteNonQueryAsync()
         {
+            Console.WriteLine("enter ExecuteNonQueryAsync");
+
             // how the heck do we support the damn arguments?
             // http://stackoverflow.com/questions/15644654/can-executesql-take-named-parameters
 

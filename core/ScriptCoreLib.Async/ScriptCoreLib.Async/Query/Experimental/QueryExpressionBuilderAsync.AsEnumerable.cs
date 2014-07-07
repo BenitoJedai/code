@@ -17,6 +17,22 @@ namespace ScriptCoreLib.Query.Experimental
     {
 
 
+        public static Task<IEnumerable<TElement>> AsEnumerableAsync<TElement>(this IQueryStrategy<TElement> source)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
+
+            var z = new TaskCompletionSource<IEnumerable<TElement>>();
+
+            // was it manually set?
+            QueryExpressionBuilder.WithConnection(
+                (IDbConnection cc) =>
+                {
+                    AsEnumerableAsync(source, cc).ContinueWithResult(z.SetResult);
+                }
+            );
+            return z.Task;
+        }
+
         public static async Task<IEnumerable<TElement>> AsEnumerableAsync<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             Console.WriteLine("enter AsEnumerable");

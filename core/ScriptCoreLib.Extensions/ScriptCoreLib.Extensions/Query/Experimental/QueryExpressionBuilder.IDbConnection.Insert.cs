@@ -19,7 +19,7 @@ namespace ScriptCoreLib.Query.Experimental
         #region GetInsertCommand
         public static IDbCommand GetInsertCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         {
-            Console.WriteLine("enter Insert");
+            Console.WriteLine("enter GetInsertCommand");
 
             // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
@@ -82,6 +82,7 @@ namespace ScriptCoreLib.Query.Experimental
             w.Append(")");
             c.CommandText = w.ToString();
 
+            Console.WriteLine("exit GetInsertCommand");
             return c;
         }
         #endregion
@@ -90,6 +91,19 @@ namespace ScriptCoreLib.Query.Experimental
 
         [Obsolete("whats the default?")]
         public static Action<Action<IDbConnection>> WithConnection;
+
+
+        public static void Insert<TElement>(this IQueryStrategy<TElement> source, TElement value)
+        {
+
+            WithConnection(
+                cc =>
+                {
+                    Insert(source, cc, value);
+                }
+            );
+
+        }
 
         [Obsolete("what should we return? rename to InsertSync ?")]
         public static void Insert<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
@@ -116,7 +130,7 @@ namespace ScriptCoreLib.Query.Experimental
             // `Timestamp` BIGINT NOT NULL)";
         }
 
-        
+
     }
 
 }

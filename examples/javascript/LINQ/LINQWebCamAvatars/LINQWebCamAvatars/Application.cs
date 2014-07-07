@@ -27,6 +27,20 @@ namespace LINQWebCamAvatars
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        static Application()
+        {
+            #region QueryExpressionBuilder.WithConnection
+            QueryExpressionBuilder.WithConnection =
+                y =>
+                {
+                    var cc = new SQLiteConnection();
+                    cc.Open();
+                    y(cc);
+                    cc.Dispose();
+                };
+            #endregion
+        }
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
@@ -41,26 +55,15 @@ namespace LINQWebCamAvatars
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
             // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
-            var cc = new SQLiteConnection();
-
-            cc.Open();
-
-            // Uncaught TypeError: Cannot read property 'transaction' of null 
-            // count aint working?
-
-            //  method: Void MoveNext(), ex = System.IO.FileNotFoundException: Could not load file or assembly 'System.Data.XMySQL, Version=6.8.3.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.The system cannot find the file specified.
-            //File name: 'System.Data.XMySQL, Version=6.8.3.0, Culture=neutral, PublicKeyToken=null'
-
-
 
             new { }.With(
     async delegate
             {
-                var Count = await new xAvatar().Create(cc).CountAsync(cc);
+                var Count = await new xAvatar().Create().CountAsync();
                 new IHTMLPre { new { Count } }.AttachToDocument();
 
 
-                foreach (var y in await new xAvatar().AsEnumerableAsync(cc))
+                foreach (var y in await new xAvatar().AsEnumerableAsync())
                 {
                     new IHTMLPre { new { y.Avatar96gif.Length } }.AttachToDocument();
                     new IHTMLImage { y.Avatar96gif }.AttachToDocument();
@@ -97,6 +100,8 @@ namespace LINQWebCamAvatars
                     //async y =>
                     y =>
                 {
+                    div.Orphanize();
+
                     // can we use async using yet?
                     overlay.Orphanize();
                     css.style.display = IStyle.DisplayEnum.empty;
@@ -107,14 +112,19 @@ namespace LINQWebCamAvatars
 
                     // save to chrome db?
 
-                    new xAvatar().Insert(cc, new xAvatarRow { Avatar96gif = y.Avatar96gif });
-
-                    new xAvatar().Create(cc).CountAsync(cc).ContinueWithResult(
-                        Count =>
+                    new xAvatar().InsertAsync(new xAvatarRow { Avatar96gif = y.Avatar96gif }).ContinueWith(
+                        delegate
                         {
-                            new IHTMLPre { new { Count } }.AttachToDocument();
+
+                            new xAvatar().CountAsync().ContinueWithResult(
+                                Count =>
+                            {
+                                new IHTMLPre { new { Count } }.AttachToDocument();
+                            }
+                            );
                         }
                     );
+
                 }
 
                );
