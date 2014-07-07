@@ -60,12 +60,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 // what if roslyn optimizes it
                 // and jsc stack rewriter is not allowed to rewrite it?
 
-                return from p in new[] { this.Parent }
-                       where p != null
-                       from i in Enumerable.Range(0, p.Controls.Count)
-                       let cc = (__Control)this.Parent.Controls[i]
-                       select cc;
+                //return from p in new[] { this.Parent }
+                //       where p != null
+                //       from i in Enumerable.Range(0, p.Controls.Count)
+                //       let cc = (__Control)this.Parent.Controls[i]
+                //       select cc;
 
+                if (this.Parent == null)
+                    return new __Control[0].AsEnumerable();
+
+                return Enumerable.Range(0, this.Parent.Controls.Count).Select(i => (__Control)this.Parent.Controls[i]);
             }
         }
 
@@ -212,6 +216,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                 var SiblingsTop = Siblings.Where(x => x.Dock == DockStyle.Top).ToArray();
                 var SiblingsBottom = Siblings.Where(x => x.Dock == DockStyle.Bottom).ToArray();
+
+
+                //         script: error JSC1000: Method: InternalChildrenAnchorUpdate, Type: ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.__Control;
+                //             at jsc.RecursionGuard..ctor(RecursionGuard parent) in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 31
+                //at jsc.RecursionGuard.get_Lock() in x:\jsc.internal.svn\compiler\jsc\RecursionGuard.cs:line 47
 
                 var __Bottom = Enumerable.Sum(
                     from cc in SiblingsBottom
