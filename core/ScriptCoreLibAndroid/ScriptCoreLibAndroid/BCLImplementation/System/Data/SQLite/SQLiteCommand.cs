@@ -1,6 +1,7 @@
 ﻿using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
-using ScriptCoreLibJava.BCLImplementation.System.Data.SQLite;
+using ScriptCoreLib.Shared.BCLImplementation.System.Data.SQLite;
+//using ScriptCoreLibJava.BCLImplementation.System.Data.SQLite;
 using ScriptCoreLibJava.Extensions;
 using System;
 using System.Collections.Generic;

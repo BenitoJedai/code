@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared.BCLImplementation.System.Data.SQLite;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 {

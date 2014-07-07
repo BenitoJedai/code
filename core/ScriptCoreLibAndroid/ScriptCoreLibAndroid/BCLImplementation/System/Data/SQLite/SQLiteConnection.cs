@@ -143,10 +143,11 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         }
 
 
-        public override void Dispose()
+        public override void Dispose(bool e)
         {
             this.Close();
         }
+
 
         //  public int LastInsertRowId { get; }
         //public long LastInsertRowId

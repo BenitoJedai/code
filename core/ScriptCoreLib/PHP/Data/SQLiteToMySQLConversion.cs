@@ -9,7 +9,7 @@ namespace ScriptCoreLib.PHP.Data
 {
     [Description("PHP and Google App Engine use MySQL. When SQLite API is used SQL rewrite is required.")]
     [Script]
-    [Obsolete("Move namespace!")]
+    [Obsolete("the new datalayer will not use it directly")]
     public static class SQLiteToMySQLConversion
     {
         public static string Convert(string sql, string InternalDatabaseName = null)
