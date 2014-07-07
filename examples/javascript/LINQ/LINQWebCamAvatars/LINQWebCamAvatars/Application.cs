@@ -112,6 +112,8 @@ namespace LINQWebCamAvatars
 
                     // save to chrome db?
 
+                    // never returns??
+                    // errorCallback: { code = 4, message = there was not enough remaining storage space, or the storage quota was reached and the user declined to allow more space }
                     new xAvatar().InsertAsync(new xAvatarRow { Avatar96gif = y.Avatar96gif }).ContinueWith(
                         delegate
                         {

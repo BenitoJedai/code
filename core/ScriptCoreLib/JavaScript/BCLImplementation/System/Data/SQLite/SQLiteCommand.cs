@@ -83,7 +83,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
                     callback:
                          tx =>
                          {
-                             Console.WriteLine("enter InternalCreateStatement.ExecuteNonQueryAsync transaction");
+                             Console.WriteLine("enter InternalCreateStatement.ExecuteNonQueryAsync in transaction, before executeSql " + new { sql, bindArgs.Length });
 
 
                              tx.executeSql(
@@ -111,7 +111,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
                              );
 
-                         }
+                         },
+
+                    errorCallback:
+                        (xerr) =>
+                        {
+                            Console.WriteLine("errorCallback: " + new { xerr.code, xerr.message });
+                        }
                 );
 
                 return x.Task;
