@@ -26,6 +26,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // web workers can do it sync
         //[Script(DefineAsStatic = true)]
+
+        // http://www.html5rocks.com/en/tutorials/offline/quota-research/
         public Database openDatabase(
             string name = "database.sqlite",
             string version = "1.0",
