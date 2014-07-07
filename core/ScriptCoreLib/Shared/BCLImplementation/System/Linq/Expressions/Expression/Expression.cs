@@ -28,29 +28,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
 
 
-        //        Implementation not found for type import :
-        //type: System.Linq.Expressions.Expression
-        //method: System.Linq.Expressions.MemberAssignment Bind(System.Reflection.MemberInfo, System.Linq.Expressions.Expression)
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
 
-
-        public static MemberAssignment Bind(MemberInfo m, Expression e)
-        {
-            // x:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyExtensions.cs
-
-            return
-
-            (MemberAssignment)(object)
-            new __MemberAssignment
-            {
-                Member = m,
-                Expression = e,
-
-                // ??
-                BindingType = MemberBindingType.MemberBinding
-            };
-        }
 
 
         //        Implementation not found for type import :
@@ -243,25 +221,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 };
         }
 
-        public static MemberExpression Field(Expression expression, FieldInfo field)
-        {
-            // ParameterExpression
 
-
-            //Console.WriteLine("Field " + new { expression, field });
-
-            return
-                (MemberExpression)(object)
-                new __MemberExpression
-                {
-                    NodeType = ExpressionType.MemberAccess,
-
-
-                    Expression = expression,
-                    Member = field
-                };
-
-        }
 
         public static ParameterExpression Parameter(Type type, string name)
         {
@@ -319,6 +279,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     [Script(Implements = typeof(global::System.Linq.Expressions.Expression<>))]
     internal sealed class __Expression<TDelegate> : __LambdaExpression
     {
+        // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+
         //Error	71	The type 'System.Linq.Expressions.LambdaExpression' has no constructors defined	X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\Expression.cs	43	27	ScriptCoreLib
 
 

@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
     internal abstract partial class __Expression
     {
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\MemberInitExpression.cs
+
         public static MemberInitExpression MemberInit(NewExpression NewExpression, MemberBinding[] Bindings)
         {
             //Console.WriteLine("MemberInit " + new { NewExpression });

@@ -196,6 +196,7 @@ namespace ClickCounter
     {
         public xAvatar()
         {
+            // xlsx needs to generate this?
             Expression<Func<xAvatarRow, xAvatarRow>> selector =
                 (xAvatar) => new xAvatarRow
             {
