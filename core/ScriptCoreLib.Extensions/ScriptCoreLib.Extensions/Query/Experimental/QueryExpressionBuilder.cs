@@ -741,7 +741,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 {
                                     // index by name?
                                     var zMemberInitExpressionii = zMemberInitExpression.Bindings.Select(xx => xx.Member.Name).ToList().IndexOf(zzMemberExpressionMemberField.Name);
-                                    Console.WriteLine("WriteOrderByKeySelector " + new { zMemberInitExpressionii, zMemberExpression.Member });
+                                    //Console.WriteLine("WriteOrderByKeySelector " + new { zMemberInitExpressionii, zMemberExpression.Member });
                                     // /* 0000:0012 */   order by 0:12369ms WriteOrderByKeySelector {{ zMemberInitExpressionii = -1, Member = Key }} 
                                     var aa = zMemberInitExpression.Bindings[zMemberInitExpressionii] as MemberAssignment;
 
@@ -753,11 +753,11 @@ namespace ScriptCoreLib.Query.Experimental
                                 }
 
                                 var zNewExpression = zSelect.selector.Body as NewExpression;
-                                Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpression });
+                                //Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpression });
                                 if (zNewExpression != null)
                                 {
                                     var zNewExpressionii = zNewExpression.Members.IndexOf(zMemberExpression.Member);
-                                    Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpressionii });
+                                    //Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpressionii });
                                     var aa = zNewExpression.Arguments[zNewExpressionii];
 
                                     if (aa != null)

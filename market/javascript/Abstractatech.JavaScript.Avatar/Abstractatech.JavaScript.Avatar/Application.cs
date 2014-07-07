@@ -113,6 +113,8 @@ namespace Abstractatech.JavaScript.Avatar
             c.style.backgroundColor = "black";
 
             #region localStorageKeys
+
+            // or webSQL?
             var localStorageKeys = new
             {
 
@@ -202,7 +204,9 @@ namespace Abstractatech.JavaScript.Avatar
 
                         var s = Stopwatch.StartNew();
 
-                        while (true)
+                        // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
+                        // until orphanized
+                        while (c.parentNode != null)
                         {
                             await Native.window.requestAnimationFrameAsync;
 

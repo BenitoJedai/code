@@ -134,12 +134,13 @@ namespace ScriptCoreLib.Query.Experimental
                    ).ToArray();
 
 
+                    // Constructor on type '<>f__AnonymousType0`4[[Program+xPerformanceResourceTimingData2ApplicationPerformanceKey, TestXMySQL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]' not found.
 
                     // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
                     var xRowType = xNewExpression.Type;
                     // jsc could give us the PrimaryConstructor?
-                    var xRow = (TElement)Activator.CreateInstance(xRowType, args);
-                    //var xRow = (TElement)xNewExpression.Constructor.Invoke(args);
+                    //var xRow = (TElement)Activator.CreateInstance(xRowType, args);
+                    var xRow = (TElement)xNewExpression.Constructor.Invoke(args);
 
 
 

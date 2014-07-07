@@ -39,12 +39,9 @@ namespace ClickCounter
                     var cc = new SQLiteConnection();
                     cc.Open();
                     y(cc);
-
-                    // c.kQMABkUx4DmelRJHOsp9TQ();
                     cc.Dispose();
                 };
             #endregion
-
         }
 
         public Application(IApp page)

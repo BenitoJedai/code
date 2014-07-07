@@ -59,22 +59,36 @@ class Program
 
     static void Main(string[] args)
     {
+        // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+        // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
+
         Console.WriteLine("i am a zombie");
 
         // string DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
 
-        var cc0 = new SQLiteConnection(
-            new SQLiteConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
-        );
 
-        cc0.Open();
+        #region QueryExpressionBuilder.WithConnection
+        QueryExpressionBuilder.WithConnection =
+            y =>
+            {
+                var cc = new SQLiteConnection(
+                    new SQLiteConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
+                );
+
+                cc.Open();
+                y(cc);
+                cc.Dispose();
+            };
+        #endregion
+
+      
 
         // ThreadLocal SynchronizationContext aware ConnectionPool?
         var n = new xApplicationPerformance();
 
-        n.Create(cc0);
+        n.Create();
 
-        n.Insert(cc0,
+        n.Insert(
             new xPerformanceResourceTimingData2ApplicationPerformanceRow
             {
                 connectStart = 5,
@@ -93,13 +107,12 @@ class Program
                     x.Timestamp
                 };
 
-        var f = q.FirstOrDefault(cc0);
+        var f = q.FirstOrDefault();
 
         Console.WriteLine(new { f });
 
-        new xApplicationPerformance().Where(x => x.Key == f.Key).Delete(cc0);
+        new xApplicationPerformance().Where(x => x.Key == f.Key).Delete();
 
-        cc0.Close();
 
 
     }

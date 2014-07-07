@@ -19,15 +19,26 @@ namespace ScriptCoreLib.Query.Experimental
 
         public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, TElement value)
         {
+            Console.WriteLine("enter InsertAsync");
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+
             var z = new TaskCompletionSource<Task>();
 
             // was it manually set?
             QueryExpressionBuilder.WithConnection(
                 (IDbConnection cc) =>
                 {
-                    InsertAsync(source, cc, value).ContinueWith(z.SetResult);
+                    InsertAsync(source, cc, value).ContinueWith(
+                        delegate
+                    {
+                        Console.WriteLine("after InsertAsync");
+
+                        z.SetResult(null);
+                    }
+                    );
                 }
             );
+            Console.WriteLine("exit InsertAsync");
             return z.Task;
         }
 
@@ -40,6 +51,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             if (xDbCommand != null)
             {
+                Console.WriteLine("before ExecuteNonQueryAsync");
                 var n = xDbCommand.ExecuteNonQueryAsync();
                 return n;
             }

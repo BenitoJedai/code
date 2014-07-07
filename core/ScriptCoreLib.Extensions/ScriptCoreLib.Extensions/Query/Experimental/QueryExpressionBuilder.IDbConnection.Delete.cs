@@ -35,6 +35,17 @@ namespace ScriptCoreLib.Query.Experimental
 
         }
 
+        public static void Delete<TElement>(this IQueryStrategy<TElement> source)
+        {
+            WithConnection(
+              cc =>
+              {
+                  Delete(source, cc);
+              }
+          );
+
+        }
+
         public static void Delete<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140705

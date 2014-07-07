@@ -73,71 +73,80 @@ class Program
         #region MySQLConnection
         // the safe way to hint we need to talk PHP dialect
         QueryExpressionBuilder.Dialect = QueryExpressionBuilderDialect.PHP;
-
-        var DataSource = "file:xApplicationPerformance.xlsx.sqlite";
-        var cc0 = new MySQLConnection(
-
-            new System.Data.MySQL.MySQLConnectionStringBuilder
+        QueryExpressionBuilder.WithConnection =
+            y =>
             {
-                
-                
-                UserID = "root",
-                Server = "127.0.0.1",
-                
-            }.ToString()
-            //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
-        );
+                var DataSource = "file:xApplicationPerformance.xlsx.sqlite";
+                var cc0 = new MySQLConnection(
+
+                    new System.Data.MySQL.MySQLConnectionStringBuilder
+                    {
+
+
+                        UserID = "root",
+                        Server = "127.0.0.1",
+
+                    }.ToString()
+                    //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
+                );
+
+
+
+
+
+                // Additional information: Authentication to host '' for user '' using method 'mysql_native_password' failed with message: Access denied for user ''@'asus7' (using password: NO)
+                // Additional information: Unable to connect to any of the specified MySQL hosts.
+                cc0.Open();
+
+                #region use db
+                {
+                    var a = Assembly.GetExecutingAssembly().GetName();
+
+
+                    // SkipUntilIfAny ???
+                    var QDataSource = a.Name + ":" + DataSource.SkipUntilIfAny("file:").TakeUntilIfAny(".xlsx.sqlite");
+
+                    // QDataSource.Length = 76
+                    var QLengthb = QDataSource.Length;
+
+                    // Database	64
+                    cc0.CreateCommand("CREATE DATABASE IF NOT EXISTS `" + QDataSource + "`").ExecuteScalar();
+                    cc0.CreateCommand("use `" + QDataSource + "`").ExecuteScalar();
+                }
+                #endregion
+
+                y(cc0);
+
+                cc0.Dispose();
+            };
         #endregion
 
-
-
-
-
-        // Additional information: Authentication to host '' for user '' using method 'mysql_native_password' failed with message: Access denied for user ''@'asus7' (using password: NO)
-        cc0.Open();
-
-        #region use db
-        {
-            var a = Assembly.GetExecutingAssembly().GetName();
-
-
-            // SkipUntilIfAny ???
-            var QDataSource = a.Name + ":" + DataSource.SkipUntilIfAny("file:").TakeUntilIfAny(".xlsx.sqlite");
-
-            // QDataSource.Length = 76
-            var QLengthb = QDataSource.Length;
-
-            // Database	64
-            cc0.CreateCommand("CREATE DATABASE IF NOT EXISTS `" + QDataSource + "`").ExecuteScalar();
-            cc0.CreateCommand("use `" + QDataSource + "`").ExecuteScalar();
-        }
-        #endregion
 
         // ThreadLocal SynchronizationContext aware ConnectionPool?
         var n = new xApplicationPerformance();
 
-        n.Create(cc0);
+        n.Create();
 
         // wont return? jsc broke xMySQL async? no there was an sql error
-        var count = n.CountAsync(cc0).Result;
-        //var count = n.Count(cc0);
+        //var count = n.CountAsync(cc0).Result;
+        var count = n.Count();
 
 
         // ScriptCoreLib.Async
-         n.InsertAsync(cc0,
-            new xPerformanceResourceTimingData2ApplicationPerformanceRow
-            {
-                connectStart = 5,
-                connectEnd = 13,
-                EventTime = DateTime.Now.AddDays(-0)
-            }
+        n.Insert(
+           new xPerformanceResourceTimingData2ApplicationPerformanceRow
+           {
+               connectStart = 5,
+               connectEnd = 13,
+               EventTime = DateTime.Now.AddDays(-0)
+           }
 
-            // if you do not wait you wont get the id damn it
-        ).Wait();
+           // if you do not wait you wont get the id damn it
+       );
 
 
         // should be based on QueryExpressionBuilder.Dialect, and wait for the last async?
-        var id = cc0.GetLastInsertRowId();
+        //var id = cc0.GetLastInsertRowId();
 
 
         // http://stackoverflow.com/questions/5440168/c-sharp-mysql-there-is-already-an-open-datareader-associated-with-this-connectio
@@ -152,13 +161,13 @@ class Program
                     x.Timestamp
                 };
 
-        var f = q.FirstOrDefault(cc0);
+        //var f = q.FirstOrDefaultAsync().Result;
+        var f = q.FirstOrDefault();
 
         Console.WriteLine(new { f });
 
-        new xApplicationPerformance().Where(x => x.Key == f.Key).Delete(cc0);
+        new xApplicationPerformance().Where(x => x.Key == f.Key).Delete();
 
-        cc0.Close();
 
 
     }

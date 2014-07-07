@@ -21,6 +21,7 @@ using GGearAlpha.Design;
 using GGearAlpha.HTML.Pages;
 using ScriptCoreLib.Query.Experimental;
 using System.Linq.Expressions;
+using System.Data.SQLite;
 
 namespace GGearAlpha
 {
@@ -78,10 +79,20 @@ namespace GGearAlpha
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        static Application()
+        {
+            #region QueryExpressionBuilder.WithConnection
+            QueryExpressionBuilder.WithConnection =
+                y =>
+                {
+                    var cc = new SQLiteConnection();
+                    cc.Open();
+                    y(cc);
+                    cc.Dispose();
+                };
+            #endregion
+        }
+
         public Application(IApp page)
         {
             // X:\jsc.svn\examples\javascript\Test\TestNativeStaticDelegateCall\TestNativeStaticDelegateCall\Application.cs

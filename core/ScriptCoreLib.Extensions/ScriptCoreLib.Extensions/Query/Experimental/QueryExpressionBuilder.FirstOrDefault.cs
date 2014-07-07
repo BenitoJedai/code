@@ -21,16 +21,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-        [Obsolete]
-        public static TElement FirstOrDefault<TElement>(this IQueryStrategy<TElement> source)
-        {
-            // cache it?
-            var sql = new SQLWriter<TElement>(source, new IQueryStrategy[0].AsEnumerable());
-
-
-            return default(TElement);
-        }
-
+  
 
 
         public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)

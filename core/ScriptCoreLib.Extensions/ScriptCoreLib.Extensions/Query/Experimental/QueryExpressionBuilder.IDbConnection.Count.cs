@@ -19,9 +19,10 @@ namespace ScriptCoreLib.Query.Experimental
 
         partial class SQLWriter<TElement>
         {
+            public static readonly Func<IQueryStrategy<TElement>, long> CountReference = Count;
         }
 
-         class xCount : IQueryStrategy
+        class xCount : IQueryStrategy
         {
             public IQueryStrategy source;
 
@@ -31,7 +32,7 @@ namespace ScriptCoreLib.Query.Experimental
             }
         }
 
-         class xCount<TElement> : xCount, IQueryStrategy<TElement>
+        class xCount<TElement> : xCount, IQueryStrategy<TElement>
         {
 
         }
@@ -44,6 +45,25 @@ namespace ScriptCoreLib.Query.Experimental
             var w = new SQLWriter<TElement>(nsource, new IQueryStrategy[] { nsource }, Command: c);
 
             return c;
+        }
+
+
+
+        // first lets allow scalar subqueries
+        public static long Count<TElement>(this IQueryStrategy<TElement> source)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+
+            var value = default(long);
+
+            WithConnection(
+                cc =>
+                {
+                    value = Count(source, cc);
+                }
+            );
+
+            return value;
         }
 
         // chrome needs CountAsync
