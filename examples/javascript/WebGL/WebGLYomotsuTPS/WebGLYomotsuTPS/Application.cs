@@ -15,6 +15,7 @@ using System.Xml.Linq;
 using WebGLYomotsuTPS.HTML.Pages;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 
 namespace WebGLYomotsuTPS
 {
@@ -45,6 +46,7 @@ namespace WebGLYomotsuTPS
               stand = new motion { min = 0, max = 39, fps = 9, state = "stand", action = false },   // STAND
 
               run = new motion { min = 40, max = 45, fps = 10, state = "stand", action = false },   // RUN
+
               attack = new motion { min = 46, max = 53, fps = 10, state = "stand", action = true },   // ATTACK
               pain1 = new motion { min = 54, max = 57, fps = 7, state = "stand", action = true },   // PAIN_A
               pain2 = new motion { min = 58, max = 61, fps = 7, state = "stand", action = true },   // PAIN_B
@@ -74,6 +76,17 @@ namespace WebGLYomotsuTPS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page = null)
         {
+            #region AtFormCreated
+            FormStyler.AtFormCreated =
+                 s =>
+                 {
+                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                     // this is working?
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                 };
+            #endregion
+
             #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
@@ -86,7 +99,8 @@ namespace WebGLYomotsuTPS
 
 
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
-                    AppSource.Text
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
                 );
 
                 return;
@@ -401,7 +415,11 @@ namespace WebGLYomotsuTPS
                                     var animFps = motion.fps;
 
                                     md2meshBody.time = 0;
-                                    md2meshBody.duration = 1000 * ((animMax - animMin) / animFps);
+                                    md2meshBody.duration = (int)(
+                                        1000 * ((animMax - animMin) / (double)animFps)
+                                    );
+                                    Native.document.title = new { animMin, animMax }.ToString();
+
                                     md2meshBody.setFrameRange(animMin, animMax);
                                 };
 
@@ -503,12 +521,12 @@ namespace WebGLYomotsuTPS
                                     player_model_objects.position.z = player_position_z;
 
                                     // camera rotate x
-                                    camera.position.x = (float)(player_position_x + player_camera_distance * Math.Sin((player_camera_x) * Math.PI / 360));
-                                    camera.position.z = (float)(player_position_z + player_camera_distance * Math.Cos((player_camera_x) * Math.PI / 360));
+                                    camera.position.x = (float)(player_position_x + player_camera_distance * Math.Sin((player_camera_x) * Math.PI / 360.0));
+                                    camera.position.z = (float)(player_position_z + player_camera_distance * Math.Cos((player_camera_x) * Math.PI / 360.0));
 
                                     //camera rotate y
                                     //camera.position.x = player.position.x + player.camera.distance * Math.cos( (player.camera.y) * Math.PI / 360 );
-                                    camera.position.y = (float)(player_position_y + player_camera_distance * Math.Sin((player_camera_y) * Math.PI / 360));
+                                    camera.position.y = (float)(player_position_y + player_camera_distance * Math.Sin((player_camera_y) * Math.PI / 360.0));
                                     //camera.position.z = player.position.z + player.camera.distance * Math.cos( (player.camera.y) * Math.PI / 360 );
 
                                     camera.position.y += 1;
