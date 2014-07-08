@@ -92,7 +92,7 @@ namespace WebGLColladaExperiment
 
                     //camera.aspect = window.aspect;
                     //camera.aspect = canvas.clientWidth / (double)canvas.clientHeight;
-                    camera.aspect = canvas.aspect;
+                    //camera.aspect = canvas.aspect;
                     camera.updateProjectionMatrix();
 
 
