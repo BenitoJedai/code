@@ -47,14 +47,6 @@ namespace ClickCounter
 
         public Application(IApp page)
         {
-            //            02000069 ClickCounter.Data.xxAvatar
-            //            arg[0] is typeof ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions.__Expression
-            //arg[1] is typeof System.Linq.Expressions.ParameterExpression[]
-            //script: error JSC1000: method was found, but too late: [Lambda]
-
-
-
-
             // can we do this?
 
             //new IHTMLInput { type = ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox }.AttachToDocument()
@@ -65,8 +57,6 @@ namespace ClickCounter
             //    .@unchecked
 
             //    .adjacentSibling[IHTMLElement.HTMLElementEnum.pre].style.display = IStyle.DisplayEnum.none;
-
-
 
             // make sure it exists?
             new xxAvatar().Create();

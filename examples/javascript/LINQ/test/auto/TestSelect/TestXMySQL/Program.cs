@@ -6,59 +6,60 @@ using System.Data.SQLite;
 using System.Linq.Expressions;
 using System.Reflection;
 using ScriptCoreLib.Extensions;
+using TestXMySQL;
 
 class Program
 {
     #region example generated data layer
-    public class xApplicationPerformance : QueryExpressionBuilder.xSelect<xPerformanceResourceTimingData2ApplicationPerformanceRow>
-    {
-        public xApplicationPerformance()
-        {
-            Expression<Func<xPerformanceResourceTimingData2ApplicationPerformanceRow, xPerformanceResourceTimingData2ApplicationPerformanceRow>> selector =
-                (xApplicationPerformance) => new xPerformanceResourceTimingData2ApplicationPerformanceRow
-                {
-                    // : Field 'connectEnd' defined on type 'Program+xPerformanceResourceTimingData2ApplicationPerformanceRow' is not a field on the target object 
-                    // which is of type 'Program+xApplicationPerformance'.
+    //public class xApplicationPerformance : QueryExpressionBuilder.xSelect<xPerformanceResourceTimingData2ApplicationPerformanceRow>
+    //{
+    //    public xApplicationPerformance()
+    //    {
+    //        Expression<Func<xPerformanceResourceTimingData2ApplicationPerformanceRow, xPerformanceResourceTimingData2ApplicationPerformanceRow>> selector =
+    //            (xApplicationPerformance) => new xPerformanceResourceTimingData2ApplicationPerformanceRow
+    //            {
+    //                // : Field 'connectEnd' defined on type 'Program+xPerformanceResourceTimingData2ApplicationPerformanceRow' is not a field on the target object 
+    //                // which is of type 'Program+xApplicationPerformance'.
 
-                    connectEnd = xApplicationPerformance.connectEnd,
-                    connectStart = xApplicationPerformance.connectStart,
-                    domComplete = xApplicationPerformance.domComplete,
-                    domLoading = xApplicationPerformance.domLoading,
-                    EventTime = xApplicationPerformance.EventTime,
-                    Key = xApplicationPerformance.Key,
-                    loadEventEnd = xApplicationPerformance.loadEventEnd,
-                    loadEventStart = xApplicationPerformance.loadEventStart,
-                    requestStart = xApplicationPerformance.requestStart,
-                    responseEnd = xApplicationPerformance.responseEnd,
-                    responseStart = xApplicationPerformance.responseStart,
-                    Tag = xApplicationPerformance.Tag,
-                    Timestamp = xApplicationPerformance.Timestamp
-                };
+    //                connectEnd = xApplicationPerformance.connectEnd,
+    //                connectStart = xApplicationPerformance.connectStart,
+    //                domComplete = xApplicationPerformance.domComplete,
+    //                domLoading = xApplicationPerformance.domLoading,
+    //                EventTime = xApplicationPerformance.EventTime,
+    //                Key = xApplicationPerformance.Key,
+    //                loadEventEnd = xApplicationPerformance.loadEventEnd,
+    //                loadEventStart = xApplicationPerformance.loadEventStart,
+    //                requestStart = xApplicationPerformance.requestStart,
+    //                responseEnd = xApplicationPerformance.responseEnd,
+    //                responseStart = xApplicationPerformance.responseStart,
+    //                Tag = xApplicationPerformance.Tag,
+    //                Timestamp = xApplicationPerformance.Timestamp
+    //            };
 
-            this.selector = selector;
-        }
-    }
+    //        this.selector = selector;
+    //    }
+    //}
 
 
-    public enum xPerformanceResourceTimingData2ApplicationPerformanceKey : long { }
+    //public enum xPerformanceResourceTimingData2ApplicationPerformanceKey : long { }
 
-    public class xPerformanceResourceTimingData2ApplicationPerformanceRow
-    {
-        public long connectEnd;
-        public long connectStart;
-        public long domComplete;
-        public long domLoading;
-        public DateTime EventTime;
-        public xPerformanceResourceTimingData2ApplicationPerformanceKey Key;
-        public long loadEventEnd;
-        public long loadEventStart;
-        public long requestStart;
-        public long responseEnd;
-        public long responseStart;
-        public string Tag;
-        public DateTime Timestamp;
+    //public class xPerformanceResourceTimingData2ApplicationPerformanceRow
+    //{
+    //    public long connectEnd;
+    //    public long connectStart;
+    //    public long domComplete;
+    //    public long domLoading;
+    //    public DateTime EventTime;
+    //    public xPerformanceResourceTimingData2ApplicationPerformanceKey Key;
+    //    public long loadEventEnd;
+    //    public long loadEventStart;
+    //    public long requestStart;
+    //    public long responseEnd;
+    //    public long responseStart;
+    //    public string Tag;
+    //    public DateTime Timestamp;
 
-    }
+    //}
     #endregion
 
     static void Main(string[] args)
@@ -122,8 +123,12 @@ class Program
         #endregion
 
 
+
+        //'TestXMySQL.PerformanceResourceTimingData2ApplicationPerformanceRow' cannot be used for delegate parameter of type 'System.Object'
+
+
         // ThreadLocal SynchronizationContext aware ConnectionPool?
-        var n = new xApplicationPerformance();
+        var n = new PerformanceResourceTimingData2ApplicationPerformance();
 
         n.Create();
 
@@ -134,7 +139,7 @@ class Program
 
         // ScriptCoreLib.Async
         n.Insert(
-           new xPerformanceResourceTimingData2ApplicationPerformanceRow
+           new PerformanceResourceTimingData2ApplicationPerformanceRow
            {
                connectStart = 5,
                connectEnd = 13,
@@ -151,7 +156,7 @@ class Program
 
         // http://stackoverflow.com/questions/5440168/c-sharp-mysql-there-is-already-an-open-datareader-associated-with-this-connectio
 
-        var q = from x in new xApplicationPerformance()
+        var q = from x in new PerformanceResourceTimingData2ApplicationPerformance()
                 orderby x.Timestamp descending
                 select new
                 {
@@ -166,7 +171,7 @@ class Program
 
         Console.WriteLine(new { f });
 
-        new xApplicationPerformance().Where(x => x.Key == f.Key).Delete();
+        new PerformanceResourceTimingData2ApplicationPerformance().Where(x => x.Key == f.Key).Delete();
 
 
 
