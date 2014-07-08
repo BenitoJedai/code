@@ -26,50 +26,50 @@ using System.Data.SQLite;
 namespace GGearAlpha
 {
     #region example generated data layer
-    public class xPostcard : QueryExpressionBuilder.xSelect<xPostcardRow>
-    {
-        public xPostcard()
-        {
-            Expression<Func<xPostcardRow, xPostcardRow>> selector =
-                (xPostcard) => new xPostcardRow
-            {
-                Key = xPostcard.Key,
+    //public class xPostcard : QueryExpressionBuilder.xSelect<xPostcardRow>
+    //{
+    //    public xPostcard()
+    //    {
+    //        Expression<Func<xPostcardRow, xPostcardRow>> selector =
+    //            (xPostcard) => new xPostcardRow
+    //        {
+    //            Key = xPostcard.Key,
 
-                Id = xPostcard.Id,
+    //            Id = xPostcard.Id,
 
-                Text = xPostcard.Text,
-                X = xPostcard.X,
-                Y = xPostcard.Y,
-                Zoom100 = xPostcard.Zoom100,
+    //            Text = xPostcard.Text,
+    //            X = xPostcard.X,
+    //            Y = xPostcard.Y,
+    //            Zoom100 = xPostcard.Zoom100,
 
-                Tag = xPostcard.Tag,
-                Timestamp = xPostcard.Timestamp,
+    //            Tag = xPostcard.Tag,
+    //            Timestamp = xPostcard.Timestamp,
 
-            };
+    //        };
 
-            this.selector = selector;
-        }
-    }
+    //        this.selector = selector;
+    //    }
+    //}
 
 
-    public enum xPostcardKey : long { }
+    //public enum xPostcardKey : long { }
 
-    public class xPostcardRow
-    {
-        public xPostcardKey Key;
+    //public class xPostcardRow
+    //{
+    //    public xPostcardKey Key;
 
-        public string Id;
-        public string Text;
+    //    public string Id;
+    //    public string Text;
 
-        // double instead?
-        public long X;
-        public long Y;
-        public long Zoom100;
+    //    // double instead?
+    //    public long X;
+    //    public long Y;
+    //    public long Zoom100;
 
-        public string Tag;
-        public DateTime Timestamp;
+    //    public string Tag;
+    //    public DateTime Timestamp;
 
-    }
+    //}
     #endregion
 
 

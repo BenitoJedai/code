@@ -35,6 +35,15 @@ namespace ScriptCoreLib.Query.Experimental
 
         }
 
+
+
+        // convinience method
+        public static void Delete<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+            source.Where(filter).Delete();
+        }
+
         public static void Delete<TElement>(this IQueryStrategy<TElement> source)
         {
             WithConnection(

@@ -162,11 +162,14 @@
     <Content Include="Textures\shadow-bottom-100.png" />
     <Content Include="Textures\shadow-bottom.png" />
     <Content Include="Textures\shadow.png" />
+    <None Include="Data\xx.xlsx" />
     <None Include="packages.config" />
     <None Include="staging\GGearAlpha.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Properties\DataSources\xxPostcardBindingSource.datasource" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rem c:/util/jsc/bin/jsc.bc.exe $(ProjectPath) /rewrite /clear /run $(TargetPath) "C:\util\jsc\bin\ScriptCoreLib.Extensions.dll"</PostBuildEvent>

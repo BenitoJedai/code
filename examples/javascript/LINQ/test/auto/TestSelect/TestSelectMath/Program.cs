@@ -111,7 +111,8 @@ class Program
 
         Console.WriteLine(new { f });
 
-        new xApplicationPerformance().Where(x => x.Key == f.Key).Delete();
+        //new xApplicationPerformance().Where(x => x.Key == f.Key).Delete();
+        new xApplicationPerformance().Delete(x => x.Key == f.Key);
 
 
 
