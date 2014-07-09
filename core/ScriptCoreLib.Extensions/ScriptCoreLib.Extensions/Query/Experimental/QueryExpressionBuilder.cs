@@ -1961,20 +1961,27 @@ namespace ScriptCoreLib.Query.Experimental
 
                               if (zUnaryExpression.NodeType == ExpressionType.Convert)
                               {
-                                  using (WithoutLinefeeds())
-                                  {
-                                      WriteLine(1, "let ");
+                                  // could we just discard the type?
+                                  WriteProjection(zsource, zUnaryExpression.Operand, Target);
+                                  // tested by
+                                  // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
 
-                                      if (zSelect != null)
-                                      {
-                                          WriteLineWithColor(0, zSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
-                                          WriteLine(1, " ");
-                                      }
 
-                                      WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                      WriteLine(1, " <- ");
-                                      WriteScalarExpression(zUnaryExpression.Operand);
-                                  }
+
+                                  //using (WithoutLinefeeds())
+                                  //{
+                                  //    WriteLine(1, "let ");
+
+                                  //    if (zSelect != null)
+                                  //    {
+                                  //        WriteLineWithColor(0, zSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
+                                  //        WriteLine(1, " ");
+                                  //    }
+
+                                  //    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                  //    WriteLine(1, " <- ");
+                                  //    WriteScalarExpression(zUnaryExpression.Operand);
+                                  //}
 
                                   return;
                               }

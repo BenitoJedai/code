@@ -7,6 +7,7 @@ using System.Text;
 using ScriptCoreLib.Extensions;
 using System.Reflection;
 using System.Data;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -60,6 +61,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                     w.Append("`" + SourceBinding.Member.Name + "`");
 
+                    #region  Key, also referenced by keyselector
                     if (SourceBinding.Member.Name == "Key")
                     {
                         w.Append(" INTEGER NOT NULL PRIMARY KEY");
@@ -72,19 +74,39 @@ namespace ScriptCoreLib.Query.Experimental
 
                         return;
                     }
+                    #endregion
 
+                    var xMemberAssignment = SourceBinding as MemberAssignment;
+                    var xUnaryExpression = xMemberAssignment.Expression as UnaryExpression;
                     var f = SourceBinding.Member as FieldInfo;
-                    if (f.FieldType == typeof(string))
+
+                    var FieldType = default(Type);
+
+                    if (xUnaryExpression == null)
+                        FieldType = f.FieldType;
+                    else
+                        FieldType = xUnaryExpression.Type;
+
+
+                    // do we have a test for that yet?
+                    if (FieldType == typeof(XElement))
                     {
                         w.Append(" TEXT");
                         return;
                     }
-                    if (f.FieldType == typeof(DateTime))
+
+                    if (FieldType == typeof(string))
+                    {
+                        w.Append(" TEXT");
+                        return;
+                    }
+
+                    if (FieldType == typeof(DateTime))
                     {
                         w.Append(" BIGINT NOT NULL");
                         return;
                     }
-                    if (f.FieldType == typeof(long))
+                    if (FieldType == typeof(long))
                     {
                         w.Append(" BIGINT NOT NULL");
                         return;

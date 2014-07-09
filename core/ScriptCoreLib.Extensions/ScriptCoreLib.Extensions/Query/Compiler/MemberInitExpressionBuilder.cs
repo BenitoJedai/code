@@ -47,6 +47,7 @@ namespace ScriptCoreLib.Query.Compiler
 
             Func<Expression, FieldInfo, MemberExpression> refField = Expression.Field;
             Func<MemberInfo, Expression, MemberAssignment> refBind = Expression.Bind;
+            Func<Expression, Type, UnaryExpression> refConvert = Expression.Convert;
             #endregion
 
             var xLambda = il.DeclareLocal(typeof(Expression));
@@ -57,6 +58,7 @@ namespace ScriptCoreLib.Query.Compiler
             // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.ldtoken(v=vs.110).aspx
             il.Emit(OpCodes.Ldtoken, SourceType);
             il.Emit(OpCodes.Call, refGetTypeFromHandle.Method);
+
             il.Emit(OpCodes.Ldstr, ParameterName);
             il.Emit(OpCodes.Call, refParameter.Method);
             il.Emit(OpCodes.Stloc_S, (byte)xParameterExpression.LocalIndex);
@@ -76,12 +78,34 @@ namespace ScriptCoreLib.Query.Compiler
                 il.Emit(OpCodes.Ldc_I4, i);
 
                 var SourceField = SourceFields[i];
+
                 il.Emit(OpCodes.Ldtoken, SourceField);
+
                 il.Emit(OpCodes.Call, refGetFieldFromHandle.Method);
                 il.Emit(OpCodes.Ldloc_S, (byte)xParameterExpression.LocalIndex);
+
                 il.Emit(OpCodes.Ldtoken, SourceField);
                 il.Emit(OpCodes.Call, refGetFieldFromHandle.Method);
+
+
+                // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Expressions\Expression\Expression.Field.cs
+                //public static MemberExpression Field(Expression expression, FieldInfo field)
                 il.Emit(OpCodes.Call, refField.Method);
+
+                if (SourceType.IsEnum)
+                {
+                    // enum types cannot be referenced in chrome just yet
+                }
+                else
+                {
+                    #region could we hard code the field type here?
+                    il.Emit(OpCodes.Ldtoken, SourceField.FieldType);
+                    il.Emit(OpCodes.Call, refGetTypeFromHandle.Method);
+                    il.Emit(OpCodes.Call, refConvert.Method);
+                    #endregion
+                }
+
+
                 il.Emit(OpCodes.Call, refBind.Method);
 
                 il.Emit(OpCodes.Stelem_Ref);

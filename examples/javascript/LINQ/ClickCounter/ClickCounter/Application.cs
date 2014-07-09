@@ -47,6 +47,9 @@ namespace ClickCounter
 
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\xml\XClickCounter\XClickCounter\Application.cs
+            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+
             // can we do this?
 
             //new IHTMLInput { type = ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox }.AttachToDocument()
