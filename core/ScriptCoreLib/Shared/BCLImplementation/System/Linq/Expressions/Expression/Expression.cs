@@ -60,6 +60,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
         //public static UnaryExpression Convert(Expression expression, Type type, MethodInfo method);
         public static UnaryExpression Convert(Expression expression, Type type)
         {
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Compiler\MemberInitExpressionBuilder.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Create.cs
+
             return
 
                 (UnaryExpression)(object)
