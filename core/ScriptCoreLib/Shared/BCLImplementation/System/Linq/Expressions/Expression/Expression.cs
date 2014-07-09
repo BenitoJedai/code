@@ -68,6 +68,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
                 (UnaryExpression)(object)
                 new __UnaryExpression
             {
+                NodeType = ExpressionType.Convert,
+
+
                 Type = type,
                 Operand = expression
             };

@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Data;
 using System.Threading.Tasks;
 using System.Data.Common;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -61,6 +62,19 @@ namespace ScriptCoreLib.Query.Experimental
 
                       var f = SourceBinding.Member as FieldInfo;
                       var v = f.GetValue(value);
+
+
+
+                      // whats the type?
+                      // this wont work in th browser
+
+                      var xXElement = v as XElement;
+                      if (xXElement != null)
+                      {
+                          // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+                          v = ScriptCoreLib.Library.StringConversions.ConvertXElementToString(xXElement);
+                      }
+
 
                       if (SourceBinding.Member.Name == "Timestamp")
                       {
