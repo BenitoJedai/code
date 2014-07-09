@@ -43,15 +43,45 @@ namespace ScriptCoreLib.Query.Experimental
         public static void Delete<TElement, TKey>(this xSelect<TKey, TElement> source, TKey key)
         {
             //source.keySelector
+            // will this work for chrome too?
+            // do we have enough type information available now?
 
-            var e = Expression.Equal(
-                source.keySelector,
-                Expression.Constant(key)
+            #region filter
+
+
+            // Member = {TestXMySQL.PerformanceResourceTimingData2ApplicationPerformanceKey Key}
+            var xMemberInitExpression = source.keySelector.Body as MemberInitExpression;
+
+            var xFieldInfo = xMemberInitExpression.Bindings[0].Member as FieldInfo;
+
+            var p = Expression.Parameter(
+                 // xrow
+                 xMemberInitExpression.Type, "x"
+             );
+
+            //Additional information: Field 'TestXMySQL.PerformanceResourceTimingData2ApplicationPerformanceRow.Key' is not defined for type 'System.Object'
+
+            var BodyLeft = Expression.Convert(
+                Expression.Field(p, xFieldInfo), // FieldExpression
+                typeof(long),
+                null
             );
 
-            // we need to make it a lambda?
-            Debugger.Break();
+            var BodyRight = Expression.Convert(
+                Expression.Constant(key),
+                typeof(long),
+                null
+            );
+
+            var e = Expression.Equal(BodyLeft, BodyRight);
+            var filter = Expression.Lambda(e, p);
+            #endregion
+
+            //Delete(source, filter);
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+            source.Where(filter).Delete();
         }
+
 
         // convinience method
         public static void Delete<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
@@ -63,6 +93,8 @@ namespace ScriptCoreLib.Query.Experimental
             source.Where(filter).Delete();
         }
 
+
+        // delete all?
         public static void Delete<TElement>(this IQueryStrategy<TElement> source)
         {
             WithConnection(

@@ -1892,9 +1892,12 @@ namespace ScriptCoreLib.Query.Experimental
                               #endregion
 
 
-
+                              // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Application.cs
                               // X:\jsc.svn\examples\javascript\LINQ\test\TestLINQ\UnitTestProject1\ApplicationWebService\ApplicationWebService select x.cs
-                              using (WithoutLinefeeds())
+                              //using (WithoutLinefeeds())
+
+                              // jsc when can we start returning from within using blocks?
+                              DoWithoutLinefeeds(delegate
                               {
 
                                   WriteCommentLine(1, "let");
@@ -1944,7 +1947,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   WriteLine(1, "`");
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                   WriteLine(1, "`");
-                              }
+                              });
                               return;
                           }
                           #endregion
