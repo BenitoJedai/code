@@ -92,8 +92,9 @@ namespace ScriptCoreLib.Query.Compiler
                 //public static MemberExpression Field(Expression expression, FieldInfo field)
                 il.Emit(OpCodes.Call, refField.Method);
 
-                if (SourceType.IsEnum)
+                if (SourceField.FieldType.IsEnum)
                 {
+                    // X:\jsc.svn\examples\javascript\xml\XClickCounter\XClickCounter\Application.cs
                     // enum types cannot be referenced in chrome just yet
                 }
                 else
