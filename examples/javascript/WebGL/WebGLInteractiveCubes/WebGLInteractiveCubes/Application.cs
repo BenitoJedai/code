@@ -94,22 +94,39 @@ namespace WebGLInteractiveCubes
 
                     e.preventDefault();
 
-                    var vector = new THREE.Vector3((e.CursorX / Native.window.Width) * 2 - 1, -(e.CursorY / Native.window.Height) * 2 + 1, 0.5);
+                    var vector = new THREE.Vector3((e.CursorX / (double)Native.window.Width) * 2 - 1, -(e.CursorY / (double)Native.window.Height) * 2 + 1, 0.5);
+                    //var vector = new THREE.Vector3(e.CursorX , e.CursorY, 1);
+
                     projector.unprojectVector( vector, camera );
 
-                    var raycaster = new THREE.Raycaster();
-                    raycaster.set(camera.position, vector.sub(camera.position).normalize());
+                    //var raycaster = new THREE.Raycaster();
+                    //raycaster.set(camera.position, vector.sub(camera.position).normalize());
 
-                
-                    //var raycaster = projector.pickingRay(vector.clone(), camera);
+
+                    var raycaster = projector.pickingRay(vector.sub(camera.position).normalize(), camera);
 
 				    var intersects = raycaster.intersectObjects( objects, true );
                     Console.WriteLine("Intersects len " + intersects.Length);
 
 				    if ( intersects.Length > 0 ) {
                         var holder = ((THREE.Mesh)intersects[0]);
+
+                        var forthSmallestInnerCilinder = new THREE.Mesh(
+                              new THREE.CylinderGeometry(10, 10, 10, 32),
+                              new THREE.MeshPhongMaterial(
+                                      new
+                                      {
+                                          specular = new THREE.Color(0xa0a0a0)
+                                      })
+                          );
+                        forthSmallestInnerCilinder.position.y = ((THREE.Raycaster_intersectObject)intersects[0]).point.y;
+                        forthSmallestInnerCilinder.position.x = ((THREE.Raycaster_intersectObject)intersects[0]).point.x;
+                        forthSmallestInnerCilinder.position.z = ((THREE.Raycaster_intersectObject)intersects[0]).point.z;
+                        scene.add(forthSmallestInnerCilinder);
+
                        // Console.WriteLine(holder.visible);
                         //intersects[0].material.color.setHex(random.NextDouble()*0xffffff);
+                        Console.WriteLine(""+((THREE.Raycaster_intersectObject)intersects[0]).point.x);
                         holder.material.color = new THREE.Color(0xf000ff);
                         foreach (var i in objects)
                         {
