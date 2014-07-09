@@ -18,16 +18,31 @@ namespace ScriptCoreLib.Query.Compiler
 
         public static LocalBuilder EmitLambdaExpression(ILGenerator il, Type SourceType, string ParameterName, FieldInfo[] SourceFields)
         {
+            // we are about to gen expression code like roslyn does.
+
+            #region ref
             Func<RuntimeFieldHandle, FieldInfo> refGetFieldFromHandle = FieldInfo.GetFieldFromHandle;
             Func<RuntimeTypeHandle, Type> refGetTypeFromHandle = Type.GetTypeFromHandle;
             Func<Type, string, ParameterExpression> refParameter = Expression.Parameter;
             Func<Type, NewExpression> refNew = Expression.New;
             Func<NewExpression, MemberBinding[], MemberInitExpression> refMemberInit = Expression.MemberInit;
 
+
+
+   //at System.Linq.Expressions.Expression.ValidateLambdaArgs(Type delegateType, Expression& body, ReadOnlyCollection`1 parameters)
+   //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, String name, Boolean tailCall, IEnumerable`1 parameters)
+   //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, Boolean tailCall, IEnumerable`1 parameters)
+   //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, ParameterExpression[] parameters)
+   //at TestXMySQL.PerformanceResourceTimingData2ApplicationPerformance..ctor()
+            
+            //    at System.Linq.Expressions.Expression.ValidateLambdaArgs(Type delegateType, Expression& body, ReadOnlyCollection`1 parameters)
+
             // <(xAvatarRow) -> xAvatarRow
-            Func<Expression, ParameterExpression[], Expression<Func<object, object>>> refLambda = Expression.Lambda<Func<object, object>>;
+            //Func<Expression, ParameterExpression[], Expression<Func<object, object>>> refLambda = Expression.Lambda<Func<object, object>>;
+            Func<Expression, ParameterExpression[], Expression> refLambda = Expression.Lambda;
             Func<Expression, FieldInfo, MemberExpression> refField = Expression.Field;
             Func<MemberInfo, Expression, MemberAssignment> refBind = Expression.Bind;
+            #endregion
 
             var xLambda = il.DeclareLocal(typeof(Expression));
 

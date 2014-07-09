@@ -37,9 +37,28 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
+
+
+        // should be exposing IQueryStrategy instead of xSelect
+        public static void Delete<TElement, TKey>(this xSelect<TKey, TElement> source, TKey key)
+        {
+            //source.keySelector
+
+            var e = Expression.Equal(
+                source.keySelector,
+                Expression.Constant(key)
+            );
+
+            // we need to make it a lambda?
+            Debugger.Break();
+        }
+
         // convinience method
         public static void Delete<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
         {
+            // could we also just ask for a key?
+            // can we ask a TElement to have a key field for us? generic field constraint?
+
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
             source.Where(filter).Delete();
         }

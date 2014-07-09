@@ -21,7 +21,11 @@ namespace ScriptCoreLib.Query.Experimental
         public class xSelect : IQueryStrategy
         {
             public IQueryStrategy source;
+
             public LambdaExpression selector;
+
+            // for delete?
+            public LambdaExpression keySelector;
 
             public override string ToString()
             {
@@ -34,6 +38,12 @@ namespace ScriptCoreLib.Query.Experimental
         {
 
         }
+
+        public class xSelect<TKey, TResult> : xSelect<TResult>
+        {
+            // TKey is for intellisense for delete
+        }
+
 
         // called by LINQ
         public static IQueryStrategy<TResult> Select<TSource, TResult>(this IQueryStrategy<TSource> source, Expression<Func<TSource, TResult>> selector)
