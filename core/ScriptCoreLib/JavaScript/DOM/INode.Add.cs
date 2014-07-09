@@ -103,6 +103,64 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
+
+
+
+
+        [Script(DefineAsStatic = true)]
+        public void Add<TResult>(Task<TResult> e)
+        {
+            // x:\jsc.svn\examples\javascript\xml\xclickcounter\xclickcounter\application.cs
+
+            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+
+            // what about implicit operators for other elements?
+            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+
+            // Implementing Collection Initializers
+            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+            //var text = new ITextNode("");
+            var text = new IHTMLSpan("");
+
+            this.appendChild(text);
+
+
+
+            var sw = Stopwatch.StartNew();
+
+            e.ContinueWith(
+                x =>
+                {
+
+                    var xx = (__Task<object>)x;
+
+                    var Result = xx.Result;
+
+                    // if its xml would we want to do something special?
+
+                    var y = System.Convert.ToString(
+                        xx.Result
+                    );
+
+                    //TotalElapsedMilliseconds += sw.ElapsedMilliseconds;
+                    //text.title = new { TotalElapsedMilliseconds, sw.ElapsedMilliseconds }.ToString();
+
+
+                    if (y != text.innerText)
+                    {
+                        text.innerText = y;
+                    }
+
+                }
+            );
+
+
+
+
+
+        }
+
         [Script(DefineAsStatic = true)]
         public void Add<TResult>(System.Func<Task<TResult>> e)
         {

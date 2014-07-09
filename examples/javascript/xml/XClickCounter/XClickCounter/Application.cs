@@ -61,38 +61,38 @@ namespace XClickCounter
 
 
             // how much load will we cause?
-            new IHTMLPre { "count: ", () => new xxAvatar().CountAsync() }.AttachToDocument();
-            //new IHTMLPre { "descending: ", () => new xAvatar().CountAsync() }.AttachToDocument();
-            new IHTMLPre { "descending: ",
-                () => (
-                    from x in new xxAvatar()
-                    orderby x.Key descending
-                    select new xxAvatarRow
-                    {
-                        // message: "type$zrk5B64_bQTe7tpWTj7myyA is not defined"
-                        // we cannot select Key as we are missing the enum type referenced by FromHandle?
-                        //x.Key,
+            //new IHTMLPre { "count: ", () => new xxAvatar().CountAsync() }.AttachToDocument();
+            ////new IHTMLPre { "descending: ", () => new xAvatar().CountAsync() }.AttachToDocument();
+            //new IHTMLPre { "descending: ",
+            //    () => (
+            //        from x in new xxAvatar()
+            //        orderby x.Key descending
+            //        select new xxAvatarRow
+            //        {
+            //            // message: "type$zrk5B64_bQTe7tpWTj7myyA is not defined"
+            //            // we cannot select Key as we are missing the enum type referenced by FromHandle?
+            //            //x.Key,
 
-                        Tag = x.Tag
-                    }
-                ).FirstOrDefaultAsync()
-            }.AttachToDocument();
+            //            Tag = x.Tag
+            //        }
+            //    ).FirstOrDefaultAsync()
+            //}.AttachToDocument();
 
-            new IHTMLPre { "descending xml: ",
-                () => (
-                    from x in new xxAvatar()
-                    orderby x.Key descending
-                    select new xxAvatarRow
-                    {
-                        // message: "type$zrk5B64_bQTe7tpWTj7myyA is not defined"
-                        // we cannot select Key as we are missing the enum type referenced by FromHandle?
-                        //x.Key,
+            //new IHTMLPre { "descending xml: ",
+            //    () => (
+            //        from x in new xxAvatar()
+            //        orderby x.Key descending
+            //        select new xxAvatarRow
+            //        {
+            //            // message: "type$zrk5B64_bQTe7tpWTj7myyA is not defined"
+            //            // we cannot select Key as we are missing the enum type referenced by FromHandle?
+            //            //x.Key,
 
-                        //Tag = x.Tag
-                        z = x.z
-                    }
-                ).FirstOrDefaultAsync()
-            }.AttachToDocument();
+            //            //Tag = x.Tag
+            //            z = x.z
+            //        }
+            //    ).FirstOrDefaultAsync()
+            //}.AttachToDocument();
 
             new IHTMLButton { "InsertAsync" }.AttachToDocument().onclick +=
                  async e =>
@@ -125,7 +125,25 @@ namespace XClickCounter
                 }
                );
 
-                new IHTMLPre { "reload to count !" }.AttachToDocument();
+                new IHTMLPre { "descending xml: ",
+                    (
+                        from x in new xxAvatar()
+                        orderby x.Key descending
+                        select new xxAvatarRow
+                        {
+                            // message: "type$zrk5B64_bQTe7tpWTj7myyA is not defined"
+                            // we cannot select Key as we are missing the enum type referenced by FromHandle?
+                            //x.Key,
+
+                            //Tag = x.Tag
+
+                            // descending xml: 0, , PGRpdj48c3R5bGU+Y29sb3I6IGJsdWU7PC9zdHlsZT5oZWxsbyB3b3JsZCEge3sgTWFuYWdlZFRocmVhZElkID0gMSwgQ291bnQgPSAwIH19PC9kaXY+, , 09.07.2014 17:41:35
+                            z = (XElement)x.z
+                        }
+                    ).FirstOrDefaultAsync()
+                }.AttachToDocument();
+
+
                 e.Element.disabled = false;
             };
 

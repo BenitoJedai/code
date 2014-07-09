@@ -1959,6 +1959,9 @@ namespace ScriptCoreLib.Query.Experimental
                               // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectXElement\Program.cs
                               // Method = {System.Xml.Linq.XName op_Implicit(System.String)}
 
+
+
+                              // descending xml: { IsCompleted = false, Result =  }
                               if (zUnaryExpression.NodeType == ExpressionType.Convert)
                               {
                                   // could we just discard the type?
@@ -1986,6 +1989,8 @@ namespace ScriptCoreLib.Query.Experimental
                                   return;
                               }
 
+
+                              // when does this happen?
                               WriteLine(1, ("let " + GetTargetName()) + " <- unary");
                               return;
                           }

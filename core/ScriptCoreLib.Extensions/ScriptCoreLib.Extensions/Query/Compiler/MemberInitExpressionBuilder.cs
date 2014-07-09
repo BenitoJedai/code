@@ -92,6 +92,8 @@ namespace ScriptCoreLib.Query.Compiler
                 //public static MemberExpression Field(Expression expression, FieldInfo field)
                 il.Emit(OpCodes.Call, refField.Method);
 
+                // or actually should the jsc rewriter add it during rebuild?
+                // then we could benefit of it for anonymous types too
                 if (SourceField.FieldType.IsEnum)
                 {
                     // X:\jsc.svn\examples\javascript\xml\XClickCounter\XClickCounter\Application.cs

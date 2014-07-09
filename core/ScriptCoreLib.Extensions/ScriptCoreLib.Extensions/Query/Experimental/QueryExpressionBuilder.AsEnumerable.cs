@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Data;
 using ScriptCoreLib.Shared.BCLImplementation.System.Data.Common;
 using System.Data.Common;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -91,12 +92,30 @@ namespace ScriptCoreLib.Query.Experimental
                             // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
                             var f = SourceBinding.Member as FieldInfo;
 
+                            var xMemberAssignment = SourceBinding as MemberAssignment;
+
+                            // this wont work. we need to dig deeper to the original selector for definition?
+                            var xUnaryExpression = xMemberAssignment.Expression as UnaryExpression;
+
                             // is it a long?
+                            var FieldType = default(Type);
 
-                            Console.WriteLine(new { xMemberName, f.FieldType });
+                            if (xUnaryExpression != null)
+                            {
+                                FieldType = xUnaryExpression.Type;
+                            }
+                            else
+                            {
+                                FieldType = f.FieldType;
+                            }
 
+                            Console.WriteLine(new { xMemberName, FieldType });
 
-                            if (f.FieldType == typeof(DateTime))
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+                            if (FieldType == typeof(XElement))
+                                v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
+
+                            if (FieldType == typeof(DateTime))
                                 v = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(v);
 
                             f.SetValue(xRow, v);
@@ -123,11 +142,21 @@ namespace ScriptCoreLib.Query.Experimental
                            var v = r[k];
 
                            // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
+
+
                            var f = xMemberExpression.Member as FieldInfo;
 
                            if (f != null)
+                           {
+                               // is it xml?
+                               // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+                               if (f.FieldType == typeof(XElement))
+                                   v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
+
+
                                if (f.FieldType == typeof(DateTime))
                                    v = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(v);
+                           }
 
                            return v;
                        }
@@ -162,6 +191,8 @@ namespace ScriptCoreLib.Query.Experimental
                 }
                 #endregion
 
+
+                // can we select scalar?
             }
 
             return default(TElement);
