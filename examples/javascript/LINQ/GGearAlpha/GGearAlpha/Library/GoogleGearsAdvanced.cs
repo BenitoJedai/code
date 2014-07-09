@@ -96,7 +96,6 @@ namespace GGearAlpha.js
                     // we are logging a lot. idle more for now
                     await Task.Delay(500);
 
-
                     var Count = await new xxPostcard().Create().CountAsync();
 
 
@@ -106,6 +105,12 @@ namespace GGearAlpha.js
                     // chrome style may not show title
                     toolbar.innerText = new { Count }.ToString();
 
+
+                    // can we do conditional css here?
+                    //toolbar.style.color = "blue";
+                    //await toolbar.async.onclick;
+                    //// undo
+                    //toolbar.style.color = "";
 
                 }
             }
@@ -209,6 +214,9 @@ namespace GGearAlpha.js
                                 //db.execute("delete from Postcards where Id = ?", p2.Id);
 
                                 Console.WriteLine("delete:");
+
+                                //                                21:15078ms delete: view - source:41361
+                                //Uncaught RangeError: Maximum call stack size exceeded
                                 (
                                      from x in new xxPostcard()
                                      where x.Id == p2.Id
@@ -251,7 +259,7 @@ namespace GGearAlpha.js
 
                                 Console.WriteLine("delete:");
 
-                                new xxPostcard().Where(x => x.Id == p2.Id).Delete();
+                                new xxPostcard().Delete(x => x.Id == p2.Id);
 
                                 new xxPostcard().InsertAsync(
                                     new xxPostcardRow

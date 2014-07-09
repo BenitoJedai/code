@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     [Script(Implements = typeof(global::System.Linq.Expressions.BinaryExpression))]
     internal class __BinaryExpression : __Expression
     {
+        // created by?
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
 
         public Expression Left { get; set; }

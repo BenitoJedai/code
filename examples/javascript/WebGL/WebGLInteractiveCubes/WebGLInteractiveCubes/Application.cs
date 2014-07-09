@@ -113,10 +113,15 @@ namespace WebGLInteractiveCubes
                         new { e.CursorX, e.CursorY, px, py, vx, vy }
                         );
 
+                    //var vector = new THREE.Vector3(
+                    //  vx,
+                    //  vy,
+                    //  0.5);
+
                     var vector = new THREE.Vector3(
-                      vx,
-                      vy,
-                      0.5);
+                  (e.CursorX / (double)Native.window.Width) * 2 - 1,
+                 vy,
+                 0.5);
 
                     //var vector = new THREE.Vector3(e.CursorX , e.CursorY, 1);
 

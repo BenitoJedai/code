@@ -29,17 +29,22 @@ namespace ScriptCoreLib.Query.Compiler
 
 
 
-   //at System.Linq.Expressions.Expression.ValidateLambdaArgs(Type delegateType, Expression& body, ReadOnlyCollection`1 parameters)
-   //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, String name, Boolean tailCall, IEnumerable`1 parameters)
-   //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, Boolean tailCall, IEnumerable`1 parameters)
-   //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, ParameterExpression[] parameters)
-   //at TestXMySQL.PerformanceResourceTimingData2ApplicationPerformance..ctor()
-            
+            //at System.Linq.Expressions.Expression.ValidateLambdaArgs(Type delegateType, Expression& body, ReadOnlyCollection`1 parameters)
+            //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, String name, Boolean tailCall, IEnumerable`1 parameters)
+            //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, Boolean tailCall, IEnumerable`1 parameters)
+            //at System.Linq.Expressions.Expression.Lambda[TDelegate](Expression body, ParameterExpression[] parameters)
+            //at TestXMySQL.PerformanceResourceTimingData2ApplicationPerformance..ctor()
+
             //    at System.Linq.Expressions.Expression.ValidateLambdaArgs(Type delegateType, Expression& body, ReadOnlyCollection`1 parameters)
 
             // <(xAvatarRow) -> xAvatarRow
             //Func<Expression, ParameterExpression[], Expression<Func<object, object>>> refLambda = Expression.Lambda<Func<object, object>>;
+
+            // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/LambdaExpression.cs
+            //   public static LambdaExpression Lambda(Type delegateType, Expression body, params ParameterExpression[] parameters) {
+            //  public static LambdaExpression Lambda(Expression body, params ParameterExpression[] parameters) {
             Func<Expression, ParameterExpression[], Expression> refLambda = Expression.Lambda;
+
             Func<Expression, FieldInfo, MemberExpression> refField = Expression.Field;
             Func<MemberInfo, Expression, MemberAssignment> refBind = Expression.Bind;
             #endregion
@@ -83,13 +88,22 @@ namespace ScriptCoreLib.Query.Compiler
             }
 
 
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140707/xlsx
+
             il.Emit(OpCodes.Call, refMemberInit.Method);
+
             il.Emit(OpCodes.Ldc_I4_1);
             il.Emit(OpCodes.Newarr, typeof(ParameterExpression));
+
+            #region stelem.ref
             il.Emit(OpCodes.Dup);
             il.Emit(OpCodes.Ldc_I4_0);
             il.Emit(OpCodes.Ldloc_S, (byte)xParameterExpression.LocalIndex);
             il.Emit(OpCodes.Stelem_Ref);
+            #endregion
+
+
+            // Expression delegateType
             il.Emit(OpCodes.Call, refLambda.Method);
             il.Emit(OpCodes.Stloc_S, (byte)xLambda.LocalIndex);
 

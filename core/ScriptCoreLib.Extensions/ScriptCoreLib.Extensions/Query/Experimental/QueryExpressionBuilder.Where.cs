@@ -35,6 +35,15 @@ namespace ScriptCoreLib.Query.Experimental
         // called by LINQ
         public static IQueryStrategy<TElement> Where<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
         {
+            // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Library\GoogleGearsAdvanced.cs
+
+            return Where(source, (LambdaExpression)filter);
+        }
+
+        // used by 
+        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Delete.cs
+        public static IQueryStrategy<TElement> Where<TElement>(this IQueryStrategy<TElement> source, LambdaExpression filter)
+        {
             var xWhere = source as xWhere;
             if (xWhere != null)
             {

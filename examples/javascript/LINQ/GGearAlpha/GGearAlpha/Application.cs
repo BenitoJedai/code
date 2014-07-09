@@ -98,7 +98,13 @@ namespace GGearAlpha
             // X:\jsc.svn\examples\javascript\Test\TestNativeStaticDelegateCall\TestNativeStaticDelegateCall\Application.cs
 
 
-
+//            02000053 ScriptCoreLib.Query.Experimental.QueryExpressionBuilder + SQLWriter`1 +<> c__DisplayClass77
+//script: error JSC1000: unsupported flow detected, try to simplify.
+// Assembly V:\GGearAlpha.Application.exe
+// DeclaringType ScriptCoreLib.Query.Experimental.QueryExpressionBuilder + SQLWriter`1 +<> c__DisplayClass77, GGearAlpha.Application, Version = 1.0.0.0, Culture = neutral, PublicKeyToken = null
+// OwnerMethod <.ctor > b__57
+//Offset 0664
+//.Try ommiting the return, break or continue instruction.
 
 #if FCHROME
             #region AtFormCreated

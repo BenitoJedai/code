@@ -404,6 +404,8 @@ namespace ChromeTCPServer
                 {
                     Message = "Restarted!"
                 };
+
+                // um. new IP?
             };
 
 
@@ -668,6 +670,9 @@ namespace ChromeTCPServer
                async
                     n =>
                {
+                   // um. new IP?
+
+
                    //Console.WriteLine(new { n.Length });
 
 
@@ -690,12 +695,6 @@ namespace ChromeTCPServer
 
 
 
-                   //                   { Location =
-                   // assembly: V:\ChromeTCPServer.Application.exe
-                   // type: ChromeTCPServer.Application+ctor>b__b>d__15+<>MoveNext, ChromeTCPServer.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-                   // offset: 0x001a
-                   //  method:Int32 <0020> nop.try(<>MoveNext, ctor>b__b>d__15 ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.CreateInfo] ByRef, System.Runtime.CompilerServices.TaskAwaiter`1[chrome.CreateInfo] ByRef) }
-                   //script: error JSC1000: Method: <0020> nop.try, Type: ChromeTCPServer.Application+ctor>b__b>d__15+<>MoveNext; emmiting failed : System.NotImplementedException: { ParameterType = ChromeTCPServer.Application+ctor>b__b>d__15&, p = [0x001f] brtrue.s   +0 -1{[0x001a] call       +1 -4{[0x000b] ldarg.s    +1 -0} {[0x000f] ldfld      +1 -1{[0x000d] ldarg.s    +1 -0} } {[0x0014] ldsfld     +1 -0} {[0x0019] ldarg.0    +1 -0} } , m = System.Func`2[chrome.NetworkInterface,System.Boolean] <0020> nop.try.pop(chrome.NetworkInterface[], ctor>b__b>d__15 ByRef, System.Func`2[chrome.NetworkInterface,System.Boolean], <>MoveNext) }
 
 
                    var port = new Random().Next(8000, 9000);
