@@ -190,6 +190,7 @@ interface THREE.Plane
 interface THREE.Raycaster_intersectObject
 {
 	attribute THREE.Vector3 point;
+	attribute THREE.Mesh object;
 };
 
 [Constructor,
@@ -203,9 +204,9 @@ interface THREE.Raycaster
 	sequence<THREE.Raycaster_intersectObject> intersectObject(THREE.Mesh position);
 
 	// X:\jsc.svn\examples\javascript\WebGL\WebGLInteractiveCubes\WebGLInteractiveCubes\Application.cs
-	sequence<any> intersectObjects(sequence<any> objects);
+	sequence<THREE.Raycaster_intersectObject> intersectObjects(sequence<any> objects);
 
-	sequence<any> intersectObjects(sequence<any> objects, boolean recursive);
+	sequence<THREE.Raycaster_intersectObject> intersectObjects(sequence<any> objects, boolean recursive);
 };
 
 
@@ -324,6 +325,10 @@ interface THREE.Vector3
 	THREE.Vector3 multiplyScalar(double m);
 
 	double length();
+	double distanceTo(THREE.Vector3 v);
+
+	THREE.Vector3 add(THREE.Vector3 v);
+	THREE.Vector3 divideScalar(any s);
 
 	THREE.Vector3 clone();
 };
@@ -350,7 +355,9 @@ interface THREE.Matrix4
 	// yay. hit again. 2013-09-22
 	any setRotationFromEuler(THREE.Euler vec3);
 	any makeRotationFromEuler(THREE.Euler vec3);
-
+	any lookAt(THREE.Vector3 x, THREE.Vector3 y, THREE.Vector3 z);
+	any multiply(THREE.Matrix4 m);
+	
 
 	THREE.Matrix4 makeTranslation(double x, double y, double z);
 
@@ -369,6 +376,7 @@ interface THREE.Object3D
 { 
 	attribute boolean castShadow;
 	attribute boolean receiveShadow;
+	attribute boolean visible;
 
 
 	attribute THREE.Object3D  parent;
@@ -565,7 +573,14 @@ interface THREE.CylinderGeometry
 
 };
 
+//radius, segments, thetaStart, thetaLength
 
+[Constructor(double radius, double segments)]
+interface THREE.CircleGeometry 
+{ 
+	void applyMatrix(any value);
+
+};
 
 
 [Constructor()]
