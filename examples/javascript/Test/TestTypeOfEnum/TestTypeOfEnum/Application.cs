@@ -37,6 +37,8 @@ namespace TestTypeOfEnum
             // we are doing type erasure for now..
             var x = typeof(foo);
 
+
+            // what about string enums and complex enums, what about encypted enums?
             Console.WriteLine(new { x });
         }
 

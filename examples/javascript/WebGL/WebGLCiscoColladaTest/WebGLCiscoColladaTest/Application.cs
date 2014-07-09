@@ -44,7 +44,8 @@ namespace WebGLCiscoColladaTest
                 45,
                 window.aspect,
                 1,
-                2000
+                1000
+                //2000
                 );
             camera.position.z = 400;
 
@@ -130,12 +131,12 @@ namespace WebGLCiscoColladaTest
                     //dae.scale.y = 30;
                     //dae.scale.z = 30;
 
-                    dae.castShadow = true;
-                    dae.receiveShadow = true;
+                    //dae.castShadow = true;
+                    //dae.receiveShadow = true;
 
-                    dae.scale.x = 3;
-                    dae.scale.y = 3;
-                    dae.scale.z = 3;
+                    dae.scale.x = 5;
+                    dae.scale.y = 5;
+                    dae.scale.z = 5;
 
                     dae.position.y = -80;
 
@@ -153,9 +154,41 @@ namespace WebGLCiscoColladaTest
     [Obsolete("jsc should generate this")]
     class Cisco : THREE_ColladaAsset
     {
+
+        //---------------------------
+        //daeimporter
+        //---------------------------
+        //Missing Textures-
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal-02.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Aluminum_Anodized.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Corrogated_Shiny.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Panel.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Rough.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Rusted.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Seamed.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\SUP720-01.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Supervisor-template.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\_7609-RSP-01.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\_7609-RSP-02.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\__Fencing_Diamond_Mesh__copy12_copy12_copy_copy.png
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\a48-port-10-100.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\b-Side-Plates-03.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\brass1_copy.jpg
+
+        //---------------------------
+        //OK   
+        //---------------------------
+
+
+        //Uncaught TypeError: Cannot read property 'input' of null 
+        // 		var vertexData = sources[ this.vertices.input['POSITION'].source ].data;
+        // geometry: "ID2035"
+
         public Cisco()
             : base(
-                "assets/WebGLCiscoColladaTest/cisco.dae"
+                // Embedded Resource
+                //"assets/WebGLCiscoColladaTest/cisco.dae"
+                "assets/WebGLCiscoColladaTest/cisco2.dae"
                 )
         {
 
