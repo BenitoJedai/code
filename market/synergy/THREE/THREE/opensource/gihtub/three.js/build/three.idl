@@ -192,13 +192,19 @@ interface THREE.Raycaster_intersectObject
 	attribute THREE.Vector3 point;
 };
 
-[Constructor]
+[Constructor,
+	Constructor(THREE.Vector3 position, THREE.Vector3 target)
+]
 interface THREE.Raycaster 
 { 
 	//THREE.Raycaster.prototype.intersectObjects = function ( objects, recursive ) {
 	
 	void set(any position, any vec);
 	sequence<THREE.Raycaster_intersectObject> intersectObject(THREE.Mesh position);
+
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLInteractiveCubes\WebGLInteractiveCubes\Application.cs
+	sequence<any> intersectObjects(sequence<any> objects);
+
 	sequence<any> intersectObjects(sequence<any> objects, boolean recursive);
 };
 
@@ -571,6 +577,16 @@ interface THREE.Projector
 };
 
 
+
+
+// X:\jsc.svn\examples\javascript\WebGL\WebGLInteractiveCubes\WebGLInteractiveCubes\Application.cs
+[Constructor(double x, double y, double z)]
+interface THREE.BoxGeometry : THREE.Geometry
+{ 
+};
+
+
+// obsolete
 [Constructor(double x, double y, double z),
 	Constructor(double x, double y, double z, double cx, double cy, double cz)]
 interface THREE.CubeGeometry 

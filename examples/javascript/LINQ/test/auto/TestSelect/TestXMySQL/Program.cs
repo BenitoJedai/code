@@ -11,34 +11,32 @@ using TestXMySQL;
 class Program
 {
     #region example generated data layer
-    //public class xApplicationPerformance : QueryExpressionBuilder.xSelect<xPerformanceResourceTimingData2ApplicationPerformanceRow>
-    //{
-    //    public xApplicationPerformance()
-    //    {
-    //        Expression<Func<xPerformanceResourceTimingData2ApplicationPerformanceRow, xPerformanceResourceTimingData2ApplicationPerformanceRow>> selector =
-    //            (xApplicationPerformance) => new xPerformanceResourceTimingData2ApplicationPerformanceRow
-    //            {
-    //                // : Field 'connectEnd' defined on type 'Program+xPerformanceResourceTimingData2ApplicationPerformanceRow' is not a field on the target object 
-    //                // which is of type 'Program+xApplicationPerformance'.
+    public class xApplicationPerformance : QueryExpressionBuilder.xSelect<PerformanceResourceTimingData2ApplicationPerformanceRow>
+    {
+        public xApplicationPerformance()
+        {
+            Expression<Func<PerformanceResourceTimingData2ApplicationPerformanceRow, PerformanceResourceTimingData2ApplicationPerformanceRow>> selector =
+                (xApplicationPerformance) => new PerformanceResourceTimingData2ApplicationPerformanceRow
+                {
+                    Key = xApplicationPerformance.Key,
 
-    //                connectEnd = xApplicationPerformance.connectEnd,
-    //                connectStart = xApplicationPerformance.connectStart,
-    //                domComplete = xApplicationPerformance.domComplete,
-    //                domLoading = xApplicationPerformance.domLoading,
-    //                EventTime = xApplicationPerformance.EventTime,
-    //                Key = xApplicationPerformance.Key,
-    //                loadEventEnd = xApplicationPerformance.loadEventEnd,
-    //                loadEventStart = xApplicationPerformance.loadEventStart,
-    //                requestStart = xApplicationPerformance.requestStart,
-    //                responseEnd = xApplicationPerformance.responseEnd,
-    //                responseStart = xApplicationPerformance.responseStart,
-    //                Tag = xApplicationPerformance.Tag,
-    //                Timestamp = xApplicationPerformance.Timestamp
-    //            };
+                    connectEnd = xApplicationPerformance.connectEnd,
+                    connectStart = xApplicationPerformance.connectStart,
+                    domComplete = xApplicationPerformance.domComplete,
+                    domLoading = xApplicationPerformance.domLoading,
+                    EventTime = xApplicationPerformance.EventTime,
+                    loadEventEnd = xApplicationPerformance.loadEventEnd,
+                    loadEventStart = xApplicationPerformance.loadEventStart,
+                    requestStart = xApplicationPerformance.requestStart,
+                    responseEnd = xApplicationPerformance.responseEnd,
+                    responseStart = xApplicationPerformance.responseStart,
+                    Tag = xApplicationPerformance.Tag,
+                    Timestamp = xApplicationPerformance.Timestamp
+                };
 
-    //        this.selector = selector;
-    //    }
-    //}
+            this.selector = selector;
+        }
+    }
 
 
     //public enum xPerformanceResourceTimingData2ApplicationPerformanceKey : long { }
@@ -171,7 +169,9 @@ class Program
 
         Console.WriteLine(new { f });
 
-        new PerformanceResourceTimingData2ApplicationPerformance().Where(x => x.Key == f.Key).Delete();
+        //new PerformanceResourceTimingData2ApplicationPerformance().Where(x => x.Key == f.Key).Delete();
+        //new PerformanceResourceTimingData2ApplicationPerformance().Delete(x => x.Key == f.Key);
+        new PerformanceResourceTimingData2ApplicationPerformance().Delete(f.Key);
 
 
 
