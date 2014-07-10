@@ -104,7 +104,14 @@ namespace ScriptCoreLib.Query.Experimental
 
 
         [Obsolete("whats the default?")]
-        public static Action<Action<IDbConnection>> WithConnection;
+        public static Action<Action<IDbConnection>> WithConnection =
+            y =>
+            {
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectXElement\Program.cs
+
+                // fake it
+                y(default(IDbConnection));
+            };
 
 
         public static void Insert<TElement>(this IQueryStrategy<TElement> source, TElement value)

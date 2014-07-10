@@ -17,7 +17,12 @@ namespace ScriptCoreLib.Query.Experimental
     {
         public static DbCommand GetSelectCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
-            var c = (DbCommand)cc.CreateCommand();
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectXElement\Program.cs
+
+            var c = default(DbCommand);
+
+            if (cc != null)
+                c = (DbCommand)cc.CreateCommand();
 
             var w = new SQLWriter<TElement>(source, new IQueryStrategy[0].AsEnumerable(), Command: c);
 
@@ -30,6 +35,9 @@ namespace ScriptCoreLib.Query.Experimental
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
 
             var c = GetSelectCommand(source, cc);
+
+            if (cc == null)
+                return new List<TElement>();
 
 
 
