@@ -7,7 +7,12 @@
 
 
 interface THREE
-{ 
+{
+	const long FlatShading = 1;
+
+	const long LineStrip = 0;
+	const long LinePieces = 1;
+
 	static attribute THREE.ColorUtilsType ColorUtils; 
 	static attribute THREE.ImageUtilsType ImageUtils; 
 	static attribute THREE.AnimationHandlerType AnimationHandler; 
@@ -163,6 +168,18 @@ interface THREE.Scene  : THREE.Object3D
 };
 
 
+
+// X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
+[Constructor(any parameters)]
+interface THREE.LineBasicMaterial 
+{
+};
+
+[Constructor(any geometry, any material)]
+interface THREE.Line  : THREE.Object3D
+{
+	attribute long type;
+};
 
 [Constructor(any parameters)]
 interface THREE.ShaderMaterial 
@@ -491,7 +508,12 @@ interface THREE.WebGLRenderer
 
 
 	void setClearColorHex(long color);
+	
+
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
+	void setClearColor(long color);
 	void setClearColor(long color, long h);
+
 	void setClearColor(THREE.Color color);
 	void setSize(long w, long h);
 	void render(any scene, any camera);
@@ -513,7 +535,11 @@ interface THREE.CanvasRenderer
 
 
 	void setClearColorHex(long color);
+
+	// X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
+	void setClearColor(long color);
 	void setClearColor(long color, long h);
+
 	void setClearColor(THREE.Color color);
 	void setSize(long w, long h);
 	void render(any scene, any camera);
