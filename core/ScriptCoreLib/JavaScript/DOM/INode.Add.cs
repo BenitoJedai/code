@@ -143,13 +143,18 @@ namespace ScriptCoreLib.JavaScript.DOM
                         {
                             var Result = x.Result.AsHTMLElement();
 
-                            // DOM rewrite in process. is the caller trusted? is data trusted?
-                            this.replaceChild(
-                                Result,
-                                text
-                            );
+                            // what if there is no data?
+                            if (Result != null)
+                            {
+                                // DOM rewrite in process. is the caller trusted? is data trusted?
+                                this.replaceChild(
+                                    Result,
+                                    text
+                                );
 
-                            text = Result;
+                                text = Result;
+
+                            }
 
                             t.Enabled = true;
                         }

@@ -46,6 +46,7 @@ namespace XClickCounter
 
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\LINQ\VBWebSQLScalarXElement\VBWebSQLScalarXElement\Application.vb
 
             // can we do this?
 
