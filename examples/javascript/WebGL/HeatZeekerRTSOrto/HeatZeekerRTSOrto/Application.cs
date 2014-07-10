@@ -13,12 +13,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using WebGLOrthographicCamera;
-using WebGLOrthographicCamera.Design;
-using WebGLOrthographicCamera.HTML.Pages;
+using HeatZeekerRTSOrto;
+using HeatZeekerRTSOrto.Design;
+using HeatZeekerRTSOrto.HTML.Pages;
 using System.Diagnostics;
 
-namespace WebGLOrthographicCamera
+namespace HeatZeekerRTSOrto
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -31,12 +31,8 @@ namespace WebGLOrthographicCamera
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // "X:\opensource\github\three.js\examples\canvas_camera_orthographic.html"
-
-            // if i type THREE, would jsc be able to add THREE package on rebuild?
-            // Error	136	The type or namespace name 'THREE' could not be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs	35	26	WebGLOrthographicCamera
-
-
+            // jsc, add THREE
+            // ... ok.
 
             // X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
 
@@ -83,17 +79,56 @@ namespace WebGLOrthographicCamera
                 var geometry = new THREE.BoxGeometry(50, 50, 50);
                 var material = new THREE.MeshLambertMaterial(new { color = 0xffffff, shading = THREE.FlatShading, overdraw = 0.5 });
 
-                for (var i = 0; i < 100; i++)
+                for (var i = 0; i < 4; i++)
                 {
-                    var cube = new THREE.Mesh(geometry, material);
 
-                    cube.scale.y = Math.Floor(random() * 2 + 1);
+                    new HZWaterTower().Source.Task.ContinueWithResult(
+                        cube =>
+                        {
+                            // um can edit and continue insert code going back in time?
+                            cube.scale.x = 2.0;
+                            cube.scale.y = 2.0;
+                            cube.scale.z = 2.0;
 
-                    cube.position.x = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
-                    cube.position.y = (cube.scale.y * 50) / 2;
-                    cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+                            //dae.castShadow = true;
+                            //dae.receiveShadow = true;
 
-                    scene.add(cube);
+                            cube.position.x = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+                            //cube.position.y = (cube.scale.y * 50) / 2;
+                            cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+
+                            scene.add(cube);
+                        }
+                    );
+
+                    new HZCannon().Source.Task.ContinueWithResult(
+                        cube =>
+                        {
+                            // um can edit and continue insert code going back in time?
+                            cube.scale.x = 2.0;
+                            cube.scale.y = 2.0;
+                            cube.scale.z = 2.0;
+
+                            //dae.castShadow = true;
+                            //dae.receiveShadow = true;
+
+                            cube.position.x = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+                            //cube.position.y = (cube.scale.y * 50) / 2;
+                            cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+
+                            scene.add(cube);
+                        }
+                    );
+
+                    //var cube = new THREE.Mesh(geometry, material);
+
+                    ////cube.scale.y = Math.Floor(random() * 2 + 1);
+
+                    //cube.position.x = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+                    //cube.position.y = (cube.scale.y * 50) / 2;
+                    //cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+
+                    //scene.add(cube);
 
                 }
             }
@@ -109,7 +144,7 @@ namespace WebGLOrthographicCamera
                 var directionalLight = new THREE.DirectionalLight((int)(random() * 0xffffff));
 
                 directionalLight.position.x = random() - 0.5;
-                directionalLight.position.y = random() - 0.5;
+                directionalLight.position.y = 400;
                 directionalLight.position.z = random() - 0.5;
                 directionalLight.position.normalize();
                 scene.add(directionalLight);
@@ -118,7 +153,7 @@ namespace WebGLOrthographicCamera
             {
                 var directionalLight = new THREE.DirectionalLight((int)(random() * 0xffffff));
                 directionalLight.position.x = random() - 0.5;
-                directionalLight.position.y = random() - 0.5;
+                directionalLight.position.y = 400;
                 directionalLight.position.z = random() - 0.5;
                 directionalLight.position.normalize();
                 scene.add(directionalLight);
@@ -128,8 +163,13 @@ namespace WebGLOrthographicCamera
 
             //var renderer = new THREE.CanvasRenderer();
             var renderer = new THREE.WebGLRenderer();
-            renderer.setClearColor(0xf0f0f0);
-            //renderer.setSize(Native.window.Width, Native.window.Height);
+
+            // background-color: #B27D51;
+            renderer.setClearColor(0xB27D51);
+            //renderer.setSize(
+            //    Native.window.Width , 
+            //    Native.window.Height * 10
+            //    );
             renderer.setSize();
 
             renderer.domElement.AttachToDocument();
@@ -152,8 +192,73 @@ namespace WebGLOrthographicCamera
 
                     renderer.render(scene, camera);
                 };
-
         }
 
+    }
+
+    [Obsolete("jsc should generate this")]
+    class HZCannon : THREE_ColladaAsset
+    {
+        string ref0 = "assets/HeatZeekerRTSOrto/HZCannon_capture_009_04032013_192834.png";
+
+        public HZCannon()
+            : base(
+                "assets/HeatZeekerRTSOrto/HZCannon.dae"
+                )
+        {
+
+        }
+    }
+
+    [Obsolete("jsc should generate this")]
+    class HZWaterTower : THREE_ColladaAsset
+    {
+        string ref0 = "assets/HeatZeekerRTSOrto/HZCannon_capture_009_04032013_192834.png";
+
+        public HZWaterTower()
+            : base(
+                "assets/HeatZeekerRTSOrto/HZWaterTower.dae"
+                )
+        {
+
+        }
+    }
+
+    public class THREE_ColladaAsset
+    {
+        public readonly TaskCompletionSource<THREE.Object3D> Source = new TaskCompletionSource<THREE.Object3D>();
+
+        public THREE_ColladaAsset(string uri)
+        {
+            var loader = new THREE.ColladaLoader();
+
+            loader.options.convertUpAxis = true;
+
+            // this does NOT work correctly?
+            //loader.options.centerGeometry = true;
+
+            loader.load(
+                //"assets/WebGLColladaExperiment/truck.dae",
+
+                uri,
+
+                new Action<THREE.ColladaLoaderResult>(
+                    collada =>
+                    {
+                        var dae = collada.scene;
+
+
+                        ////o.position.y = -80;
+                        //scene.add(dae);
+                        //oo.Add(dae);
+
+                        //dae.scale = new THREE.Vector3(5, 5, 5);
+
+                        this.Source.SetResult(dae);
+
+                    }
+                )
+            );
+        }
     }
 }
