@@ -20,6 +20,12 @@ namespace ScriptCoreLib.JavaScript.Extensions
     {
         public static void MakeCSSShaderCrumple(this IHTMLElement e)
         {
+            // http://html.adobe.com/webplatform/graphics/customfilters/browser-support/
+            // http://blogs.adobe.com/webplatform/2012/08/31/css-shaders-now-in-css-filter-effects-specification/
+            // http://html.adobe.com/webplatform/graphics/customfilters/
+            // https://lists.webkit.org/pipermail/webkit-dev/2014-January/026098.html
+            // removal of the CSS Custom Filters code from WebKit.
+
             var crumple = new
             {
                 vs = new CSSShaderCrumple.Shaders.crumpleVertexShader(),
