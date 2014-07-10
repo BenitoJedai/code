@@ -31,7 +31,11 @@ namespace ScriptCoreLib.Query.Experimental
             WithConnection(
                 cc =>
                 {
+
+
+
                     value = FirstOrDefault(source, cc);
+
                 }
             );
 

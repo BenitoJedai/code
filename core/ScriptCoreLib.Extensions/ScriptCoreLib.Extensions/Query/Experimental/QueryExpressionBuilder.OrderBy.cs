@@ -23,6 +23,11 @@ namespace ScriptCoreLib.Query.Experimental
 
 
             public IEnumerable<xOrderBySelector> keySelector;
+
+            public override string ToString()
+            {
+                return "orderby ?";
+            }
         }
 
         public class xOrderBy<TElement> : xOrderBy, IQueryStrategy<TElement>
