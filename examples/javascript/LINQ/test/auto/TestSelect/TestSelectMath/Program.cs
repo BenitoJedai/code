@@ -53,7 +53,7 @@ class Program
         var c = new PerformanceResourceTimingData2ApplicationPerformance().Count();
 
         var q = from x in new PerformanceResourceTimingData2ApplicationPerformance()
-                orderby x.Timestamp descending
+                //orderby x.Timestamp descending
                 select new
                 {
                     x.z,
@@ -69,7 +69,8 @@ class Program
         Console.WriteLine(new { f });
 
         //new xApplicationPerformance().Where(x => x.Key == f.Key).Delete();
-        new PerformanceResourceTimingData2ApplicationPerformance().Delete(x => x.Key == f.Key);
+        //new PerformanceResourceTimingData2ApplicationPerformance().Delete(x => x.Key == f.Key);
+        new PerformanceResourceTimingData2ApplicationPerformance().Delete(f.Key);
 
 
 

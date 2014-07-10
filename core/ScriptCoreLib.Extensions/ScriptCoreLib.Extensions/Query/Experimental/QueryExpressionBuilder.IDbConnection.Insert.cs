@@ -72,7 +72,14 @@ namespace ScriptCoreLib.Query.Experimental
                       if (xXElement != null)
                       {
                           // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
-                          v = ScriptCoreLib.Library.StringConversions.ConvertXElementToString(xXElement);
+                          // half way there?
+                          // v = "PGdvbz5mb288L2dvbz4="
+
+                          // binary encrypted xml 7z?
+                          v =
+                              ScriptCoreLib.Library.StringConversions.UTF8ToBase64StringOrDefault(
+                                ScriptCoreLib.Library.StringConversions.ConvertXElementToString(xXElement)
+                              );
                       }
 
 
@@ -94,9 +101,13 @@ namespace ScriptCoreLib.Query.Experimental
               );
 
             w.Append(")");
+
+
             c.CommandText = w.ToString();
 
-            Console.WriteLine("exit GetInsertCommand");
+
+
+            Console.WriteLine("exit GetInsertCommand " + new { c.CommandText });
             return c;
         }
         #endregion

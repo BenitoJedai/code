@@ -310,10 +310,10 @@ namespace ScriptCoreLib.Query.Experimental
                 #endregion
 
                 #region WriteScalarExpression
-                Action<Expression> WriteScalarExpression = null;
+                Action<bool, Expression> WriteScalarExpression = null;
 
                 WriteScalarExpression =
-                    (asExpression) =>
+                    (DiscardAlias, asExpression) =>
                     {
                         // zExpression = {zz => (Convert(zz.Key) == 77)}
 
@@ -327,7 +327,7 @@ namespace ScriptCoreLib.Query.Experimental
                             {
 
                                 WriteLineWithColor(1, "(", ConsoleColor.White);
-                                WriteScalarExpression(asBinaryExpression.Left);
+                                WriteScalarExpression(true, asBinaryExpression.Left);
 
 
                                 #region ExpressionType
@@ -362,7 +362,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     Debugger.Break();
                                 #endregion
 
-                                WriteScalarExpression(asBinaryExpression.Right);
+                                WriteScalarExpression(true, asBinaryExpression.Right);
                                 WriteLineWithColor(1, ")", ConsoleColor.White);
                             }
 
@@ -379,7 +379,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectOrUnaryExpression\TestSelectOrUnaryExpression\ApplicationWebService.cs
                                 //state.WriteExpression(ref s, asUnaryExpression.Operand, that);
 
-                                WriteScalarExpression(asUnaryExpression.Operand);
+                                WriteScalarExpression(DiscardAlias, asUnaryExpression.Operand);
                                 return;
                             }
                             else if (asUnaryExpression.NodeType == ExpressionType.Not)
@@ -387,7 +387,8 @@ namespace ScriptCoreLib.Query.Experimental
 
                                 WriteLineWithColor(1, "not(", ConsoleColor.White);
 
-                                WriteScalarExpression(asUnaryExpression.Operand);
+                                // ?
+                                WriteScalarExpression(true, asUnaryExpression.Operand);
 
                                 WriteLineWithColor(1, ")", ConsoleColor.White);
                                 return;
@@ -487,14 +488,20 @@ namespace ScriptCoreLib.Query.Experimental
                                     var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
                                     if (zMMemberExpression != null)
                                     {
-                                        WriteLineWithColor(2, zMMemberExpression.Member.Name + ".", ConsoleColor.Magenta);
+                                        WriteLine(1, "`");
+                                        WriteLineWithColor(2, zMMemberExpression.Member.Name, ConsoleColor.Magenta);
+                                        WriteLine(1, "`");
+                                        WriteLineWithColor(2, ".", ConsoleColor.Magenta);
                                     }
 
 
                                     var zMParameterExpression = zMemberExpression.Expression as ParameterExpression;
                                     if (zMParameterExpression != null)
                                     {
-                                        WriteLineWithColor(2, zMParameterExpression.Name + ".", ConsoleColor.Magenta);
+                                        WriteLine(1, "`");
+                                        WriteLineWithColor(2, zMParameterExpression.Name, ConsoleColor.Magenta);
+                                        WriteLine(1, "`");
+                                        WriteLineWithColor(2, ".", ConsoleColor.Magenta);
                                     }
 
                                 }
@@ -504,6 +511,23 @@ namespace ScriptCoreLib.Query.Experimental
                                 WriteLine(1, "`");
                                 WriteLineWithColor(2, zMemberExpression.Member.Name, ConsoleColor.Cyan);
                                 WriteLine(1, "`");
+
+
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarXElementField\Program.cs
+
+
+                                if (DiscardAlias)
+                                {
+                                    // are we in order by?
+                                }
+                                else
+                                {
+                                    WriteLine(1, " as ");
+
+                                    WriteLine(1, "`");
+                                    WriteLineWithColor(2, zMemberExpression.Member.Name, ConsoleColor.Cyan);
+                                    WriteLine(1, "`");
+                                }
                             }
 
                             return;
@@ -671,7 +695,7 @@ namespace ScriptCoreLib.Query.Experimental
                                             else
                                                 WriteLine(1, "and ");
 
-                                            WriteScalarExpression(wExpression.Body);
+                                            WriteScalarExpression(true, wExpression.Body);
                                         }
                                     }
                                 );
@@ -760,7 +784,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                                     if (aa != null)
                                     {
-                                        WriteScalarExpression(aa.Expression);
+                                        WriteScalarExpression(true, aa.Expression);
                                         return;
                                     }
                                 }
@@ -777,7 +801,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     {
                                         // zNewExpression = {new <>f__AnonymousType0`2(x = x, foo = x.field1)}
                                         // oExpression.keySelector.Body = {<>h__TransparentIdentifier0.foo}
-                                        WriteScalarExpression(aa);
+                                        WriteScalarExpression(true, aa);
                                         return;
                                     }
                                 }
@@ -857,7 +881,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 else
                                     WriteLine(1, "and ");
 
-                                WriteScalarExpression(wExpression.Body);
+                                WriteScalarExpression(true, wExpression.Body);
                             }
                         }
                     );
@@ -1787,7 +1811,7 @@ namespace ScriptCoreLib.Query.Experimental
                                           WriteLine(1, " <- ");
 
                                           WriteLineWithColor(1, "upper(", ConsoleColor.White);
-                                          WriteScalarExpression(xxMethodCallExpression.Object);
+                                          WriteScalarExpression(true, xxMethodCallExpression.Object);
                                           WriteLineWithColor(1, ")", ConsoleColor.White);
                                       }
                                       return;
@@ -1807,7 +1831,7 @@ namespace ScriptCoreLib.Query.Experimental
                                           WriteLine(1, " <- ");
 
                                           WriteLineWithColor(1, "lower(", ConsoleColor.White);
-                                          WriteScalarExpression(xxMethodCallExpression.Object);
+                                          WriteScalarExpression(true, xxMethodCallExpression.Object);
                                           WriteLineWithColor(1, ")", ConsoleColor.White);
                                       }
                                       return;
@@ -2023,7 +2047,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                                   WriteLine(1, " ");
 
-                                  WriteScalarExpression(xConstantExpression);
+                                  WriteScalarExpression(true, xConstantExpression);
                                   WriteLine(1, " as ");
 
                                   if (upperParameter != null)
@@ -2054,7 +2078,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                                   WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                   WriteLine(1, " <- ");
-                                  WriteScalarExpression(xxBinaryExpression);
+                                  WriteScalarExpression(true, xxBinaryExpression);
                               }
                               return;
                           }
@@ -2182,26 +2206,27 @@ namespace ScriptCoreLib.Query.Experimental
                               return;
                           }
 
-                          #region MemberExpression
+                          #region WriteScalarExpressionArray:MemberExpression
                           var zMemberExpression = zExpression as MemberExpression;
                           if (zMemberExpression != null)
                           {
-                              WriteScalarExpression(zExpression);
+                              // ?
+                              WriteScalarExpression(true, zExpression);
                               return;
                           }
                           #endregion
 
-                          #region ConstantExpression
+                          #region WriteScalarExpressionArray:ConstantExpression
                           var zConstantExpression = zExpression as ConstantExpression;
                           if (zConstantExpression != null)
                           {
-                              WriteScalarExpression(zConstantExpression);
+                              WriteScalarExpression(true, zConstantExpression);
                               return;
                           }
                           #endregion
 
 
-                          #region NewArrayExpression
+                          #region WriteScalarExpressionArray:NewArrayExpression
                           var zNewArrayExpression = zExpression as NewArrayExpression;
                           if (zNewArrayExpression != null)
                           {
@@ -2211,6 +2236,8 @@ namespace ScriptCoreLib.Query.Experimental
                                    (SourceArgument, SourceArgumentIndex) =>
                                        WriteScalarExpression(
                                        //zsource,
+
+                                        true,
                                            SourceArgument
                                        //,
                                        //Target.Concat(new[] { Tuple.Create(default(MemberInfo), SourceArgumentIndex) }).ToArray()
@@ -2220,7 +2247,7 @@ namespace ScriptCoreLib.Query.Experimental
                           }
                           #endregion
 
-                          #region WriteProjection:xxNewExpression
+                          #region WriteScalarExpressionArray:xxNewExpression
                           var zNewExpression = zExpression as NewExpression;
                           if (zNewExpression != null)
                           {
@@ -2232,6 +2259,8 @@ namespace ScriptCoreLib.Query.Experimental
                                   zNewExpression.Arguments.WithEachIndex(
                                         (SourceArgument, SourceArgumentIndex) =>
                                             WriteScalarExpression(
+
+                                                true,
                                             //zsource,
                                                 SourceArgument //,
                                             //Target.Concat(new[] { Tuple.Create(
@@ -2247,6 +2276,7 @@ namespace ScriptCoreLib.Query.Experimental
                               zNewExpression.Arguments.WithEachIndex(
                                   (SourceArgument, SourceArgumentIndex) =>
                                       WriteScalarExpression(
+                                      true,
                                       //zsource,
                                           SourceArgument //,
                                       //Target.Concat(new[] { Tuple.Create(
@@ -2414,9 +2444,9 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteLine(0, "and ");
 
 
-                                WriteScalarExpression(item.a);
+                                WriteScalarExpression(true, item.a);
                                 WriteLine(0, " == ");
-                                WriteScalarExpression(item.m);
+                                WriteScalarExpression(true, item.m);
                             }
                         }
 
@@ -2426,9 +2456,9 @@ namespace ScriptCoreLib.Query.Experimental
                     using (WithoutLinefeeds())
                     {
                         WriteLine(0, "on ");
-                        WriteScalarExpression(xJoin.outerKeySelector.Body);
+                        WriteScalarExpression(true, xJoin.outerKeySelector.Body);
                         WriteLine(0, " == ");
-                        WriteScalarExpression(xJoin.innerKeySelector.Body);
+                        WriteScalarExpression(true, xJoin.innerKeySelector.Body);
                     }
 
                     return;
@@ -2605,7 +2635,7 @@ namespace ScriptCoreLib.Query.Experimental
                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberExpression\Program.cs
 
                             using (WithoutLinefeeds())
-                                WriteScalarExpression(sMemberExpression);
+                                WriteScalarExpression(false, sMemberExpression);
 
                             return;
                         }
@@ -2623,7 +2653,7 @@ namespace ScriptCoreLib.Query.Experimental
                             // scalar select
                             // this will look like roslyn dictionary indexer initializer
                             using (WithoutLinefeeds())
-                                WriteScalarExpression(xBinaryExpression);
+                                WriteScalarExpression(false, xBinaryExpression);
 
                             return;
                         }
