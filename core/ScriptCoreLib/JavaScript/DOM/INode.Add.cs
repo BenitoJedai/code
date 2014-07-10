@@ -9,6 +9,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using System.Threading.Tasks;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -105,6 +106,94 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+        [Script(DefineAsStatic = true)]
+        public void Add(System.Func<Task<XElement>> e)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+
+            // what about implicit operators for other elements?
+            // X:\jsc.svn\examples\javascript\async\AsyncHistoricActivities\AsyncHistoricActivities\Application.cs
+
+            // Implementing Collection Initializers
+            // http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+            //var text = new ITextNode("");
+            INode text = new IHTMLSpan("");
+
+            this.appendChild(text);
+
+            var TotalElapsedMilliseconds = 0L;
+
+            new Timer(
+                t =>
+                {
+                    if (text.parentNode == null)
+                    {
+                        System.Console.WriteLine("INode.Add timer stopped");
+                        t.Stop();
+                        return;
+                    }
+
+                    t.Enabled = false;
+
+                    var sw = Stopwatch.StartNew();
+
+                    e().ContinueWith(
+                        x =>
+                        {
+                            var Result = x.Result.AsHTMLElement();
+
+                            // DOM rewrite in process. is the caller trusted? is data trusted?
+                            this.replaceChild(
+                                Result,
+                                text
+                            );
+
+                            text = Result;
+
+                            t.Enabled = true;
+                        }
+                    );
+
+
+                    // how many iterations before we stop the timer?
+                },
+
+                // time to attach to DOM
+                duetime: 33,
+                interval: 1000 / 15
+            );
+
+
+        }
+
+
+
+        [Script(DefineAsStatic = true)]
+        public void Add(Task<XElement> e)
+        {
+            // x:\jsc.svn\examples\javascript\xml\xclickcounter\xclickcounter\application.cs
+            // placeholder.
+            var text = new IHTMLSpan("");
+
+            this.appendChild(text);
+
+
+            e.ContinueWith(
+                x =>
+                {
+                    var Result = x.Result.AsHTMLElement();
+
+
+
+                    // DOM rewrite in process. is the caller trusted? is data trusted?
+                    this.replaceChild(
+                        Result,
+                        text
+                    );
+                }
+            );
+        }
 
 
         [Script(DefineAsStatic = true)]

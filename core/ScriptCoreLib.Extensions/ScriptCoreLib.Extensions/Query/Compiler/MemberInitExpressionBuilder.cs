@@ -94,12 +94,9 @@ namespace ScriptCoreLib.Query.Compiler
 
                 // or actually should the jsc rewriter add it during rebuild?
                 // then we could benefit of it for anonymous types too
-                if (SourceField.FieldType.IsEnum)
-                {
-                    // X:\jsc.svn\examples\javascript\xml\XClickCounter\XClickCounter\Application.cs
-                    // enum types cannot be referenced in chrome just yet
-                }
-                else
+                //if (SourceField.FieldType.IsEnum)
+                // X:\jsc.svn\examples\javascript\xml\XClickCounter\XClickCounter\Application.cs
+
                 {
                     #region could we hard code the field type here?
                     il.Emit(OpCodes.Ldtoken, SourceField.FieldType);

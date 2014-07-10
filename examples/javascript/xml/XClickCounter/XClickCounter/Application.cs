@@ -30,6 +30,8 @@ namespace XClickCounter
     {
         static Application()
         {
+            Console.WriteLine("Application.cctor");
+
             #region QueryExpressionBuilder.WithConnection
             QueryExpressionBuilder.WithConnection =
                 y =>
@@ -94,8 +96,21 @@ namespace XClickCounter
             //    ).FirstOrDefaultAsync()
             //}.AttachToDocument();
 
+            new IHTMLButton { "start monitoring" }.AttachToDocument().onclick +=
+            delegate
+            {
+                new IHTMLPre { "descending xml: ",
+                    () => (
+                        from x in new xxAvatar()
+                        orderby x.Key descending
+                        select x.z
+                    ).FirstOrDefaultAsync()
+                }.AttachToDocument();
+            };
+
+
             new IHTMLButton { "InsertAsync" }.AttachToDocument().onclick +=
-                 async e =>
+             async e =>
             {
                 e.Element.disabled = true;
 
@@ -118,28 +133,20 @@ namespace XClickCounter
 
                     // could we do it in a worker?
                     z = new XElement("div",
-                        new XElement("style", "color: blue;"),
+                        new XAttribute("style", "color: blue;"),
                         "hello world! " + q
                     )
 
                 }
                );
 
+
+                // descending xml: <div><style>color: blue;</style>hello world! {{ ManagedThreadId = 1, Count = 0 }}</div>
                 new IHTMLPre { "descending xml: ",
                     (
                         from x in new xxAvatar()
                         orderby x.Key descending
-                        select new xxAvatarRow
-                        {
-                            // message: "type$zrk5B64_bQTe7tpWTj7myyA is not defined"
-                            // we cannot select Key as we are missing the enum type referenced by FromHandle?
-                            //x.Key,
-
-                            //Tag = x.Tag
-
-                            // descending xml: 0, , PGRpdj48c3R5bGU+Y29sb3I6IGJsdWU7PC9zdHlsZT5oZWxsbyB3b3JsZCEge3sgTWFuYWdlZFRocmVhZElkID0gMSwgQ291bnQgPSAwIH19PC9kaXY+, , 09.07.2014 17:41:35
-                            z = (XElement)x.z
-                        }
+                        select x.z
                     ).FirstOrDefaultAsync()
                 }.AttachToDocument();
 

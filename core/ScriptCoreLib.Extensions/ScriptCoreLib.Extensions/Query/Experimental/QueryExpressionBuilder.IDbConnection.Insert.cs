@@ -114,15 +114,27 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-        [Obsolete("whats the default?")]
-        public static Action<Action<IDbConnection>> WithConnection =
-            y =>
-            {
-                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectXElement\Program.cs
 
-                // fake it
-                y(default(IDbConnection));
-            };
+
+        static QueryExpressionBuilder()
+        {
+            Console.WriteLine("QueryExpressionBuilder.cctor");
+
+            // x:\jsc.svn\examples\javascript\xml\xclickcounter\xclickcounter\application.cs
+            // are we preinitialized by .Application?
+            if (WithConnection == null)
+                WithConnection =
+                    y =>
+                {
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectXElement\Program.cs
+
+                    // fake it
+                    y(default(IDbConnection));
+                };
+        }
+
+        [Obsolete("whats the default?")]
+        public static Action<Action<IDbConnection>> WithConnection;
 
 
         public static void Insert<TElement>(this IQueryStrategy<TElement> source, TElement value)
