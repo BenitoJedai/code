@@ -136,7 +136,9 @@
     <None Include="packages.config" />
     <EmbeddedResource Include="web\assets\HeatZeekerRTSOrto\HZCannon.dae" />
     <EmbeddedResource Include="web\assets\HeatZeekerRTSOrto\HZCannon.skp" />
-    <EmbeddedResource Include="web\assets\HeatZeekerRTSOrto\HZWaterTower.dae" />
+    <EmbeddedResource Include="web\assets\HeatZeekerRTSOrto\HZWaterTower.dae">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="web\assets\HeatZeekerRTSOrto\Promotion3D_daytime_isometric.skp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
