@@ -404,6 +404,7 @@ interface THREE.Object3D
 	attribute THREE.Matrix4  matrix;
 	attribute THREE.Matrix4  matrixWorld;
 
+	attribute sequence<any>        children;
 
 
 	attribute THREE.Vector3  scale;
