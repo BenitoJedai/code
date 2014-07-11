@@ -162,7 +162,7 @@ interface THREE.Scene  : THREE.Object3D
 
 
 
-
+	attribute sequence<any> children;
 	void add(any value);
 	void remove(any value);
 };
@@ -415,6 +415,9 @@ interface THREE.Object3D
 	void traverse(function<any> mesh);
 
 	void updateMatrix();
+	void translateX(any delta);
+	void translateY(any delta);
+	void translateZ(any delta);
 };
 
 
