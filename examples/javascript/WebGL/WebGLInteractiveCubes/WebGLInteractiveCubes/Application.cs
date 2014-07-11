@@ -141,7 +141,7 @@ namespace WebGLInteractiveCubes
 
                     if (intersects.Length > 0)
                     {
-                        var holder = ((THREE.Mesh)intersects[0]);
+                        var holder = ((THREE.Mesh)intersects[0].@object);
 
                         var forthSmallestInnerCilinder = new THREE.Mesh(
                               new THREE.CylinderGeometry(10, 10, 10, 32),

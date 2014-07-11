@@ -149,7 +149,7 @@
     </Compile>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\ChromeEarth.ApplicationWebService\staging.net.debug\manifest.json">
+    <None Include="staging\ChromeEarth.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

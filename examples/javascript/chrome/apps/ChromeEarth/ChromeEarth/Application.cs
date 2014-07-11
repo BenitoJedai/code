@@ -70,6 +70,8 @@ namespace ChromeEarth
             //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass130.<>c__DisplayClass140.<WriteSwitchRewrite>b__e6(ILGenerator flow_il)
 
 
+
+            // https://chrome.google.com/webstore/detail/odccmjodfgabfaolpgbepgneikcblman/publish-delayed
             new WebGLEarthByBjorn.Application(page);
 
         }

@@ -31,6 +31,8 @@ namespace HeatZeekerRTSOrto
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            Native.body.style.margin = "0px";
+
             // jsc, add THREE
             // ... ok.
 
@@ -74,6 +76,10 @@ namespace HeatZeekerRTSOrto
                 scene.add(line);
             }
 
+
+
+            var interactiveObjects = new List<THREE.Object3D>();
+
             #region Cubes
             {
                 var geometry = new THREE.BoxGeometry(50, 50, 50);
@@ -98,6 +104,7 @@ namespace HeatZeekerRTSOrto
                             cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
 
                             scene.add(cube);
+                            interactiveObjects.Add(cube);
                         }
                     );
 
@@ -117,6 +124,7 @@ namespace HeatZeekerRTSOrto
                             cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
 
                             scene.add(cube);
+                            interactiveObjects.Add(cube);
                         }
                     );
 
@@ -192,6 +200,46 @@ namespace HeatZeekerRTSOrto
 
                     renderer.render(scene, camera);
                 };
+
+
+            // view-source:http://mrdoob.github.io/three.js/examples/webgl_interactive_voxelpainter.html
+            //var mouse2D = new THREE.Vector3(0, 10000, 0.5);
+
+            //renderer.domElement.onclick +=
+            //    e =>
+            //    {
+            //        e.preventDefault();
+
+            //        mouse2D.x = (e.CursorX / (double)Native.window.Width) * 2 - 1;
+            //        mouse2D.y = -(e.CursorY / (double)Native.window.Height) * 2 + 1;
+
+            //        var vector = new THREE.Vector3(
+            //              (e.CursorX / (double)Native.window.Width) * 2 - 1,
+            //              -(e.CursorY / (double)Native.window.Height) * 2 + 1,
+            //             0.5);
+
+
+            //        // X:\jsc.svn\examples\javascript\WebGL\WebGLInteractiveCubes\WebGLInteractiveCubes\Application.cs
+            //        var projector = new THREE.Projector();
+            //        projector.unprojectVector(vector, camera);
+
+            //        // http://stackoverflow.com/questions/18553209/orthographic-camera-and-selecting-objects-with-raycast
+            //        // http://stackoverflow.com/questions/20361776/orthographic-camera-and-pickingray
+            //        // view-source:http://stemkoski.github.io/Three.js/Mouse-Click.html
+            //        // http://stackoverflow.com/questions/11921033/projector-and-ray-with-orthographiccamera
+
+            //        // use picking ray since it's an orthographic camera
+            //        // doesnt fkin work ???
+            //        //var raycaster = projector.pickingRay(vector, camera);
+
+            //        var raycaster = projector.pickingRay(mouse2D.clone(), camera);
+
+            //        //var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+            //        var intersects = raycaster.intersectObjects(interactiveObjects.ToArray());
+
+            //        // https://github.com/mrdoob/three.js/issues/599
+            //        Native.document.title = new { intersects.Length }.ToString();
+            //    };
         }
 
     }
