@@ -14,11 +14,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using WebGLCiscoColladaTest;
-using WebGLCiscoColladaTest.Design;
-using WebGLCiscoColladaTest.HTML.Pages;
+using WebGLWorkstationCollada;
+using WebGLWorkstationCollada.Design;
+using WebGLWorkstationCollada.HTML.Pages;
 
-namespace WebGLCiscoColladaTest
+namespace WebGLWorkstationCollada
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -124,7 +124,7 @@ namespace WebGLCiscoColladaTest
                 };
             #endregion
 
-            new Cisco().Source.Task.ContinueWithResult(
+            new Workstation().Source.Task.ContinueWithResult(
                 dae =>
                 {
                     //dae.scale.x = 30;
@@ -152,27 +152,27 @@ namespace WebGLCiscoColladaTest
     }
 
     [Obsolete("jsc should generate this")]
-    public class Cisco : THREE_ColladaAsset
+    public class Workstation : THREE_ColladaAsset
     {
         //---------------------------
         //daeimporter
         //---------------------------
         //Missing Textures-
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal-02.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Aluminum_Anodized.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Corrogated_Shiny.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Panel.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Rough.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Rusted.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Metal_Seamed.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\SUP720-01.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\Supervisor-template.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\_7609-RSP-01.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\_7609-RSP-02.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\__Fencing_Diamond_Mesh__copy12_copy12_copy_copy.png
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\a48-port-10-100.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\b-Side-Plates-03.jpg
-        //X:\jsc.svn\examples\javascript\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\web\assets\WebGLCiscoColladaTest\cisco\brass1_copy.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\Metal-02.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\Metal_Aluminum_Anodized.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\Metal_Corrogated_Shiny.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\Metal_Panel.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\Metal_Rough.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\Metal_Rusted.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\Metal_Seamed.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\SUP720-01.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\Supervisor-template.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\_7609-RSP-01.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\_7609-RSP-02.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\__Fencing_Diamond_Mesh__copy12_copy12_copy_copy.png
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\a48-port-10-100.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\b-Side-Plates-03.jpg
+        //X:\jsc.svn\examples\javascript\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada\web\assets\WebGLWorkstationCollada\cisco\brass1_copy.jpg
 
         //---------------------------
         //OK   
@@ -183,11 +183,11 @@ namespace WebGLCiscoColladaTest
         // 		var vertexData = sources[ this.vertices.input['POSITION'].source ].data;
         // geometry: "ID2035"
 
-        public Cisco()
+        public Workstation()
             : base(
                 // Embedded Resource
-                //"assets/WebGLCiscoColladaTest/cisco.dae"
-                "assets/WebGLCiscoColladaTest/cisco2.dae"
+                //"assets/WebGLWorkstationCollada/cisco.dae"
+                "assets/WebGLWorkstationCollada/workstation.dae"
                 )
         {
 
