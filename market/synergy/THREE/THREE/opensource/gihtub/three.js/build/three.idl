@@ -412,6 +412,7 @@ interface THREE.Object3D
 	attribute THREE.Quaternion  quaternion;
 
 	void add(any mesh);
+	void remove(any mesh);
 	void traverse(function<any> mesh);
 
 	void updateMatrix();
@@ -478,6 +479,10 @@ interface THREE.Mesh
 	attribute boolean        castShadow;
 	attribute boolean        receiveShadow;
 	attribute boolean        useQuaternion;
+
+	void translateX(any delta);
+	void translateY(any delta);
+	void translateZ(any delta);
 
 	void lookAt(THREE.Vector3 target);
 };
