@@ -559,6 +559,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     }
                     else
                     {
+                        // see also
+                        // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
 
 
                         // tested by?
@@ -572,8 +574,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
                                 var aFileParts = new[] { args.Result };
                                 var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
-
-
                                 var url = oMyBlob.ToObjectURL();
 
                                 InternalInlineWorker.ScriptApplicationSourceForInlineWorker = url;

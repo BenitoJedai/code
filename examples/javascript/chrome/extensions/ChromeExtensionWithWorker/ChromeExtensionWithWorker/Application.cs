@@ -50,7 +50,7 @@ namespace ChromeExtensionWithWorker
 
             // can we provide an API about available android devices?
 
-
+            #region self_chrome_tabs
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
             object self_chrome_tabs = self_chrome.tabs;
@@ -93,19 +93,20 @@ namespace ChromeExtensionWithWorker
 
                         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
 
-                        Console.WriteLine("before DownloadStringTaskAsync");
                         var code = await new WebClient().DownloadStringTaskAsync(
                              new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
                         );
 
-                        // show our icon?
-                        tab.id.show();
+                        //var aFileParts = new[] { code };
+                        //var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
+                        //var url = oMyBlob.ToObjectURL();
+
+                        //Console.WriteLine(new { url });
+
 
                         // when will roslyn learn to expose events as async?
-                        Console.WriteLine("before tab.pageAction.async.onclick");
                         await tab.pageAction.async.onclick;
 
-                        tab.id.hide();
 
 
                         var nn = new Notification
@@ -125,7 +126,7 @@ namespace ChromeExtensionWithWorker
                                 // .css do we have a CSS parser/builder available yet?
 
                                 //code = "body { border: 1em solid red; }"
-                                code = "body { border: 1em solid yellow; }"
+                                code = "body { border-left: 1em solid yellow; }"
                             },
                             null
                         );
@@ -134,11 +135,90 @@ namespace ChromeExtensionWithWorker
                         //};
 
 
+                        // Unchecked runtime.lastError while running tabs.executeScript: No source code or file specified.
+                        var result = await tab.id.executeScript(
+                            //new { file = url }
+                            new { code }
+                        );
+
+                        new Notification
+                        {
+                            Message = "after executeScript " + new { tab.id, result }
+                        };
+
+
+                        // how to use connect?
+                        var p = tab.id.connect();
+
+                        p.postMessage("hello executeScript");
+                    };
+
+                return;
+            }
+            #endregion
+
+            Native.body.style.borderTop = "1em solid yellow";
+
+            // if we were injected by executeScript, how would we launch a worker now?
+
+            // VM608:41423
+
+
+            // https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+            //getFileName: if this function was defined in a script returns the name of the script
+
+            var xx = new Exception();
+
+            Console.WriteLine(new { xx.StackTrace });
+            //0:46ms { StackTrace = Error
+            //    at AgsABmfn8j_aa_bqCu59PrPg (http://192.168.43.252:12879/view-source:27498:56)
+
+
+            //0:25ms { StackTrace = Error
+            //    at AgsABmfn8j_aa_bqCu59PrPg (<anonymous>:27498:56)
+            //    at mV1GtUeaNze1ZFoeDPNoHQ.type$mV1GtUeaNze1ZFoeDPNoHQ.AwAABkeaNze1ZFoeDPNoHQ (<anonymous>:59652:9)
+
+
+            // can we atleast try to ask for the source?
 
 
 
+            object self_chrome_runtime = self_chrome.runtime;
+            Console.WriteLine(new { self_chrome_runtime });
+            // 0:39ms { self_chrome_runtime = [object Object] }
+            if (self_chrome_runtime != null)
+            {
+                chrome.runtime.Connect +=
+                     delegate
+                     {
+                         Console.WriteLine("chrome.runtime.Connect");
+                     };
+
+                chrome.runtime.Message +=
+                    delegate
+                    {
+                        Console.WriteLine("chrome.runtime.Message");
                     };
             }
+
+
+
+            // https://developer.chrome.com/extensions/tabs#method-sendMessage
+            // chrome extension wont call here?
+            Native.window.onmessage +=
+                e =>
+                {
+                    Console.WriteLine(
+                        "onmessage: " +
+                        new { e.data }
+                    );
+
+
+
+
+                    e.postMessage("ok");
+
+                };
         }
 
     }

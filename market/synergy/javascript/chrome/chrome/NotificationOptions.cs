@@ -136,7 +136,7 @@ namespace chrome
                 );
             }
 
-            Console.WriteLine("Notification .ctor :139");
+            //Console.WriteLine("Notification .ctor :139");
             AllNotifications.Add(this);
 
             this._title = title;
@@ -155,12 +155,12 @@ namespace chrome
 
             //Console.WriteLine("before Delay");
 
-            Console.WriteLine("Notification .ctor :158");
+            //Console.WriteLine("Notification .ctor :158");
 
             Task.Delay(1).GetAwaiter().OnCompleted(
                 delegate
                 {
-                Console.WriteLine("Notification .ctor :63");
+                //Console.WriteLine("Notification .ctor :63");
 
                 Console.WriteLine("at Delay " + new { this._title, this._message });
 
@@ -265,9 +265,9 @@ namespace chrome
                         }
                     );
 
-                    Console.WriteLine(
-                        new { chrome.runtime.lastError, chrome.runtime.id }
-                        );
+                    //Console.WriteLine(
+                    //    new { chrome.runtime.lastError, chrome.runtime.id }
+                    //    );
                 }
                 );
 

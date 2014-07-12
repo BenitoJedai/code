@@ -25,6 +25,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             [Script(DefineAsStatic = true)]
             get
             {
+                // how else could we get a stack trace?
+
                 // https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
                 return Expando<string, string>.Of(this)["stack"];
             }
