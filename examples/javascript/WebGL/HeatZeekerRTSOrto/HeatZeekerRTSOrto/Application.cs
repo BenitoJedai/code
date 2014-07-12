@@ -17,6 +17,7 @@ using HeatZeekerRTSOrto;
 using HeatZeekerRTSOrto.Design;
 using HeatZeekerRTSOrto.HTML.Pages;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace HeatZeekerRTSOrto
 {
@@ -31,14 +32,58 @@ namespace HeatZeekerRTSOrto
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
+            // https://chrome.google.com/webstore/detail/dglmddjmdpdbijfkoaiadbpmjampfdjh/publish-delayed
+
+
+            #region ChromeTCPServer
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                #region AtFormCreated
+                FormStyler.AtFormCreated =
+                     ss =>
+                 {
+                     ss.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                     // this is working?
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(ss.Context.GetHTMLTarget());
+                 };
+                #endregion
+
+                chrome.Notification.DefaultTitle = "Heat Zeeker";
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Promotion3D_iso1_tiltshift_128().src;
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    AtFormCreated: FormStyler.AtFormCreated
+                );
+
+                return;
+            }
+            #endregion
+
+
             Native.body.style.margin = "0px";
+            Native.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             // jsc, add THREE
             // ... ok.
 
             // X:\jsc.svn\examples\javascript\WebGL\WebGLOrthographicCamera\WebGLOrthographicCamera\Application.cs
 
-            var camera = new THREE.OrthographicCamera(Native.window.Width / -2, Native.window.Width / 2, Native.window.Height / 2, Native.window.Height / -2, -500, 1000);
+
+
+
+            var camera = new THREE.OrthographicCamera(
+                Native.window.Width / -2, Native.window.Width / 2, Native.window.Height / 2, Native.window.Height / -2
+                ,
+                // if we change these values what will change?
+                -1000, 1000
+                );
             camera.position.x = 200;
             camera.position.y = 100;
             camera.position.z = 200;
@@ -47,11 +92,41 @@ namespace HeatZeekerRTSOrto
 
             // Grid
 
-            var size = 500;
+            var size = 600;
             var step = 50;
 
 
             Func<double> random = new Random().NextDouble;
+
+
+            // how do I add a new ground box?
+            {
+                var geometry = new THREE.BoxGeometry(size * 2, 2, size * 2);
+                var material = new THREE.MeshLambertMaterial(new
+                {
+                    color = 0xB27D51
+                    //                                                     , shading = THREE.FlatShading, overdraw = 0.5
+                });
+
+                {
+                    var cube = new THREE.Mesh(geometry, material);
+
+
+                    // why cant we get the shadows??
+                    cube.receiveShadow = true;
+
+
+                    cube.scale.y = Math.Floor(random() * 2 + 1);
+
+                    cube.position.x = 0;
+                    //cube.position.y = (cube.scale.y * 50) / 2;
+                    cube.position.y = -2;
+                    cube.position.z = 0;
+
+                    scene.add(cube);
+
+                }
+            }
 
 
             {
@@ -68,11 +143,9 @@ namespace HeatZeekerRTSOrto
 
                 }
 
-                var material = new THREE.LineBasicMaterial(new { color = 0x000000, opacity = 0.2 });
+                var material = new THREE.LineBasicMaterial(new { color = 0, opacity = 0.2 });
 
-                var line = new THREE.Line(geometry, material);
-
-                line.type = THREE.LinePieces;
+                var line = new THREE.Line(geometry, material) { type = THREE.LinePieces };
                 scene.add(line);
             }
 
@@ -82,21 +155,75 @@ namespace HeatZeekerRTSOrto
 
             #region Cubes
             {
-                var geometry = new THREE.BoxGeometry(50, 50, 50);
-                var material = new THREE.MeshLambertMaterial(new { color = 0xffffff, shading = THREE.FlatShading, overdraw = 0.5 });
 
-                for (var i = 0; i < 4; i++)
+                for (var i = 0; i < 8; i++)
                 {
+                    new HZBunker().Source.Task.ContinueWithResult(
+                        cube =>
+                                {
+                                    // https://github.com/mrdoob/three.js/issues/1285
+                                    //cube.children.WithEach(c => c.castShadow = true);
+
+                                    cube.traverse(
+                                        new Action<THREE.Object3D>(
+                                            child =>
+                                                    {
+                                                        // does it work? do we need it?
+                                                        //if (child is THREE.Mesh)
+                                                        child.castShadow = true;
+                                                        child.receiveShadow = true;
+
+                                                    }
+                                        )
+                                    );
+
+                                    // um can edit and continue insert code going back in time?
+                                    cube.scale.x = 2.0;
+                                    cube.scale.y = 2.0;
+                                    cube.scale.z = 2.0;
+
+                                    //cube.castShadow = true;
+                                    //dae.receiveShadow = true;
+
+                                    cube.position.x = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+                                    //cube.position.y = (cube.scale.y * 50) / 2;
+                                    cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
+
+                                    scene.add(cube);
+                                    interactiveObjects.Add(cube);
+                                }
+                    );
+
 
                     new HZWaterTower().Source.Task.ContinueWithResult(
                         cube =>
                         {
+                            // https://github.com/mrdoob/three.js/issues/1285
+                            // https://github.com/mrdoob/three.js/issues/1285
+                            //cube.children.WithEach(c => c.castShadow = true);
+                            // http://stackoverflow.com/questions/15906248/three-js-objloader-obj-model-not-casting-shadows
+
+
+                            // http://stackoverflow.com/questions/22895120/imported-3d-objects-are-not-casting-shadows-with-three-js
+                            cube.traverse(
+                                new Action<THREE.Object3D>(
+                                    child =>
+                                    {
+                                        // does it work? do we need it?
+                                        //if (child is THREE.Mesh)
+                                        child.castShadow = true;
+                                        child.receiveShadow = true;
+
+                                    }
+                                )
+                            );
+
                             // um can edit and continue insert code going back in time?
                             cube.scale.x = 2.0;
                             cube.scale.y = 2.0;
                             cube.scale.z = 2.0;
 
-                            //dae.castShadow = true;
+                            //cube.castShadow = true;
                             //dae.receiveShadow = true;
 
                             cube.position.x = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
@@ -111,43 +238,64 @@ namespace HeatZeekerRTSOrto
                     new HZCannon().Source.Task.ContinueWithResult(
                         cube =>
                         {
+                            // https://github.com/mrdoob/three.js/issues/1285
+                            //cube.children.WithEach(c => c.castShadow = true);
+
+                            cube.traverse(
+                                new Action<THREE.Object3D>(
+                                    child =>
+                                            {
+                                                // does it work? do we need it?
+                                                //if (child is THREE.Mesh)
+                                                child.castShadow = true;
+                                                child.receiveShadow = true;
+
+                                            }
+                                )
+                            );
+
                             // um can edit and continue insert code going back in time?
                             cube.scale.x = 2.0;
                             cube.scale.y = 2.0;
                             cube.scale.z = 2.0;
 
-                            //dae.castShadow = true;
+
+
+                            //cube.castShadow = true;
                             //dae.receiveShadow = true;
 
                             cube.position.x = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
                             //cube.position.y = (cube.scale.y * 50) / 2;
                             cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
 
+
+
+                            // if i want to rotate, how do I do it?
+                            //cube.rotation.z = random() + Math.PI;
+                            //cube.rotation.x = random() + Math.PI;
+                            cube.rotation.y = random() * Math.PI * 2;
+
+
                             scene.add(cube);
                             interactiveObjects.Add(cube);
                         }
                     );
 
-                    //var cube = new THREE.Mesh(geometry, material);
 
-                    ////cube.scale.y = Math.Floor(random() * 2 + 1);
-
-                    //cube.position.x = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
-                    //cube.position.y = (cube.scale.y * 50) / 2;
-                    //cube.position.z = Math.Floor((random() * 1000 - 500) / 50) * 50 + 25;
-
-                    //scene.add(cube);
 
                 }
             }
             #endregion
 
-
+            // we need expression evaluator with intellisense for live debugging sessions
             #region  Lights
 
             var ambientLight = new THREE.AmbientLight((int)(random() * 0x10));
             scene.add(ambientLight);
 
+
+
+            // can we get our shadows?
             {
                 var directionalLight = new THREE.DirectionalLight((int)(random() * 0xffffff));
 
@@ -171,6 +319,7 @@ namespace HeatZeekerRTSOrto
 
             //var renderer = new THREE.CanvasRenderer();
             var renderer = new THREE.WebGLRenderer();
+            renderer.shadowMapEnabled = true;
 
             // background-color: #B27D51;
             renderer.setClearColor(0xB27D51);
@@ -182,8 +331,41 @@ namespace HeatZeekerRTSOrto
 
             renderer.domElement.AttachToDocument();
 
+            Native.window.onresize +=
+                delegate
+            {
+                camera.left = Native.window.Width / -2;
+                camera.right = Native.window.Width / 2;
+                camera.top = Native.window.Height / 2;
+                camera.bottom = Native.window.Height / -2;
+
+                camera.updateProjectionMatrix();
+
+                renderer.setSize();
+            };
+
             //window.addEventListener( 'resize', onWindowResize, false );
 
+
+
+            #region ee
+            // X:\jsc.svn\examples\javascript\forms\NumericTextBox\NumericTextBox\ApplicationControl.cs
+            // can we restile the window as the pin window in IDE?
+            var ee = new Form { Left = 0, StartPosition = FormStartPosition.Manual };
+            var ee_camera_y = new TextBox { Dock = DockStyle.Fill, Text = camera.position.y + "" }.AttachTo(ee);
+            //ee.AutoSize = AutoSizeMode.
+
+            //ee.ClientSize = new System.Drawing.Size(ee_camera_y.Width, ee_camera_y.Height);
+            ee.ClientSize = new System.Drawing.Size(200, 24);
+
+            ee.Show();
+
+            //ee_camera_y.
+            ee_camera_y.TextChanged += delegate
+            {
+                camera.position.y = double.Parse(ee_camera_y.Text);
+            };
+            #endregion
 
             var s = Stopwatch.StartNew();
 
@@ -196,6 +378,12 @@ namespace HeatZeekerRTSOrto
 
                     camera.position.x = Math.Cos(timer) * 200;
                     camera.position.z = Math.Sin(timer) * 200;
+
+
+                    // camera.position.z = 200;
+                    //camera.position.y = 100;
+                    //camera.position.y = Math.Sin(timer * 0.1) * 200;
+
                     camera.lookAt(scene.position);
 
                     renderer.render(scene, camera);
@@ -242,6 +430,20 @@ namespace HeatZeekerRTSOrto
             //    };
         }
 
+    }
+
+    [Obsolete("jsc should generate this")]
+    class HZBunker : THREE_ColladaAsset
+    {
+        string ref0 = "assets/HeatZeekerRTSOrto/HZCannon_capture_009_04032013_192834.png";
+
+        public HZBunker()
+            : base(
+                "assets/HeatZeekerRTSOrto/HZBunker.dae"
+                )
+        {
+
+        }
     }
 
     [Obsolete("jsc should generate this")]

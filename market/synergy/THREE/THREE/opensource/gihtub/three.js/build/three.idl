@@ -123,9 +123,19 @@ interface THREE.Camera : THREE.Object3D
 
 };
 
-[Constructor(double  left, double right, double top, double bottom, double near, double far)]
+
+
+// X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
+[Constructor(double  left, double right, double top, double bottom),
+ Constructor(double  left, double right, double top, double bottom, double near, double far)]
 interface THREE.OrthographicCamera :  THREE.Camera 
 {
+	attribute double  left;
+	attribute double  right;
+	attribute double  top;
+	attribute double  bottom;
+
+	void updateProjectionMatrix();
 
 };
 
@@ -162,7 +172,6 @@ interface THREE.Scene  : THREE.Object3D
 
 
 
-	attribute sequence<any> children;
 	void add(any value);
 	void remove(any value);
 };
@@ -395,6 +404,9 @@ interface THREE.Object3D
 	attribute boolean receiveShadow;
 	attribute boolean visible;
 
+	// X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto\Application.cs
+	// object3D , used by THREE.Bone
+	attribute sequence<THREE.Object3D> children;
 
 	attribute THREE.Object3D  parent;
 
@@ -404,7 +416,6 @@ interface THREE.Object3D
 	attribute THREE.Matrix4  matrix;
 	attribute THREE.Matrix4  matrixWorld;
 
-	attribute sequence<any>        children;
 
 
 	attribute THREE.Vector3  scale;
@@ -414,6 +425,7 @@ interface THREE.Object3D
 
 	void add(any mesh);
 	void remove(any mesh);
+	// tested by?
 	void traverse(function<any> mesh);
 
 	void updateMatrix();
@@ -434,12 +446,10 @@ interface THREE.Animation
 
 
 [Constructor()]
-interface THREE.Bone
+interface THREE.Bone : THREE.Object3D
 { 
 	attribute THREE.Matrix4 skinMatrix;
 
-	// object3D
-	attribute sequence<THREE.Object3D>        children;
 };
 
 
@@ -464,26 +474,15 @@ interface THREE.Quaternion
 
 [Constructor(any geometry), 
 	Constructor(any geometry, any material)]
-interface THREE.Mesh 
+interface THREE.Mesh : THREE.Object3D
 { 
 	// ? X:\jsc.svn\examples\javascript\WebGL\WebGLOBJExperiment\WebGLOBJExperiment\Application.cs
 	attribute THREE.MeshBasicMaterial  material;
 
-	attribute THREE.Vector3  rotation;
-	attribute THREE.Vector3  position;
-	attribute THREE.Vector3  scale;
 
 	attribute THREE.Geometry geometry;
-	attribute THREE.Quaternion quaternion;
-	attribute boolean visible;
 
-	attribute boolean        castShadow;
-	attribute boolean        receiveShadow;
 	attribute boolean        useQuaternion;
-
-	void translateX(any delta);
-	void translateY(any delta);
-	void translateZ(any delta);
 
 	void lookAt(THREE.Vector3 target);
 };

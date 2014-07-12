@@ -61,17 +61,6 @@ namespace HeatZeekerRTS
 
             // chrome://extensions/
 
-#if FCHROME
-            #region AtFormCreated
-            FormStyler.AtFormCreated =
-                 s =>
-                 {
-                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-
-                     // this is working?
-                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
-                 };
-            #endregion
 
 
 
@@ -85,6 +74,17 @@ namespace HeatZeekerRTS
                 chrome.Notification.DefaultTitle = "Heat Zeeker";
                 chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Promotion3D_iso1_tiltshift_128().src;
 
+                #region AtFormCreated
+                FormStyler.AtFormCreated =
+                     s =>
+                 {
+                     s.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+
+                     // this is working?
+                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(s.Context.GetHTMLTarget());
+                 };
+                #endregion
+
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
                     AppSource.Text,
                     AtFormCreated: FormStyler.AtFormCreated
@@ -95,7 +95,6 @@ namespace HeatZeekerRTS
             #endregion
 
 
-#endif
 
 
 

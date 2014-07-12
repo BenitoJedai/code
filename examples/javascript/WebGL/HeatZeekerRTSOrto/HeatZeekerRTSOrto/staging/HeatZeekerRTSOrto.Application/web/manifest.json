@@ -1,0 +1,44 @@
+
+{
+"manifest_version": 2,
+  "name": "Operation \xabHeat Zeeker\xbb Orto",
+  "description": "Operation \xabHeat Zeeker\xbb Orto",
+  "version": "25",
+ "minimum_chrome_version": "32",
+  "offline_enabled": true,
+
+
+  
+     "externally_connectable": {
+    "ids": [
+      "*"
+		]
+	},
+
+
+  "app": {
+
+	"background": {
+	  "persistent": true,
+      "scripts": ["view-source"]
+    }
+  },
+  "icons": {
+    "128": "Promotion3D_iso1_tiltshift_128.png"
+  },
+  
+  
+  "permissions": [
+  "<all_urls>",
+  "webview",
+  "fullscreen",
+  "pointerLock",
+    "unlimitedStorage",
+	    "notifications",
+		    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership", "tcp-connect", "tcp-listen"]
+    }
+  ]
+
+}
