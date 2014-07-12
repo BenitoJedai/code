@@ -18,6 +18,11 @@ using ChromeExtensionWithWorker.Design;
 using ChromeExtensionWithWorker.HTML.Pages;
 using chrome;
 using System.Net;
+using System.Threading;
+using System.Diagnostics;
+using ScriptCoreLib.Query.Experimental;
+using System.Data.SQLite;
+using ChromeExtensionWithWorker.Data;
 
 namespace ChromeExtensionWithWorker
 {
@@ -26,10 +31,25 @@ namespace ChromeExtensionWithWorker
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
-        /// <summary>
-        /// This is a javascript application.
-        /// </summary>
-        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        static Application()
+        {
+            Console.WriteLine("Application.cctor");
+
+            // this will run as extension, tab ui, tab worker
+
+            #region QueryExpressionBuilder.WithConnection
+            QueryExpressionBuilder.WithConnection =
+                y =>
+                {
+                    var cc = new SQLiteConnection();
+                    cc.Open();
+                    y(cc);
+                    cc.Dispose();
+                };
+            #endregion
+        }
+
+
         public Application(IApp page)
         {
             // jsc does not yet pre package chrome apps nor extensions
@@ -67,6 +87,9 @@ namespace ChromeExtensionWithWorker
                     };
                 };
 
+
+                var IgnoreSecondaryUpdatesFor = new List<TabIdInteger>();
+
                 chrome.tabs.Updated +=
                     async (i, x, tab) =>
                     {
@@ -82,6 +105,9 @@ namespace ChromeExtensionWithWorker
                             return;
 
 
+                        if (IgnoreSecondaryUpdatesFor.Contains(tab.id))
+                            return;
+
                         // inject?
 
 
@@ -90,12 +116,11 @@ namespace ChromeExtensionWithWorker
                             Message = "Updated! " + new { tab.id, tab.url }
                         };
 
+                        IgnoreSecondaryUpdatesFor.Add(tab.id);
+
+
 
                         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
-
-                        var code = await new WebClient().DownloadStringTaskAsync(
-                             new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
-                        );
 
                         //var aFileParts = new[] { code };
                         //var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
@@ -107,12 +132,16 @@ namespace ChromeExtensionWithWorker
                         // when will roslyn learn to expose events as async?
                         await tab.pageAction.async.onclick;
 
-
-
                         var nn = new Notification
                         {
                             Message = "Clicked " + new { tab.id, tab.url }
                         };
+
+
+
+                        var code = await new WebClient().DownloadStringTaskAsync(
+                             new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
+                        );
 
 
                         Console.WriteLine("before insertCSS");
@@ -141,16 +170,32 @@ namespace ChromeExtensionWithWorker
                             new { code }
                         );
 
-                        new Notification
-                        {
-                            Message = "after executeScript " + new { tab.id, result }
-                        };
+
 
 
                         // how to use connect?
                         var p = tab.id.connect();
 
-                        p.postMessage("hello executeScript");
+
+                        p.onMessage.addListener(
+                            new Action<object>(
+                                data =>
+                                {
+                                    //Console.WriteLine("extension: onMessage " + new { data });
+                                    new Notification
+                                    {
+                                        Message = "extension onMessage: " + new { tab.id, data }
+                                    };
+                                }
+                            )
+                        );
+
+
+                        //p.postMessage("hello executeScript");
+
+
+                        // lets enable workers within tab
+                        p.postMessage(new { code });
                     };
 
                 return;
@@ -167,9 +212,9 @@ namespace ChromeExtensionWithWorker
             // https://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
             //getFileName: if this function was defined in a script returns the name of the script
 
-            var xx = new Exception();
+            //var xx = new Exception();
 
-            Console.WriteLine(new { xx.StackTrace });
+            //Console.WriteLine(new { xx.StackTrace });
             //0:46ms { StackTrace = Error
             //    at AgsABmfn8j_aa_bqCu59PrPg (http://192.168.43.252:12879/view-source:27498:56)
 
@@ -182,43 +227,169 @@ namespace ChromeExtensionWithWorker
             // can we atleast try to ask for the source?
 
 
+            Action<string> Notify = delegate { };
 
+            new xxAvatar().Create();
+
+
+
+            #region go worker
+            new IHTMLButton { 
+                "go worker: ",
+                () => (
+
+                    // we can read our own data, and any other browser extension can too, encrypt it?
+                    from x in new xxAvatar()
+                    orderby x.Key descending
+                    //select x.Tag
+                    //select new  {x.Tag}
+                    select new xxAvatarRow { Tag = x.Tag}
+                ).FirstOrDefaultAsync()
+            }.AttachToDocument().With(
+            button =>
+            {
+                button.style.position = IStyle.PositionEnum.@fixed;
+                button.style.left = "1em";
+                button.style.bottom = "1em";
+                button.style.zIndex = 1000;
+
+
+                button.onclick +=
+                    async e =>
+                    {
+                        e.Element.disabled = true;
+                        Native.body.style.borderTop = "1em solid blue";
+
+
+                        var scopedata1 = "enter";
+                        var scopedata2 = "exit";
+
+                        var x = await Task.Run(
+                            async delegate
+                            {
+                                var s = Stopwatch.StartNew();
+
+                                // does it show up?
+                                await new xxAvatar().InsertAsync(
+                                    new xxAvatarRow
+                                    {
+                                        Tag = "tab worker! " + scopedata1 + new { s.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId },
+                                    }
+                                );
+
+
+                                Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
+                                await Task.Delay(999);
+
+
+
+
+                                // does it show up?
+                                await new xxAvatar().InsertAsync(
+                                    new xxAvatarRow
+                                    {
+                                        Tag = "tab worker! " + scopedata2 + new { s.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId },
+                                    }
+                                );
+
+                                return "webview worker calling extension " + new { s.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId };
+                            }
+                        );
+
+                        Notify(x);
+
+                        Native.body.style.borderTop = "1em solid pink";
+                        e.Element.disabled = false;
+                    };
+
+            }
+            );
+            #endregion
+
+
+
+            #region Connect
             object self_chrome_runtime = self_chrome.runtime;
             Console.WriteLine(new { self_chrome_runtime });
             // 0:39ms { self_chrome_runtime = [object Object] }
             if (self_chrome_runtime != null)
             {
                 chrome.runtime.Connect +=
-                     delegate
-                     {
-                         Console.WriteLine("chrome.runtime.Connect");
-                     };
+                        e =>
+                        {
+                            // port
 
-                chrome.runtime.Message +=
-                    delegate
-                    {
-                        Console.WriteLine("chrome.runtime.Message");
-                    };
+                            Console.WriteLine("chrome.runtime.Connect " + new { Native.document.domain });
+
+                            //0:123ms chrome.runtime.Connect
+                            //0:126ms webview: onMessage { data = hello executeScript }
+
+                            e.onMessage.addListener(
+                                new Action<dynamic>(
+                                    data =>
+                                    {
+                                        string code = data.code;
+
+
+                                        //Console.WriteLine("webview: onMessage " + new { data });
+
+                                        // %c0:41906ms extension: onMessage { data = connected! }
+                                        //e.postMessage("got code! " + new { code.Length });
+
+                                        Native.body.style.borderTop = "1em solid red";
+
+                                        // InternalInlineWorker
+
+                                        // http://stackoverflow.com/questions/21408510/chrome-cant-load-web-worker
+                                        // this wont work for file:// tabs
+
+                                        // message: "Failed to construct 'Worker': Script at 'blob:null/f544915f-b855-480b-8db8-bd6c686829b9#worker' cannot be accessed from origin 'null'."
+                                        var aFileParts = new[] { code };
+                                        var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
+                                        var url = oMyBlob.ToObjectURL();
+
+                                        InternalInlineWorker.ScriptApplicationSourceForInlineWorker = url;
+
+                                        Notify = x =>
+                                        {
+                                            e.postMessage(x);
+                                        };
+                                    }
+                                )
+                            );
+
+
+                        };
+
+                //chrome.runtime.Message +=
+                //    delegate
+                //    {
+                //        Console.WriteLine("chrome.runtime.Message");
+                //    };
             }
+            #endregion
 
 
 
+
+
+            // 0:168ms chrome.runtime.Connect
             // https://developer.chrome.com/extensions/tabs#method-sendMessage
             // chrome extension wont call here?
-            Native.window.onmessage +=
-                e =>
-                {
-                    Console.WriteLine(
-                        "onmessage: " +
-                        new { e.data }
-                    );
+            //Native.window.onmessage +=
+            //    e =>
+            //    {
+            //        Console.WriteLine(
+            //            "onmessage: " +
+            //            new { e.data }
+            //        );
 
 
 
 
-                    e.postMessage("ok");
+            //        e.postMessage("ok");
 
-                };
+            //    };
         }
 
     }
