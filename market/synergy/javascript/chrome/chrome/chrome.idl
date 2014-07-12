@@ -11,18 +11,43 @@ interface chrome.ChromeEventTarget<T, T2, T3>
 
 
 // http://developer.chrome.com/extensions/tabs.html#type-Tab
+// rename to TabKey as we use such naming for DLinq?
 interface chrome.TabIdInteger
 {
 };
 
+
 interface chrome.Tab
 {
-	attribute chrome.TabIdInteger        id  ;
+	attribute chrome.TabIdInteger        id;
+
+
+	attribute int        index ;
+
+	// WindowKey?
 	attribute int        windowId ;
 
+	attribute boolean        highlighted;
+	attribute boolean        active;
+	attribute boolean        pinned;
+
+
+	// The URL the tab is displaying. This property is only present if the extension's manifest includes the "tabs" permission.
 	attribute string        url;
+
+	// The title of the tab. This property is only present if the extension's manifest includes the "tabs" permission.
 	attribute string        title;
+
+	// The URL of the tab's favicon. This property is only present if the extension's manifest includes the "tabs" permission. It may also be an empty string if the tab is loading.
+	attribute string        favIconUrl;
+
+	// Either loading or complete.
 	attribute string        status;
+
+
+
+	attribute int        width;
+	attribute int        height;
 };
 
 
@@ -66,6 +91,9 @@ interface chrome.tabs
 	async static extension void insertCSS(chrome.TabIdInteger tabId, any details, function callback);
 };
 
+
+
+// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
 // http://developer.chrome.com/extensions/pageAction.html#method-show
 interface chrome.pageAction 
 {

@@ -221,6 +221,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
         }
 
+        public Task<string> DownloadStringTaskAsync(Uri address)
+        {
+            // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
+            return DownloadStringTaskAsync(address.ToString());
+        }
+
         public Task<string> DownloadStringTaskAsync(string address)
         {
             var z = new TaskCompletionSource<string>();
