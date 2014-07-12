@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
         // 436
         public static XElement InternalReplaceAll(XElement value, XElement old, string ApplicationWebServieFieldName)
         {
-            Console.WriteLine("InternalReplaceAll" + new { old, value, ApplicationWebServieFieldName });
+            //Console.WriteLine("InternalReplaceAll" + new { old, value, ApplicationWebServieFieldName });
 
             //old.Add(new XAttribute("y", "this is what we have before update"));
             //value.Add(new XAttribute("z", "this is what we have after update"));
@@ -48,7 +48,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
         public static XElement InternalReplaceAll(XElement value, XElement old)
         {
-            Console.WriteLine("ReplaceAll " + new { old, value });
+            //Console.WriteLine("ReplaceAll " + new { old, value });
 
             if (value == null)
                 return old;
@@ -62,7 +62,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
             var old_id = old.Attribute("id");
 
             // are we able to get id if there is a namespace?
-            Console.WriteLine("ReplaceAll " + new { old, old_id });
+            //Console.WriteLine("ReplaceAll " + new { old, old_id });
             //0:22ms ReplaceAll { { old = < div xmlns = "http://www.w3.org/1999/xhtml" id = "content" x = "get rid of static" >static content</ div >, value = < div y = "this is what we have before update" > dynamic content </ div > } }
             //0:23ms ReplaceAll { { old = < div xmlns = "http://www.w3.org/1999/xhtml" id = "content" x = "get rid of static" >static content</ div >, old_id = content } }
 
