@@ -105,6 +105,10 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.XSQLite.1.0.0.0\lib\System.Data.XSQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
@@ -136,10 +140,12 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <None Include="app.config" />
+    <None Include="Data\xx.xlsx" />
     <None Include="packages.config" />
     <None Include="staging\ChromeExtensionWithWorker.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Properties\DataSources\xxAvatarBindingSource.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

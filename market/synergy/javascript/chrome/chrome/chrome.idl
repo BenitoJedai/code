@@ -144,7 +144,9 @@ interface chrome.runtime
 	event static attribute chrome.ChromeEventTarget onSuspendCanceled;
 	event static attribute chrome.ChromeEventTarget<any> onUpdateAvailable;
 
-	event static attribute chrome.ChromeEventTarget<any> onConnect;
+
+	// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
+	event static attribute chrome.ChromeEventTarget<chrome.Port> onConnect;
 	event static attribute chrome.ChromeEventTarget<chrome.Port> onConnectExternal;
 
 	event static attribute chrome.ChromeEventTarget<any, any, any> onMessage;
