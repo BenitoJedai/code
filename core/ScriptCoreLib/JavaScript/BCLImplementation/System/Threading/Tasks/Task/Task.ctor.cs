@@ -559,6 +559,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
                     }
                     else
                     {
+
+
+                        // tested by?
                         Console.WriteLine("Document base redirected...");
 
                         var w = new WebClient();
