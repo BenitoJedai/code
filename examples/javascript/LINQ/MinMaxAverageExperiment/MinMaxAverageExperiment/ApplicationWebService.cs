@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using MinMaxAverageExperiment.Data;
 using System.Diagnostics;
+using ScriptCoreLib.Query.Experimental;
+
+
 
 namespace MinMaxAverageExperiment
 {
@@ -104,7 +107,9 @@ namespace MinMaxAverageExperiment
 
             //var min = new PerformanceResourceTimingData2.ApplicationResourcePerformance().Min(k => k.duration);
 
-            var e = from z in new PerformanceResourceTimingData2.ApplicationResourcePerformance()
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140712
+
+            var e = from z in new PerformanceResourceTimingData2ApplicationResourcePerformance()
                         // .AsEnumerable()
                     group z by 1 into gg
                     select new
