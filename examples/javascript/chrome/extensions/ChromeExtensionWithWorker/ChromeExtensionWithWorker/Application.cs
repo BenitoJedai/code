@@ -99,6 +99,7 @@ namespace ChromeExtensionWithWorker
                 };
                 #endregion
 
+                Action<string> AtMessageFromTabToExtensionForApplication = delegate { };
 
                 Action<string> AtUDPString = delegate { };
 
@@ -203,14 +204,16 @@ namespace ChromeExtensionWithWorker
 
 
                         p.onMessage.addListener(
-                            new Action<object>(
+                            new Action<string>(
                                 data =>
                                 {
+                                    AtMessageFromTabToExtensionForApplication(data);
+
                                     //Console.WriteLine("extension: onMessage " + new { data });
-                                    new Notification
-                                    {
-                                        Message = "extension onMessage: " + new { tab.id, data }
-                                    };
+                                    //new Notification
+                                    //{
+                                    //    Message = "extension onMessage: " + new { tab.id, data }
+                                    //};
                                 }
                             )
                         );
@@ -291,6 +294,11 @@ namespace ChromeExtensionWithWorker
                                 )
                             );
 
+                          AtMessageFromTabToExtensionForApplication +=
+                              message =>
+                              {
+                                  port.postMessage(message);
+                              };
                       }
                   );
                 #endregion
@@ -522,8 +530,7 @@ namespace ChromeExtensionWithWorker
                             {
                                 Console.WriteLine("FormClosed " + new { uri });
 
-                                forms.Remove(f)
-                                    ;
+                                forms.Remove(f);
 
                             };
 
@@ -531,11 +538,11 @@ namespace ChromeExtensionWithWorker
                         // the extension cannot detatch our frame. it may need to ask the app to reopen this virtual tab...
                         f.PopupInsteadOfClosing(HandleFormClosing: false,
 
-                            NotifyFloat:
+                            SpecialCloseOnLeft:
                                 delegate
                                 {
                                     // shall we ask app:: to reopen uri in AppWindow?
-                                    Notify(uri);
+                                    Notify(xml.ToString());
 
                                     f.Close();
                                 }

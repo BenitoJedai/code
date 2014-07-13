@@ -131,136 +131,136 @@ namespace ChromeTCPServer
                                Action<IEvent> onload =
 
                                     delegate
-                               {
-                                   var c = that;
-                                   var f = (Form)that;
-                                   var ff = c;
+                                    {
+                                        var c = that;
+                                        var f = (Form)that;
+                                        var ff = c;
 
-                                   windows.Add(appwindow);
+                                        windows.Add(appwindow);
 
-                                   // http://sandipchitale.blogspot.com/2013/03/tip-webkit-app-region-css-property.html
+                                        // http://sandipchitale.blogspot.com/2013/03/tip-webkit-app-region-css-property.html
 
-                                   (ff.CaptionForeground.style as dynamic).webkitAppRegion = "drag";
+                                        (ff.CaptionForeground.style as dynamic).webkitAppRegion = "drag";
 
-                                   //(ff.ResizeGripElement.style as dynamic).webkitAppRegion = "drag";
-                                   // cant have it yet
-                                   ff.ResizeGripElement.Orphanize();
+                                        //(ff.ResizeGripElement.style as dynamic).webkitAppRegion = "drag";
+                                        // cant have it yet
+                                        ff.ResizeGripElement.Orphanize();
 
-                                   f.StartPosition = FormStartPosition.Manual;
-
-
-                                   f.Left = 0;
-                                   f.Top = 0;
+                                        f.StartPosition = FormStartPosition.Manual;
 
 
-                                   f.FormClosing +=
-                                       delegate
-                                   {
-                                       Console.WriteLine("FormClosing");
-                                       appwindow.close();
-                                   };
+                                        f.Left = 0;
+                                        f.Top = 0;
 
 
-                                   #region  onRestored
-                                   appwindow.onRestored.addListener(
-                                       new Action(
-                                           delegate
-                                   {
-                                       that.CaptionShadow.Hide();
-
-                                   }
-                                       )
-                                   );
-                                   #endregion
+                                        f.FormClosing +=
+                                            delegate
+                                            {
+                                                Console.WriteLine("FormClosing");
+                                                appwindow.close();
+                                            };
 
 
-                                   #region onMaximized
-                                   appwindow.onMaximized.addListener(
-                                   new Action(
-                                           delegate
-                                   {
-                                       that.CaptionShadow.Show();
-
-                                   }
-                                   )
-                                   );
-                                   #endregion
-
-
-                                   #region onClosed
-                                   appwindow.onClosed.addListener(
+                                        #region  onRestored
+                                        appwindow.onRestored.addListener(
                                             new Action(
                                                 delegate
-                                   {
-                                       Console.WriteLine("onClosed");
-                                       windows.Remove(appwindow);
+                                                {
+                                                    that.CaptionShadow.Hide();
 
-                                       f.Close();
-                                   }
+                                                }
+                                            )
+                                        );
+                                        #endregion
+
+
+                                        #region onMaximized
+                                        appwindow.onMaximized.addListener(
+                                        new Action(
+                                                delegate
+                                                {
+                                                    that.CaptionShadow.Show();
+
+                                                }
                                         )
                                         );
-                                   #endregion
-
-                                   // wont fire yet
-                                   //appwindow.contentWindow.onbeforeunload +=
-                                   //    delegate
-                                   //    {
-                                   //        Console.WriteLine("onbeforeunload");
-                                   //    };
-
-                                   //appwindow.onBoundsChanged.addListener(
-                                   //        new Action(
-                                   //        delegate
-                                   //        {
-                                   //            Console.WriteLine("appwindow.onBoundsChanged");
-
-                                   //            f.SizeTo(
-                                   //                appwindow.contentWindow.Width,
-                                   //                appwindow.contentWindow.Height
-                                   //            );
-                                   //        }
-                                   //    )
-                                   //);
+                                        #endregion
 
 
-                                   appwindow.contentWindow.onresize +=
-                                                //appwindow.onBoundsChanged.addListener(
-                                                //    new Action(
-                                                delegate
-                                   {
+                                        #region onClosed
+                                        appwindow.onClosed.addListener(
+                                                 new Action(
+                                                     delegate
+                                                     {
+                                                         Console.WriteLine("onClosed");
+                                                         windows.Remove(appwindow);
 
-                                       //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
-                                       //    new
-                                       //    {
-                                       //        appwindow.contentWindow.Width,
-                                       //        appwindow.contentWindow.Height
-                                       //    }
-                                       //    );
+                                                         f.Close();
+                                                     }
+                                             )
+                                             );
+                                        #endregion
 
-                                       f.Width = appwindow.contentWindow.Width;
-                                       f.Height = appwindow.contentWindow.Height;
+                                        // wont fire yet
+                                        //appwindow.contentWindow.onbeforeunload +=
+                                        //    delegate
+                                        //    {
+                                        //        Console.WriteLine("onbeforeunload");
+                                        //    };
 
-                                   }
-                                        //)
-                                        //)
-                                        ;
+                                        //appwindow.onBoundsChanged.addListener(
+                                        //        new Action(
+                                        //        delegate
+                                        //        {
+                                        //            Console.WriteLine("appwindow.onBoundsChanged");
 
-                                   f.Width = appwindow.contentWindow.Width;
-                                   f.Height = appwindow.contentWindow.Height;
-
-
-                                   //Console.WriteLine("appwindow contentWindow onload");
-
-
-                                   that.HTMLTarget.AttachTo(
-                                       appwindow.contentWindow.document.body
-                                   );
+                                        //            f.SizeTo(
+                                        //                appwindow.contentWindow.Width,
+                                        //                appwindow.contentWindow.Height
+                                        //            );
+                                        //        }
+                                        //    )
+                                        //);
 
 
+                                        appwindow.contentWindow.onresize +=
+                                            //appwindow.onBoundsChanged.addListener(
+                                            //    new Action(
+                                                     delegate
+                                                     {
 
-                                   yield(false);
-                                   //Console.WriteLine("appwindow contentWindow onload done");
-                               };
+                                                         //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
+                                                         //    new
+                                                         //    {
+                                                         //        appwindow.contentWindow.Width,
+                                                         //        appwindow.contentWindow.Height
+                                                         //    }
+                                                         //    );
+
+                                                         f.Width = appwindow.contentWindow.Width;
+                                                         f.Height = appwindow.contentWindow.Height;
+
+                                                     }
+                                            //)
+                                            //)
+                                             ;
+
+                                        f.Width = appwindow.contentWindow.Width;
+                                        f.Height = appwindow.contentWindow.Height;
+
+
+                                        //Console.WriteLine("appwindow contentWindow onload");
+
+
+                                        that.HTMLTarget.AttachTo(
+                                            appwindow.contentWindow.document.body
+                                        );
+
+
+
+                                        yield(false);
+                                        //Console.WriteLine("appwindow contentWindow onload done");
+                                    };
                                #endregion
 
                                //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
@@ -291,6 +291,9 @@ namespace ChromeTCPServer
                     // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
                     webview.setAttribute("partition", "p1");
 
+
+
+                    #region permissionrequest
                     // https://github.com/GoogleChrome/chromium-webview-samples
                     // permissionrequest
                     // https://developer.chrome.com/apps/tags/webview#type-WebRequestEventInteface
@@ -350,6 +353,8 @@ namespace ChromeTCPServer
                             //);
                         }
                     );
+                    #endregion
+
 
 
                     // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
@@ -385,16 +390,16 @@ namespace ChromeTCPServer
                     #region SizeChanged
                     f.SizeChanged +=
                         delegate
-                    {
-                        //Console.WriteLine("SizeChanged");
+                        {
+                            //Console.WriteLine("SizeChanged");
 
-                        var ClientSize = f.ClientSize;
+                            var ClientSize = f.ClientSize;
 
 
-                        w.Width = ClientSize.Width;
-                        w.Height = ClientSize.Height;
+                            w.Width = ClientSize.Width;
+                            w.Height = ClientSize.Height;
 
-                    };
+                        };
                     #endregion
 
 
@@ -406,9 +411,9 @@ namespace ChromeTCPServer
 
                     f.FormClosed +=
                         delegate
-                    {
-                        x.SetResult(f);
-                    };
+                        {
+                            x.SetResult(f);
+                        };
 
                     await x.Task;
 
