@@ -301,9 +301,30 @@ namespace MulticastListenExperiment
 
 
 
+
+            Action<string> AtUDPString = delegate { };
+ 
             // suggest: HTMLElements
             IHTMLElement.HTMLElementEnum.hr.AttachToDocument();
 
+
+            // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
+            // Fired when a connection is made from another extension.
+            chrome.runtime.ConnectExternal += e =>
+            {
+                // 0:10428ms extension connects to app: { id = fkgibadjpabiongmgoeomdbcefhabmah }
+                // 
+                Console.WriteLine("extension connects to app: " + new { e.sender.id });
+
+                //e.postMessage("hello from app");
+
+                AtUDPString +=
+                    xml =>
+                    {
+                        e.postMessage(xml);
+                    
+                    };
+            };
 
 
 
@@ -342,7 +363,7 @@ namespace MulticastListenExperiment
 
 
 
-            // deprecated?
+            #region  working API chrome.socket.create
             new IHTMLButton { "chrome.socket.create" }.AttachToDocument().onclick +=
                 async e =>
                 {
@@ -430,11 +451,14 @@ namespace MulticastListenExperiment
 
                         var xml = Encoding.UTF8.GetString(source);
 
+                        AtUDPString(xml);
                         new IHTMLPre { new { xml } }.AttachToDocument();
                         // 52 bytes
                     }
 
                 };
+            #endregion
+
 
             // https://code.google.com/p/chromium/issues/detail?id=246872
             // chrome.socket is not available: 'socket' requires a different Feature that is not present. 

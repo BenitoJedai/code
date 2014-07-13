@@ -114,7 +114,7 @@ namespace chrome
 
             )
         {
-            Console.WriteLine("Notification .ctor");
+            //Console.WriteLine("Notification .ctor");
 
             if (title == null)
             {

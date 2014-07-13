@@ -23,6 +23,7 @@ using System.Diagnostics;
 using ScriptCoreLib.Query.Experimental;
 using System.Data.SQLite;
 using ChromeExtensionWithWorker.Data;
+using System.Windows.Forms;
 
 namespace ChromeExtensionWithWorker
 {
@@ -77,7 +78,17 @@ namespace ChromeExtensionWithWorker
 
             if (self_chrome_tabs != null)
             {
+                #region Suspend
+                chrome.runtime.Suspend += delegate
+                  {
+                      // dispose all injection done so far?
+                      Console.WriteLine("chrome.runtime.Suspend");
+                  };
+                #endregion
+
+
                 // jsc, add chrome nuget
+                #region Installed
                 chrome.runtime.Installed += delegate
                 {
                     // our API does not have a Show
@@ -86,10 +97,14 @@ namespace ChromeExtensionWithWorker
                         Message = "Extension Installed!"
                     };
                 };
+                #endregion
 
+
+                Action<string> AtUDPString = delegate { };
 
                 var IgnoreSecondaryUpdatesFor = new List<TabIdInteger>();
 
+                #region Updated
                 chrome.tabs.Updated +=
                     async (i, x, tab) =>
                     {
@@ -144,7 +159,7 @@ namespace ChromeExtensionWithWorker
                         );
 
 
-                        Console.WriteLine("before insertCSS");
+                        //Console.WriteLine("before insertCSS");
 
                         // https://developer.chrome.com/extensions/tabs#type-Tab
                         // http://stackoverflow.com/questions/9795058/how-to-run-chrome-tabs-insertcss-from-the-background-page-on-each-page
@@ -175,6 +190,16 @@ namespace ChromeExtensionWithWorker
 
                         // how to use connect?
                         var p = tab.id.connect();
+                        var p_disconnected = false;
+
+                        p.onDisconnect.addListener(
+                            new Action(
+                                delegate
+                                {
+                                    p_disconnected = true;
+                                }
+                            )
+                        );
 
 
                         p.onMessage.addListener(
@@ -196,7 +221,82 @@ namespace ChromeExtensionWithWorker
 
                         // lets enable workers within tab
                         p.postMessage(new { code });
+
+                        AtUDPString +=
+                            xml =>
+                            {
+                                //Console.WriteLine("extension: " + new { xml });
+
+                                if (p_disconnected)
+                                    return;
+
+                                if (tab.active)
+                                {
+                                    // only if active tab?
+                                    p.postMessage(new { xml });
+                                }
+                            };
                     };
+                #endregion
+
+
+
+
+
+                #region __MulticastListenExperiment
+
+                // can this chrome.extension connect to a chrome app?
+                var __MulticastListenExperiment = "aemlnmcokphbneegoefdckonejmknohh";
+
+                Console.WriteLine("chrome.runtime.connect " + new { __MulticastListenExperiment });
+
+                // what if the app is not loaded, or is inactive?
+
+                chrome.runtime.connect(__MulticastListenExperiment).With(
+                      port =>
+                      {
+                          // Uncaught TypeError: Cannot read property 'id' of undefined
+                          Console.WriteLine("chrome.runtime.connect OK " + new { __MulticastListenExperiment, chrome.runtime.lastError });
+                          // 0:60ms chrome.runtime.connect OK { __MulticastListenExperiment = aemlnmcokphbneegoefdckonejmknohh, lastError =  } 
+                          //Console.WriteLine("chrome.runtime.connect OK " + new { __MulticastListenExperiment, chrome.runtime.lastError, port.sender.id });
+
+
+                          port.onDisconnect.addListener(
+                              new Action(
+                                  delegate
+                                  {
+                                      Console.WriteLine("chrome.runtime.connect onDisconnect " + new { __MulticastListenExperiment });
+                                  }
+                              )
+                          );
+
+                          // we wont know if we got the connection...
+                          port.onMessage.addListener(
+                                new Action<object>(
+                                    message =>
+                                    {
+                                        // %c0:182ms app to extension { message = hello from app }
+
+                                        //Console.WriteLine("app to extension " + new { message, port.sender.id });
+                                        Console.WriteLine("app to extension " + new { message });
+
+                                        //var nn = new chrome.Notification
+                                        //{
+                                        //    Title = "app to extension",
+                                        //    Message = new { message }.ToString(),
+                                        //};
+
+                                        AtUDPString((string)message);
+                                    }
+                                )
+                            );
+
+                      }
+                  );
+                #endregion
+
+
+                //Console.WriteLine("chrome.runtime.connect exit " + new { __MulticastListenExperiment });
 
                 return;
             }
@@ -236,7 +336,7 @@ namespace ChromeExtensionWithWorker
             #region go worker
             new IHTMLButton { 
                 "go worker: ",
-                () => (
+               (
 
                     // we can read our own data, and any other browser extension can too, encrypt it?
                     from x in new xxAvatar()
@@ -251,13 +351,37 @@ namespace ChromeExtensionWithWorker
                 button.style.position = IStyle.PositionEnum.@fixed;
                 button.style.left = "1em";
                 button.style.bottom = "1em";
-                button.style.zIndex = 1000;
+                //button.style.zIndex = 1000;
+                button.style.zIndex = 10000;
+
+
 
 
                 button.onclick +=
                     async e =>
                     {
                         e.Element.disabled = true;
+
+
+                        button.innerText = "working... ";
+
+
+                        // live updates from worker via DB.
+                        button.Add(
+
+                             () => (
+
+                                // we can read our own data, and any other browser extension can too, encrypt it?
+                                from xx in new xxAvatar()
+                                orderby xx.Key descending
+                                //select x.Tag
+                                //select new  {x.Tag}
+                                select new xxAvatarRow { Tag = xx.Tag }
+                            ).FirstOrDefaultAsync()
+
+                        );
+
+
                         Native.body.style.borderTop = "1em solid blue";
 
 
@@ -269,19 +393,22 @@ namespace ChromeExtensionWithWorker
                             {
                                 var s = Stopwatch.StartNew();
 
-                                // does it show up?
-                                await new xxAvatar().InsertAsync(
-                                    new xxAvatarRow
-                                    {
-                                        Tag = "tab worker! " + scopedata1 + new { s.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId },
-                                    }
-                                );
 
 
-                                Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
-                                await Task.Delay(999);
+                                for (int index = 0; index < 10; index++)
+                                {
 
+                                    // does it show up?
+                                    await new xxAvatar().InsertAsync(
+                                        new xxAvatarRow
+                                        {
+                                            Tag = "tab worker! " + scopedata1 + new { index, s.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId },
+                                        }
+                                    );
 
+                                    Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
+                                    await Task.Delay(99);
+                                }
 
 
                                 // does it show up?
@@ -296,16 +423,129 @@ namespace ChromeExtensionWithWorker
                             }
                         );
 
+
+                        button.innerText = "go worker: ";
+
+
+                        // live updates from worker via DB.
+                        button.Add(
+
+                            // show a static field, so we wont spam console
+                             (
+
+                                // we can read our own data, and any other browser extension can too, encrypt it?
+                                from xx in new xxAvatar()
+                                orderby xx.Key descending
+                                //select x.Tag
+                                //select new  {x.Tag}
+                                select new xxAvatarRow { Tag = xx.Tag }
+                            ).FirstOrDefaultAsync()
+
+                        );
+
                         Notify(x);
 
                         Native.body.style.borderTop = "1em solid pink";
                         e.Element.disabled = false;
                     };
 
+
+
+
             }
             );
             #endregion
 
+
+
+            var forms = new List<Form>();
+
+
+
+            #region onxmlmessage
+            Action<XElement> onxmlmessage = null;
+
+            onxmlmessage =
+                xml =>
+                {
+                    // we are working within another webapp
+                    // the tab was told by the extension
+                    // the extension was told by the app
+                    // the app was told by udp broadcast
+                    // that a jsc app is now running.
+
+                    // cool.
+
+                    // can we load it into here?
+
+                    if (xml.Value.StartsWith("Visit me at "))
+                    {
+                        // what about android apps runnning on SSL?
+                        // what about preview images?
+                        // do we get localhost events too?
+
+                        var uri = "http://" + xml.Value.SkipUntilOrEmpty("Visit me at ");
+
+                        if (forms.Any(x => x.Text == uri))
+                        {
+                            // look already opened!
+                            return;
+                        }
+
+                        // X:\jsc.internal.git\market\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+
+                        // "X:\jsc.svn\examples\javascript\android\com.abstractatech.appmanager\com.abstractatech.appmanager.sln"
+                        // X:\jsc.svn\examples\javascript\android\com.abstractatech.appmanager\com.abstractatech.appmanager\Application.cs
+
+
+
+
+                        // can we pop ourselves out of here too?
+                        // can chrome>extensions do AppWindows?
+
+
+                        // on some pages they style our div. shall we use a non div to get nonstyled element?
+                        // or do we need shadow DOM? is it even available yet for us?
+                        var f = new Form { Text = uri, ShowIcon = false };
+                        forms.Add(f);
+
+                        var w = new WebBrowser();
+                        w.Dock = DockStyle.Fill;
+
+                        f.Controls.Add(w);
+
+                        w.Navigate(uri);
+                        f.Show();
+
+                        f.FormClosed +=
+                            delegate
+                            {
+                                Console.WriteLine("FormClosed " + new { uri });
+
+                                forms.Remove(f)
+                                    ;
+
+                            };
+
+                        // if we close it we want it to be gone for good.
+                        // the extension cannot detatch our frame. it may need to ask the app to reopen this virtual tab...
+                        f.PopupInsteadOfClosing(HandleFormClosing: false,
+
+                            NotifyFloat:
+                                delegate
+                                {
+                                    // shall we ask app:: to reopen uri in AppWindow?
+                                    Notify(uri);
+
+                                    f.Close();
+                                }
+                        );
+
+
+                    }
+
+                };
+            #endregion
 
 
             #region Connect
@@ -318,42 +558,84 @@ namespace ChromeExtensionWithWorker
                         e =>
                         {
                             // port
-
+                            // extension connects to injected tab?
                             Console.WriteLine("chrome.runtime.Connect " + new { Native.document.domain });
+                            //Console.WriteLine("chrome.runtime.Connect " + new { Native.document.domain, e.sender.id });
 
                             //0:123ms chrome.runtime.Connect
                             //0:126ms webview: onMessage { data = hello executeScript }
+
+
+                            //http://stackoverflow.com/questions/15798516/is-there-an-event-for-when-a-chrome-extension-popup-is-closed
+
+
+                            e.onDisconnect.addListener(
+                                new Action(
+                                    delegate
+                                    {
+                                        // extension unloaded
+                                        Native.body.style.borderTop = "0em solid red";
+                                        Native.body.style.borderLeft = "0em solid red";
+
+                                        forms.WithEach(f => f.Close());
+
+                                    }
+                                )
+                            );
+
+
 
                             e.onMessage.addListener(
                                 new Action<dynamic>(
                                     data =>
                                     {
-                                        string code = data.code;
-
-
-                                        //Console.WriteLine("webview: onMessage " + new { data });
-
-                                        // %c0:41906ms extension: onMessage { data = connected! }
-                                        //e.postMessage("got code! " + new { code.Length });
-
-                                        Native.body.style.borderTop = "1em solid red";
-
-                                        // InternalInlineWorker
-
-                                        // http://stackoverflow.com/questions/21408510/chrome-cant-load-web-worker
-                                        // this wont work for file:// tabs
-
-                                        // message: "Failed to construct 'Worker': Script at 'blob:null/f544915f-b855-480b-8db8-bd6c686829b9#worker' cannot be accessed from origin 'null'."
-                                        var aFileParts = new[] { code };
-                                        var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
-                                        var url = oMyBlob.ToObjectURL();
-
-                                        InternalInlineWorker.ScriptApplicationSourceForInlineWorker = url;
-
-                                        Notify = x =>
+                                        string xml = data.xml;
+                                        if (xml != null)
                                         {
-                                            e.postMessage(x);
-                                        };
+                                            // tab injection was notified by extension, by app, by udp android?
+                                            Native.body.style.borderLeft = "1em solid red";
+
+                                            // 0:40394ms { xml = <string c="1">Visit me at 192.168.1.67:6169</string> }
+                                            Console.WriteLine(new { xml });
+
+
+                                            // X:\jsc.internal.git\market\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+
+                                            onxmlmessage(
+                                                XElement.Parse(xml)
+                                                );
+
+                                        }
+
+                                        string code = data.code;
+                                        if (code != null)
+                                        {
+
+                                            //Console.WriteLine("webview: onMessage " + new { data });
+
+                                            // %c0:41906ms extension: onMessage { data = connected! }
+                                            //e.postMessage("got code! " + new { code.Length });
+
+                                            Native.body.style.borderTop = "1em solid red";
+
+                                            // InternalInlineWorker
+
+                                            // http://stackoverflow.com/questions/21408510/chrome-cant-load-web-worker
+                                            // this wont work for file:// tabs
+
+                                            // message: "Failed to construct 'Worker': Script at 'blob:null/f544915f-b855-480b-8db8-bd6c686829b9#worker' cannot be accessed from origin 'null'."
+                                            var aFileParts = new[] { code };
+                                            var oMyBlob = new Blob(aFileParts, new { type = "text/javascript" }); // the blob
+                                            var url = oMyBlob.ToObjectURL();
+
+                                            InternalInlineWorker.ScriptApplicationSourceForInlineWorker = url;
+
+                                            Notify = x =>
+                                            {
+                                                // Error in event handler for (unknown): Attempting to use a disconnected port object Stack trace: Error: Attempting to use a disconnected port object
+                                                e.postMessage(x);
+                                            };
+                                        }
                                     }
                                 )
                             );

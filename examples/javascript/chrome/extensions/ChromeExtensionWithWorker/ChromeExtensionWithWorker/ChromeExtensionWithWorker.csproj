@@ -39,6 +39,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.JavaScript.FormAsPopup">
+      <HintPath>..\packages\Abstractatech.JavaScript.FormAsPopup.1.0.0.0\lib\Abstractatech.JavaScript.FormAsPopup.dll</HintPath>
+    </Reference>
     <Reference Include="Chrome Web Store">
       <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
     </Reference>
