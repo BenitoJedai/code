@@ -11,6 +11,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // how dos this compare to extensions, webviews?
+
+
+
+
         // in 2007 we had google gears, it got discontiued.
         // lets ait and see if this ServiceWorker feature from chrome delivers as promised 
 

@@ -128,8 +128,13 @@ namespace ChromeTCPServer
         public byte[] write;
     }
 
+
+
+
+    [Obsolete("can we override .net socket api, so our serer API would be more generic and also share code with android?")]
     public static class TheServer
     {
+        // https://code.google.com/p/chromium/issues/detail?id=152875
 
 
 

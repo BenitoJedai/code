@@ -63,7 +63,7 @@ namespace MulticastListenExperiment
                                     // https://developer.mozilla.org/en-US/docs/data_URIs
 
                                     // chrome-extension://mdcjoomcbillipdchndockmfpelpehfc/data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E
-                                    var appwindow = await chrome.app.window.create(Native.Document.location.pathname, null);
+                                    var appwindow = await chrome.app.window.create(Native.document.location.pathname, null);
 
 
                                     // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
@@ -95,7 +95,7 @@ namespace MulticastListenExperiment
             }
             #endregion
 
-
+            #region __chrome
             // not an app
             //{ member = loadTimes }
             //{ member = csi }
@@ -297,20 +297,59 @@ namespace MulticastListenExperiment
 
             //    }
             //);
+            #endregion
 
-            //@"Hello world".ToDocumentTitle();
-            //// Send data from JavaScript to the server tier
-            //service.WebMethod2(
-            //    @"A string from JavaScript.",
-            //    value => value.ToDocumentTitle()
-            //);
+
 
             // suggest: HTMLElements
             IHTMLElement.HTMLElementEnum.hr.AttachToDocument();
 
-            Action doudp =
-                async delegate
+
+
+
+
+            #region the new api. is it any better?
+            new IHTMLButton { "chrome.sockets.udp.create" }.AttachToDocument().onclick +=
+                async e =>
                 {
+                    // this aint defined for chrme38???
+
+                    // http://wefixbugs.com/blog/How-to-do-UDP-broadcast-using-chromesocketsudp-API-55233.html#.U8Krqm0wqCg
+                    // https://developer.chrome.com/apps/app_network
+
+                    e.Element.disabled = true;
+
+
+                    var socket = await chrome.sockets.udp.create(new object());
+
+                    var value_bind = await chrome.sockets.udp.bind(socket.socketId, "0.0.0.0", 40404);
+                    var value_joinGroup = await chrome.sockets.udp.joinGroup(socket.socketId, "239.1.2.3");
+
+                    e.Element.innerText = new { socket.socketId }.ToString();
+
+                    chrome.sockets.udp.Receive +=
+                        info =>
+                        {
+                            if (info.socketId != socket.socketId)
+                                return;
+
+                            var xml = Encoding.UTF8.GetString(info.data);
+
+                            new IHTMLPre { new { info.remoteAddress, info.remotePort, xml } }.AttachToDocument();
+                        };
+                };
+            #endregion
+
+
+
+            // deprecated?
+            new IHTMLButton { "chrome.socket.create" }.AttachToDocument().onclick +=
+                async e =>
+                {
+                    // X:\jsc.internal.git\market\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+
+                    e.Element.disabled = true;
+
 
                     var socket = await chrome.socket.create("udp", new object());
 
@@ -383,6 +422,16 @@ namespace MulticastListenExperiment
 
                         new IHTMLDiv { innerText = new { result.data.byteLength }.ToString() }.AttachToDocument();
 
+
+
+
+
+                        byte[] source = new ScriptCoreLib.JavaScript.WebGL.Uint8ClampedArray(result.data);
+
+                        var xml = Encoding.UTF8.GetString(source);
+
+                        new IHTMLPre { new { xml } }.AttachToDocument();
+                        // 52 bytes
                     }
 
                 };
@@ -392,7 +441,6 @@ namespace MulticastListenExperiment
             // chrome.socket is not available: 'socket' is only allowed for packaged apps, and this is a legacy packaged app. 
 
 
-            doudp();
 
         }
 
