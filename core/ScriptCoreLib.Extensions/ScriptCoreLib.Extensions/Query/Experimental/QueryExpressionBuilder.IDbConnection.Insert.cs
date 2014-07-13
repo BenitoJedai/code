@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Query.Experimental
         #region GetInsertCommand
         public static IDbCommand GetInsertCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         {
-            Console.WriteLine("enter GetInsertCommand");
+            //Console.WriteLine("enter GetInsertCommand");
 
             // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
@@ -107,7 +107,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-            Console.WriteLine("exit GetInsertCommand " + new { c.CommandText });
+            //Console.WriteLine("exit GetInsertCommand " + new { c.CommandText });
             return c;
         }
         #endregion
@@ -136,6 +136,24 @@ namespace ScriptCoreLib.Query.Experimental
         [Obsolete("whats the default?")]
         public static Action<Action<IDbConnection>> WithConnection;
 
+
+        public static void Insert<TElement>(this IQueryStrategy<TElement> source, params TElement[] collection)
+        {
+            // used by
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+
+            WithConnection(
+                  cc =>
+                {
+                    foreach (var item in collection)
+                    {
+                        Insert(source, cc, item);
+
+                    }
+                }
+              );
+
+        }
 
         public static void Insert<TElement>(this IQueryStrategy<TElement> source, TElement value)
         {
