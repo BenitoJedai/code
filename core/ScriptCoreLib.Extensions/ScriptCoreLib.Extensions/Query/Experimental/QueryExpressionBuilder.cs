@@ -23,6 +23,7 @@ namespace ScriptCoreLib.Query.Experimental
                 Key = xTableDefaultSelector.Key,
                 field1 = xTableDefaultSelector.field1,
                 field2 = xTableDefaultSelector.field2,
+                field3 = xTableDefaultSelector.field3,
                 Timestamp = xTableDefaultSelector.Timestamp,
                 Tag = xTableDefaultSelector.Tag
             };
@@ -42,6 +43,8 @@ namespace ScriptCoreLib.Query.Experimental
 
         public int field1;
         public int field2;
+
+        public long field3;
 
         public DateTime Timestamp;
         public string Tag;
@@ -98,6 +101,10 @@ namespace ScriptCoreLib.Query.Experimental
             }
 
         }
+
+
+        delegate void WriteScalarExpressionAction(bool DiscardAlias, Expression asExpression);
+
 
         partial class SQLWriter<TElement>
         {
@@ -310,7 +317,7 @@ namespace ScriptCoreLib.Query.Experimental
                 #endregion
 
                 #region WriteScalarExpression
-                Action<bool, Expression> WriteScalarExpression = null;
+                var WriteScalarExpression = default(WriteScalarExpressionAction);
 
                 WriteScalarExpression =
                     (DiscardAlias, asExpression) =>
@@ -575,35 +582,81 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                 #region xCount
+                // rename to xScalar ?
                 var xCount = source as xCount;
                 if (xCount != null)
                 {
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectAverage\Program.cs
+
                     // http://www.w3schools.com/sql/sql_func_count.asp
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestDeleteAll\Program.cs
 
-                    WriteLine(0, "select count(*) from (");
+                    //WriteLine(0, "select count(*) from (");
 
-                    var xsource = new SQLWriter<TElement>(
-                       xCount.source,
-                        upper.Concat(new[] { source }),
-                        context,
-                        //upperParameter: (source as xSelect).selector.Parameters[0],
-                        upperParameter: null,
-                        Command: Command
-                    );
+                    var xxSelect = xCount.source as xSelect;
+                    var xxMemberExpression = xxSelect.selector.Body as MemberExpression;
 
-                    // render the source and with parent
-
-
-
-
-                    using (WithoutLinefeeds())
+                    if (xxMemberExpression != null)
                     {
-                        WriteLine(0, ") as `");
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
-                        // Additional information: Every derived table must have its own alias
-                        WriteLineWithColor(0, "TCountable", ConsoleColor.Magenta);
-                        WriteLine(0, "`");
+                        using (WithoutLinefeeds())
+                        {
+                            WriteLine(0, "select avg(");
+
+                            WriteScalarExpression(true, xxMemberExpression);
+
+
+                            WriteLine(0, ") from (");
+                        }
+
+                        var xsource = new SQLWriter<TElement>(
+                           //xxSelect.source,
+                           xxSelect,
+                            upper.Concat(new[] { source }),
+                            context,
+                            //upperParameter: (source as xSelect).selector.Parameters[0],
+                            upperParameter: null,
+                            Command: Command
+                        );
+
+
+                        using (WithoutLinefeeds())
+                        {
+                            WriteLine(0, ")");
+                        }
+
+                        return;
+                    }
+
+
+                    {
+                        WriteLine(0, "select avg(*) from (");
+
+
+
+
+
+                        var xsource = new SQLWriter<TElement>(
+                           xCount.source,
+                            upper.Concat(new[] { source }),
+                            context,
+                            //upperParameter: (source as xSelect).selector.Parameters[0],
+                            upperParameter: null,
+                            Command: Command
+                        );
+
+                        // render the source and with parent
+
+
+
+
+                        using (WithoutLinefeeds())
+                        {
+                            WriteLine(0, ") as `");
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+                            // Additional information: Every derived table must have its own alias
+                            WriteLineWithColor(0, "TCountable", ConsoleColor.Magenta);
+                            WriteLine(0, "`");
+                        }
                     }
 
                     return;
@@ -1248,7 +1301,7 @@ namespace ScriptCoreLib.Query.Experimental
                 WriteProjectionProxy =
                     (zsource, zExpression, Target) =>
                     {
-                        WriteCommentLine(1, "WriteProjectionProxy");
+                        //WriteCommentLine(1, "WriteProjectionProxy");
 
 
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs

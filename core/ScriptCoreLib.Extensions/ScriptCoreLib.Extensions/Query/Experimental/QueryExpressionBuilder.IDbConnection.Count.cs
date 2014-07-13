@@ -22,6 +22,8 @@ namespace ScriptCoreLib.Query.Experimental
             public static readonly Func<IQueryStrategy<TElement>, long> CountReference = Count;
         }
 
+
+        [Obsolete("xScalar")]
         class xCount : IQueryStrategy
         {
             public IQueryStrategy source;
@@ -41,10 +43,14 @@ namespace ScriptCoreLib.Query.Experimental
         {
 
             var nsource = new xCount { source = source };
-            var c = (DbCommand)cc.CreateCommand();
-            var w = new SQLWriter<TElement>(nsource, new IQueryStrategy[] { nsource }, Command: c);
+            var Command = default(DbCommand);
 
-            return c;
+
+            if (cc != null)
+                Command = (DbCommand)cc.CreateCommand();
+            var w = new SQLWriter<TElement>(nsource, new IQueryStrategy[] { nsource }, Command: Command);
+
+            return Command;
         }
 
 
@@ -61,6 +67,11 @@ namespace ScriptCoreLib.Query.Experimental
         public static long Average(this IQueryStrategy<long> source)
         {
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+
+            // first, lets apprach it in a similar way. lets copy count
+
+
+            var xDbCommand = GetCountCommand(source, cc: null);
 
             return 0;
         }
