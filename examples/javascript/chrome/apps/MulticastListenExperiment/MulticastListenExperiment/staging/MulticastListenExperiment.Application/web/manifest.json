@@ -34,7 +34,7 @@
     "unlimitedStorage",
 	    "notifications",
 		    "storage",
-			"system.network"
+			"system.network",
     {
       "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership", "tcp-connect", "tcp-listen"]
     }
