@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Extensions", "..\..\..\..\..\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions.csproj", "{94719DE7-1C09-4026-A948-D78EE589F1DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.FormAsPopup", "..\..\..\..\..\market\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup\Abstractatech.JavaScript.FormAsPopup.csproj", "{F32D7675-1193-4DA7-98C8-C8B010C608D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNone", "..\..\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -89,6 +93,46 @@ Global
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{94719DE7-1C09-4026-A948-D78EE589F1DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Any CPU.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|Mixed Platforms.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|x86.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Android|x86.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.ActiveCfg = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Debug|x86.Build.0 = Debug|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|Any CPU.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|x86.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.PHP|x86.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Any CPU.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.ActiveCfg = Release|x86
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9}.Release|x86.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Any CPU.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|Mixed Platforms.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Android|x86.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.Build.0 = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|Any CPU.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.PHP|x86.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Any CPU.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,5 +140,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {C602BA39-7F5F-4F7B-B730-67B1516A960D}
 		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {C602BA39-7F5F-4F7B-B730-67B1516A960D}
+		{F32D7675-1193-4DA7-98C8-C8B010C608D9} = {C602BA39-7F5F-4F7B-B730-67B1516A960D}
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {C602BA39-7F5F-4F7B-B730-67B1516A960D}
 	EndGlobalSection
 EndGlobal

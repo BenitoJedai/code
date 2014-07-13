@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Multicast", "..\..\..\..\..\market\Abstractatech.Multicast\Abstractatech.Multicast\Abstractatech.Multicast.csproj", "{327F22EB-51F3-4545-A839-F79005C69D8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerWithFrameNone", "..\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone.csproj", "{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,16 @@ Global
 		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|x86.ActiveCfg = Release|Any CPU
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.ActiveCfg = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Debug|x86.Build.0 = Debug|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Any CPU.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.ActiveCfg = Release|x86
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +71,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {429904CD-2D5A-48E9-916F-0FEC4F95C99D}
 		{327F22EB-51F3-4545-A839-F79005C69D8B} = {429904CD-2D5A-48E9-916F-0FEC4F95C99D}
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {429904CD-2D5A-48E9-916F-0FEC4F95C99D}
 	EndGlobalSection
 EndGlobal
