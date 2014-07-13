@@ -118,7 +118,7 @@ namespace ScriptCoreLib.Query.Experimental
 
         static QueryExpressionBuilder()
         {
-            Console.WriteLine("QueryExpressionBuilder.cctor");
+            //Console.WriteLine("QueryExpressionBuilder.cctor");
 
             // x:\jsc.svn\examples\javascript\xml\xclickcounter\xclickcounter\application.cs
             // are we preinitialized by .Application?
