@@ -49,6 +49,23 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
+
+
+        public static long Average<TSource>(this IQueryStrategy<TSource> source, Expression<Func<TSource, long>> selector)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+
+            return source.Select(selector).Average();
+        }
+
+        public static long Average(this IQueryStrategy<long> source)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+
+            return 0;
+        }
+
+
         // first lets allow scalar subqueries
         public static long Count<TElement>(this IQueryStrategy<TElement> source)
         {
