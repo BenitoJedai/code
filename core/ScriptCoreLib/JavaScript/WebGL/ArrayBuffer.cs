@@ -9,5 +9,19 @@ namespace ScriptCoreLib.JavaScript.WebGL
     public class ArrayBuffer
     {
         public long byteLength;
+
+
+
+
+
+        public static implicit operator byte[](ArrayBuffer data)
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\chrome\apps\MulticastListenExperiment\MulticastListenExperiment\Application.cs
+
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\WebGL\Uint8ClampedArray.cs
+
+            return new Uint8ClampedArray(data);
+        }
     }
 }

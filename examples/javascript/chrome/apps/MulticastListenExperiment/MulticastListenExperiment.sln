@@ -6,29 +6,58 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MulticastListenExperiment",
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{429904CD-2D5A-48E9-916F-0FEC4F95C99D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.Multicast", "..\..\..\..\..\market\Abstractatech.Multicast\Abstractatech.Multicast\Abstractatech.Multicast.csproj", "{327F22EB-51F3-4545-A839-F79005C69D8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{0D736B38-1399-47C6-993F-4916BAD03990}.Debug|x86.ActiveCfg = Debug|x86
 		{0D736B38-1399-47C6-993F-4916BAD03990}.Debug|x86.Build.0 = Debug|x86
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|Any CPU.ActiveCfg = Release|x86
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|x86.ActiveCfg = Release|x86
 		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Any CPU.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{327F22EB-51F3-4545-A839-F79005C69D8B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {429904CD-2D5A-48E9-916F-0FEC4F95C99D}
+		{327F22EB-51F3-4545-A839-F79005C69D8B} = {429904CD-2D5A-48E9-916F-0FEC4F95C99D}
 	EndGlobalSection
 EndGlobal

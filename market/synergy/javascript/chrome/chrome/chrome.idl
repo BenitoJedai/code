@@ -324,6 +324,53 @@ interface chrome.AcceptInfo
 };
 
 
+
+// not a real type?
+interface chrome.onReceiveInfo 
+{
+	attribute chrome.socketId socketId;
+	attribute ArrayBuffer data;
+
+	attribute long remotePort;
+	attribute string remoteAddress;
+};
+
+
+// dictionary
+interface chrome.SocketProperties 
+{
+	//attribute boolean persistent = false;
+	attribute boolean persistent;
+	attribute string name;
+	//attribute long bufferSize = 4096;
+	attribute long bufferSize;
+};
+
+// https://developer.chrome.com/apps/sockets_udp
+// Stable since Chrome 33. 
+interface chrome.sockets.udp
+{
+	// http://laclefyoshi.blogspot.com/2012/05/using-socket-api-with-google-chrome.html
+	// not defined???
+	// http://superuser.com/questions/522428/performing-dns-queries-via-javascript-from-chrome-app
+
+	// what do we need in manifest.json?
+
+	// chrome.SocketProperties 
+	async static void create(any properties, function<chrome.CreateInfo> callback);
+
+	// bind − chrome.sockets.udp.bind(integer socketId, string address, integer port, function callback)
+	//async static extension void bind(chrome.socketId socketId, string address, int port, function<int> callback);
+	async static void bind(chrome.socketId socketId, string address, int port, function<int> callback);
+
+	// joinGroup − chrome.sockets.udp.joinGroup(integer socketId, string address, function callback)
+	async static void joinGroup(chrome.socketId socketId, string address, function<int> callback);
+
+	// chrome.sockets.udp.onReceiveError.addListener(function callback)
+	event static attribute chrome.ChromeEventTarget<chrome.onReceiveInfo> onReceive;
+	event static attribute chrome.ChromeEventTarget<any> onReceiveError;
+};
+
 interface chrome.socketId 
 	// make it an enum	
 	//: int 
@@ -331,9 +378,11 @@ interface chrome.socketId
 
 };
 
+
+[Obsolete]
 interface chrome.socket
 {
-
+	// X:\jsc.svn\examples\javascript\chrome\apps\MulticastListenExperiment\MulticastListenExperiment\Application.cs
 	// http://developer.chrome.com/trunk/apps/socket.html#method-listen
 
 	async static extension void listen (chrome.socketId socketId, string address, int port, int backlog, function<int> callback);
