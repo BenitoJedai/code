@@ -174,6 +174,9 @@ namespace chrome
 
                     };
 
+
+                    // https://github.com/darwin/chromium-src-chrome-browser/blob/master/notifications/notification.cc
+                    // https://github.com/darwin/chromium-src-chrome-browser/blob/master/notifications/notification.h
                     chrome.notifications.create(
                         this.Key,
                         new NotificationOptions

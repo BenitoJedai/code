@@ -110,7 +110,7 @@ namespace ChromeExtensionWithWorker
 
                         // inject?
 
-
+                        // what if we sent the uri to our android tab?
                         var n = new Notification
                         {
                             Message = "Updated! " + new { tab.id, tab.url }
