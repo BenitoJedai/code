@@ -15,6 +15,8 @@ namespace ScriptCoreLib.JavaScript
     using ScriptCoreLib.JavaScript.BCLImplementation.System;
     using ScriptCoreLib.Shared.BCLImplementation.System;
 
+    
+
 
     [Script]
     // C# 6 shall import this static type and make members available!

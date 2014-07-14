@@ -6,6 +6,8 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Activator.cs
+    // X:\opensource\github\WootzJs\WootzJs.Runtime\Activator.cs
     // http://referencesource.microsoft.com/#mscorlib/system/activator.cs
     [Script(Implements = typeof(global::System.Activator))]
     internal class __Activator

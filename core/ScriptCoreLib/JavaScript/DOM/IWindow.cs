@@ -10,6 +10,7 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // X:\opensource\github\WootzJs\WootzJs.Web\Window.cs
 
 
 

@@ -6,6 +6,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/methodinfo.cs
+    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140714
+    // WootzJs.Runtime\Reflection\MethodInfo.cs
     [Script(Implements = typeof(global::System.Reflection.MethodInfo))]
     public class __MethodInfo : __MethodBase
     {

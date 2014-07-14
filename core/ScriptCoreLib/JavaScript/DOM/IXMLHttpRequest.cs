@@ -10,6 +10,8 @@ using ScriptCoreLib.JavaScript.WebGL;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // X:\opensource\github\WootzJs\WootzJs.Web\XmlHttpRequest.cs
+
     // http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
     // http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
     [Script(InternalConstructor = true)]

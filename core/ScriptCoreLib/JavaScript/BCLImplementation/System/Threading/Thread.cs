@@ -97,6 +97,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         #region ParameterizedThreadStart
         public ParameterizedThreadStart InternalParameterizedThreadStart;
 
+
+        // tested by?
         public __Thread(ParameterizedThreadStart t)
         {
             InternalParameterizedThreadStart = t;
