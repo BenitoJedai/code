@@ -136,7 +136,7 @@ interface THREE.OrthographicCamera :  THREE.Camera
 	attribute double  bottom;
 
 	void updateProjectionMatrix();
-
+	attribute THREE.Vector3  up;
 };
 
 
@@ -387,6 +387,8 @@ interface THREE.Matrix4
 
 	THREE.Matrix4 makeTranslation(double x, double y, double z);
 
+	THREE.Matrix4 identity();
+
 	any setPosition(any vec3);
 };
 
@@ -483,7 +485,7 @@ interface THREE.Mesh : THREE.Object3D
 	attribute THREE.Geometry geometry;
 
 	attribute boolean        useQuaternion;
-
+	void rotateOnAxis(THREE.Vector3 vect, double angle);
 	void lookAt(THREE.Vector3 target);
 };
 
@@ -525,6 +527,7 @@ interface THREE.WebGLRenderer
 	void setClearColor(THREE.Color color);
 	void setSize(long w, long h);
 	void render(any scene, any camera);
+	void setViewport(any a, any b, any c, any d);
 
 	void clear();
 
@@ -616,6 +619,14 @@ interface THREE.CircleGeometry
 
 };
 
+[Constructor(double radius, double tube, double radialSegments, double tubularSegments, double p, double q, double heightSegments)]
+interface THREE.TorusKnotGeometry 
+{ 
+	void applyMatrix(any value);
+};
+
+//THREE.TorusKnotGeometry = function ( radius, tube, radialSegments, tubularSegments, p, q, heightScale ) {
+
 
 [Constructor()]
 interface THREE.Projector 
@@ -693,10 +704,10 @@ interface THREE.ParticleSystemMaterial : THREE.Material
 };
 
 
-[Constructor()]
+[Constructor(any e)]
 interface THREE.MeshFaceMaterial : THREE.Material
 { 
-
+	attribute sequence<any> materials;
 
 };
 
