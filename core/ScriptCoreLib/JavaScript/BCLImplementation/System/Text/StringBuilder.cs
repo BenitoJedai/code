@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
+    // X:\opensource\github\WootzJs\WootzJs.Runtime\Text\StringBuilder.cs
     // http://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs
     [Script(Implements = typeof(global::System.Text.StringBuilder))]
     internal class __StringBuilder

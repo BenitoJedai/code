@@ -5,6 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // X:\opensource\github\WootzJs\WootzJs.Web\Navigator.cs
+
+    
     [Script]
     public class NavigatorInfo
     {

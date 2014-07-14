@@ -10,6 +10,12 @@ using System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // X:\opensource\github\JSIL\Proxies\Reflection.cs
+    // "X:\opensource\github\Netjs\mscorlib.ts"
+
+    // X:\opensource\github\WootzJs\WootzJs.Runtime\Type.cs
+    // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
+
     // http://referencesource.microsoft.com/#mscorlib/system/type.cs
     [Script(Implements = typeof(global::System.Type))]
     public class __Type : __MemberInfo

@@ -8,6 +8,8 @@ using System.Linq;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
 
+
+    // X:\opensource\github\WootzJs\WootzJs.Runtime\String.cs
     // http://referencesource.microsoft.com/#mscorlib/system/string.cs
     // haha. Purpose: Your favorite String class.
     [Script(Implements = typeof(global::System.String), InternalConstructor = true)]

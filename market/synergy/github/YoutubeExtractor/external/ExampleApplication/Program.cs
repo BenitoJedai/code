@@ -73,7 +73,7 @@ namespace ExampleApplication
         private static void Main()
         {
             // Our test youtube link
-            const string link = "https://www.youtube.com/watch?v=GpVOl-CKeJ0";
+            const string link = "https://www.youtube.com/watch?v=eYsHtHKdo6k";
             Debugger.Break();
 
             /*

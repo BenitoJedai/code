@@ -11,6 +11,10 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+
+
+    // X:\opensource\github\WootzJs\WootzJs.Web\Node.cs
+
     // SCRIPT5009: 'Node' is undefined 
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/core/nsIDOMElement.idl
     [Script(HasNoPrototype = true)]
