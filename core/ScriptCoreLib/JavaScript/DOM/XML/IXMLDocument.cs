@@ -3,6 +3,8 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM.XML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/XMLDocument.idl
+
 	/// <summary>
 	/// http://www.howtocreate.co.uk/tutorials/jsexamples/importingXML.html
 	/// http://www.faqts.com/knowledge_base/view.phtml/aid/34769/fid/616

@@ -105,6 +105,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorker.cs" />
+    <Compile Include="JavaScript\WebCL\WebCLContext.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteParameterCollection.cs" />

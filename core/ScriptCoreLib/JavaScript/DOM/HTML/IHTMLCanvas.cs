@@ -6,6 +6,9 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLCanvasElement.idl
+
+
     // could a post build extend a type via IDL ? :)
     [System.ComponentModel.Description(@"
 // http://dev.w3.org/html5/spec/the-canvas-element.html

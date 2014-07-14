@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/URL.idl
+
     [Script(HasNoPrototype = true, ExternalTarget = "URL")]
     // static class?
     public class URL

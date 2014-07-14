@@ -2,6 +2,8 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLAnchorElement.idl
+
     [Script(InternalConstructor = true)]
     public class IHTMLAnchor : IHTMLElement
     {
@@ -68,6 +70,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         #endregion
 
+
+        // http://www.chromestatus.com/features/6473924464345088
         // http://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link
         public string download;
 

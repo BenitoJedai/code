@@ -12,6 +12,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLImageElement.idl
 
     /// <summary>
     /// 

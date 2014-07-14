@@ -6,6 +6,8 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLSelectElement.idl
+
     /// <summary>
     /// http://www.htmlcodetutorial.com/forms/_SELECT.html
     /// </summary>

@@ -6,6 +6,7 @@ using System;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Document.idl
 
     // http://www.w3schools.com/dom/dom_document.asp
     [Script(HasNoPrototype = true)]

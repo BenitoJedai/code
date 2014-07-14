@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/MessagePort.idl
+
     [Script(HasNoPrototype = true)]
     public class MessagePort : IEventTarget
     {

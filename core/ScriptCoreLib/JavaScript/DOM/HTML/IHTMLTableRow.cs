@@ -2,6 +2,8 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLTableRowElement.idl
+
     [Script(InternalConstructor=true)]
     public class IHTMLTableRow : IHTMLElement
     {

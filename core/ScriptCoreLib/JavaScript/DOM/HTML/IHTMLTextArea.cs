@@ -3,10 +3,12 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLTextAreaElement.idl
+
     [Script(InternalConstructor = true)]
     public class IHTMLTextArea : IHTMLElement
     {
-
+        [System.Obsolete]
         public IArray<string> Lines
         {
             [Script(DefineAsStatic = true)]

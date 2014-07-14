@@ -6,6 +6,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLObjectElement.idl
+
     [Script(InternalConstructor = true)]
     public class IHTMLObject : IHTMLElement
     {

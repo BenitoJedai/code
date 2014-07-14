@@ -7,6 +7,8 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLButtonElement.idl
+
     [Script(InternalConstructor = true)]
     public class IHTMLButton : IHTMLElement<IHTMLButton>
     {

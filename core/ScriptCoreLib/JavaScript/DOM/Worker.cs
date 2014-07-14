@@ -19,6 +19,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public delegate void ActionOfDedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope scope);
 
+
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.cpp
+
     [Script(HasNoPrototype = true, ExternalTarget = "Worker")]
     public class Worker : IEventTarget
     {

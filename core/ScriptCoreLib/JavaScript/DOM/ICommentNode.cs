@@ -4,6 +4,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Comment.idl
+
 	// http://msdn.microsoft.com/en-us/library/ms535229(VS.85).aspx
 	[Script(InternalConstructor = true)]
 	public class ICommentNode : INode

@@ -14,6 +14,9 @@ using ScriptCoreLib.JavaScript.DOM.SVG;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLDivElement.idl
+    // like span, only operators?
+
     [Script(InternalConstructor = true)]
     public class IHTMLDiv : IHTMLElement
     {

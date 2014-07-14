@@ -3,6 +3,8 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Element.idl
+
     /// <summary>
     /// http://developer.kde.org/documentation/library/3.3-api/khtml/html/classDOM_1_1Element.html
     /// http://developer.mozilla.org/en/docs/DOM:element.setAttribute

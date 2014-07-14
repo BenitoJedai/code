@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://www.chromestatus.com/features/5311740673785856
+
     [Script(HasNoPrototype = true, ExternalTarget = "EventSource")]
     public class EventSource : IEventTarget
     {

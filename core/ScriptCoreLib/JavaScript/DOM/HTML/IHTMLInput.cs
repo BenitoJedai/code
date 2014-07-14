@@ -4,6 +4,7 @@ using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLInputElement.idl
 
     /// <summary>
     /// http://www.w3.org/TR/REC-html40/interact/forms.html#adef-type-INPUT

@@ -7,6 +7,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 {
+    // http://www.chromestatus.com/features/6330987952734208
+
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
     public class __SQLiteConnection : __DbConnection

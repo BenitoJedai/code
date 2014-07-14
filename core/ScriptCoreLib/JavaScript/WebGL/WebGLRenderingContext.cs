@@ -7,14 +7,18 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContextBase.cpp
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContextBase.idl
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     public class WebGLRenderingContext
+    // : WebGLRenderingContextBase
     {
         // see also
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\CanvasRenderingContext2D.cs
 
         public IHTMLCanvas canvas;
 
+        // dictionary?
         [Script]
         sealed class __preserveDrawingBuffer
         {

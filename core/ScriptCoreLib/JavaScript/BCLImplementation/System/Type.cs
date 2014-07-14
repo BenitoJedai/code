@@ -10,13 +10,18 @@ using System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // this is the most popular type?
+
+
+    #region referencesource
     // X:\opensource\github\JSIL\Proxies\Reflection.cs
     // "X:\opensource\github\Netjs\mscorlib.ts"
-
+    // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Type.cs
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Type.cs
     // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
-
     // http://referencesource.microsoft.com/#mscorlib/system/type.cs
+    #endregion
+
     [Script(Implements = typeof(global::System.Type))]
     public class __Type : __MemberInfo
     {

@@ -4,6 +4,8 @@ using System.Data;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLTableElement.idl
+
     /// <summary>
     /// http://developer.mozilla.org/en/docs/Traversing_an_HTML_table_with_JavaScript_and_DOM_Interfaces
     /// </summary>

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLIFrameElement.idl
+    // http://www.chromestatus.com/features/5715536319086592
 
     // http://www.w3.org/TR/html4/present/frames.html#h-16.5
     [Script(InternalConstructor = true)]

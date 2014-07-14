@@ -3,6 +3,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    [System.Obsolete("ActiveX no longer part of the web?")]
     [Script(InternalConstructor = true)]
     public class IActiveX : IEventTarget
     {

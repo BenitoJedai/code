@@ -5,6 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // https://github.com/slightlyoff/ServiceWorker
+    // http://www.chromestatus.com/features/6561526227927040
+
     // http://www.w3.org/TR/service-workers/
     // http://www.chromium.org/blink/serviceworker
     [Script(HasNoPrototype = true, ExternalTarget = "ServiceWorker")]

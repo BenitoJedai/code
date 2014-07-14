@@ -4,9 +4,18 @@ using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLOListElement.idl
+
     [Script(InternalConstructor = true)]
     public class IHTMLOrderedList : IHTMLElement
     {
+        //21	    [Reflect] attribute boolean compact;
+        //22	    attribute long start;
+        //23	    [Reflect] attribute boolean reversed;
+        //24	    [Reflect] attribute DOMString type;
+
+
+
         public IHTMLOrderedList()
         {
         }

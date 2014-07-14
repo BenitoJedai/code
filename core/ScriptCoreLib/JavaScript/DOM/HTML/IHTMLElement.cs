@@ -15,6 +15,8 @@ using ScriptCoreLib.JavaScript.DOM.SVG;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLElement.idl
+
     [Script]
     // move to own file
     public static class HTMLElementEnumExtensions

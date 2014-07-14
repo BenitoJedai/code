@@ -6,9 +6,12 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLVideoElement.idl
+
     [Script(InternalConstructor = true)]
     public class IHTMLVideo : IHTMLMedia
     {
+        // when can a jsc app store video in db?
 
         #region Constructor
 
@@ -27,6 +30,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public byte[] bytes
         {
+            // tested by?
+
             [Script(DefineAsStatic = true)]
             get
             {
