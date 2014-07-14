@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/CanvasRenderingContext2D.cpp
+
     // is the namespace correct?
     // updated by IDL
     [Script(HasNoPrototype = true, InternalConstructor = true)]

@@ -9,6 +9,8 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLEmbedElement.idl
+
 	[Script(InternalConstructor = true)]
 	public class IHTMLEmbedFlash : IHTMLEmbed
 	{

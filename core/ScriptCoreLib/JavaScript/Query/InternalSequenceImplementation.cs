@@ -12,6 +12,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.JavaScript.Query
 {
+    [System.Obsolete("either move the namespace or make automatic as we do with ActionScript")]
     [Script(Implements = typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable_AsEnumerable))]
     internal static class __InternalSequenceImplementation
     {

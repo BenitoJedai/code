@@ -2,6 +2,8 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLBRElement.idl
+
     [Script(InternalConstructor = true)]
     public class IHTMLBreak : IHTMLElement
     {

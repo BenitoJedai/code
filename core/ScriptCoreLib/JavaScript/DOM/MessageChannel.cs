@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/MessageChannel.idl
+
     // https://bugzilla.mozilla.org/show_bug.cgi?id=677638
     [Script(HasNoPrototype = true, ExternalTarget = "MessageChannel")]
     public class MessageChannel

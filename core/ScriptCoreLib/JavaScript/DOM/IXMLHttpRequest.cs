@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public partial class IXMLHttpRequest : IEventTarget
     {
+        // http://src.chromium.org/viewvc/blink/trunk/Source/core/xml/XMLHttpRequest.idl
         // http://src.chromium.org/viewvc/blink/trunk/Source/core/xml/XMLHttpRequest.idl?pathrev=156290
         // http://src.chromium.org/viewvc/blink/trunk/Source/core/xml/XMLHttpRequest.cpp?pathrev=156290
 

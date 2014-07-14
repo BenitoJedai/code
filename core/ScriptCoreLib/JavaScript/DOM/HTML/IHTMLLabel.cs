@@ -3,6 +3,7 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLLabelElement.idl
 
     /// <summary>
     /// http://www.w3schools.com/tags/tag_label.asp

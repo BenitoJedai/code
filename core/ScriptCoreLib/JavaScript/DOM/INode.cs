@@ -11,6 +11,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Node.idl
 
 
     // X:\opensource\github\WootzJs\WootzJs.Web\Node.cs

@@ -581,7 +581,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                #region xCount
+                #region xScalar
                 // rename to xScalar ?
                 var xCount = source as xCount;
                 if (xCount != null)
@@ -609,8 +609,8 @@ namespace ScriptCoreLib.Query.Experimental
                         }
 
                         var xsource = new SQLWriter<TElement>(
-                           //xxSelect.source,
-                           xxSelect,
+                           xxSelect.source,
+                           //xxSelect,
                             upper.Concat(new[] { source }),
                             context,
                             //upperParameter: (source as xSelect).selector.Parameters[0],
@@ -621,7 +621,12 @@ namespace ScriptCoreLib.Query.Experimental
 
                         using (WithoutLinefeeds())
                         {
-                            WriteLine(0, ")");
+                            using (WithoutLinefeeds())
+                            {
+                                WriteLine(0, ") as `");
+                                WriteLineWithColor(0, "" + xxSelect.selector.Parameters[0].Name, ConsoleColor.Magenta);
+                                WriteLine(0, "`");
+                            }
                         }
 
                         return;
@@ -2759,7 +2764,7 @@ namespace ScriptCoreLib.Query.Experimental
                 }
                 else
                 {
-                    WriteLine(0, "from /* */ (");
+                    WriteLine(0, "from (");
 
                     var xsource = new SQLWriter<TElement>(
                        xSelect_source,

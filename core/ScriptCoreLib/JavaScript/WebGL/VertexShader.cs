@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [Script(Implements = typeof(ScriptCoreLib.GLSL.VertexShader))]
     internal class __VertexShader : __Shader
     {
+        // tested by?
 
     }
 }

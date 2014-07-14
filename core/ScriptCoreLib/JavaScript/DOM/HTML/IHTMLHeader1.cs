@@ -6,6 +6,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLHeadingElement.idl
+
     // chrome calls this HTMLHeadingElement
     [Script(InternalConstructor = true)]
     public class IHTMLHeader1 : IHTMLElement

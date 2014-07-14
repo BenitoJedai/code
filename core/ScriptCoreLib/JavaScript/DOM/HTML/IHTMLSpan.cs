@@ -5,6 +5,9 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLSpanElement.idl
+    // span is special having only operators?
+
     [Script(InternalConstructor = true)]
     public class IHTMLSpan : IHTMLElement
     {

@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/DOMError.idl
+
     // http://www.w3.org/TR/domcore/#domexception
     // http://www.w3.org/TR/domcore/#interface-domerror
 	[Script(HasNoPrototype = true, ExternalTarget = "Error")]
