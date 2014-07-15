@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM.SVG
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/svg/SVGForeignObjectElement.idl
+
     [Script(InternalConstructor = true)]
     public class ISVGForeignObject : ISVGElementBase
     {

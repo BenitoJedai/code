@@ -24,6 +24,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public partial class CSSRule
     {
+        // http://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSRule.idl
+
         public readonly CSSRuleTypes type;
 
         public readonly IStyleSheet parentStyleSheet;

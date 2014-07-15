@@ -5,6 +5,10 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/ServiceWorker.idl
+
+
+    // https://jakearchibald.github.io/isserviceworkerready/
     // https://github.com/slightlyoff/ServiceWorker
     // http://www.chromestatus.com/features/6561526227927040
 

@@ -40,7 +40,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
     // X:\opensource\github\WootzJs\WootzJs.Web\MouseEvent.cs
-
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/events/MouseEvent.idl
     // http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-MouseEvent
     [Script(InternalConstructor = true)]
     public class IMouseEvent : IEvent
