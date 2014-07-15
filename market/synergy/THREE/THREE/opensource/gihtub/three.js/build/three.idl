@@ -114,6 +114,7 @@ interface THREE.AnimationHandlerType
 
 };
 
+
 interface THREE.Camera : THREE.Object3D
 {
 	attribute THREE.Matrix4  projectionMatrix;
