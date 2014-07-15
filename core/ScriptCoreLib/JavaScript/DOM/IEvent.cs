@@ -24,6 +24,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     }
 
+
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/events/Event.idl
+
     // http://www.w3.org/TR/DOM-Level-2-Events/idl-definitions.html
     // http://www.w3.org/TR/DOM-Level-3-Events/
     [Script(HasNoPrototype = true)]

@@ -102,6 +102,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     //  readonly attribute SQLResultSetRowList rows;
     //};
 
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/webdatabase/SQLResultSet.idl
     [Script(InternalConstructor = true)]
     public class SQLResultSet
     {
@@ -166,6 +167,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     //};
     #endregion
 
+
+
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/webdatabase/SQLTransaction.idl
     [Script(InternalConstructor = true)]
     public class SQLTransaction
     {
@@ -177,6 +181,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     };
 
+
+
+
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/webdatabase/Database.idl
     [Script(InternalConstructor = true)]
     public class Database
     {

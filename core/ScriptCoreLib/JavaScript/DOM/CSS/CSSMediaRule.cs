@@ -7,6 +7,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSMediaRule.idl
     // see: http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
 
     [Script(InternalConstructor = true)]

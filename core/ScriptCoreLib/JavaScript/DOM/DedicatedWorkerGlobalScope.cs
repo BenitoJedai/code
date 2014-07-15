@@ -6,10 +6,16 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/DedicatedWorkerGlobalScope.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/WorkerGlobalScopeCrypto.idl
 
     [Script(HasNoPrototype = true)]
     public class WorkerGlobalScope : IEventTarget
     {
+
+        // readonly attribute Crypto crypto;
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/Crypto.idl
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/SubtleCrypto.idl
+
 
         public readonly WorkerLocation location;
 

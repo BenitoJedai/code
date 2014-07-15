@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/fileapi/Blob.idl
+
     [Script(HasNoPrototype = true, ExternalTarget = "Blob")]
     public class Blob
     {

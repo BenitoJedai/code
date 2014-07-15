@@ -5,9 +5,13 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/storage/Storage.idl
+
     [Script(HasNoPrototype = true)]
     public class Storage
     {
+        // what about websql?
+
         public readonly uint length;
 
         public Storage() { }
