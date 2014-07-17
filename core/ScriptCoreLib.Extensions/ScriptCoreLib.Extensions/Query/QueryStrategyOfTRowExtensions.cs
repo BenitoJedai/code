@@ -21,6 +21,8 @@ namespace System.Data
 {
     // move to a nuget?
     // shall reimplement IQueriable for jsc data layer gen
+
+    //[Obsolete]
     public static partial class QueryStrategyOfTRowExtensions
     {
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs

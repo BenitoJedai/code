@@ -5,11 +5,12 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // https://github.com/adobe/webkit/blob/master/Source/WebCore/page/Navigator.idl
     // X:\opensource\github\WootzJs\WootzJs.Web\Navigator.cs
 
-    
+    // rename to INavigator ?
     [Script]
-    public class NavigatorInfo
+    public partial class NavigatorInfo
     {
         // see also:
         // X:\jsc.svn\examples\javascript\Test\TestMediaCaptureAPI\TestMediaCaptureAPI\Application.cs
@@ -17,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // X:\jsc.svn\examples\javascript\WebCamToGIFAnimation\WebCamToGIFAnimation\Application.cs
 
         // http://www.whatwg.org/specs/web-apps/current-work/multipage/offline.html#dfnReturnLink-0
+        [Obsolete("ServiceWorker")]
         public bool onLine;
 
         public string userAgent;
@@ -40,6 +42,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public IArray<MimeTypeInfo> mimeTypes;
         public IArray<PluginInfo> plugins;
+
+
+        // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/NavigatorServiceWorker.idl
+        // tested by?
+        // X:\jsc.svn\examples\javascript\test\TestNavigatorServiceWorker\TestNavigatorServiceWorker\Application.cs
+        // chrome OS apps and server will be the first to have this tested on? then android? then app engine?
+
+        public readonly ServiceWorkerContainer serviceWorker;
+
     }
 
 }

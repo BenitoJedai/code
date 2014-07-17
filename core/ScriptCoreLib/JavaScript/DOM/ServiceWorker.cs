@@ -5,6 +5,11 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    #region referencesource
+
+    // http://www.chromium.org/blink/serviceworker/testing
+
+    // https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Social_API/Service_worker_API_reference
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/ServiceWorker.idl
 
 
@@ -14,10 +19,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // http://www.w3.org/TR/service-workers/
     // http://www.chromium.org/blink/serviceworker
+    
+    #endregion
+
     [Script(HasNoPrototype = true, ExternalTarget = "ServiceWorker")]
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // ?
+        // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/AbstractWorker.idl
+
         // how dos this compare to extensions, webviews?
 
 
@@ -35,11 +46,4 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\DedicatedWorkerGlobalScope.cs
-    [Script(HasNoPrototype = true, ExternalTarget = "ServiceWorkerGlobalScope")]
-    [Obsolete("experimental")]
-    public class ServiceWorkerGlobalScope : WorkerGlobalScope
-    { 
-
-    }
 }

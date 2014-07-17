@@ -104,6 +104,9 @@
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
+    <Compile Include="JavaScript\DOM\IPromise.cs" />
+    <Compile Include="JavaScript\DOM\ServiceWorkerContainer.cs" />
+    <Compile Include="JavaScript\DOM\ServiceWorkerGlobalScope.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorker.cs" />
     <Compile Include="JavaScript\WebCL\WebCLContext.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
