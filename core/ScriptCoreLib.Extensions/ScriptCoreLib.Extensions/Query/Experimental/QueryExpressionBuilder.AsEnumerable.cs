@@ -29,6 +29,28 @@ namespace ScriptCoreLib.Query.Experimental
             return c;
         }
 
+
+        public static TElement[] ToArray<TElement>(this IQueryStrategy<TElement> source)
+        {
+            return source.AsEnumerable().ToArray();
+        }
+
+
+        public static IEnumerable<TElement> AsEnumerable<TElement>(this IQueryStrategy<TElement> source)
+        {
+            var value = default(List<TElement>);
+
+            WithConnection(
+                cc =>
+                {
+                    value = AsEnumerable(source, cc).ToList();
+
+                }
+            );
+
+            return value;
+        }
+
         public static IEnumerable<TElement> AsEnumerable<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             //Console.WriteLine("enter AsEnumerable");
@@ -102,7 +124,7 @@ namespace ScriptCoreLib.Query.Experimental
                             //var k = xSelect.selector.Parameters[0].Name + SourceBinding.Member.Name;
                             var xMemberName = "" + SourceBinding.Member.Name;
 
-                            var v = r[xMemberName];
+                            var __value = r[xMemberName];
 
                             // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
                             var f = SourceBinding.Member as FieldInfo;
@@ -128,12 +150,16 @@ namespace ScriptCoreLib.Query.Experimental
 
                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
                             if (FieldType == typeof(XElement))
-                                v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
+                                __value = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                    ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
+                                        (string)__value
+                                    )
+                                );
 
                             if (FieldType == typeof(DateTime))
-                                v = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(v);
+                                __value = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(__value);
 
-                            f.SetValue(xRow, v);
+                            f.SetValue(xRow, __value);
                         }
                     );
 
@@ -154,7 +180,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                            var k = "" + xMemberExpression.Member.Name;
 
-                           var v = r[k];
+                           var __value = r[k];
 
                            // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
 
@@ -166,14 +192,18 @@ namespace ScriptCoreLib.Query.Experimental
                                // is it xml?
                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
                                if (f.FieldType == typeof(XElement))
-                                   v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
-
+                                   //v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
+                                   __value = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                     ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
+                                         (string)__value
+                                     )
+                                 );
 
                                if (f.FieldType == typeof(DateTime))
-                                   v = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(v);
+                                   __value = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(__value);
                            }
 
-                           return v;
+                           return __value;
                        }
                    ).ToArray();
 

@@ -75,55 +75,11 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-        public static long Average<TSource>(this IQueryStrategy<TSource> source, Expression<Func<TSource, long>> selector)
-        {
-            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
-
-            return source.Select(selector).Average();
-        }
+  
 
 
 
-
-
-        // TElement : long
-        public static long Average(this IQueryStrategy<long> source)
-        {
-            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
-
-            // first, lets apprach it in a similar way. lets copy count
-
-
-            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.AverageOfLongReference.Method);
-
-            return 0;
-        }
-
-        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectMin\Program.cs
-        public static long Min(this IQueryStrategy<long> source)
-        {
-
-            // first, lets apprach it in a similar way. lets copy count
-
-
-            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.MinOfLongReference.Method);
-
-            return 0;
-        }
-
-
-
-        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectMax\Program.cs
-        public static long Max(this IQueryStrategy<long> source)
-        {
-
-            // first, lets apprach it in a similar way. lets copy count
-
-
-            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.MaxOfLongReference.Method);
-
-            return 0;
-        }
+      
 
         public static long Sum(this IQueryStrategy<long> source)
         {
