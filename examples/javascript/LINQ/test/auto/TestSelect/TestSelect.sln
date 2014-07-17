@@ -181,6 +181,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectLetAverage", "SyntaxSelectLetAverage\SyntaxSelectLetAverage.csproj", "{821D0FFD-D4F4-4017-8D7F-96F50007A6AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectScalarAverage", "SyntaxSelectScalarAverage\SyntaxSelectScalarAverage.csproj", "{8F291246-D1E9-4654-AD36-C975E0988547}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Max", "Max", "{EBF438DC-0F2C-478F-B5B0-0125CEC0ADD7}"
 EndProject
@@ -207,6 +210,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectLetSum", "SyntaxSelectLetSum\SyntaxSelectLetSum.csproj", "{984FDEC6-312D-46B8-BF33-251562D918E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectScalarSum", "SyntaxSelectScalarSum\SyntaxSelectScalarSum.csproj", "{54D3BB5C-8B59-45EB-BE1F-73FA820BBBD3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectLetCount", "SyntaxSelectLetCount\SyntaxSelectLetCount.csproj", "{8982F195-3C17-48C8-B492-235E5CBCE504}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -259,6 +265,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectWhereOrderBy", 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectWhere2OrderBy", "SyntaxSelectWhere2OrderBy\SyntaxSelectWhere2OrderBy.csproj", "{CF58F4E4-9C8D-415A-9602-D4BF48409F7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectScalarMin", "SyntaxSelectScalarMin\SyntaxSelectScalarMin.csproj", "{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectScalarMax", "SyntaxSelectScalarMax\SyntaxSelectScalarMax.csproj", "{E0CEE9AD-36C9-4329-8483-55387409F1B6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1904,6 +1920,56 @@ Global
 		{CF58F4E4-9C8D-415A-9602-D4BF48409F7B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CF58F4E4-9C8D-415A-9602-D4BF48409F7B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CF58F4E4-9C8D-415A-9602-D4BF48409F7B}.Release|x86.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Android|Any CPU.Build.0 = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Android|x86.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Assets|x86.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.PHP|x86.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64}.Release|x86.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Android|Any CPU.Build.0 = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Android|x86.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Assets|x86.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.PHP|x86.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1964,5 +2030,7 @@ Global
 		{5109716B-D38C-40D1-AD62-CFF871BC1313} = {FDB8E0BE-E7C4-443C-8411-617E5F1D7D0C}
 		{67BD9F9F-61E8-4190-9457-1F048A0152FA} = {5109716B-D38C-40D1-AD62-CFF871BC1313}
 		{CF58F4E4-9C8D-415A-9602-D4BF48409F7B} = {5109716B-D38C-40D1-AD62-CFF871BC1313}
+		{ADE939A9-F8B6-4B22-A8E0-2A91EB5C7C64} = {CDD9C4B3-4F62-44E8-B5CD-81E819497E91}
+		{E0CEE9AD-36C9-4329-8483-55387409F1B6} = {EBF438DC-0F2C-478F-B5B0-0125CEC0ADD7}
 	EndGlobalSection
 EndGlobal
