@@ -594,10 +594,31 @@ namespace ScriptCoreLib.Query.Experimental
 
                     var xxSelect = xScalar.source as xSelect;
 
+                    if (xScalar.Operand == SQLWriter<TElement>.FirstOrDefaultReference.Method)
+                    {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarFirstOrDefault\Program.cs
+
+                        var xsource = new SQLWriter<TElement>(
+                             xScalar.source,
+                              upper.Concat(new[] { source }),
+                              context,
+                            //upperParameter: (source as xSelect).selector.Parameters[0],
+                            upperParameter: null,
+                              Command: Command
+                          );
+
+                        return;
+                    }
+
                     #region xxMemberExpression
                     var xxMemberExpression = xxSelect.selector.Body as MemberExpression;
                     if (xxMemberExpression != null)
                     {
+         
+
+
+
+
                         using (WithoutLinefeeds())
                         {
                             WriteLine(0, "select ");
@@ -1010,160 +1031,12 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                // WriteScalarExpression ? look at WriteScalarFirstOrDefault
-                #region WriteScalarCount
-                Action<IQueryStrategy, MethodCallExpression, Func<string>> WriteScalarCount =
-                     (zsource, xxMethodCallExpression, GetTargetName) =>
-                     {
-                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarCount\Program.cs
-                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarCount\Program.cs
-                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
 
 
-                         var aParameterExpression = xxMethodCallExpression.Arguments[0] as ParameterExpression;
-                         if (aParameterExpression != null)
-                         {
-                             // if we are applied on a group by we need to move it down a level?
-                             WriteLine(1, ("let " + GetTargetName()) + " <-  count(" + aParameterExpression.Name + ")");
-                             return;
-                         }
+                #region WriteScalarOperand
 
-                         var zSelect = zsource as xSelect;
-
-                         // scalar sub query?
-                         WriteLineWithColor(1, ("let " + GetTargetName()) + " <- select count(*) from (", ConsoleColor.White);
-
-
-                         // we will not only service count but all scalars
-                         var xScalar_source = xxMethodCallExpression.Arguments[0] as MemberExpression;
-                         // [0x00000000] = {<>h__TransparentIdentifier6.scalar1}
-                         // [0x00000000] = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5.scalar1}
-
-                         if (xScalar_source != null)
-                         {
-                             // looks like we saved that query somewhere via let?
-
-
-
-
-                             var sParameterExpression = xScalar_source.Expression as ParameterExpression;
-                             if (sParameterExpression != null)
-                             {
-                                 // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\syntaxselectscalarcount\program.cs
-                                 // sParameterExpression = {<>h__TransparentIdentifier0}
-                                 // how complicated count query can re revive?
-
-                                 if (zSelect.selector.Parameters[0] == sParameterExpression)
-                                 {
-                                     // verified. when is tat not true?
-
-
-                                     var zSelect_source = zSelect.source as xSelect;
-
-                                     // what is it?
-                                     // do we ned to go deeper?
-
-                                     if (zSelect_source != null)
-                                     {
-
-                                     }
-
-                                 }
-                             }
-
-
-                             var mMemberExpression = xScalar_source.Expression as MemberExpression;
-                             if (mMemberExpression != null)
-                             {
-                                 // m = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5}
-                                 var mp0ParameterExpression = mMemberExpression.Expression as ParameterExpression;
-
-                                 if (zSelect.selector.Parameters[0] == mp0ParameterExpression)
-                                 {
-                                     // found it!
-                                     // we should access the missing value via outer source?
-
-                                     //var xxSelect = xSelect.source as xSelect;
-                                     var xxOrderBy = zSelect.source as xOrderBy;
-                                     var xxSelect = xxOrderBy.source as xSelect;
-
-                                     var pp0 = xxSelect.selector.Parameters[0];
-                                     if (pp0.Name == mMemberExpression.Member.Name)
-                                     {
-                                         // yet again?
-                                         // xxMethodCallExpression = {<>h__TransparentIdentifier6.<>h__TransparentIdentifier5.scalar1.Count()}
-                                         // how is scalar1 being set?
-
-                                         var xxxSelect = xxSelect.source as xSelect;
-
-
-                                         #region xxNewExpression
-                                         var xxNewExpression = xxxSelect.selector.Body as NewExpression;
-                                         if (xxNewExpression != null)
-                                         {
-                                             var ii = xxNewExpression.Members.IndexOf(xScalar_source.Member);
-                                             var aa = xxNewExpression.Arguments[ii];
-
-                                             // this is how it is built.
-
-                                             // aa = {new xTable().OrderBy(zz => zz.Key)}
-
-                                             var aaMethodCallExpression = aa as MethodCallExpression;
-
-                                             // i think we need to call that method.
-
-                                             var aa_keySelector = aaMethodCallExpression.Arguments[1] as UnaryExpression;
-                                             var aa_source = aaMethodCallExpression.Arguments[0];
-
-                                             // OrderBy_source = {new xTable()}
-
-                                             var oNewExpression = aa_source as NewExpression;
-                                             var newsource = oNewExpression.Constructor.Invoke(new object[0]);
-                                             // newsource = {ComplexQueryExperiment.xTable}
-
-                                             // Additional information: Object of type 'System.Linq.Expressions.UnaryExpression' cannot be converted to type 
-                                             // 'System.Linq.Expressions.Expression`1[System.Func`2[ComplexQueryExperiment.xRow,ComplexQueryExperiment.xKey]]'.
-
-                                             var oOrdered = (IQueryStrategy)aaMethodCallExpression.Method.Invoke(null,
-                                                 new object[] {
-                                                          newsource,
-                                                          aa_keySelector.Operand
-                                                      }
-                                             );
-
-                                             var sqalarsql = new SQLWriter<TElement>(
-                                                 oOrdered,
-                                                 upper.Concat(new[] { source }).ToArray(),
-                                                 context,
-                                                 Command: Command
-                                             );
-
-                                         }
-                                         #endregion
-
-
-
-                                     }
-                                 }
-                             }
-
-                             else
-                             {
-                                 WriteLineWithColor(1, "?", ConsoleColor.White);
-                             }
-                         }
-
-
-                         WriteLineWithColor(1, ")", ConsoleColor.White);
-                     };
-                #endregion
-
-
-                // rename to WriteScalarOperand _?
-                #region WriteScalarFirstOrDefault
-
-                Action<IQueryStrategy, MethodCallExpression, Func<string>> WriteScalarFirstOrDefault =
-                    (zsource, xxMethodCallExpression, GetTargetName) =>
+                Action<IQueryStrategy, MethodCallExpression, Func<string>, MethodInfo> WriteScalarOperand =
+                    (zsource, xxMethodCallExpression, GetTargetName, Operand) =>
                     {
                         // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
 
@@ -1199,6 +1072,8 @@ namespace ScriptCoreLib.Query.Experimental
                                 // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
 
 
+
+                                #region  yyaa
                                 Action<MethodCallExpression, Action<IQueryStrategy>> yyaa = null;
 
 
@@ -1206,104 +1081,227 @@ namespace ScriptCoreLib.Query.Experimental
                                     (aa_MethodCallExpression, yield) =>
                                     {
 
+                                        // desc ?
+                                        #region scalar:OrderBy
+                                        if (aa_MethodCallExpression.Method.Name == OrderByReference.Method.Name)
+                                        {
+                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarOrderByFirstOrDefault\Program.cs
+
+                                            var aa_filterQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
+
+                                            #region aa_source_NewExpression
+                                            var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
+                                            if (aa_source_NewExpression != null)
+                                            {
+                                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereFirstOrDefault\Program.cs
+                                                var aa_sourcei = aa_source_NewExpression.Constructor.Invoke(new object[0]);
+
+                                                var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                    new object[] {
+                                                        aa_sourcei,
+                                                        aa_filterQuote.Operand
+                                                    }
+                                                );
+
+                                                yield(
+                                                    newsource2
+                                                );
+                                                return;
+
+                                            }
+                                            #endregion
+
+                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereWhereFirstOrDefault\Program.cs
+                                            var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
+
+                                            yyaa(aa_source_MethodCallExpression,
+                                                aa_sourcei =>
+                                                {
+                                                    var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                            new object[] {
+                                                                    aa_sourcei,
+                                                                    aa_filterQuote.Operand
+                                                                }
+                                                    );
+
+                                                    yield(
+                                                        newsource2
+                                                    );
+                                                }
+                                            );
+
+                                            return;
+                                        }
+                                        #endregion
+
+                                        #region scalar:Where
+                                        if (aa_MethodCallExpression.Method.Name == WhereReference.Method.Name)
+                                        {
+                                            var aa_filterQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
+
+                                            #region aa_source_NewExpression
+                                            var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
+                                            if (aa_source_NewExpression != null)
+                                            {
+                                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereFirstOrDefault\Program.cs
+                                                var aa_sourcei = aa_source_NewExpression.Constructor.Invoke(new object[0]);
+                                                var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                    new object[] {
+                                                        aa_sourcei,
+                                                        aa_filterQuote.Operand
+                                                    }
+                                                );
+
+                                                yield(
+                                                    newsource2
+                                                );
+                                                return;
+
+                                            }
+                                            #endregion
+
+                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereWhereFirstOrDefault\Program.cs
+                                            var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
+
+                                            yyaa(aa_source_MethodCallExpression,
+                                                aa_sourcei =>
+                                                {
+                                                    var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                            new object[] {
+                                                                    aa_sourcei,
+                                                                    aa_filterQuote.Operand
+                                                                }
+                                                    );
+
+                                                    yield(
+                                                        newsource2
+                                                    );
+                                                }
+                                            );
+
+                                            return;
+                                        }
+                                        #endregion
+
+
                                         #region scalar:Select
                                         if (aa_MethodCallExpression.Method.Name == SelectReference.Method.Name)
                                         {
                                             var aa_selectorQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
-                                            var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
-                                            if (aa_source_MethodCallExpression != null)
+
+                                            #region aa_source_NewExpression
+                                            var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
+                                            if (aa_source_NewExpression != null)
                                             {
-                                                var aaa_sQuote = aa_source_MethodCallExpression.Arguments[1] as UnaryExpression;
-                                                // the let key word!
-                                                // [0x00000001] = {<>h__TransparentIdentifier2 => (<>h__TransparentIdentifier2.xx.field1 == 44)}
-                                                var aaa_source_NewExpression = aa_source_MethodCallExpression.Arguments[0] as NewExpression;
-                                                if (aaa_source_NewExpression != null)
-                                                {
-                                                    var aaa_sourcei = aaa_source_NewExpression.Constructor.Invoke(new object[0]);
-
-                                                    var newsource2 = (IQueryStrategy)aa_source_MethodCallExpression.Method.Invoke(null,
-                                                          new object[] {
-                                                        aaa_sourcei,
-                                                        aaa_sQuote.Operand
-                                                    }
-                                                    );
-
-                                                    var newsource3 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
-                                                              new object[] {
-                                                                    newsource2,
-                                                                    aa_selectorQuote.Operand
-                                                                }
-                                                        );
-
-                                                    var sqalarsql = new SQLWriter<TElement>(
-                                                         newsource2,
-                                                         upper.Concat(new[] { source }).ToArray(),
-                                                         context,
-                                                         Command: Command
-                                                     );
-                                                }
-                                                else
-                                                {
-
-                                                    #region aaa2_source_MethodCallExpression
-                                                    var aaa2_source_MethodCallExpression = aa_source_MethodCallExpression.Arguments[0] as MethodCallExpression;
-                                                    // select
-
-                                                    var aaaa_sQuote = aaa2_source_MethodCallExpression.Arguments[1] as UnaryExpression;
-                                                    var aaaa_source_NewExpression = aaa2_source_MethodCallExpression.Arguments[0] as NewExpression;
-                                                    var aaaa_sourcei = aaaa_source_NewExpression.Constructor.Invoke(new object[0]);
-
-
-                                                    var newsource3 = (IQueryStrategy)aaa2_source_MethodCallExpression.Method.Invoke(null,
-                                                         new object[] {
-                                                        aaaa_sourcei,
-                                                        aaaa_sQuote.Operand
-                                                    }
-                                                   );
-
-                                                    var newsource2 = (IQueryStrategy)aa_source_MethodCallExpression.Method.Invoke(null,
-                                                         new object[] {
-                                                        newsource3,
-                                                        aaa_sQuote.Operand
-                                                    }
-                                                   );
-
-                                                    var sqalarsql = new SQLWriter<TElement>(
-                                                         newsource2,
-                                                         upper.Concat(new[] { source }).ToArray(),
-                                                         context,
-                                                         Command: Command
-                                                     );
-                                                    #endregion
-
-
-
-                                                }
-                                            }
-                                            else
-                                            {
-                                                // ?
                                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarFirstOrDefault\Program.cs
-                                                #region aa_source_NewExpression
-                                                var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
                                                 var aaaa_sourcei = (IQueryStrategy)aa_source_NewExpression.Constructor.Invoke(new object[0]);
 
-                                                // now what?
-
-                                                var sqalarsql = new SQLWriter<TElement>(
-                                                //newsource2,
-                                                aaaa_sourcei,
-
-                                                    upper.Concat(new[] { source }).ToArray(),
-                                                    context,
-                                                    Command: Command
+                                                yield(
+                                                    aaaa_sourcei
                                                 );
-                                                #endregion
-
-
-
-
+                                                return;
                                             }
+                                            #endregion
+
+
+
+                                            var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
+
+                                            yyaa(aa_source_MethodCallExpression,
+                                              aa_sourcei =>
+                                                {
+                                                    var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                            new object[] {
+                                                                    aa_sourcei,
+                                                                    aa_selectorQuote.Operand
+                                                                }
+                                                    );
+
+                                                    yield(
+                                                        newsource2
+                                                    );
+                                                }
+                                          );
+
+                                            //var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
+                                            //if (aa_source_MethodCallExpression != null)
+                                            //{
+                                            //    var aaa_sQuote = aa_source_MethodCallExpression.Arguments[1] as UnaryExpression;
+                                            //    // the let key word!
+                                            //    // [0x00000001] = {<>h__TransparentIdentifier2 => (<>h__TransparentIdentifier2.xx.field1 == 44)}
+                                            //    var aaa_source_NewExpression = aa_source_MethodCallExpression.Arguments[0] as NewExpression;
+                                            //    if (aaa_source_NewExpression != null)
+                                            //    {
+                                            //        var aaa_sourcei = aaa_source_NewExpression.Constructor.Invoke(new object[0]);
+
+                                            //        var newsource2 = (IQueryStrategy)aa_source_MethodCallExpression.Method.Invoke(null,
+                                            //              new object[] {
+                                            //            aaa_sourcei,
+                                            //            aaa_sQuote.Operand
+                                            //        }
+                                            //        );
+
+                                            //        var newsource3 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                            //                  new object[] {
+                                            //                        newsource2,
+                                            //                        aa_selectorQuote.Operand
+                                            //                    }
+                                            //            );
+
+                                            //        var sqalarsql = new SQLWriter<TElement>(
+                                            //             newsource2,
+                                            //             upper.Concat(new[] { source }).ToArray(),
+                                            //             context,
+                                            //             Command: Command
+                                            //         );
+                                            //    }
+                                            //    else
+                                            //    {
+
+                                            //        #region aaa2_source_MethodCallExpression
+                                            //        var aaa2_source_MethodCallExpression = aa_source_MethodCallExpression.Arguments[0] as MethodCallExpression;
+                                            //        // select
+
+                                            //        var aaaa_sQuote = aaa2_source_MethodCallExpression.Arguments[1] as UnaryExpression;
+                                            //        var aaaa_source_NewExpression = aaa2_source_MethodCallExpression.Arguments[0] as NewExpression;
+                                            //        var aaaa_sourcei = aaaa_source_NewExpression.Constructor.Invoke(new object[0]);
+
+
+                                            //        var newsource3 = (IQueryStrategy)aaa2_source_MethodCallExpression.Method.Invoke(null,
+                                            //             new object[] {
+                                            //            aaaa_sourcei,
+                                            //            aaaa_sQuote.Operand
+                                            //        }
+                                            //       );
+
+                                            //        var newsource2 = (IQueryStrategy)aa_source_MethodCallExpression.Method.Invoke(null,
+                                            //             new object[] {
+                                            //            newsource3,
+                                            //            aaa_sQuote.Operand
+                                            //        }
+                                            //       );
+
+                                            //        var sqalarsql = new SQLWriter<TElement>(
+                                            //             newsource2,
+                                            //             upper.Concat(new[] { source }).ToArray(),
+                                            //             context,
+                                            //             Command: Command
+                                            //         );
+                                            //        #endregion
+
+
+
+                                            //    }
+
+                                            //    return;
+                                            //}
+
+
+                                            //{
+                                            //    // ?
+                                             
+                                            //}
+
 
                                             return;
                                         }
@@ -1372,115 +1370,21 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                                        #region scalar:OrderBy
-                                        if (aa_MethodCallExpression.Method.Name == OrderByReference.Method.Name)
-                                        {
-                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarOrderByFirstOrDefault\Program.cs
-
-                                            var aa_filterQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
-
-                                            var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
-                                            if (aa_source_NewExpression != null)
-                                            {
-                                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereFirstOrDefault\Program.cs
-                                                var aa_sourcei = aa_source_NewExpression.Constructor.Invoke(new object[0]);
-
-                                                var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
-                                                    new object[] {
-                                                        aa_sourcei,
-                                                        aa_filterQuote.Operand
-                                                    }
-                                                );
-
-                                                yield(
-                                                    newsource2
-                                                );
-                                                return;
-
-                                            }
-
-                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereWhereFirstOrDefault\Program.cs
-                                            var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
-
-                                            yyaa(aa_source_MethodCallExpression,
-                                                aa_sourcei =>
-                                                {
-                                                    var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
-                                                            new object[] {
-                                                                    aa_sourcei,
-                                                                    aa_filterQuote.Operand
-                                                                }
-                                                    );
-
-                                                    yield(
-                                                        newsource2
-                                                    );
-                                                }
-                                            );
-
-                                            return;
-                                        }
-                                        #endregion
-
-                                        #region scalar:Where
-                                        if (aa_MethodCallExpression.Method.Name == WhereReference.Method.Name)
-                                        {
-                                            var aa_filterQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
-
-                                            var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
-                                            if (aa_source_NewExpression != null)
-                                            {
-                                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereFirstOrDefault\Program.cs
-                                                var aa_sourcei = aa_source_NewExpression.Constructor.Invoke(new object[0]);
-
-                                                var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
-                                                    new object[] {
-                                                        aa_sourcei,
-                                                        aa_filterQuote.Operand
-                                                    }
-                                                );
-
-                                                yield(
-                                                    newsource2
-                                                );
-                                                return;
-
-                                            }
-
-                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereWhereFirstOrDefault\Program.cs
-                                            var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
-
-                                            yyaa(aa_source_MethodCallExpression,
-                                                aa_sourcei =>
-                                                {
-                                                    var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
-                                                            new object[] {
-                                                                    aa_sourcei,
-                                                                    aa_filterQuote.Operand
-                                                                }
-                                                    );
-
-                                                    yield(
-                                                        newsource2
-                                                    );
-                                                }
-                                            );
-
-                                            return;
-                                        }
-                                        #endregion
-
 
                                         WriteLineWithColor(1, "?", ConsoleColor.White);
                                         //Debugger.Break();
                                     };
+                                #endregion
+
 
 
                                 yyaa(aa as MethodCallExpression,
                                     newsource2 =>
                                     {
+                                        var xxScalar = new xScalar { source = newsource2, Operand = Operand };
+
                                         var sqalarsql = new SQLWriter<TElement>(
-                                            newsource2,
+                                            xxScalar,
                                             upper.Concat(new[] { source }).ToArray(),
                                             context,
                                             Command: Command
@@ -2020,23 +1924,54 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (xxMethodCallExpression.Method.Name == FirstOrDefaultReference.Method.Name)
                                   {
                                       // what about inline testing?
-                                      WriteScalarFirstOrDefault(zsource, xxMethodCallExpression, GetTargetName);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.FirstOrDefaultReference.Method);
                                       return;
                                   }
                                   #endregion
 
 
-                                  // xxMethodCallExpression.Method = {Int64 Count[xRow](ScriptCoreLib.Query.Experimental.IQueryStrategy`1[ScriptCoreLib.Query.Experimental.xRow])}
-                                  // CountReference.Method = {Int64 Count[<>f__AnonymousType2`1](ScriptCoreLib.Query.Experimental.IQueryStrategy`1[<>f__AnonymousType2`1[System.Int64]])}
-
                                   #region Count
                                   if (xxMethodCallExpression.Method.Name == CountReference.Method.Name)
                                   {
-                                      // tested by?
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarCount\Program.cs
-                                      WriteScalarCount(zsource, xxMethodCallExpression, GetTargetName);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.CountReference.Method);
                                       return;
+                                  }
+                                  #endregion
 
+                                  #region Sum
+                                  if (xxMethodCallExpression.Method.Name == xReferencesOfLong.SumOfLongReference.Method.Name)
+                                  {
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarSum\Program.cs
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.SumOfLongReference.Method);
+                                      return;
+                                  }
+                                  #endregion
+
+                                  #region Average
+                                  if (xxMethodCallExpression.Method.Name == xReferencesOfLong.AverageOfLongReference.Method.Name)
+                                  {
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarAverage\Program.cs
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.AverageOfLongReference.Method);
+                                      return;
+                                  }
+                                  #endregion
+
+                                  #region Max
+                                  if (xxMethodCallExpression.Method.Name == xReferencesOfLong.MaxOfLongReference.Method.Name)
+                                  {
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarMax\Program.cs
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.MaxOfLongReference.Method);
+                                      return;
+                                  }
+                                  #endregion
+
+                                  #region Min
+                                  if (xxMethodCallExpression.Method.Name == xReferencesOfLong.MinOfLongReference.Method.Name)
+                                  {
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarMin\Program.cs
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.MinOfLongReference.Method);
+                                      return;
                                   }
                                   #endregion
                               }

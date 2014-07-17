@@ -43,7 +43,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             public override string ToString()
             {
-                return "count";
+                return "scalar(x)";
             }
         }
 
