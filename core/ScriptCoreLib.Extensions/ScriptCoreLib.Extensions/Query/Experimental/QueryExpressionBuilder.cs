@@ -1154,16 +1154,16 @@ namespace ScriptCoreLib.Query.Experimental
                                 // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
 
 
-                                Action<MethodCallExpression> yyaa = null;
+                                Action<MethodCallExpression, Action<IQueryStrategy>> yyaa = null;
 
 
                                 yyaa =
-                                    aa_MethodCallExpression =>
+                                    (aa_MethodCallExpression, yield) =>
                                     {
 
+                                        #region scalar:Select
                                         if (aa_MethodCallExpression.Method.Name == SelectReference.Method.Name)
                                         {
-                                            #region Select
                                             var aa_selectorQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
                                             var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
                                             if (aa_source_MethodCallExpression != null)
@@ -1259,11 +1259,15 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                             }
-                                            #endregion
+
+                                            return;
                                         }
-                                        else if (aa_MethodCallExpression.Method.Name == GroupByReference.Method.Name)
+                                        #endregion
+
+
+                                        #region scalar:GroupBy
+                                        if (aa_MethodCallExpression.Method.Name == GroupByReference.Method.Name)
                                         {
-                                            #region GroupBy
                                             var aa_kQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
                                             var aa_source = aa_MethodCallExpression.Arguments[0] as NewExpression;
                                             var aa_sourcei = aa_source.Constructor.Invoke(new object[0]);
@@ -1281,11 +1285,14 @@ namespace ScriptCoreLib.Query.Experimental
                                                 context,
                                                 Command: Command
                                             );
-                                            #endregion
+
+                                            return;
                                         }
-                                        else if (aa_MethodCallExpression.Method.Name == JoinReference.Method.Name)
+                                        #endregion
+
+                                        #region scalar:Join
+                                        if (aa_MethodCallExpression.Method.Name == JoinReference.Method.Name)
                                         {
-                                            #region Join
                                             // can we ve fast templates of the quoted params??
 
                                             var aa_outer = aa_MethodCallExpression.Arguments[0] as NewExpression;
@@ -1314,12 +1321,14 @@ namespace ScriptCoreLib.Query.Experimental
                                                 context,
                                                 Command: Command
                                             );
-                                            #endregion
+                                            return;
                                         }
-                                        else if (aa_MethodCallExpression.Method.Name == WhereReference.Method.Name)
+                                        #endregion
+
+                                        #region scalar:Where
+                                        if (aa_MethodCallExpression.Method.Name == WhereReference.Method.Name)
                                         {
 
-                                            #region Where
                                             var aa_filterQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
                                             var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
                                             if (aa_source_NewExpression != null)
@@ -1335,11 +1344,16 @@ namespace ScriptCoreLib.Query.Experimental
                                                 }
                                                 );
 
-                                                var sqalarsql = new SQLWriter<TElement>(
-                                                    newsource2,
-                                                    upper.Concat(new[] { source }).ToArray(),
-                                                    context,
-                                                    Command: Command
+                                                // or yield to upper .where?
+                                                //var sqalarsql = new SQLWriter<TElement>(
+                                                //    newsource2,
+                                                //    upper.Concat(new[] { source }).ToArray(),
+                                                //    context,
+                                                //    Command: Command
+                                                //);
+
+                                                yield(
+                                                    newsource2
                                                 );
                                             }
                                             else
@@ -1351,20 +1365,47 @@ namespace ScriptCoreLib.Query.Experimental
 
                                                 // do the inner and then call the outer?
 
-                                                yyaa(aa_source_MethodCallExpression);
+                                                yyaa(aa_source_MethodCallExpression,
+                                                    aa_sourcei =>
+                                                    {
+                                                        var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                             new object[] {
+                                                                        aa_sourcei,
+                                                                        aa_filterQuote.Operand
+                                                                    }
+                                                         );
 
-                                                var newsource0 = default(object);
+                                                        yield(
+                                                            newsource2
+                                                        );
+                                                    }
+                                                );
 
-                                                Debugger.Break();
+                                      
                                             }
-                                            #endregion
+
+                                            return;
 
                                         }
-                                        else WriteLineWithColor(1, "?", ConsoleColor.White);
+                                        #endregion
+
+
+                                        WriteLineWithColor(1, "?", ConsoleColor.White);
+                                        Debugger.Break();
                                     };
 
 
-                                yyaa(aa as MethodCallExpression);
+                                yyaa(aa as MethodCallExpression,
+                                    newsource2 =>
+                                    {
+                                        var sqalarsql = new SQLWriter<TElement>(
+                                            newsource2,
+                                            upper.Concat(new[] { source }).ToArray(),
+                                            context,
+                                            Command: Command
+                                        );
+                                    }
+                                );
 
                                 WriteLineWithColor(1, ")", ConsoleColor.White);
                             };
