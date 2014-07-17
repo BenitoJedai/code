@@ -32,11 +32,9 @@ namespace ScriptCoreLib.Query.Experimental
 
         }
 
-
-        [Obsolete("xScalar")]
         class xScalar : IQueryStrategy
         {
-            
+
             public IQueryStrategy source;
 
 
@@ -55,7 +53,7 @@ namespace ScriptCoreLib.Query.Experimental
         }
 
         public static IDbCommand GetScalarCommand<TElement>(
-            this IQueryStrategy<TElement> source, 
+            this IQueryStrategy<TElement> source,
             IDbConnection cc,
 
             MethodInfo Operand
@@ -171,9 +169,13 @@ namespace ScriptCoreLib.Query.Experimental
 
             // Additional information: Every derived table must have its own alias
             // what?
-            var x = xDbCommand.ExecuteScalar();
-            // cast?
-            return (long)x;
+            var x = default(long);
+
+
+            if (xDbCommand != null)
+                x = (long)xDbCommand.ExecuteScalar();
+
+            return x;
         }
 
         // http://stackoverflow.com/questions/4471277/mysql-delete-from-with-subquery-as-condition
