@@ -11,6 +11,12 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
+        partial class SQLWriter<TElement>
+        {
+            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<TElement>> OrderByReference = OrderBy;
+            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<TElement>> OrderByDescendingReference = OrderByDescending;
+        }
+
         public class xOrderBySelector
         {
             public LambdaExpression keySelector;
@@ -80,7 +86,7 @@ namespace ScriptCoreLib.Query.Experimental
             return new xOrderBy<TElement>
             {
                 source = source,
-                keySelector = new[] { new xOrderBySelector {  keySelector = keySelector, ascending = true} }
+                keySelector = new[] { new xOrderBySelector { keySelector = keySelector, ascending = true } }
             };
         }
 
