@@ -39,6 +39,7 @@ namespace ScriptCoreLib.Query.Experimental
 
         }
 
+        [Obsolete("xGetScalarCommand")]
         public static IDbCommand GetCountCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
 
@@ -64,9 +65,40 @@ namespace ScriptCoreLib.Query.Experimental
             return source.Select(selector).Average();
         }
 
+
+
+
+
+        // TElement : long
         public static long Average(this IQueryStrategy<long> source)
         {
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+
+            // first, lets apprach it in a similar way. lets copy count
+
+
+            var xDbCommand = GetCountCommand(source, cc: null);
+
+            return 0;
+        }
+
+        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectMin\Program.cs
+        public static long Min(this IQueryStrategy<long> source)
+        {
+
+            // first, lets apprach it in a similar way. lets copy count
+
+
+            var xDbCommand = GetCountCommand(source, cc: null);
+
+            return 0;
+        }
+
+
+
+        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectMax\Program.cs
+        public static long Max(this IQueryStrategy<long> source)
+        {
 
             // first, lets apprach it in a similar way. lets copy count
 
