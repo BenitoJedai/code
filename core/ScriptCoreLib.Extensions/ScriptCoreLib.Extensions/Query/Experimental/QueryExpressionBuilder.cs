@@ -1115,8 +1115,9 @@ namespace ScriptCoreLib.Query.Experimental
                 #endregion
 
 
-
+                // rename to WriteScalarOperand _?
                 #region WriteScalarFirstOrDefault
+
                 Action<IQueryStrategy, MethodCallExpression, Func<string>> WriteScalarFirstOrDefault =
                     (zsource, xxMethodCallExpression, GetTargetName) =>
                     {
@@ -1325,6 +1326,15 @@ namespace ScriptCoreLib.Query.Experimental
                                         }
                                         #endregion
 
+
+
+                                        #region scalar:Where
+                                        if (aa_MethodCallExpression.Method.Name == OrderByReference.Method.Name)
+                                        {
+                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarOrderByFirstOrDefault\Program.cs
+
+                                        }
+
                                         #region scalar:Where
                                         if (aa_MethodCallExpression.Method.Name == WhereReference.Method.Name)
                                         {
@@ -1381,7 +1391,7 @@ namespace ScriptCoreLib.Query.Experimental
                                                     }
                                                 );
 
-                                      
+
                                             }
 
                                             return;
@@ -1391,7 +1401,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                         WriteLineWithColor(1, "?", ConsoleColor.White);
-                                        Debugger.Break();
+                                        //Debugger.Break();
                                     };
 
 
