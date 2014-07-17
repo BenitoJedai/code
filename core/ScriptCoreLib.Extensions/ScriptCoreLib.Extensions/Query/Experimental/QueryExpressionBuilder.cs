@@ -807,17 +807,26 @@ namespace ScriptCoreLib.Query.Experimental
                 #endregion
 
 
+
+
+
+                // we are basically doing a proxy for one field arent we...
                 #region WriteOrderByKeySelector
                 Action<IQueryStrategy, Expression, Expression, Tuple<MemberInfo, int>[]> WriteOrderByKeySelector = null;
 
                 WriteOrderByKeySelector =
                     (zsource, keySelector, zExpression, Target) =>
                     {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectWhereOrderBy\Program.cs
+
                         // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
                         //Console.WriteLine("enter WriteOrderByKeySelector " + new { keySelector });
 
-                        // we need to subselect
-                        var zSelect = zsource as xSelect;
+
+
+
+
+
 
                         // what are we referencing in orderby?
                         // zMemberExpression = {<>h__TransparentIdentifier0.x.field1}
@@ -827,6 +836,9 @@ namespace ScriptCoreLib.Query.Experimental
                         {
                             var zzMemberExpressionMemberField = zMemberExpression.Member as FieldInfo;
 
+
+
+                            #region zMMemberExpression
                             var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
                             //Console.WriteLine("WriteOrderByKeySelector " + new { zMMemberExpression });
                             if (zMMemberExpression != null)
@@ -839,46 +851,78 @@ namespace ScriptCoreLib.Query.Experimental
                                     return;
                                 }
                             }
+                            #endregion
 
 
+                            #region zMParameterExpression
                             var zMParameterExpression = zMemberExpression.Expression as ParameterExpression;
                             //Console.WriteLine("WriteOrderByKeySelector " + new { zMParameterExpression });
                             if (zMParameterExpression != null)
                             {
-                                var zMemberInitExpression = zSelect.selector.Body as MemberInitExpression;
-                                //Console.WriteLine("WriteOrderByKeySelector " + new { zMemberInitExpression });
-                                if (zMemberInitExpression != null)
-                                {
-                                    // index by name?
-                                    var zMemberInitExpressionii = zMemberInitExpression.Bindings.Select(xx => xx.Member.Name).ToList().IndexOf(zzMemberExpressionMemberField.Name);
-                                    //Console.WriteLine("WriteOrderByKeySelector " + new { zMemberInitExpressionii, zMemberExpression.Member });
-                                    // /* 0000:0012 */   order by 0:12369ms WriteOrderByKeySelector {{ zMemberInitExpressionii = -1, Member = Key }} 
-                                    var aa = zMemberInitExpression.Bindings[zMemberInitExpressionii] as MemberAssignment;
 
-                                    if (aa != null)
+
+
+
+
+
+
+                                Action<xSelect> doSelect =
+                                    zSelect =>
                                     {
-                                        WriteScalarExpression(true, aa.Expression);
-                                        return;
-                                    }
+
+                                        // we need to subselect
+
+
+                                        var zMemberInitExpression = zSelect.selector.Body as MemberInitExpression;
+                                        //Console.WriteLine("WriteOrderByKeySelector " + new { zMemberInitExpression });
+                                        if (zMemberInitExpression != null)
+                                        {
+                                            // index by name?
+                                            var zMemberInitExpressionii = zMemberInitExpression.Bindings.Select(xx => xx.Member.Name).ToList().IndexOf(zzMemberExpressionMemberField.Name);
+                                            //Console.WriteLine("WriteOrderByKeySelector " + new { zMemberInitExpressionii, zMemberExpression.Member });
+                                            // /* 0000:0012 */   order by 0:12369ms WriteOrderByKeySelector {{ zMemberInitExpressionii = -1, Member = Key }} 
+                                            var aa = zMemberInitExpression.Bindings[zMemberInitExpressionii] as MemberAssignment;
+
+                                            if (aa != null)
+                                            {
+                                                WriteScalarExpression(true, aa.Expression);
+                                                return;
+                                            }
+                                        }
+
+                                        var zNewExpression = zSelect.selector.Body as NewExpression;
+                                        //Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpression });
+                                        if (zNewExpression != null)
+                                        {
+                                            var zNewExpressionii = zNewExpression.Members.IndexOf(zMemberExpression.Member);
+                                            //Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpressionii });
+                                            var aa = zNewExpression.Arguments[zNewExpressionii];
+
+                                            if (aa != null)
+                                            {
+                                                // zNewExpression = {new <>f__AnonymousType0`2(x = x, foo = x.field1)}
+                                                // oExpression.keySelector.Body = {<>h__TransparentIdentifier0.foo}
+                                                WriteScalarExpression(true, aa);
+                                                return;
+                                            }
+                                        }
+                                    };
+
+
+                                var zWhere = zsource as xWhere;
+                                if (zWhere != null)
+                                {
+                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectWhereOrderBy\Program.cs
+
+                                    doSelect(zWhere.source as xSelect);
+                                    return;
                                 }
 
-                                var zNewExpression = zSelect.selector.Body as NewExpression;
-                                //Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpression });
-                                if (zNewExpression != null)
-                                {
-                                    var zNewExpressionii = zNewExpression.Members.IndexOf(zMemberExpression.Member);
-                                    //Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpressionii });
-                                    var aa = zNewExpression.Arguments[zNewExpressionii];
-
-                                    if (aa != null)
-                                    {
-                                        // zNewExpression = {new <>f__AnonymousType0`2(x = x, foo = x.field1)}
-                                        // oExpression.keySelector.Body = {<>h__TransparentIdentifier0.foo}
-                                        WriteScalarExpression(true, aa);
-                                        return;
-                                    }
-                                }
+                                doSelect(zsource as xSelect);
+                                return;
                             }
+                            #endregion
+
                         }
 
                         WriteLine(1, "?");
@@ -1328,74 +1372,101 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                                        #region scalar:Where
+                                        #region scalar:OrderBy
                                         if (aa_MethodCallExpression.Method.Name == OrderByReference.Method.Name)
                                         {
                                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarOrderByFirstOrDefault\Program.cs
 
-                                        }
-
-                                        #region scalar:Where
-                                        if (aa_MethodCallExpression.Method.Name == WhereReference.Method.Name)
-                                        {
-
                                             var aa_filterQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
+
                                             var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
                                             if (aa_source_NewExpression != null)
                                             {
                                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereFirstOrDefault\Program.cs
-
                                                 var aa_sourcei = aa_source_NewExpression.Constructor.Invoke(new object[0]);
 
                                                 var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
                                                     new object[] {
-                                                    aa_sourcei,
-                                                    aa_filterQuote.Operand
-                                                }
+                                                        aa_sourcei,
+                                                        aa_filterQuote.Operand
+                                                    }
                                                 );
-
-                                                // or yield to upper .where?
-                                                //var sqalarsql = new SQLWriter<TElement>(
-                                                //    newsource2,
-                                                //    upper.Concat(new[] { source }).ToArray(),
-                                                //    context,
-                                                //    Command: Command
-                                                //);
 
                                                 yield(
                                                     newsource2
                                                 );
+                                                return;
+
                                             }
-                                            else
+
+                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereWhereFirstOrDefault\Program.cs
+                                            var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
+
+                                            yyaa(aa_source_MethodCallExpression,
+                                                aa_sourcei =>
+                                                {
+                                                    var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                            new object[] {
+                                                                    aa_sourcei,
+                                                                    aa_filterQuote.Operand
+                                                                }
+                                                    );
+
+                                                    yield(
+                                                        newsource2
+                                                    );
+                                                }
+                                            );
+
+                                            return;
+                                        }
+                                        #endregion
+
+                                        #region scalar:Where
+                                        if (aa_MethodCallExpression.Method.Name == WhereReference.Method.Name)
+                                        {
+                                            var aa_filterQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
+
+                                            var aa_source_NewExpression = aa_MethodCallExpression.Arguments[0] as NewExpression;
+                                            if (aa_source_NewExpression != null)
                                             {
-                                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereWhereFirstOrDefault\Program.cs
-                                                var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
-                                                // how many wheres are we about to support?
-                                                // we need to get recursive!
+                                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereFirstOrDefault\Program.cs
+                                                var aa_sourcei = aa_source_NewExpression.Constructor.Invoke(new object[0]);
 
-                                                // do the inner and then call the outer?
-
-                                                yyaa(aa_source_MethodCallExpression,
-                                                    aa_sourcei =>
-                                                    {
-                                                        var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
-                                                             new object[] {
-                                                                        aa_sourcei,
-                                                                        aa_filterQuote.Operand
-                                                                    }
-                                                         );
-
-                                                        yield(
-                                                            newsource2
-                                                        );
+                                                var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                    new object[] {
+                                                        aa_sourcei,
+                                                        aa_filterQuote.Operand
                                                     }
                                                 );
 
+                                                yield(
+                                                    newsource2
+                                                );
+                                                return;
 
                                             }
 
-                                            return;
+                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarWhereWhereFirstOrDefault\Program.cs
+                                            var aa_source_MethodCallExpression = aa_MethodCallExpression.Arguments[0] as MethodCallExpression;
 
+                                            yyaa(aa_source_MethodCallExpression,
+                                                aa_sourcei =>
+                                                {
+                                                    var newsource2 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                            new object[] {
+                                                                    aa_sourcei,
+                                                                    aa_filterQuote.Operand
+                                                                }
+                                                    );
+
+                                                    yield(
+                                                        newsource2
+                                                    );
+                                                }
+                                            );
+
+                                            return;
                                         }
                                         #endregion
 
