@@ -16,5 +16,20 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public void readAsText(Blob blob, string encoding)
         { }
+
+
+
+        public void readAsBinaryString(Blob blob)
+        { }
+
+
+
+        public void readAsArrayBuffer(Blob blob)
+        {
+        }
+
+
+        // extended by
+        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\JavaScript\DOM\FileExtensions.cs
     }
 }

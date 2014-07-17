@@ -48,12 +48,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             // partial build?
             f.file(
-                new Action<File>(
-                    ff =>
-                    {
-                        y.SetResult(ff);
-                    }
-                )
+                ff =>
+                {
+                    y.SetResult(ff);
+                }
             );
 
             return y.Task;
