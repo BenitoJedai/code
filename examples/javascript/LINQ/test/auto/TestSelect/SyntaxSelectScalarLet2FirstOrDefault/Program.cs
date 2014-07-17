@@ -9,12 +9,16 @@ class Program
 
             let c = (
                  from z in new xTable()
-                 //where z.field1 == x.field1
-                 select z
+
+
+                 let zz = z.field3
+                 let zzz = zz
+
+                 select zzz
              )
 
 
-             // um. data layer would need to ask each element of the row right?
+            // um. data layer would need to ask each element of the row right?
             let cc = c.FirstOrDefault()
 
             select cc

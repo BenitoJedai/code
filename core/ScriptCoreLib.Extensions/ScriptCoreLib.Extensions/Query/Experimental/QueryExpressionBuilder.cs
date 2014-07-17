@@ -614,7 +614,7 @@ namespace ScriptCoreLib.Query.Experimental
                     var xxMemberExpression = xxSelect.selector.Body as MemberExpression;
                     if (xxMemberExpression != null)
                     {
-         
+
 
 
 
@@ -1196,8 +1196,18 @@ namespace ScriptCoreLib.Query.Experimental
                                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarFirstOrDefault\Program.cs
                                                 var aaaa_sourcei = (IQueryStrategy)aa_source_NewExpression.Constructor.Invoke(new object[0]);
 
+
+                                                // let!
+
+                                                var newsource1 = (IQueryStrategy)aa_MethodCallExpression.Method.Invoke(null,
+                                                        new object[] {
+                                                                            aaaa_sourcei,
+                                                                            aa_selectorQuote.Operand
+                                                                        }
+                                                );
+
                                                 yield(
-                                                    aaaa_sourcei
+                                                    newsource1
                                                 );
                                                 return;
                                             }
@@ -1299,7 +1309,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                                             //{
                                             //    // ?
-                                             
+
                                             //}
 
 
