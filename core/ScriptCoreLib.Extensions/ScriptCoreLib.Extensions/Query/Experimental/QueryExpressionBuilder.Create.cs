@@ -21,8 +21,13 @@ namespace ScriptCoreLib.Query.Experimental
         [Obsolete("What about more automatic ways?")]
         public static QueryExpressionBuilderDialect Dialect = QueryExpressionBuilderDialect.SQLite;
 
+        // to be called by the xlsx generated types inside ctor?
         public static IQueryStrategy<TElement> Create<TElement>(this IQueryStrategy<TElement> source)
         {
+            // no need to call if database already has it, yet how would we know if we are stateless?
+
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+
 
             // was it manually set?
             QueryExpressionBuilder.WithConnection(
@@ -34,6 +39,8 @@ namespace ScriptCoreLib.Query.Experimental
 
             return source;
         }
+
+        //public static IQueryStrategy<TElement> Create<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         public static IQueryStrategy<TElement> Create<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
             //Additional information: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTOINCREMENT,
@@ -121,15 +128,28 @@ namespace ScriptCoreLib.Query.Experimental
                         return;
                     }
 
+                    // foreign keys
+                    if (f.FieldType.IsEnum)
+                    {
+                        w.Append(" BIGINT NOT NULL");
+                        return;
+                    }
+
                     Debugger.Break();
                 }
             );
 
             w.AppendLine(")");
 
-            var c = cc.CreateCommand(CommandText: w.ToString());
 
-            var n = c.ExecuteNonQuery();
+
+
+            if (cc != null)
+            {
+                var c = cc.CreateCommand(CommandText: w.ToString());
+
+                var n = c.ExecuteNonQuery();
+            }
 
             //Console.WriteLine(new { n });
 

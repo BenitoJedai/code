@@ -49,6 +49,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         TKey Key { get; }
     }
 
+    [Obsolete]
     public interface IQueryDescriptor
     {
         // this type has the reset state and how to make a connection
@@ -65,6 +66,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         // here we could ask for table stats?
     }
 
+
+    [Obsolete]
     public interface IQueryStrategy
     {
         // this state knows about reset state 

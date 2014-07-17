@@ -8,11 +8,11 @@ class Program
             from x in new xTable()
 
 
-            let c = from xx in new xTable()
+            let query = from xx in new xTable()
                     where xx.field1 == x.field2
                     select xx.field3
 
-            let a = c.Min()
+            let a = query.Min()
 
             select new { a }
         ).FirstOrDefault();

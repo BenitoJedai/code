@@ -472,10 +472,10 @@ namespace ScriptCoreLib.Query.Experimental
                                 var __value = GetValue();
 
 
+                                var ParameterName = "@WriteScalarMemberExpressionArgument" + context.CommandParametersCount;
+                                context.CommandAddParameter(ParameterName, __value);
 
-                                var ParameterName = "@WriteScalarMemberExpressionArgument" + context.Command.Parameters.Count;
-                                context.Command.AddParameter(ParameterName, __value);
-
+                           
                                 //WriteLineWithColor(1, "@arg(" + xConstantExpression.Value + ")", ConsoleColor.Red);
                                 WriteLineWithColor(1, ParameterName, ConsoleColor.Red);
 
@@ -1035,8 +1035,8 @@ namespace ScriptCoreLib.Query.Experimental
 
                 #region WriteScalarOperand
 
-                Action<IQueryStrategy, MethodCallExpression, Func<string>, MethodInfo> WriteScalarOperand =
-                    (zsource, xxMethodCallExpression, GetTargetName, Operand) =>
+                Action<IQueryStrategy, MethodCallExpression, Func<string>, MethodInfo, Tuple<MemberInfo, int>[]> WriteScalarOperand =
+                    (zsource, xxMethodCallExpression, GetTargetName, Operand, Target) =>
                     {
                         // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
 
@@ -1055,17 +1055,22 @@ namespace ScriptCoreLib.Query.Experimental
 
                                 using (WithoutLinefeeds())
                                 {
-                                    WriteLine(1, "let ");
-                                    var uSelect = upper.LastOrDefault() as xSelect;
-                                    if (uSelect != null)
-                                    {
-                                        WriteLineWithColor(0, uSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
-                                        WriteLine(1, " ");
-                                    }
+                                    WriteCommentLine(1, "let");
 
-                                    WriteLineWithColor(1, GetTargetName(), ConsoleColor.Cyan);
+                                    if (Target.Last().Item2 > 0)
+                                        WriteLine(1, ",");
+
+                                    //var uSelect = upper.LastOrDefault() as xSelect;
+                                    //if (uSelect != null)
+                                    //{
+                                    //    WriteLineWithColor(0, uSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
+                                    //    WriteLine(1, " ");
+                                    //}
+
+                                    //WriteLineWithColor(1, GetTargetName(), ConsoleColor.Cyan);
                                     // ?
-                                    WriteLineWithColor(1, " <- (", ConsoleColor.White);
+                                    //WriteLineWithColor(1, " <- (", ConsoleColor.White);
+                                    WriteLineWithColor(1, " (", ConsoleColor.White);
                                 }
 
                                 // whats aa? the where clause?
@@ -1402,7 +1407,20 @@ namespace ScriptCoreLib.Query.Experimental
                                     }
                                 );
 
-                                WriteLineWithColor(1, ")", ConsoleColor.White);
+                                using (WithoutLinefeeds())
+                                {
+                                    WriteLineWithColor(1, ")", ConsoleColor.White);
+
+                                    WriteLine(1, " as ");
+                                    if (upperParameter != null)
+                                    {
+                                        WriteCommentLine(0, upperParameter.Name);
+                                        WriteLine(1, " ");
+                                    }
+                                    WriteLine(1, "`");
+                                    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                    WriteLine(1, "`");
+                                }
                             };
                         #endregion
 
@@ -1837,24 +1855,62 @@ namespace ScriptCoreLib.Query.Experimental
                         var zMethodCallExpression = zExpression as MethodCallExpression;
                         if (zMethodCallExpression != null)
                         {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarMin\Program.cs
+                            // we should not proxy partial queries, like select
+
                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarCount\Program.cs
                             using (WithoutLinefeeds())
                             {
                                 // we have to unpack everything?
 
-                                WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
-
-                                if (upperParameter != null)
+                                if (zMethodCallExpression.Method.DeclaringType == typeof(QueryExpressionBuilder))
                                 {
-                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
-                                    WriteLine(1, " ");
-                                }
+                                    // its one of our own?
 
-                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                                //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
-                                //WriteLine(1, " <- " + GetTargetName());
-                                WriteLine(1, " <- ?");
+                                    WriteCommentLine(1, "proxy " + GetTargetName() + " <- " + zMethodCallExpression.Method.Name);
+                                }
+                                else
+                                {
+
+                                    // when is this happening?
+                                    WriteLineWithColor(1, "proxy ", ConsoleColor.Magenta);
+
+                                    if (upperParameter != null)
+                                    {
+                                        WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                        WriteLine(1, " ");
+                                    }
+
+                                    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                    //WriteLineWithColor(0, zParameterExpression.Name, ConsoleColor.Magenta);
+                                    //WriteLine(1, " <- " + GetTargetName());
+                                    WriteLine(1, " <- ?");
+                                }
                             }
+                            return;
+                        }
+                        #endregion
+
+                        #region WriteProjectionProxy:zUnaryExpression
+                        var zUnaryExpression = zExpression as UnaryExpression;
+                        if (zUnaryExpression != null)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectXElement\Program.cs
+                            // Method = {System.Xml.Linq.XName op_Implicit(System.String)}
+
+                            // descending xml: { IsCompleted = false, Result =  }
+                            if (zUnaryExpression.NodeType == ExpressionType.Convert)
+                            {
+                                // could we just discard the type?
+                                WriteProjectionProxy(zsource, zUnaryExpression.Operand, Target);
+                                // tested by
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+                                return;
+                            }
+
+
+                            // when does this happen?
+                            WriteLine(1, ("let " + GetTargetName()) + " <- unary");
                             return;
                         }
                         #endregion
@@ -1934,7 +1990,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (xxMethodCallExpression.Method.Name == FirstOrDefaultReference.Method.Name)
                                   {
                                       // what about inline testing?
-                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.FirstOrDefaultReference.Method);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.FirstOrDefaultReference.Method, Target);
                                       return;
                                   }
                                   #endregion
@@ -1944,7 +2000,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (xxMethodCallExpression.Method.Name == CountReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarCount\Program.cs
-                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.CountReference.Method);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.CountReference.Method, Target);
                                       return;
                                   }
                                   #endregion
@@ -1953,7 +2009,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (xxMethodCallExpression.Method.Name == xReferencesOfLong.SumOfLongReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarSum\Program.cs
-                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.SumOfLongReference.Method);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.SumOfLongReference.Method, Target);
                                       return;
                                   }
                                   #endregion
@@ -1962,7 +2018,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (xxMethodCallExpression.Method.Name == xReferencesOfLong.AverageOfLongReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarAverage\Program.cs
-                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.AverageOfLongReference.Method);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.AverageOfLongReference.Method, Target);
                                       return;
                                   }
                                   #endregion
@@ -1971,7 +2027,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (xxMethodCallExpression.Method.Name == xReferencesOfLong.MaxOfLongReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarMax\Program.cs
-                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.MaxOfLongReference.Method);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.MaxOfLongReference.Method, Target);
                                       return;
                                   }
                                   #endregion
@@ -1980,7 +2036,18 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (xxMethodCallExpression.Method.Name == xReferencesOfLong.MinOfLongReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarMin\Program.cs
-                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.MinOfLongReference.Method);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.MinOfLongReference.Method, Target);
+                                      return;
+                                  }
+                                  #endregion
+
+                                  #region Let
+                                  if (xxMethodCallExpression.Method.Name == SQLWriter<TElement>.SelectReference.Method.Name)
+                                  {
+                                      // its one of our own?
+
+                                      WriteCommentLine(1, "let " + GetTargetName() + " <- " + xxMethodCallExpression.Method.Name);
+                                      //WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.SelectReference.Method);
                                       return;
                                   }
                                   #endregion
@@ -2234,8 +2301,6 @@ namespace ScriptCoreLib.Query.Experimental
                               // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectXElement\Program.cs
                               // Method = {System.Xml.Linq.XName op_Implicit(System.String)}
 
-
-
                               // descending xml: { IsCompleted = false, Result =  }
                               if (zUnaryExpression.NodeType == ExpressionType.Convert)
                               {
@@ -2243,24 +2308,6 @@ namespace ScriptCoreLib.Query.Experimental
                                   WriteProjection(zsource, zUnaryExpression.Operand, Target);
                                   // tested by
                                   // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
-
-
-
-                                  //using (WithoutLinefeeds())
-                                  //{
-                                  //    WriteLine(1, "let ");
-
-                                  //    if (zSelect != null)
-                                  //    {
-                                  //        WriteLineWithColor(0, zSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
-                                  //        WriteLine(1, " ");
-                                  //    }
-
-                                  //    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                  //    WriteLine(1, " <- ");
-                                  //    WriteScalarExpression(zUnaryExpression.Operand);
-                                  //}
-
                                   return;
                               }
 
