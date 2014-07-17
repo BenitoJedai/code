@@ -108,6 +108,17 @@ namespace ScriptCoreLib.Query.Experimental
             return 0;
         }
 
+        public static long Sum(this IQueryStrategy<long> source)
+        {
+
+            // first, lets apprach it in a similar way. lets copy count
+
+
+            var xDbCommand = GetCountCommand(source, cc: null);
+
+            return 0;
+        }
+
 
         // first lets allow scalar subqueries
         public static long Count<TElement>(this IQueryStrategy<TElement> source)
