@@ -17,6 +17,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     partial class IWindow
     {
+        // https://code.google.com/p/dart/source/browse/third_party/WebCore/modules/webdatabase/WindowWebDatabase.idl?r=26952
+
+
         // http://www.w3.org/TR/webdatabase/
 
 

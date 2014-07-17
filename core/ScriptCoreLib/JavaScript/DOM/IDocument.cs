@@ -6,6 +6,8 @@ using System;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+
+    // https://code.google.com/p/dart/source/browse/third_party/WebCore/core/dom/Document.idl?r=26952
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Document.idl
 
     // http://www.w3schools.com/dom/dom_document.asp

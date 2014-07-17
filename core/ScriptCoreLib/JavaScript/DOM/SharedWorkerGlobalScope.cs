@@ -5,9 +5,16 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // DOM is not actually the correct namespace, DOM is unavailable within workers isnt it?
+
     [Script(HasNoPrototype = true)]
     public class SharedWorkerGlobalScope : WorkerGlobalScope
     {
+        // tested by?
+
+
+
+
         //public readonly ApplicationCache applicationCache;
         public readonly string name;
 
