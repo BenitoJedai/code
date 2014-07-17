@@ -583,8 +583,8 @@ namespace ScriptCoreLib.Query.Experimental
 
                 #region xScalar
                 // rename to xScalar ?
-                var xCount = source as xCount;
-                if (xCount != null)
+                var xScalar = source as xScalar;
+                if (xScalar != null)
                 {
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectAverage\Program.cs
 
@@ -593,14 +593,31 @@ namespace ScriptCoreLib.Query.Experimental
 
                     //WriteLine(0, "select count(*) from (");
 
-                    var xxSelect = xCount.source as xSelect;
+                    var xxSelect = xScalar.source as xSelect;
                     var xxMemberExpression = xxSelect.selector.Body as MemberExpression;
 
                     if (xxMemberExpression != null)
                     {
                         using (WithoutLinefeeds())
                         {
-                            WriteLine(0, "select avg(");
+                            WriteLine(0, "select ");
+
+                            //WriteCommentLine(1, xCount.Operand.Name);
+
+
+                            if (xScalar.Operand == xReferencesOfLong.SumOfLongReference.Method)
+                                WriteLine(0, "sum");
+                            else if (xScalar.Operand == xReferencesOfLong.MinOfLongReference.Method)
+                                WriteLine(0, "min");
+                            else if (xScalar.Operand == xReferencesOfLong.MaxOfLongReference.Method)
+                                WriteLine(0, "max");
+                            else if (xScalar.Operand == xReferencesOfLong.AverageOfLongReference.Method)
+                                WriteLine(0, "avg");
+                            else
+                                // what else is there?
+                                WriteLine(0, "?");
+
+                            WriteLine(0, "(");
 
                             WriteScalarExpression(true, xxMemberExpression);
 
@@ -634,14 +651,14 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                     {
-                        WriteLine(0, "select avg(*) from (");
+                        WriteLine(0, "select count(*) from (");
 
 
 
 
 
                         var xsource = new SQLWriter<TElement>(
-                           xCount.source,
+                           xScalar.source,
                             upper.Concat(new[] { source }),
                             context,
                             //upperParameter: (source as xSelect).selector.Parameters[0],

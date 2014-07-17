@@ -17,16 +17,31 @@ namespace ScriptCoreLib.Query.Experimental
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Insert.cs
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Count.cs
 
+        static class xReferencesOfLong
+        {
+            public static readonly Func<IQueryStrategy<long>, long> SumOfLongReference = Sum;
+            public static readonly Func<IQueryStrategy<long>, long> MinOfLongReference = Min;
+            public static readonly Func<IQueryStrategy<long>, long> MaxOfLongReference = Max;
+            public static readonly Func<IQueryStrategy<long>, long> AverageOfLongReference = Average;
+        }
+
         partial class SQLWriter<TElement>
         {
             public static readonly Func<IQueryStrategy<TElement>, long> CountReference = Count;
+
+
         }
 
 
         [Obsolete("xScalar")]
-        class xCount : IQueryStrategy
+        class xScalar : IQueryStrategy
         {
+            
             public IQueryStrategy source;
+
+
+
+            public MethodInfo Operand;
 
             public override string ToString()
             {
@@ -34,16 +49,20 @@ namespace ScriptCoreLib.Query.Experimental
             }
         }
 
-        class xCount<TElement> : xCount, IQueryStrategy<TElement>
+        class xScalar<TElement> : xScalar, IQueryStrategy<TElement>
         {
 
         }
 
-        [Obsolete("xGetScalarCommand")]
-        public static IDbCommand GetCountCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
+        public static IDbCommand GetScalarCommand<TElement>(
+            this IQueryStrategy<TElement> source, 
+            IDbConnection cc,
+
+            MethodInfo Operand
+            )
         {
 
-            var nsource = new xCount { source = source };
+            var nsource = new xScalar { source = source, Operand = Operand };
             var Command = default(DbCommand);
 
 
@@ -77,7 +96,7 @@ namespace ScriptCoreLib.Query.Experimental
             // first, lets apprach it in a similar way. lets copy count
 
 
-            var xDbCommand = GetCountCommand(source, cc: null);
+            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.AverageOfLongReference.Method);
 
             return 0;
         }
@@ -89,7 +108,7 @@ namespace ScriptCoreLib.Query.Experimental
             // first, lets apprach it in a similar way. lets copy count
 
 
-            var xDbCommand = GetCountCommand(source, cc: null);
+            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.MinOfLongReference.Method);
 
             return 0;
         }
@@ -103,7 +122,7 @@ namespace ScriptCoreLib.Query.Experimental
             // first, lets apprach it in a similar way. lets copy count
 
 
-            var xDbCommand = GetCountCommand(source, cc: null);
+            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.MaxOfLongReference.Method);
 
             return 0;
         }
@@ -114,7 +133,7 @@ namespace ScriptCoreLib.Query.Experimental
             // first, lets apprach it in a similar way. lets copy count
 
 
-            var xDbCommand = GetCountCommand(source, cc: null);
+            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.SumOfLongReference.Method);
 
             return 0;
         }
@@ -127,6 +146,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             var value = default(long);
 
+            // what if there is no connection?
             WithConnection(
                 cc =>
                 {
@@ -147,7 +167,7 @@ namespace ScriptCoreLib.Query.Experimental
             // how was it done before?
             // tested by?
 
-            var xDbCommand = GetCountCommand(source, cc);
+            var xDbCommand = GetScalarCommand(source, cc, Operand: SQLWriter<TElement>.CountReference.Method);
 
             // Additional information: Every derived table must have its own alias
             // what?
