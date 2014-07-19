@@ -2980,12 +2980,14 @@ namespace ScriptCoreLib.Query.Experimental
                     using (WithoutLinefeeds())
                     {
                         WriteLine(0, "from ");
-                        WriteLineWithColor(0, "" + (source as xSelect).selector.Parameters[0].Name, ConsoleColor.Magenta);
+                        WriteLineWithColor(0, "" + xSelect.selector.Parameters[0].Name, ConsoleColor.Magenta);
 
                         // Additional information: Every derived table must have its own alias
-                        //WriteLine(0, " as `");
-                        //WriteLineWithColor(0, "" + (source as xSelect).selector.Parameters[0].Name, ConsoleColor.Magenta);
-                        //WriteLine(0, "`");
+
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxWhere\Program.cs
+                        WriteLine(0, " as `");
+                        WriteLineWithColor(0, "" + upperParameter.Name, ConsoleColor.Magenta);
+                        WriteLine(0, "`");
 
                     }
                 }
@@ -2997,7 +2999,7 @@ namespace ScriptCoreLib.Query.Experimental
                        xSelect_source,
                         upper.Concat(new[] { source }),
                         context,
-                        upperParameter: (source as xSelect).selector.Parameters[0],
+                        upperParameter: xSelect.selector.Parameters[0],
                         Command: Command
                     );
 
@@ -3008,7 +3010,7 @@ namespace ScriptCoreLib.Query.Experimental
                     using (WithoutLinefeeds())
                     {
                         WriteLine(0, ") as `");
-                        WriteLineWithColor(0, "" + (source as xSelect).selector.Parameters[0].Name, ConsoleColor.Magenta);
+                        WriteLineWithColor(0, "" + xSelect.selector.Parameters[0].Name, ConsoleColor.Magenta);
                         WriteLine(0, "`");
                     }
                 }
