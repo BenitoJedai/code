@@ -13,6 +13,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
     [Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {
+
+
         // X:\jsc.svn\examples\javascript\io\ZIPDecoderExperiment\ZIPDecoderExperiment\Application.cs
 
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs
@@ -41,6 +43,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
         public override void Flush()
         {
             // ?
+        }
+
+
+
+        // X:\jsc.svn\examples\javascript\io\synergy\PNGEncoderExperiment\PNGEncoderExperiment\Application.cs
+        public __MemoryStream(int capacity)
+            : this(new byte[capacity])
+        {
         }
 
         #region ctor

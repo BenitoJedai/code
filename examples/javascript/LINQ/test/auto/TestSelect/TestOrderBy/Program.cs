@@ -7,7 +7,7 @@ class Program
         var f = (
             from x in new xTable()
 
-            let foo = x.field1
+            //let foo = x.field1
 
             orderby x.field1
             //orderby foo
