@@ -52,10 +52,14 @@ namespace PNGEncoderExperiment
             //script: error JSC1000: Missing Script Attribute? Native constructor was invoked, please implement[System.IO.MemoryStream..ctor(System.Int32)]
 
 
-        //    0200002b Plupload.PngEncoder.PngEncoder
-        //    script: error JSC1000: opcode unsupported - [0x01d7] bne.un + 0 - 2{[0x01ce]
-        //rem
-        //  script: error JSC1000: error at Plupload.PngEncoder.PngEncoder.WriteImageData,
+            //    0200002b Plupload.PngEncoder.PngEncoder
+            //    script: error JSC1000: opcode unsupported - [0x01d7] bne.un + 0 - 2{[0x01ce]
+            //rem
+            //  script: error JSC1000: error at Plupload.PngEncoder.PngEncoder.WriteImageData,
+
+            // seems to be return from within try.
+            // could the rewriter fix it for us?
+
 
             var w = 128;
             var h = 128;
