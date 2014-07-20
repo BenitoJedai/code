@@ -7,18 +7,6 @@ class Program
         var f = (
             from x in new xTable()
             select x
-
-            ////let yy = 6
-            //let xx = "piiksuland!"
-
-
-
-
-
-            //select new { x, xx, z = new { x.field1, x } }
         ).FirstOrDefault();
-
-        //var z = f.x.field1;
-
     }
 }

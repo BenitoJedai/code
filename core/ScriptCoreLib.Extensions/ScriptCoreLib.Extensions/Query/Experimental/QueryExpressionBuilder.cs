@@ -882,31 +882,41 @@ namespace ScriptCoreLib.Query.Experimental
                             return;
                         }
 
+                        if (zSelect.source is xGroupBy)
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
+
+                            WriteLine(1, "?");
+                            return;
+                        }
+
                         #region yaa
                         Action<Expression> yaa =
                             aa =>
                             {
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarFirstOrDefault\Program.cs
 
-                                using (WithoutLinefeeds())
-                                {
-                                    WriteCommentLine(1, "let");
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarUpper\Program.cs
+                                if (Target.Length > 0)
+                                    using (WithoutLinefeeds())
+                                    {
+                                        WriteCommentLine(1, "let");
 
-                                    if (Target.Last().Item2 > 0)
-                                        WriteLine(1, ",");
+                                        if (Target.Last().Item2 > 0)
+                                            WriteLine(1, ",");
 
-                                    //var uSelect = upper.LastOrDefault() as xSelect;
-                                    //if (uSelect != null)
-                                    //{
-                                    //    WriteLineWithColor(0, uSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
-                                    //    WriteLine(1, " ");
-                                    //}
+                                        //var uSelect = upper.LastOrDefault() as xSelect;
+                                        //if (uSelect != null)
+                                        //{
+                                        //    WriteLineWithColor(0, uSelect.selector.Parameters[0].Name, ConsoleColor.DarkCyan);
+                                        //    WriteLine(1, " ");
+                                        //}
 
-                                    //WriteLineWithColor(1, GetTargetName(), ConsoleColor.Cyan);
-                                    // ?
-                                    //WriteLineWithColor(1, " <- (", ConsoleColor.White);
-                                    WriteLineWithColor(1, " (", ConsoleColor.White);
-                                }
+                                        //WriteLineWithColor(1, GetTargetName(), ConsoleColor.Cyan);
+                                        // ?
+                                        //WriteLineWithColor(1, " <- (", ConsoleColor.White);
+                                        WriteLineWithColor(1, " (", ConsoleColor.White);
+                                    }
 
                                 // whats aa? the where clause?
                                 // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
@@ -1249,20 +1259,21 @@ namespace ScriptCoreLib.Query.Experimental
                                     }
                                 );
 
-                                using (WithoutLinefeeds())
-                                {
-                                    WriteLineWithColor(1, ")", ConsoleColor.White);
-
-                                    WriteLine(1, " as ");
-                                    if (upperParameter != null)
+                                if (Target.Length > 0)
+                                    using (WithoutLinefeeds())
                                     {
-                                        WriteCommentLine(0, upperParameter.Name);
-                                        WriteLine(1, " ");
+                                        WriteLineWithColor(1, ")", ConsoleColor.White);
+
+                                        WriteLine(1, " as ");
+                                        if (upperParameter != null)
+                                        {
+                                            WriteCommentLine(0, upperParameter.Name);
+                                            WriteLine(1, " ");
+                                        }
+                                        WriteLine(1, "`");
+                                        WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                        WriteLine(1, "`");
                                     }
-                                    WriteLine(1, "`");
-                                    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                                    WriteLine(1, "`");
-                                }
                             };
                         #endregion
 
@@ -1298,7 +1309,7 @@ namespace ScriptCoreLib.Query.Experimental
                         #endregion
 
 
-
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
                         walker(zSelect.source as xSelect, __source.Expression);
                     };
                 #endregion
@@ -1843,6 +1854,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   #region Count
                                   if (xxMethodCallExpression.Method.Name == CountReference.Method.Name)
                                   {
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarCount\Program.cs
                                       WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.CountReference.Method, Target);
                                       return;
@@ -1958,6 +1970,9 @@ namespace ScriptCoreLib.Query.Experimental
 
                                   if (xxMethodCallExpression.Method.Name == "ToUpper")
                                   {
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarUpper\Program.cs
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarLetUpper\Program.cs
+
                                       using (WithoutLinefeeds())
                                       {
                                           WriteLine(1, "let ");
@@ -1970,9 +1985,18 @@ namespace ScriptCoreLib.Query.Experimental
                                           WriteLine(1, " <- ");
 
                                           WriteLineWithColor(1, "upper(", ConsoleColor.White);
-                                          WriteScalarExpression(true, xxMethodCallExpression.Object);
+
+                                          WriteProjection(zsource, xxMethodCallExpression.Object, new Tuple<MemberInfo, int>[] {
+                                              // Tuple.Create(item.m, index)
+                                          });
+
+                                          //WriteScalarExpression(true, xxMethodCallExpression.Object);
+
+
                                           WriteLineWithColor(1, ")", ConsoleColor.White);
+
                                       }
+
                                       return;
                                   }
 
@@ -1990,7 +2014,13 @@ namespace ScriptCoreLib.Query.Experimental
                                           WriteLine(1, " <- ");
 
                                           WriteLineWithColor(1, "lower(", ConsoleColor.White);
-                                          WriteScalarExpression(true, xxMethodCallExpression.Object);
+
+                                          WriteProjection(zsource, xxMethodCallExpression.Object, new Tuple<MemberInfo, int>[] {
+                                              // Tuple.Create(item.m, index)
+                                          });
+
+
+                                          //WriteScalarExpression(true, xxMethodCallExpression.Object);
                                           WriteLineWithColor(1, ")", ConsoleColor.White);
                                       }
                                       return;
@@ -2045,13 +2075,26 @@ namespace ScriptCoreLib.Query.Experimental
                                       var mp = m.Expression as ParameterExpression;
                                       if (mp != null)
                                       {
-                                          WriteLine(1, "`");
-                                          WriteLineWithColor(0, mp.Name, ConsoleColor.DarkCyan);
-                                          WriteLine(1, "`");
+                                          if (zSelect != null && zSelect.source == null && upperParameter != null)
+                                          {
+                                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
+
+                                              WriteLine(1, "`");
+                                              WriteLineWithColor(0, "" + upperParameter.Name, ConsoleColor.Magenta);
+                                              WriteLine(1, "`");
+                                          }
+                                          else
+                                          {
+
+                                              WriteLine(1, "`");
+                                              WriteLineWithColor(0, mp.Name, ConsoleColor.DarkCyan);
+                                              WriteLine(1, "`");
+                                          }
 
                                       }
 
                                       // m.Expression = {<>h__TransparentIdentifier0.g.Last()}
+                                      // tested by?
                                       var mMethodCallExpression = m.Expression as MethodCallExpression;
                                       if (mMethodCallExpression != null)
                                       {
@@ -2978,6 +3021,7 @@ namespace ScriptCoreLib.Query.Experimental
                     {
                         WriteCommentLine(1, "MemberExpression");
 
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarXElementField\Program.cs
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectKey\Program.cs
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberExpression\Program.cs
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetOrderBy\Program.cs

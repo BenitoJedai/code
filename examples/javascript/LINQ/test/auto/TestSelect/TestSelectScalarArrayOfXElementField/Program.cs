@@ -12,11 +12,7 @@ class Program
     {
         // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
         // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
-
-        Console.WriteLine("i am a zombie");
-
         // string DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
-
 
         #region QueryExpressionBuilder.WithConnection
         QueryExpressionBuilder.WithConnection =
@@ -32,29 +28,30 @@ class Program
             };
         #endregion
 
-
-
         // ThreadLocal SynchronizationContext aware ConnectionPool?
         var n = new PerformanceResourceTimingData2ApplicationPerformance();
 
-        n.Create();
+        //n.Create();
 
         n.Insert(
             new PerformanceResourceTimingData2ApplicationPerformanceRow
-            {
-                connectStart = 5,
-                connectEnd = 13,
-                EventTime = DateTime.Now.AddDays(-0),
+        {
+            connectStart = 5,
+            connectEnd = 13,
+            EventTime = DateTime.Now.AddDays(-0),
 
-                z = new XElement("goo", "foo")
-            }
+            z = new XElement("goo", "foo")
+        }
         );
 
         //var c = new PerformanceResourceTimingData2ApplicationPerformance().Count();
 
+
+        // /* 2102:0007 */     /* let */ `PerformanceResourceTimingData2ApplicationPerformance`.`Key` as /* x */ `Key`
+
         var q = from x in new PerformanceResourceTimingData2ApplicationPerformance()
                 orderby x.Timestamp descending
-                select new[]{x.z};
+                select new[] { x.z };
 
 
         var f = q.FirstOrDefault();
