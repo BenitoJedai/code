@@ -920,10 +920,17 @@ namespace ScriptCoreLib.Query.Experimental
                                 yyaa =
                                     (aa_MethodCallExpression, yield) =>
                                     {
+                                        var IsOrderBy = aa_MethodCallExpression.Method.Name == SQLWriter<TElement>.OrderByReference.Method.Name;
+                                        var IsThenBy = aa_MethodCallExpression.Method.Name == SQLWriter<TElement>.ThenByReference.Method.Name;
+                                        var IsOrderByDescending = aa_MethodCallExpression.Method.Name == SQLWriter<TElement>.OrderByDescendingReference.Method.Name;
+                                        var IsThenByDescending = aa_MethodCallExpression.Method.Name == SQLWriter<TElement>.ThenByDescendingReference.Method.Name;
+
 
                                         // desc ?
                                         #region scalar:OrderBy
-                                        if (aa_MethodCallExpression.Method.Name == OrderByReference.Method.Name)
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarWhereOrderByDescending\Program.cs
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarOrderByThenBy\Program.cs
+                                        if (IsOrderBy || IsOrderByDescending || IsThenBy || IsThenByDescending)
                                         {
                                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarOrderByFirstOrDefault\Program.cs
 
@@ -1878,8 +1885,17 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
                                   #endregion
 
+
+                                  var IsSelect = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.SelectReference.Method.Name;
+                                  var IsOrderBy = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.OrderByReference.Method.Name;
+                                  var IsThenBy = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.ThenByReference.Method.Name;
+                                  var IsOrderByDescending = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.OrderByDescendingReference.Method.Name;
+                                  var IsThenByDescending = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.ThenByDescendingReference.Method.Name;
+
+                                  // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarOrderByThenBy\Program.cs
+                                  // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarWhereOrderByDescending\Program.cs
                                   #region Let
-                                  if (xxMethodCallExpression.Method.Name == SQLWriter<TElement>.SelectReference.Method.Name)
+                                  if (IsSelect || IsOrderBy || IsOrderByDescending || IsThenBy || IsThenByDescending)
                                   {
                                       // its one of our own?
 
