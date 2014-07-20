@@ -42,7 +42,9 @@ namespace ScriptCoreLib.Query.Experimental
 
             var z = new TaskCompletionSource<long>();
 
-            var c = (DbCommand)source.GetCountCommand(cc);
+
+
+            var c = (DbCommand)source.GetScalarCommand(cc, Operand: QueryExpressionBuilder.SQLWriter<TElement>.CountReference.Method );
 
             // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DBCommand.cs
             var xDbCommand = c as DbCommand;

@@ -75,7 +75,7 @@ namespace ScriptCoreLib.Query.Experimental
         // we need to be able to encrypt the private state of the query
         // so we could send it to the client for additions?
 
-        class SQLWriterContext
+        public class SQLWriterContext
         {
             public int LineNumber = 0;
             public IDbCommand Command;
@@ -106,7 +106,7 @@ namespace ScriptCoreLib.Query.Experimental
         delegate void WriteScalarExpressionAction(bool DiscardAlias, Expression asExpression);
 
 
-        partial class SQLWriter<TElement>
+        public partial class SQLWriter<TElement>
         {
             //0200004f ScriptCoreLib.Query.Experimental.QueryExpressionBuilder+SQLWriter`1+<>c__DisplayClass64
             //script: error JSC1000: unsupported flow detected, try to simplify.
