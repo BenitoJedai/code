@@ -333,12 +333,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectLet2Min", "SyntaxSelectLet2Min\SyntaxSelectLet2Min.csproj", "{AFD9D3D9-14B7-49B0-A830-F6F080250E47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectLet3Min", "SyntaxSelectLet3Min\SyntaxSelectLet3Min.csproj", "{2646777D-74EC-4057-9485-A1EFB5C9B9D9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectLet1MemberInit", "SyntaxSelectLet1MemberInit\SyntaxSelectLet1MemberInit.csproj", "{7C2B212A-E2B6-4B4A-B558-3D18D697E6B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectLet2MemberInit", "SyntaxSelectLet2MemberInit\SyntaxSelectLet2MemberInit.csproj", "{2B88C29A-C394-427F-9207-4E7DB5CC797E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxSelectLet3MemberInit", "SyntaxSelectLet3MemberInit\SyntaxSelectLet3MemberInit.csproj", "{2AAEF4BF-AFDB-4E62-9AA2-DC676B3FA8DC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{94719DE7-1C09-4026-A948-D78EE589F1DC} = {94719DE7-1C09-4026-A948-D78EE589F1DC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,7 +10,7 @@ class Program
             let gap1 = 1
 
             select x.field3
-        ).Average();
+        ).Min();
 
     }
 }

@@ -11,7 +11,7 @@ class Program
             let gap2 = 2
 
             select x.field3
-        ).Average();
+        ).Min();
 
     }
 }

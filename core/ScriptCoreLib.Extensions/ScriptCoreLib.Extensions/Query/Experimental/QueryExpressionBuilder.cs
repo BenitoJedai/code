@@ -316,7 +316,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                 #endregion
 
-                #region WriteScalarExpression
+                #region OBSOLETE WriteScalarExpression
                 var WriteScalarExpression = default(WriteScalarExpressionAction);
 
                 WriteScalarExpression =
@@ -581,130 +581,6 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                #region xScalar
-                var xScalar = source as xScalar;
-                if (xScalar != null)
-                {
-                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectAverage\Program.cs
-
-                    // http://www.w3schools.com/sql/sql_func_count.asp
-                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestDeleteAll\Program.cs
-
-                    //WriteLine(0, "select count(*) from (");
-
-                    var xxSelect = xScalar.source as xSelect;
-
-                    if (xScalar.Operand == SQLWriter<TElement>.FirstOrDefaultReference.Method)
-                    {
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarFirstOrDefault\Program.cs
-
-                        var xsource = new SQLWriter<TElement>(
-                             xScalar.source,
-                              upper.Concat(new[] { source }),
-                              context,
-                            //upperParameter: (source as xSelect).selector.Parameters[0],
-                            upperParameter: null,
-                              Command: Command
-                          );
-
-                        return;
-                    }
-
-                    #region xxMemberExpression
-                    var xxMemberExpression = xxSelect.selector.Body as MemberExpression;
-                    if (xxMemberExpression != null)
-                    {
-
-
-
-
-
-                        using (WithoutLinefeeds())
-                        {
-                            WriteLine(0, "select ");
-                            //WriteCommentLine(1, xCount.Operand.Name);
-
-                            if (xScalar.Operand == xReferencesOfLong.SumOfLongReference.Method)
-                                WriteLine(0, "sum");
-                            else if (xScalar.Operand == xReferencesOfLong.MinOfLongReference.Method)
-                                WriteLine(0, "min");
-                            else if (xScalar.Operand == xReferencesOfLong.MaxOfLongReference.Method)
-                                WriteLine(0, "max");
-                            else if (xScalar.Operand == xReferencesOfLong.AverageOfLongReference.Method)
-                                WriteLine(0, "avg");
-                            else if (xScalar.Operand == SQLWriter<TElement>.CountReference.Method)
-                                WriteLine(0, "count"); // or select the row instead of field...
-                            else
-                                // what else is there?
-                                WriteLine(0, "?");
-
-                            WriteLine(0, "(");
-                            WriteScalarExpression(true, xxMemberExpression);
-                            WriteLine(0, ") from (");
-                        }
-
-                        var xsource = new SQLWriter<TElement>(
-                           xxSelect.source,
-                            //xxSelect,
-                            upper.Concat(new[] { source }),
-                            context,
-                            //upperParameter: (source as xSelect).selector.Parameters[0],
-                            upperParameter: null,
-                            Command: Command
-                        );
-
-
-                        using (WithoutLinefeeds())
-                        {
-                            using (WithoutLinefeeds())
-                            {
-                                WriteLine(0, ") as `");
-                                WriteLineWithColor(0, "" + xxSelect.selector.Parameters[0].Name, ConsoleColor.Magenta);
-                                WriteLine(0, "`");
-                            }
-                        }
-
-                        return;
-                    }
-                    #endregion
-
-
-                    {
-                        WriteLine(0, "select count(*) from (");
-
-
-
-
-
-                        var xsource = new SQLWriter<TElement>(
-                           xScalar.source,
-                            upper.Concat(new[] { source }),
-                            context,
-                            //upperParameter: (source as xSelect).selector.Parameters[0],
-                            upperParameter: null,
-                            Command: Command
-                        );
-
-                        // render the source and with parent
-
-
-
-
-                        using (WithoutLinefeeds())
-                        {
-                            WriteLine(0, ") as `");
-                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
-                            // Additional information: Every derived table must have its own alias
-                            WriteLineWithColor(0, "TCountable", ConsoleColor.Magenta);
-                            WriteLine(0, "`");
-                        }
-                    }
-
-                    return;
-                }
-                #endregion
-
-
                 #region xDelete
                 var xDelete = source as xDelete;
                 if (xDelete != null)
@@ -954,52 +830,6 @@ namespace ScriptCoreLib.Query.Experimental
                     };
                 #endregion
 
-
-                #region xOrderBy
-                var xOrderBy = source as xOrderBy;
-                if (xOrderBy != null)
-                {
-                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByDescending\Program.cs
-                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderBy\Program.cs
-                    var sql = new SQLWriter<TElement>(
-                        xOrderBy.source,
-                        upper.Concat(new[] { source }),
-                        context,
-                        upperParameter: xOrderBy.keySelector.First().keySelector.Parameters[0],
-                        Command: Command);
-
-                    using (WithoutLinefeeds())
-                    {
-                        xOrderBy.keySelector.WithEachIndex(
-                            (oExpression, oExpressionIndex) =>
-                            {
-
-                                if (oExpressionIndex == 0)
-                                    WriteLine(0, "order by ");
-                                else
-                                    WriteLine(0, ", ");
-
-
-
-                                WriteScalarExpression(DiscardAlias: true, asExpression: oExpression.keySelector.Body);
-
-                                //WriteOrderByKeySelector(
-                                //    xOrderBy.source,
-                                //    oExpression.keySelector.Body,
-                                //    null,
-                                //    new Tuple<MemberInfo, int>[0]
-                                //);
-
-                                if (!oExpression.ascending)
-                                    WriteLine(0, " desc");
-                            }
-                        );
-                    }
-
-                    return;
-                }
-                #endregion
-
                 #region xWhere
                 var xWhere = source as xWhere;
                 if (xWhere != null)
@@ -1038,7 +868,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                #region WriteScalarOperand
+                #region ? WriteScalarOperand
 
                 Action<IQueryStrategy, MethodCallExpression, Func<string>, MethodInfo, Tuple<MemberInfo, int>[]> WriteScalarOperand =
                     (zsource, xxMethodCallExpression, GetTargetName, Operand, Target) =>
@@ -1481,7 +1311,7 @@ namespace ScriptCoreLib.Query.Experimental
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
 
 
-                        #region GetTargetNameWithQuotes
+                        #region WriteProjectionProxy:GetTargetNameWithQuotes
                         Func<string> GetTargetNameWithQuotes =
                             delegate
                         {
@@ -1528,7 +1358,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                        #region GetTargetName
+                        #region WriteProjectionProxy:GetTargetName
                         Func<string> GetTargetName =
                             delegate
                         {
@@ -2249,13 +2079,17 @@ namespace ScriptCoreLib.Query.Experimental
                               DoWithoutLinefeeds(delegate
                               {
 
-                                  WriteCommentLine(1, "let");
+                                  // xScalar wont send the target
+                                  if (Target.Length > 0)
+                                  {
+                                      WriteCommentLine(1, "let");
 
-                                  if (Target.Last().Item2 > 0)
-                                      WriteLine(1, ", ");
+                                      if (Target.Last().Item2 > 0)
+                                          WriteLine(1, ", ");
 
 
-                                  WriteLine(1, " ");
+                                      WriteLine(1, " ");
+                                  }
 
 
 
@@ -2284,21 +2118,26 @@ namespace ScriptCoreLib.Query.Experimental
                                       isQuoteMode = false;
                                   }
 
-                                  WriteLine(1, " as ");
 
-                                  if (upperParameter != null)
+                                  // xScalar wont send the target
+                                  if (Target.Length > 0)
                                   {
-                                      WriteCommentLine(0, upperParameter.Name);
-                                      WriteLine(1, " ");
+                                      WriteLine(1, " as ");
+
+                                      if (upperParameter != null)
+                                      {
+                                          WriteCommentLine(0, upperParameter.Name);
+                                          WriteLine(1, " ");
+                                      }
+
+
+
+
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+                                      WriteLine(1, "`");
+                                      WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                      WriteLine(1, "`");
                                   }
-
-
-
-
-                                  // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
-                                  WriteLine(1, "`");
-                                  WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                  WriteLine(1, "`");
                               });
                               return;
                           }
@@ -2589,6 +2428,199 @@ namespace ScriptCoreLib.Query.Experimental
                       };
                 #endregion
 
+
+                #region xScalar
+                var xScalar = source as xScalar;
+                if (xScalar != null)
+                {
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectAverage\Program.cs
+
+                    // http://www.w3schools.com/sql/sql_func_count.asp
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestDeleteAll\Program.cs
+
+                    //WriteLine(0, "select count(*) from (");
+
+                    var xxSelect = xScalar.source as xSelect;
+
+                    #region  FirstOrDefaultReference
+                    if (xScalar.Operand == SQLWriter<TElement>.FirstOrDefaultReference.Method)
+                    {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarFirstOrDefault\Program.cs
+
+                        var xsource = new SQLWriter<TElement>(
+                             xScalar.source,
+                              upper.Concat(new[] { source }),
+                              context,
+                            //upperParameter: (source as xSelect).selector.Parameters[0],
+                            upperParameter: null,
+                              Command: Command
+                          );
+
+                        return;
+                    }
+                    #endregion
+
+
+
+
+                    #region xxMemberExpression
+                    var xxMemberExpression = xxSelect.selector.Body as MemberExpression;
+                    if (xxMemberExpression != null)
+                    {
+
+
+
+
+
+                        using (WithoutLinefeeds())
+                        {
+                            WriteLine(0, "select ");
+                            //WriteCommentLine(1, xCount.Operand.Name);
+
+                            if (xScalar.Operand == xReferencesOfLong.SumOfLongReference.Method)
+                                WriteLine(0, "sum");
+                            else if (xScalar.Operand == xReferencesOfLong.MinOfLongReference.Method)
+                                WriteLine(0, "min");
+                            else if (xScalar.Operand == xReferencesOfLong.MaxOfLongReference.Method)
+                                WriteLine(0, "max");
+                            else if (xScalar.Operand == xReferencesOfLong.AverageOfLongReference.Method)
+                                WriteLine(0, "avg");
+                            else if (xScalar.Operand == SQLWriter<TElement>.CountReference.Method)
+                                WriteLine(0, "count"); // or select the row instead of field...
+                            else
+                                // what else is there?
+                                WriteLine(0, "?");
+
+                            WriteLine(0, "(");
+
+                            // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\syntaxselectlet3min\program.cs
+                            // this does not seem to be correct.
+
+
+                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140720/linq
+
+
+                            WriteProjection(xxSelect, xxMemberExpression, new Tuple<MemberInfo, int>[] {
+                                // Tuple.Create(item.m, index)
+                            });
+
+
+                            //WriteScalarExpression(true, xxMemberExpression);
+                            WriteLine(0, ") from (");
+                        }
+
+                        var xsource = new SQLWriter<TElement>(
+                           xxSelect.source,
+                            //xxSelect,
+                            upper.Concat(new[] { source }),
+                            context,
+                            //upperParameter: (source as xSelect).selector.Parameters[0],
+                            upperParameter: null,
+                            Command: Command
+                        );
+
+
+                        using (WithoutLinefeeds())
+                        {
+                            using (WithoutLinefeeds())
+                            {
+                                WriteLine(0, ") as `");
+                                WriteLineWithColor(0, "" + xxSelect.selector.Parameters[0].Name, ConsoleColor.Magenta);
+                                WriteLine(0, "`");
+                            }
+                        }
+
+                        return;
+                    }
+                    #endregion
+
+
+                    {
+                        WriteLine(0, "select count(*) from (");
+
+
+
+
+
+                        var xsource = new SQLWriter<TElement>(
+                           xScalar.source,
+                            upper.Concat(new[] { source }),
+                            context,
+                            //upperParameter: (source as xSelect).selector.Parameters[0],
+                            upperParameter: null,
+                            Command: Command
+                        );
+
+                        // render the source and with parent
+
+
+
+
+                        using (WithoutLinefeeds())
+                        {
+                            WriteLine(0, ") as `");
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+                            // Additional information: Every derived table must have its own alias
+                            WriteLineWithColor(0, "TCountable", ConsoleColor.Magenta);
+                            WriteLine(0, "`");
+                        }
+                    }
+
+                    return;
+                }
+                #endregion
+
+
+
+                #region xOrderBy
+                var xOrderBy = source as xOrderBy;
+                if (xOrderBy != null)
+                {
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByDescending\Program.cs
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderBy\Program.cs
+                    var sql = new SQLWriter<TElement>(
+                        xOrderBy.source,
+                        upper.Concat(new[] { source }),
+                        context,
+                        upperParameter: xOrderBy.keySelector.First().keySelector.Parameters[0],
+                        Command: Command);
+
+                    using (WithoutLinefeeds())
+                    {
+                        xOrderBy.keySelector.WithEachIndex(
+                            (oExpression, oExpressionIndex) =>
+                            {
+
+                                if (oExpressionIndex == 0)
+                                    WriteLine(0, "order by ");
+                                else
+                                    WriteLine(0, ", ");
+
+
+
+                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140720/linq
+                                WriteProjection(xOrderBy.source, oExpression.keySelector.Body, new Tuple<MemberInfo, int>[] {
+                                    // Tuple.Create(item.m, index)
+                                });
+
+                                //WriteScalarExpression(DiscardAlias: true, asExpression: oExpression.keySelector.Body);
+
+                                //WriteOrderByKeySelector(
+                                //    xOrderBy.source,
+                                //    oExpression.keySelector.Body,
+                                //    null,
+                                //    new Tuple<MemberInfo, int>[0]
+                                //);
+
+                                if (!oExpression.ascending)
+                                    WriteLine(0, " desc");
+                            }
+                        );
+                    }
+
+                    return;
+                }
+                #endregion
 
 
                 #region xGroupBy
@@ -2924,7 +2956,7 @@ namespace ScriptCoreLib.Query.Experimental
                     #endregion
 
                     #region WriteSelectProjection:MemberExpression
-                    var sMemberExpression = (source as xSelect).selector.Body as MemberExpression;
+                    var sMemberExpression = xSelect.selector.Body as MemberExpression;
                     if (sMemberExpression != null)
                     {
                         WriteCommentLine(1, "MemberExpression");
@@ -2934,7 +2966,14 @@ namespace ScriptCoreLib.Query.Experimental
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetOrderBy\Program.cs
 
                         using (WithoutLinefeeds())
-                            WriteScalarExpression(false, sMemberExpression);
+                        {
+
+                            //WriteScalarExpression(false, sMemberExpression);
+
+                            WriteProjection(xSelect, sMemberExpression, new Tuple<MemberInfo, int>[] {
+                                // Tuple.Create(item.m, index)
+                            });
+                        }
 
                         return;
                     }
