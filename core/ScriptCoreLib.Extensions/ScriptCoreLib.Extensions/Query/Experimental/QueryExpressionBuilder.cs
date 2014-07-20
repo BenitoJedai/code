@@ -1665,6 +1665,7 @@ namespace ScriptCoreLib.Query.Experimental
                         var zBinaryExpression = zExpression as BinaryExpression;
                         if (zBinaryExpression != null)
                         {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByDescending\Program.cs
                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
                             using (WithoutLinefeeds())
                             {
