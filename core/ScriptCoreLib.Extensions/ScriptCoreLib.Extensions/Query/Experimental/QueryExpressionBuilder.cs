@@ -1319,7 +1319,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                 #region WriteProjectionProxy
-
+                // how does a proxy differ from projection?
                 WriteProjectionProxy =
                     (zsource, zExpression, Target) =>
                     {
@@ -1594,25 +1594,31 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteLine(1, ",");
 
 
-                                var zSelect = source as xSelect;
+                                //var zSelect = source as xSelect;
+                                var zSelect = zsource as xSelect;
                                 if (zSelect != null)
                                 {
                                     var zzGroupBy = zSelect.source as xGroupBy;
                                     if (zzGroupBy != null)
                                     {
+                                        // ?
+                                        WriteLine(1, " " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
 
-                                        WriteLine(1, " <- " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
                                         WriteLine(1, " as ");
                                         if (upperParameter != null)
                                         {
-                                            WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                            WriteCommentLine(0, upperParameter.Name);
                                             WriteLine(1, " ");
                                         }
+
+                                        WriteLine(1, "`");
                                         WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                        WriteLine(1, "`");
                                         return;
                                     }
 
                                     WriteLine(1, " ");
+                                    // this can not be correct
                                     WriteLine(1, "" + GetTargetNameWithQuotes());
 
                                     WriteLine(1, " as ");
@@ -1627,14 +1633,17 @@ namespace ScriptCoreLib.Query.Experimental
                                     return;
                                 }
 
-                                WriteLine(1, " <- " + GetTargetName());
+                                WriteLine(1, " " + GetTargetName());
                                 WriteLine(1, " as ");
                                 if (upperParameter != null)
                                 {
-                                    WriteLineWithColor(0, upperParameter.Name, ConsoleColor.DarkCyan);
+                                    WriteCommentLine(0, upperParameter.Name);
                                     WriteLine(1, " ");
                                 }
+
+                                WriteLine(1, "`");
                                 WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                WriteLine(1, "`");
 
                             }
                             );
@@ -2055,7 +2064,26 @@ namespace ScriptCoreLib.Query.Experimental
                           var zMemberExpression = zExpression as MemberExpression;
                           if (zMemberExpression != null)
                           {
+                              // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\syntaxletgroupby\program.cs
+                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLet2GroupBy\Program.cs
+                              // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\syntaxletgroupby\program.cs
 
+                              var zGroupBy = source as xGroupBy;
+                              if (zGroupBy != null)
+                              {
+                                  ////var zGroupBy_Select = zGroupBy.source as xSelect;
+
+                                  ////if (zGroupBy_Select.selector.Parameters[0].Name == zMemberExpression.Member.Name)
+                                  ////{
+                                  ////    // i think we need to do a proxy?
+                                  ////    //WriteProjectionProxy(zsource, zExpression, Target);
+                                  ////    //WriteProjectionProxy(zsource, zGroupBy_Select.selector, Target);
+                                  ////    WriteProjection(zsource, zGroupBy_Select.selector.Body, Target);
+
+
+                                  ////    return;
+                                  ////}
+                              }
 
 
                               var isQuoteMode = false;
@@ -2101,6 +2129,17 @@ namespace ScriptCoreLib.Query.Experimental
                                           // for group by we shall support Last
 
 
+                                          // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByConstant\Program.cs
+
+                                          var a0p = mMethodCallExpression.Arguments[0] as ParameterExpression;
+                                          if (a0p != null)
+                                          {
+                                              WriteLine(1, "`");
+                                              WriteLineWithColor(0, a0p.Name, ConsoleColor.DarkCyan);
+                                              WriteLine(1, "`");
+                                          }
+
+
                                           var a0m = mMethodCallExpression.Arguments[0] as MemberExpression;
 
                                           if (a0m != null)
@@ -2109,6 +2148,15 @@ namespace ScriptCoreLib.Query.Experimental
                                           }
 
                                           WriteLine(1, ".");
+
+                                          if (!isQuoteMode)
+                                          {
+                                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByConstant\Program.cs
+
+                                              WriteLine(1, "`");
+                                              isQuoteMode = true;
+                                          }
+
                                           WriteLineWithColor(1, "Last", ConsoleColor.White);
                                       }
 
@@ -2146,9 +2194,8 @@ namespace ScriptCoreLib.Query.Experimental
 
                                       if (Target.Last().Item2 > 0)
                                           WriteLine(1, ", ");
-
-
-                                      WriteLine(1, " ");
+                                      else
+                                          WriteLine(1, " ");
                                   }
 
 
@@ -2710,6 +2757,14 @@ namespace ScriptCoreLib.Query.Experimental
                                new[] { new Tuple<MemberInfo, int>(KeyReference.Method, -1) }
                         );
 
+                        // xGroupBy.elementSelector.Body = {e}
+                        //  WriteProjectionProxy(zsource, zParameterExpression, Target);
+
+
+                        // xGroupBy.elementSelector.Body = {<>h__TransparentIdentifier0.x}
+                        // where should we unpack it?
+
+                        // WriteProjectionProxy(zsource, zParameterExpression, Target);
 
                         WriteProjection(source, xGroupBy.elementSelector.Body,
                              new[] { new Tuple<MemberInfo, int>(LastReference.Method, -1) }
@@ -2910,7 +2965,7 @@ namespace ScriptCoreLib.Query.Experimental
                     var xMemberInitExpression = xSelect.selector.Body as MemberInitExpression;
                     if (xMemberInitExpression != null)
                     {
-                        WriteCommentLine(1, "MemberInitExpression");
+                        WriteCommentLine(1, "WriteSelectProjection:MemberInitExpression");
 
                         WriteProjection(source, xMemberInitExpression.NewExpression, new Tuple<MemberInfo, int>[0]);
 
