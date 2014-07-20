@@ -60,6 +60,8 @@ namespace PNGEncoderExperiment
             // seems to be return from within try.
             // could the rewriter fix it for us?
 
+            // X:\jsc.svn\examples\javascript\Test\TestReturnFromWithinTry\TestReturnFromWithinTry\Application.cs
+            // or we fix this source for now?
 
             var w = 128;
             var h = 128;
