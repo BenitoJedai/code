@@ -475,7 +475,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 var ParameterName = "@WriteScalarMemberExpressionArgument" + context.CommandParametersCount;
                                 context.CommandAddParameter(ParameterName, __value);
 
-                           
+
                                 //WriteLineWithColor(1, "@arg(" + xConstantExpression.Value + ")", ConsoleColor.Red);
                                 WriteLineWithColor(1, ParameterName, ConsoleColor.Red);
 
@@ -830,17 +830,19 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectWhereOrderBy\Program.cs
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectWhereOrderBy\Program.cs
+                // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
                 // we are basically doing a proxy for one field arent we...
-                #region WriteOrderByKeySelector
+                #region OBSOLETE WriteOrderByKeySelector
+                // 
                 Action<IQueryStrategy, Expression, Expression, Tuple<MemberInfo, int>[]> WriteOrderByKeySelector = null;
 
                 WriteOrderByKeySelector =
                     (zsource, keySelector, zExpression, Target) =>
                     {
-                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectWhereOrderBy\Program.cs
 
-                        // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
                         //Console.WriteLine("enter WriteOrderByKeySelector " + new { keySelector });
 
 
@@ -933,7 +935,6 @@ namespace ScriptCoreLib.Query.Experimental
                                 var zWhere = zsource as xWhere;
                                 if (zWhere != null)
                                 {
-                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectWhereOrderBy\Program.cs
 
                                     doSelect(zWhere.source as xSelect);
                                     return;
@@ -978,12 +979,16 @@ namespace ScriptCoreLib.Query.Experimental
                                 else
                                     WriteLine(0, ", ");
 
-                                WriteOrderByKeySelector(
-                                    xOrderBy.source,
-                                    oExpression.keySelector.Body,
-                                    null,
-                                    new Tuple<MemberInfo, int>[0]
-                                );
+
+
+                                WriteScalarExpression(DiscardAlias: true, asExpression: oExpression.keySelector.Body);
+
+                                //WriteOrderByKeySelector(
+                                //    xOrderBy.source,
+                                //    oExpression.keySelector.Body,
+                                //    null,
+                                //    new Tuple<MemberInfo, int>[0]
+                                //);
 
                                 if (!oExpression.ascending)
                                     WriteLine(0, " desc");
@@ -1975,6 +1980,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                               // !!!
 
+                              #region QueryExpressionBuilder::
                               if (xxMethodCallExpression.Method.DeclaringType == typeof(QueryExpressionBuilder))
                               {
                                   #region Last
@@ -2052,6 +2058,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
                                   #endregion
                               }
+                              #endregion
 
                               // what other methods have we referenced yet?
 
@@ -2254,6 +2261,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                   // tested by?
+                                  #region DateTime::
                                   if (zMemberExpression.Member.DeclaringType == typeof(DateTime))
                                   {
                                       WriteLineWithColor(1, "date(", ConsoleColor.White);
@@ -2264,6 +2272,8 @@ namespace ScriptCoreLib.Query.Experimental
                                       WriteLineWithColor(1, ")", ConsoleColor.White);
                                       return;
                                   }
+                                  #endregion
+
 
                                   y(zMemberExpression);
 
@@ -2856,6 +2866,9 @@ namespace ScriptCoreLib.Query.Experimental
 
                         // xNewExpression = {new XElement(Convert("hello"), x.Tag)}
 
+
+                        // tested by?
+
                         // we are selecting a group for upper select arent we.
                         var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
                         xArguments.WithEachIndex(
@@ -2918,6 +2931,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectKey\Program.cs
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMemberExpression\Program.cs
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetOrderBy\Program.cs
 
                         using (WithoutLinefeeds())
                             WriteScalarExpression(false, sMemberExpression);
@@ -2984,10 +2998,20 @@ namespace ScriptCoreLib.Query.Experimental
 
                         // Additional information: Every derived table must have its own alias
 
+
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxOrderBy\Program.cs
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetWhere\Program.cs
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxWhere\Program.cs
-                        WriteLine(0, " as `");
-                        WriteLineWithColor(0, "" + upperParameter.Name, ConsoleColor.Magenta);
-                        WriteLine(0, "`");
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectMin\Program.cs
+
+                        // when would it be unwanted?
+
+                        if (upperParameter != null)
+                        {
+                            WriteLine(0, " as `");
+                            WriteLineWithColor(0, "" + upperParameter.Name, ConsoleColor.Magenta);
+                            WriteLine(0, "`");
+                        }
 
                     }
                 }
