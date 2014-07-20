@@ -729,7 +729,8 @@ namespace Plupload.PngEncoder {
 		/// <param name="storedLength">Count of bytes to flush</param>
 		/// <param name="lastBlock">True if this is the last block</param>
 		public void FlushBlock(byte[] stored, int storedOffset, int storedLength, bool lastBlock) {
-			literalTree.freqs[EOF_SYMBOL]++;
+            // X:\jsc.svn\examples\javascript\Test\TestLdind_i2\TestLdind_i2\Application.cs
+            literalTree.freqs[EOF_SYMBOL]++;
 
 			// Build trees
 			literalTree.BuildTree();
