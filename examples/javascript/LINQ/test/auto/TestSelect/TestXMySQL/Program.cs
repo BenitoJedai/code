@@ -128,7 +128,7 @@ class Program
         // ThreadLocal SynchronizationContext aware ConnectionPool?
         var n = new PerformanceResourceTimingData2ApplicationPerformance();
 
-        n.Create();
+        //n.Create();
 
         // wont return? jsc broke xMySQL async? no there was an sql error
         //var count = n.CountAsync(cc0).Result;
