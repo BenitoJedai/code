@@ -7,7 +7,7 @@ class Program
         var f = (
             from x in new xTable()
 
-            group x by new{ a = 1} into g
+            group x by new { a = 1 } into g
             select new { g.Key }
 
         ).FirstOrDefault();

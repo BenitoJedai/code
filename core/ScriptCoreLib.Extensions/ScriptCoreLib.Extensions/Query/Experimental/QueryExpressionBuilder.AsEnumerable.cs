@@ -67,6 +67,10 @@ namespace ScriptCoreLib.Query.Experimental
             // this wont work for chrome?
             // wtf? Additional information: near "as": syntax error
 
+
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarArrayOfXElementField\Program.cs
+            //Additional information: no such column: PerformanceResourceTimingData2ApplicationPerformance.Key
+
             var r = c.ExecuteReader();
             Console.WriteLine("after ExecuteReader");
 
@@ -98,6 +102,26 @@ namespace ScriptCoreLib.Query.Experimental
                 return ReadToElement<TElement>(r, xTake.source, Target);
             }
             #endregion
+
+            #region xOrderBy
+            var xOrderBy = source as xOrderBy;
+            if (xOrderBy != null)
+            {
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarArrayOfXElementField\Program.cs
+
+                return ReadToElement<TElement>(r, xOrderBy.source, Target);
+            }
+            #endregion
+
+
+            Func<Expression, Tuple<MemberInfo, int>[], object> GetValue =
+                (zExpression, zTarget) =>
+                {
+                    // reading index? what is it? xml?
+                    Debugger.Break();
+
+                    return null;
+                };
 
 
             var xSelect = source as xSelect;
@@ -289,7 +313,30 @@ namespace ScriptCoreLib.Query.Experimental
                 {
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarArrayOfXElementField\Program.cs
 
-                    Debugger.Break();
+                    // js wont have array types?
+                    // unless we teach it to produce .MakeArray ??
+                    var xElementType = rNewArrayExpression.Type.GetElementType();
+
+                    var __value = Array.CreateInstance(xElementType, rNewArrayExpression.Expressions.Count);
+
+
+                    rNewArrayExpression.Expressions.WithEachIndex(
+                        (SourceExpression, index) =>
+                        {
+                            var x = GetValue(SourceExpression,
+
+                                Target.Concat(new[] { Tuple.Create(default(MemberInfo), index) }).ToArray()
+                            );
+
+
+
+                            __value.SetValue(x, index);
+                            //__value[index] = x;
+                        }
+                    );
+
+
+                    return (TElement)(object)__value;
                 }
                 #endregion
 

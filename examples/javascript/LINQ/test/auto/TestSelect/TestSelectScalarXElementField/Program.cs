@@ -13,11 +13,6 @@ class Program
         // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
         // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
 
-        Console.WriteLine("i am a zombie");
-
-        // string DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite"
-
-
         #region QueryExpressionBuilder.WithConnection
         QueryExpressionBuilder.WithConnection =
             y =>
@@ -32,12 +27,8 @@ class Program
             };
         #endregion
 
-
-
         // ThreadLocal SynchronizationContext aware ConnectionPool?
         var n = new PerformanceResourceTimingData2ApplicationPerformance();
-
-        n.Create();
 
         n.Insert(
             new PerformanceResourceTimingData2ApplicationPerformanceRow
@@ -66,8 +57,5 @@ class Program
         //new xApplicationPerformance().Where(x => x.Key == f.Key).Delete();
         //new PerformanceResourceTimingData2ApplicationPerformance().Delete(x => x.Key == f.Key);
         //new PerformanceResourceTimingData2ApplicationPerformance().Delete(f.Key);
-
-
-
     }
 }
