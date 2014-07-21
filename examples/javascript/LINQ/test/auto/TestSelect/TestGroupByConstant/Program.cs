@@ -4,6 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140721
+
         var f = (
             from x in new xTable()
 

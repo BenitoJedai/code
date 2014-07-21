@@ -198,6 +198,8 @@ interface chrome.app.window
 	static chrome.AppWindow current();
 
 
+	// transparent_background
+	// alphaEnabled
 	async static void create(string url, any options, function<chrome.AppWindow> callback);
 };
 
@@ -209,6 +211,9 @@ interface chrome.app.window
 //[Constructor]
 interface chrome.AppWindow 
 {
+	// can we have a jsc proxy for live debgging?
+	// live edit and continue loop
+	// where jsc provides diff or restarts the window?
 
 	// there is a whitelist>
 	// https://codereview.chromium.org/282293005/diff/1/chrome/browser/extensions/api/app_current_window_internal/app_current_window_internal_api.cc
@@ -233,19 +238,30 @@ interface chrome.AppWindow
   //    style.
   // 5- When the window is created but before it is presented, call
   //    DwmExtendFrameIntoClientArea passing -1 as the margins.
+	
+	// chromium idl seems to mark em static?
+	void focus();
+	void fullscreen();
+	void minimize();
+	void maximize();
+	void restore();
+	// param naming?
+	void moveTo(int x, int y);
+	void resizeTo(int width, int height);
 
+	void drawAttention();
+	void clearAttention();
 
 	void close();
-	void restore();
-	
-	void moveTo(int x, int y);
-	void resizeTo(int w, int h);
 
-	void clearAttention();
-	void minimize();
-	void drawAttention();
-	void focus();
-	void maximize();
+	void show();
+	void hide();
+	
+
+
+	
+
+
 
 	readonly attribute WindowProxy? contentWindow;
 
@@ -256,6 +272,15 @@ interface chrome.AppWindow
 	attribute chrome.ChromeEventTarget onMaximized;
 	attribute chrome.ChromeEventTarget onMinimized;
 	attribute chrome.ChromeEventTarget onRestored;
+
+	// event keyword?
+	// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl?r1=284026&r2=284025&pathrev=284026
+
+	attribute chrome.ChromeEventTarget onWindowFirstShown;
+
+	// tested by?
+	attribute chrome.ChromeEventTarget onAlphaEnabledChanged;
+
 
 };
 

@@ -4,6 +4,7 @@ using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
@@ -46,6 +47,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
         }
 
+
         // event prefix on or at?
         public event Action<IEvent> onended
         {
@@ -62,5 +64,47 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 base.InternalEvent(false, value, "ended", "ended");
             }
         }
+
+        // X:\jsc.svn\examples\javascript\android\com.abstractatech.gamification.gir\com.abstractatech.gamification.gir\Application.cs
+        // could jsc automatically expose DOM events as async until roslyn implements it for C# ?
+        // who else has special async block?
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLButton.cs
+
+        #region async
+        [Script]
+        // when will C# allow us to referece TUpperType ?
+        public new class Tasks : IHTMLElement.Tasks<IHTMLMedia>
+        {
+
+            [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
+            public Task<IEvent> onended
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var i = that;
+                    var y = new TaskCompletionSource<IEvent>();
+
+                    i.onended +=
+                        e =>
+                        {
+                            y.SetResult(e);
+                        };
+
+                    return y.Task;
+                }
+            }
+        }
+
+        [System.Obsolete("is this the best way to expose events as async?")]
+        public new Tasks async
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new Tasks { that = this };
+            }
+        }
+        #endregion
     }
 }

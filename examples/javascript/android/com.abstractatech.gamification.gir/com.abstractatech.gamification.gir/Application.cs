@@ -21,9 +21,8 @@ namespace com.abstractatech.gamification.gir
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -33,14 +32,16 @@ namespace com.abstractatech.gamification.gir
         {
             Console.WriteLine("loading GIR");
 
-            page.talk.style.With(
-               (dynamic s) => s.webkitTransition = "opacity 0.1s linear"
-           );
+
+
+            page.talk.style.transition = "opacity 0.1s linear";
+
 
 
             page.idle.style.Opacity = 1;
             page.talk.style.Opacity = 0;
 
+            // why wait for frame?
             Native.window.requestAnimationFrame +=
                 delegate
                 {
@@ -99,7 +100,7 @@ namespace com.abstractatech.gamification.gir
                         };
 
                     #region play
-                    Action play = delegate
+                    Action play = async delegate
                     {
                         if (play_disabled)
                         {
@@ -125,23 +126,17 @@ namespace com.abstractatech.gamification.gir
 
                         var xsnd = random_snd();
 
-                        //xsnd.load();
-
-                        snd.onended +=
-                            delegate
-                            {
-                                snd = xsnd;
-                                page.idle.style.Opacity = 1;
-                                page.talk.style.Opacity = 0;
-                                play_disabled = false;
-                            };
-
-
                         page.idle.style.Opacity = 0;
                         page.talk.style.Opacity = 1;
 
-
                         snd.play();
+
+                        await snd.async.onended;
+
+                        snd = xsnd;
+                        page.idle.style.Opacity = 1;
+                        page.talk.style.Opacity = 0;
+                        play_disabled = false;
 
                     };
                     #endregion
@@ -166,7 +161,7 @@ namespace com.abstractatech.gamification.gir
                     // wont play on android?
                     //play();
 
-                    Native.Document.body.ontouchstart +=
+                    Native.document.body.ontouchstart +=
                         e =>
                         {
                             Console.WriteLine("ontouchstart");
@@ -185,7 +180,7 @@ namespace com.abstractatech.gamification.gir
                         };
 
 
-                    Native.Document.onclick +=
+                    Native.document.onclick +=
                        delegate
                        {
                            play();
@@ -205,7 +200,7 @@ namespace com.abstractatech.gamification.gir
                     //        play();
                     //    };
 
-                    Native.Document.oncontextmenu +=
+                    Native.document.oncontextmenu +=
                         e =>
                         {
                             e.preventDefault();
