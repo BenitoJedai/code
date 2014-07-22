@@ -1,4 +1,7 @@
-﻿
+﻿// jsc needs to move the idl code to scriptcorelib level.
+// should jsc support a compilation of chromium idl?
+
+
 
 // http://developer.chrome.com/apps/api_index.html
 // http://developer.chrome.com/extensions/bookmarks.html
@@ -488,12 +491,47 @@ interface chrome.NetworkInterface
 
 
 
+// cannot find contextmenu idl
+// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/context_menus.json
+// tested by
+// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionContextMenu\ChromeExtensionContextMenu\Application.cs
 
 
+// not a real type?
+interface chrome.ContextMenuClickArgs
+{
+	// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionContextMenu\ChromeExtensionContextMenu\Application.cs
+
+	attribute boolean checked;
+	attribute boolean editable;
+	attribute DOMString menuItemId ;
+	attribute DOMString pageUrl ;
+	attribute DOMString selectionText ;
+	attribute boolean wasChecked;
+
+};
 
 
+interface chrome.contextMenus 
+{
+	// async static void create(object createProperties, function<any> callback);
+	async static void create(any createProperties, function<any> callback);
 
 
+	// could we define the arg type inline?
+	event static attribute chrome.ChromeEventTarget<chrome.ContextMenuClickArgs> onClicked;
+};
+
+// what if we allowed urls to behave like comments? jscIDL?
+// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/system_indicator.idl
+
+interface chrome.systemIndicator 
+{
+	static void enable();
+	static void disable();
+	
+	event static attribute chrome.ChromeEventTarget onClicked;
+};
 
 
 
