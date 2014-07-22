@@ -59,6 +59,9 @@ namespace ChromeFormsWebBrowserExperiment
                 //Console.WriteLine("Application wait for onLaunched");
 
 
+                
+
+
                 chrome.runtime.Suspend +=
                         delegate
                         {
@@ -79,7 +82,7 @@ namespace ChromeFormsWebBrowserExperiment
 
                        //Error in event handler for app.runtime.onLaunched: Error: Invalid value for argument 2. Property 'transparentBackground': Expected 'boolean' but got 'integer'.
                        var transparentBackground = true;
-
+                       //transparent_background
 
                        // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
                        var appwindow = await chrome.app.window.create(
@@ -87,13 +90,13 @@ namespace ChromeFormsWebBrowserExperiment
                              new
                              {
                                  frame = "none"
-                                 //,transparentBackground
+                                 ,transparentBackground
                              });
 
                        // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
                        Console.WriteLine("appwindow loading... " + new { appwindow });
-                       Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
+                       //Console.WriteLine("appwindow loading... " + new { appwindow.contentWindow });
 
                        #region onload
                        appwindow.contentWindow.onload +=
@@ -303,6 +306,24 @@ namespace ChromeFormsWebBrowserExperiment
                 chrome.app.runtime.Launched +=
                         delegate
                         {
+                            // http://www.chromium.org/developers/design-documents/extensions/proposed-changes/apis-under-development/system-indicator-api
+                             //stackoverflow.com/questions/20306548/how-to-use-system-indicator-in-the-manisfet-of-a-chrome-packaged-app
+                            // https://code.google.com/p/chromium/issues/detail?id=245726
+                            // https://code.google.com/p/chromium/issues/detail?id=159265&q=systemIndicator&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
+
+                            //chrome.systemIndicator.Clicked +=
+                            //    delegate
+                            //    {
+                            //        new chrome.Notification
+                            //        {
+                            //            Message = "systemIndicator.Clicked"
+                            //        };
+
+                            //    };
+
+
+                            //chrome.systemIndicator.enable();
+
                             if (later == null)
                             {
                                 if (windows.Count == 0)

@@ -497,17 +497,31 @@ interface chrome.NetworkInterface
 // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionContextMenu\ChromeExtensionContextMenu\Application.cs
 
 
-// not a real type?
+// not a real type? OnClickData
 interface chrome.ContextMenuClickArgs
 {
 	// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionContextMenu\ChromeExtensionContextMenu\Application.cs
 
+	attribute boolean wasChecked;
 	attribute boolean checked;
 	attribute boolean editable;
-	attribute DOMString menuItemId ;
+
 	attribute DOMString pageUrl ;
+
+	// string or int ?
+	attribute any menuItemId ;
+
+	// image
+	attribute DOMString linkUrl;
+	attribute DOMString srcUrl;
+
+
+
+
+	// selection
 	attribute DOMString selectionText ;
-	attribute boolean wasChecked;
+
+
 
 };
 
@@ -519,12 +533,15 @@ interface chrome.contextMenus
 
 
 	// could we define the arg type inline?
-	event static attribute chrome.ChromeEventTarget<chrome.ContextMenuClickArgs> onClicked;
+	event static attribute chrome.ChromeEventTarget<chrome.ContextMenuClickArgs, chrome.Tab> onClicked;
 };
 
 // what if we allowed urls to behave like comments? jscIDL?
 // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/system_indicator.idl
-
+// not actually supported!
+// seems like it is coming to chromeOS but not available for testing as of 2014
+// https://code.google.com/p/chromium/issues/detail?id=142450&q=systemIndicator&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
+// Permission 'systemIndicator' is unknown or URL pattern is malformed.
 interface chrome.systemIndicator 
 {
 	static void enable();

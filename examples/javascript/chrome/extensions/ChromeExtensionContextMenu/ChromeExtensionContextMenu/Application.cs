@@ -58,11 +58,27 @@ namespace ChromeExtensionContextMenu
                         Message = "Extension Installed!"
                     };
 
+
+                    // stackoverflow.com/questions/20306548/how-to-use-system-indicator-in-the-manisfet-of-a-chrome-packaged-app
+                    //chrome.systemIndicator.Clicked +=
+                    //    delegate
+                    //    {
+                    //        new chrome.Notification
+                    //        {
+                    //            Message = "systemIndicator.Clicked"
+                    //        };
+
+                    //    };
+
+
+                    //chrome.systemIndicator.enable();
+
+
                     //  once installed extend the menu?
 
                     // https://developer.chrome.com/extensions/contextMenus
                     chrome.contextMenus.Clicked +=
-                        e =>
+                        (e, tab) =>
                         {// 0:87108ms at Delay {{ _title = , _message = Menu Clicked: {{ e = [object Object] }} }} 
                          // jsc. whats in the object?
 
@@ -78,16 +94,47 @@ namespace ChromeExtensionContextMenu
                             //wasChecked:
                             //true
 
-                                                        new chrome.Notification
+                            new chrome.Notification
                             {
-                                Message = "Menu Clicked: " + new {
-                                 e.menuItemId,
-                                 e.pageUrl,
-                                 e.selectionText
+                                Message = "Menu Clicked: " + new
+                                {
+                                    e.menuItemId,
+                                    e.pageUrl,
+                                    
+                                    e.selectionText,
+
+                                    tab.id
 
                                 }
                             };
                         };
+
+
+                    new[] { "page", "frame", "link", "editable", "image", "video", "audio", "launcher" }.WithEach(
+                        async context =>
+                    {
+
+                        var menu0 = await chrome.contextMenus.create(
+                           new
+                        {
+                            type = "checkbox",
+                            //id = "menu1",
+                            title = new { context }.ToString(),
+
+
+                            // <exception>: Error: Invalid value for argument 1. Property 'checked': Expected 'boolean' but got 'integer'.
+                            // first time an API complains. jsc fix booleans thanks.
+                            //@checked = true,
+
+                            // launcher' context is only supported by apps and is used to add menu items to the context menu that appears when clicking on the app icon in the launcher/taskbar/dock/etc.
+
+                            // this works well for selected text.
+                            contexts = new[] { context }
+                        }
+                       );
+                    }
+                    );
+
 
                     // this will create a sub menu
                     var menu1 = await chrome.contextMenus.create(
@@ -103,13 +150,15 @@ namespace ChromeExtensionContextMenu
                         //@checked = true,
 
                         // launcher' context is only supported by apps and is used to add menu items to the context menu that appears when clicking on the app icon in the launcher/taskbar/dock/etc.
+
+                        // this works well for selected text.
                         contexts = new[] { "selection" }
                     }
                     );
 
                     new chrome.Notification
                     {
-                        Message = "Menu Created!"
+                        Message = "Menus Created!"
                     };
 
                 };
