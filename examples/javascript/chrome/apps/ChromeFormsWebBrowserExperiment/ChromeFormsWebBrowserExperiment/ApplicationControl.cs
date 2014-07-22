@@ -26,6 +26,7 @@ namespace ChromeFormsWebBrowserExperiment
 
         private void button2_Click(object sender, EventArgs e)
         {
+            // message: "Blocked a frame with origin "http://192.168.1.76:29648" from accessing a cross-origin frame."
             // X:\jsc.svn\examples\javascript\NewWindowMessagingExperiment\NewWindowMessagingExperiment\Application.cs
             this.webBrowser1.Navigate(textBox1.Text);
 
