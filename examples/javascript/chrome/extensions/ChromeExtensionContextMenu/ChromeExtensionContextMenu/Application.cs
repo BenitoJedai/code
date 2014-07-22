@@ -34,7 +34,90 @@ namespace ChromeExtensionContextMenu
             // http://stackoverflow.com/questions/13202896/creating-dynamic-context-menu-in-chrome-extension-is-failing
             // https://developer.chrome.com/extensions/contextMenus
 
-        }
 
+            #region self_chrome_tabs
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_tabs = self_chrome.tabs;
+
+            if (self_chrome_tabs != null)
+            {
+                // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
+
+                // can assetslib use a rebuilt roslyn to find errors and try to fix em?
+                // Error	3	The name 'chrome' does not exist in the current context	X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionContextMenu\ChromeExtensionContextMenu\Application.cs	49	17	ChromeExtensionContextMenu
+                // add as source project?
+                // add dep
+                #region Installed
+
+                chrome.runtime.Installed += async delegate
+                {
+                    // our API does not have a Show
+                    new chrome.Notification
+                    {
+                        Message = "Extension Installed!"
+                    };
+
+                    //  once installed extend the menu?
+
+                    // https://developer.chrome.com/extensions/contextMenus
+                    chrome.contextMenus.Clicked +=
+                        e =>
+                        {// 0:87108ms at Delay {{ _title = , _message = Menu Clicked: {{ e = [object Object] }} }} 
+                         // jsc. whats in the object?
+
+                            //checked: false
+                            //editable:
+                            //false
+                            //menuItemId:
+                            //"menu1"
+                            //pageUrl:
+                            //"http://watch32.com/movies-online/event-horizon-245488/full.html"
+                            //selectionText:
+                            //"tronauts are"
+                            //wasChecked:
+                            //true
+
+                                                        new chrome.Notification
+                            {
+                                Message = "Menu Clicked: " + new {
+                                 e.menuItemId,
+                                 e.pageUrl,
+                                 e.selectionText
+
+                                }
+                            };
+                        };
+
+                    // this will create a sub menu
+                    var menu1 = await chrome.contextMenus.create(
+                        new
+                    {
+                        type = "checkbox",
+                        id = "menu1",
+                        title = "selection: %s",
+
+
+                        // <exception>: Error: Invalid value for argument 1. Property 'checked': Expected 'boolean' but got 'integer'.
+                        // first time an API complains. jsc fix booleans thanks.
+                        //@checked = true,
+
+                        // launcher' context is only supported by apps and is used to add menu items to the context menu that appears when clicking on the app icon in the launcher/taskbar/dock/etc.
+                        contexts = new[] { "selection" }
+                    }
+                    );
+
+                    new chrome.Notification
+                    {
+                        Message = "Menu Created!"
+                    };
+
+                };
+                #endregion
+                return;
+            }
+            #endregion
+
+        }
     }
 }
