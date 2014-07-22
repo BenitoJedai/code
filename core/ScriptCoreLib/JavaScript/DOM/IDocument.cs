@@ -6,7 +6,7 @@ using System;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Document.webidl
     // https://code.google.com/p/dart/source/browse/third_party/WebCore/core/dom/Document.idl?r=26952
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Document.idl
 
@@ -14,6 +14,48 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IDocument : INode
     {
+        [Script(DefineAsStatic = true)]
+        public IFunction registerElement(string name, Action<IHTMLElement> createdCallback)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestShadowDOM\TestShadowDOM\Application.cs
+
+            dynamic prototype = new IFunction("return Object.create(HTMLElement.prototype)").apply(null);
+
+
+            // first attempt to allow <element> inheritace ctor?
+            prototype.createdCallback =
+                 new IFunction("y", "return function () { y(this); };").apply(null,
+                     (IFunction)createdCallback
+                 );
+
+
+
+            // http://html5-demos.appspot.com/shadowdom-visualizer
+            // http://component.kitchen/components/CustomElements
+            var __foo = this.registerElement(name,
+                new { prototype = (object)prototype }
+            );
+
+            return __foo;
+        }
+                
+
+        //object registerElement(DOMString name, optional ElementRegistrationOptions options);
+        public IFunction registerElement(string name, object options)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestShadowDOM\TestShadowDOM\Application.cs
+
+            return null;
+        }
+
+        public IFunction registerElement(string name)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestShadowDOM\TestShadowDOM\Application.cs
+
+            return null;
+        }
+
+
         readonly internal IDOMImplementation implementation;
 
 

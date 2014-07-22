@@ -186,6 +186,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     // rename to CSSStyleSheet ?
     // too public. collect examples using this type name beforehand
 
+
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/CSSStyleSheet.webidl
     [Script(InternalConstructor = true)]
     public partial class CSSStyleSheet
     {
@@ -203,7 +205,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     [Script(InternalConstructor = true)]
     [Obsolete("CSSStyleSheet")]
-    public partial class IStyleSheet : CSSStyleSheet
+    public partial class IStyleSheet : CSSStyleSheet // ???
     {
         // http://www.w3.org/TR/DOM-Level-2-Style/css.html
 

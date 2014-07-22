@@ -14,6 +14,13 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IElement : INode
     {
+        readonly ShadowRoot shadowRoot;
+
+        // X:\jsc.svn\examples\javascript\Test\TestShadowDOM\TestShadowDOM\Application.cs
+        public ShadowRoot createShadowRoot() { return null; }
+
+
+
         // http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
 
         public string tagName;
