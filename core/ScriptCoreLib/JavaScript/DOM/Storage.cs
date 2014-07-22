@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/storage/nsIDOMStorage.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/storage/Storage.idl
 
     [Script(HasNoPrototype = true)]

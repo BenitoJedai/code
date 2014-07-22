@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Navigator.webidl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/base/nsIDOMNavigator.idl
     // https://github.com/adobe/webkit/blob/master/Source/WebCore/page/Navigator.idl
     // X:\opensource\github\WootzJs\WootzJs.Web\Navigator.cs
 
@@ -12,6 +14,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public partial class NavigatorInfo
     {
+        // http://www.w3.org/TR/nfc/#extensions-to-navigator-object
+        // tested by ?
+        public object nfc;
+
+
         // see also:
         // X:\jsc.svn\examples\javascript\Test\TestMediaCaptureAPI\TestMediaCaptureAPI\Application.cs
         // X:\jsc.svn\market\javascript\Abstractatech.JavaScript.Avatar\Abstractatech.JavaScript.Avatar\Application.cs

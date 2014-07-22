@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/SharedWorker.webidl
+
     [Script(HasNoPrototype = true, ExternalTarget = "SharedWorker")]
     public class SharedWorker : IEventTarget
     {

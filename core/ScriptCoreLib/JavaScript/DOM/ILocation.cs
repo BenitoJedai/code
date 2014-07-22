@@ -5,6 +5,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     using StringArray = IArray<string>;
 
+
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Location.webidl
     // http://developer.mozilla.org/en/docs/DOM:window.location
 
     [Script(HasNoPrototype=true)]

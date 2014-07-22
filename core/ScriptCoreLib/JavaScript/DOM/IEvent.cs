@@ -8,6 +8,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Event.webidl
+
     [Script(HasNoPrototype = true)]
     public class IEvent<TTargetElement> : IEvent where TTargetElement : INode
     {

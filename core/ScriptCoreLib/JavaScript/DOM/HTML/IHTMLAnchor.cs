@@ -3,6 +3,7 @@ using ScriptCoreLib.JavaScript;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLAnchorElement.idl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLAnchorElement.idl
 
     [Script(InternalConstructor = true)]
     public class IHTMLAnchor : IHTMLElement

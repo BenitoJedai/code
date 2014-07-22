@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/MessageChannel.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/MessageChannel.idl
 
     // https://bugzilla.mozilla.org/show_bug.cgi?id=677638

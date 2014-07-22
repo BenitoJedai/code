@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM.SVG
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/SVGTextElement.webidl
+
     [Script(InternalConstructor = true)]
     public class ISVGTextElement : ISVGElementBase
     {

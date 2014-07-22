@@ -11,6 +11,8 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLDocument.webidl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLDocument.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLDocument.idl
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/dom.html#current-document-readiness
 

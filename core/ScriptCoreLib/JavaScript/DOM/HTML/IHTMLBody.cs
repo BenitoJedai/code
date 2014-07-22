@@ -10,7 +10,9 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLBodyElement.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLBodyElement.idl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLBodyElement.idl
 
     [Script(InternalConstructor = true)]
     public partial class IHTMLBody : IHTMLElement

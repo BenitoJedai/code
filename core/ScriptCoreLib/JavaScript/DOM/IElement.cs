@@ -3,6 +3,7 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/core/nsIDOMElement.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Element.idl
 
     /// <summary>

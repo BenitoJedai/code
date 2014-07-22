@@ -3,6 +3,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLBaseElement.idl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLBaseElement.idl
 
     // http://stackoverflow.com/questions/1889076/is-it-recommended-to-use-the-base-html-tag
     // http://www.whatwg.org/specs/web-apps/current-work/multipage/semantics.html#the-base-element

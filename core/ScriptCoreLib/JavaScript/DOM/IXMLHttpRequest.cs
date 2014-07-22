@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // X:\opensource\github\WootzJs\WootzJs.Web\XmlHttpRequest.cs
 
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/XMLHttpRequest.webidl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/XMLHttpRequestUpload.webidl
+
     // http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
     // http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html
     [Script(InternalConstructor = true)]

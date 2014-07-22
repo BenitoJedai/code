@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     #region referencesource
 
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/ServiceWorkerGlobalScope.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/ServiceWorkerGlobalScope.idl
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\ServiceWorker.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\DedicatedWorkerGlobalScope.cs

@@ -6,6 +6,8 @@
 // http://www.easyrtc.com/
 // http://www.webrtc.org/
 
+// https://bugzilla.mozilla.org/buglist.cgi?product=Core&component=WebRTC%3A%20Networking&resolution=---
+
 interface RTCError {
 	readonly    attribute DOMString  name;
 	readonly    attribute DOMString? message;
@@ -38,6 +40,10 @@ interface RTCPeerConnectionIceEvent : Event {
 	readonly    attribute RTCIceCandidate candidate;
 };
 
+
+
+
+// http://mxr.mozilla.org/mozilla-central/source/dom/webidl/RTCPeerConnection.webidl
 
 //partial 
 // X:\jsc.svn\examples\javascript\test\TestPeerConnection\TestPeerConnection\Application.cs
