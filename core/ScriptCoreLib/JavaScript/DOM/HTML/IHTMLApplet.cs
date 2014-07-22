@@ -8,6 +8,7 @@ using System;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLAppletElement.idl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLAppletElement.idl
 
 	[Script(InternalConstructor = true)]
 	public class IHTMLApplet : IHTMLElement

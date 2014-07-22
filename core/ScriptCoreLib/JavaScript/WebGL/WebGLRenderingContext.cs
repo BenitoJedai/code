@@ -7,6 +7,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebGLRenderingContext.webidl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/canvas/nsIDOMWebGLRenderingContext.idl
+
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContextBase.cpp
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContextBase.idl
     [Script(HasNoPrototype = true, InternalConstructor = true)]

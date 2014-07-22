@@ -3,6 +3,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.DOM.XML
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/XMLDocument.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/XMLDocument.idl
 
 	/// <summary>

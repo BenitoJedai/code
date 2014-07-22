@@ -10,6 +10,8 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Window.webidl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/base/nsIBrowserDOMWindow.idl
     // X:\opensource\github\WootzJs\WootzJs.Web\Window.cs
 
 

@@ -90,6 +90,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     {
         // X:\jsc.svn\examples\javascript\linq\WebSQLXElement\WebSQLXElement\Application.cs
 
+        // X:\jsc.svn\examples\javascript\Test\TestTemplateElement\TestTemplateElement\Application.cs
+        //public T cloneNode(bool deep) { return default(T); }
+
+
         #region event onclick
         public event System.Action<IEvent<T>> onclick
         {
@@ -165,6 +169,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         //public bool contentEditable;
 
+
+        // rename, renamespace ?
         [Script(IsStringEnum = true)]
         public enum HTMLElementEnum
         {
@@ -253,7 +259,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             table,
             tbody,
             td,
+
             textarea,
+            template,
+
             tfoot,
             th,
             thead,

@@ -6,6 +6,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.SVG
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/svg/nsIDOMSVGElement.idl
+
     // ISVGElement : IElement ?
     [Script(InternalConstructor = true)]
     public class ISVGElementBase

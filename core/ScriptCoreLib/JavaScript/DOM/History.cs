@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/History.webidl
+
     [Script(HasNoPrototype = true)]
     public class History
     {

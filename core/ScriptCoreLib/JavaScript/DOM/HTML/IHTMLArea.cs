@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLAreaElement.idl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLAreaElement.idl
 
     [Script(IsStringEnum = true)]
     public enum ShapeEnum

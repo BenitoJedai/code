@@ -7,11 +7,15 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLButtonElement.webidl
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLButtonElement.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLButtonElement.idl
 
     [Script(InternalConstructor = true)]
     public class IHTMLButton : IHTMLElement<IHTMLButton>
     {
+        // menu ?
+
         public bool disabled;
 
         #region Constructor

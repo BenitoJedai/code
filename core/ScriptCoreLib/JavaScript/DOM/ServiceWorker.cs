@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://www.chromium.org/blink/serviceworker/testing
 
     // https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Social_API/Service_worker_API_reference
+
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/ServiceWorker.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/ServiceWorker.idl
 
 
@@ -26,6 +28,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // http://mxr.mozilla.org/mozilla-central/source/dom/workers/ServiceWorker.h
+
         // ?
         // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/AbstractWorker.idl
 

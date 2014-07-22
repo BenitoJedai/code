@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Function.webidl
+
     [Script(HasNoPrototype = true, ExternalTarget = "Function")]
     public class IFunction
     {

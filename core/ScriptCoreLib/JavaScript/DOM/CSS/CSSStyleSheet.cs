@@ -197,6 +197,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
+
+
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/StyleSheet.webidl
+
     [Script(InternalConstructor = true)]
     [Obsolete("CSSStyleSheet")]
     public partial class IStyleSheet : CSSStyleSheet

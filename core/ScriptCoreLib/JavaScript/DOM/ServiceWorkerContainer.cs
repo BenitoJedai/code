@@ -7,6 +7,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     #region referencesource
 
+
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/ServiceWorkerContainer.webidl
     //http://src.chromium.org/viewvc/blink/trunk/Source/modules/serviceworkers/ServiceWorkerContainer.idl
 
     #endregion
@@ -15,6 +17,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorkerContainer
     {
+        // http://mxr.mozilla.org/mozilla-central/source/dom/workers/ServiceWorkerContainer.h
+
         // tested by?
 
         public readonly ServiceWorker installing;

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM.SVG
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/SVGForeignObjectElement.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/svg/SVGForeignObjectElement.idl
 
     [Script(InternalConstructor = true)]

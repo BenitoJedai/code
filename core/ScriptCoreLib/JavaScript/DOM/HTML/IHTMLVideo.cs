@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLVideoElement.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLVideoElement.idl
 
     [Script(InternalConstructor = true)]

@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public delegate void ActionOfDedicatedWorkerGlobalScope(DedicatedWorkerGlobalScope scope);
 
 
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Worker.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.cpp
 

@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/MessageEvent.webidl
+
     [Script(HasNoPrototype = true, ExternalTarget = "MessageEvent")]
     public class MessageEvent : IEvent
     {
