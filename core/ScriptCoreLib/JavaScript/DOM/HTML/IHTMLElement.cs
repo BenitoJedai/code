@@ -190,6 +190,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             body,
             br,
             button,
+
             canvas,
             caption,
             center,
@@ -197,6 +198,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             code,
             col,
             colgroup,
+            content,
+
             dd,
             del,
             dfn,
@@ -246,6 +249,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             pre,
             q,
             s,
+
             samp,
             script,
             select,
@@ -256,6 +260,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             style,
             sub,
             sup,
+            shadow,
+            
             table,
             tbody,
             td,
