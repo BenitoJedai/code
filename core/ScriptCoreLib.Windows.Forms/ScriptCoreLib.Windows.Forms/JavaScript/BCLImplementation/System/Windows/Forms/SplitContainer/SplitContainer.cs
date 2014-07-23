@@ -16,6 +16,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.SplitContainer))]
     public class __SplitContainer : __ContainerControl, ISupportInitialize
     {
+        // http://www.webcomponentsshift.com/#40
+
+
         // X:\jsc.svn\examples\javascript\forms\FormsSplitter\FormsSplitter\ApplicationControl.cs
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140504
 

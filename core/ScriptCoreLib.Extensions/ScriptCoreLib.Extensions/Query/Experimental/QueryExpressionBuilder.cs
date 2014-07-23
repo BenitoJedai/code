@@ -1465,7 +1465,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 };
                             #endregion
 
-                            #region zGroupBy
+                            #region WriteProjectionProxy:zParameterExpression:zGroupBy
                             var zGroupBy = zsource as xGroupBy;
                             if (zGroupBy != null)
                             {
@@ -2754,7 +2754,7 @@ namespace ScriptCoreLib.Query.Experimental
                         WriteProjection(
                             source,
                             xGroupBy.keySelector.Body,
-                               new[] { new Tuple<MemberInfo, int>(KeyReference.Method, -1) }
+                               new[] { new Tuple<MemberInfo, int>(KeyReference.Method, 0) }
                         );
 
                         // xGroupBy.elementSelector.Body = {e}
@@ -2766,8 +2766,10 @@ namespace ScriptCoreLib.Query.Experimental
 
                         // WriteProjectionProxy(zsource, zParameterExpression, Target);
 
+
+                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140723
                         WriteProjection(source, xGroupBy.elementSelector.Body,
-                             new[] { new Tuple<MemberInfo, int>(LastReference.Method, -1) }
+                             new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) }
                             );
 
                     }

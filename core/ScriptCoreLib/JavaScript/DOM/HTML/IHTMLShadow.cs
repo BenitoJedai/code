@@ -7,6 +7,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://www.w3.org/TR/html5/scripting-1.html#the-template-element
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLTemplateElement.webidl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLShadowElement.idl
 
     [Script(InternalConstructor = true)]
     public class IHTMLShadow : IHTMLElement<IHTMLShadow>
