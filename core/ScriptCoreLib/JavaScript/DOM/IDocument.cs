@@ -14,9 +14,29 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IDocument : INode
     {
+   
+
+        // or is it to be moved to IHTMLDocument?
         [Script(DefineAsStatic = true)]
-        public IFunction registerElement(string name, Action<IHTMLElement> createdCallback)
+        public IFunction registerElement(
+            string name, 
+            Action<IHTMLElement> createdCallback,
+            Action<string, IHTMLElement> attributeChangedCallback = null
+            )
         {
+            // what if we used it for image assets, audio assets?
+
+            // Custom element names must always contain a dash (-). ?
+            // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/renderer/resources/extensions/web_view.js
+
+            // lets hope this wont turn out like XAML is. complicated as hell.
+
+
+            // http://w3c.github.io/webcomponents/spec/custom/
+
+            // https://code.google.com/p/chromium/issues/detail?id=180965
+
+            // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
             // X:\jsc.svn\examples\javascript\Test\TestShadowDOM\TestShadowDOM\Application.cs
 
             dynamic prototype = new IFunction("return Object.create(HTMLElement.prototype)").apply(null);
@@ -28,6 +48,16 @@ namespace ScriptCoreLib.JavaScript.DOM
                      (IFunction)createdCallback
                  );
 
+            // https://github.com/Polymer/CustomElements
+
+            if (attributeChangedCallback != null)
+            {
+                prototype.attributeChangedCallback =
+                      new IFunction("y", "return function (attributeName) { y(attributeName, this); };").apply(null,
+                          (IFunction)attributeChangedCallback
+                      );
+
+            }
 
 
             // http://html5-demos.appspot.com/shadowdom-visualizer
