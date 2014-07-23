@@ -104,6 +104,7 @@
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XObjectChangeEventArgs.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLContent.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLShadow.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLTemplate.cs" />
