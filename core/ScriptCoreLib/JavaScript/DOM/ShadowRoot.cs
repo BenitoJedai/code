@@ -12,6 +12,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class ShadowRoot : IDocumentFragment
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\WebBrowser\WebBrowser.cs
+        // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
+
+
+
         // how does this relate to the SVG foreign object concept?
         //  shadow DOM is useful because it creates encapsulation. All that means is anything in the Shadow DOM is unaffected by styling in regular stylesheets and javascript. This is one of the reasons that UI elements are found in the shadow DOM and not directly editable.
 

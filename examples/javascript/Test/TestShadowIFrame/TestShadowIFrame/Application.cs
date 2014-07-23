@@ -1,0 +1,109 @@
+using ScriptCoreLib;
+using ScriptCoreLib.Delegates;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Components;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using TestShadowIFrame;
+using TestShadowIFrame.Design;
+using TestShadowIFrame.HTML.Pages;
+
+namespace TestShadowIFrame
+{
+    /// <summary>
+    /// Your client side code running inside a web browser as JavaScript.
+    /// </summary>
+    public sealed class Application : ApplicationWebService
+    {
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IApp page)
+        {
+            // what about namespaces?
+            // what about 3D objects?
+            // what about nugets?
+            // what about canvas?
+
+            Native.document.registerElement("example-com",
+                e =>
+            {
+                //new XAttribute().Changed
+
+                var s = e.createShadowRoot();
+
+                var i = new IHTMLIFrame { src = "http://example.com" };
+
+                s.appendChild(
+                    i
+                );
+
+
+
+
+                e.attributes.WithEach(
+                    a =>
+                    {
+                        new IHTMLPre { "attribute " + new { a.name, a.value } }.AttachToDocument();
+
+                    }
+                );
+
+                // does it mean we are nowready to get events for XLinq?
+                // is it suppsoed to work?
+                new MutationObserver(
+
+                    new MutationCallback(
+                    (mutations, o) =>
+                {
+                    foreach (var item in mutations)
+                    {
+                        new IHTMLPre { "MutationObserver " + new { item.attributeName } }.AttachToDocument();
+
+                    }
+                }
+
+                        )
+                ).observe(e, new { attributes = true });
+
+            },
+
+
+                // http://www.w3.org/TR/2014/WD-dom-20140710/
+                // https://code.google.com/p/mutation-summary/wiki/DOMMutationObservers
+                // http://stackoverflow.com/questions/5416822/dom-mutation-events-replacement
+                attributeChangedCallback:
+                    (attributeName, e) =>
+                    {
+                        // css conditionals
+
+
+                        new IHTMLPre { new { attributeName
+    }
+}.AttachToDocument();
+                    }
+            );
+
+            var z = new IHTMLElement("example-com")
+            {
+                //$foo = "bar"
+                //new XAttribute("foo", "bar")
+            }.AttachToDocument();
+
+            z.setAttribute("foo", "bar");
+
+
+        }
+
+    }
+}

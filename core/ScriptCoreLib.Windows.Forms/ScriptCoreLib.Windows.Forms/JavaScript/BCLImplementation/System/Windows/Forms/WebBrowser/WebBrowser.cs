@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.WebBrowser))]
     public class __WebBrowser : __WebBrowserBase
     {
+        // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
+
+
         public bool ScriptErrorsSuppressed { get; set; }
 
         public Uri InternalUrl;
