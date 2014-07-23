@@ -40,6 +40,16 @@ namespace TestShadowIFrame
             {
                 //new XAttribute().Changed
 
+                // http://msdn.microsoft.com/en-us/library/bb387098(v=vs.110).aspx
+                // http://msdn.microsoft.com/en-us/library/system.xml.linq.xobject.changed(v=vs.110).aspx
+                e.AsXElement().Changed +=
+                    (sender, args) =>
+                    {
+                        // MutationObserver
+
+                        // server side events too?
+                    };
+
                 var s = e.createShadowRoot();
 
                 var i = new IHTMLIFrame { src = "http://example.com" };
@@ -100,7 +110,7 @@ namespace TestShadowIFrame
                 //new XAttribute("foo", "bar")
             }.AttachToDocument();
 
-            z.setAttribute("foo", "bar");
+            z.setAttribute("foo", "http://example.com");
 
 
         }
