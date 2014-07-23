@@ -15,6 +15,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.TabControl))]
     internal class __TabControl : __Control
     {
+        // http://www.webcomponentsshift.com/#40
+
         IHTMLDiv InternalContainer;
 
         Panel __tabs;

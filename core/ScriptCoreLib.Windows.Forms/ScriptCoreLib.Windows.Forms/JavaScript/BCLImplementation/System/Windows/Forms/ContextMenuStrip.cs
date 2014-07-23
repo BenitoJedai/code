@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.ContextMenuStrip))]
     internal class __ContextMenuStrip : __ToolStripDropDownMenu
     {
+        // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionContextMenu\ChromeExtensionContextMenu\Application.cs
+        // what about chromeos?
+
         public IHTMLDiv InternalElement;
 
         public override DOM.HTML.IHTMLElement HTMLTargetRef
