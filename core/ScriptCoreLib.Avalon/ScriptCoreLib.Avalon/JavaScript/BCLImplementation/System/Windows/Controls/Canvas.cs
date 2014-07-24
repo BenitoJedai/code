@@ -6,6 +6,8 @@ using System.Windows;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
+    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Canvas.cs
+
 	[Script(Implements = typeof(global::System.Windows.Controls.Canvas))]
 	internal class __Canvas : __Panel
 	{

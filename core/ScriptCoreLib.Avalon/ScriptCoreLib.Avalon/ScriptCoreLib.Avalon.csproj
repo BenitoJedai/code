@@ -89,6 +89,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Primitives\TextBoxBase.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\BlurEffect.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\Effects\Effect.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Button.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\ItemsControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\HeaderedItemsControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TreeViewItem.cs" />

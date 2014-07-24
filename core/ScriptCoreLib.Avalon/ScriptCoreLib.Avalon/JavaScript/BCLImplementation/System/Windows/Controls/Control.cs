@@ -7,6 +7,8 @@ using System.Windows;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
+    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Control.cs
+
 	[Script(Implements = typeof(global::System.Windows.Controls.Control))]
 	internal class __Control : __FrameworkElement
 	{

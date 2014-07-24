@@ -15,13 +15,73 @@ using System.Windows;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
+    // http://msdn.microsoft.com/en-us/library/system.windows.controls.textbox(v=vs.110).aspx
+    // http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.textbox
+    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/TextBox.cs
+
     [Script(Implements = typeof(global::System.Windows.Controls.TextBox))]
     internal class __TextBox : __TextBoxBase
     {
+        // or shall the element/shadow be contextual/ meaning
+        // to activate only if inside a special host element?
+        // this would allow name sharing?
+
+        //public const string ElementName = "Avalon-TextBox";
+
+        // chrome seems to prefer lowe case in inspector..
+        public const string ElementName = "avalon-textbox";
+
+
+        // shall this be the first type to have shadow dom be applied to?
+        // first little used Avalon, then Forms?
+
+
+
+        // X:\jsc.svn\examples\javascript\Avalon\Test\TestShadowTextBox\TestShadowTextBox\ApplicationCanvas.cs
+
         // see also:
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\TextBoxBase.cs
 
-        public IHTMLDiv InternalContainer;
+
+        static __TextBox()
+        {
+            // test against worker mode
+            if (Native.document == null)
+                return;
+
+            // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
+            // http://dart.googlecode.com/svn/branches/bleeding_edge/dart/tests/html/custom/document_register_type_extensions_test.dart
+            // dart is already doing it.
+
+            // https://code.google.com/p/chromium/issues/detail?id=320506
+            /// http://www.w3.org/TR/custom-elements/#concepts
+            /// 
+            Native.document.registerElement(
+
+                // could we register multiple names?
+                // it should be hand writable?
+
+                //name: "global--System-Windows-Controls-TextBox",
+
+                // what about name clashing?
+                //name: "XAML-TextBox",
+
+                // forms textbox 
+                name: ElementName,
+
+                createdCallback:
+                    e =>
+                    {
+                        // um. this would be the new way do do ctor.
+                        // like we do for Application(html) already?
+
+                    }
+            );
+        }
+
+        // what if we want our own element type too?
+        public IHTMLElement InternalContainer;
+        public ShadowRoot InternalContainer_shadow;
 
         public IHTMLSpan InternalTextField_Shadow;
         public IHTMLDiv InternalTextField_ShadowContainer;
@@ -43,9 +103,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
         public __TextBox()
         {
             #region InternalContainer
-            this.InternalContainer = new IHTMLDiv();
+            //this.InternalContainer = new IHTMLDiv();
+            this.InternalContainer = new IHTMLElement(ElementName);
+
+            // are we excluding older browsers? does the app analyzer let the developer know what devices can be used now?
+            this.InternalContainer_shadow = this.InternalContainer.createShadowRoot();
+            // if we only create shadow, empty, other children dissapear dont they. as there are no insertion points
 
             this.InternalContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+
+            // in Forms we use typeof() because we see Component. WPF objects are more like XElements..
             this.InternalContainer.name = "__TextBox";
 
             this.InternalContainer.style.left = "0px";
@@ -57,6 +124,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 
             #region InternalTextField_ShadowContainer
+
+            // when is it attached?
             this.InternalTextField_ShadowContainer = new IHTMLDiv();
 
 
@@ -75,7 +144,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
             this.InternalTextField = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.text)
             {
 
-            }.AttachTo(this.InternalContainer);
+                //}.AttachTo(this.InternalContainer);
+                // public static T AttachTo<T>(this T e, IHTMLElement c) where T : INodeConvertible<IHTMLElement>;
+            }.AttachTo(this.InternalContainer_shadow);
 
             this.InternalSetDefaultFont();
 
@@ -133,6 +204,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                         this.InternalTextField_MultiLine.style.overflow = IStyle.OverflowEnum.hidden;
                         this.InternalTextField_MultiLine.style.resize = "none";
 
+
+                        // is it tested with the shadow dom?
                         var p = this.InternalTextField.parentNode;
 
                         // we should actually just notify our collection about this change

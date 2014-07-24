@@ -261,6 +261,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
         public static T AttachTo<T>(this T e, ISVGElementBase c)
             where T : INodeConvertible<IHTMLElement>
         {
+            // what about shadow DOM?
+
             if (e != null)
             {
                 var n = e.AsNode();
@@ -274,6 +276,22 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
                 c.appendChild(n);
             }
+
+            return e;
+        }
+
+
+
+
+
+        public static T AttachTo<T>(this T e, IDocumentFragment c)
+             where T : INodeConvertible<IHTMLElement>
+        {
+            // X:\jsc.svn\examples\javascript\Avalon\Test\TestShadowTextBox\TestShadowTextBox\ApplicationCanvas.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\BCLImplementation\System\Windows\Controls\TextBox.cs
+
+            if (e != null)
+                c.appendChild(e.AsNode());
 
             return e;
         }
