@@ -52,7 +52,14 @@ namespace TestShadowIFrame
 
                 var s = e.createShadowRoot();
 
-                var i = new IHTMLIFrame { src = "http://example.com" };
+                //var i = new IHTMLIFrame { src = "http://example.com" };
+                var i = new IHTMLIFrame
+                {
+                    // prevent cyclic reload
+                    src = "about:blank"
+
+                    //src = "http://example.com"
+                };
 
                 s.appendChild(
                     i
@@ -64,8 +71,15 @@ namespace TestShadowIFrame
                 e.attributes.WithEach(
                     a =>
                     {
+                        //i.src = a.value;
+
                         new IHTMLPre { "attribute " + new { a.name, a.value } }.AttachToDocument();
 
+                        if (a.name == "foo")
+                        {
+                            // are we observing that too?
+                            i.src = a.value;
+                        }
                     }
                 );
 
@@ -78,8 +92,18 @@ namespace TestShadowIFrame
                 {
                     foreach (var item in mutations)
                     {
-                        new IHTMLPre { "MutationObserver " + new { item.attributeName } }.AttachToDocument();
+                        var value = e.getAttributeNode(item.attributeName).value;
 
+                        //i.src = ;
+
+                        new IHTMLPre { "MutationObserver " + new { item.attributeName, value, item.type, item.target } }.AttachToDocument();
+
+
+                        if (item.attributeName == "foo")
+                        {
+                            // are we observing that too?
+                            i.src = value;
+                        }
                     }
                 }
 

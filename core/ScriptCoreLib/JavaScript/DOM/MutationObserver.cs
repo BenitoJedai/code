@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // http://www.w3.org/TR/2014/WD-dom-20140710/#interface-mutationobserver
     // http://caniuse.com/mutationobserver
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/MutationObserver.idl
 
     [Script(HasNoPrototype = true, ExternalTarget = "MutationObserver")]
     public class MutationObserver
@@ -33,11 +34,6 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public delegate void MutationCallback(MutationRecord[] mutations, MutationObserver observer);
 
-    [Script(HasNoPrototype = true, ExternalTarget = "MutationObserver")]
-    public class MutationRecord
-    {
-        public readonly string attributeName;
-    }
 
 
 }
