@@ -20,11 +20,10 @@ namespace WebGLYomotsuMD2Model
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         // inspired by http://yomotsu.github.com/threejs-examples/md2/
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
 
 
@@ -203,15 +202,15 @@ namespace WebGLYomotsuMD2Model
                             player_mesh.time = 0;
                             player_mesh.duration = 1000 * ((animMax - animMin) / animFps);
 
-                            Console.WriteLine(
-                                "setFrameRange " +
-                                new
-                                {
-                                    motion.min,
-                                    motion.max,
-                                    motion.fps
-                                }
-                                );
+                            //Console.WriteLine(
+                            //    "setFrameRange " +
+                            //    new
+                            //    {
+                            //        motion.min,
+                            //        motion.max,
+                            //        motion.fps
+                            //    }
+                            //    );
 
                             player_mesh.setFrameRange(animMin, animMax);
                         };
