@@ -12,6 +12,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public class ShadowRoot : IDocumentFragment
     {
+        // can we have a chrome extension register interesting new tags?
+
+
+
         // X:\jsc.svn\examples\javascript\async\AsyncWorkerCustomElementExperiment\AsyncWorkerCustomElementExperiment\Application.cs
 
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\WebBrowser\WebBrowser.cs
