@@ -13,6 +13,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
     [Script(Implements = typeof(global::System.Windows.Controls.Button))]
     internal class __Button : __ButtonBase
     {
+        // http://caniuse.com/shadowdom
+        // wont work for ipad, safari, ie?
+        // no reason to try it forms then yet?
+        // for chrome apps it would be fine to use..
+
         // see X:\jsc.svn\core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\JavaScript\BCLImplementation\System\Windows\Controls\TextBox.cs
         public const string ElementName = "avalon-button";
 

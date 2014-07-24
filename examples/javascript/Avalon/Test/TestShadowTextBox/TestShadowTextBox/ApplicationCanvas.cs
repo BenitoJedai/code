@@ -19,7 +19,12 @@ namespace TestShadowTextBox
         {
             // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
 
-          // could we use Foo.xaml?
+            // could we use Foo.xaml?
+            // see also http://caniuse.com/shadowdom
+            // http://jonrimmer.github.io/are-we-componentized-yet/
+            // https://bugzilla.mozilla.org/show_bug.cgi?id=811542
+
+            // would we be able to use shadow dom to be able to activate file:// code?
 
 
             var t = new TextBox { Width = 200, Text = "hello" };
