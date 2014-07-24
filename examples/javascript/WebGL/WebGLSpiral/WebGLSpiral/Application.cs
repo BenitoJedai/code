@@ -82,6 +82,7 @@ namespace WebGLSpiral
 
         private void InitializeContent()
         {
+            // can we become the first shadow DOM webgl example?
 
 
 
