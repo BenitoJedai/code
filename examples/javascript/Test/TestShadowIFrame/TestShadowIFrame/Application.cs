@@ -34,7 +34,10 @@ namespace TestShadowIFrame
             // what about 3D objects?
             // what about nugets?
             // what about canvas?
+            // what about threejs ? will it end up like XAML?
 
+
+            // shall we automatically define custom elements?
             Native.document.registerElement("example-com",
                 e =>
             {
@@ -123,8 +126,8 @@ namespace TestShadowIFrame
 
 
                         new IHTMLPre { new { attributeName
-    }
-}.AttachToDocument();
+                            }
+                        }.AttachToDocument();
                     }
             );
 

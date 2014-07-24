@@ -5,9 +5,13 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Threading
 {
+    // http://referencesource.microsoft.com/#WindowsBase/src/Base/System/Windows/Threading/DispatcherTimer.cs
+
 	[Script(Implements = typeof(global::System.Windows.Threading.DispatcherTimer))]
 	internal class __DispatcherTimer
 	{
+        // what about background threads?
+
 		bool InternalIsEnabled = false;
 		public bool IsEnabled
 		{
