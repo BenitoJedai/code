@@ -17,6 +17,10 @@ using ChromeExtensionShadowExperiment;
 using ChromeExtensionShadowExperiment.Design;
 using ChromeExtensionShadowExperiment.HTML.Pages;
 using chrome;
+using System.Net;
+using TestShadowDocumentWithForms.HTML.Pages;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
+using TestShadowDocumentWithForms;
 
 namespace ChromeExtensionShadowExperiment
 {
@@ -29,7 +33,7 @@ namespace ChromeExtensionShadowExperiment
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IApp page)
+        public Application(ChromeExtensionShadowExperiment.HTML.Pages.IApp page)
         {
             // based on
             // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
@@ -89,6 +93,36 @@ namespace ChromeExtensionShadowExperiment
                         };
 
                         IgnoreSecondaryUpdatesFor.Add(tab.id);
+
+
+
+                        await tab.pageAction.async.onclick;
+
+                        var nn = new Notification
+                        {
+                            Message = "Clicked " + new { tab.id, tab.url }
+                        };
+
+
+                        // document.currentScript?
+                        var code = await new WebClient().DownloadStringTaskAsync(
+                              new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
+                         );
+
+                        // https://developer.chrome.com/extensions/tabs#method-executeScript
+                        // https://developer.chrome.com/extensions/tabs#type-InjectDetails
+                        // https://developer.chrome.com/extensions/content_scripts#pi
+
+                        // Content scripts execute in a special environment called an isolated world. 
+                        // They have access to the DOM of the page they are injected into, but not to any JavaScript variables or 
+                        // functions created by the page. It looks to each content script as if there is no other JavaScript executing
+                        // on the page it is running on. The same is true in reverse: JavaScript running on the page cannot call any 
+                        // functions or access any variables defined by content scripts.
+
+                        var result = await tab.id.executeScript(
+                            //new { file = url }
+                            new { code }
+                        );
                     };
                 #endregion
 
@@ -103,6 +137,29 @@ namespace ChromeExtensionShadowExperiment
             // subst
             // test in chrome
 
+
+            // X:\jsc.svn\examples\javascript\Test\TestShadowBody\TestShadowBody\Application.cs
+            var s = new ShadowLayout().AttachTo(Native.document.documentElement.shadow);
+
+            // forms shall use position fixed
+            // to prevent overflow!?
+
+            __Form.InternalHTMLTargetAttachToDocument =
+                (that, yield) =>
+                {
+                    if (that.HTMLTarget.parentNode == null)
+                    {
+                        that.HTMLTarget.AttachTo(Native.document.documentElement.shadow);
+                    }
+
+                    // animate!
+                    yield(true);
+                };
+
+
+            new FooUserControl().AttachControlTo(
+                s.TopSideBar
+            );
         }
 
     }

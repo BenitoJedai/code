@@ -9,9 +9,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     // https://github.com/adobe/webkit/blob/master/Source/WebCore/dom/ShadowRoot.idl
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/ShadowRoot.webidl
 
-    [Script(InternalConstructor = true)]
+    [Script(InternalConstructor = true, ExternalTarget = "ShadowRoot")]
     public class ShadowRoot : IDocumentFragment
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.InternalBeforeVisibleChanged.cs
+
         // can we have a chrome extension register interesting new tags?
 
 

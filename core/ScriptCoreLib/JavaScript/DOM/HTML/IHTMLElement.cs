@@ -124,8 +124,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // X:\jsc.svn\examples\javascript\Test\TestOwnerDocumentDefaultView\TestOwnerDocumentDefaultView\Application.cs
         public readonly IHTMLDocument ownerDocument;
 
-
-        public new IHTMLElement parentNode;
+        // might be DocumentFragment, ShadowRoot
+        //public new IHTMLElement parentNode;
 
         [Script(DefineAsStatic = true)]
         IHTMLElement INodeConvertible<IHTMLElement>.InternalAsNode()
@@ -484,7 +484,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
                 // body seems to be special
                 if (this.localName == "body")
-                    return this.scrollHeight - this.parentNode.clientHeight - this.scrollTop;
+                    return this.scrollHeight - ((IHTMLElement)this.parentNode).clientHeight - this.scrollTop;
 
                 return this.scrollHeight - this.clientHeight - this.scrollTop;
             }

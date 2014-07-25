@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     {
         // allow to target shadow dom.
         // x:\jsc.svn\examples\javascript\test\testshadowdocumentwithforms\testshadowdocumentwithforms\application.cs
+        // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionShadowExperiment\ChromeExtensionShadowExperiment\Application.cs
 
 
         // allow to create system window and attach to that instead
@@ -48,7 +49,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public override void InternalUpdateBoundsSetLocation(int x, int y)
         {
-            if (this.HTMLTarget.parentNode == Native.document.documentElement)
+            // X:\jsc.svn\examples\javascript\Test\TestShadowDocumentWithForms\TestShadowDocumentWithForms\Application.cs
+
+            // or we are part of shadow of document element?
+
+            // what happens if the browser does not understand ShadowRoot?
+            //var xShadowRoot = this.HTMLTarget.parentNode is ShadowRoot;
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\ShadowRoot.cs
+
+            var xShadowRoot = this.HTMLTarget.parentNode is ShadowRoot;
+            // 13:12213ms InternalUpdateBoundsSetLocation { xShadowRoot = true }
+            //Console.WriteLine("InternalUpdateBoundsSetLocation " + new { xShadowRoot });
+
+            var isRoot = this.HTMLTarget.parentNode == Native.document.documentElement;
+
+
+            if (isRoot || xShadowRoot)
             {
                 // could we dock to center?
 

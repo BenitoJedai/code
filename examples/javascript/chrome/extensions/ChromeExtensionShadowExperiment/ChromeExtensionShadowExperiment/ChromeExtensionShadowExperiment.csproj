@@ -122,6 +122,9 @@
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
+    <Reference Include="TestShadowDocumentWithForms.AssetsLibrary">
+      <HintPath>..\..\..\..\Test\TestShadowDocumentWithForms\TestShadowDocumentWithForms\bin\staging.AssetsLibrary\TestShadowDocumentWithForms.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,9 +136,15 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <None Include="packages.config" />
-    <None Include="web\ChromeExtensionShadowExperiment.Application\web\manifest.json">
+    <None Include="staging\ChromeExtensionShadowExperiment.Application\web\manifest.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Test\TestShadowDocumentWithForms\TestShadowDocumentWithForms\TestShadowDocumentWithForms.csproj">
+      <Project>{b4a11933-81cb-4b80-9d00-c3debde9dcfd}</Project>
+      <Name>TestShadowDocumentWithForms</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

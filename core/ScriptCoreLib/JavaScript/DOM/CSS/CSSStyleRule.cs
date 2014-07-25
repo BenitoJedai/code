@@ -1797,7 +1797,9 @@ namespace ScriptCoreLib.JavaScript.DOM
             // what about different documents?
             if (target.parentNode != null)
             {
-                var p = GetRelativeSelector(css, source, target.parentNode);
+                // will it work if we are within shadow dom?
+
+                var p = GetRelativeSelector(css, source, (IHTMLElement)target.parentNode);
                 if (p != null)
                 {
                     var yindex = target.parentNode.childNodes
