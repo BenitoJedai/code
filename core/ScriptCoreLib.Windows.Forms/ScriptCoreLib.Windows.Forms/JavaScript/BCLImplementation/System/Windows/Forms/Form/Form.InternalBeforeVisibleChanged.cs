@@ -16,6 +16,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     public partial class __Form
     {
+        // allow to target shadow dom.
+        // x:\jsc.svn\examples\javascript\test\testshadowdocumentwithforms\testshadowdocumentwithforms\application.cs
+
+
         // allow to create system window and attach to that instead
         // see also: X:\jsc.svn\examples\javascript\chrome\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
         public static Action<__Form, Action<bool>> InternalHTMLTargetAttachToDocument =
