@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace TestShadowDocumentWithForms
 {
-    class FooUserControl : UserControl
+    public class FooUserControl : UserControl
     {
         private Button button1;
 

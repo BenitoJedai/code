@@ -31,7 +31,9 @@ namespace TestShadowDocumentWithForms
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            
+            // used by
+            // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionShadowExperiment\ChromeExtensionShadowExperiment\Application.cs
+
 
 
             // X:\jsc.svn\examples\javascript\Test\TestShadowBody\TestShadowBody\Application.cs
@@ -53,9 +55,7 @@ namespace TestShadowDocumentWithForms
                 };
 
 
-                new FooUserControl().AttachControlTo(
-
-
+            new FooUserControl().AttachControlTo(
                 s.TopSideBar
             );
 
