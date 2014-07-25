@@ -14,6 +14,27 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IElement : INode
     {
+
+        [System.Obsolete("experimental like .css")]
+        public ShadowRoot shadow
+        {
+            // tested by
+            // X:\jsc.svn\examples\javascript\Test\TestShadowSpan\TestShadowSpan\Application.cs
+
+            [method: Script(DefineAsStatic = true)]
+            get
+            {
+                var s = this.shadowRoot;
+
+                if (s != null)
+                    return s;
+
+
+                return this.createShadowRoot();
+            }
+        }
+
+        //  readonly    attribute ShadowRoot? shadowRoot;
         readonly ShadowRoot shadowRoot;
 
         // X:\jsc.svn\examples\javascript\Test\TestShadowDOM\TestShadowDOM\Application.cs
