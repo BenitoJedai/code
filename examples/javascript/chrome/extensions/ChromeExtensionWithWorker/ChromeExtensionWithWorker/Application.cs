@@ -181,6 +181,16 @@ namespace ChromeExtensionWithWorker
 
 
                         // Unchecked runtime.lastError while running tabs.executeScript: No source code or file specified.
+                        // https://developer.chrome.com/extensions/tabs#method-executeScript
+                        // https://developer.chrome.com/extensions/tabs#type-InjectDetails
+                        // https://developer.chrome.com/extensions/content_scripts#pi
+
+                        // Content scripts execute in a special environment called an isolated world. 
+                        // They have access to the DOM of the page they are injected into, but not to any JavaScript variables or 
+                        // functions created by the page. It looks to each content script as if there is no other JavaScript executing
+                        // on the page it is running on. The same is true in reverse: JavaScript running on the page cannot call any 
+                        // functions or access any variables defined by content scripts.
+
                         var result = await tab.id.executeScript(
                             //new { file = url }
                             new { code }
