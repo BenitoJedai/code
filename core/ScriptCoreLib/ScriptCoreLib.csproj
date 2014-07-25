@@ -112,6 +112,7 @@
     <Compile Include="JavaScript\DOM\IDocumentFragment.cs" />
     <Compile Include="JavaScript\DOM\IPromise.cs" />
     <Compile Include="JavaScript\DOM\MutationObserver.cs" />
+    <Compile Include="JavaScript\DOM\RTCPeerConnection.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorkerContainer.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorkerGlobalScope.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorker.cs" />
