@@ -138,8 +138,14 @@ namespace ChromeExtensionShadowExperiment
             // test in chrome
 
 
+            // 1999999999
+
             // X:\jsc.svn\examples\javascript\Test\TestShadowBody\TestShadowBody\Application.cs
             var s = new ShadowLayout().AttachTo(Native.document.documentElement.shadow);
+
+            // youtube
+            //s.TopSideBar.style.zIndex = 19999999999;
+
 
             // forms shall use position fixed
             // to prevent overflow!?
@@ -156,8 +162,9 @@ namespace ChromeExtensionShadowExperiment
                     yield(true);
                 };
 
+            s.TopSideBar.style.Opacity = 0.7;
 
-            new FooUserControl().AttachControlTo(
+            new FooUserControl { }.AttachControlTo(
                 s.TopSideBar
             );
         }
