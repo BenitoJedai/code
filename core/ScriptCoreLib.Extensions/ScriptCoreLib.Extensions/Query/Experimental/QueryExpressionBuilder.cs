@@ -1314,14 +1314,15 @@ namespace ScriptCoreLib.Query.Experimental
                     };
                 #endregion
 
-                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjectionProxy = null;
+                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[], Tuple<string, MemberInfo, int>[]> WriteProjectionProxy = null;
                 Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjection = null;
 
 
                 #region WriteProjectionProxy
                 // how does a proxy differ from projection?
+                // called by?
                 WriteProjectionProxy =
-                    (zsource, zExpression, Target) =>
+                    (zsource, zExpression, Target, Source) =>
                     {
                         //WriteCommentLine(1, "WriteProjectionProxy");
 
@@ -1403,6 +1404,40 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
+                        #region WriteProjectionProxy:GetSourceName
+                        Func<string> GetSourceName =
+                            delegate
+                        {
+                            var w = "";
+
+                            if (Target != null)
+                                foreach (var item in Source)
+                                {
+                                    if (item.Item1 != null)
+                                    {
+                                        if (!string.IsNullOrEmpty(w))
+                                            w += ".";
+
+                                        w += item.Item1;
+                                    }
+                                    else if (item.Item2 == null)
+                                        w += "[" + item.Item3 + "]";
+                                    else
+                                    {
+                                        if (!string.IsNullOrEmpty(w))
+                                            w += ".";
+
+                                        w += item.Item2.Name + "";
+                                    }
+
+                                }
+
+                            return w;
+                        };
+                        #endregion
+
+
+
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
 
                         #region WriteProjectionProxy:zParameterExpression
@@ -1441,7 +1476,8 @@ namespace ScriptCoreLib.Query.Experimental
                                         WriteProjectionProxy(
                                             zzGroupBy,
                                             zzGroupBy.elementSelector.Body,
-                                            Target
+                                            Target,
+                                            Source
                                         );
 
                                         return;
@@ -1450,7 +1486,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     var zzSelect = zzsource as xSelect;
                                     if (zzSelect != null)
                                     {
-                                        WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target);
+                                        WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target, Source);
                                         return;
                                     }
 
@@ -1459,7 +1495,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     var zzJoin = zzsource as xJoin;
                                     if (zzJoin != null)
                                     {
-                                        WriteProjectionProxy(zzJoin, zzJoin.resultSelector.Body, Target);
+                                        WriteProjectionProxy(zzJoin, zzJoin.resultSelector.Body, Target, Source);
                                         return;
                                     }
                                 };
@@ -1516,7 +1552,7 @@ namespace ScriptCoreLib.Query.Experimental
                         {
                             WriteCommentLine(1, "WriteProjectionProxy:MemberInitExpression");
 
-                            WriteProjectionProxy(zsource, zMemberInitExpression.NewExpression, Target);
+                            WriteProjectionProxy(zsource, zMemberInitExpression.NewExpression, Target, Source);
 
                             // what about XElement?
 
@@ -1529,7 +1565,12 @@ namespace ScriptCoreLib.Query.Experimental
                                         m = SourceBinding.Member
                                     };
 
-                                    WriteProjectionProxy(zsource, item.a, Target.Concat(new[] { Tuple.Create(item.m, SourceBindingIndex) }).ToArray());
+                                    WriteProjectionProxy(zsource, item.a,
+                                        Target.Concat(new[] { Tuple.Create(item.m, SourceBindingIndex) }).ToArray(),
+                                        Source.Concat(new[] { Tuple.Create(default(string), item.m, SourceBindingIndex) }).ToArray()
+
+
+                                            );
                                 }
                             );
                             return;
@@ -1551,11 +1592,9 @@ namespace ScriptCoreLib.Query.Experimental
                                           WriteProjectionProxy(
                                           zsource,
                                               SourceArgument,
-                                              Target.Concat(new[] { Tuple.Create(
-                                                                  default(MemberInfo) ,
-                                                                  SourceArgumentIndex
-                                                                  )
-                                                              }).ToArray()
+
+                                              Target.Concat(new[] { Tuple.Create(default(MemberInfo), SourceArgumentIndex) }).ToArray(),
+                                              Source.Concat(new[] { Tuple.Create(default(string), default(MemberInfo), SourceArgumentIndex) }).ToArray()
                                           )
                                   );
                                 return;
@@ -1566,11 +1605,8 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteProjectionProxy(
                                     zsource,
                                         SourceArgument,
-                                        Target.Concat(new[] { Tuple.Create(
-                                              zNewExpression.Members[SourceArgumentIndex],
-                                              SourceArgumentIndex
-                                              )
-                                          }).ToArray()
+                                        Target.Concat(new[] { Tuple.Create(zNewExpression.Members[SourceArgumentIndex], SourceArgumentIndex) }).ToArray(),
+                                        Source.Concat(new[] { Tuple.Create(default(string), zNewExpression.Members[SourceArgumentIndex], SourceArgumentIndex) }).ToArray()
                                     )
                             );
                             return;
@@ -1582,8 +1618,10 @@ namespace ScriptCoreLib.Query.Experimental
                         if (zMemberExpression != null)
                         {
                             // js still dont like using/return
-                            DoWithoutLinefeeds(
-                                delegate
+                            //DoWithoutLinefeeds(
+                            //delegate
+
+                            using (WithoutLinefeeds())
                             {
                                 // we have to unpack everything?
 
@@ -1618,8 +1656,18 @@ namespace ScriptCoreLib.Query.Experimental
                                     }
 
                                     WriteLine(1, " ");
+
                                     // this can not be correct
-                                    WriteLine(1, "" + GetTargetNameWithQuotes());
+                                    // GetSourceNameWithQuotes
+                                    //WriteLine(1, "" + GetTargetNameWithQuotes());
+                                    WriteLine(1, "" + GetSourceName());
+
+                                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140726
+
+
+                                    //WriteLine(1, "x.");
+                                    //WriteLineWithColor(0, zMemberExpression.Member.Name, ConsoleColor.Magenta);
+
 
                                     WriteLine(1, " as ");
                                     if (upperParameter != null)
@@ -1633,6 +1681,9 @@ namespace ScriptCoreLib.Query.Experimental
                                     return;
                                 }
 
+
+
+                                // ?
                                 WriteLine(1, " " + GetTargetName());
                                 WriteLine(1, " as ");
                                 if (upperParameter != null)
@@ -1646,7 +1697,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 WriteLine(1, "`");
 
                             }
-                            );
+                            //);
 
                             return;
                         }
@@ -1765,7 +1816,7 @@ namespace ScriptCoreLib.Query.Experimental
                             if (zUnaryExpression.NodeType == ExpressionType.Convert)
                             {
                                 // could we just discard the type?
-                                WriteProjectionProxy(zsource, zUnaryExpression.Operand, Target);
+                                WriteProjectionProxy(zsource, zUnaryExpression.Operand, Target, Source);
                                 // tested by
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
                                 return;
@@ -1824,7 +1875,13 @@ namespace ScriptCoreLib.Query.Experimental
                           var zParameterExpression = zExpression as ParameterExpression;
                           if (zParameterExpression != null)
                           {
-                              WriteProjectionProxy(zsource, zParameterExpression, Target);
+                              // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140726
+
+                              WriteProjectionProxy(zsource, zParameterExpression, Target,
+
+
+                                  new Tuple<string, MemberInfo, int>[0]
+                                  );
                               return;
                           }
                           #endregion
@@ -2766,11 +2823,61 @@ namespace ScriptCoreLib.Query.Experimental
 
                         // WriteProjectionProxy(zsource, zParameterExpression, Target);
 
+                        // xGroupBy.elementSelector.Body = {e}
 
-                        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140723
-                        WriteProjection(source, xGroupBy.elementSelector.Body,
-                             new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) }
-                            );
+
+                        var xParameterExpression = xGroupBy.elementSelector.Body as ParameterExpression;
+                        if (xParameterExpression != null)
+                        {
+                            // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\testgroupbyconstant\program.cs
+                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140723
+
+                            var xxSelect = xGroupBy.source as xSelect;
+
+                            var xxMemberInitExpression = xxSelect.selector.Body as MemberInitExpression;
+                            if (xxMemberInitExpression != null)
+                            {
+                                WriteProjectionProxy(
+                                    xGroupBy.source,
+                                    xxMemberInitExpression,
+                                     new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) },
+                                     new[] { new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1) }
+                                    );
+                            }
+                            else Debugger.Break();
+                        }
+                        else
+                        {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetGroupBy\Program.cs
+                            // xGroupBy.elementSelector = {<>h__TransparentIdentifier0 => <>h__TransparentIdentifier0.x}
+                            var xMemberExpression = xGroupBy.elementSelector.Body as MemberExpression;
+                            if (xMemberExpression != null)
+                            {
+                                // xMemberExpression = {<>h__TransparentIdentifier0.x}
+
+                                var xxSelect = xGroupBy.source as xSelect;
+
+                                var xxNewExpression = xxSelect.selector.Body as NewExpression;
+
+                                // this wont work for js?
+                                var ii = xxNewExpression.Members.Select(xx => xx.Name).ToList().IndexOf(xMemberExpression.Member.Name);
+                                var aa = xxNewExpression.Arguments[ii];
+
+                                WriteProjectionProxy(
+                                   xGroupBy.source,
+                                   aa,
+                                    new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) },
+                                    new[] {
+
+                                        new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1),
+                                        new Tuple<string, MemberInfo, int>(null, xMemberExpression.Member, 1)
+
+                                    }
+                                   );
+                            }
+                            else Debugger.Break();
+                        }
+
 
                     }
 
