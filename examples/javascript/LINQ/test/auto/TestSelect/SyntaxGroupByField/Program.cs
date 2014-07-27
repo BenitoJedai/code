@@ -7,15 +7,11 @@ class Program
         var f = (
             from x in new xTable()
 
-            group x by new[] { x.field1, x.field2, x.field1 + x.field2 } into g
+            group x by x.field1 into gg
 
-
-            // needs to be unpacked
-            select g.Key
+            select gg.Last()
 
         ).FirstOrDefault();
-
-        //var z = f.x.field1;
 
     }
 }
