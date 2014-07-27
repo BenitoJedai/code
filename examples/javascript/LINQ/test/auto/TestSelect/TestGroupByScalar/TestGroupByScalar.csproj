@@ -40,18 +40,34 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.XSQLite">
+      <HintPath>..\packages\System.Data.XSQLite.1.0.0.0\lib\System.Data.XSQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestGroupByScalar.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestGroupByScalar.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="PerformanceResourceTimingData2.xlsx" />
+    <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationPerformanceBindingSource.datasource" />
+    <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationResourcePerformanceBindingSource.datasource" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:/util/jsc/bin/jsc.bc.exe $(ProjectPath) /xrewrite /clear /run $(TargetPath) "C:\util\jsc\bin\ScriptCoreLib.Extensions.dll"</PostBuildEvent>
+    <PostBuildEvent>rem c:/util/jsc/bin/jsc.bc.exe $(ProjectPath) /xrewrite /clear /run $(TargetPath) "C:\util\jsc\bin\ScriptCoreLib.Extensions.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

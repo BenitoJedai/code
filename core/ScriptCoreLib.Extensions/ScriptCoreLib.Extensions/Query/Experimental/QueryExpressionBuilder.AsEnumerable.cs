@@ -341,6 +341,17 @@ namespace ScriptCoreLib.Query.Experimental
                 #endregion
 
 
+
+                #region rMethodCallExpression
+                var rMethodCallExpression = xSelect.selector.Body as MethodCallExpression;
+                if (rMethodCallExpression != null)
+                {
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalar\Program.cs
+                    Debugger.Break();
+
+                }
+                #endregion
+
                 Debugger.Break();
             }
 

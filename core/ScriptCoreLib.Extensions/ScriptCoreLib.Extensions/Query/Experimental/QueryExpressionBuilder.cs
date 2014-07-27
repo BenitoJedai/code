@@ -1330,15 +1330,110 @@ namespace ScriptCoreLib.Query.Experimental
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
 
 
+
+                        #region WriteProjectionProxy:GetSourceName
+                        Func<string> GetSourceName =
+                            delegate
+                        {
+                            var w = "";
+
+                            if (Target != null)
+                                foreach (var item in Source)
+                                {
+                                    if (item.Item1 != null)
+                                    {
+                                        if (!string.IsNullOrEmpty(w))
+                                            w += ".";
+
+                                        w += item.Item1;
+                                    }
+                                    else if (item.Item2 == null)
+                                        w += "[" + item.Item3 + "]";
+                                    else
+                                    {
+                                        if (!string.IsNullOrEmpty(w))
+                                            w += ".";
+
+                                        w += item.Item2.Name + "";
+                                    }
+
+                                }
+
+                            return w;
+                        };
+                        #endregion
+
+                        #region WriteProjectionProxy:GetSourceNameWithQuotes
+                        Func<string> GetSourceNameWithQuotes =
+                            delegate
+                        {
+                            var w = "";
+                            var i = 0;
+                            w += "`";
+                            var needToClose = false;
+
+                            if (Target != null)
+                                foreach (var item in Source)
+                                {
+                                    if (item.Item1 != null)
+                                    {
+                                        if (i > 0)
+                                        {
+                                            if (i == 1)
+                                            {
+                                                w += ".`";
+                                                needToClose = true;
+                                            }
+                                            else
+                                                w += ".";
+                                        }
+
+
+                                        w += item.Item1;
+                                    }
+                                    else if (item.Item2 == null)
+                                        w += "[" + item.Item3 + "]";
+                                    else
+                                    {
+                                        if (i > 0)
+                                        {
+                                            if (i == 1)
+                                            {
+                                                w += ".`";
+                                                needToClose = true;
+                                            }
+                                            else
+                                                w += ".";
+                                        }
+
+
+                                        w += item.Item2.Name + "";
+                                    }
+
+
+
+
+
+                                    if (i == 0)
+                                        w += "`";
+
+                                    i++;
+                                }
+
+                            if (needToClose)
+                                w += "`";
+
+                            return w;
+                        };
+                        #endregion
+
                         #region WriteProjectionProxy:GetTargetNameWithQuotes
                         Func<string> GetTargetNameWithQuotes =
                             delegate
                         {
                             var w = "";
                             var i = 0;
-
                             w += "`";
-
                             var needToClose = false;
 
                             if (Target != null)
@@ -1404,39 +1499,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                        #region WriteProjectionProxy:GetSourceName
-                        Func<string> GetSourceName =
-                            delegate
-                        {
-                            var w = "";
-
-                            if (Target != null)
-                                foreach (var item in Source)
-                                {
-                                    if (item.Item1 != null)
-                                    {
-                                        if (!string.IsNullOrEmpty(w))
-                                            w += ".";
-
-                                        w += item.Item1;
-                                    }
-                                    else if (item.Item2 == null)
-                                        w += "[" + item.Item3 + "]";
-                                    else
-                                    {
-                                        if (!string.IsNullOrEmpty(w))
-                                            w += ".";
-
-                                        w += item.Item2.Name + "";
-                                    }
-
-                                }
-
-                            return w;
-                        };
-                        #endregion
-
-
+                       
 
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
 
@@ -1668,7 +1731,10 @@ namespace ScriptCoreLib.Query.Experimental
                                     // this can not be correct
                                     // GetSourceNameWithQuotes
                                     //WriteLine(1, "" + GetTargetNameWithQuotes());
-                                    WriteLine(1, "" + GetSourceName());
+
+                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalar\Program.cs
+                                    //WriteLine(1, "" + GetSourceName());
+                                    WriteLine(1, "" + GetSourceNameWithQuotes());
 
                                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140726
 
@@ -2835,12 +2901,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                         // IQueryStrategyGrouping
 
-                        // sending over the key?
-                        WriteProjection(
-                            source,
-                            xGroupBy.keySelector.Body,
-                               new[] { new Tuple<MemberInfo, int>(KeyReference.Method, 0) }
-                        );
+        
 
                         // xGroupBy.elementSelector.Body = {e}
                         //  WriteProjectionProxy(zsource, zParameterExpression, Target);
@@ -2907,6 +2968,13 @@ namespace ScriptCoreLib.Query.Experimental
                         }
 
 
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalar\Program.cs
+                        // sending over the key?
+                        WriteProjection(
+                            source,
+                            xGroupBy.keySelector.Body,
+                               new[] { new Tuple<MemberInfo, int>(KeyReference.Method, 1) }
+                        );
                     }
 
                     // elementSelector = {<>h__TransparentIdentifier3 => new <>f__AnonymousType4`3(x = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x, xFoo = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.xFoo, xKey = <>h__TransparentIdentifier3.xKey)}
