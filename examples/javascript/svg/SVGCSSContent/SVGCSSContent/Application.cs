@@ -73,6 +73,9 @@ namespace SVGCSSContent
 
             //page.body.css.before.content = new { div.clientWidth, div.clientHeight }.ToString();
 
+
+
+            #region do
             new IHTMLButton { "do" }.AttachToDocument().WhenClicked(
                 button =>
                 {
@@ -145,6 +148,8 @@ namespace SVGCSSContent
 
                 }
             );
+            #endregion
+
 
         }
 

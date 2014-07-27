@@ -1724,6 +1724,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal bool __isroot;
 
 
+
+
+        // how will it relate to registered element?
         [Obsolete("when can we also do typeof(div) ?")]
         public CSSStyleRuleMonkier this[IHTMLElement.HTMLElementEnum className]
         {

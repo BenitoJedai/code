@@ -92,6 +92,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public static explicit operator ISVGSVGElement(IHTMLDiv div)
         {
+            // tested by?
+
             System.Console.WriteLine("ISVGSVGElement <- IHTMLDiv");
             Task<ISVGSVGElement> x = div;
 
@@ -193,6 +195,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\ToolStrip\ToolStripContainer.cs
         public static implicit operator IHTMLDiv(Type x)
         {
+            // shall we use shadow dom instead?
             return new IHTMLDiv { className = x.Name };
         }
     }
