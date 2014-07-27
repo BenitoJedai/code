@@ -1486,7 +1486,15 @@ namespace ScriptCoreLib.Query.Experimental
                                     var zzSelect = zzsource as xSelect;
                                     if (zzSelect != null)
                                     {
-                                        WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target, Source);
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetGroupBy\Program.cs
+
+                                        WriteProjectionProxy(zzSelect, zzSelect.selector.Body, Target,
+
+
+                                            Source
+                                        );
+
+
                                         return;
                                     }
 
@@ -1876,12 +1884,15 @@ namespace ScriptCoreLib.Query.Experimental
                           if (zParameterExpression != null)
                           {
                               // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140726
+                              // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetGroupBy\Program.cs
 
                               WriteProjectionProxy(zsource, zParameterExpression, Target,
 
 
-                                  new Tuple<string, MemberInfo, int>[0]
-                                  );
+                                  new[] { new Tuple<string, MemberInfo, int>(zParameterExpression.Name, null, 0) }
+
+                              );
+
                               return;
                           }
                           #endregion
@@ -1902,7 +1913,24 @@ namespace ScriptCoreLib.Query.Experimental
                                   if (xxMethodCallExpression.Method.Name == LastReference.Method.Name)
                                   {
                                       // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
-                                      WriteProjection(zsource, xxMethodCallExpression.Arguments[0], Target);
+                                      // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalar\Program.cs
+
+                                      // new[] { new Tuple<string, MemberInfo, int>(zParameterExpression.Name, null, 0) }
+
+                                      //WriteProjection(zsource, xxMethodCallExpression.Arguments[0], Target);
+
+                                      var arg0 = xxMethodCallExpression.Arguments[0] as ParameterExpression;
+
+                                      WriteProjectionProxy(zsource,
+                                                                xxMethodCallExpression.Arguments[0],
+                                                                Target,
+                                                                new[] {
+                                                                    new Tuple<string, MemberInfo, int>(arg0.Name, null, 0),
+                                                                    new Tuple<string, MemberInfo, int>("Last", null, 0),
+
+                                                                }
+                                                            );
+
                                       return;
                                   }
                                   #endregion
@@ -2899,7 +2927,9 @@ namespace ScriptCoreLib.Query.Experimental
                     using (WithoutLinefeeds())
                     {
                         WriteLine(0, ") as ");
+                        WriteLine(0, "`");
                         WriteLineWithColor(0, xGroupBy.keySelector.Parameters[0].Name, ConsoleColor.Magenta);
+                        WriteLine(0, "`");
                     }
 
                     //using (WithoutLinefeeds())
@@ -2953,7 +2983,9 @@ namespace ScriptCoreLib.Query.Experimental
                     using (WithoutLinefeeds())
                     {
                         WriteLine(0, ") as ");
+                        WriteLine(0, "`");
                         WriteLineWithColor(0, xJoin.outerKeySelector.Parameters[0].Name, ConsoleColor.Magenta);
+                        WriteLine(0, "`");
                     }
 
                     WriteLine(0, "inner join (");
