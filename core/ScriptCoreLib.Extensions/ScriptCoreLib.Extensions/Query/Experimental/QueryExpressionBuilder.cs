@@ -867,7 +867,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-
+                // called by?
                 #region ? WriteScalarOperand
 
                 Action<IQueryStrategy, MethodCallExpression, Func<string>, MethodInfo, Tuple<MemberInfo, int>[]> WriteScalarOperand =
@@ -878,6 +878,8 @@ namespace ScriptCoreLib.Query.Experimental
                         var zSelect = zsource as xSelect;
                         if (zSelect == null)
                         {
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
+
                             WriteLine(1, "?");
                             return;
                         }
