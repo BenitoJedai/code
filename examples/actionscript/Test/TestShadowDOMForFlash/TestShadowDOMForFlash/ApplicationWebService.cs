@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace AsyncWorkerCustomElementExperiment
+namespace TestShadowDOMForFlash
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -21,16 +21,17 @@ namespace AsyncWorkerCustomElementExperiment
         /// <summary>
         /// The static content defined in the HTML file will be update to the dynamic content once application is running.
         /// </summary>
-        public XElement PageContainer = new XElement(@"div", "click a button");
+        public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
 
-        public async Task WebMethod2()
+        /// <summary>
+        /// This Method is a javascript callable method.
+        /// </summary>
+        /// <param name="e">A parameter from javascript.</param>
+        /// <param name="y">A callback to javascript.</param>
+        public void WebMethod2(string e, Action<string> y)
         {
-
-            PageContainer.ReplaceNodes(
-                // compiled xml?
-                new XElement("x-work", "hello from service")
-            );
-
+            // Send it back to the caller.
+            y(e);
         }
 
     }

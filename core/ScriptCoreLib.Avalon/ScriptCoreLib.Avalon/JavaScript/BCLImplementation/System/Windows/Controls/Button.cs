@@ -13,6 +13,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
     [Script(Implements = typeof(global::System.Windows.Controls.Button))]
     internal class __Button : __ButtonBase
     {
+        // X:\jsc.svn\examples\actionscript\test\TestShadowDOMForFlash\TestShadowDOMForFlash\Application.cs
+
         // http://caniuse.com/shadowdom
         // wont work for ipad, safari, ie?
         // no reason to try it forms then yet?
@@ -40,7 +42,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                 // if we were called from ctor yield to it. otherwise recreate?
 
                 createdCallback:
-                    e =>
+                    (IHTMLElement e) =>
                     {
                         // um. this would be the new way do do ctor.
                         // like we do for Application(html) already?

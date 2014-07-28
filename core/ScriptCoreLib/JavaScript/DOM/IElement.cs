@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             // tested by
             // X:\jsc.svn\examples\javascript\Test\TestShadowSpan\TestShadowSpan\Application.cs
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLSpiral\WebGLSpiral\Application.cs
 
             [method: Script(DefineAsStatic = true)]
             get

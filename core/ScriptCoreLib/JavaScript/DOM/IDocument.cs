@@ -18,12 +18,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // or is it to be moved to IHTMLDocument?
         [Script(DefineAsStatic = true)]
-        public IFunction registerElement(
-            string name, 
-            Action<IHTMLElement> createdCallback,
-            Action<string, IHTMLElement> attributeChangedCallback = null
-            )
+        public IFunction registerElement<TElement>(
+            string name,
+            Action<TElement> createdCallback,
+            Action<string, TElement> attributeChangedCallback = null
+            ) where TElement : IHTMLElement
         {
+            // X:\jsc.svn\examples\javascript\WebGL\WebGLSpiral\WebGLSpiral\Application.cs
+
             // what if we used it for image assets, audio assets?
 
             // Custom element names must always contain a dash (-). ?
