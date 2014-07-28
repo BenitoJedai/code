@@ -11,6 +11,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.ExceptionServices
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/runtime/exceptionservices/exceptionservicescommon.cs
+
 
 #if NET45
     [Script(Implements = typeof(global::System.Runtime.ExceptionServices.ExceptionDispatchInfo))]

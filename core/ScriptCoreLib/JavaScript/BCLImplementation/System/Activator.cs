@@ -10,9 +10,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     #region referencesource
 
+    // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Activator.cs
+    // http://referencesource.microsoft.com/#mscorlib/system/activator.cs
+
     // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Activator.cs
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Activator.cs
-    // http://referencesource.microsoft.com/#mscorlib/system/activator.cs
     #endregion
 
     [Script(Implements = typeof(global::System.Activator))]

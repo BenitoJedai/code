@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/nullable.cs
+
     [Script(Implements = typeof(global::System.Nullable<>))]
     internal class __Nullable<T>
     {

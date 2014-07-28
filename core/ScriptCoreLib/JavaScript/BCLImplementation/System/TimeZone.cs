@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/timezone.cs
+
     [Script(Implements = typeof(global::System.TimeZone))]
     internal class __TimeZone
     {

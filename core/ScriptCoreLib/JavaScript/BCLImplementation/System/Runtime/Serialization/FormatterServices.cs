@@ -7,6 +7,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.Serialization
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/runtime/serialization/formatterservices.cs
     // http://msdn.microsoft.com/en-us/library/system.runtime.serialization.formatterservices.getuninitializedobject(v=vs.110).aspx
     [Script(Implements = typeof(global::System.Runtime.Serialization.FormatterServices))]
     public class __FormatterServices

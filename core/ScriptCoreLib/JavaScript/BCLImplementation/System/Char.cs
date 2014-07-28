@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/char.cs
+
 	[Script(Implements = typeof(global::System.Char))]
 	internal class __Char
 	{

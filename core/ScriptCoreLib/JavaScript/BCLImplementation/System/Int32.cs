@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    using ScriptCoreLib.JavaScript.Runtime;
+    // http://referencesource.microsoft.com/#mscorlib/system/int32.cs
 
     [Script(Implements = typeof(global::System.Int32))]
     internal class __Int32

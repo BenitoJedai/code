@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.ExceptionServices;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    using ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.ExceptionServices;
-    using ScriptCoreLib.JavaScript.Runtime;
+    // http://referencesource.microsoft.com/#mscorlib/system/exception.cs
+
 
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
     internal class __Exception

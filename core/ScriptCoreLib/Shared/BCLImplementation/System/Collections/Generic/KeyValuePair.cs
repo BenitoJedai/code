@@ -4,6 +4,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/keyvaluepair.cs
+
     [Script(Implements = typeof(global::System.Collections.Generic.KeyValuePair<,>))]
     internal class __KeyValuePair<TKey, TValue>
     {

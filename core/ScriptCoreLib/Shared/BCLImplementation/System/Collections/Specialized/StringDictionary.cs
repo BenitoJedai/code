@@ -6,6 +6,8 @@ using System.Collections;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 {
+    // http://referencesource.microsoft.com/#System/compmod/system/collections/specialized/stringdictionary.cs
+
     [Script(Implements = typeof(global::System.Collections.Specialized.StringDictionary))]
     internal class __StringDictionary : IEnumerable
     {

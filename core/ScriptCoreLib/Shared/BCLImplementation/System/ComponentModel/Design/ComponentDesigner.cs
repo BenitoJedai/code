@@ -7,9 +7,13 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel.Design
 {
+    // http://referencesource.microsoft.com/#System.Design/System/ComponentModel/Design/ComponentDesigner.cs
+
     [Script(Implements = typeof(global::System.ComponentModel.Design.ComponentDesigner))]
     public class __ComponentDesigner : __IDesigner, IDisposable
     {
+        // tested by ?
+
         public IComponent Component { get; set; }
 
         public virtual void Initialize(IComponent component)

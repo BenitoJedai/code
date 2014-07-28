@@ -7,6 +7,8 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/io/stream.cs
+
     [Script(Implements = typeof(global::System.IO.Stream))]
     public abstract class __Stream : __MarshalByRefObject, IDisposable
     {

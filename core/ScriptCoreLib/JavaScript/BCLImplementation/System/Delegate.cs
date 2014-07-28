@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
+using ScriptCoreLib.JavaScript.DOM;
+using System.Reflection;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    using ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection;
-    using ScriptCoreLib.JavaScript.DOM;
-    using System.Reflection;
+
 
     // http://referencesource.microsoft.com/#mscorlib/system/delegate.cs
+
     [Script(Implements = typeof(global::System.Delegate))]
     internal class __Delegate
     {

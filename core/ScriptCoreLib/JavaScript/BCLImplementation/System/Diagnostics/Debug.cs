@@ -5,9 +5,12 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Diagnostics
 {
+    // http://referencesource.microsoft.com/#System/compmod/system/diagnostics/Debug.cs
+
     [Script(Implements = typeof(global::System.Diagnostics.Debug))]
     internal class __Debug
     {
+        // used by ?
 
         [Conditional("DEBUG")]
         public static void Assert(bool condition)

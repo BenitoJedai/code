@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/byte.cs
 
 	[Script(Implements = typeof(global::System.Byte))]
 	internal class __Byte

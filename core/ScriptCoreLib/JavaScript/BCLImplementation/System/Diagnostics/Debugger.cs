@@ -4,6 +4,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Diagnostics
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/diagnostics/debugger.cs
+
     [Script(Implements = typeof(global::System.Diagnostics.Debugger))]
     internal class __Debugger
     {

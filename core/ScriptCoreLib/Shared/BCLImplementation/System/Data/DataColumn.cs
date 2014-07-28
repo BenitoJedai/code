@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data
 {
+    // http://referencesource.microsoft.com/#System.Data/data/System/Data/DataColumn.cs
+
     [Script(Implements = typeof(global::System.Data.DataColumn))]
     public class __DataColumn : __MarshalByValueComponent
     {
