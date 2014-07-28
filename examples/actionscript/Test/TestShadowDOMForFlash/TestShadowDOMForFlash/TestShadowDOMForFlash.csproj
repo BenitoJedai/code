@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B4A11933-81CB-4B80-9D00-C3DEBDE9DCFD}</ProjectGuid>
+    <ProjectGuid>{5A587BDE-F3B2-425D-B6A3-2F949CEF1BEB}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestShadowDocumentWithForms</RootNamespace>
-    <AssemblyName>TestShadowDocumentWithForms</AssemblyName>
+    <RootNamespace>TestShadowDOMForFlash</RootNamespace>
+    <AssemblyName>TestShadowDOMForFlash</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>TestShadowDocumentWithForms.Program</StartupObject>
+    <StartupObject>TestShadowDOMForFlash.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -113,38 +113,24 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="TestShadowDocumentWithForms.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TestShadowDocumentWithForms.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestShadowDOMForFlash.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestShadowDOMForFlash.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FooForm.cs">
-      <SubType>form</SubType>
-    </Compile>
-    <Compile Include="FooUserControl.cs">
-      <SubType>usercontrol</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
+    <Compile Include="ApplicationSprite.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\ShadowLayout.htm" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="FooForm.resx">
-      <DependentUpon>FooForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FooUserControl.resx">
-      <DependentUpon>FooUserControl.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

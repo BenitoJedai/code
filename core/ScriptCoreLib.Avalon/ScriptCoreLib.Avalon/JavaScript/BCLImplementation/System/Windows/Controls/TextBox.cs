@@ -70,7 +70,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                 name: ElementName,
 
                 createdCallback:
-                    e =>
+                    (IHTMLElement e) =>
                     {
                         // um. this would be the new way do do ctor.
                         // like we do for Application(html) already?
