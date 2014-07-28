@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/io/path.cs
+
     [Script(Implements = typeof(global::System.IO.Path))]
     internal static class __Path
     {

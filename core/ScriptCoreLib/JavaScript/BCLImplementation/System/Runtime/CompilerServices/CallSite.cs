@@ -11,6 +11,10 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices
 {
+    // see: http://msdn.microsoft.com/en-us/library/System.Runtime.CompilerServices.CallSite.aspx
+    // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Actions/CallSite.cs
+
+
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite<>))]
     internal class __CallSite<T> : __CallSite
     {

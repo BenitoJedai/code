@@ -7,6 +7,8 @@ using System.Collections.Specialized;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 {
+    // http://referencesource.microsoft.com/#System/compmod/system/collections/specialized/namevaluecollection.cs
+
     [Script(Implements = typeof(global::System.Collections.Specialized.NameValueCollection))]
     public class __NameValueCollection : __NameObjectCollectionBase
     {

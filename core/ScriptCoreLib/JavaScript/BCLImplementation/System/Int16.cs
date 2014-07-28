@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/int16.cs
 
     [Script(Implements = typeof(global::System.Int16))]
     internal class __Int16

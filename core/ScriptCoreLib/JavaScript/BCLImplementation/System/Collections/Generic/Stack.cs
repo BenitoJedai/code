@@ -10,6 +10,8 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/stack.cs
+
     [Script(Implements = typeof(Stack<>))]
     internal class __Stack<T> : IEnumerable<T>
     {

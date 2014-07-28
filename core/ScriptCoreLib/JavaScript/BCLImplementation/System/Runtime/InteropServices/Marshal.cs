@@ -5,11 +5,15 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.InteropServices
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/runtime/interopservices/marshal.cs
+
     [Script(Implements = typeof(global::System.Runtime.InteropServices.Marshal))]
     internal class __Marshal
     {
         public static void WriteInt32(IntPtr ptr, int offset, int value)
         {
+            // tested by ?
+
             var p = (__IntPtr)(object)ptr;
 
             if (p.PointerToUInt8 != null)

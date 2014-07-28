@@ -8,6 +8,8 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
+    // http://referencesource.microsoft.com/#System.Xml.Linq/XLinq.cs
+
     [Script(Implements = typeof(XElement))]
     internal class __XElement : __XContainer
     {

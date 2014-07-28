@@ -6,6 +6,8 @@ using System.Collections;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/readonlycollectionbase.cs
+
 	[Script(Implements = typeof(global::System.Collections.ReadOnlyCollectionBase))]
 	internal class __ReadOnlyCollectionBase : ICollection, IEnumerable
 	{

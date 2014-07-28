@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/guid.cs
+
     [Script(Implements = typeof(global::System.Guid))]
     internal class __Guid
     {
