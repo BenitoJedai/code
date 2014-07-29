@@ -65,9 +65,32 @@ namespace ChromeExtensionShadowExperiment
 
                 var IgnoreSecondaryUpdatesFor = new List<TabIdInteger>();
 
+
+
+
+                chrome.tabs.Created +=
+                    async (z) =>
+                    {
+                        var n = new Notification
+                        {
+                            Message = "Created! " + new { z.id }
+                        };
+                    };
+
+                chrome.tabs.Activated +=
+                    async (z) =>
+                    {
+                        var n = new Notification
+                        {
+                            Message = "Activated! " + new { z }
+                        };
+
+                    };
+
+
                 #region Updated
                 chrome.tabs.Updated +=
-                    async (i, x, tab) =>
+            async (i, x, tab) =>
                     {
                         // chrome://newtab/
 
@@ -141,7 +164,7 @@ namespace ChromeExtensionShadowExperiment
             // 1999999999
 
             // X:\jsc.svn\examples\javascript\Test\TestShadowBody\TestShadowBody\Application.cs
-            var s = new ShadowLayout().AttachTo(Native.document.documentElement.shadow);
+            var s = new ShadowLayout().AttachTo(Native.shadow);
 
             // youtube
             //s.TopSideBar.style.zIndex = 19999999999;
@@ -155,7 +178,7 @@ namespace ChromeExtensionShadowExperiment
                 {
                     if (that.HTMLTarget.parentNode == null)
                     {
-                        that.HTMLTarget.AttachTo(Native.document.documentElement.shadow);
+                        that.HTMLTarget.AttachTo(Native.shadow);
                     }
 
                     // animate!
