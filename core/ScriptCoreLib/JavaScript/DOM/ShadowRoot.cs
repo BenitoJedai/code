@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,16 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/ShadowRoot.webidl
 
     [Script(InternalConstructor = true, ExternalTarget = "ShadowRoot")]
-    public class ShadowRoot : IDocumentFragment
+    public class ShadowRoot : ShadowRoot<IHTMLElement>
     {
+    }
+
+    [Script(InternalConstructor = true, ExternalTarget = "ShadowRoot")]
+    public class ShadowRoot<TElement> : IDocumentFragment where TElement : IHTMLElement
+    {
+        // tested by?
+        public TElement host;
+
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Form\Form.InternalBeforeVisibleChanged.cs
 
         // can we have a chrome extension register interesting new tags?
