@@ -93,6 +93,23 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // X:\jsc.svn\examples\javascript\Test\TestTemplateElement\TestTemplateElement\Application.cs
         //public T cloneNode(bool deep) { return default(T); }
 
+        [System.Obsolete("experimental like .css")]
+        public ShadowRoot<T> shadow
+        {
+            [method: Script(DefineAsStatic = true)]
+            get
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestShadowRootHost\TestShadowRootHost\Application.cs
+
+                var s = this.shadowRoot;
+
+                if (s != null)
+                    return (ShadowRoot<T>)(object)s;
+
+
+                return (ShadowRoot<T>)(object)this.createShadowRoot();
+            }
+        }
 
         #region event onclick
         public event System.Action<IEvent<T>> onclick
@@ -261,7 +278,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             sub,
             sup,
             shadow,
-            
+
             table,
             tbody,
             td,

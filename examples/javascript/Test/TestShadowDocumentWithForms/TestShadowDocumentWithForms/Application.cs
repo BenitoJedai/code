@@ -37,7 +37,8 @@ namespace TestShadowDocumentWithForms
 
 
             // X:\jsc.svn\examples\javascript\Test\TestShadowBody\TestShadowBody\Application.cs
-            var s = new ShadowLayout().AttachTo(Native.document.documentElement.shadow);
+            //var s = new ShadowLayout().AttachTo(Native.document.documentElement.shadow);
+            var s = new ShadowLayout().AttachTo(Native.shadow);
 
             // forms shall use position fixed
             // to prevent overflow!?
@@ -47,7 +48,8 @@ namespace TestShadowDocumentWithForms
                 {
                     if (that.HTMLTarget.parentNode == null)
                     {
-                        that.HTMLTarget.AttachTo(Native.document.documentElement.shadow);
+                        //that.HTMLTarget.AttachTo(Native.document.documentElement.shadow);
+                        that.HTMLTarget.AttachTo(Native.shadow);
                     }
 
                     // animate!

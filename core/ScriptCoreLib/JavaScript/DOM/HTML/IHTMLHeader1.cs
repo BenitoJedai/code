@@ -10,8 +10,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
     // chrome calls this HTMLHeadingElement
     [Script(InternalConstructor = true)]
-    public class IHTMLHeader1 : IHTMLElement
+    public class IHTMLHeader1 : IHTMLElement<IHTMLHeader1>
     {
+        // X:\jsc.svn\examples\javascript\Test\TestShadowRootHost\TestShadowRootHost\Application.cs
+
         public static implicit operator IHTMLHeader1(string innerText)
         {
             return new IHTMLHeader1 { innerText = innerText };

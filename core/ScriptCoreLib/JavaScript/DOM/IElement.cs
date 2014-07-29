@@ -36,7 +36,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         //  readonly    attribute ShadowRoot? shadowRoot;
-        readonly ShadowRoot shadowRoot;
+        public readonly ShadowRoot shadowRoot;
 
         // X:\jsc.svn\examples\javascript\Test\TestShadowDOM\TestShadowDOM\Application.cs
         public ShadowRoot createShadowRoot() { return null; }
