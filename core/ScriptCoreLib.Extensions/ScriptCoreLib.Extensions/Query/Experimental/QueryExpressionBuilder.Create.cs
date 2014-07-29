@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.Query.Experimental
 {
-    public enum QueryExpressionBuilderDialect { SQLite, PHP };
+    public enum QueryExpressionBuilderDialect { SQLite, MySQL };
 
     public static partial class QueryExpressionBuilder
     {
