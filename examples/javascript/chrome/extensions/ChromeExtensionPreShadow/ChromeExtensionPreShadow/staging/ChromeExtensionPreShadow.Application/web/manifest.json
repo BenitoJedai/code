@@ -1,0 +1,46 @@
+
+{
+  "manifest_version": 2,
+  "name": "ChromeExtensionPreShadow",
+  "description": "ChromeExtensionPreShadow",
+  "version": "12",
+ "minimum_chrome_version": "27",
+  "offline_enabled": true,
+
+ 
+
+   "externally_connectable": {
+    "ids": [
+      "*"
+		]
+	},
+
+ "page_action": {
+     "default_icon": "assets/ScriptCoreLib/jsc.png"
+	 },
+
+	"background": {
+	  "persistent": true,
+      "scripts": ["view-source"]
+    },
+
+
+  "icons": {
+  },
+  
+
+  "permissions": [
+  "<all_urls>",
+  "webNavigation",
+  "contextMenus",
+  "dns",
+  "infobars",
+	  "tabs", 
+   "activeTab",
+    "unlimitedStorage",
+	    "notifications",
+		    "storage"
+
+  ]
+
+}
