@@ -221,14 +221,84 @@ namespace ChromeExtensionPreShadow
             //);
 
 
+
+            // !! Elements cannot be registered from extensions.
+            // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionPreShadow\ChromeExtensionPreShadow\Application.cs
+            // https://code.google.com/p/chromium/issues/detail?id=390807
+
             Native.document.querySelectorAll("x-foo").WithEach(
                 e =>
                 {
                     // what about elements added later?
 
                     e.shadow.appendChild("x-foo element provided by ChromeExtensionPreShadow without registerElement");
+
+                    //MutationCallback
+
                 }
             );
+
+            // ILMutationObserver
+            new MutationObserver(
+                new MutationCallback(
+                    (MutationRecord[] mutations, MutationObserver observer) =>
+                            {
+                                // MutationCallback: {{ Length = 3 }}
+                                // MutationCallback: {{ type = childList }}
+                                // MutationCallback: {{ type = characterData }}
+
+                                mutations.WithEach(
+                                    m =>
+                                    {
+                                        // not a good idea. recursive
+                                        //new IHTMLPre { "MutationCallback: " + new { m.type } }.AttachToDocument();
+
+                                        if (m.type == "childList")
+                                        {
+                                            m.addedNodes.WithEach(
+                                                addedNode =>
+                                                {
+                                                    //new IHTMLPre { "MutationCallback: " + new { addedNode } }.AttachToDocument();
+
+                                                    //MutationCallback: { { addedNode = [object HTMLElement] } }
+                                                    if (addedNode.nodeType == INode.NodeTypeEnum.ElementNode)
+                                                    {
+                                                        var addedElement = (IHTMLElement)addedNode;
+
+                                                        //MutationCallback: addedElement { { localName = x - foo } }
+                                                        //new IHTMLPre { "MutationCallback: addedElement " + new { addedElement.localName } }.AttachToDocument();
+
+                                                        if (addedElement.localName == "x-foo")
+                                                        {
+                                                            addedElement.shadow.appendChild("x-foo element provided by ChromeExtensionPreShadow without registerElement");
+                                                        }
+                                                    }
+                                                }
+                                            );
+
+                                        }
+                                    }
+                                );
+
+
+                            }
+                )
+            ).observe(Native.document.documentElement,
+                new
+            {
+                // Set to true if mutations to target's children are to be observed.
+                childList = true,
+                // Set to true if mutations to target's attributes are to be observed. Can be omitted if attributeOldValue and/or attributeFilter is specified.
+                //attributes = true,
+                // Set to true if mutations to target's data are to be observed. Can be omitted if characterDataOldValue is specified.
+                //characterData = true,
+                // Set to true if mutations to not just target, but also target's descendants are to be observed.
+                subtree = true,
+            }
+            );
+
+
+
         }
 
     }
