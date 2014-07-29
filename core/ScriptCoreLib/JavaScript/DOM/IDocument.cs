@@ -24,6 +24,11 @@ namespace ScriptCoreLib.JavaScript.DOM
             Action<string, TElement> attributeChangedCallback = null
             ) where TElement : IHTMLElement
         {
+            // !! Elements cannot be registered from extensions.
+            // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionPreShadow\ChromeExtensionPreShadow\Application.cs
+            // https://code.google.com/p/chromium/issues/detail?id=390807
+
+
             // X:\jsc.svn\examples\javascript\WebGL\WebGLSpiral\WebGLSpiral\Application.cs
 
             // what if we used it for image assets, audio assets?
