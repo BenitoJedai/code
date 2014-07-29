@@ -14,6 +14,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         public readonly string type;
         public readonly INode target;
 
+        // MutationCallback: {{ type = childList }}
+        // x:\jsc.svn\examples\javascript\chrome\extensions\chromeextensionpreshadow\chromeextensionpreshadow\application.cs
+        public readonly INode[] addedNodes;
+
+        
+
         public readonly string attributeName;
     }
 
