@@ -38,6 +38,7 @@ namespace ScriptCoreLib.JavaScript
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         [Script(ExternalTarget = "document")]
         [Obsolete("document", error)]
+        // 22 matches
         static public IHTMLDocument Document;
 
 
@@ -103,6 +104,7 @@ namespace ScriptCoreLib.JavaScript
             {
                 // to be used in chrome extensions?
                 // X:\jsc.svn\examples\javascript\Test\TestShadowSelectByClass\TestShadowSelectByClass\Application.cs
+                // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionShadowExperiment\ChromeExtensionShadowExperiment\Application.cs
 
                 return Native.document.documentElement.shadow;
             }
