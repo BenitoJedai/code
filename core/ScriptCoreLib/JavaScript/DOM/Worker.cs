@@ -23,6 +23,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Worker.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/Worker.cpp
+    // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Worker/
+
 
     [Script(HasNoPrototype = true, ExternalTarget = "Worker")]
     public class Worker : IEventTarget

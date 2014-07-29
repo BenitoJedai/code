@@ -400,6 +400,11 @@ interface THREE.MeshLambertMaterial
 	attribute THREE.Texture map;
 };
 
+
+
+
+// http://sharpkit.net/help/SharpKit.Three/THREE/Object3D/
+
 [Constructor()]
 interface THREE.Object3D
 { 
