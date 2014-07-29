@@ -31,6 +31,8 @@ interface chrome.webNavigationCommitedArgs
 	attribute double timeStamp;
 };
 
+// http://sharpkit.net/help/SharpKit.Google.Chrome/SharpKit.Google.Chrome/webRequest/
+
 // "permissions": [
 //   "webNavigation"
 interface chrome.webNavigation
@@ -89,6 +91,9 @@ interface chrome.Tab
 //'pointerLock' is only allowed for packaged apps, and this is a extension.
 //'socket' is only allowed for packaged apps, and this is a extension.
 //'webview' is only allowed for packaged apps, and this is a extension.
+
+// http://sharpkit.net/help/SharpKit.Google.Chrome/SharpKit.Google.Chrome/tabs/
+
 interface chrome.tabs
 {
 	// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/browser.idl

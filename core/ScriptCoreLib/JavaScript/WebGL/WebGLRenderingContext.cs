@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContextBase.cpp
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContextBase.idl
+
+    // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebGLRenderingContext/
+
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     public class WebGLRenderingContext
     // : WebGLRenderingContextBase

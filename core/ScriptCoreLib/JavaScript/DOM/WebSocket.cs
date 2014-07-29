@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebSocket.webidl
+    // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebSocket/
 
     [Script(InternalConstructor = true)]
     public class WebSocket

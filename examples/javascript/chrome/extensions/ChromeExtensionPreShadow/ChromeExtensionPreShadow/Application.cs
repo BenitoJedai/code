@@ -17,6 +17,7 @@ using ChromeExtensionPreShadow;
 using ChromeExtensionPreShadow.Design;
 using ChromeExtensionPreShadow.HTML.Pages;
 using chrome;
+using System.Net;
 
 namespace ChromeExtensionPreShadow
 {
@@ -62,44 +63,146 @@ namespace ChromeExtensionPreShadow
                     // our API does not have a Show
                     new chrome.Notification
                     {
-                        Message = "Extension Installed!"
+                        Message = "ChromeExtensionPreShadow Installed!"
                     };
                 };
                 #endregion
 
+                // what about
+                // Error code: ERR_INTERNET_DISCONNECTED
 
-                chrome.webNavigation.Committed +=
-                    z =>
+                var once = new { tabId = default(TabIdInteger), url = default(string) }.ToEmptyList();
+
+
+                new { }.With(
+                    async delegate
+                {
+                    // X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionWithWorker\ChromeExtensionWithWorker\Application.cs
+
+                    var code = await new WebClient().DownloadStringTaskAsync(
+                       new Uri(Worker.ScriptApplicationSource, UriKind.Relative)
+                  );
+
+                    new chrome.Notification
                     {
-                        var n = new Notification
-                        {
-                            Message = "webNavigation! " + new { z }
-                        };
+                        Message = "code " + new { code.Length }
                     };
 
-
-                chrome.tabs.Created +=
-                     (z) =>
-                    {
-                        var n = new Notification
+                    chrome.webNavigation.Committed +=
+                          async z =>
                         {
-                            Message = "Created! " + new { z.id }
-                        };
-                    };
+                            // 0:5212ms at Delay {{ _title = , _message = webNavigation! Committed {{ url = http://example.com/, tabId = 99, transitionType = typed, transitionQualifiers = from_address_bar }} }} 
 
-                chrome.tabs.Activated +=
-                     (z) =>
-                    {
-                        var n = new Notification
-                        {
-                            Message = "Activated! " + new { z }
-                        };
+                            if (z.url.StartsWith("https://www.google.ee/_/chrome/newtab?"))
+                            {
+                                //Unchecked runtime.lastError while running tabs.executeScript: Cannot access a chrome:// URL
+                                return;
+                            }
 
-                    };
+                            if (z.transitionType == "auto_subframe")
+                            {
+                                // this seems to be an ad?
+                                // https://developer.chrome.com/extensions/history
+
+                                return;
+                            }
+
+                            // now would be nice to check if this tab was already injected.
+                            once.Add(new { z.tabId, z.url });
+
+
+                            var n = new Notification
+                            {
+                                Message = "webNavigation! Committed " + new { z.url, z.tabId, z.transitionType, z.transitionQualifiers }
+                            };
+
+                            //                        0:3388ms at Delay {
+                            //                            {
+                            //                                _title = , _message = webNavigation!Committed {
+                            //                                    {
+                            //                                        url = https://www.google.ee/_/chrome/newtab?espv=2&ie=UTF-8, tabId = 125, transitionType = typed, transitionQualifiers =  }} }} view-source:41478
+                            //Unchecked runtime.lastError while running tabs.executeScript: Cannot access a chrome:// URL
+
+
+                            // https://developer.chrome.com/extensions/tabs#method-executeScript
+                            //z.tabId.executeScript(
+                            //    new
+                            //    {
+                            //        code = "document.body.style.borderLeft='1em solid yellow';",
+                            //        runAt = "document_start"
+                            //    }
+                            //);
+
+                            // we should now be able to take command of that web page.
+                            // yet. we might not want to change its DOM yet?
+                            // maybe wait for context menu, keyboard or action icon click?
+
+
+                            // Content scripts execute in a special environment called an isolated world. 
+                            // They have access to the DOM of the page they are injected into, but not to any JavaScript variables or 
+                            // functions created by the page. It looks to each content script as if there is no other JavaScript executing
+                            // on the page it is running on. The same is true in reverse: JavaScript running on the page cannot call any 
+                            // functions or access any variables defined by content scripts.
+
+                            var result = await z.tabId.executeScript(
+                            //new { file = url }
+                            new
+                            {
+                                code,
+
+                                runAt = "document_start"
+                            }
+                            );
+                        };
+                }
+                );
+
+
+
+                //chrome.tabs.Created +=
+                //     (z) =>
+                //    {
+                //        var n = new Notification
+                //        {
+                //            Message = "Created! " + new { z.id }
+                //        };
+                //    };
+
+                //chrome.tabs.Activated +=
+                //     (z) =>
+                //    {
+                //        var n = new Notification
+                //        {
+                //            Message = "Activated! " + new { z }
+                //        };
+
+                //    };
 
 
                 return;
             }
+
+
+            // inside executeScript
+
+            Native.body.style.borderTop = "1em solid yellow";
+            Console.WriteLine("injected!");
+
+            // save view-source to B:
+            // reload extension
+
+            // 0:6311ms injected!
+            // lets test agiainst file://
+
+            // it works.
+            // either do the workers now or lets test register element?
+
+            Native.document.registerElement("x-foo",
+                (IHTMLElement e) =>
+                {
+                    e.shadow.appendChild("x-foo element provided by ChromeExtensionPreShadow");
+                }
+            );
         }
 
     }
