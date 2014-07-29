@@ -99,6 +99,13 @@ namespace ChromeExtensionPreShadow
                                 return;
                             }
 
+                            //                            0:487298ms at Delay {
+                            //                                {
+                            //                                    _title = , _message = webNavigation!Committed {
+                            //                                        {
+                            //                                            url = chrome://chrome/extensions/, tabId = 158, transitionType = auto_bookmark, transitionQualifiers =  }} }} view-source:41478
+                            //Unchecked runtime.lastError while running tabs.executeScript: Cannot access a chrome:// URL
+
                             if (z.transitionType == "auto_subframe")
                             {
                                 // this seems to be an ad?
@@ -106,6 +113,13 @@ namespace ChromeExtensionPreShadow
 
                                 return;
                             }
+
+                            if (z.url.StartsWith("chrome-devtools://"))
+                                return;
+
+                            if (z.url.StartsWith("chrome://"))
+                                return;
+
 
                             // now would be nice to check if this tab was already injected.
                             once.Add(new { z.tabId, z.url });
@@ -185,7 +199,8 @@ namespace ChromeExtensionPreShadow
 
             // inside executeScript
 
-            Native.body.style.borderTop = "1em solid yellow";
+            Native.document.documentElement.style.borderTop = "1em solid yellow";
+            //Native.body.style.borderTop = "1em solid yellow";
             Console.WriteLine("injected!");
 
             // save view-source to B:
@@ -197,10 +212,21 @@ namespace ChromeExtensionPreShadow
             // it works.
             // either do the workers now or lets test register element?
 
-            Native.document.registerElement("x-foo",
-                (IHTMLElement e) =>
+            // Uncaught NotSupportedError: Failed to execute 'registerElement' on 'Document': Registration failed for type 'x-foo'. Elements cannot be registered from extensions.
+            //Native.document.registerElement("x-foo",
+            //    (IHTMLElement e) =>
+            //    {
+            //        e.shadow.appendChild("x-foo element provided by ChromeExtensionPreShadow");
+            //    }
+            //);
+
+
+            Native.document.querySelectorAll("x-foo").WithEach(
+                e =>
                 {
-                    e.shadow.appendChild("x-foo element provided by ChromeExtensionPreShadow");
+                    // what about elements added later?
+
+                    e.shadow.appendChild("x-foo element provided by ChromeExtensionPreShadow without registerElement");
                 }
             );
         }
