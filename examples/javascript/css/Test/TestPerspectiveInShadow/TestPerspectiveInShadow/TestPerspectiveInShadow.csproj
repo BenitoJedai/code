@@ -8,11 +8,11 @@
     <ProjectGuid>{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChromeExtensionPreShadow</RootNamespace>
-    <AssemblyName>ChromeExtensionPreShadow</AssemblyName>
+    <RootNamespace>TestPerspectiveInShadow</RootNamespace>
+    <AssemblyName>TestPerspectiveInShadow</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ChromeExtensionPreShadow.Program</StartupObject>
+    <StartupObject>TestPerspectiveInShadow.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,9 +36,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Chrome Web Store">
-      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -116,8 +113,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ChromeExtensionPreShadow.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ChromeExtensionPreShadow.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestPerspectiveInShadow.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestPerspectiveInShadow.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
@@ -125,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Design\ShadowLayout.htm" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationWebService.cs" />
@@ -133,9 +131,6 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <None Include="packages.config" />
-    <None Include="staging\ChromeExtensionPreShadow.Application\web\manifest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

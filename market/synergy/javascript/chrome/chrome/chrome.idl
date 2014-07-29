@@ -13,6 +13,33 @@ interface chrome.ChromeEventTarget<T, T2, T3>
 
 
 
+// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/web_request.json
+// X:\jsc.svn\examples\javascript\chrome\extensions\ChromeExtensionPreShadow\ChromeExtensionPreShadow\Application.cs
+// https://developer.chrome.com/extensions/webNavigation#event-onCommitted
+// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/web_navigation.json
+
+
+// not a real type?
+interface chrome.webNavigationCommitedArgs
+{
+	attribute chrome.TabIdInteger tabId;
+	attribute string url;
+	attribute int processId;
+	attribute int frameId;
+	attribute string transitionType;
+	attribute string transitionQualifiers;
+	attribute double timeStamp;
+};
+
+// "permissions": [
+//   "webNavigation"
+interface chrome.webNavigation
+{
+	event static attribute chrome.ChromeEventTarget<chrome.webNavigationCommitedArgs> onCommitted;
+};
+
+
+
 
 // http://developer.chrome.com/extensions/tabs.html#type-Tab
 // rename to TabKey as we use such naming for DLinq?
@@ -64,6 +91,7 @@ interface chrome.Tab
 //'webview' is only allowed for packaged apps, and this is a extension.
 interface chrome.tabs
 {
+	// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/browser.idl
 	// http://stackoverflow.com/questions/6497548/chrome-extension-make-it-run-every-page-load
 
 	event static attribute chrome.ChromeEventTarget<chrome.Tab> onCreated;
