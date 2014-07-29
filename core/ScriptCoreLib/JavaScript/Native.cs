@@ -15,7 +15,7 @@ namespace ScriptCoreLib.JavaScript
     using ScriptCoreLib.JavaScript.BCLImplementation.System;
     using ScriptCoreLib.Shared.BCLImplementation.System;
 
-    
+
 
 
     [Script]
@@ -95,6 +95,18 @@ namespace ScriptCoreLib.JavaScript
 
         static public IWindow window;
 
+
+        [Obsolete("experimental")]
+        public static ShadowRoot shadow
+        {
+            get
+            {
+                // to be used in chrome extensions?
+                // X:\jsc.svn\examples\javascript\Test\TestShadowSelectByClass\TestShadowSelectByClass\Application.cs
+
+                return Native.document.documentElement.shadow;
+            }
+        }
         //public static class async
         //{ 
         //    onframe   
