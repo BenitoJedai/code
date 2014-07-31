@@ -229,11 +229,14 @@ interface chrome.app
 // http://dev.chromium.org/developers/design-documents/aura/aura-and-shell-dependencies
 // http://stackoverflow.com/questions/16255325/what-does-only-supported-in-ash-mean
 // http://developer.chrome.com/apps/app.window.html
+// https://code.google.com/p/chromium/issues/detail?id=260810
 interface chrome.app.window
 {
 	static chrome.AppWindow current();
 
 
+
+	// https://code.google.com/p/chromium/codesearch#chromium/src/ui/views/widget/widget_aura_utils.cc
 	// transparent_background
 	// alphaEnabled
 	async static void create(string url, any options, function<chrome.AppWindow> callback);
@@ -294,8 +297,12 @@ interface chrome.AppWindow
 	void hide();
 	
 
+	// permission
+	// alwaysOnTopWindows
+	void setAlwaysOnTop(boolean alwaysOnTop);
 
-	
+	// https://code.google.com/p/chromium/issues/detail?id=260810
+	boolean alphaEnabled();
 
 
 
@@ -315,6 +322,7 @@ interface chrome.AppWindow
 	attribute chrome.ChromeEventTarget onWindowFirstShown;
 
 	// tested by?
+	// X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
 	attribute chrome.ChromeEventTarget onAlphaEnabledChanged;
 
 

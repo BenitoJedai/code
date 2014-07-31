@@ -80,8 +80,9 @@ namespace ChromeAppWindowFrameNoneExperiment
                        //Error in event handler for app.runtime.onLaunched: Error: Invalid value for argument 2. Property 'transparentBackground': Expected 'boolean' but got 'integer'.
                        var transparentBackground = true;
 
-
+                       // https://code.google.com/p/chromium/issues/detail?id=260810
                        // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
+
                        var xappwindow = await chrome.app.window.create(
                              Native.document.location.pathname,
                              new
@@ -285,9 +286,11 @@ namespace ChromeAppWindowFrameNoneExperiment
 
             content.button2.Click +=
                 delegate
-            {
+                {
 
-                var www = new Worker(
+                    #region Worker
+                    // we now should have simple scope sharing for Task.Run
+                    var www = new Worker(
                       wworker =>
                           {
                               // running in worker context. cannot talk to outer scope yet.
@@ -321,8 +324,10 @@ namespace ChromeAppWindowFrameNoneExperiment
                         {
                             Console.Write("www: " + e.data);
                         };
+                    #endregion
 
-            };
+
+                };
 
             new Abstractatech.ConsoleFormPackage.Library.ConsoleForm { }.InitializeConsoleFormWriter().Show();
             #endregion
