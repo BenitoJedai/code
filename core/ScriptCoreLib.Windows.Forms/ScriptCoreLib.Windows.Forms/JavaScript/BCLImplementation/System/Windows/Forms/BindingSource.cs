@@ -13,6 +13,8 @@ using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/BindingSource.cs
+
     [Script(Implements = typeof(global::System.Windows.Forms.BindingSource))]
     public class __BindingSource : __Component, ISupportInitialize, IList
     {

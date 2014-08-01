@@ -69,6 +69,7 @@ namespace WebGLGalaxyS
 
                 new
             {
+                antialias = true,
                 alpha = true,
                 preserveDrawingBuffer = true
             }
@@ -105,12 +106,10 @@ namespace WebGLGalaxyS
             canvas.onmousedown +=
                 e =>
                 {
-                    var pointerLock = canvas == Native.document.pointerLockElement;
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
                         canvas.requestFullscreen();
-                        canvas.requestPointerLock();
                     }
                     else
                     {
@@ -123,14 +122,8 @@ namespace WebGLGalaxyS
                             e.CursorY
                         };
 
-                        if (pointerLock)
-                        {
-                            // skip
-                        }
-                        else
-                        {
-                            e.CaptureMouse();
-                        }
+
+                        e.CaptureMouse();
                     }
 
                 };
@@ -150,65 +143,61 @@ namespace WebGLGalaxyS
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Left)
                     {
-                        if (pointerLock)
-                        {
-                            //scene.rotation.x += 0.01 * e.movementY;
-                            //scene.rotation.y += 0.01 * e.movementX;
 
-                        }
-                        else
-                        {
-                            //scene.rotation.x = old.scene.x + 0.01 * (e.CursorY - old.CursorY);
-                            //scene.rotation.y = old.scene.y + 0.01 * (e.CursorX - old.CursorX);
-
-                         
-                            oo.WithEach(
-                                x =>
+                        oo.WithEach(
+                            x =>
                             {
                                 x.rotation.y += 0.006 * (e.CursorX - old.CursorX);
                                 x.rotation.x += 0.006 * (e.CursorY - old.CursorY);
                             }
-                            );
+                        );
 
-                            old = new
-                            {
-
-
-                                e.CursorX,
-                                e.CursorY
-                            };
-
-                        }
+                        old = new
+                        {
 
 
-                        //    Native.document.title = new { e.movementX, e.movementY }.ToString();
+                            e.CursorX,
+                            e.CursorY
+                        };
+
+
 
                     }
+
+                };
+            #endregion
+            var z = camera.position.z;
+
+            #region onmousewheel
+            canvas.onmousewheel +=
+                e =>
+                {
+                    //camera.position.z = 1.5;
+
+                    // min max. shall adjust speed also!
+                    // max 4.0
+                    // min 0.6
+                    z -= 10.0 * e.WheelDirection;
+
+                    //camera.position.z = 400;
+                    z = z.Max(200).Min(500);
+
+                    //Native.document.title = new { z }.ToString();
 
                 };
             #endregion
 
 
             Native.window.onframe +=
-                delegate
+                e =>
             {
                 renderer.clear();
 
-                
-                //camera.aspect = window.aspect;
-                //camera.aspect = canvas.clientWidth / (double)canvas.clientHeight;
-                //camera.aspect = canvas.aspect;
+                camera.aspect = canvas.aspect;
                 camera.updateProjectionMatrix();
 
+                camera.position.z += (z - camera.position.z) * e.delay.ElapsedMilliseconds / 200;
 
-                //oo.WithEach(
-                //    x =>
-                //        x.rotation.y = st.ElapsedMilliseconds * 0.0001
-                //);
-
-
-                //camera.position.x += (mouseX - camera.position.x) * .05;
-                //camera.position.y += (-mouseY - camera.position.y) * .05;
 
                 camera.lookAt(scene.position);
 

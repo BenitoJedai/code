@@ -7,6 +7,8 @@ using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/ToolStrip.cs
+
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStrip))]
     public class __ToolStrip : __ScrollableControl
     {

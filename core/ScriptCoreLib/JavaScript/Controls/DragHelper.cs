@@ -53,6 +53,9 @@ namespace ScriptCoreLib.JavaScript.Controls
         public global::System.Collections.Generic.List<Point> History;
 
 
+
+
+        #region Enabled
         private bool _Enabled;
 
         public bool Enabled
@@ -86,6 +89,8 @@ namespace ScriptCoreLib.JavaScript.Controls
 
             }
         }
+        #endregion
+
 
         public Point DragStartCursorPosition = new Point(0, 0);
 

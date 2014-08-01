@@ -8,6 +8,8 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/WebBrowser.cs
+
     // tested by X:\jsc.svn\examples\javascript\chrome\ChromeFormsWebBrowserExperiment\ChromeFormsWebBrowserExperiment\Application.cs
     [Script(Implements = typeof(global::System.Windows.Forms.WebBrowser))]
     public class __WebBrowser : __WebBrowserBase
