@@ -66,7 +66,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                           }
                           //else if (m.type == "subtree")
                           //{
-                          //    Console.WriteLine("Subtree mutation");
+                          //    e(this, (XObjectChangeEventArgs)(object)new XObjectChangeEventArgs(XObjectChange.Value));
                           //}
                       }
                   }
