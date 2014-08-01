@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/VisualStyles/VisualStyleElement.cs
+
     [Script(Implements = typeof(global::System.Windows.Window))]
     internal class __Window : __FrameworkElement
     {

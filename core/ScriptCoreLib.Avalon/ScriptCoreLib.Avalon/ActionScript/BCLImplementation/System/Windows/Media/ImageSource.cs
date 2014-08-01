@@ -12,6 +12,8 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Media.Animation;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 {
+    // http://referencesource.microsoft.com/#PresentationCore/src/Core/CSharp/System/Windows/Media/ImageSource.cs
+
 	[Script(Implements = typeof(global::System.Windows.Media.ImageSource))]
 	internal class __ImageSource : __Animatable
 	{

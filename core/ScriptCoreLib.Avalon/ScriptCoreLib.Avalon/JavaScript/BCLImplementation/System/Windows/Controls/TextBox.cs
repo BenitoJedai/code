@@ -55,7 +55,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
             // https://code.google.com/p/chromium/issues/detail?id=320506
             /// http://www.w3.org/TR/custom-elements/#concepts
-            /// 
+            
+
+
+            // this wont actually work for chrome extension running inside tab
             Native.document.registerElement(
 
                 // could we register multiple names?

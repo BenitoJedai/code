@@ -11,7 +11,9 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Media.Animation;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media
 {
-	[Script(Implements = typeof(global::System.Windows.Media.ImageSource))]
+    // http://referencesource.microsoft.com/#PresentationCore/src/Core/CSharp/System/Windows/Media/ImageSource.cs
+	
+    [Script(Implements = typeof(global::System.Windows.Media.ImageSource))]
 	internal class __ImageSource : __Animatable
 	{
 		public static implicit operator __ImageSource(ImageSource e)

@@ -13,6 +13,8 @@ using System.Windows.Shapes;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
+    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Panel.cs
+
 	[Script(Implements = typeof(global::System.Windows.Controls.Panel))]
 	internal class __Panel : __FrameworkElement, __IAddChild
 	{
