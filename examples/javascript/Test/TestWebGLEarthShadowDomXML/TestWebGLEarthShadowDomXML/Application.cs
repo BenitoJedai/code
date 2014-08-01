@@ -18,6 +18,7 @@ using TestWebGLEarthShadowDomXML.Design;
 using TestWebGLEarthShadowDomXML.HTML.Images.FromAssets;
 using TestWebGLEarthShadowDomXML.HTML.Pages;
 using ScriptCoreLib.Lambda;
+using System.Collections;
 
 
 namespace TestWebGLEarthShadowDomXML
@@ -28,7 +29,8 @@ namespace TestWebGLEarthShadowDomXML
     public sealed class Application : ApplicationWebService
     {
         public IHTMLCanvas canvas;
-
+        public ArrayList locations;
+        public THREE.Object3D parent;
 
 
         /// <summary>
@@ -63,6 +65,8 @@ namespace TestWebGLEarthShadowDomXML
 
             var scene = new THREE.Scene();
 
+            locations = new ArrayList();
+
             var camera = new THREE.PerspectiveCamera(45, Native.window.aspect, 0.01, 1000);
             camera.position.z = 1.5;
 
@@ -80,7 +84,7 @@ namespace TestWebGLEarthShadowDomXML
             light.position.set(5, 3, 5);
             scene.add(light);
 
-            var parent = new THREE.Object3D();
+            parent = new THREE.Object3D();
             scene.add(parent);
 
 
@@ -208,40 +212,84 @@ namespace TestWebGLEarthShadowDomXML
 
             var citiesData = new XElement("Cities");
 
+            
+
             {
-                var city = new XElement("Tallinn");
-                city.Add(new XAttribute("Longtitude", "24.7281"));
-                city.Add(new XAttribute("Latitude", "59.4339"));
-                citiesData.Add(city);
+                var cityH = new XElement("City");
+                cityH.Add(new XElement("Name", "Tallinn"));
+                cityH.Add(new XElement("Longtitude", "24.7281"));
+                cityH.Add(new XElement("Latitude", "59.4339"));
+                citiesData.Add(cityH);
             }
             {
-                var city = new XElement("London");
-                city.Add(new XAttribute("Longtitude", "-0.116667"));
-                city.Add(new XAttribute("Latitude", "51.5"));
-                citiesData.Add(city);
+                var cityH = new XElement("City");
+                cityH.Add(new XElement("name", "London"));
+                cityH.Add(new XElement("longitude", "-0.116667"));
+                cityH.Add(new XElement("latitude", "51.5"));
+                citiesData.Add(cityH);
+
             }
 
-            Console.WriteLine(citiesData);
 
+            var shadowL = new ShadowLayout().AttachTo(Native.shadow);
+            page.dataHolder = citiesData;
 
             #region Location on sphere
 
             Action AddCities = async delegate
             {
-                var table = await this.GetAllCities();
-                Console.WriteLine(table.Rows.Count.ToString());
+                //var table = await this.GetAllCities();
+                //Console.WriteLine(table.Rows.Count.ToString());
 
 
 
-                for (var r = 0; r < table.Rows.Count; r++)
+                //for (var r = 0; r < table.Rows.Count; r++)
+                //{
+                //    var latitude = (double)table.Rows[r]["Latitude"];
+                //    var longtitude = (double)table.Rows[r]["Longtitude"];
+                //    addLocation(latitude, longtitude, radius, 0.001, parent, 6);
+                //    Console.WriteLine(latitude.ToString());
+                //    await 100;
+                //}
+                var elemList = citiesData.Elements();
+                Console.WriteLine(elemList.Count().ToString());
+               
+                foreach (var i in elemList)
                 {
-                    var latitude = (double)table.Rows[r]["Latitude"];
-                    var longtitude = (double)table.Rows[r]["Longtitude"];
-                    addLocation(latitude, longtitude, radius, 0.001, parent, 6);
-                    Console.WriteLine(latitude.ToString());
-                    await 100;
+                    Console.WriteLine(i.ToString());
+
+                    var l = i.Element("name");
+                    if (l == null)
+                    {
+                        Console.WriteLine("Fuck");
+
+                    }
+                    else
+                    {
+                        Console.WriteLine(l.Value);
+                    }
+                    Console.WriteLine(i.Element("longitude").Value);
+                    Console.WriteLine(i.Element("latitude").Value);
+
+
+                }
+
+            };
+
+            citiesData.Changed += (send, arg) =>
+            {
+                if(arg.ObjectChange == XObjectChange.Value)
+                {
+                    Console.WriteLine(citiesData);
+
+                    Console.WriteLine("Sender name "+((XAttribute)send).Name);
+                    Console.WriteLine("Sender val " + ((XAttribute)send).Value);
+                    removeLocations();
+                    AddCities();
                 }
             };
+
+            
             AddCities();
 
 
@@ -261,7 +309,7 @@ namespace TestWebGLEarthShadowDomXML
             this.canvas = (IHTMLCanvas)renderer.domElement;
 
             //renderer.domElement.AttachToDocument();
-            this.canvas.AttachToDocument();
+            this.canvas.AttachTo(shadowL.webGlCanvas);
             this.canvas.style.SetLocation(0, 0);
 
             // jsc, what pointers do we have in store?
@@ -507,7 +555,16 @@ namespace TestWebGLEarthShadowDomXML
                 );
 
             p.position = latLongOnSphere;
+            locations.Add(p);
             parent.add(p);
+        }
+
+        public void removeLocations()
+        {
+            for(var i = 0; i < locations.Count; i++)
+            {
+                parent.remove(locations[i]);
+            }
         }
     }
 }
