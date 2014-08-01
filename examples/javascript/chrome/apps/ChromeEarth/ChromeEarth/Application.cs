@@ -16,6 +16,8 @@ using System.Xml.Linq;
 using ChromeEarth;
 using ChromeEarth.Design;
 using ChromeEarth.HTML.Pages;
+using System.Windows.Forms;
+using ChromeEarth.HTML.Images.FromAssets;
 
 namespace ChromeEarth
 {
@@ -30,6 +32,15 @@ namespace ChromeEarth
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(WebGLEarthByBjorn.HTML.Pages.IApp page)
         {
+            // https://chrome.google.com/webstore/developer/dashboard/g16921973856226221075?hl=en&gl=EE#
+            // https://chrome.google.com/webstore/detail/odccmjodfgabfaolpgbepgneikcblman
+
+            // https://code.google.com/p/chromium/issues/detail?id=260810
+
+            // X:\jsc.svn\market\javascript\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler\Application.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140801
+
+
             //There were warnings when trying to install this extension:
             //'background' is only allowed for extensions, hosted apps, and legacy packaged apps, but this is a packaged app.
 
@@ -46,29 +57,21 @@ namespace ChromeEarth
             {
                 //Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
 
-                chrome.Notification.DefaultTitle = "Earth";
-                //chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                chrome.Notification.DefaultTitle = "Earth Visualization";
+                chrome.Notification.DefaultIconUrl = new x128().src;
 
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
                     AppSource.Text,
-                    AtFormCreated: FormStyler.AtFormCreated
+                    //AtFormCreated: FormStyler.AtFormCreated
+                    AtFormCreated: FormStylerLikeFloat.LikeFloat,
+
+                    transparentBackground: true,
+                    resizable: false
                 );
 
                 return;
             }
             #endregion
-
-            //{ trace = X:\jsc.internal.svn\compiler\jsc\Languages\IL\ILTranslationExtensions.EmitToArguments.cs, TargetMethod = Void InvokeAsync(System.String, System.Func`2[System.String,System.Threading.Tasks.Task]), DeclaringType = ChromeTCPServer.TheServer, Location =
-            // assembly: X:\jsc.svn\examples\javascript\chrome\apps\ChromeEarth\ChromeEarth\bin\Debug\Chrome Web Server Styled Form.dll
-            // type: ChromeTCPServer.TheServerWithStyledForm, Chrome Web Server Styled Form, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-            // offset: 0x00bb
-            //  method:Void Invoke(System.String, Int32, Int32, System.Action`1[ScriptCoreLib.JavaScript.Extensions.FormStyler]), ex = System.NullReferenceException: Object reference not set to an instance of an object.
-            //   at jsc.ILInstruction.GetExpectedType(Int32 )
-            //   at jsc.ILInstruction.GetExpectedType()
-            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass11b.<WriteSwitchRewrite>b__b4(ILRewriteContext e)
-            //   at jsc.Languages.IL.ILTranslationExtensions.EmitToArguments.?? .    (ILRewriteContext )
-            //   at jsc.meta.Commands.Rewrite.RewriteToAssembly.<>c__DisplayClass130.<>c__DisplayClass140.<WriteSwitchRewrite>b__e6(ILGenerator flow_il)
-
 
 
             // https://chrome.google.com/webstore/detail/odccmjodfgabfaolpgbepgneikcblman/publish-delayed

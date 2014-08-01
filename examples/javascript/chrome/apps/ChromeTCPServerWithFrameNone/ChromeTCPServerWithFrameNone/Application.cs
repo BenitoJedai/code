@@ -39,7 +39,12 @@ namespace ChromeTCPServer
             string AppSource,
             int DefaultWidth = 640,
             int DefaultHeight = 480,
-            Action<FormStyler> AtFormCreated = null
+            Action<FormStyler> AtFormCreated = null,
+
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeEarth\ChromeEarth\Application.cs
+            bool transparentBackground = false,
+            bool resizable = true
             )
         {
             #region  AtFormCreated
@@ -87,17 +92,28 @@ namespace ChromeTCPServer
                    {
 
                        //Error in event handler for app.runtime.onLaunched: Error: Invalid value for argument 2. Property 'transparentBackground': Expected 'boolean' but got 'integer'.
-                       var transparentBackground = true;
+                       //var transparentBackground = true;
 
+                       // jsc does not use bool literals correctly
+                       var ztransparentBackground = false;
+
+                       if (transparentBackground)
+                           ztransparentBackground = true;
+
+
+                       var options = new
+                           {
+                               frame = "none",
+                               transparentBackground = ztransparentBackground
+                           };
+
+
+                       Console.WriteLine(new { options });
 
                        // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
                        var xappwindow = await chrome.app.window.create(
                              Native.document.location.pathname,
-                             new
-                       {
-                           frame = "none"
-                           //,transparentBackground
-                       }
+                            options
                         );
 
 
@@ -123,154 +139,145 @@ namespace ChromeTCPServer
                            );
                        }
 
-                       xappwindow.With(
-                           appwindow =>
+
+
+                       await xappwindow.contentWindow.async.onload;
+
+                       #region onload
+                       var c = that;
+                       var f = (Form)that;
+                       var ff = c;
+
+                       windows.Add(xappwindow);
+
+                       // http://sandipchitale.blogspot.com/2013/03/tip-webkit-app-region-css-property.html
+
+                       (ff.CaptionForeground.style as dynamic).webkitAppRegion = "drag";
+
+                       //(ff.ResizeGripElement.style as dynamic).webkitAppRegion = "drag";
+                       // cant have it yet
+                       ff.ResizeGripElement.Orphanize();
+
+                       f.StartPosition = FormStartPosition.Manual;
+
+
+                       f.Left = 0;
+                       f.Top = 0;
+
+
+                       f.FormClosing +=
+                           delegate
                            {
+                               Console.WriteLine("FormClosing");
+                               xappwindow.close();
+                           };
 
-                               #region onload
-                               Action<IEvent> onload =
 
+                       // jsc can you generate instance events too?
+                       #region  onRestored
+                       xappwindow.onRestored.addListener(
+                           new Action(
+                               delegate
+                               {
+                                   that.CaptionShadow.Hide();
+
+                               }
+                           )
+                       );
+                       #endregion
+
+
+                       #region onMaximized
+                       xappwindow.onMaximized.addListener(
+                       new Action(
+                               delegate
+                               {
+                                   that.CaptionShadow.Show();
+
+                               }
+                       )
+                       );
+                       #endregion
+
+
+                       #region onClosed
+                       xappwindow.onClosed.addListener(
+                                new Action(
                                     delegate
                                     {
-                                        var c = that;
-                                        var f = (Form)that;
-                                        var ff = c;
+                                        Console.WriteLine("onClosed");
+                                        windows.Remove(xappwindow);
 
-                                        windows.Add(appwindow);
+                                        f.Close();
+                                    }
+                            )
+                            );
+                       #endregion
 
-                                        // http://sandipchitale.blogspot.com/2013/03/tip-webkit-app-region-css-property.html
+                       // wont fire yet
+                       //appwindow.contentWindow.onbeforeunload +=
+                       //    delegate
+                       //    {
+                       //        Console.WriteLine("onbeforeunload");
+                       //    };
 
-                                        (ff.CaptionForeground.style as dynamic).webkitAppRegion = "drag";
+                       //appwindow.onBoundsChanged.addListener(
+                       //        new Action(
+                       //        delegate
+                       //        {
+                       //            Console.WriteLine("appwindow.onBoundsChanged");
 
-                                        //(ff.ResizeGripElement.style as dynamic).webkitAppRegion = "drag";
-                                        // cant have it yet
-                                        ff.ResizeGripElement.Orphanize();
-
-                                        f.StartPosition = FormStartPosition.Manual;
-
-
-                                        f.Left = 0;
-                                        f.Top = 0;
-
-
-                                        f.FormClosing +=
-                                            delegate
-                                            {
-                                                Console.WriteLine("FormClosing");
-                                                appwindow.close();
-                                            };
-
-
-                                        #region  onRestored
-                                        appwindow.onRestored.addListener(
-                                            new Action(
-                                                delegate
-                                                {
-                                                    that.CaptionShadow.Hide();
-
-                                                }
-                                            )
-                                        );
-                                        #endregion
+                       //            f.SizeTo(
+                       //                appwindow.contentWindow.Width,
+                       //                appwindow.contentWindow.Height
+                       //            );
+                       //        }
+                       //    )
+                       //);
 
 
-                                        #region onMaximized
-                                        appwindow.onMaximized.addListener(
-                                        new Action(
-                                                delegate
-                                                {
-                                                    that.CaptionShadow.Show();
+                       #region resize
+                       xappwindow.contentWindow.onresize +=
+                           //appwindow.onBoundsChanged.addListener(
+                           //    new Action(
+                                    delegate
+                                    {
 
-                                                }
-                                        )
-                                        );
-                                        #endregion
-
-
-                                        #region onClosed
-                                        appwindow.onClosed.addListener(
-                                                 new Action(
-                                                     delegate
-                                                     {
-                                                         Console.WriteLine("onClosed");
-                                                         windows.Remove(appwindow);
-
-                                                         f.Close();
-                                                     }
-                                             )
-                                             );
-                                        #endregion
-
-                                        // wont fire yet
-                                        //appwindow.contentWindow.onbeforeunload +=
-                                        //    delegate
+                                        //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
+                                        //    new
                                         //    {
-                                        //        Console.WriteLine("onbeforeunload");
-                                        //    };
+                                        //        appwindow.contentWindow.Width,
+                                        //        appwindow.contentWindow.Height
+                                        //    }
+                                        //    );
 
-                                        //appwindow.onBoundsChanged.addListener(
-                                        //        new Action(
-                                        //        delegate
-                                        //        {
-                                        //            Console.WriteLine("appwindow.onBoundsChanged");
+                                        f.Width = xappwindow.contentWindow.Width;
+                                        f.Height = xappwindow.contentWindow.Height;
 
-                                        //            f.SizeTo(
-                                        //                appwindow.contentWindow.Width,
-                                        //                appwindow.contentWindow.Height
-                                        //            );
-                                        //        }
-                                        //    )
-                                        //);
+                                    }
+                           //)
+                           //)
+                            ;
+                       #endregion
 
 
-                                        appwindow.contentWindow.onresize +=
-                                            //appwindow.onBoundsChanged.addListener(
-                                            //    new Action(
-                                                     delegate
-                                                     {
-
-                                                         //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
-                                                         //    new
-                                                         //    {
-                                                         //        appwindow.contentWindow.Width,
-                                                         //        appwindow.contentWindow.Height
-                                                         //    }
-                                                         //    );
-
-                                                         f.Width = appwindow.contentWindow.Width;
-                                                         f.Height = appwindow.contentWindow.Height;
-
-                                                     }
-                                            //)
-                                            //)
-                                             ;
-
-                                        f.Width = appwindow.contentWindow.Width;
-                                        f.Height = appwindow.contentWindow.Height;
+                       f.Width = xappwindow.contentWindow.Width;
+                       f.Height = xappwindow.contentWindow.Height;
 
 
-                                        //Console.WriteLine("appwindow contentWindow onload");
+                       //Console.WriteLine("appwindow contentWindow onload");
 
 
-                                        that.HTMLTarget.AttachTo(
-                                            appwindow.contentWindow.document.body
-                                        );
-
-
-
-                                        yield(false);
-                                        //Console.WriteLine("appwindow contentWindow onload done");
-                                    };
-                               #endregion
-
-                               //Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
-
-
-
-                               appwindow.contentWindow.onload +=
-                                   onload;
-                           }
+                       that.HTMLTarget.AttachTo(
+                           xappwindow.contentWindow.document.body
                        );
+
+
+
+                       yield(false);
+                       //Console.WriteLine("appwindow contentWindow onload done");
+                       #endregion
+
 
 
 
@@ -290,6 +297,8 @@ namespace ChromeTCPServer
                     var webview = Native.document.createElement("webview");
                     // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
                     webview.setAttribute("partition", "p1");
+                    webview.setAttribute("allowtransparency", "true");
+                    webview.setAttribute("allowfullscreen", "true");
 
 
 

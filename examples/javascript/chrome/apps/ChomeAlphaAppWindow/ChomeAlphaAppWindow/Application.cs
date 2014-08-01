@@ -133,8 +133,18 @@ namespace ChomeAlphaAppWindow
 
                     xappwindow.contentWindow.document.body.innerText = "it works when 'Enable experimental canvas features'";
 
+                    xappwindow.contentWindow.document.body.style.position = IStyle.PositionEnum.absolute;
+
                     xappwindow.contentWindow.document.body.style.height = "100%";
 
+                    // Refused to frame 'http://example.com/?' because it violates the following Content Security Policy directive: "frame-src 'self' data: chrome-extension-resource:"
+
+                    //new IHTMLIFrame { allowTransparency = true, src = "http://example.com" }.AttachTo(xappwindow.contentWindow.document.body);
+
+                    var webview = Native.document.createElement("webview");
+
+                    webview.setAttribute("src", "http://example.com");
+                    webview.AttachTo(xappwindow.contentWindow.document.body);
 
                     new Notification { Message = "it works when 'Enable experimental canvas features'" };
                     // showed

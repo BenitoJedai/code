@@ -39,6 +39,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Abstractatech.JavaScript.Forms.FloatStyler">
+      <HintPath>..\packages\Abstractatech.JavaScript.Forms.FloatStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.FloatStyler.dll</HintPath>
+    </Reference>
     <Reference Include="Chrome Web Server">
       <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
     </Reference>
@@ -147,6 +150,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="staging\ChromeEarth.Application\web\x128.png" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="staging\ChromeEarth.Application\web\manifest.json">
