@@ -14,6 +14,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IElement : INode
     {
+        // 0:29ms Elements { name = name, LocalName = NAME } 
+        // {{ xml = <cities xmlns="http://www.w3.org/1999/xhtml"><city><name>Tallinn</name><longtitude>24.7281</longtitude><latitude>59.4339</latitude></city></cities> }}
+        // X:\jsc.svn\examples\javascript\Test\TestXElementAdd\TestXElementAdd\Application.cs
+        // http://www.w3schools.com/dom/prop_element_namespaceuri.asp
+        public string namespaceURI;
+
 
         [System.Obsolete("experimental like .css")]
         public ShadowRoot shadow

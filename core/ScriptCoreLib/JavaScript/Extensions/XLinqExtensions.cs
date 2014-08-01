@@ -15,6 +15,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
     {
         public static IHTMLElement AsHTMLElement(this XElement value)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestXElementAdd\TestXElementAdd\Application.cs
+
             if (value == null)
                 return null;
 
@@ -24,11 +26,18 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
             var c = new IHTMLDiv();
 
-            c.innerHTML = value.ToString();
+
+            var xml = value.ToString();
+            //Console.WriteLine("AsHTMLElement " + new { xml });
+            c.innerHTML = xml;
 
             var firstChild = ((IHTMLElement)c.firstChild);
 
             __XElement.InternalValue = firstChild;
+
+
+            //var zxml = value.ToString();
+            //Console.WriteLine("AsHTMLElement " + new { zxml });
 
             return firstChild;
         }
