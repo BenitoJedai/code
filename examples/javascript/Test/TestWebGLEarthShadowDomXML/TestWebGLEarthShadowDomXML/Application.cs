@@ -19,7 +19,6 @@ using TestWebGLEarthShadowDomXML.HTML.Images.FromAssets;
 using TestWebGLEarthShadowDomXML.HTML.Pages;
 using ScriptCoreLib.Lambda;
 using System.Collections;
-using System.Diagnostics;
 
 
 namespace TestWebGLEarthShadowDomXML
@@ -211,19 +210,19 @@ namespace TestWebGLEarthShadowDomXML
             #endregion
 
 
-            var citiesData = new XElement("Cities");
+            var citiesData = new XElement("cities");
 
             
 
             {
-                var cityH = new XElement("City");
+                var cityH = new XElement("city");
                 cityH.Add(new XElement("name", "Tallinn"));
-                cityH.Add(new XElement("Longtitude", "24.7281"));
-                cityH.Add(new XElement("Latitude", "59.4339"));
+                cityH.Add(new XElement("longitude", "24.7281"));
+                cityH.Add(new XElement("latitude", "59.4339"));
                 citiesData.Add(cityH);
             }
             {
-                var cityH = new XElement("City");
+                var cityH = new XElement("city");
                 cityH.Add(new XElement("name", "London"));
                 cityH.Add(new XElement("longitude", "-0.116667"));
                 cityH.Add(new XElement("latitude", "51.5"));
@@ -257,37 +256,57 @@ namespace TestWebGLEarthShadowDomXML
                
                 foreach (var i in elemList)
                 {
-                    Console.WriteLine(i.ToString());
-                    Debugger.Break();
-                    var l = i.Element("name");
-                    if (l == null)
+                    //Console.WriteLine(i.ToString());
+
+                    //foreach (var t in i.Elements())
+                    //{
+                    //    Console.WriteLine(t.ToString());
+                    //}
+
+                    //var l = i.Element("name");
+                    //if (l == null)
+                    //{
+                    //    Console.WriteLine("Fuck");
+                    //}
+                    //else
+                    //{
+                    //    Console.WriteLine(l.Value);
+                    //}
+                    //Console.WriteLine(i.Element("longitude"));
+                    //Console.WriteLine(i.Element("latitude"));
+
+                    var lat = i.Element("latitude");
+                    if (lat != null)
                     {
-                        Console.WriteLine("Fuck");
+                        Console.WriteLine("Latitude not null");
+                        var latitude = Convert.ToDouble(lat.Value);
+                        Console.WriteLine(latitude.ToString());
 
+                        var longit = i.Element("longitude");
+                        if(longit != null)
+                        {
+                            Console.WriteLine("Longitude not null");
+
+                            var longtitude = Convert.ToDouble(longit.Value);
+                            addLocation(latitude, longtitude, radius, 0.001, parent, 6);
+                            Console.WriteLine(longtitude.ToString());
+
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine(l.Value);
-                    }
-                    Console.WriteLine(i.Element("longitude").Value);
-                    Console.WriteLine(i.Element("latitude").Value);
-
-
                 }
-
             };
 
             citiesData.Changed += (send, arg) =>
             {
-                if(arg.ObjectChange == XObjectChange.Value)
-                {
-                    Console.WriteLine(citiesData);
+                //if(arg.ObjectChange == XObjectChange.Value)
+                //{
+                    //Console.WriteLine(citiesData);
 
-                    Console.WriteLine("Sender name "+((XAttribute)send).Name);
-                    Console.WriteLine("Sender val " + ((XAttribute)send).Value);
+                    //Console.WriteLine("Sender name "+((XAttribute)send).Name);
+                    //Console.WriteLine("Sender val " + ((XAttribute)send).Value);
                     removeLocations();
                     AddCities();
-                }
+                //}
             };
 
             
