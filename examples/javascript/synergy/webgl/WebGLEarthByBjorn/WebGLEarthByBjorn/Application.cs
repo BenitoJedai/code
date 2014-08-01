@@ -275,6 +275,50 @@ namespace WebGLEarthByBjorn
                 CursorY = 0
             };
 
+
+
+
+            var z = camera.position.z;
+
+
+            #region sfx
+            var sfx = new WebGLEarthByBjorn.HTML.Audio.FromAssets.SatelliteBeep_Sputnik1
+            {
+                autobuffer = true,
+
+                // this aint working
+                //loop = true 
+
+            };
+
+            sfx.play();
+            #endregion
+
+
+            //sfx.AttachToHead();
+
+
+            // http://soundfxnow.com/sound-fx/sputnik-satellite-beeping/
+
+            #region onmousewheel
+            this.canvas.onmousewheel +=
+                e =>
+                {
+                    //camera.position.z = 1.5;
+
+                    // min max. shall adjust speed also!
+                    // max 4.0
+                    // min 0.6
+                    z -= 0.1 * e.WheelDirection;
+
+                    z = z.Max(0.6).Min(4.5);
+
+                    //Native.document.title = new { camera.position.z }.ToString();
+
+                };
+            #endregion
+
+
             #region onmousedown
             this.canvas.onmousedown +=
                 e =>
@@ -321,49 +365,6 @@ namespace WebGLEarthByBjorn
                 };
             #endregion
 
-
-
-
-
-            var z = camera.position.z;
-
-
-            #region sfx
-            var sfx = new WebGLEarthByBjorn.HTML.Audio.FromAssets.SatelliteBeep_Sputnik1
-            {
-                autobuffer = true,
-
-                // this aint working
-                //loop = true 
-
-            };
-
-            sfx.play();
-            #endregion
-
-
-            //sfx.AttachToHead();
-
-
-            // http://soundfxnow.com/sound-fx/sputnik-satellite-beeping/
-
-            #region onmousewheel
-            this.canvas.onmousewheel +=
-                e =>
-                {
-                    //camera.position.z = 1.5;
-
-                    // min max. shall adjust speed also!
-                    // max 4.0
-                    // min 0.6
-                    z -= 0.1 * e.WheelDirection;
-
-                    z = z.Max(0.6).Min(4.5);
-
-                    //Native.document.title = new { camera.position.z }.ToString();
-
-                };
-            #endregion
 
 
             // X:\jsc.svn\examples\javascript\Test\TestMouseMovement\TestMouseMovement\Application.cs

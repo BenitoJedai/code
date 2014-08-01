@@ -33,6 +33,7 @@ namespace TestXElementAdd
             var xml = new XElement("Cities");
 
             var cityH = new XElement("City");
+            cityH.Add(new XAttribute("tag", "foo"));
             cityH.Add(new XElement("name", "Tallinn"));
             cityH.Add(new XElement("Longtitude", "24.7281"));
             cityH.Add(new XElement("Latitude", "59.4339"));
@@ -58,9 +59,10 @@ namespace TestXElementAdd
                 new IHTMLPre { new { City } }.AttachToDocument();
 
                 // {{ City = <City><name>Tallinn</name><Longtitude>24.7281</Longtitude><Latitude>59.4339</Latitude></City> }}
+                var tag = City.Attribute("tag");
                 var name = City.Element("name");
 
-                new IHTMLPre { new { name } }.AttachToDocument();
+                new IHTMLPre { new { name, tag } }.AttachToDocument();
 
             }
         }
