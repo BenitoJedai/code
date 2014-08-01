@@ -40,6 +40,11 @@ namespace AndroidAlarmServiceActivity.Activities
 
             sv.addView(ll);
 
+
+
+
+
+
             #region startservice
             var startservice = new Button(this).WithText("Start Service to send Notification").AtClick(
                     delegate
@@ -74,14 +79,24 @@ namespace AndroidAlarmServiceActivity.Activities
             ll.addView(stopservice);
             #endregion
 
+
+
+
+
+
             this.setContentView(sv);
 
             //this.ShowToast("http://jsc-solutions.net");
 
 
+
+
         }
 
+
+
         public PendingIntent pendingIntent;
+
 
 
     }
@@ -121,6 +136,9 @@ namespace foo
             this.ShowToast("onDestroy");
             base.onDestroy();
         }
+
+
+
 
 
 
