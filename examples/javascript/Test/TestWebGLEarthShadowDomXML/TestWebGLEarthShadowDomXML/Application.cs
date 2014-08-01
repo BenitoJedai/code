@@ -19,6 +19,7 @@ using TestWebGLEarthShadowDomXML.HTML.Images.FromAssets;
 using TestWebGLEarthShadowDomXML.HTML.Pages;
 using ScriptCoreLib.Lambda;
 using System.Collections;
+using System.Diagnostics;
 
 
 namespace TestWebGLEarthShadowDomXML
@@ -216,7 +217,7 @@ namespace TestWebGLEarthShadowDomXML
 
             {
                 var cityH = new XElement("City");
-                cityH.Add(new XElement("Name", "Tallinn"));
+                cityH.Add(new XElement("name", "Tallinn"));
                 cityH.Add(new XElement("Longtitude", "24.7281"));
                 cityH.Add(new XElement("Latitude", "59.4339"));
                 citiesData.Add(cityH);
@@ -257,7 +258,7 @@ namespace TestWebGLEarthShadowDomXML
                 foreach (var i in elemList)
                 {
                     Console.WriteLine(i.ToString());
-
+                    Debugger.Break();
                     var l = i.Element("name");
                     if (l == null)
                     {
