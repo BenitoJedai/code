@@ -30,15 +30,27 @@ namespace TestXElementAdd
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            var citiesData = new XElement("Cities");
+            var xml = new XElement("Cities");
 
             var cityH = new XElement("City");
             cityH.Add(new XElement("name", "Tallinn"));
             cityH.Add(new XElement("Longtitude", "24.7281"));
             cityH.Add(new XElement("Latitude", "59.4339"));
-            citiesData.Add(cityH);
+            xml.Add(cityH);
 
-            var Cities = citiesData.Elements();
+
+            // {{ xml = <Cities><City><name>Tallinn</name><Longtitude>24.7281</Longtitude><Latitude>59.4339</Latitude></City></Cities> }}
+            //new IHTMLPre { new { xml } }.AttachToDocument();
+
+
+            xml.AttachToDocument();
+            //citiesData.RemoveAttributes();
+            //citiesData.SetAttributeValue("xmlns", "");
+
+            // {{ xml = <cities xmlns="http://www.w3.org/1999/xhtml"><city><name>Tallinn</name><longtitude>24.7281</longtitude><latitude>59.4339</latitude></city></cities> }}
+            //new IHTMLPre { new { xml } }.AttachToDocument();
+
+            var Cities = xml.Elements();
 
 
             foreach (var City in Cities)

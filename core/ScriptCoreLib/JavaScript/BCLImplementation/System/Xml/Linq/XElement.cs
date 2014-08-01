@@ -18,6 +18,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             get
             {
+                // X:\jsc.svn\examples\javascript\Test\TestXElementAdd\TestXElementAdd\Application.cs
+
+
+
                 // http://bugs.jqueryui.com/ticket/5557
                 // http://ejohn.org/blog/nodename-case-sensitivity/
                 var nodeName = this.InternalElement.nodeName;
@@ -25,8 +29,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 // for html elements lets lowercase em. or are we working on xml object?
                 // firefox has innerHTML for xml also. 
 
-                //if (Expando.InternalIsMember(this.InternalValue, "innerHTML"))
-                //    nodeName = nodeName.ToLower();
+                if (this.InternalElement.namespaceURI == "http://www.w3.org/1999/xhtml")
+                {
+                    //if (Expando.InternalIsMember(this.InternalValue, "innerHTML"))
+                    nodeName = nodeName.ToLower();
+                }
 
                 return new __XName { InternalValue = nodeName };
             }
