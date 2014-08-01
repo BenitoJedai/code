@@ -146,6 +146,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\ShadowLayout.htm" />
     <Content Include="Textures\2_no_clouds_4k.jpg" />
     <Content Include="Textures\2_no_clouds_4k_low.jpg" />
     <Content Include="Textures\elev_bump_4k.jpg" />

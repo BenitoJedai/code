@@ -71,7 +71,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                       }
                   }
               )
-          ).observe(Native.document.documentElement,
+          ).observe(InternalValue,
               new
               {
                   // Set to true if mutations to target's children are to be observed.
