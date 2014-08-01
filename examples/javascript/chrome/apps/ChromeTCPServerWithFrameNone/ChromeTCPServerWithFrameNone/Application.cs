@@ -102,10 +102,10 @@ namespace ChromeTCPServer
 
 
                        var options = new
-                           {
-                               frame = "none",
-                               transparentBackground = ztransparentBackground
-                           };
+                       {
+                           frame = "none",
+                           transparentBackground = ztransparentBackground
+                       };
 
 
                        Console.WriteLine(new { options });
@@ -119,8 +119,8 @@ namespace ChromeTCPServer
 
                        // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
-                       Console.WriteLine("appwindow loading... " + new { xappwindow });
-                       Console.WriteLine("appwindow loading... " + new { xappwindow.contentWindow });
+                       //Console.WriteLine("appwindow loading... " + new { xappwindow });
+                       //Console.WriteLine("appwindow loading... " + new { xappwindow.contentWindow });
 
                        // our window frame non client area plus inner body margin
 
@@ -156,7 +156,7 @@ namespace ChromeTCPServer
 
                        //(ff.ResizeGripElement.style as dynamic).webkitAppRegion = "drag";
                        // cant have it yet
-                       ff.ResizeGripElement.Orphanize();
+                       //ff.ResizeGripElement.Orphanize();
 
                        f.StartPosition = FormStartPosition.Manual;
 
@@ -167,10 +167,10 @@ namespace ChromeTCPServer
 
                        f.FormClosing +=
                            delegate
-                           {
-                               Console.WriteLine("FormClosing");
-                               xappwindow.close();
-                           };
+                       {
+                           Console.WriteLine("FormClosing");
+                           xappwindow.close();
+                       };
 
 
                        // jsc can you generate instance events too?
@@ -178,10 +178,10 @@ namespace ChromeTCPServer
                        xappwindow.onRestored.addListener(
                            new Action(
                                delegate
-                               {
-                                   that.CaptionShadow.Hide();
+                       {
+                           that.CaptionShadow.Hide();
 
-                               }
+                       }
                            )
                        );
                        #endregion
@@ -191,10 +191,10 @@ namespace ChromeTCPServer
                        xappwindow.onMaximized.addListener(
                        new Action(
                                delegate
-                               {
-                                   that.CaptionShadow.Show();
+                       {
+                           that.CaptionShadow.Show();
 
-                               }
+                       }
                        )
                        );
                        #endregion
@@ -204,12 +204,12 @@ namespace ChromeTCPServer
                        xappwindow.onClosed.addListener(
                                 new Action(
                                     delegate
-                                    {
-                                        Console.WriteLine("onClosed");
-                                        windows.Remove(xappwindow);
+                       {
+                           Console.WriteLine("onClosed");
+                           windows.Remove(xappwindow);
 
-                                        f.Close();
-                                    }
+                           f.Close();
+                       }
                             )
                             );
                        #endregion
@@ -235,28 +235,35 @@ namespace ChromeTCPServer
                        //    )
                        //);
 
+                       f.SizeChanged +=
+                       delegate
+                       {
+                           Console.WriteLine(
+                               "SizeChanged  " + new { f.Width, f.Height }
+                               );
+                       };
 
                        #region resize
                        xappwindow.contentWindow.onresize +=
-                           //appwindow.onBoundsChanged.addListener(
-                           //    new Action(
+                                    //appwindow.onBoundsChanged.addListener(
+                                    //    new Action(
                                     delegate
-                                    {
+                       {
 
-                                        //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
-                                        //    new
-                                        //    {
-                                        //        appwindow.contentWindow.Width,
-                                        //        appwindow.contentWindow.Height
-                                        //    }
-                                        //    );
+                           //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
+                           //    new
+                           //    {
+                           //        appwindow.contentWindow.Width,
+                           //        appwindow.contentWindow.Height
+                           //    }
+                           //    );
 
-                                        f.Width = xappwindow.contentWindow.Width;
-                                        f.Height = xappwindow.contentWindow.Height;
+                           f.Width = xappwindow.contentWindow.Width;
+                           f.Height = xappwindow.contentWindow.Height;
 
-                                    }
-                           //)
-                           //)
+                       }
+                            //)
+                            //)
                             ;
                        #endregion
 
@@ -300,7 +307,38 @@ namespace ChromeTCPServer
                     webview.setAttribute("allowtransparency", "true");
                     webview.setAttribute("allowfullscreen", "true");
 
+                    webview.style.Opacity = 0.0;
 
+
+                    //webview.style.display = IStyle.DisplayEnum.none;
+
+                    // none wont start loading.. empty will..
+                    //webview.style.display = IStyle.DisplayEnum.empty;
+
+                    // https://developer.chrome.com/apps/tags/webview#event-contentload
+                    webview.addEventListener("contentload",
+                        e =>
+                        {
+                            Console.WriteLine("contentload");
+                            // prevent showing white while loading...
+                            //webview.style.display = IStyle.DisplayEnum.block;
+                        }
+                    );
+
+
+                    webview.addEventListener("loadstop",
+                     async
+                     e =>
+                            {
+                                Console.WriteLine("loadstop");
+                                // prevent showing white while loading...
+
+                                await Task.Delay(100);
+
+                                //webview.style.display = IStyle.DisplayEnum.block;
+                                webview.style.Opacity = 1.0;
+                            }
+                     );
 
                     #region permissionrequest
                     // https://github.com/GoogleChrome/chromium-webview-samples
@@ -399,16 +437,16 @@ namespace ChromeTCPServer
                     #region SizeChanged
                     f.SizeChanged +=
                         delegate
-                        {
-                            //Console.WriteLine("SizeChanged");
+                    {
+                        //Console.WriteLine("SizeChanged");
 
-                            var ClientSize = f.ClientSize;
+                        var ClientSize = f.ClientSize;
 
 
-                            w.Width = ClientSize.Width;
-                            w.Height = ClientSize.Height;
+                        w.Width = ClientSize.Width;
+                        w.Height = ClientSize.Height;
 
-                        };
+                    };
                     #endregion
 
 
@@ -420,9 +458,9 @@ namespace ChromeTCPServer
 
                     f.FormClosed +=
                         delegate
-                        {
-                            x.SetResult(f);
-                        };
+                    {
+                        x.SetResult(f);
+                    };
 
                     await x.Task;
 

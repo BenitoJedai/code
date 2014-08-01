@@ -41,7 +41,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         IHTMLDiv ContentContainerPadding = new IHTMLDiv();
         IHTMLDiv ContentContainer;
 
-
+        // #shadow-dom #content ?
         public override IHTMLElement HTMLTargetContainerRef
         {
             get
@@ -51,6 +51,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        // #host ?
         public override IHTMLElement HTMLTargetRef
         {
             get
@@ -101,6 +102,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public ScriptCoreLib.JavaScript.Controls.DragHelper ResizeGripDrag;
 
+
+        // when can we have it as XAttribute? with #shadow-dom update?
         public bool ShowIcon
         {
             get { return icon.style.display != IStyle.DisplayEnum.none; }
@@ -168,6 +171,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+
+
+        // will chrome AppWindow use it?
         public bool TopMost { get; set; }
 
         // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.Form.set_MaximizeBox(System.Boolean)]
