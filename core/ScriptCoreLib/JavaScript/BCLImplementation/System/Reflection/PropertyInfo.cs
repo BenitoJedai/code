@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/propertyinfo.cs
+
     [Script(Implements = typeof(global::System.Reflection.PropertyInfo))]
     public class __PropertyInfo : __MemberInfo
     {

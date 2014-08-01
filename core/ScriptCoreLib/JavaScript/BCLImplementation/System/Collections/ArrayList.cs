@@ -5,7 +5,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using System.Collections;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 {
-
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/arraylist.cs
 
 	[Script(Implements = typeof(global::System.Collections.ArrayList))]
 	internal class __ArrayList

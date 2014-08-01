@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskCompletionSource.cs
 
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskCompletionSource<>))]
     internal class __TaskCompletionSource<TResult>

@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
 {
+    // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Actions/InvokeMemberBinder.cs
+
     [Script(Implements = typeof(global::System.Dynamic.InvokeMemberBinder))]
     public class __InvokeMemberBinder : __DynamicMetaObjectBinder
     {
