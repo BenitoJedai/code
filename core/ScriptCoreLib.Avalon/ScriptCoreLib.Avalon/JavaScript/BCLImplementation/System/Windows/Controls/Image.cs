@@ -8,6 +8,8 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
+    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Image.cs
+
     [Script(Implements = typeof(global::System.Windows.Controls.Image))]
     public class __Image : __FrameworkElement
     {

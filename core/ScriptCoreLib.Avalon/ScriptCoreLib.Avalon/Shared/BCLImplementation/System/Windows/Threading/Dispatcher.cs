@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows.Threading
 {
+    // http://referencesource.microsoft.com/#WindowsBase/src/Base/System/Windows/Threading/Dispatcher.cs
+
     [Script(Implements = typeof(global::System.Windows.Threading.Dispatcher))]
     public class __Dispatcher
     {

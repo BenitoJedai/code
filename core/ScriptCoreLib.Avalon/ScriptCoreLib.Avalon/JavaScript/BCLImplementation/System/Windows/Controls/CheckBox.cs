@@ -8,6 +8,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 {
+    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/CheckBox.cs
+
     [Script(Implements = typeof(global::System.Windows.Controls.CheckBox))]
     internal class __CheckBox : __ToggleButton
     {

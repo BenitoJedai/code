@@ -5,6 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 {
+    // http://referencesource.microsoft.com/#PresentationCore/src/Core/CSharp/System/Windows/Media/Generated/MatrixTransform.cs
+    // http://referencesource.microsoft.com/#PresentationCore/src/Core/CSharp/System/Windows/Media/MatrixTransform.cs
+
 	[Script(Implements = typeof(global::System.Windows.Media.MatrixTransform))]
 	internal class __MatrixTransform : __Transform
 	{

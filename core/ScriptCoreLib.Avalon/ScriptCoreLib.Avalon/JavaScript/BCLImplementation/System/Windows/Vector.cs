@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
+    // http://referencesource.microsoft.com/#WindowsBase/src/Base/System/Windows/Vector.cs
+
 	[Script(Implements = typeof(global::System.Windows.Vector))]
 	internal class __Vector
 	{

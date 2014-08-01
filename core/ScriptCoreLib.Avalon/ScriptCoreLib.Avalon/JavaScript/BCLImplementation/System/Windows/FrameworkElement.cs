@@ -8,6 +8,8 @@ using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
+    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/FrameworkElement.cs
+
 	[Script(Implements = typeof(global::System.Windows.FrameworkElement))]
     public class __FrameworkElement : __UIElement, __ISupportInitialize
 	{
