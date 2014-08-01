@@ -71,13 +71,16 @@ namespace WebGLEarthByBjorn
             var renderer = new THREE.WebGLRenderer(
                    new
             {
+                // http://stackoverflow.com/questions/20495302/transparent-background-with-three-js
+                alpha = true,
                 preserveDrawingBuffer = true
             }
 
                 );
             renderer.setSize();
-
+            //renderer.setClearColor(
             scene.add(new THREE.AmbientLight(0x333333));
+            
 
             var light = new THREE.DirectionalLight(0xffffff, 1);
             light.position.set(5, 3, 5);
@@ -97,42 +100,42 @@ namespace WebGLEarthByBjorn
                 map = new THREE.Texture().With(
 
                                     async s =>
-                                {
-                                //0:75ms event: _2_no_clouds_4k_low view-source:36543
-                                //Application Cache Progress event (1 of 2) http://192.168.1.72:22248/view-source 192.168.1.72/:1
-                                //Application Cache Progress event (2 of 2)  192.168.1.72/:1
-                                //Application Cache Cached event 192.168.1.72/:1
-                                //1:1018ms event: _2_no_clouds_4k_low done view-source:36543
-                                //1:1019ms event: _2_no_clouds_4k view-source:36543
-                                //event.returnValue is deprecated. Please use the standard event.preventDefault() instead. view-source:2995
-                                //1:16445ms event: _2_no_clouds_4k done 
+                                    {
+                                        //0:75ms event: _2_no_clouds_4k_low view-source:36543
+                                        //Application Cache Progress event (1 of 2) http://192.168.1.72:22248/view-source 192.168.1.72/:1
+                                        //Application Cache Progress event (2 of 2)  192.168.1.72/:1
+                                        //Application Cache Cached event 192.168.1.72/:1
+                                        //1:1018ms event: _2_no_clouds_4k_low done view-source:36543
+                                        //1:1019ms event: _2_no_clouds_4k view-source:36543
+                                        //event.returnValue is deprecated. Please use the standard event.preventDefault() instead. view-source:2995
+                                        //1:16445ms event: _2_no_clouds_4k done 
 
-                                // ~ tilde to open css editor?
-
-
+                                        // ~ tilde to open css editor?
 
 
-                                    Console.WriteLine("event: _2_no_clouds_4k_low");
-                                    s.image = await new _2_no_clouds_4k_low();
-                                    //s.image = new _2_no_clouds_4k_low();
-                                    //await s.image;
 
-                                    s.needsUpdate = true;
-                                    Console.WriteLine("event: _2_no_clouds_4k_low done");
 
-                                    await 20000;
+                                        Console.WriteLine("event: _2_no_clouds_4k_low");
+                                        s.image = await new _2_no_clouds_4k_low();
+                                        //s.image = new _2_no_clouds_4k_low();
+                                        //await s.image;
 
-                                    Console.WriteLine("event: _2_no_clouds_4k");
-                                    s.image = await new _2_no_clouds_4k();
-                                    s.needsUpdate = true;
-                                    Console.WriteLine("event: _2_no_clouds_4k done");
-                                }
+                                        s.needsUpdate = true;
+                                        Console.WriteLine("event: _2_no_clouds_4k_low done");
+
+                                        await 20000;
+
+                                        Console.WriteLine("event: _2_no_clouds_4k");
+                                        s.image = await new _2_no_clouds_4k();
+                                        s.needsUpdate = true;
+                                        Console.WriteLine("event: _2_no_clouds_4k done");
+                                    }
                                 ),
 
 
                 bumpMap = THREE.ImageUtils.loadTexture(
                                     new elev_bump_4k().src
-                                //new elev_bump_4k_low().src
+                    //new elev_bump_4k_low().src
                                 ),
 
 
@@ -141,19 +144,19 @@ namespace WebGLEarthByBjorn
 
                 specularMap = new THREE.Texture().With(
                                     async s =>
-                                {
-                                    Console.WriteLine("event: water_4k_low");
-                                    s.image = await new water_4k_low();
-                                    s.needsUpdate = true;
-                                    Console.WriteLine("event: water_4k_low done");
+                                    {
+                                        Console.WriteLine("event: water_4k_low");
+                                        s.image = await new water_4k_low();
+                                        s.needsUpdate = true;
+                                        Console.WriteLine("event: water_4k_low done");
 
-                                    await 20000;
+                                        await 20000;
 
-                                    Console.WriteLine("event: water_4k");
-                                    s.image = await new water_4k();
-                                    s.needsUpdate = true;
-                                    Console.WriteLine("event: water_4k done");
-                                }
+                                        Console.WriteLine("event: water_4k");
+                                        s.image = await new water_4k();
+                                        s.needsUpdate = true;
+                                        Console.WriteLine("event: water_4k done");
+                                    }
                                 ),
 
 
@@ -173,7 +176,7 @@ namespace WebGLEarthByBjorn
             #region clouds
             var clouds = new THREE.Mesh(
                     new THREE.SphereGeometry(
-                        //radius + 0.003,
+                //radius + 0.003,
                         radius + 0.006,
                         segments, segments),
                     new THREE.MeshPhongMaterial(
@@ -212,19 +215,30 @@ namespace WebGLEarthByBjorn
 
 
 
-
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeEarth\ChromeEarth\Application.cs
+            // hidden for alpha AppWindows
+#if FBACKGROUND
+            var stars_material = new THREE.MeshBasicMaterial(
+                    new
+            {
+                map = THREE.ImageUtils.loadTexture(new galaxy_starfield().src),
+                side = THREE.BackSide,
+                transparent = true
+            });
 
 
             var stars = new THREE.Mesh(
                     new THREE.SphereGeometry(90, 64, 64),
-                    new THREE.MeshBasicMaterial(
-                    new
-            {
-                map = THREE.ImageUtils.loadTexture(new galaxy_starfield().src),
-                side = THREE.BackSide
-            })
+                   stars_material
                 );
+
+            // http://stackoverflow.com/questions/8502150/three-js-how-can-i-dynamically-change-objects-opacity
+            (stars_material as dynamic).opacity = 0.5;
+
+
             scene.add(stars);
+#endif
+
 
             //var controls = new THREE.TrackballControls(camera);
             //Native.document.body.style.margin = "0";
@@ -313,6 +327,8 @@ namespace WebGLEarthByBjorn
 
             var z = camera.position.z;
 
+
+            #region sfx
             var sfx = new WebGLEarthByBjorn.HTML.Audio.FromAssets.SatelliteBeep_Sputnik1
             {
                 autobuffer = true,
@@ -323,12 +339,15 @@ namespace WebGLEarthByBjorn
             };
 
             sfx.play();
+            #endregion
+
 
             //sfx.AttachToHead();
 
 
             // http://soundfxnow.com/sound-fx/sputnik-satellite-beeping/
 
+            #region onmousewheel
             this.canvas.onmousewheel +=
                 e =>
                 {
@@ -344,6 +363,8 @@ namespace WebGLEarthByBjorn
                     //Native.document.title = new { camera.position.z }.ToString();
 
                 };
+            #endregion
+
 
             // X:\jsc.svn\examples\javascript\Test\TestMouseMovement\TestMouseMovement\Application.cs
             #region onmousemove
@@ -384,6 +405,7 @@ namespace WebGLEarthByBjorn
 
 
             // could we 
+            #region onframe
             Native.window.onframe +=
                 e =>
                 {
@@ -413,18 +435,20 @@ namespace WebGLEarthByBjorn
 
                     renderer.render(scene, camera);
                 };
+            #endregion
+
 
             Native.window.onresize +=
                 delegate
-            {
+                {
 
 
-                //if (canvas.parentNode == Native.document.body)
+                    //if (canvas.parentNode == Native.document.body)
 
-                // are we embedded?
-                if (page != null)
-                    renderer.setSize();
-            };
+                    // are we embedded?
+                    if (page != null)
+                        renderer.setSize();
+                };
 
 
             //new IStyle(this.canvas.css.before)
