@@ -32,6 +32,8 @@ namespace ChromeEarth
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(WebGLEarthByBjorn.HTML.Pages.IApp page)
         {
+            // https://code.google.com/p/chromium/issues/detail?id=169010
+
             // https://chrome.google.com/webstore/developer/dashboard/g16921973856226221075?hl=en&gl=EE#
             // https://chrome.google.com/webstore/detail/odccmjodfgabfaolpgbepgneikcblman
 
