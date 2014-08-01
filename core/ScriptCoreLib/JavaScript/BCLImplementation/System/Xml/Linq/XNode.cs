@@ -33,13 +33,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
               new MutationCallback(
                   (MutationRecord[] mutations, MutationObserver observer) =>
                   {
-                      Console.WriteLine("Mutations len " + mutations.Length);
+                      //Console.WriteLine("Mutations len " + mutations.Length);
 
                       foreach (var m in mutations)
                       {
                           if (m.type == "childList")
                           {
-                              Console.WriteLine("Added mutation");
+                              //Console.WriteLine("Added mutation");
 
                               foreach (var addedNode in m.addedNodes)
                               {
@@ -54,14 +54,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                           }
                           else if (m.type == "attributes")
                           {
-                              Console.WriteLine("Attribute mutation");
+                              //Console.WriteLine("Attribute mutation");
                               var target = ((IHTMLElement)(m.target)).AsXElement();
                               var attr = target.Attribute(m.attributeName);
                               e(attr, (XObjectChangeEventArgs)(object)new XObjectChangeEventArgs(XObjectChange.Value));
                           }
                           else if (m.type == "characterData")
                           {
-                              Console.WriteLine("Content mutation");
+                              //Console.WriteLine("Content mutation");
                               e(this, (XObjectChangeEventArgs)(object)new XObjectChangeEventArgs(XObjectChange.Name));
                           }
                           //else if (m.type == "subtree")
