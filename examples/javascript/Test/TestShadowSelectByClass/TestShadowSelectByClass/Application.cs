@@ -38,13 +38,11 @@ namespace TestShadowSelectByClass
             var s = new ShadowLayout().AttachTo(Native.shadow);
 
 
-
-
             new IHTMLButton { "select all buttons" }.AttachToDocument().onclick +=
                 e =>
                 {
                     // this aint working. why?
-                    s.SelectedContent.select = "button";
+                    s.SelectedContent.select = ".what";
 
                 };
 

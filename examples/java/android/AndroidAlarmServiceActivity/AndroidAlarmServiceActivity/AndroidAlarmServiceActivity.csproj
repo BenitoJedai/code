@@ -94,12 +94,7 @@
   <PropertyGroup>
     <PostBuildEvent>
 
-if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
-)
-
-
-call c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+start /WAIT CMD /C c:\util\jsc\bin\jsc.meta.exe rewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

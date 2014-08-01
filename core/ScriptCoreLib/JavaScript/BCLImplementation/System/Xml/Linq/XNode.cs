@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
 using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
@@ -20,7 +21,70 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 
         public virtual void InternalValueInitialize()
         {
- 
+
+        }
+
+        public override void InternalAddChanged(EventHandler<XObjectChangeEventArgs> e)
+        {
+            //X:\jsc.svn\examples\javascript\Test\TestXMLChangedEvent\TestXMLChangedEvent
+            Console.WriteLine("Hello from internalAddChanged");
+           
+            new MutationObserver(
+              new MutationCallback(
+                  (MutationRecord[] mutations, MutationObserver observer) =>
+                  {
+                      Console.WriteLine("Mutations len " + mutations.Length);
+
+                      foreach (var m in mutations)
+                      {
+                          if (m.type == "childList")
+                          {
+                              Console.WriteLine("Added mutation");
+
+                              foreach (var addedNode in m.addedNodes)
+                              {
+                                  if (addedNode.nodeType == INode.NodeTypeEnum.ElementNode)
+                                  {
+                                      var addedElement = ((IHTMLElement)addedNode).AsXElement();
+
+                                      e(addedElement, (XObjectChangeEventArgs)(object)new __XObjectChangeEventArgs(XObjectChange.Add));
+
+                                  }
+                              }
+                          }
+                          else if (m.type == "attributes")
+                          {
+                              Console.WriteLine("Attribute mutation");
+                              var target = ((IHTMLElement)(m.target)).AsXElement();
+                              var attr = target.Attribute(m.attributeName);
+                              e(attr, (XObjectChangeEventArgs)(object)new XObjectChangeEventArgs(XObjectChange.Value));
+                          }
+                          else if (m.type == "characterData")
+                          {
+                              Console.WriteLine("Content mutation");
+                              e(this, (XObjectChangeEventArgs)(object)new XObjectChangeEventArgs(XObjectChange.Name));
+                          }
+                          //else if (m.type == "subtree")
+                          //{
+                          //    Console.WriteLine("Subtree mutation");
+                          //}
+                      }
+                  }
+              )
+          ).observe(Native.document.documentElement,
+              new
+              {
+                  // Set to true if mutations to target's children are to be observed.
+                  childList = true,
+                  // Set to true if mutations to target's attributes are to be observed. Can be omitted if attributeOldValue and/or attributeFilter is specified.
+                  attributes = true,
+                  // Set to true if mutations to target's data are to be observed. Can be omitted if characterDataOldValue is specified.
+                  characterData = true,
+                  // Set to true if mutations to not just target, but also target's descendants are to be observed.
+                  subtree = true,
+              }
+          );
+
         }
 
         public override string ToString()

@@ -10,8 +10,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
     [Script(Implements = typeof(XObject))]
     internal class __XObject
     {
+        public virtual void InternalAddChanged(EventHandler<XObjectChangeEventArgs> e)
+        {
+
+        }
         // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
-        public event EventHandler<XObjectChangeEventArgs> Changed;
+        public event EventHandler<XObjectChangeEventArgs> Changed
+        {
+            add
+            {
+                InternalAddChanged(value);
+                
+            }
+
+            remove
+            {
+                throw new NotSupportedException();
+            }
+        }
 
         internal virtual XElement InternalGetParent()
         {

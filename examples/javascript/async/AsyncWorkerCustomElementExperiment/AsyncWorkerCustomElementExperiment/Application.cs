@@ -37,7 +37,7 @@ namespace AsyncWorkerCustomElementExperiment
             // http://dejanglozic.com/tag/shadow-dom/
 
             Native.document.registerElement("x-work",
-                async e =>
+                async (IHTMLElement e) =>
                 {
                     var s = e.createShadowRoot();
 
@@ -103,7 +103,8 @@ namespace AsyncWorkerCustomElementExperiment
             new IHTMLButton { "create work" }.AttachToDocument().onclick +=
                 delegate
             {
-                new IHTMLElement("x-work") { "hello from client" }.AttachToDocument();
+                //new IHTMLElement("x-work") { "hello from client" }.AttachToDocument();
+                new XElement("x-work", "hello from client" ).AttachToDocument();
             };
 
             new IHTMLButton { "service work" }.AttachToDocument().onclick +=
