@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskScheduler.cs
+
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskScheduler))]
     internal class __TaskScheduler
     {

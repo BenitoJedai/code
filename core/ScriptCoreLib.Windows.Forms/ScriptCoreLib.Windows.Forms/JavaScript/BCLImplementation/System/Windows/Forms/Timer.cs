@@ -9,7 +9,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/Timer.cs
 
     [Script(Implements = typeof(global::System.Windows.Forms.Timer))]
     internal class __Timer : __Component

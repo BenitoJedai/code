@@ -12,6 +12,8 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskFactory.cs
+
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskFactory))]
     internal partial class __TaskFactory
     {

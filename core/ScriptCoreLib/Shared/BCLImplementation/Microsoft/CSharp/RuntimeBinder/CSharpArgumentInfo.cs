@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
 {
+    // http://referencesource.microsoft.com/#Microsoft.CSharp/Microsoft/CSharp/RuntimeBinder/CSharpArgumentInfo.cs
+
     [Script(Implements = typeof(global::Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo))]
     internal class __CSharpArgumentInfo
     {

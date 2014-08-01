@@ -6,6 +6,8 @@ using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/MenuStrip.cs
+
     [Script(Implements = typeof(global::System.Windows.Forms.MenuStrip))]
     internal class __MenuStrip : __ToolStrip
     {

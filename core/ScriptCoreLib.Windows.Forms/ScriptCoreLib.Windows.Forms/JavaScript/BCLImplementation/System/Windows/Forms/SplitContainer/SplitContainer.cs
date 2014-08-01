@@ -13,9 +13,13 @@ using ScriptCoreLib.JavaScript.Controls;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/SplitContainer.cs
+
     [Script(Implements = typeof(global::System.Windows.Forms.SplitContainer))]
     public class __SplitContainer : __ContainerControl, ISupportInitialize
     {
+        // how many times have we implemented a split container?
+
         // http://www.webcomponentsshift.com/#40
 
 

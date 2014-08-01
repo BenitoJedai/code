@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/methodbase.cs
+
     [Script(Implements = typeof(global::System.Reflection.MethodBase))]
     public abstract class __MethodBase : __MemberInfo
     {
@@ -19,5 +21,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
         {
             return InternalInvoke(obj, parameters);
         }
+
+        // whats with IsDynamicallyInvokable
     }
 }

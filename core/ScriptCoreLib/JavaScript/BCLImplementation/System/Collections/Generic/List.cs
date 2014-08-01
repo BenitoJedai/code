@@ -2,15 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using ScriptCoreLib;
+using ScriptCoreLib.JavaScript.Query;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.Query;
+using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
-    using ScriptCoreLib;
-    using ScriptCoreLib.JavaScript.Query;
-    using ScriptCoreLib.JavaScript.DOM;
-    using ScriptCoreLib.JavaScript.Runtime;
-    using ScriptCoreLib.JavaScript.Query;
-    using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
+
 
     // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs
     [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
