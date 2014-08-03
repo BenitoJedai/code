@@ -47,6 +47,12 @@ namespace ClickCounter
 
         public Application(IApp page)
         {
+            //            02000064 ScriptCoreLib.Query.Experimental.QueryExpressionBuilder + SQLWriter`1 +<> c__DisplayClass11
+            //no implementation for System.Tuple`3[System.String, System.Reflection.MemberInfo, System.Int32] 585bbf75 - 6c04 - 3538 - b52c - a0af95d714bd
+            //script: error JSC1000: No implementation found for this native method, please implement[System.Tuple`3.get_Item1()]
+            //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken ?
+            //script : error JSC1000: error at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder + SQLWriter`1 +<> c__DisplayClass11.<.ctor > b__54,
+
             // script: error JSC1000: No implementation found for this native method, please implement [System.Array.SetValue(System.Object, System.Int32)]
 
             //            0200002b ScriptCoreLib.Query.Experimental.QueryExpressionBuilder
