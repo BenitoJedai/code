@@ -1501,7 +1501,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                       
+
 
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
 
@@ -2903,7 +2903,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                         // IQueryStrategyGrouping
 
-        
+
 
                         // xGroupBy.elementSelector.Body = {e}
                         //  WriteProjectionProxy(zsource, zParameterExpression, Target);
@@ -3031,10 +3031,21 @@ namespace ScriptCoreLib.Query.Experimental
                     {
                         // we are selecting a group for upper select arent we.
                         var xArguments = xNewExpression.Arguments.Zip(xNewExpression.Members, (a, m) => new { a, m, source }).ToList();
-                        foreach (var item in xArguments)
-                        {
-                            WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, -1) });
-                        }
+
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxJoin\Program.cs
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoin\Program.cs
+
+                        xArguments.WithEachIndex(
+                            (item, index) =>
+                            {
+                                WriteProjection(
+                                    item.source,
+                                    item.a,
+                                    new[] { Tuple.Create(item.m, index) }
+                                );
+
+                            }
+                        );
                     }
                     else
                     {
