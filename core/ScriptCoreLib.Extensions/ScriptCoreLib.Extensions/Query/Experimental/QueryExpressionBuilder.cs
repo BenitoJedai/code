@@ -1185,6 +1185,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 );
 
                                 if (Target.Length > 0)
+                                {
                                     using (WithoutLinefeeds())
                                     {
                                         WriteLineWithColor(1, ")", ConsoleColor.White);
@@ -1199,6 +1200,7 @@ namespace ScriptCoreLib.Query.Experimental
                                         WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
                                         WriteLine(1, "`");
                                     }
+                                }
                             };
                         #endregion
 
