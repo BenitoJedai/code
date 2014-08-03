@@ -22,7 +22,9 @@ namespace ScriptCoreLib.Query.Experimental
             public static readonly Func<IQueryStrategy<long>, long> SumOfLongReference = Sum;
             public static readonly Func<IQueryStrategy<long>, long> MinOfLongReference = Min;
             public static readonly Func<IQueryStrategy<long>, long> MaxOfLongReference = Max;
-            public static readonly Func<IQueryStrategy<long>, long> AverageOfLongReference = Average;
+
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+            public static readonly Func<IQueryStrategy<long>, double> AverageOfLongReference = Average;
         }
 
         partial class SQLWriter<TElement>

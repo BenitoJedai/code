@@ -57,7 +57,6 @@ class Program
         //var c = q.Count();
         var f = q.FirstOrDefault();
 
-        // why null?
         Console.WriteLine(new { f });
 
         Debugger.Break();

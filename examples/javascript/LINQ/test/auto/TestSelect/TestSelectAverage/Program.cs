@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using TestSelectAverage;
 using System.Diagnostics;
 using ScriptCoreLib.Query.Experimental;
+using System.Linq;
 
 class Program
 {
@@ -30,11 +31,10 @@ class Program
         #endregion
 
 
+        //new[] { 5 }.Average();
 
         // ThreadLocal SynchronizationContext aware ConnectionPool?
         var n = new PerformanceResourceTimingData2ApplicationPerformance();
-
-        n.Create();
 
         n.Insert(
             new PerformanceResourceTimingData2ApplicationPerformanceRow { connectStart = 5 },
@@ -47,7 +47,9 @@ class Program
                  select x.connectStart
                  ).Average();
 
-        var c2 = new PerformanceResourceTimingData2ApplicationPerformance().Average(x => x.connectStart);
+
+        // { c = 205 }
+        Console.WriteLine(new { c });
 
         Debugger.Break();
     }

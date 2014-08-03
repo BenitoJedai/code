@@ -1,13 +1,14 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
 using System.Diagnostics;
+using System.Xml.Linq;
 using ScriptCoreLib.Query.Experimental;
-using TestGroupByConstant;
+using TestGroupByConstantSelectCount;
 
 class Program
 {
     static void Main(string[] args)
     {
-        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140721
 
         #region QueryExpressionBuilder.WithConnection
         QueryExpressionBuilder.WithConnection =
@@ -24,38 +25,46 @@ class Program
         #endregion
 
 
+
+
         new PerformanceResourceTimingData2ApplicationPerformance().Insert(
-            new PerformanceResourceTimingData2ApplicationPerformanceRow
+              new PerformanceResourceTimingData2ApplicationPerformanceRow
         {
             connectStart = 5,
-            Tag = "first insert, ff"
+            Tag = "first insert"
         },
 
-            new PerformanceResourceTimingData2ApplicationPerformanceRow
+              new PerformanceResourceTimingData2ApplicationPerformanceRow
         {
             connectStart = 5,
             Tag = "Last insert, selected by group by"
         }
-        );
+          );
 
 
 
         var f = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
 
-                //orderby x.Key
-
                 //group x by x.connectStart into gg
-            group x by 1 into gg
+            group x by 2 into gg
 
+            select new
+            {
 
-            // groupby constant returns the first item by default, since it does not need to see all?
-            select new { gg.Last().Tag }
+                count1 = gg.Count(),
+
+                //gg.Key,
+
+                gg.Last().Tag
+            }
 
         ).FirstOrDefault();
 
+        // { f = { count1 = 1, Tag = first insert } }
+        // { f = { count1 = 22, Tag = Last insert, selected by group by } }
         System.Console.WriteLine(
-            new { f.Tag }
+            new { f }
             );
 
         Debugger.Break();

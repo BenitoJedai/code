@@ -17,6 +17,8 @@ class Program
            //   let <>h__TransparentIdentifier1 cc <- upper(FirstOrDefault())
 
            let cc = c.FirstOrDefault()
+
+           // not correctly proxied?
            let ccu = cc.ToUpper()
            let ccl = cc.ToLower()
 
