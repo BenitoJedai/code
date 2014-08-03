@@ -17,22 +17,22 @@ class Program
         {
             Expression<Func<PerformanceResourceTimingData2ApplicationPerformanceRow, PerformanceResourceTimingData2ApplicationPerformanceRow>> selector =
                 (xApplicationPerformance) => new PerformanceResourceTimingData2ApplicationPerformanceRow
-                {
-                    Key = xApplicationPerformance.Key,
+            {
+                Key = xApplicationPerformance.Key,
 
-                    connectEnd = xApplicationPerformance.connectEnd,
-                    connectStart = xApplicationPerformance.connectStart,
-                    domComplete = xApplicationPerformance.domComplete,
-                    domLoading = xApplicationPerformance.domLoading,
-                    EventTime = xApplicationPerformance.EventTime,
-                    loadEventEnd = xApplicationPerformance.loadEventEnd,
-                    loadEventStart = xApplicationPerformance.loadEventStart,
-                    requestStart = xApplicationPerformance.requestStart,
-                    responseEnd = xApplicationPerformance.responseEnd,
-                    responseStart = xApplicationPerformance.responseStart,
-                    Tag = xApplicationPerformance.Tag,
-                    Timestamp = xApplicationPerformance.Timestamp
-                };
+                connectEnd = xApplicationPerformance.connectEnd,
+                connectStart = xApplicationPerformance.connectStart,
+                domComplete = xApplicationPerformance.domComplete,
+                domLoading = xApplicationPerformance.domLoading,
+                EventTime = xApplicationPerformance.EventTime,
+                loadEventEnd = xApplicationPerformance.loadEventEnd,
+                loadEventStart = xApplicationPerformance.loadEventStart,
+                requestStart = xApplicationPerformance.requestStart,
+                responseEnd = xApplicationPerformance.responseEnd,
+                responseStart = xApplicationPerformance.responseStart,
+                Tag = xApplicationPerformance.Tag,
+                Timestamp = xApplicationPerformance.Timestamp
+            };
 
             this.selector = selector;
         }
@@ -71,7 +71,7 @@ class Program
 
         #region MySQLConnection
         // the safe way to hint we need to talk PHP dialect
-        QueryExpressionBuilder.Dialect = QueryExpressionBuilderDialect.PHP;
+        QueryExpressionBuilder.Dialect = QueryExpressionBuilderDialect.MySQL;
         QueryExpressionBuilder.WithConnection =
             y =>
             {
@@ -79,14 +79,14 @@ class Program
                 var cc0 = new MySQLConnection(
 
                     new System.Data.MySQL.MySQLConnectionStringBuilder
-                    {
+                {
 
 
-                        UserID = "root",
-                        Server = "127.0.0.1",
+                    UserID = "root",
+                    Server = "127.0.0.1",
 
-                    }.ToString()
-                    //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
+                }.ToString()
+                //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
                 );
 
 
@@ -138,13 +138,13 @@ class Program
         // ScriptCoreLib.Async
         n.Insert(
            new PerformanceResourceTimingData2ApplicationPerformanceRow
-           {
-               connectStart = 5,
-               connectEnd = 13,
-               EventTime = DateTime.Now.AddDays(-0)
-           }
+        {
+            connectStart = 5,
+            connectEnd = 13,
+            EventTime = DateTime.Now.AddDays(-0)
+        }
 
-           // if you do not wait you wont get the id damn it
+       // if you do not wait you wont get the id damn it
        );
 
 

@@ -1,25 +1,65 @@
-﻿using ScriptCoreLib.Query.Experimental;
+﻿using System;
+using System.Data.SQLite;
+using System.Diagnostics;
+using ScriptCoreLib.Query.Experimental;
+using TestJoinOnNewExpression;
 
 class Program
 {
     static void Main(string[] args)
     {
-        var f = (
-            from x in new xTable()
+        #region QueryExpressionBuilder.WithConnection
+        QueryExpressionBuilder.WithConnection =
+            y =>
+            {
+                var cc = new SQLiteConnection(
+                    new SQLiteConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
+                );
 
-            //let z = 2
+                cc.Open();
+                y(cc);
+                cc.Dispose();
+            };
+        #endregion
 
-            join y in new xTable() on new { x.field1, x.field2 } equals new { y.field1, y.field2 }
-            
-            let goo = 1
+        new PerformanceResourceTimingData2ApplicationPerformance().Insert(
+            new PerformanceResourceTimingData2ApplicationPerformanceRow
+        {
+            connectStart = 5,
+            Tag = "first insert"
+        }
+        );
 
-            select new { x.field1, y.field2, goo
-                //,z
+        new PerformanceResourceTimingData2ApplicationResourcePerformance().Insert(
+             new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+        {
+            connectStart = 5,
+            Tag = "first insert"
+        }
+         );
+
+
+        var q = (
+            from x in new PerformanceResourceTimingData2ApplicationPerformance()
+            join y in new PerformanceResourceTimingData2ApplicationResourcePerformance() on new { x.connectStart } equals new { y.connectStart }
+            select new
+            {
+                x_connectStart = x.connectStart,
+
+                // can we use it ? comma is not rendered. why?
+                y_connectStart = y.connectStart,
+                y_connectStart2 = y.connectStart,
             }
 
-        ).FirstOrDefault();
+        );
 
-        //var z = f.x.field1;
+        // error
+        //var c = q.Count();
+        var f = q.FirstOrDefault();
 
+        // why null?
+        Console.WriteLine(new { f });
+
+        Debugger.Break();
     }
 }

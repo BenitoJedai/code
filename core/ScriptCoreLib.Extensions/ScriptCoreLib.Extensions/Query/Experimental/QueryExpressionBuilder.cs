@@ -2700,7 +2700,6 @@ namespace ScriptCoreLib.Query.Experimental
 
                     //WriteLine(0, "select count(*) from (");
 
-                    var xxSelect = xScalar.source as xSelect;
 
                     #region  FirstOrDefaultReference
                     if (xScalar.Operand == SQLWriter<TElement>.FirstOrDefaultReference.Method)
@@ -2721,7 +2720,10 @@ namespace ScriptCoreLib.Query.Experimental
                     #endregion
 
 
+                    // count wont work?
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
 
+                    var xxSelect = xScalar.source as xSelect;
 
                     #region xxMemberExpression
                     var xxMemberExpression = xxSelect.selector.Body as MemberExpression;
@@ -2798,10 +2800,6 @@ namespace ScriptCoreLib.Query.Experimental
                     {
                         WriteLine(0, "select count(*) from (");
 
-
-
-
-
                         var xsource = new SQLWriter<TElement>(
                            xScalar.source,
                             upper.Concat(new[] { source }),
@@ -2812,10 +2810,6 @@ namespace ScriptCoreLib.Query.Experimental
                         );
 
                         // render the source and with parent
-
-
-
-
                         using (WithoutLinefeeds())
                         {
                             WriteLine(0, ") as `");
