@@ -72,8 +72,14 @@ namespace ScriptCoreLib.Query.Experimental
             //Additional information: no such column: PerformanceResourceTimingData2ApplicationPerformance.Key
 
             var r = c.ExecuteReader();
-            Console.WriteLine("after ExecuteReader");
+            //Console.WriteLine("after ExecuteReader");
 
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoin\Program.cs
+
+
+
+
+            // debugger wont step into with f11 as it is a yeild method
             return ReadToElements(r, source);
         }
 
@@ -114,14 +120,106 @@ namespace ScriptCoreLib.Query.Experimental
             #endregion
 
 
+
+            // called by? xml array
             Func<Expression, Tuple<MemberInfo, int>[], object> GetValue =
                 (zExpression, zTarget) =>
                 {
                     // reading index? what is it? xml?
-                    Debugger.Break();
 
+                    var zNewExpression = zExpression as NewExpression;
+                    if (zNewExpression != null)
+                    {
+                        var args = zNewExpression.Arguments.Select(
+                            (SourceArgument, i) =>
+                            {
+                                // we only need to look at the target member?
+                                var SouceMember = zNewExpression.Members[i];
+
+
+                                // atleast join needs to prefix its fields.
+
+                                var k = "" + SouceMember.Name;
+
+                                //var xMParameterExpression = xMemberExpression.Expression as ParameterExpression;
+                                //if (xMParameterExpression != null)
+                                //{
+                                //    // what if this is a more deeper selector?
+
+                                //    k = "" + xMemberExpression.Member.Name;
+                                //}
+
+
+                                var __value = r[k];
+
+                                // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
+
+
+                                var xMemberExpression = SourceArgument as MemberExpression;
+                                var f = xMemberExpression.Member as FieldInfo;
+
+                                if (f != null)
+                                {
+                                    // js wont know fielt type. but xlsx will hint it vua convert expression wont it.
+                                    // tested by?
+
+                                    // is it xml?
+                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+                                    if (f.FieldType == typeof(XElement))
+                                        //v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
+                                        __value = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                          ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
+                                              (string)__value
+                                          )
+                                      );
+
+                                    if (f.FieldType == typeof(DateTime))
+                                        __value = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(__value);
+                                }
+
+                                return __value;
+                            }
+                        ).ToArray();
+
+
+                        // Constructor on type '<>f__AnonymousType0`4[[Program+xPerformanceResourceTimingData2ApplicationPerformanceKey, TestXMySQL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]' not found.
+
+                        // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+                        var xRowType = zNewExpression.Type;
+                        // jsc could give us the PrimaryConstructor?
+                        //var xRow = (TElement)Activator.CreateInstance(xRowType, args);
+                        var xRow = (TElement)zNewExpression.Constructor.Invoke(args);
+
+
+
+                        return xRow;
+                    }
+
+                    Debugger.Break();
                     return null;
                 };
+
+
+            #region xJoin
+            var xJoin = source as xJoin;
+            if (xJoin != null)
+            {
+                // whats the boundary selector like?
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoinOnNewExpression\Program.cs
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestJoin\Program.cs
+
+                var xLambda = xJoin.resultSelector.Body;
+
+                var __value = GetValue(
+                    xLambda, null // not a member is it?
+                );
+
+
+
+                return (TElement)__value;
+            }
+            #endregion
+
 
 
             var xSelect = source as xSelect;
@@ -194,55 +292,15 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                 #region xNewExpression
-                var xNewExpression = xSelect.selector.Body as NewExpression;
-                if (xNewExpression != null)
+                var zNewExpression = xSelect.selector.Body as NewExpression;
+                if (zNewExpression != null)
                 {
-                    var args = xNewExpression.Arguments.Select(
-                       (SourceArgument, i) =>
-                       {
-                           var xMemberExpression = SourceArgument as MemberExpression;
-
-                           var k = "" + xMemberExpression.Member.Name;
-
-                           var __value = r[k];
-
-                           // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.DateTime'.
+                    var __value = GetValue(
+                        zNewExpression, null // not a member is it?
+                    );
 
 
-                           var f = xMemberExpression.Member as FieldInfo;
-
-                           if (f != null)
-                           {
-                               // is it xml?
-                               // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
-                               if (f.FieldType == typeof(XElement))
-                                   //v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
-                                   __value = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
-                                     ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
-                                         (string)__value
-                                     )
-                                 );
-
-                               if (f.FieldType == typeof(DateTime))
-                                   __value = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(__value);
-                           }
-
-                           return __value;
-                       }
-                   ).ToArray();
-
-
-                    // Constructor on type '<>f__AnonymousType0`4[[Program+xPerformanceResourceTimingData2ApplicationPerformanceKey, TestXMySQL, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.DateTime, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]' not found.
-
-                    // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
-                    var xRowType = xNewExpression.Type;
-                    // jsc could give us the PrimaryConstructor?
-                    //var xRow = (TElement)Activator.CreateInstance(xRowType, args);
-                    var xRow = (TElement)xNewExpression.Constructor.Invoke(args);
-
-
-
-                    return xRow;
+                    return (TElement)__value;
                 }
                 #endregion
 

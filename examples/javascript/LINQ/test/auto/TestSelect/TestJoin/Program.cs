@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SQLite;
+using System.Diagnostics;
 using ScriptCoreLib.Query.Experimental;
 using TestJoin;
 
@@ -38,22 +39,24 @@ class Program
          );
 
 
-        var f = (
+        var q = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
             join y in new PerformanceResourceTimingData2ApplicationResourcePerformance() on x.connectStart equals y.connectStart
             select new
             {
-                x_connectStart = x.connectStart,
+                field1 = x.connectStart,
 
                 // can we use it ? comma is not rendered. why?
-                y_connectStart = y.connectStart,
-                y_connectStart2 = y.connectStart,
+                field2 = y.connectStart,
+                field3 = y.connectStart,
             }
 
-        ).FirstOrDefault();
+        );
 
-        // why null?
+        var f = q.FirstOrDefault();
+
         Console.WriteLine(new { f });
 
+        Debugger.Break();
     }
 }
