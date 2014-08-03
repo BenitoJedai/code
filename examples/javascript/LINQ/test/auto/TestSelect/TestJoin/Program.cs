@@ -40,16 +40,14 @@ class Program
 
         var f = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
-
-            //let gap1 = "???"
-
             join y in new PerformanceResourceTimingData2ApplicationResourcePerformance() on x.connectStart equals y.connectStart
-            //select x.Key
-            //select new { x = new { x.connectStart }, y = new { y.connectStart } }
             select new
             {
-                x_connectStart = x.connectStart
-                //y_connectStart = y.connectStart
+                x_connectStart = x.connectStart,
+
+                // can we use it ? comma is not rendered. why?
+                y_connectStart = y.connectStart,
+                y_connectStart2 = y.connectStart,
             }
 
         ).FirstOrDefault();

@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
+        // https://code.google.com/p/chromium/issues/detail?id=369239
+
         partial class SQLWriter<TElement>
         {
             public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<TElement>> ThenByReference = ThenBy;
