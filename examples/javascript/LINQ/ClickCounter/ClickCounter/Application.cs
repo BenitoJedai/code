@@ -47,6 +47,13 @@ namespace ClickCounter
 
         public Application(IApp page)
         {
+            // script: error JSC1000: No implementation found for this native method, please implement [System.Array.SetValue(System.Object, System.Int32)]
+
+            //            0200002b ScriptCoreLib.Query.Experimental.QueryExpressionBuilder
+            //script: error JSC1000: No implementation found for this native method, please implement[System.Type.GetElementType()]
+            //script: warning JSC1000: Did you reference ScriptCoreLib via IAssemblyReferenceToken ?
+            //script : error JSC1000: error at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder.ReadToElement,
+
             // X:\jsc.svn\examples\javascript\xml\XClickCounter\XClickCounter\Application.cs
             // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 

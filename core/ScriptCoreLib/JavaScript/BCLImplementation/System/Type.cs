@@ -31,7 +31,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
 
+        public Type GetElementType()
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.AsEnumerable.cs
+            // MakeArray ?
 
+            return null;
+        }
 
         //Implementation not found for type import :
         //type: System.Type
@@ -83,6 +90,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
+        [Obsolete("InternalIsNative")]
         public bool IsNative
         {
             get
