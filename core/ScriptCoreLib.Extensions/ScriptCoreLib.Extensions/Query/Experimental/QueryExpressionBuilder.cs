@@ -819,10 +819,12 @@ namespace ScriptCoreLib.Query.Experimental
                         Action<Expression> yaa =
                             aa =>
                             {
+                                // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarFirstOrDefault\Program.cs
 
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarUpper\Program.cs
                                 if (Target.Length > 0)
+                                {
                                     using (WithoutLinefeeds())
                                     {
                                         WriteCommentLine(1, "let");
@@ -842,6 +844,7 @@ namespace ScriptCoreLib.Query.Experimental
                                         //WriteLineWithColor(1, " <- (", ConsoleColor.White);
                                         WriteLineWithColor(1, " (", ConsoleColor.White);
                                     }
+                                }
 
                                 // whats aa? the where clause?
                                 // aa = {new xTable().Where(zz => (Convert(zz.Key) == 77))}
