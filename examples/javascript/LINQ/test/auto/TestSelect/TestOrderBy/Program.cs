@@ -6,12 +6,7 @@ class Program
     {
         var f = (
             from x in new xTable()
-
-            //let foo = x.field1
-
             orderby x.field1
-            //orderby foo
-
             select new { x.field1 }
 
         ).FirstOrDefault();

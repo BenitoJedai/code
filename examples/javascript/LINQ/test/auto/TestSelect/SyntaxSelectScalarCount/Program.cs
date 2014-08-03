@@ -5,21 +5,21 @@ class Program
     static void Main(string[] args)
     {
         var f = (
-            from x in new xTable()
+            from xouter in new xTable()
 
+                // /* 1708:0007 */    /* proxy */, `<>h__TransparentIdentifier0`.`xouter.field1` as /* <>h__TransparentIdentifier1 */ `<>h__TransparentIdentifier0.xouter.field1`
+                //  where (`z`.`field1` = `xouter`.`field1`)
 
-            let c = from xx in new xTable()
-                        //where xx.field1 == x.field2
-                    //    where xx.field1 == 7
+            let y =
+                from z in new xTable()
 
-                    //orderby xx.field3
+                    // xouter is available via h__TransparentIdentifier0 
+                where z.field1 == xouter.field1
+                select z.Key
 
-                    //select xx.field3
-                    select xx
+            let c = y.Count()
 
-            let a = c.Count()
-
-            select new { a }
+            select new { c }
         ).FirstOrDefault();
 
     }

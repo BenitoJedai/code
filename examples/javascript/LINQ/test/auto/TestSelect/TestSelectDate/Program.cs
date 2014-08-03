@@ -4,6 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
+        // /* let */, date(`<>h__TransparentIdentifier0`.`x.Timestamp)
+
         var f = (
             from x in new xTable()
 

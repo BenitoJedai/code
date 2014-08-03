@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using ScriptCoreLib.Extensions;
 using System.Reflection;
+using System.Data;
 
 namespace ScriptCoreLib.Query.Experimental
 {
@@ -14,7 +15,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
         [Obsolete("this might need to return the row for the selector")]
-        public static long Average<TSource>(this IQueryStrategy<TSource> source, Expression<Func<TSource, long>> selector)
+        public static double Average<TSource>(this IQueryStrategy<TSource> source, Expression<Func<TSource, long>> selector)
         {
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
 
@@ -26,18 +27,37 @@ namespace ScriptCoreLib.Query.Experimental
 
 
         // TElement : long
-        public static long Average(this IQueryStrategy<long> source)
+        public static double Average(this IQueryStrategy<long> source)
+        {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+
+            var value = default(double);
+
+            // what if there is no connection?
+            WithConnection(
+                cc =>
+                {
+                    value = Average(source, cc);
+                }
+            );
+
+            return value;
+        }
+
+        public static double Average(this IQueryStrategy<long> source, IDbConnection cc)
         {
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
 
             // first, lets apprach it in a similar way. lets copy count
 
 
-            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.AverageOfLongReference.Method);
+            var xDbCommand = GetScalarCommand(source, cc, Operand: xReferencesOfLong.AverageOfLongReference.Method);
 
             if (xDbCommand != null)
             {
-                return (long)xDbCommand.ExecuteScalar();
+                var __value = xDbCommand.ExecuteScalar();
+
+                return (double)__value;
             }
 
             return 0;

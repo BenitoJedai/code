@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using ScriptCoreLib.Extensions;
 using TestXMySQL;
+using System.Diagnostics;
 
 class Program
 {
@@ -173,7 +174,7 @@ class Program
         //new PerformanceResourceTimingData2ApplicationPerformance().Delete(x => x.Key == f.Key);
         new PerformanceResourceTimingData2ApplicationPerformance().Delete(f.Key);
 
-
+        Debugger.Break();
 
     }
 }

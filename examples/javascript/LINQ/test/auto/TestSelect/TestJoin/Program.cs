@@ -45,8 +45,6 @@ class Program
             select new
             {
                 field1 = x.connectStart,
-
-                // can we use it ? comma is not rendered. why?
                 field2 = y.connectStart,
                 field3 = y.connectStart,
             }

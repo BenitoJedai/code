@@ -316,6 +316,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                 #endregion
 
+                // called by?
                 #region OBSOLETE WriteScalarExpression
                 var WriteScalarExpression = default(WriteScalarExpressionAction);
 
@@ -696,7 +697,8 @@ namespace ScriptCoreLib.Query.Experimental
 
                     using (WithoutLinefeeds())
                     {
-                        WriteLine(0, "limit " + xTake.count);
+                        WriteLine(0, "limit ");
+                        WriteLineWithColor(0, "" + xTake.count, ConsoleColor.Yellow);
                     }
 
                     return;
@@ -711,124 +713,6 @@ namespace ScriptCoreLib.Query.Experimental
                 // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
                 // we are basically doing a proxy for one field arent we...
-                #region OBSOLETE WriteOrderByKeySelector
-                // 
-                Action<IQueryStrategy, Expression, Expression, Tuple<MemberInfo, int>[]> WriteOrderByKeySelector = null;
-
-                WriteOrderByKeySelector =
-                    (zsource, keySelector, zExpression, Target) =>
-                    {
-
-                        //Console.WriteLine("enter WriteOrderByKeySelector " + new { keySelector });
-
-
-
-
-
-
-
-                        // what are we referencing in orderby?
-                        // zMemberExpression = {<>h__TransparentIdentifier0.x.field1}
-                        var zMemberExpression = keySelector as MemberExpression;
-                        //Console.WriteLine("WriteOrderByKeySelector " + new { zMemberExpression });
-                        if (zMemberExpression != null)
-                        {
-                            var zzMemberExpressionMemberField = zMemberExpression.Member as FieldInfo;
-
-
-
-                            #region zMMemberExpression
-                            var zMMemberExpression = zMemberExpression.Expression as MemberExpression;
-                            //Console.WriteLine("WriteOrderByKeySelector " + new { zMMemberExpression });
-                            if (zMMemberExpression != null)
-                            {
-                                var zMMParameterExpression = zMMemberExpression.Expression as ParameterExpression;
-                                //Console.WriteLine("WriteOrderByKeySelector " + new { zMMParameterExpression });
-                                if (zMMParameterExpression != null)
-                                {
-                                    WriteLine(1, zMMemberExpression.Member.Name + "." + zMemberExpression.Member.Name);
-                                    return;
-                                }
-                            }
-                            #endregion
-
-
-                            #region zMParameterExpression
-                            var zMParameterExpression = zMemberExpression.Expression as ParameterExpression;
-                            //Console.WriteLine("WriteOrderByKeySelector " + new { zMParameterExpression });
-                            if (zMParameterExpression != null)
-                            {
-
-
-
-
-
-
-
-                                Action<xSelect> doSelect =
-                                    zSelect =>
-                                    {
-
-                                        // we need to subselect
-
-
-                                        var zMemberInitExpression = zSelect.selector.Body as MemberInitExpression;
-                                        //Console.WriteLine("WriteOrderByKeySelector " + new { zMemberInitExpression });
-                                        if (zMemberInitExpression != null)
-                                        {
-                                            // index by name?
-                                            var zMemberInitExpressionii = zMemberInitExpression.Bindings.Select(xx => xx.Member.Name).ToList().IndexOf(zzMemberExpressionMemberField.Name);
-                                            //Console.WriteLine("WriteOrderByKeySelector " + new { zMemberInitExpressionii, zMemberExpression.Member });
-                                            // /* 0000:0012 */   order by 0:12369ms WriteOrderByKeySelector {{ zMemberInitExpressionii = -1, Member = Key }} 
-                                            var aa = zMemberInitExpression.Bindings[zMemberInitExpressionii] as MemberAssignment;
-
-                                            if (aa != null)
-                                            {
-                                                WriteScalarExpression(true, aa.Expression);
-                                                return;
-                                            }
-                                        }
-
-                                        var zNewExpression = zSelect.selector.Body as NewExpression;
-                                        //Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpression });
-                                        if (zNewExpression != null)
-                                        {
-                                            var zNewExpressionii = zNewExpression.Members.IndexOf(zMemberExpression.Member);
-                                            //Console.WriteLine("WriteOrderByKeySelector " + new { zNewExpressionii });
-                                            var aa = zNewExpression.Arguments[zNewExpressionii];
-
-                                            if (aa != null)
-                                            {
-                                                // zNewExpression = {new <>f__AnonymousType0`2(x = x, foo = x.field1)}
-                                                // oExpression.keySelector.Body = {<>h__TransparentIdentifier0.foo}
-                                                WriteScalarExpression(true, aa);
-                                                return;
-                                            }
-                                        }
-                                    };
-
-
-                                var zWhere = zsource as xWhere;
-                                if (zWhere != null)
-                                {
-
-                                    doSelect(zWhere.source as xSelect);
-                                    return;
-                                }
-
-                                doSelect(zsource as xSelect);
-                                return;
-                            }
-                            #endregion
-
-                        }
-
-                        WriteLine(1, "?");
-
-                        if (Debugger.IsAttached)
-                            Debugger.Break();
-                    };
-                #endregion
 
                 #region xWhere
                 var xWhere = source as xWhere;
@@ -867,12 +751,28 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-                // called by?
+
+                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[], Tuple<string, MemberInfo, int>[]> WriteProjectionProxy = null;
+                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjection = null;
+
+                // called by? WriteProjection:
                 #region ? WriteScalarOperand
 
                 Action<IQueryStrategy, MethodCallExpression, Func<string>, MethodInfo, Tuple<MemberInfo, int>[]> WriteScalarOperand =
                     (zsource, xxMethodCallExpression, GetTargetName, Operand, Target) =>
                     {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarCount\Program.cs
+
+                        // [0] = {new xTable().Select(y => y.Tag)}
+                        var __source = xxMethodCallExpression.Arguments[0] as MemberExpression;
+
+                        if (__source == null)
+                        {
+                            Debugger.Break();
+
+                        }
+
+
                         // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
 
                         var zSelect = zsource as xSelect;
@@ -886,9 +786,32 @@ namespace ScriptCoreLib.Query.Experimental
 
                         if (zSelect.source is xGroupBy)
                         {
-                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
 
-                            WriteLine(1, "?");
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
+                            // called by WriteProjection:xxMethodCallExpression
+                            // Count
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxGroupByConstantSelectCount\Program.cs
+
+                            using (WithoutLinefeeds())
+                            {
+                                WriteCommentLine(1, "proxy");
+
+                                //WriteProjectionProxy(
+                                //    zsource, xxMethodCallExpression, Target, null);
+
+                                WriteLine(1, " ");
+
+                                WriteLine(1, zSelect.selector.Parameters[0].Name);
+                                WriteLine(1, ".");
+
+                                WriteLine(1, GetTargetName());
+
+                                WriteLineWithColor(1, " as  ", ConsoleColor.Magenta);
+
+                                WriteLine(1, "`");
+                                WriteLineWithColor(1, GetTargetName(), ConsoleColor.Cyan);
+                                WriteLine(1, "`");
+                            }
                             return;
                         }
 
@@ -1279,7 +1202,6 @@ namespace ScriptCoreLib.Query.Experimental
                             };
                         #endregion
 
-                        var __source = xxMethodCallExpression.Arguments[0] as MemberExpression;
 
 
                         #region walker
@@ -1312,12 +1234,10 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectNewExpressionScalarFirstOrDefault\Program.cs
                         walker(zSelect.source as xSelect, __source.Expression);
                     };
                 #endregion
-
-                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[], Tuple<string, MemberInfo, int>[]> WriteProjectionProxy = null;
-                Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteProjection = null;
 
 
                 #region WriteProjectionProxy
@@ -1752,14 +1672,14 @@ namespace ScriptCoreLib.Query.Experimental
                                         WriteLine(1, " ");
                                     }
                                     WriteLine(1, "`");
-                                    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                     WriteLine(1, "`");
                                     return;
                                 }
 
 
 
-                                // ?
+                                // ? SourceName?
                                 WriteLine(1, " " + GetTargetName());
                                 WriteLine(1, " as ");
                                 if (upperParameter != null)
@@ -1769,7 +1689,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 }
 
                                 WriteLine(1, "`");
-                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                 WriteLine(1, "`");
 
                             }
@@ -1910,6 +1830,7 @@ namespace ScriptCoreLib.Query.Experimental
                 #endregion
 
 
+
                 #region WriteProjection
 
                 WriteProjection =
@@ -1977,7 +1898,7 @@ namespace ScriptCoreLib.Query.Experimental
                               #region QueryExpressionBuilder::
                               if (xxMethodCallExpression.Method.DeclaringType == typeof(QueryExpressionBuilder))
                               {
-                                  #region Last
+                                  #region WriteProjection:Last
                                   if (xxMethodCallExpression.Method.Name == LastReference.Method.Name)
                                   {
                                       // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
@@ -2003,7 +1924,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
                                   #endregion
 
-                                  #region FirstOrDefault
+                                  #region WriteProjection:FirstOrDefault
                                   if (xxMethodCallExpression.Method.Name == FirstOrDefaultReference.Method.Name)
                                   {
                                       // what about inline testing?
@@ -2013,7 +1934,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   #endregion
 
 
-                                  #region Count
+                                  #region WriteProjection:Count
                                   if (xxMethodCallExpression.Method.Name == CountReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
@@ -2023,7 +1944,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
                                   #endregion
 
-                                  #region Sum
+                                  #region WriteProjection:Sum
                                   if (xxMethodCallExpression.Method.Name == xReferencesOfLong.SumOfLongReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarSum\Program.cs
@@ -2032,7 +1953,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
                                   #endregion
 
-                                  #region Average
+                                  #region WriteProjection:Average
                                   if (xxMethodCallExpression.Method.Name == xReferencesOfLong.AverageOfLongReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarAverage\Program.cs
@@ -2041,7 +1962,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
                                   #endregion
 
-                                  #region Max
+                                  #region WriteProjection:Max
                                   if (xxMethodCallExpression.Method.Name == xReferencesOfLong.MaxOfLongReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarMax\Program.cs
@@ -2050,7 +1971,7 @@ namespace ScriptCoreLib.Query.Experimental
                                   }
                                   #endregion
 
-                                  #region Min
+                                  #region WriteProjection:Min
                                   if (xxMethodCallExpression.Method.Name == xReferencesOfLong.MinOfLongReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarMin\Program.cs
@@ -2586,6 +2507,7 @@ namespace ScriptCoreLib.Query.Experimental
                       };
                 #endregion
 
+                // used by?
                 #region WriteScalarExpressionArray
                 Action<IQueryStrategy, Expression, Tuple<MemberInfo, int>[]> WriteScalarExpressionArray =
                       (zsource, zExpression, Target) =>
@@ -2881,12 +2803,12 @@ namespace ScriptCoreLib.Query.Experimental
                 var xGroupBy = source as xGroupBy;
                 if (xGroupBy != null)
                 {
-                    WriteCommentLine(0, "xGroupBy");
 
                     // proxy x?
                     // elementSelector = {<>h__TransparentIdentifier3 => <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x}
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupBy\Program.cs
 
+                    WriteCommentLine(0, "xGroupBy");
                     WriteLine(0, "select");
 
                     {
@@ -2911,25 +2833,53 @@ namespace ScriptCoreLib.Query.Experimental
                         // xGroupBy.elementSelector.Body = {e}
 
 
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxGroupByConstantSelectCount\Program.cs
                         var xParameterExpression = xGroupBy.elementSelector.Body as ParameterExpression;
                         if (xParameterExpression != null)
                         {
                             // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\testgroupbyconstant\program.cs
                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140723
 
-                            var xxSelect = xGroupBy.source as xSelect;
 
-                            var xxMemberInitExpression = xxSelect.selector.Body as MemberInitExpression;
-                            if (xxMemberInitExpression != null)
+                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxOrderByThenGroupBy\Program.cs
+
+                            var xxOrderBy = xGroupBy.source as xOrderBy;
+                            if (xxOrderBy != null)
                             {
-                                WriteProjectionProxy(
-                                    xGroupBy.source,
-                                    xxMemberInitExpression,
-                                     new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) },
-                                     new[] { new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1) }
-                                    );
+                                var xxSelect = xxOrderBy.source as xSelect;
+
+
+                                var xxMemberInitExpression = xxSelect.selector.Body as MemberInitExpression;
+                                if (xxMemberInitExpression != null)
+                                {
+                                    WriteProjectionProxy(
+                                        xGroupBy.source,
+                                        xxMemberInitExpression,
+                                         new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) },
+                                         new[] { new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1) }
+                                        );
+                                }
+                                else Debugger.Break();
                             }
-                            else Debugger.Break();
+                            else
+                            {
+
+                                var xxSelect = xGroupBy.source as xSelect;
+
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByConstant\Program.cs
+
+                                var xxMemberInitExpression = xxSelect.selector.Body as MemberInitExpression;
+                                if (xxMemberInitExpression != null)
+                                {
+                                    WriteProjectionProxy(
+                                        xGroupBy.source,
+                                        xxMemberInitExpression,
+                                         new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) },
+                                         new[] { new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1) }
+                                        );
+                                }
+                                else Debugger.Break();
+                            }
                         }
                         else
                         {
@@ -2971,6 +2921,78 @@ namespace ScriptCoreLib.Query.Experimental
                             xGroupBy.keySelector.Body,
                                new[] { new Tuple<MemberInfo, int>(KeyReference.Method, 1) }
                         );
+
+                        // do we need to do counting in the group?
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxGroupByConstantSelectCount\Program.cs
+                        var uSelect = upper.Last() as xSelect;
+                        if (uSelect != null)
+                        {
+                            // selector = {gg => new <>f__AnonymousType0`2(count1 = gg.Count(), Key = gg.Key)}
+
+                            // how will we know if upper wants to do count?
+
+                            var uNewExpression = uSelect.selector.Body as NewExpression;
+                            if (uNewExpression != null)
+                            {
+                                uNewExpression.Arguments.WithEachIndex(
+                                    (uArgument, uIndex) =>
+                                    {
+                                        // uArgument = {gg.Count()}
+
+                                        // perhaps we should always do a count to make sure the Last is not optimized to be First ?
+
+                                        var uMethodCallExpression = uArgument as MethodCallExpression;
+                                        if (uMethodCallExpression != null)
+                                        {
+                                            // sync with WriteScalarOperand
+
+                                            if (uMethodCallExpression.Method.DeclaringType == typeof(QueryExpressionBuilder))
+                                            {
+                                                // should be one of our methods.
+                                                // which?
+                                                if (uMethodCallExpression.Method.Name == CountReference.Method.Name)
+                                                {
+                                                    using (WithoutLinefeeds())
+                                                    {
+                                                        WriteCommentLine(1, "group");
+                                                        WriteLine(2, ", count(*) as " + uNewExpression.Members[uIndex].Name);
+                                                    }
+
+                                                    return;
+                                                }
+
+                                                if (uMethodCallExpression.Method.Name == xReferencesOfLong.AverageOfLongReference.Method.Name)
+                                                {
+                                                    using (WithoutLinefeeds())
+                                                    {
+                                                        WriteCommentLine(1, "group");
+
+                                                        // Unhandled Exception: System.Data.SQLite.SQLiteSyntaxException: wrong number of arguments to function avg()
+
+                                                        //var uSelector = uMethodCallExpression.Arguments[1] as LambdaExpression;
+                                                        var uUnaryExpression = uMethodCallExpression.Arguments[1] as UnaryExpression;
+                                                        var uLambdaExpression = uUnaryExpression.Operand as LambdaExpression;
+
+                                                        WriteLine(2, ", avg(");
+
+                                                        WriteProjection(uSelect, uLambdaExpression.Body, new Tuple<MemberInfo, int>[] {
+                                                            // Tuple.Create(item.m, index)
+                                                        });
+
+                                                        WriteLine(2, ") as " + uNewExpression.Members[uIndex].Name);
+                                                    }
+
+                                                    return;
+                                                }
+
+                                                Debugger.Break();
+                                            }
+                                        }
+                                    }
+                                );
+
+                            }
+                        }
                     }
 
                     // elementSelector = {<>h__TransparentIdentifier3 => new <>f__AnonymousType4`3(x = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.x, xFoo = <>h__TransparentIdentifier3.<>h__TransparentIdentifier2.xFoo, xKey = <>h__TransparentIdentifier3.xKey)}
@@ -2996,6 +3018,20 @@ namespace ScriptCoreLib.Query.Experimental
                         WriteLine(0, "`");
                     }
 
+                    //var xConstantExpression = xGroupBy.keySelector.Body as ConstantExpression;
+                    //if (xConstantExpression != null)
+                    //{
+                    //    // does it even matter whats the value of it?
+                    //    using (WithoutLinefeeds())
+                    //    {
+                    //        WriteLine(0, "group by ");
+                    //        WriteLineWithColor(1, "1", ConsoleColor.Yellow);
+                    //    }
+
+                    //    return;
+                    //}
+
+
                     //using (WithoutLinefeeds())
                     {
                         WriteLine(0, "group by ");
@@ -3004,6 +3040,10 @@ namespace ScriptCoreLib.Query.Experimental
 
                         // we need it unpacked
                         //WriteProjection(source, xGroupBy.keySelector.Body, new Tuple<MemberInfo, int>[0]);
+
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxLetGroupBy\Program.cs
+
+
 
                         WriteScalarExpressionArray(source, xGroupBy.keySelector.Body, new Tuple<MemberInfo, int>[0]);
                     }
@@ -3134,6 +3174,7 @@ namespace ScriptCoreLib.Query.Experimental
                 // (source as xSelect).selector.Body = {<>h__TransparentIdentifier6 . <>h__TransparentIdentifier5.<>h__TransparentIdentifier4.<>h__TransparentIdentifier3.<>h__TransparentIdentifier2.<>h__TransparentIdentifier1.<>h__TransparentIdentifier0.z}
                 var x = xSelect.selector.Body;
 
+                WriteCommentLine(0, "xSelect");
                 WriteLine(0, "select");
 
 

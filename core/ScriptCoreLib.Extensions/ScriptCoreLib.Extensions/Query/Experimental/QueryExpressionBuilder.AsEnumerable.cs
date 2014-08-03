@@ -71,6 +71,8 @@ namespace ScriptCoreLib.Query.Experimental
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarArrayOfXElementField\Program.cs
             //Additional information: no such column: PerformanceResourceTimingData2ApplicationPerformance.Key
 
+            // Additional information: no such column: x.connectStart
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarCount\Program.cs
             var r = c.ExecuteReader();
             //Console.WriteLine("after ExecuteReader");
 
@@ -156,25 +158,28 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                 var xMemberExpression = SourceArgument as MemberExpression;
-                                var f = xMemberExpression.Member as FieldInfo;
-
-                                if (f != null)
+                                if (xMemberExpression != null)
                                 {
-                                    // js wont know fielt type. but xlsx will hint it vua convert expression wont it.
-                                    // tested by?
+                                    var f = xMemberExpression.Member as FieldInfo;
 
-                                    // is it xml?
-                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
-                                    if (f.FieldType == typeof(XElement))
-                                        //v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
-                                        __value = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
-                                          ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
-                                              (string)__value
-                                          )
-                                      );
+                                    if (f != null)
+                                    {
+                                        // js wont know fielt type. but xlsx will hint it vua convert expression wont it.
+                                        // tested by?
 
-                                    if (f.FieldType == typeof(DateTime))
-                                        __value = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(__value);
+                                        // is it xml?
+                                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+                                        if (f.FieldType == typeof(XElement))
+                                            //v = global::ScriptCoreLib.Library.StringConversions.ConvertStringToXElement((string)v);
+                                            __value = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                              ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
+                                                  (string)__value
+                                              )
+                                          );
+
+                                        if (f.FieldType == typeof(DateTime))
+                                            __value = global::ScriptCoreLib.Library.StringConversionsForStopwatch.DateTimeConvertFromObject(__value);
+                                    }
                                 }
 
                                 return __value;
@@ -188,6 +193,8 @@ namespace ScriptCoreLib.Query.Experimental
                         var xRowType = zNewExpression.Type;
                         // jsc could give us the PrimaryConstructor?
                         //var xRow = (TElement)Activator.CreateInstance(xRowType, args);
+
+                        // Additional information: Object of type 'System.Int64' cannot be converted to type 'System.Int32'.
                         var xRow = (TElement)zNewExpression.Constructor.Invoke(args);
 
 
@@ -326,6 +333,7 @@ namespace ScriptCoreLib.Query.Experimental
                 if (rMemberExpression != null)
                 {
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarXElementField\Program.cs
 
                     // what about getting it as an array?
                     // [0x00000000] = "x.`z`"

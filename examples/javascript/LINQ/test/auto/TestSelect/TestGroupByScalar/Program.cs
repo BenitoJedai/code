@@ -41,6 +41,7 @@ class Program
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
 
             group x by x.connectStart into gg
+            //group x by 2 into gg
 
             select new { gg.Last().Tag }
 

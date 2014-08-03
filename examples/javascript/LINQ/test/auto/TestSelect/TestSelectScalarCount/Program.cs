@@ -1,4 +1,8 @@
-﻿using ScriptCoreLib.Query.Experimental;
+﻿using System;
+using System.Data.SQLite;
+using System.Diagnostics;
+using ScriptCoreLib.Query.Experimental;
+using TestSelectScalarCount;
 
 class Program
 {
@@ -8,28 +12,66 @@ class Program
         // 410
 
 
+        #region QueryExpressionBuilder.WithConnection
+        QueryExpressionBuilder.WithConnection =
+            y =>
+            {
+                var cc = new SQLiteConnection(
+                    new SQLiteConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
+                );
+
+                cc.Open();
+                y(cc);
+                cc.Dispose();
+            };
+        #endregion
+
+        new PerformanceResourceTimingData2ApplicationPerformance().Insert(
+            new PerformanceResourceTimingData2ApplicationPerformanceRow
+        {
+            connectStart = 5,
+            Tag = "first insert"
+        }
+        );
+
+        new PerformanceResourceTimingData2ApplicationResourcePerformance().Insert(
+             new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+        {
+            connectStart = 5,
+            Tag = "first insert"
+        }
+         );
+
+        new PerformanceResourceTimingData2ApplicationResourcePerformance().Insert(
+             new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+        {
+            connectStart = 5,
+            Tag = "last insert"
+        }
+         );
+
+
+        // Additional information: no such column: x.connectStart
+
+
         var f = (
-            from x in new xTable()
+            from x in new PerformanceResourceTimingData2ApplicationPerformance()
 
             let y =
-                from z in new xTable()
-                where z.field1 == x.field1
+                from z in new PerformanceResourceTimingData2ApplicationResourcePerformance()
+                where z.connectStart == x.connectStart
                 select z.Key
 
             let c = y.Count()
-
-            //let c = (
-            //    from z in new xTable()
-            //    where z.field1 == x.field1
-            //    select z
-            //).Count()
 
 
             select c
 
         ).FirstOrDefault();
 
-        //var z = f.x.field1;
+        Console.WriteLine(new { f });
+
+        Debugger.Break();
 
     }
 }
