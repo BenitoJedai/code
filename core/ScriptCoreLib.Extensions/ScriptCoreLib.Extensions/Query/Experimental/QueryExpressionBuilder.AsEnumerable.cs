@@ -124,6 +124,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
             // called by? xml array
+            #region GetValue
             Func<Expression, Tuple<MemberInfo, int>[], object> GetValue =
                 (zExpression, zTarget) =>
                 {
@@ -205,7 +206,7 @@ namespace ScriptCoreLib.Query.Experimental
                     Debugger.Break();
                     return null;
                 };
-
+#endregion
 
             #region xJoin
             var xJoin = source as xJoin;
@@ -378,9 +379,13 @@ namespace ScriptCoreLib.Query.Experimental
                 if (rNewArrayExpression != null)
                 {
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarArrayOfXElementField\Program.cs
+                    // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
 
                     // js wont have array types?
                     // unless we teach it to produce .MakeArray ??
+
+                    // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+
                     var xElementType = rNewArrayExpression.Type.GetElementType();
 
                     var __value = Array.CreateInstance(xElementType, rNewArrayExpression.Expressions.Count);

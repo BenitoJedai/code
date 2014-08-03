@@ -10,6 +10,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Array))]
     internal class __Array
     {
+        // X:\jsc.svn\examples\javascript\LINQ\ClickCounter\ClickCounter\Application.cs
+        public void SetValue(object value, int index)
+        {
+            ScriptCoreLib.JavaScript.Runtime.Expando.InternalSetMember(this, index, value);
+        }
+
         [Script]
         class __Enumerator : IEnumerator
         {
@@ -108,6 +114,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 		public static global::System.Array CreateInstance(Type elementType, int length)
 		{
+            // .MakeArray with GetElementType
 			var a = new object[length];
 
 			return (global::System.Array)a;
