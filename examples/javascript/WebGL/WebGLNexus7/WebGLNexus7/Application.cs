@@ -13,12 +13,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using WebGLGalaxyS;
-using WebGLGalaxyS.Design;
-using WebGLGalaxyS.HTML.Pages;
+using WebGLNexus7;
+using WebGLNexus7.Design;
+using WebGLNexus7.HTML.Pages;
 using System.Diagnostics;
 
-namespace WebGLGalaxyS
+namespace WebGLNexus7
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -31,6 +31,7 @@ namespace WebGLGalaxyS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
             // X:\jsc.svn\examples\javascript\WebGL\WebGLGalaxyS\WebGLGalaxyS\Application.cs
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140801
@@ -219,17 +220,22 @@ namespace WebGLGalaxyS
             };
             #endregion
 
-            new galaxyS().Source.Task.ContinueWithResult(
+            new nexus7().Source.Task.ContinueWithResult(
                    dae =>
                     {
+                        // 90deg
+                        dae.rotation.x = -Math.Cos(Math.PI);
+
                         //dae.scale.x = 30;
                         //dae.scale.y = 30;
                         //dae.scale.z = 30;
                         dae.position.z = 65;
 
-                        dae.scale.x = 0.5;
-                        dae.scale.y = 0.5;
-                        dae.scale.z = 0.5;
+
+                        // jsc, do we have ILObserver available yet?
+                        dae.scale.x = 13.5;
+                        dae.scale.y = 13.5;
+                        dae.scale.z = 13.5;
 
                         //dae.position.y = -80;
 
@@ -240,6 +246,9 @@ namespace WebGLGalaxyS
                     }
                );
 
+            Console.WriteLine("do you see it?");
+            // slow to load
+            // then too small!
 
 
         }
@@ -248,14 +257,21 @@ namespace WebGLGalaxyS
 
 
     [Obsolete("jsc should generate this")]
-    class galaxyS : THREE_ColladaAsset
+    class nexus7 : THREE_ColladaAsset
     {
-        public string ID175 = "assets/WebGLGalaxyS/Samsung-Galaxy-s_Final_Samsung_Galaxy_S_Front_Side_Back.jpg_1_.jpg";
+        public string ID201 = "assets/WebGLNexus7/nexus-7_material_3.jpg";
+        public string ID222 = "assets/WebGLNexus7/nexus-7_big_ASUS_Nexus_7.jpg";
 
+        //<image id="ID201">
+        //    <init_from>nexus-7_material_3.jpg</init_from>
+        //</image>
+        //<image id="ID222">
+        //    <init_from>nexus-7_big_ASUS_Nexus_7.jpg</init_from>
+        //</image>
 
-        public galaxyS()
+        public nexus7()
             : base(
-                "assets/WebGLGalaxyS/Samsung-Galaxy-s.dae"
+                "assets/WebGLNexus7/nexus-7.dae"
                 )
         {
 
@@ -268,11 +284,7 @@ namespace WebGLGalaxyS
 
         public readonly TaskCompletionSource<THREE.Object3D> Source = new TaskCompletionSource<THREE.Object3D>();
 
-        // need to cleanup xml manually??
 
-        //<geometry id = "ID438" >
-        //    < mesh />
-        //</ geometry >
 
         public THREE_ColladaAsset(string uri)
         {
@@ -307,4 +319,5 @@ namespace WebGLGalaxyS
             );
         }
     }
+
 }

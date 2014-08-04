@@ -1,0 +1,43 @@
+﻿
+{
+"manifest_version": 2,
+  "name": "I9000",
+  "description": "I9000",
+  "version": "30",
+ "minimum_chrome_version": "38",
+  "offline_enabled": true,
+
+
+  
+     "externally_connectable": {
+    "ids": [
+      "*"
+		]
+	},
+
+
+  "app": {
+
+	"background": {
+	  "persistent": true,
+      "scripts": ["view-source"]
+    }
+  },
+  "icons": {
+  },
+  
+  
+  "permissions": [
+  "<all_urls>",
+  "webview",
+  "fullscreen",
+  "pointerLock",
+    "unlimitedStorage",
+	    "notifications",
+		    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership", "tcp-connect", "tcp-listen"]
+    }
+  ]
+
+}

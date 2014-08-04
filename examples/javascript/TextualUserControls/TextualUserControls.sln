@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextualUserControls", "TextualUserControls\TextualUserControls.csproj", "{9795B89A-CFCF-445E-A9F6-66B99797D31A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcasSimpleWindowsFormsApplication1", "OrcasSimpleWindowsFormsApplication1\OrcasSimpleWindowsFormsApplication1.csproj", "{921974FA-73C1-4835-BFF3-633BBB42C311}"

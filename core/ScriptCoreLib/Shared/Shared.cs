@@ -8,9 +8,9 @@ namespace ScriptCoreLib.Shared
 
 
 
-    [Script]
-    [System.Obsolete("System.Func<>", false)]
-    public delegate R FuncParams<T, R>(params T[] e);
+    //[Script]
+    //[System.Obsolete("System.Func<>", false)]
+    //public delegate R FuncParams<T, R>(params T[] e);
 
 
 

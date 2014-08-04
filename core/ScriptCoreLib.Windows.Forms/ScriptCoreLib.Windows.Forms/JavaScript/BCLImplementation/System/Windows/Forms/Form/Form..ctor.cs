@@ -274,6 +274,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             InternalMouseCapured +=
                 delegate
                 {
+                    // is this enough to capture resizer in a chrome AppWindow?
                     ContentContainerShadow.style.display = IStyle.DisplayEnum.block;
                 };
 
