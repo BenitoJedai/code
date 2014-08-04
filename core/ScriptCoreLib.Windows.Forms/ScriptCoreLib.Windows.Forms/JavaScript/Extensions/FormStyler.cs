@@ -13,6 +13,9 @@ namespace ScriptCoreLib.JavaScript.Extensions
     [Script]
     public class FormStyler
     {
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeNexus7\ChromeNexus7\Application.cs
+        // nuget plus shadow dom to do tab flip in effect for alpha chrome AppWindow
+
         public Form Context;
 
         public static Action<FormStyler> AtFormCreated;

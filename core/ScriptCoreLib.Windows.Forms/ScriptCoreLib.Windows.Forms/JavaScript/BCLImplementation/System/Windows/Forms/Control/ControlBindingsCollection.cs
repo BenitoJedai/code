@@ -1,5 +1,6 @@
 ﻿using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

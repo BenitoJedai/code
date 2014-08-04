@@ -1,8 +1,8 @@
 ﻿
 {
 "manifest_version": 2,
-  "name": "I9000",
-  "description": "I9000",
+  "name": "Nexus7",
+  "description": "Nexus7",
   "version": "30",
  "minimum_chrome_version": "38",
   "offline_enabled": true,
@@ -24,6 +24,7 @@
     }
   },
   "icons": {
+      "128": "assets/ChromeNexus7/x128.png" 
   },
   
   
