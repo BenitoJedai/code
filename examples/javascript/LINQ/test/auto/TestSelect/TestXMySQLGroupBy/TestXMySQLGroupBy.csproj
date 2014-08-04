@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2388F41A-9F10-42D5-A019-DBEE985FE05C}</ProjectGuid>
+    <ProjectGuid>{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestOrderByThenGroupBy</RootNamespace>
-    <AssemblyName>TestOrderByThenGroupBy</AssemblyName>
+    <RootNamespace>TestXMySQLGroupBy</RootNamespace>
+    <AssemblyName>TestXMySQLGroupBy</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,22 +32,42 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Extensions">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.XSQLite">
+    <Reference Include="System.Data.XMySQL">
+      <HintPath>..\packages\System.Data.XMySQL.1.0.0.0\lib\System.Data.XMySQL.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Data.XSQLite.1.0.0.0\lib\System.Data.XSQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TestOrderByThenGroupBy.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TestOrderByThenGroupBy.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestXMySQL.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestXMySQL.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="TestXMySQLGroupBy.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestXMySQLGroupBy.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
