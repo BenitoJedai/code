@@ -187,7 +187,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // will chrome AppWindow use it?
         public bool TopMost { get; set; }
 
-        // script: error JSC1000: No implementation found for this native method, please implement [System.Windows.Forms.Form.set_MaximizeBox(System.Boolean)]
         // X:\jsc.svn\examples\javascript\forms\FormsWithVisibleTitle\FormsWithVisibleTitle\Application.cs
 
         public bool MaximizeBox { get; set; }

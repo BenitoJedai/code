@@ -46,6 +46,8 @@ namespace CSSConditionalWidth
             var s = new IStyleSheet();
 
             // android webview does not respect this
+
+                // how does it work with shadowdom?
             s.Owner.media = "screen and (min-width: 1000px)";
 
             // jsc should have an orientation example for it
