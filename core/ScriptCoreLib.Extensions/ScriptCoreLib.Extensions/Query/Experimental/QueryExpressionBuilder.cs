@@ -1631,46 +1631,47 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                 //var zSelect = source as xSelect;
-                                var zSelect = zsource as xSelect;
-                                if (zSelect != null)
-                                {
-                                    var zzGroupBy = zSelect.source as xGroupBy;
-                                    if (zzGroupBy != null)
-                                    {
-                                        // ?
-                                        WriteLine(1, " " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
+                                //var zSelect = zsource as xSelect;
+                                //if (zSelect != null)
+                                //{
+                                //    var zzGroupBy = zSelect.source as xGroupBy;
+                                //    if (zzGroupBy != null)
+                                //    {
+                                //        // ?
+                                //        WriteLine(1, " " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
 
-                                        WriteLine(1, " as ");
-                                        if (upperParameter != null)
-                                        {
-                                            WriteCommentLine(0, upperParameter.Name);
-                                            WriteLine(1, " ");
-                                        }
+                                //        WriteLine(1, " as ");
+                                //        if (upperParameter != null)
+                                //        {
+                                //            WriteCommentLine(0, upperParameter.Name);
+                                //            WriteLine(1, " ");
+                                //        }
 
-                                        WriteLine(1, "`");
-                                        WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                                        WriteLine(1, "`");
-                                        return;
-                                    }
+                                //        WriteLine(1, "`");
+                                //        WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
+                                //        WriteLine(1, "`");
+                                //        return;
+                                //    }
 
-                                    WriteLine(1, " ");
+                                WriteLine(1, " ");
 
-                                    // this can not be correct
-                                    // GetSourceNameWithQuotes
-                                    //WriteLine(1, "" + GetTargetNameWithQuotes());
+                                // this can not be correct
+                                // GetSourceNameWithQuotes
+                                //WriteLine(1, "" + GetTargetNameWithQuotes());
 
-                                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalar\Program.cs
-                                    //WriteLine(1, "" + GetSourceName());
-                                    WriteLine(1, "" + GetSourceNameWithQuotes());
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalar\Program.cs
+                                //WriteLine(1, "" + GetSourceName());
+                                WriteLine(1, "" + GetSourceNameWithQuotes());
 
-                                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140726
-
-
-                                    //WriteLine(1, "x.");
-                                    //WriteLineWithColor(0, zMemberExpression.Member.Name, ConsoleColor.Magenta);
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxOrderByThenGroupBy\Program.cs
+                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140726
 
 
-                                    WriteLine(1, " as ");
+                                //WriteLine(1, "x.");
+                                //WriteLineWithColor(0, zMemberExpression.Member.Name, ConsoleColor.Magenta);
+
+
+                                WriteLine(1, " as ");
                                     if (upperParameter != null)
                                     {
                                         WriteCommentLine(0, upperParameter.Name);
@@ -1680,22 +1681,22 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
                                     WriteLine(1, "`");
                                     return;
-                                }
+                                //}
 
 
 
-                                // ? SourceName?
-                                WriteLine(1, " " + GetTargetName());
-                                WriteLine(1, " as ");
-                                if (upperParameter != null)
-                                {
-                                    WriteCommentLine(0, upperParameter.Name);
-                                    WriteLine(1, " ");
-                                }
+                                //// ? SourceName?
+                                //WriteLine(1, " " + GetTargetName());
+                                //WriteLine(1, " as ");
+                                //if (upperParameter != null)
+                                //{
+                                //    WriteCommentLine(0, upperParameter.Name);
+                                //    WriteLine(1, " ");
+                                //}
 
-                                WriteLine(1, "`");
-                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                WriteLine(1, "`");
+                                //WriteLine(1, "`");
+                                //WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                //WriteLine(1, "`");
 
                             }
                             //);
