@@ -301,6 +301,8 @@ namespace ChromeTCPServer
                 // X:\jsc.svn\examples\javascript\chrome\ChromeFormsWebBrowserExperiment\ChromeFormsWebBrowserExperiment\Application.cs
                 __WebBrowser.InitializeInternalElement = that =>
                 {
+                    // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\webkit\WebView.cs
+
                     var webview = Native.document.createElement("webview");
                     // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
                     webview.setAttribute("partition", "p1");

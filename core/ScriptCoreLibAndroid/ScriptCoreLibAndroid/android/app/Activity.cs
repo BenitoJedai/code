@@ -11,6 +11,8 @@ using android.content;
 
 namespace android.app
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/app/Activity.java
+
     // http://developer.android.com/reference/android/app/Activity.html
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper

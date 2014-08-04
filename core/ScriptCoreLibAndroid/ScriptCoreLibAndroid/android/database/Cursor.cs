@@ -6,6 +6,8 @@ using System.Text;
 
 namespace android.database
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/database/Cursor.java
+
     // http://developer.android.com/reference/android/database/Cursor.html
     [Script(IsNative = true)]
     public interface Cursor

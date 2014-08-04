@@ -8,6 +8,8 @@ using java.util;
 
 namespace android.os
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/os/Bundle.java
+
     // http://developer.android.com/reference/android/os/Bundle.html
     [Script(IsNative = true)]
     public class Bundle

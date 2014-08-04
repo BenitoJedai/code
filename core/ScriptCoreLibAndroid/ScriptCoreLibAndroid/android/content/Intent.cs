@@ -9,6 +9,9 @@ using System.Text;
 
 namespace android.content
 {
+
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/content/Intent.java
+
     // http://developer.android.com/reference/android/content/Intent.html
     [Script(IsNative = true)]
     public class Intent

@@ -6,10 +6,10 @@ using ScriptCoreLib;
 
 namespace android.app
 {
-    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/app/Application.java
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/app/WallpaperManager.java
 
     [Script(IsNative = true)]
-    public class Application
+    public class WallpaperManager 
     {
         // members and types are to be extended by jsc at release build
     }

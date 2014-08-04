@@ -17,6 +17,8 @@ using ScriptCoreLibJava.Extensions;
 
 namespace ScriptCoreLib.Android.WebGL
 {
+    // Android L will allow <webview webgl!
+
     using gl = __WebGLRenderingContext;
     using opengl = GLES20;
 

@@ -6,10 +6,14 @@ using System.Text;
 
 namespace android.database.sqlite
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/database/sqlite/SQLiteDatabase.java
+
     // http://developer.android.com/reference/android/database/sqlite/SQLiteDatabase.html
     [Script(IsNative = true)]
     public class SQLiteDatabase
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IWindow.webdatabase.cs
+
         // http://developer.android.com/reference/android/database/sqlite/SQLiteDatabase.CursorFactory.html
         [Script(IsNative = true)]
         public interface CursorFactory

@@ -9,6 +9,9 @@ namespace ScriptCoreLib.Android.Manifest
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     internal sealed class ApplicationAttribute : Attribute
     {
+        // tested by ?
+
+
         // AssemblyDescription
         public string description;
 
