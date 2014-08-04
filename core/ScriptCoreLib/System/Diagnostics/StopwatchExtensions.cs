@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+// why not in .Extensions
 namespace System.Diagnostics
 {
     // when will there be a name clash? where shall this type live?

@@ -877,6 +877,8 @@
     <Compile Include="java\nio\LongBuffer.cs" />
     <Compile Include="java\nio\FloatBuffer.cs" />
     <Compile Include="java\nio\DoubleBuffer.cs" />
+    <Compile Include="java\security\cert\Certificate.cs" />
+    <Compile Include="java\security\cert\X509Certificate.cs" />
     <Compile Include="java\security\CodeSource.cs" />
     <Compile Include="java\security\MessageDigestSpi.cs" />
     <Compile Include="java\security\MessageDigest.cs" />

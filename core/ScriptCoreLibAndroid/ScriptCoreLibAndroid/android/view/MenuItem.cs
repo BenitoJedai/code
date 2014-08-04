@@ -7,10 +7,13 @@ using System.Text;
 
 namespace android.view
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/view/MenuItem.java
+
     // http://developer.android.com/reference/android/view/MenuItem.html
     [Script(IsNative = true)]
     public interface MenuItem
     {
+        // X:\jsc.svn\examples\java\android\AndroidMenuActivity\AndroidMenuActivity\ApplicationActivity.cs
 
         MenuItem setOnMenuItemClickListener(MenuItem_OnMenuItemClickListener menuItemClickListener);
 
