@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    using ScriptCoreLib.JavaScript.DOM.HTML;
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/DateTimePicker.cs
 
     [Script(Implements = typeof(global::System.Windows.Forms.DateTimePicker))]
     internal class __DateTimePicker : __Control

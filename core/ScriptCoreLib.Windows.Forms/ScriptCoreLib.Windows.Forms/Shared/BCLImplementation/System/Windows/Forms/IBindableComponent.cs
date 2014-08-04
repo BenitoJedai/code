@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms
 {
     [Script(Implements = typeof(global::System.Windows.Forms.IBindableComponent))]
     public interface __IBindableComponent : __IComponent, IDisposable

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    using ScriptCoreLib.JavaScript.DOM.HTML;
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/GroupBox.cs
+
     [Script(Implements = typeof(global::System.Windows.Forms.GroupBox))]
     internal class __GroupBox : __Control
     {

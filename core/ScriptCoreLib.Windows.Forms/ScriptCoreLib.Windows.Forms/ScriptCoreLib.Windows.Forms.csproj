@@ -101,7 +101,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataVisualization\Charting\ChartNamedElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataVisualization\Charting\ChartElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataVisualization\Charting\ChartAreaCollection.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\IBindableComponent.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\IBindableComponent.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewCheckBoxCell.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridViewCheckBoxColumn.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\DataGridView\DataGridView.ScrollBars.cs" />
@@ -205,7 +205,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\GroupBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventHandler.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Padding.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\Padding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PaintEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\PaintEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Panel.cs" />

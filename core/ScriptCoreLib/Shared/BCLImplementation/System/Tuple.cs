@@ -14,6 +14,11 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         {
             return new __Tuple<T1, T2>(item1, item2);
         }
+
+        public static __Tuple<T1, T2, T3> Create<T1, T2, T3>(T1 item1, T2 item2, T3 item3)
+        {
+            return new __Tuple<T1, T2, T3>(item1, item2, item3);
+        }
     }
 
     //[Script(ImplementsViaAssemblyQualifiedName = "System.Tuple`2, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")]
@@ -31,7 +36,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     }
 
     [Script(Implements = typeof(Tuple<,,>))]
-    public class __Tuple<T1, T2,T3>
+    public class __Tuple<T1, T2, T3>
     {
         // x:\jsc.svn\core\scriptcorelib.extensions\scriptcorelib.extensions\query\experimental\queryexpressionbuilder.cs
 
@@ -41,6 +46,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             this.Item2 = item2;
             this.Item3 = item3;
         }
+
+        // script: error JSC1000: No implementation found for this native method, please implement [static System.Tuple.Create(System.String, System.Reflection.MemberInfo, System.Int32)]
 
         public T1 Item1 { get; internal set; }
         public T2 Item2 { get; internal set; }
