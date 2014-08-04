@@ -7,8 +7,6 @@ using System.Reflection;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-
-
     // http://referencesource.microsoft.com/#mscorlib/system/delegate.cs
 
     [Script(Implements = typeof(global::System.Delegate))]

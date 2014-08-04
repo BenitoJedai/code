@@ -97,6 +97,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         IHTMLDiv TargetResizerPadding;
         public IHTMLDiv TargetOuterBorder;
 
+
+
+        // tested by?
+        // shall we use it for chrome AppWindow webviews too?
         [Description("Hide iframes from mouse to workaround event leaks.")]
         public static event Action InternalMouseCapured;
         public static event Action InternalMouseReleased;
