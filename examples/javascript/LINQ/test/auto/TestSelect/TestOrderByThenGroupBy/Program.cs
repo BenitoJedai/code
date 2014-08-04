@@ -1,4 +1,5 @@
 ﻿using System.Data.SQLite;
+using System.Diagnostics;
 using ScriptCoreLib.Query.Experimental;
 using TestOrderByThenGroupBy;
 
@@ -53,7 +54,13 @@ class Program
         var f = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
 
-            orderby x.connectEnd ascending
+            // MYSQL and SQLITE seem to behave differently?
+            //orderby x.Key ascending
+            // { Tag = Last insert, selected by group by }
+
+
+            orderby x.Key descending
+            // { Tag = first insert }
 
             group x by x.connectStart into gg
             //group x by 2 into gg
@@ -72,5 +79,6 @@ class Program
             new { f.Tag }
             );
 
+        Debugger.Break();
     }
 }

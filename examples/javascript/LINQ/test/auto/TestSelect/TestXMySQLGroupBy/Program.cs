@@ -6,7 +6,7 @@ using System.Data.SQLite;
 using System.Linq.Expressions;
 using System.Reflection;
 using ScriptCoreLib.Extensions;
-using TestXMySQL;
+using TestXMySQLGroupBy;
 using System.Diagnostics;
 using System.Threading;
 
@@ -24,7 +24,7 @@ class Program
 
         // Additional information: WaitForInputIdle failed.  This could be because the process does not have a graphical interface.
         //mysqldp.WaitForInputIdle();
-        Thread.Sleep(500);
+        Thread.Sleep(1100);
 
         #region MySQLConnection
         // the safe way to hint we need to talk PHP dialect
@@ -78,61 +78,66 @@ class Program
         #endregion
 
 
+        new PerformanceResourceTimingData2ApplicationPerformance().Delete();
 
-        //'TestXMySQL.PerformanceResourceTimingData2ApplicationPerformanceRow' cannot be used for delegate parameter of type 'System.Object'
+        new PerformanceResourceTimingData2ApplicationPerformance().Insert(
+            new PerformanceResourceTimingData2ApplicationPerformanceRow
+        {
+            connectEnd = 9,
+            connectStart = 5,
+            Tag = "first insert"
+        },
 
-
-        // ThreadLocal SynchronizationContext aware ConnectionPool?
-        var n = new PerformanceResourceTimingData2ApplicationPerformance();
-
-        //n.Create();
-
-        // wont return? jsc broke xMySQL async? no there was an sql error
-        //var count = n.CountAsync(cc0).Result;
-        var count = n.Count();
-
-
-        // ScriptCoreLib.Async
-        n.Insert(
-           new PerformanceResourceTimingData2ApplicationPerformanceRow
+            new PerformanceResourceTimingData2ApplicationPerformanceRow
         {
             connectStart = 5,
-            connectEnd = 13,
-            EventTime = DateTime.Now.AddDays(-0)
+            connectEnd = 111,
+            Tag = "middle insert"
+        },
+
+            new PerformanceResourceTimingData2ApplicationPerformanceRow
+        {
+            connectStart = 5,
+            connectEnd = 11,
+            Tag = "Last insert, selected by group by"
         }
-
-       // if you do not wait you wont get the id damn it
-       );
+        );
 
 
-        // should be based on QueryExpressionBuilder.Dialect, and wait for the last async?
-        //var id = cc0.GetLastInsertRowId();
+
+        var f = (
+            from x in new PerformanceResourceTimingData2ApplicationPerformance()
+
+                //orderby x.connectEnd ascending
 
 
-        // http://stackoverflow.com/questions/5440168/c-sharp-mysql-there-is-already-an-open-datareader-associated-with-this-connectio
+            orderby x.Key ascending
+            // { Tag = Last insert, selected by group by }
 
-        var q = from x in new PerformanceResourceTimingData2ApplicationPerformance()
-                orderby x.Timestamp descending
-                select new
-                {
-                    x.Key,
-                    x.connectStart,
-                    x.connectEnd,
-                    x.Timestamp
-                };
 
-        //var f = q.FirstOrDefaultAsync().Result;
-        var f = q.FirstOrDefault();
+            //orderby x.Key descending
+            // { Tag = first insert }
 
-        Console.WriteLine(new { f });
+            group x by x.connectStart into gg
+            //group x by 2 into gg
 
-        //new PerformanceResourceTimingData2ApplicationPerformance().Where(x => x.Key == f.Key).Delete();
-        //new PerformanceResourceTimingData2ApplicationPerformance().Delete(x => x.Key == f.Key);
-        new PerformanceResourceTimingData2ApplicationPerformance().Delete(f.Key);
+
+            select new
+            {
+                gg.Last().Tag
+
+                //gg.OrderBy(x => x.Key).Last
+            }
+
+        ).FirstOrDefault();
+
+        System.Console.WriteLine(
+            new { f.Tag }
+            );
 
         mysqldp.CloseMainWindow();
-
         Debugger.Break();
+
 
     }
 }

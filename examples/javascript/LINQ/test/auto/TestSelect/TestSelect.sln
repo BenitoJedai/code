@@ -540,6 +540,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxJoinThenGroupBy", "Sy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxGroupIntoNewExpression", "SyntaxGroupIntoNewExpression\SyntaxGroupIntoNewExpression.csproj", "{C8CB825F-7AB5-481A-95F5-BBC0473E7A25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestXMySQLGroupBy", "TestXMySQLGroupBy\TestXMySQLGroupBy.csproj", "{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -3559,6 +3561,31 @@ Global
 		{C8CB825F-7AB5-481A-95F5-BBC0473E7A25}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C8CB825F-7AB5-481A-95F5-BBC0473E7A25}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C8CB825F-7AB5-481A-95F5-BBC0473E7A25}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Android|Any CPU.Build.0 = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Android|x86.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Assets|x86.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.PHP|x86.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3733,5 +3760,6 @@ Global
 		{1183F769-5A6C-4489-ADAC-00FDC520DFD0} = {42060175-1792-4BE2-B145-711AC5AD60D4}
 		{27F419A2-DDD3-4DF7-85B4-D8F4F3CB6424} = {1183F769-5A6C-4489-ADAC-00FDC520DFD0}
 		{C8CB825F-7AB5-481A-95F5-BBC0473E7A25} = {689657B6-9F83-48CD-949C-FE34C767071C}
+		{EA8A73F2-4A01-41EC-8F45-74FEB8556A95} = {214EF0BA-CAB3-46B0-B2CB-1EF636E89EC1}
 	EndGlobalSection
 EndGlobal
