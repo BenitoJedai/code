@@ -6,6 +6,8 @@ using System.Text;
 
 namespace android.net
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/net/Uri.java
+
     // http://developer.android.com/reference/android/net/Uri.html
     [Script(IsNative = true)]
     public abstract class Uri

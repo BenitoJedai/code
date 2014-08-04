@@ -8,11 +8,25 @@ using android.widget;
 
 namespace android.webkit
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/webkit/WebView.java
+    // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/android/java/src/org/chromium/chrome/browser/PKCS11AuthenticationManager.java
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/webkit/WebViewFragment.java
+
     // http://developer.android.com/reference/android/webkit/WebView.html
+    // chrome has <webview>
+    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
+
+
     [Script(IsNative = true)]
     public class WebView : AbsoluteLayout
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLIFrame.cs
+
+
         // members and types are to be extended by jsc at release build
+
+
+        // public SslCertificate getCertificate() {
 
         public static int SCROLLBARS_OUTSIDE_OVERLAY;
 

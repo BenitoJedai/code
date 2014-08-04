@@ -8,10 +8,13 @@ using android.widget;
 
 namespace android.webkit
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/webkit/WebSettings.java
     // http://developer.android.com/reference/android/webkit/WebSettings.html
     [Script(IsNative = true)]
     public abstract class WebSettings
     {
+        // https://developer.android.com/guide/webapps/migrating.html
+
         public static readonly int LOAD_NO_CACHE = 0x00000002;
 
         public virtual void setCacheMode(int value)

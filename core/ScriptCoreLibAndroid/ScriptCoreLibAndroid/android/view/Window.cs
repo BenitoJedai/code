@@ -7,6 +7,8 @@ using ScriptCoreLib;
 
 namespace android.view
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/view/Window.java
+
     // http://developer.android.com/reference/android/view/Window.html
     [Script(IsNative = true)]
     public abstract class Window

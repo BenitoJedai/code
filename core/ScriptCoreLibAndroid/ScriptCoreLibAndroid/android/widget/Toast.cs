@@ -7,6 +7,8 @@ using ScriptCoreLib;
 
 namespace android.widget
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/widget/Toast.java
+
     // http://developer.android.com/reference/android/widget/Toast.html
     [Script(IsNative = true)]
     public  class Toast

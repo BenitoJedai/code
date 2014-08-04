@@ -7,6 +7,8 @@ using android.content.res;
 
 namespace android.content
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/content/Context.java
+
     // http://developer.android.com/reference/android/content/Context.html
     [Script(IsNative = true)]
     public abstract class Context

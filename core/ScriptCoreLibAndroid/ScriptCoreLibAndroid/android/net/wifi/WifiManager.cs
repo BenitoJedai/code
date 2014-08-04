@@ -6,6 +6,8 @@ using System.Text;
 
 namespace android.net.wifi
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/wifi/java/android/net/wifi/WifiManager.java
+
     // http://developer.android.com/reference/android/net/wifi/WifiManager.html
     [Script(IsNative = true)]
     public class WifiManager

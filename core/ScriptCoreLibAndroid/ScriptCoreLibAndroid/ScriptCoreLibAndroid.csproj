@@ -793,8 +793,15 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
+    <Compile Include="android\appwidget\AppWidgetHostView.cs" />
+    <Compile Include="android\appwidget\AppWidgetProviderInfo.cs" />
+    <Compile Include="android\appwidget\AppWidgetProvider .cs" />
+    <Compile Include="android\appwidget\AppWidgetManager .cs" />
+    <Compile Include="android\appwidget\AppWidgetHost.cs" />
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
+    <Compile Include="android\app\WallpaperInfo.cs" />
+    <Compile Include="android\app\WallpaperManager.cs" />
     <Compile Include="android\app\PendingIntent.cs" />
     <Compile Include="android\app\NotificationManager.cs" />
     <Compile Include="android\app\Notification.cs" />
@@ -811,6 +818,10 @@
     <Compile Include="android\graphics\Color.cs" />
     <Compile Include="android\graphics\drawable\Drawable.cs" />
     <Compile Include="android\graphics\PixelFormat.cs" />
+    <Compile Include="android\hardware\CameraInfo.cs" />
+    <Compile Include="android\hardware\Camera.cs" />
+    <Compile Include="android\hardware\display\WifiDisplay.cs" />
+    <Compile Include="android\hardware\display\WifiDisplayStatus.cs" />
     <Compile Include="android\hardware\SensorManager.cs" />
     <Compile Include="android\hardware\SensorEvent.cs" />
     <Compile Include="android\hardware\Sensor.cs" />
@@ -825,6 +836,7 @@
     <Compile Include="android\os\Vibrator.cs" />
     <Compile Include="android\provider\ContactsContract.cs" />
     <Compile Include="android\R.cs" />
+    <Compile Include="android\telephony\TelephonyManager.cs" />
     <Compile Include="android\text\method\TransformationMethod.cs" />
     <Compile Include="android\text\method\PasswordTransformationMethod.cs" />
     <Compile Include="android\util\DisplayMetrics.cs" />
@@ -903,6 +915,8 @@
     </Compile>
   </ItemGroup>-->
   <ItemGroup>
+    <Folder Include="android\net\wifi\p2p\" />
+    <Folder Include="android\nfc\" />
     <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />

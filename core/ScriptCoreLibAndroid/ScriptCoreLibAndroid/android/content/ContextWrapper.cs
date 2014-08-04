@@ -10,6 +10,8 @@ using android.view;
 
 namespace android.content
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/content/ContextWrapper.java
+
     // http://developer.android.com/reference/android/content/ContextWrapper.html
     [Script(IsNative = true)]
     public class ContextWrapper : Context

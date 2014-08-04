@@ -6,6 +6,8 @@ using System.Text;
 
 namespace android.database.sqlite
 {
+    // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/database/sqlite/SQLiteOpenHelper.java
+
     // http://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper.html
     [Script(IsNative = true)]
     public abstract class SQLiteOpenHelper
