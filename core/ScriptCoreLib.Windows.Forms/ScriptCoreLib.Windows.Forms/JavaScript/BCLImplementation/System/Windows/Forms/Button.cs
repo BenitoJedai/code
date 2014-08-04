@@ -10,7 +10,7 @@ using ScriptCoreLib.JavaScript.Drawing;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/Button.cs
 
     [Script(Implements = typeof(global::System.Windows.Forms.Button))]
     public class __Button : __ButtonBase
@@ -31,6 +31,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __Button()
         {
+            // shadow element?
             this.HTMLTarget = new IHTMLDiv
             {
 

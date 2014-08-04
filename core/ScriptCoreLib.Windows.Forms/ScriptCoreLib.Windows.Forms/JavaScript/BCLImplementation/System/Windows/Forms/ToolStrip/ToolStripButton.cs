@@ -11,6 +11,8 @@ using ScriptCoreLib.JavaScript.Drawing;
 using System.Drawing;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/ToolStripButton.cs
+
     [Script(Implements = typeof(global::System.Windows.Forms.ToolStripButton))]
     public class __ToolStripButton : __ToolStripItem
     {

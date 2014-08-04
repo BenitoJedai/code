@@ -23,6 +23,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public MouseButtons Button { get; internal set; }
         public int Clicks { get; internal set; }
         public int Delta { get; internal set; }
+
+        // shall System.Drawing live within Windows.Forms instead? no other core library seems to be using it, without Forms?
         public Point Location { get { return new Point(X, Y); } }
         public int X { get; internal set; }
         public int Y { get; internal set; }

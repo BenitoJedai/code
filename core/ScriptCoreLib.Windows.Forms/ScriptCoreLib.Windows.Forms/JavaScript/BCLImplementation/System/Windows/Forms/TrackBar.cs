@@ -10,13 +10,17 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/TrackBar.cs
+
     [ScriptCoreLib.Script(Implements = typeof(global::System.Windows.Forms.TrackBar))]
     internal class __TrackBar : __Control, __ISupportInitialize
     {
         // tested by X:\jsc.svn\examples\javascript\forms\ChartExperiment\ChartExperiment\ApplicationControl.cs
 
+        // or should we have custom elements instead of class ? whats the difference for us?
         public IHTMLDiv InternalElement = typeof(__TrackBar);
 
+        // how will it work for worker threads?
         static IStyle
 
             InternalElementStyle = new IStyle(Native.css[typeof(__TrackBar)])

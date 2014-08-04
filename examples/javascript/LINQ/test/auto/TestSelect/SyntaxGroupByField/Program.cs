@@ -6,10 +6,7 @@ class Program
     {
         var f = (
             from x in new xTable()
-
-            //let xx = 1
             group x by x.field1 into gg
-
             select gg.Last()
 
         ).FirstOrDefault();

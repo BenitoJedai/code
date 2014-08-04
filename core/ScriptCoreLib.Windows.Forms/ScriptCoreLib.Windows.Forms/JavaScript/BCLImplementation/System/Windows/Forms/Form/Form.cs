@@ -14,9 +14,16 @@ using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/Form.cs
+
     [Script(Implements = typeof(global::System.Windows.Forms.Form))]
     public partial class __Form : __ContainerControl
     {
+        // https://code.google.com/p/chromium/issues/detail?id=240719
+        // keep an eye on <x-titlebar-controls/>
+        // https://code.google.com/p/chromium/issues/detail?id=384612
+
+
         // alternative service providers:
         // see: http://dhtmlx.com/docs/products/dhtmlxWindows/index.shtml
 

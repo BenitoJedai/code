@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms
 {
- 
-   [Script(Implements = typeof(global::System.Windows.Forms.Padding))]
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/Padding.cs
+
+    [Script(Implements = typeof(global::System.Windows.Forms.Padding))]
     internal class __Padding
     {
-    
-    
+        // GLSL vec4 ?
+
         public static readonly Padding Empty;
 
         public __Padding()
@@ -34,16 +35,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             Right = right;
             Bottom = bottom;
         }
-        
-        
+
+
         public int Bottom { get; set; }
 
-        public int Horizontal { get; private set; }        
+        public int Horizontal { get; private set; }
 
         public int Left { get; set; }
-       
+
         public int Right { get; set; }
-       
+
         public int Top { get; set; }
 
         public override string ToString()

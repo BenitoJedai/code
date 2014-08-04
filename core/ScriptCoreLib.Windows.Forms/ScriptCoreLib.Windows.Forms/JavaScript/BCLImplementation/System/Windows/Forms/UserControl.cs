@@ -10,6 +10,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
+    // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/UserControl.cs
+
     [Script(Implements = typeof(global::System.Windows.Forms.UserControl))]
     internal class __UserControl : __ContainerControl
     {
