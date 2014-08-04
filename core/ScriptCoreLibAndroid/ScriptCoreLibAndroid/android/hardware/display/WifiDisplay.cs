@@ -8,6 +8,9 @@ using System.Text;
 namespace android.hardware.display
 {
     // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/hardware/display/WifiDisplay.java
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/services/java/com/android/server/display/HeadlessDisplayAdapter.java
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/services/java/com/android/server/display/VirtualDisplayAdapter.java
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/services/java/com/android/server/display/WifiDisplayAdapter.java
 
     [Script(IsNative = true)]
     public class WifiDisplay : Parcelable

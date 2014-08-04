@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F32D7675-1193-4DA7-98C8-C8B010C608D9}</ProjectGuid>
+    <ProjectGuid>{5EC1743F-043B-44E8-A635-72331EEE81D8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Abstractatech.JavaScript.FormAsPopup</RootNamespace>

@@ -643,6 +643,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\nio\ShortBuffer.cs">
       <Link>java\nio\ShortBuffer.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\cert\Certificate.cs">
+      <Link>java\security\cert\Certificate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\cert\X509Certificate.cs">
+      <Link>java\security\cert\X509Certificate.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\CodeSource.cs">
       <Link>java\security\CodeSource.cs</Link>
     </Compile>
@@ -795,11 +801,12 @@
     </Compile>
     <Compile Include="android\appwidget\AppWidgetHostView.cs" />
     <Compile Include="android\appwidget\AppWidgetProviderInfo.cs" />
-    <Compile Include="android\appwidget\AppWidgetProvider .cs" />
-    <Compile Include="android\appwidget\AppWidgetManager .cs" />
+    <Compile Include="android\appwidget\AppWidgetProvider.cs" />
+    <Compile Include="android\appwidget\AppWidgetManager.cs" />
     <Compile Include="android\appwidget\AppWidgetHost.cs" />
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
+    <Compile Include="android\app\KeyguardManager.cs" />
     <Compile Include="android\app\WallpaperInfo.cs" />
     <Compile Include="android\app\WallpaperManager.cs" />
     <Compile Include="android\app\PendingIntent.cs" />
@@ -808,6 +815,9 @@
     <Compile Include="android\content\ComponentName.cs" />
     <Compile Include="android\content\ContentResolver.cs" />
     <Compile Include="android\content\IntentFilter.cs" />
+    <Compile Include="android\content\pm\ResolveInfo.cs" />
+    <Compile Include="android\content\pm\PackageManager.cs" />
+    <Compile Include="android\content\pm\MacAuthenticatedInputStream.cs" />
     <Compile Include="android\content\SharedPreferences.cs" />
     <Compile Include="android\content\Intent.cs" />
     <Compile Include="android\content\res\AssetManager.cs" />
@@ -820,6 +830,7 @@
     <Compile Include="android\graphics\PixelFormat.cs" />
     <Compile Include="android\hardware\CameraInfo.cs" />
     <Compile Include="android\hardware\Camera.cs" />
+    <Compile Include="android\hardware\GeomagneticField.cs" />
     <Compile Include="android\hardware\display\WifiDisplay.cs" />
     <Compile Include="android\hardware\display\WifiDisplayStatus.cs" />
     <Compile Include="android\hardware\SensorManager.cs" />
@@ -829,13 +840,23 @@
     <Compile Include="android\media\MediaPlayer.cs" />
     <Compile Include="android\net\Uri.cs" />
     <Compile Include="android\net\wifi\WifiManager.cs" />
+    <Compile Include="android\nfc\Tag.cs" />
+    <Compile Include="android\nfc\NfcActivityManager.cs" />
+    <Compile Include="android\nfc\NfcAdapter.cs" />
+    <Compile Include="android\nfc\tech\NfcA.cs" />
+    <Compile Include="android\nfc\tech\MifareClassic.cs" />
     <Compile Include="android\opengl\GLES20.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
+    <Compile Include="android\os\BatteryManager.cs" />
+    <Compile Include="android\os\ServiceManager.cs" />
     <Compile Include="android\os\IBinder.cs" />
     <Compile Include="android\os\Parcelable.cs" />
     <Compile Include="android\os\Vibrator.cs" />
     <Compile Include="android\provider\ContactsContract.cs" />
+    <Compile Include="android\provider\MediaStore.cs" />
     <Compile Include="android\R.cs" />
+    <Compile Include="android\security\TextToSpeech.cs" />
+    <Compile Include="android\speech\tts\AndroidKeyStore.cs" />
     <Compile Include="android\telephony\TelephonyManager.cs" />
     <Compile Include="android\text\method\TransformationMethod.cs" />
     <Compile Include="android\text\method\PasswordTransformationMethod.cs" />
@@ -916,7 +937,6 @@
   </ItemGroup>-->
   <ItemGroup>
     <Folder Include="android\net\wifi\p2p\" />
-    <Folder Include="android\nfc\" />
     <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
