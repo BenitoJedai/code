@@ -599,6 +599,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThenOrderBy", "ThenOrderBy"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxGroupByThenOrderBySelectIntoOrderBy", "SyntaxGroupByThenOrderBySelectIntoOrderBy\SyntaxGroupByThenOrderBySelectIntoOrderBy.csproj", "{B6B4984F-1C40-4C87-B6E7-CA37C346B2BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxGroupByNewExpressionThenCountAndCountWhere", "SyntaxGroupByNewExpressionThenCountAndCountWhere\SyntaxGroupByNewExpressionThenCountAndCountWhere.csproj", "{ABB3E599-B27F-4572-8D37-07A16D6B5596}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -3918,6 +3920,31 @@ Global
 		{B6B4984F-1C40-4C87-B6E7-CA37C346B2BC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B6B4984F-1C40-4C87-B6E7-CA37C346B2BC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B6B4984F-1C40-4C87-B6E7-CA37C346B2BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Android|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Android|Any CPU.Build.0 = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Android|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Android|Mixed Platforms.Build.0 = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Android|x86.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Assets|x86.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.PHP|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.PHP|Any CPU.Build.0 = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.PHP|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.PHP|Mixed Platforms.Build.0 = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.PHP|x86.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4117,5 +4144,6 @@ Global
 		{AC721063-B693-4E20-968A-D1ACC8637418} = {E75E940F-7F3F-4D69-AD7F-0ECFDE0FCA13}
 		{FDF9B72E-0AED-4F0A-8C2E-B988BBB11B1C} = {E75E940F-7F3F-4D69-AD7F-0ECFDE0FCA13}
 		{B6B4984F-1C40-4C87-B6E7-CA37C346B2BC} = {FDF9B72E-0AED-4F0A-8C2E-B988BBB11B1C}
+		{ABB3E599-B27F-4572-8D37-07A16D6B5596} = {A143B301-BB2C-489D-B9C0-D5494DC03B4D}
 	EndGlobalSection
 EndGlobal
