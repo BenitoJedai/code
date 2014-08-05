@@ -54,6 +54,7 @@ class Program
         var f = q.FirstOrDefault();
 
         Console.WriteLine(new { f });
+        // { f = { field1 = 5, field2 = 5, field3 = 5 } }
 
         Debugger.Break();
     }

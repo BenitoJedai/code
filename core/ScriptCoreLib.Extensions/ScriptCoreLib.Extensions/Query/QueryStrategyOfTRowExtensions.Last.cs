@@ -35,8 +35,13 @@ namespace System.Data
         // while SQLite might allow iproc user funtions, appengine mysql likely will not.
 
         //[Obsolete("non grouping methods shall use FirstOrDefault")]
+
+        // MYSQL and SQLITE seem to behave differently? in reverse actually!
         public static TElement Last<TKey, TElement>(this IQueryStrategyGrouping<TKey, TElement> source)
         {
+            // http://stackoverflow.com/questions/5140785/mysql-order-before-group-by
+            // http://www.tocker.ca/2013/10/21/heads-up-implicit-sorting-by-group-by-is-deprecated-in-mysql-5-6.html
+
             // reverse and take 1 ?
             // can we reverse yet? reorder by Key desc?
             // then we could also do ElementAt
