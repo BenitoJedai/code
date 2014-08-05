@@ -2878,6 +2878,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 var xxSelect = xGroupBy.source as xSelect;
 
                                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByConstant\Program.cs
+                                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectWhereOrderBy\Program.cs
 
                                 var xxMemberInitExpression = xxSelect.selector.Body as MemberInitExpression;
                                 if (xxMemberInitExpression != null)
