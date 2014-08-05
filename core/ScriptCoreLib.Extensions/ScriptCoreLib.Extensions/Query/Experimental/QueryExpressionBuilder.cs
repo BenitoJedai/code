@@ -764,13 +764,7 @@ namespace ScriptCoreLib.Query.Experimental
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarCount\Program.cs
 
                         // [0] = {new xTable().Select(y => y.Tag)}
-                        var __source = xxMethodCallExpression.Arguments[0] as MemberExpression;
-
-                        if (__source == null)
-                        {
-                            Debugger.Break();
-
-                        }
+            
 
 
                         // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
@@ -814,6 +808,15 @@ namespace ScriptCoreLib.Query.Experimental
                             }
                             return;
                         }
+
+                        var __source = xxMethodCallExpression.Arguments[0] as MemberExpression;
+
+                        if (__source == null)
+                        {
+                            Debugger.Break();
+
+                        }
+
 
                         #region yaa
                         Action<Expression> yaa =

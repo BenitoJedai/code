@@ -28,6 +28,20 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // http://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features
+
+        //  those that do will ignore the AppCache and let the service worker take over.
+
+        // https://docs.google.com/document/d/1cAumcmAFqcgVbMVPiHmYGJ5ySHbcxm9FynYJoZ1UE-Y/edit#heading=h.5w8volg6ryf5
+        // X:\jsc.svn\examples\javascript\Test\TestNavigatorServiceWorker\TestNavigatorServiceWorker\Application.cs
+
+        // Service workers only run over HTTPS, for security reasons. Having modified network requests wide open to man in the middle attacks would be really bad.
+        // https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API
+
+        // https://matthew-andrews.github.io/serviceworker-simple/
+        // https://code.google.com/p/chromium/issues/detail?id=365201
+        // https://github.com/slightlyoff/ServiceWorker/blob/master/service_worker.ts
+
         // http://mxr.mozilla.org/mozilla-central/source/dom/workers/ServiceWorker.h
 
         // ?

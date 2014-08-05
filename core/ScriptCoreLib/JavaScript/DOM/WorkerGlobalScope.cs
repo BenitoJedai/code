@@ -90,6 +90,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         // http://www.infoq.com/news/2010/02/Web-SQL-Database
+        // what about service worker?
         public Database openDatabase(
             string name = "database.sqlite",
             string version = "1.0",

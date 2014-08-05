@@ -24,7 +24,7 @@ class Program
 
         // Additional information: WaitForInputIdle failed.  This could be because the process does not have a graphical interface.
         //mysqldp.WaitForInputIdle();
-        Thread.Sleep(1100);
+        Thread.Sleep(1300);
 
         #region MySQLConnection
         // the safe way to hint we need to talk PHP dialect
@@ -108,15 +108,20 @@ class Program
         var f = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
 
+                // https://code.google.com/p/chromium/issues/detail?id=369239&can=5&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
+
                 //orderby x.connectEnd ascending
 
 
-            orderby x.Key ascending
-            // { Tag = Last insert, selected by group by }
+                //orderby x.Key ascending
+                // { Tag = Last insert, selected by group by }
 
 
-            //orderby x.Key descending
+            orderby x.Key descending
             // { Tag = first insert }
+            // { f = { c = 3, Tag = first insert } }
+           
+            // { f = { c = 3, Tag = Last insert, selected by group by } }
 
             group x by x.connectStart into gg
             //group x by 2 into gg
@@ -124,6 +129,9 @@ class Program
 
             select new
             {
+                c = gg.Count(),
+
+                // need orderby x.Key descending !
                 gg.Last().Tag
 
                 //gg.OrderBy(x => x.Key).Last
@@ -132,7 +140,7 @@ class Program
         ).FirstOrDefault();
 
         System.Console.WriteLine(
-            new { f.Tag }
+            new { f }
             );
 
         mysqldp.CloseMainWindow();

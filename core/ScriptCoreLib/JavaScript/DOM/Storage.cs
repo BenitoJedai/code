@@ -12,6 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class Storage
     {
         // what about websql?
+        // what about indexed db?
 
         public readonly uint length;
 
