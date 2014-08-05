@@ -60,7 +60,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #region ctor
         public Worker(string uri = ScriptApplicationSource)
         {
-
+            // where does it continue?
         }
 
 
@@ -138,6 +138,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         //static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>> Handlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.DedicatedWorkerGlobalScope>>();
         static readonly List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>> SharedWorkerHandlers = new List<Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope>>();
 
+
+        // is it used?
         [Obsolete]
         public static void InternalAddSharedWorker(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
         {
@@ -165,6 +167,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         internal static int InternalThreadCounter = 10;
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130812-sharedworker
+        // called by ?
         public static global::ScriptCoreLib.JavaScript.DOM.SharedWorker InternalSharedWorkerConstructor(Action<global::ScriptCoreLib.JavaScript.DOM.SharedWorkerGlobalScope> yield)
         {
             var index = -1;
@@ -200,6 +203,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130816-web-worker
+        // called by?
         public static global::ScriptCoreLib.JavaScript.DOM.Worker InternalConstructor(
             Action<DedicatedWorkerGlobalScope> yield
             )
@@ -751,7 +755,9 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
+
         [System.ComponentModel.Description("Will run as JavaScript Web Worker")]
+        // called by ?
         public static void InternalInvoke(Action default_yield)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run

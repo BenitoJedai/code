@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "SharedWorker")]
     public class SharedWorker : IEventTarget
     {
+        // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+
         public readonly MessagePort port;
 
         public SharedWorker(string scriptURL)

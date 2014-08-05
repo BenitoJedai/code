@@ -105,7 +105,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Net\Security\SslStream.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XObjectChangeEventArgs.cs" />
+    <Compile Include="JavaScript\DOM\IDBDatabase.cs" />
     <Compile Include="JavaScript\DOM\MutationRecord.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLContent.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLShadow.cs" />
@@ -1129,6 +1131,7 @@
   <ItemGroup>
     <Content Include="ActionScript\todo.txt" />
     <Content Include="Extensions\readme.txt" />
+    <Content Include="JavaScript\Threading\comments.txt" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib\Windows Ding.wav" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib\jsc.ico" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib\loading.gif" />

@@ -55,7 +55,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // tested by?
         // X:\jsc.svn\examples\javascript\test\TestNavigatorServiceWorker\TestNavigatorServiceWorker\Application.cs
         // chrome OS apps and server will be the first to have this tested on? then android? then app engine?
-
+        // Chrome Canary. Type: "chrome://flags/" in the URL bar and turn on "enable-service-worker" and "experimental-web-platform-features".
         public readonly ServiceWorkerContainer serviceWorker;
 
     }

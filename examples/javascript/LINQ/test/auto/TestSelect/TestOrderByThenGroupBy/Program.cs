@@ -68,6 +68,7 @@ class Program
 
             select new
             {
+
                 gg.Last().Tag
 
                 //gg.OrderBy(x => x.Key).Last

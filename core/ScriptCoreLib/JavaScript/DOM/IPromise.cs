@@ -17,4 +17,16 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class IPromise
     {
     }
+
+    [Script(HasNoPrototype = true, ExternalTarget = "Promise")]
+    public class IPromise<T> : IPromise
+    {
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects
+        // jsc shall translate to IFunction here
+        public void then(Action<T> serviceWorker)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+
+        }
+    }
 }
