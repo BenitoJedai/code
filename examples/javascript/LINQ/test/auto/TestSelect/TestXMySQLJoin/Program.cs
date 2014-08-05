@@ -6,7 +6,7 @@ using System.Data.SQLite;
 using System.Linq.Expressions;
 using System.Reflection;
 using ScriptCoreLib.Extensions;
-using TestXMySQLGroupBy;
+using TestXMySQLJoin;
 using System.Diagnostics;
 using System.Threading;
 
@@ -14,9 +14,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        #region MySQLConnection
-
         // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectGroupByAndConstant\TestSelectGroupByAndConstant\ApplicationWebService.cs
+        #region MySQLConnection
 
         // the idea is to test MySQL as we have LINQ to SQL also running in chrome now
         var mysqld = @"C:\util\xampp-win32-1.8.0-VC9\xampp\mysql\bin\mysqld.exe";
@@ -26,7 +25,7 @@ class Program
 
         // Additional information: WaitForInputIdle failed.  This could be because the process does not have a graphical interface.
         //mysqldp.WaitForInputIdle();
-        Thread.Sleep(3000);
+        Thread.Sleep(5500);
 
         // the safe way to hint we need to talk PHP dialect
         QueryExpressionBuilder.Dialect = QueryExpressionBuilderDialect.MySQL;
@@ -43,10 +42,6 @@ class Program
                     UserID = "root",
                     Server = "127.0.0.1",
 
-                    //SslMode = MySQLSslMode.VerifyFull
-
-                    //ConnectionTimeout = 3000
-
                 }.ToString()
                 //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
                 );
@@ -57,7 +52,22 @@ class Program
 
                 // Additional information: Authentication to host '' for user '' using method 'mysql_native_password' failed with message: Access denied for user ''@'asus7' (using password: NO)
                 // Additional information: Unable to connect to any of the specified MySQL hosts.
-                cc0.Open();
+                var st = Stopwatch.StartNew();
+
+                while (true)
+                    try
+                    {
+                        Thread.Sleep(300);
+
+                        cc0.Open();
+                        break;
+                    }
+                    catch
+                    {
+                        if (st.ElapsedMilliseconds > 6000)
+                            // give up
+                            throw;
+                    }
 
                 #region use db
                 {
@@ -83,61 +93,44 @@ class Program
         #endregion
 
 
-        new PerformanceResourceTimingData2ApplicationPerformance().Delete();
 
         new PerformanceResourceTimingData2ApplicationPerformance().Insert(
-            new PerformanceResourceTimingData2ApplicationPerformanceRow
+           new PerformanceResourceTimingData2ApplicationPerformanceRow
         {
-            connectEnd = 9,
             connectStart = 5,
             Tag = "first insert"
-        },
-
-            new PerformanceResourceTimingData2ApplicationPerformanceRow
-        {
-            connectStart = 5,
-            connectEnd = 111,
-            Tag = "middle insert"
-        },
-
-            new PerformanceResourceTimingData2ApplicationPerformanceRow
-        {
-            connectStart = 5,
-            connectEnd = 11,
-            Tag = "Last insert, selected by group by"
         }
-        );
+       );
 
+        new PerformanceResourceTimingData2ApplicationResourcePerformance().Insert(
+             new PerformanceResourceTimingData2ApplicationResourcePerformanceRow
+        {
+            connectStart = 5,
+            Tag = "first insert"
+        }
+         );
 
-        // https://code.google.com/p/chromium/issues/detail?id=369239&can=5&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
-
-        var f = (
+        // Additional information: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '== `y`.`connectStart`
+        var q = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
-                //orderby x.Key ascending
-                // MYSQL and SQLITE seem to behave differently? in reverse actually!
-            orderby x.connectEnd descending
-            // { f = { c = 3, Tag = first insert } }
-
-            //orderby x.Key ascending
-            // { f = { c = 3, Tag = Last insert, selected by group by } }
-            // { f = { c = 3, Tag = first insert } }
-            group x by x.connectStart into gg
+            join y in new PerformanceResourceTimingData2ApplicationResourcePerformance() on x.connectStart equals y.connectStart
             select new
             {
-                c = gg.Count(),
-                // need orderby x.Key descending !
-                gg.Last().Tag
+                field1 = x.connectStart,
+                field2 = y.connectStart,
+                field3 = y.connectStart,
             }
 
-        ).FirstOrDefault();
+        );
 
-        System.Console.WriteLine(
-            new { f }
-            );
+        var f = q.FirstOrDefault();
+
+        Console.WriteLine(new { f });
+        // { f = { field1 = 5, field2 = 5, field3 = 5 } }
 
         mysqldp.CloseMainWindow();
-        Debugger.Break();
 
+        Debugger.Break();
 
     }
 }

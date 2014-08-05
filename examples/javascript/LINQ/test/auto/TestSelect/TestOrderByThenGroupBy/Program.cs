@@ -53,31 +53,21 @@ class Program
 
         var f = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
-
-            // MYSQL and SQLITE seem to behave differently?
+            // MYSQL and SQLITE seem to behave differently? in reverse actually!
             //orderby x.Key ascending
+            orderby x.connectEnd ascending
             // { Tag = Last insert, selected by group by }
-
-
-            orderby x.Key descending
-            // { Tag = first insert }
-
             group x by x.connectStart into gg
-            //group x by 2 into gg
-
-
             select new
             {
-
+                //c = gg.Count(),
                 gg.Last().Tag
-
-                //gg.OrderBy(x => x.Key).Last
             }
 
         ).FirstOrDefault();
 
         System.Console.WriteLine(
-            new { f.Tag }
+            new { f }
             );
 
         Debugger.Break();

@@ -26,6 +26,8 @@ namespace ScriptCoreLib.Query.Experimental
                 field3 = xTableDefaultSelector.field3,
                 Timestamp = xTableDefaultSelector.Timestamp,
                 Tag = xTableDefaultSelector.Tag
+
+                // orderby ?
             };
 
             this.selector = selector;
@@ -3152,7 +3154,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                 WriteScalarExpression(true, item.a);
-                                WriteLine(0, " == ");
+                                WriteLine(0, " = ");
                                 WriteScalarExpression(true, item.m);
                             }
                         }
@@ -3164,7 +3166,7 @@ namespace ScriptCoreLib.Query.Experimental
                     {
                         WriteLine(0, "on ");
                         WriteScalarExpression(true, xJoin.outerKeySelector.Body);
-                        WriteLine(0, " == ");
+                        WriteLine(0, " = ");
                         WriteScalarExpression(true, xJoin.innerKeySelector.Body);
                     }
 
