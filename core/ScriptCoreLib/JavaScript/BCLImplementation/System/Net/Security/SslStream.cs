@@ -17,5 +17,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
         // what about MAC stream?
         // X:\opensource\codeplex\webserver\HttpServer\SecureHttpContext.cs
 
+        // https://support.globalsign.com/customer/portal/articles/1216536-securing-a-public-ip-address---ssl-certificates
+        // http://stackoverflow.com/questions/9726802/ssl-socket-between-net-and-java-with-client-authentication
+        
     }
 }

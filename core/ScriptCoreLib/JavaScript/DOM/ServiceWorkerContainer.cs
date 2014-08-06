@@ -42,6 +42,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         // Only secure origins are allowed. http://goo.gl/lq4gCo
         // can we upgrade our android, chrome, clr servers to do SSL?
         // https://code.google.com/p/chromium/issues/detail?id=362214
+        // Note: Only public IP addresses may be used. You must be the owner of the public IP address as per the records held with the RIPE Network Coordination Centre (NCC).
+        // https://support.globalsign.com/customer/portal/articles/1216536
         public IPromise<ServiceWorker> register(string url, object options) { return null; }
 
         //Promise unregister(optional ScalarValueString scope = "/*");
