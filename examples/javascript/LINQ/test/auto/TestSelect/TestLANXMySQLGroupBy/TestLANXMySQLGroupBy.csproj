@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CFBA8D2F-73EF-4079-B253-60846B1E8A87}</ProjectGuid>
+    <ProjectGuid>{46E4BBEE-5F26-4F4F-990A-245705211F7A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AndroidCalendarIntentActivity</RootNamespace>
-    <AssemblyName>AndroidCalendarIntentActivity</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>TestLANXMySQLGroupBy</RootNamespace>
+    <AssemblyName>TestLANXMySQLGroupBy</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,98 +22,73 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="jsc.meta">
-      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="ScriptCoreLib">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Extensions">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Ultra">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Ultra.Library">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibA">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibAndroid">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibAndroid.Drawing">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibAndroid.Windows.Forms">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibAndroid.XLinq">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.XLinq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
+    <Reference Include="System.Data.XMySQL">
+      <HintPath>..\packages\System.Data.XMySQL.1.0.0.0\lib\System.Data.XMySQL.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.XSQLite, Version=3.7.7.1, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.XSQLite.1.0.0.0\lib\System.Data.XSQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestXMySQL.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestXMySQL.AssetsLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="AndroidCalendarIntentActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AndroidCalendarIntentActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="TestXMySQLGroupBy.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestXMySQLGroupBy.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TestLANXMySQLGroupBy.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestLANXMySQLGroupBy.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationActivity.cs">
-    </Compile>
-    <Compile Include="Program.cs">
-      <DependentUpon>ApplicationActivity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Program.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Design\Images.htm" />
-    <Content Include="Design\jsc.png" />
+    <None Include="packages.config" />
+    <None Include="PerformanceResourceTimingData2.xlsx" />
+    <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationPerformanceBindingSource.datasource" />
+    <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationResourcePerformanceBindingSource.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-
-
-
-
-start /WAIT CMD /K c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
-</PostBuildEvent>
+    <PostBuildEvent>rem c:/util/jsc/bin/jsc.bc.exe $(ProjectPath) /xrewrite /clear /run $(TargetPath) "C:\util\jsc\bin\ScriptCoreLib.Extensions.dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-start /MIN /WAIT CMD /K C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true
-
-</PreBuildEvent>
+    <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
+		</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
