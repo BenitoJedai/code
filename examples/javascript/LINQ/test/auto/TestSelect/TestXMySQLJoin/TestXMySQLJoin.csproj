@@ -62,12 +62,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TestXMySQL.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\TestXMySQL.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="TestXMySQLJoin.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\TestXMySQLJoin.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="TestXMySQL.AssetsLibrary">
+      <HintPath>..\TestXMySQL\bin\staging.AssetsLibrary\TestXMySQL.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +78,12 @@
     <None Include="PerformanceResourceTimingData2.xlsx" />
     <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationPerformanceBindingSource.datasource" />
     <None Include="Properties\DataSources\PerformanceResourceTimingData2ApplicationResourcePerformanceBindingSource.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestXMySQL\TestXMySQL.csproj">
+      <Project>{a22c0ef8-8b7b-4e10-bf26-7f4dc08026c1}</Project>
+      <Name>TestXMySQL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -61,6 +61,11 @@ namespace AndroidCalendarIntentActivity.Activities
 
 
 
+
+
+                        //ttdw
+
+
                         calIntent.putExtra("accessLevel", 0x00000002);
                         calIntent.putExtra("availability", 0x00000000);
 
