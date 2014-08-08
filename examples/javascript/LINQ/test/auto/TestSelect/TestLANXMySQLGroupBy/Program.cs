@@ -40,12 +40,11 @@ class Program
                 {
 
 
-                    UserID = "root",
+                    UserID = "tssl",
                     Server = "192.168.1.211",
-
+                    Password = "parool",
                     SslMode = MySQLSslMode.Required,
-                    CertificateFile=@"C:\folder\client.pfx",
-                    CertificatePassword="psw"
+                    CertificateFile = @"X:\Monese\network\certs\local_devsql1\local_sql_client.pfx",
                     //ConnectionTimeout = 3000
 
                 }.ToString()
