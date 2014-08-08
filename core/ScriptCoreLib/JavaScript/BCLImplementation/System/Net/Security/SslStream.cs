@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
 
         // https://support.globalsign.com/customer/portal/articles/1216536-securing-a-public-ip-address---ssl-certificates
         // http://stackoverflow.com/questions/9726802/ssl-socket-between-net-and-java-with-client-authentication
-        
+        // X:\opensource\googlecode\dotnetasyncsocket\AsyncSocket\AsyncSocket.cs
+
     }
 }
