@@ -39,9 +39,9 @@ class Program
                     new System.Data.MySQL.MySQLConnectionStringBuilder
                 {
 
-                    UserID = "transact",
+                    UserID = "fullaccess",
                     Server = "173.194.249.56",
-                    Password = "L11gutam3Andm3id",
+                    Password = "T33bM1sTahab",
                     SslMode = MySQLSslMode.Required,
                     CertificateFile = @"X:\Monese\network\certs\coresql\client.pfx",
 
