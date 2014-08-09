@@ -12,6 +12,26 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
+        // http://labsdownload.adobe.com/pub/labs/flashruntimes/shared/air15_flashplayer15_releasenotes.pdf
+        // http://labs.adobe.com/technologies/flashruntimes/air/
+
+        // https://forums.adobe.com/thread/1541258
+        // https://forums.adobe.com/thread/1493673
+
+        // jsc likes starling
+        // http://gamua.com/blog/2014/05/starling-15/?scid=social24460774
+
+        // http://blogs.adobe.com/flashplayer/
+
+        // "X:\jsc.internal.git\core\ScriptCoreLib\References\AdobeAIRSDK\frameworks\libs\player\14.0\playerglobal.swc"
+        // when will we do LINQ to SQL for flash, async/await threading?
+
+        // http://blogs.adobe.com/flashplayer/2014/03/latest-updates-on-the-flash-runtime.html
+        // http://www.adobe.com/devnet/flashplatform/whitepapers/roadmap.html
+        // Flash Player plug-in for Android is not supported or available for the Google Chrome browser on Android.
+
+        // the Web Browser on my Galaxy S does support flash plugin.
+
         #region Properties
         /// <summary>
         /// Specifies the button mode of this sprite.
