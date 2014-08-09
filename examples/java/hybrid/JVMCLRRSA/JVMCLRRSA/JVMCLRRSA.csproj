@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A0A72609-60E7-42AE-920B-E2A84A340633}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JVMCLRRSA</RootNamespace>
     <AssemblyName>JVMCLRRSA</AssemblyName>
@@ -37,7 +37,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>System_Security_Cryptography_RSA.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -66,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLRProgram.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
