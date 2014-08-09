@@ -274,6 +274,7 @@
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ParameterExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\MemberExpression.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\IGrouping.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\ParallelEnumerable\ParallelEnumerable.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\UploadValuesCompletedEventArgs.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\UploadValuesCompletedEventHandler.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\ICredentialsByHost.cs" />
