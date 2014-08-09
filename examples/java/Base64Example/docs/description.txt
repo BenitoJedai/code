@@ -1,1 +1,0 @@
-﻿Base64Example. Crosscompiled from C# to Java.
