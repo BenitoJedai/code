@@ -19,29 +19,17 @@ namespace TestJVMCLRNewTupleArray
 
     static class Program
     {
+        //     0001 0200000d TestJVMCLRNewTupleArray__i__d.jvm::<module>.SHA19fe34a04cc4c17b86ac2554d45fafe3411c1ae10@1418247224$00000018$0000004f
         //- javac
         //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\TestJVMCLRNewTupleArray\Program.java
-        //java\TestJVMCLRNewTupleArray\Program.java:21: error: cannot find symbol
+        //java\TestJVMCLRNewTupleArray\Program.java:25: error: cannot find symbol
         //        __Tuple_2<__MemberInfo, Integer>[] tuple_2Array0;
         //                  ^
         //  symbol:   class __MemberInfo
         //  location: class Program
-        //java\TestJVMCLRNewTupleArray\Program.java:23: error: cannot find symbol
+        //java\TestJVMCLRNewTupleArray\Program.java:27: error: cannot find symbol
         //        tuple_2Array0 = (__Tuple_2<__MemberInfo, Integer>[])__Array.CreateInstance(__Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(__Tuple_2.class)), 0);
         //                                   ^
-        //  symbol:   class __MemberInfo
-        //  location: class Program
-        //java\TestJVMCLRNewTupleArray\Program.java:23: error: cannot find symbol
-        //        tuple_2Array0 = (__Tuple_2<__MemberInfo, Integer>[])__Array.CreateInstance(__Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(__Tuple_2.class)), 0);
-        //                                                                                                            ^
-        //  symbol:   variable __RuntimeTypeHandle
-        //  location: class Program
-        //java\TestJVMCLRNewTupleArray\Program.java:23: error: cannot find symbol
-        //        tuple_2Array0 = (__Tuple_2<__MemberInfo, Integer>[])__Array.CreateInstance(__Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(__Tuple_2.class)), 0);
-        //                                                                                   ^
-
-        //static RuntimeTypeHandle ref1;
-        //static Type ref3;
 
         // why cant jsc pick it up?
         static MemberInfo ref2;
@@ -54,6 +42,7 @@ namespace TestJVMCLRNewTupleArray
         public static void Main(string[] args)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140809/linq-jvm
+            // X:\jsc.svn\examples\java\Test\TestNewArrayGenericImport\TestNewArrayGenericImport\Class1.cs
 
 
             var z = new Tuple<MemberInfo, int>[] {
