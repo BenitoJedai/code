@@ -227,6 +227,7 @@
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\ParallelQuery.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\ElementInit.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\Expression\Expression.Field.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\Expression\Expression.Bind.cs" />
