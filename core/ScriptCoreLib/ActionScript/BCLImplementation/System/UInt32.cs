@@ -42,11 +42,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         [Script(DefineAsStatic = true)]
         public int CompareTo(object value)
         {
+            // tested by ?
+            // X:\jsc.svn\examples\actionscript\Test\TestUInntCompareToNonUInt32\TestUInntCompareToNonUInt32\ApplicationSprite.cs
+
             if (value == null)
             {
                 return 1;
             }
-            if (!(value is uint))
+
+            // X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.CoreAudio\Application.cs
+            var isUInt32 = value is uint;
+            if (!isUInt32)
             {
                 throw new ArgumentException("MustBeUInt32");
             }

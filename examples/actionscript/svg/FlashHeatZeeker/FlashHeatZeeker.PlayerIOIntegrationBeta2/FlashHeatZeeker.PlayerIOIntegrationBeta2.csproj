@@ -297,9 +297,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\manifest.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.ApplicationWebService\staging.net.debug\manifest.webapp" />
     <None Include="staging\FlashHeatZeeker.PlayerIOIntegrationBeta2.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -307,12 +304,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cursors\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FlashHeatZeeker.PlayerIOServer\FlashHeatZeeker.PlayerIOServer.csproj">
-      <Project>{baba968b-41d7-4b0e-afb9-dfa37307c833}</Project>
-      <Name>FlashHeatZeeker.PlayerIOServer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

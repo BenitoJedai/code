@@ -15,6 +15,10 @@ namespace FlashHeatZeeker.Lobby
 {
     public class ApplicationCanvas : Canvas
     {
+        // "X:\jsc.svn\examples\javascript\WebGL\HeatZeekerRTSOrto\HeatZeekerRTSOrto.sln"
+        // http://stackoverflow.com/questions/1420253/viewing-collada-with-wpf
+
+        // what about Collada, webgl, 3d?
 
         public Image i, ii;
 

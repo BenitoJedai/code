@@ -172,9 +172,12 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                                // this will not work if offline or lan only
                                // chrome webview needs to allow new window
                                // in order to log in. { loginstatus = unknown }
+
+#if FFACEBOOK
                                var user = await FaceBook.API.Spy.GetCurrentUser();
 
                                new TitleElement { }.AttachToDocument().Container.innerText = user.name;
+#endif
 
 
                                //new IHTMLDiv { innerText = user.name }.AttachToDocument().style.SetLocation(64, 8);

@@ -19,9 +19,8 @@ namespace FlashHeatZeeker.UnitJeepControl
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 

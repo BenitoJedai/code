@@ -18,11 +18,11 @@ namespace FlashHeatZeeker.CoreAudio
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
-
         public readonly ApplicationSprite sprite = new ApplicationSprite();
+
+        // verified 20140809
 
         /// <summary>
         /// This is a javascript application.
@@ -30,6 +30,8 @@ namespace FlashHeatZeeker.CoreAudio
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
+
             // Initialize ApplicationSprite
             sprite.AttachSpriteToDocument();
 

@@ -14,6 +14,7 @@ namespace StarlingRotationExperiment
     [SWF(frameRate = 120, width = 1280, height = 720)]
     public sealed class ApplicationSprite : ScriptCoreLib.ActionScript.flash.display.Sprite
     {
+        // XAttribute via shadowdom?
 
         public ApplicationSprite()
         {
@@ -129,6 +130,7 @@ namespace StarlingRotationExperiment
 
             //var cc = 128; // 10 FPS
             var cc = 64; // 33 FPS
+            // fps 42
 
             for (int iy = -cc; iy <= cc; iy++)
                 for (int ix = -cc; ix <= cc; ix++)

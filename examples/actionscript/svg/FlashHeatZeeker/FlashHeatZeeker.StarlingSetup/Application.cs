@@ -19,9 +19,10 @@ namespace FlashHeatZeeker.StarlingSetup
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        // Error	1	'FlashHeatZeeker.StarlingSetup.Application': cannot derive from sealed type 'FlashHeatZeeker.StarlingSetup.ApplicationWebService'	X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.StarlingSetup\Application.cs	22	25	FlashHeatZeeker.StarlingSetup
+
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 
@@ -50,24 +51,4 @@ namespace FlashHeatZeeker.StarlingSetup
 
     }
 
-    public static class XX
-    {
-
-
-        public static void wmode(this Sprite s, string value = "direct")
-        {
-            var x = s.ToHTMLElement();
-
-            var p = x.parentNode;
-            if (p != null)
-            {
-                // if we continue, element will be reloaded!
-                return;
-            }
-
-            x.setAttribute("wmode", value);
-
-
-        }
-    }
 }

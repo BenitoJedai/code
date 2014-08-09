@@ -1,5 +1,6 @@
-using FlashHeatZeeker.TestDriversWithAudio.Design;
-using FlashHeatZeeker.TestDriversWithAudio.HTML.Pages;
+using TestUInntCompareToNonUInt32;
+using TestUInntCompareToNonUInt32.Design;
+using TestUInntCompareToNonUInt32.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Delegates;
@@ -9,19 +10,21 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace FlashHeatZeeker.TestDriversWithAudio
+namespace TestUInntCompareToNonUInt32
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
-
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
@@ -30,24 +33,15 @@ namespace FlashHeatZeeker.TestDriversWithAudio
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-
-            sprite.AttachSpriteToDocument().With(
-                   embed =>
-                   {
-                       embed.style.SetLocation(0, 0);
-                       embed.style.SetSize(Native.window.Width, Native.window.Height);
-
-                       Native.window.onresize +=
-                           delegate
-                           {
-                               embed.style.SetSize(Native.window.Width, Native.window.Height);
-                           };
-                   }
-               );
+            // Initialize ApplicationSprite
+            sprite.AttachSpriteTo(page.Content);
+            @"Hello world".ToDocumentTitle();
+            // Send data from JavaScript to the server tier
+            this.WebMethod2(
+                @"A string from JavaScript.",
+                value => value.ToDocumentTitle()
+            );
         }
 
     }
-
-
-   
 }

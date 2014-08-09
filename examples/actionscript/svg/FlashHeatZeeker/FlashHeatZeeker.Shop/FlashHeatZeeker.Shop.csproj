@@ -83,9 +83,6 @@
     <Reference Include="FlashHeatZeeker.UnitPedControl">
       <HintPath>..\packages\FlashHeatZeeker.UnitPedControl.1.0.0.0\lib\FlashHeatZeeker.UnitPedControl.dll</HintPath>
     </Reference>
-    <Reference Include="HerokuFacebookLogin.ActionScriptViaLocalConnection">
-      <HintPath>..\packages\HerokuFacebookLogin.ActionScriptViaLocalConnection.1.0.0.0\lib\HerokuFacebookLogin.ActionScriptViaLocalConnection.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
@@ -96,9 +93,6 @@
     </Reference>
     <Reference Include="net.hires.debug">
       <HintPath>..\packages\net.hires.debug.1.0.0.0\lib\net.hires.debug.dll</HintPath>
-    </Reference>
-    <Reference Include="Player.IO GameLibrary">
-      <HintPath>..\packages\PlayerIO.GameLibrary.1.0.0.0\lib\Player.IO GameLibrary.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -202,12 +196,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\FlashHeatZeeker.PlayerIOServer\FlashHeatZeeker.PlayerIOServer.csproj">
-      <Project>{baba968b-41d7-4b0e-afb9-dfa37307c833}</Project>
-      <Name>FlashHeatZeeker.PlayerIOServer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateNuGetPackage /AssemblyMerge:$(TargetPath) /AssemblyMerge:$(TargetName).AssetsLibrary.dll /OutputDirectory:C:\util\jsc\nuget  /PackageID:$(ProjectName)   /OutputName:$(ProjectName) /ProjectFileName:"$(ProjectPath)" 

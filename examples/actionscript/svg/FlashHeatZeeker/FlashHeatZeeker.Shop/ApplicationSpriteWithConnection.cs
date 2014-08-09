@@ -1,6 +1,6 @@
 ﻿using FlashHeatZeeker.Shop.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
-using playerio; // rebuild that with non partial jsc
+//using playerio; // rebuild that with non partial jsc
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using starling.core;
@@ -12,14 +12,14 @@ using System.Xml.Linq;
 
 namespace FlashHeatZeeker.Shop
 {
-    static class X
-    {
-        public static void addMessageHandler(this Connection c, string m, Action<Message, uint> y)
-        {
-            c.addMessageHandler(m, y.ToFunction());
+    //static class X
+    //{
+    //    public static void addMessageHandler(this Connection c, string m, Action<Message, uint> y)
+    //    {
+    //        c.addMessageHandler(m, y.ToFunction());
 
-        }
-    }
+    //    }
+    //}
 
 
     public class ApplicationSpriteWithConnection : Sprite
@@ -114,6 +114,7 @@ namespace FlashHeatZeeker.Shop
 
                     //content.Opacity = 0;
 
+#if FPLAYERIO
                     Action<global::playerio.PlayerIOError> handleError = e =>
                     {
                         // error: { errorID = 10, message = Unknown game id: [Enter your game id here] }
@@ -281,6 +282,8 @@ namespace FlashHeatZeeker.Shop
                     );
 
                     WriteLine("after connect");
+#endif
+
 
                 }
             );
@@ -293,7 +296,7 @@ namespace FlashHeatZeeker.Shop
         // 23 KB
         // "X:\jsc.svn\market\synergy\PlayerIO.GameLibrary\PlayerIO.GameLibrary\bin\staging.AssetsLibrary\PlayerIO.GameLibrary.AssetsLibrary.dll"
         // was jsc a partial build and then messed up the cache?
-        public static global::playerio.Client CurrentClient;
+        //public static global::playerio.Client CurrentClient;
         public static string __gameid = "test-4jazuo9jw0qx0cye9ihrqg";
     }
 }

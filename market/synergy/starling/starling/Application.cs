@@ -32,12 +32,7 @@ namespace xstarling
         {
             // Initialize ApplicationSprite
             sprite.AttachSpriteTo(page.Content);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+   
         }
 
     }

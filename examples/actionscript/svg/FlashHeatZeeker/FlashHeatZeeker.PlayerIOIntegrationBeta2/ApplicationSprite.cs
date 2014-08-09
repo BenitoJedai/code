@@ -17,7 +17,7 @@ using System.IO;
 using System.Text;
 using System.Xml.Linq;
 using FlashHeatZeeker.Shop;
-using playerio;
+//using playerio;
 using FlashHeatZeeker.PlayerIOIntegrationBeta2.Library;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript.flash.ui;
@@ -241,11 +241,16 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
                         StarlingGameSpriteBeta2.ShopEnter += ped =>
                             {
+
+#if FPLAYERIO
+
                                 // no go
                                 if (ApplicationSpriteWithConnection.CurrentClient == null)
                                     return;
 
                                 shop.ShopEnter(ped);
+#endif
+
                             };
 
                         StarlingGameSpriteBeta2.ShopExit += shop.ShopExit;

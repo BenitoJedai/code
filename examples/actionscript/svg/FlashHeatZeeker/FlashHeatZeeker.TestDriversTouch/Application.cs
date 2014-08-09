@@ -19,9 +19,15 @@ namespace FlashHeatZeeker.TestDriversTouch
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
+        //W/dalvikvm(23772): JNI WARNING: too many PopLocalFrame calls
+        //W/dalvikvm(23772): JNI WARNING: too many PopLocalFrame calls
+        //W/dalvikvm(23772): JNI WARNING: too many PopLocalFrame calls
+        //W/dalvikvm(23772): JNI WARNING: too many PopLocalFrame calls
+        //E/dalvikvm(23772): JNI ERROR (app bug): attempt to use stale local reference 0x1
+        //E/dalvikvm(23772): VM aborting
+        // AIR 15 crashes on android! wtf???
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 
