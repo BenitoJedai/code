@@ -95,7 +95,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
         public override Type DeclaringType
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\Application.cs
+
+                // where is this method defined?
+                // how was the ref taken/ ldtoken?
+
+                return typeof(object);
+            }
         }
     }
 }

@@ -17,6 +17,41 @@ namespace ScriptCoreLib.Query.Experimental
         // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
 
+
+        public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, params TElement[] collection)
+        {
+            // used by
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+            // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\testweborderbythengroupby\application.cs
+            Console.WriteLine("enter InsertAsync");
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+
+            var z = new TaskCompletionSource<Task>();
+
+            // was it manually set?
+            QueryExpressionBuilder.WithConnection(
+                (IDbConnection cc) =>
+                {
+                    var i = from c in collection
+                            select InsertAsync(source, cc, c);
+
+
+                    //Task.Factory.ContinueWhenAll(
+                    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs
+                    Task.WhenAll(i.ToArray()).ContinueWith(
+                        delegate
+                    {
+                        Console.WriteLine("after InsertAsync");
+
+                        z.SetResult(null);
+                    }
+                    );
+                }
+            );
+            Console.WriteLine("exit InsertAsync");
+            return z.Task;
+        }
+
         public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, TElement value)
         {
             Console.WriteLine("enter InsertAsync");

@@ -106,7 +106,10 @@
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\Security\SslStream.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskFactory.ContinueWhenAll.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XObjectChangeEventArgs.cs" />
+    <Compile Include="JavaScript\DOM\PopStateEvent.cs" />
     <Compile Include="JavaScript\DOM\IDBDatabase.cs" />
     <Compile Include="JavaScript\DOM\MutationRecord.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLContent.cs" />

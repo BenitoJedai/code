@@ -23,6 +23,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         public readonly TouchList changedTouches;
     }
 
+
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/TouchList.idl
     [Script(HasNoPrototype = true)]
     public class TouchList
     {
@@ -39,6 +41,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     }
 
+
+
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/dom/Touch.idl
     [Script(HasNoPrototype = true)]
     public class Touch
     {

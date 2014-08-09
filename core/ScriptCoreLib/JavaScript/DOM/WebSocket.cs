@@ -12,5 +12,6 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class WebSocket
     {
         // is the jsc async web server RTC/WebSocket/Stream ready?
+        // right after SSL?
     }
 }

@@ -46,13 +46,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             throw new NotImplementedException();
         }
 
-        public static Task<TResult[]> WhenAll<TResult>(IEnumerable<Task<TResult>> tasks)
-        {
-            return WhenAll(
-                tasks.ToArray()
-            );
-        }
-
         // public static Task<Task<TResult>> WhenAny<TResult>(params Task<TResult>[] tasks);
 
         public static Task<Task<TResult>> WhenAny<TResult>(params Task<TResult>[] tasks)
@@ -106,33 +99,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
             return x.Task;
         }
 
-        public static Task<TResult[]> WhenAll<TResult>(params Task<TResult>[] tasks)
-        {
-            // tested by 
-            // X:\jsc.svn\examples\javascript\forms\VBAsyncExperiment\VBAsyncExperiment\ApplicationControl.vb
-
-            // script: error JSC1000: No implementation found for this native method, please implement [System.Threading.Tasks.TaskFactory.ContinueWhenAll(System.Threading.Tasks.Task[], System.Func`2[[System.Threading.Tasks.Task[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])]
-
-            //Console.WriteLine("__Task.WhenAll " + new { tasks.Length });
-
-            return __Task.InternalFactory.ContinueWhenAll(tasks,
-                u =>
-                {
-                    //Console.WriteLine("__Task.WhenAll yield " + new { tasks = tasks.Length, u = u.Length });
-
-                    // nop
-
-                    var a = u.Select(k => k.Result).ToArray();
-
-                    //Console.WriteLine("__Task.WhenAll yield " + new { a = a.Length, Thread.CurrentThread.ManagedThreadId });
-
-                    return a;
-                },
-                cancellationToken: default(CancellationToken),
-                continuationOptions: default(TaskContinuationOptions),
-                scheduler: TaskScheduler.FromCurrentSynchronizationContext()
-            );
-        }
 
 
         // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.getawaiter.aspx

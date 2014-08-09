@@ -206,7 +206,7 @@ namespace ScriptCoreLib.Query.Experimental
                     Debugger.Break();
                     return null;
                 };
-#endregion
+            #endregion
 
             #region xJoin
             var xJoin = source as xJoin;
@@ -333,42 +333,53 @@ namespace ScriptCoreLib.Query.Experimental
                 var rMemberExpression = xSelect.selector.Body as MemberExpression;
                 if (rMemberExpression != null)
                 {
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestOrderByThenGroupBy\Program.cs
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
                     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectScalarXElementField\Program.cs
 
                     // what about getting it as an array?
                     // [0x00000000] = "x.`z`"
-                    var __value = r[rMemberExpression.Member.Name];
+                    //var __value = r[rMemberExpression.Member.Name];
+                    var __value = r[0];
 
                     // cool. do we also know how we created that value?
                     // +		((xSelect.source as xOrderBy).source as xSelect).selector	{PerformanceResourceTimingData2ApplicationPerformance => new PerformanceResourceTimingData2ApplicationPerformanceRow() {Key = PerformanceResourceTimingData2ApplicationPerformance.Key, connectStart = Convert(PerformanceResourceTimingData2ApplicationPerformance.connectStart), connectEnd = Convert(PerformanceResourceTimingData2ApplicationPerformance.connectEnd), requestStart = Convert(PerformanceResourceTimingData2ApplicationPerformance.requestStart), responseStart = Convert(PerformanceResourceTimingData2ApplicationPerformance.responseStart), responseEnd = Convert(PerformanceResourceTimingData2ApplicationPerformance.responseEnd), domLoading = Convert(PerformanceResourceTimingData2ApplicationPerformance.domLoading), domComplete = Convert(PerformanceResourceTimingData2ApplicationPerformance.domComplete), loadEventStart = Convert(PerformanceResourceTimingData2ApplicationPerformance.loadEventStart), loadEventEnd = Convert(PerformanceResourceTimingData2ApplicationPerformance.loadEventEnd), EventTime = Convert(PerformanceResourceTimingData2ApplicationPerformance.EventTime), z = Convert(PerformanceResourceTimingData2ApplicationPerformance.z), Tag = Convert(PerformanceResourceTimingData2ApplicationPerformance.Tag), Timestamp = Convert(PerformanceResourceTimingData2ApplicationPerformance.Timestamp)}}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSelectScalarXElementField.PerformanceResourceTimingData2ApplicationPerformanceRow,TestSelectScalarXElementField.PerformanceResourceTimingData2ApplicationPerformanceRow>>}
                     // do we tolerate a complex query for that yet?
 
 
-                    var templateSelector =
-                        ((xSelect.source as xOrderBy).source as xSelect).selector.Body as MemberInitExpression;
+                    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\Application.cs
 
-                    // in that template, which is it?
-                    var ii = templateSelector.Bindings.Select(x => x.Member.Name).ToList().IndexOf(rMemberExpression.Member.Name);
-                    var aa = templateSelector.Bindings[ii] as MemberAssignment;
 
-                    var tUnaryExpression = aa.Expression as UnaryExpression;
 
-                    // it is supposed to be xElement!
-                    if (tUnaryExpression.Type == typeof(XElement))
+                    var xxOrderBy = xSelect.source as xOrderBy;
+                    if (xxOrderBy != null)
                     {
-                        // in that case, we need to decode it?
-                        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
-                        var xml = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
-                            ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
-                                (string)__value
-                            )
-                        );
+                        var templateSelector =
+                            (xxOrderBy.source as xSelect).selector.Body as MemberInitExpression;
 
-                        return (TElement)(object)xml;
+                        // in that template, which is it?
+                        var ii = templateSelector.Bindings.Select(x => x.Member.Name).ToList().IndexOf(rMemberExpression.Member.Name);
+                        var aa = templateSelector.Bindings[ii] as MemberAssignment;
+
+                        var tUnaryExpression = aa.Expression as UnaryExpression;
+
+                        // it is supposed to be xElement!
+                        if (tUnaryExpression.Type == typeof(XElement))
+                        {
+                            // in that case, we need to decode it?
+                            // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
+                            var xml = ScriptCoreLib.Library.StringConversions.ConvertStringToXElement(
+                                ScriptCoreLib.Library.StringConversions.UTF8FromBase64StringOrDefault(
+                                    (string)__value
+                                )
+                            );
+
+                            return (TElement)(object)xml;
+                        }
                     }
 
-                    Debugger.Break();
+
+                    return (TElement)(object)__value;
                 }
                 #endregion
 
