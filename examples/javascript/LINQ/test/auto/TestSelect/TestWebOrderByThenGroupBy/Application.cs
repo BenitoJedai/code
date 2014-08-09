@@ -78,8 +78,8 @@ namespace TestWebOrderByThenGroupBy
 
 
 
-            new IHTMLPre { "count: ", () => new PerformanceResourceTimingData2ApplicationPerformance().CountAsync() }.AttachToDocument();
-
+            new IHTMLPre { "count: ", new PerformanceResourceTimingData2ApplicationPerformance().CountAsync() }.AttachToDocument();
+            // count: 3
 
 
             var fa = (
@@ -95,13 +95,6 @@ namespace TestWebOrderByThenGroupBy
                     gg.Last().Tag
                 }
 
-            //02000057 ScriptCoreLib.Query.Experimental.QueryExpressionBuilder+SQLWriter`1+<>c__DisplayClass0
-            //02000058 ScriptCoreLib.Query.Experimental.QueryExpressionBuilder+SQLWriter`1+<>c__DisplayClass1
-            //script: error JSC1000: invalid branch in block build - block skipped
-            //current 0409, first 02c4, last 0408
-            //script: error JSC1000: Method: <.ctor>b__52, Type: ScriptCoreLib.Query.Experimental.QueryExpressionBuilder+SQLWriter`1+<>c__DisplayClass1; emmiting failed : System.NullReferenceException:
-
-            // X:\jsc.internal.git\compiler\jsx.reflector\ReflectorWindow.AddSubject.cs
 
             // [IL]: Error: [X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\bin\Debug\staging\TestWebOrderByThenGroupBy.Application\TestWebOrderByThenGroupBy.Application.exe : ScriptCoreLib.Query.Experimental.QueryExpressionBuilder+SQLWriter`1+<>c__DisplayClass1::<.ctor>b__52[offset 0x0409] Error.
 

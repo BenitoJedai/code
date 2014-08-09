@@ -61,6 +61,10 @@ namespace ScriptCoreLib.Query.Experimental
              GroupBy<TSource, TKey>(this IQueryStrategy<TSource> source, 
             Expression<Func<TSource, TKey>> keySelector)
         {
+            // ReferenceError: type$AAAAAAAAAAAAAAAAAAAAAA is not defined
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\Application.cs
+            // jsc. need to do MakeArray?
+
             Expression<Func<TSource, TSource>> elementSelector = e => e;
 
 
