@@ -7,11 +7,11 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle(@"ParallelForEachExperiment")]
+[assembly: AssemblyTitle(@"TestParallelForEach")]
 [assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
-[assembly: AssemblyProduct(@"FormsAppletApplication")]
-[assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2013")]
+[assembly: AssemblyProduct(@"WebApplication")]
+[assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2014")]
 [assembly: AssemblyVersion(@"1.0.0.0")]
 [assembly: AssemblyFileVersion(@"1.0.0.0")]
 [assembly: Obfuscation(Feature = @"merge")]
