@@ -1420,7 +1420,21 @@ namespace ScriptCoreLib.Query.Experimental
                                         if (!string.IsNullOrEmpty(w))
                                             w += ".";
 
-                                        w += item.Item1.Name + "";
+
+                                        // 		LastReference.Method.Name == item.Item1.Name	true	bool
+
+                                        if (LastReference.Method.Name == item.Item1.Name)
+                                        {
+                                            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\Application.cs
+                                            // keep Last method name from being obfuscated for js..
+                                            w += "Last";
+
+                                        }
+                                        else
+                                        {
+
+                                            w += item.Item1.Name + "";
+                                        }
                                     }
 
                                 }
@@ -1638,7 +1652,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteLine(1, ",");
 
 
-                       
+
 
                                 WriteLine(1, " ");
 
@@ -1777,7 +1791,7 @@ namespace ScriptCoreLib.Query.Experimental
                             }
 
 
-                            
+
 
                             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140809
                             // jsc cant cope with it?
@@ -2258,7 +2272,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-
+                                  // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\Application.cs
                                   // tested by?
                                   #region DateTime::
                                   if (zMemberExpression.Member.DeclaringType == typeof(DateTime))

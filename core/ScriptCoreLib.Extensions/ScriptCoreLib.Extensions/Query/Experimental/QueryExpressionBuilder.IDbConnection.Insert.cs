@@ -141,6 +141,7 @@ namespace ScriptCoreLib.Query.Experimental
         {
             // used by
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
+            // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\testweborderbythengroupby\application.cs
 
             WithConnection(
                   cc =>

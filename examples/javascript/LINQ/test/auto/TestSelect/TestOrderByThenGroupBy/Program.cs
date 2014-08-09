@@ -58,11 +58,12 @@ class Program
             orderby x.connectEnd ascending
             // { f = { Tag = middle insert } }
             group x by x.connectStart into gg
-            select new
-            {
-                //c = gg.Count(),
-                gg.Last().Tag
-            }
+            //select new
+            //{
+            //    //c = gg.Count(),
+            //    gg.Last().Tag
+            //}
+                       select gg.Last().Tag
 
         ).FirstOrDefault();
 

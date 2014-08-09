@@ -28,22 +28,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
-        #region event onpopstate
-        [Obsolete(@"handled by X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\HistoryExtensions.cs")]
-        public event System.Action<PopStateEvent> onpopstate
-        {
-            [Script(DefineAsStatic = true)]
-            add
-            {
-                base.InternalEvent(true, value, "popstate");
-            }
-            [Script(DefineAsStatic = true)]
-            remove
-            {
-                base.InternalEvent(false, value, "popstate");
-            }
-        }
-        #endregion
+
 
 
 

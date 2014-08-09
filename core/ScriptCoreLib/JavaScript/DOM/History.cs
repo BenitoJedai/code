@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class History
     {
+        // how will History work with ServiceWorker?
+
         // X:\jsc.svn\examples\javascript\future\HistoricSnapshotMashup\HistoricSnapshotMashup\Application.cs
         public readonly int length;
 
@@ -20,12 +22,15 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
         }
 
-        public void pushState(object data)
+        //void pushState(any data, DOMString title, optional DOMString? url = null);
+        public void pushState(object data, string title, string url = null)
         {
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\DOM\HistoryExtensions.cs
 
         }
 
-        public void replaceState(object data)
+        // void replaceState(any data, DOMString title, optional DOMString? url = null);
+        public void replaceState(object data, string title, string url = null)
         {
 
         }
