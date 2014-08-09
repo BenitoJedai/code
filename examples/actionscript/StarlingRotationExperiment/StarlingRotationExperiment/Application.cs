@@ -18,10 +18,8 @@ namespace StarlingRotationExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
-
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
@@ -36,15 +34,15 @@ namespace StarlingRotationExperiment
             var embed = SpriteExtensions.ToHTMLElement(sprite);
 
 
-            embed.wmode();
+            //embed.wmode();
 
             embed.style.SetLocation(0, 0);
-            embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+            embed.style.SetSize(Native.window.Width, Native.window.Height);
 
-            Native.Window.onresize +=
+            Native.window.onresize +=
                 delegate
                 {
-                    embed.style.SetSize(Native.Window.Width, Native.Window.Height);
+                    embed.style.SetSize(Native.window.Width, Native.window.Height);
                 };
 
             sprite.AttachSpriteToDocument();
@@ -53,17 +51,5 @@ namespace StarlingRotationExperiment
     }
 
 
-    public static class XX
-    {
-        public static void wmode(this IHTMLElement x, string value = "direct")
-        {
 
-            var p = x.parentNode;
-
-
-            x.setAttribute("wmode", value);
-
-
-        }
-    }
 }

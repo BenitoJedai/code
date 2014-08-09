@@ -1,6 +1,6 @@
 ﻿using FlashHeatZeeker.PlayerIOIntegrationBeta2.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
-using playerio;
+//using playerio;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
@@ -13,6 +13,7 @@ using System.Xml.Linq;
 
 namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 {
+#if FPLAYERIO
     static class X
     {
         public static void addMessageHandler(this Connection c, string m, Action<Message, uint> y)
@@ -21,7 +22,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
         }
     }
-
+#endif
 
     public class ApplicationSpriteWithConnection : Sprite
     {
@@ -272,6 +273,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 
                     //content.Opacity = 0;
 
+#if PLAYERIO
                     Action<global::playerio.PlayerIOError> handleError = e =>
                     {
                         // error: { errorID = 10, message = Unknown game id: [Enter your game id here] }
@@ -439,12 +441,14 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
                     );
 
                     WriteLine("after connect");
+#endif
+
 
                 }
             );
         }
 
-        public static global::playerio.Client CurrentClient;
+        //public static global::playerio.Client CurrentClient;
         public static string __gameid = "test-4jazuo9jw0qx0cye9ihrqg";
 
     }

@@ -86,7 +86,7 @@ namespace FlashHeatZeeker.CoreAudio
                     var right = f.Left / max;
                     var left = (Native.window.Width - f.Right) / max;
 
-                    var top = f.Top / (Native.window.Height - f.Height);
+                    var top = f.Top / (double)(Native.window.Height - f.Height);
 
                     this.SetMasterVolume("" + top);
                     this.SetLeftVolume("" + left);

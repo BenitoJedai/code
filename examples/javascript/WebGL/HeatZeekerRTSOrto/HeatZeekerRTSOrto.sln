@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeatZeekerRTSOrto", "HeatZe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THREE", "..\..\..\..\market\synergy\THREE\THREE\THREE.csproj", "{7B5C94C5-F6AA-42BA-815B-34DD472A47AC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{F62191B5-BAE7-4C59-A6D6-42FFE4D9749C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -27,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7B5C94C5-F6AA-42BA-815B-34DD472A47AC} = {F62191B5-BAE7-4C59-A6D6-42FFE4D9749C}
 	EndGlobalSection
 EndGlobal

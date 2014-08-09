@@ -6,6 +6,7 @@ using System.Text;
 
 namespace FlashHeatZeeker.Core.Library
 {
+    // how does it differ from Task<>?
     [Description("Conflicting name with System.Lazy!")]
     public class XLazy<T>
     {

@@ -1,7 +1,7 @@
 using FlashHeatZeeker.CoreAudio.Library;
 using FlashHeatZeeker.Shop.Library;
 using FlashHeatZeeker.StarlingSetup.Library;
-using playerio;
+//using playerio;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Extensions;
@@ -14,7 +14,7 @@ using ScriptCoreLib.ActionScript;
 using System.Windows.Media;
 using FlashHeatZeeker.Core.Library;
 using FlashHeatZeeker.UnitPedControl.Library;
-using HerokuFacebookLogin.ActionScriptViaLocalConnection;
+//using HerokuFacebookLogin.ActionScriptViaLocalConnection;
 
 
 namespace FlashHeatZeeker.Shop
@@ -29,6 +29,7 @@ namespace FlashHeatZeeker.Shop
         public string itemKey;
     }
 
+#if FFACEBOOK
     public delegate void facebookOAuthConnectPopupCallback(Client xclient, string access_token, string facebookuserid);
     public delegate void facebookOAuthConnectPopupItemsCallback(Client xclient, string access_token, string facebookuserid, object[] items);
 
@@ -251,6 +252,7 @@ namespace FlashHeatZeeker.Shop
             Console.WriteLine("after getBuyDirectInfo");
         }
     }
+#endif
 
     public class ShopExperience
     {
@@ -305,12 +307,15 @@ namespace FlashHeatZeeker.Shop
                       sndTransform: new ScriptCoreLib.ActionScript.flash.media.SoundTransform(0.5)
                   );
 
+
+
+#if FFACEBOOK
                 that.facebookOAuthConnectPopupItems(
                     (Client xclient, string access_token, string facebookuserid, object[] items) =>
                     {
                         Console.WriteLine("BuyAmmo  " + new { facebookuserid, xclient.payVault.items.Length });
 
-                        #region itemKey_exists
+                #region itemKey_exists
                         var itemKey = "Shotgun3";
                         var itemKey_exists = false;
 
@@ -343,6 +348,8 @@ namespace FlashHeatZeeker.Shop
 
                     }
                 );
+#endif
+
             };
             #endregion
 
@@ -356,71 +363,71 @@ namespace FlashHeatZeeker.Shop
               );
 
 
-                that.facebookOAuthConnectPopupItems(
-                  (Client xclient, string access_token, string facebookuserid, object[] items) =>
-                  {
-                      Console.WriteLine("BuyShotgun  " + new { facebookuserid, xclient.payVault.items.Length });
+              //  that.facebookOAuthConnectPopupItems(
+              //    (Client xclient, string access_token, string facebookuserid, object[] items) =>
+              //    {
+              //        Console.WriteLine("BuyShotgun  " + new { facebookuserid, xclient.payVault.items.Length });
 
-                      var itemKey = "Shotgun3";
-
-
-                      var BuyAnyway = false;
-                      if (BuyAnyway)
-                      {
-
-                      }
-                      else
-                      {
-
-                          #region itemKey_exists
-                          var itemKey_exists = false;
-
-                          foreach (var item in items)
-                          {
-                              var dyn = new DynamicContainer { Subject = item };
-
-                              var dyn_itemKey = (string)dyn["itemKey"];
-
-                              Console.WriteLine(new { item });
-
-                              if (dyn_itemKey == itemKey)
-                                  itemKey_exists = true;
-                          }
-
-                          if (itemKey_exists)
-                          {
-                              GiveMeWhatIWant();
-
-                              return;
-                          }
-                          #endregion
-
-                      }
-
-                      Console.WriteLine("before getBuyDirectInfo");
-
-                      // Gets information about how to make a direct item purchase with the specified PayVault provider.
-                      that.getBuyDirectInfo(
-                          xclient,
-                          facebookuserid,
-
-                          item_name: "Operation Heat Zeeker - Shotgun",
-                          itemKey: itemKey,
-
-                          yield_paypalurl: uri =>
-                          {
-                              Console.WriteLine("at getBuyDirectInfo");
-
-                              shopcontent.bg_shotgun.Fill = Brushes.Red;
+              //        var itemKey = "Shotgun3";
 
 
-                              uri.NavigateTo();
-                          }
-                      );
+              //        var BuyAnyway = false;
+              //        if (BuyAnyway)
+              //        {
+
+              //        }
+              //        else
+              //        {
+
+              //            #region itemKey_exists
+              //            var itemKey_exists = false;
+
+              //            foreach (var item in items)
+              //            {
+              //                var dyn = new DynamicContainer { Subject = item };
+
+              //                var dyn_itemKey = (string)dyn["itemKey"];
+
+              //                Console.WriteLine(new { item });
+
+              //                if (dyn_itemKey == itemKey)
+              //                    itemKey_exists = true;
+              //            }
+
+              //            if (itemKey_exists)
+              //            {
+              //                GiveMeWhatIWant();
+
+              //                return;
+              //            }
+              //            #endregion
+
+              //        }
+
+              //        Console.WriteLine("before getBuyDirectInfo");
+
+              //        //// Gets information about how to make a direct item purchase with the specified PayVault provider.
+              //        //that.getBuyDirectInfo(
+              //        //    xclient,
+              //        //    facebookuserid,
+
+              //        //    item_name: "Operation Heat Zeeker - Shotgun",
+              //        //    itemKey: itemKey,
+
+              //        //    yield_paypalurl: uri =>
+              //        //    {
+              //        //        Console.WriteLine("at getBuyDirectInfo");
+
+              //        //        shopcontent.bg_shotgun.Fill = Brushes.Red;
 
 
-                  }
-              );
+              //        //        uri.NavigateTo();
+              //        //    }
+              //        //);
+
+
+              //    }
+              //);
 
 
             };
@@ -562,10 +569,10 @@ namespace FlashHeatZeeker.Shop
                   StarlingGameSpriteWithShop.ShopEnter += ped =>
                   {
                       // no go
-                      if (ApplicationSpriteWithConnection.CurrentClient == null)
-                          return;
+                      //if (ApplicationSpriteWithConnection.CurrentClient == null)
+                      //    return;
 
-                      shop.ShopEnter(ped);
+                      //shop.ShopEnter(ped);
                   };
                   StarlingGameSpriteWithShop.ShopExit += shop.ShopExit;
 
@@ -610,7 +617,7 @@ namespace FlashHeatZeeker.Shop
 
         public void SetIFrameName(string value)
         {
-            ApplicationSpriteShopExtensions.facebookOAuthConnectPopup_window = value;
+            //ApplicationSpriteShopExtensions.facebookOAuthConnectPopup_window = value;
         }
 
     }

@@ -18,9 +18,8 @@ namespace StarlingRenderTextureExperiment
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 
@@ -34,9 +33,6 @@ namespace StarlingRenderTextureExperiment
 
 
             var embed = SpriteExtensions.ToHTMLElement(sprite);
-
-
-            //embed.wmode();
 
             embed.style.SetLocation(0, 0);
             embed.style.SetSize(Native.window.Width, Native.window.Height);
@@ -53,17 +49,5 @@ namespace StarlingRenderTextureExperiment
     }
 
 
-    //public static class XX
-    //{
-    //    public static void wmode(this IHTMLElement x, string value = "direct")
-    //    {
 
-    //        var p = x.parentNode;
-
-
-    //        x.setAttribute("wmode", value);
-
-
-    //    }
-    //}
 }

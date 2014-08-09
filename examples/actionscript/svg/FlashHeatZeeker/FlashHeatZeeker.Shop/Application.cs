@@ -23,9 +23,8 @@ namespace FlashHeatZeeker.Shop
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly ApplicationSprite sprite = new ApplicationSprite();
 
@@ -54,7 +53,7 @@ namespace FlashHeatZeeker.Shop
             };
 
 
-            sprite.wmode();
+            //sprite.wmode();
 
             sprite.AttachSpriteToDocument().With(
                    embed =>
@@ -109,24 +108,5 @@ namespace FlashHeatZeeker.Shop
     }
 
 
-    public static class XX
-    {
 
-
-        public static void wmode(this Sprite s, string value = "direct")
-        {
-            IHTMLElement x = s.ToHTMLElement();
-
-            var p = x.parentNode;
-            if (p != null)
-            {
-                // if we continue, element will be reloaded!
-                return;
-            }
-
-            x.setAttribute("wmode", value);
-
-
-        }
-    }
 }

@@ -14,6 +14,7 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
         {
             //Method not found: 'Void starling.core.Starling..ctor(ScriptCoreLib.ActionScript.Class, ScriptCoreLib.ActionScript.flash.display.Stage, ScriptCoreLib.ActionScript.flash.geom.Rectangle, ScriptCoreLib.ActionScript.flash.display.Stage3D, System.String, System.String)'.
 
+#if FPLAYERIO
             #region player.io dev server
 #if DEBUG
             new Thread(
@@ -39,6 +40,8 @@ namespace FlashHeatZeeker.PlayerIOIntegrationBeta2
 #endif
 
             #endregion
+#endif
+
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
