@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRRSA\JVMCLRRSA\Program.cs
+
         // X:\jsc.svn\core\ScriptCoreLibJava\java\security\cert\X509Certificate.cs
         // will .cer help us with securing our hybrid apps?
         // http://www.sparxeng.com/blog/software/x-509-self-signed-certificate-for-cryptography-in-net
