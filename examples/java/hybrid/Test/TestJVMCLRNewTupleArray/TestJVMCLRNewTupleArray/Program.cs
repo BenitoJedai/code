@@ -40,10 +40,11 @@ namespace TestJVMCLRNewTupleArray
         //        tuple_2Array0 = (__Tuple_2<__MemberInfo, Integer>[])__Array.CreateInstance(__Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(__Tuple_2.class)), 0);
         //                                                                                   ^
 
-        static RuntimeTypeHandle ref1;
-        static MemberInfo ref2;
-        static Type ref3;
+        //static RuntimeTypeHandle ref1;
+        //static Type ref3;
 
+        // why cant jsc pick it up?
+        static MemberInfo ref2;
 
 
         /// <summary>
@@ -58,6 +59,8 @@ namespace TestJVMCLRNewTupleArray
             var z = new Tuple<MemberInfo, int>[] {
                 // Tuple.Create(item.m, index)
             };
+
+            Console.WriteLine(z.GetType().FullName);
 
             CLRProgram.CLRMain();
         }
