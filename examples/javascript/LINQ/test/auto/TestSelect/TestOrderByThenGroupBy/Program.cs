@@ -56,7 +56,7 @@ class Program
             // MYSQL and SQLITE seem to behave differently? in reverse actually!
             //orderby x.Key ascending
             orderby x.connectEnd ascending
-            // { Tag = Last insert, selected by group by }
+            // { f = { Tag = middle insert } }
             group x by x.connectStart into gg
             select new
             {

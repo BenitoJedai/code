@@ -766,7 +766,7 @@ namespace ScriptCoreLib.Query.Experimental
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarCount\Program.cs
 
                         // [0] = {new xTable().Select(y => y.Tag)}
-            
+
 
 
                         // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
@@ -1620,6 +1620,9 @@ namespace ScriptCoreLib.Query.Experimental
                         var zMemberExpression = zExpression as MemberExpression;
                         if (zMemberExpression != null)
                         {
+                            WriteCommentLine(1, "WriteProjectionProxy:MemberExpression");
+
+
                             // js still dont like using/return
                             //DoWithoutLinefeeds(
                             //delegate
@@ -1635,28 +1638,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteLine(1, ",");
 
 
-                                //var zSelect = source as xSelect;
-                                //var zSelect = zsource as xSelect;
-                                //if (zSelect != null)
-                                //{
-                                //    var zzGroupBy = zSelect.source as xGroupBy;
-                                //    if (zzGroupBy != null)
-                                //    {
-                                //        // ?
-                                //        WriteLine(1, " " + zSelect.selector.Parameters[0].Name + " Last " + zMemberExpression.Member.Name);
-
-                                //        WriteLine(1, " as ");
-                                //        if (upperParameter != null)
-                                //        {
-                                //            WriteCommentLine(0, upperParameter.Name);
-                                //            WriteLine(1, " ");
-                                //        }
-
-                                //        WriteLine(1, "`");
-                                //        WriteLineWithColor(0, GetTargetName(), ConsoleColor.Magenta);
-                                //        WriteLine(1, "`");
-                                //        return;
-                                //    }
+                       
 
                                 WriteLine(1, " ");
 
@@ -1677,32 +1659,14 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                 WriteLine(1, " as ");
-                                    if (upperParameter != null)
-                                    {
-                                        WriteCommentLine(0, upperParameter.Name);
-                                        WriteLine(1, " ");
-                                    }
-                                    WriteLine(1, "`");
-                                    WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                    WriteLine(1, "`");
-                                    return;
-                                //}
-
-
-
-                                //// ? SourceName?
-                                //WriteLine(1, " " + GetTargetName());
-                                //WriteLine(1, " as ");
-                                //if (upperParameter != null)
-                                //{
-                                //    WriteCommentLine(0, upperParameter.Name);
-                                //    WriteLine(1, " ");
-                                //}
-
-                                //WriteLine(1, "`");
-                                //WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
-                                //WriteLine(1, "`");
-
+                                if (upperParameter != null)
+                                {
+                                    WriteCommentLine(0, upperParameter.Name);
+                                    WriteLine(1, " ");
+                                }
+                                WriteLine(1, "`");
+                                WriteLineWithColor(0, GetTargetName(), ConsoleColor.Cyan);
+                                WriteLine(1, "`");
                             }
                             //);
 
@@ -1776,6 +1740,8 @@ namespace ScriptCoreLib.Query.Experimental
                         var zMethodCallExpression = zExpression as MethodCallExpression;
                         if (zMethodCallExpression != null)
                         {
+                            WriteCommentLine(1, "WriteProjectionProxy:MethodCallExpression");
+
                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarMin\Program.cs
                             // we should not proxy partial queries, like select
 
@@ -1807,7 +1773,14 @@ namespace ScriptCoreLib.Query.Experimental
                                     //WriteLine(1, " <- " + GetTargetName());
                                     WriteLine(1, " <- ?");
                                 }
+
                             }
+
+
+                            
+
+                            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140809
+                            // jsc cant cope with it?
                             return;
                         }
                         #endregion
