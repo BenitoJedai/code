@@ -9,17 +9,31 @@ using System.IO;
 namespace System_Security_Cryptography_RSA
 {
 
-	[Script]
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			// Use Release Build to use jsc to generate java program
-			// Use Debug Build to develop on .net
+    [Script]
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            // Use Release Build to use jsc to generate java program
+            // Use Debug Build to develop on .net
 
-			Console.WriteLine("System_Security_Cryptography_RSA. Crosscompiled from C# to Java.");
+            //Revision: 1935
+            //Author: zproxy
+            //Date: Friday, July 24, 2009 5:16:24 PM
+            //Message:
+            //more RSA
 
-			var x = new byte[] 
+            //Added : /core/ScriptCoreLibJava/BCLImplementation/System/Security/Cryptography/AsymmetricAlgorithm.cs
+            //Added : /core/ScriptCoreLibJava/BCLImplementation/System/Security/Cryptography/RSA.cs
+            //Added : /core/ScriptCoreLibJava/BCLImplementation/System/Security/Cryptography/RSACryptoServiceProvider.cs
+            //Added : /core/ScriptCoreLibJava/BCLImplementation/System/Security/Cryptography/RSAParameters.cs
+
+
+
+
+            Console.WriteLine("System_Security_Cryptography_RSA. Crosscompiled from C# to Java.");
+
+            var x = new byte[] 
 			{
 				  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 				, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x82, 0x01
@@ -50,37 +64,37 @@ namespace System_Security_Cryptography_RSA
 				, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 				, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 			};
-			var data = new BinaryReader(new MemoryStream(x));
+            var data = new BinaryReader(new MemoryStream(x));
 
-			data.BaseStream.Position = 0x1E;
+            data.BaseStream.Position = 0x1E;
 
-			#region modulus
-			var modulus_tag = (byte)data.ReadByte();
-			var modulus_length = (ushort)data.ReadByte();
+            #region modulus
+            var modulus_tag = (byte)data.ReadByte();
+            var modulus_length = (ushort)data.ReadByte();
 
-			if (modulus_tag != 0x81)
-			{
-				modulus_length <<= 8;
-				modulus_length += (byte)data.ReadByte();
-			}
+            if (modulus_tag != 0x81)
+            {
+                modulus_length <<= 8;
+                modulus_length += (byte)data.ReadByte();
+            }
 
-			var modulus_data = data.ReadBytes(modulus_length);
+            var modulus_data = data.ReadBytes(modulus_length);
 
-			var exponent_tag = (byte)data.ReadByte();
-			var exponent_length = (ushort)data.ReadByte();
+            var exponent_tag = (byte)data.ReadByte();
+            var exponent_length = (ushort)data.ReadByte();
 
-			var exponent_data = data.ReadBytes(exponent_length);
-			#endregion
+            var exponent_data = data.ReadBytes(exponent_length);
+            #endregion
 
-			RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-			RSAParameters RSAKeyInfo = new RSAParameters();
-			RSAKeyInfo.Modulus = modulus_data;
-			RSAKeyInfo.Exponent = exponent_data;
-			rsa.ImportParameters(RSAKeyInfo);
-			rsa.ToXmlString(false).ToConsole();
-		}
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            RSAParameters RSAKeyInfo = new RSAParameters();
+            RSAKeyInfo.Modulus = modulus_data;
+            RSAKeyInfo.Exponent = exponent_data;
+            rsa.ImportParameters(RSAKeyInfo);
+            rsa.ToXmlString(false).ToConsole();
+        }
 
-	}
+    }
 
 
 }
