@@ -10,6 +10,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 	[Script(Implements = typeof(global::System.Security.Cryptography.HashAlgorithm))]
 	public abstract class __HashAlgorithm
 	{
+        // tested by ?
+
 		public abstract byte[] InternalComputeHash(byte[] buffer);
 
 		public byte[] ComputeHash(byte[] buffer)
