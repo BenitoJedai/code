@@ -115,12 +115,9 @@ class Program
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
                 //orderby x.Key ascending
                 // MYSQL and SQLITE seem to behave differently? in reverse actually!
-            orderby x.connectEnd descending
+            orderby x.connectEnd ascending
             // { f = { c = 3, Tag = first insert } }
 
-            //orderby x.Key ascending
-            // { f = { c = 3, Tag = Last insert, selected by group by } }
-            // { f = { c = 3, Tag = first insert } }
             group x by x.connectStart into gg
             select new
             {
