@@ -19,6 +19,16 @@ namespace JVMCLRPrivateAddress
 
     static class Program
     {
+        //0001 02000028 JVMCLRPrivateAddress__i__d.jvm::<module>.SHA12ce89edc85503ae66f6e9fea4977c0255c575e60@1099200945$00000130
+        //- javac
+        //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRPrivateAddress\Program.java
+        //java\JVMCLRPrivateAddress\Program.java:121: error: bad operand type __Func_2<__f__AnonymousType_12__80__100_0_2<__NetworkInterface, Boolean>, __IEnumerable_1<__UnicastIPAddressInformation>> for unary operator '!'
+        //            if (!Program.CS___9__CachedAnonymousMethodDelegate5)
+        //                ^
+        //java\JVMCLRPrivateAddress\Program.java:311: error: bad operand type __Func_2<__f__AnonymousType_102__45__65_11_2<__f__AnonymousType_97__36__56_10_2<__f__AnonymousType_92__77__97_8_2<__f__AnonymousType_83__26__24_7_6<Boolean, Boo
+        //            if (!Program.CS___9__CachedAnonymousMethodDelegate29)
+        //                ^
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -68,39 +78,39 @@ namespace JVMCLRPrivateAddress
 
                        let get_IsPrivate = new Func<bool>(
                         delegate
-                        {
-                            Console.WriteLine("get_IsPrivate " + new { SupportsMulticast, n.Description, u.Address, IPv4 });
+                       {
+                           Console.WriteLine("get_IsPrivate " + new { SupportsMulticast, n.Description, u.Address, IPv4 });
 
-                            var AddressBytes = u.Address.GetAddressBytes();
+                           var AddressBytes = u.Address.GetAddressBytes();
 
-                            // should do a full mask check?
-                            // http://en.wikipedia.org/wiki/IP_address
-                            //var PrivateAddresses = new[] { 10, 172, 192 };
+                           // should do a full mask check?
+                           // http://en.wikipedia.org/wiki/IP_address
+                           //var PrivateAddresses = new[] { 10, 172, 192 };
 
-                            //- javac
-                            //"C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRPrivateAddress\Program.java
-                            //Y:\staging\web\java\JVMCLRPrivateAddress\Program___c__DisplayClass2b.java:36: <T>Of(T[]) in ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1 cannot be applied to <java.lang.Integer>(int[])
-                            //        enumerable_11 = __Enumerable.<Integer>AsEnumerable(__SZArrayEnumerator_1.<Integer>Of(new int[] {
-                            //                                                                                ^
-                            //Y:\staging\web\java\JVMCLRPrivateAddress\Program___c__DisplayClass2b.java:38: <TSource>Contains(ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IEnumerable_1<TSource>,TSource) in ScriptCoreLib.
-                            //        return  __Enumerable.<Integer>Contains(enumerable_11, (short)(byteArray0[0] & 0xff));
-                            //                            ^
+                           //- javac
+                           //"C:\Program Files (x86)\Java\jdk1.6.0_35\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRPrivateAddress\Program.java
+                           //Y:\staging\web\java\JVMCLRPrivateAddress\Program___c__DisplayClass2b.java:36: <T>Of(T[]) in ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1 cannot be applied to <java.lang.Integer>(int[])
+                           //        enumerable_11 = __Enumerable.<Integer>AsEnumerable(__SZArrayEnumerator_1.<Integer>Of(new int[] {
+                           //                                                                                ^
+                           //Y:\staging\web\java\JVMCLRPrivateAddress\Program___c__DisplayClass2b.java:38: <TSource>Contains(ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic.__IEnumerable_1<TSource>,TSource) in ScriptCoreLib.
+                           //        return  __Enumerable.<Integer>Contains(enumerable_11, (short)(byteArray0[0] & 0xff));
+                           //                            ^
 
 
-                            //return PrivateAddresses.Contains(AddressBytes[0]);
+                           //return PrivateAddresses.Contains(AddressBytes[0]);
 
-                            if (AddressBytes[0] == 10)
-                                return true;
+                           if (AddressBytes[0] == 10)
+                               return true;
 
-                            if (AddressBytes[0] == 172)
-                                return true;
+                           if (AddressBytes[0] == 172)
+                               return true;
 
-                            if (AddressBytes[0] == 192)
-                                return true;
+                           if (AddressBytes[0] == 192)
+                               return true;
 
-                            return false;
+                           return false;
 
-                        }
+                       }
                        )
 
 
@@ -121,13 +131,13 @@ namespace JVMCLRPrivateAddress
 
                         let get_key = new Func<bool>(
                             delegate
-                            {
-                                Console.WriteLine("get_key " + new { x.IsPrivate, x.IsLoopback, x.SupportsMulticast, x.IPv4 });
+                        {
+                            Console.WriteLine("get_key " + new { x.IsPrivate, x.IsLoopback, x.SupportsMulticast, x.IPv4 });
 
 
 
-                                return x.IsPrivate && !x.IsLoopback && x.SupportsMulticast && x.IPv4;
-                            }
+                            return x.IsPrivate && !x.IsLoopback && x.SupportsMulticast && x.IPv4;
+                        }
                         )
 
                         let key = get_key()
