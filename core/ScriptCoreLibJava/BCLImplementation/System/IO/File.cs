@@ -79,6 +79,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             }
         }
 
+
+        // tested by ?
         public static Func<string, byte[]> InternalReadAllBytes;
 
         public static byte[] ReadAllBytes(string path)

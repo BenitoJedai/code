@@ -49,10 +49,12 @@ namespace TestAsyncAssignArrayToEnumerable
 
 
             // this causes a problem. why?
-            //await Task.Yield();
+            await Task.Yield();
 
-            //        new Array(1)[0] = { };
-            //ref$c[0]._collection_5__1 = _6QUABoocDD2jQ9Bz7rBALA(new Array(1));
+            //        f = new Array(1);
+            //        b.__stack0019__001e__0026 = f;
+            //        b.__stack0019__001e__0026[0] = { };
+            //ref$c[0]._collection_5__1 = _6QUABoocDD2jQ9Bz7rBALA(b.__stack0019__001e__0026);
 
 
             ////  d = c.bwQABoBf2jWIHILvaqtMig();
