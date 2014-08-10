@@ -16,10 +16,14 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Task.cs
+
     // "X:\opensource\github\WootzJs\WootzJs.Runtime\Threading\Tasks\Task.cs"
     // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Threading\Tasks\Task.cs
-    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Task.cs
     // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.aspx
+
+    // Task<TResult> (aka. promise).
+
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal partial class __Task
     {
@@ -36,6 +40,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 
         }
 
+
+        public static __YieldAwaitable Yield()
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestAsyncAssignArrayToEnumerable\TestAsyncAssignArrayToEnumerable\Application.cs
+
+            return new __YieldAwaitable { };
+        }
 
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Threading.Tasks.Task.Run(System.F
 
