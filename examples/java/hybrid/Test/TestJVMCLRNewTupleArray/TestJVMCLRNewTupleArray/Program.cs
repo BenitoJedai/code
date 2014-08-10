@@ -32,7 +32,7 @@ namespace TestJVMCLRNewTupleArray
         //                                   ^
 
         // why cant jsc pick it up?
-        static MemberInfo ref2;
+        //static MemberInfo ref2;
 
 
         /// <summary>
