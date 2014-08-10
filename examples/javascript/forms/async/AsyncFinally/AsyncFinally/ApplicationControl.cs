@@ -35,6 +35,8 @@ namespace AsyncFinally
             }
             finally
             {
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140810/asenumerable
+
                 button1.Text = "enter finally";
 
                 // cannot do that before roslyn

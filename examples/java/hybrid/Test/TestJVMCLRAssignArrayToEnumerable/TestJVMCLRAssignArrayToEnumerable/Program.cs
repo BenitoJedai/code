@@ -18,6 +18,9 @@ namespace TestJVMCLRAssignArrayToEnumerable
 
     static class Program
     {
+
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -30,26 +33,16 @@ namespace TestJVMCLRAssignArrayToEnumerable
             // see also>
             // X:\jsc.svn\examples\javascript\android\AndroidBroadcastLogger\AndroidBroadcastLogger\ApplicationWebService.cs
 
-            //System.Console.WriteLine(
-            //   typeof(object).AssemblyQualifiedName
-            //);
 
-
-            //            0001 0200000d TestJVMCLRAssignArrayToEnumerable__i__d.jvm::< module >.SHA11d66b4cfe54cf0fbb67bce0aa80fe941953cb0df@1270592323$00000018$0000004c
-            //              - javac
-            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" - classpath "Y:\staging\web\java"; release - d release java\TestJVMCLRAssignArrayToEnumerable\Program.java
-            //   java\TestJVMCLRAssignArrayToEnumerable\Program.java:32: error:
-            //            incompatible types
-            //        enumerable_10 = objectArray1;
-            //                        ^
-            //  required: __IEnumerable_1<Object>
-            //  found:    Object[]
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140810/asenumerable
             IEnumerable<object> e = new[] { new object() };
             //IEnumerable<object> e = new[] { new object() }.AsEnumerable();
 
             // how do the other jsc languages behave?
+
+            // {{ AssemblyQualifiedName = java.lang.Object, rt, e = ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1@16fe0f4 }}
+            Console.WriteLine(new { typeof(object).AssemblyQualifiedName, e });
 
 
             CLRProgram.CLRMain();

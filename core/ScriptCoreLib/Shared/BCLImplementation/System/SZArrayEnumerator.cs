@@ -9,6 +9,7 @@ using System.Collections.Generic;
 //namespace ScriptCoreLib.Shared.Query
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/array.cs
 
     // todo: IsArrayEnumerator should be replaced by Array.GetEnumerator<T>
     [Script(IsArrayEnumerator = true
@@ -23,6 +24,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
         IEnumerable<T>,
         IEnumerable
     {
+        // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRAssignArrayToEnumerable\TestJVMCLRAssignArrayToEnumerable\Program.cs
+
         // http://igoro.com/archive/puzzling-over-arrays-and-enumerators-in-c/
 
         T[] _array;

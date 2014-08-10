@@ -13,6 +13,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Linq.__Query
         public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)
         {
             // wrap native types/collections
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140810/asenumerable/async-byref-struct
 
             return source;
         }
