@@ -15,9 +15,31 @@ using System.Xml.Linq;
 
 namespace TestJVMCLRGenericField
 {
-    static class Foo<T>
+    class Foo<T>
     {
         public static string Text;
+
+        //    Y:\staging\web\java\JVMCLRSyntaxOrderByThenGroupBy__i__d\Internal\Query\Experimental\QueryExpressionBuilder_SQLWriter_1.java:68: error: non-static type variable TElement cannot be referenced from a static context
+        //public final static __Func_2<JVMCLRSyntaxOrderByThenGroupBy__i__d.Internal.Query.Experimental.IQueryStrategy_1<TElement>, Long> CountReference = new __Func_2<JVMCLRSyntaxOrderByThenGroupBy__i__d.Internal.Query.Experimental.IQueryStrategy_1<TElement>, Long>(null,
+        //                                                                                                               ^
+
+        //public static Func<Foo<T>, Foo<T>> Identity = e => e;
+        public Func<Foo<T>, Foo<T>> Identity = e => e;
+
+        //- javac
+        //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\TestJVMCLRGenericField\Program.java
+        //Y:\staging\web\java\TestJVMCLRGenericField\Foo_1.java:14: error: non-static type variable T cannot be referenced from a static context
+        //    public static __Func_2<Foo_1<T>, Foo_1<T>> Identity;
+        //                                 ^
+        //Y:\staging\web\java\TestJVMCLRGenericField\Foo_1.java:14: error: non-static type variable T cannot be referenced from a static context
+        //    public static __Func_2<Foo_1<T>, Foo_1<T>> Identity;
+        //                                           ^
+        //Y:\staging\web\java\TestJVMCLRGenericField\Foo_1.java:19: error: non-static type variable T cannot be referenced from a static context
+        //        Foo_1.Identity = new __Func_2<Foo_1<T>, Foo_1<T>>(null,
+        //                                            ^
+        //Y:\staging\web\java\TestJVMCLRGenericField\Foo_1.java:19: error: non-static type variable T cannot be referenced from a static context
+        //        Foo_1.Identity = new __Func_2<Foo_1<T>, Foo_1<T>>(null,
+        //                                                      ^
     }
 
     static class Program
