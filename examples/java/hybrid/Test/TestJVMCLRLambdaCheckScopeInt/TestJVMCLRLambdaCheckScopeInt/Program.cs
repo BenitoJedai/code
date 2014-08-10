@@ -84,6 +84,12 @@ namespace TestJVMCLRLambdaCheckScopeInt
             #endregion
 
 
+            System.Console.WriteLine(
+           typeof(object).AssemblyQualifiedName
+       );
+
+
+
             using (WithoutLinefeeds())
             {
                 //x:\jsc.svn\core\scriptcorelib.extensions\scriptcorelib.extensions\query\experimental\queryexpressionbuilder.cs
