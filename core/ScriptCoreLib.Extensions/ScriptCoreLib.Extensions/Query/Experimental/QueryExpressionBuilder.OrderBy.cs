@@ -15,10 +15,6 @@ namespace ScriptCoreLib.Query.Experimental
 
         partial class SQLWriter<TElement>
         {
-            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<TElement>> ThenByReference = ThenBy;
-            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<TElement>> ThenByDescendingReference = ThenByDescending;
-            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<TElement>> OrderByReference = OrderBy;
-            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<TElement>> OrderByDescendingReference = OrderByDescending;
         }
 
         public class xOrderBySelector

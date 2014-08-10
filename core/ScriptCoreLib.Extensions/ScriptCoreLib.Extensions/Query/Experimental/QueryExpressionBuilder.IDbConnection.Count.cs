@@ -19,6 +19,35 @@ namespace ScriptCoreLib.Query.Experimental
 
         static class xReferencesOfLong
         {
+            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRGenericField\TestJVMCLRGenericField\Program.cs
+            // java will not like static generic fields.
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140810
+
+            public static readonly Func<IQueryStrategy<object>, long> CountReference = Count;
+            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, bool>>, IQueryStrategy<object>> WhereReference = Where;
+            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, object>>, IQueryStrategy<object>> SelectReference = Select;
+
+
+            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, object>>, IQueryStrategy<object>> ThenByReference = ThenBy;
+            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, object>>, IQueryStrategy<object>> ThenByDescendingReference = ThenByDescending;
+            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, object>>, IQueryStrategy<object>> OrderByReference = OrderBy;
+            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, object>>, IQueryStrategy<object>> OrderByDescendingReference = OrderByDescending;
+
+            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, object>>, IQueryStrategy<IQueryStrategyGrouping<object, object>>> GroupByReference = GroupBy;
+
+            public static readonly Func<IQueryStrategy<object>, object> FirstOrDefaultReference = FirstOrDefault;
+            public static readonly Func<IQueryStrategyGrouping<long, object>, object> LastReference = Last;
+
+            public static readonly Func<
+                IQueryStrategy<object>,
+                IQueryStrategy<object>,
+                Expression<Func<object, object>>,
+                Expression<Func<object, object>>,
+                Expression<Func<object, object, object>>,
+                IQueryStrategy<object>
+            > JoinReference = Join;
+
+
             public static readonly Func<IQueryStrategy<long>, long> SumOfLongReference = Sum;
             public static readonly Func<IQueryStrategy<long>, long> MinOfLongReference = Min;
             public static readonly Func<IQueryStrategy<long>, long> MaxOfLongReference = Max;
@@ -29,7 +58,7 @@ namespace ScriptCoreLib.Query.Experimental
 
         partial class SQLWriter<TElement>
         {
-            public static readonly Func<IQueryStrategy<TElement>, long> CountReference = Count;
+
 
 
         }
@@ -123,7 +152,7 @@ namespace ScriptCoreLib.Query.Experimental
             // how was it done before?
             // tested by?
 
-            var xDbCommand = GetScalarCommand(source, cc, Operand: SQLWriter<TElement>.CountReference.Method);
+            var xDbCommand = GetScalarCommand(source, cc, Operand: xReferencesOfLong.CountReference.Method);
 
             // Additional information: Every derived table must have its own alias
             // what?
