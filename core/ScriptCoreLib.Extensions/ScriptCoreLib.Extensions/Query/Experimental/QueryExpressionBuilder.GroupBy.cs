@@ -14,12 +14,11 @@ namespace ScriptCoreLib.Query.Experimental
 
         partial class SQLWriter<TElement>
         {
-            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, object>>, IQueryStrategy<IQueryStrategyGrouping<object, TElement>>> GroupByReference = GroupBy;
 
-
+            [Obsolete]
             public static readonly Func<IQueryStrategyGrouping<long, TElement>, long> KeyReference = Key;
 
-            [Obsolete("we need a MemberInfo for Key")]
+            [Obsolete("we need a MemberInfo for Key. are we correctly using it everywhere? or should we se IGrouping.Key?")]
             public static TKey Key< TKey, TElement>(IQueryStrategyGrouping< TKey, TElement> g)
             {
                 return g.Key;

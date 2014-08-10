@@ -863,10 +863,10 @@ namespace ScriptCoreLib.Query.Experimental
                                 yyaa =
                                     (aa_MethodCallExpression, yield) =>
                                     {
-                                        var IsOrderBy = aa_MethodCallExpression.Method.Name == SQLWriter<TElement>.OrderByReference.Method.Name;
-                                        var IsThenBy = aa_MethodCallExpression.Method.Name == SQLWriter<TElement>.ThenByReference.Method.Name;
-                                        var IsOrderByDescending = aa_MethodCallExpression.Method.Name == SQLWriter<TElement>.OrderByDescendingReference.Method.Name;
-                                        var IsThenByDescending = aa_MethodCallExpression.Method.Name == SQLWriter<TElement>.ThenByDescendingReference.Method.Name;
+                                        var IsOrderBy = aa_MethodCallExpression.Method.Name == xReferencesOfLong.OrderByReference.Method.Name;
+                                        var IsThenBy = aa_MethodCallExpression.Method.Name == xReferencesOfLong.ThenByReference.Method.Name;
+                                        var IsOrderByDescending = aa_MethodCallExpression.Method.Name == xReferencesOfLong.OrderByDescendingReference.Method.Name;
+                                        var IsThenByDescending = aa_MethodCallExpression.Method.Name == xReferencesOfLong.ThenByDescendingReference.Method.Name;
 
 
                                         // desc ?
@@ -925,7 +925,7 @@ namespace ScriptCoreLib.Query.Experimental
                                         #endregion
 
                                         #region scalar:Where
-                                        if (aa_MethodCallExpression.Method.Name == WhereReference.Method.Name)
+                                        if (aa_MethodCallExpression.Method.Name == xReferencesOfLong.WhereReference.Method.Name)
                                         {
                                             var aa_filterQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
 
@@ -975,7 +975,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                         #region scalar:Select
-                                        if (aa_MethodCallExpression.Method.Name == SelectReference.Method.Name)
+                                        if (aa_MethodCallExpression.Method.Name == xReferencesOfLong.SelectReference.Method.Name)
                                         {
                                             var aa_selectorQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
 
@@ -1109,7 +1109,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                                         #region scalar:GroupBy
-                                        if (aa_MethodCallExpression.Method.Name == GroupByReference.Method.Name)
+                                        if (aa_MethodCallExpression.Method.Name == xReferencesOfLong.GroupByReference.Method.Name)
                                         {
                                             var aa_kQuote = aa_MethodCallExpression.Arguments[1] as UnaryExpression;
                                             var aa_source = aa_MethodCallExpression.Arguments[0] as NewExpression;
@@ -1134,7 +1134,7 @@ namespace ScriptCoreLib.Query.Experimental
                                         #endregion
 
                                         #region scalar:Join
-                                        if (aa_MethodCallExpression.Method.Name == JoinReference.Method.Name)
+                                        if (aa_MethodCallExpression.Method.Name == xReferencesOfLong.JoinReference.Method.Name)
                                         {
                                             // can we ve fast templates of the quoted params??
 
@@ -1423,7 +1423,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                                         // 		LastReference.Method.Name == item.Item1.Name	true	bool
 
-                                        if (LastReference.Method.Name == item.Item1.Name)
+                                        if (xReferencesOfLong.LastReference.Method.Name == item.Item1.Name)
                                         {
                                             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebOrderByThenGroupBy\Application.cs
                                             // keep Last method name from being obfuscated for js..
@@ -1897,7 +1897,7 @@ namespace ScriptCoreLib.Query.Experimental
                               if (xxMethodCallExpression.Method.DeclaringType == typeof(QueryExpressionBuilder))
                               {
                                   #region WriteProjection:Last
-                                  if (xxMethodCallExpression.Method.Name == LastReference.Method.Name)
+                                  if (xxMethodCallExpression.Method.Name == xReferencesOfLong.LastReference.Method.Name)
                                   {
                                       // x:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalarFirstOrDefault\Program.cs
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByScalar\Program.cs
@@ -1923,21 +1923,21 @@ namespace ScriptCoreLib.Query.Experimental
                                   #endregion
 
                                   #region WriteProjection:FirstOrDefault
-                                  if (xxMethodCallExpression.Method.Name == FirstOrDefaultReference.Method.Name)
+                                  if (xxMethodCallExpression.Method.Name == xReferencesOfLong.FirstOrDefaultReference.Method.Name)
                                   {
                                       // what about inline testing?
-                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.FirstOrDefaultReference.Method, Target);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.FirstOrDefaultReference.Method, Target);
                                       return;
                                   }
                                   #endregion
 
 
                                   #region WriteProjection:Count
-                                  if (xxMethodCallExpression.Method.Name == CountReference.Method.Name)
+                                  if (xxMethodCallExpression.Method.Name == xReferencesOfLong.CountReference.Method.Name)
                                   {
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestGroupByThenSelectKeyCount\Program.cs
                                       // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarCount\Program.cs
-                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, SQLWriter<TElement>.CountReference.Method, Target);
+                                      WriteScalarOperand(zsource, xxMethodCallExpression, GetTargetName, xReferencesOfLong.CountReference.Method, Target);
                                       return;
                                   }
                                   #endregion
@@ -1979,11 +1979,11 @@ namespace ScriptCoreLib.Query.Experimental
                                   #endregion
 
 
-                                  var IsSelect = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.SelectReference.Method.Name;
-                                  var IsOrderBy = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.OrderByReference.Method.Name;
-                                  var IsThenBy = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.ThenByReference.Method.Name;
-                                  var IsOrderByDescending = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.OrderByDescendingReference.Method.Name;
-                                  var IsThenByDescending = xxMethodCallExpression.Method.Name == SQLWriter<TElement>.ThenByDescendingReference.Method.Name;
+                                  var IsSelect = xxMethodCallExpression.Method.Name == xReferencesOfLong.SelectReference.Method.Name;
+                                  var IsOrderBy = xxMethodCallExpression.Method.Name == xReferencesOfLong.OrderByReference.Method.Name;
+                                  var IsThenBy = xxMethodCallExpression.Method.Name == xReferencesOfLong.ThenByReference.Method.Name;
+                                  var IsOrderByDescending = xxMethodCallExpression.Method.Name == xReferencesOfLong.OrderByDescendingReference.Method.Name;
+                                  var IsThenByDescending = xxMethodCallExpression.Method.Name == xReferencesOfLong.ThenByDescendingReference.Method.Name;
 
                                   // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarOrderByThenBy\Program.cs
                                   // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxScalarWhereOrderByDescending\Program.cs
@@ -2622,7 +2622,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
                     #region  FirstOrDefaultReference
-                    if (xScalar.Operand == SQLWriter<TElement>.FirstOrDefaultReference.Method)
+                    if (xScalar.Operand == xReferencesOfLong.FirstOrDefaultReference.Method)
                     {
                         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\SyntaxSelectScalarFirstOrDefault\Program.cs
 
@@ -2667,7 +2667,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 WriteLine(0, "max");
                             else if (xScalar.Operand == xReferencesOfLong.AverageOfLongReference.Method)
                                 WriteLine(0, "avg");
-                            else if (xScalar.Operand == SQLWriter<TElement>.CountReference.Method)
+                            else if (xScalar.Operand == xReferencesOfLong.CountReference.Method)
                                 WriteLine(0, "count"); // or select the row instead of field...
                             else
                                 // what else is there?
@@ -2853,7 +2853,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteProjectionProxy(
                                         xGroupBy.source,
                                         xxMemberInitExpression,
-                                         new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) },
+                                         new[] { new Tuple<MemberInfo, int>(xReferencesOfLong.LastReference.Method, 1) },
                                          new[] { new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1) }
                                         );
                                 }
@@ -2873,7 +2873,7 @@ namespace ScriptCoreLib.Query.Experimental
                                     WriteProjectionProxy(
                                         xGroupBy.source,
                                         xxMemberInitExpression,
-                                         new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) },
+                                         new[] { new Tuple<MemberInfo, int>(xReferencesOfLong.LastReference.Method, 1) },
                                          new[] { new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1) }
                                         );
                                 }
@@ -2900,7 +2900,7 @@ namespace ScriptCoreLib.Query.Experimental
                                 WriteProjectionProxy(
                                    xGroupBy.source,
                                    aa,
-                                    new[] { new Tuple<MemberInfo, int>(LastReference.Method, 1) },
+                                    new[] { new Tuple<MemberInfo, int>(xReferencesOfLong.LastReference.Method, 1) },
                                     new[] {
 
                                         new Tuple<string, MemberInfo, int>(xGroupBy.keySelector.Parameters[0].Name, null, 1),
@@ -2949,7 +2949,7 @@ namespace ScriptCoreLib.Query.Experimental
                                             {
                                                 // should be one of our methods.
                                                 // which?
-                                                if (uMethodCallExpression.Method.Name == CountReference.Method.Name)
+                                                if (uMethodCallExpression.Method.Name == xReferencesOfLong.CountReference.Method.Name)
                                                 {
                                                     using (WithoutLinefeeds())
                                                     {

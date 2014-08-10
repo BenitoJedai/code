@@ -11,11 +11,6 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-        partial class SQLWriter<TElement>
-        {
-            public static readonly Func<IQueryStrategy<TElement>, Expression<Func<TElement, bool>>, IQueryStrategy<TElement>> WhereReference = Where;
-        }
-
         class xWhere
         {
             public IQueryStrategy source;

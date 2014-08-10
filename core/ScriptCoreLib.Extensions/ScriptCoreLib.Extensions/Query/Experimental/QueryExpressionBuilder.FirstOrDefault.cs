@@ -15,8 +15,7 @@ namespace ScriptCoreLib.Query.Experimental
     {
         partial class SQLWriter<TElement>
         {
-            public static readonly Func<IQueryStrategy<TElement>, TElement> FirstOrDefaultReference = FirstOrDefault;
-            public static readonly Func<IQueryStrategyGrouping<long, TElement>, TElement> LastReference = Last;
+
         }
 
 

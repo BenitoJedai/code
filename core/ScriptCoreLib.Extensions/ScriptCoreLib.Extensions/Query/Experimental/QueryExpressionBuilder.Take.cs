@@ -11,10 +11,6 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-        partial class SQLWriter<TElement>
-        {
-        }
-
         class xTake : IQueryStrategy
         {
             public IQueryStrategy source;

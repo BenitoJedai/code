@@ -13,7 +13,6 @@ namespace ScriptCoreLib.Query.Experimental
     {
         partial class SQLWriter<TElement>
         {
-            public static readonly Func<IQueryStrategy<object>, Expression<Func<object, TElement>>, IQueryStrategy<TElement>> SelectReference = Select;
         }
 
         #region Select
