@@ -38,15 +38,28 @@ namespace TestAsyncAssignArrayToEnumerable
 
         async void Invoke()
         {
+            // X:\jsc.svn\examples\rewrite\Test\TestSwitchRewriteAsEnumerable\TestSwitchRewriteAsEnumerable\Class1.cs
+
+            //f = new Array(1);
+            //b.__stack0018__001d__0025 = f;
+            //b.__stack0018__001d__0025[0] = { };
+            //g = _6QUABoocDD2jQ9Bz7rBALA(b.__stack0018__001d__0025);
+
             IEnumerable<object> collection = new[] { new object() };
 
- 
-            await Task.Yield();
 
-            //  d = c.bwQABoBf2jWIHILvaqtMig();
+            // this causes a problem. why?
+            //await Task.Yield();
+
+            //        new Array(1)[0] = { };
+            //ref$c[0]._collection_5__1 = _6QUABoocDD2jQ9Bz7rBALA(new Array(1));
+
+
+            ////  d = c.bwQABoBf2jWIHILvaqtMig();
             foreach (var item in collection)
             {
                 Console.WriteLine(new { item });
+                // 0:25ms {{ item = [object Object] }} 
             }
         }
     }

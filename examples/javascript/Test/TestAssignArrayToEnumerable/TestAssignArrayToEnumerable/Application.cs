@@ -42,6 +42,8 @@ namespace TestAssignArrayToEnumerable
             {
                 Console.WriteLine(new { item });
             }
+
+            // 0:41ms {{ item = [object Object] }}
         }
 
     }
