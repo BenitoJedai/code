@@ -30,9 +30,9 @@ namespace TestJVMCLRAssignArrayToEnumerable
             // see also>
             // X:\jsc.svn\examples\javascript\android\AndroidBroadcastLogger\AndroidBroadcastLogger\ApplicationWebService.cs
 
-            System.Console.WriteLine(
-               typeof(object).AssemblyQualifiedName
-            );
+            //System.Console.WriteLine(
+            //   typeof(object).AssemblyQualifiedName
+            //);
 
 
             //            0001 0200000d TestJVMCLRAssignArrayToEnumerable__i__d.jvm::< module >.SHA11d66b4cfe54cf0fbb67bce0aa80fe941953cb0df@1270592323$00000018$0000004c
@@ -45,9 +45,9 @@ namespace TestJVMCLRAssignArrayToEnumerable
             //  required: __IEnumerable_1<Object>
             //  found:    Object[]
 
-
-            //IEnumerable<object> e = new[] { new object() };
-            IEnumerable<object> e = new[] { new object() }.AsEnumerable();
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140810/asenumerable
+            IEnumerable<object> e = new[] { new object() };
+            //IEnumerable<object> e = new[] { new object() }.AsEnumerable();
 
             // how do the other jsc languages behave?
 

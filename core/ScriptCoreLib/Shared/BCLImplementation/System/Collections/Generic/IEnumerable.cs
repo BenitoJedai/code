@@ -5,9 +5,16 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/ienumerable.cs
+    // see VM\compile.cpp.
+
     [Script(Implements = typeof(global::System.Collections.Generic.IEnumerable<>))]
-    public interface __IEnumerable<T> : __IEnumerable
+    public interface __IEnumerable<out T> : __IEnumerable
     {
-        IEnumerator<T> GetEnumerator();
+        // X:\jsc.svn\examples\javascript\Test\TestAssignArrayToEnumerable\TestAssignArrayToEnumerable\Application.cs
+        // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRAssignArrayToEnumerable\TestJVMCLRAssignArrayToEnumerable\Program.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140810/asenumerable
+
+        new IEnumerator<T> GetEnumerator();
     }
 }
