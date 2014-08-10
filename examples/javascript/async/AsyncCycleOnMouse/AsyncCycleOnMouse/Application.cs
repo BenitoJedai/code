@@ -37,16 +37,26 @@ namespace AsyncCycleOnMouse
 
             //page.Header.css.hover.siblings["*"].nthChild[3].style.borderRight = "3px solid red";
 
-            page.Header.parentNode.css.first.child.style.borderLeft = "1px solid blue";
+            //page.Header.parentNode.css.first.child.style.borderLeft = "1px solid blue";
 
             //(page.Header.parentNode.firstChild as IHTMLElement).css.siblings["h1"].style.borderRight = "1px solid blue";
+
+
+
+
+            page.Header.css.style.transition = "color 300ms linear";
+            page.Header.css.adjacentSibling.style.transition = "border-left 300ms linear";
 
             page.With(
                 async delegate
                 {
+                    // using transition 300ms ?
                     while (true)
                     {
                         await page.Header.async.onmouseover;
+
+
+                        // would jsc be smart enough to infer transitions?
 
                         page.Header.css.style.color = "red";
                         page.Header.css.adjacentSibling.style.borderLeft = "4px solid red";
