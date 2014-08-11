@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
     [Script(Implements = typeof(global::System.Linq.Expressions.MemberExpression))]
     internal class __MemberExpression : __Expression
     {
+        // X:\jsc.svn\examples\javascript\Test\TestPropertyGetMethodExpression\TestPropertyGetMethodExpression\Application.cs
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201312/20131208-expression
 
         public Expression Expression { get; set; }

@@ -16,9 +16,7 @@ namespace ScriptCoreLib.Query.Experimental
     {
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Insert.cs
 
-        partial class SQLWriter<TElement>
-        {
-        }
+
 
         class xDelete : IQueryStrategy
         {
