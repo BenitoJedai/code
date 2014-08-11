@@ -13,6 +13,9 @@ class Program
 
             select new
             {
+                gg.Key,
+
+
                 gg.Last().Tag
             }
         ).FirstOrDefault();

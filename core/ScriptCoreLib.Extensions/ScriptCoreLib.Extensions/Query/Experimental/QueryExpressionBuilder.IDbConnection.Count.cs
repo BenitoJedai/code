@@ -64,7 +64,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
             // how do we get the MethodRef from the expression above?
-            public static readonly object KeyReference = KeyExpression.Body;
+            public static readonly MemberInfo KeyReference = ((MemberExpression)KeyExpression.Body).Member;
         }
 
 
