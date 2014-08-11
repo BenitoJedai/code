@@ -35,6 +35,11 @@ namespace ColorDisco
                 ")";
 
 
+            // server side delay. progressbar shows up?
+            //await Task.Delay(2500);
+
+            System.Threading.Thread.Sleep(500);
+
             //return "ok";
         }
     }

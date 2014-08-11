@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Threading;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace TestTaskDelay
 {
@@ -52,6 +53,9 @@ namespace TestTaskDelay
         static
         private async void button3_Click(object sender, EventArgs e)
         {
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs
+
+
             // http://billwagner.azurewebsites.net/blog/async-10-switching-threads
             // http://stackoverflow.com/questions/4815261/where-can-i-find-the-threadpool-switchto-method
             // http://social.msdn.microsoft.com/Forums/en-US/642ffef6-d3ce-4010-978d-bc5d8b65c00f/where-are-the-switchto-extensions
@@ -68,15 +72,18 @@ namespace TestTaskDelay
             Console.WriteLine("On the UI thread.");
             Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
 
+
+            var sw = Stopwatch.StartNew();
+
             // access UI controls
-            await Task.Delay(1).ConfigureAwait(false);
+            await Task.Delay(100).ConfigureAwait(false);
             // DO NOT access UI controls here, as you're very likely on a ThreadPool thread
             Console.WriteLine("Back!");
-            Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId });
+            Console.WriteLine(new { Thread.CurrentThread.ManagedThreadId, sw.ElapsedMilliseconds });
             //            On the UI thread.
             //{ ManagedThreadId = 3 }
             //Back!
-            //{ ManagedThreadId = 5 }
+            //{ ManagedThreadId = 5, ElapsedMilliseconds = 113 }
         }
 
 

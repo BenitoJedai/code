@@ -97,6 +97,7 @@
     <Compile Include="Desktop\Avalon\Extensions\WindowExtensions.cs" />
     <Compile Include="Desktop\MethodBaseExtensions.cs" />
     <Compile Include="Desktop\PEFileKindsReader.cs" />
+    <Compile Include="Desktop\TaskbarProgress.cs" />
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.ExtractJavaArchiveTo.cs" />
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.ToJavaArchive.cs" />
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.cs" />
