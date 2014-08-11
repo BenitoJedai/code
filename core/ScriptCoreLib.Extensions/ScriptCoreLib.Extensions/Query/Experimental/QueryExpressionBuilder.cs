@@ -2183,6 +2183,13 @@ namespace ScriptCoreLib.Query.Experimental
                                       var mp = m.Expression as ParameterExpression;
                                       if (mp != null)
                                       {
+
+                                          // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLROrOperator\TestJVMCLROrOperator\Program.cs
+
+                                          //Y:\staging\web\java\JVMCLRSyntaxOrderByThenGroupBy__i__d\Internal\Query\Experimental\QueryExpressionBuilder_SQLWriter_1___c__DisplayClass14.java:54: error: bad operand types for binary operator '||'
+                                          //            if (!(!(this.CS___8__locals64.zSelect != null) || ((this.CS___8__locals64.zSelect.source) || ((this.CS___8__locals64.CS___8__locals19.CS___8__locals18.upperParameter == null)))))
+                                          //                                                            ^
+
                                           if (zSelect != null && zSelect.source == null && upperParameter != null)
                                           {
                                               // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
@@ -2272,6 +2279,8 @@ namespace ScriptCoreLib.Query.Experimental
                                   {
                                       WriteCommentLine(1, "let");
 
+
+                                      // why is this causing trouble?
                                       if (Target.Last().Item2 > 0)
                                           WriteLine(1, ", ");
                                       else

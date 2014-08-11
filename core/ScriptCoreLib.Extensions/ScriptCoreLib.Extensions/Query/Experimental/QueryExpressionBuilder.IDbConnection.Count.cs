@@ -56,15 +56,43 @@ namespace ScriptCoreLib.Query.Experimental
             public static readonly Func<IQueryStrategy<long>, double> AverageOfLongReference = Average;
 
             // X:\jsc.svn\examples\javascript\Test\TestPropertyGetMethodExpression\TestPropertyGetMethodExpression\Application.cs
-            public static readonly Expression<
-                Func<IQueryStrategyGrouping<long, object>, long>
-                > KeyExpression =
-                    x => x.Key;
+
 
 
 
             // how do we get the MethodRef from the expression above?
-            public static readonly MemberInfo KeyReference = ((MemberExpression)KeyExpression.Body).Member;
+
+            [Obsolete("Expression<> is to large to be set as fieldinit..")]
+            public static MemberInfo KeyReference
+            {
+                get
+                {
+                    // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\syntaxorderbythengroupby\program.cs
+
+                    Expression<
+                        Func<IQueryStrategyGrouping<long, object>, long>
+                        > KeyExpression =
+                            x => x.Key;
+
+                    return ((MemberExpression)KeyExpression.Body).Member;
+                }
+            }
+
+            //public final static __MemberInfo KeyReference = ((__MemberExpression)QueryExpressionBuilder_xReferencesOfLong.KeyExpression.get_Body()).get_Member();
+            //public final static __Expression_1<__Func_2<QueryExpressionBuilder_IQueryStrategyGrouping_2<Long, Object>, Long>> KeyExpression = __Expression.<__Func_2<QueryExpressionBuilder_IQueryStrategyGrouping_2<Long, Object>, Long>>Lambda_060005b5(expression1, expressionArray2);
+
+            //static
+            //{
+            //    __ParameterExpression expression0;
+            //    __MemberExpression expression1;
+            //    __ParameterExpression[] expressionArray2;
+
+            //    expression0 = __Expression.Parameter(__Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(QueryExpressionBuilder_IQueryStrategyGrouping_2.class)), "x");
+            //    expression1 = __Expression.Property(expression0, cctor__0000011f.FromHandle());
+            //    expressionArray2 = new __ParameterExpression[] {
+            //        expression0
+            //    };
+            //}
         }
 
 
