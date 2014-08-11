@@ -45,6 +45,13 @@ namespace TestJVMCLRNewTupleArray
             // X:\jsc.svn\examples\java\Test\TestNewArrayGenericImport\TestNewArrayGenericImport\Class1.cs
 
 
+            // X:\jsc.svn\examples\java\Test\TestLocalGenericArgumentReference\TestLocalGenericArgumentReference\Class1.cs
+
+            System.Console.WriteLine(
+   typeof(object).AssemblyQualifiedName
+);
+
+
             var z = new Tuple<MemberInfo, int>[] {
                 // Tuple.Create(item.m, index)
             };
