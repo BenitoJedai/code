@@ -1160,7 +1160,15 @@ namespace ScriptCoreLib.Query.Experimental
 
                                             var sqalarsql = new SQLWriter<TElement>(
                                                 newsource2,
+
+
+                                                // x:\jsc.svn\examples\java\hybrid\test\testjvmclrarrayinitasenumerable\testjvmclrarrayinitasenumerable\program.cs
+                                                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140811
+                                                //  new IQueryStrategy[1][0] = this.CS___8__locals38.CS___8__locals19.CS___8__locals18.source;
+                                                // ?
+
                                                 upper.Concat(new[] { source }).ToArray(),
+
                                                 context,
                                                 Command: Command
                                             );
@@ -2918,7 +2926,7 @@ namespace ScriptCoreLib.Query.Experimental
                         WriteProjection(
                             source,
                             xGroupBy.keySelector.Body,
-                               new[] { new Tuple<MemberInfo, int>(KeyReference.Method, 1) }
+                               new[] { new Tuple<MemberInfo, int>(xReferencesOfLong.KeyReference, 1) }
                         );
 
                         // do we need to do counting in the group?

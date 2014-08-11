@@ -58,7 +58,8 @@ namespace ScriptCoreLib.Query.Experimental
                       if (i > 0)
                           w.Append(", ");
 
-                      w.Append("@" + SourceBinding.Member.Name + "");
+                      //w.Append("@" + SourceBinding.Member.Name + "");
+                      w.Append("@" + SourceBinding.Member.Name);
 
                       var f = SourceBinding.Member as FieldInfo;
                       var v = f.GetValue(value);
@@ -94,7 +95,8 @@ namespace ScriptCoreLib.Query.Experimental
                       //Console.WriteLine("before AddParameter");
 
                       c.AddParameter(
-                          ParameterName: "@" + SourceBinding.Member.Name + "",
+                          //ParameterName: "@" + SourceBinding.Member.Name + "",
+                          ParameterName: "@" + SourceBinding.Member.Name,
                           Value: v
                        );
                   }
