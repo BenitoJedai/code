@@ -54,14 +54,20 @@ namespace ScriptCoreLib.Query.Experimental
 
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
             public static readonly Func<IQueryStrategy<long>, double> AverageOfLongReference = Average;
+
+            // X:\jsc.svn\examples\javascript\Test\TestPropertyGetMethodExpression\TestPropertyGetMethodExpression\Application.cs
+            public static readonly Expression<
+                Func<IQueryStrategyGrouping<long, object>, long>
+                > KeyExpression =
+                    x => x.Key;
+
+
+
+            // how do we get the MethodRef from the expression above?
+            public static readonly object KeyReference = KeyExpression.Body;
         }
 
-        partial class SQLWriter<TElement>
-        {
 
-
-
-        }
 
         class xScalar : IQueryStrategy
         {
@@ -106,11 +112,11 @@ namespace ScriptCoreLib.Query.Experimental
 
 
 
-  
 
 
 
-      
+
+
 
         public static long Sum(this IQueryStrategy<long> source)
         {
