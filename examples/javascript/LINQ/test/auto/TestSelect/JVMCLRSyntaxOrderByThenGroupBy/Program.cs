@@ -25,6 +25,9 @@ namespace JVMCLRSyntaxOrderByThenGroupBy
         [STAThread]
         static void Main(string[] args)
         {
+            // once this syntax thingy compiles
+            // lets run it under appengine, and android too..
+
             var f = (
                    from x in new xTable()
 

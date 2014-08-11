@@ -32,6 +32,8 @@ namespace ChromeNexus7
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(global::WebGLNexus7.HTML.Pages.IApp page)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140811
+
             // https://chrome.google.com/webstore/developer/edit/hdebmjbiddbadmkcnjepnefgmlolgjdd
             // https://chrome.google.com/webstore/detail/hdebmjbiddbadmkcnjepnefgmlolgjdd/publish-delayed
 

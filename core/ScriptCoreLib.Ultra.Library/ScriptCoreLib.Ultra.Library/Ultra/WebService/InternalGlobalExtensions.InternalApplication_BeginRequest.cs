@@ -542,6 +542,10 @@ namespace ScriptCoreLib.Ultra.WebService
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201404/20140405/task
                     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140517
                     // defined by X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WebService.cs
+
+                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140811
+
+                    // public abstract void Invoke(InternalWebMethodInfo e);
                     g.Invoke(handler.WebMethod);
 
 

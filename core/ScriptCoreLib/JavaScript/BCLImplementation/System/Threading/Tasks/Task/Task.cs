@@ -228,20 +228,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         }
 
 
-        public static Task Delay(int millisecondsDelay)
-        {
-            var t = new __Task { };
 
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                delegate
-                {
-                    t.InternalSetCompleteAndYield();
-                }
-            ).StartTimeout(millisecondsDelay);
-
-
-            return t;
-        }
 
         public void InternalSetCompleteAndYield()
         {
