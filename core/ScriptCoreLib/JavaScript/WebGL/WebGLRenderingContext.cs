@@ -16,13 +16,28 @@ namespace ScriptCoreLib.JavaScript.WebGL
     // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebGLRenderingContext/
 
     [Script(HasNoPrototype = true, InternalConstructor = true)]
-    public class WebGLRenderingContext
+    public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
     {
         // see also
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\CanvasRenderingContext2D.cs
 
+        // HTML assets compile to custom elements. for them we have a special interface
+        // to support AttachTo. lets have it here too.
         public IHTMLCanvas canvas;
+
+        [Script(DefineAsStatic = true)]
+        IHTMLCanvas INodeConvertible<IHTMLCanvas>.InternalAsNode()
+        {
+            // cannot call this yet via interface invoke!
+
+            // tested by
+            // X:\jsc.svn\examples\java\webgl\Test\TestInstancedANGLE\TestInstancedANGLE\Application.cs
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/20/20130720
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140812
+            return this.canvas;
+        }
 
         // dictionary?
         [Script]

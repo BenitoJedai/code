@@ -26,7 +26,14 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         [Obsolete("Since jsc does not yet handle native explicit interface use INodeConvertibleExtensions.AsNode instead!")]
+        // could we not just define that this method is always to be defined as static?
+        // teste by ?
+        [Script(DefineAsStatic = true)]
         TNode InternalAsNode();
+
+        // we are testing it on
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\WebGL\WebGLRenderingContext.cs
+
     }
 
 
@@ -88,7 +95,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
         }
 
 
- 
+
     }
 
     [Script]
