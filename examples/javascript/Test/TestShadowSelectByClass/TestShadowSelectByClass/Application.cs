@@ -37,11 +37,13 @@ namespace TestShadowSelectByClass
             //new ShadowLayout().AttachTo(Native.document.documentElement.shadow);
             var s = new ShadowLayout().AttachTo(Native.shadow);
 
-
+            // http://w3c.github.io/webcomponents/spec/shadow/#dfn-content-element-select
+            // http://caniuse.com/#feat=shadowdom
             new IHTMLButton { "select all buttons" }.AttachToDocument().onclick +=
                 e =>
                 {
                     // this aint working. why?
+                    // spec says it should. but nothing shows up. 20140812
                     s.SelectedContent.select = ".what";
 
                 };
