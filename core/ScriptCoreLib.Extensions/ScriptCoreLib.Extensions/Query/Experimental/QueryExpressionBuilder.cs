@@ -2190,7 +2190,15 @@ namespace ScriptCoreLib.Query.Experimental
                                           //            if (!(!(this.CS___8__locals64.zSelect != null) || ((this.CS___8__locals64.zSelect.source) || ((this.CS___8__locals64.CS___8__locals19.CS___8__locals18.upperParameter == null)))))
                                           //                                                            ^
 
-                                          if (zSelect != null && zSelect.source == null && upperParameter != null)
+                                          var flag1 = false;
+
+                                          if (zSelect != null)
+                                              if (zSelect.source == null)
+                                                  if (upperParameter != null)
+                                                      flag1 = true;
+
+
+                                          if (flag1)
                                           {
                                               // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelect\Program.cs
 
