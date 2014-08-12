@@ -6,12 +6,15 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.WebGL
 {
+    // http://dxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WebGL2RenderingContext.webidl
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     [Obsolete("for future reference")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class WebGL2RenderingContext
     {
+        // https://wiki.mozilla.org/Platform/GFX/WebGL2
+
         // https://code.google.com/p/chromium/issues/detail?id=295792&q=WebGL2&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
 
         // http://blog.tojicode.com/2013/09/whats-coming-in-webgl-20.html

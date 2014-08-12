@@ -26,7 +26,7 @@ namespace WebGLLesson01
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=28 by Giles
          * 
@@ -35,7 +35,6 @@ namespace WebGLLesson01
          * 03. initShaders
          */
 
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         public bool IsDisposed;
 
@@ -92,6 +91,7 @@ namespace WebGLLesson01
 
 
             #region createShader
+            // dont we have a better api already?
             Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
             {
                 var shader = gl.createShader(src);

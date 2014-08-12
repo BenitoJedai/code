@@ -24,6 +24,18 @@ namespace ScriptCoreLib.JavaScript.WebGL
     public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
     {
+        // when can we do WebGL from a worker?
+        // https://www.khronos.org/webgl/public-mailing-list/archives/1306/msg00050.html
+        // http://stackoverflow.com/questions/7844886/using-webgl-from-inside-a-web-worker-is-it-possible-how
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=709490
+        // http://kripken.github.io/webgl-worker/webGLClient.js
+        // http://wiki.whatwg.org/wiki/WorkerCanvas
+        // https://code.google.com/p/chromium/issues/detail?id=245884
+        // http://wiki.whatwg.org/wiki/CanvasInWorkers
+        // http://philogb.github.io/blog/2012/11/04/web-workers-extension/
+        // http://philogb.github.io/blog/2013/12/04/dotjs/
+
+
         // see also
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\CanvasRenderingContext2D.cs
 

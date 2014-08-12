@@ -31,6 +31,15 @@ namespace TestInstancedANGLE
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://webglsamples.googlecode.com/hg/google-io/2011/100-objects.html
+
+            // https://twitter.com/schteppe/status/493346982279532545
+
+            // http://floooh.github.io/oryol/DrawCallPerf.html
+            // https://www.mail-archive.com/emscripten-discuss@googlegroups.com/msg01454.html
+            // https://code.google.com/p/dart/issues/detail?id=11357
+            // https://bugzilla.mozilla.org/show_bug.cgi?id=843673
+
             // http://webglstats.com/
             // for heat zeeker, can we use webgl, instanced geometry, collada databound to LAN synced data layer?
             // http://msdn.microsoft.com/en-us/library/ie/dn725046%28v=vs.85%29.aspx
@@ -69,6 +78,8 @@ namespace TestInstancedANGLE
 
 
             // THREE.JS supports it? http://stackoverflow.com/questions/23172609/does-three-js-support-angle-instanced-arrays
+            // BufferedGeometry perhaps?
+
             // https://github.com/mrdoob/three.js/issues/975
             // can we have starling like 2d svg instancing now for webgl?
             // if we wanted to run physic on the background thearead,
