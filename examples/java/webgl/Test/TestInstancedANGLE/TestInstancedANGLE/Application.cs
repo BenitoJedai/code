@@ -48,15 +48,37 @@ namespace TestInstancedANGLE
             var gl = new WebGLRenderingContext().AttachTo(Native.shadow);
 
             // var ext = gl.getExtension("ANGLE_instanced_arrays"); // Vendor prefixes may apply!
-            var ext = gl.getExtension("ANGLE_instanced_arrays");
+            //var ANGLEInstancedArrays = gl.getExtension("ANGLE_instanced_arrays") as ANGLE_instanced_arrays;
 
-            Console.WriteLine(new { ext });
+            // when will jsc pass generic arguments along?
+            //var ANGLEInstancedArrays = (ANGLE_instanced_arrays)gl.getExtension<ANGLE_instanced_arrays>();
 
+            var ANGLEInstancedArrays = (ANGLE_instanced_arrays)gl.getExtension("ANGLE_instanced_arrays");
+            // 0:63ms {{ ANGLEInstancedArrays = [object ANGLEInstancedArrays] }} 
+
+            // any reason to provide extension methods as gl.drawArraysInstanced ?
+            // X:\jsc.svn\core\ScriptCoreLib.Redux\ScriptCoreLib.Redux\JavaScript\Extensions\WebGLExtensions.cs
+
+            //ANGLEInstancedArrays.drawArraysInstancedANGLE(
+
+            //gl.drawArraysInstanced(
+
+            Console.WriteLine(new { ANGLEInstancedArrays });
+            // 0:270ms {{ ext = [object ANGLEInstancedArrays] }} 
+            // 
 
 
             // THREE.JS supports it? http://stackoverflow.com/questions/23172609/does-three-js-support-angle-instanced-arrays
             // https://github.com/mrdoob/three.js/issues/975
+            // can we have starling like 2d svg instancing now for webgl?
+            // if we wanted to run physic on the background thearead,
 
+            // would the jsc interfaces for webgl have enough knowledge to proxy via WorkerAPI?
+
+            // http://www.browserleaks.com/webgl
+            // https://github.com/kripken/emscripten/issues/2510
+
+            // http://nullprogram.com/blog/2014/06/01/
 
         }
 
