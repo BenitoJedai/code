@@ -29,6 +29,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Worker")]
     public class Worker : IEventTarget
     {
+        // http://philogb.github.io/blog/2012/11/04/web-workers-extension/
+
         // http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
         // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
         public const string ScriptApplicationSource = "view-source";
