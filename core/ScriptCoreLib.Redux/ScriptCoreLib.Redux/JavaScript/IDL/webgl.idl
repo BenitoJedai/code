@@ -29,6 +29,9 @@ typedef unsigned long  GLbitfield;
 typedef byte           GLbyte;         /* 'byte' should be a signed 8 bit type. */
 typedef short          GLshort;
 typedef long           GLint;
+// 20140812
+typedef long long      GLintptr;
+
 typedef long           GLsizei;
 typedef long           GLsizeiptr;
 typedef unsigned byte  GLubyte;        /* 'unsigned byte' should be an unsigned 8 bit type. */
@@ -734,5 +737,32 @@ interface WebGLContextEvent : Event {
                                boolean cancelableArg,
                                DOMString statusMessageArg);
 };
+
+
+
+
+// http://www.khronos.org/registry/webgl/extensions/ANGLE_instanced_arrays/
+// X:\jsc.svn\examples\java\webgl\Test\TestInstancedANGLE\TestInstancedANGLE\Application.cs
+
+// http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/ANGLEInstancedArrays.idl
+
+//[NoInterfaceObject]
+interface ANGLE_instanced_arrays {
+    const GLenum VERTEX_ATTRIB_ARRAY_DIVISOR_ANGLE = 0x88FE;
+
+	// jsc analytics, which examples are using this API?
+
+    void drawArraysInstancedANGLE(GLenum mode, GLint first, GLsizei count, GLsizei primcount);
+
+	// 1f70:02:01 RewriteToAssembly error: System.NotSupportedException: GLintptr
+	// https://www.khronos.org/webgl/public-mailing-list/archives/1309/msg00000.html
+
+    void drawElementsInstancedANGLE(GLenum mode, GLsizei count, GLenum type, GLintptr offset, GLsizei primcount);
+    void vertexAttribDivisorANGLE(GLuint index, GLuint divisor); 
+};
+
+
+
+
 
 };

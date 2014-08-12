@@ -12,10 +12,15 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContextBase.cpp
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContextBase.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/WebGLRenderingContext.idl
 
     // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/WebGLRenderingContext/
 
-    [Script(HasNoPrototype = true, InternalConstructor = true)]
+    [Script(HasNoPrototype = true, InternalConstructor = true,
+
+        // to support as operator for 
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\Extensions\INodeConvertible.cs
+        ExternalTarget = "WebGLRenderingContext")]
     public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
     {
@@ -29,7 +34,10 @@ namespace ScriptCoreLib.JavaScript.WebGL
         [Script(DefineAsStatic = true)]
         IHTMLCanvas INodeConvertible<IHTMLCanvas>.InternalAsNode()
         {
-            // cannot call this yet via interface invoke!
+            // cannot call this yet via interface invoke! would jsc need to inline such methods into caller?
+
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\Extensions\INodeConvertible.cs
+
 
             // tested by
             // X:\jsc.svn\examples\java\webgl\Test\TestInstancedANGLE\TestInstancedANGLE\Application.cs

@@ -27,8 +27,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         [Obsolete("Since jsc does not yet handle native explicit interface use INodeConvertibleExtensions.AsNode instead!")]
         // could we not just define that this method is always to be defined as static?
-        // teste by ?
-        [Script(DefineAsStatic = true)]
+        // how would that work?
+        //[Script(DefineAsStatic = true)]
         TNode InternalAsNode();
 
         // we are testing it on
@@ -45,6 +45,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
         //static INode as_INode_like_element;
 
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         static INode as_INode(this object e)
         {
             if (e != null)
@@ -83,6 +84,14 @@ namespace ScriptCoreLib.JavaScript.Extensions
                 return null;
 
             // will this work?
+            // jsc needs to maintain a dispatch vtable for all native objects for which we want to add and extend interfaces.
+            var xWebGLRenderingContext = e as ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+            if (xWebGLRenderingContext != null)
+            {
+                //return xWebGLRenderingContext.InternalAsNode();
+                // hack. inline that method for now..
+                return (TNode)(IHTMLElement)xWebGLRenderingContext.canvas;
+            }
 
             var n = e.as_INode();
             if (n != null)
