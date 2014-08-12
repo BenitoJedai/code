@@ -16,6 +16,11 @@ using System.Reflection;
 
 namespace TestJVMCLRTupleArrayLast
 {
+    static class goo
+    {
+        public static Tuple<MemberInfo, int>[] Target = new Tuple<MemberInfo, int>[] { Tuple.Create(default(MemberInfo), 0) };
+
+    }
 
     static class Program
     {
@@ -35,12 +40,33 @@ namespace TestJVMCLRTupleArrayLast
                typeof(object).AssemblyQualifiedName
             );
 
-            Tuple<MemberInfo, int>[] Target = new Tuple<MemberInfo, int>[] { Tuple.Create(default(MemberInfo), 0) };
+            //- javac
+            //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "W:\staging\web\java";release -d release java\TestJVMCLRTupleArrayLast\Program.java
+            //java\TestJVMCLRTupleArrayLast\Program.java:27: error: cannot find symbol
+            //        if ((__Enumerable.<__Tuple_2<__MemberInfo, Integer>>Last(__SZArrayEnumerator_1.<__Tuple_2<__MemberInfo, Integer>>Of(goo.Target)).get_Item2() > 0))
+            //                                                                                        ^
+            //  symbol:   class __Tuple_2
+            //  location: class Program
+            //java\TestJVMCLRTupleArrayLast\Program.java:27: error: cannot find symbol
+            //        if ((__Enumerable.<__Tuple_2<__MemberInfo, Integer>>Last(__SZArrayEnumerator_1.<__Tuple_2<__MemberInfo, Integer>>Of(goo.Target)).get_Item2() > 0))
+            //                                                                                                  ^
+            //  symbol:   class __MemberInfo
+            //  location: class Program
+            //java\TestJVMCLRTupleArrayLast\Program.java:27: error: cannot find symbol
+            //        if ((__Enumerable.<__Tuple_2<__MemberInfo, Integer>>Last(__SZArrayEnumerator_1.<__Tuple_2<__MemberInfo, Integer>>Of(goo.Target)).get_Item2() > 0))
+            //                           ^
+            //  symbol:   class __Tuple_2
+            //  location: class Program
+            //java\TestJVMCLRTupleArrayLast\Program.java:27: error: cannot find symbol
+            //        if ((__Enumerable.<__Tuple_2<__MemberInfo, Integer>>Last(__SZArrayEnumerator_1.<__Tuple_2<__MemberInfo, Integer>>Of(goo.Target)).get_Item2() > 0))
+            //                                     ^
 
-            if (Target.Last().Item2 > 0)
-            {
-                Console.WriteLine("hi");
-            }
+            var a = new Tuple<MemberInfo, int>[0];
+
+            //if (goo.Target.Last().Item2 > 0)
+            //{
+            //    Console.WriteLine("hi");
+            //}
 
             CLRProgram.CLRMain();
         }

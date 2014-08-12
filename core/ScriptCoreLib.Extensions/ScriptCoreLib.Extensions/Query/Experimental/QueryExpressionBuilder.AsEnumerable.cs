@@ -58,6 +58,8 @@ namespace ScriptCoreLib.Query.Experimental
 
             var c = GetSelectCommand(source, cc);
 
+            // ?
+            //  if (!(cc > null))
             if (cc == null)
                 return new List<TElement>();
 
