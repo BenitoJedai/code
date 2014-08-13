@@ -58,6 +58,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             var c = GetSelectCommand(source, cc);
 
+            // X:\jsc.svn\examples\java\Test\TestRoslynIfNull\TestRoslynIfNull\Class1.cs
             // ?
             //  if (!(cc > null))
             if (cc == null)
@@ -93,7 +94,8 @@ namespace ScriptCoreLib.Query.Experimental
 
             while (r.Read())
             {
-
+                // what the flip jsc java?
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140813
                 yield return ReadToElement<TElement>(r, source, new Tuple<MemberInfo, int>[0]);
             }
 
