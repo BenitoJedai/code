@@ -11,6 +11,8 @@ namespace TestYieldStatement
 {
     public class Class1
     {
+        // RewriteToAssembly /Output:xTestYieldStatement.dll /AssemblyMerge:TestYieldStatement.dll /xEnableSwitchRewrite:true
+
         public static IEnumerable<TElement> ReadToElements<TElement>(DbDataReader r, IEnumerable<TElement> source)
         {
             // X:\jsc.svn\examples\rewrite\Test\TestYieldStatement\TestYieldStatement\Class1.cs
