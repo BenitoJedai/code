@@ -12,8 +12,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Environment))]
     internal static class __Environment
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Environment.cs
+
         // by
         // X:\jsc.svn\examples\javascript\forms\AsyncTaskYieldViaProgress\AsyncTaskYieldViaProgress\ApplicationControl.cs
+        // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRYieldStatement\TestJVMCLRYieldStatement\Program.cs
+
         public static int CurrentManagedThreadId
         {
             get

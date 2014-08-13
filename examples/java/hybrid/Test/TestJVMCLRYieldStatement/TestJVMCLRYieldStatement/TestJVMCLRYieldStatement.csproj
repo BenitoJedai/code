@@ -95,7 +95,8 @@ start /WAIT c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /Projec
 )
 
 if $(ConfigurationName)==Release (
-start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath)
+start  /WAIT  cmd /C C:\util\jsc\bin\jsc.meta.exe  RewriteToHybridJavaApplication /assembly:$(TargetPath)  /DiagnosticsShowStagingFolder:true
+
 )
 </PostBuildEvent>
   </PropertyGroup>

@@ -20,18 +20,18 @@ namespace TestJVMCLRYieldStatement
 
     static class Program
     {
-//0001 02000002 TestJVMCLRYieldStatement__i__d.jvm::TestJVMCLRYieldStatement.Program
-
-
-// Implementation not found for type import :
-// type: System.Environment
-// method: Int32 get_CurrentManagedThreadId()
-// Did you forget to add the[Script] attribute?
-//Please double check the signature!
+        //- javac
+        //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\TestJVMCLRYieldStatement\Program.java
+        //Y:\staging\web\java\TestJVMCLRYieldStatement\Program__ReadToElements_d__0_1__MoveNext_06000010.java:92: error: bad operand type int for unary operator '!'
+        //        if (!(_arg0.__loc0))
+        //            ^
 
 
         public static IEnumerable<TElement> ReadToElements<TElement>(DbDataReader r, IEnumerable<TElement> source)
         {
+            // X:\jsc.svn\examples\rewrite\Test\TestYieldStatement\TestYieldStatement\Class1.cs
+            // x:\jsc.svn\examples\java\hybrid\test\testjvmclryieldstatement\testjvmclryieldstatement\program.cs
+
             Console.WriteLine("enter AsEnumerable ");
 
             //while (r.Read())
