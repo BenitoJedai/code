@@ -200,6 +200,10 @@ interface THREE.ShaderMaterial
 [Constructor(long color)]
 interface THREE.Color 
 { 
+	attribute double r; 
+	attribute double g;
+	attribute double b;
+
 	THREE.Color  setRGB(double r,double g,double b);
 	THREE.Color  clone();
 	THREE.Color  multiply( THREE.Color c);
@@ -314,6 +318,13 @@ interface THREE.PlaneGeometry
 	void applyMatrix(any value);
 };
 
+[Constructor()]
+interface THREE.BufferGeometry {
+	attribute any attributes;
+	attribute sequence<any> drawcalls;
+	any computeBoundingSphere();
+};
+
 
 [Constructor(), Constructor(double x, double y)]
 interface THREE.Vector2
@@ -357,6 +368,9 @@ interface THREE.Vector3
 	THREE.Vector3 add(THREE.Vector3 v);
 	THREE.Vector3 divideScalar(any s);
 
+	THREE.Vector3 sub(any l, any r);
+	THREE.Vector3 cross(THREE.Vector3 v);
+
 	THREE.Vector3 clone();
 };
 
@@ -387,6 +401,10 @@ interface THREE.Matrix4
 	
 
 	THREE.Matrix4 makeTranslation(double x, double y, double z);
+	THREE.Matrix4 makeTranslation(THREE.Vector3 y);
+
+	THREE.Matrix4 multiplyVector3(THREE.Vector3 y);
+	THREE.Matrix4 multiplyVector4(THREE.Vector4 y);
 
 	THREE.Matrix4 identity();
 

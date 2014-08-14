@@ -55,7 +55,7 @@ class Program
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
             // MYSQL and SQLITE seem to behave differently? in reverse actually!
             //orderby x.Key ascending
-            orderby x.connectEnd ascending
+            orderby x.connectEnd descending
             // { f = { Tag = middle insert } }
             group x by x.connectStart into gg
             //select new
