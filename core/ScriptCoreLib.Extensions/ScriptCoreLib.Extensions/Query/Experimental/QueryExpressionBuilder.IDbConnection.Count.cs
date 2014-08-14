@@ -17,7 +17,7 @@ namespace ScriptCoreLib.Query.Experimental
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Insert.cs
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Count.cs
 
-        static class xReferencesOfLong
+        public static class xReferencesOfLong
         {
             // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRGenericField\TestJVMCLRGenericField\Program.cs
             // java will not like static generic fields.
@@ -194,6 +194,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
             if (xDbCommand != null)
+                // timeout?
                 x = (long)xDbCommand.ExecuteScalar();
 
             return x;

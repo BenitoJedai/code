@@ -20,18 +20,20 @@ namespace TestJVMCLRYieldStatement
 
     static class Program
     {
-        //- javac
+        //       - javac
         //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\TestJVMCLRYieldStatement\Program.java
-        //Y:\staging\web\java\TestJVMCLRYieldStatement\Program__ReadToElements_d__0_1__MoveNext_06000010.java:92: error: bad operand type int for unary operator '!'
-        //        if (!(_arg0.__loc0))
-        //            ^
-
-        //      IL_0000:  ldarg.0
-        //IL_0001:  ldfld int32 class TestJVMCLRYieldStatement.Program/'<ReadToElements>d__0`1'<!TElement>::'<>1__state'
-        //IL_0006:  stloc.0
-        //IL_0007:  ldloc.0
-        //IL_0008:  brtrue IL_000d
-        //IL_000d:  ldloc.0
+        //Y:\staging\web\java\TestJVMCLRYieldStatement\Program__ReadToElements_d__0_1__MoveNext_06000010.java:115: error: incompatible types
+        //        if ((_arg0.__loc0))
+        //                  ^
+        //  required: boolean
+        //  found:    int
+        //Y:\staging\web\java\TestJVMCLRYieldStatement\Program__ReadToElements_d__0_1__MoveNext_06000010.java:189: error: cannot find symbol
+        //        _arg0.__this.__2__current = Program.<TElement>ReadToElement(_arg0.__this.r, _arg0.__this.source, (__Tuple_2<__MemberInfo, Integer>[])__Array.CreateInstance(__Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(__Tuple_2.class)), 0));
+        //                                                                                                                    ^
+        //  symbol:   class __MemberInfo
+        //  location: class Program__ReadToElements_d__0_1__MoveNext_06000010<TElement>
+        //  where TElement is a type-variable:
+        //    TElement extends Object declared in class Program__ReadToElements_d__0_1__MoveNext_06000010
 
         // frfalse is incorrectly written into a fault brtrue?
         // something is wrong after TestJVMCLRYieldStatement__i.exe
