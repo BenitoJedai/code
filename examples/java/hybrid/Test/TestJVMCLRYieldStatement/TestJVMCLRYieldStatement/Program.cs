@@ -51,6 +51,8 @@ namespace TestJVMCLRYieldStatement
             //{
             // what the flip jsc java?
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140813
+
+            // jsc resolves to BCL but forgets generic args. needs a fix.
             yield return ReadToElement<TElement>(r, source, new Tuple<MemberInfo, int>[0]);
             //}
 
