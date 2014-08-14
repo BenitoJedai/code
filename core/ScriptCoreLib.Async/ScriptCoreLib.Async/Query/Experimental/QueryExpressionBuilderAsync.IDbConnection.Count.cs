@@ -43,8 +43,9 @@ namespace ScriptCoreLib.Query.Experimental
             var z = new TaskCompletionSource<long>();
 
 
+            // Error    178 'ScriptCoreLib.Query.Experimental.QueryExpressionBuilder.SQLWriter<TElement>' does not contain a definition for 'CountReference'    X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Count.cs   47  112 ScriptCoreLib.Async
 
-            var c = (DbCommand)source.GetScalarCommand(cc, Operand: QueryExpressionBuilder.SQLWriter<TElement>.CountReference.Method );
+           var c = (DbCommand)source.GetScalarCommand(cc, Operand: QueryExpressionBuilder.xReferencesOfLong.CountReference.Method );
 
             // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DBCommand.cs
             var xDbCommand = c as DbCommand;

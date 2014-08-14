@@ -49,6 +49,9 @@ namespace ScriptCoreLib.Query.Experimental
         {
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
             // make sure the reader will be closed
+
+            // Additional information: Fatal error encountered during command execution.
+
             var a = source.Take(1).AsEnumerable(cc).ToArray();
             return a.FirstOrDefault();
         }
