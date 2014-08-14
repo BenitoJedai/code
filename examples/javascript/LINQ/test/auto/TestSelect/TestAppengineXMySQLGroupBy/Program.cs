@@ -123,7 +123,7 @@ class Program
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
             //orderby x.Key ascending
             // MYSQL and SQLITE seem to behave differently? in reverse actually!
-            orderby x.connectEnd descending
+            //orderby x.connectEnd descending
             // { f = { c = 3, Tag = first insert } }
 
             //orderby x.Key ascending
