@@ -31,6 +31,9 @@ namespace ChomeAlphaAppWindow
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // damn chrome. stop changing your experimental api. thanks
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140815
+
             // http://www.omgchrome.com/chrome-os-transparent-window-theme/
             // https://code.google.com/p/chromium/issues/detail?id=260810
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
@@ -68,7 +71,13 @@ namespace ChomeAlphaAppWindow
                     //type$AejzKfYgdT_a9VVOdZOmeGA.transparentBackground = null;
 
 
-                    var transparentBackground = true;
+                    //var transparentBackground = true;
+                    // Error: Invalid value for argument 2. Property 'alpha_enabled': Unexpected property.
+
+                    // Unchecked runtime.lastError while running app.window.create: The alphaEnabled option requires app.window.alpha permission.
+
+                    var alphaEnabled = true;
+
                     var alwaysOnTop = true;
 
                     // it allows to maximize, but disables alpha then.
@@ -80,7 +89,8 @@ namespace ChomeAlphaAppWindow
                     {
                         frame = "none",
                         alwaysOnTop,
-                        transparentBackground,
+                        //transparentBackground,
+                        alphaEnabled,
                         resizable
                     };
 
@@ -110,10 +120,10 @@ namespace ChomeAlphaAppWindow
                     // 0:1377ms {{ alphaEnabled = false }}
 
                     // exception>: TypeError: Cannot read property 'alphaEnabled' of undefined
-                    var alphaEnabled = xappwindow.alphaEnabled();
+                    var xalphaEnabled = xappwindow.alphaEnabled();
 
                     Console.WriteLine(
-                         new { alphaEnabled }
+                         new { xalphaEnabled }
                      );
 
 
