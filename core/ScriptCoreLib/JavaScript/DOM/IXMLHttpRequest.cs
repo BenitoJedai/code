@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/XMLHttpRequest.webidl
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/XMLHttpRequestUpload.webidl
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/xml/XMLHttpRequest.idl
 
     // http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
     // http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html

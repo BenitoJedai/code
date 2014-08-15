@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/Location.webidl
     // http://developer.mozilla.org/en/docs/DOM:window.location
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Location.idl
 
     [Script(HasNoPrototype=true)]
     public class ILocation

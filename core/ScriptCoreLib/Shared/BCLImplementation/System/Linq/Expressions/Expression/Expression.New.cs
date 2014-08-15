@@ -49,12 +49,15 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
             if ((object)constructor != null)
                 Type = constructor.DeclaringType;
 
-            Console.WriteLine("Expression.New " + new
-            {
-                constructor,
-                Type
-                //, constructor.DeclaringType 
-            });
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\JVMCLRSyntaxOrderByThenGroupBy\Program.cs
+
+            //Console.WriteLine("Expression.New " + new
+            //{
+            //    constructor,
+            //    Type
+            //    //, constructor.DeclaringType 
+            //});
+
             // method: System.Linq.Expressions.NewExpression New(System.Reflection.ConstructorInfo, System.Linq.Expressions.Expression[])
             // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
 

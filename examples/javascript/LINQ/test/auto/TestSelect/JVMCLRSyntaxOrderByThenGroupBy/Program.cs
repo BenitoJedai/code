@@ -19,15 +19,75 @@ namespace JVMCLRSyntaxOrderByThenGroupBy
 
     static class Program
     {
+
+        //        Expression.New { constructor = .ctor(java.lang.Object), arguments = ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1 @edf730, members = [LScriptCoreLibJava.BCLImplementation.System.Reflection.__MemberInfo; @ff94b1
+        //    }
+        //    /* 0000:0001 */  /* xSelect */
+        //                     /* 0000:0002 */
+        //    select
+        ///* 0000:0003 */   /* let */Press any key to continue . . .
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
-            // once this syntax thingy compiles
-            // lets run it under appengine, and android too..
+            // once this syntax thingy compiles            // lets run it under appengine, and android too..
+            try
+            {
+                TryMain();
+            }
+            catch (Exception ex)
+            {
+                // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Exception.cs
+                MainErrorHandler(ex);
 
+            }
+
+        }
+
+        private static void MainErrorHandler(Exception ex)
+        {
+            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRException\TestJVMCLRException\Program.cs
+
+            Console.WriteLine("enter MainErrorHandler");
+
+            try
+            {
+
+                Console.WriteLine(new { ex });
+                // /* 0000:0003 */   /* let */{{ ex = java.lang.RuntimeException }}
+
+                Console.WriteLine(new
+                {
+                    ex.Message
+                });
+
+                Console.WriteLine(new
+                {
+                    ex.StackTrace
+                });
+            }
+            catch (Exception ex2)
+            {
+                // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Exception.cs
+
+                //{ { ex2 = java.lang.NullPointerException } }
+                //exit MainErrorHandler
+
+                Console.WriteLine(new { ex2 });
+                Console.WriteLine("before Message");
+                Console.WriteLine(new { ex2.Message });
+                Console.WriteLine("before StackTrace");
+                Console.WriteLine(new { ex2.StackTrace });
+
+            }
+            Console.WriteLine("exit MainErrorHandler");
+        }
+
+        private static void TryMain()
+        {
             var f = (
                    from x in new xTable()
 
@@ -41,7 +101,6 @@ namespace JVMCLRSyntaxOrderByThenGroupBy
                    }
 
                ).FirstOrDefault();
-
         }
     }
 

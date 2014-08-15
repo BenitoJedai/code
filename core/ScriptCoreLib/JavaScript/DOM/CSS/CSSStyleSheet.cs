@@ -191,6 +191,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public partial class CSSStyleSheet
     {
+        // https://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSStyleSheet.idl
         // http://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSStyleSheet.idl
 
         // http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
@@ -207,6 +208,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("CSSStyleSheet")]
     public partial class IStyleSheet : CSSStyleSheet // ???
     {
+        // https://src.chromium.org/viewvc/blink/trunk/Source/core/css/StyleSheet.idl
+
         // http://www.w3.org/TR/DOM-Level-2-Style/css.html
 
 

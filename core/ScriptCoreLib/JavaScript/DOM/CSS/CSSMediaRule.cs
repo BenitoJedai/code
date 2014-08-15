@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSMediaRule.idl
     // see: http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSMediaRule.idl
 
     [Script(InternalConstructor = true)]
     public partial class CSSMediaRule : CSSRule

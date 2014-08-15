@@ -25,10 +25,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public string Message
         {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\JVMCLRSyntaxOrderByThenGroupBy\Program.cs
+
             [Script(DefineAsStatic = true)]
             get
             {
                 var e = (object)this as java.lang.Throwable;
+
+                //  throwable0 = ((((Object)that) instanceof  Throwable) ? (Throwable)((Object)that) : (Throwable)null);
+                if (e == null)
+                    return "Message: not Throwable?";
 
                 return e.getMessage();
             }
@@ -40,6 +46,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             get
             {
                 var e = (object)this as java.lang.Throwable;
+
+                if (e == null)
+                    return "StackTrace: not Throwable?";
 
                 var ww = new java.io.StringWriter();
 

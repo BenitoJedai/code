@@ -10,10 +10,20 @@ namespace ScriptCoreLib.JavaScript.DOM
     // https://github.com/adobe/webkit/blob/master/Source/WebCore/page/Navigator.idl
     // X:\opensource\github\WootzJs\WootzJs.Web\Navigator.cs
 
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Navigator.idl
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/NavigatorCPU.idl
+    // hardwareConcurrency
+
     // rename to INavigator ?
     [Script]
     public partial class NavigatorInfo
     {
+        // http://wiki.whatwg.org/wiki/NavigatorCores
+        // tested by?
+        // X:\jsc.svn\examples\javascript\async\Test\TestNavigatorCores\TestNavigatorCores\Application.cs
+        //public uint hardwareConcurrency;
+        public int hardwareConcurrency;
+
         // http://www.w3.org/TR/nfc/#extensions-to-navigator-object
         // tested by ?
         public object nfc;
