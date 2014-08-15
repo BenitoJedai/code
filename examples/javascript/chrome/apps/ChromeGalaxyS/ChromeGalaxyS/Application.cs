@@ -43,7 +43,7 @@ namespace ChromeGalaxyS
                 //Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
 
                 chrome.Notification.DefaultTitle = "I9000";
-                //chrome.Notification.DefaultIconUrl = new x128().src;
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.x128().src;
 
                 ChromeTCPServer.TheServerWithStyledForm.Invoke(
                     AppSource.Text,

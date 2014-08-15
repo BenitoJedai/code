@@ -3,7 +3,7 @@
 "manifest_version": 2,
   "name": "Earth Visualization",
   "description": "Earth Visualization",
-  "version": "30",
+  "version": "40",
  "minimum_chrome_version": "38",
   "offline_enabled": true,
 
@@ -29,6 +29,7 @@
   
   
   "permissions": [
+     "app.window.alpha",
   "<all_urls>",
   "webview",
   "fullscreen",

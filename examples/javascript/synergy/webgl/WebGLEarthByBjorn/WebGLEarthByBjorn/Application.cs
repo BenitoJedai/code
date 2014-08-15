@@ -366,6 +366,8 @@ namespace WebGLEarthByBjorn
             #endregion
 
 
+            canvas.css.active.style.cursor = IStyle.CursorEnum.move;
+
 
             // X:\jsc.svn\examples\javascript\Test\TestMouseMovement\TestMouseMovement\Application.cs
             #region onmousemove

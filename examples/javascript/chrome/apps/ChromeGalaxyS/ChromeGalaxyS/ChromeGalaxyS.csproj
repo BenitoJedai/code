@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{39EA13D0-9719-4DA7-903B-15D277C2EB9F}</ProjectGuid>
+    <ProjectGuid>{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromeGalaxyS</RootNamespace>
@@ -144,6 +144,9 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Textures\x128.png" />
+    <Content Include="Textures\x440x280.png" />
+    <Content Include="Textures\x640x400.png" />
     <None Include="packages.config" />
     <None Include="staging\ChromeGalaxyS.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -155,6 +158,7 @@
       <Name>WebGLGalaxyS</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
