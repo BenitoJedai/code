@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}</ProjectGuid>
+    <ProjectGuid>{0214B1F1-E85E-4939-B952-F64DB0C0A658}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLGalaxyS</RootNamespace>
