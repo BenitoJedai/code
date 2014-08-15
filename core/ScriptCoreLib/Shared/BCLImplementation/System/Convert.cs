@@ -215,6 +215,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         public static string ToString(object value)
         {
+            // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\String.cs
+
             if (value == null)
                 return null;
 

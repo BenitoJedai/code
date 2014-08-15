@@ -38,53 +38,20 @@ namespace JVMCLRSyntaxOrderByThenGroupBy
             {
                 TryMain();
             }
-            catch (Exception ex)
+            catch (Exception ex) // if (ex.Message.Contains("goo"))
             {
                 // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Exception.cs
-                MainErrorHandler(ex);
+
+                Console.WriteLine(new { ex, ex.Message, ex.StackTrace });
 
             }
 
         }
 
-        private static void MainErrorHandler(Exception ex)
-        {
-            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRException\TestJVMCLRException\Program.cs
+        //Caused by: java.lang.NullPointerException
+        //        at JVMCLRSyntaxOrderByThenGroupBy__i__d.Internal.Query.Experimental.QueryExpressionBuilder_SQLWriter_1___c__DisplayClass14.__ctor_b__70(QueryExpressionBuilder_SQLWriter_1___c__DisplayClass14.java:149)
 
-            Console.WriteLine("enter MainErrorHandler");
 
-            try
-            {
-
-                Console.WriteLine(new { ex });
-                // /* 0000:0003 */   /* let */{{ ex = java.lang.RuntimeException }}
-
-                Console.WriteLine(new
-                {
-                    ex.Message
-                });
-
-                Console.WriteLine(new
-                {
-                    ex.StackTrace
-                });
-            }
-            catch (Exception ex2)
-            {
-                // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Exception.cs
-
-                //{ { ex2 = java.lang.NullPointerException } }
-                //exit MainErrorHandler
-
-                Console.WriteLine(new { ex2 });
-                Console.WriteLine("before Message");
-                Console.WriteLine(new { ex2.Message });
-                Console.WriteLine("before StackTrace");
-                Console.WriteLine(new { ex2.StackTrace });
-
-            }
-            Console.WriteLine("exit MainErrorHandler");
-        }
 
         private static void TryMain()
         {
