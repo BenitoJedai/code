@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeNexus7", "ChromeNexus7\ChromeNexus7.csproj", "{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF763FAD-6D74-47A6-80C3-EA7B444C81BF} = {DF763FAD-6D74-47A6-80C3-EA7B444C81BF}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLNexus7", "..\..\..\WebGL\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj", "{C072D820-0808-40C8-AF3A-B965B715BC81}"
 EndProject

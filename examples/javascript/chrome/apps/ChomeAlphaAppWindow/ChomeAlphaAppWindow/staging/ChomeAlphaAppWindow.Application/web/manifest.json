@@ -27,6 +27,7 @@
   
   
   "permissions": [
+     "app.window.alpha",
   "<all_urls>",
   "alwaysOnTopWindows",
   "webview",

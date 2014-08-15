@@ -39,6 +39,11 @@ namespace ChromeNexus7
 
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeGalaxyS\ChromeGalaxyS\Application.cs
 
+            // chrome://gpu/
+            //GpuProcessHostUIShim: You killed the GPU process!Why ?
+            //[6008:3712:0815 / 101030:ERROR: gpu_watchdog_thread.cc(253)] : The GPU process hung. Terminating after 10000 ms.
+
+
             #region ChromeTCPServer
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;

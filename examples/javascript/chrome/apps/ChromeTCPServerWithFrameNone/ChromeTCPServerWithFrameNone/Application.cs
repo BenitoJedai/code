@@ -90,6 +90,7 @@ namespace ChromeTCPServer
                 __Form.InternalHTMLTargetAttachToDocument =
                    async (that, yield) =>
                    {
+                       Console.WriteLine("enter InternalHTMLTargetAttachToDocument");
 
                        //Error in event handler for app.runtime.onLaunched: Error: Invalid value for argument 2. Property 'transparentBackground': Expected 'boolean' but got 'integer'.
                        //var transparentBackground = true;
@@ -100,11 +101,14 @@ namespace ChromeTCPServer
                        if (transparentBackground)
                            ztransparentBackground = true;
 
-
                        var options = new
                        {
                            frame = "none",
-                           transparentBackground = ztransparentBackground
+                           //transparentBackground = ztransparentBackground
+
+                           // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
+                           alphaEnabled = ztransparentBackground
+
                        };
 
 
@@ -164,13 +168,15 @@ namespace ChromeTCPServer
                        f.Left = 0;
                        f.Top = 0;
 
-
+                       #region FormClosing
                        f.FormClosing +=
                            delegate
                        {
                            Console.WriteLine("FormClosing");
                            xappwindow.close();
                        };
+                       #endregion
+
 
 
                        // jsc can you generate instance events too?
@@ -238,15 +244,43 @@ namespace ChromeTCPServer
                        f.SizeChanged +=
                        delegate
                        {
+                           // who is changing our size?
                            Console.WriteLine(
                                "SizeChanged  " + new { f.Width, f.Height }
                                );
                        };
 
+
+                       Action SizeFormToAppWindow = delegate
+                       {
+                           // not called?
+                           // why not use appwindow resize/bounds instead?
+                           Console.WriteLine("SizeFormToAppWindow " + new { transparentBackground, xappwindow.contentWindow.Width, xappwindow.contentWindow.Height });
+                           // transparentBackground
+
+                           // x:\jsc.svn\examples\javascript\chrome\apps\chromenexus7\chromenexus7\application.cs
+                           // do we need to show our own shadow?
+                           // how will it play with resize
+
+                           if (transparentBackground)
+                           {
+                               // how much does the shadow need?
+
+                               // if we ale in fullscreen this would not be the right thing to do
+                               // also, when can we have resizeable working correctly on chrome?
+
+                               f.Width = xappwindow.contentWindow.Width - 8;
+                               f.Height = xappwindow.contentWindow.Height - 8;
+                           }
+                           else
+                           {
+                               f.Width = xappwindow.contentWindow.Width;
+                               f.Height = xappwindow.contentWindow.Height;
+                           }
+                       };
+
                        #region resize
                        xappwindow.contentWindow.onresize +=
-                                    //appwindow.onBoundsChanged.addListener(
-                                    //    new Action(
                                     delegate
                        {
 
@@ -258,18 +292,16 @@ namespace ChromeTCPServer
                            //    }
                            //    );
 
-                           f.Width = xappwindow.contentWindow.Width;
-                           f.Height = xappwindow.contentWindow.Height;
+
+                           SizeFormToAppWindow();
 
                        }
-                            //)
-                            //)
                             ;
                        #endregion
 
 
-                       f.Width = xappwindow.contentWindow.Width;
-                       f.Height = xappwindow.contentWindow.Height;
+                       SizeFormToAppWindow();
+
 
 
                        //Console.WriteLine("appwindow contentWindow onload");
@@ -280,8 +312,23 @@ namespace ChromeTCPServer
                        );
 
 
+                       if (transparentBackground)
+                       {
+                           // seems like windows7 dwm wont provide fadein animation for us
+                           // the shadowdom flip does not yet work for us
+                           // can we reuse the css transition instead?
 
-                       yield(false);
+                           // x:\jsc.svn\examples\javascript\chrome\apps\chromenexus7\chromenexus7\application.cs
+
+                           // cant see it. cpu not idle enough to animate?
+                           // or animation block another by trigger?
+                           yield(true);
+                       }
+                       else
+                       {
+                           yield(false);
+                       }
+
                        //Console.WriteLine("appwindow contentWindow onload done");
                        #endregion
 
@@ -349,6 +396,8 @@ namespace ChromeTCPServer
                     webview.addEventListener("permissionrequest",
                         (e) =>
                         {
+                            // https://code.google.com/p/chromium/issues/detail?id=141198
+
                             //% c9:176376ms permissionrequest { { permission = pointerLock } }
                             //Uncaught TypeError: Cannot read property 'allow' of undefined
                             //< webview >: The permission request for "pointerLock" has been denied.

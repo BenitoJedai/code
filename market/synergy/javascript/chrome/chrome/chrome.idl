@@ -239,11 +239,13 @@ interface chrome.app.window
 	// https://code.google.com/p/chromium/codesearch#chromium/src/ui/views/widget/widget_aura_utils.cc
 	// transparent_background
 	// alphaEnabled
+	// 20140815
+	// alpha_enabled
 	async static void create(string url, any options, function<chrome.AppWindow> callback);
 };
 
 
-
+// http://src.chromium.org/viewvc/chrome/trunk/src/chrome/browser/extensions/api/app_window/app_window_api.cc
 // https://code.google.com/p/chromium/codesearch#chromium/src/chrome/common/extensions/api/app_window.idl
 // http://developer.chrome.com/trunk/apps/app.window.html#type-AppWindow
 // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
@@ -512,6 +514,8 @@ interface chrome.socket
 	async static extension void sendTo(chrome.socketId socketId, any data, string address, int port, function<chrome.WriteInfo> callback);
 
 
+
+	// tested by?
 	// this looks like a property!
 	// Task<NetworkInterface[]> NetworkList
 	async static void getNetworkList(function<sequence<chrome.NetworkInterface>> callback);
@@ -585,6 +589,8 @@ interface chrome.contextMenus
 // Permission 'systemIndicator' is unknown or URL pattern is malformed.
 interface chrome.systemIndicator 
 {
+	// tested by?
+
 	static void enable();
 	static void disable();
 	

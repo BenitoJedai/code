@@ -105,6 +105,8 @@ namespace WebGLNexus7
             st.Start();
 
 
+            canvas.css.active.style.cursor = IStyle.CursorEnum.move;
+
             #region onmousedown
             canvas.onmousedown +=
                 e =>
