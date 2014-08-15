@@ -2281,6 +2281,7 @@ namespace ScriptCoreLib.Query.Experimental
                               // jsc when can we start returning from within using blocks?
                               DoWithoutLinefeeds(delegate
                               {
+                                  // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\JVMCLRSyntaxOrderByThenGroupBy\Program.cs
 
                                   // xScalar wont send the target
                                   if (Target.Length > 0)
@@ -2289,7 +2290,13 @@ namespace ScriptCoreLib.Query.Experimental
 
                                       // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRTupleArrayLast\TestJVMCLRTupleArrayLast\Program.cs
                                       // why is this causing trouble?
-                                      if (Target.Last().Item2 > 0)
+
+                                      var TargetLast = Target.Last();
+
+                                      Console.WriteLine("TargetLast :2296 " + new { TargetLast });
+
+                                      //    if ((__Enumerable.<__Tuple_2<__MemberInfo, Integer>>Last(__SZArrayEnumerator_1.<__Tuple_2<__MemberInfo, Integer>>Of(this.CS___8__locals64.Target)).get_Item2() > 0))
+                                      if (TargetLast.Item2 > 0)
                                           WriteLine(1, ", ");
                                       else
                                           WriteLine(1, " ");

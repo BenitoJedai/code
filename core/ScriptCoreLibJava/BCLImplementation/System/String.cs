@@ -515,11 +515,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         }
 
 
- //        Implementation not found for type import :
- //type: System.String
- //method: System.String Format(System.String, System.Object[])
- //Did you forget to add the [Script] attribute?
- //Please double check the signature!
+
         //X:\jsc.svn\examples\javascript\forms\Test\TestSQLJoin\TestSQLJoin\ApplicationWebService.cs
 
         // x:\jsc.svn\examples\javascript\webcamavatarsexperiment\webcamavatarsexperiment\application.cs
@@ -528,10 +524,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         public static string Format(string format, params object[] b)
         {
             // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
-
-            //              new Array(1)[0] = a[0].i;
-            //              b = RR0ABtNdQz66ZYUODttTfw('{{ i = {0} }}', new Array(1));
-
             // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
             // fast solution 
 
@@ -540,7 +532,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
             for (int i = 0; i < b.Length; i++)
             {
-                x = x.Replace("{" + i + "}", b[i].ToString());
+                var value = b[i];
+
+                x = x.Replace("{" + i + "}", Convert.ToString(value));
             }
 
             return x;

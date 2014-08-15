@@ -50,10 +50,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static string Format(string format, params object[] b)
         {
             // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
-
-            //              new Array(1)[0] = a[0].i;
-            //              b = RR0ABtNdQz66ZYUODttTfw('{{ i = {0} }}', new Array(1));
-
             // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
             // fast solution 
 
@@ -62,7 +58,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             for (int i = 0; i < b.Length; i++)
             {
-                x = x.Replace("{" + i + "}", b[i].ToString());
+                var value = b[i];
+
+                x = x.Replace("{" + i + "}", Convert.ToString(value));
             }
 
             return x;

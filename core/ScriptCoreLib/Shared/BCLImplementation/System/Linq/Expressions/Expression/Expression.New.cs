@@ -100,13 +100,13 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
             //Lambda { body = NewExpression { Constructor = .ctor(), Type =  } }
 
-            Console.WriteLine("Expression.New " + new
-            {
-                constructor,
-                //, constructor.DeclaringType, 
-                arguments,
-                members
-            });
+            //Console.WriteLine("Expression.New " + new
+            //{
+            //    constructor,
+            //    //, constructor.DeclaringType, 
+            //    arguments,
+            //    members
+            //});
             // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\Diagnostics\QueryStrategyOfTRowExtensions.Join.cs
 
             return
