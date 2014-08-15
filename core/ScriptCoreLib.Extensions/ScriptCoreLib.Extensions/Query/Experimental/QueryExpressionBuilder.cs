@@ -2293,6 +2293,7 @@ namespace ScriptCoreLib.Query.Experimental
 
                                       var TargetLast = Target.Last();
 
+                                      // wtf? TargetLast :2296 { TargetLast = (System.String Tag, 0) }
                                       Console.WriteLine("TargetLast :2296 " + new { TargetLast });
 
                                       //    if ((__Enumerable.<__Tuple_2<__MemberInfo, Integer>>Last(__SZArrayEnumerator_1.<__Tuple_2<__MemberInfo, Integer>>Of(this.CS___8__locals64.Target)).get_Item2() > 0))
@@ -3309,6 +3310,7 @@ namespace ScriptCoreLib.Query.Experimental
                         xArguments.WithEachIndex(
                                  (item, index) =>
                                      {
+                                         Console.WriteLine(":3312 " + new { item.m, index });
                                          WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, index) });
                                      }
                         );
