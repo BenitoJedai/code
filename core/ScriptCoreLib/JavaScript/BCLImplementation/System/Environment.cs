@@ -26,6 +26,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             }
         }
 
+        public static int ProcessorCount
+        {
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\async\Test\TestNavigatorCores\TestNavigatorCores\Application.cs
+
+                return Native.window.navigator.hardwareConcurrency;
+            }
+        }
+
         public static string NewLine
         {
             get

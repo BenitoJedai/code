@@ -16,6 +16,7 @@ using System.Xml.Linq;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSStyleRule.idl
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSStyleRule.idl
 
     [Script(InternalConstructor = true)]
     public partial class CSSStyleRule : CSSRule

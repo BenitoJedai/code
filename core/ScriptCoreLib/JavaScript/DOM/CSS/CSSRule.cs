@@ -20,7 +20,11 @@ namespace ScriptCoreLib.JavaScript.DOM
         PAGE_RULE
     }
 
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSViewportRule.idl
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSPageRule.idl
     // https://developer.mozilla.org/en-US/docs/Web/API/CSSRule
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/css/CSSRule.idl
+
     [Script(InternalConstructor = true)]
     public partial class CSSRule
     {

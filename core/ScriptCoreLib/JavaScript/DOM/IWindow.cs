@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/base/nsIBrowserDOMWindow.idl
     // X:\opensource\github\WootzJs\WootzJs.Web\Window.cs
     // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Window/
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Window.idl
 
 
 
