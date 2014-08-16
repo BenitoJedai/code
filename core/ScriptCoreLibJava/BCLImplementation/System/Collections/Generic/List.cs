@@ -7,6 +7,7 @@ using System.Collections;
 using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
 using ScriptCoreLib.Shared.BCLImplementation.System.Collections.Generic;
 using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
+using ScriptCoreLib.Shared.BCLImplementation.System;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 {
@@ -15,6 +16,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         __IList<T>,
         __IEnumerable
     {
+        public IEnumerable<T> InternalCollectionForTypeOfT;
+
+
         readonly global::java.util.ArrayList<T> InternalList = new global::java.util.ArrayList<T>();
 
         public __List()
@@ -26,6 +30,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
         {
             if (collection == null)
                 throw new ArgumentNullException("collection");
+
+            // can we get the type even if there are no elements?
+            // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.ToArray.cs
+
+            InternalCollectionForTypeOfT = collection;
 
             this.AddRange(collection);
         }
@@ -136,10 +145,75 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
 
         }
+
+
+        public Type InternalGetElementType()
+        {
+            // enter ToArray { Count = 0, InternalCollectionForTypeOfT = ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1@1e97f9f }
+
+            //InternalCollectionForTypeOfT 
+
+            //   enumerator_10 = ((((Object)this.InternalCollectionForTypeOfT) instanceof  ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<T>) ? (ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<T>)((Object)this.InternalCollectionForTypeOfT) : (ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<T>)null);
+            //Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\__List_1.java:169: error: illegal generic type for instanceof
+            //        enumerator_10 = ((((Object)this.InternalCollectionForTypeOfT) instanceof  ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<Object>) ? (ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<Object>)((Object)this.InternalCollectionForTypeOfT) : (ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<Object>)null);
+            //                                                  
+            // http://javanotepad.blogspot.com/2007/09/instanceof-doesnt-work-with-generics.html
+
+
+            //var xSZArrayEnumerator = InternalCollectionForTypeOfT as __SZArrayEnumerator<T>;
+            var xSZArrayEnumerator = InternalCollectionForTypeOfT as __SZArrayEnumerator;
+            if (xSZArrayEnumerator != null)
+            {
+                var xSZArrayEnumeratorArray = xSZArrayEnumerator.GetArray();
+
+                // { xSZArrayEnumeratorArray = [LScriptCoreLib.Shared.BCLImplementation.System.__Tuple_2;@288051 }
+
+                var ElementType = xSZArrayEnumeratorArray.GetType().GetElementType();
+                //{ ElementType = ScriptCoreLib.Shared.BCLImplementation.System.__Tuple_2 }
+                //Console.WriteLine(new { ElementType });
+                return ElementType;
+            }
+
+            // enter ToArray { Count = 1, ElementType = java.lang.Object }
+            // do we have to guess?
+
+            for (int i = 0; i < Count; i++)
+            {
+                var value = this[i];
+
+                // what about primitive types?
+                if (value != null)
+                {
+                    return value.GetType();
+                }
+            }
+
+            return typeof(object);
+        }
+
         public T[] ToArray()
         {
+            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRGenericConcat\TestJVMCLRGenericConcat\Program.cs
+
+            // enter ToArray { Count = 2, InternalCollectionForTypeOfT = ScriptCoreLib.Shared.BCLImplementation.System.Linq.__Enumerable__ConcatIterator_d__5b_1@d1e89e }
+
+            var ElementType = InternalGetElementType();
+
+            //Console.WriteLine(
+            //    "enter ToArray " + new { this.Count, ElementType }
+            //    );
+
+            var a = (T[])Array.CreateInstance(ElementType, Count);
+
+
+            // whats the type? jvm wont know. will it>
+            //var e = typeof(T);
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140816/jvm
+
             // http://stackoverflow.com/questions/5061640/make-arraylist-toarray-return-more-specific-types
-            return this.InternalList.toArray(new T[0]);
+            //return this.InternalList.toArray(new T[0]);
+            return this.InternalList.toArray(a);
         }
 
 

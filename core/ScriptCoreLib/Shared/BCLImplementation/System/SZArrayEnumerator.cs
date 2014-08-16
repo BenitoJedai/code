@@ -11,11 +11,23 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/array.cs
 
+    // 2014 java still dont know how to instanceof generics?
+    [Script]
+    public class __SZArrayEnumerator
+    {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\List.cs
+
+        public virtual object GetArray()
+        {
+            return null;
+        }
+    }
+
     // todo: IsArrayEnumerator should be replaced by Array.GetEnumerator<T>
     [Script(IsArrayEnumerator = true
         //, IsDebugCode = true
         )]
-    internal class __SZArrayEnumerator<T> :
+    public class __SZArrayEnumerator<T> : __SZArrayEnumerator,
          __IEnumerator<T>,
          __IEnumerator,
 
@@ -28,7 +40,17 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
         // http://igoro.com/archive/puzzling-over-arrays-and-enumerators-in-c/
 
-        T[] _array;
+        // typeof(T) or a way to infer enumerable type.
+        // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRGenericConcat\TestJVMCLRGenericConcat\Program.cs
+
+        public T[] _array;
+
+        public override object GetArray()
+        {
+            return _array;
+        }
+
+
         int _index;
         int _endIndex;
 

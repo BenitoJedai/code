@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
+    // tested by?
     internal static class LocalInternalEnumerable
     {
         // this class is used to dispatch implementation to multiple languages

@@ -358,19 +358,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
 
 
-        public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
-        {
-            return source.AsEnumerable().ToList().ToArray();
-        }
 
-        public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-            return new List<TSource>(source);
-        }
 
 
         public static U Aggregate<T, U>(this IEnumerable<T> source,
