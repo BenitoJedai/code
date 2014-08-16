@@ -250,32 +250,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 
 
 
-        //Implementation not found for type import :
-        //type: System.Linq.Expressions.Expression
-        //method: System.Linq.Expressions.MemberExpression Property(System.Linq.Expressions.Expression, System.Reflection.MethodInfo)
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
 
-        [Obsolete("should we construct a property from the getter?")]
-        public static MemberExpression Property(Expression expression, MethodInfo member)
-        {
-            // Property { expression = ParameterExpression { Type = __AnonymousTypes__TestSQLJoin_ApplicationWebService.__f__AnonymousType_682_0_2, Name = <>h__TransparentIdentifier0 }, member = java.lang.Object get_dealer() }
-
-            // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
-            Console.WriteLine("Property " + new { expression, member });
-
-            return
-                (MemberExpression)(object)
-                new __MemberExpression
-                {
-
-                    // ??
-                    NodeType = ExpressionType.MemberInit,
-
-                    Expression = expression,
-                    Member = member
-                };
-        }
 
 
 

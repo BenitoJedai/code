@@ -1582,16 +1582,23 @@ namespace ScriptCoreLib.Query.Experimental
                             // what about XElement?
 
                             zMemberInitExpression.Bindings.WithEachIndex(
-                                (SourceBinding, SourceBindingIndex) =>
+                                (SourceBinding_1585, SourceBindingIndex) =>
                                 {
+                                    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140816/jvm
+
                                     var item = new
                                     {
-                                        a = (SourceBinding as MemberAssignment).Expression,
-                                        m = SourceBinding.Member
+                                        a = (SourceBinding_1585 as MemberAssignment).Expression,
+                                        m = SourceBinding_1585.Member
                                     };
 
+                                    var Target_Concat = Target.Concat(new[] { Tuple.Create(item.m, SourceBindingIndex) });
+
+                                    // will this cause a type mismatch?
+                                    var Target_Array = Target_Concat.ToArray();
+
                                     WriteProjectionProxy(zsource, item.a,
-                                        Target.Concat(new[] { Tuple.Create(item.m, SourceBindingIndex) }).ToArray(),
+                                        Target_Array,
                                         Source.Concat(new[] { Tuple.Create(default(string), item.m, SourceBindingIndex) }).ToArray()
 
 
@@ -2294,7 +2301,7 @@ namespace ScriptCoreLib.Query.Experimental
                                       var TargetLast = Target.Last();
 
                                       // wtf? TargetLast :2296 { TargetLast = (System.String Tag, 0) }
-                                      Console.WriteLine("TargetLast :2296 " + new { TargetLast });
+                                      //Console.WriteLine("TargetLast :2296 " + new { TargetLast });
 
                                       //    if ((__Enumerable.<__Tuple_2<__MemberInfo, Integer>>Last(__SZArrayEnumerator_1.<__Tuple_2<__MemberInfo, Integer>>Of(this.CS___8__locals64.Target)).get_Item2() > 0))
                                       if (TargetLast.Item2 > 0)
@@ -3261,12 +3268,12 @@ namespace ScriptCoreLib.Query.Experimental
                         // what about XElement?
 
                         xMemberInitExpression.Bindings.WithEachIndex(
-                            (SourceBinding, SourceBindingIndex) =>
+                            (SourceBinding_3266, SourceBindingIndex) =>
                                 {
                                     var item = new
                                     {
-                                        a = (SourceBinding as MemberAssignment).Expression,
-                                        m = SourceBinding.Member
+                                        a = (SourceBinding_3266 as MemberAssignment).Expression,
+                                        m = SourceBinding_3266.Member
                                     };
 
                                     WriteProjection(source, item.a, new[] { Tuple.Create(item.m, SourceBindingIndex) });
@@ -3310,7 +3317,7 @@ namespace ScriptCoreLib.Query.Experimental
                         xArguments.WithEachIndex(
                                  (item, index) =>
                                      {
-                                         Console.WriteLine(":3312 " + new { item.m, index });
+                                         //Console.WriteLine(":3312 " + new { item.m, index });
                                          WriteProjection(item.source, item.a, new[] { Tuple.Create(item.m, index) });
                                      }
                         );
