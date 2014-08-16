@@ -53,7 +53,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         // x:\jsc.svn\examples\javascript\future\asyncorderbyexpression\asyncorderbyexpression\applicationcontrol.cs
         // X:\jsc.svn\examples\javascript\IsometricTycoonViewWithToolbar\IsometricTycoonViewWithToolbar\Application.cs
         // X:\jsc.svn\examples\javascript\LINQ\test\TestInternalSiblingsIncludingThis\TestInternalSiblingsIncludingThis\Application.cs
-        public IEnumerable<__Control> InternalSiblingsIncludingThis
+        public IEnumerable<__Control> InternalSiblingsIncludingThis_NOT_ROSLYN_FRIENDLY
         {
             get
             {
@@ -77,7 +77,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return from cc in InternalSiblingsIncludingThis
+                return from cc in InternalSiblingsIncludingThis_NOT_ROSLYN_FRIENDLY
                        where cc != this
                        select cc;
 
@@ -137,7 +137,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 __c.outer_style.left = "0px";
 
                 // X:\jsc.svn\examples\javascript\forms\ChartExperiment\ChartExperiment\ApplicationControl.cs
-                var ThoseBeforeUs = __c.InternalSiblingsIncludingThis.Reverse().TakeWhile(
+                var ThoseBeforeUs = __c.InternalSiblingsIncludingThis_NOT_ROSLYN_FRIENDLY.Reverse().TakeWhile(
                     z => z != __c
                 ).Where(
                     x => x.Dock == DockStyle.Top

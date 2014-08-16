@@ -45,9 +45,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.InternalGetTextField().onfocus +=
                 delegate
-                {
-                    e(this, new EventArgs());
-                };
+            {
+                e(this, new EventArgs());
+            };
         }
 
         public override void InternalAddLostFocus(EventHandler e)
@@ -55,9 +55,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.InternalGetTextField().onblur +=
                 delegate
-                {
-                    e(this, new EventArgs());
-                };
+            {
+                e(this, new EventArgs());
+            };
         }
 
         public __TextBoxBase()
@@ -142,26 +142,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             #region InternalRaiseTextChanged
             Action InternalAutoSizeUpdate =
                 delegate
-                {
-                    if (this.InternalTextField_Shadow == null)
-                        return;
+            {
+                if (this.InternalTextField_Shadow == null)
+                    return;
 
-                    //InternalAutoSizeToText(this.InternalTextField.value);
-                };
+                //InternalAutoSizeToText(this.InternalTextField.value);
+            };
 
             this.InternalTextField.onchange +=
                 delegate
-                {
-                    InternalAutoSizeUpdate();
-                    this.InternalRaiseTextChanged();
-                };
+            {
+                InternalAutoSizeUpdate();
+                this.InternalRaiseTextChanged();
+            };
 
             this.InternalTextField.onkeyup +=
                 delegate
-                {
-                    InternalAutoSizeUpdate();
-                    this.InternalRaiseTextChanged();
-                };
+            {
+                InternalAutoSizeUpdate();
+                this.InternalRaiseTextChanged();
+            };
             #endregion
 
 
@@ -270,26 +270,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                         Action InternalAutoSizeUpdate =
                             delegate
-                            {
-                                if (this.InternalTextField_Shadow == null)
-                                    return;
+                        {
+                            if (this.InternalTextField_Shadow == null)
+                                return;
 
-                                //this.InternalAutoSizeToText(this.InternalTextField_MultiLine.value);
-                            };
+                            //this.InternalAutoSizeToText(this.InternalTextField_MultiLine.value);
+                        };
 
                         this.InternalTextField_MultiLine.onchange +=
                              delegate
-                             {
-                                 InternalAutoSizeUpdate();
-                                 this.InternalRaiseTextChanged();
-                             };
+                        {
+                            InternalAutoSizeUpdate();
+                            this.InternalRaiseTextChanged();
+                        };
 
                         this.InternalTextField_MultiLine.onkeyup +=
                              delegate
-                             {
-                                 InternalAutoSizeUpdate();
-                                 this.InternalRaiseTextChanged();
-                             };
+                        {
+                            InternalAutoSizeUpdate();
+                            this.InternalRaiseTextChanged();
+                        };
 
                         //InternalUpdateBackground();
                         //InternalUpdateBorderThickness();
@@ -358,8 +358,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public bool ReadOnly
         {
-            get { return this.InternalTextField_MultiLine.readOnly; }
-            set { this.InternalTextField_MultiLine.readOnly = value; }
+            get
+            {
+                if (this.InternalMultiline)
+
+                    return this.InternalTextField_MultiLine.readOnly;
+                return this.InternalTextField.readOnly;
+
+
+            }
+            set
+            {
+                // x:\jsc.svn\examples\javascript\forms\test\testreadonly\testreadonly\applicationcontrol.cs
+
+                if (this.InternalMultiline)
+                    this.InternalTextField_MultiLine.readOnly = value;
+                else
+                    this.InternalTextField.readOnly = value;
+            }
         }
 
         public void AppendText(string text)
