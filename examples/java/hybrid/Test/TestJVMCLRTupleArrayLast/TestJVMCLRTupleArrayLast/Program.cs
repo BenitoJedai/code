@@ -22,14 +22,14 @@ namespace TestJVMCLRTupleArrayLast
         // X:\jsc.svn\examples\java\Test\TestGenericArrayInit\TestGenericArrayInit\Class1.cs
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140815
-
-        //__Tuple_2<__MemberInfo, Integer>[] tuple_2Array0;
-
         //tuple_2Array0 = (__Tuple_2<__MemberInfo, Integer>[])__Array.CreateInstance(__Type.GetTypeFromHandle(__RuntimeTypeHandle.op_Explicit(__Tuple_2.class)), 1);
+        //tuple_2Array0[0] = __Tuple.<__MemberInfo, Integer>Create(null, 0);
         //goo.Target = tuple_2Array0;
+
 
         // ???
         public static Tuple<MemberInfo, int>[] Target = new[] { Tuple.Create(default(MemberInfo), 0) };
+        // {{ Target =  }}
 
     }
 
@@ -52,6 +52,7 @@ namespace TestJVMCLRTupleArrayLast
             );
 
             Console.WriteLine(new { Target = goo.Target[0] });
+            // {{ Target = ScriptCoreLib.Shared.BCLImplementation.System.__Tuple_2@65a77f }}
 
 
             CLRProgram.CLRMain();
