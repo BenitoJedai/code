@@ -1,4 +1,4 @@
-using ScriptCoreLib;
+﻿using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using System;
@@ -22,7 +22,13 @@ namespace TestAndroidOrderByThenGroupBy
         /// <summary>
         /// The static content defined in the HTML file will be update to the dynamic content once application is running.
         /// </summary>
-        public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
+        //public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
+
+        // android cookie garbles, or turnacates data?
+        // I/System.Console( 1762): XDocument Parse error: { text = <h1 id="Header">JSC - The .NET crosscompiler for web platforms. ready.</h1∩┐╜∩┐╜ }
+        //        I/System.Console( 1762): #4 POST /xml/WebMethod2 HTTP/1.1 error:
+        //I/System.Console( 1762): #4 java.lang.RuntimeException: expected: '>' actual: '∩┐┐' (position:END_TAG </h1∩┐╜∩┐╜>@1:77 in java.io.StringReader@40669738)
+        //I/System.Console( 1762): #4 java.lang.RuntimeException: expected: '>' actual: '∩┐┐' (position:END_TAG </h1∩┐╜∩┐╜>@1:77 in java.io.StringReader@40669738)
 
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Activator.cs
 
