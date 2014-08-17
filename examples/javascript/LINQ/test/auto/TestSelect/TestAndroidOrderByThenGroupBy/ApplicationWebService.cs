@@ -36,7 +36,8 @@ namespace TestAndroidOrderByThenGroupBy
 
 
 
-        public void WebMethod2(Action<string> yield)
+        //public void WebMethod2(Action<string> yield)
+        public async Task<string> WebMethod2()
         {
             // anonymus types GetTypeInfo need RTTI and perhaps analysis too?
             // store it as string/xml/binary/zip ?
@@ -56,7 +57,8 @@ namespace TestAndroidOrderByThenGroupBy
             ).FirstOrDefault();
 
             //return new { message = "ok" }.ToString();
-            yield(new { message = "ok" }.ToString());
+            //yield(new { message = "ok" }.ToString());
+            return new { message = "ok" }.ToString();
         }
 
     }
