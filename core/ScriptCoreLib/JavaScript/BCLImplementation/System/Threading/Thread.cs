@@ -8,6 +8,7 @@ using System.Diagnostics;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/thread.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Threading/Thread.cs
 
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread

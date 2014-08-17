@@ -8,6 +8,8 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq.Expressions
 {
     // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/Expression.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/dlr/Runtime/Microsoft.Scripting.Core/Ast/Expression.cs
+
     [Script(Implements = typeof(global::System.Linq.Expressions.Expression))]
     internal abstract partial class __Expression
     {

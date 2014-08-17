@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Type.cs
     // http://referencesource.microsoft.com/#mscorlib/system/type.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System/Type.cs
 
     // X:\opensource\github\JSIL\Proxies\Reflection.cs
     // "X:\opensource\github\Netjs\mscorlib.ts"
@@ -27,6 +28,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     [Script(Implements = typeof(global::System.Type))]
     public class __Type : __MemberInfo
+    // IReflect ??
     {
         // X:\jsc.svn\examples\javascript\test\TestTypeHandle\TestTypeHandle\Application.cs
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs

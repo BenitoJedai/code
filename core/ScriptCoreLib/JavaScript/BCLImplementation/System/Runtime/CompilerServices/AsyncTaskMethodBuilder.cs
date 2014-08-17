@@ -8,6 +8,9 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/runtime/compilerservices/AsyncMethodBuilder.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Runtime.CompilerServices/AsyncTaskMethodBuilder.cs
+
     // see: http://msdn.microsoft.com/en-us/library/System.Runtime.CompilerServices.AsyncTaskMethodBuilder.aspx
 #if NET45
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.AsyncTaskMethodBuilder))]

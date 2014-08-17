@@ -7,6 +7,9 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
+    // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DBConnection.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/System.Data/System.Data.Common/DbConnection.cs
+
     [Script(Implements = typeof(global::System.Data.Common.DbConnection))]
     public abstract class __DbConnection : __Component, __IDbConnection, global::System.IDisposable
     {

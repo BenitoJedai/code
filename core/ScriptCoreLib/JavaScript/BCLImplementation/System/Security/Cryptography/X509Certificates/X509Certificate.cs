@@ -7,6 +7,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
 {
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/x509certificates/x509certificate.cs
     // http://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.x509certificate(v=vs.110).aspx
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Security.Cryptography.X509Certificates/X509Certificate.cs
 
     // FEATURE_CORECLR
     [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
