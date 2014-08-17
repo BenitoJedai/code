@@ -31,10 +31,11 @@ namespace TestAndroidOrderByThenGroupBy
         public Application(IApp page)
         {
             new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
-                  delegate
+                 async delegate
             {
-                this.WebMethod2(
-                    x => new IHTMLPre { new { x } }.AttachToDocument());
+                var x = await this.WebMethod2();
+
+                new IHTMLPre { new { x } }.AttachToDocument();
 
             };
         }
