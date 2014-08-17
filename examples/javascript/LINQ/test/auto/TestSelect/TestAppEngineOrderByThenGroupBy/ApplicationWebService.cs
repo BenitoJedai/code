@@ -29,6 +29,13 @@ namespace TestAppEngineOrderByThenGroupBy
 
         // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRAsync\TestJVMCLRAsync\Program.cs
         // can we send in the caller IButtonProxy ?
+        // as long the interface is async, one way we could do it.
+        // if it allows a continuation we would have
+        // to reinit our state
+        // this would be possible only if we encrypt and sign
+        // our state
+        // as we cannot trust the other device to not change our expected state
+
         //public async Task<string> WebMethod2()
         public void WebMethod2(Action<string> yield)
         {

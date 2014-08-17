@@ -30,10 +30,18 @@ namespace TestAppEngineOrderByThenGroupBy
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
+            //     async delegate
+            //{
+            //    await this.WebMethod2();
+
+            //};
+
             new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
-                 async delegate
+                  delegate
             {
-                await this.WebMethod2();
+                this.WebMethod2(
+                    x => new IHTMLPre { new { x } }.AttachToDocument());
 
             };
 
