@@ -1,5 +1,6 @@
 ﻿using ScriptCoreLib;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
+using ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading.Tasks
 
         public bool IsCompleted { get; set; }
 
+        public static __YieldAwaitable Yield()
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestAsyncAssignArrayToEnumerable\TestAsyncAssignArrayToEnumerable\Application.cs
+            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRAsync\TestJVMCLRAsync\Program.cs
 
+            return new __YieldAwaitable { };
+        }
 
 
         public static implicit operator Task(__Task e)
