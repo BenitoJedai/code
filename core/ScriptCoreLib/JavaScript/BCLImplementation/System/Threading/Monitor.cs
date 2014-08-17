@@ -5,6 +5,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/monitor.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Threading/Monitor.cs
 
 
     [Script(Implements = typeof(global::System.Threading.Monitor))]

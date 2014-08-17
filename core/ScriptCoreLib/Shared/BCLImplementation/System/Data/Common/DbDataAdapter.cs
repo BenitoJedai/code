@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DataAdapter.cs
     // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DbDataAdapter.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/System.Data/System.Data.Common/DbDataAdapter.cs
+
     [Script(Implements = typeof(global::System.Data.Common.DbDataAdapter))]
     public
         //abstract 

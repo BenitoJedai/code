@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
+    // http://referencesource.microsoft.com/#System.Xml.Linq/XLinq.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/System.Xml.Linq/System.Xml.Linq/XObject.cs
+
 
     [Script(Implements = typeof(XObject))]
     internal class __XObject
