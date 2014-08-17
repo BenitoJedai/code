@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.WebGL;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/intptr.cs
+    // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\IntPtr.cs
 
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
