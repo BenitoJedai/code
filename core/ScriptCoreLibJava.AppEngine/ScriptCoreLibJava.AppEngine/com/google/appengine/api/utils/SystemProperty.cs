@@ -9,6 +9,8 @@ namespace com.google.appengine.api.utils
     [Script(IsNative = true)]
     public class SystemProperty
     {
+        // tested by ?
+
         public static SystemProperty applicationId;
         public static SystemProperty applicationVersion;
         //public static SystemProperty.Environment environment;
