@@ -8,6 +8,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/intptr.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\IntPtr.cs
 
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
