@@ -27,8 +27,10 @@ namespace TestAppEngineOrderByThenGroupBy
 
         public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
 
+        // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRAsync\TestJVMCLRAsync\Program.cs
         // can we send in the caller IButtonProxy ?
-        public async Task<string> WebMethod2()
+        //public async Task<string> WebMethod2()
+        public void WebMethod2(Action<string> yield)
         {
             var f = (
                 from x in new xTable()
@@ -44,7 +46,8 @@ namespace TestAppEngineOrderByThenGroupBy
 
             ).FirstOrDefault();
 
-            return new { message = "ok" }.ToString();
+            //return new { message = "ok" }.ToString();
+            yield(new { message = "ok" }.ToString());
         }
     }
 }
