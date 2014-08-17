@@ -9,9 +9,12 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLibJava.AppEngine.BCLImplementation.System.Net.Mail
 {
+    // why not move to ScriptCoreLibJava?
     [Script(Implements = typeof(global::System.Net.Mail.SmtpClient))]
     public class __SmtpClient : IDisposable
     {
+        // tested by?
+
         public __SmtpClient(string host, int port)
         {
             // tested by
