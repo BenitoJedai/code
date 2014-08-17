@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Activator.cs">
+      <Link>BCLImplementation\System\Activator.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\ArgumentException.cs">
       <Link>BCLImplementation\System\ArgumentException.cs</Link>
     </Compile>
@@ -255,6 +258,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\ParameterInfo.cs">
       <Link>BCLImplementation\System\Reflection\ParameterInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\PropertyInfo.cs">
+      <Link>BCLImplementation\System\Reflection\PropertyInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\RuntimeTypeHandle.cs">
       <Link>BCLImplementation\System\RuntimeTypeHandle.cs</Link>

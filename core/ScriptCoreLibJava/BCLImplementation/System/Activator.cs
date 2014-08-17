@@ -6,24 +6,27 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
-	[Script(Implements = typeof(global::System.Activator))]
-	internal class __Activator
-	{
-		public static object CreateInstance(Type type)
-		{
-			__Type t = type;
-			var o = default(object);
+    [Script(Implements = typeof(global::System.Activator))]
+    internal class __Activator
+    {
+        // tested by
+        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAndroidOrderByThenGroupBy\ApplicationWebService.cs
 
-			try
-			{
-				o = t.InternalTypeDescription.newInstance();
-			}
-			catch (csharp.ThrowableException e)
-			{
-				throw new csharp.RuntimeException(e.ToString());
-			}
+        public static object CreateInstance(Type type)
+        {
+            __Type t = type;
+            var o = default(object);
 
-			return o;
-		}
-	}
+            try
+            {
+                o = t.InternalTypeDescription.newInstance();
+            }
+            catch // (csharp.ThrowableException e)
+            {
+                throw; // new csharp.RuntimeException(e.ToString());
+            }
+
+            return o;
+        }
+    }
 }

@@ -12,15 +12,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
     [Script(Implements = typeof(PropertyInfo))]
     internal class __PropertyInfo : __MethodBase
     {
+        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAndroidOrderByThenGroupBy\ApplicationWebService.cs
+
+        // can jsc keep property RTTI  for all platforms
+        // for datalayer use.
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201405/20140514
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
 
 
-        //Implementation not found for type import :
-        //type: System.Reflection.PropertyInfo
-        //method: System.Type get_PropertyType()
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
+
 
         public global::System.Type PropertyType
         {
