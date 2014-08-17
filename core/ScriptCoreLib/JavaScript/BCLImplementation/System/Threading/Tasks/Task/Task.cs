@@ -45,6 +45,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         public static __YieldAwaitable Yield()
         {
             // X:\jsc.svn\examples\javascript\Test\TestAsyncAssignArrayToEnumerable\TestAsyncAssignArrayToEnumerable\Application.cs
+            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRAsync\TestJVMCLRAsync\Program.cs
 
             return new __YieldAwaitable { };
         }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ScriptCoreLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServices
+namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 {
     // http://referencesource.microsoft.com/#mscorlib/system/runtime/compilerservices/YieldAwaitable.cs
     // https://github.com/mono/mono/blob/01b7a50189acc602cec3294606958f2c73f7fa30/mcs/class/corlib/System.Runtime.CompilerServices/YieldAwaitable.cs
