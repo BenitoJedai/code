@@ -9,54 +9,60 @@ using java.io;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 {
-	[Script(Implements = typeof(global::System.Xml.Linq.XDocument))]
-	internal class __XDocument : __XContainer
-	{
-		public org.w3c.dom.Document InternalDocument;
+    [Script(Implements = typeof(global::System.Xml.Linq.XDocument))]
+    internal class __XDocument : __XContainer
+    {
+        public org.w3c.dom.Document InternalDocument;
 
-		public XElement Root
-		{
-			get
-			{
-				return (XElement)(object)
-					new __XElement
-					{
-						InternalValue = InternalDocument.getDocumentElement(),
+        public XElement Root
+        {
+            get
+            {
+                return (XElement)(object)
+                    new __XElement
+                    {
+                        InternalValue = InternalDocument.getDocumentElement(),
 
-					};
-			}
-		}
+                    };
+            }
+        }
 
-		public static __XDocument Parse(string text)
-		{
-			var r = default(__XDocument);
+        public static __XDocument Parse(string text)
+        {
+            var r = default(__XDocument);
 
-			try
-			{
-				// http://stackoverflow.com/questions/33262/how-do-i-load-an-org-w3c-dom-document-from-xml-in-a-string
+            try
+            {
+                // http://stackoverflow.com/questions/33262/how-do-i-load-an-org-w3c-dom-document-from-xml-in-a-string
                 // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6238729
 
-				var f = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-				var b = f.newDocumentBuilder();
+                var f = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+                var b = f.newDocumentBuilder();
 
-				var s = new InputSource(new StringReader(text));
+                var s = new InputSource(new StringReader(text));
 
-				
-				var doc = b.parse(s);
 
-				r = new __XDocument
-				{
-					InternalDocument = doc,
-					InternalValue = doc
-				};
+                var doc = b.parse(s);
 
-			}
-			catch
-			{
-				throw new NotSupportedException();
-			}
+                r = new __XDocument
+                {
+                    InternalDocument = doc,
+                    InternalValue = doc
+                };
 
-			return r;
-		}
-	}
+            }
+            catch
+            {
+                // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRXElementParse\TestJVMCLRXElementParse\Program.cs
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAndroidOrderByThenGroupBy\Application.cs
+
+                Console.WriteLine("XDocument Parse error: " + new { text });
+
+                //throw new NotSupportedException();
+                throw;
+            }
+
+            return r;
+        }
+    }
 }
