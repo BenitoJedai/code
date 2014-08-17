@@ -10,9 +10,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ScriptCoreLib.Query.Experimental;
 
-namespace TestAndroidOrderByThenGroupBy
+namespace TestMissingNativeIsInstance
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -24,33 +23,15 @@ namespace TestAndroidOrderByThenGroupBy
         /// </summary>
         public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
 
-        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Activator.cs
-
-
-
-
-
-        public void WebMethod2(Action<string> yield)
+        /// <summary>
+        /// This Method is a javascript callable method.
+        /// </summary>
+        /// <param name="e">A parameter from javascript.</param>
+        /// <param name="y">A callback to javascript.</param>
+        public void WebMethod2(string e, Action<string> y)
         {
-            // anonymus types GetTypeInfo need RTTI and perhaps analysis too?
-            // store it as string/xml/binary/zip ?
-
-            var f = (
-                from x in new xTable()
-
-                orderby x.field1 ascending
-
-                group x by 1 into gg
-
-                select new
-                {
-                    gg.Last().Tag
-                }
-
-            ).FirstOrDefault();
-
-            //return new { message = "ok" }.ToString();
-            yield(new { message = "ok" }.ToString());
+            // Send it back to the caller.
+            y(e);
         }
 
     }

@@ -20,6 +20,12 @@ namespace ScriptCoreLib.JavaScript.WebGL
 
         // to support as operator for 
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\Extensions\INodeConvertible.cs
+
+        // E/Web Console(  485): Uncaught ReferenceError: WebGLRenderingContext is not defined at http://192.168.43.1:22126/view-source:22331
+        //  c = ( function () { var c$26 = b; return (c$26 instanceof WebGLRenderingContext ? c$26 : null); } )();
+        // var __this = this;
+        // X:\jsc.svn\examples\javascript\Test\TestMissingNativeIsInstance\TestMissingNativeIsInstance\Application.cs
+
         ExternalTarget = "WebGLRenderingContext")]
     public class WebGLRenderingContext : INodeConvertible<IHTMLCanvas>
     // : WebGLRenderingContextBase
