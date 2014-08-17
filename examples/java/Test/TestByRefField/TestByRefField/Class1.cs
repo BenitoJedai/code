@@ -37,6 +37,8 @@ namespace TestByRefField
 
             // does JVM support it?
             //__forwardref(ref this);
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140817/async
             __forwardref(ref loc0);
 
             Console.WriteLine("exit MoveNext " + new { state });

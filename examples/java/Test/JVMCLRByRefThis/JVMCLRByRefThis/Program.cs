@@ -29,6 +29,8 @@ namespace JVMCLRByRefThis
 
         public void MoveNext()
         {
+            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRGenericByRefThis\TestJVMCLRGenericByRefThis\Program.cs
+
             //java.lang.Object, rt
             //enter MoveNext { state = 5 }
             //exit __forwardref { state = 6 }
