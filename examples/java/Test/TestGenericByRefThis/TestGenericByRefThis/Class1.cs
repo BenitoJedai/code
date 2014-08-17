@@ -43,6 +43,14 @@ namespace TestGenericByRefThis
 
                 // Error	1	Cannot pass 'this' as a ref or out argument because it is read-only	X:\jsc.svn\examples\javascript\Test\TestGenericByRefThis\TestGenericByRefThis\ApplicationControl.cs	23	29	TestGenericByRefThis
                 Method2(ref this);
+
+                //internal compiler error at method
+                // assembly: X:\jsc.svn\examples\java\Test\TestGenericByRefThis\TestGenericByRefThis\bin\Debug\TestGenericByRefThis.dll at
+                // type: TestGenericByRefThis.Class1+Foo`1, TestGenericByRefThis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+                // method: Method1
+                // Object reference not set to an instance of an object.
+                //    at jsc.Languages.Java.JavaCompiler.GetDecoratedTypeName(Type SourceType, Boolean bExternalAllowed, Boolean bUsePrimitives, Boolean bChopNestedParents, Boolean bDisableArrayToObjectRewrite, Type ContextType, Boolean AllowTypeFullName) in x:\jsc.internal.git\compiler\jsc\Languages\Java\JavaCompiler.cs:line 916
+
                 Method2(ref that);
             }
 
