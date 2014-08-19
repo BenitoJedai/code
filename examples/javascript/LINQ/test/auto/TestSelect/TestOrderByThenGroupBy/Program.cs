@@ -14,8 +14,11 @@ class Program
         QueryExpressionBuilder.WithConnection =
             y =>
             {
+                var cs = new SQLiteConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString();
+                // cs = "Data Source=file:PerformanceResourceTimingData2.xlsx.sqlite"
+
                 var cc = new SQLiteConnection(
-                    new SQLiteConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
+                    cs
                 );
 
                 cc.Open();

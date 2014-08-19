@@ -8,6 +8,10 @@ using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
+    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/Mono.Data.Sqlite/Mono.Data.Sqlite_2.0/SQLiteConnection.cs
+    // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
+
 
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
@@ -49,6 +53,10 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             get
             {
+                // I/System.Console( 4328): enter InternalDatabaseName { InternalConnectionString = ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteConnectionStringBuilder@407714e0 }
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAndroidOrderByThenGroupBy\ApplicationWebService.cs
+                Console.WriteLine("enter InternalDatabaseName " + new { InternalConnectionString });
+
                 var prefix = "Data Source=";
                 var suffix = ";";
 

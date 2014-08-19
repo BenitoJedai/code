@@ -9,6 +9,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 {
     // http://www.chromestatus.com/features/6330987952734208
 
+    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/Mono.Data.Sqlite/Mono.Data.Sqlite_2.0/SQLiteConnection.cs
+    // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
+
+
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
     public class __SQLiteConnection : __DbConnection
