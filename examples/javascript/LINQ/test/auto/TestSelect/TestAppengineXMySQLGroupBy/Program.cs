@@ -40,13 +40,18 @@ class Program
                 {
 
                     UserID = "fullaccess",
+
                     Server = "173.194.249.56",
+
+                    // password is useless if client cert is to be used
                     Password = "T33bM1sTahab",
                     SslMode = MySQLSslMode.Required,
+
+                    // private key
                     CertificateFile = @"X:\Monese\network\certs\coresql\client.pfx",
 
                 }.ToString()
-                    //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
+                //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
                 );
 
 
@@ -84,9 +89,9 @@ class Program
                 {
                     Console.WriteLine(ex);
                 }
-               
-               
-              
+
+
+
             };
         #endregion
 
@@ -121,14 +126,14 @@ class Program
 
         var f = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
-            //orderby x.Key ascending
-            // MYSQL and SQLITE seem to behave differently? in reverse actually!
-            //orderby x.connectEnd descending
-            // { f = { c = 3, Tag = first insert } }
+                //orderby x.Key ascending
+                // MYSQL and SQLITE seem to behave differently? in reverse actually!
+                //orderby x.connectEnd descending
+                // { f = { c = 3, Tag = first insert } }
 
-            //orderby x.Key ascending
-            // { f = { c = 3, Tag = Last insert, selected by group by } }
-            // { f = { c = 3, Tag = first insert } }
+                //orderby x.Key ascending
+                // { f = { c = 3, Tag = Last insert, selected by group by } }
+                // { f = { c = 3, Tag = first insert } }
             group x by x.connectStart into gg
             select new
             {
