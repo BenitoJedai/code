@@ -35,6 +35,7 @@ namespace ScriptCoreLib.Query.Experimental
         [Obsolete("inherited by generated data table objects?")]
         public class xSelect<TResult> : xSelect, IQueryStrategy<TResult>
         {
+            //  ScriptCoreLib.Query.Compiler.MemberInitExpressionBuilder.EmitLambdaExpression(
 
         }
 

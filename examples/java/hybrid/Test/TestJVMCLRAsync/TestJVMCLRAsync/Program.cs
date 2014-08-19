@@ -46,6 +46,8 @@ namespace TestJVMCLRAsync
             );
 
             Invoke();
+            Console.WriteLine("retry");
+            Invoke();
 
 
             CLRProgram.CLRMain();

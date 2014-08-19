@@ -157,6 +157,8 @@
     <None Include="staging\WebGLGoldDropletTransactions.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Properties\DataSources\Book1AssetsBindingSource.datasource" />
+    <None Include="Properties\DataSources\Book1TransactionsBindingSource.datasource" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

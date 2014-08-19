@@ -14,6 +14,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 {
 
     // ?
+    //[Obsolete("?", true)]
     public interface IQueryStrategyGroupingBuilder<TSource>
     {
         IQueryStrategy<TSource> source { get; set; }
@@ -49,7 +50,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
         TKey Key { get; }
     }
 
-    [Obsolete]
+    //[Obsolete("?", true)]
     public interface IQueryDescriptor
     {
         // this type has the reset state and how to make a connection
@@ -67,7 +68,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     }
 
 
-    [Obsolete]
+    //[Obsolete("?", true)]
     public interface IQueryStrategy
     {
         // this state knows about reset state 
@@ -87,6 +88,7 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
     // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
     // can JVM support out params, or does typeerasure work around it anyhow?
     [ScriptCoreLib.ScriptAttribute.ExplicitInterface]
+    //[Obsolete("?", true)]
     public interface IQueryStrategy<out TRow> : IQueryStrategy
     {
         // this class exists to make LINQ happy

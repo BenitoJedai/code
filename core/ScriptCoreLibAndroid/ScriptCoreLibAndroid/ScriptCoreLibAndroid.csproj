@@ -271,6 +271,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs">
       <Link>BCLImplementation\System\Runtime\CompilerServices\CallSite.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs">
+      <Link>BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs">
       <Link>BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs</Link>
     </Compile>

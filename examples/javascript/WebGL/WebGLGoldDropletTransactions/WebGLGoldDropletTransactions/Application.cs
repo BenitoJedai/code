@@ -37,6 +37,9 @@ namespace WebGLGoldDropletTransactions
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+
+            // 1e40:01:01 RewriteToAssembly error: System.MissingMethodException: Method not found: 'Void ScriptCoreLib.JavaScript.DOM.IWindow.add_onframe(System.Action`1<Int32>)'.
+
 #if chrome_works_again
             #region AtFormCreated
             FormStyler.AtFormCreated =
