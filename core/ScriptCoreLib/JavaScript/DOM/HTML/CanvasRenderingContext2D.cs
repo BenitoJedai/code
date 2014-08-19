@@ -8,18 +8,27 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/CanvasRenderingContext2D.webidl
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/canvas/nsIDOMCanvasRenderingContext2D.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/CanvasRenderingContext2D.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/canvas/CanvasRenderingContext2D.cpp
+    // http://msdn.microsoft.com/en-us/library/ie/ff975057(v=vs.85).aspx
 
     // is the namespace correct?
     // updated by IDL
     [Script(HasNoPrototype = true, InternalConstructor = true)]
     public class CanvasRenderingContext2D
     {
+        // X:\jsc.svn\examples\javascript\CanvasMarchinAntsExperiment\CanvasMarchinAntsExperiment\Application.cs
+
         // see also 
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\WebGL\WebGLRenderingContext.cs
 
         public IHTMLCanvas canvas;
 
+
+        // dashed lines
+        public void setLineDash(double[] dash) { }
+        public double[] getLineDash() { return default(double[]); }
+        public double lineDashOffset;
 
 
 
