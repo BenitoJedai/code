@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-//namespace ScriptCoreLibJava.BCLImplementation.System
-namespace ScriptCoreLib.Android.BCLImplementation.System
+namespace ScriptCoreLibJava.BCLImplementation.System
+//namespace ScriptCoreLib.Android.BCLImplementation.System
 {
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Console.cs
 
@@ -17,7 +17,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System
         public static ConsoleColor BackgroundColor { get; set; }
 
         // notice we are not using Android namespace!
-        // why not?
+        // !!! ScriptCoreLib will be cached and while translated to java both 
+        // caches itself for java and android.
 
         public static void WriteLine(object e)
         {

@@ -50,7 +50,8 @@ namespace ScriptCoreLib.Query.Compiler
             Func<Expression, Type, UnaryExpression> refConvert = Expression.Convert;
             #endregion
 
-            var xLambda = il.DeclareLocal(typeof(Expression));
+            //var xLambda = il.DeclareLocal(typeof(Expression));
+            var xLambda = il.DeclareLocal(typeof(LambdaExpression));
 
             #region xParameterExpression
             var xParameterExpression = il.DeclareLocal(typeof(ParameterExpression));
@@ -97,6 +98,7 @@ namespace ScriptCoreLib.Query.Compiler
                 //if (SourceField.FieldType.IsEnum)
                 // X:\jsc.svn\examples\javascript\xml\XClickCounter\XClickCounter\Application.cs
 
+                // RTTI
                 {
                     #region could we hard code the field type here?
                     il.Emit(OpCodes.Ldtoken, SourceField.FieldType);

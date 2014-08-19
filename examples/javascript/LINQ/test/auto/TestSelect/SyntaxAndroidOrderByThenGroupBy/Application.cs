@@ -13,11 +13,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TestAndroidOrderByThenGroupBy;
-using TestAndroidOrderByThenGroupBy.Design;
-using TestAndroidOrderByThenGroupBy.HTML.Pages;
+using SyntaxAndroidOrderByThenGroupBy;
+using SyntaxAndroidOrderByThenGroupBy.Design;
+using SyntaxAndroidOrderByThenGroupBy.HTML.Pages;
 
-namespace TestAndroidOrderByThenGroupBy
+namespace SyntaxAndroidOrderByThenGroupBy
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -31,18 +31,11 @@ namespace TestAndroidOrderByThenGroupBy
         public Application(IApp page)
         {
             new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
-                 //async delegate
-                 delegate
+                 async delegate
             {
-                //var x = await this.WebMethod2();
-                this.WebMethod2(
-                    x =>
-                {
+                var x = await this.WebMethod2();
 
-                    new IHTMLPre { new { x } }.AttachToDocument();
-                }
-                    );
-
+                new IHTMLPre { new { x } }.AttachToDocument();
 
             };
         }

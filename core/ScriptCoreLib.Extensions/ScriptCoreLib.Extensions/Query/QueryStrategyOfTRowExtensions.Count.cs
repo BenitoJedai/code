@@ -21,7 +21,10 @@ namespace System.Data
 {
     // move to a nuget?
     // shall reimplement IQueriable for jsc data layer gen
-    [Obsolete("the first generic extension method for all jsc data layer rows")]
+    //[Obsolete("the first generic extension method for all jsc data layer rows")]
+
+    //[Obsolete("?", true)]
+
     public static partial class QueryStrategyOfTRowExtensions
     {
         public static long Count<TElement>(this IQueryStrategy<TElement> source, Expression<Func<TElement, bool>> filter)
