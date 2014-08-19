@@ -93,6 +93,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         // X:\jsc.svn\examples\javascript\Test\TestTemplateElement\TestTemplateElement\Application.cs
         //public T cloneNode(bool deep) { return default(T); }
 
+        // how many experiments do we have already?
         [System.Obsolete("experimental like .css")]
         public ShadowRoot<T> shadow
         {
@@ -525,6 +526,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         }
 
+        // part of ui automation effort
         [Script(DefineAsStatic = true)]
         public void click()
         {
@@ -587,18 +589,71 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         */
 
 
+        [Obsolete]
         [Script(DefineAsStatic = true)]
         public void SetCenteredLocation(Point p)
         {
             SetCenteredLocation(p.X, p.Y);
         }
 
+        [Obsolete]
         [Script(DefineAsStatic = true)]
         public void SetCenteredLocation(int x, int y)
         {
             this.style.position = IStyle.PositionEnum.absolute;
             this.style.SetLocation(x - this.clientWidth / 2, y - this.clientHeight / 2);
         }
+
+        // X:\jsc.svn\examples\javascript\css\CSSAnimationEvents\CSSAnimationEvents\Application.cs
+
+        #region event onanimationstart
+        public event System.Action<IEvent> onanimationstart
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "animationstart");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "animationstart");
+            }
+        }
+        #endregion
+
+        #region event onanimationend
+        public event System.Action<IEvent> onanimationend
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "animationend");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "animationend");
+            }
+        }
+        #endregion
+
+        #region event onanimationiteration
+        public event System.Action<IEvent> onanimationiteration
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "animationiteration");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "animationiteration");
+            }
+        }
+        #endregion
+
 
         #region event onclick
         public event System.Action<IEvent> onclick
@@ -615,6 +670,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             }
         }
         #endregion
+
+
         #region event ondblclick
         public event System.Action<IEvent> ondblclick
         {
