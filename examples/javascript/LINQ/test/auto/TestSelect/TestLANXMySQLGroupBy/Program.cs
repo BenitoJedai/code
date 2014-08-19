@@ -42,13 +42,16 @@ class Program
 
                     UserID = "tssl",
                     Server = "192.168.1.211",
+                    // password is useless if client cert is to be used
                     Password = "parool",
                     SslMode = MySQLSslMode.Required,
+
+                    // private key
                     CertificateFile = @"X:\Monese\network\certs\local_devsql1\local_sql_client.pfx",
                     //ConnectionTimeout = 3000
 
                 }.ToString()
-                    //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
+                //new MySQLConnectionStringBuilder { DataSource = "file:PerformanceResourceTimingData2.xlsx.sqlite" }.ToString()
                 );
 
 
@@ -113,8 +116,8 @@ class Program
 
         var f = (
             from x in new PerformanceResourceTimingData2ApplicationPerformance()
-            //orderby x.Key ascending
-            // MYSQL and SQLITE seem to behave differently? in reverse actually!
+                //orderby x.Key ascending
+                // MYSQL and SQLITE seem to behave differently? in reverse actually!
             orderby x.connectEnd descending
             // { f = { c = 3, Tag = first insert } }
 
