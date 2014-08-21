@@ -40,6 +40,7 @@ namespace TestAppEngineOrderByThenGroupBy
         static ApplicationWebService()
         {
             // jsc should not try to do cctor on client side
+            // X:\jsc.svn\examples\javascript\Test\TestWebServiceStaticConstructor\TestWebServiceStaticConstructor\ApplicationWebService.cs
 
             //........................................................1464:02:01 RewriteToAssembly error: System.NotImplementedException: { SourceMethod = Void <.cctor > b__0(System.Action`1[System.Data.IDbConnection]) }
             //at jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.WebServiceForJavaScript.WriteMethod(MethodInfo SourceMethod) in x:\jsc.internal.git\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WebServiceForJavaScript.cs:line 520
