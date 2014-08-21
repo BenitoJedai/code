@@ -25,6 +25,7 @@ namespace TestAppEngineOrderByThenGroupBy
         // step 1. run it under 199
         // step 2. add a button do show sql syntax
         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\JVMCLRSyntaxOrderByThenGroupBy\Program.cs
+        // step 3. move api from sqlite to mysql
 
         public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
 
@@ -42,8 +43,11 @@ namespace TestAppEngineOrderByThenGroupBy
             // jsc should not try to do cctor on client side
             // X:\jsc.svn\examples\javascript\Test\TestWebServiceStaticConstructor\TestWebServiceStaticConstructor\ApplicationWebService.cs
 
-            //........................................................1464:02:01 RewriteToAssembly error: System.NotImplementedException: { SourceMethod = Void <.cctor > b__0(System.Action`1[System.Data.IDbConnection]) }
-            //at jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.WebServiceForJavaScript.WriteMethod(MethodInfo SourceMethod) in x:\jsc.internal.git\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.WebServiceForJavaScript.cs:line 520
+            //           Implementation not found for type import :
+            //type: System.Data.MySQL.MySQLConnectionStringBuilder
+            //           method: Void.ctor()
+            //           Did you forget to add the[Script] attribute?
+            //           Please double check the signature!
 
             #region MySQLConnection
 
