@@ -10,6 +10,8 @@ using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
     // http://referencesource.microsoft.com/#mscorlib/system/io/memorystream.cs
+    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/corlib/System.IO/MemoryStream.cs
+
     [Script(Implements = typeof(global::System.IO.MemoryStream))]
     internal class __MemoryStream : __Stream
     {
@@ -147,6 +149,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
                 //E/Web Console( 2345): Uncaught RangeError: Invalid array length at http://192.168.43.1:14599/view-source:33430
 
                 //Console.WriteLine("MemoryStream set Capacity " + new { value, value32 });
+
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAndroidOrderByThenGroupBy\Application.cs
+                Console.WriteLine("MemoryStream set Capacity " + new { value });
 
                 InternalBuffer = new byte[value];
 

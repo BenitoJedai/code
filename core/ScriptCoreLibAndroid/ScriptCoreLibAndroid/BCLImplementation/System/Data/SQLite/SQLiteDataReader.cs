@@ -12,6 +12,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataReader")]
     internal class __SQLiteDataReader : __DbDataReader
     {
+        //I/dalvikvm( 2831): Could not find method android.database.Cursor.getType, referenced from method ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteDataReader.__cctor_b__0
+        //W/dalvikvm( 2831): VFY: unable to resolve interface method 4924: Landroid/database/Cursor;.getType (I)I
+        //D/dalvikvm( 2831): VFY: replacing opcode 0x72 at 0x0017
+        //D/dalvikvm( 2831): VFY: dead code 0x001a-001b in LScriptCoreLib/Android/BCLImplementation/System/Data/SQLite/__SQLiteDataReader;.__cctor_b__0 (Landroid/database/Cursor;I)I
+
+
+
         public Cursor cursor;
 
         int __state;
@@ -88,35 +95,45 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         const int FIELD_TYPE_INTEGER = 0x00000001;
         const int FIELD_TYPE_STRING = 0x00000003;
 
-        static MethodInfo refCursor_getType = typeof(Cursor).GetMethod(
-            "getType", new Type[] { typeof(int) }
-            );
 
-        static bool refCursor_getType_NotifiedOf = false;
-
-        // can this be an extension method?
-        static Func<Cursor, int, int> Cursor_getType = (cursor, ordinal) =>
+        [Script]
+        static class OptionalAPI
         {
-            // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\ApplicationWebService.cs
+            static MethodInfo refCursor_getType = typeof(Cursor).GetMethod(
+                "getType", new Type[] { typeof(int) }
+                );
 
-            if (refCursor_getType == null)
+            static bool refCursor_getType_NotifiedOf = false;
+
+            // can this be an extension method?
+            public static Func<Cursor, int, int> Cursor_getType = (cursor, ordinal) =>
             {
-                if (!refCursor_getType_NotifiedOf)
-                {
-                    Console.WriteLine("getType is unavailable at API 8");
+                // X:\jsc.svn\examples\javascript\p2p\SharedBrowserSessionExperiment\SharedBrowserSessionExperiment\ApplicationWebService.cs
 
-                    refCursor_getType_NotifiedOf = true;
+                if (refCursor_getType == null)
+                {
+                    if (!refCursor_getType_NotifiedOf)
+                    {
+                        Console.WriteLine("getType is unavailable at API 8");
+
+                        refCursor_getType_NotifiedOf = true;
+                    }
+
+                    return FIELD_TYPE_STRING;
                 }
 
-                return FIELD_TYPE_STRING;
-            }
 
-            return cursor.getType(ordinal);
-        };
+                // can we actually reference it or is VM going to stop the method?
+                return cursor.getType(ordinal);
+            };
+        }
+
 
         public override Type GetFieldType(int ordinal)
         {
-            var t = Cursor_getType(this.cursor, ordinal);
+            Console.WriteLine("enter GetFieldType " + new { ordinal });
+
+            var t = OptionalAPI.Cursor_getType(this.cursor, ordinal);
 
 
 

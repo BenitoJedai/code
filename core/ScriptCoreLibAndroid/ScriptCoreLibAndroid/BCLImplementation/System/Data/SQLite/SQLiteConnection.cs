@@ -62,10 +62,17 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
                 var i = InternalConnectionString.IndexOf(prefix) + prefix.Length;
 
-                return InternalConnectionString.Substring(
+                var __DataSource = InternalConnectionString.Substring(
                     i,
                     InternalConnectionString.IndexOf(suffix, i) - i
                 );
+
+                if (__DataSource.StartsWith("file:"))
+                    __DataSource = __DataSource.Substring("file:".Length);
+
+                Console.WriteLine("exit InternalDatabaseName " + new { __DataSource });
+
+                return __DataSource;
             }
         }
 
