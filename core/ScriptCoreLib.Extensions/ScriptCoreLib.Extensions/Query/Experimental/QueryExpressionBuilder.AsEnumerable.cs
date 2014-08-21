@@ -90,7 +90,7 @@ namespace ScriptCoreLib.Query.Experimental
 
         public static IEnumerable<TElement> ReadToElements<TElement>(DbDataReader r, IQueryStrategy<TElement> source)
         {
-            Console.WriteLine("enter AsEnumerable ");
+            Console.WriteLine("enter ReadToElements ");
 
             while (r.Read())
             {
@@ -99,13 +99,13 @@ namespace ScriptCoreLib.Query.Experimental
                 yield return ReadToElement<TElement>(r, source, new Tuple<MemberInfo, int>[0]);
             }
 
-            Console.WriteLine("exit AsEnumerable ");
+            Console.WriteLine("exit ReadToElements ");
             r.Dispose();
         }
 
         public static TElement ReadToElement<TElement>(DbDataReader r, IQueryStrategy source, Tuple<MemberInfo, int>[] Target)
         {
-
+            Console.WriteLine("ReadToElement");
 
             #region xTake
             var xTake = source as xTake;
@@ -345,6 +345,8 @@ namespace ScriptCoreLib.Query.Experimental
                     // [0x00000000] = "x.`z`"
                     //var __value = r[rMemberExpression.Member.Name];
                     var __value = r[0];
+
+                    Console.WriteLine("ReadToElement " + new { rMemberExpression, __value });
 
                     // cool. do we also know how we created that value?
                     // +		((xSelect.source as xOrderBy).source as xSelect).selector	{PerformanceResourceTimingData2ApplicationPerformance => new PerformanceResourceTimingData2ApplicationPerformanceRow() {Key = PerformanceResourceTimingData2ApplicationPerformance.Key, connectStart = Convert(PerformanceResourceTimingData2ApplicationPerformance.connectStart), connectEnd = Convert(PerformanceResourceTimingData2ApplicationPerformance.connectEnd), requestStart = Convert(PerformanceResourceTimingData2ApplicationPerformance.requestStart), responseStart = Convert(PerformanceResourceTimingData2ApplicationPerformance.responseStart), responseEnd = Convert(PerformanceResourceTimingData2ApplicationPerformance.responseEnd), domLoading = Convert(PerformanceResourceTimingData2ApplicationPerformance.domLoading), domComplete = Convert(PerformanceResourceTimingData2ApplicationPerformance.domComplete), loadEventStart = Convert(PerformanceResourceTimingData2ApplicationPerformance.loadEventStart), loadEventEnd = Convert(PerformanceResourceTimingData2ApplicationPerformance.loadEventEnd), EventTime = Convert(PerformanceResourceTimingData2ApplicationPerformance.EventTime), z = Convert(PerformanceResourceTimingData2ApplicationPerformance.z), Tag = Convert(PerformanceResourceTimingData2ApplicationPerformance.Tag), Timestamp = Convert(PerformanceResourceTimingData2ApplicationPerformance.Timestamp)}}	System.Linq.Expressions.LambdaExpression {System.Linq.Expressions.Expression<System.Func<TestSelectScalarXElementField.PerformanceResourceTimingData2ApplicationPerformanceRow,TestSelectScalarXElementField.PerformanceResourceTimingData2ApplicationPerformanceRow>>}

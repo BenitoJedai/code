@@ -11,6 +11,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
     internal class __SQLiteDataReader : __DbDataReader
     {
+        // tested by ?
+
+
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
 
         public mysqli_result InternalResultSet;
@@ -138,11 +141,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             return i;
         }
 
-        public override object this[string name]
+        public override object this[int i]
         {
             get
             {
-                var i = GetOrdinal(name);
                 var t = GetFieldType(i);
 
                 if (t == typeof(double))
@@ -156,6 +158,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
                 }
 
                 return GetString(i);
+            }
+        }
+        public override object this[string name]
+        {
+            get
+            {
+                var i = GetOrdinal(name);
+                return this[i];
             }
         }
 
@@ -182,7 +192,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Data.SQLite
             return (double)this.__row[i];
         }
 
-   
+
 
 
         public override long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)

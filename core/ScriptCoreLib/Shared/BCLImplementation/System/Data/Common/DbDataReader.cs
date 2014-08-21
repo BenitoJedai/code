@@ -6,14 +6,22 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 {
     // http://referencesource.microsoft.com/#System.Data/data/System/Data/Common/DbDataReader.cs
+    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System.Data/System.Data.Common/DbDataReader.cs
+
     [Script(Implements = typeof(global::System.Data.Common.DbDataReader))]
     public abstract class __DbDataReader : IDisposable, __IDataReader
     {
+        // used by
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+        // X:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+
+
         public abstract void Close();
         public abstract bool Read();
 
         public abstract object this[string name] { get; }
-        public virtual object this[int i] { get { return null; } }
+        public abstract object this[int i] { get; }
 
         public abstract int GetOrdinal(string name);
         public abstract string GetString(int i);

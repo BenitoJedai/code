@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataReader")]
     public class __SQLiteDataReader : __DbDataReader
     {
+        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataReader.cs
+
         public SQLResultSet r;
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
         // X:\jsc.svn\examples\javascript\linq\WebSQLXElement\WebSQLXElement\Application.cs
