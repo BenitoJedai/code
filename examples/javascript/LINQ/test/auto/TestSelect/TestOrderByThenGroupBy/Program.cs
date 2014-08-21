@@ -7,6 +7,8 @@ class Program
 {
     static void Main(string[] args)
     {
+        // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\testandroidorderbythengroupby\applicationwebservice.cs
+
         // does the jsc agent notice when we add xlsx?
         // if it oes then it should autorebuild, and make sure XSqlite is nugeted..
 
@@ -69,6 +71,8 @@ class Program
                        select gg.Last().Tag
 
         ).FirstOrDefault();
+
+        // ReadToElement { rMemberExpression = gg.Last().Tag, __value = first insert }
 
         System.Console.WriteLine(
             new { f }

@@ -12,6 +12,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataReader")]
     internal class __SQLiteDataReader : __DbDataReader
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataReader.cs
+
         //I/dalvikvm( 2831): Could not find method android.database.Cursor.getType, referenced from method ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteDataReader.__cctor_b__0
         //W/dalvikvm( 2831): VFY: unable to resolve interface method 4924: Landroid/database/Cursor;.getType (I)I
         //D/dalvikvm( 2831): VFY: replacing opcode 0x72 at 0x0017
@@ -51,17 +54,25 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             return i;
         }
 
-        public override object this[string name]
+        public override object this[int i]
         {
             get
             {
-                int i = GetOrdinal(name);
                 var t = GetFieldType(i);
 
                 if (t == typeof(long))
                     return this.GetInt64(i);
 
                 return this.GetString(i);
+            }
+        }
+
+        public override object this[string name]
+        {
+            get
+            {
+                int i = GetOrdinal(name);
+                return this[i];
             }
         }
 
