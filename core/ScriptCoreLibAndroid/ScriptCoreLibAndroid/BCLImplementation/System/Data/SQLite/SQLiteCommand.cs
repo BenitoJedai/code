@@ -41,7 +41,10 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 
         internal __InternalCreateStatement InternalCreateStatement()
         {
-            //Console.WriteLine("InternalCreateStatement...");
+            // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\testandroidorderbythengroupby\applicationwebservice.cs
+            // error?
+
+            Console.WriteLine("InternalCreateStatement...");
 
             #region sql
             var sql = this.CommandText;
@@ -60,7 +63,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             #endregion
 
 
-            //Console.WriteLine("InternalCreateStatement: " + sql);
+            Console.WriteLine("InternalCreateStatement: " + sql);
 
             // http://stackoverflow.com/questions/8776861/sqlite3-rawquery-update-does-not-work
             // http://stackoverflow.com/questions/9341204/android-sqlite-rawquery-parameters
@@ -71,9 +74,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             #region ExecuteNonQuery
             Func<int> ExecuteNonQuery = delegate
            {
+               Console.WriteLine("enter InternalCreateStatement ExecuteNonQuery " + new { parameters.Count });
+               // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\List.cs
+
                if (parameters.Count > 0)
                {
                    var bindArgs = default(object[]);
+                   // jvm toarray needs to produce object array now.
                    bindArgs = index.Select(k => k.p.Value).ToArray();
                    db.execSQL(sql, bindArgs);
                    return 0;
@@ -87,6 +94,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
             #region ExecuteReader
             Func<__SQLiteDataReader> ExecuteReader = delegate
             {
+                Console.WriteLine("enter InternalCreateStatement ExecuteReader " + new { parameters.Count });
+
+
                 var selectionArgs = default(string[]);
 
                 if (parameters.Count > 0)
@@ -107,11 +117,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
                             if (k.p.Value == null)
                                 return "";
 
+
                             return k.p.Value.ToString();
                         }
                     ).ToArray();
                 }
 
+                Console.WriteLine("before InternalCreateStatement ExecuteReader rawQuery");
                 var cursor = db.rawQuery(sql, selectionArgs);
                 return new __SQLiteDataReader { cursor = cursor };
             };

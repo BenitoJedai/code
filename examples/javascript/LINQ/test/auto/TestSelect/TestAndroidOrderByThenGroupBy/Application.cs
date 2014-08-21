@@ -30,6 +30,16 @@ namespace TestAndroidOrderByThenGroupBy
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // E/Web Console( 3214): Uncaught RangeError: Invalid array length at http://10.96.4.122:16624/view-source:38225
+
+            // ScriptCoreLib.JavaScript.BCLImplementation.System.IO.__MemoryStream.set_Capacity
+            //          type$_96zhglf59TaVhJ5CtuAtgw.uRUABlf59TaVhJ5CtuAtgw = function(b)
+            //{
+            //              var a = [this], c, d, e;
+
+            //              c = a[0].InternalBuffer;
+            //              a[0].InternalBuffer = new Uint8ClampedArray(b);
+
             new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
                  //async delegate
                  delegate

@@ -606,6 +606,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         // X:\jsc.svn\examples\javascript\css\CSSAnimationEvents\CSSAnimationEvents\Application.cs
 
+        // tested by ?
+
         #region event onanimationstart
         public event System.Action<IEvent> onanimationstart
         {

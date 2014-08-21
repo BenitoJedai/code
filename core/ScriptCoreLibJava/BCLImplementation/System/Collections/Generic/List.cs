@@ -149,18 +149,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
 
         public Type InternalGetElementType()
         {
+            //Console.WriteLine("enter InternalGetElementType");
+
+            // used by
+            // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
+
             // enter ToArray { Count = 0, InternalCollectionForTypeOfT = ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1@1e97f9f }
 
             //InternalCollectionForTypeOfT 
 
-            //   enumerator_10 = ((((Object)this.InternalCollectionForTypeOfT) instanceof  ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<T>) ? (ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<T>)((Object)this.InternalCollectionForTypeOfT) : (ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<T>)null);
-            //Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\__List_1.java:169: error: illegal generic type for instanceof
-            //        enumerator_10 = ((((Object)this.InternalCollectionForTypeOfT) instanceof  ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<Object>) ? (ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<Object>)((Object)this.InternalCollectionForTypeOfT) : (ScriptCoreLib.Shared.BCLImplementation.System.__SZArrayEnumerator_1<Object>)null);
-            //                                                  
+
             // http://javanotepad.blogspot.com/2007/09/instanceof-doesnt-work-with-generics.html
 
 
             //var xSZArrayEnumerator = InternalCollectionForTypeOfT as __SZArrayEnumerator<T>;
+            #region xSZArrayEnumerator
             var xSZArrayEnumerator = InternalCollectionForTypeOfT as __SZArrayEnumerator;
             if (xSZArrayEnumerator != null)
             {
@@ -173,9 +176,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
                 //Console.WriteLine(new { ElementType });
                 return ElementType;
             }
+            #endregion
+
 
             // enter ToArray { Count = 1, ElementType = java.lang.Object }
             // do we have to guess?
+
+            // what if we really want to have a object[]; ?
+            // when will sc also start sending in typeofT info?
+
+            var valueType0 = default(Type);
 
             for (int i = 0; i < Count; i++)
             {
@@ -184,9 +194,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Generic
                 // what about primitive types?
                 if (value != null)
                 {
-                    return value.GetType();
+                    var valueType = value.GetType();
+
+                    if (valueType0 == null)
+                        valueType0 = valueType;
+                    else
+                    {
+                        if (valueType != valueType0)
+                        {
+                            // guess we want objects?
+                            valueType0 = typeof(object);
+                        }
+                    }
                 }
             }
+
+            if (valueType0 != null)
+                return valueType0;
 
             return typeof(object);
         }

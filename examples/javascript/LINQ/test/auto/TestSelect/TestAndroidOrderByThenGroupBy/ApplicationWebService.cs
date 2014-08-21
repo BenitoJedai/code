@@ -142,6 +142,9 @@ namespace TestAndroidOrderByThenGroupBy
 
             new PerformanceResourceTimingData2ApplicationPerformance().Delete();
 
+
+            // can we insert on android?
+
             new PerformanceResourceTimingData2ApplicationPerformance().Insert(
                 new PerformanceResourceTimingData2ApplicationPerformanceRow
             {
@@ -190,7 +193,7 @@ namespace TestAndroidOrderByThenGroupBy
             //Debugger.Break();
 
             //return new { message = "ok" }.ToString();
-            yield(new { message = "ok" }.ToString());
+            yield(new { message = "ok", f }.ToString());
             //return new { message = "ok" }.ToString();
         }
 
