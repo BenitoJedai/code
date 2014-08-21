@@ -15,11 +15,12 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
         // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Data\Common\DbDataReader.cs
 
-        //I/dalvikvm( 2831): Could not find method android.database.Cursor.getType, referenced from method ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteDataReader.__cctor_b__0
-        //W/dalvikvm( 2831): VFY: unable to resolve interface method 4924: Landroid/database/Cursor;.getType (I)I
-        //D/dalvikvm( 2831): VFY: replacing opcode 0x72 at 0x0017
-        //D/dalvikvm( 2831): VFY: dead code 0x001a-001b in LScriptCoreLib/Android/BCLImplementation/System/Data/SQLite/__SQLiteDataReader;.__cctor_b__0 (Landroid/database/Cursor;I)I
-
+        //I/System.Console( 2892): enter GetFieldType { ordinal = 0 }
+        //I/dalvikvm( 2892): Could not find method android.database.Cursor.getType, referenced from method ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteDataReader_OptionalAPI.__cctor_b__0
+        //W/dalvikvm( 2892): VFY: unable to resolve interface method 5157: Landroid/database/Cursor;.getType (I)I
+        //D/dalvikvm( 2892): VFY: replacing opcode 0x72 at 0x0017
+        //D/dalvikvm( 2892): VFY: dead code 0x001a-001b in LScriptCoreLib/Android/BCLImplementation/System/Data/SQLite/__SQLiteDataReader_OptionalAPI;.__cctor_b__0 (Landroid/database/Cursor;I)I
+        //I/System.Console( 2892): getType is unavailable at API 8
 
 
         public Cursor cursor;
