@@ -11,6 +11,8 @@ namespace com.google.apphosting.api
     [Script(IsNative = true)]
     public class ApiProxy
     {
+        // tested by ?
+
         public static ApiProxy.Environment getCurrentEnvironment()
         {
             return default(ApiProxy.Environment);
