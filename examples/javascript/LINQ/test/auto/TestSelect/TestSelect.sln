@@ -641,6 +641,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SSL LAN", "SSL LAN", "{B4F9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SSL Google Cloud SQL", "SSL Google Cloud SQL", "{2224B93B-B1CD-43BC-A27A-187B7C6EC437}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxAppEngineOrderByThenGroupBy", "SyntaxAppEngineOrderByThenGroupBy\SyntaxAppEngineOrderByThenGroupBy.csproj", "{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU
@@ -4160,6 +4162,31 @@ Global
 		{0E15A33A-5162-40AF-A240-F0C075F44630}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0E15A33A-5162-40AF-A240-F0C075F44630}.Release|x86.ActiveCfg = Release|x86
 		{0E15A33A-5162-40AF-A240-F0C075F44630}.Release|x86.Build.0 = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Android|Any CPU.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Android|Mixed Platforms.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Android|Mixed Platforms.Build.0 = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Android|x86.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Android|x86.Build.0 = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Assets|Any CPU.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Assets|Mixed Platforms.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Assets|Mixed Platforms.Build.0 = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Assets|x86.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Assets|x86.Build.0 = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Debug|x86.ActiveCfg = Debug|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Debug|x86.Build.0 = Debug|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.PHP|Any CPU.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.PHP|Mixed Platforms.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.PHP|Mixed Platforms.Build.0 = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.PHP|x86.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.PHP|x86.Build.0 = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Release|Any CPU.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Release|x86.ActiveCfg = Release|x86
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4375,5 +4402,6 @@ Global
 		{5FCD9E56-F308-4351-8ED3-ACE88BDF67CC} = {91A520DA-EAFB-4D8F-8537-BAC9B57F7A9A}
 		{B4F9AD6E-3B25-45E7-AD37-2CE5988E3C51} = {0F7AF507-16ED-4939-95B3-BAA7D479F4D9}
 		{2224B93B-B1CD-43BC-A27A-187B7C6EC437} = {0F7AF507-16ED-4939-95B3-BAA7D479F4D9}
+		{B5A3E5D7-032D-4E13-8E50-16BB00606EBF} = {5FCD9E56-F308-4351-8ED3-ACE88BDF67CC}
 	EndGlobalSection
 EndGlobal

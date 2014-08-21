@@ -13,11 +13,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TestAppEngineOrderByThenGroupBy;
-using TestAppEngineOrderByThenGroupBy.Design;
-using TestAppEngineOrderByThenGroupBy.HTML.Pages;
+using SyntaxAppEngineOrderByThenGroupBy;
+using SyntaxAppEngineOrderByThenGroupBy.Design;
+using SyntaxAppEngineOrderByThenGroupBy.HTML.Pages;
 
-namespace TestAppEngineOrderByThenGroupBy
+namespace SyntaxAppEngineOrderByThenGroupBy
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
