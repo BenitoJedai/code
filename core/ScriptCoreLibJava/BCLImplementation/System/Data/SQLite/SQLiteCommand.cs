@@ -15,7 +15,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Data.SQLite;
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteCommand")]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLCommand")]
     internal class __SQLiteCommand : __DbCommand
     {
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs

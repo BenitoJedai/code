@@ -8,8 +8,12 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
+    //type: System.Data.MySQL.MySQLConnectionStringBuilder
+    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAppEngineOrderByThenGroupBy\ApplicationWebService.cs
+
+
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnectionStringBuilder")]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLConnectionStringBuilder")]
     public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131128-nuget
@@ -30,6 +34,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public bool ReadOnly { get; set; }
         public string Uri { get; set; }
         public string Password { get; set; }
+
+        public string UserID { get; set; }
+        public string Server { get; set; }
 
         public string InternalUser { get; set; }
         public string InternalHost { get; set; }

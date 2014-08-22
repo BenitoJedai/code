@@ -15,6 +15,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     // X:\opensource\github\WootzJs\WootzJs.Web\Window.cs
     // http://sharpkit.net/help/SharpKit.Html/SharpKit.Html/Window/
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Window.idl
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/Window.cs
 
 
 

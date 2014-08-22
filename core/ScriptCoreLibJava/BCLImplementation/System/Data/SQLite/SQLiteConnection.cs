@@ -9,10 +9,53 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
-    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
+    internal class __XSQLiteConnection : __DbConnection
+    {
+        public int LastInsertRowId
+        {
+            get
+            {
+                // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\IDbConnectionExtensions.cs
+                // does our Insert return the key in the correct type yet?
+
+                return 0;
+            }
+        }
+
+        public override void Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ConnectionString
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override void Open()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLConnection")]
     internal class __SQLiteConnection : __DbConnection
     {
+        //Y:\TestAppEngineOrderByThenGroupBy.ApplicationWebService\staging.java\web\java\TestAppEngineOrderByThenGroupBy\ApplicationWebService.java:81: error: cannot find symbol
+        //        connection0.Dispose_060000a2();
+        //                   ^
+        //  symbol:   method Dispose_060000a2()
+        //  location: variable connection0 of type __SQLiteConnection
+
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
 
         public int BusyTimeout { get; set; }
