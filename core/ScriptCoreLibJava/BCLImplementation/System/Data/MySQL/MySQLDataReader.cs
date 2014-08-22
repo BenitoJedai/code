@@ -12,12 +12,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLDataReader")]
-    internal class __SQLiteDataReader : __DbDataReader
+    internal class __MySQLDataReader : __DbDataReader
     {
         // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
         // X:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs
 
-        public __SQLiteCommand InternalCommand;
+        public __MySQLCommand InternalCommand;
         public java.sql.ResultSet InternalResultSet;
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
         // http://msdn.microsoft.com/en-us/library/ms379039.aspx
