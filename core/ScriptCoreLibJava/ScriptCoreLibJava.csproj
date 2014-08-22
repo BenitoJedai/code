@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="BCLImplementation\System\ArgumentException.cs" />
+    <Compile Include="BCLImplementation\System\Data\MySQL\MySQLConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
     <Compile Include="BCLImplementation\System\UInt64.cs" />
@@ -115,7 +116,6 @@
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
     <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
-    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnectionStringBuilder.cs" />
     <Compile Include="BCLImplementation\System\Decimal.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\StackTrace.cs" />
     <Compile Include="BCLImplementation\System\IO\FileStream.cs" />
@@ -996,7 +996,6 @@
     <Folder Include="BCLImplementation\Abstractatech\" />
     <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\ComponentModel\" />
-    <Folder Include="BCLImplementation\System\Data\MySQL\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="BCLImplementation\System\Security\Cryptography\X509Certificates\" />

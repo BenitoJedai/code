@@ -8,13 +8,11 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
-    //type: System.Data.MySQL.MySQLConnectionStringBuilder
     // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAppEngineOrderByThenGroupBy\ApplicationWebService.cs
-
 
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnectionStringBuilder))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLConnectionStringBuilder")]
-    public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
+    public class __MySQLConnectionStringBuilder : __DbConnectionStringBuilder
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201311/20131128-nuget
         // X:\jsc.smokescreen.svn\core\javascript\com.abstractatech.analytics\com.abstractatech.analytics\ApplicationWebService.cs
@@ -44,7 +42,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public static string InternalDefaultInternalInstanceName = "instance_name";
 
-        public __SQLiteConnectionStringBuilder()
+        public __MySQLConnectionStringBuilder()
         {
             this.InternalUser = "root";
             this.InternalHost = "localhost";
@@ -77,9 +75,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static __SQLiteConnectionStringBuilder InterlockedInternalGetConnectionString(
+        public static __MySQLConnectionStringBuilder InterlockedInternalGetConnectionString(
             string key,
-            __SQLiteConnectionStringBuilder value = null
+            __MySQLConnectionStringBuilder value = null
             )
         {
             if (value != null)
@@ -90,11 +88,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             return lookup[key];
         }
 
-        public static __SQLiteConnectionStringBuilder InternalGetConnectionString(string key)
+        public static __MySQLConnectionStringBuilder InternalGetConnectionString(string key)
         {
             return InterlockedInternalGetConnectionString(key);
         }
 
-        public static Dictionary<string, __SQLiteConnectionStringBuilder> lookup = new Dictionary<string, __SQLiteConnectionStringBuilder>();
+        public static Dictionary<string, __MySQLConnectionStringBuilder> lookup = new Dictionary<string, __MySQLConnectionStringBuilder>();
     }
 }
