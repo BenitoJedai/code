@@ -78,6 +78,7 @@ namespace TestAndroidInsert
 
             Console.WriteLine(new { c, rid });
 
+            // I/System.Console( 7320): {{ c = 18, rid = 18 }}
             //return new { c, rid }.ToString();
             yield(new { c, rid }.ToString());
 

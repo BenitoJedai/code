@@ -169,6 +169,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
         }
         #endregion
 
+        #region __DbCommand_ExecuteReader
         public override DbDataReader __DbCommand_ExecuteReader()
         {
             throw new NotSupportedException("await ExecuteReaderAsync");
@@ -205,6 +206,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
             return x.Task;
         }
+        #endregion
+
 
         public override Task<object> ExecuteScalarAsync()
         {

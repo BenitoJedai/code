@@ -42,6 +42,8 @@ namespace TestAndroidInsert
                 //async delegate
                 delegate
             {
+                // android 2.3 webview does not round our ints sometimes?
+
                 this.WebMethod2(
                     x =>
                         new IHTMLPre { new { x } }.AttachToDocument()
