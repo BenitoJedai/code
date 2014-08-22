@@ -43,11 +43,7 @@ namespace TestAppEngineOrderByThenGroupBy
             // jsc should not try to do cctor on client side
             // X:\jsc.svn\examples\javascript\Test\TestWebServiceStaticConstructor\TestWebServiceStaticConstructor\ApplicationWebService.cs
 
-            //           Implementation not found for type import :
-            //type: System.Data.MySQL.MySQLConnectionStringBuilder
-            //           method: Void.ctor()
-            //           Did you forget to add the[Script] attribute?
-            //           Please double check the signature!
+
 
             #region MySQLConnection
 
@@ -104,7 +100,10 @@ namespace TestAppEngineOrderByThenGroupBy
 
                 y(cc0);
 
-                cc0.Dispose();
+
+                // jsc java does the wrong thing here
+                cc0.Close();
+                //cc0.Dispose();
             };
             #endregion
         }

@@ -7,8 +7,11 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
+    //type: System.Data.MySQL.MySQLConnectionStringBuilder
+    // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAppEngineOrderByThenGroupBy\ApplicationWebService.cs
+
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataReader))]
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataReader")]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLDataReader")]
     internal class __SQLiteDataReader : __DbDataReader
     {
         // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs

@@ -16,6 +16,8 @@ using ScriptCoreLib.JavaScript.DOM.SVG;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLElement.idl
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/HTMLElement.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/Mono.WebBrowser/Mono.WebBrowser/DOM/IElement.cs
 
     [Script]
     // move to own file

@@ -10,7 +10,7 @@ using System.Text;
 namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteDataAdapter))]
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteDataAdapter")]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLDataAdapter")]
     internal class __SQLiteDataAdapter : __DbDataAdapter
     {
         // message = "\n\n Implementation not found for type import : \n type: System.Data.SQLite.SQLiteDataAdapter\n method: 
