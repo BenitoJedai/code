@@ -17,6 +17,7 @@ using TestWebInsert;
 using TestWebInsert.Design;
 using TestWebInsert.HTML.Pages;
 using ScriptCoreLib.Query.Experimental;
+using System.Data.SQLite;
 
 namespace TestWebInsert
 {
@@ -49,7 +50,7 @@ namespace TestWebInsert
             new { }.With(
                 async delegate
             {
-                new PerformanceResourceTimingData2ApplicationPerformance().Delete();
+                //new PerformanceResourceTimingData2ApplicationPerformance().Delete();
 
                 var rid = await new PerformanceResourceTimingData2ApplicationPerformance().InsertAsync(
                     new PerformanceResourceTimingData2ApplicationPerformanceRow

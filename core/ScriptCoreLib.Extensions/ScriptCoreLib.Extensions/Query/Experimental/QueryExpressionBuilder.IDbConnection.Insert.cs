@@ -182,7 +182,7 @@ namespace ScriptCoreLib.Query.Experimental
         //public static void Insert<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         public static TKey Insert<TElement, TKey>(this xSelect<TKey, TElement> source, IDbConnection cc, TElement value)
         {
-            // xSelect<TKey, TResult>
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Insert.cs
 
             // tested by
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSQLiteCLRInsert\Program.cs

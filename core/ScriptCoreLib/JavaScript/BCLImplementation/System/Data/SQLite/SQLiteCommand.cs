@@ -176,7 +176,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public override Task<DbDataReader> __DbCommand_ExecuteReaderAsync()
         {
-            Console.WriteLine(new { CommandText });
+            Console.WriteLine("enter __DbCommand_ExecuteReaderAsync " + new { CommandText });
 
             var x = new TaskCompletionSource<DbDataReader>();
 
@@ -206,12 +206,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
             return x.Task;
         }
 
-        //        02000071 ScriptCoreLib.Query.Experimental.QueryExpressionBuilderAsync
-        //script: error JSC1000: No implementation found for this native method, please implement [System.Data.Common.DbCommand.ExecuteScalarAsync()]
         public override Task<object> ExecuteScalarAsync()
         {
+            Console.WriteLine("enter ExecuteScalarAsync");
+
             // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
             // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Count.cs
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebInsert\Application.cs
 
             var z = new TaskCompletionSource<object>();
 
@@ -220,7 +221,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
                 {
                     zz.Result.Read();
 
-                    z.SetResult(zz.Result[0]);
+                    var __value = zz.Result[0];
+
+                    Console.WriteLine("enter ExecuteScalarAsync SetResult " + new { __value });
+
+                    z.SetResult(__value);
                 }
             );
 
