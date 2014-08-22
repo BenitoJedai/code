@@ -20,17 +20,6 @@ namespace TestAndroidInsert
     /// </summary>
     public class ApplicationWebService
     {
-        //        D/Cursor( 4155):
-        //D/Cursor( 4155): Database path: /data/data/TestAndroidInsert.Activities/databases/PerformanceResourceTimingData2.xlsx.sqlite
-        //D/Cursor( 4155):
-        //D/Cursor( 4155): Table name   : null
-        //D/Cursor( 4155):
-        //D/Cursor( 4155): SQL          : SQLiteQuery: SELECT last_insert_rowid()
-        //I/dalvikvm( 4155): Uncaught exception thrown by finalizer(will be discarded):
-        //I/dalvikvm( 4155): Ljava/lang/IllegalStateException;: Finalizing cursor android.database.sqlite.SQLiteCursor@405ffad0 on null that has not been deactivated or closed
-        //I/dalvikvm( 4155):      at android.database.sqlite.SQLiteCursor.finalize(SQLiteCursor.java:620)
-        //I/dalvikvm( 4155):      at dalvik.system.NativeStart.run(Native Method)
-
         static ApplicationWebService()
         {
             #region QueryExpressionBuilder.WithConnection
@@ -80,7 +69,9 @@ namespace TestAndroidInsert
 
             // I/System.Console( 7320): {{ c = 18, rid = 18 }}
             //return new { c, rid }.ToString();
-            yield(new { c, rid }.ToString());
+            yield(
+                "TestAndroidInsert " + new { c, rid }.ToString()
+                );
 
         }
 
