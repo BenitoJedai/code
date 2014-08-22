@@ -41,6 +41,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Data.Common
 
         public virtual object ExecuteScalar()
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140822
+
             return null;
         }
 

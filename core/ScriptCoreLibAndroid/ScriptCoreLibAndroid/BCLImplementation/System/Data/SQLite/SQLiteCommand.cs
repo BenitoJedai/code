@@ -138,6 +138,24 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         }
         #endregion
 
+
+
+        public override object ExecuteScalar()
+        {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140822
+            // 3h to figure out we did not implement this method for android!
+
+            var r = ExecuteReader();
+            var value = default(object);
+            if (r.Read())
+            {
+                value = r[0];
+            }
+            r.Dispose();
+            return value;
+        }
+
+
         #region ExecuteNonQuery
         public override int ExecuteNonQuery()
         {

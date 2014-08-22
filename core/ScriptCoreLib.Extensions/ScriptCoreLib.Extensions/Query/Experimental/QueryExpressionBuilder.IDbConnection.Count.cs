@@ -164,6 +164,8 @@ namespace ScriptCoreLib.Query.Experimental
 
             var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.SumOfLongReference.Method);
 
+            // tested by ?
+
             return 0;
         }
 
@@ -185,6 +187,12 @@ namespace ScriptCoreLib.Query.Experimental
 
             return value;
         }
+
+
+        //        I/System.Console( 5602):        at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder.Count(QueryExpressionBuilder.java:233)
+        //I/System.Console( 5602):        at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder___c__DisplayClass6_1._Count_b__8(QueryExpressionBuilder___c__DisplayClass6_1.java:26)
+        //I/System.Console( 5602):        ... 36 more
+
 
         // chrome needs CountAsync
         public static long Count<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
@@ -209,8 +217,23 @@ namespace ScriptCoreLib.Query.Experimental
             {
                 Console.WriteLine("before Count ExecuteScalar " + new { xDbCommand });
 
-                // timeout?
-                x = (long)xDbCommand.ExecuteScalar();
+                //                I / System.Console(6607): Caused by: java.lang.ClassCastException: java.lang.String
+                //I / System.Console(6607):        at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder.Count(QueryExpressionBuilder.java:233)
+                //I / System.Console(6607):        at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder___c__DisplayClass6_1._Count_b__8(QueryExpressionBuilder___c__DisplayClass6_1.java:26)
+
+
+                var __value = xDbCommand.ExecuteScalar();
+
+                // android 2.3 ?
+                var xString = __value as string;
+                if (xString != null)
+                {
+                    x = Convert.ToInt64(xString);
+                }
+                else
+                {
+                    x = (long)__value;
+                }
 
                 Console.WriteLine("after Count ExecuteScalar");
             }
