@@ -139,42 +139,71 @@ namespace ScriptCoreLib.Query.Experimental
         public static Action<Action<IDbConnection>> WithConnection;
 
 
-        public static void Insert<TElement>(this IQueryStrategy<TElement> source, params TElement[] collection)
+        public static TKey[] Insert<TElement, TKey>(this xSelect<TKey, TElement> source, params TElement[] collection)
         {
             // used by
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
             // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\testweborderbythengroupby\application.cs
+
+            var LastInsertRowId = new List<TKey>();
+
 
             WithConnection(
                   cc =>
                 {
                     foreach (var item in collection)
                     {
-                        Insert(source, cc, item);
+                        LastInsertRowId.Add(
+                            Insert(source, cc, item)
+                        );
 
                     }
                 }
               );
 
+            return LastInsertRowId.ToArray();
         }
 
-        public static void Insert<TElement>(this IQueryStrategy<TElement> source, TElement value)
+        public static TKey Insert<TElement, TKey>(this xSelect<TKey, TElement> source, TElement value)
         {
+            var LastInsertRowId = default(TKey);
 
             WithConnection(
                 cc =>
                 {
-                    Insert(source, cc, value);
+                    LastInsertRowId = Insert(source, cc, value);
                 }
             );
 
+            return LastInsertRowId;
         }
 
         [Obsolete("what should we return? rename to InsertSync ?")]
-        public static void Insert<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
+        //public static void Insert<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
+        public static TKey Insert<TElement, TKey>(this xSelect<TKey, TElement> source, IDbConnection cc, TElement value)
         {
+            // xSelect<TKey, TResult>
+
+            // tested by
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSQLiteCLRInsert\Program.cs
+
             var c = GetInsertCommand(source, cc, value) as DbCommand;
             var n = c.ExecuteNonQuery();
+
+            // jsc makes all Keys of long, yet data layer seems to talk int?
+            long LastInsertRowId = IDbConnectionExtensions.GetLastInsertRowId(cc);
+
+            Console.WriteLine("Insert " + new { LastInsertRowId });
+
+            // Additional information: Invalid cast from 'System.Int32' to 'TestSQLiteCLRInsert.PerformanceResourceTimingData2ApplicationPerformanceRow'.
+            // Additional information: Specified cast is not valid.
+            return (TKey)(object)LastInsertRowId;
+
+            //var __value = (TKey)Convert.ChangeType(LastInsertRowId, source.keySelector.Parameters[0].Type);
+
+            //return __value;
+
+
             //var nKey = cc.
 
 
