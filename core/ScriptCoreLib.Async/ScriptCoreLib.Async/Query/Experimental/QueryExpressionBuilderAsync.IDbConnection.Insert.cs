@@ -56,6 +56,7 @@ namespace ScriptCoreLib.Query.Experimental
         {
             Console.WriteLine("enter InsertAsync");
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebInsert\Application.cs
 
             var z = new TaskCompletionSource<Task>();
 
