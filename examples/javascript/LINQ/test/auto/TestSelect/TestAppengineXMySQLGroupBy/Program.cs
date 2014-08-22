@@ -38,6 +38,7 @@ class Program
 
                     new System.Data.MySQL.MySQLConnectionStringBuilder
                 {
+                    //Database = 
 
                     UserID = "fullaccess",
 

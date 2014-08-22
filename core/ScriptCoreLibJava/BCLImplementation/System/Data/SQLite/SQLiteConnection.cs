@@ -107,8 +107,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             {
                 var x = new
                 {
-                    this.InternalConnectionString.InternalInstanceName,
-                    this.InternalConnectionString.InternalUser,
+                    this.InternalConnectionString.Server,
+                    this.InternalConnectionString.UserID,
                     this.InternalConnectionString.Password,
                 };
 
@@ -137,8 +137,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 // https://groups.google.com/forum/?fromgroups=#!topic/google-appengine-java/Vm5PTq4_0lg
                 // Instance == Your Google API Project ID:InstanceName
                 this.InternalConnection = DriverManager.getConnection(
-                    "jdbc:google:rdbms://" + x.InternalInstanceName,
-                    x.InternalUser,
+                    "jdbc:google:rdbms://" + x.Server,
+                    x.UserID,
                     x.Password
                 );
             }
@@ -151,11 +151,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 if (ex.Message != null)
                     if (ex.Message.Contains("com.mysql.jdbc.Driver"))
                     {
+                        // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAppEngineOrderByThenGroupBy\ApplicationWebService.cs
+
                         // "C:\util\appengine-java-sdk-1.9.2\lib\impl\mysql-connector-java-5.1.30-bin.jar"
                         // "C:\util\appengine-java-sdk-1.8.8\lib\impl\mysql-connector-java-5.1.22-bin.jar"
+                        // "C:\util\appengine-java-sdk-1.9.9\lib\impl\mysql-connector-java-5.1.30-bin.jar"
+
                         // http://dev.mysql.com/downloads/connector/j/
 
-                        Console.WriteLine("did you set up the mysql jar?");
+                        Console.WriteLine(
+                            @"!!! did you set up the mysql jar? check C:\util\appengine-java-sdk-1.9.9\lib\impl\mysql-connector-java-5.1.30-bin.jar"
+                            );
                     }
 
                 //                C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe  -encoding UTF-8 -cp Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.8.8\lib\impl\*;C:\util\appengine-java-sdk-1.8.8\lib\shared\* -d "Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\release" @"Y:\AppEngineUserAgentLoggerWithXSLXAsset.ApplicationWebService\staging.java\web\files"
@@ -168,21 +174,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 throw new InvalidOperationException("__SQLiteConnection " + new { ex.Message, ex.StackTrace });
             }
 
-            using (var cmd = new __SQLiteCommand(
-                "CREATE DATABASE IF NOT EXISTS `" + this.InternalConnectionString.DataSource + "`",
-                (__SQLiteConnection)(object)this))
-            {
-                cmd.ExecuteNonQuery();
-            }
+            // to be done by the user?
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAppEngineOrderByThenGroupBy\ApplicationWebService.cs
 
 
-            // http://stackoverflow.com/questions/1675333/php-mysql-joins-across-databases
-            using (var cmd = new __SQLiteCommand(
-                "USE `" + this.InternalConnectionString.DataSource + "`",
-                (__SQLiteConnection)(object)this))
-            {
-                cmd.ExecuteNonQuery();
-            }
+            //using (var cmd = new __SQLiteCommand(
+            //    "CREATE DATABASE IF NOT EXISTS `" + this.InternalConnectionString.DataSource + "`",
+            //    (__SQLiteConnection)(object)this))
+            //{
+            //    cmd.ExecuteNonQuery();
+            //}
+
+
+            //// http://stackoverflow.com/questions/1675333/php-mysql-joins-across-databases
+            //using (var cmd = new __SQLiteCommand(
+            //    "USE `" + this.InternalConnectionString.DataSource + "`",
+            //    (__SQLiteConnection)(object)this))
+            //{
+            //    cmd.ExecuteNonQuery();
+            //}
 
         }
 
