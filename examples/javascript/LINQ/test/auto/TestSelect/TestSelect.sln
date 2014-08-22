@@ -643,6 +643,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SSL Google Cloud SQL", "SSL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyntaxAppEngineOrderByThenGroupBy", "SyntaxAppEngineOrderByThenGroupBy\SyntaxAppEngineOrderByThenGroupBy.csproj", "{B5A3E5D7-032D-4E13-8E50-16BB00606EBF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Insert", "Insert", "{E474F3DA-20C8-4B59-86E9-F282ED813D1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Android|Any CPU = Android|Any CPU

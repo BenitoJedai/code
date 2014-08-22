@@ -61,7 +61,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public int BusyTimeout { get; set; }
 
         public java.sql.Connection InternalConnection;
-        public __SQLiteConnectionStringBuilder InternalConnectionString;
+        public __MySQLConnectionStringBuilder InternalConnectionString;
 
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2012/20121001-solutionbuilderv1/20121014-gae-data
         // X:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
@@ -79,7 +79,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
 
             // should parse instead
-            this.InternalConnectionString = __SQLiteConnectionStringBuilder.InternalGetConnectionString(connectionstring);
+            this.InternalConnectionString = __MySQLConnectionStringBuilder.InternalGetConnectionString(connectionstring);
 
             if (this.InternalConnectionString == null)
                 throw new InvalidOperationException("make sure to use new __SQLiteConnection(SQLiteConnectionStringBuilder)");
