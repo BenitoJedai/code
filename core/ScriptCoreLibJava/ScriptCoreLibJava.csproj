@@ -108,14 +108,14 @@
     </Compile>
     <Compile Include="BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="BCLImplementation\System\ArgumentException.cs" />
+    <Compile Include="BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
+    <Compile Include="BCLImplementation\System\Data\MySQL\MySQLConnection.cs" />
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLConnectionStringBuilder.cs" />
+    <Compile Include="BCLImplementation\System\Data\MySQL\MySQLDataAdapter.cs" />
+    <Compile Include="BCLImplementation\System\Data\MySQL\MySQLDataReader.cs" />
     <Compile Include="BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
     <Compile Include="BCLImplementation\System\UInt64.cs" />
-    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataAdapter.cs" />
-    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteDataReader.cs" />
-    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteCommand.cs" />
-    <Compile Include="BCLImplementation\System\Data\SQLite\SQLiteConnection.cs" />
     <Compile Include="BCLImplementation\System\Decimal.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\StackTrace.cs" />
     <Compile Include="BCLImplementation\System\IO\FileStream.cs" />

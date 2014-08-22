@@ -16,7 +16,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 {
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteCommand))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLCommand")]
-    internal class __SQLiteCommand : __DbCommand
+    internal class __MySQLCommand : __DbCommand
     {
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
 
@@ -24,7 +24,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
         // X:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Data\SQLite\SQLiteCommand.cs
 
-        __SQLiteConnection c;
+        __MySQLConnection c;
 
         #region CommandText
         public override string CommandText { get; set; }
@@ -50,9 +50,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
         public java.sql.Statement InternalStatement;
         public java.sql.PreparedStatement InternalPreparedStatement;
 
-        public __SQLiteCommand(string sql, __SQLiteConnection c)
+        public __MySQLCommand(string sql, __MySQLConnection c)
         {
-            this.c = (__SQLiteConnection)(object)c;
+            this.c = (__MySQLConnection)(object)c;
 
             // http://dev.mysql.com/doc/refman/5.0/en/example-auto-increment.html
             // http://www.sqlite.org/autoinc.html
@@ -258,9 +258,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         }
 
-        public new __SQLiteDataReader ExecuteReader()
+        public new __MySQLDataReader ExecuteReader()
         {
-            var value = default(__SQLiteDataReader);
+            var value = default(__MySQLDataReader);
 
             InternalCreateStatement();
 
@@ -273,7 +273,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 else
                     r = this.InternalStatement.executeQuery(this.CommandText);
 
-                value = (__SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = r, InternalCommand = this };
+                value = (__MySQLDataReader)(object)new __MySQLDataReader { InternalResultSet = r, InternalCommand = this };
                 this.c.InternalLastInsertRowIdCommand = this;
             }
             catch (Exception ex)
@@ -290,7 +290,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
                 if (ex.StackTrace.Contains("com.google.cloud.sql.jdbc.internal.Exceptions.newStatementExecuteQueryNullResultSetException"))
                 {
                     // no resultset.
-                    value = (__SQLiteDataReader)(object)new __SQLiteDataReader { InternalResultSet = null };
+                    value = (__MySQLDataReader)(object)new __MySQLDataReader { InternalResultSet = null };
                 }
 
 

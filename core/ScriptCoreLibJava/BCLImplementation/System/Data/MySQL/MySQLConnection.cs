@@ -48,7 +48,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
     //[Script(Implements = typeof(global::System.Data.SQLite.SQLiteConnection))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.MySQL.MySQLConnection")]
-    internal class __SQLiteConnection : __DbConnection
+    internal class __MySQLConnection : __DbConnection
     {
         //Y:\TestAppEngineOrderByThenGroupBy.ApplicationWebService\staging.java\web\java\TestAppEngineOrderByThenGroupBy\ApplicationWebService.java:81: error: cannot find symbol
         //        connection0.Dispose_060000a2();
@@ -70,10 +70,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         public override global::System.Data.Common.DbCommand CreateDbCommand()
         {
-            return (global::System.Data.Common.DbCommand)(object)new __SQLiteCommand("", this);
+            return (global::System.Data.Common.DbCommand)(object)new __MySQLCommand("", this);
         }
 
-        public __SQLiteConnection(string connectionstring)
+        public __MySQLConnection(string connectionstring)
         {
             //Console.WriteLine("__SQLiteConnection ctor " + new { connectionstring });
 
@@ -223,7 +223,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
             this.Close();
         }
 
-        public __SQLiteCommand InternalLastInsertRowIdCommand;
+        public __MySQLCommand InternalLastInsertRowIdCommand;
 
         //public long LastInsertRowId
         public int LastInsertRowId
