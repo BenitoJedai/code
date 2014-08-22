@@ -124,13 +124,23 @@ namespace ScriptCoreLib.Query.Experimental
             MethodInfo Operand
             )
         {
+            Console.WriteLine("enter GetScalarCommand " + new { cc });
 
             var nsource = new xScalar { source = source, Operand = Operand };
             var Command = default(DbCommand);
 
 
             if (cc != null)
+            {
                 Command = (DbCommand)cc.CreateCommand();
+            }
+            else
+            {
+                // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAndroidInsert\ApplicationWebService.cs
+
+                Console.WriteLine("enter GetScalarCommand cc null ?");
+            }
+
             var w = new SQLWriter<TElement>(nsource, new IQueryStrategy[] { nsource }, Command: Command);
 
             return Command;
@@ -179,6 +189,8 @@ namespace ScriptCoreLib.Query.Experimental
         // chrome needs CountAsync
         public static long Count<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
+            Console.WriteLine("enter Count " + new { cc });
+
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestDeleteAll\Program.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140705
 
@@ -194,8 +206,14 @@ namespace ScriptCoreLib.Query.Experimental
 
 
             if (xDbCommand != null)
+            {
+                Console.WriteLine("before Count ExecuteScalar " + new { xDbCommand });
+
                 // timeout?
                 x = (long)xDbCommand.ExecuteScalar();
+
+                Console.WriteLine("after Count ExecuteScalar");
+            }
 
             return x;
         }

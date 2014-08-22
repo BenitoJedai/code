@@ -49,7 +49,8 @@ namespace TestAndroidInsert
         }
 
 
-        public async Task<string> WebMethod2()
+        //public async Task<string> WebMethod2()
+        public void WebMethod2(Action<string> yield)
         {
             // ThreadLocal SynchronizationContext aware ConnectionPool?
             var n = new PerformanceResourceTimingData2ApplicationPerformance();
@@ -68,6 +69,7 @@ namespace TestAndroidInsert
                 z = new XElement("goo", "foo")
             }
             );
+
             // { LastInsertRowId = 2 }
             Console.WriteLine("after insert " + new { rid });
 
@@ -76,7 +78,8 @@ namespace TestAndroidInsert
 
             Console.WriteLine(new { c, rid });
 
-            return new { c, rid }.ToString();
+            //return new { c, rid }.ToString();
+            yield(new { c, rid }.ToString());
 
         }
 
