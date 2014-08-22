@@ -996,6 +996,7 @@
     <Folder Include="BCLImplementation\Abstractatech\" />
     <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\ComponentModel\" />
+    <Folder Include="BCLImplementation\System\Data\MySQL\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="BCLImplementation\System\Security\Cryptography\X509Certificates\" />

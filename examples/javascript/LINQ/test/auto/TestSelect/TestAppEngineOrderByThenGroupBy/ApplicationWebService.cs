@@ -54,6 +54,8 @@ namespace TestAppEngineOrderByThenGroupBy
             QueryExpressionBuilder.WithConnection =
                 y =>
             {
+                Console.WriteLine("enter WithConnection");
+
                 //var DataSource = "file:xApplicationPerformance.xlsx.sqlite";
                 var cc0 = new MySQLConnection(
 
@@ -104,6 +106,7 @@ namespace TestAppEngineOrderByThenGroupBy
                 // jsc java does the wrong thing here
                 cc0.Close();
                 //cc0.Dispose();
+                Console.WriteLine("exit WithConnection");
             };
             #endregion
         }
@@ -148,18 +151,21 @@ namespace TestAppEngineOrderByThenGroupBy
                 // { f = { c = 3, Tag = first insert } }
 
                 group x by x.connectStart into gg
-                select new
-                {
-                    c = gg.Count(),
+                select
+                    //new
+                    //{
+                    //    c = gg.Count(),
                     // need orderby x.Key descending !
                     gg.Last().Tag
-                }
+                //}
 
             ).FirstOrDefault();
 
             System.Console.WriteLine(
                 new { f }
                 );
+
+            // {{ x = {{ message = ok, f = first insert }} }}
 
             // f will be null, as no connection is available!
             return new { message = "ok", f }.ToString();
