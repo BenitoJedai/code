@@ -18,7 +18,7 @@ namespace ScriptCoreLib.Query.Experimental
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Query\Experimental\QueryExpressionBuilder.IDbConnection.Insert.cs
 
 
-        public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, params TElement[] collection)
+        public static Task<TKey[]> InsertAsync<TElement, TKey>(this QueryExpressionBuilder.xSelect<TKey, TElement> source, params TElement[] collection)
         {
             // used by
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
@@ -26,7 +26,7 @@ namespace ScriptCoreLib.Query.Experimental
             Console.WriteLine("enter InsertAsync");
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
 
-            var z = new TaskCompletionSource<Task>();
+            var z = new TaskCompletionSource<TKey[]>();
 
             // was it manually set?
             QueryExpressionBuilder.WithConnection(
@@ -43,7 +43,9 @@ namespace ScriptCoreLib.Query.Experimental
                     {
                         Console.WriteLine("after InsertAsync");
 
-                        z.SetResult(null);
+                        z.SetResult(
+                            i.Select(x => x.Result).ToArray()
+                            );
                     }
                     );
                 }
@@ -52,24 +54,24 @@ namespace ScriptCoreLib.Query.Experimental
             return z.Task;
         }
 
-        public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, TElement value)
+        public static Task<TKey> InsertAsync<TElement, TKey>(this QueryExpressionBuilder.xSelect<TKey, TElement> source, TElement value)
         {
             Console.WriteLine("enter InsertAsync");
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebInsert\Application.cs
 
-            var z = new TaskCompletionSource<Task>();
+            var z = new TaskCompletionSource<TKey>();
 
             // was it manually set?
             QueryExpressionBuilder.WithConnection(
                 (IDbConnection cc) =>
                 {
                     InsertAsync(source, cc, value).ContinueWith(
-                        delegate
+                        task =>
                     {
                         Console.WriteLine("after InsertAsync");
 
-                        z.SetResult(null);
+                        z.SetResult(task.Result);
                     }
                     );
                 }
@@ -78,7 +80,7 @@ namespace ScriptCoreLib.Query.Experimental
             return z.Task;
         }
 
-        public static Task InsertAsync<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
+        public static Task<TKey> InsertAsync<TElement, TKey>(this QueryExpressionBuilder.xSelect<TKey, TElement> source, IDbConnection cc, TElement value)
         {
             // in CLR and in browser this would work.
 
@@ -89,7 +91,24 @@ namespace ScriptCoreLib.Query.Experimental
             {
                 Console.WriteLine("before ExecuteNonQueryAsync");
                 var n = xDbCommand.ExecuteNonQueryAsync();
-                return n;
+
+                var c = new TaskCompletionSource<TKey>();
+
+                n.ContinueWith(
+                    task =>
+                    {
+                        // jsc makes all Keys of long, yet data layer seems to talk int?
+                        long LastInsertRowId = IDbConnectionExtensions.GetLastInsertRowId(cc);
+
+                        Console.WriteLine("InsertAsync " + new { LastInsertRowId });
+
+                        c.SetResult(
+                            (TKey)(object)LastInsertRowId
+                        );
+                    }
+                );
+
+                return c.Task;
             }
 
 
