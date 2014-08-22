@@ -30,13 +30,23 @@ namespace TestAndroidInsert
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
+            //     async delegate
+            //     //delegate
+            //{
+            //    var x = await this.WebMethod2();
+            //    new IHTMLPre { new { x } }.AttachToDocument();
+            //};
+
             new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
-                 async delegate
-                 //delegate
+                //async delegate
+                delegate
             {
-                var x = await this.WebMethod2();
-     
-                new IHTMLPre { new { x } }.AttachToDocument();
+                this.WebMethod2(
+                    x =>
+                        new IHTMLPre { new { x } }.AttachToDocument()
+                );
+
 
 
             };
