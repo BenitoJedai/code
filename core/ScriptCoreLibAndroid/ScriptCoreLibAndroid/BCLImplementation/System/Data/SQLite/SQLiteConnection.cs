@@ -170,6 +170,15 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         {
             get
             {
+                Console.WriteLine("enter LastInsertRowId");
+
+                //I/System.Console( 4342): enter GetLastInsertRowId
+                //I/System.Console( 4342): enter GetLastInsertRowId {{ xSQLiteConnection = ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite.__SQLiteConnection }}
+                //I/System.Console( 4342): Insert {{ LastInsertRowId = 3 }}
+
+                // called by
+                // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\IDbConnectionExtensions.cs
+
                 // https://groups.google.com/forum/?fromgroups=#!topic/android-developers/r3LHk-fCoNI
 
                 var cursor = this.db.rawQuery(

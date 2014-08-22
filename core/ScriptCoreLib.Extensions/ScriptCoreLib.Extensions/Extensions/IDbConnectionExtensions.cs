@@ -14,7 +14,22 @@ namespace System.Data
 
         public static int GetLastInsertRowId(this IDbConnection c)
         {
+            Console.WriteLine("enter GetLastInsertRowId");
+
+            // tested by
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAndroidInsert\ApplicationWebService.cs
+
+            if (c == null)
+            {
+                Console.WriteLine("enter GetLastInsertRowId c null");
+
+                return 0;
+            }
+
             var xSQLiteConnection = c as SQLite.SQLiteConnection;
+
+            Console.WriteLine("enter GetLastInsertRowId " + new { xSQLiteConnection });
+
             if (xSQLiteConnection != null)
             {
                 return xSQLiteConnection.LastInsertRowId;
@@ -27,7 +42,8 @@ namespace System.Data
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
             // tested by?
             // +		$exception	{"There is already an open DataReader associated with this Connection which must be closed first."}	System.Exception {System.Data.MySQL.MySQLException}
-            var value = c.CreateCommand("select LAST_INSERT_ID()").ExecuteScalar();
+            var value = c.CreateCommand(
+                "select LAST_INSERT_ID()").ExecuteScalar();
 
             if (value is long)
             {
