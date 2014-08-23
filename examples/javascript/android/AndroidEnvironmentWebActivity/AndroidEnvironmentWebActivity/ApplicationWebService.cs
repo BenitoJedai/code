@@ -117,6 +117,11 @@ namespace AndroidEnvironmentWebActivity
 
         public void File_list(string path, Action<string> ydirectory, Action<string> yfile)
         {
+            // can we have stats for this method as per /jsc ?
+            // or even better record fuull profiler trace?
+
+            // D/dalvikvm( 8969): GC_FOR_MALLOC freed 710K, 46% free 7037K/12871K, external 2390K/2985K, paused 27ms
+
             var f = new File(path);
 
             var a = f.list();

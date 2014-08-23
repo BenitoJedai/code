@@ -12,7 +12,9 @@ namespace TestIntegerDivOpcode
     {
         static void foo()
         {
+            // X:\jsc.svn\examples\javascript\Test\TestInt32Div\TestInt32Div\Class1.cs
             // X:\jsc.svn\examples\javascript\test\TestIntegerDiv\TestIntegerDiv\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestFromBase64String\TestFromBase64String\Application.cs
 
             {
 
