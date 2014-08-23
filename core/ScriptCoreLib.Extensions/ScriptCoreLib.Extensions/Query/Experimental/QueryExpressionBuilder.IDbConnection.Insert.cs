@@ -135,6 +135,8 @@ namespace ScriptCoreLib.Query.Experimental
                 };
         }
 
+
+        // shall the caller expose the callsite and source too?
         [Obsolete("whats the default?")]
         public static Action<Action<IDbConnection>> WithConnection;
 

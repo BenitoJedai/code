@@ -11,22 +11,33 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-
-
-
-
         public static long Sum(this IQueryStrategy<long> source)
         {
+            var value = default(long);
+
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSQLiteCLRSumLong\Program.cs
 
             // first, lets apprach it in a similar way. lets copy count
 
 
-            var xDbCommand = GetScalarCommand(source, cc: null, Operand: xReferencesOfLong.SumOfLongReference.Method);
-
+          
             // tested by ?
+            WithConnection(
+                    cc =>
+                 {
+  var xDbCommand = GetScalarCommand(
+                source, 
+                cc: cc, 
+                Operand: xReferencesOfLong.SumOfLongReference.Method
+            );
 
-            return 0;
+
+                var __value = xDbCommand.ExecuteScalar();
+                     value = (long)__value;
+                 }
+                );
+
+            return value;
         }
 
 
