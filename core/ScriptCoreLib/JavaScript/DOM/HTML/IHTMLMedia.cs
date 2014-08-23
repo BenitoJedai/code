@@ -10,6 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLMediaElement.idl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLMediaElement.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/modules/encryptedmedia/HTMLMediaElementEncryptedMedia.idl
 
     [Script(InternalConstructor = true)]
     public abstract class IHTMLMedia : IHTMLElement
