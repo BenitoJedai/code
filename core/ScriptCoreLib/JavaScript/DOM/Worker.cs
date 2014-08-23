@@ -759,14 +759,29 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         [System.ComponentModel.Description("Will run as JavaScript Web Worker")]
-        // called by ?
+        // called by
+        // X:\jsc.internal.git\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs
         public static void InternalInvoke(Action default_yield)
         {
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2013/201308/20130828-thread-run
 
-            // called by X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs
-            // tested by X:\jsc.svn\examples\javascript\SharedWorkerExperiment\Application.cs
 
+            if (Native.serviceworker != null)
+            {
+                // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+
+                // ?
+                Console.WriteLine("serviceworker!");
+                Debugger.Break();
+
+                // what are we supposed to do now?
+                // invoke a static callback like we did with shared worker?
+
+                return;
+
+            }
+
+            #region worker
             if (Native.worker != null)
                 if (Native.worker.location.href.EndsWith("#worker"))
                 {
@@ -879,12 +894,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     return;
                 }
+            #endregion
 
+
+            #region sharedworker
+            // tested by X:\jsc.svn\examples\javascript\SharedWorkerExperiment\Application.cs
 
             if (Native.sharedworker != null)
             {
-
-                #region #sharedworker
                 var href = Native.sharedworker.location.href;
                 if (href.EndsWith("#sharedworker"))
                 {
@@ -913,15 +930,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     return;
                 }
-                #endregion
 
             }
+            #endregion
 
             default_yield();
 
         }
     }
 
+    // set by ?
     [Script]
     public class InternalInlineWorkerTextWriter : TextWriter
     {

@@ -119,6 +119,7 @@ namespace ScriptCoreLib.JavaScript
         static public IHTMLDocument document;
 
 
+        [Obsolete("experimental")]
         public static IHTMLBody body
         {
             // X:\jsc.svn\examples\javascript\future\HistoricSnapshotMashup\HistoricSnapshotMashup\Application.cs
@@ -128,6 +129,7 @@ namespace ScriptCoreLib.JavaScript
         static public IScreen screen;
         static public DedicatedWorkerGlobalScope worker;
         static public SharedWorkerGlobalScope sharedworker;
+        static public ServiceWorkerGlobalScope serviceworker;
 
 
         // implemented at?
@@ -183,26 +185,39 @@ namespace ScriptCoreLib.JavaScript
                 return;
             }
 
-            if (Expando.InternalIsMember(self, "importScripts"))
-            {
 
-                if (Expando.InternalIsMember(self, "postMessage"))
+
+            // are all browsers reporting it as the same type?
+            // what if it could have multiple names?
+            Native.serviceworker = self as ServiceWorkerGlobalScope;
+            // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+
+            if (Native.serviceworker == null)
+            {
+                // ok detect other modes...
+
+
+                if (Expando.InternalIsMember(self, "importScripts"))
                 {
+
+                    if (Expando.InternalIsMember(self, "postMessage"))
+                    {
+                        // now what. are we running as a web worker?
+                        // WorkerGlobalScope
+                        // DedicatedWorkerGlobalScope
+                        // DedicatedWorkerContext
+
+                        worker = (DedicatedWorkerGlobalScope)self;
+                        return;
+                    }
+
                     // now what. are we running as a web worker?
                     // WorkerGlobalScope
                     // DedicatedWorkerGlobalScope
                     // DedicatedWorkerContext
 
-                    worker = (DedicatedWorkerGlobalScope)self;
-                    return;
+                    sharedworker = (SharedWorkerGlobalScope)self;
                 }
-
-                // now what. are we running as a web worker?
-                // WorkerGlobalScope
-                // DedicatedWorkerGlobalScope
-                // DedicatedWorkerContext
-
-                sharedworker = (SharedWorkerGlobalScope)self;
             }
 
 

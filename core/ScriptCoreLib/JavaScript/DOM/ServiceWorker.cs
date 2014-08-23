@@ -21,13 +21,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     // http://www.w3.org/TR/service-workers/
     // http://www.chromium.org/blink/serviceworker
-    
+
     #endregion
 
     [Script(HasNoPrototype = true, ExternalTarget = "ServiceWorker")]
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        public string scriptURL;
+        public string state;
+
         // http://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features
 
         //  those that do will ignore the AppCache and let the service worker take over.
