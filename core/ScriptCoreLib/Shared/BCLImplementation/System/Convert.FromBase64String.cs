@@ -65,6 +65,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
             if (string.IsNullOrEmpty(input))
                 return new byte[0];
 
+            // X:\jsc.svn\examples\javascript\Test\TestFromBase64String\TestFromBase64String\Application.cs
             var capacity = 4 * input.Length / 3;
 
             // how slow is it?

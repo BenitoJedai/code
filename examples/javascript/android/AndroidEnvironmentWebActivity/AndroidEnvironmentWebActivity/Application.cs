@@ -139,6 +139,8 @@ namespace AndroidEnvironmentWebActivity
                 };
             #endregion
 
+
+#if CORE_PARTIAL
             ff("Environment_getDataDirectory", () => service.Environment_getDataDirectory(), browse);
             ff("Environment_getDownloadCacheDirectory", () => service.Environment_getDownloadCacheDirectory(), browse);
             ff("Environment_getExternalStorageDirectory", () => service.Environment_getExternalStorageDirectory(), browse);
@@ -166,6 +168,9 @@ namespace AndroidEnvironmentWebActivity
             f("Environment_getExternalStoragePublicDirectory DIRECTORY_PICTURES", DIRECTORY_PICTURES, service.Environment_getExternalStoragePublicDirectory, browse);
             f("Environment_getExternalStoragePublicDirectory DIRECTORY_MOVIES", DIRECTORY_MOVIES, service.Environment_getExternalStoragePublicDirectory, browse);
             f("Environment_getExternalStoragePublicDirectory DIRECTORY_DOWNLOADS", DIRECTORY_DOWNLOADS, service.Environment_getExternalStoragePublicDirectory, browse);
+
+#endif
+
             f("Environment_getExternalStoragePublicDirectory DIRECTORY_DCIM", DIRECTORY_DCIM, service.Environment_getExternalStoragePublicDirectory, browse);
 
 
