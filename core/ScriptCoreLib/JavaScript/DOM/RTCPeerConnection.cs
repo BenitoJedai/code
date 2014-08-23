@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection
     {
+        // http://www.tokbox.com/blog/announcing-the-end-of-life-of-the-opentok-1-0-platform/
+
         // https://bugzilla.mozilla.org/show_bug.cgi?id=922363
 
         // tested by
