@@ -6,12 +6,13 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/WorkerGlobalScope.webidl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/WorkerGlobalScope.idl
 
     [Script(HasNoPrototype = true)]
     public class WorkerGlobalScope : IEventTarget
     {
 
-        // readonly attribute Crypto crypto;
+        public Crypto crypto;
         // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/Crypto.idl
         // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/SubtleCrypto.idl
 

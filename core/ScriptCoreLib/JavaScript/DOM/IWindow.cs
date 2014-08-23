@@ -22,6 +22,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public partial class IWindow : IEventTarget
     {
+        // tested by? what about web workers?
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\WorkerGlobalScope.cs
+        public readonly Crypto crypto;
+
         public Storage sessionStorage;
         public Storage localStorage;
 
