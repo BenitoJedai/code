@@ -2,8 +2,10 @@ using ScriptCoreLib;
 
 namespace java.io
 {
+    // http://developer.android.com/reference/java/io/ByteArrayOutputStream.html
+
     [Script(IsNative = true)]
-    public class ByteArrayOutputStream
+    public class ByteArrayOutputStream : OutputStream
     {
         //   // Field Summary
         //??? protected  sbyte[]buf 
@@ -95,7 +97,7 @@ namespace java.io
         /// <summary>
         /// Writes the specified sbyte to this sbyte array output stream.
         /// </summary>
-        public void write(int b)
+        public override  void write(int b)
         {
             return;
         }

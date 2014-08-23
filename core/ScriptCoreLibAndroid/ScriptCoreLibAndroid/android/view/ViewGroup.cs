@@ -7,10 +7,14 @@ using ScriptCoreLib;
 
 namespace android.view
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/view/ViewGroup.java
     // http://developer.android.com/reference/android/view/ViewGroup.html
     [Script(IsNative = true)]
     public abstract class ViewGroup : View
     {
+        public void removeView(View view)
+        {
+        }
 
         // http://developer.android.com/reference/android/view/ViewGroup.LayoutParams.html
         [Script(IsNative = true)]
@@ -21,6 +25,15 @@ namespace android.view
 
             public int height;
             public int width;
+
+            public LayoutParams()
+            {
+
+            }
+
+            public LayoutParams(int width, int height)
+            {
+            }
         }
 
         // http://developer.android.com/reference/android/view/ViewGroup.MarginLayoutParams.html

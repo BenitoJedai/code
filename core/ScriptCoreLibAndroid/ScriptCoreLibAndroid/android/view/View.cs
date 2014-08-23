@@ -7,12 +7,18 @@ using ScriptCoreLib;
 
 namespace android.view
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/view/View.java
     // http://developer.android.com/reference/android/view/View.html
     [Script(IsNative = true)]
     public class View
     {
+        public ViewParent getParent()
+        {
+            return default(ViewParent);
+        }
+
         public virtual void setScrollBarStyle(int style)
-        { 
+        {
         }
 
         public virtual bool dispatchKeyEvent(KeyEvent @event)

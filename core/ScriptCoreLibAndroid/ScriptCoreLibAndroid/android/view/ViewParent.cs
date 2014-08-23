@@ -7,6 +7,7 @@ using ScriptCoreLib;
 
 namespace android.view
 {
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/view/ViewParent.java
     // http://developer.android.com/reference/android/view/ViewParent.html
     [Script(IsNative = true)]
     public interface ViewParent

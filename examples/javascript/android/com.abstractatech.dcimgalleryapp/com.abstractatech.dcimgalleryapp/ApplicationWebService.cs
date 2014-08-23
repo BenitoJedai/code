@@ -986,6 +986,7 @@ namespace com.abstractatech.dcimgalleryapp
 
             try
             {
+#if xmetadata
 
                 // http://drewnoakes.com/code/exif/
                 Metadata m = ImageMetadataReader.readMetadata(file);
@@ -996,6 +997,8 @@ namespace com.abstractatech.dcimgalleryapp
                 //[javac]                                                                 ^
 
 
+                // Error	12	'com.drew.metadata.Metadata.getDirectories()' is not supported by the language	X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs	1000	25	com.abstractatech.dcimgalleryapp
+                // Error	13	'com.drew.metadata.Directory.getErrors()' is not supported by the language	X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs	1019	38	com.abstractatech.dcimgalleryapp
 
                 var i = m.getDirectories().iterator();
 
@@ -1025,6 +1028,7 @@ namespace com.abstractatech.dcimgalleryapp
                         }
                     }
                 }
+#endif
 
                 w.AppendLine("end of metadata");
 
