@@ -21,11 +21,19 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Promise")]
     public class IPromise<T> : IPromise
     {
+        // https://github.com/mozilla-services/services-central-legacy/blob/master/browser/devtools/shared/Promise.jsm
+        // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
+
         // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects
         // jsc shall translate to IFunction here
-        public void then(Action<T> serviceWorker)
+        public void then(Action<T> onSuccess)
         {
             // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+
+        }
+
+        public void then(Action<T> onSuccess, Action<T> onError)
+        {
 
         }
     }
