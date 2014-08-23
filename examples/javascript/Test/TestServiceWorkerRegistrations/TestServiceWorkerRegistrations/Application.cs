@@ -30,6 +30,39 @@ namespace TestServiceWorkerRegistrations
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
+
+            // X:\jsc.svn\examples\javascript\Test\TestNavigatorServiceWorker\TestNavigatorServiceWorker\Application.cs
+
+            Console.WriteLine("enter Application");
+
+            if (Native.window.navigator.serviceWorker == null)
+            {
+                new IHTMLPre {
+                    @"chrome://flags/
+                    Enable support for ServiceWorker background sync event. Mac, Windows, Linux, Chrome OS, Android. Relaunch!"
+
+                }.AttachToDocument();
+
+                return;
+            }
+
+            #region secure origin
+            new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
+
+            if (Native.document.location.host.TakeUntilOrEmpty(":") != "127.0.0.1")
+            {
+                new IHTMLAnchor
+                {
+                    href = "http://127.0.0.1:" + Native.document.location.host.SkipUntilOrEmpty(":"),
+                    innerText = "open as secure origin!"
+                }.AttachToDocument();
+
+                return;
+            }
+            #endregion
+
+
 
             // chrome://serviceworker-internals/
             // view-source:https://matthew-andrews.github.io/serviceworker-simple/
@@ -58,10 +91,27 @@ namespace TestServiceWorkerRegistrations
 
                 // http://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features
                 // Only secure origins are allowed. http://goo.gl/lq4gCo
+
+
+                // at this point the service will be runing us again.
+                // what will we do in the service?
+                // jsc need to learn ssl. for chrome, clr, and android.
+                // and chrome needs to lift the flag.
+                // then lets continue looking at it.
+
                 Native.window.navigator.serviceWorker.register("view-source#serviceWorker", null).then(
                         w =>
                             {
-                                new IHTMLPre { "navigator.serviceWorker.register... " + new { w } }.AttachToDocument();
+                                // http://www.w3.org/TR/service-workers/#service-worker-interface
+
+                                new IHTMLPre { "navigator.serviceWorker.register... " + new { w.scope, w.active, w.installing, w.waiting } }.AttachToDocument();
+                                // navigator.serviceWorker.register... {{ scope = http://127.0.0.1:23573/, active = null, installing = null, waiting = null }}
+
+                                //new IHTMLPre { "navigator.serviceWorker.register... " + new {  } }.AttachToDocument();
+
+
+
+                                // navigator.serviceWorker.register... {{ w = [object ServiceWorkerRegistration] }}
 
                                 // did we just rerun ourself?
                                 // like a Worker?
