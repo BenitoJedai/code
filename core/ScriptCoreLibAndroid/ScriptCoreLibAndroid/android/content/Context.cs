@@ -13,6 +13,9 @@ namespace android.content
     [Script(IsNative = true)]
     public abstract class Context
     {
+        // X:\jsc.svn\examples\javascript\android\com.abstractatech.battery\com.abstractatech.battery\ApplicationWebService.cs
+        public abstract Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
+
         public static readonly string SENSOR_SERVICE;
 
 

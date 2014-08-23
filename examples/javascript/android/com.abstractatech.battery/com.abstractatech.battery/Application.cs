@@ -30,8 +30,44 @@ namespace com.abstractatech.battery
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            #region ChromeTCPServer
+
+            //<package id="Abstractatech.JavaScript.Forms.FloatStyler" version="1.0.0.0" targetFramework="net451" />
+            //<package id="Chrome.Web.Server" version="1.0.0.0" targetFramework="net451" />
+            //<package id="Chrome.Web.Server.StyledForm" version="1.0.0.0" targetFramework="net451" />
+            //<package id="Chrome.Web.Store" version="1.0.0.0" targetFramework="net451" />
+
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                //Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
+
+                chrome.Notification.DefaultTitle = "I9000 Battery";
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview512().src;
+
+                ChromeTCPServer.TheServerWithStyledForm.Invoke(
+                    AppSource.Text,
+                    //AtFormCreated: FormStyler.AtFormCreated
+                    AtFormCreated: System.Windows.Forms.FormStylerLikeFloat.LikeFloat,
+
+                    transparentBackground: true,
+                    resizable: false
+                );
+
+                return;
+            }
+            #endregion
+
+            // works with chrome beta 38
+            // canary 39 does not show up?
+            // chrome web server not yet implementing web method calls.
+
             if (Native.window.parent != Native.window.self)
             {
+                // app running in AppWindow?
                 Native.document.body.style.backgroundColor = JSColor.Transparent;
             }
 
@@ -44,6 +80,7 @@ namespace com.abstractatech.battery
                     {
                         // batteryStatusCheck { status = 3, chargePlug = 0, isCharging = false }
                         (page.gauge_layer3.style as dynamic).webkitFilter = "hue-rotate(-170deg)";
+                        //(page.gauge_layer3.style as dynamic).webkitFilter = "hue-rotate(-170deg)";
                         page.gauge_layer3.Show();
                     }
                     else

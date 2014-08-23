@@ -2,8 +2,8 @@ using android.content;
 using android.graphics;
 using android.net.wifi;
 using android.view;
-using com.drew.imaging;
-using com.drew.metadata;
+//using com.drew.imaging;
+//using com.drew.metadata;
 using java.io;
 using java.net;
 using ScriptCoreLib;
@@ -37,6 +37,11 @@ namespace com.abstractatech.dcimgalleryapp
 
     public static class foo
     {
+        //BUILD FAILED
+        //C:\util\android-sdk-windows\tools\ant\build.xml:1139: The following error occurred while executing this line:
+        //C:\util\android-sdk-windows\tools\ant\build.xml:1151: X:\jsc.internal.svn\keystore\asus\my-release-key.keystore (The system cannot find the path specified)
+
+
         public static File InternalTakePicture(int num = 0)
         {
             // do we have a special test for this?
@@ -708,6 +713,8 @@ namespace com.abstractatech.dcimgalleryapp
 
                 try
                 {
+#if xmetadata
+  //<package id="AndroidMetadataExtractor" version="1.0.0.0" targetFramework="net40" />
                     var m = ImageMetadataReader.readMetadata(new File(filepath));
 
                     // http://stackoverflow.com/questions/10166373/metadata-extraction-java
@@ -724,6 +731,8 @@ namespace com.abstractatech.dcimgalleryapp
                         mImageData = x.getThumbnailData();
 
                     }
+#endif
+
                 }
                 catch
                 {
@@ -771,7 +780,7 @@ namespace com.abstractatech.dcimgalleryapp
 
 
 
-
+#if false
         public void DownloadSDK(WebServiceHandler h)
         {
             var HostUri = new
@@ -802,6 +811,7 @@ namespace com.abstractatech.dcimgalleryapp
             DownloadSDKFunction.DownloadSDK(h);
 
         }
+#endif
 
         //#if DEBUG
         //        static WithClickOnceLANLauncher.ApplicationWebServiceMulticast InternalMulticast;
@@ -987,6 +997,7 @@ namespace com.abstractatech.dcimgalleryapp
             try
             {
 #if xmetadata
+  //<package id="AndroidMetadataExtractor" version="1.0.0.0" targetFramework="net40" />
 
                 // http://drewnoakes.com/code/exif/
                 Metadata m = ImageMetadataReader.readMetadata(file);

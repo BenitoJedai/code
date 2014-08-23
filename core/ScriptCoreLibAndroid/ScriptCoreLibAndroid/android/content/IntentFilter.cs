@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib;
+﻿using android.os;
+using ScriptCoreLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,17 @@ namespace android.content
 
     // http://developer.android.com/reference/android/content/IntentFilter.html
     [Script(IsNative = true)]
-    public class IntentFilter
+    public class IntentFilter : Parcelable
     {
+        public IntentFilter()
+        {
+
+        }
+
+        public IntentFilter(string e)
+        {
+
+        }
         public void addAction(string e)
         { 
         }
