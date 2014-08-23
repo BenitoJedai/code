@@ -752,6 +752,7 @@
     <Compile Include="java\beans\PropertyChangeEvent.cs" />
     <Compile Include="java\beans\PropertyChangeListener.cs" />
     <Compile Include="java\beans\VetoableChangeListener.cs" />
+    <Compile Include="java\io\FileOutputStream.cs" />
     <Compile Include="java\io\DataOutputStream.cs" />
     <Compile Include="java\io\DataOutput.cs" />
     <Compile Include="java\io\ObjectInput.cs" />

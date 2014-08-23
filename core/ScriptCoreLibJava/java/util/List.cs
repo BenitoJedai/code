@@ -155,5 +155,11 @@ namespace java.util
 		object[] toArray(object[] a);
 
 	}
+
+    [Script(IsNative = true)]
+    public interface List<E> : List
+    {
+        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\hardware\Camera.cs
+    }
 }
 

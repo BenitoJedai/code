@@ -421,6 +421,12 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\io\BufferedReader.cs">
       <Link>java\io\BufferedReader.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\ByteArrayInputStream.cs">
+      <Link>java\io\ByteArrayInputStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\ByteArrayOutputStream.cs">
+      <Link>java\io\ByteArrayOutputStream.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\DataOutputStream.cs">
       <Link>java\io\DataOutputStream.cs</Link>
     </Compile>
@@ -441,6 +447,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\FilenameFilter.cs">
       <Link>java\io\FilenameFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\io\FileOutputStream.cs">
+      <Link>java\io\FileOutputStream.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\io\FilterOutputStream.cs">
       <Link>java\io\FilterOutputStream.cs</Link>
@@ -835,6 +844,8 @@
     <Compile Include="android\database\sqlite\SQLiteOpenHelper.cs" />
     <Compile Include="android\database\sqlite\SQLiteDatabase.cs" />
     <Compile Include="android\graphics\Color.cs" />
+    <Compile Include="android\graphics\Bitmap.cs" />
+    <Compile Include="android\graphics\BitmapFactory.cs" />
     <Compile Include="android\graphics\drawable\Drawable.cs" />
     <Compile Include="android\graphics\PixelFormat.cs" />
     <Compile Include="android\hardware\CameraInfo.cs" />
@@ -882,6 +893,7 @@
     <Compile Include="android\content\BroadcastReceiver.cs" />
     <Compile Include="android\content\Context.cs" />
     <Compile Include="android\os\Bundle.cs" />
+    <Compile Include="android\view\SurfaceHolder.cs" />
     <Compile Include="android\view\InputEvent.cs" />
     <Compile Include="android\view\Gravity.cs" />
     <Compile Include="android\view\SurfaceView.cs" />

@@ -17,6 +17,13 @@ namespace android.app
     [Script(IsNative = true)]
     public class Activity : ContextThemeWrapper
     {
+        // X:\jsc.svn\examples\javascript\android\com.abstractatech.dcimgalleryapp\com.abstractatech.dcimgalleryapp\ApplicationWebService.cs
+
+        public void addContentView(View view, ViewGroup.LayoutParams @params)
+        {
+
+        }
+
         protected virtual void onNewIntent(android.content.Intent value)
         {
 
