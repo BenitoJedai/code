@@ -34,6 +34,12 @@ namespace ChromeGalaxyS
             // https://chrome.google.com/webstore/detail/dionniaojcmomejjhemchjmdadbnhhaj/preview
 
             #region ChromeTCPServer
+
+            //<package id="Abstractatech.JavaScript.Forms.FloatStyler" version="1.0.0.0" targetFramework="net451" />
+            //<package id="Chrome.Web.Server" version="1.0.0.0" targetFramework="net451" />
+            //<package id="Chrome.Web.Server.StyledForm" version="1.0.0.0" targetFramework="net451" />
+            //<package id="Chrome.Web.Store" version="1.0.0.0" targetFramework="net451" />
+
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
             object self_chrome_socket = self_chrome.socket;
@@ -57,6 +63,7 @@ namespace ChromeGalaxyS
                 return;
             }
             #endregion
+
             new WebGLGalaxyS.Application(page);
         }
 

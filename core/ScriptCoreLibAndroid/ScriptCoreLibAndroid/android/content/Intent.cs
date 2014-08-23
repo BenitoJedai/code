@@ -16,6 +16,9 @@ namespace android.content
     [Script(IsNative = true)]
     public class Intent
     {
+        // X:\jsc.svn\examples\javascript\android\com.abstractatech.battery\com.abstractatech.battery\ApplicationWebService.cs
+        public static readonly string ACTION_BATTERY_CHANGED = "android.intent.action.BATTERY_CHANGED";
+
         public string getStringExtra(string name)
         {
             return null;

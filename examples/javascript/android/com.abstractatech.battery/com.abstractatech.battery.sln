@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.abstractatech.battery", "com.abstractatech.battery\com.abstractatech.battery.csproj", "{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeGalaxyS", "..\..\chrome\apps\ChromeGalaxyS\ChromeGalaxyS\ChromeGalaxyS.csproj", "{39EA13D0-9719-4DA7-903B-15D277C2EB9F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{880BB7EF-B510-4304-9732-BDE74C2D1892}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,8 +17,15 @@ Global
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Debug|x86.Build.0 = Debug|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|x86.ActiveCfg = Release|x86
 		{11C2E287-D128-4968-AD0A-1B5AD6BEB8C3}.Release|x86.Build.0 = Release|x86
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F}.Debug|x86.ActiveCfg = Debug|x86
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F}.Debug|x86.Build.0 = Debug|x86
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F}.Release|x86.ActiveCfg = Release|x86
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{39EA13D0-9719-4DA7-903B-15D277C2EB9F} = {880BB7EF-B510-4304-9732-BDE74C2D1892}
 	EndGlobalSection
 EndGlobal

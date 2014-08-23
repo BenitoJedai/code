@@ -62,5 +62,10 @@ namespace android.content
         {
             throw new NotImplementedException();
         }
+
+        public override Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

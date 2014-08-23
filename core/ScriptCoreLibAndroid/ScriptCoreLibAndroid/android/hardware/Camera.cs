@@ -35,6 +35,29 @@ namespace android.hardware
 
         }
 
+        // -compile:
+        //[javac] Compiling 705 source files to V:\bin\classes
+        //[javac] V:\src\com\abstractatech\dcimgalleryapp\foo.java:223: error: method setErrorCallback in class Camera cannot be applied to given types;
+        //[javac]         camera25.setErrorCallback(callback28);
+        //[javac]                 ^
+        //[javac]   required: ErrorCallback
+        //[javac]   found: XErrorCallback
+        //[javac]   reason: actual argument XErrorCallback cannot be converted to ErrorCallback by method invocation conversion
+        //[javac] V:\src\com\abstractatech\dcimgalleryapp\foo.java:240: error: method setOneShotPreviewCallback in class Camera cannot be applied to given types;
+        //[javac]         camera29.setOneShotPreviewCallback(callback30);
+        //[javac]                 ^
+        //[javac]   required: PreviewCallback
+        //[javac]   found: XCameraPreviewCallback
+        //[javac]   reason: actual argument XCameraPreviewCallback cannot be converted to PreviewCallback by method invocation conversion
+        //[javac] V:\src\com\abstractatech\dcimgalleryapp\foo.java:258: error: no suitable method found for takePicture(<null>,<null>,XCameraPictureCallback)
+        //[javac]         camera31.takePicture(null, null, callback32);
+        //[javac]                 ^
+        //[javac]     method Camera.takePicture(ShutterCallback,PictureCallback,PictureCallback,PictureCallback) is not applicable
+        //[javac]       (actual and formal argument lists differ in length)
+        //[javac]     method Camera.takePicture(ShutterCallback,PictureCallback,PictureCallback) is not applicable
+        //[javac]       (actual argument XCameraPictureCallback cannot be converted to PictureCallback by method invocation conversion)
+
+        [Script(IsNative = true)]
         public interface ErrorCallback
         {
             void onError(int arg0, global::android.hardware.Camera arg1);
@@ -45,6 +68,7 @@ namespace android.hardware
         {
         }
 
+        [Script(IsNative = true)]
         public interface PreviewCallback
         {
             void onPreviewFrame(sbyte[] arg0, global::android.hardware.Camera arg1);
@@ -55,12 +79,14 @@ namespace android.hardware
         { }
 
 
+        [Script(IsNative = true)]
         public interface PictureCallback
         {
             void onPictureTaken(sbyte[] arg0, global::android.hardware.Camera arg1);
 
         }
 
+        [Script(IsNative = true)]
         public interface ShutterCallback
         { }
 
@@ -78,11 +104,13 @@ namespace android.hardware
         }
 
 
+        [Script(IsNative = true)]
         public interface AutoFocusCallback
         {
             void onAutoFocus(bool arg0, global::android.hardware.Camera arg1);
         }
 
+        [Script(IsNative = true)]
         public class Parameters
         {
             // Parameter keys to communicate with the camera driver.
@@ -113,6 +141,7 @@ namespace android.hardware
             }
         }
 
+        [Script(IsNative = true)]
         public class Size
         {
             public int width;
