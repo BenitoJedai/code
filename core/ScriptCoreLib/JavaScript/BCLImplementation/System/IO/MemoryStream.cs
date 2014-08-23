@@ -151,7 +151,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
                 //Console.WriteLine("MemoryStream set Capacity " + new { value, value32 });
 
                 // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAndroidOrderByThenGroupBy\Application.cs
-                Console.WriteLine("MemoryStream set Capacity " + new { value });
+                //Console.WriteLine("MemoryStream set Capacity " + new { value });
 
                 InternalBuffer = new byte[value];
 
