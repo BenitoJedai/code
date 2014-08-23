@@ -39,6 +39,8 @@ namespace com.abstractatech.dcimgalleryapp
     {
         public static File InternalTakePicture(int num = 0)
         {
+            // do we have a special test for this?
+            // X:\jsc.svn\examples\javascript\android\AndroidEnvironmentWebActivity\AndroidEnvironmentWebActivity\ApplicationWebService.cs
 
             var DIRECTORY_DCIM = global::android.os.Environment.DIRECTORY_DCIM;
 

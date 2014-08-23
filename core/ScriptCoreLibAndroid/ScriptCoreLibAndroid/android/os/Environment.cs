@@ -8,10 +8,9 @@ namespace android.os
 {
     // http://developer.android.com/reference/android/os/Parcelable.html
     [Script(IsNative = true)]
-    public class Environment
+    public interface Environment
     {
-        // tested by
-        // X:\jsc.svn\examples\javascript\android\AndroidEnvironmentWebActivity\AndroidEnvironmentWebActivity\ApplicationWebService.cs
+        // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/os/Environment.java
 
     }
 }
