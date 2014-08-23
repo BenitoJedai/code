@@ -17,12 +17,14 @@ namespace AndroidEnvironmentWebActivity
     /// </summary>
     public class ApplicationWebService
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140823
         // jsc, when can we start sending async interfaces?
 
         // could we expose property Environment and have client build a
         // more complex call graph?
 
-
+        // what if every web call would have its own crypto key for callback? :P
+        // whatif the server would encrypt the state of a callback and send it to the client?
         public async Task<string> Environment_getExternalStorageState()
         {
             return android.os.Environment.getExternalStorageState();
@@ -91,7 +93,7 @@ namespace AndroidEnvironmentWebActivity
         }
 
 
-
+        // how does this relate to SSL/ and ServiceWorker?
         public void Handler(WebServiceHandler h)
         {
             var io = "/io";
