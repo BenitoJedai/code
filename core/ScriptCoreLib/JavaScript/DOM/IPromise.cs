@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -36,5 +37,52 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
 
         }
+
+
+#if NET_45
+        // csharp compiler wont allow us do define api within 4.0 and use in 4.5 the way we need to..
+ 
+
+        [Script(DefineAsStatic = true)]
+        public IPromiseAwaiter<T> GetAwaiter()
+        {
+            var t = new TaskCompletionSource<T>();
+
+            var p = new IPromiseAwaiter<T> { Task = t.Task };
+
+            then(t.SetResult);
+
+            return p;
+        }
+#endif
     }
+
+#if NET_45
+    [Script]
+    public class IPromiseAwaiter<T> : global::System.Runtime.CompilerServices.INotifyCompletion<>
+    {
+        // Error	3	'ScriptCoreLib.JavaScript.DOM.IPromiseAwaiter<ScriptCoreLib.JavaScript.DOM.KeyPair>' does not implement 'System.Runtime.CompilerServices.INotifyCompletion'	X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs	87	27	TestWebCryptoAsync
+
+
+        public Task<T> Task;
+
+        // CLR seems to do the oppisite for now..
+        // later this might be the place to synchronize context data between worker threads..
+        public bool IsCompleted { get { return Task.IsCompleted; } }
+
+        public void OnCompleted(Action<T> continuation)
+        {
+            Task.ContinueWith(
+                task =>
+                {
+                    continuation(task.Result);
+                }
+            );
+
+
+        }
+
+        public T GetResult() { return Task.Result; } // Nop. It exists purely because the compiler pattern demands it.
+    }
+#endif
 }

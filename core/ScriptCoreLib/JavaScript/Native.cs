@@ -129,10 +129,24 @@ namespace ScriptCoreLib.JavaScript
         static public DedicatedWorkerGlobalScope worker;
         static public SharedWorkerGlobalScope sharedworker;
 
+
+        // implemented at?
         static partial void __Uint8ClampedArray();
 
 
+        public static Crypto crypto
+        {
+            get
+            {
+                // tested by
+                // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
 
+                if (worker != null)
+                    return worker.crypto;
+
+                return Native.window.crypto;
+            }
+        }
 
 
         public static void __ToBase64String()
