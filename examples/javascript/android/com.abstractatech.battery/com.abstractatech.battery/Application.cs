@@ -30,6 +30,7 @@ namespace com.abstractatech.battery
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+#if false
             #region ChromeTCPServer
 
             //<package id="Abstractatech.JavaScript.Forms.FloatStyler" version="1.0.0.0" targetFramework="net451" />
@@ -39,6 +40,9 @@ namespace com.abstractatech.battery
 
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
+
+            // E/Web Console(10478): Uncaught TypeError: Cannot read property 'socket' of undefined at http://212.53.104.124:9475/view-source:30869
+
             object self_chrome_socket = self_chrome.socket;
 
             if (self_chrome_socket != null)
@@ -60,6 +64,8 @@ namespace com.abstractatech.battery
                 return;
             }
             #endregion
+#endif
+
 
             // works with chrome beta 38
             // canary 39 does not show up?
@@ -98,6 +104,15 @@ namespace com.abstractatech.battery
 
                     var transform = "rotate(" + deg + "deg)";
 
+
+                    //I/System.Console(10858): batteryStatusCheck { status = 2, chargePlug = 2, isCharging = true }
+                    //I/System.Console(10858): { batteryStatus = Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000000 (has extras) }, isCharging = true }
+                    //I/Web Console(10858): %c0:23994ms UploadValuesAsync { status = 204, responseType = arraybuffer } at http://212.53.104.124:19436/view-source:42435
+                    //I/Web Console(10858): %c0:24002ms MemoryStream set Capacity { value = 12 } at http://212.53.104.124:19436/view-source:42435
+                    //I/Web Console(10858): %c0:24006ms MemoryStream set Capacity { value = 30 } at http://212.53.104.124:19436/view-source:42435
+                    //I/Web Console(10858): 0:24013ms { a = NaN, transform = rotate(NaNdeg) } at http://212.53.104.124:19436/view-source:42394
+
+                    // why nAN?
                     Console.WriteLine(new { a, transform });
 
                     page.gauge_layer1.style.transform = transform;

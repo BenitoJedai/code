@@ -106,6 +106,7 @@
     <Compile Include="Query\Compiler\MemberInitExpressionBuilder.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.Average.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.Max.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilder.Sum.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.Min.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.IDbConnection.Count.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.Delete.cs" />

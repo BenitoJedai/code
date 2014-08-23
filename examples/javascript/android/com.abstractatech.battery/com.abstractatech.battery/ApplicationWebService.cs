@@ -107,9 +107,12 @@ namespace com.abstractatech.battery
             int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
+            // are floats correctly serialize from android?
             this.batteryStatus = level / (float)scale;
 
-            Console.WriteLine(new { batteryStatus = intent, isCharging });
+            // android webview does not get our floats?
+            Console.WriteLine(new { this.batteryStatus, intent, isCharging });
+            //I/System.Console(11110): { batteryStatus = 0.8, intent = Intent { act=android.intent.action.BATTERY_CHANGED flg=0x60000000 (has extras) }, isCharging = true }
 
             //return Task.FromResult(batteryPct);
 #endif
