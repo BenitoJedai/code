@@ -141,6 +141,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Screenshots\Clipboard01.png" />
     <Content Include="Textures\Mockup.png" />
     <None Include="packages.config" />
     <None Include="staging\ChromeCreativeLeadership.Application\web\manifest.json">
