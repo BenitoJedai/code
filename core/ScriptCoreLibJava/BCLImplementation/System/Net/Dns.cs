@@ -8,6 +8,8 @@ using java.net;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
+    // http://referencesource.microsoft.com/#System/net/System/Net/DNS.cs
+
 	[Script(Implements = typeof(global::System.Net.Dns))]
 	internal class __Dns
 	{
