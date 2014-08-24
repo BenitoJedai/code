@@ -13,7 +13,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 {
     // see: http://msdn.microsoft.com/en-us/library/System.Runtime.CompilerServices.CallSite.aspx
     // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Actions/CallSite.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/dlr/Runtime/Microsoft.Scripting.Core/Actions/CallSite.cs
+    // https://github.com/mono/mono/blob/master/mcs/tools/cil-strip/Mono.Cecil/CallSite.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/dlr/Runtime/Microsoft.Scripting.Core/Actions/CallSiteOps.cs
 
+    // 
+    [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite))]
+    internal class __CallSite
+    {
+        // tested by
+        // can we move it into Shared?
+        // ActionSctipt is also on board?
+
+
+        public CallSiteBinder Binder { get; set; }
+    }
 
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite<>))]
     internal class __CallSite<T> : __CallSite
@@ -270,9 +284,5 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
     }
 
-    [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite))]
-    internal class __CallSite
-    {
-        public CallSiteBinder Binder { get; set; }
-    }
+
 }

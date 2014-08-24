@@ -43,6 +43,22 @@ namespace ScriptCoreLib.JavaScript
 
     namespace WebGL
     {
+        //[Script(HasNoPrototype = true, ExternalTarget = "Uint8Array", Implements = typeof(byte[]))]
+
+        // crypto exponend needs to be in Uint8Array while until now we chose Uint8ClampedArray to implement byte[]
+        // do we need t switch?
+
+        [Script(HasNoPrototype = true, ExternalTarget = "Uint8Array")]
+        public class Uint8Array : ArrayBufferView
+        {
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.cs
+
+            public Uint8Array(params byte[] array)
+            {
+
+            }
+        }
+
 
         [Script(HasNoPrototype = true, ExternalTarget = "Uint8ClampedArray", Implements = typeof(byte[]))]
         public class Uint8ClampedArray : ArrayBufferView

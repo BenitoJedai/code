@@ -11,6 +11,7 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Runtime.CompilerServices
 {
+    [Obsolete]
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite<>))]
     internal class __CallSite<T> : __CallSite
     {

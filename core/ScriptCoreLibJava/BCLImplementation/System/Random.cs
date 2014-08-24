@@ -5,6 +5,8 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/random.cs
+
     [Script(Implements = typeof(global::System.Random))]
     internal class __Random
     {

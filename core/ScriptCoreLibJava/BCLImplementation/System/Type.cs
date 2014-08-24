@@ -10,17 +10,14 @@ using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
+    // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Type.cs
+    // http://referencesource.microsoft.com/#mscorlib/system/type.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
+
     [Script(Implements = typeof(global::System.Type))]
     internal class __Type : __MemberInfo
     {
-
-
-
-        //Implementation not found for type import :
-        //type: System.Type
-        //method: Boolean get_IsEnum()
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
         public virtual bool IsEnum
         {
             get

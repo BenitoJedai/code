@@ -56,6 +56,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         // where to put the async definitions?
         // keep the original callback/Promise api also visible?
 
+        // tested by
+        // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
+
         public static Task<KeyPair> generateKeyAsync(
             this SubtleCrypto that,
 

@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     // this might be what Windows Runtime API def feels within .NET def
     // how does it relate to Nullable<> ?
 
+    // ScriptPromise 
+
     [Script(HasNoPrototype = true, ExternalTarget = "Promise")]
     public class IPromise
     {

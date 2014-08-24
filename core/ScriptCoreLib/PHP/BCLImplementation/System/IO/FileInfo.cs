@@ -10,46 +10,60 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.FileInfo))]
 	internal class __FileInfo : __FileSystemInfo
 	{
-		public FileStream OpenRead()
-		{
-			return File.OpenRead(this.FullPath);
-		}
+        //public FileStream OpenRead()
+        //{
+        //    return File.OpenRead(this.FullPath);
+        //}
 
-		public FileStream OpenWrite()
-		{
-			return File.OpenWrite(this.FullPath);
-		}
+        //public FileStream OpenWrite()
+        //{
+        //    return File.OpenWrite(this.FullPath);
+        //}
 
-		public __FileInfo(string Path)
-		{
-			//Console.WriteLine("__DirectoryInfo: " + Path + "<br />");
+        //public __FileInfo(string Path)
+        //{
+        //    //Console.WriteLine("__DirectoryInfo: " + Path + "<br />");
 
-			if (Path.Contains(":"))
-				this.FullPath = Path;
-			else if (Path.StartsWith("/"))
-				this.FullPath = Path;
-			else
-				this.FullPath = __Path.Combine(Environment.CurrentDirectory, Path);
+        //    if (Path.Contains(":"))
+        //        this.FullPath = Path;
+        //    else if (Path.StartsWith("/"))
+        //        this.FullPath = Path;
+        //    else
+        //        this.FullPath = __Path.Combine(Environment.CurrentDirectory, Path);
 
-			//Console.WriteLine("__DirectoryInfo.FullPath: " + this.FullPath + "<br />");
+        //    //Console.WriteLine("__DirectoryInfo.FullPath: " + this.FullPath + "<br />");
 
-			this.OriginalPath = Path;
-		}
+        //    this.OriginalPath = Path;
+        //}
 
 
-		public override bool Exists
-		{
-			get { return File.Exists(this.FullPath); }
-		}
+        //public override bool Exists
+        //{
+        //    get { return File.Exists(this.FullPath); }
+        //}
 
-		public override void Delete()
-		{
-			File.Delete(this.FullPath);
-		}
+        //public override void Delete()
+        //{
+        //    File.Delete(this.FullPath);
+        //}
 
-		public override string Name
-		{
-			get { return Native.API.basename(this.FullPath); }
-		}
-	}
+        //public override string Name
+        //{
+        //    get { return Native.API.basename(this.FullPath); }
+        //}
+        public override void Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Exists
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override string Name
+        {
+            get { throw new NotImplementedException(); }
+        }
+    }
 }

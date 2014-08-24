@@ -8,6 +8,9 @@ using System.Reflection;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/delegate.cs
+
+
 	[Script(Implements = typeof(global::System.Delegate))]
 	internal abstract class __Delegate
 	{

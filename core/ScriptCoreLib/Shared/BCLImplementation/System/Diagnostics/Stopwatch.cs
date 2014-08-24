@@ -8,6 +8,8 @@ using System.Diagnostics;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
 {
     // http://referencesource.microsoft.com/#System/services/monitoring/system/diagnosticts/Stopwatch.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Diagnostics/Stopwatch.cs
+
     [Script(Implements = typeof(global::System.Diagnostics.Stopwatch))]
     public class __Stopwatch
     {

@@ -8,6 +8,10 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Collections;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/collections/comparer.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Comparer.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Comparer.cs
+
     [Script(Implements = typeof(Comparer))]
     internal class __Comparer : __IComparer
     {

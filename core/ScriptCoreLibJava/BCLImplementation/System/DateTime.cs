@@ -6,8 +6,13 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/datetime.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\DateTime.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\DateTime.cs
+
+
     [Script(Implements = typeof(global::System.DateTime))]
-    internal class __DateTime
+    internal class __DateTime // : __NativeDateTime
     {
         public global::java.util.Calendar InternalValue;
 

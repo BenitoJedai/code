@@ -10,6 +10,13 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 {
+    [Obsolete]
+    [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite))]
+    internal class __CallSite
+    {
+        public CallSiteBinder Binder { get; set; }
+    }
+
     [Script]
     internal class __CallSite__InvokeMemberBinder
     {
@@ -367,9 +374,5 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 
     }
 
-    [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite))]
-    internal class __CallSite
-    {
-        public CallSiteBinder Binder { get; set; }
-    }
+
 }

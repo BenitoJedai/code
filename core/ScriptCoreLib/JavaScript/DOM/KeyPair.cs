@@ -11,7 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     {
         // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
 
-          public Key publicKey;
-          public Key privateKey;
+          public CryptoKey publicKey;
+          public CryptoKey privateKey;
     }
 }

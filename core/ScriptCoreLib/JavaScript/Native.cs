@@ -14,6 +14,8 @@ namespace ScriptCoreLib.JavaScript
     using System.IO;
     using ScriptCoreLib.JavaScript.BCLImplementation.System;
     using ScriptCoreLib.Shared.BCLImplementation.System;
+    using System.Threading.Tasks;
+    using ScriptCoreLib.JavaScript.WebGL;
 
 
 
@@ -163,6 +165,11 @@ namespace ScriptCoreLib.JavaScript
 
         }
 
+
+
+        [Obsolete("experimental. allows us to sign/encrypt our data uploads for our session.")]
+        public static readonly Task<KeyPair> identity;
+
         static Native()
         {
 
@@ -180,7 +187,42 @@ namespace ScriptCoreLib.JavaScript
                 document = window.document;
                 screen = window.screen;
 
+                // were ApplicationWebserviceFields decrypted befoe this point?
                 __ToBase64String();
+
+                // https:// !!!
+
+                #region identity
+                if (Native.crypto != null)
+                {
+                    // do we even have crypto capability?
+                    // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
+                    // X:\jsc.svn\examples\javascript\Test\TestCryptoUIThreadIdentityKeyPair\TestCryptoUIThreadIdentityKeyPair\Application.cs
+                    // X:\jsc.svn\examples\javascript\Test\TestEncryptedPrivateFields\TestEncryptedPrivateFields\ApplicationWebService.cs
+
+
+                    var publicExponent = new Uint8Array(new byte[] { 0x01, 0x00, 0x01 });
+
+
+                    Native.identity = Native.crypto.subtle.generateKeyAsync(
+                            new
+                        {
+                            name = "RSASSA-PKCS1-v1_5",
+                            hash = new { name = "SHA-256" },
+
+
+                            modulusLength = 2048,
+                            publicExponent,
+
+                            //  RsaHashedKeyGenParams: hash: Algorithm: Not an object
+                        },
+                            false,
+                        //new[] { "encrypt", "decrypt" }
+                            new[] { "sign", "verify" }
+                        );
+                }
+                #endregion
+
 
                 return;
             }

@@ -4,8 +4,14 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 {
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Text\StringBuilder.cs
+
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Text\StringBuilder.cs
     // http://referencesource.microsoft.com/#mscorlib/system/text/stringbuilder.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Text/StringBuilder.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System.Web.Extensions/System.Web.Script.Serialization/StringBuilderExtensions.cs
+
+
     [Script(Implements = typeof(global::System.Text.StringBuilder))]
     internal class __StringBuilder
     {

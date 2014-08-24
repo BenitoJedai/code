@@ -6,6 +6,7 @@ using System;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/object.cs
 
 	[Script(
 

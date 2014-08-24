@@ -10,6 +10,7 @@ using System.IO;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.InteropServices;
 using ScriptCoreLib.Shared.BCLImplementation.System.Security;
+using ScriptCoreLib.Shared.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
