@@ -234,6 +234,7 @@
     <Compile Include="Shared\BCLImplementation\System\Dynamic\GetIndexBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\Stream.cs" />
+    <Compile Include="Shared\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable\Enumerable.ToArray.cs" />
     <Compile Include="Shared\BCLImplementation\System\Linq\Expressions\Expression\Expression.Property.cs" />
@@ -709,7 +710,6 @@
     <Compile Include="Shared\BCLImplementation\System\IO\Path.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />
-    <Compile Include="ActionScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Net\WebClient.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
@@ -785,7 +785,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\IO\MemoryStream.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StreamWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\StringWriter.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Double.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\UInt32.cs" />
     <Compile Include="Shared\BCLImplementation\System\IComparable.cs" />
@@ -1088,7 +1087,6 @@
     <Compile Include="PHP\BCLImplementation\System\IO\Directory.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\StreamWriter.cs" />
-    <Compile Include="PHP\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="PHP\BCLImplementation\System\Net\Sockets\Socket.cs" />
     <Compile Include="PHP\BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
