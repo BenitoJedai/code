@@ -131,6 +131,8 @@ namespace ScriptCoreLib.JavaScript
         static public IScreen screen;
         static public DedicatedWorkerGlobalScope worker;
         static public SharedWorkerGlobalScope sharedworker;
+
+        // tested by ?
         static public ServiceWorkerGlobalScope serviceworker;
 
 
@@ -153,6 +155,11 @@ namespace ScriptCoreLib.JavaScript
         }
 
 
+        [Obsolete("experimental. allows us to sign/encrypt our data uploads for our session.")]
+        public static readonly Task<KeyPair> identity;
+
+
+
         public static void __ToBase64String()
         {
             // X:\jsc.svn\examples\javascript\test\TestPackageAsApplication\TestPackageAsApplication\Application.cs
@@ -166,9 +173,6 @@ namespace ScriptCoreLib.JavaScript
         }
 
 
-
-        [Obsolete("experimental. allows us to sign/encrypt our data uploads for our session.")]
-        public static readonly Task<KeyPair> identity;
 
         static Native()
         {
@@ -203,6 +207,7 @@ namespace ScriptCoreLib.JavaScript
 
                     var publicExponent = new Uint8Array(new byte[] { 0x01, 0x00, 0x01 });
 
+                    // http://social.msdn.microsoft.com/Forums/en-US/d12a2c2e-22b0-44ab-bab5-8202a0c8edcc/rsa-signature-with-rsassapkcs1v15?forum=csharpgeneral
 
                     Native.identity = Native.crypto.subtle.generateKeyAsync(
                             new

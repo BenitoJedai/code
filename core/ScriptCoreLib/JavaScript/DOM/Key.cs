@@ -7,6 +7,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://www.w3.org/2012/webcrypto/WebCryptoAPI-20142503/Overview.html#dfn-Key
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/CryptoKey.idl
+    // http://msdn.microsoft.com/en-us/library/ie/dn302313(v=vs.85).aspx
 
     [Script(HasNoPrototype = true)]
     //public class Key
