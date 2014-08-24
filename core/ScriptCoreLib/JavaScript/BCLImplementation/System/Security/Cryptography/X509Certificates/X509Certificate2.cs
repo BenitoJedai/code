@@ -16,5 +16,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
 
         // http://stackoverflow.com/questions/23044914/c-sharp-ssl-server-mode-must-use-a-certificate-with-the-corresponding-private-ke
 
+        // http://blogs.msdn.com/b/dcook/archive/2008/11/25/creating-a-self-signed-certificate-in-c.aspx
+
+
     }
 }
