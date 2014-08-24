@@ -23,12 +23,13 @@ namespace ScriptCoreLib.Query.Experimental
             // used by
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectAverage\Program.cs
             // x:\jsc.svn\examples\javascript\linq\test\auto\testselect\testweborderbythengroupby\application.cs
-            Console.WriteLine("enter InsertAsync");
+            //Console.WriteLine("enter InsertAsync");
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
 
             var z = new TaskCompletionSource<TKey[]>();
 
             // was it manually set?
+            //QueryExpressionBuilder.WithConnectionAsync(
             QueryExpressionBuilder.WithConnection(
                 (IDbConnection cc) =>
                 {
@@ -41,7 +42,7 @@ namespace ScriptCoreLib.Query.Experimental
                     Task.WhenAll(i.ToArray()).ContinueWith(
                         delegate
                     {
-                        Console.WriteLine("after InsertAsync");
+                        //Console.WriteLine("after InsertAsync");
 
                         z.SetResult(
                             i.Select(x => x.Result).ToArray()
@@ -50,33 +51,34 @@ namespace ScriptCoreLib.Query.Experimental
                     );
                 }
             );
-            Console.WriteLine("exit InsertAsync");
+            //Console.WriteLine("exit InsertAsync");
             return z.Task;
         }
 
         public static Task<TKey> InsertAsync<TElement, TKey>(this QueryExpressionBuilder.xSelect<TKey, TElement> source, TElement value)
         {
-            Console.WriteLine("enter InsertAsync");
+            //Console.WriteLine("enter InsertAsync");
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestXMySQL\Program.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebInsert\Application.cs
 
             var z = new TaskCompletionSource<TKey>();
 
             // was it manually set?
+            //QueryExpressionBuilder.WithConnectionAsync(
             QueryExpressionBuilder.WithConnection(
                 (IDbConnection cc) =>
                 {
                     InsertAsync(source, cc, value).ContinueWith(
                         task =>
                     {
-                        Console.WriteLine("after InsertAsync");
+                        //Console.WriteLine("after InsertAsync");
 
                         z.SetResult(task.Result);
                     }
                     );
                 }
             );
-            Console.WriteLine("exit InsertAsync");
+            //Console.WriteLine("exit InsertAsync");
             return z.Task;
         }
 
@@ -89,7 +91,7 @@ namespace ScriptCoreLib.Query.Experimental
 
             if (xDbCommand != null)
             {
-                Console.WriteLine("before ExecuteNonQueryAsync");
+                //Console.WriteLine("before ExecuteNonQueryAsync");
                 var n = xDbCommand.ExecuteNonQueryAsync();
 
                 var c = new TaskCompletionSource<TKey>();
@@ -100,7 +102,7 @@ namespace ScriptCoreLib.Query.Experimental
                         // jsc makes all Keys of long, yet data layer seems to talk int?
                         long LastInsertRowId = IDbConnectionExtensions.GetLastInsertRowId(cc);
 
-                        Console.WriteLine("InsertAsync " + new { LastInsertRowId });
+                        //Console.WriteLine("InsertAsync " + new { LastInsertRowId });
 
                         c.SetResult(
                             (TKey)(object)LastInsertRowId

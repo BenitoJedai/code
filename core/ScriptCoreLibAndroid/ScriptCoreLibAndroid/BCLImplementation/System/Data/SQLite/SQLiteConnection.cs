@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
 {
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/Mono.Data.Sqlite/Mono.Data.Sqlite_2.0/SQLiteConnection.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/Mono.Data.Sqlite/Mono.Data.Sqlite_2.0/SQLiteConnection.cs
     // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
     // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
 
@@ -19,11 +19,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
 
-        //        Implementation not found for type import :
-        //type: System.Data.SQLite.SQLiteConnection
-        //method: Void set_BusyTimeout(Int32)
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
+      
 
         // we aint using this yet? tests needed!
         public int BusyTimeout { get; set; }

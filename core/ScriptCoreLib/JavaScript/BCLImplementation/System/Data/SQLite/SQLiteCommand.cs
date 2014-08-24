@@ -211,17 +211,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
 
         public override Task<object> ExecuteScalarAsync()
         {
-            Console.WriteLine("enter ExecuteScalarAsync");
+            Console.WriteLine("enter ExecuteScalarAsync before ExecuteReaderAsync");
 
             // X:\jsc.svn\examples\javascript\LINQ\LINQWebCamAvatars\LINQWebCamAvatars\Application.cs
             // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Count.cs
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestWebInsert\Application.cs
+            // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.SumAsync.cs
 
             var z = new TaskCompletionSource<object>();
 
             this.ExecuteReaderAsync().ContinueWith(
                 zz =>
                 {
+                    Console.WriteLine("enter ExecuteScalarAsync ContinueWith");
+
                     zz.Result.Read();
 
                     var __value = zz.Result[0];
