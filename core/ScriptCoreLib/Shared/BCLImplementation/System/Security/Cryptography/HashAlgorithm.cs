@@ -7,6 +7,8 @@ using ScriptCoreLib;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 {
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/hashalgorithm.cs
+    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/corlib/System.Security.Cryptography/HashAlgorithm.cs
+
 	[Script(Implements = typeof(global::System.Security.Cryptography.HashAlgorithm))]
 	public abstract class __HashAlgorithm
 	{

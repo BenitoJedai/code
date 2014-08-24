@@ -5,6 +5,10 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/math.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Math.cs
+
+
 	[Script(Implements = typeof(global::System.Math))]
 	internal class __Math
 	{

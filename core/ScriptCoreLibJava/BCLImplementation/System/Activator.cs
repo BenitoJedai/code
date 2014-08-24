@@ -6,6 +6,10 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Activator.cs
+    // http://referencesource.microsoft.com/#mscorlib/system/activator.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System/Activator.cs
+
     [Script(Implements = typeof(global::System.Activator))]
     internal class __Activator
     {

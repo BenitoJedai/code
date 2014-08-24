@@ -6,6 +6,9 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/multicastdelegate.cs
+
+
 	[Script(Implements = typeof(global::System.MulticastDelegate))]
 	internal class __MulticastDelegate : __Delegate
 	{

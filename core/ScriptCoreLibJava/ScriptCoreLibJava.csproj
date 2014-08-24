@@ -291,9 +291,6 @@
     <Compile Include="BCLImplementation\System\SByte.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -307,9 +304,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\Security\IEvidenceFactory.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\String.cs">

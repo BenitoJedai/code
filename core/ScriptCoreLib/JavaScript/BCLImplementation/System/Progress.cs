@@ -11,6 +11,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(ImplementsViaAssemblyQualifiedName = "System.Progress`1")]
     internal class __Progress<T> : __IProgress<T>
     {
+        // how would we implement it for java/android?
+
+        // how would we implement it for server early yield/event stream/websocket?
+
+
         Action<T> handler;
 
         public __Progress(Action<T> handler)

@@ -11,6 +11,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
     [Script(Implements = typeof(global::System.Security.Cryptography.SHA1CryptoServiceProvider))]
     internal class __SHA1CryptoServiceProvider : __SHA1
     {
+        // jsc, did we not do sha1 implementation for js?
+
         public override byte[] InternalComputeHash(byte[] buffer)
         {
             var value = default(byte[]);

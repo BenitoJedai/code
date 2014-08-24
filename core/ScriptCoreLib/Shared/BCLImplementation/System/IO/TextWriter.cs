@@ -6,6 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 {
     // http://referencesource.microsoft.com/#mscorlib/system/io/textwriter.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.IO/TextWriter.cs
 
     [Script(Implements = typeof(global::System.IO.TextWriter))]
     internal abstract class __TextWriter : IDisposable
