@@ -7,6 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 {
     // http://referencesource.microsoft.com/#mscorlib/system/io/file.cs
+
     [Script(Implements = typeof(global::System.IO.File))]
     public static class __File
     {

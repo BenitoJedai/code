@@ -15,7 +15,7 @@ using System.IO;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/webclient.cs
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System/System.Net/WebClient.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/System/System.Net/WebClient.cs
 
 
     [Script(Implements = typeof(global::System.Net.WebClient))]

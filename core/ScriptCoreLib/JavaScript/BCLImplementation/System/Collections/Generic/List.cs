@@ -14,6 +14,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
 
     // http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Collections\Generic\List.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Collections\Generic\List.cs
+
     [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
     internal class __List<T> : IList<T>
     {

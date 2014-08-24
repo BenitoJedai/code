@@ -6,6 +6,8 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/runtimehandles.cs
+
 	[Script(Implements = typeof(global::System.RuntimeTypeHandle))]
 	internal class __RuntimeTypeHandle
 	{

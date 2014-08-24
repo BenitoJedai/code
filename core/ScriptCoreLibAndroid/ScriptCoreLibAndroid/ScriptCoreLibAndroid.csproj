@@ -148,9 +148,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\FileStream.cs">
       <Link>BCLImplementation\System\IO\FileStream.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\FileSystemInfo.cs">
-      <Link>BCLImplementation\System\IO\FileSystemInfo.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs">
       <Link>BCLImplementation\System\IO\MemoryStream.cs</Link>
     </Compile>
@@ -237,9 +234,6 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\FieldInfo.cs">
       <Link>BCLImplementation\System\Reflection\FieldInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\ICustomAttributeProvider.cs">
-      <Link>BCLImplementation\System\Reflection\ICustomAttributeProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Reflection\MemberInfo.cs">
       <Link>BCLImplementation\System\Reflection\MemberInfo.cs</Link>

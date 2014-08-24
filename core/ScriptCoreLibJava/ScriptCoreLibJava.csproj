@@ -150,9 +150,6 @@
     <Compile Include="BCLImplementation\System\Exception.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Globalization\CultureInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Int16.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -187,9 +184,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\IO\FileInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\IO\FileSystemInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\IO\MemoryStream.cs">
@@ -261,9 +255,6 @@
     <Compile Include="BCLImplementation\System\Reflection\FieldInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Reflection\ICustomAttributeProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -326,9 +317,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\Threading\WaitHandle.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BCLImplementation\System\TimeSpan.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BCLImplementation\System\TimeZone.cs" />
@@ -985,6 +973,7 @@
     <Folder Include="BCLImplementation\Abstractatech\" />
     <Folder Include="BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="BCLImplementation\System\ComponentModel\" />
+    <Folder Include="BCLImplementation\System\Globalization\" />
     <Folder Include="BCLImplementation\System\Runtime\InteropServices\" />
     <Folder Include="BCLImplementation\System\Runtime\Serialization\" />
     <Folder Include="BCLImplementation\System\Security\Cryptography\X509Certificates\" />

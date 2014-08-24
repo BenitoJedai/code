@@ -217,7 +217,6 @@
     <Compile Include="JavaScript\BCLImplementation\System\Int64.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\File.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\IO\FileSystemInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSound.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Media\SystemSounds.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Progress.cs" />
@@ -233,6 +232,7 @@
     <Compile Include="Shared\BCLImplementation\System\Diagnostics\StackFrame.cs" />
     <Compile Include="Shared\BCLImplementation\System\Dynamic\GetIndexBinder.cs" />
     <Compile Include="Shared\BCLImplementation\System\Globalization\CultureInfo.cs" />
+    <Compile Include="Shared\BCLImplementation\System\IO\FileSystemInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\Stream.cs" />
     <Compile Include="Shared\BCLImplementation\System\IO\TextReader.cs" />
     <Compile Include="Shared\BCLImplementation\System\IProgress.cs" />
@@ -292,6 +292,7 @@
     <Compile Include="Shared\BCLImplementation\System\Net\ICredentialsByHost.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\NetworkCredential.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\WebHeaderCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Reflection\ICustomAttributeProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\Resources\ResourceManager.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
@@ -1167,6 +1168,7 @@
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
     <Folder Include="JavaScript\DOM\HTML\Elements\" />
+    <Folder Include="JavaScript\WebCrypto\" />
     <Folder Include="PHP\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />

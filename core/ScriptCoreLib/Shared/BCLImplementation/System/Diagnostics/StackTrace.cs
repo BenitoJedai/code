@@ -10,6 +10,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Diagnostics
     [Script(Implements = typeof(global::System.Diagnostics.StackTrace))]
     internal class __StackTrace
     {
+        // conflict with
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Diagnostics\StackTrace.cs
+
         // X:\jsc.svn\examples\javascript\LINQ\ComplexQueryExperiment\ComplexQueryExperiment\Application.cs
         // script: error JSC1000: Missing Script Attribute? Native constructor was invoked, please implement [System.Diagnostics.StackTrace..ctor(System.Boolean)]
 

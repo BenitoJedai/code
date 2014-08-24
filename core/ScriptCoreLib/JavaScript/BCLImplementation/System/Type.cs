@@ -13,18 +13,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // this is the most popular type?
 
 
-    #region referencesource
-
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
     // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Type.cs
     // http://referencesource.microsoft.com/#mscorlib/system/type.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System/Type.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
 
     // X:\opensource\github\JSIL\Proxies\Reflection.cs
     // "X:\opensource\github\Netjs\mscorlib.ts"
     // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Type.cs
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Type.cs
     // https://github.com/erik-kallen/SaltarelleCompiler/blob/develop/Runtime/CoreLib/Type.cs
-    #endregion
 
     [Script(Implements = typeof(global::System.Type))]
     public class __Type : __MemberInfo

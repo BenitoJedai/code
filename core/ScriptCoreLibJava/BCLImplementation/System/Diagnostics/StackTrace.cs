@@ -9,6 +9,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Diagnostics
     [Script(Implements = typeof(global::System.Diagnostics.StackTrace))]
     internal class __StackTrace
     {
+        // conflict with
+        // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Diagnostics\StackTrace.cs
+
         java.lang.Throwable t;
 
         public __StackTrace()

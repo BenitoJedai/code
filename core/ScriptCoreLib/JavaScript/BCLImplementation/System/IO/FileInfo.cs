@@ -1,4 +1,5 @@
 ﻿using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
             }
         }
 
+
+        public override bool Exists
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override string Name
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override void Delete()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     [Script(Implements = typeof(ScriptCoreLib.Extensions.CoreFileInfoExtensions))]

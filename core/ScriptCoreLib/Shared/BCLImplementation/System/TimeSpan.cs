@@ -5,6 +5,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/timespan.cs
+
     [Script(Implements = typeof(global::System.TimeSpan))]
     internal class __TimeSpan
     {

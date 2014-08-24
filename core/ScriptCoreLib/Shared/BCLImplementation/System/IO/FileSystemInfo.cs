@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.IO
+namespace ScriptCoreLib.Shared.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.FileSystemInfo))]
-	internal abstract class __FileSystemInfo
+	public abstract class __FileSystemInfo
 	{
+        // tested by ?
+        public abstract void Delete();
+
 		public abstract bool Exists { get; }
 
 		public virtual string FullName
