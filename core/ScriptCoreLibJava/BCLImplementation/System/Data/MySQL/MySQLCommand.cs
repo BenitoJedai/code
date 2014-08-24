@@ -258,6 +258,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Data.SQLite
 
         }
 
+
+        // when can we do async sql on app engine?
+        // https://code.google.com/p/adbcj/
+        // https://code.google.com/p/async-mysql-connector/wiki/UsageExample
+        // http://stackoverflow.com/questions/4087696/is-asynchronous-jdbc-call-possible
+        // http://georgovassilis.blogspot.com/2011/09/non-blocking-jdbc-with-asynchonous.html
+        // http://stackoverflow.com/questions/14255565/jdbc-and-concurrency-issues
+
+
         public new __MySQLDataReader ExecuteReader()
         {
             var value = default(__MySQLDataReader);

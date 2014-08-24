@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Promise")]
     public class IPromise
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\java\util\concurrent\Future.cs
     }
 
     [Script(HasNoPrototype = true, ExternalTarget = "Promise")]
