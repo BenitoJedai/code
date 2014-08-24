@@ -7,6 +7,8 @@ using System.Web;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/HttpRequest.cs
+
     [Script(Implements = typeof(global::System.Web.HttpRequest))]
     public sealed class __HttpRequest
     {

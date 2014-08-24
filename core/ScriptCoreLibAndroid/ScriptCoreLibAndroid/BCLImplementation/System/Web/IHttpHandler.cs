@@ -6,6 +6,8 @@ using System.Web;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/IHttpHandler.cs
+
     [Script(Implements = typeof(global::System.Web.IHttpHandler))]
     internal  interface __IHttpHandler
     {

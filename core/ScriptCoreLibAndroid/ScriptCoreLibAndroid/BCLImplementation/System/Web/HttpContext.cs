@@ -7,6 +7,8 @@ using System.Web.Profile;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/HttpContext.cs
+
     [Script(Implements = typeof(global::System.Web.HttpContext))]
     public class __HttpContext
     {

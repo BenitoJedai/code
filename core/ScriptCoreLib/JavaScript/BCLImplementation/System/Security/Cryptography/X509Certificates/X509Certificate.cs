@@ -7,7 +7,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
 {
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/x509certificates/x509certificate.cs
     // http://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.x509certificate(v=vs.110).aspx
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Security.Cryptography.X509Certificates/X509Certificate.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Security.Cryptography.X509Certificates/X509Certificate.cs
 
 
     //A public key certificate, usually just called a certificate, is a digitally signed statement 
@@ -23,6 +23,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
+        // can we parse .cer/it in a drag n drop?
+        // A .cer or .crt file contains only the certificate, and not a private key.
+
         // http://unmitigatedrisk.com/?p=426
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SubtleCrypto.cs
 

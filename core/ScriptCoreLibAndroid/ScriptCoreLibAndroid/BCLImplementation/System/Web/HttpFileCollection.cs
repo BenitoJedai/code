@@ -8,6 +8,8 @@ using System.Web;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/HttpFileCollection.cs
+
     [Script(Implements = typeof(global::System.Web.HttpFileCollection))]
     internal sealed class __HttpFileCollection : __NameObjectCollectionBase
     {

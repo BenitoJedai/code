@@ -282,9 +282,6 @@
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BCLImplementation\System\Security\Cryptography\RSAParameters.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1.cs">
       <SubType>Code</SubType>
     </Compile>

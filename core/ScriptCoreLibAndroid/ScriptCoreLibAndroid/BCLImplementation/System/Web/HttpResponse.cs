@@ -10,6 +10,8 @@ using System.Web;
 using System.IO;
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/HttpResponse.cs
+
     [Script(Implements = typeof(global::System.Web.HttpResponse))]
     public sealed class __HttpResponse
     {
