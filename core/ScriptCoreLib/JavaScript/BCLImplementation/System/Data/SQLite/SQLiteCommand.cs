@@ -198,10 +198,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
                                        __DbDataReader xx = new __SQLiteDataReader { r = r };
 
                                        x.SetResult(xx);
-                                   }
+                                   },
+
+                            errorCallback:
+                                 (SQLTransaction transaction, SQLError error) =>
+                                 {
+                                     Console.WriteLine("executeSql error __DbCommand_ExecuteReaderAsync " + new { error.message, error.code });
+
+                                 }
+
                          );
 
-                     }
+                     },
+
+
+                     errorCallback:
+                         (SQLError error) =>
+                         {
+                             Console.WriteLine("transaction error __DbCommand_ExecuteReaderAsync " + new { error.message, error.code });
+
+                         }
+
             );
 
             return x.Task;
