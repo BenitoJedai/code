@@ -6,6 +6,8 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/asymmetricalgorithm.cs
+
 	[Script(Implements = typeof(global::System.Security.Cryptography.AsymmetricAlgorithm))]
 	internal abstract class __AsymmetricAlgorithm : IDisposable
 	{

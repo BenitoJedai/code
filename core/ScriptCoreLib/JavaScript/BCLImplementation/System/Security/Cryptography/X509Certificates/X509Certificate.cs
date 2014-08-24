@@ -23,6 +23,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
+        // http://unmitigatedrisk.com/?p=426
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\SubtleCrypto.cs
+
         // Certificate: paper establishing an ownership claim
 
 

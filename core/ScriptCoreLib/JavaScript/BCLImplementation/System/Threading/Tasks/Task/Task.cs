@@ -28,6 +28,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal partial class __Task
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Tasks\Task.cs
+
         public override string ToString()
         {
             return new { IsCompleted }.ToString();
