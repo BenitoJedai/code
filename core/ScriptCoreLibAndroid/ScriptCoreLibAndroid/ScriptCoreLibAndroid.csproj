@@ -154,14 +154,8 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\MemoryStream.cs">
       <Link>BCLImplementation\System\IO\MemoryStream.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\Path.cs">
-      <Link>BCLImplementation\System\IO\Path.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\StreamReader.cs">
       <Link>BCLImplementation\System\IO\StreamReader.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\IO\TextReader.cs">
-      <Link>BCLImplementation\System\IO\TextReader.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs">
       <Link>BCLImplementation\System\Linq\__Query\InternalSequenceImplementation.cs</Link>

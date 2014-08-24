@@ -9,6 +9,8 @@ using java.lang;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/methodinfo.cs
+
     [Script(Implements = typeof(MethodInfo))]
     internal class __MethodInfo : __MethodBase
     {

@@ -8,16 +8,14 @@ using System.Net.NetworkInformation;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
 {
+    // http://referencesource.microsoft.com/#System/net/System/Net/NetworkInformation/NetworkInterface.cs
+
     [Script(Implements = typeof(global::System.Net.NetworkInformation.NetworkInterface))]
     public class __NetworkInterface
     {
         public java.net.NetworkInterface InternalValue;
 
-        //Implementation not found for type import :
-        //type: System.Net.NetworkInformation.NetworkInterface
-        //method: System.Net.NetworkInformation.IPInterfaceProperties GetIPProperties()
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
+
 
 
 

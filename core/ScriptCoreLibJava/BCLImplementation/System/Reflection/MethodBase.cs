@@ -9,6 +9,8 @@ using java.lang;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/methodbase.cs
+
     [Script(Implements = typeof(MethodBase))]
     internal abstract class __MethodBase : __MemberInfo
     {

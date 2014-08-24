@@ -9,6 +9,8 @@ using System.Net;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
 {
+    // http://referencesource.microsoft.com/#System/net/System/Net/NetworkInformation/IPAddressInformation.cs
+
     [Script(Implements = typeof(global::System.Net.NetworkInformation.IPAddressInformation))]
     internal class __IPAddressInformation
     {

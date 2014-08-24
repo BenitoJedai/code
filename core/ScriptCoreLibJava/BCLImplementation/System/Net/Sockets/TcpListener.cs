@@ -11,11 +11,13 @@ using System.Threading.Tasks;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/Sockets/TCPListener.cs
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System/System.Net.Sockets/TcpListener.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/System/System.Net.Sockets/TcpListener.cs
 
     [Script(Implements = typeof(global::System.Net.Sockets.TcpListener))]
     internal class __TcpListener
     {
+        // what about AIR for iOS ?
+
         // tested by ?
         // when can we do Android, CLR and Chrome webservers via SSL ?
 

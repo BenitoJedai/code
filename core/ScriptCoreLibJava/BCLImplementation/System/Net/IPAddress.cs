@@ -8,6 +8,8 @@ using System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
+    // http://referencesource.microsoft.com/#System/net/System/Net/IPAddress.cs
+
     [Script(Implements = typeof(global::System.Net.IPAddress))]
     public class __IPAddress
     {
@@ -25,11 +27,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
             return (byte[])(object)this.InternalAddress.getAddress();
         }
 
-        //Implementation not found for type import :
-        //type: System.Net.IPAddress
-        //method: Byte[] GetAddressBytes()
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
+
 
         public static bool IsLoopback(IPAddress address)
         {
