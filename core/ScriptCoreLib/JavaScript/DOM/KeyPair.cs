@@ -5,7 +5,10 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+
     // http://www.w3.org/2012/webcrypto/WebCryptoAPI-20142503/Overview.html#dfn-KeyPair
+    // http://msdn.microsoft.com/en-us/library/ie/dn302315(v=vs.85).aspx
+
     [Script(HasNoPrototype = true)]
     public class KeyPair
     {

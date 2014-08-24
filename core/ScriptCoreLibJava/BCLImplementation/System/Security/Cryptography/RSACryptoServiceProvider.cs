@@ -7,6 +7,11 @@ using System.Security.Cryptography;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/rsacryptoserviceprovider.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Security.Cryptography/RSACryptoServiceProvider.cs
+    // http://msdn.microsoft.com/en-us/library/5e9ft273(v=vs.110).aspx
+
     [Script(Implements = typeof(global::System.Security.Cryptography.RSACryptoServiceProvider))]
     internal class __RSACryptoServiceProvider : __RSA
     {
