@@ -6,12 +6,20 @@ using ScriptCoreLib;
 using System.Net;
 using System.Net.Sockets;
 using java.lang;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
+    // http://referencesource.microsoft.com/#System/net/System/Net/Sockets/TCPListener.cs
+    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System/System.Net.Sockets/TcpListener.cs
+
     [Script(Implements = typeof(global::System.Net.Sockets.TcpListener))]
     internal class __TcpListener
     {
+        // tested by ?
+        // when can we do Android, CLR and Chrome webservers via SSL ?
+
+
         public global::java.net.ServerSocket InternalSocket;
         public __IPAddress localaddr;
         public int port;
@@ -37,15 +45,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
         }
 
-        public void Start()
-        {
-            this.Start(0x7fffffff);
-        }
+
 
         public Socket Server
         {
             get;
             set;
+        }
+
+        #region Start
+        public void Start()
+        {
+            this.Start(0x7fffffff);
         }
 
         public void Start(int backlog)
@@ -74,6 +85,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             }
 
         }
+        #endregion
 
         public void Stop()
         {
@@ -86,6 +98,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
             {
                 throw;
             }
+        }
+
+
+
+
+        // NET45
+        public Task<Socket> AcceptSocketAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TcpClient> AcceptTcpClientAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public Socket AcceptSocket()

@@ -12,9 +12,13 @@ using ScriptCoreLib.JavaScript.WebGL;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/webclient.cs
+    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System/System.Net/WebClient.cs
+
     [Script(Implements = typeof(global::System.Net.WebClient))]
     public class __WebClient
     {
+        // can we do encrypted/signed  web client yet?
+
         public WebHeaderCollection ResponseHeaders { get; set; }
 
         // X:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Library\Templates\JavaScript\InternalWebMethodRequest.cs

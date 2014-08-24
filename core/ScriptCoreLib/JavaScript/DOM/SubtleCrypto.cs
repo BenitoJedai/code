@@ -11,6 +11,16 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class SubtleCrypto
     {
+        // http://unmitigatedrisk.com/?p=470
+        // http://tonyarcieri.com/imperfect-forward-secrecy-the-coming-cryptocalypse
+        // if we were on android chrome.
+        // could we make use of NFC TPM ?
+
+
+        //In that regard, the normative parts of the specification are totally fine. While the spec doesn’t cover it, the APIs seem sufficiently abstract to allow them to easily map onto future encryption algorithms and trusted platform modules (TPMs) which could provide secure storage for encryption keys.
+        // http://tonyarcieri.com/whats-wrong-with-webcrypto
+
+
         // http://www.w3.org/TR/WebCryptoAPI/
 
         // http://www.w3.org/2012/webcrypto/wiki/images/b/bc/Webrtc.pdf
