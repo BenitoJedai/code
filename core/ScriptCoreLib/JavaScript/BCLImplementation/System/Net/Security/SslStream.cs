@@ -7,11 +7,15 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/SecureProtocols/SslStream.cs
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System/System.Net.Security/SslStream.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/System/System.Net.Security/SslStream.cs
 
     [Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
+        // can the webserivce return sslstream?
+
+        // http://stackoverflow.com/questions/8086790/streaming-image-over-ssl-socket-doesnt-come-across-correctly
+
         // how would CLR or Android send out a custom stream and have it signed?
 
         public virtual X509Certificate LocalCertificate { get; set; }
