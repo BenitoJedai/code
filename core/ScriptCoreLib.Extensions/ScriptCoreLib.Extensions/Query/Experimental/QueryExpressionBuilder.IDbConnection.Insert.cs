@@ -18,7 +18,7 @@ namespace ScriptCoreLib.Query.Experimental
         // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Insert.cs
 
         #region GetInsertCommand
-        public static IDbCommand GetInsertCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
+        public static DbCommand GetInsertCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         {
             //Console.WriteLine("enter GetInsertCommand");
 
@@ -32,7 +32,7 @@ namespace ScriptCoreLib.Query.Experimental
             // insert into `PerformanceResourceTimingData2.ApplicationPerformance` (`connectStart`, `connectEnd`, `requestStart`, `responseStart`, `responseEnd`, `domLoading`, `domComplete`, `loadEventStart`, `loadEventEnd`, `EventTime`, `Tag`, `Timestamp`)  values (@connectStart
 
 
-            var c = cc.CreateCommand();
+            var c = (DbCommand)cc.CreateCommand();
 
             var w = new StringBuilder();
 
@@ -137,7 +137,7 @@ namespace ScriptCoreLib.Query.Experimental
 
 
         // shall the caller expose the callsite and source too?
-        [Obsolete("whats the default?")]
+        [Obsolete("whats the default? what about async calls?")]
         public static Action<Action<IDbConnection>> WithConnection;
 
 

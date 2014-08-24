@@ -117,7 +117,12 @@ namespace ScriptCoreLib.Query.Experimental
 
         }
 
-        public static IDbCommand GetScalarCommand<TElement>(
+
+
+        // used by
+        // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\Query\Experimental\QueryExpressionBuilderAsync.SumAsync.cs
+        // return DbCommand to provide Async versions of execute.
+        public static DbCommand GetScalarCommand<TElement>(
             this IQueryStrategy<TElement> source,
             IDbConnection cc,
 

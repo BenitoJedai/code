@@ -143,6 +143,7 @@
     <Compile Include="JavaScript\HistoricAttribute.cs" />
     <Compile Include="Lambda\Int32AsyncExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Experimental\QueryExpressionBuilderAsync.SumAsync.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.FirstOrDefault.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilderAsync.AsEnumerable.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilderAsync.IDbConnection.Count.cs" />
