@@ -67,16 +67,20 @@ namespace TestWebSumLong
 
                 var sumLongTask = (
                     from x in new PerformanceResourceTimingData2ApplicationPerformance()
-                    where x.connectEnd == 13
+                    //where x.connectEnd == 13
                     select x.connectStart
                     ).SumAsync();
 
+
+                // executeSql error __DbCommand_ExecuteReaderAsync { message = number of '?'s in statement string does not match argument count, code = 5 } 
+                // 
 
                 var sumLong = await sumLongTask;
 
                 // inserts not complete yet?
                 new IHTMLPre { new { sumLong } }.AttachToDocument();
                 // count: 3
+                // {{ sumLong = 5 }}
 
 
             }
