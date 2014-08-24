@@ -8,6 +8,8 @@ using java.lang.reflect;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/ConstructorInfo.cs
+
     [Script(Implements = typeof(ConstructorInfo))]
     internal class __ConstructorInfo : __MethodBase
     {
@@ -15,11 +17,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
         public global::java.lang.reflect.Constructor InternalConstructor;
 
-        //        Implementation not found for type import :
-        //type: System.Reflection.ConstructorInfo
-        //method: System.Object Invoke(System.Object[])
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
         public object Invoke(object[] parameters)
         {
             // require by
@@ -27,14 +24,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
             throw new NotImplementedException();
         }
-
-        //Implementation not found for type import :
-        //type: System.Reflection.ConstructorInfo
-        //method: Boolean op_Inequality(System.Reflection.ConstructorInfo, System.Reflection.ConstructorInfo)
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
-
-
 
         public static bool operator !=(__ConstructorInfo left, __ConstructorInfo right)
         {

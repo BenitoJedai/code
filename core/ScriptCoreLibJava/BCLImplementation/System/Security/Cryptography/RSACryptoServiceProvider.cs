@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Security.Cryptography;
+using ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 {

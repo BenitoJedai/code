@@ -7,6 +7,7 @@ using System.Web;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/HttpCachePolicy.cs
     // see also: Y:\jsc.svn\core\ScriptCoreLib\PHP\BCLImplementation\System\Web\HttpCachePolicy.cs
 
     [Script(Implements = typeof(global::System.Web.HttpCachePolicy))]

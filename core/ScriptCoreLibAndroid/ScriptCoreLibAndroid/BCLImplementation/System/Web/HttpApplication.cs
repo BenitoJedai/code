@@ -11,6 +11,8 @@ using ScriptCoreLibJava.BCLImplementation.System.IO;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/HttpApplication.cs
+
     [Script(Implements = typeof(global::System.Web.HttpApplication))]
     public class __HttpApplication : __IHttpAsyncHandler, __IHttpHandler, __IComponent, IDisposable
     {

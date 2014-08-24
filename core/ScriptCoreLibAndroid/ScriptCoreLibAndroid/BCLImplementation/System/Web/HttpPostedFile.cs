@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Web
 {
+    // http://referencesource.microsoft.com/#System.Web/xsp/system/Web/HttpPostedFile.cs
+
     [Script(Implements = typeof(global::System.Web.HttpPostedFile))]
     internal class __HttpPostedFile
     {

@@ -107,9 +107,11 @@
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\Security\AuthenticatedStream.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\RSA.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\PublicKey.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\Security\SslStream.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate2.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskFactory.ContinueWhenAll.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs" />
@@ -292,6 +294,7 @@
     <Compile Include="Shared\BCLImplementation\System\Net\ICredentialsByHost.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\NetworkCredential.cs" />
     <Compile Include="Shared\BCLImplementation\System\Net\WebHeaderCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Numerics\BigInteger.cs" />
     <Compile Include="Shared\BCLImplementation\System\Reflection\ICustomAttributeProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\Resources\ResourceManager.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
@@ -301,6 +304,7 @@
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\MD5.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProviderByMahmood.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\RSAParameters.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\IEvidenceFactory.cs" />
     <Compile Include="Shared\BCLImplementation\System\Threading\CancellationToken.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskFactory.cs" />

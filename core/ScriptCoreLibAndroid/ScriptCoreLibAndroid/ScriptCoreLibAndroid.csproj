@@ -268,9 +268,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs">
       <Link>BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSAParameters.cs">
-      <Link>BCLImplementation\System\Security\Cryptography\RSAParameters.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\SHA1.cs">
       <Link>BCLImplementation\System\Security\Cryptography\SHA1.cs</Link>
     </Compile>
@@ -315,9 +312,6 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Threading\WaitHandle.cs">
       <Link>BCLImplementation\System\Threading\WaitHandle.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\TimeSpan.cs">
-      <Link>BCLImplementation\System\TimeSpan.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\TimeZone.cs">
       <Link>BCLImplementation\System\TimeZone.cs</Link>
