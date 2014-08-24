@@ -6,6 +6,8 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/bitconverter.cs
+
     [Script(Implements = typeof(global::System.BitConverter))]
     internal class __BitConverter
     {

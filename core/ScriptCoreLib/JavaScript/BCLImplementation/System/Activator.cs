@@ -6,25 +6,22 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-
-
-    #region referencesource
-
     // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Activator.cs
     // http://referencesource.microsoft.com/#mscorlib/system/activator.cs
-    // https://raw.githubusercontent.com/mono/mono/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System/Activator.cs
     // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System/Activator.cs
+
+    // https://raw.githubusercontent.com/mono/mono/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System/Activator.cs
 
 
     // X:\opensource\github\SaltarelleCompiler\Runtime\CoreLib\Activator.cs
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Activator.cs
-    #endregion
 
     [Script(Implements = typeof(global::System.Activator))]
     internal class __Activator
     {
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Runtime\Serialization\FormatterServices.cs
 
+        // use by?
         public static object CreateInstance(Type type, params object[] args)
         {
             if ((object)type == null)

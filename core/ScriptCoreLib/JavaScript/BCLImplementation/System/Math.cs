@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Math.cs
     // http://referencesource.microsoft.com/#mscorlib/system/math.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Math.cs
+
     [Script(Implements = typeof(global::System.Math))]
     internal class __Math
     {
@@ -29,6 +31,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static int Abs(int e) { return (int)m.abs(e); }
         public static double Round(double e) { return m.round(e); }
 
+
+        // like linq to sql Max
+        #region Max
         public static byte Max(byte e, byte x) { return (byte)m.max(e, x); }
         public static int Max(int e, int x) { return m.max(e, x); }
         public static ushort Max(ushort e, ushort x) { return m.max(e, x); }
@@ -39,6 +44,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static double Max(double e, double x) { return m.max(e, x); }
         public static float Max(float e, float x) { return m.max(e, x); }
+        #endregion
+
 
         public static byte Min(byte e, byte x) { return (byte)m.min(e, x); }
         public static int Min(int e, int x) { return m.min(e, x); }

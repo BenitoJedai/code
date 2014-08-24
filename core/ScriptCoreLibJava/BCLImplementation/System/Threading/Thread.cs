@@ -5,6 +5,11 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/thread.cs
+    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Threading/Thread.cs
+
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Thread.cs
+
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
@@ -69,12 +74,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
                 return (int)this.InternalValue.getId();
             }
         }
-
-//Implementation not found for type import :
-//type: System.Threading.Thread
-//method: System.Threading.Thread get_CurrentThread()
-//Did you forget to add the [Script] attribute?
-//Please double check the signature!
 
 
         public static global::System.Threading.Thread CurrentThread

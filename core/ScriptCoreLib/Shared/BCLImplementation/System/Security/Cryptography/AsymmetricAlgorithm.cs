@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 {
     // http://referencesource.microsoft.com/#mscorlib/system/security/cryptography/asymmetricalgorithm.cs
 
 	[Script(Implements = typeof(global::System.Security.Cryptography.AsymmetricAlgorithm))]
-	internal abstract class __AsymmetricAlgorithm : IDisposable
+	public abstract class __AsymmetricAlgorithm : IDisposable
 	{
+        // used by
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSA.cs
+
 		public abstract string ToXmlString(bool includePrivateParameters);
 
 

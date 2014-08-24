@@ -9,9 +9,13 @@ using System.Reflection;
 using System.IO;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.Serialization;
 using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.InteropServices;
+using ScriptCoreLib.Shared.BCLImplementation.System.Security;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/reflection/assembly.cs
+
+
     [Script(Implements = typeof(global::System.Reflection.Assembly))]
     internal class __Assembly : ___Assembly, __IEvidenceFactory, __ICustomAttributeProvider, __ISerializable
     {

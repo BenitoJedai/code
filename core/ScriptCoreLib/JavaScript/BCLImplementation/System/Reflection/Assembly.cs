@@ -19,6 +19,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Reflection
 
 
     // http://referencesource.microsoft.com/#mscorlib/system/reflection/assembly.cs
+
     [Script(Implements = typeof(global::System.Reflection.Assembly))]
     public class __Assembly
     {

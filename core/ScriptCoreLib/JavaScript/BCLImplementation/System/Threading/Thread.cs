@@ -10,6 +10,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     // http://referencesource.microsoft.com/#mscorlib/system/threading/thread.cs
     // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Threading/Thread.cs
 
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs
+
     [Script(Implements = typeof(global::System.Threading.Thread))]
     internal class __Thread
     {
@@ -48,6 +50,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void Sleep(int ms)
         {
+            // unless jsc now has learned how to do a global async?
             // fake sleep. keep cpu busy!
 
             Console.WriteLine("sleep " + new { ms, Thread.CurrentThread.ManagedThreadId });

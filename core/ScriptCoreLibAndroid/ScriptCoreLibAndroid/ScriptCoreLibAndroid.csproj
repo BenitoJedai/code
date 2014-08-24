@@ -274,9 +274,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs">
       <Link>BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs">
-      <Link>BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSA.cs">
       <Link>BCLImplementation\System\Security\Cryptography\RSA.cs</Link>
     </Compile>
@@ -291,9 +288,6 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs">
       <Link>BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\IEvidenceFactory.cs">
-      <Link>BCLImplementation\System\Security\IEvidenceFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Single.cs">
       <Link>BCLImplementation\System\Single.cs</Link>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,12 +12,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     // FULL_AOT_RUNTIME
     // FEATURE_CORECLR
     [Script(Implements = typeof(global::System.Security.Cryptography.RSA))]
-    internal class __RSA
+    internal class __RSA : __AsymmetricAlgorithm
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSA.cs
+
         // X:\jsc.svn\examples\java\hybrid\JVMCLRRSA\JVMCLRRSA\Program.cs
 
 
         // tested by ?
 
+        public override string ToXmlString(bool includePrivateParameters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

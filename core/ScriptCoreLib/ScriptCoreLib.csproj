@@ -294,10 +294,12 @@
     <Compile Include="Shared\BCLImplementation\System\Resources\ResourceManager.cs" />
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\MD5.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProviderByMahmood.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Security\IEvidenceFactory.cs" />
     <Compile Include="Shared\BCLImplementation\System\Threading\CancellationToken.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskFactory.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskScheduler.cs" />
