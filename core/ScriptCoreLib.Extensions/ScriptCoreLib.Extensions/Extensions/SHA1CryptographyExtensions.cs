@@ -10,6 +10,7 @@ namespace ScriptCoreLib.Extensions
     {
         public static byte[] ToSHA1(this string e)
         {
+            // 20140824. webcrypto is almost here!
             // can we use it javascript yet?
             // we can MD5
 

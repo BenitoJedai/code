@@ -11,15 +11,9 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-
-
-
-
-
         public static long Min<TSource>(this IQueryStrategy<TSource> source, Expression<Func<TSource, long>> selector)
         {
             // X:\jsc.svn\examples\javascript\forms\test\TestMinSelector\TestMinSelector\ApplicationControl.cs
-            // 
 
             return source.Select(selector).Min();
         }
@@ -28,12 +22,9 @@ namespace ScriptCoreLib.Query.Experimental
         public static long Min(this IQueryStrategy<long> source)
         {
             // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMin\Program.cs
-
             // first, lets apprach it in a similar way. lets copy count
 
             var __value = default(long);
-
-
             WithConnection(
                 cc =>
                 {
@@ -47,11 +38,6 @@ namespace ScriptCoreLib.Query.Experimental
 
                 }
             );
-
-
-
-
-
             return __value;
         }
 

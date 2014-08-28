@@ -105,6 +105,7 @@
     <Compile Include="Extensions\System\Threadng\Tasks\ITaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\BitConverter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Data\PostgreSQL\PostgreSQLCommand.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\Security\AuthenticatedStream.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\RSA.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\PublicKey.cs" />

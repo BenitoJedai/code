@@ -26,67 +26,10 @@ namespace System.Data
     {
         // X:\jsc.svn\examples\javascript\forms\Test\TestSQLiteGroupBy\TestSQLiteGroupBy\ApplicationWebService.cs
 
-        #region select sum
-        // can this be used in a join?
-        //[Obsolete("this is somewhat like select foo and then sum, or like orderby. what about summing vec3"
-        //    )]
-        public static long Sum<TElement>(this IQueryStrategy<TElement> Strategy, Expression<Func<TElement, long>> selector)
-        {
-            // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
-
-            return ((Task<long>)Strategy.GetDescriptor().GetWithConnection()(
-                c =>
-                {
-
-                    // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
-                    // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm
-                    // http://sqlite.1065341.n5.nabble.com/SUM-and-NULL-values-td2257.html
-
-                    var body = ((MemberExpression)((LambdaExpression)selector).Body);
-
-                    // do we need to check our db schema or is reflection the schema for us?
-                    #region ColumnName
-                    var ColumnName = "";
-
-                    ColumnName = body.Member.Name;
-                    #endregion
-
-                    var state = QueryStrategyExtensions.AsCommandBuilder(Strategy);
-
-                    // override
-                    state.SelectCommand = "select sum(`" + ColumnName + "`) ";
-
-                    //var cmd = new SQLiteCommand(state.ToString(), c);
-                    var cmd = c.CreateCommand(state.ToString());
-
-                    foreach (var item in state.ApplyParameter)
-                    {
-                        item(cmd);
-                    }
-
-                    var s = new TaskCompletionSource<long>();
-
-
-                    s.SetResult(
-                    (long)cmd.ExecuteScalar()
-                    );
-
-                    //var r = cmd.ExecuteReader();
-
-                    //if (r.NextResult())
-                    //{
-                    //    //ex = {"No current row"}
-                    //    s.SetResult(
-                    //        r.GetInt64(0)
-                    //    );
-                    //}
-
-                    return s.Task;
-                }
-            )).Result;
-        }
-        #endregion
-
+        // http://stackoverflow.com/questions/3785995/sqlite-accumulator-sum-column-in-a-select-statement
+        // http://www.tutorialspoint.com/sqlite/sqlite_useful_functions.htm
+        // http://sqlite.1065341.n5.nabble.com/SUM-and-NULL-values-td2257.html
+        // X:\jsc.svn\examples\javascript\LINQ\MinMaxAverageExperiment\MinMaxAverageExperiment\ApplicationWebService.cs
 
         #region select sum double
         // can this be used in a join?

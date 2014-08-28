@@ -10,7 +10,7 @@ using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 {
-    [Obsolete]
+    [Obsolete("can we move it into Shared just yet?")]
     [Script(Implements = typeof(global::System.Runtime.CompilerServices.CallSite))]
     internal class __CallSite
     {

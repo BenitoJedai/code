@@ -9,7 +9,7 @@ using System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System/System.Net.Sockets/Socket.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Sockets/Socket.cs
     // http://referencesource.microsoft.com/#System/net/System/Net/Sockets/Socket.cs
 
     [Script(Implements = typeof(global::System.Net.Sockets.Socket))]

@@ -123,7 +123,6 @@
     <Compile Include="Query\Experimental\QueryExpressionBuilder.Where.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.Select.cs" />
     <Compile Include="Query\Experimental\QueryExpressionBuilder.cs" />
-    <Compile Include="Query\INestedQueryStrategy.cs" />
     <Compile Include="Query\IQueryStrategy.cs" />
     <Compile Include="Query\IQueryStrategyInsert.cs" />
     <Compile Include="Query\QueryStrategyExtensions.cs" />
@@ -137,7 +136,6 @@
     <Compile Include="Query\QueryStrategyOfTRowExtensions.OrderBy.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.Take.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.FirstOrDefault.cs" />
-    <Compile Include="Query\QueryStrategyOfTRowExtensions.Count.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.GroupBy.cs" />
     <Compile Include="Query\QueryStrategyOfTRowExtensions.Join.cs" />

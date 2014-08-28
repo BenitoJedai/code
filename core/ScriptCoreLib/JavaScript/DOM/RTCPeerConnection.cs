@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "RTCPeerConnection")]
     public class RTCPeerConnection
     {
+        // how does this relate to UDP / encrypted UDP
+
         // can we do LAN to LAN yet?
 
         // http://apps.playcanvas.com/max/tanky/colorTanks

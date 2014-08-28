@@ -924,63 +924,63 @@ namespace System.Data
                                          };
                                      #endregion
 
-                                     #region count(*) special!
-                                     if (asMethodCallExpression.Method.Name == refCount.Name)
-                                     {
-                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+                                     //#region count(*) special!
+                                     //if (asMethodCallExpression.Method.Name == refCount.Name)
+                                     //{
+                                     //    // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
 
-                                         // arg0ElementsBySelect = {new ApplicationResourcePerformance().Where(kk => (Convert(kk.ApplicationPerformance) == Convert(k.Key)))}
+                                     //    // arg0ElementsBySelect = {new ApplicationResourcePerformance().Where(kk => (Convert(kk.ApplicationPerformance) == Convert(k.Key)))}
 
-                                         var arg0Elements_MemberExpression = asMethodCallExpression.Arguments[0] as MemberExpression;
-                                         if (arg0Elements_MemberExpression != null)
-                                         {
-                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
+                                     //    var arg0Elements_MemberExpression = asMethodCallExpression.Arguments[0] as MemberExpression;
+                                     //    if (arg0Elements_MemberExpression != null)
+                                     //    {
+                                     //        // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
 
-                                             var arg0Elements_MParameterExpression = arg0Elements_MemberExpression.Expression as ParameterExpression;
-
-
-                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                               + arg0Elements_MParameterExpression.Name.Replace("<>", "__")
-                                                + ".`" + asMemberAssignment.Member.Name
-                                                + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                             return;
-                                         }
-
-                                         var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
-                                         if (arg0Elements_ParameterExpression != null)
-                                         {
-                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                                + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                             return;
-                                         }
-
-                                         var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
-                                         if (arg0ElementsBySelect != null)
-                                         {
-                                             var xTable_Where_Select0 = subquery(arg0ElementsBySelect);
-                                             var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
-
-                                             xTable_Where_Select.scalarAggregateOperand = "count";
-
-                                             #region s_SelectCommand
-                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
-                                             var scalarsubquery = xSelectScalar.ToString();
-
-                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
-
-                                             // do we have to 
-                                             // we dont know yet how to get sql of that thing do we
-                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+                                     //        var arg0Elements_MParameterExpression = arg0Elements_MemberExpression.Expression as ParameterExpression;
 
 
-                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
-                                             #endregion
-                                             return;
-                                         }
-                                     }
-                                     #endregion
+                                     //        s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                     //          + arg0Elements_MParameterExpression.Name.Replace("<>", "__")
+                                     //           + ".`" + asMemberAssignment.Member.Name
+                                     //           + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     //        return;
+                                     //    }
+
+                                     //    var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
+                                     //    if (arg0Elements_ParameterExpression != null)
+                                     //    {
+                                     //        s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                     //           + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     //        return;
+                                     //    }
+
+                                     //    var arg0ElementsBySelect = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                     //    if (arg0ElementsBySelect != null)
+                                     //    {
+                                     //        var xTable_Where_Select0 = subquery(arg0ElementsBySelect);
+                                     //        var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
+
+                                     //        xTable_Where_Select.scalarAggregateOperand = "count";
+
+                                     //        #region s_SelectCommand
+                                     //        var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
+                                     //        var scalarsubquery = xSelectScalar.ToString();
+
+                                     //        // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                     //        // do we have to 
+                                     //        // we dont know yet how to get sql of that thing do we
+                                     //        s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                     //        state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                     //        #endregion
+                                     //        return;
+                                     //    }
+                                     //}
+                                     //#endregion
 
                                      #region  sum( special!!
                                      if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")

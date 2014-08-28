@@ -1293,102 +1293,102 @@ namespace System.Data
                                      #endregion
 
 
-                                     #region count(*) special!
-                                     if (asMethodCallExpression.Method.Name == refCount.Name)
-                                     {
-                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
+                                     //#region count(*) special!
+                                     //if (asMethodCallExpression.Method.Name == refCount.Name)
+                                     //{
+                                     //    // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
 
-                                         #region arg0Elements_ParameterExpression
-                                         var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
-                                         if (arg0Elements_ParameterExpression != null)
-                                         {
-                                             var us = (that.upperSelect.selectorExpression as LambdaExpression);
+                                     //    #region arg0Elements_ParameterExpression
+                                     //    var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
+                                     //    if (arg0Elements_ParameterExpression != null)
+                                     //    {
+                                     //        var us = (that.upperSelect.selectorExpression as LambdaExpression);
 
-                                             var arg0 = us.Parameters[0];
-                                             if (arg0.Name == arg0Elements_ParameterExpression.Name)
-                                             {
-                                                 // are we in a scalar mode?
+                                     //        var arg0 = us.Parameters[0];
+                                     //        if (arg0.Name == arg0Elements_ParameterExpression.Name)
+                                     //        {
+                                     //            // are we in a scalar mode?
 
-                                                 // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
-                                                 // !!! actually no, its the upper select that has to do the counting?
+                                     //            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
+                                     //            // !!! actually no, its the upper select that has to do the counting?
 
-                                                 // um we have to call ourselves, but without selecting anything and instead
-                                                 // have to add a where to it?
+                                     //            // um we have to call ourselves, but without selecting anything and instead
+                                     //            // have to add a where to it?
 
-                                                 // we are in a nested query
-                                                 #region s_SelectCommand
-                                                 ////var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(that);
-                                                 ////var scalarsubquery = xSelectScalar.ToString();
+                                     //            // we are in a nested query
+                                     //            #region s_SelectCommand
+                                     //            ////var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(that);
+                                     //            ////var scalarsubquery = xSelectScalar.ToString();
 
-                                                 ////// http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+                                     //            ////// http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
 
-                                                 // do we have to 
-                                                 // we dont know yet how to get sql of that thing do we
+                                     //            // do we have to 
+                                     //            // we dont know yet how to get sql of that thing do we
 
-                                                 state.SelectCommand += ",\n" + CommentLineNumber() + "\t /* upper has to do that? */ g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     //            state.SelectCommand += ",\n" + CommentLineNumber() + "\t /* upper has to do that? */ g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
-                                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t ( /* upper has to do that? */ count(*) ) as `" + asMemberAssignment.Member.Name + "`";
-
-
-                                                 ////state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
-                                                 #endregion
-                                                 return;
-                                             }
+                                     //            s_SelectCommand += ",\n" + CommentLineNumber() + "\t ( /* upper has to do that? */ count(*) ) as `" + asMemberAssignment.Member.Name + "`";
 
 
-                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                            + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                             return;
-                                         }
-                                         #endregion
+                                     //            ////state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                     //            #endregion
+                                     //            return;
+                                     //        }
 
 
-                                         #region a0MethodCallExpression
-                                         var a0MethodCallExpression = asMethodCallExpression.Arguments[0] as MethodCallExpression;
-                                         if (a0MethodCallExpression != null)
-                                         {
-                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
-                                             // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCountViaScalarWhere\TestGroupByCountViaScalarWhere\ApplicationWebService.cs
+                                     //        s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                     //       + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
-                                             // a0MethodCallExpression = {new ApplicationPerformance().Where(xx => (xx.connectStart > 1))}
-
-                                             var xTable_Where_Select0 = subquery(a0MethodCallExpression);
-                                             var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
-
-                                             // ?
-                                             xTable_Where_Select.upperGroupBy = that;
-
-                                             xTable_Where_Select.scalarAggregateOperand = "count";
-
-                                             #region s_SelectCommand
-                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
-                                             var scalarsubquery = xSelectScalar.ToString();
-
-                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+                                     //        return;
+                                     //    }
+                                     //    #endregion
 
 
+                                     //    #region a0MethodCallExpression
+                                     //    var a0MethodCallExpression = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                     //    if (a0MethodCallExpression != null)
+                                     //    {
+                                     //        // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
+                                     //        // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCountViaScalarWhere\TestGroupByCountViaScalarWhere\ApplicationWebService.cs
 
-                                             // pass it forward
-                                             state.SelectCommand += ",\n" + CommentLineNumber() + "\t  g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     //        // a0MethodCallExpression = {new ApplicationPerformance().Where(xx => (xx.connectStart > 1))}
 
-                                             // do we have to 
-                                             // we dont know yet how to get sql of that thing do we
-                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+                                     //        var xTable_Where_Select0 = subquery(a0MethodCallExpression);
+                                     //        var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
+
+                                     //        // ?
+                                     //        xTable_Where_Select.upperGroupBy = that;
+
+                                     //        xTable_Where_Select.scalarAggregateOperand = "count";
+
+                                     //        #region s_SelectCommand
+                                     //        var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
+                                     //        var scalarsubquery = xSelectScalar.ToString();
+
+                                     //        // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
 
 
-                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
-                                             #endregion
-                                             return;
-                                         }
-                                         #endregion
 
-                                         state.SelectCommand += ",\n" + CommentLineNumber() + "\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-                                         s_SelectCommand += ",\n" + CommentLineNumber() + "\t count(*) as `" + asMemberAssignment.Member.Name + "`";
+                                     //        // pass it forward
+                                     //        state.SelectCommand += ",\n" + CommentLineNumber() + "\t  g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
 
-                                         return;
-                                     }
-                                     #endregion
+                                     //        // do we have to 
+                                     //        // we dont know yet how to get sql of that thing do we
+                                     //        s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                     //        state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                     //        #endregion
+                                     //        return;
+                                     //    }
+                                     //    #endregion
+
+                                     //    state.SelectCommand += ",\n" + CommentLineNumber() + "\t g.`" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+                                     //    s_SelectCommand += ",\n" + CommentLineNumber() + "\t count(*) as `" + asMemberAssignment.Member.Name + "`";
+
+                                     //    return;
+                                     //}
+                                     //#endregion
 
                                      #region  sum( special!!
                                      if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")

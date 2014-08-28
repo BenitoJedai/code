@@ -9,11 +9,14 @@ using System.Net.Sockets;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/Sockets/TcpClient.cs
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System/System.Net.Sockets/TcpClient.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Sockets/TcpClient.cs
 
     [Script(Implements = typeof(global::System.Net.Sockets.TcpClient))]
     internal class __TcpClient : IDisposable
     {
+        // what comes after tcp?
+        // what about async API ?
+
         java.net.Socket InternalSocket
         {
             get

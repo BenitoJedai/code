@@ -12,13 +12,8 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
-
-
-
-
-
-
-
+        // X:\jsc.svn\examples\javascript\LINQ\MashableVelocityGraph\MashableVelocityGraph\ApplicationWebService.cs
+        
         // first lets allow scalar subqueries
         public static long Count<TElement>(this IQueryStrategy<TElement> source)
         {
@@ -36,12 +31,6 @@ namespace ScriptCoreLib.Query.Experimental
 
             return value;
         }
-
-
-        //        I/System.Console( 5602):        at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder.Count(QueryExpressionBuilder.java:233)
-        //I/System.Console( 5602):        at ScriptCoreLib.Query.Experimental.QueryExpressionBuilder___c__DisplayClass6_1._Count_b__8(QueryExpressionBuilder___c__DisplayClass6_1.java:26)
-        //I/System.Console( 5602):        ... 36 more
-
 
         // chrome needs CountAsync
         public static long Count<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
@@ -93,9 +82,6 @@ namespace ScriptCoreLib.Query.Experimental
         // http://stackoverflow.com/questions/4471277/mysql-delete-from-with-subquery-as-condition
         // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestSelectMath\Program.cs
         // X:\jsc.svn\examples\javascript\LINQ\GGearAlpha\GGearAlpha\Library\GoogleGearsAdvanced.cs
-
-
-
     }
 
 }
