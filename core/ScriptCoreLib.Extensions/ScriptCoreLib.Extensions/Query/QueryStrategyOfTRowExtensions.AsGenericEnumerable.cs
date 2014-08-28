@@ -799,15 +799,15 @@ namespace System.Data
                                                         }
 
 
-                                                        if (asSSNMethodCallExpression.Method.Name == refCount.Name)
-                                                        {
-                                                            // x:\jsc.svn\examples\javascript\linq\test\testselectscalaraverage\testselectscalaraverage\applicationwebservice.cs
-                                                            //SourceRow
+                                                        //if (asSSNMethodCallExpression.Method.Name == refCount.Name)
+                                                        //{
+                                                        //    // x:\jsc.svn\examples\javascript\linq\test\testselectscalaraverage\testselectscalaraverage\applicationwebservice.cs
+                                                        //    //SourceRow
 
-                                                            var xasString = SourceRow[(SourceArgument as MemberExpression).Member.Name];
+                                                        //    var xasString = SourceRow[(SourceArgument as MemberExpression).Member.Name];
 
-                                                            return Convert.ToInt64(xasString);
-                                                        }
+                                                        //    return Convert.ToInt64(xasString);
+                                                        //}
 
 
                                                         #region fFirstOrDefault

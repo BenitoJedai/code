@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class Crypto
     {
+        // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\SHA1CryptographyExtensions.cs
+
         // can we now start sending
         // readonly objects from server to client
         // with private data serialized and encrypted for later use?

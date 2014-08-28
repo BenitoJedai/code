@@ -108,6 +108,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Data.SQLite
         const int FIELD_TYPE_STRING = 0x00000003;
 
 
+        // inspiration for
+        // http://msdn.microsoft.com/en-us/library/aa383056(v=vs.85).aspx
+        [Obsolete("Run-Time linking")]
         [Script]
         static class OptionalAPI
         {

@@ -9,6 +9,7 @@ using System.Net.Sockets;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/IPAddress.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net/IPAddress.cs
 
     [Script(Implements = typeof(global::System.Net.IPAddress))]
     public class __IPAddress

@@ -9,10 +9,13 @@ using java.net;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/DNS.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net/Dns.cs
 
 	[Script(Implements = typeof(global::System.Net.Dns))]
 	internal class __Dns
 	{
+        // what about a dns server?
+
         public static IPAddress[] GetHostAddresses(string hostNameOrAddress)
         {
             return GetHostEntry(hostNameOrAddress).AddressList;

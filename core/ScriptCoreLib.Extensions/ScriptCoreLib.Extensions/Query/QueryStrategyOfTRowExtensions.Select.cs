@@ -1276,124 +1276,124 @@ namespace System.Data
                                          };
                                      #endregion
 
-                                     #region count(*) special!
-                                     if (asMethodCallExpression.Method.Name == refCount.Name)
-                                     {
-                                         // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
+                                     //#region count(*) special!
+                                     //if (asMethodCallExpression.Method.Name == refCount.Name)
+                                     //{
+                                     //    // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByThenOrderByThenOrderBy\TestGroupByThenOrderByThenOrderBy\ApplicationWebService.cs
 
-                                         // arg0ElementsBySelect = {new ApplicationResourcePerformance().Where(kk => (Convert(kk.ApplicationPerformance) == Convert(k.Key)))}
+                                     //    // arg0ElementsBySelect = {new ApplicationResourcePerformance().Where(kk => (Convert(kk.ApplicationPerformance) == Convert(k.Key)))}
 
-                                         #region count: arg0Elements_MemberExpression
-                                         var arg0Elements_MemberExpression = asMethodCallExpression.Arguments[0] as MemberExpression;
-                                         if (arg0Elements_MemberExpression != null)
-                                         {
-                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
+                                     //    #region count: arg0Elements_MemberExpression
+                                     //    var arg0Elements_MemberExpression = asMethodCallExpression.Arguments[0] as MemberExpression;
+                                     //    if (arg0Elements_MemberExpression != null)
+                                     //    {
+                                     //        // X:\jsc.svn\examples\javascript\LINQ\test\TestGroupByMultipleFields\TestGroupByMultipleFields\ApplicationWebService.cs
 
-                                             var arg0Elements_MParameterExpression = arg0Elements_MemberExpression.Expression as ParameterExpression;
-
-
-                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                               + arg0Elements_MParameterExpression.Name.Replace("<>", "__")
-                                                + ".`" + asMemberAssignment.Member.Name
-                                                + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                             return;
-                                         }
-                                         #endregion
+                                     //        var arg0Elements_MParameterExpression = arg0Elements_MemberExpression.Expression as ParameterExpression;
 
 
+                                     //        s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                     //          + arg0Elements_MParameterExpression.Name.Replace("<>", "__")
+                                     //           + ".`" + asMemberAssignment.Member.Name
+                                     //           + "` as `" + asMemberAssignment.Member.Name + "`";
 
-                                         #region count: arg0Elements_ParameterExpression
-                                         var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
-                                         if (arg0Elements_ParameterExpression != null)
-                                         {
-                                             // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCount\TestGroupByCount\ApplicationWebService.cs
-
-                                             // does that count have a special where clause?
-                                             //if (asMethodCallExpression.Arguments.Count > 1)
-                                             //{
-                                             //    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
-                                             //    // are we about to scalar select a count on source?
-                                             //    if (that.selector.Parameters[0].Name == arg0Elements_ParameterExpression.Name)
-                                             //    {
-                                             //        //yes the its talking about source.
-                                             //        // if where is mutable.
-                                             //        //we need a copy of source, to add our where?
-
-
-                                             //        // do we need to rewrite it as an inner join?
-                                             //        // otherewise we will be selecting the first scalar only?
-
-                                             //        var cstate = QueryStrategyExtensions.AsCommandBuilder(that.source);
-                                             //        // override
-                                             //        cstate.SelectCommand = "select " + CommentLineNumber() + "\t"
-                                             //   + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                             //        var csql = cstate.ToString();
-
-
-                                             //        s_SelectCommand += ",\n" + CommentLineNumber() + "\t (" + csql.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
-                                             //        return;
-                                             //    }
-                                             //}
-
-                                             s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                                + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                             return;
-                                         }
-                                         #endregion
-
-
-                                         #region a0MethodCallExpression
-                                         var a0MethodCallExpression = asMethodCallExpression.Arguments[0] as MethodCallExpression;
-                                         if (a0MethodCallExpression != null)
-                                         {
-                                             if (source is IGroupByQueryStrategy)
-                                             {
-                                                 // groups do theyr own counting
-
-                                                 s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
-                                                      //+ arg0Elements_ParameterExpression.Name
-                                                      + that.selector.Parameters[0].Name.Replace("<>", "__")
-                                                       + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
-
-                                                 return;
-                                             }
-
-                                             // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDatesThenCountSimilars\TestSelectDatesThenCountSimilars\ApplicationWebService.cs
+                                     //        return;
+                                     //    }
+                                     //    #endregion
 
 
 
-                                             //// X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
+                                     //    #region count: arg0Elements_ParameterExpression
+                                     //    var arg0Elements_ParameterExpression = asMethodCallExpression.Arguments[0] as ParameterExpression;
+                                     //    if (arg0Elements_ParameterExpression != null)
+                                     //    {
+                                     //        // X:\jsc.svn\examples\javascript\linq\test\TestGroupByCount\TestGroupByCount\ApplicationWebService.cs
 
-                                             var xTable_Where_Select0 = subquery(a0MethodCallExpression);
-
-                                             // xTable_Where_Select0 = {System.Data.QueryStrategyOfTRowExtensions.WhereQueryStrategy<TestSelectDatesThenCountSimilars.Data.PerformanceResourceTimingData2ApplicationPerformanceRow>}
-
-                                             var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
-
-                                             xTable_Where_Select.scalarAggregateOperand = "count";
-
-                                             #region s_SelectCommand
-                                             var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
-                                             var scalarsubquery = xSelectScalar.ToString();
-
-                                             // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
-
-                                             // do we have to 
-                                             // we dont know yet how to get sql of that thing do we
-                                             s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+                                     //        // does that count have a special where clause?
+                                     //        //if (asMethodCallExpression.Arguments.Count > 1)
+                                     //        //{
+                                     //        //    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201406/20140607
+                                     //        //    // are we about to scalar select a count on source?
+                                     //        //    if (that.selector.Parameters[0].Name == arg0Elements_ParameterExpression.Name)
+                                     //        //    {
+                                     //        //        //yes the its talking about source.
+                                     //        //        // if where is mutable.
+                                     //        //        //we need a copy of source, to add our where?
 
 
-                                             state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
-                                             #endregion
-                                             return;
-                                         }
-                                         #endregion
+                                     //        //        // do we need to rewrite it as an inner join?
+                                     //        //        // otherewise we will be selecting the first scalar only?
 
-                                     }
-                                     #endregion
+                                     //        //        var cstate = QueryStrategyExtensions.AsCommandBuilder(that.source);
+                                     //        //        // override
+                                     //        //        cstate.SelectCommand = "select " + CommentLineNumber() + "\t"
+                                     //        //   + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     //        //        var csql = cstate.ToString();
+
+
+                                     //        //        s_SelectCommand += ",\n" + CommentLineNumber() + "\t (" + csql.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+                                     //        //        return;
+                                     //        //    }
+                                     //        //}
+
+                                     //        s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                     //           + arg0Elements_ParameterExpression.Name + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     //        return;
+                                     //    }
+                                     //    #endregion
+
+
+                                     //    #region a0MethodCallExpression
+                                     //    var a0MethodCallExpression = asMethodCallExpression.Arguments[0] as MethodCallExpression;
+                                     //    if (a0MethodCallExpression != null)
+                                     //    {
+                                     //        if (source is IGroupByQueryStrategy)
+                                     //        {
+                                     //            // groups do theyr own counting
+
+                                     //            s_SelectCommand += ",\n" + CommentLineNumber() + "\t"
+                                     //                 //+ arg0Elements_ParameterExpression.Name
+                                     //                 + that.selector.Parameters[0].Name.Replace("<>", "__")
+                                     //                  + ". `" + asMemberAssignment.Member.Name + "` as `" + asMemberAssignment.Member.Name + "`";
+
+                                     //            return;
+                                     //        }
+
+                                     //        // X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDatesThenCountSimilars\TestSelectDatesThenCountSimilars\ApplicationWebService.cs
+
+
+
+                                     //        //// X:\jsc.svn\examples\javascript\LINQ\test\TestSelectDateGroups\TestSelectDateGroups\ApplicationWebService.cs
+
+                                     //        var xTable_Where_Select0 = subquery(a0MethodCallExpression);
+
+                                     //        // xTable_Where_Select0 = {System.Data.QueryStrategyOfTRowExtensions.WhereQueryStrategy<TestSelectDatesThenCountSimilars.Data.PerformanceResourceTimingData2ApplicationPerformanceRow>}
+
+                                     //        var xTable_Where_Select = xTable_Where_Select0 as ISelectQueryStrategy;
+
+                                     //        xTable_Where_Select.scalarAggregateOperand = "count";
+
+                                     //        #region s_SelectCommand
+                                     //        var xSelectScalar = QueryStrategyExtensions.AsCommandBuilder(xTable_Where_Select0);
+                                     //        var scalarsubquery = xSelectScalar.ToString();
+
+                                     //        // http://blog.tanelpoder.com/2013/08/22/scalar-subqueries-in-oracle-sql-where-clauses-and-a-little-bit-of-exadata-stuff-too/
+
+                                     //        // do we have to 
+                                     //        // we dont know yet how to get sql of that thing do we
+                                     //        s_SelectCommand += ",\n\t (\n\t" + scalarsubquery.Replace("\n", "\n\t") + ") as `" + asMemberAssignment.Member.Name + "`";
+
+
+                                     //        state.ApplyParameter.AddRange(xSelectScalar.ApplyParameter);
+                                     //        #endregion
+                                     //        return;
+                                     //    }
+                                     //    #endregion
+
+                                     //}
+                                     //#endregion
 
                                      #region  sum( special!!
                                      if (asMethodCallExpression.Method.Name.TakeUntilIfAny("_") == "Sum")
