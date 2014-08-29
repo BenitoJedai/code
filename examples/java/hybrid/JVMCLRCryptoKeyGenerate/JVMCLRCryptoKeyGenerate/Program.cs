@@ -14,7 +14,9 @@ using System.Collections;
 using System.IO;
 using System.Diagnostics;
 using java.security;
+#if JCE
 using javax.security;
+#endif
 
 namespace JVMCLRCryptoKeyGenerate
 {
@@ -27,6 +29,8 @@ namespace JVMCLRCryptoKeyGenerate
         [STAThread]
         public static void Main(string[] args)
         {
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRRSA\JVMCLRRSA\Program.cs
+
             #region Do a release build to create a hybrid jvmclr program.
             if (typeof(object).FullName != "java.lang.Object")
             {
@@ -49,6 +53,7 @@ namespace JVMCLRCryptoKeyGenerate
             //clr exit!
             //jvm exit!
 
+#if JCE
             try
             {
                 
@@ -60,12 +65,14 @@ namespace JVMCLRCryptoKeyGenerate
                 PrivateKey priv = pair.getPrivate();
                 PublicKey pub = pair.getPublic();
 
+
                 System.Console.WriteLine(priv.ToString());
             }
             catch (Exception ex)
             {
                 System.Console.WriteLine(ex);
             }
+#endif
 
 
 
@@ -94,26 +101,12 @@ namespace JVMCLRCryptoKeyGenerate
              Action yield = null
             )
         {
-            System.Console.WriteLine("jvm->clr");
+            System.Console.WriteLine(
+                typeof(object).AssemblyQualifiedName
+            );
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(
-                new Form
-                {
-                    Text = "Close this to continue..."
-                }.With(f =>
-                {
-                    f.FormClosing +=
-                        delegate
-                        {
-                            System.Console.WriteLine("clr->jvm");
-                            yield();
-                            System.Console.WriteLine("jvm->clr");
-                        };
-                }
-            ));
-            System.Console.WriteLine("clr exit!");
+
+            MessageBox.Show("click to close");
         }
     }
 
