@@ -856,6 +856,7 @@
     <Compile Include="java\security\cert\X509Certificate.cs" />
     <Compile Include="java\security\CodeSource.cs" />
     <Compile Include="java\security\Cipher.cs" />
+    <Compile Include="java\security\Security.cs" />
     <Compile Include="java\security\Key.cs" />
     <Compile Include="java\security\Provider.cs" />
     <Compile Include="java\security\KeyStore.cs" />
@@ -867,6 +868,7 @@
     <Compile Include="java\security\Principal.cs" />
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
+    <Compile Include="java\security\spec\IvParameterSpec.cs" />
     <Compile Include="java\security\spec\RSAPublicKeySpec.cs" />
     <Compile Include="java\security\spec\RSAPrivateKeySpec.cs" />
     <Compile Include="java\sql\Connection.cs" />
