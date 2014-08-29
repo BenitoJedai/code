@@ -85,13 +85,15 @@ namespace JVMCLRCryptoKeyGenerate
                 sbyte[] decByte = rsaCipher.doFinal(encByte);
                 System.Console.WriteLine(decByte.Length.ToString());
 
-                if (data == decByte)
+                if (data.Length != decByte.Length)
                 {
-                    System.Console.WriteLine("true");
-                }
-                else
-                {
-                    System.Console.WriteLine("false");
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        if (data[i] != decByte[i])
+                        {
+                            System.Console.WriteLine("false");
+                        }
+                    }
                 }
 
             }
