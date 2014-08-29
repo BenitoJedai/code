@@ -1,3 +1,4 @@
+#define JCE
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ using System.Diagnostics;
 using java.security;
 #if JCE
 using javax.security;
+using javax.crypto;
+using java.util.prefs;
 #endif
 
 namespace JVMCLRCryptoKeyGenerate
@@ -58,12 +61,39 @@ namespace JVMCLRCryptoKeyGenerate
                 
                 keyGen.initialize(2048);
 
-                KeyPair pair = keyGen.generateKeyPair();
-                PrivateKey priv = pair.getPrivate();
-                PublicKey pub = pair.getPublic();
+                KeyPair keyPair = keyGen.generateKeyPair();
+                PublicKey publicKey = keyPair.getPublic();
+                PrivateKey privateKey = keyPair.getPrivate();  
+                //System.Console.WriteLine("Public Key - " + publicKey.ToString());
+                //System.Console.WriteLine("Private Key - " + privateKey.ToString());  
+
+                var data = new sbyte[]{ 0x02, 0x03, 0x04, 0x05};
+                System.Console.WriteLine(data.Length.ToString());
 
 
-                System.Console.WriteLine(priv.ToString());
+                Cipher rsaCipher = Cipher.getInstance("RSA");
+
+
+                //Encrypt
+                rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
+                sbyte[] encByte = rsaCipher.doFinal(data);
+                System.Console.WriteLine(encByte.Length.ToString());
+
+
+                //Decrypt
+                rsaCipher.init(Cipher.DECRYPT_MODE, privateKey);
+                sbyte[] decByte = rsaCipher.doFinal(encByte);
+                System.Console.WriteLine(decByte.Length.ToString());
+
+                if (data == decByte)
+                {
+                    System.Console.WriteLine("true");
+                }
+                else
+                {
+                    System.Console.WriteLine("false");
+                }
+
             }
             catch (Exception ex)
             {
