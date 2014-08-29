@@ -855,12 +855,17 @@
     <Compile Include="java\security\cert\Certificate.cs" />
     <Compile Include="java\security\cert\X509Certificate.cs" />
     <Compile Include="java\security\CodeSource.cs" />
+    <Compile Include="java\security\KeyStore.cs" />
+    <Compile Include="java\security\KeyPair.cs" />
+    <Compile Include="java\security\KeyPairGenerator.cs" />
     <Compile Include="java\security\MessageDigestSpi.cs" />
     <Compile Include="java\security\MessageDigest.cs" />
     <Compile Include="java\security\PermissionCollection.cs" />
     <Compile Include="java\security\Principal.cs" />
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
+    <Compile Include="java\security\spec\RSAPublicKeySpec.cs" />
+    <Compile Include="java\security\spec\RSAPrivateKeySpec.cs" />
     <Compile Include="java\sql\Connection.cs" />
     <Compile Include="java\sql\PreparedStatement.cs" />
     <Compile Include="java\sql\ResultSetMetaData.cs" />

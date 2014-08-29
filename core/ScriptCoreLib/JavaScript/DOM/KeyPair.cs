@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class KeyPair
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\java\security\KeyPair.cs
+
         // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
 
           public CryptoKey publicKey;

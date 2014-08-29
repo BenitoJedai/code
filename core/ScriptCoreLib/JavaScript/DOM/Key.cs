@@ -10,9 +10,13 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://msdn.microsoft.com/en-us/library/ie/dn302313(v=vs.85).aspx
 
     [Script(HasNoPrototype = true)]
+    // which is it?
+
     //public class Key
     public class CryptoKey
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\java\security\spec\RSAPublicKeySpec.cs
+
         // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
 
         public string type;

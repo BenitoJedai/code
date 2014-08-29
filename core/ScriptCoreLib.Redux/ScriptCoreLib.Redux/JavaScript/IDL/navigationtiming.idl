@@ -1,4 +1,5 @@
 ﻿// http://www.w3.org/TR/navigation-timing/
+// http://www.stevesouders.com/blog/2014/08/21/resource-timing-practical-tips/
 
 interface PerformanceTiming {
   readonly attribute unsigned long long navigationStart;
