@@ -23,6 +23,11 @@ namespace JVMCLRCryptoKeyGenerate
 
     static class Program
     {
+        // jce wont like partial scriptcorelib builds?
+        //0019 jce create au.net.aba.crypto.provider.ABAProvider
+        //System.TypeLoadException: Type 'au.net.aba.crypto.provider.ABAProvider' from assembly 'jce, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' tried to override method 'isEmpty' but does not implement or inherit that method.
+        //   at System.Reflection.Emit.TypeBuilder.TermCreateClass(RuntimeModule module, Int32 tk, ObjectHandleOnStack type)
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -43,15 +48,7 @@ namespace JVMCLRCryptoKeyGenerate
 
             System.Console.WriteLine("jvm ready! " + typeof(object).FullName);
 
-            //X:\jsc.internal.svn\examples\java\synergy\JVMCLRCryptoKeyGenerate\JVMCLRCryptoKeyGenerate\bin\Release>JVMCLRCryptoKeyGenerate.exe
-            //jvm ready! java.lang.Object
-            //{ p = au.net.aba.crypto.PublicKeySecuredObject@147c5fc }
-            //jvm->clr
-            //clr->jvm
-            //clr->jvm
-            //jvm->clr
-            //clr exit!
-            //jvm exit!
+
 
 #if JCE
             try
@@ -75,16 +72,7 @@ namespace JVMCLRCryptoKeyGenerate
 #endif
 
 
-
-            CLRProgram.CLRMain(
-                yield:
-                    delegate
-                    {
-                        System.Console.WriteLine("clr->jvm");
-
-
-                    }
-            );
+            CLRProgram.CLRMain();
 
             System.Console.WriteLine("jvm exit!");
         }
@@ -97,9 +85,7 @@ namespace JVMCLRCryptoKeyGenerate
     static class CLRProgram
     {
         [STAThread]
-        public static void CLRMain(
-             Action yield = null
-            )
+        public static void CLRMain()
         {
             System.Console.WriteLine(
                 typeof(object).AssemblyQualifiedName
@@ -107,6 +93,7 @@ namespace JVMCLRCryptoKeyGenerate
 
 
             MessageBox.Show("click to close");
+
         }
     }
 
