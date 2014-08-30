@@ -12,5 +12,16 @@ namespace java.security
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140829
         // tested by?
 
+
+
+        public PrivateKey getPrivate()
+        {
+            return default(PrivateKey);
+        }
+
+        public PublicKey getPublic()
+        {
+            return default(PublicKey);
+        }
     }
 }

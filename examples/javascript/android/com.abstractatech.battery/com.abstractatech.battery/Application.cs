@@ -30,6 +30,9 @@ namespace com.abstractatech.battery
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // see also
+            // lenovo energy manager on win8
+
 #if false
             #region ChromeTCPServer
 

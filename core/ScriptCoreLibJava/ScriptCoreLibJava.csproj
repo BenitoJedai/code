@@ -855,7 +855,9 @@
     <Compile Include="java\security\cert\Certificate.cs" />
     <Compile Include="java\security\cert\X509Certificate.cs" />
     <Compile Include="java\security\CodeSource.cs" />
-    <Compile Include="java\security\Cipher.cs" />
+    <Compile Include="javax\crypto\Cipher.cs" />
+    <Compile Include="java\security\PrivateKey.cs" />
+    <Compile Include="java\security\PublicKey.cs" />
     <Compile Include="java\security\Security.cs" />
     <Compile Include="java\security\Key.cs" />
     <Compile Include="java\security\Provider.cs" />
