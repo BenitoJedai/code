@@ -67,7 +67,7 @@ namespace TestAndroidCryptoKeyGenerate
         //public async Task<EncryptedBytes> Encrypt(byte[] data)
         public Task<EncryptedBytes> Encrypt(byte[] data)
         {
-     
+
 
             Console.WriteLine("enter Encrypt");
 
@@ -98,6 +98,32 @@ namespace TestAndroidCryptoKeyGenerate
         //public async Task<byte[]> Decrypt(EncryptedBytes data)
         public Task<byte[]> Decrypt(EncryptedBytes data)
         {
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Ultra\WebService\InternalWebMethodInfo.cs
+
+            //I/System.Console( 9232): #4 POST /xml/Decrypt HTTP/1.1
+            //I/System.Console( 9232): enter InternalURLDecode { Value = /xml/Decrypt }
+
+            //I/System.Console( 9232): enter InternalURLDecode { Value = %26lt%3B_02000005%26gt%3B%26lt%3B_04000004%26gt%3Bz1o%2bbB8d7y/wWXcrIqGf78g9/Boe4vZVxXWxZ96FT0kelREgmwg0LOKAapbCpaPSHSrX9/d5iUmOiiYsvxqoJO2YvjYiwns3p2NV0xa90RpLQAHzczq%2b%2b%2bts%2bSZDa2u4b/N/OH2GzYSRgNkRjoO6EbD9rW1KD6dzuAVMrfc0pIIz5peVJohpdzDgkIl/CYHXlgZSUjvDEzl1A8lhxH%2brstNyjwJVNg8iX5Vfq0OumWz4ZyPia0mWS4v4ECIN4RcZ7T1NB/K1ZH2byVC%2bfce7plZ/drDyCXbHGt2gvIVdems9ozv5Fjw7imP%2bviwYqQZcCYjvSHBlr4YLp8eSMRQ2UQ%3D%3D%26lt%3B/_04000004%26gt%3B%26lt%3B/_02000005%26gt%3B }
+
+            //I/System.Console( 9232): enter InternalURLDecode { Value = 06000013 }
+            //I/System.Console( 9232): enter InternalURLDecode { Value = Decrypt }
+            //I/System.Console( 9232): enter invoke { WebMethod = { IsConstructor = false, MetadataToken = 06000013, Name = Decrypt, TypeFullName = TestAndroidCryptoKeyGenerate.ApplicationWebService, Parameters = 1 } }
+            //I/System.Console( 9232): check NewGlobalInvokeMethod { Name = Encrypt }
+            //I/System.Console( 9232): check NewGlobalInvokeMethod { Name = Decrypt }
+            //I/System.Console( 9232): enter NewGlobalInvokeMethod { Name = Decrypt }
+            //I/System.Console( 9232): GetParameterValue: { name = data, Length = 1 }
+            //I/System.Console( 9232): GetParameterValue: { key = _06000013_data }
+            //I/System.Console( 9232): GetParameterValue: { value = &lt;_02000005&gt;&lt;_04000004&gt;z1o%2bbB8d7y/wWXcrIqGf78g9/Boe4vZVxXWxZ96FT0kelREgmwg0LOKAapbCpaPSHSrX9/d5iUmOiiYsvxqoJO2YvjYiwns3p2NV0xa90RpLQAHzczq%2b%2b%2bts%2bSZDa2u4b/N/OH2GzYSRgNkRjoO6EbD9rW1KD6dzuAVMrfc0pIIz5peVJohpdzDgkIl/CYHXlgZSUjvDEzl1A8lhxH%2brstNyjwJVNg8iX5Vfq0OumWz4ZyPia0mWS4v4ECIN4RcZ7T1NB/K1ZH2byVC%2bfce7plZ/drDyCXbHGt2gvIVdems9ozv5Fjw7imP%2bviwYqQZcCYjvSHBlr4YLp8eSMRQ2UQ==&lt;/_04000004&gt;&lt;/_02000005&gt; }
+
+            // http://stackoverflow.com/questions/8946307/character-is-converted-to-2b-in-http-post
+
+            //I/System.Console( 9232): GetParameterValue: { r = <_02000005><_04000004>z1o%2bbB8d7y/wWXcrIqGf78g9/Boe4vZVxXWxZ96FT0kelREgmwg0LOKAapbCpaPSHSrX9/d5iUmOiiYsvxqoJO2YvjYiwns3p2NV0xa90RpLQAHzczq%2b%2b%2bts%2bSZDa2u4b/N/OH2GzYSRgNkRjoO6EbD9rW1KD6dzuAVMrfc0pIIz5peVJohpdzDgkIl/CYHXlgZSUjvDEzl1A8lhxH%2brstNyjwJVNg8iX5Vfq0OumWz4ZyPia0mWS4v4ECIN4RcZ7T1NB/K1ZH2byVC%2bfce7plZ/drDyCXbHGt2gvIVdems9ozv5Fjw7imP%2bviwYqQZcCYjvSHBlr4YLp8eSMRQ2UQ==</_04000004></_02000005> }
+
+            //I/System.Console( 9232): enter Decrypt {{ Length = 268 }}
+            //D/dalvikvm( 9232): GC_CONCURRENT freed 4490K, 53% free 4423K/9376K, paused 3ms+1ms, total 34ms
+            //D/dalvikvm( 9232): WAIT_FOR_CONCURRENT_GC blocked 22ms
+
+
             // i think there is some byte escaping going on.
             // why?
 

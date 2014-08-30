@@ -146,7 +146,7 @@ namespace ScriptCoreLib.Ultra.WebService
         {
             var r = default(string);
 
-            //Console.WriteLine("GetParameterValue: " + new { name, that.Parameters.Length });
+            Console.WriteLine("GetParameterValue: " + new { name, that.Parameters.Length });
 
 
             // do we support null parameters?
@@ -156,7 +156,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
             var key = "_" + that.MetadataToken + "_" + name;
 
-            //Console.WriteLine("GetParameterValue: " + new { key });
+            Console.WriteLine("GetParameterValue: " + new { key });
 
             var value_Form = that.InternalContext.Request.Form[key];
 
@@ -165,11 +165,14 @@ namespace ScriptCoreLib.Ultra.WebService
                 value = value_Form;
             }
 
+            Console.WriteLine("GetParameterValue: " + new { value });
 
             //Console.WriteLine("LoadParameters: value: " + value);
 
             //Parameter.Value = value.FromXMLString();
             r = value.FromXMLString();
+
+            Console.WriteLine("GetParameterValue: " + new { r });
 
             return r;
         }
@@ -185,16 +188,27 @@ namespace ScriptCoreLib.Ultra.WebService
             this.InternalContext = c;
         }
 
+
+        // called by?
         public static string InternalURLDecode(string Value)
         {
+            // http://stackoverflow.com/questions/6753901/httputility-urldecode-turns-2b-into-space-but-i-need-it-to-be
+
+            Console.WriteLine("enter InternalURLDecode " + new { Value });
+
             // http://www.w3schools.com/tags/ref_urlencode.asp
             // http://www.albionresearch.com/misc/urlencode.php
 
             for (int i = 0; i <= 255; i++)
             {
-                var e = "%" + i.ToString("x2").ToUpper();
+                // X:\jsc.svn\examples\javascript\android\Test\TestAndroidCryptoKeyGenerate\TestAndroidCryptoKeyGenerate\ApplicationWebService.cs
+                // on android we shall try both?
 
-                Value = Value.Replace(e, new string((char)i, 1));
+                var xToUpper = "%" + i.ToString("x2").ToUpper();
+                var xToLower = "%" + i.ToString("x2").ToLower();
+
+                Value = Value.Replace(xToUpper, new string((char)i, 1));
+                Value = Value.Replace(xToLower, new string((char)i, 1));
             }
 
             return Value;
