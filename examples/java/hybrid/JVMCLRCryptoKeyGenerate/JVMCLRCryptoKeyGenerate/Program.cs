@@ -16,9 +16,9 @@ using System.IO;
 using System.Diagnostics;
 using java.security;
 #if JCE
-using javax.security;
+//using javax.security;
 using javax.crypto;
-using java.util.prefs;
+//using java.util.prefs;
 #endif
 
 namespace JVMCLRCryptoKeyGenerate
@@ -56,18 +56,22 @@ namespace JVMCLRCryptoKeyGenerate
 #if JCE
             try
             {
-                
+                var sw = Stopwatch.StartNew();
+
                 KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-                
+
                 keyGen.initialize(2048);
 
                 KeyPair keyPair = keyGen.generateKeyPair();
+                Console.WriteLine("after generateKeyPair " + new { sw.ElapsedMilliseconds });
+                // after generateKeyPair { ElapsedMilliseconds = 1791 }
+
                 PublicKey publicKey = keyPair.getPublic();
-                PrivateKey privateKey = keyPair.getPrivate();  
+                PrivateKey privateKey = keyPair.getPrivate();
                 //System.Console.WriteLine("Public Key - " + publicKey.ToString());
                 //System.Console.WriteLine("Private Key - " + privateKey.ToString());  
 
-                var data = new sbyte[]{ 0x02, 0x03, 0x04, 0x05};
+                var data = new sbyte[] { 0x02, 0x03, 0x04, 0x05 };
                 System.Console.WriteLine(data.Length.ToString());
 
 
@@ -103,6 +107,10 @@ namespace JVMCLRCryptoKeyGenerate
             }
 #endif
 
+            //jvm ready! java.lang.Object
+            //4
+            //256
+            //4
 
             CLRProgram.CLRMain();
 
