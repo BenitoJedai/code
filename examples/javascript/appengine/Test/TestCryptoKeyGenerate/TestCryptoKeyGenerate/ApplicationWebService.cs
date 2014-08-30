@@ -35,6 +35,10 @@ namespace TestCryptoKeyGenerate
         {
             try
             {
+                // it works.
+                // can we now wrap rsa for all platforms
+                // and use it as a generic nuget?
+
                 var sw = Stopwatch.StartNew();
                 Console.WriteLine("before generateKeyPair " + new { sw.ElapsedMilliseconds });
 
@@ -44,10 +48,13 @@ namespace TestCryptoKeyGenerate
 
                 keyPair = keyGen.generateKeyPair();
                 Console.WriteLine("after generateKeyPair " + new { sw.ElapsedMilliseconds });
+
+                //before generateKeyPair { { ElapsedMilliseconds = 2 } }
+                //after generateKeyPair { { ElapsedMilliseconds = 1130 } }
+
             }
             catch
             {
-
                 throw;
             }
         }
