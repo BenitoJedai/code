@@ -13,8 +13,9 @@ using System.Xml.Linq;
 using java.security;
 using javax.crypto;
 
-namespace TestCryptoKeyGenerate
+namespace TestAndroidCryptoKeyGenerate
 {
+
     //using EncryptedBytes = Byte[];
     // add CallSite? or callback delegate to undo?
     public class EncryptedBytes(public byte[] bytes) { }
@@ -45,6 +46,10 @@ namespace TestCryptoKeyGenerate
 
                 keyPair = keyGen.generateKeyPair();
                 Console.WriteLine("after generateKeyPair " + new { sw.ElapsedMilliseconds });
+                // samsung yoga? I/System.Console( 6966): after generateKeyPair {{ ElapsedMilliseconds = 8633 }}
+                // I/System.Console( 7337): after generateKeyPair {{ ElapsedMilliseconds = 11281 }}
+                // should the server do it in a background thread?
+
 
                 //before generateKeyPair { { ElapsedMilliseconds = 2 } }
                 //after generateKeyPair { { ElapsedMilliseconds = 1130 } }
@@ -62,6 +67,8 @@ namespace TestCryptoKeyGenerate
         //public async Task<EncryptedBytes> Encrypt(byte[] data)
         public Task<EncryptedBytes> Encrypt(byte[] data)
         {
+     
+
             Console.WriteLine("enter Encrypt");
 
             var value = default(EncryptedBytes);
@@ -81,13 +88,39 @@ namespace TestCryptoKeyGenerate
                 throw;
             }
 
+            Console.WriteLine("exit Encrypt " + new { value.bytes.Length });
+
             return value.AsResult();
         }
+
+        // http://stackoverflow.com/questions/15806145/getting-error-java-lang-arrayindexoutofboundsexception-too-much-data-for-rsa-bl
 
         //public async Task<byte[]> Decrypt(EncryptedBytes data)
         public Task<byte[]> Decrypt(EncryptedBytes data)
         {
-            Console.WriteLine("enter Decrypt");
+            // i think there is some byte escaping going on.
+            // why?
+
+            // why do we have more data here on android?
+            // I/System.Console( 7337): enter Decrypt {{ Length = 265 }}
+
+            Console.WriteLine("enter Decrypt " + new { data.bytes.Length });
+
+            foreach (var item in data.bytes)
+            {
+                Console.Write(
+                    " 0x" + item.ToString("x2")
+                );
+
+            }
+
+            Console.WriteLine();
+
+
+
+            //I / System.Console(6966): Caused by: java.lang.ArrayIndexOutOfBoundsException: too much data for RSA block
+            // I / System.Console(6966):        at com.android.org.bouncycastle.jcajce.provider.asymmetric.rsa.CipherSpi.engineDoFinal(CipherSpi.java:457)
+            // I / System.Console(6966):        at javax.crypto.Cipher.doFinal(Cipher.java:1204)
 
             var value = default(byte[]);
             try

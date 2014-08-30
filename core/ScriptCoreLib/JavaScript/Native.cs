@@ -197,35 +197,46 @@ namespace ScriptCoreLib.JavaScript
                 // https:// !!!
 
                 #region identity
+                // X:\jsc.svn\examples\javascript\android\Test\TestAndroidCryptoKeyGenerate\TestAndroidCryptoKeyGenerate\Application.cs
+
                 if (Native.crypto != null)
-                {
-                    // do we even have crypto capability?
-                    // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
-                    // X:\jsc.svn\examples\javascript\Test\TestCryptoUIThreadIdentityKeyPair\TestCryptoUIThreadIdentityKeyPair\Application.cs
-                    // X:\jsc.svn\examples\javascript\Test\TestEncryptedPrivateFields\TestEncryptedPrivateFields\ApplicationWebService.cs
+                    if (Native.crypto.subtle != null)
+                    {
+                        // do we even have crypto capability?
+                        // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
+                        // X:\jsc.svn\examples\javascript\Test\TestCryptoUIThreadIdentityKeyPair\TestCryptoUIThreadIdentityKeyPair\Application.cs
+                        // X:\jsc.svn\examples\javascript\Test\TestEncryptedPrivateFields\TestEncryptedPrivateFields\ApplicationWebService.cs
 
+                        // I/chromium( 6625): [INFO:CONSOLE(1751)] "Uncaught TypeError: Cannot call method 'generateKey' of undefined", source: http://127.0.0.1:14272/view-source (1751)
 
-                    var publicExponent = new Uint8Array(new byte[] { 0x01, 0x00, 0x01 });
-
-                    // http://social.msdn.microsoft.com/Forums/en-US/d12a2c2e-22b0-44ab-bab5-8202a0c8edcc/rsa-signature-with-rsassapkcs1v15?forum=csharpgeneral
-
-                    Native.identity = Native.crypto.subtle.generateKeyAsync(
-                            new
+                        try
                         {
-                            name = "RSASSA-PKCS1-v1_5",
-                            hash = new { name = "SHA-256" },
+                            var publicExponent = new Uint8Array(new byte[] { 0x01, 0x00, 0x01 });
+
+                            // http://social.msdn.microsoft.com/Forums/en-US/d12a2c2e-22b0-44ab-bab5-8202a0c8edcc/rsa-signature-with-rsassapkcs1v15?forum=csharpgeneral
+
+                            Native.identity = Native.crypto.subtle.generateKeyAsync(
+                                    new
+                                {
+                                    name = "RSASSA-PKCS1-v1_5",
+                                    hash = new { name = "SHA-256" },
 
 
-                            modulusLength = 2048,
-                            publicExponent,
+                                    modulusLength = 2048,
+                                    publicExponent,
 
-                            //  RsaHashedKeyGenParams: hash: Algorithm: Not an object
-                        },
-                            false,
-                        //new[] { "encrypt", "decrypt" }
-                            new[] { "sign", "verify" }
-                        );
-                }
+                                    //  RsaHashedKeyGenParams: hash: Algorithm: Not an object
+                                },
+                                    false,
+                                //new[] { "encrypt", "decrypt" }
+                                    new[] { "sign", "verify" }
+                                );
+                        }
+                        catch
+                        {
+                            // no crypto?
+                        }
+                    }
                 #endregion
 
 

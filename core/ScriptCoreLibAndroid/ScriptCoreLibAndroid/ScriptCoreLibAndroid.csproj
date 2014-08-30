@@ -355,6 +355,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\Extensions\BCLImplementationExtensions.cs">
       <Link>Extensions\BCLImplementationExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\crypto\Cipher.cs">
+      <Link>javax\crypto\Cipher.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\javax\xml\parsers\DocumentBuilder.cs">
       <Link>javax\xml\parsers\DocumentBuilder.cs</Link>
     </Compile>
@@ -646,14 +649,47 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\security\CodeSource.cs">
       <Link>java\security\CodeSource.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\Key.cs">
+      <Link>java\security\Key.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\KeyPair.cs">
+      <Link>java\security\KeyPair.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\KeyPairGenerator.cs">
+      <Link>java\security\KeyPairGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\KeyStore.cs">
+      <Link>java\security\KeyStore.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\MessageDigest.cs">
       <Link>java\security\MessageDigest.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\MessageDigestSpi.cs">
       <Link>java\security\MessageDigestSpi.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\PermissionCollection.cs">
+      <Link>java\security\PermissionCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\Principal.cs">
+      <Link>java\security\Principal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\PrivateKey.cs">
+      <Link>java\security\PrivateKey.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\ProtectionDomain.cs">
       <Link>java\security\ProtectionDomain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\Provider.cs">
+      <Link>java\security\Provider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\PublicKey.cs">
+      <Link>java\security\PublicKey.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\SecureClassLoader.cs">
+      <Link>java\security\SecureClassLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\Security.cs">
+      <Link>java\security\Security.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\AbstractCollection.cs">
       <Link>java\util\AbstractCollection.cs</Link>
