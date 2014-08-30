@@ -9,6 +9,9 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
 {
 	public static class XDocumentExtensions
 	{
+        // used by ?
+
+        [Obsolete]
 		public static void DownloadToXDocument(this string AssetPath, Action<XDocument> done)
 		{
 

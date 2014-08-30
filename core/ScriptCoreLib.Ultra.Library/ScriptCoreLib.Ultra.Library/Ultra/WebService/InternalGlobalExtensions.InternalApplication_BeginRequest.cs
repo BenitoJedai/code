@@ -17,6 +17,8 @@ namespace ScriptCoreLib.Ultra.WebService
     {
         public static void InternalApplication_BeginRequest(InternalGlobal g)
         {
+            // is it ROSLYN friendly?
+
             var BeginRequestStopwatch = Stopwatch.StartNew();
 
 
@@ -109,14 +111,6 @@ namespace ScriptCoreLib.Ultra.WebService
 
             var WebMethods = g.GetWebMethods();
 
-            //Console.WriteLine();
-
-
-            // why not do it on demand?
-            //foreach (var item in WebMethods)
-            //{
-            //    item.LoadParameters(that.Context);
-            //}
 
 
             // X:\jsc.svn\examples\javascript\test\TestBaseFieldSync\TestBaseFieldSync\ApplicationWebService.cs
@@ -164,8 +158,8 @@ namespace ScriptCoreLib.Ultra.WebService
                     // Set-Cookie:InternalFields=field_Foo=7; path=/
                     //that.Context.Response.AppendCookie(c);
                     if (Context.Request.HttpMethod == "POST")
-                    { 
-                    
+                    {
+
                     }
                     else
                     {
@@ -198,6 +192,8 @@ namespace ScriptCoreLib.Ultra.WebService
                 // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLDoomByInt13h\WebGLDoomByInt13h\ApplicationWebService.cs
                 GetFiles = g.GetFiles,
 
+
+                #region Default
                 Default = delegate
                 {
                     that.Response.ContentType = "text/html";
@@ -231,6 +227,8 @@ namespace ScriptCoreLib.Ultra.WebService
                     IsComplete = true;
                     that.CompleteRequest();
                 },
+                #endregion
+
 
                 Diagnostics = delegate
                 {
@@ -502,7 +500,7 @@ namespace ScriptCoreLib.Ultra.WebService
             }
             #endregion
 
-           
+
             g.Serve(handler);
 
             if (IsComplete)
@@ -571,6 +569,8 @@ namespace ScriptCoreLib.Ultra.WebService
                     //if (that.Context.Request.Path == "/xml")
                     if (that.Context.Request.Path != "/jsc")
                     {
+                        // the diagnostics needs more attention down the road.
+
 
                         WriteInternalFields(handler.WebMethod);
 
@@ -651,6 +651,9 @@ namespace ScriptCoreLib.Ultra.WebService
             }
             #endregion
 
+
+            // cache manifest will not be needed
+            // after ServiceWorker becomes useful
             #region WriteCacheManifest
             if (Path == "/" + WebApplicationCacheManifest.ManifestName)
             {

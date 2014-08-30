@@ -25,6 +25,10 @@ namespace ScriptCoreLib.Ultra.WebService
                 this.s = s;
             }
 
+
+            // tested by ?
+
+
 #if JAVA_SUPPORTS_YIELD
             public IEnumerable<int> GetBytes(byte[] buffer)
             {

@@ -17,6 +17,8 @@ namespace ScriptCoreLib.Desktop.JVM
         /// <returns></returns>
         public static bool IsJVMEnum(this Type SourceType)
         {
+            // called by?
+
             if (SourceType == null)
                 return false;
 
