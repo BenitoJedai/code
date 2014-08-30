@@ -37,6 +37,8 @@ namespace JVMCLRCryptoKeyGenerate
         [STAThread]
         public static void Main(string[] args)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140830
+            // X:\jsc.svn\examples\javascript\appengine\Test\TestCryptoKeyGenerate\TestCryptoKeyGenerate\ApplicationWebService.cs
             // X:\jsc.svn\examples\java\hybrid\JVMCLRRSA\JVMCLRRSA\Program.cs
 
             #region Do a release build to create a hybrid jvmclr program.
