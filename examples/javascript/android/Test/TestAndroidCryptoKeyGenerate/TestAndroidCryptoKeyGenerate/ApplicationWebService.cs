@@ -118,6 +118,7 @@ namespace TestAndroidCryptoKeyGenerate
             // http://stackoverflow.com/questions/8946307/character-is-converted-to-2b-in-http-post
 
             //I/System.Console( 9232): GetParameterValue: { r = <_02000005><_04000004>z1o%2bbB8d7y/wWXcrIqGf78g9/Boe4vZVxXWxZ96FT0kelREgmwg0LOKAapbCpaPSHSrX9/d5iUmOiiYsvxqoJO2YvjYiwns3p2NV0xa90RpLQAHzczq%2b%2b%2bts%2bSZDa2u4b/N/OH2GzYSRgNkRjoO6EbD9rW1KD6dzuAVMrfc0pIIz5peVJohpdzDgkIl/CYHXlgZSUjvDEzl1A8lhxH%2brstNyjwJVNg8iX5Vfq0OumWz4ZyPia0mWS4v4ECIN4RcZ7T1NB/K1ZH2byVC%2bfce7plZ/drDyCXbHGt2gvIVdems9ozv5Fjw7imP%2bviwYqQZcCYjvSHBlr4YLp8eSMRQ2UQ==</_04000004></_02000005> }
+            // I/System.Console(10141): GetParameterValue: { r = <_02000005><_04000004>MOKwz/L4D+vavq3FmpvcMUNWklOCwt91Y+cL7yocaAcC+6E6QzPbvefn/h252ntNf4bGCPkRdjva/GQ/CbIPMKQWvw8HU6lMuy7hErTWkjzfiLRzh0nvy2DD8amAxnrt29nYIjFK4Q1U95wqymJiVOLDgp6XxhvtRhO/Fn2Qmi+g5F3bm7UC2RvTdsdhr0/es5rg34XMURWp5AyRT6OgC1kHa+A3o1rpjkYwPC7eG/QuJdVDMGSYvxiIwcxss0EeWmSKuHd+UzPn5e3cXfYu0MJaeZTjyP9aQx9olN9MGCQhvjFt+1+s46LnBteLlV6nb8Zr8Fyu7XlKnVuwA2blPA==</_04000004></_02000005> }
 
             //I/System.Console( 9232): enter Decrypt {{ Length = 268 }}
             //D/dalvikvm( 9232): GC_CONCURRENT freed 4490K, 53% free 4423K/9376K, paused 3ms+1ms, total 34ms
