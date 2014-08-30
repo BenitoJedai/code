@@ -38,6 +38,21 @@ namespace TestCryptoKeyGenerate
 
                 var enc = await this.Encrypt(data);
 
+                // shall we show the encrypted bytes?
+                // what about encrypte png/gif?
+                // what about doing this in the worker thread?
+
+                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+                foreach (var item in enc.bytes)
+                {
+                    new IHTMLCode { " 0x" + item.ToString("x2") }.AttachToDocument();
+                }
+
+                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+
+
                 var decrypt = new IHTMLButton { "decrypt" }.AttachToDocument();
 
                 await decrypt.async.onclick;
