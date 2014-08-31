@@ -26,9 +26,14 @@ namespace JVMCLRRSACryptoServiceProvider
         [STAThread]
         public static void Main(string[] args)
         {
+            // http://www.jensign.com/JavaScience/dotnet/RSAEncrypt/
+
             System.Console.WriteLine(
                typeof(object).AssemblyQualifiedName
             );
+
+            // x:\jsc.svn\examples\javascript\appengine\test\testcryptokeygenerate\testcryptokeygenerate\applicationwebservice.cs
+
 
 
 
@@ -38,14 +43,17 @@ namespace JVMCLRRSACryptoServiceProvider
 
             var sw = Stopwatch.StartNew();
 
+            // MaxSize = 16384
+            var dwKeySize = (0x100) * 8;
             var RSA = new RSACryptoServiceProvider(
-                   dwKeySize: (0x100) * 8,
+                   dwKeySize: dwKeySize,
                    parameters: new CspParameters { }
                );
 
-            var MaxData = (RSA.KeySize - 384) / 8 + 37;
+            //var MaxData = (RSA.KeySize - 384) / 8 + 37;
+            var MaxData = (dwKeySize - 384) / 8 + 37;
 
-            Console.WriteLine(new { RSA.KeySize, sw.ElapsedMilliseconds, MaxData });
+            Console.WriteLine(new { dwKeySize, sw.ElapsedMilliseconds, MaxData });
 
             var bytes = Encoding.UTF8.GetBytes("hello world".PadRight(MaxData));
 

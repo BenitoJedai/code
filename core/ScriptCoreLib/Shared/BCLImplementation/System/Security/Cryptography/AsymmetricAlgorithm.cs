@@ -16,7 +16,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 
 		public abstract string ToXmlString(bool includePrivateParameters);
 
-
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs
+        public virtual int KeySize { get; set; }
 
 		#region IDisposable Members
 
