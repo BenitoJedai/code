@@ -19,11 +19,27 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         //In that regard, the normative parts of the specification are totally fine. While the spec doesn’t cover it, the APIs seem sufficiently abstract to allow them to easily map onto future encryption algorithms and trusted platform modules (TPMs) which could provide secure storage for encryption keys.
         // http://tonyarcieri.com/whats-wrong-with-webcrypto
-
-
         // http://www.w3.org/TR/WebCryptoAPI/
-
         // http://www.w3.org/2012/webcrypto/wiki/images/b/bc/Webrtc.pdf
+
+
+
+        // Promise encrypt(Dictionary algorithm, CryptoKey key, ArrayBuffer data);
+        public IPromise<byte[]> encrypt(object algorithm, CryptoKey key, byte[] data)
+        {
+            return null;
+        }
+
+
+        public IPromise<byte[]> decrypt(object algorithm, CryptoKey key, byte[] data)
+        //public Task<byte[]> decrypt(object algorithm, CryptoKey key, byte[] data)
+        {
+            // as jsc is transforming Delegate to IFunction
+            // could we do the same for Promise to Task on return?
+
+            return null;
+        }
+
 
         //IPromise<any> generateKey(AlgorithmIdentifier algorithm,
         //                   boolean extractable,
@@ -59,6 +75,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // tested by
         // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
 
+        [Obsolete("workaround until jsc implicitly turns Promis into Task for return values.")]
         public static Task<KeyPair> generateKeyAsync(
             this SubtleCrypto that,
 
