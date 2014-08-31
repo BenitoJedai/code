@@ -27,6 +27,7 @@ namespace TestAndroidRSACryptoServiceProvider
         // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProvider\JVMCLRRSACryptoServiceProvider\Program.cs
         // X:\jsc.svn\examples\javascript\appengine\Test\TestAppEngineRSACryptoServiceProvider\TestAppEngineRSACryptoServiceProvider\ApplicationWebService.cs
 
+        // http://www.w3.org/2012/webcrypto/wiki/KeyWrap_Proposal
         static RSACryptoServiceProvider RSA;
 
         static ApplicationWebService()

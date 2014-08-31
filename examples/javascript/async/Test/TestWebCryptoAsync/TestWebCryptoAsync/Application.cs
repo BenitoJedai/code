@@ -51,6 +51,26 @@ namespace TestWebCryptoAsync
             #endregion
 
 
+            // https://developer.chrome.com/extensions/enterprise_platformKeys
+            // Only non-extractable RSASSA-PKCS1-V1_5 keys with modulusLength up to 2048 can be generated. Each key can be used for signing data at most once.
+            // ?
+
+            // https://src.chromium.org/viewvc/chrome/trunk/src/content/child/webcrypto/jwk.cc?pathrev=257759
+            // // RSA private key import is not currently supported
+            // ImportRsaPublicKey
+            // https://code.google.com/p/chromium/issues/detail?id=373550&q=ImportKey&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
+            // http://www.ibiblio.org/hhalpin/homepage/presentations/webcrypto/Overview.html
+            // thevulnerability of RSA PKCS#1 v1.5 to variants of Bleichenbacher's attack and unauthenticated block ciphers, to be precise.
+
+            // Update August 30, 2014: The Web Cryptography API has dropped support of the RSAES-PKCS1-v1_5 algorithm that was 
+            // used here originally, so this post has been changed to use RSA-OAEP instead. 
+            // There’s a new post with more information, including how to update Ubuntu 14.04 so that this algorithm will work in browsers.
+            // haha.
+
+            // http://blog.engelke.com/2014/08/29/changes-to-the-web-cryptography-api/
+            // Chrome 37 made it to Stable a few days ago, and now supports the Web Cryptography API without needing to set a special flag. YAY!
+            // The only public-key encryption and decryption algorithm in the spec now is RSA-OAEP. 
+            // http://msdn.microsoft.com/en-us/library/ie/dn302338(v=vs.85).aspx
 
             new IHTMLButton { "generateKey in UI" }.AttachToDocument().onclick +=
                 async delegate
@@ -61,18 +81,21 @@ namespace TestWebCryptoAsync
 
                 new IHTMLPre { "before generateKey" + new { sw.ElapsedMilliseconds } }.AttachToDocument();
 
+                // http://blog.engelke.com/2014/08/23/public-key-cryptography-in-the-browser/
+
                 var value = Native.crypto.subtle.generateKeyAsync(
                 new
                 {
-                    name = "RSASSA-PKCS1-v1_5",
+                    //name = "RSASSA-PKCS1-v1_5",
+                    name = "RSA-OAEP",
                     hash = new { name = "SHA-256" },
 
                     modulusLength = 2048,
                     publicExponent,
                 },
                     false,
-            //new[] { "encrypt", "decrypt" }
-            new[] { "sign", "verify" }
+            new[] { "encrypt", "decrypt" }
+                //new[] { "sign", "verify" }
                 );
 
                 // https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Promise
@@ -80,10 +103,11 @@ namespace TestWebCryptoAsync
 
                 var key = await value;
 
-                // continue generateKey {{ key = [object Object], ElapsedMilliseconds = 313 }}
+                // continue generateKey {{ privateKey = [object CryptoKey], publicKey = [object CryptoKey], ElapsedMilliseconds = 5021 }}
                 new IHTMLPre { "continue generateKey " + new { key.privateKey, key.publicKey, sw.ElapsedMilliseconds } }.AttachToDocument();
             };
 
+            #region generateKey in Worker
             new IHTMLButton { "generateKey in Worker" }.AttachToDocument().onclick +=
             async delegate
             {
@@ -104,7 +128,8 @@ namespace TestWebCryptoAsync
                     var value = Native.crypto.subtle.generateKeyAsync(
                         new
                     {
-                        name = "RSASSA-PKCS1-v1_5",
+                        //name = "RSASSA-PKCS1-v1_5",
+                        name = "RSA-OAEP",
                         hash = new { name = "SHA-256" },
 
 
@@ -114,8 +139,8 @@ namespace TestWebCryptoAsync
                         //  RsaHashedKeyGenParams: hash: Algorithm: Not an object
                     },
                         false,
-                        //new[] { "encrypt", "decrypt" }
-                        new[] { "sign", "verify" }
+                        new[] { "encrypt", "decrypt" }
+                    //new[] { "sign", "verify" }
                     );
                     Console.WriteLine("worker after generateKeyAsync " + new { sw2.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId });
 
@@ -139,6 +164,8 @@ namespace TestWebCryptoAsync
                 // continue generateKey {{ key = [object Object], ElapsedMilliseconds = 313 }}
                 new IHTMLPre { "continue generateKey " + new { __key.privateKey, __key.publicKey, sw.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId } }.AttachToDocument();
             };
+            #endregion
+
 
         }
 
