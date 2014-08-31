@@ -6,6 +6,9 @@ using ScriptCoreLib;
 using System.Security.Cryptography;
 using ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using java.security;
+using javax.crypto;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 {
@@ -20,6 +23,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
     [Script(Implements = typeof(global::System.Security.Cryptography.RSACryptoServiceProvider))]
     internal class __RSACryptoServiceProvider : __RSA
     {
+        private KeyPair InternalKeyPair;
+
+
         // http://www.windows-tech.info/13/edd925e63a09c709.php
 
         // If anyone out there is planning on using the .Net implementation of RSA for cross application/platform development for the 
@@ -45,7 +51,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
             // WebCrypte wiill need Async pattern!
             //   GetKeyPair();
 
-            return new byte[0];
+            var value = default(byte[]);
+            try
+            {
+                var rsaCipher = Cipher.getInstance("RSA");
+
+                rsaCipher.init(Cipher.ENCRYPT_MODE, this.InternalKeyPair.getPublic());
+                value = (byte[])(object)rsaCipher.doFinal((sbyte[])(object)rgb);
+            }
+            catch
+            {
+                throw;
+            }
+
+            return value;
         }
 
         //public async Task<byte[]> DecryptAsync(byte[] rgb, bool fOAEP)
@@ -54,7 +73,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
             // WebCrypte wiill need Async pattern!
             //   GetKeyPair();
 
-            return new byte[0];
+
+            var value = default(byte[]);
+            try
+            {
+
+                var rsaCipher = Cipher.getInstance("RSA");
+
+
+                //Decrypt
+                rsaCipher.init(Cipher.DECRYPT_MODE, this.InternalKeyPair.getPrivate());
+                value = (byte[])(object)rsaCipher.doFinal((sbyte[])(object)rgb);
+            }
+            catch
+            {
+                throw;
+            }
+
+
+            return value;
 
         }
 
@@ -94,6 +131,36 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
             this.dwKeySize = dwKeySize;
             this.parameters = parameters;
+
+            // when would we want to delay key gen?
+            // lets gen it early.
+
+            // X:\jsc.svn\examples\javascript\appengine\Test\TestCryptoKeyGenerate\TestCryptoKeyGenerate\ApplicationWebService.cs
+
+            try
+            {
+                // it works.
+                // can we now wrap rsa for all platforms
+                // and use it as a generic nuget?
+
+                var sw = Stopwatch.StartNew();
+                Console.WriteLine("RSACryptoServiceProvider before generateKeyPair " + new { sw.ElapsedMilliseconds });
+
+                var keyGen = KeyPairGenerator.getInstance("RSA");
+
+                keyGen.initialize(2048);
+
+                this.InternalKeyPair = keyGen.generateKeyPair();
+                Console.WriteLine("RSACryptoServiceProvider after generateKeyPair " + new { sw.ElapsedMilliseconds });
+
+                //before generateKeyPair { { ElapsedMilliseconds = 2 } }
+                //after generateKeyPair { { ElapsedMilliseconds = 1130 } }
+
+            }
+            catch
+            {
+                throw;
+            }
         }
 
 
