@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 
 namespace TestWebCryptoKeyExport
 {
@@ -18,21 +19,51 @@ namespace TestWebCryptoKeyExport
     /// </summary>
     public class ApplicationWebService
     {
-        /// <summary>
-        /// The static content defined in the HTML file will be update to the dynamic content once application is running.
-        /// </summary>
-        public XElement Header = new XElement(@"h1", @"JSC - The .NET crosscompiler for web platforms. ready.");
+        //static RSACryptoServiceProvider RSA;
 
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript.</param>
-        /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        //public static void ExportParameters()
+        //{
+        //    var publicKey = RSA.ExportParameters(false);
+
+        //    //            +Exponent    { byte[3]}
+        //    //+Modulus { byte[256]}
+
+
+        //}
+
+
+        public async Task<byte[]> Encrypt(byte[] Exponent, byte[] Modulus)
         {
-            // Send it back to the caller.
-            y(e);
+            var n = new RSACryptoServiceProvider(2048);
+
+            n.ImportParameters(
+                new RSAParameters { Exponent = Exponent, Modulus = Modulus }
+            );
+
+            // http://stackoverflow.com/questions/9839274/rsa-encryption-by-supplying-modulus-and-exponent
+
+            var value = n.Encrypt(
+                Encoding.UTF8.GetBytes("hello from server"), fOAEP: true
+            );
+
+            Array.Reverse(value);
+
+            return value;
         }
+
+        //static ApplicationWebService()
+        //{
+        //    var dwKeySize = (0x100) * 8;
+        //    var MaxData = (dwKeySize - 384) / 8 + 37;
+
+        //    // JVM multithreading, which thread will generate the key, and is it thread safe later?
+        //    RSA = new RSACryptoServiceProvider(
+        //          dwKeySize: dwKeySize,
+        //          parameters: new CspParameters { }
+        //      );
+
+
+        //}
 
     }
 }

@@ -37,8 +37,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
-        public void then(Action<T> onSuccess, Action<T> onError)
+        public void then(Action<T> onSuccess, Action<object> onError)
         {
+
+        }
+
+        public void @catch(Action<object> onError)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
+
+            // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
 
         }
 
