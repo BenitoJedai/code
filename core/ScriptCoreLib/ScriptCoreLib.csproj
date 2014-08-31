@@ -140,6 +140,7 @@
     <Compile Include="JavaScript\DOM\WorkerGlobalScope.cs" />
     <Compile Include="JavaScript\DOM\WorkerLocation.cs" />
     <Compile Include="JavaScript\WebCL\WebCLContext.cs" />
+    <Compile Include="JavaScript\WebCrypto\JsonWebKey.cs" />
     <Compile Include="JavaScript\WebGL\WebGL2RenderingContext.cs" />
     <Compile Include="JavaScript\WebGL\WebGLQuery.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
@@ -1173,7 +1174,6 @@
     <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="JavaScript\BCLImplementation\System\ComponentModel\" />
     <Folder Include="JavaScript\DOM\HTML\Elements\" />
-    <Folder Include="JavaScript\WebCrypto\" />
     <Folder Include="PHP\BCLImplementation\System\Collections\Specialized\" />
     <Folder Include="PHP\BCLImplementation\System\ComponentModel\" />
     <Folder Include="PHP\BCLImplementation\System\Data\Common\" />

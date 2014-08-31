@@ -96,7 +96,28 @@ namespace TestWebCryptoKeyExport
                 pexport.then(
                     JSONWebKey =>
                     {
-                        new IHTMLPre { "continue exportKey " + new { JSONWebKey, sw.ElapsedMilliseconds } }.AttachToDocument();
+                        // continue exportKey {{ JSONWebKey = [object Object], ElapsedMilliseconds = 835 }}
+                        // continue exportKey {{ p = null, q = null, qi = null, ElapsedMilliseconds = 3055 }}
+
+
+                        new IHTMLPre { "continue exportKey " + new {
+
+
+
+                                                                       // exponent
+                                                                       JSONWebKey.e,
+                                                                       // modolo
+                                                                       JSONWebKey.n,
+
+                                                                       //JSONWebKey.alg,
+
+                                                                       //JSONWebKey.ext,
+                                                                       //JSONWebKey.kty,
+
+                                                                       sw.ElapsedMilliseconds } }.AttachToDocument();
+
+                        // continue exportKey {{ alg = RSA-OAEP-256, e = AQAB, ext = true, kty = RSA, n = 8tGdxZBpFAIQN3Pzc-7NC_vDF26dleCMGDY7egB8Q136YlqfB7tRpYMU9k88MXGDIleUyEPoDT03yopH8B3Cuio61Wzk-6uXTl6WGjK-FvpxiJWMxa6rXdng7cCyzsG5rah3wI8B3ko4NhHO7NrdKoWG4-y1qxWi2JdAv1g8DLKFUqTuu4siLXPEXvHdWcV4booyeVzCsIf-xq2Zrh7hLbhN83_6bCG0KdkQCIYUgqbI2kHOI4acqTKcXE5_W2cqbw0GStQOyoqClNb0k7VIyufiYpKCRv5176NOmTjFeVBVRhnHkRn96n4Fc4EwLL-KBAj9sfJ1dVrQ2pS-IHIe3w, ElapsedMilliseconds = 6027 }}
+
 
                     }
                 );
