@@ -34,6 +34,8 @@ namespace TestWebCryptoAsync
         public Application(IApp page)
         {
             // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
+            // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
 
             #region secure origin
             new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
