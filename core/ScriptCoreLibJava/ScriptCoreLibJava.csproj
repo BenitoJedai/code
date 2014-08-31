@@ -115,6 +115,7 @@
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLDataReader.cs" />
     <Compile Include="BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\CspParameters.cs" />
     <Compile Include="BCLImplementation\System\UInt64.cs" />
     <Compile Include="BCLImplementation\System\Decimal.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\StackTrace.cs" />
