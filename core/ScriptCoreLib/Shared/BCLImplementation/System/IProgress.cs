@@ -11,6 +11,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     [Script(ImplementsViaAssemblyQualifiedName = "System.IProgress`1")]
     internal interface __IProgress<in T>
     {
+        // can we use this to respond early form server to
+        // client via WebSocket or EventSource ?
+
+
         // tested by
         // X:\jsc.svn\examples\javascript\forms\AsyncWithProgress\AsyncWithProgress\ApplicationControl.cs
 

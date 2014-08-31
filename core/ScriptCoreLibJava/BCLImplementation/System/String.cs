@@ -5,6 +5,12 @@ using System;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
+    // X:\opensource\github\WootzJs\WootzJs.Runtime\String.cs
+    // http://referencesource.microsoft.com/#mscorlib/system/string.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/String.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\String.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
+    // haha. Purpose: Your favorite String class.
 
     [Script(
         Implements = typeof(global::System.String),
@@ -84,6 +90,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return default(string);
         }
 
+
+
+
         [Script(DefineAsStatic = true)]
         public string PadLeft(int totalWidth)
         {
@@ -102,6 +111,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return u;
         }
 
+
+        // added 20140831
+        // tested by 
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProvider\JVMCLRRSACryptoServiceProvider\Program.cs
+
+        [Script(DefineAsStatic = true)]
+        public string PadRight(int totalWidth)
+        {
+            return PadRight(totalWidth, ' ');
+        }
+
+        [Script(DefineAsStatic = true)]
+        public string PadRight(int totalWidth, char paddingChar)
+        {
+            string u = (string)(object)this;
+            string p = new string(new[] { paddingChar });
+
+            while (u.Length < totalWidth)
+                u = u + p;
+
+            return u;
+        }
 
         [Script(ExternalTarget = "substring")]
         public string Substring(int start)
