@@ -88,22 +88,43 @@ namespace TestWebCryptoEncryption
 
                 new IHTMLPre { "before encrypt " + new { sw.ElapsedMilliseconds } }.AttachToDocument();
 
-                var pencrypt = Native.crypto.subtle.encrypt(
+                var pencrypt = Native.crypto.subtle.encryptAsync(
                     algorithm, key.publicKey, ybytes
                 );
                 new IHTMLPre { "after encrypt " + new { pencrypt, sw.ElapsedMilliseconds } }.AttachToDocument();
 
-                pencrypt.then(
-                    data =>
-                    {
-                        // continue encrypt {{ data = [object ArrayBuffer], ElapsedMilliseconds = 565 }}
+                var xbytes = await pencrypt;
 
-                        // continue encrypt {{ Length = 0, ElapsedMilliseconds = 8700 }}
-                        new IHTMLPre { "continue encrypt " + new { data, sw.ElapsedMilliseconds } }.AttachToDocument();
+                new IHTMLPre { "continue encrypt " + new { xbytes.Length, sw.ElapsedMilliseconds } }.AttachToDocument();
 
-                    }
+                // continue encrypt {{ Length = 256, ElapsedMilliseconds = 5021 }}
+
+
+                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+                foreach (var item in xbytes)
+                {
+                    new IHTMLCode { " 0x" + item.ToString("x2") }.AttachToDocument();
+                }
+
+                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+
+
+                var decrypt = new IHTMLButton { "decrypt" }.AttachToDocument();
+
+                await decrypt.async.onclick;
+
+                decrypt.Orphanize();
+
+                var pxdata = Native.crypto.subtle.decrypt(algorithm,
+                    key.privateKey, xbytes
                 );
 
+
+                //var xstring = Encoding.UTF8.GetString(xdata);
+
+                new IHTMLPre { new { pxdata } }.AttachToDocument();
 
             };
         }

@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.WebGL
     [Script(HasNoPrototype = true, ExternalTarget = "ArrayBuffer")]
     public class ArrayBuffer
     {
+        // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+        // shall jsc reference/maloc any byte array as byref ArrayBuffer ?
         public long byteLength;
 
 
