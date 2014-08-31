@@ -10,6 +10,9 @@ namespace TestWebCryptoKeyExport
     {
         public static void Main(string[] args)
         {
+            //ApplicationWebService.ExportParameters();
+
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

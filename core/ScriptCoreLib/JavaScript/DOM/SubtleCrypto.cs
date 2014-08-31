@@ -13,6 +13,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class SubtleCrypto
     {
+        // https://docs.google.com/document/d/184AgXzLAoUjQjrtNdbimceyXVYzrn3tGpf3xQGCN10g/edit
+        // https://code.google.com/p/chromium/issues/detail?id=245025
+        // https://code.google.com/p/chromium/issues/detail?id=379976&q=WebCrypto&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
+
+        // http://jim.com/security/generic_client_server_program.html
+
         // http://unmitigatedrisk.com/?p=470
         // http://tonyarcieri.com/imperfect-forward-secrecy-the-coming-cryptocalypse
         // if we were on android chrome.
@@ -25,7 +31,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://www.w3.org/2012/webcrypto/wiki/images/b/bc/Webrtc.pdf
 
         //Promise<any> exportKey(KeyFormat format, CryptoKey key)
-        public IPromise<JsonWebKey> exportKey(string format, CryptoKey key)
+        public IPromise<object> exportKey(string format, CryptoKey key)
         {
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
 
@@ -109,6 +115,25 @@ namespace ScriptCoreLib.JavaScript.DOM
             return x.Task;
         }
 
+        // what an ugly name. keep it?
+        public static Task<JsonWebKey> exportJSONWebKeyAsync(
+        this SubtleCrypto that,
+
+        CryptoKey key
+    )
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
+
+            var x = new TaskCompletionSource<JsonWebKey>();
+            var promise = that.exportKey("jwk", key);
+
+            promise.then(
+                z => { x.SetResult((JsonWebKey)z); }
+            );
+
+            return x.Task;
+        }
+
 
         // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
         public static Task<byte[]> encryptAsync(
@@ -133,8 +158,23 @@ namespace ScriptCoreLib.JavaScript.DOM
         object algorithm, CryptoKey key, byte[] data
     )
         {
+            Console.WriteLine(
+             "enter decryptAsync"
+             );
+
             var x = new TaskCompletionSource<byte[]>();
             var promise = that.decrypt(algorithm, key, data);
+
+            promise.@catch(
+                err =>
+                {
+
+                    Console.WriteLine(
+                        "decryptAsync " + new { err }
+                        );
+                }
+            );
+
 
             promise.then(
                 z => { x.SetResult(z); }

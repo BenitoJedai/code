@@ -129,6 +129,9 @@ namespace TestWebCryptoEncryption
 
                 decrypt.Orphanize();
 
+                new IHTMLPre { "before decryptAsync " + new { xbytes, xbytes.Length } }.AttachToDocument();
+
+
                 var zbytes = await Native.crypto.subtle.decryptAsync(algorithm,
                     key.privateKey, xbytes
                 );

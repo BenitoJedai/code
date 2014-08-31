@@ -91,36 +91,78 @@ namespace TestWebCryptoKeyExport
 
                 // continue generateKey {{ privateKey = [object CryptoKey], publicKey = [object CryptoKey], extractable = true, ElapsedMilliseconds = 671 }}
 
-                var pexport = Native.crypto.subtle.exportKey("jwk", key.publicKey);
+                var JSONWebKey = await Native.crypto.subtle.exportJSONWebKeyAsync(key.publicKey);
 
-                pexport.then(
-                    JSONWebKey =>
+                // continue exportKey {{ JSONWebKey = [object Object], ElapsedMilliseconds = 835 }}
+                // continue exportKey {{ p = null, q = null, qi = null, ElapsedMilliseconds = 3055 }}
+
+
+                new IHTMLPre { "continue exportKey " +
+                            new {
+
+                                    // exponent
+                                    JSONWebKey.e,
+                                    // modolo
+                                    JSONWebKey.n,
+
+                                    //JSONWebKey.alg,
+
+                                    //JSONWebKey.ext,
+                                    //JSONWebKey.kty,
+
+                                    sw.ElapsedMilliseconds } }.AttachToDocument();
+
+                var Exponent = Convert.FromBase64String(JSONWebKey.e);
+
+                new IHTMLPre { "Exponent " + new { Exponent.Length } }.AttachToDocument();
+
+                var Modulus = Convert.FromBase64String(JSONWebKey.n);
+
+                new IHTMLPre { "Modulus " + new { Modulus.Length } }.AttachToDocument();
+
+                //Exponent { { Length = 3 } }
+                //Modulus { { Length = 256 } }
+
+                // continue exportKey {{ alg = RSA-OAEP-256, e = AQAB, ext = true, kty = RSA, n = 8tGdxZBpFAIQN3Pzc-7NC_vDF26dleCMGDY7egB8Q136YlqfB7tRpYMU9k88MXGDIleUyEPoDT03yopH8B3Cuio61Wzk-6uXTl6WGjK-FvpxiJWMxa6rXdng7cCyzsG5rah3wI8B3ko4NhHO7NrdKoWG4-y1qxWi2JdAv1g8DLKFUqTuu4siLXPEXvHdWcV4booyeVzCsIf-xq2Zrh7hLbhN83_6bCG0KdkQCIYUgqbI2kHOI4acqTKcXE5_W2cqbw0GStQOyoqClNb0k7VIyufiYpKCRv5176NOmTjFeVBVRhnHkRn96n4Fc4EwLL-KBAj9sfJ1dVrQ2pS-IHIe3w, ElapsedMilliseconds = 6027 }}
+
+                // view-source:42599 0:36694ms decryptAsync { err = OperationError:  }
+                new IHTMLButton { "ask server to encrypt for client " }.AttachToDocument().onclick +=
+                    async delegate
+                {
+                    new IHTMLPre { "before Encrypt" }.AttachToDocument();
+
+                    var xbytes = await this.Encrypt(Exponent, Modulus);
+
+                    new IHTMLPre { "before decryptAsync. will it work??? " + new { xbytes, xbytes.Length } }.AttachToDocument();
+
+                    // why aint it working??
+                    // view-source:42612 0:33308ms decryptAsync { err = OperationError:  }
+                    // either wait, test imprt next?
+                    var zbytes = await Native.crypto.subtle.decryptAsync(algorithm,
+                         key.privateKey, xbytes
+                     );
+
+
+
+                    new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+                    foreach (var item in zbytes)
                     {
-                        // continue exportKey {{ JSONWebKey = [object Object], ElapsedMilliseconds = 835 }}
-                        // continue exportKey {{ p = null, q = null, qi = null, ElapsedMilliseconds = 3055 }}
-
-
-                        new IHTMLPre { "continue exportKey " + new {
-
-
-
-                                                                       // exponent
-                                                                       JSONWebKey.e,
-                                                                       // modolo
-                                                                       JSONWebKey.n,
-
-                                                                       //JSONWebKey.alg,
-
-                                                                       //JSONWebKey.ext,
-                                                                       //JSONWebKey.kty,
-
-                                                                       sw.ElapsedMilliseconds } }.AttachToDocument();
-
-                        // continue exportKey {{ alg = RSA-OAEP-256, e = AQAB, ext = true, kty = RSA, n = 8tGdxZBpFAIQN3Pzc-7NC_vDF26dleCMGDY7egB8Q136YlqfB7tRpYMU9k88MXGDIleUyEPoDT03yopH8B3Cuio61Wzk-6uXTl6WGjK-FvpxiJWMxa6rXdng7cCyzsG5rah3wI8B3ko4NhHO7NrdKoWG4-y1qxWi2JdAv1g8DLKFUqTuu4siLXPEXvHdWcV4booyeVzCsIf-xq2Zrh7hLbhN83_6bCG0KdkQCIYUgqbI2kHOI4acqTKcXE5_W2cqbw0GStQOyoqClNb0k7VIyufiYpKCRv5176NOmTjFeVBVRhnHkRn96n4Fc4EwLL-KBAj9sfJ1dVrQ2pS-IHIe3w, ElapsedMilliseconds = 6027 }}
-
-
+                        new IHTMLCode { " 0x" + item.ToString("x2") }.AttachToDocument();
                     }
-                );
+
+                    new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+
+                    var zstring = Encoding.UTF8.GetString(zbytes);
+
+                    // which is it?
+                    new IHTMLPre { new { zstring } }.AttachToDocument();
+                }
+                ;
+
+
+
 
 
 
