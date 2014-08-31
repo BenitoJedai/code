@@ -25,6 +25,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Promise")]
     public class IPromise<T> : IPromise
     {
+
         // https://github.com/mozilla-services/services-central-legacy/blob/master/browser/devtools/shared/Promise.jsm
         // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
 
