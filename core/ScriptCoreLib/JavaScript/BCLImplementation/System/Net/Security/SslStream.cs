@@ -12,6 +12,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
     [Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
+        // see
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140831
+        // "X:\jsc.svn\core\ScriptCoreLibJava\javax\net\ssl\SSLServerSocket.cs"
+
         // can the webserivce return sslstream?
 
         // http://stackoverflow.com/questions/8086790/streaming-image-over-ssl-socket-doesnt-come-across-correctly
