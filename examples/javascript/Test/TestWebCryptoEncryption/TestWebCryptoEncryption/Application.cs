@@ -96,6 +96,8 @@ namespace TestWebCryptoEncryption
                 pencrypt.then(
                     data =>
                     {
+                        // continue encrypt {{ data = [object ArrayBuffer], ElapsedMilliseconds = 565 }}
+
                         // continue encrypt {{ Length = 0, ElapsedMilliseconds = 8700 }}
                         new IHTMLPre { "continue encrypt " + new { data, sw.ElapsedMilliseconds } }.AttachToDocument();
 
