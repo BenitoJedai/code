@@ -18,6 +18,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Data.SQLite
     [Script(ImplementsViaAssemblyQualifiedName = "System.Data.SQLite.SQLiteConnection")]
     public class __SQLiteConnection : __DbConnection
     {
+        // Association between a client request and a database record needs to be part of the security system. It should not something each web page developer is expected to build on top of the security system. 
+        // http://jim.com/security/replacing_TCP.html
+
+
         // X:\jsc.svn\examples\javascript\test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
 

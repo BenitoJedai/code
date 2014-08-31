@@ -8,6 +8,7 @@ namespace FutureMulticastEvents
 {
     public sealed class ApplicationSprite : Sprite
     {
+        // encrypted UDP, WebRTC ?
         [multicast]
         public event Action<XElement> LANMulticastEvent;
 
