@@ -346,6 +346,7 @@
     <Compile Include="javax\accessibility\AccessibleContext.cs" />
     <Compile Include="javax\accessibility\AccessibleState.cs" />
     <Compile Include="javax\accessibility\AccessibleStateSet.cs" />
+    <Compile Include="javax\net\ssl\SSLServerSocket.cs" />
     <Compile Include="javax\servlet\GenericServlet.cs" />
     <Compile Include="javax\servlet\http\Cookie.cs" />
     <Compile Include="javax\servlet\http\HttpSession.cs" />

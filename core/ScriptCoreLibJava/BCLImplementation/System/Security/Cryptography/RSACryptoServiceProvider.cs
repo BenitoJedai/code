@@ -16,6 +16,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
     [Script(Implements = typeof(global::System.Security.Cryptography.RSACryptoServiceProvider))]
     internal class __RSACryptoServiceProvider : __RSA
     {
+        // http://www.windows-tech.info/13/edd925e63a09c709.php
+
+        // If anyone out there is planning on using the .Net implementation of RSA for cross application/platform development for the 
+        // exchange of RSA encrypted data, I would urge you don't unless you have solid knowledge of, or the capacity (mental, time, financial) 
+        // for many hours of studying information on topics including: The RSA algorithm itself, RSACryptoServiceProvider and it's limitations,
+        // RSAParameter, byte arrays (manipulations and conversions), big-endian encoding, UTF-8 encoding, big integer classes, OAEP, PKCS1v15
+        // padding and signature schemes, to name a few.
+
+
+
+
+
+
+        // x:\jsc.svn\examples\javascript\forms\test\testrsacryptoserviceprovider\testrsacryptoserviceprovider\applicationcontrol.cs
+
         // we should defenetly be doing something more around here...
 
 
