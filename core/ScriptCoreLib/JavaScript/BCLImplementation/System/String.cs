@@ -11,9 +11,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     // X:\opensource\github\WootzJs\WootzJs.Runtime\String.cs
     // http://referencesource.microsoft.com/#mscorlib/system/string.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System/String.cs
-
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/String.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\String.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
     // haha. Purpose: Your favorite String class.
+
     [Script(Implements = typeof(global::System.String), InternalConstructor = true)]
     internal class __String
     {
