@@ -23,6 +23,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://www.w3.org/TR/WebCryptoAPI/
         // http://www.w3.org/2012/webcrypto/wiki/images/b/bc/Webrtc.pdf
 
+        //Promise<any> exportKey(KeyFormat format, CryptoKey key)
+        public IPromise<object> exportKey(string format, CryptoKey key)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
+
+            return null;
+        }
 
 
         // Promise encrypt(Dictionary algorithm, CryptoKey key, ArrayBuffer data);
