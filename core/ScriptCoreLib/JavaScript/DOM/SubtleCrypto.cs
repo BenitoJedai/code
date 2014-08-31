@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScriptCoreLib.JavaScript.WebGL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,8 +26,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         // Promise encrypt(Dictionary algorithm, CryptoKey key, ArrayBuffer data);
-        public IPromise<byte[]> encrypt(object algorithm, CryptoKey key, byte[] data)
+        //public IPromise<byte[]> encrypt(object algorithm, CryptoKey key, byte[] data)
+        public IPromise<ArrayBuffer> encrypt(object algorithm, CryptoKey key, byte[] data)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+
             return null;
         }
 
@@ -75,7 +79,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // tested by
         // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
 
-        [Obsolete("workaround until jsc implicitly turns Promis into Task for return values.")]
+        //[Obsolete("workaround until jsc implicitly turns Promis into Task for return values.")]
         public static Task<KeyPair> generateKeyAsync(
             this SubtleCrypto that,
 
@@ -93,6 +97,24 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             // we are taking a delegate of a BCL function, and then converting it to IFunction! nice.
             promise.then(x.SetResult);
+
+            return x.Task;
+        }
+
+
+        // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
+        public static Task<byte[]> encryptAsync(
+                this SubtleCrypto that,
+
+                object algorithm, CryptoKey key, byte[] data
+            )
+        {
+            var x = new TaskCompletionSource<byte[]>();
+            var promise = that.encrypt(algorithm, key, data);
+
+            promise.then(
+                z => { x.SetResult(z); }
+            );
 
             return x.Task;
         }
