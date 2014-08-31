@@ -12,8 +12,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Security.Cryptography;
 
-namespace TestAppEngineRSACryptoServiceProvider
+namespace TestAndroidRSACryptoServiceProvider
 {
+
     //using EncryptedBytes = Byte[];
     // add CallSite? or callback delegate to undo?
 
@@ -55,4 +56,5 @@ namespace TestAppEngineRSACryptoServiceProvider
         }
 
     }
+
 }
