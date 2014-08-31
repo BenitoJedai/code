@@ -12,6 +12,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
     [Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
+        // DTLS
+
+        // http://jim.com/security/replacing_TCP.html
+        // http://security.stackexchange.com/questions/51590/how-do-ssl-authenticated-users-prove-authenticity-through-udp-packets
+
         // see
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140831
         // "X:\jsc.svn\core\ScriptCoreLibJava\javax\net\ssl\SSLServerSocket.cs"
