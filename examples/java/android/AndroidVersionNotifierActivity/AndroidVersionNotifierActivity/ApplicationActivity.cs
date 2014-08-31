@@ -558,7 +558,7 @@ namespace AndroidVersionNotifierActivity.Activities
     #endregion
 
 
-
+    // tested by?
     [IntentFilter(Action = "android.intent.action.BOOT_COMPLETED")]
     public class AtBootCompleted : BroadcastReceiver
     {

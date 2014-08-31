@@ -23,6 +23,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.X509Certificates.X509Certificate))]
     internal class __X509Certificate
     {
+        // Digital certificates provide no actual security for electronic commerce; it's a complete sham.”
+        // http://jim.com/security/
+
         // can we parse .cer/it in a drag n drop?
         // A .cer or .crt file contains only the certificate, and not a private key.
 

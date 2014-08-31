@@ -24,6 +24,9 @@ namespace ScriptCoreLib.JavaScript
     // C# 6 shall import this static type and make members available!
     public static partial class Native
     {
+        // http://jim.com/security/replacing_TCP.html
+        //According google research 400 milliseconds reduces usage by 0.76%, or roughly two percent per second of delay
+
         //#region window
         //[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         //[Obsolete("window", true)]
@@ -155,6 +158,10 @@ namespace ScriptCoreLib.JavaScript
         }
 
 
+        // http://jim.com/security/replacing_TCP.html
+        // You will notice that the server only allocates memory and does heavy computation *after*
+        // the client has successfully performed proof of work and shown that it is indeed capable 
+        // of receiving data sent to the advertised network address.
         [Obsolete("experimental. allows us to sign/encrypt our data uploads for our session.")]
         public static readonly Task<KeyPair> identity;
 

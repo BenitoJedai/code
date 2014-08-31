@@ -12,6 +12,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
     [Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
+        // PKI and SSL needs to be obsoleted and replaced. 
+        // http://jim.com/security/
+
         // DTLS
 
         // http://jim.com/security/replacing_TCP.html
