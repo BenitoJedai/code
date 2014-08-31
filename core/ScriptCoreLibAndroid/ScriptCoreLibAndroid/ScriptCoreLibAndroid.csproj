@@ -262,6 +262,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs">
       <Link>BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\CspParameters.cs">
+      <Link>BCLImplementation\System\Security\Cryptography\CspParameters.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSA.cs">
       <Link>BCLImplementation\System\Security\Cryptography\RSA.cs</Link>
     </Compile>
