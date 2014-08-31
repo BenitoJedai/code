@@ -117,14 +117,27 @@ namespace TestWebCryptoEncryption
 
                 decrypt.Orphanize();
 
-                var pxdata = Native.crypto.subtle.decrypt(algorithm,
+                var zbytes = await Native.crypto.subtle.decryptAsync(algorithm,
                     key.privateKey, xbytes
                 );
 
 
-                //var xstring = Encoding.UTF8.GetString(xdata);
 
-                new IHTMLPre { new { pxdata } }.AttachToDocument();
+                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+                foreach (var item in zbytes)
+                {
+                    new IHTMLCode { " 0x" + item.ToString("x2") }.AttachToDocument();
+                }
+
+                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
+
+
+                var zstring = Encoding.UTF8.GetString(zbytes);
+
+                // which is it?
+                new IHTMLPre { new { zstring } }.AttachToDocument();
+
 
             };
         }

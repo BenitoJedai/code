@@ -35,7 +35,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
 
-        public IPromise<byte[]> decrypt(object algorithm, CryptoKey key, byte[] data)
+        public IPromise<ArrayBuffer> decrypt(object algorithm, CryptoKey key, byte[] data)
         //public Task<byte[]> decrypt(object algorithm, CryptoKey key, byte[] data)
         {
             // as jsc is transforming Delegate to IFunction
@@ -111,6 +111,22 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
             var x = new TaskCompletionSource<byte[]>();
             var promise = that.encrypt(algorithm, key, data);
+
+            promise.then(
+                z => { x.SetResult(z); }
+            );
+
+            return x.Task;
+        }
+
+        public static Task<byte[]> decryptAsync(
+        this SubtleCrypto that,
+
+        object algorithm, CryptoKey key, byte[] data
+    )
+        {
+            var x = new TaskCompletionSource<byte[]>();
+            var promise = that.decrypt(algorithm, key, data);
 
             promise.then(
                 z => { x.SetResult(z); }
