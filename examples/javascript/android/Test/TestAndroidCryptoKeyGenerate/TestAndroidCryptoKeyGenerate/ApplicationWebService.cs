@@ -22,6 +22,12 @@ namespace TestAndroidCryptoKeyGenerate
 
     public class ApplicationWebService
     {
+        // http://stackoverflow.com/questions/3267632/rainbow-tables-as-a-solution-to-large-prime-factoring
+        // http://nelenkov.blogspot.com/2011/12/ics-trust-store-implementation.html
+
+        // http://keystore-explorer.sourceforge.net/screenshots.php
+        // https://developer.android.com/training/articles/keystore.html
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140830
         // X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyGenerate\JVMCLRCryptoKeyGenerate\Program.cs
         // X:\jsc.svn\examples\javascript\android\Test\TestAndroidCryptoKeyGenerate\TestAndroidCryptoKeyGenerate\ApplicationWebService.cs
