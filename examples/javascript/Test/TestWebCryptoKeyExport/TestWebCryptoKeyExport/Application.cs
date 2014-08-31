@@ -13,13 +13,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TestWebCryptoEncryption;
-using TestWebCryptoEncryption.Design;
-using TestWebCryptoEncryption.HTML.Pages;
+using TestWebCryptoKeyExport;
+using TestWebCryptoKeyExport.Design;
+using TestWebCryptoKeyExport.HTML.Pages;
 using System.Diagnostics;
 using ScriptCoreLib.JavaScript.WebGL;
 
-namespace TestWebCryptoEncryption
+namespace TestWebCryptoKeyExport
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -53,13 +53,8 @@ namespace TestWebCryptoEncryption
             #endregion
 
 
-
-            // https://dvcs.w3.org/hg/webcrypto-api/raw-file/tip/spec/Overview.html
-            // Protected Document Exchange
-            // assetsLibrary with encryption/DLC ?
-
             new IHTMLButton { "generateKey in UI" }.AttachToDocument().onclick +=
-                async delegate
+          async delegate
             {
                 new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
                 var sw = Stopwatch.StartNew();
@@ -94,64 +89,22 @@ namespace TestWebCryptoEncryption
                               key.publicKey.extractable,
                               sw.ElapsedMilliseconds } }.AttachToDocument();
 
+                // continue generateKey {{ privateKey = [object CryptoKey], publicKey = [object CryptoKey], extractable = true, ElapsedMilliseconds = 671 }}
 
+                var pexport = Native.crypto.subtle.exportKey("jwk", key.publicKey);
 
-                var ybytes = Encoding.UTF8.GetBytes("hello world");
+                pexport.then(
+                    JSONWebKey =>
+                    {
+                        new IHTMLPre { "continue exportKey " + new { JSONWebKey, sw.ElapsedMilliseconds } }.AttachToDocument();
 
-                new IHTMLPre { "before encrypt " + new { sw.ElapsedMilliseconds } }.AttachToDocument();
-
-                var pencrypt = Native.crypto.subtle.encryptAsync(
-                    algorithm, key.publicKey, ybytes
-                );
-                new IHTMLPre { "after encrypt " + new { pencrypt, sw.ElapsedMilliseconds } }.AttachToDocument();
-
-                var xbytes = await pencrypt;
-
-                new IHTMLPre { "continue encrypt " + new { xbytes.Length, sw.ElapsedMilliseconds } }.AttachToDocument();
-
-                // continue encrypt {{ Length = 256, ElapsedMilliseconds = 5021 }}
-
-
-                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
-
-                foreach (var item in xbytes)
-                {
-                    new IHTMLCode { " 0x" + item.ToString("x2") }.AttachToDocument();
-                }
-
-                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
-
-
-
-                var decrypt = new IHTMLButton { "decrypt" }.AttachToDocument();
-
-                await decrypt.async.onclick;
-
-                decrypt.Orphanize();
-
-                var zbytes = await Native.crypto.subtle.decryptAsync(algorithm,
-                    key.privateKey, xbytes
+                    }
                 );
 
-
-
-                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
-
-                foreach (var item in zbytes)
-                {
-                    new IHTMLCode { " 0x" + item.ToString("x2") }.AttachToDocument();
-                }
-
-                new IHTMLElement(IHTMLElement.HTMLElementEnum.hr).AttachToDocument();
-
-
-                var zstring = Encoding.UTF8.GetString(zbytes);
-
-                // which is it?
-                new IHTMLPre { new { zstring } }.AttachToDocument();
 
 
             };
+
         }
 
     }
