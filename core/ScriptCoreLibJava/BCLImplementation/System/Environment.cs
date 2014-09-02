@@ -13,6 +13,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     {
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Environment.cs
         // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRYieldStatement\TestJVMCLRYieldStatement\Program.cs
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
 
         public static int CurrentManagedThreadId
         {
@@ -33,6 +34,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public static string CurrentDirectory
         {
+            // You cannot change the library path for a running JVM.
+            // http://stackoverflow.com/questions/5013547/how-to-influence-search-path-of-system-loadlibrary-through-java-code
+
             get
             {
                 // http://www.devx.com/tips/Tip/13804

@@ -10,6 +10,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.InteropServices
     [Script(Implements = typeof(global::System.Runtime.InteropServices.Marshal))]
     internal class __Marshal
     {
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
+
         public static IntPtr StringToHGlobalAnsi(string s)
         {
             if (s == null)

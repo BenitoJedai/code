@@ -12,7 +12,9 @@ namespace java.lang
 	[Script(IsNative = true, ExternalTarget = "System")]
 	public static class JavaSystem
 	{
-		public static PrintStream @out;
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
+
+        public static PrintStream @out;
 		public static PrintStream @err;
 		public static InputStream @in;
 
