@@ -14,6 +14,8 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
     [Script(Implements = typeof(global::ScriptCoreLib.Shared.PlatformInvocationServices))]
     internal class __PlatformInvocationServices
     {
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
+
         public static object StringOrNullCPtr(string e)
         {
             if (e == null)

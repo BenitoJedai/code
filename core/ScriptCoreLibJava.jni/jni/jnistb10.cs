@@ -67,12 +67,12 @@ namespace jni
             return "" + Pointer;
         }
 
-        public static implicit operator long(CPtr e)
+        public static implicit operator long (CPtr e)
         {
             return e.Pointer;
         }
 
-        public static implicit operator string(CPtr e)
+        public static implicit operator string (CPtr e)
         {
             return e.getString(0);
         }
@@ -344,6 +344,8 @@ namespace jni
         /// <param name="fname"></param>
         public CFunc(string lib, string fname)
         {
+            System.Console.WriteLine("enter CFunc " + new { lib, fname });
+
             string r = null;
 
             r = InternalTryLoadLibrary(lib, fname);
@@ -378,11 +380,16 @@ namespace jni
             if (r == null)
                 return;
 
+            System.Console.WriteLine("crash CFunc " + new { lib, fname });
             throw new System.InvalidOperationException(r);
         }
 
         private string InternalTryLoadLibrary(string lib, string fname)
         {
+            System.Console.WriteLine("enter CFunc InternalTryLoadLibrary " + new { lib, fname });
+
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
+
             string r = null;
 
             try
