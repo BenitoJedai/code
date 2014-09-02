@@ -25,19 +25,21 @@ namespace JVMCLRMSVCRTRand
         // http://www.pinvoke.net/default.aspx/msvcrt.rand
         [DllImport("msvcrt")]
 
+        // 'rand' has no implementation (no RVA).
+
         // int rand( void );
         static extern int rand();
 
-//        enter CFunc { lib = msvcrt, fname = rand }
-//        enter CFunc InternalTryLoadLibrary { lib = msvcrt, fname = rand
-//    }
-//{{ x = 41 }}
-//enter CFunc
-//{
-//    lib = X:\jsc.svn\examples\java\hybrid\JVMCLRMSVCRTRand\JVMCLRMSVCRTRand\bin\Release\JVMCLRMSVCRTRand.exports, fname = export://0600002b }
-//enter CFunc InternalTryLoadLibrary
-//    {
-//        lib = X:\jsc.svn\examples\java\hybrid\JVMCLRMSVCRTRand\JVMCLRMSVCRTRand\bin\Release\JVMCLRMSVCRTRand.exports, fname = export://0600002b }
+        //        enter CFunc { lib = msvcrt, fname = rand }
+        //        enter CFunc InternalTryLoadLibrary { lib = msvcrt, fname = rand
+        //    }
+        //{{ x = 41 }}
+        //enter CFunc
+        //{
+        //    lib = X:\jsc.svn\examples\java\hybrid\JVMCLRMSVCRTRand\JVMCLRMSVCRTRand\bin\Release\JVMCLRMSVCRTRand.exports, fname = export://0600002b }
+        //enter CFunc InternalTryLoadLibrary
+        //    {
+        //        lib = X:\jsc.svn\examples\java\hybrid\JVMCLRMSVCRTRand\JVMCLRMSVCRTRand\bin\Release\JVMCLRMSVCRTRand.exports, fname = export://0600002b }
 
 
         /// <summary>
