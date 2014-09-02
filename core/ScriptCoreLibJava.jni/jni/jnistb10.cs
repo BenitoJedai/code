@@ -344,7 +344,12 @@ namespace jni
         /// <param name="fname"></param>
         public CFunc(string lib, string fname)
         {
-            System.Console.WriteLine("enter CFunc " + new { lib, fname });
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRMSVCRTRand\JVMCLRMSVCRTRand\Program.cs
+
+            // how to make sure its a CDecl method?
+            // .A and .W are WINAPI suffixes?
+
+            //System.Console.WriteLine("enter CFunc " + new { lib, fname });
 
             string r = null;
 
@@ -386,7 +391,7 @@ namespace jni
 
         private string InternalTryLoadLibrary(string lib, string fname)
         {
-            System.Console.WriteLine("enter CFunc InternalTryLoadLibrary " + new { lib, fname });
+            //System.Console.WriteLine("enter CFunc InternalTryLoadLibrary " + new { lib, fname });
 
             // X:\jsc.svn\examples\java\hybrid\JVMCLRLoadLibrary\JVMCLRLoadLibrary\Program.cs
 
@@ -403,7 +408,8 @@ namespace jni
             catch (csharp.UnsatisfiedLinkError u)
             {
 
-                r = "[UnsatisfiedLinkError] lib: " + lib + "; fname: " + fname + "; message:" + u.Message;
+                r = 
+                    @"X:\jsc.svn\core\ScriptCoreLibJava.jni\jni\jnistb10.cs [UnsatisfiedLinkError] lib: " + lib + "; fname: " + fname + "; message:" + u.Message;
 
             }
 
