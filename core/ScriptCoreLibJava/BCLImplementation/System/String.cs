@@ -152,6 +152,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return s.substring(start, start + len);
         }
 
+        // no need to support non java5? its 2014!
 #if JAVA5
 
         [Script(ExternalTarget = "replace")]

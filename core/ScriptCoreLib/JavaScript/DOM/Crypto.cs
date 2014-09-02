@@ -11,6 +11,9 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class Crypto
     {
+        // http://jim.com/security/cypherpunk_program.html
+        // Cryptography is hard, cryptographic protocols that actually work are harder, and embedding those protocols invisibly in utilities that do useful things without the end user needing to know or think about cryptography considerably harder still: To solve this we need higher level tools which automatically apply known sound protocols to the particular case, so that good cryptography can be a routine and invisible part of good applications, without requiring as much thought as it now does.
+
         // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Extensions\SHA1CryptographyExtensions.cs
 
         // can we now start sending
