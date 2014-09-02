@@ -10,6 +10,10 @@ namespace ScriptCoreLib.Shared
 	/// </summary>
 	public class PlatformInvocationServices
 	{
+        // tested by?
+        // jni for android NDK?
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201409/20140902
+
         public static object StringOrNullCPtr(string e)
         {
             return default(object);
