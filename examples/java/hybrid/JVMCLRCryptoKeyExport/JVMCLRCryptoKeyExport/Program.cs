@@ -1,4 +1,7 @@
+using java.security;
+using java.security.interfaces;
 using java.util.zip;
+using javax.crypto;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -6,8 +9,10 @@ using ScriptCoreLibJava.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -34,37 +39,138 @@ namespace JVMCLRCryptoKeyExport
                typeof(object).AssemblyQualifiedName
             );
 
+            #region Do a release build to create a hybrid jvmclr program.
+            if (typeof(object).FullName != "java.lang.Object")
+            {
+                System.Console.WriteLine("Do a release build to create a hybrid jvmclr program.");
+                Debugger.Break();
+                return;
+            }
+            #endregion
+
+
             // X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyGenerate\JVMCLRCryptoKeyGenerate\Program.cs
 
+            try
+            {
+                var sw = Stopwatch.StartNew();
+
+                KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+
+                keyGen.initialize(2048);
+
+                KeyPair keyPair = keyGen.generateKeyPair();
+                Console.WriteLine("after generateKeyPair " + new { sw.ElapsedMilliseconds });
+                // after generateKeyPair { ElapsedMilliseconds = 1791 }
 
 
-            CLRProgram.CLRMain();
+                // namespace java.security
+                PublicKey publicKey = keyPair.getPublic();
+
+                RSAPublicKey rsapublicKey = publicKey as RSAPublicKey;
+
+                //{ rsapublicKey = Sun RSA public key, 2048 bits
+                //  modulus: 29949193980909979274189480704243019682286346329170638184791375272041884154536539019391076867658592793782845145577141321856957216387377877051532863326545210198967756169805262894313096770941282431904979238566400967478467777198159929565518234047418214901842157765701592238170194579437999716462637123573832853765849987776635905960851094995851522216218636702303980441225891149285848171423753401798137735808260588593837046934598499190528986687550800243662647128332067862280439741602381552218867646299789687315601743815760887214608692897973056730201700896528249989739260099353181532267384971060647420834129903424358272703969
+                //  public exponent: 65537 }
+                //4
+
+                Console.WriteLine(
+
+                    new { rsapublicKey }
+
+                );
+
+                var rsaModulusBytes = (byte[])(object)rsapublicKey.getModulus().toByteArray();
+                var rsaPublicExponent = (byte[])(object)rsapublicKey.getPublicExponent().toByteArray();
+
+                var encByte = (sbyte[])(object)CLRProgram.CLRMain(
+
+                    m: rsaModulusBytes,
+                    e: rsaPublicExponent
+                    );
+
+                //System.Console.WriteLine("Public Key - " + publicKey.ToString());
+                //System.Console.WriteLine("Private Key - " + privateKey.ToString());  
+
+                System.Console.WriteLine(encByte.Length.ToString());
+
+
+                //Decrypt
+                Cipher rsaCipher = Cipher.getInstance("RSA");
+                PrivateKey privateKey = keyPair.getPrivate();
+                rsaCipher.init(Cipher.DECRYPT_MODE, privateKey);
+                sbyte[] decByte = rsaCipher.doFinal(encByte);
+                System.Console.WriteLine(decByte.Length.ToString());
+
+
+
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
+
         }
 
 
     }
 
 
-    public delegate XElement XElementFunc();
 
     [SwitchToCLRContext]
     static class CLRProgram
     {
-        public static XElement XML { get; set; }
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
-        public static void CLRMain()
+        public static byte[] CLRMain(
+            byte[] e,
+            byte[] m
+                )
         {
+            // jsc is not yet rewriting pdb
+
+            // { e = System.Byte[], m = System.Byte[] }
+            // { e = 3, m = 257 }
+
+            // x:\jsc.svn\examples\javascript\test\testwebcryptokeyexport\testwebcryptokeyexport\applicationwebservice.cs
+
             System.Console.WriteLine(
-                typeof(object).AssemblyQualifiedName
+                new
+                {
+                    e = e.Length,
+                    m = m.Length
+                }
             );
 
-            
+
+            //         Unhandled Exception: System.Security.Cryptography.CryptographicException: The parameter is incorrect.
+
+            //at System.Security.Cryptography.CryptographicException.ThrowCryptographicException(Int32 hr)
+            //at System.Security.Cryptography.RSACryptoServiceProvider.EncryptKey(SafeKeyHandle pKeyContext, Byte[] pbKey, Int32 cbKey, Boolean fOAEP, ObjectHandleOnStack ohRetEncryptedKey)
+            //at System.Security.Cryptography.RSACryptoServiceProvider.Encrypt(Byte[] rgb, Boolean fOAEP)
+            //at JVMCLRCryptoKeyExport.CLRProgram.CLRMain(Byte[] e, Byte[] m)
+
+            var n = new RSACryptoServiceProvider(2048);
+
+            n.ImportParameters(
+                new RSAParameters { Exponent = e, Modulus = m }
+            );
+
+            // http://stackoverflow.com/questions/9839274/rsa-encryption-by-supplying-modulus-and-exponent
+            //javax.crypto.IllegalBlockSizeException: Data must not be longer than 256 bytes
+
+            var value = n.Encrypt(
+                //Encoding.UTF8.GetBytes("hello from server"), fOAEP: true
+                Encoding.UTF8.GetBytes("hello from server"), fOAEP: false
+            );
+
+            // { value = 257 }
+
+            Console.WriteLine(new { value = value.Length });
 
             MessageBox.Show("click to close");
+
+            return value;
+
 
         }
     }
