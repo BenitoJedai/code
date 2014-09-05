@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRCryptoKeyExport", "JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRCryptoKeyGenerate", "..\JVMCLRCryptoKeyGenerate\JVMCLRCryptoKeyGenerate\JVMCLRCryptoKeyGenerate.csproj", "{FD4B2B27-607B-4700-97EF-BD0A9DD0B05E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.Build.0 = Debug|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.ActiveCfg = Release|x86
 		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.Build.0 = Release|x86
+		{FD4B2B27-607B-4700-97EF-BD0A9DD0B05E}.Debug|x86.ActiveCfg = Debug|x86
+		{FD4B2B27-607B-4700-97EF-BD0A9DD0B05E}.Debug|x86.Build.0 = Debug|x86
+		{FD4B2B27-607B-4700-97EF-BD0A9DD0B05E}.Release|x86.ActiveCfg = Release|x86
+		{FD4B2B27-607B-4700-97EF-BD0A9DD0B05E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
