@@ -133,11 +133,21 @@ namespace JVMCLRCryptoKeyExport
 
             // x:\jsc.svn\examples\javascript\test\testwebcryptokeyexport\testwebcryptokeyexport\applicationwebservice.cs
 
+            // http://security.stackexchange.com/questions/42268/how-do-i-get-the-rsa-bit-length-with-the-pubkey-and-openssl
+            //So the key has type RSA, and its modulus has length 257 bytes, except that the first byte has value "00", so the real length is 256 bytes (that first byte was added so that the value is considered positive, because the internal encoding rules call for signed integers, the first bit defining the sign). 256 bytes is 2048 bits.
+
+            Console.WriteLine(new { firstByte = m[0] });
+            // { firstByte = 0 }
+
+            var xm = m.Skip(1).ToArray();
+
+
             System.Console.WriteLine(
                 new
                 {
                     e = e.Length,
-                    m = m.Length
+                    m = m.Length,
+                    xm = xm.Length
                 }
             );
 
@@ -152,7 +162,7 @@ namespace JVMCLRCryptoKeyExport
             var n = new RSACryptoServiceProvider(2048);
 
             n.ImportParameters(
-                new RSAParameters { Exponent = e, Modulus = m }
+                new RSAParameters { Exponent = e, Modulus = xm }
             );
 
             // http://stackoverflow.com/questions/9839274/rsa-encryption-by-supplying-modulus-and-exponent
