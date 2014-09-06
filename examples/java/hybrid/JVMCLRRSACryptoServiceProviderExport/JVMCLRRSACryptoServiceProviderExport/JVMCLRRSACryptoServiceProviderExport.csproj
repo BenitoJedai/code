@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C546CF43-90E7-460A-B696-7FA8B61A8A8B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{A0A72609-60E7-42AE-920B-E2A84A340633}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JVMCLRRSACryptoServiceProvider</RootNamespace>
-    <AssemblyName>JVMCLRRSACryptoServiceProvider</AssemblyName>
+    <RootNamespace>JVMCLRRSACryptoServiceProviderExport</RootNamespace>
+    <AssemblyName>JVMCLRRSACryptoServiceProviderExport</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

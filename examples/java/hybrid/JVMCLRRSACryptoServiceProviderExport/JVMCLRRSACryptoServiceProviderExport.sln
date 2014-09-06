@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRRSACryptoServiceProviderExport", "JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport.csproj", "{A0A72609-60E7-42AE-920B-E2A84A340633}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRCryptoKeyExport", "..\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport.csproj", "{5137DB0B-E8A5-4210-8034-6BA9AB13BA2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRRSACryptoServiceProvider", "..\JVMCLRRSACryptoServiceProvider\JVMCLRRSACryptoServiceProvider\JVMCLRRSACryptoServiceProvider.csproj", "{C546CF43-90E7-460A-B696-7FA8B61A8A8B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{E3772792-E090-4711-909C-3AC014A134BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMCLRRSA", "..\JVMCLRRSA\JVMCLRRSA\JVMCLRRSA.csproj", "{E1E1B215-2B9C-4335-9343-2BF2D867F42E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.ActiveCfg = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Debug|x86.Build.0 = Debug|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.ActiveCfg = Release|x86
+		{A0A72609-60E7-42AE-920B-E2A84A340633}.Release|x86.Build.0 = Release|x86
+		{5137DB0B-E8A5-4210-8034-6BA9AB13BA2E}.Debug|x86.ActiveCfg = Debug|x86
+		{5137DB0B-E8A5-4210-8034-6BA9AB13BA2E}.Debug|x86.Build.0 = Debug|x86
+		{5137DB0B-E8A5-4210-8034-6BA9AB13BA2E}.Release|x86.ActiveCfg = Release|x86
+		{5137DB0B-E8A5-4210-8034-6BA9AB13BA2E}.Release|x86.Build.0 = Release|x86
+		{C546CF43-90E7-460A-B696-7FA8B61A8A8B}.Debug|x86.ActiveCfg = Debug|x86
+		{C546CF43-90E7-460A-B696-7FA8B61A8A8B}.Debug|x86.Build.0 = Debug|x86
+		{C546CF43-90E7-460A-B696-7FA8B61A8A8B}.Release|x86.ActiveCfg = Release|x86
+		{C546CF43-90E7-460A-B696-7FA8B61A8A8B}.Release|x86.Build.0 = Release|x86
+		{E1E1B215-2B9C-4335-9343-2BF2D867F42E}.Debug|x86.ActiveCfg = Debug|x86
+		{E1E1B215-2B9C-4335-9343-2BF2D867F42E}.Debug|x86.Build.0 = Debug|x86
+		{E1E1B215-2B9C-4335-9343-2BF2D867F42E}.Release|x86.ActiveCfg = Release|x86
+		{E1E1B215-2B9C-4335-9343-2BF2D867F42E}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5137DB0B-E8A5-4210-8034-6BA9AB13BA2E} = {E3772792-E090-4711-909C-3AC014A134BC}
+		{C546CF43-90E7-460A-B696-7FA8B61A8A8B} = {E3772792-E090-4711-909C-3AC014A134BC}
+		{E1E1B215-2B9C-4335-9343-2BF2D867F42E} = {E3772792-E090-4711-909C-3AC014A134BC}
+	EndGlobalSection
+EndGlobal
