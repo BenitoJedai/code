@@ -57,6 +57,12 @@ namespace ScriptCoreLib.JavaScript
             {
 
             }
+
+            public static implicit operator byte[](Uint8Array e)
+            {
+                // x:\jsc.svn\examples\javascript\test\testwebcryptokeyexport\testwebcryptokeyexport\application.cs
+                return (byte[])(object)e;
+            }
         }
 
 

@@ -106,6 +106,8 @@ namespace TestWebCryptoKeyExport
                 // continue exportKey {{ p = null, q = null, qi = null, ElapsedMilliseconds = 3055 }}
 
 
+                // X:\jsc.svn\examples\javascript\appengine\test\TestAppEngineWebCryptoKeyImport\TestAppEngineWebCryptoKeyImport\Application.cs
+
                 new IHTMLPre { "continue exportKey " +
                             new {
                                     JSONWebKey.alg,
@@ -144,7 +146,10 @@ namespace TestWebCryptoKeyExport
 
                     // are the bytes correct?
 
-                    new IHTMLPre { "before decryptAsync. will it work??? " + new { xbytes, xbytes.Length } }.AttachToDocument();
+                    var xxbytes = new Uint8Array(xbytes);
+
+
+                    new IHTMLPre { "before decryptAsync. will it work??? " + new { xxbytes, xbytes.Length } }.AttachToDocument();
 
                     // https://code.google.com/p/chromium/issues/detail?id=390475
                     // RSA-OAEP public keys do not support decrypt/unwrapKey. 
@@ -162,8 +167,12 @@ namespace TestWebCryptoKeyExport
                          algorithm,
                          key.privateKey,
 
-                         xbytes
+                         //key.publicKey,
+
+                         xxbytes
                      );
+                    //  OperationError
+                    // ?????
 
 
 
