@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using java.security;
 using javax.crypto;
+using java.security.interfaces;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 {
@@ -37,6 +38,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
         // X:\jsc.svn\examples\javascript\appengine\Test\TestCryptoKeyGenerate\TestCryptoKeyGenerate\ApplicationWebService.cs
         // http://www.jensign.com/JavaScience/dotnet/RSAEncrypt/
+
+
 
         //public async Task<byte[]> EncryptAsync(byte[] rgb, bool fOAEP)
         public byte[] Encrypt(byte[] rgb, bool fOAEP)
@@ -114,6 +117,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
         public __RSACryptoServiceProvider(int dwKeySize, CspParameters parameters)
         {
+            // what if ctor is here for import instead of gen?
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
+
             // If this is not a random container we generate, create it eagerly 
             // in the constructor so we can report any errors now.
 
@@ -170,9 +176,85 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         // we should defenetly be doing something more around here...
 
 
+
+
         public override RSAParameters ExportParameters(bool includePrivateParameters)
         {
             // used by?
+
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
+
+
+            // did we generate the key, so we can export it?
+            try
+            {
+                PublicKey publicKey = this.InternalKeyPair.getPublic();
+
+                RSAPublicKey rsapublicKey = publicKey as RSAPublicKey;
+
+
+                //x.Exponent = ?
+
+                var rsaModulusBytes = (byte[])(object)rsapublicKey.getModulus().toByteArray();
+                var rsaPublicExponent = (byte[])(object)rsapublicKey.getPublicExponent().toByteArray();
+
+                // {{ m = 257, ElapsedMilliseconds = 9381 }}
+
+                // http://security.stackexchange.com/questions/42268/how-do-i-get-the-rsa-bit-length-with-the-pubkey-and-openssl
+                //So the key has type RSA, and its modulus has length 257 bytes, except that the first byte has value "00", so the real length is 256 bytes (that first byte was added so that the value is considered positive, because the internal encoding rules call for signed integers, the first bit defining the sign). 256 bytes is 2048 bits.
+
+                var firstByte = rsaModulusBytes[0];
+
+                if (firstByte == 0x0)
+                {
+                    // CLR does not have it. so we need to remove it in JVM too.
+
+                    //rsaModulusBytes = rsaModulusBytes.Skip(1).ToArray();
+
+                    //- javac
+                    //"C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe" -classpath "Y:\staging\web\java";release -d release java\JVMCLRRSACryptoServiceProviderExport\Program.java
+                    //Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\__RSACryptoServiceProvider.java:129: error: method Of in class __SZArrayEnumerator_1<T#2> cannot be applied to given types;
+                    //                byteArray2 = __60002f4_0052__generic_array_creation(__Enumerable.<Byte>ToArray(__Enumerable.<Byte>Skip(__SZArrayEnumerator_1.<Byte>Of(byteArray2), 1)));
+                    //                                                                                                                                            ^
+                    //  required: T#1[]
+                    //  found: byte[]
+                    //  reason: actual argument byte[] cannot be converted to Byte[] by method invocation conversion
+                    //  where T#1,T#2 are type-variables:
+                    //    T#1 extends Object declared in method <T#1>Of(T#1[])
+                    //    T#2 extends Object declared in class __SZArrayEnumerator_1
+                    //Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\__RSACryptoServiceProvider.java:174: error: possible loss of precision
+                    //            x[i] = ((Short)e[i]).shortValue();
+                    //                                           ^
+                    //  required: byte
+                    //  found:    short
+
+                    var old = rsaModulusBytes;
+                    rsaModulusBytes = new byte[old.Length - 1];
+                    Array.Copy(
+                        old,
+                        1,
+
+                        rsaModulusBytes,
+                        0,
+
+                        rsaModulusBytes.Length
+                    );
+
+                }
+
+
+                this.InternalParameters = new RSAParameters
+                {
+                    Exponent = rsaPublicExponent,
+                    Modulus = rsaModulusBytes
+                };
+            }
+            catch
+            {
+                throw;
+            }
+
 
             if (includePrivateParameters)
                 return (RSAParameters)(object)new __RSAParameters
@@ -200,7 +282,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         {
             // tested by ?
 
-            InternalParameters = parameters;
+            this.InternalParameters = parameters;
         }
     }
 }
