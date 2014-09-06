@@ -13,6 +13,14 @@ namespace javax.crypto
         public static readonly int ENCRYPT_MODE = 1;
         public static readonly int DECRYPT_MODE = 2;
 
+        [System.Obsolete("not recommended")]
+        public static Cipher getInstance(string transformation, string provider)
+        {
+            // http://docs.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html
+
+            // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs
+            return default(Cipher);
+        }
 
         public static Cipher getInstance(string transformation)
         {

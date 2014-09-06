@@ -26,6 +26,11 @@ namespace JVMCLRRSACryptoServiceProviderExport
         [STAThread]
         public static void Main(string[] args)
         {
+            // http://bouncy-castle.1462172.n4.nabble.com/FW-RSA-ECB-OAEP-Encryption-From-JAVA-to-NET-td1463697.html
+
+            // http://stackoverflow.com/questions/17110217/is-rsa-pkcs1-oaep-padding-supported-in-bouncycastle
+            // http://www.java2s.com/Tutorial/Java/0490__Security/RSAexamplewithOAEPPaddingandrandomkeygeneration.htm
+
             // jsc needs to see args to make Main into main for javac..
 
 
@@ -48,17 +53,19 @@ namespace JVMCLRRSACryptoServiceProviderExport
                    dwKeySize: dwKeySize,
                    parameters: new CspParameters { }
                );
-
+            //RSA.cre
             //var MaxData = (RSA.KeySize - 384) / 8 + 37;
             // not correct for OLEP?!
-            var MaxData = (dwKeySize - 384) / 8 + 37;
+            var MaxData = (dwKeySize - 384) / 8 + 7;
+
+            // http://stackoverflow.com/questions/1199058/how-to-use-rsa-to-encrypt-files-huge-data-in-c-sharp
 
             Console.WriteLine(new { dwKeySize, sw.ElapsedMilliseconds, MaxData });
 
             var bytes = Encoding.UTF8.GetBytes("hello world".PadRight(MaxData));
 
 
-            var p = RSA.ExportParameters(includePrivateParameters: false);
+            RSAParameters p = RSA.ExportParameters(includePrivateParameters: false);
 
             // Modulus = {byte[256]}
 
@@ -80,14 +87,34 @@ namespace JVMCLRRSACryptoServiceProviderExport
                  e: p.Exponent
             );
 
-            // works!! :)
-            var xdata = RSA.Decrypt(
-             ebytes, false
-         );
+            try
+            {
+                // {{ Message = Cannot find any provider supporting RSA/NONE/OAEPWITHSHA1ANDMGF1PADDING, StackTrace = java.lang.RuntimeException: Cannot find any provider supporting RSA/NONE/OAEPWITHSHA1ANDMGF1PADDING
+                // {{ Message = Cannot find any provider supporting RSA/ECB/OAEP,
 
-            var xstring = Encoding.UTF8.GetString(xdata);
+                var xdata = RSA.Decrypt(
+                 //ebytes, fOAEP: false
+                 ebytes, fOAEP: true
+                 );
 
-            Console.WriteLine(new { xstring });
+                var xstring = Encoding.UTF8.GetString(xdata);
+
+                Console.WriteLine(new { xstring });
+            }
+            catch (Exception err)
+            {
+                // {{ Message = Blocktype mismatch: -65, StackTrace = java.lang.RuntimeException: Blocktype mismatch: -65
+                //{
+                //    Message = Bad Data.
+                //, StackTrace = at System.Security.Cryptography.CryptographicException.ThrowCryptographicException(Int32 hr)
+                //   at System.Security.Cryptography.RSACryptoServiceProvider.DecryptKey(SafeKeyHandle pKeyContext, Byte[] pbEncryptedKey, Int32 cbEncryptedKey, Boolean fOAEP, ObjectHandleOnStack ohRetDecryptedKey)
+
+                Console.WriteLine(new { err.Message, err.StackTrace });
+
+
+            }
+
+
         }
 
 
@@ -143,8 +170,8 @@ namespace JVMCLRRSACryptoServiceProviderExport
             //javax.crypto.IllegalBlockSizeException: Data must not be longer than 256 bytes
 
             var value = n.Encrypt(
-                //Encoding.UTF8.GetBytes("hello from server"), fOAEP: true
-                Encoding.UTF8.GetBytes("hello from server"), fOAEP: false
+                Encoding.UTF8.GetBytes("hello from server"), fOAEP: true
+            //Encoding.UTF8.GetBytes("hello from server"), fOAEP: false
             );
 
             // { value = 257 }
