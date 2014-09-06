@@ -25,6 +25,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
     [Script(Implements = typeof(global::System.Security.Cryptography.RSACryptoServiceProvider))]
     internal class __RSACryptoServiceProvider : __RSA
     {
+        // http://www.drdobbs.com/windows/programming-public-key-cryptostreams-par/184416907
+
         // http://lukieb.blogspot.com/2014/01/rsa-public-key-encryption-between-net.html
 
         private KeyPair InternalKeyPair;

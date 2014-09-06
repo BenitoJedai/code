@@ -34,9 +34,13 @@ namespace TestWebCryptoKeyExport
 
         public async Task<byte[]> Encrypt(byte[] Exponent, byte[] Modulus)
         {
+            // http://www.w3.org/TR/WebCryptoAPI/#rsa-oaep
+            // RSA/ECB/OAEPWithSHA-1AndMGF1Padding
+
             // X:\jsc.svn\examples\java\hybrid\JVMCLRCryptoKeyExport\JVMCLRCryptoKeyExport\Program.cs
 
-            var n = new RSACryptoServiceProvider(2048);
+            //var n = new RSACryptoServiceProvider(2048);
+            var n = new RSACryptoServiceProvider();
 
             n.ImportParameters(
                 new RSAParameters { Exponent = Exponent, Modulus = Modulus }
@@ -48,7 +52,7 @@ namespace TestWebCryptoKeyExport
                 Encoding.UTF8.GetBytes("hello from server"), fOAEP: true
             );
 
-            Array.Reverse(value);
+            //Array.Reverse(value);
 
             return value;
         }
