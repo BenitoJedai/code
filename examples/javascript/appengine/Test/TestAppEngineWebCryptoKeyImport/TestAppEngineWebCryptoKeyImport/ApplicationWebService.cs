@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Security.Cryptography;
 
-namespace TestWebCryptoKeyImport
+namespace TestAppEngineWebCryptoKeyImport
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -23,7 +23,6 @@ namespace TestWebCryptoKeyImport
         // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
         // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\ApplicationWebService.cs
         // X:\jsc.svn\examples\javascript\appengine\test\TestAppEngineWebCryptoKeyImport\TestAppEngineWebCryptoKeyImport\ApplicationWebService.cs
-
 
         // shall we encrypt the public key by a shared secret too?
         public readonly byte[] e = p.Exponent;
@@ -65,5 +64,6 @@ namespace TestWebCryptoKeyImport
 
             Console.WriteLine(new { xstring });
         }
+
     }
 }
