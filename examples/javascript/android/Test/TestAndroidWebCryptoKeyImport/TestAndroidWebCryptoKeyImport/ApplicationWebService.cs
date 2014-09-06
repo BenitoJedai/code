@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Security.Cryptography;
 
-namespace TestAppEngineWebCryptoKeyImport
+namespace TestAndroidWebCryptoKeyImport
 {
     /// <summary>
     /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
@@ -69,6 +69,9 @@ namespace TestAppEngineWebCryptoKeyImport
 
         static ApplicationWebService()
         {
+            // this may take upto 8sec, stalling the client from loading?
+
+
             var sw = Stopwatch.StartNew();
 
             Console.WriteLine("enter ApplicationWebService cctor");
@@ -104,6 +107,5 @@ namespace TestAppEngineWebCryptoKeyImport
 
             Console.WriteLine("exit UploadEncryptedString " + new { sw.ElapsedMilliseconds });
         }
-
     }
 }
