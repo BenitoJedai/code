@@ -12,6 +12,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
     [Script(Implements = typeof(global::System.Net.Security.AuthenticatedStream))]
     internal abstract class __AuthenticatedStream : __Stream
     {
+
+        // what about CryptoStream?
         // used by
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\Security\SslStream.cs
 

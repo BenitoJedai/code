@@ -18,12 +18,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
     // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Security.Cryptography/RSACryptoServiceProvider.cs
     // http://msdn.microsoft.com/en-us/library/5e9ft273(v=vs.110).aspx
 
+    // http://msdn.microsoft.com/en-us/library/system.security.cryptography.rsacryptoserviceprovider.decrypt(v=vs.110).aspx
 
 
     //  !FEATURE_CORECLR    
     [Script(Implements = typeof(global::System.Security.Cryptography.RSACryptoServiceProvider))]
     internal class __RSACryptoServiceProvider : __RSA
     {
+        // http://lukieb.blogspot.com/2014/01/rsa-public-key-encryption-between-net.html
+
         private KeyPair InternalKeyPair;
 
 
@@ -73,6 +76,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         //public async Task<byte[]> DecryptAsync(byte[] rgb, bool fOAEP)
         public byte[] Decrypt(byte[] rgb, bool fOAEP)
         {
+            // You don't need BC for RSA support
+
+            // http://www.example-code.com/android/rsa_oaepPadding.asp
+            //  Optimal Asymmetric Encryption Padding (OAEP) 
+
+            // SunPKCS11 doesn't support RSA-OAEP, so the only thing you can do with SunPKCS11 is RSA-NOPADDING. Which is also listed as workaround in the link
+            // SunPKCS11 provider doesn't support OAEP padding. If OAEP is crucial for you, then there is a need to make OAEP padding removal additionally after decryption.
+            // SunPKCS11 provider doesn't support OAEP padding, making it more difficult. Encryption still can be done with BouncyCastle, but decryption can be done with no padding and SunPKCS11 provider. keyLength parameter is RSA key modulus length in bits (1024,2048 etc).
+
+            // // choose between OAEP or PKCS#1 v.1.5 padding
+
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
+
+            // For those of you who will get this problem, it was related to the fact that the Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files was not installed and it was not letting me use encryption better than AES-128. Replacing the policy files with the JCE policy files, I was able to successfully decrypt my encrypted assertion.
+            // http://stackoverflow.com/questions/9422545/decrypting-encrypted-assertion-using-saml-2-0-in-java-using-opensaml
+
+
             // WebCrypte wiill need Async pattern!
             //   GetKeyPair();
 
@@ -80,8 +100,55 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
             var value = default(byte[]);
             try
             {
+                // https://www.dlitz.net/software/pycrypto/api/2.6/Crypto.Cipher.PKCS1_OAEP.PKCS1OAEP_Cipher-class.html
+                // http://stackoverflow.com/questions/17110217/is-rsa-pkcs1-oaep-padding-supported-in-bouncycastle
+                // http://www.corpsecurityservices.com/security.jsp
+                // http://docs.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html
+                // NOPADDING, 
+                // PKCS1PADDING, 
+                // OAEPWITHMD5ANDMGF1PADDING, 
+                // OAEPWITHSHA1ANDMGF1PADDING, 
+                // OAEPWITHSHA-1ANDMGF1PADDING, 
+                // OAEPWITHSHA-256ANDMGF1PADDING, 
+                // OAEPWITHSHA-384ANDMGF1PADDING, 
+                // OAEPWITHSHA-512ANDMGF1PADDING
+                // which is the one .net is using?
+                // and web crypto?
 
-                var rsaCipher = Cipher.getInstance("RSA");
+                // https://code.google.com/p/chromium/issues/detail?id=372917
+
+
+                // http://stackoverflow.com/questions/5113498/can-rsacryptoserviceprovider-nets-rsa-use-sha256-for-encryption-not-signing
+
+                var rsaCipher = default(Cipher);
+
+                if (fOAEP)
+                {
+                    // !!! JVM does not seem to know about OAEP ??
+
+                    // iOS/WebCrypto
+
+                    //rsaCipher = Cipher.getInstance("RSA/NONE/OAEPWITHSHA1ANDMGF1PADDING", "BC");
+
+                    // this will likely fail?
+                    // http://javadoc.iaik.tugraz.at/iaik_jce/current/iaik/pkcs/pkcs1/RSACipher.html
+                    //rsaCipher = Cipher.getInstance("RSA/NONE/OAEPWITHSHA1ANDMGF1PADDING");
+
+                    // http://www.ietf.org/mail-archive/web/jose/current/msg04138.html
+
+                    //            Caused by: javax.crypto.BadPaddingException: lHash mismatch
+                    //at sun.security.rsa.RSAPadding.unpadOAEP(Unknown Source)
+
+                    //rsaCipher = Cipher.getInstance("RSA/ECB/OAEP");
+                    //rsaCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
+
+                    // .net seems to be fixed to sha1?
+                    rsaCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
+                }
+                else
+                {
+                    rsaCipher = Cipher.getInstance("RSA");
+                }
 
 
                 //Decrypt

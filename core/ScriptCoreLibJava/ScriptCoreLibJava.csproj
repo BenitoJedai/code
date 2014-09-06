@@ -115,6 +115,7 @@
     <Compile Include="BCLImplementation\System\Data\MySQL\MySQLDataReader.cs" />
     <Compile Include="BCLImplementation\System\Reflection\PropertyInfo.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
+    <Compile Include="BCLImplementation\System\Security\Cryptography\CryptoStream.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\CspParameters.cs" />
     <Compile Include="BCLImplementation\System\UInt64.cs" />
     <Compile Include="BCLImplementation\System\Decimal.cs" />
@@ -347,6 +348,7 @@
     <Compile Include="javax\accessibility\AccessibleContext.cs" />
     <Compile Include="javax\accessibility\AccessibleState.cs" />
     <Compile Include="javax\accessibility\AccessibleStateSet.cs" />
+    <Compile Include="javax\crypto\spec\OAEPParameterSpec.cs" />
     <Compile Include="javax\net\ssl\SSLServerSocket.cs" />
     <Compile Include="javax\servlet\GenericServlet.cs" />
     <Compile Include="javax\servlet\http\Cookie.cs" />
