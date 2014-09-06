@@ -43,6 +43,23 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://www.w3.org/TR/WebCryptoAPI/
         // http://www.w3.org/2012/webcrypto/wiki/images/b/bc/Webrtc.pdf
 
+
+        // [CallWith=ScriptState] Promise importKey(KeyFormat format, ArrayBuffer keyData, Dictionary algorithm, boolean extractable, KeyUsage[] keyUsages);
+        // https://code.google.com/p/chromium/issues/detail?id=389314
+        // http://src.chromium.org/viewvc/chrome/trunk/src/content/child/webcrypto/openssl/rsa_key_openssl.cc?revision=286409&pathrev=286409
+
+        public IPromise<CryptoKey> importKey(string format, 
+            object keyData,
+            object algorithm,
+            bool extractable,
+            string[] keyUsages            
+            
+            )
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\Application.cs
+            return null;
+        }
+
         //Promise<any> exportKey(KeyFormat format, CryptoKey key)
         public IPromise<object> exportKey(string format, CryptoKey key)
         {
@@ -85,7 +102,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         public IPromise<KeyPair> generateKey(
             object algorithm,
             bool extractable,
-            string[] keyUsages)
+            string[] keyUsages
+            )
         {
             // how does that help us on client side data layer?
             // tested by ?
