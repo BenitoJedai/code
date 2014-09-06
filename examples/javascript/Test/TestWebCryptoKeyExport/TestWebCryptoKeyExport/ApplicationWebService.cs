@@ -34,6 +34,12 @@ namespace TestWebCryptoKeyExport
 
         public async Task<byte[]> Encrypt(byte[] Exponent, byte[] Modulus)
         {
+            // encrypted state sharing.
+
+            // what about import?
+
+            // http://bouncy-castle.1462172.n4.nabble.com/Interoperability-issue-with-SunJCE-OAEP-td4656157.html
+
             // http://www.w3.org/TR/WebCryptoAPI/#rsa-oaep
             // RSA/ECB/OAEPWithSHA-1AndMGF1Padding
 
