@@ -29,8 +29,11 @@ namespace JVMCLRCryptoKeyExport
         [STAThread]
         public static void Main(string[] args)
         {
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
+
             // jsc needs to see args to make Main into main for javac..
 
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\ApplicationWebService.cs
 
             // see also>
             // X:\jsc.svn\examples\javascript\android\AndroidBroadcastLogger\AndroidBroadcastLogger\ApplicationWebService.cs
@@ -102,6 +105,11 @@ namespace JVMCLRCryptoKeyExport
                 sbyte[] decByte = rsaCipher.doFinal(encByte);
                 System.Console.WriteLine(decByte.Length.ToString());
 
+                var xstring = Encoding.UTF8.GetString(
+                    (byte[])(object)decByte
+                );
+
+                Console.WriteLine(new { xstring });
 
 
             }
