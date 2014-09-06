@@ -64,16 +64,25 @@ namespace TestWebCryptoKeyExport
 
                 // http://blog.engelke.com/2014/08/23/public-key-cryptography-in-the-browser/
 
+
+                // The JWA alg “RSA-OAEP” requires this hash function to be SHA-1 (the default
+                //> from RFC 3447). 
+
                 var algorithm = new
                 {
                     name = "RSA-OAEP",
-                    hash = new { name = "SHA-256" },
+                    //hash = new { name = "SHA-256" },
+                    hash = new { name = "SHA-1" },
 
                     modulusLength = 2048,
                     publicExponent,
                 };
 
-                var pgenerateKeyAsync = Native.crypto.subtle.generateKeyAsync(algorithm, false, new[] { "encrypt", "decrypt" });
+                var pgenerateKeyAsync = Native.crypto.subtle.generateKeyAsync(
+                    algorithm,
+                    extractable: false,
+                    keyUsages: new[] { "encrypt", "decrypt" }
+                    );
 
 
                 // https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Promise
@@ -99,13 +108,13 @@ namespace TestWebCryptoKeyExport
 
                 new IHTMLPre { "continue exportKey " +
                             new {
+                                    JSONWebKey.alg,
 
                                     // exponent
                                     JSONWebKey.e,
                                     // modolo
                                     JSONWebKey.n,
 
-                                    //JSONWebKey.alg,
 
                                     //JSONWebKey.ext,
                                     //JSONWebKey.kty,
@@ -133,13 +142,27 @@ namespace TestWebCryptoKeyExport
 
                     var xbytes = await this.Encrypt(Exponent, Modulus);
 
+                    // are the bytes correct?
+
                     new IHTMLPre { "before decryptAsync. will it work??? " + new { xbytes, xbytes.Length } }.AttachToDocument();
+
+                    // https://code.google.com/p/chromium/issues/detail?id=390475
+                    // RSA-OAEP public keys do not support decrypt/unwrapKey. 
+                    // ?
+
+                    // RSA/ECB/OAEPWithSHA-1AndMGF1Padding
+                    // RSA using Optimal Asymmetric Encryption Padding (OAEP), as defined in RFC 3447 [RFC3447]
+                    // http://www.w3.org/2001/04/xmlenc#rsa-oaep-mgf1p	RSA/ECB/OAEPWithSHA-1AndMGF1Padding
+                    // http://openid.net/specs/draft-jones-json-web-encryption-02.html
 
                     // why aint it working??
                     // view-source:42612 0:33308ms decryptAsync { err = OperationError:  }
                     // either wait, test imprt next?
-                    var zbytes = await Native.crypto.subtle.decryptAsync(algorithm,
-                         key.privateKey, xbytes
+                    var zbytes = await Native.crypto.subtle.decryptAsync(
+                         algorithm,
+                         key.privateKey,
+
+                         xbytes
                      );
 
 

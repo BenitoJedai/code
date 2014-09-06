@@ -13,6 +13,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class SubtleCrypto
     {
+        // http://research.microsoft.com/en-us/downloads/29f9385d-da4c-479a-b2ea-2a7bb335d727/default.aspx
+
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1020598
+
+
         // !!! So we have to lower the cost of encrypted authenticated communications, 
         // so that people can simply encrypt and authenticate everything without needing to think about it. 
         // http://jim.com/security/replacing_TCP.html

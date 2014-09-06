@@ -81,6 +81,13 @@ namespace JVMCLRRSACryptoServiceProviderExport
             }
                 );
 
+            //var ms = new MemoryStream();
+            //var cc = new CryptoStream(
+            //    ms,
+            //    RSA,
+            //    CryptoStreamMode.Write
+            //);
+
 
             var ebytes = CLRProgram.CLRMain(
                  m: p.Modulus,
