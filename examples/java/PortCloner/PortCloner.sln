@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortCloner", "PortCloner\PortCloner.csproj", "{6BBB5C03-03A8-4C93-9D53-CE5D5A4884B3}"
 EndProject
 Global

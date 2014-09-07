@@ -10,6 +10,13 @@ namespace WebNotificationsViaDataAdapter
     {
         public static void Main(string[] args)
         {
+            // self test
+
+            var x = new ApplicationWebService();
+
+            var z = x[0, 1];
+
+
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }
 

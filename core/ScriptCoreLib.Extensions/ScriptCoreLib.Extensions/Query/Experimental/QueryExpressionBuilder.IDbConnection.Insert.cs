@@ -20,6 +20,9 @@ namespace ScriptCoreLib.Query.Experimental
         #region GetInsertCommand
         public static DbCommand GetInsertCommand<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc, TElement value)
         {
+            // cc null?
+            // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\ApplicationWebService.cs
+
             //Console.WriteLine("enter GetInsertCommand");
 
             // X:\jsc.svn\examples\javascript\Test\TestSQLiteConnection\TestSQLiteConnection\Application.cs
