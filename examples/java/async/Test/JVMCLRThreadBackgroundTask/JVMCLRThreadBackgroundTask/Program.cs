@@ -45,6 +45,7 @@ namespace JVMCLRThreadBackgroundTask
             //inside StartNew: { ManagedThreadId = 3, AssemblyQualifiedName = System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 }
             //inside ContinueWith: { ManagedThreadId = 3, AssemblyQualifiedName = System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 }
 
+            // what about Task Run?
             var u = System.Threading.Tasks.Task.Factory.StartNew(
                 delegate
                 {

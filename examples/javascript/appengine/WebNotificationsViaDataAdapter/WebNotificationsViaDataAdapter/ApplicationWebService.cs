@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using WebNotificationsViaDataAdapter.Design;
 using WebNotificationsViaDataAdapter.Schema;
+using ScriptCoreLib.Query.Experimental;
+using System.Data.SQLite;
 
 namespace WebNotificationsViaDataAdapter
 {
@@ -23,14 +25,39 @@ namespace WebNotificationsViaDataAdapter
         //02000028 WebNotificationsViaDataAdapter.Design.ScriptedNotificationsV2ScriptedNotificationsKey
         //02000029 ScriptCoreLib.Shared.Data.Diagnostics.WithConnectionLambda
 
+        static ApplicationWebService()
+        {
+            #region QueryExpressionBuilder.WithConnection
+            QueryExpressionBuilder.WithConnection =
+                y =>
+            {
+                var cc = new SQLiteConnection(
+                    new SQLiteConnectionStringBuilder { DataSource = "file:WebNotificationsViaDataAdapter.xlsx.sqlite" }.ToString()
+                );
+
+                cc.Open();
+                y(cc);
+                cc.Dispose();
+            };
+            #endregion
+
+        }
+
+        // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\ApplicationWebService.cs
+        // restart of vs helps to resolve ScriptedNotificationsV2ScriptedNotificationsRow
+
         public Task<DataTable> __FooTable_Insert(
             ScriptedNotificationsV2ScriptedNotificationsRow[] value
             )
         {
+            new ScriptedNotificationsV2ScriptedNotifications().Insert(
+                value
+            );
 
-            value.Select(
-                new ScriptedNotificationsV2.ScriptedNotifications().Insert
-            ).ToArray();
+
+            //value.Select(
+            //    new ScriptedNotificationsV2.ScriptedNotifications().Insert
+            //).ToArray();
 
 
             return __FooTable_Select();
@@ -62,7 +89,7 @@ namespace WebNotificationsViaDataAdapter
         // called by FooTableDesigner_Load
         public Task<DataTable> __FooTable_Select()
         {
-            var n = new ScriptedNotificationsV2.ScriptedNotifications();
+            var n = new ScriptedNotificationsV2ScriptedNotifications();
 
             #region auto reset and reinit?
             if (n.Count() == 0)
@@ -73,8 +100,8 @@ namespace WebNotificationsViaDataAdapter
             }
             #endregion
 
-
-            return n.AsDataTable().ToTaskResult();
+            // why cannot we do a direct AsDataTable ?
+            return n.AsEnumerable().AsDataTable().AsResult();
 
 
 #if V1
@@ -140,11 +167,15 @@ namespace WebNotificationsViaDataAdapter
 
         }
 
+
+        // http://192.168.43.252:11528/xml/get_Item Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+        // tested by ?
         public Task<string[]> this[long delayfrom, long delayto]
         {
             get
             {
-                var n = new ScriptedNotificationsV2.ScriptedNotifications();
+
+                var n = new ScriptedNotificationsV2ScriptedNotifications();
 
                 #region auto reset and reinit?
                 if (n.Count() == 0)

@@ -9,6 +9,8 @@ namespace WithClickOnceLANLauncher
 {
     public partial class ApplicationWebServiceMulticast : Component
     {
+        // what about RSA encryption?
+
         public ApplicationWebServiceMulticast()
         {
             InitializeComponent();
