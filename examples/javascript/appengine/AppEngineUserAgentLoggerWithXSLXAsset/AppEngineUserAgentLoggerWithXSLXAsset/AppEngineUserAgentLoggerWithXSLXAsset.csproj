@@ -123,6 +123,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.XMySQL">
+      <HintPath>..\packages\System.Data.XMySQL.1.0.0.0\lib\System.Data.XMySQL.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.XSQLite">
       <HintPath>..\packages\System.Data.XSQLite.1.0.0.0\lib\System.Data.XSQLite.dll</HintPath>
     </Reference>
@@ -170,6 +173,13 @@
     <None Include="app.config" />
     <None Include="Design\Book1B.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Book1BSheet1BindingSource.datasource" />
+    <None Include="Properties\DataSources\Book1BSheet2BindingSource.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ApplicationControl.resx">
+      <DependentUpon>ApplicationControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

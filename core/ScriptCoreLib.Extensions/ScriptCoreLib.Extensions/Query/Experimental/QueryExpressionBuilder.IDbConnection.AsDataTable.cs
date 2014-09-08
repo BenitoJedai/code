@@ -14,6 +14,23 @@ namespace ScriptCoreLib.Query.Experimental
 {
     public static partial class QueryExpressionBuilder
     {
+        public static DataTable AsDataTable<TElement>(this IQueryStrategy<TElement> source)
+        {
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+
+            var value = default(DataTable);
+
+            // what if there is no connection?
+            WithConnection(
+                cc =>
+                {
+                    value = AsDataTable(source, cc);
+                }
+            );
+
+            return value;
+        }
+
         public static DataTable AsDataTable<TElement>(this IQueryStrategy<TElement> source, IDbConnection cc)
         {
 

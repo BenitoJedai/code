@@ -77,15 +77,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
             this.InternalTask.SetResult(null);
         }
 
-
-
-        //Implementation not found for type import :
-        //type: System.Runtime.CompilerServices.AsyncTaskMethodBuilder
-        //method: Void AwaitUnsafeOnCompleted[TAwaiter,TStateMachine](TAwaiter ByRef, TStateMachine ByRef)
-        //Did you forget to add the [Script] attribute?
-        //Please double check the signature!
-
-
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(
      ref  TAwaiter awaiter,
      ref  TStateMachine stateMachine
@@ -144,6 +135,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Runtime.CompilerServices
 
         public void SetException(Exception exception)
         {
+            // __AsyncTaskMethodBuilder { Message = Message: not Throwable?, StackTrace = StackTrace: not Throwable? }
             Console.WriteLine("__AsyncTaskMethodBuilder " + new { exception.Message, exception.StackTrace });
 
             Debugger.Break();

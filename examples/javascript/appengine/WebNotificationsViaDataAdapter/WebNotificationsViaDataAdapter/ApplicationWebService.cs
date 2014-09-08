@@ -27,6 +27,10 @@ namespace WebNotificationsViaDataAdapter
 
         static ApplicationWebService()
         {
+            // X:\jsc.svn\examples\javascript\appengine\AppEngineUserAgentLoggerWithXSLXAsset\AppEngineUserAgentLoggerWithXSLXAsset\ApplicationWebService.cs
+            // X:\jsc.svn\examples\javascript\appengine\WebNotificationsViaDataAdapter\WebNotificationsViaDataAdapter\ApplicationWebService.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201409/20140908
+
             #region QueryExpressionBuilder.WithConnection
             QueryExpressionBuilder.WithConnection =
                 y =>
