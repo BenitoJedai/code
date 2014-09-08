@@ -48,7 +48,7 @@ namespace JVMCLRRSACryptoServiceProviderExport
             var sw = Stopwatch.StartNew();
 
             // MaxSize = 16384
-            var dwKeySize = (0x100) * 8;
+            var dwKeySize = (0x100 + 0x100) * 8;
             var RSA = new RSACryptoServiceProvider(
                    dwKeySize: dwKeySize,
                    parameters: new CspParameters { }
@@ -80,6 +80,14 @@ namespace JVMCLRRSACryptoServiceProviderExport
                 sw.ElapsedMilliseconds
             }
                 );
+
+            //  Additional information: Bad Length.
+            //var ex = RSA.Encrypt(new byte[MaxData], fOAEP: true);
+            // MaxData = 215 -> {byte[256]}
+            // MaxData = 471 -> {byte[512]}
+
+            // the other key needs to be larger?
+
 
             //var ms = new MemoryStream();
             //var cc = new CryptoStream(
