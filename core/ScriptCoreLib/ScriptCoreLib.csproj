@@ -140,7 +140,11 @@
     <Compile Include="JavaScript\DOM\WorkerGlobalScope.cs" />
     <Compile Include="JavaScript\DOM\WorkerLocation.cs" />
     <Compile Include="JavaScript\WebCL\WebCLContext.cs" />
+    <Compile Include="JavaScript\WebCrypto\Crypto.cs" />
     <Compile Include="JavaScript\WebCrypto\JsonWebKey.cs" />
+    <Compile Include="JavaScript\WebCrypto\Key.cs" />
+    <Compile Include="JavaScript\WebCrypto\KeyPair.cs" />
+    <Compile Include="JavaScript\WebCrypto\SubtleCrypto.cs" />
     <Compile Include="JavaScript\WebGL\WebGL2RenderingContext.cs" />
     <Compile Include="JavaScript\WebGL\WebGLQuery.cs" />
     <Compile Include="Shared\BCLImplementation\System\Data\SQLite\SQLiteParameter.cs" />
