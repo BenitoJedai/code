@@ -1,1 +1,3 @@
 ﻿shall we move all Thread/Task/Worker related DOM apis here?
+
+rename to WebWorker? WebService?

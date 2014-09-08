@@ -12,11 +12,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class KeyPair
     {
+        // x:\jsc.svn\examples\java\hybrid\jvmclrrsacryptoserviceproviderexport\jvmclrrsacryptoserviceproviderexport\program.cs
         // X:\jsc.svn\core\ScriptCoreLibJava\java\security\KeyPair.cs
 
         // X:\jsc.svn\examples\javascript\Test\TestWebCrypto\TestWebCrypto\Application.cs
 
-          public CryptoKey publicKey;
-          public CryptoKey privateKey;
+        public CryptoKey publicKey;
+        public CryptoKey privateKey;
     }
 }
