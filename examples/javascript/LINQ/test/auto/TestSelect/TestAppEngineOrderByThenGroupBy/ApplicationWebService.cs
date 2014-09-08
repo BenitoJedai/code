@@ -40,6 +40,9 @@ namespace TestAppEngineOrderByThenGroupBy
 
         static ApplicationWebService()
         {
+            // X:\jsc.svn\examples\javascript\LINQ\test\auto\TestSelect\TestAppEngineOrderByThenGroupBy\ApplicationWebService.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201409/20140908
+
             // jsc should not try to do cctor on client side
             // X:\jsc.svn\examples\javascript\Test\TestWebServiceStaticConstructor\TestWebServiceStaticConstructor\ApplicationWebService.cs
 

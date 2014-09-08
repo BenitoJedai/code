@@ -17,8 +17,15 @@ namespace AppEngineUserAgentLoggerWithXSLXAsset
         /// </summary>
         private void InitializeComponent()
         {
-            this.Name = @"ApplicationControl";
-            this.Size = new Size(400, 300);
+            this.SuspendLayout();
+            // 
+            // ApplicationControl
+            // 
+            this.Name = "ApplicationControl";
+            this.Size = new System.Drawing.Size(400, 300);
+            this.Load += new System.EventHandler(this.ApplicationControl_Load);
+            this.ResumeLayout(false);
+
         }
 
         /// <summary>
