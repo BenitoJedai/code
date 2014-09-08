@@ -11,12 +11,17 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class Crypto
     {
+        // can we have a hash of view-source?
+        // md5, sha1, xor, crc ?
+
+
         // how can we track the readiness of
         // webCrypto in devices?
         // need telemetry!
         // will it take 2015 to become useful on all new devices?
         // Android L?
 
+        // "X:\jsc.svn\examples\javascript\io\DropFileForMD5Experiment\DropFileForMD5Experiment.sln"
 
 
         // http://jim.com/security/cypherpunk_program.html
