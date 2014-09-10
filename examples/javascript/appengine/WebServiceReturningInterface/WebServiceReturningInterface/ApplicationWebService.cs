@@ -29,6 +29,10 @@ namespace WebServiceReturningInterface
             y(e);
         }
 
+
+
+        //20140910
+        // webcrypto will enable static encrypted state sharing
         [Obsolete(
             "this web service is reinitialized for every request, as there will be a replay to call the interface"
             + "\n authorized for internal replay"

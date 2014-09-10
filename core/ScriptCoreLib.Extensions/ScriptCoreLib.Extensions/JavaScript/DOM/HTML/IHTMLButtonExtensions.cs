@@ -19,6 +19,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         //    return e;
         //}
 
+        // is this a good idea?
+        // how many examples are using it?
         public static IHTMLButton WhenClicked(this IHTMLButton e, Action<IHTMLButton> h)
         {
             e.onclick +=

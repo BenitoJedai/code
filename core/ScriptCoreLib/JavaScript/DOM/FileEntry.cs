@@ -7,10 +7,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/filesystem/FileEntry.idl
 
+    // .WebFileSystem
+    // .IOFileSystem ?
     [Script(HasNoPrototype = true, ExternalTarget = "")]
     public class FileEntry
     {
         // 35	    void file(FileCallback successCallback, optional ErrorCallback errorCallback);
+        // hide it?
         public void file(IFunction successCallback)
         {
         }

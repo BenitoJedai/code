@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // https://docs.google.com/spreadsheet/ccc?key=0AiAcidBZRLxndE9LWEs2R1oxZ0xidUVoU3FQbFFobkE&usp=sharing#gid=1
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/Crypto.idl
     // http://msdn.microsoft.com/en-us/library/ie/dn280995(v=vs.85).aspx
 

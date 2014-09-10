@@ -78,6 +78,10 @@ namespace DropFileForMD5Experiment
 
                         var s = Stopwatch.StartNew();
 
+
+                        // Error	59	The call is ambiguous between the following methods 
+                        // or properties: 'ScriptCoreLib.JavaScript.DOM.FileExtensions.readAsBytes(ScriptCoreLib.JavaScript.DOM.File)' and 'ScriptCoreLib.JavaScript.DOM.FileEntryAsyncExtensions.readAsBytes(ScriptCoreLib.JavaScript.DOM.File)'	X:\jsc.svn\examples\javascript\io\DropFileForMD5Experiment\DropFileForMD5Experiment\Application.cs	81	43	DropFileForMD5Experiment
+
                         var bytes = await f.readAsBytes();
 
                         var md5 = bytes.ToMD5Bytes();
@@ -91,6 +95,8 @@ namespace DropFileForMD5Experiment
                             s.ElapsedMilliseconds
                             }
                         }.AttachToDocument();
+
+                        // { name = 1399704015818.jpg, size = 32368, md5hex = 3842c6c1385089570889b4ffca8dbf38, ElapsedMilliseconds = 32 }
 
 
                     }
