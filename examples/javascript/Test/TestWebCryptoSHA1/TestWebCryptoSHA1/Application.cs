@@ -32,7 +32,6 @@ namespace TestWebCryptoSHA1
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\Application.cs
 
             // Uncaught TypeError: Failed to execute 'digest' on 'SubtleCrypto': No function was found that matched the signature provided.
 
@@ -42,6 +41,7 @@ namespace TestWebCryptoSHA1
             // X:\jsc.svn\examples\javascript\async\Test\TestWebCryptoAsync\TestWebCryptoAsync\Application.cs
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoEncryption\TestWebCryptoEncryption\Application.cs
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\Application.cs
 
             #region secure origin
             new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
@@ -100,10 +100,7 @@ namespace TestWebCryptoSHA1
 
                 var a = new { name = "SHA-1" };
                 //var a = new { name = "SHA-512" };
-                var x = await Native.crypto.subtle.digestAsync(a,
-                         //new byte[] { 7, 8 }
-                         data
-                 );
+                var x = await Native.crypto.subtle.digestAsync(a, data);
 
                 // {{ Length = 20 }}
                 // {{ a = {{ name = SHA-512 }}, Length = 64 }}
