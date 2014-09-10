@@ -7,7 +7,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
 
 
 
-
+    // or use webcrypto instead if available?
     [ScriptCoreLib.Script]
     public class __MD5CryptoServiceProviderByMahmood
     {

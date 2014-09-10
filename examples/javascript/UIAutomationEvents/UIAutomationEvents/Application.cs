@@ -66,7 +66,7 @@ namespace UIAutomationEvents
             window.onblur += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.onblur));
             window.onscroll += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.onscroll));
             //redux
-            window.ondeviceorientation += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.ondeviceorientation));
+            //window.ondeviceorientation += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.ondeviceorientation));
             window.onresize += e => Events.Add(new UIEvent(UIEventsOfInterestAndSignificance.DOM, "window " + new { }, IHTMLEvents.onresize));
 
             // ScriptCoreLib could also ask for expression which it could monitor a bit better
@@ -208,6 +208,8 @@ namespace UIAutomationEvents
         // do we support expressions yet?
         // do we support list? we do support array and ienumerable?
         // basically this is our datasource
+
+        // if it were readonly, would we still sync it?
         public List<UIEvent> Events = new List<UIEvent>();
 
         // can we databind to html elements?

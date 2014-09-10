@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://src.chromium.org/viewvc/blink/trunk/Source/modules/crypto/SubtleCrypto.idl
+    // https://code.google.com/p/chromium/issues/detail?id=412681
 
     [Script(HasNoPrototype = true)]
     public class SubtleCrypto
@@ -48,12 +49,12 @@ namespace ScriptCoreLib.JavaScript.DOM
         // https://code.google.com/p/chromium/issues/detail?id=389314
         // http://src.chromium.org/viewvc/chrome/trunk/src/content/child/webcrypto/openssl/rsa_key_openssl.cc?revision=286409&pathrev=286409
 
-        public IPromise<CryptoKey> importKey(string format, 
+        public IPromise<CryptoKey> importKey(string format,
             object keyData,
             object algorithm,
             bool extractable,
-            string[] keyUsages            
-            
+            string[] keyUsages
+
             )
         {
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\Application.cs
@@ -113,6 +114,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             return null;
         }
+
+        // http://msdn.microsoft.com/en-us/library/ie/dn302328(v=vs.85).aspx
+        //[CallWith=ScriptState] Promise digest(Dictionary algorithm, ArrayBuffer data);
+        public IPromise<ArrayBuffer> digest(object algorithm, byte[] data)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoSHA1\TestWebCryptoSHA1\Application.cs
+
+            return null;
+        }
+
     }
 
     [Script]
@@ -206,6 +217,26 @@ namespace ScriptCoreLib.JavaScript.DOM
                 }
             );
 
+
+            promise.then(
+                z => { x.SetResult(z); }
+            );
+
+            return x.Task;
+        }
+
+
+        public static Task<byte[]> digestAsync(
+        this SubtleCrypto that,
+
+        object algorithm,
+        byte[] data
+    )
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestWebCryptoSHA1\TestWebCryptoSHA1\Application.cs
+
+            var x = new TaskCompletionSource<byte[]>();
+            var promise = that.digest(algorithm, data);
 
             promise.then(
                 z => { x.SetResult(z); }
