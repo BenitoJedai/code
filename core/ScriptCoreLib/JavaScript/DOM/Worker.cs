@@ -34,6 +34,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
         // X:\jsc.svn\examples\javascript\Test\TestRedirectWebWorker\TestRedirectWebWorker\Application.cs
         public const string ScriptApplicationSource = "view-source";
+        // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
 
 
         //public const string ScriptApplicationSourceForInlineWorker = ScriptApplicationSource + "#worker";
