@@ -183,6 +183,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
             return xx;
         }
 
+
+        // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
+        //public Task<byte[]> DownloadDataTaskAsync(string address);
+
         #region DownloadString
         public event DownloadStringCompletedEventHandler DownloadStringCompleted;
 
