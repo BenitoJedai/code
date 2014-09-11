@@ -47,6 +47,9 @@ namespace Flare3DMeetsStarlingExperiment
 
         public ApplicationSprite()
         {
+            // crash on orientation change?
+            // galaxy s has 55 fps!
+
             scene = new Viewer3D(this);
 
 
