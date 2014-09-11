@@ -93,6 +93,9 @@ namespace com.abstractatech.gamification.craft
         {
             // Uncaught ReferenceError: kvYlVNrcg0qBT40xR_bUt6Q is not defined 
 
+            // it does work, yet chrome server is a slow asset server for now..
+
+
             #region AtFormCreated
             FormStyler.AtFormCreated =
                  s =>

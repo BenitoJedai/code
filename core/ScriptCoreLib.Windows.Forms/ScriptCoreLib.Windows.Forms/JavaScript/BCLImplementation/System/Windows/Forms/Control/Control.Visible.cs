@@ -25,6 +25,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void Show()
         {
+            // if the chrome server 
+            // wants to create a new Form
+            // which needs to have its own AppWindow
+            // with a webview
+            // will the webview know when document is available?
+            // will InternalAtAfterVisibleChanged be called?
+
             this.Visible = true;
         }
 
@@ -46,6 +53,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
+        // who is overriding it?
         internal virtual bool GetVisibleCore()
         {
             if (!this._Visible)
@@ -61,6 +69,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         bool _VisibleUndefined = true;
         bool _Visible = true;
 
+        // who is overriding it?
         protected virtual void SetVisibleCore(bool value)
         {
             if (_VisibleUndefined || (this.GetVisibleCore() != value))
@@ -77,6 +86,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event EventHandler VisibleChanged;
 
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
         public event Action InternalAtAfterVisibleChanged;
 
         public virtual void InternalBeforeVisibleChanged(Action yield)

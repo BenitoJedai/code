@@ -166,11 +166,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                     }
                     #endregion
 
+                    Console.WriteLine("about to call InternalRaiseShown");
+                    // what if it is never called? no. background window wont call it..
 
-                    this.HTMLTarget.requestAnimationFrame +=
-                        delegate
-                        {
-                            this.HTMLTarget.requestAnimationFrame +=
+
+
+                    // we should have a special test for this!
+
+                    Native.setTimeout(
+
+                    //this.HTMLTarget.requestAnimationFrame +=
+                        //    delegate
+                        //    {
+                        //        this.HTMLTarget.requestAnimationFrame +=
                                  delegate
                                  {
                                      // we were closed before we were shown
@@ -193,7 +201,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
                                      InternalUpdateZIndex(HTMLTarget);
 
-                                     //Console.WriteLine("InternalRaiseShown");
+                                     Console.WriteLine("InternalRaiseShown");
                                      InternalRaiseShown();
 
                                      // let child controls know
@@ -215,8 +223,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
                                      InternalWindowStateAnimated = true;
-                                 };
-                        };
+                                 },
+
+                                 // allow animations to finish?
+                                 2
+                        );
 
 
                 }

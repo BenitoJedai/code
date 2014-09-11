@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeWebviewElementExperiment", "ChromeWebviewElementExperiment\ChromeWebviewElementExperiment.csproj", "{0D736B38-1399-47C6-993F-4916BAD03990}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChomeAlphaAppWindow", "..\ChomeAlphaAppWindow\ChomeAlphaAppWindow\ChomeAlphaAppWindow.csproj", "{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{0D736B38-1399-47C6-993F-4916BAD03990}.Debug|x86.Build.0 = Debug|x86
 		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|x86.ActiveCfg = Release|x86
 		{0D736B38-1399-47C6-993F-4916BAD03990}.Release|x86.Build.0 = Release|x86
+		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Debug|x86.ActiveCfg = Debug|x86
+		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Debug|x86.Build.0 = Debug|x86
+		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Release|x86.ActiveCfg = Release|x86
+		{29947AAD-0B14-4FB0-A3C3-A51322BE2EDA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

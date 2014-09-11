@@ -268,6 +268,8 @@ namespace ChromeTCPServer
                 var xhr = new IXMLHttpRequest();
                 //Console.WriteLine(new { asset });
 
+
+                // can we stream our assets instead?
                 xhr.open(ScriptCoreLib.Shared.HTTPMethodEnum.GET, asset);
                 xbytes = await xhr.bytes;
 

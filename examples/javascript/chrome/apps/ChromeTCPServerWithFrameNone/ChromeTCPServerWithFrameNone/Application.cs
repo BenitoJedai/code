@@ -28,6 +28,7 @@ namespace ChromeTCPServer
     {
         // https://developer.chrome.com/apps/tags/webview#type-PointerLockPermissionRequest
 
+        // tested by ?
         public void allow()
         {
         }
@@ -81,38 +82,61 @@ namespace ChromeTCPServer
 
 
 
+            var windowsForm = new Dictionary<Form, AppWindow>();
+            var windows = new List<AppWindow>();
 
             #region __Form
             {
-                var windows = new List<AppWindow>();
 
 
                 __Form.InternalHTMLTargetAttachToDocument =
                    async (that, yield) =>
                    {
+                       // --enable-logging --v=1
+                       // http://stackoverflow.com/questions/12219058/how-to-debug-a-chrome-browser-extension-which-is-crashing
+                       // "C:\Users\Arvo\AppData\Local\Google\Chrome SxS\Application\debug.log"
+                       // "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+
+
+                       // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
+                       // X:\jsc.svn\examples\javascript\android\com.abstractatech.gamification.craft\com.abstractatech.gamification.craft\Application.cs
+
                        Console.WriteLine("enter InternalHTMLTargetAttachToDocument");
 
                        //Error in event handler for app.runtime.onLaunched: Error: Invalid value for argument 2. Property 'transparentBackground': Expected 'boolean' but got 'integer'.
                        //var transparentBackground = true;
 
+
+                       #region options
                        // jsc does not use bool literals correctly
                        var ztransparentBackground = false;
 
-                       if (transparentBackground)
-                           ztransparentBackground = true;
 
-                       var options = new
+
+                       object options = new
                        {
                            frame = "none",
-                           //transparentBackground = ztransparentBackground
-
-                           // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
-                           alphaEnabled = ztransparentBackground
-
                        };
 
+                       if (transparentBackground)
+                       {
+                           ztransparentBackground = true;
+                           options = new
+                          {
+                              frame = "none",
+                              //transparentBackground = ztransparentBackground
+
+                              // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
+
+                              // even if false, permission is checked. why?
+                              alphaEnabled = ztransparentBackground
+
+                          };
+
+                       }
 
                        Console.WriteLine(new { options });
+                       #endregion
 
                        // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/api/app_window.idl
                        var xappwindow = await chrome.app.window.create(
@@ -121,6 +145,9 @@ namespace ChromeTCPServer
                         );
 
 
+                       // webview needs special attention later!
+                       windowsForm[that] = xappwindow;
+
                        // Uncaught TypeError: Cannot read property 'contentWindow' of undefined 
 
                        //Console.WriteLine("appwindow loading... " + new { xappwindow });
@@ -128,6 +155,7 @@ namespace ChromeTCPServer
 
                        // our window frame non client area plus inner body margin
 
+                       #region resizeTo
                        if (that.FormBorderStyle == FormBorderStyle.None)
                        {
                            xappwindow.resizeTo(
@@ -142,6 +170,8 @@ namespace ChromeTCPServer
                             DefaultHeight + 64
                            );
                        }
+                       #endregion
+
 
 
 
@@ -171,10 +201,10 @@ namespace ChromeTCPServer
                        #region FormClosing
                        f.FormClosing +=
                            delegate
-                       {
-                           Console.WriteLine("FormClosing");
-                           xappwindow.close();
-                       };
+                           {
+                               Console.WriteLine("FormClosing");
+                               xappwindow.close();
+                           };
                        #endregion
 
 
@@ -184,10 +214,10 @@ namespace ChromeTCPServer
                        xappwindow.onRestored.addListener(
                            new Action(
                                delegate
-                       {
-                           that.CaptionShadow.Hide();
+                               {
+                                   that.CaptionShadow.Hide();
 
-                       }
+                               }
                            )
                        );
                        #endregion
@@ -197,10 +227,10 @@ namespace ChromeTCPServer
                        xappwindow.onMaximized.addListener(
                        new Action(
                                delegate
-                       {
-                           that.CaptionShadow.Show();
+                               {
+                                   that.CaptionShadow.Show();
 
-                       }
+                               }
                        )
                        );
                        #endregion
@@ -210,12 +240,12 @@ namespace ChromeTCPServer
                        xappwindow.onClosed.addListener(
                                 new Action(
                                     delegate
-                       {
-                           Console.WriteLine("onClosed");
-                           windows.Remove(xappwindow);
+                                    {
+                                        Console.WriteLine("onClosed");
+                                        windows.Remove(xappwindow);
 
-                           f.Close();
-                       }
+                                        f.Close();
+                                    }
                             )
                             );
                        #endregion
@@ -282,20 +312,20 @@ namespace ChromeTCPServer
                        #region resize
                        xappwindow.contentWindow.onresize +=
                                     delegate
-                       {
+                                    {
 
-                           //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
-                           //    new
-                           //    {
-                           //        appwindow.contentWindow.Width,
-                           //        appwindow.contentWindow.Height
-                           //    }
-                           //    );
+                                        //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
+                                        //    new
+                                        //    {
+                                        //        appwindow.contentWindow.Width,
+                                        //        appwindow.contentWindow.Height
+                                        //    }
+                                        //    );
 
 
-                           SizeFormToAppWindow();
+                                        SizeFormToAppWindow();
 
-                       }
+                                    }
                             ;
                        #endregion
 
@@ -304,7 +334,7 @@ namespace ChromeTCPServer
 
 
 
-                       //Console.WriteLine("appwindow contentWindow onload");
+                       Console.WriteLine("appwindow contentWindow onload");
 
 
                        that.HTMLTarget.AttachTo(
@@ -334,6 +364,7 @@ namespace ChromeTCPServer
 
 
 
+                       Console.WriteLine("exit InternalHTMLTargetAttachToDocument");
 
 
 
@@ -348,117 +379,205 @@ namespace ChromeTCPServer
                 // X:\jsc.svn\examples\javascript\chrome\ChromeFormsWebBrowserExperiment\ChromeFormsWebBrowserExperiment\Application.cs
                 __WebBrowser.InitializeInternalElement = that =>
                 {
-                    // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\webkit\WebView.cs
-
-                    var webview = Native.document.createElement("webview");
-                    // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
-                    webview.setAttribute("partition", "p1");
-                    webview.setAttribute("allowtransparency", "true");
-                    webview.setAttribute("allowfullscreen", "true");
-
-                    webview.style.Opacity = 0.0;
+                    // the other option is to have Native to point the AppWindow this is supposed to run in?
 
 
-                    //webview.style.display = IStyle.DisplayEnum.none;
+                    Console.WriteLine("[413165] new webview for current AppWindow " + new { windows.Count });
 
-                    // none wont start loading.. empty will..
-                    //webview.style.display = IStyle.DisplayEnum.empty;
 
-                    // https://developer.chrome.com/apps/tags/webview#event-contentload
-                    webview.addEventListener("contentload",
-                        e =>
+                    // since we do not have a ref to the new AppWindow
+                    // lets create a placeholder until wo do know.
+                    that.InternalElement = (IHTMLIFrame)(object)Native.document.createElement("no-webview");
+
+                    // <no-webview class=" WebBrowser" style="position: absolute; left: 0px; top: 0px; width: 640px; height: 480px;"></no-webview>
+
+                    // what is supposed to trigger it?
+                    that.InternalAtAfterVisibleChanged +=
+                        delegate
                         {
-                            Console.WriteLine("contentload");
-                            // prevent showing white while loading...
-                            //webview.style.display = IStyle.DisplayEnum.block;
-                        }
-                    );
+                            var form = that.FindForm();
 
-
-                    webview.addEventListener("loadstop",
-                     async
-                     e =>
+                            Console.WriteLine(" __WebBrowser.InternalAtAfterVisibleChanged " + new
                             {
-                                Console.WriteLine("loadstop");
-                                // prevent showing white while loading...
-
-                                await Task.Delay(100);
-
-                                //webview.style.display = IStyle.DisplayEnum.block;
-                                webview.style.Opacity = 1.0;
-                            }
-                     );
-
-                    #region permissionrequest
-                    // https://github.com/GoogleChrome/chromium-webview-samples
-                    // permissionrequest
-                    // https://developer.chrome.com/apps/tags/webview#type-WebRequestEventInteface
-                    webview.addEventListener("permissionrequest",
-                        (e) =>
-                        {
-                            // https://code.google.com/p/chromium/issues/detail?id=141198
-
-                            //% c9:176376ms permissionrequest { { permission = pointerLock } }
-                            //Uncaught TypeError: Cannot read property 'allow' of undefined
-                            //< webview >: The permission request for "pointerLock" has been denied.
-
-                            // X:\jsc.internal.git\market\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
-
-                            // https://chromium.googlesource.com/chromium/src/+/git-svn/chrome/common/extensions/api/webview_tag.json
-                            // https://bugzilla.mozilla.org/show_bug.cgi?id=896143
-                            // https://developer.chrome.com/apps/tags/webview#event-permissionrequest
-                            // https://code.google.com/p/chromium/issues/detail?id=153540
-
-                            //  The permission request for "pointerLock" has been denied.
-                            // http://stackoverflow.com/questions/16302627/geolocation-in-a-webview-inside-a-chrome-packaged-app
-                            // http://git.chromium.org/gitweb/?p=chromium.git;a=commitdiff;h=e1d226c0ea739adaed36cc4b617f7a387d44eca0
-
-                            string permission = (e as dynamic).permission;
-                            xPointerLockPermissionRequest e_request = (e as dynamic).request;
-
-                            Console.WriteLine("permissionrequest " + new
-                            {
-                                permission,
-                                e,
-                                e_request
+                                windows.Count,
+                                windowsForm = windowsForm.Count,
+                                form
                             });
-                            //% c9:167409ms permissionrequest { { permission = pointerLock } }
-                            //Uncaught TypeError: Cannot read property 'allow' of undefined
 
-                            e.preventDefault();
+                            // 9:16907ms  __WebBrowser.InternalAtAfterVisibleChanged { Count = 1, f = <Namespace>.Form }
+                            var w = windowsForm[form];
 
+                            //  9:5642ms  __WebBrowser.InternalAtAfterVisibleChanged { w = [object Object] }
+                            //Console.WriteLine(" __WebBrowser.InternalAtAfterVisibleChanged " + new { w });
 
-                            //9:122010ms permissionrequest { { permission = pointerLock, e = [object Event], e_request = [object Object] } }
-                            //9:122028ms delay permissionrequest { { permission = pointerLock, e = [object Event], delay_e_request = [object Object] } }
-                            //Uncaught Error: < webview >: Permission has already been decided for this "permissionrequest" event. 
+                            // time to replace it?
 
-                            //Expando.
-
-                            if (e_request != null)
-                                e_request.allow();
-
-                            //Task.Delay(1).ContinueWith(
-                            //    delegate
-                            //{
-                            //    xPointerLockPermissionRequest delay_e_request = (e as dynamic).request;
-
-                            //    Console.WriteLine("delay permissionrequest " + new { permission, e, delay_e_request });
+                            //that.InternalElement = (IHTMLIFrame)(object)webview;
 
 
-                            //    if (delay_e_request != null)
-                            //        delay_e_request.allow();
-                            //}
-                            //);
-                        }
-                    );
-                    #endregion
+                            // https://code.google.com/p/chromium/issues/detail?id=413165#c2
+
+                            // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\webkit\WebView.cs
+
+                            //var webview = Native.document.createElement("webview");
+
+
+                            // which AppWindow?
+                            // 9:4271ms [413165] new webview for current AppWindow { Count = 0 }
+
+
+                            var webview = w.contentWindow.document.createElement("webview");
+
+                            // copy old attributes to the new webview element! src  n friends 
+                            that.InternalElement.attributes.WithEach(
+                                a =>
+                                {
+                                    Console.WriteLine(" __WebBrowser" + new { a.name, a.value });
+
+                                    webview.setAttribute(
+                                        a.name,
+                                        a.value
+                                    );
+
+                                }
+                            );
+
+                            // 9:4866ms  __WebBrowser{ name = class, value =  WebBrowser }
+                            //view-source:42999 9:4870ms  __WebBrowser{ name = style, value = position: absolute; left: 0px; top: 0px; width: 512px; height: 384px; }
 
 
 
-                    // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
-                    // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/test/data/extensions/platform_apps/web_view/pointer_lock/main.js
+                            // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
+                            webview.setAttribute("partition", "p1");
+                            webview.setAttribute("allowtransparency", "true");
+                            webview.setAttribute("allowfullscreen", "true");
 
-                    that.InternalElement = (IHTMLIFrame)(object)webview;
+
+                            // ?
+                            webview.style.Opacity = 0.0;
+
+
+                            //webview.style.display = IStyle.DisplayEnum.none;
+
+                            // none wont start loading.. empty will..
+                            //webview.style.display = IStyle.DisplayEnum.empty;
+
+                            // https://developer.chrome.com/apps/tags/webview#event-contentload
+                            webview.addEventListener("contentload",
+                                e =>
+                                {
+                                    Console.WriteLine("contentload");
+                                    // prevent showing white while loading...
+                                    //webview.style.display = IStyle.DisplayEnum.block;
+                                }
+                            );
+
+
+                            webview.addEventListener("loadstop",
+                             async
+                             e =>
+                             {
+                                 Console.WriteLine("loadstop");
+                                 // prevent showing white while loading...
+
+                                 await Task.Delay(100);
+
+                                 //webview.style.display = IStyle.DisplayEnum.block;
+                                 webview.style.Opacity = 1.0;
+                             }
+                             );
+
+                            #region permissionrequest
+                            // https://github.com/GoogleChrome/chromium-webview-samples
+                            // permissionrequest
+                            // https://developer.chrome.com/apps/tags/webview#type-WebRequestEventInteface
+                            webview.addEventListener("permissionrequest",
+                                (e) =>
+                                {
+                                    // https://code.google.com/p/chromium/issues/detail?id=141198
+
+                                    //% c9:176376ms permissionrequest { { permission = pointerLock } }
+                                    //Uncaught TypeError: Cannot read property 'allow' of undefined
+                                    //< webview >: The permission request for "pointerLock" has been denied.
+
+                                    // X:\jsc.internal.git\market\chrome\ChromeMyJscSolutionsNet\ChromeMyJscSolutionsNet\Application.cs
+
+                                    // https://chromium.googlesource.com/chromium/src/+/git-svn/chrome/common/extensions/api/webview_tag.json
+                                    // https://bugzilla.mozilla.org/show_bug.cgi?id=896143
+                                    // https://developer.chrome.com/apps/tags/webview#event-permissionrequest
+                                    // https://code.google.com/p/chromium/issues/detail?id=153540
+
+                                    //  The permission request for "pointerLock" has been denied.
+                                    // http://stackoverflow.com/questions/16302627/geolocation-in-a-webview-inside-a-chrome-packaged-app
+                                    // http://git.chromium.org/gitweb/?p=chromium.git;a=commitdiff;h=e1d226c0ea739adaed36cc4b617f7a387d44eca0
+
+                                    string permission = (e as dynamic).permission;
+                                    xPointerLockPermissionRequest e_request = (e as dynamic).request;
+
+                                    Console.WriteLine("permissionrequest " + new
+                                    {
+                                        permission,
+                                        e,
+                                        e_request
+                                    });
+                                    //% c9:167409ms permissionrequest { { permission = pointerLock } }
+                                    //Uncaught TypeError: Cannot read property 'allow' of undefined
+
+                                    e.preventDefault();
+
+
+                                    //9:122010ms permissionrequest { { permission = pointerLock, e = [object Event], e_request = [object Object] } }
+                                    //9:122028ms delay permissionrequest { { permission = pointerLock, e = [object Event], delay_e_request = [object Object] } }
+                                    //Uncaught Error: < webview >: Permission has already been decided for this "permissionrequest" event. 
+
+                                    //Expando.
+
+                                    if (e_request != null)
+                                        e_request.allow();
+
+                                    //Task.Delay(1).ContinueWith(
+                                    //    delegate
+                                    //{
+                                    //    xPointerLockPermissionRequest delay_e_request = (e as dynamic).request;
+
+                                    //    Console.WriteLine("delay permissionrequest " + new { permission, e, delay_e_request });
+
+
+                                    //    if (delay_e_request != null)
+                                    //        delay_e_request.allow();
+                                    //}
+                                    //);
+                                }
+                            );
+                            #endregion
+
+
+
+                            // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
+                            // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/test/data/extensions/platform_apps/web_view/pointer_lock/main.js
+
+
+
+
+
+
+
+
+                            that.InternalElement.parentNode.replaceChild(webview, that.InternalElement);
+
+                            that.InternalElement = (IHTMLIFrame)(object)webview;
+
+                            // src was not copied for some reason. force it.
+                            that.Refresh();
+
+
+                            Console.WriteLine("[413165] new webview ready " + new { that.Url });
+
+                        };
+
+                    return;
+
+
                 };
 
             }
@@ -488,20 +607,35 @@ namespace ChromeTCPServer
                     #region SizeChanged
                     f.SizeChanged +=
                         delegate
-                    {
-                        //Console.WriteLine("SizeChanged");
+                        {
+                            //Console.WriteLine("SizeChanged");
 
-                        var ClientSize = f.ClientSize;
+                            var ClientSize = f.ClientSize;
 
 
-                        w.Width = ClientSize.Width;
-                        w.Height = ClientSize.Height;
+                            w.Width = ClientSize.Width;
+                            w.Height = ClientSize.Height;
 
-                    };
+                        };
                     #endregion
 
 
                     w.Navigate(uri);
+
+                    f.Load +=
+                        delegate
+                        {
+                            Console.WriteLine("f.Load, // InternalAtAfterVisibleChanged ?");
+                        };
+
+                    f.Shown +=
+                        delegate
+                        {
+                            Console.WriteLine("f.Shown, // InternalAtAfterVisibleChanged ?");
+
+                        };
+
+                    Console.WriteLine(" f.Show(), will it trigger // InternalAtAfterVisibleChanged ?");
 
                     f.Show();
 
@@ -509,9 +643,9 @@ namespace ChromeTCPServer
 
                     f.FormClosed +=
                         delegate
-                    {
-                        x.SetResult(f);
-                    };
+                        {
+                            x.SetResult(f);
+                        };
 
                     await x.Task;
 
