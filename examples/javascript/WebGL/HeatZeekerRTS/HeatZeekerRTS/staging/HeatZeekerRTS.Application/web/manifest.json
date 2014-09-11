@@ -1,10 +1,10 @@
 
 {
 "manifest_version": 2,
-  "name": "Operation \xabHeat Zeeker\xbb RTS",
+  "name": "Heat Zeeker RTS",
   "description": "Operation \xabHeat Zeeker\xbb RTS",
-  "version": "25",
- "minimum_chrome_version": "32",
+  "version": "42",
+ "minimum_chrome_version": "38",
   "offline_enabled": true,
 
 

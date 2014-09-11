@@ -144,6 +144,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\stats.png" />
+    <Content Include="Screenshots\capture_001_11092014_183919.png" />
     <Content Include="staging\HeatZeekerRTS.Application\web\Promotion3D_iso1_tiltshift_128.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
