@@ -35,10 +35,10 @@ namespace ChromeGalaxyS
         public Application(WebGLGalaxyS.HTML.Pages.IApp page)
         {
             // 20140911
-            // not sure. the alpha window
-            // seems to be unable to display webview content
-            // why?
-            // it used to work. yet not anymore?
+
+            //An error occurred: Failed to process your item.
+
+            //Invalid version number in manifest: 40. Please make sure the newly uploaded package has a larger version in file manifest.json than the published package: 40.
 
             //<webview tabindex="-1" partition="p1" allowtransparency="false" allowfullscreen="true" class=" WebBrowser" src="http://192.168.1.196:8077" style="opacity: 0; position: absolute; left: 0px; top: 0px; width: 664px; height: 509px;"></webview>
 

@@ -41,6 +41,15 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chrome Web Server">
+      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Server Styled Form">
+      <HintPath>..\packages\Chrome.Web.Server.StyledForm.1.0.0.0\lib\Chrome Web Server Styled Form.dll</HintPath>
+    </Reference>
+    <Reference Include="Chrome Web Store">
+      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+    </Reference>
     <Reference Include="Flare3D">
       <HintPath>..\packages\Flare3D.1.0.0.0\lib\Flare3D.dll</HintPath>
       <Aliases>global,gflare3d</Aliases>
@@ -65,6 +74,9 @@
     <Reference Include="ScriptCoreLib">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Async">
+      <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <SpecificVersion>False</SpecificVersion>
@@ -162,6 +174,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="staging\Flare3DMeetsStarlingExperiment.ApplicationSprite\web\air-test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\Flare3DMeetsStarlingExperiment.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

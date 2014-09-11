@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{88756CC0-7E88-42B7-980E-02D5924CF88F}</ProjectGuid>
+    <ProjectGuid>{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>chrome</RootNamespace>
