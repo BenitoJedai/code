@@ -31,7 +31,6 @@ namespace FlashHeatZeeker.CoreMap
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            sprite.wmode();
 
             sprite.AttachSpriteToDocument().With(
                    embed =>
@@ -51,24 +50,5 @@ namespace FlashHeatZeeker.CoreMap
     }
 
 
-    public static class XX
-    {
 
-
-        public static void wmode(this Sprite s, string value = "direct")
-        {
-            var x = s.ToHTMLElement();
-
-            var p = x.parentNode;
-            if (p != null)
-            {
-                // if we continue, element will be reloaded!
-                return;
-            }
-
-            x.setAttribute("wmode", value);
-
-
-        }
-    }
 }
