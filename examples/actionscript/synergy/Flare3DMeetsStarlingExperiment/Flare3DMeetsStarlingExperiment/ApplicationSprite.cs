@@ -25,6 +25,7 @@ namespace Flare3DMeetsStarlingExperiment
 
     static class __Scene3D
     {
+        // still need it?
         [Script(OptimizedCode = "s.render();")]
         public static void __render(this Scene3D s)
         {

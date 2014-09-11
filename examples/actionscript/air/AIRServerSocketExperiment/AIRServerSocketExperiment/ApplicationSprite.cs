@@ -9,6 +9,8 @@ namespace AIRServerSocketExperiment
 {
     public sealed class ApplicationSprite : Sprite
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201409/20140911
+
         public ApplicationSprite()
         {
             // X:\jsc.svn\examples\actionscript\air\AIRStageWebViewExperiment\AIRStageWebViewExperiment\ApplicationSprite.cs
@@ -24,6 +26,10 @@ namespace AIRServerSocketExperiment
                     Capabilities.version,
                     Capabilities.playerType,
 
+                    Capabilities.cpuArchitecture,
+                    Capabilities.touchscreenType,
+
+                    // why is this commented out?
                     //WorkerDomain = WorkerDomain.isSupported,
 
                     // http://na5.brightidea.com/ct/ct_a_view_idea.bix?c=9D564F43-979A-4E35-AA21-85A61B6AB8DE&idea_id=F353B3CC-5F05-45E7-9A73-1093E0A1F9DD
