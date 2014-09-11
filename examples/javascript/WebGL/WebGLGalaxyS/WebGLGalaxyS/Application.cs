@@ -31,6 +31,7 @@ namespace WebGLGalaxyS
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\actionscript\synergy\Flare3DMeetsStarlingExperiment\Flare3DMeetsStarlingExperiment\ApplicationSprite.cs
             // X:\jsc.svn\examples\javascript\WebGL\WebGLGalaxyS\WebGLGalaxyS\Application.cs
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140801
