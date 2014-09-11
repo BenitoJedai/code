@@ -31,11 +31,18 @@ namespace ChomeAlphaAppWindow
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeGalaxyS\ChromeGalaxyS\Application.cs
+
+
+            // https://code.google.com/p/chromium/issues/detail?id=260810
+            // https://code.google.com/p/chromium/issues/detail?id=125295
+            // https://code.google.com/p/chromium/issues/detail?id=244892
+            // https://code.google.com/p/chromium/issues/detail?id=260819
+
             // damn chrome. stop changing your experimental api. thanks
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140815
 
             // http://www.omgchrome.com/chrome-os-transparent-window-theme/
-            // https://code.google.com/p/chromium/issues/detail?id=260810
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowFrameNoneExperiment\ChromeAppWindowFrameNoneExperiment\Application.cs
 
 
@@ -60,106 +67,106 @@ namespace ChomeAlphaAppWindow
                 #region Launched
                 chrome.app.runtime.Launched +=
                     async delegate
-                {
-                    // https://plus.google.com/+FrancoisBeaufort/posts/7vcqSGYgiqC
-
-                    // http://src.chromium.org/viewvc/chrome/branches/2062/src/apps/app_window.cc?r1=285044&r2=285043&pathrev=285044
-
-
-                    // jsc, when will we backe the generics?
-                    //type$AejzKfYgdT_a9VVOdZOmeGA.alwaysOnTop = null;
-                    //type$AejzKfYgdT_a9VVOdZOmeGA.transparentBackground = null;
-
-
-                    //var transparentBackground = true;
-                    // Error: Invalid value for argument 2. Property 'alpha_enabled': Unexpected property.
-
-                    // Unchecked runtime.lastError while running app.window.create: The alphaEnabled option requires app.window.alpha permission.
-
-                    var alphaEnabled = true;
-
-                    var alwaysOnTop = true;
-
-                    // it allows to maximize, but disables alpha then.
-                    var resizable = false;
-                    //var resizable = true;
-
-                    // https://code.google.com/p/chromium/issues/detail?id=125295
-                    var options = new
                     {
-                        frame = "none",
-                        alwaysOnTop,
-                        //transparentBackground,
-                        alphaEnabled,
-                        resizable
+                        // https://plus.google.com/+FrancoisBeaufort/posts/7vcqSGYgiqC
+
+                        // http://src.chromium.org/viewvc/chrome/branches/2062/src/apps/app_window.cc?r1=285044&r2=285043&pathrev=285044
+
+
+                        // jsc, when will we backe the generics?
+                        //type$AejzKfYgdT_a9VVOdZOmeGA.alwaysOnTop = null;
+                        //type$AejzKfYgdT_a9VVOdZOmeGA.transparentBackground = null;
+
+
+                        //var transparentBackground = true;
+                        // Error: Invalid value for argument 2. Property 'alpha_enabled': Unexpected property.
+
+                        // Unchecked runtime.lastError while running app.window.create: The alphaEnabled option requires app.window.alpha permission.
+
+                        var alphaEnabled = true;
+
+                        var alwaysOnTop = true;
+
+                        // it allows to maximize, but disables alpha then.
+                        var resizable = false;
+                        //var resizable = true;
+
+                        var options = new
+                        {
+                            frame = "none",
+                            alwaysOnTop,
+                            //transparentBackground,
+                            alphaEnabled,
+                            resizable
+                        };
+
+                        var xappwindow = await chrome.app.window.create(
+                            Native.document.location.pathname,
+
+                            // not allowed
+                            //"about:blank",
+
+                            // https://developer.chrome.com/apps/app_window#type-CreateWindowOptions
+                            options
+                        );
+
+
+                        //xappwindow.ons
+
+                        //xappwindow.on
+
+
+
+                        //var alwaysOnTop = true;
+                        //xappwindow.setAlwaysOnTop(alwaysOnTop);
+
+
+                        // Invocation of form app.currentWindowInternal.setAlwaysOnTop(integer) doesn't match definition app.currentWindowInternal.setAlwaysOnTop(boolean always_on_top)
+
+                        // 0:1377ms {{ alphaEnabled = false }}
+
+                        // exception>: TypeError: Cannot read property 'alphaEnabled' of undefined
+                        var xalphaEnabled = xappwindow.alphaEnabled();
+
+                        Console.WriteLine(
+                             new { xalphaEnabled }
+                         );
+
+
+                        xappwindow.show();
+
+
+                        await xappwindow.contentWindow.async.onload;
+
+                        //appwindow.contentWindow.onload +=
+
+                        // -webkit-app-region: drag 
+                        // https://developer.chrome.com/apps/app_window
+
+                        (xappwindow.contentWindow.document.documentElement.style as dynamic).webkitAppRegion = "drag";
+
+                        xappwindow.contentWindow.document.body.style.backgroundColor = "rgba(255, 255, 0, 0.7)";
+
+                        xappwindow.contentWindow.document.body.innerText = "it works when 'Enable experimental canvas features'";
+
+                        xappwindow.contentWindow.document.body.style.position = IStyle.PositionEnum.absolute;
+
+                        xappwindow.contentWindow.document.body.style.height = "100%";
+
+                        // Refused to frame 'http://example.com/?' because it violates the following Content Security Policy directive: "frame-src 'self' data: chrome-extension-resource:"
+
+                        //new IHTMLIFrame { allowTransparency = true, src = "http://example.com" }.AttachTo(xappwindow.contentWindow.document.body);
+
+                        var webview = Native.document.createElement("webview");
+
+                        // will it show up?
+                        webview.setAttribute("src", "http://example.com");
+                        webview.AttachTo(xappwindow.contentWindow.document.body);
+
+                        new Notification { Message = "it works when 'Enable experimental canvas features'" };
+                        // showed
+
                     };
-
-                    var xappwindow = await chrome.app.window.create(
-                        Native.document.location.pathname,
-
-                        // not allowed
-                        //"about:blank",
-
-                        // https://developer.chrome.com/apps/app_window#type-CreateWindowOptions
-                        options
-                    );
-
-
-                    //xappwindow.ons
-
-                    //xappwindow.on
-
-
-
-                    //var alwaysOnTop = true;
-                    //xappwindow.setAlwaysOnTop(alwaysOnTop);
-
-
-                    // Invocation of form app.currentWindowInternal.setAlwaysOnTop(integer) doesn't match definition app.currentWindowInternal.setAlwaysOnTop(boolean always_on_top)
-
-                    // 0:1377ms {{ alphaEnabled = false }}
-
-                    // exception>: TypeError: Cannot read property 'alphaEnabled' of undefined
-                    var xalphaEnabled = xappwindow.alphaEnabled();
-
-                    Console.WriteLine(
-                         new { xalphaEnabled }
-                     );
-
-
-                    xappwindow.show();
-
-
-                    await xappwindow.contentWindow.async.onload;
-
-                    //appwindow.contentWindow.onload +=
-
-                    // -webkit-app-region: drag 
-                    // https://developer.chrome.com/apps/app_window
-
-                    (xappwindow.contentWindow.document.documentElement.style as dynamic).webkitAppRegion = "drag";
-
-                    xappwindow.contentWindow.document.body.style.backgroundColor = "rgba(255, 255, 0, 0.7)";
-
-                    xappwindow.contentWindow.document.body.innerText = "it works when 'Enable experimental canvas features'";
-
-                    xappwindow.contentWindow.document.body.style.position = IStyle.PositionEnum.absolute;
-
-                    xappwindow.contentWindow.document.body.style.height = "100%";
-
-                    // Refused to frame 'http://example.com/?' because it violates the following Content Security Policy directive: "frame-src 'self' data: chrome-extension-resource:"
-
-                    //new IHTMLIFrame { allowTransparency = true, src = "http://example.com" }.AttachTo(xappwindow.contentWindow.document.body);
-
-                    var webview = Native.document.createElement("webview");
-
-                    webview.setAttribute("src", "http://example.com");
-                    webview.AttachTo(xappwindow.contentWindow.document.body);
-
-                    new Notification { Message = "it works when 'Enable experimental canvas features'" };
-                    // showed
-
-                };
                 #endregion
 
 
