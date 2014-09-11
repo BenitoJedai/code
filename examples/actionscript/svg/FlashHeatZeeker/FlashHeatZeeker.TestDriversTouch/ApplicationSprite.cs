@@ -28,7 +28,9 @@ namespace FlashHeatZeeker.TestDriversTouch
     [SWF(backgroundColor = 0xB27D51)]
     public sealed class ApplicationSprite : Sprite, IAlternator
     {
-        // V:\web\ScriptCoreLib\ActionScript\BCLImplementation\System\__DateTime.as: Error: Can not resolve a multiname reference unambiguously. ScriptCoreLib.ActionScript.BCLImplementation.System:__TimeSpan (from V:\web\ScriptCoreLib\ActionScript\BCLImplementation\System\__TimeSpan.as) and ScriptCoreLib.Shared.BCLImplementation.System:__TimeSpan (from V:\web\ScriptCoreLib\Shared\BCLImplementation\System\__TimeSpan.as) are available.
+        // 20140911
+        // 14 fps nexus4
+        // 12 fps nexus7
 
         public string Alternate { get; set; }
 
