@@ -1,20 +1,11 @@
-﻿
+
 {
 "manifest_version": 2,
-  "name": "I9000",
-  "description": "I9000",
-  "version": "42",
+  "name": "Flare3DMeetsStarlingExperiment",
+  "description": "Flare3DMeetsStarlingExperiment",
+  "version": "12",
  "minimum_chrome_version": "38",
   "offline_enabled": true,
-
-
-  
-     "externally_connectable": {
-    "ids": [
-      "*"
-		]
-	},
-
 
   "app": {
 
@@ -24,13 +15,11 @@
     }
   },
   "icons": {
-      "128": "assets/ChromeGalaxyS/x128.png" 
+
   },
   
-  
+
   "permissions": [
-     "app.window.alpha",
-  "<all_urls>",
   "webview",
   "fullscreen",
   "pointerLock",
