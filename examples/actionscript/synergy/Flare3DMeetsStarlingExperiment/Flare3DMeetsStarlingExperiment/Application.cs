@@ -31,6 +31,8 @@ namespace Flare3DMeetsStarlingExperiment
         public Application(IApp page)
         {
 
+            // can we make it as a chrome app? :)
+
             var sprite = new ApplicationSprite();
             sprite.AttachSpriteToDocument().With(
                    embed =>

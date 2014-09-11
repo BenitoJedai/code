@@ -12,6 +12,8 @@ namespace java.lang
     [Script(IsNative=true)]
     public abstract class ClassLoader
     {
+        // tested by?
+
         #region methods
         /// <summary>
         /// Sets the default assertion status for this class loader to <tt>false</tt> and discards any package defaults or class assertion status settings associated with the class loader.

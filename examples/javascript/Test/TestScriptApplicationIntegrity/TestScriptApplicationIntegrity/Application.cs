@@ -58,6 +58,11 @@ namespace TestScriptApplicationIntegrity
             }
             #endregion
 
+            // what about net neutrality?
+            // can we tracert back to servers?
+            // https://www.youtube.com/watch?v=5kF5VEpO9Xs
+            // how fast is our crypto connection?
+
 
             // https://developer.mozilla.org/en/docs/Web/API/document.currentScript
 
