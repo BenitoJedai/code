@@ -13,6 +13,9 @@ namespace System.Windows.Forms
 {
     public static class FormStylerLikeFloat
     {
+        // tested by
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeGalaxyS\ChromeGalaxyS\Application.cs
+
         // Message	3	The designer has fixed inconsistent type names in a partial class.  
         // The partial class name 'ScriptCoreLib.JavaScript.Windows.Forms' has been changed to 'Abstractatech.JavaScript.Forms.FloatStyler'.		0	0	
 

@@ -25,12 +25,23 @@ namespace ChromeGalaxyS
     /// </summary>
     public sealed class Application : ApplicationWebService
     {
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201409/20140911
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(WebGLGalaxyS.HTML.Pages.IApp page)
         {
+            // 20140911
+            // not sure. the alpha window
+            // seems to be unable to display webview content
+            // why?
+            // it used to work. yet not anymore?
+
+            //<webview tabindex="-1" partition="p1" allowtransparency="false" allowfullscreen="true" class=" WebBrowser" src="http://192.168.1.196:8077" style="opacity: 0; position: absolute; left: 0px; top: 0px; width: 664px; height: 509px;"></webview>
+
             // https://chrome.google.com/webstore/detail/dionniaojcmomejjhemchjmdadbnhhaj/preview
 
             #region ChromeTCPServer
