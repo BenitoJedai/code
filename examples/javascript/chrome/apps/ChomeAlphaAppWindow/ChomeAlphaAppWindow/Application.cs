@@ -84,6 +84,7 @@ namespace ChomeAlphaAppWindow
 
                         // Unchecked runtime.lastError while running app.window.create: The alphaEnabled option requires app.window.alpha permission.
 
+                        //var alphaEnabled = false;
                         var alphaEnabled = true;
 
                         var alwaysOnTop = true;
@@ -158,7 +159,15 @@ namespace ChomeAlphaAppWindow
 
                         //new IHTMLIFrame { allowTransparency = true, src = "http://example.com" }.AttachTo(xappwindow.contentWindow.document.body);
 
-                        var webview = Native.document.createElement("webview");
+
+                        // are we on the wrong thread?
+                        //var webview = Native.document.createElement("webview");
+
+                        // !!! need to be on the same document!
+                        var webview = xappwindow.contentWindow.document.createElement("webview");
+
+                        // ? needed? does not help either way?
+                        webview.setAttribute("partition", "p1");
 
                         // will it show up?
                         webview.setAttribute("src", "http://example.com");

@@ -9,13 +9,16 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     // http://referencesource.microsoft.com/#System.Windows.Forms/ndp/fx/src/winforms/Managed/System/WinForms/WebBrowser.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/Managed.Windows.Forms/System.Windows.Forms/WebBrowser.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.Mozilla/WebBrowser.cs
+
 
     // tested by X:\jsc.svn\examples\javascript\chrome\ChromeFormsWebBrowserExperiment\ChromeFormsWebBrowserExperiment\Application.cs
     [Script(Implements = typeof(global::System.Windows.Forms.WebBrowser))]
     public class __WebBrowser : __WebBrowserBase
     {
         // X:\jsc.svn\examples\javascript\Test\TestShadowIFrame\TestShadowIFrame\Application.cs
-
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
 
         public bool ScriptErrorsSuppressed { get; set; }
 
@@ -35,6 +38,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public override void Refresh()
+        {
+            Navigate(InternalUrl.ToString());
+        }
 
         public string DocumentTitle
         {
@@ -59,7 +66,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (!urlString.Contains(":"))
             {
                 /// baseURI
-                var loc = Native.Document.location.href;
+                var loc = Native.document.location.href;
                 if (urlString.StartsWith("/"))
                     if (loc.EndsWith("/"))
                     {
@@ -70,9 +77,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
 
             // onload: { Url = ://out:NaN/, src = about:blank, href = about:blank }
-            InternalUrl = new Uri(urlString);
+            this.InternalUrl = new Uri(urlString);
 
-            Console.WriteLine(new { InternalUrl });
+            Console.WriteLine("__WebBrowser.Navigate " + new { InternalUrl });
 
             this.InternalElement.src = urlString;
         }
@@ -123,6 +130,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public event WebBrowserNavigatedEventHandler Navigated;
 
 
+        // which document are we talking about?
         public static Action<__WebBrowser> InitializeInternalElement =
             that =>
             {
@@ -142,6 +150,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public __WebBrowser()
         {
+            // we should not create any <webview> elements before we know which document will be using this WebBrowser.
+
+
             InitializeInternalElement(this);
 
             this.InternalElement.onload +=

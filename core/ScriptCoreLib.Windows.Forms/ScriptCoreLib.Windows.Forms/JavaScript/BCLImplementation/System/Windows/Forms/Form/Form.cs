@@ -338,6 +338,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 Load(this, new EventArgs());
         }
 
+        
+
+        // called by ?
         public void InternalRaiseShown()
         {
             if (Shown != null)

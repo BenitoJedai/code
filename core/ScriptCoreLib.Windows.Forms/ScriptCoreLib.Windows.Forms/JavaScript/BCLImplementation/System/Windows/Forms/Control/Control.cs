@@ -254,6 +254,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
 
+        // WebBrowser
+        public virtual void Refresh()
+        { 
+        
+        }
+
         public event EventHandler Resize;
 
 

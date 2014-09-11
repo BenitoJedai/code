@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/History.webidl
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/History.idl
+    // https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.WebBrowser/DOM/IHistory.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/Mono.WebBrowser/Mono.Mozilla/DOM/History.cs
 
     [Script(HasNoPrototype = true)]
     public class History
