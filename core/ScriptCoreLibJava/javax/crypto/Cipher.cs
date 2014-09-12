@@ -5,6 +5,7 @@ namespace javax.crypto
 {
     // http://docs.oracle.com/javase/1.5.0/docs/api/javax/crypto/Cipher.html
     // http://developer.android.com/reference/javax/crypto/Cipher.html
+
     [Script(IsNative = true)]
     public class Cipher
     {

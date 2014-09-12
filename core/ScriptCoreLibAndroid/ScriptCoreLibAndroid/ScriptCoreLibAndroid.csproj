@@ -508,6 +508,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Math.cs">
       <Link>java\lang\Math.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Number.cs">
+      <Link>java\lang\Number.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Object.cs">
       <Link>java\lang\Object.cs</Link>
     </Compile>
@@ -573,6 +576,12 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Throwable.cs">
       <Link>java\lang\Throwable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\math\BigDecimal.cs">
+      <Link>java\math\BigDecimal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\math\BigInteger.cs">
+      <Link>java\math\BigInteger.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\net\DatagramPacket.cs">
       <Link>java\net\DatagramPacket.cs</Link>
@@ -651,6 +660,12 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\CodeSource.cs">
       <Link>java\security\CodeSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\interfaces\RSAKey.cs">
+      <Link>java\security\interfaces\RSAKey.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\security\interfaces\RSAPublicKey.cs">
+      <Link>java\security\interfaces\RSAPublicKey.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\security\Key.cs">
       <Link>java\security\Key.cs</Link>
@@ -747,6 +762,9 @@
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Properties.cs">
       <Link>java\util\Properties.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\util\Random.cs">
+      <Link>java\util\Random.cs</Link>
     </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\util\Set.cs">
       <Link>java\util\Set.cs</Link>
@@ -883,6 +901,7 @@
     <Compile Include="android\opengl\GLES20.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\os\BatteryManager.cs" />
+    <Compile Include="android\os\Handler.cs" />
     <Compile Include="android\os\Environment.cs" />
     <Compile Include="android\os\ServiceManager.cs" />
     <Compile Include="android\os\IBinder.cs" />
@@ -924,6 +943,7 @@
     <Compile Include="android\view\View.cs" />
     <Compile Include="android\view\ViewGroup.cs" />
     <Compile Include="android\view\WindowManager_LayoutParams.cs" />
+    <Compile Include="android\webkit\SslErrorHandler.cs" />
     <Compile Include="android\widget\PopupWindow.cs" />
     <Compile Include="android\webkit\WebSettings.cs" />
     <Compile Include="android\webkit\ValueCallback.cs" />

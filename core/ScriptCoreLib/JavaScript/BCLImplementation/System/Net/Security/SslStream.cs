@@ -6,12 +6,24 @@ using System.Text;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
 {
+    // http://msdn.microsoft.com/en-us/library/system.net.security.sslstream.aspx
     // http://referencesource.microsoft.com/#System/net/System/Net/SecureProtocols/SslStream.cs
     // https://github.com/mono/mono/tree/master/mcs/class/System/System.Net.Security/SslStream.cs
 
     [Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
+        // https://www.simple-talk.com/dotnet/.net-framework/tlsssl-and-.net-framework-4.0/
+        // http://stackoverflow.com/questions/6720275/c-sharp-ssl-tcplistener-tcpclient
+        // http://www.dib0.nl/code/343-using-ssl-over-tcp-as-client-and-server-with-c
+        // pfx
+
+        // MonoCipherAlgorithmType.Rijndael
+        // CipherAlgorithmType.Aes256
+        // HashAlgorithmType.Sha1;
+        // SslProtocols.Tls
+
+
         // PKI and SSL needs to be obsoleted and replaced. 
         // http://jim.com/security/
 

@@ -7,7 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/SecureProtocols/AuthenticatedStream.cs
-    // https://github.com/mono/mono/blob/effa4c07ba850bedbe1ff54b2a5df281c058ebcb/mcs/class/System/System.Net.Security/AuthenticatedStream.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.Security/AuthenticatedStream.cs
 
     [Script(Implements = typeof(global::System.Net.Security.AuthenticatedStream))]
     internal abstract class __AuthenticatedStream : __Stream

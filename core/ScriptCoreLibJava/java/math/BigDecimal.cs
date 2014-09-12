@@ -4,8 +4,11 @@ using java.lang;
 
 namespace java.math
 {
-    [Script(IsNative=true)]
-    public class BigDecimal 
+    // http://developer.android.com/reference/java/math/BigDecimal.html
+
+
+    [Script(IsNative = true)]
+    public class BigDecimal
     {
         public static readonly int ROUND_CEILING;
 

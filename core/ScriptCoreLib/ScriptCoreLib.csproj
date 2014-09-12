@@ -107,6 +107,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Data\MySQL\MySQLCommand.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Data\PostgreSQL\PostgreSQLCommand.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\Security\AuthenticatedStream.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\CryptoStream.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\RSA.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\PublicKey.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="Shared\BCLImplementation\System\Runtime\CompilerServices\INotifyCompletion.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\ICryptoTransform.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\MD5.cs" />
     <Compile Include="Shared\BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs" />
