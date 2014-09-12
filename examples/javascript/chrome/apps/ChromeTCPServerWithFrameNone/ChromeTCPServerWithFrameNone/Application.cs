@@ -122,16 +122,16 @@ namespace ChromeTCPServer
                        {
                            ztransparentBackground = true;
                            options = new
-                          {
-                              frame = "none",
-                              //transparentBackground = ztransparentBackground
+                           {
+                               frame = "none",
+                               //transparentBackground = ztransparentBackground
 
-                              // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
+                               // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
 
-                              // even if false, permission is checked. why?
-                              alphaEnabled = ztransparentBackground
+                               // even if false, permission is checked. why?
+                               alphaEnabled = ztransparentBackground
 
-                          };
+                           };
 
                        }
 
@@ -201,10 +201,10 @@ namespace ChromeTCPServer
                        #region FormClosing
                        f.FormClosing +=
                            delegate
-                           {
-                               Console.WriteLine("FormClosing");
-                               xappwindow.close();
-                           };
+                       {
+                           Console.WriteLine("FormClosing");
+                           xappwindow.close();
+                       };
                        #endregion
 
 
@@ -214,10 +214,10 @@ namespace ChromeTCPServer
                        xappwindow.onRestored.addListener(
                            new Action(
                                delegate
-                               {
-                                   that.CaptionShadow.Hide();
+                       {
+                           that.CaptionShadow.Hide();
 
-                               }
+                       }
                            )
                        );
                        #endregion
@@ -227,10 +227,10 @@ namespace ChromeTCPServer
                        xappwindow.onMaximized.addListener(
                        new Action(
                                delegate
-                               {
-                                   that.CaptionShadow.Show();
+                       {
+                           that.CaptionShadow.Show();
 
-                               }
+                       }
                        )
                        );
                        #endregion
@@ -240,12 +240,12 @@ namespace ChromeTCPServer
                        xappwindow.onClosed.addListener(
                                 new Action(
                                     delegate
-                                    {
-                                        Console.WriteLine("onClosed");
-                                        windows.Remove(xappwindow);
+                       {
+                           Console.WriteLine("onClosed");
+                           windows.Remove(xappwindow);
 
-                                        f.Close();
-                                    }
+                           f.Close();
+                       }
                             )
                             );
                        #endregion
@@ -312,20 +312,20 @@ namespace ChromeTCPServer
                        #region resize
                        xappwindow.contentWindow.onresize +=
                                     delegate
-                                    {
+                       {
 
-                                        //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
-                                        //    new
-                                        //    {
-                                        //        appwindow.contentWindow.Width,
-                                        //        appwindow.contentWindow.Height
-                                        //    }
-                                        //    );
+                           //Console.WriteLine("appwindow.contentWindow.onresize SizeTo " +
+                           //    new
+                           //    {
+                           //        appwindow.contentWindow.Width,
+                           //        appwindow.contentWindow.Height
+                           //    }
+                           //    );
 
 
-                                        SizeFormToAppWindow();
+                           SizeFormToAppWindow();
 
-                                    }
+                       }
                             ;
                        #endregion
 
@@ -394,43 +394,43 @@ namespace ChromeTCPServer
                     // what is supposed to trigger it?
                     that.InternalAtAfterVisibleChanged +=
                         delegate
+                    {
+                        var form = that.FindForm();
+
+                        Console.WriteLine(" __WebBrowser.InternalAtAfterVisibleChanged " + new
                         {
-                            var form = that.FindForm();
+                            windows.Count,
+                            windowsForm = windowsForm.Count,
+                            form
+                        });
 
-                            Console.WriteLine(" __WebBrowser.InternalAtAfterVisibleChanged " + new
-                            {
-                                windows.Count,
-                                windowsForm = windowsForm.Count,
-                                form
-                            });
+                        // 9:16907ms  __WebBrowser.InternalAtAfterVisibleChanged { Count = 1, f = <Namespace>.Form }
+                        var w = windowsForm[form];
 
-                            // 9:16907ms  __WebBrowser.InternalAtAfterVisibleChanged { Count = 1, f = <Namespace>.Form }
-                            var w = windowsForm[form];
+                        //  9:5642ms  __WebBrowser.InternalAtAfterVisibleChanged { w = [object Object] }
+                        //Console.WriteLine(" __WebBrowser.InternalAtAfterVisibleChanged " + new { w });
 
-                            //  9:5642ms  __WebBrowser.InternalAtAfterVisibleChanged { w = [object Object] }
-                            //Console.WriteLine(" __WebBrowser.InternalAtAfterVisibleChanged " + new { w });
+                        // time to replace it?
 
-                            // time to replace it?
-
-                            //that.InternalElement = (IHTMLIFrame)(object)webview;
+                        //that.InternalElement = (IHTMLIFrame)(object)webview;
 
 
-                            // https://code.google.com/p/chromium/issues/detail?id=413165#c2
+                        // https://code.google.com/p/chromium/issues/detail?id=413165#c2
 
-                            // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\webkit\WebView.cs
+                        // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\android\webkit\WebView.cs
 
-                            //var webview = Native.document.createElement("webview");
-
-
-                            // which AppWindow?
-                            // 9:4271ms [413165] new webview for current AppWindow { Count = 0 }
+                        //var webview = Native.document.createElement("webview");
 
 
-                            var webview = w.contentWindow.document.createElement("webview");
+                        // which AppWindow?
+                        // 9:4271ms [413165] new webview for current AppWindow { Count = 0 }
 
-                            // copy old attributes to the new webview element! src  n friends 
-                            that.InternalElement.attributes.WithEach(
-                                a =>
+
+                        var webview = w.contentWindow.document.createElement("webview");
+
+                        // copy old attributes to the new webview element! src  n friends 
+                        that.InternalElement.attributes.WithEach(
+                            a =>
                                 {
                                     Console.WriteLine(" __WebBrowser" + new { a.name, a.value });
 
@@ -440,42 +440,42 @@ namespace ChromeTCPServer
                                     );
 
                                 }
-                            );
+                        );
 
-                            // 9:4866ms  __WebBrowser{ name = class, value =  WebBrowser }
-                            //view-source:42999 9:4870ms  __WebBrowser{ name = style, value = position: absolute; left: 0px; top: 0px; width: 512px; height: 384px; }
-
-
-
-                            // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
-                            webview.setAttribute("partition", "p1");
-                            webview.setAttribute("allowtransparency", "true");
-                            webview.setAttribute("allowfullscreen", "true");
+                        // 9:4866ms  __WebBrowser{ name = class, value =  WebBrowser }
+                        //view-source:42999 9:4870ms  __WebBrowser{ name = style, value = position: absolute; left: 0px; top: 0px; width: 512px; height: 384px; }
 
 
-                            // ?
-                            webview.style.Opacity = 0.0;
+
+                        // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
+                        webview.setAttribute("partition", "p1");
+                        webview.setAttribute("allowtransparency", "true");
+                        webview.setAttribute("allowfullscreen", "true");
 
 
-                            //webview.style.display = IStyle.DisplayEnum.none;
+                        // ?
+                        webview.style.Opacity = 0.0;
 
-                            // none wont start loading.. empty will..
-                            //webview.style.display = IStyle.DisplayEnum.empty;
 
-                            // https://developer.chrome.com/apps/tags/webview#event-contentload
-                            webview.addEventListener("contentload",
-                                e =>
+                        //webview.style.display = IStyle.DisplayEnum.none;
+
+                        // none wont start loading.. empty will..
+                        //webview.style.display = IStyle.DisplayEnum.empty;
+
+                        // https://developer.chrome.com/apps/tags/webview#event-contentload
+                        webview.addEventListener("contentload",
+                            e =>
                                 {
                                     Console.WriteLine("contentload");
                                     // prevent showing white while loading...
                                     //webview.style.display = IStyle.DisplayEnum.block;
                                 }
-                            );
+                        );
 
 
-                            webview.addEventListener("loadstop",
-                             async
-                             e =>
+                        webview.addEventListener("loadstop",
+                         async
+                         e =>
                              {
                                  Console.WriteLine("loadstop");
                                  // prevent showing white while loading...
@@ -485,14 +485,14 @@ namespace ChromeTCPServer
                                  //webview.style.display = IStyle.DisplayEnum.block;
                                  webview.style.Opacity = 1.0;
                              }
-                             );
+                         );
 
-                            #region permissionrequest
-                            // https://github.com/GoogleChrome/chromium-webview-samples
-                            // permissionrequest
-                            // https://developer.chrome.com/apps/tags/webview#type-WebRequestEventInteface
-                            webview.addEventListener("permissionrequest",
-                                (e) =>
+                        #region permissionrequest
+                        // https://github.com/GoogleChrome/chromium-webview-samples
+                        // permissionrequest
+                        // https://developer.chrome.com/apps/tags/webview#type-WebRequestEventInteface
+                        webview.addEventListener("permissionrequest",
+                            (e) =>
                                 {
                                     // https://code.google.com/p/chromium/issues/detail?id=141198
 
@@ -548,32 +548,33 @@ namespace ChromeTCPServer
                                     //}
                                     //);
                                 }
-                            );
-                            #endregion
+                        );
+                        #endregion
 
 
 
-                            // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
-                            // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/test/data/extensions/platform_apps/web_view/pointer_lock/main.js
-
-
-
-
+                        // X:\jsc.svn\examples\javascript\WebGL\WebGLYomotsuTPS\WebGLYomotsuTPS\Application.cs
+                        // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/test/data/extensions/platform_apps/web_view/pointer_lock/main.js
 
 
 
 
-                            that.InternalElement.parentNode.replaceChild(webview, that.InternalElement);
-
-                            that.InternalElement = (IHTMLIFrame)(object)webview;
-
-                            // src was not copied for some reason. force it.
-                            that.Refresh();
 
 
-                            Console.WriteLine("[413165] new webview ready " + new { that.Url });
 
-                        };
+
+                        that.InternalElement.parentNode.replaceChild(webview, that.InternalElement);
+
+                        that.InternalElement = (IHTMLIFrame)(object)webview;
+
+                        // src was not copied for some reason. force it.
+                        that.Size = that.Size;
+                        that.Refresh();
+
+
+                        Console.WriteLine("[413165] new webview ready " + new { that.Url });
+
+                    };
 
                     return;
 
@@ -607,16 +608,16 @@ namespace ChromeTCPServer
                     #region SizeChanged
                     f.SizeChanged +=
                         delegate
-                        {
-                            //Console.WriteLine("SizeChanged");
+                    {
+                        //Console.WriteLine("SizeChanged");
 
-                            var ClientSize = f.ClientSize;
+                        var ClientSize = f.ClientSize;
 
 
-                            w.Width = ClientSize.Width;
-                            w.Height = ClientSize.Height;
+                        w.Width = ClientSize.Width;
+                        w.Height = ClientSize.Height;
 
-                        };
+                    };
                     #endregion
 
 
@@ -624,16 +625,16 @@ namespace ChromeTCPServer
 
                     f.Load +=
                         delegate
-                        {
-                            Console.WriteLine("f.Load, // InternalAtAfterVisibleChanged ?");
-                        };
+                    {
+                        Console.WriteLine("f.Load, // InternalAtAfterVisibleChanged ?");
+                    };
 
                     f.Shown +=
                         delegate
-                        {
-                            Console.WriteLine("f.Shown, // InternalAtAfterVisibleChanged ?");
+                    {
+                        Console.WriteLine("f.Shown, // InternalAtAfterVisibleChanged ?");
 
-                        };
+                    };
 
                     Console.WriteLine(" f.Show(), will it trigger // InternalAtAfterVisibleChanged ?");
 
@@ -643,9 +644,9 @@ namespace ChromeTCPServer
 
                     f.FormClosed +=
                         delegate
-                        {
-                            x.SetResult(f);
-                        };
+                    {
+                        x.SetResult(f);
+                    };
 
                     await x.Task;
 
