@@ -6,7 +6,9 @@ using java.util;
 
 namespace java.math
 {
-	// http://java.sun.com/j2se/1.4.2/docs/api/java/math/BigInteger.html
+    // http://developer.android.com/reference/java/math/BigInteger.html
+    // http://java.sun.com/j2se/1.4.2/docs/api/java/math/BigInteger.html
+
 	[Script(IsNative = true)]
 	public class BigInteger : Number
 	{

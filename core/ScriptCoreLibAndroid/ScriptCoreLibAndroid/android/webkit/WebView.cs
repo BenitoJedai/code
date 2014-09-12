@@ -9,6 +9,7 @@ using android.widget;
 namespace android.webkit
 {
     // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/webkit/WebView.java
+
     // http://src.chromium.org/viewvc/chrome/trunk/src/chrome/android/java/src/org/chromium/chrome/browser/PKCS11AuthenticationManager.java
     // https://github.com/android/platform_frameworks_base/blob/master/core/java/android/webkit/WebViewFragment.java
 
@@ -16,10 +17,15 @@ namespace android.webkit
     // chrome has <webview>
     // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerWithFrameNone\ChromeTCPServerWithFrameNone\Application.cs
 
+    // https://code.google.com/p/chromium/issues/detail?id=413165
+    // Cr-Mobile-WebView is for android webview.
 
     [Script(IsNative = true)]
     public class WebView : AbsoluteLayout
     {
+        // how does this relate to the floating layout we have for android?
+
+
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLIFrame.cs
 
 
