@@ -3,12 +3,12 @@
 "manifest_version": 2,
   "name": "Earth Visualization",
   "description": "Earth Visualization",
-  "version": "42",
+  "version": "43",
  "minimum_chrome_version": "38",
   "offline_enabled": true,
+     "kiosk_enabled" : true,
+  "kiosk_only" : false,
 
-
-  
      "externally_connectable": {
     "ids": [
       "*"
