@@ -10,10 +10,15 @@ namespace ScriptCoreLib.JavaScript.DOM
     // http://developer.mozilla.org/en/docs/DOM:window.location
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/frame/Location.idl
 
-    [Script(HasNoPrototype=true)]
+    [Script(HasNoPrototype = true)]
     public class ILocation
     {
         // http://stackoverflow.com/questions/4505798/difference-between-window-location-assign-and-window-location-replace
+
+        // https://www.google.ee/policies/faq/
+        // your web browser also may send the Internet address, or URL, of the search results page 
+        // to the destination webpage as the HTTP Referrer. 
+
 
         public string protocol;
         public string host;
@@ -22,9 +27,11 @@ namespace ScriptCoreLib.JavaScript.DOM
         public string search;
         public string pathname;
 
+
+        [System.Obsolete]
         public bool IsHTTP
         {
-            [Script(DefineAsStatic=true)]
+            [Script(DefineAsStatic = true)]
             get { return protocol == "http:"; }
         }
 
@@ -63,7 +70,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     }
 
                 }
-                    return z;
+                return z;
             }
         }
 
