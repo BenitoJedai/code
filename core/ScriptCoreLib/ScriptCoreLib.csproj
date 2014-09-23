@@ -118,6 +118,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XObjectChangeEventArgs.cs" />
+    <Compile Include="JavaScript\DOM\INetworkInformation.cs" />
     <Compile Include="JavaScript\DOM\ServiceWorkerRegistration.cs" />
     <Compile Include="JavaScript\DOM\PopStateEvent.cs" />
     <Compile Include="JavaScript\DOM\IDBDatabase.cs" />
