@@ -18,6 +18,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script]
     public partial class NavigatorInfo
     {
+        // http://w3c.github.io/netinfo/
+        public INetworkInformation connection;
+
+
         // http://wiki.whatwg.org/wiki/NavigatorCores
         // tested by?
         // X:\jsc.svn\examples\javascript\async\Test\TestNavigatorCores\TestNavigatorCores\Application.cs
