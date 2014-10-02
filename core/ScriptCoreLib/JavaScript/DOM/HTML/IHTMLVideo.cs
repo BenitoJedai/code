@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLVideoElement.webidl
     // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLVideoElement.idl
+    // https://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLVideoElement.cpp
 
     [Script(InternalConstructor = true)]
     public class IHTMLVideo : IHTMLMedia

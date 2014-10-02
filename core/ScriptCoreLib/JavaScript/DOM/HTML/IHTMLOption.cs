@@ -6,7 +6,7 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLObjectElement.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLOptionElement.idl
 
 
     [Script(InternalConstructor = true)]
