@@ -30,6 +30,8 @@ namespace TestEIDPIN2
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            //  Signing software is available from https://installer.id.ee]
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141002
             // https://openxades.org/web_sign_demo/sign.html
 
@@ -49,7 +51,10 @@ namespace TestEIDPIN2
                     innerText = "open as secure origin!"
                 }.AttachToDocument();
 
-                return;
+
+
+                // optional
+                //return;
             }
             #endregion
 
@@ -61,6 +66,61 @@ namespace TestEIDPIN2
 
             //Native.window.navigator.mimeTypes
 
+            // where else have we tested it?
+
+
+            //{{ type = application/pdf, description = Portable Document Format }}
+            //{{ type = application/x-google-chrome-print-preview-pdf, description = Portable Document Format }}
+
+            // !! actually IE wont report anything here.
+            Native.window.navigator.mimeTypes.ToArray().AsEnumerable().WithEach(
+                x =>
+                {
+                    new IHTMLPre {
+                        new { x.type, x.description}
+                    }.AttachToDocument();
+
+
+                }
+            );
+
+
+            new IHTMLButton { "new object" }.AttachToDocument().onclick +=
+                e =>
+                {
+                    new IHTMLObject
+                    {
+                        type = "application/x-digidoc"
+                    }.AttachToDocument().With(
+                        (dynamic plugin) =>
+                        {
+                            string version = plugin.version;
+
+                            // {{ version = null }}
+                            // {{ version = 3.5.5273.321 }}
+
+                            new IHTMLPre {
+                                new { version }
+                            }.AttachToDocument();
+
+                            new IHTMLButton { ".getCertificate()" }.AttachToDocument().onclick +=
+                                ee =>
+                                {
+
+                                    object cert = plugin.getCertificate();
+
+                                    new IHTMLPre {
+                                        new { cert }
+                                    }.AttachToDocument();
+                                };
+
+                        }
+                    );
+
+
+
+
+                };
         }
 
     }
