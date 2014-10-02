@@ -60,7 +60,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             public string type;
         }
 
-
+        // tested by
+        // X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\Application.cs
         public IArray<MimeTypeInfo> mimeTypes;
         public IArray<PluginInfo> plugins;
 
