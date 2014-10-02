@@ -122,11 +122,22 @@ namespace TestEIDPIN2
 
                                     // can we launch a jsc project locally with ssl?
 
+                                    // http://www.iis.net/learn/extensions/using-iis-express/running-iis-express-from-the-command-line
+                                    // call "C:\Program Files (x86)\Common Files\microsoft shared\DevServer\11.0\WebDev.WebServer40.EXE" /port:8081 /path:"X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\staging\TestEIDPIN2.ApplicationWebService\staging.net.debug" /vpath:"/"
+                                    // "C:\Program Files (x86)\IIS Express\iisexpress.exe"
+
+                                    // http://blogs.msdn.com/b/robert_mcmurray/archive/2013/11/15/how-to-trust-the-iis-express-self-signed-certificate.aspx
+                                    // http://www.lansweeper.com/kb/54/How-to-configure-SSL-in-IIS-Express.html
+
+                                    // http://web.archive.org/web/20080123212335/http://www.wilcob.com/Wilco/Toolbox/WebDevWebServer2.aspx
+                                    // http://stackoverflow.com/questions/837285/how-to-utilize-webdev-webserver-exe-vs-web-server-in-x64
                                     // http://forums.asp.net/t/1070750.aspx?SSL+https+on+webdev+server
                                     // webdev or iisexpress
                                     // error: site not allowed
                                     // do we need SSL connection for the plugin to actually work?
                                     object cert = new IFunction("plugin", "return plugin.getCertificate();").apply(null, __plugin);
+
+                                    // Cassini does not support HTTPS.
 
 
                                     new IHTMLPre {
