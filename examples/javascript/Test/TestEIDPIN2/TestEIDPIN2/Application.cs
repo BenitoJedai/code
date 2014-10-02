@@ -94,6 +94,8 @@ namespace TestEIDPIN2
                     }.AttachToDocument().With(
                         (dynamic plugin) =>
                         {
+                            plugin.pluginLanguage = "en";
+
                             string version = plugin.version;
 
                             // {{ version = null }}
@@ -107,7 +109,25 @@ namespace TestEIDPIN2
                                 ee =>
                                 {
 
-                                    object cert = plugin.getCertificate();
+
+                                    //0:31418ms { binder = InvokeMemberBinder }
+                                    //view - source:28587 Uncaught Error: NotImplementedException:
+                                    //__CallSite.Create
+
+                                    // jsc what about learning to call dynamic func?
+                                    //object cert = plugin.getCertificate();
+
+
+                                    object __plugin = plugin;
+
+                                    // can we launch a jsc project locally with ssl?
+
+                                    // http://forums.asp.net/t/1070750.aspx?SSL+https+on+webdev+server
+                                    // webdev or iisexpress
+                                    // error: site not allowed
+                                    // do we need SSL connection for the plugin to actually work?
+                                    object cert = new IFunction("plugin", "return plugin.getCertificate();").apply(null, __plugin);
+
 
                                     new IHTMLPre {
                                         new { cert }
