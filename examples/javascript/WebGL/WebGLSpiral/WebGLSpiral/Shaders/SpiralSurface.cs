@@ -31,6 +31,7 @@ namespace WebGLSpiral.Shaders
 
                    var buffer = gl.createBuffer();
 
+                   // partial?
                    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 
                    gl.bufferData(gl.ARRAY_BUFFER,

@@ -13,6 +13,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
     [Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
+        // http://www.herongyang.com/JDK/SSL-Socket-Server-Example-SslReverseEchoer.html
+        // http://www.jguru.com/faq/view.jsp?EID=32388
+        // http://exampledepot.8waytrips.com/egs/javax.net.ssl/Server.html
+
         // https://www.simple-talk.com/dotnet/.net-framework/tlsssl-and-.net-framework-4.0/
         // http://stackoverflow.com/questions/6720275/c-sharp-ssl-tcplistener-tcpclient
         // http://www.dib0.nl/code/343-using-ssl-over-tcp-as-client-and-server-with-c
