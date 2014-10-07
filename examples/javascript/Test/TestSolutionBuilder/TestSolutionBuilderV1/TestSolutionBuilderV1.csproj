@@ -176,7 +176,7 @@
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
 ) 
 if $(ConfigurationName)==Release (
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /xAttachDebugger:true /DisableWebServiceJava:true /DisableWebServiceAndroid:false /FilterTo:$(SolutionDir)
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /xAttachDebugger:true /DisableWebServiceJava:false /DisableWebServiceAndroid:true /FilterTo:$(SolutionDir)
 )
 
 start cmd /C c:\util\jsc\bin\jsc.meta.exe ConfigurationCreateProjectTemplates</PostBuildEvent>

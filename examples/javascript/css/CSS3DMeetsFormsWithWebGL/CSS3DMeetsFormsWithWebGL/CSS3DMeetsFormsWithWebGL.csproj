@@ -288,11 +288,11 @@
       <Project>{7de9714d-6403-4e7c-a1a1-10e7206df46a}</Project>
       <Name>McKrackenFirstRoom</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebGLLesson10\WebGLLesson10\WebGLLesson10.csproj">
+    <ProjectReference Include="..\..\..\WebGL\WebGLLesson10\WebGLLesson10\WebGLLesson10.csproj">
       <Project>{61cd247e-df04-4627-b884-a628469ced8a}</Project>
       <Name>WebGLLesson10</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebGLSpiral\WebGLSpiral\WebGLSpiral.csproj">
+    <ProjectReference Include="..\..\..\WebGL\WebGLSpiral\WebGLSpiral\WebGLSpiral.csproj">
       <Project>{6be0fe6f-5ea4-40a5-8938-ff7c3b5d0969}</Project>
       <Name>WebGLSpiral</Name>
     </ProjectReference>

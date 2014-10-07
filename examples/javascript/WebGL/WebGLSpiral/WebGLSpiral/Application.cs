@@ -246,6 +246,9 @@ namespace WebGLSpiral
 
                 // Uncaught SyntaxError: Failed to execute 'registerElement' on 'Document': Registration failed for type 'webglspiral'. The type name is invalid. 
 
+
+                // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141007
+
                 // when shall we teach jsc to do this correctly?
                 (Native.window as dynamic).WebGLSpiralElement = Native.document.registerElement("x-webglspiral",
                      (WebGLSpiralElement e) =>
