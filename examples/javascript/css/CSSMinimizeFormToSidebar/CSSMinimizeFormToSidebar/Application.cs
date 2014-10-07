@@ -57,7 +57,7 @@ namespace CSSMinimizeFormToSidebar
             );
 
 
-            var mycontainer = new IHTMLDiv().AttachTo(newlayout.ScrollContainer.parentNode);
+            var mycontainer = new IHTMLDiv().AttachTo((IHTMLElement)newlayout.ScrollContainer.parentNode);
             newlayout.ScrollContainer.Orphanize();
 
 

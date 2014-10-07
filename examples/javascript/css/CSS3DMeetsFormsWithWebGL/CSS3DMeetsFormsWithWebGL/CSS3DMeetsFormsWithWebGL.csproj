@@ -188,6 +188,12 @@
     <Reference Include="WebGLSpiral.AssetsLibrary">
       <HintPath>..\..\..\WebGLSpiral\WebGLSpiral\bin\staging.AssetsLibrary\WebGLSpiral.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLLesson10.AssetsLibrary">
+      <HintPath>..\..\..\WebGL\WebGLLesson10\WebGLLesson10\bin\staging.AssetsLibrary\WebGLLesson10.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLSpiral.AssetsLibrary">
+      <HintPath>..\..\..\WebGL\WebGLSpiral\WebGLSpiral\bin\staging.AssetsLibrary\WebGLSpiral.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\boxf1.png" />
