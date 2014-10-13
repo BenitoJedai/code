@@ -77,7 +77,12 @@ namespace JVMCLRSSLTCPListener
 
                 // !!!
                 // https://localhost:1300/
-                sslStream.AuthenticateAsServer(certificate);
+                // Additional information: Authentication failed because the remote party has closed the transport stream.
+
+                sslStream.AuthenticateAsServer(certificate, clientCertificateRequired: true, 
+                    enabledSslProtocols: System.Security.Authentication.SslProtocols.Default, checkCertificateRevocation: false);
+                var x = sslStream.RemoteCertificate;
+
                 // ... Send and read data over the stream
 
                 // NET::ERR_CERT_AUTHORITY_INVALID
