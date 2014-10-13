@@ -79,6 +79,8 @@ namespace JVMCLRSSLTCPListener
                 // https://localhost:1300/
                 sslStream.AuthenticateAsServer(certificate);
                 // ... Send and read data over the stream
+
+                // NET::ERR_CERT_AUTHORITY_INVALID
             }
 
 
