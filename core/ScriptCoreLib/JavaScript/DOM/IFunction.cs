@@ -92,9 +92,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+
+
         [Obsolete]
         public static IFunction Of(object target, string name)
         {
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs
+
             return Expando.Of(target).GetMember<IFunction>(name);
         }
 

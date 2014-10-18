@@ -14,7 +14,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     #endregion
 
     [Script(HasNoPrototype = true, ExternalTarget = "ServiceWorkerContainer")]
-    [Obsolete("experimental, need SSL server?")]
+    [Obsolete("experimental")]
     public class ServiceWorkerContainer
     {
         // http://www.w3.org/TR/service-workers/#service-worker-obj

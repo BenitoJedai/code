@@ -7,6 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Dynamic
 {
     // http://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Actions/DynamicObject.cs
+
     [Script(Implements = typeof(global::System.Dynamic.DynamicObject))]
     public class __DynamicObject : __IDynamicMetaObjectProvider
     {

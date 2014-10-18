@@ -267,6 +267,155 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             }
             #endregion
 
+            #region __InvokeMemberBinder
+            // X:\jsc.svn\examples\javascript\Test\TestDynamicCall\TestDynamicCall\Application.cs
+            {
+                //0:57ms { Name = alert, Count = 2 }
+                //view-source:42763 0:59ms { target = [object Window], Name = alert, arg1 = hello world }
+
+                var xInvokeMemberBinder = (object)binder as __InvokeMemberBinder;
+                if (xInvokeMemberBinder != null)
+                {
+                    var Count = xInvokeMemberBinder.argumentInfo.Count();
+
+                    // ldc.i4                       InvokeMember(... flags: (CSharpBinderFlags) ResultDiscarded = 256 (0x00000100)
+                    var IsReturnVoid = xInvokeMemberBinder.flags == global::Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags.ResultDiscarded;
+
+                    Console.WriteLine(new { xInvokeMemberBinder.Name, xInvokeMemberBinder.ReturnType, IsReturnVoid, Count });
+
+                    //foreach (var item in xInvokeMemberBinder.argumentInfo)
+                    //{
+                    //    Console.WriteLine(
+                    //        new { item }
+                    //        );
+                    //}
+
+                    //0:37ms { Name = alert, Count = 3 }
+
+                    if (Count == 4)
+                    {
+                        // [TestDynamicCall] TestDynamicCall.Application+<_ctor>o__SiteContainer0.<>p__Site1 : CallSite`1<(CallSite, object, string) -> void>
+                        var r = new Func<__CallSite, object, object, object, object, object>(
+                            (site, target, arg1, arg2, arg3) =>
+                            {
+
+                                Console.WriteLine(
+                                    new { target, xInvokeMemberBinder.Name, arg1, arg2, arg3 }
+                                    );
+
+                                return null;
+                            }
+                        );
+                        return r;
+                    }
+
+
+                    if (Count == 3)
+                    {
+                        // [TestDynamicCall] TestDynamicCall.Application+<_ctor>o__SiteContainer0.<>p__Site1 : CallSite`1<(CallSite, object, string) -> void>
+                        var r = new Func<__CallSite, object, object, object, object>(
+                            (site, target, arg1, arg2) =>
+                            {
+
+                                Console.WriteLine(
+                                    new { target, xInvokeMemberBinder.Name, arg1, arg2 }
+                                    );
+
+                                return null;
+                            }
+                        );
+                        return r;
+                    }
+
+                    if (Count == 2)
+                    {
+                        // [TestDynamicCall] TestDynamicCall.Application+<_ctor>o__SiteContainer0.<>p__Site1 : CallSite`1<(CallSite, object, string) -> void>
+
+
+                        if (IsReturnVoid)
+                        {
+
+                            var r = new Action<__CallSite, object, object>(
+                                (site, target, arg1) =>
+                                {
+                                    Console.WriteLine(
+                                         new { target, xInvokeMemberBinder.Name, arg1 }
+                                         );
+
+                                    // PgAABOHIvzeIVHiwt04BEQ.Target.PSAABv_ap6j2DT0O2SaNyVw(PgAABOHIvzeIVHiwt04BEQ, c, 'hello world');
+                                    var __value = IFunction.Of(target, xInvokeMemberBinder.Name).apply(target,
+                                        arg1
+                                    );
+
+
+                                    //return __value;
+                                }
+                            );
+                            return r;
+                        }
+                        else
+                        {
+                            var r = new Func<__CallSite, object, object, object>(
+                           (site, target, arg1) =>
+                           {
+                               Console.WriteLine(
+                                    new { target, xInvokeMemberBinder.Name, arg1 }
+                                    );
+
+                               // PgAABOHIvzeIVHiwt04BEQ.Target.PSAABv_ap6j2DT0O2SaNyVw(PgAABOHIvzeIVHiwt04BEQ, c, 'hello world');
+                               var __value = IFunction.Of(target, xInvokeMemberBinder.Name).apply(target,
+                                   arg1
+                               );
+
+
+                               return __value;
+                           }
+                       );
+                            return r;
+                        }
+                    }
+
+                    if (Count == 1)
+                    {
+                        if (IsReturnVoid)
+                        {
+                            var r = new Action<__CallSite, object>(
+                                  (site, target) =>
+                                  {
+
+                                      Console.WriteLine(
+                                          new { target, xInvokeMemberBinder.Name }
+                                          );
+
+                                      var __value = IFunction.Of(target, xInvokeMemberBinder.Name).apply(target);
+
+                                  }
+                              );
+                            return r;
+                        }
+                        else
+                        {
+                            // [TestDynamicCall] TestDynamicCall.Application+<_ctor>o__SiteContainer0.<>p__Site1 : CallSite`1<(CallSite, object, string) -> void>
+                            var r = new Func<__CallSite, object, object>(
+                                (site, target) =>
+                                {
+
+                                    Console.WriteLine(
+                                        new { target, xInvokeMemberBinder.Name }
+                                        );
+
+                                    var __value = IFunction.Of(target, xInvokeMemberBinder.Name).apply(target);
+
+                                    return __value;
+                                }
+                            );
+                            return r;
+                        }
+                    }
+                }
+            }
+            #endregion
+
 
             Console.WriteLine(new { binder });
 
