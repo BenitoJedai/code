@@ -37,6 +37,7 @@ namespace TestEIDPIN2
 
             // // It is checked if the connection is https during the signing module loading
 
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRSSLTCPListener\JVMCLRSSLTCPListener\Program.cs
 
             #region secure origin
             new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();

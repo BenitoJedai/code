@@ -17,6 +17,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.Diagnostics;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace JVMCLRSSLTCPListener
 {
@@ -29,6 +30,8 @@ namespace JVMCLRSSLTCPListener
         [STAThread]
         public static void Main(string[] args)
         {
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRTCPMultiplex\JVMCLRTCPMultiplex\Program.cs
+
             // Error	1	Referenced assembly 'ScriptCoreLibA, Version=4.5.0.0, Culture=neutral, PublicKeyToken=null' does not have a strong name.	X:\jsc.svn\examples\java\hybrid\JVMCLRSSLTCPListener\JVMCLRSSLTCPListener\CSC	JVMCLRSSLTCPListener
 
 
@@ -90,11 +93,22 @@ namespace JVMCLRSSLTCPListener
             // http://www.dib0.nl/code/343-using-ssl-over-tcp-as-client-and-server-with-c
             // http://msdn.microsoft.com/en-us/library/system.net.security.sslstream.aspx
 
+            // random NIC ip and random port?
+            // then patch the io bridge?
+            // then remove webdev dependency?
             TcpListener listener = new TcpListener(IPAddress.Any, 1300);
             listener.Start();
 
 
             Process.Start(@"https://localhost:1300"); //.WaitForExit();
+
+            // https://github.com/stealth/qdns
+            // https://github.com/stealth/qdns/blob/master/qdns.cc
+            // http://docs-legacy.fortinet.com/fos50hlp/50/index.html#page/FortiOS%205.0%20Help/ldb.134.19.html
+            // http://blog.stalkr.net/2012/02/sshhttps-multiplexing-with-sshttp.html
+            // https://www.npmjs.org/package/port-mux
+            // How?
+            //The muxer basically sniffs the initial data packet sent by the client to determine (using a rule set) where to forward the request to.
 
 
 
@@ -123,6 +137,7 @@ namespace JVMCLRSSLTCPListener
                     // http://blogs.msdn.com/b/joncole/archive/2007/06/13/sample-asynchronous-sslstream-client-server-implementation.aspx
 
 
+                    // http://c-skills.blogspot.com/2014/05/quantum-dns-trickery.html
 
                     using (SslStream sslStream = new SslStream(
                         innerStream: clientSocket.GetStream(),
@@ -164,23 +179,21 @@ namespace JVMCLRSSLTCPListener
                         try
                         {
                             sslStream.AuthenticateAsServer(xcertificate,
-                    //clientCertificateRequired: true,
-                    clientCertificateRequired: false,
-                    // chrome for android does not like IIS TLS 1.2
-                    enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
+                                //clientCertificateRequired: true,
+                                clientCertificateRequired: false,
+                                // chrome for android does not like IIS TLS 1.2
+                                enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
                                 checkCertificateRevocation: false
-                                );
+                            );
                         }
                         catch (Exception ex)
                         {
-
                             Console.WriteLine(new { ex.Message });
 
                             if (ex.InnerException != null)
                                 Console.WriteLine(new { ex.InnerException.Message });
 
                             return;
-
                         }
 
                         //var x = sslStream.RemoteCertificate;
@@ -242,6 +255,17 @@ namespace JVMCLRSSLTCPListener
                                             "HTTP/1.0 200 OK\r\nConnection: close\r\n\r\n<h1>hello world</h1>"
                                         )
                                     );
+
+                                    // i wonder could we send over a delegate as a jsc app? :D
+
+                                    //sslStream.Write(
+                                    //    delegate
+                                    //{
+                                    //    // jsc would have to serialize this. AOT 
+
+                                    //    new ScriptCoreLib.JavaScript.DOM.HTML.IHTMLPre { "hello world" }.AttachToDocument();
+                                    //}
+                                    //);
 
                                 };
 
