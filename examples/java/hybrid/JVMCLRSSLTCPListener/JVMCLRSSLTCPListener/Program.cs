@@ -60,6 +60,8 @@ namespace JVMCLRSSLTCPListener
             // http://rickardrobin.wordpress.com/2012/12/05/specifying-a-friendly-name-to-a-certificate/
             // http://myousufali.wordpress.com/2012/05/29/create-a-self-signed-server-certificate/
 
+            // The certificate has to be generated with "client authentication" option
+            // http://stackoverflow.com/questions/18942848/authenticate-user-via-client-signed-ssl-certificate-in-asp-net-application
 
             // logical store name
             //Process.Start(
@@ -138,6 +140,10 @@ namespace JVMCLRSSLTCPListener
 
 
                     // http://c-skills.blogspot.com/2014/05/quantum-dns-trickery.html
+                    // http://security.stackexchange.com/questions/20803/how-does-ssl-tls-work
+                    // http://igorshare.wordpress.com/2007/11/21/part-2-securing-server-with-ssl/
+                    // http://stackoverflow.com/questions/18942848/authenticate-user-via-client-signed-ssl-certificate-in-asp-net-application
+
 
                     using (SslStream sslStream = new SslStream(
                         innerStream: clientSocket.GetStream(),
@@ -175,16 +181,20 @@ namespace JVMCLRSSLTCPListener
                         // Additional information: A call to SSPI failed, see inner exception.
 
                         // The client and server cannot communicate, because they do not possess a common algorithm
+                        // http://www.codeproject.com/Articles/326574/An-Introduction-to-Mutual-SSL-Authentication
 
                         try
                         {
                             sslStream.AuthenticateAsServer(xcertificate,
-                                //clientCertificateRequired: true,
-                                clientCertificateRequired: false,
+                                clientCertificateRequired: true,
+                                //clientCertificateRequired: false,
                                 // chrome for android does not like IIS TLS 1.2
                                 enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
                                 checkCertificateRevocation: false
                             );
+
+                            var RemoteCertificate = sslStream.RemoteCertificate;
+                            Console.WriteLine(new { RemoteCertificate });
                         }
                         catch (Exception ex)
                         {
@@ -196,7 +206,6 @@ namespace JVMCLRSSLTCPListener
                             return;
                         }
 
-                        //var x = sslStream.RemoteCertificate;
 
                         // ... Send and read data over the stream
 
@@ -229,6 +238,7 @@ namespace JVMCLRSSLTCPListener
                         //Accept-Language: en-US,en;q=0.8
 
                         // Additional information: Stream was not readable.
+                        #region 200
                         var rx = new StreamReader(sslStream);
                         Action y = delegate { };
 
@@ -272,6 +282,7 @@ namespace JVMCLRSSLTCPListener
                         }
 
                         y();
+                        #endregion
 
 
                         //Debugger.Break();
