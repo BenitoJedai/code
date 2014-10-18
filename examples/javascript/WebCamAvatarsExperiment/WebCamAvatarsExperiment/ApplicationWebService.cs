@@ -104,12 +104,15 @@ namespace WebCamAvatarsExperiment
 
                 // Caused by: java.sql.SQLException: Data truncation: Data too long for column 'Avatar640x480' at row 1
 
-                var avatars = new global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1();
+                //var avatars = new global::Abstractatech.JavaScript.Avatar.Design.WebCamAvatars.Sheet1();
 
 
-                var key = avatars.Insert(y);
+                //var key = avatars.Insert(y);
 
-                var c = avatars.Count();
+                //var c = avatars.Count();
+
+                var c = 0;
+
 
                 Console.WriteLine(
                     new { c }

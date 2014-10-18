@@ -71,7 +71,13 @@ namespace WebCamAvatarsExperiment
                             overlay.Orphanize();
                             css.style.display = IStyle.DisplayEnum.empty;
 
+                            // napta ocr?
+                            // http://projectnaptha.com/
+
                             new IHTMLImage { y.Avatar640x480 }.AttachToDocument();
+
+
+
                             new IHTMLImage { y.Avatar96gif }.AttachToDocument();
 
                             //  method:Void <.ctor>b__3(Abstractatech.JavaScript.Avatar.Design.WebCamAvatarsSheet1Row), ex = System.InvalidOperationException: Unable to change after type has been created.
