@@ -38,7 +38,7 @@ namespace TestNavigatorServiceWorker
             // https://github.com/matthew-andrews/serviceworker-simple/blob/gh-pages/index.html
 
             new IHTMLPre {
-
+                // {{ userAgent = Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2188.2 Safari/537.36, serviceWorker = null }}
 
                 // {{ userAgent = Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.20 Safari/537.36, serviceWorker = undefined }}
                 // {{ userAgent = Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2094.0 Safari/537.36, serviceWorker = undefined }}

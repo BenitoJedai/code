@@ -130,6 +130,7 @@
     <Compile Include="Interop\IntPtrDictionary.cs" />
     <Compile Include="Interop\IntPtrInfo.cs" />
     <Compile Include="Library\Analytics\StatCounterUriBuilder.cs" />
+    <Compile Include="Library\Eugene\PeekableStream.cs" />
     <Compile Include="Library\ToTouchEvents.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
     <Compile Include="Desktop\Compiler\ISWCNativeTypeBuilder.cs" />
