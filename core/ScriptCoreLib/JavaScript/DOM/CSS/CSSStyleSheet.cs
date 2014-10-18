@@ -422,6 +422,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             var r = this.AddRule("@font-face");
 
+            // NS_ERROR_NOT_IMPLEMENTED: 
+            // firefox wont like it?
+
             r.style.setProperty("font-family", fontFamily, "");
             r.style.setProperty("src", "url('" + src + "')", "");
 
