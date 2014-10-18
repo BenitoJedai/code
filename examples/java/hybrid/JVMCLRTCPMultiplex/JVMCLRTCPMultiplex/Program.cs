@@ -17,6 +17,7 @@ using System.Net;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using System.Security.Cryptography;
 
 namespace JVMCLRTCPMultiplex
 {
@@ -47,7 +48,6 @@ namespace JVMCLRTCPMultiplex
 
 
             //  http://stackoverflow.com/questions/463657/makecert-is-it-possible-to-change-the-key-size
-            var host = "127.0.0.7";
 
             // The certificate has to be generated with "client authentication" option
             // http://stackoverflow.com/questions/18942848/authenticate-user-via-client-signed-ssl-certificate-in-asp-net-application
@@ -68,7 +68,6 @@ namespace JVMCLRTCPMultiplex
 
             // https://access.redhat.com/documentation/en-US/Red_Hat_Certificate_System/8.0/html/Admin_Guide/Managing_Subject_Names_and_Subject_Alternative_Names.html
 
-            var link = "http://" + host + ":" + port;
 
             // http://blogs.technet.com/b/jhoward/archive/2005/02/02/365323.aspx
             // http://certificate.fyicenter.com/439_Windows__makecert.exe_-in_-eku__Certificate_for_Server_Aut.html
@@ -92,80 +91,154 @@ namespace JVMCLRTCPMultiplex
             // http://stackoverflow.com/questions/13806299/how-to-create-a-self-signed-certificate-using-c
             // https://clrsecurity.svn.codeplex.com/svn/Security.Cryptography/src/CngKeyExtensionMethods.cs
 
-            // logical store name
-            Process.Start(
-                new ProcessStartInfo(
-                @"C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe",
+
+
+
+            //                ---------------------------
+            //Security Warning
+            //---------------------------
+            //You are about to install a certificate from a certification authority (CA) claiming to represent:
+
+
+
+            //127.0.0.101
+
+
+
+            //Windows cannot validate that the certificate is actually from "127.0.0.101". You should confirm its origin by contacting "127.0.0.101". The following number will assist you in this process:
+
+
+
+            //Thumbprint (sha1): 8B8942FB DEB64552 7BBDAD27 24B78664 A6D85D7E
+
+
+
+            //Warning:
+
+            //If you install this root certificate, Windows will automatically trust any certificate issued by this CA. Installing a certificate with an unconfirmed thumbprint is a security risk. If you click "Yes" you acknowledge this risk.
+
+
+
+            //Do you want to install this certificate?
+
+
+            //---------------------------
+            //Yes   No   
+            //---------------------------
+
+
+
+            #region CertificateFromCurrentUserByLocalEndPoint
+            Func<IPEndPoint, X509Certificate> CertificateFromCurrentUserByLocalEndPoint =
+                LocalEndPoint =>
+                {
+                    var host = LocalEndPoint.Address.ToString();
+                    var link = "http://" + host + ":" + LocalEndPoint.Port;
+
+
+                    #region CertificateFromCurrentUser
+                    Func<X509Certificate> CertificateFromCurrentUser =
+                        delegate
+                    {
+                        X509Store store = new X509Store(
+                            //StoreName.Root,
+                            StoreName.AuthRoot,
+                            StoreLocation.CurrentUser);
+                        // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+                        // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
+
+                        // Policy Information:
+                        //URL = http://127.0.0.5:10500
+
+                        try
+                        {
+
+                            store.Open(OpenFlags.ReadOnly);
+                            // Additional information: The OID value was invalid.
+                            X509Certificate2Collection cers = store.Certificates;
+
+
+                            foreach (var item in cers)
+                            {
+                                // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
+                                var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
+
+                                // // spcSpAgencyInfo private extension
+
+                                var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
+                                if (elink != null)
+                                {
+                                    var prefix = 6;
+                                    var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
+
+                                    Console.WriteLine(new { item.Subject, linkvalue });
+
+                                    if (linkvalue == link)
+                                        return item;
+                                }
+                            }
+                        }
+                        finally
+                        {
+
+                            store.Close();
+                        }
+
+                        return null;
+
+                    };
+                    #endregion
+
+                    var n = CertificateFromCurrentUser();
+
+                    if (n == null)
+                    {
+                        // http://stackoverflow.com/questions/13332569/how-to-create-certificate-authority-certificate-with-makecert
+                        // http://www.jayway.com/2014/09/03/creating-self-signed-certificates-with-makecert-exe-for-development/
+                        // http://stackoverflow.com/questions/4095297/self-signed-certificates-performance-in-wcf-scenarios
+
+                        // logical store name
+                        Process.Start(
+                            new ProcessStartInfo(
+                            @"C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe",
                 //"-r  -n \"CN=localhost\" -m 12 -sky exchange -sv serverCert.pvk -pe -ss my serverCert.cer"
                 //"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr localMachine"
                 //"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr currentuser"
                 //"-r  -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange -pe -ss my -sr currentuser -l " + link
-                "-r -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss my -sr currentuser -l " + link
-                )
+                //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA512 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
 
-            {
-                UseShellExecute = false
+                // chrome wont like SHA512
+                // https://code.google.com/p/chromium/issues/detail?id=342230
+                // http://serverfault.com/questions/407006/godaddy-ssl-certificate-shows-domain-name-instead-of-full-company-name
+                // The certificate's O attribute in the subject (organization), along with the C attribute (country) determine what is displayed. If they are absent, it will simply display the primary subject domain name from the certificate.
 
-            }
+                //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
+                "-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss AuthRoot -sr currentuser -l " + link
+                            )
 
-                ).WaitForExit();
-
-            #region CertificateFromCurrentUser
-            Func<X509Certificate> CertificateFromCurrentUser =
-                delegate
-            {
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
-
-                // Policy Information:
-                //URL = http://127.0.0.5:10500
-
-                try
-                {
-
-                    store.Open(OpenFlags.ReadOnly);
-                    // Additional information: The OID value was invalid.
-                    X509Certificate2Collection cers = store.Certificates;
-
-
-                    foreach (var item in cers)
-                    {
-                        // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
-                        var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
-
-                        // // spcSpAgencyInfo private extension
-
-                        var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
-                        if (elink != null)
                         {
-                            var prefix = 6;
-                            var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
+                            UseShellExecute = false
 
-                            Console.WriteLine(new { item.Subject, linkvalue });
-
-                            if (linkvalue == link)
-                                return item;
                         }
+
+                            ).WaitForExit();
+
+                        n = CertificateFromCurrentUser();
                     }
-                }
-                finally
-                {
 
-                    store.Close();
-                }
-
-                return null;
-
-            };
+                    return n;
+                };
             #endregion
+
+
+
 
             //store.Open(OpenFlags.
 
             TcpListener listener = new TcpListener(IPAddress.Any, port);
             listener.Start();
 
-            Process.Start(@"https://" + host + ":" + port); //.WaitForExit();
+            Process.Start(@"http://" + "127.0.0.101" + ":" + port); //.WaitForExit();
             //Process.Start(@"http://localhost:" + port); //.WaitForExit();
 
             // "X:\jsc.svn\examples\java\hybrid\JVMCLRSSLTCPListener\JVMCLRSSLTCPListener\bin\Debug\serverCert.cer.pfx"
@@ -175,6 +248,11 @@ namespace JVMCLRTCPMultiplex
             Action<TcpClient> yield =
                 clientSocket =>
                 {
+                    var LocalEndPoint = (IPEndPoint)clientSocket.Client.LocalEndPoint;
+                    var host = LocalEndPoint.Address.ToString();
+                    //var host = LocalEndPoint.Address.ToString();
+
+                    //clientSocket.Client.
                     // why cannot i peek?
 
                     var p = new Eugene.PeekableStream(clientSocket.GetStream(), 1);
@@ -210,8 +288,11 @@ namespace JVMCLRTCPMultiplex
                                     // how many times have we played http server?
                                     // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\Application.cs
 
+                                    // +		clientSocket.Client.LocalEndPoint	{127.0.0.11:10033}	System.Net.EndPoint {System.Net.IPEndPoint}
+
+
                                     var bytes = Encoding.UTF8.GetBytes(
-                                            "HTTP/1.0 200 OK\r\nConnection: close\r\n\r\n<h1>hello world</h1><a href='https://" + host + ":" + port + "'>https</a> <a href='http://" + host + ":" + port + "'>http</a>"
+                                            "HTTP/1.0 200 OK\r\nConnection: close\r\n\r\n<h1>hello world " + clientSocket.Client.LocalEndPoint + "</h1><a href='https://" + host + ":" + port + "'>https</a> <a href='http://" + host + ":" + port + "'>http</a>"
                                         );
 
                                     s.Write(bytes, 0, bytes.Length);
@@ -279,8 +360,9 @@ namespace JVMCLRTCPMultiplex
                                 // can this hang? if we use the wrong stream!
 
                                 sslStream.AuthenticateAsServer(
-                                    serverCertificate: CertificateFromCurrentUser(),
-                                clientCertificateRequired: false,
+                                    serverCertificate: CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)clientSocket.Client.LocalEndPoint),
+                                //clientCertificateRequired: false,
+                                clientCertificateRequired: true,
                                 // chrome for android does not like IIS TLS 1.2
                                 enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
                                     checkCertificateRevocation: false
