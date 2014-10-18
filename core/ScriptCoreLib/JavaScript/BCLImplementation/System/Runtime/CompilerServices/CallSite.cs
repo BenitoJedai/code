@@ -294,19 +294,48 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
 
                     if (Count == 4)
                     {
-                        // [TestDynamicCall] TestDynamicCall.Application+<_ctor>o__SiteContainer0.<>p__Site1 : CallSite`1<(CallSite, object, string) -> void>
-                        var r = new Func<__CallSite, object, object, object, object, object>(
-                            (site, target, arg1, arg2, arg3) =>
-                            {
+                        if (IsReturnVoid)
+                        {
+                            var r = new Action<__CallSite, object, object, object, object>(
+                                 (site, target, arg1, arg2, arg3) =>
+                                 {
 
-                                Console.WriteLine(
-                                    new { target, xInvokeMemberBinder.Name, arg1, arg2, arg3 }
+                                     Console.WriteLine(
+                                         new { target, xInvokeMemberBinder.Name, arg1, arg2, arg3 }
+                                         );
+
+                                     var __value = IFunction.Of(target, xInvokeMemberBinder.Name).apply(target,
+                                         arg1, arg2, arg3
+                                     );
+
+
+                                     //return __value;
+                                 }
+                             );
+
+                            return r;
+                        }
+                        else
+                        {
+                            // [TestDynamicCall] TestDynamicCall.Application+<_ctor>o__SiteContainer0.<>p__Site1 : CallSite`1<(CallSite, object, string) -> void>
+                            var r = new Func<__CallSite, object, object, object, object, object>(
+                                (site, target, arg1, arg2, arg3) =>
+                                {
+
+                                    Console.WriteLine(
+                                        new { target, xInvokeMemberBinder.Name, arg1, arg2, arg3 }
+                                        );
+
+                                    var __value = IFunction.Of(target, xInvokeMemberBinder.Name).apply(target,
+                                        arg1, arg2, arg3
                                     );
 
-                                return null;
-                            }
-                        );
-                        return r;
+
+                                    return __value;
+                                }
+                            );
+                            return r;
+                        }
                     }
 
 

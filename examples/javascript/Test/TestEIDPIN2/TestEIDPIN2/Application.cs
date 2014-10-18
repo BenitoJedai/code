@@ -30,13 +30,15 @@ namespace TestEIDPIN2
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\Test\TestDynamicCall\TestDynamicCall\Application.cs
             // X:\jsc.svn\examples\java\hybrid\JVMCLRTCPMultiplex\JVMCLRTCPMultiplex\Program.cs
 
 
             //  Signing software is available from https://installer.id.ee]
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141002
-            // https://openxades.org/web_sign_demo/sign.html
+            new IHTMLAnchor { href = "https://openxades.org/web_sign_demo/sign.html", innerText = "web_sign_demo" }.AttachToDocument();
+
 
             // // It is checked if the connection is https during the signing module loading
 
@@ -77,16 +79,23 @@ namespace TestEIDPIN2
             //{{ type = application/x-google-chrome-print-preview-pdf, description = Portable Document Format }}
 
             // !! actually IE wont report anything here.
-            Native.window.navigator.mimeTypes.ToArray().AsEnumerable().WithEach(
-                x =>
+
+            new IHTMLButton { "list mimeTypes" }.AttachToDocument().onclick +=
+             e =>
                 {
-                    new IHTMLPre {
-                        new { x.type, x.description}
-                    }.AttachToDocument();
+
+                    Native.window.navigator.mimeTypes.ToArray().AsEnumerable().WithEach(
+                        x =>
+                        {
+                            new IHTMLPre {
+                                new { x.type, x.description}
+                            }.AttachToDocument();
 
 
-                }
-            );
+                        }
+                    );
+                };
+
 
 
             new IHTMLButton { "new object" }.AttachToDocument().onclick +=
@@ -94,13 +103,25 @@ namespace TestEIDPIN2
                 {
                     new IHTMLObject
                     {
-                        type = "application/x-digidoc"
+                        type = "application/x-digidoc",
+                        height = 40
                     }.AttachToDocument().With(
                         (dynamic plugin) =>
                         {
-                            plugin.pluginLanguage = "en";
+                            // script: error JSC1000: No implementation found for this native method, please implement [static Microsoft.CSharp.RuntimeBinder.Binder.UnaryOperation(Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, System.Linq.Expressions.ExpressionType, System.Type, System.Collections.Generic.IEnumerable`1[[Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]])]
 
                             string version = plugin.version;
+
+                            //if (plugin.version == null)
+                            if (version == null)
+                            {
+                                // user can also right click on plugin, but this wont help us as we wont know
+                                new IHTMLPre { "allow plugin, then retry." }.AttachToDocument();
+                                return;
+                            }
+
+                            plugin.pluginLanguage = "en";
+
 
                             // {{ version = null }}
                             // {{ version = 3.5.5273.321 }}
@@ -109,43 +130,43 @@ namespace TestEIDPIN2
                                 new { version }
                             }.AttachToDocument();
 
+
+
+
+
                             new IHTMLButton { ".getCertificate()" }.AttachToDocument().onclick +=
                                 ee =>
                                 {
-                                    object cert = plugin.getCertificate();
+                                    dynamic cert = plugin.getCertificate();
 
                                     new IHTMLPre {
-                                        new { cert }
+                                        new { cert.id, cert.CN, cert.issuerCN }
                                     }.AttachToDocument();
+
+                                    // we get a dialog
+                                    // and then NAME,SSN
+                                    // it works. what else can we do?
+
+                                    new IHTMLButton { ".sign()" }.AttachToDocument().onclick +=
+                                        eee =>
+                                        {
+                                            var hash = "FAFA0101FAFA0101FAFA0101FAFA0101FAFA0101";
+
+                                            dynamic signature = plugin.sign(cert.id, hash, "");
+
+                                            // signature is a long hex string!
+
+                                            new IHTMLPre {
+                                                new { signature }
+                                            }.AttachToDocument();
+
+                                            // we get a dialog
+                                            // and then NAME,SSN
+                                            // it works. what else can we do?
+                                        };
                                 };
 
-                            new IHTMLButton { ".getCertificate() via IFunction" }.AttachToDocument().onclick +=
-                                ee =>
-                                {
-                                    object __plugin = plugin;
 
-                                    // http://www.iis.net/learn/extensions/using-iis-express/running-iis-express-from-the-command-line
-                                    // call "C:\Program Files (x86)\Common Files\microsoft shared\DevServer\11.0\WebDev.WebServer40.EXE" /port:8081 /path:"X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\staging\TestEIDPIN2.ApplicationWebService\staging.net.debug" /vpath:"/"
-                                    // "C:\Program Files (x86)\IIS Express\iisexpress.exe"
-
-                                    // http://blogs.msdn.com/b/robert_mcmurray/archive/2013/11/15/how-to-trust-the-iis-express-self-signed-certificate.aspx
-                                    // http://www.lansweeper.com/kb/54/How-to-configure-SSL-in-IIS-Express.html
-
-                                    // http://web.archive.org/web/20080123212335/http://www.wilcob.com/Wilco/Toolbox/WebDevWebServer2.aspx
-                                    // http://stackoverflow.com/questions/837285/how-to-utilize-webdev-webserver-exe-vs-web-server-in-x64
-                                    // http://forums.asp.net/t/1070750.aspx?SSL+https+on+webdev+server
-                                    // webdev or iisexpress
-                                    // error: site not allowed
-                                    // do we need SSL connection for the plugin to actually work?
-                                    object cert = new IFunction("plugin", "return plugin.getCertificate();").apply(null, __plugin);
-
-                                    // Cassini does not support HTTPS.
-
-
-                                    new IHTMLPre {
-                                        new { cert }
-                                    }.AttachToDocument();
-                                };
 
                         }
                     );
