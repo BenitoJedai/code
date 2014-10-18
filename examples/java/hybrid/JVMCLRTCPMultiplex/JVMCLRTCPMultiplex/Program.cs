@@ -30,6 +30,73 @@ namespace JVMCLRTCPMultiplex
         [STAThread]
         public static void Main(string[] args)
         {
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.css
+            // X:\jsc.svn\examples\javascript\Test\TestTCPMultiplex\TestTCPMultiplex\Application.cs
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141018-ssl
+            // http://msdn.microsoft.com/en-us/library/ms733813.aspx
+            // http://stackoverflow.com/questions/4095297/self-signed-certificates-performance-in-wcf-scenarios
+
+            var CN = "device SSL authority for developers";
+
+
+            #region CertificateRootFromCurrentUser
+            Func<X509Certificate> CertificateRootFromCurrentUser =
+                delegate
+            {
+                X509Store store = new X509Store(
+                            StoreName.Root,
+                    StoreLocation.CurrentUser);
+                // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+                // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
+
+                // Policy Information:
+                //URL = http://127.0.0.5:10500
+
+                try
+                {
+
+                    store.Open(OpenFlags.ReadOnly);
+
+                    var item = store.Certificates.Find(X509FindType.FindBySubjectName, CN, true);
+
+                    if (item.Count > 0)
+                        return item[0];
+
+                }
+                finally
+                {
+
+                    store.Close();
+                }
+
+                return null;
+
+            };
+            #endregion
+
+            // Error: There is no matching certificate in the issuer's Root cert store
+
+            var r = CertificateRootFromCurrentUser();
+
+            if (r == null)
+            {
+                Process.Start(
+                                          new ProcessStartInfo(
+                                          @"C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe",
+
+                           // this cert is constant
+                           "-r -cy authority -a SHA1 -n \"CN=" + CN + "\"  -len 2048 -m 72 -ss Root -sr currentuser"
+                                          )
+
+                {
+                    UseShellExecute = false
+
+                }
+
+                ).WaitForExit();
+            }
+
             // X:\jsc.svn\examples\java\hybrid\JVMCLRSSLTCPListener\JVMCLRSSLTCPListener\Program.cs
             // https://www.npmjs.org/package/port-mux
             // http://c-skills.blogspot.com/
@@ -98,34 +165,17 @@ namespace JVMCLRTCPMultiplex
             //Security Warning
             //---------------------------
             //You are about to install a certificate from a certification authority (CA) claiming to represent:
-
-
-
             //127.0.0.101
-
-
-
             //Windows cannot validate that the certificate is actually from "127.0.0.101". You should confirm its origin by contacting "127.0.0.101". The following number will assist you in this process:
-
-
-
             //Thumbprint (sha1): 8B8942FB DEB64552 7BBDAD27 24B78664 A6D85D7E
-
-
-
             //Warning:
-
             //If you install this root certificate, Windows will automatically trust any certificate issued by this CA. Installing a certificate with an unconfirmed thumbprint is a security risk. If you click "Yes" you acknowledge this risk.
-
-
-
             //Do you want to install this certificate?
-
-
             //---------------------------
             //Yes   No   
             //---------------------------
 
+            // http://msdn.microsoft.com/en-us/library/ms733813.aspx
 
 
             #region CertificateFromCurrentUserByLocalEndPoint
@@ -142,7 +192,7 @@ namespace JVMCLRTCPMultiplex
                     {
                         X509Store store = new X509Store(
                             //StoreName.Root,
-                            StoreName.AuthRoot,
+                            StoreName.My,
                             StoreLocation.CurrentUser);
                         // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
                         // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
@@ -213,7 +263,8 @@ namespace JVMCLRTCPMultiplex
                 // The certificate's O attribute in the subject (organization), along with the C attribute (country) determine what is displayed. If they are absent, it will simply display the primary subject domain name from the certificate.
 
                 //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
-                "-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss AuthRoot -sr currentuser -l " + link
+                //" -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
+                " -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
                             )
 
                         {
@@ -346,6 +397,10 @@ namespace JVMCLRTCPMultiplex
                                 new RemoteCertificateValidationCallback(
                                     (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
                         {
+                            Console.WriteLine(
+                                new { certificate }
+                                );
+
                             return true;
                         }
                                 ),

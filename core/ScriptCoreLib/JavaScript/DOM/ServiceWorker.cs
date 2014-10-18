@@ -63,6 +63,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // this will replace AppCache
 
         // works only on https? does jsc inline server support SSL?
+        // 20141018 now it does.
     }
 
 

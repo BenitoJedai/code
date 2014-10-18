@@ -25,7 +25,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         // Problems such as password-authenticated key agreement transaction to a banking site require something that resembles encrypted SCTP, analogous to the way that TLS is encrypted TCP, but nothing like that exists as yet. 
 
-        // Trust is an application level issue, not a communication layer issue, but neither do we want each application to roll its own trust cryptography – which at present web servers are forced to do.
+        // Trust is an application level issue, not a communication layer issue, but neither do we want each application to roll its own trust 
+        // cryptography – which at present web servers are forced to do.
 
         // https://docs.google.com/document/d/184AgXzLAoUjQjrtNdbimceyXVYzrn3tGpf3xQGCN10g/edit
         // https://code.google.com/p/chromium/issues/detail?id=245025
