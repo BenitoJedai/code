@@ -43,23 +43,23 @@ namespace TestEIDPIN2
             // X:\jsc.svn\examples\java\hybrid\JVMCLRSSLTCPListener\JVMCLRSSLTCPListener\Program.cs
 
             #region secure origin
-            new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
+            // https://code.google.com/p/chromium/issues/detail?id=412681
+            //new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
 
-            if (Native.document.location.host.TakeUntilOrEmpty(":") != "127.0.0.1")
-            {
-                // https://code.google.com/p/chromium/issues/detail?id=412681
+            //if (Native.document.location.host.TakeUntilOrEmpty(":") != "127.0.0.1")
+            //{
 
-                new IHTMLAnchor
-                {
-                    href = "http://127.0.0.1:" + Native.document.location.host.SkipUntilOrEmpty(":"),
-                    innerText = "open as secure origin!"
-                }.AttachToDocument();
-
+            //    new IHTMLAnchor
+            //    {
+            //        href = "http://127.0.0.1:" + Native.document.location.host.SkipUntilOrEmpty(":"),
+            //        innerText = "open as secure origin!"
+            //    }.AttachToDocument();
 
 
-                // optional
-                //return;
-            }
+
+            //    // optional
+            //    //return;
+            //}
             #endregion
 
 
@@ -112,19 +112,17 @@ namespace TestEIDPIN2
                             new IHTMLButton { ".getCertificate()" }.AttachToDocument().onclick +=
                                 ee =>
                                 {
+                                    object cert = plugin.getCertificate();
 
+                                    new IHTMLPre {
+                                        new { cert }
+                                    }.AttachToDocument();
+                                };
 
-                                    //0:31418ms { binder = InvokeMemberBinder }
-                                    //view - source:28587 Uncaught Error: NotImplementedException:
-                                    //__CallSite.Create
-
-                                    // jsc what about learning to call dynamic func?
-                                    //object cert = plugin.getCertificate();
-
-
+                            new IHTMLButton { ".getCertificate() via IFunction" }.AttachToDocument().onclick +=
+                                ee =>
+                                {
                                     object __plugin = plugin;
-
-                                    // can we launch a jsc project locally with ssl?
 
                                     // http://www.iis.net/learn/extensions/using-iis-express/running-iis-express-from-the-command-line
                                     // call "C:\Program Files (x86)\Common Files\microsoft shared\DevServer\11.0\WebDev.WebServer40.EXE" /port:8081 /path:"X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\bin\Debug\staging\TestEIDPIN2.ApplicationWebService\staging.net.debug" /vpath:"/"

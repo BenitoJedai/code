@@ -18,5 +18,10 @@ namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
         {
             return new __CSharpArgumentInfo { flags = flags, name = name };
         }
+
+        public override string ToString()
+        {
+            return "CSharpArgumentInfo " + new { name };
+        }
     }
 }
