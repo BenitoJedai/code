@@ -7,6 +7,7 @@ using System.Threading;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/environment.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Environment.cs
 
     // System.Environment
     [Script(Implements = typeof(global::System.Environment))]

@@ -9,6 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     // X:\opensource\github\WootzJs\WootzJs.Runtime\MulticastDelegate.cs
     // http://referencesource.microsoft.com/#mscorlib/system/multicastdelegate.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/MulticastDelegate.cs
 
     [Script(Implements = typeof(global::System.MulticastDelegate))]
     internal class __MulticastDelegate : __Delegate

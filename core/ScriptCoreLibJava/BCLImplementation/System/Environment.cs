@@ -7,6 +7,7 @@ using System.Threading;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/environment.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Environment.cs
 
     [Script(Implements = typeof(global::System.Environment))]
     internal class __Environment
@@ -20,6 +21,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             get
             {
                 return Thread.CurrentThread.ManagedThreadId;
+            }
+        }
+
+        public static int ProcessorCount
+        {
+            get
+            {
+                // X:\jsc.svn\examples\java\hybrid\Test\JVMCLRProcessorCount\JVMCLRProcessorCount\Program.cs
+
+                // http://stackoverflow.com/questions/13834692/threads-configuration-based-on-no-of-cpu-cores
+                // http://stackoverflow.com/questions/4759570/finding-number-of-cores-in-java
+                int cores = java.lang.Runtime.getRuntime().availableProcessors();
+
+                return cores;
             }
         }
 

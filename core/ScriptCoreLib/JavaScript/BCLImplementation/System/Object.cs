@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/object.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Object.cs
 
     [Script(Implements = typeof(global::System.Object))]
     internal class __Object
