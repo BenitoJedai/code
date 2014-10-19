@@ -51,30 +51,26 @@ namespace ChromeEarth
             // https://groups.google.com/a/chromium.org/forum/#!topic/chromium-apps/zmOXJxZEzsQ
 
 
-            #region ChromeTCPServer
+
+            #region += Launched chrome.app.window
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
             object self_chrome_socket = self_chrome.socket;
 
             if (self_chrome_socket != null)
             {
-                //Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
 
                 chrome.Notification.DefaultTitle = "Earth Visualization";
                 chrome.Notification.DefaultIconUrl = new x128().src;
 
-                ChromeTCPServer.TheServerWithStyledForm.Invoke(
-                    AppSource.Text,
-                    //AtFormCreated: FormStyler.AtFormCreated
-                    AtFormCreated: FormStylerLikeFloat.LikeFloat,
-
-                    transparentBackground: true,
-                    resizable: false
-                );
+                ChromeTCPServer.TheServerWithAppWindow.Invoke(AppSource.Text);
 
                 return;
             }
             #endregion
+
+
 
 
             // https://chrome.google.com/webstore/detail/odccmjodfgabfaolpgbepgneikcblman/publish-delayed
