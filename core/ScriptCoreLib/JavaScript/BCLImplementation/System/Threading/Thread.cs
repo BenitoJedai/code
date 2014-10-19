@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/thread.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Threading/Thread.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/Thread.cs
 
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Threading\Thread.cs
 

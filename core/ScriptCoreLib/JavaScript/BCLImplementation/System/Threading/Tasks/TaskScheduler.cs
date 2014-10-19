@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/TaskScheduler.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/corlib/System.Threading.Tasks/TaskScheduler.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading.Tasks/TaskScheduler.cs
 
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskScheduler))]
     internal class __TaskScheduler

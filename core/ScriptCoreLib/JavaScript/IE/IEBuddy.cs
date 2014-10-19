@@ -8,6 +8,8 @@ namespace ScriptCoreLib.IE
     [Script(HasNoPrototype = true)]
     public class IEBuddy
     {
+        // clippy!
+
         public bool AutoPopupMenu;
 
         public void Play(string e)
