@@ -1,6 +1,8 @@
 ﻿// jsc needs to move the idl code to scriptcorelib level.
 // should jsc support a compilation of chromium idl?
 
+// https://developer.chrome.com/apps/identity
+// https://developer.chrome.com/apps/wallpaper
 
 
 // http://developer.chrome.com/apps/api_index.html
@@ -184,6 +186,8 @@ interface chrome.runtime
 	event static attribute chrome.ChromeEventTarget onInstalled;
 	event static attribute chrome.ChromeEventTarget onSuspend;
 	event static attribute chrome.ChromeEventTarget onSuspendCanceled;
+
+	// tested by?
 	event static attribute chrome.ChromeEventTarget<any> onUpdateAvailable;
 
 
@@ -302,6 +306,7 @@ interface chrome.AppWindow
 	// permission
 	// alwaysOnTopWindows
 	void setAlwaysOnTop(boolean alwaysOnTop);
+	void setVisibleOnAllWorkspaces(boolean alwaysVisible);
 
 	// https://code.google.com/p/chromium/issues/detail?id=260810
 	boolean alphaEnabled();
@@ -390,7 +395,12 @@ interface chrome.app.runtime
 
 	event static attribute chrome.ChromeEventTarget<chrome.app.runtime.LaunchData> onLaunched;
 	//event static attribute chrome.ChromeEventTarget onLaunched;
+
 	event static attribute chrome.ChromeEventTarget onRestarted;
+
+	// <appview> element.
+	// https://developer.chrome.com/apps/app_runtime#event-onEmbedRequested
+	event static attribute chrome.ChromeEventTarget onEmbedRequested;
 
 
 };
