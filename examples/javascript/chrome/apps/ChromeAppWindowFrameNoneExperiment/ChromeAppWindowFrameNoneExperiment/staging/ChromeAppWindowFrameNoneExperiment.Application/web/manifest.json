@@ -3,7 +3,7 @@
   "name": "ChromeAppWindowFrameNoneExperiment",
   "description": "ChromeAppWindowFrameNoneExperiment",
   "version": "25",
- "minimum_chrome_version": "32",
+ "minimum_chrome_version": "38",
   "offline_enabled": true,
 
 
@@ -27,7 +27,9 @@
   
   
   "permissions": [
+     "app.window.alpha",
   "<all_urls>",
+  "alwaysOnTopWindows",
   "webview",
   "fullscreen",
   "pointerLock",
