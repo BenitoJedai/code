@@ -395,6 +395,11 @@ namespace GIFDecoderExperiment
                         AddNodeDirect
                     );
 
+                    new IHTMLPre
+                    {
+                        new{ GlobalColorMap = g.GlobalColorMap.Length }
+                    }.AttachToDocument();
+
                     g.GlobalColorMap.WithEach(
                         rgb =>
                         {
@@ -418,6 +423,8 @@ namespace GIFDecoderExperiment
 
                 };
 
+
+            // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
             new IXMLHttpRequest(
                 ScriptCoreLib.Shared.HTTPMethodEnum.GET,
                 new HTML.Images.FromAssets.dance().src,

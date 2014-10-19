@@ -258,5 +258,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
         }
         #endregion
 
+        // DownloadDataTaskAsync
+        // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
+        // public Task<byte[]> DownloadDataTaskAsync(string address);
+        // shall we test it on a gif?
+        // X:\jsc.svn\examples\javascript\io\GIFDecoderExperiment\GIFDecoderExperiment\Application.cs
+
     }
 }

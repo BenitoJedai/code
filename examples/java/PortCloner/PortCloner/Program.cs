@@ -40,6 +40,9 @@ namespace PortCloner
 	{
 		public static void Main(string[] args)
 		{
+            // 20141019
+            // CLR SSL rewriter
+
 			Console.WriteLine(@"
 usage: 
 	PortCloner.exe Clone /TargetHost:localhost /TargetPort:80
