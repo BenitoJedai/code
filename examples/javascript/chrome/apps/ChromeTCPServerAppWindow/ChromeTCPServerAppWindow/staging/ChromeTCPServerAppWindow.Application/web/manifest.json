@@ -1,9 +1,8 @@
-﻿
-{
+﻿{
 "manifest_version": 2,
-  "name": "Nexus7",
-  "description": "Nexus7",
-  "version": "42",
+  "name": "ChromeTCPServerAppWindow",
+  "description": "ChromeTCPServerAppWindow",
+  "version": "30",
  "minimum_chrome_version": "38",
   "offline_enabled": true,
 
