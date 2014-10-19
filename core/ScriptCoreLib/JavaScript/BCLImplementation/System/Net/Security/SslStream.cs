@@ -13,6 +13,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net.Security
     [Script(Implements = typeof(global::System.Net.Security.SslStream))]
     internal class __SslStream : __AuthenticatedStream
     {
+        // 0x16
+        // 20141019
+        // jsc now has ssl port rewriter in place for CLR
+
+
         // http://www.herongyang.com/JDK/SSL-Socket-Server-Example-SslReverseEchoer.html
         // http://www.jguru.com/faq/view.jsp?EID=32388
         // http://exampledepot.8waytrips.com/egs/javax.net.ssl/Server.html

@@ -29,6 +29,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true, ExternalTarget = "Worker")]
     public class Worker : IEventTarget
     {
+        // http://developers.slashdot.org/story/14/10/18/2117247/javascript-and-the-netflix-user-interface
+
+        //Web-workers are not cutting it. For the following reason.
+        //Real multi-threaded programs have a shared address space. Web-workers do not.
+
+
         // http://philogb.github.io/blog/2012/11/04/web-workers-extension/
 
         // http://msdn.microsoft.com/en-us/library/windows/apps/hh453409.aspx
