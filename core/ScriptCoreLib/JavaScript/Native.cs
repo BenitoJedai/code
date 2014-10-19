@@ -162,6 +162,7 @@ namespace ScriptCoreLib.JavaScript
         // You will notice that the server only allocates memory and does heavy computation *after*
         // the client has successfully performed proof of work and shown that it is indeed capable 
         // of receiving data sent to the advertised network address.
+        // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
         [Obsolete("experimental. allows us to sign/encrypt our data uploads for our session.")]
         public static readonly Task<KeyPair> identity;
 
@@ -228,6 +229,9 @@ namespace ScriptCoreLib.JavaScript
                                     new
                                 {
                                     name = "RSASSA-PKCS1-v1_5",
+
+                                    // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
+                                    // for SSL we seem to need to use SHA1 tho?
                                     hash = new { name = "SHA-256" },
 
 

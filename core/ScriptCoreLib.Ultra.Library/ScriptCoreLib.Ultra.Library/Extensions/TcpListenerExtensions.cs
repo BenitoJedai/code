@@ -161,6 +161,8 @@ namespace ScriptCoreLib.Extensions
                             new { makecert, link }
                             );
 
+                        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.cs
+
                         // logical store name
                         Process.Start(
                             new ProcessStartInfo(
