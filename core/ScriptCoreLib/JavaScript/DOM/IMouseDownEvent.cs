@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IMouseDownEvent : IEvent
     {
+        // tested by ?
+
         [Script(DefineAsStatic = true)]
         public void CaptureMouse()
         {

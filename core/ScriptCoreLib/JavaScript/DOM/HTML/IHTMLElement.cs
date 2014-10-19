@@ -1219,7 +1219,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 
-        static string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout" };
+        static string[] InternalCaptureMouseEvents = new string[] { 
+            "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout" };
 
         static System.Action InternalCaptureMouse(IHTMLElement self)
         {
@@ -1280,9 +1281,19 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 ;
         }
 
+
+
+        // tested by
+        // X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowMouseCapture\ChromeAppWindowMouseCapture\Application.cs
+
         [Script(DefineAsStatic = true)]
         public System.Action CaptureMouse()
         {
+            // called by
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IMouseDownEvent.cs
+
+            // will it work for chrome apps?
+
             // who is using this?
             return InternalCaptureMouse(this);
         }

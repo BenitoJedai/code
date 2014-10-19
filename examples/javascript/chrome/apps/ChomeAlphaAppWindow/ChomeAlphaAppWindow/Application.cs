@@ -64,6 +64,8 @@ namespace ChomeAlphaAppWindow
                 // chrome://version/
 
                 //chrome.app.window.on
+                // X:\jsc.svn\examples\javascript\chrome\apps\ChromeAppWindowMouseCapture\ChromeAppWindowMouseCapture\Application.cs
+                // X:\jsc.svn\examples\javascript\chrome\apps\ChomeAlphaAppWindow\ChomeAlphaAppWindow\Application.cs
 
                 #region Launched
                 chrome.app.runtime.Launched +=
