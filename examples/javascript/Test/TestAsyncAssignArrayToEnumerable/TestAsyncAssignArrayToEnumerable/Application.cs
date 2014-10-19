@@ -49,6 +49,8 @@ namespace TestAsyncAssignArrayToEnumerable
 
 
             // this causes a problem. why?
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Yield.cs
+            // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
             await Task.Yield();
 
             //        f = new Array(1);

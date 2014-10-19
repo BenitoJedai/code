@@ -5,6 +5,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/weakreference.cs
+
     [Script(Implements = typeof(global::System.WeakReference))]
     internal class __WeakReference
     {

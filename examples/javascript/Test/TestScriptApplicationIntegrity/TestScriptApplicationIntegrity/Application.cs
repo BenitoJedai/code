@@ -41,22 +41,9 @@ namespace TestScriptApplicationIntegrity
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyImport\TestWebCryptoKeyImport\Application.cs
 
-            #region secure origin
-            //new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
-
-            //if (Native.document.location.host.TakeUntilOrEmpty(":") != "127.0.0.1")
-            //{
             //    // https://code.google.com/p/chromium/issues/detail?id=412681
 
-            //    new IHTMLAnchor
-            //    {
-            //        href = "http://127.0.0.1:" + Native.document.location.host.SkipUntilOrEmpty(":"),
-            //        innerText = "open as secure origin!"
-            //    }.AttachToDocument();
 
-            //    return;
-            //}
-            #endregion
 
             // what about net neutrality?
             // can we tracert back to servers?
@@ -68,6 +55,12 @@ namespace TestScriptApplicationIntegrity
 
             new IHTMLButton { "sha1(view-source)" }.AttachToDocument().onclick += async delegate
             {
+                // X:\jsc.svn\examples\javascript\async\AsyncWorkerSourceSHA1\AsyncWorkerSourceSHA1\Application.cs
+
+                //X-Reference-0:ScriptCoreLib.dll.js 2087971
+                //X-Reference-1:TestScriptApplicationIntegrity.Application.exe.js 127684
+                // add stopwatch
+
                 // should jsc do automatic sha1 checks?
                 var c = new WebClient();
                 var sw = Stopwatch.StartNew();
@@ -76,13 +69,10 @@ namespace TestScriptApplicationIntegrity
                 // for loading workers
                 // injecting extension into web apps
 
-
-                // script: error JSC1000: No implementation found for this native method, please implement [System.Net.WebClient.DownloadDataTaskAsync(System.String)]
                 // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Net\WebClient.cs
-                //var bytes = await c.DownloadDataTaskAsync("view-source");
-                var xstring = await c.DownloadStringTaskAsync("view-source");
-                var bytes = Encoding.UTF8.GetBytes(xstring);
-
+                var bytes = await c.DownloadDataTaskAsync("view-source");
+                //var xstring = await c.DownloadStringTaskAsync("view-source");
+                //var bytes = Encoding.UTF8.GetBytes(xstring);
 
                 new IHTMLPre { new { bytes.Length, sw.ElapsedMilliseconds } }.AttachToDocument();
 
@@ -93,8 +83,6 @@ namespace TestScriptApplicationIntegrity
                 var a = new { name = "SHA-1" };
                 //var a = new { name = "SHA-512" };
                 var x = await Native.crypto.subtle.digestAsync(a, bytes);
-
-
 
                 new IHTMLPre { new { a, x.Length, sw.ElapsedMilliseconds } }.AttachToDocument();
 

@@ -187,7 +187,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         // http://jibbering.com/2002/4/httprequest.html
         // http://www.xulplanet.com/references/objref/XMLHttpRequest.html#method_getAllResponseHeaders
 
-        [Obsolete]
+        [Obsolete("move into .async.bytes ?")]
         public Task<byte[]> bytes
         {
             [Script(DefineAsStatic = true)]
@@ -197,7 +197,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                 // tested by
                 // X:\jsc.svn\core\ScriptCoreLib.Async\ScriptCoreLib.Async\JavaScript\Experimental\X.cs
-
+                // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IXMLHttpRequest.cs
 
                 this.InvokeOnComplete(
                     delegate
@@ -222,7 +222,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
 
-
+        [Obsolete]
         public string ETag
         {
             [Script(DefineAsStatic = true)]

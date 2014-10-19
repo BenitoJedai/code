@@ -115,6 +115,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Security\Cryptography\X509Certificates\X509Certificate2.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\TaskFactory.ContinueWhenAll.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Yield.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.Delay.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Tasks\Task\Task.WhenAll.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Xml\Linq\XObjectChangeEventArgs.cs" />

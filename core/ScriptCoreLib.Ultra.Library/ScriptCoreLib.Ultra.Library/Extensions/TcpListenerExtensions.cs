@@ -72,6 +72,11 @@ namespace ScriptCoreLib.Extensions
 
         public static void BridgeConnectionToPort(this TcpListener x, int port, string rx, string tx)
         {
+            // http://stackoverflow.com/questions/589834/what-rsa-key-length-should-i-use-for-my-ssl-certificates
+            // ENISA recommends 15360 Bit. Have a look to the PDF (page 35)
+            // Industry standards set by the Certification Authority/Browser (CA/B) Forum require that certificates issued after January 1, 2014 MUST be at least 2048-bit key length.
+            // http://stackoverflow.com/questions/589834/what-rsa-key-length-should-i-use-for-my-ssl-certificates
+
             // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141018-ssl
             // X:\jsc.svn\examples\java\hybrid\JVMCLRTCPMultiplex\JVMCLRTCPMultiplex\Program.cs
@@ -153,7 +158,7 @@ namespace ScriptCoreLib.Extensions
                         // http://www.jayway.com/2014/09/03/creating-self-signed-certificates-with-makecert-exe-for-development/
                         // http://stackoverflow.com/questions/4095297/self-signed-certificates-performance-in-wcf-scenarios
                         Console.WriteLine(
-                            new { makecert }
+                            new { makecert, link }
                             );
 
                         // logical store name
@@ -173,6 +178,12 @@ namespace ScriptCoreLib.Extensions
 
                 //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
                 //" -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
+                //" -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
+
+                // http://serverfault.com/questions/193775/ssl-certificate-for-a-public-ip-address
+                // https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/525879b2-43c0-47fc-aa26-2e0e881b034e/makecert-and-increasing-to-2048-with-len-is-not-working-if-certificate-of-same-name-already-exists?forum=windowssecurity
+                // Error: The requested and current keysize are not the same.
+                // http://stackoverflow.com/questions/11708717/ip-address-as-hostname-cn-when-creating-a-certificate-https-hostname-wrong
                 " -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
                             )
 
@@ -250,7 +261,16 @@ namespace ScriptCoreLib.Extensions
             }
             #endregion
 
+
+
             x.Start();
+
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141019
+            // X:\jsc.svn\examples\javascript\async\AsyncWorkerSourceSHA1\AsyncWorkerSourceSHA1\Application.cs
+            // { makecert = C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe, link = http://0.0.0.0:7847 }
+            //Console.WriteLine("prefetching SSL certificate...");
+            //CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)x.LocalEndpoint);
+            //Console.WriteLine("prefetching SSL certificate... done");
 
             var ClientCounter = 0;
 
