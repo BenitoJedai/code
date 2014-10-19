@@ -44,13 +44,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         }
 
 
-        public static __YieldAwaitable Yield()
-        {
-            // X:\jsc.svn\examples\javascript\Test\TestAsyncAssignArrayToEnumerable\TestAsyncAssignArrayToEnumerable\Application.cs
-            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLRAsync\TestJVMCLRAsync\Program.cs
 
-            return new __YieldAwaitable { };
-        }
 
         //script: error JSC1000: No implementation found for this native method, please implement [static System.Threading.Tasks.Task.Run(System.F
 
@@ -245,6 +239,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
         public static implicit operator Task(__Task e)
         {
             return (Task)(object)e;
+        }
+
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Runtime\CompilerServices\YieldAwaitable.cs
+
+        public static implicit operator __Task(Task e)
+        {
+            return (__Task)(object)e;
         }
     }
 

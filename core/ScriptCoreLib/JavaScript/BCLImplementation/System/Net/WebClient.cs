@@ -240,9 +240,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
             var z = new TaskCompletionSource<string>();
 
             var x = new IXMLHttpRequest();
-
-
-            x.open(Shared.HTTPMethodEnum.GET, address.ToString());
+            x.open(Shared.HTTPMethodEnum.GET, address);
 
             x.InvokeOnComplete(
                 r =>
@@ -260,9 +258,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Net
 
         // DownloadDataTaskAsync
         // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
-        // public Task<byte[]> DownloadDataTaskAsync(string address);
         // shall we test it on a gif?
         // X:\jsc.svn\examples\javascript\io\GIFDecoderExperiment\GIFDecoderExperiment\Application.cs
 
+        // NET 4.5
+        public Task<byte[]> DownloadDataTaskAsync(string address)
+        {
+            var x = new IXMLHttpRequest();
+            x.open(Shared.HTTPMethodEnum.GET, address);
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\IXMLHttpRequest.cs
+
+            return x.bytes;
+        }
     }
 }

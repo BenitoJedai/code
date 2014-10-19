@@ -361,19 +361,11 @@ namespace GIFDecoderExperiment
             #endregion
 
 
-            // how can we comment that the API is wrong?
-            // go online and just do that? :)
-
-            //new dance().bytes.ContinueWithResult(
-
-            // not yet available?
-            //new WebClient().DownloadDataAsync(
-
 
 
             //Uncaught InvalidAccessError: Failed to set the 'responseType' property on 'XMLHttpRequest': The response type can only be changed for asynchronous HTTP requests made from a document. 
 
-
+            #region AtGIFBytes
             Action<byte[]> AtGIFBytes =
                 filebytes =>
                 {
@@ -422,14 +414,29 @@ namespace GIFDecoderExperiment
                     );
 
                 };
+            #endregion
+
+            // how can we comment that the API is wrong?
+            // go online and just do that? :)
+
+            //new dance().bytes.ContinueWithResult(
+
+      
+
 
 
             // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
-            new IXMLHttpRequest(
-                ScriptCoreLib.Shared.HTTPMethodEnum.GET,
-                new HTML.Images.FromAssets.dance().src,
-                true
-            ).bytes.ContinueWithResult(AtGIFBytes);
+            //new IXMLHttpRequest(
+            //    ScriptCoreLib.Shared.HTTPMethodEnum.GET,
+            //    new HTML.Images.FromAssets.dance().src,
+            //    true
+            //).bytes.ContinueWithResult(AtGIFBytes);
+
+
+            new WebClient().DownloadDataTaskAsync(
+                // like nameof, jsc could optimize the newobj out and keep the src as const instead!
+                new HTML.Images.FromAssets.dance().src
+            ).ContinueWithResult(AtGIFBytes);
 
 
             // jsc can we also do drag n drop?
@@ -437,7 +444,7 @@ namespace GIFDecoderExperiment
 
 
 
-
+            #region ondragover
             Native.document.documentElement.ondragover +=
                 e =>
                 {
@@ -510,6 +517,8 @@ namespace GIFDecoderExperiment
 
                        }
                    };
+            #endregion
+
 
 
         }

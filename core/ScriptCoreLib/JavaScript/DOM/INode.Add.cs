@@ -58,7 +58,26 @@ namespace ScriptCoreLib.JavaScript.DOM
             // Implementing Collection Initializers
             // http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
-            this.appendChild(new ITextNode("" + e));
+            // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
+            var x = new ITextNode("" + e);
+
+            // what if the object is anonymous
+            // could we have special logic for it?
+
+            // actually all we want to know is will ToString change. IToStringChangedEvent ?
+            if (e is Stopwatch)
+            {
+                Native.window.onframe +=
+                    ee =>
+                    {
+                        x.nodeValue = "" + e;
+
+
+                        // stop when stopwatch is paused?
+                    };
+            }
+
+            this.appendChild(x);
         }
 
         [Script(DefineAsStatic = true)]

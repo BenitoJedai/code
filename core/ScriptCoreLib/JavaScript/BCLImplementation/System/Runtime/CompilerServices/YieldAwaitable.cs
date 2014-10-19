@@ -30,13 +30,33 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.YieldAwaitable+YieldAwaiter")]
     internal class __YieldAwaiter
     {
+        // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
+
+
+
+
         // CLR seems to do the oppisite for now..
         // later this might be the place to synchronize context data between worker threads..
+        //public bool IsCompleted { get { return InternalDelay.IsCompleted; } }
         public bool IsCompleted { get { return true; } }
 
+        [Obsolete("Task.Yield is not correctly working. workaround Task.Delay")]
         public void OnCompleted(Action continuation)
         {
             continuation();
+
+            // do we have a test for Worker thread?
+
+            //Native.setTimeout(continuation, 1);
+
+            //ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks.__Task.Delay(1).ContinueWith(
+            //    delegate
+            //    {
+            //        //IsCompleted = true;
+
+            //        continuation();
+            //    }
+            //);
         }
 
         public void GetResult() { } // Nop. It exists purely because the compiler pattern demands it.
