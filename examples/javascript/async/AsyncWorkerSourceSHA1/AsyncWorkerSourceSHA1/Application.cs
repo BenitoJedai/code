@@ -36,8 +36,51 @@ namespace AsyncWorkerSourceSHA1
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141019
             // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
 
+            new { }.With(
+                async scope =>
+                {
+                    var sw = Stopwatch.StartNew();
+
+                    var div = new IHTMLDiv { }.AttachToDocument();
+
+                    div.style.backgroundColor = "lightgray";
+                    div.css.style.borderLeft = "4px solid yellow";
+                    div.css.style.transition = "border 500ms linear";
+
+                    div.css.children.style.transition = "color 500ms linear";
+
+
+                    new IHTMLPre { Native.document.location.protocol, " generating identity: ", sw }.AttachTo(div).css[sw.AsStopEvent()].not.style.color = "red";
+
+                    div.css[sw.AsStopEvent()].style.borderLeft = "4px solid green";
+
+                    // or should the identity be bound by local NFC smart card?
+                    var identity = await Native.identity;
+                    sw.Stop();
+
+                    new IHTMLPre {
+                        new { privateKey = new { identity.publicKey.type, identity.privateKey.extractable } },
+
+                    }.AttachTo(div);
+
+
+                    new IHTMLPre {
+                        new { publicKey= new { identity.publicKey.type, identity.publicKey.extractable } },
+
+                        // {{ privateKey = {{ extractable = false }} }}{{ publicKey = {{ type = public }} }}
+                        // if we were to build a cert, can we see the sha1 for local public key?
+                    }.AttachTo(div);
+
+                }
+            );
+
             new IHTMLButton { "worker sha1(view-source)" }.AttachToDocument().onclick += async delegate
             {
+                // the next experiment can xor sha1 and use pki to add additional in app encryption on top
+                // of the Extended Validation SSL schannel
+                // app will then be protected against SSL root compromize.
+
+
                 var sw = Stopwatch.StartNew();
 
                 // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\INode.Add.cs
@@ -79,13 +122,15 @@ namespace AsyncWorkerSourceSHA1
                 }
                 );
 
+                sw.Stop();
+
                 // {{ ManagedThreadId = 1, Length = 20, Worker = {{ ManagedThreadId = 10 }} }}
                 new IHTMLPre { new { Thread.CurrentThread.ManagedThreadId, sha1.sha1bytes.Length, Worker = new { sha1.ManagedThreadId } } }.AttachToDocument();
+                new IHTMLPre { sha1.sha1bytes }.AttachToDocument();
 
 
                 //await Task.Delay(1000);
 
-                sw.Stop();
 
                 //new IHTMLPre { new { sw.IsRunning } }.AttachToDocument();
 
@@ -98,6 +143,7 @@ namespace AsyncWorkerSourceSHA1
 
     static class X
     {
+        // how can we document/propose/advertise this?
         public static Task AsStopEvent(this Stopwatch sw)
         {
             var x = new TaskCompletionSource<Stopwatch>();

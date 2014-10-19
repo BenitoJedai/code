@@ -50,6 +50,25 @@ namespace ScriptCoreLib.JavaScript.DOM
             this.appendChild(new ITextNode(e));
         }
 
+
+        [Script(DefineAsStatic = true)]
+        public void Add(byte[] e)
+        {
+            // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
+
+            var w = "";
+
+            foreach (var item in e)
+            {
+                w += item.ToString("x2");
+
+            }
+
+            var x = new ITextNode(w);
+
+            this.appendChild(x);
+        }
+
         [Script(DefineAsStatic = true)]
         public void Add(object e)
         {
