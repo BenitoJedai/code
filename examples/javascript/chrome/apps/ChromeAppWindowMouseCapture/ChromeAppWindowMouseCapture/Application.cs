@@ -80,17 +80,31 @@ namespace ChromeAppWindowMouseCapture
             // can we also test the shadow DOM ?
             // how does it work again?
 
-            new IHTMLPre { "drag me" }.AttachToDocument();
-            var xy = new IHTMLPre { "{}" }.AttachToDocument();
 
-            Native.body.css.style.backgroundColor = "transparent";
-            Native.body.css.style.transition = "background 500ms linear";
+            // now we have to update our alpha window/server window
+            // to be in the correct context.
 
-            Native.body.css.active.style.backgroundColor = "yellow";
+            // what about property window
+            // back in the vb days we made one.
+            // time to do one?
+
+            new MyShadow { }.AttachTo(Native.shadow);
+
+            // shadow will select div from chldren
+            var div = new IHTMLDiv { }.AttachTo(Native.document.documentElement);
+
+
+            new IHTMLPre { "drag me" }.AttachTo(div);
+            var xy = new IHTMLPre { "{}" }.AttachTo(div);
+
+            div.css.style.backgroundColor = "transparent";
+            div.css.style.transition = "background 500ms linear";
+
+            div.css.active.style.backgroundColor = "yellow";
 
             Native.document.documentElement.style.cursor = IStyle.CursorEnum.move;
 
-            Native.body.onmousemove +=
+            div.onmousemove +=
                 e =>
                 {
                     // we could tilt the svg cursor
@@ -102,12 +116,12 @@ namespace ChromeAppWindowMouseCapture
 
                 };
 
-            Native.body.onmousedown +=
+            div.onmousedown +=
                 async e =>
                 {
                     e.CaptureMouse();
 
-                    await Native.body.async.onmouseup;
+                    await div.async.onmouseup;
                 };
         }
 
