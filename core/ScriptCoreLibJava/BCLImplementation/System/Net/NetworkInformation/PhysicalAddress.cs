@@ -8,6 +8,7 @@ using ScriptCoreLib.Extensions;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/NetworkInformation/PhysicalAddress.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.NetworkInformation/PhysicalAddress.cs
 
     [Script(Implements = typeof(global::System.Net.NetworkInformation.PhysicalAddress))]
     internal class __PhysicalAddress

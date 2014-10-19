@@ -9,6 +9,7 @@ using System.Net.NetworkInformation;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/NetworkInformation/NetworkInterface.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.NetworkInformation/NetworkInterface.cs
 
     [Script(Implements = typeof(global::System.Net.NetworkInformation.NetworkInterface))]
     public class __NetworkInterface

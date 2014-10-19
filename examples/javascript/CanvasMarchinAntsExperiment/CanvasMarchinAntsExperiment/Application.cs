@@ -41,6 +41,7 @@ namespace CanvasMarchinAntsExperiment
                 {
                     ctx.canvas.AttachToDocument();
 
+                    // no longer works?
 
                     //  Marching Ant code
                     var antOffset = 0;  // Starting offset value
