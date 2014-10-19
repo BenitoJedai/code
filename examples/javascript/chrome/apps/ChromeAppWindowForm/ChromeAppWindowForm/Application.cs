@@ -17,6 +17,7 @@ using ChromeAppWindowForm;
 using ChromeAppWindowForm.Design;
 using ChromeAppWindowForm.HTML.Pages;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms;
 
 namespace ChromeAppWindowForm
 {
@@ -44,6 +45,22 @@ namespace ChromeAppWindowForm
                 if (!(Native.window.opener == null && Native.window.parent == Native.window.self))
                 {
                     Console.WriteLine("chrome.app.window.create, is that you?");
+
+                    // X:\jsc.svn\examples\javascript\chrome\apps\ChromeFormsWebBrowserExperiment\ChromeFormsWebBrowserExperiment\Application.cs
+
+
+                    #region __WebBrowser.InitializeInternalElement
+                    __WebBrowser.InitializeInternalElement = that =>
+                    {
+                        var webview = Native.document.createElement("webview");
+                        // You do not have permission to use <webview> tag. Be sure to declare 'webview' permission in your manifest. 
+                        webview.setAttribute("partition", "p1");
+
+                        that.InternalElement = (IHTMLIFrame)(object)webview;
+
+                    };
+                    #endregion
+
 
                     // pass thru
                 }
@@ -91,7 +108,7 @@ namespace ChromeAppWindowForm
 
                         xappwindow.contentWindow.document.title = "http://example.com";
 
-                        await Task.Delay(1);
+                        await Task.Delay(100);
                         //await Task.Delay(200);
 
                         xappwindow.show();
@@ -126,6 +143,8 @@ namespace ChromeAppWindowForm
 
             FormStyler.AtFormCreated = FormStylerLikeFloat.LikeFloat;
 
+            var ShadowRightBottom = 8;
+
             var f = new Form
             {
 
@@ -139,8 +158,8 @@ namespace ChromeAppWindowForm
 
 
             f.MoveTo(0, 0).SizeTo(
-                    Native.window.Width,
-                    Native.window.Height
+                    Native.window.Width - ShadowRightBottom,
+                    Native.window.Height - ShadowRightBottom
                 );
 
             //f.Opacity = 0.5;
@@ -164,6 +183,18 @@ namespace ChromeAppWindowForm
             };
             f.Opacity = 0.8;
 
+            var w = new WebBrowser
+            {
+
+                // this wont work?
+                //Dock = DockStyle.Fill
+
+            }.AttachTo(f);
+
+            w.Navigate(
+                Native.document.title
+            );
+
 
 
             f.FormClosed +=
@@ -179,8 +210,8 @@ namespace ChromeAppWindowForm
                 delegate
             {
                 Native.window.resizeTo(
-                    f.Width,
-                    f.Height
+                    f.Width + ShadowRightBottom,
+                    f.Height + ShadowRightBottom
                 );
 
             };
@@ -190,8 +221,8 @@ namespace ChromeAppWindowForm
             {
                 // outer frame is resized
                 f.SizeTo(
-                    Native.window.Width,
-                    Native.window.Height
+                    Native.window.Width - ShadowRightBottom,
+                    Native.window.Height - ShadowRightBottom
                 );
 
             };

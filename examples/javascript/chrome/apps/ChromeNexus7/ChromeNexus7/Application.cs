@@ -41,94 +41,20 @@ namespace ChromeNexus7
 
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeGalaxyS\ChromeGalaxyS\Application.cs
 
-            // chrome://gpu/
-            //GpuProcessHostUIShim: You killed the GPU process!Why ?
-            //[6008:3712:0815 / 101030:ERROR: gpu_watchdog_thread.cc(253)] : The GPU process hung. Terminating after 10000 ms.
 
 
-            #region ChromeTCPServer
+            #region += Launched chrome.app.window
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
             dynamic self = Native.self;
             dynamic self_chrome = self.chrome;
             object self_chrome_socket = self_chrome.socket;
 
             if (self_chrome_socket != null)
             {
-                //Console.WriteLine("FlashHeatZeeker shall run as a chrome app as server");
-
                 chrome.Notification.DefaultTitle = "Nexus7";
                 chrome.Notification.DefaultIconUrl = new x128().src;
 
-                ChromeTCPServer.TheServerWithStyledForm.Invoke(
-                    AppSource.Text,
-                    //AtFormCreated: FormStyler.AtFormCreated
-                    AtFormCreated: styler =>
-                    {
-                        // X:\jsc.svn\examples\javascript\Test\TestShadowFlipForForm\TestShadowFlipForForm\Application.cs
-
-                        FormStylerLikeFloat.LikeFloat(styler);
-
-                        #region TestShadowFlipForForm
-
-                        // maybe thats why the forms animation dont kick in.
-                        // we are on the wrong context without onframe 
-
-                        //styler.Context.GetHTMLTarget().style.perspective = "900px";
-
-                        //styler.Context.GetHTMLTarget().css.last[IHTMLElement.HTMLElementEnum.div].style.transform = "rotate3d(0, 1.0, 0, 33deg) scale(0.6);";
-
-
-                        //var f = styler.Context;
-
-                        //f.GetHTMLTarget().shadow.With(
-                        //    async shadow =>
-                        //                {
-                        //                    var s = new TestShadowFlipForForm.HTML.Pages.ShadowLayoutManual().AttachTo(shadow);
-
-                        //                    s.content.setAttribute("state", "animateout");
-
-                        //                    //var s = new ShadowLayout().AttachTo(shadow);
-
-                        //                    // shadow content needs to be boxed to the same size the element thinks
-                        //                    // it has!
-                        //                    s.content.style.SetSize(f.Width, f.Height);
-
-                        //                    f.SizeChanged +=
-                        //                        delegate
-                        //                    {
-                        //                        s.content.style.SetSize(f.Width, f.Height);
-                        //                    };
-
-                        //                    //f.Load +=
-                        //                    //delegate
-                        //                    //{
-                        //                    //    Console.WriteLine(" f.Load ");
-                        //                    //};
-
-                        //                    // this wont work for chrome app ?
-                        //                    //await Native.window.async.onframe;
-
-                        //                    //await Task.Delay(1000 / 15);
-                        //                    Console.WriteLine(" before delay animatein");
-
-                        //                    // when shall we animate?
-                        //                    //await Task.Delay(300);
-                        //                    // when loaded?
-                        //                    await Task.Delay(2300);
-
-                        //                    Console.WriteLine(" before  animatein");
-                        //                    s.content.setAttribute("state", "animatein");
-
-                        //                    // Error creating WebGL context
-
-                        //                    // window close seems to benefit from hide animation.
-                        //                }
-                        //);
-                        #endregion
-                },
-
-                    transparentBackground: true,
-                    resizable: false
-                );
+                ChromeTCPServer.TheServerWithAppWindow.Invoke(AppSource.Text);
 
                 return;
             }
