@@ -1,7 +1,7 @@
 ﻿{
 "manifest_version": 2,
-  "name": "ChromeAppWindowMouseCapture",
-  "description": "ChromeAppWindowMouseCapture",
+  "name": "ChromeAppWindowForm",
+  "description": "ChromeAppWindowForm",
   "version": "30",
  "minimum_chrome_version": "38",
   "offline_enabled": true,
