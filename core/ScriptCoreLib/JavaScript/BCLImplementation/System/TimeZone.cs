@@ -7,6 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/timezone.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/TimeZone.cs
 
     [Script(Implements = typeof(global::System.TimeZone))]
     internal class __TimeZone

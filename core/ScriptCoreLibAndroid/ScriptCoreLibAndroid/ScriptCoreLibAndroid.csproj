@@ -553,6 +553,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\Runnable.cs">
       <Link>java\lang\Runnable.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\java\lang\Runtime.cs">
+      <Link>java\lang\Runtime.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\java\lang\RuntimeException.cs">
       <Link>java\lang\RuntimeException.cs</Link>
     </Compile>

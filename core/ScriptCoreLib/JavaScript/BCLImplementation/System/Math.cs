@@ -8,6 +8,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Math.cs
     // http://referencesource.microsoft.com/#mscorlib/system/math.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Math.cs
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Math.cs
 
     [Script(Implements = typeof(global::System.Math))]

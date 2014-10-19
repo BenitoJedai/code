@@ -47,10 +47,14 @@ namespace AsyncWorkerSourceSHA1
                     div.css.style.borderLeft = "4px solid yellow";
                     div.css.style.transition = "border 500ms linear";
 
-                    div.css.children.style.transition = "color 500ms linear";
+                    div.css.children.style.transition = "color 2500ms linear";
 
 
-                    new IHTMLPre { Native.document.location.protocol, " generating identity: ", sw }.AttachTo(div).css[sw.AsStopEvent()].not.style.color = "red";
+                    new IHTMLPre {
+                        Native.document.location.protocol,
+                        " generating identity: ",
+                        sw
+                    }.AttachTo(div).css[sw.AsStopEvent()].not.style.color = "red";
 
                     div.css[sw.AsStopEvent()].style.borderLeft = "4px solid green";
 

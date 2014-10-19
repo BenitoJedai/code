@@ -7,7 +7,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/exception.cs
-
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Exception.cs
 
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
     internal class __Exception

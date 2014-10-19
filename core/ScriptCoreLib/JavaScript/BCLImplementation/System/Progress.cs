@@ -7,6 +7,7 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
     // http://referencesource.microsoft.com/#mscorlib/system/progress.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Progress.cs
 
     //[Script(Implements = typeof(global::System.Progress<>))]
     [Script(ImplementsViaAssemblyQualifiedName = "System.Progress`1")]
