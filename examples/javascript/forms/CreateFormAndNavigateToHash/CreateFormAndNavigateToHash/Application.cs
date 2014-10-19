@@ -19,9 +19,8 @@ namespace CreateFormAndNavigateToHash
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -29,15 +28,21 @@ namespace CreateFormAndNavigateToHash
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            if (Native.Document.location.hash.StartsWith("#"))
+            Native.document.title =
+                new { Native.document.location.hash }.ToString();
+
+            if (Native.document.location.hash.StartsWith("#"))
                 CreateWindowAndNavigate(
-                    Native.Document.location.hash.Substring(1)
+                    Native.document.location.hash.Substring(1)
                 );
         }
 
 
         public void CreateWindowAndNavigate(string url)
         {
+            if (string.IsNullOrEmpty(url))
+                return;
+
             var f = new Form
             {
 

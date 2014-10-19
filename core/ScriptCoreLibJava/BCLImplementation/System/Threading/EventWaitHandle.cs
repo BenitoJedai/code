@@ -7,6 +7,9 @@ using System.Threading;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/EventWaitHandle.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading/EventWaitHandle.cs
+
     [Script(Implements = typeof(global::System.Threading.EventWaitHandle))]
     internal class __EventWaitHandle : __WaitHandle
     {

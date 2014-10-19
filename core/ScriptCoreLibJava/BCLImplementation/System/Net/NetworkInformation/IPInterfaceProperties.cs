@@ -9,6 +9,7 @@ using System.Net.NetworkInformation;
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.NetworkInformation
 {
     // http://referencesource.microsoft.com/#System/net/System/Net/NetworkInformation/IPInterfaceProperties.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System/System.Net.NetworkInformation/IPInterfaceProperties.cs
 
     [Script(Implements = typeof(global::System.Net.NetworkInformation.IPInterfaceProperties))]
     internal class __IPInterfaceProperties

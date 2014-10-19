@@ -27,6 +27,8 @@ namespace AuthenticationExperiment
 
         public void Handler(WebServiceHandler h)
         {
+            // SSL certifactes seem way more likely useful.
+
             var HostUri = new
             {
                 Host = h.Context.Request.Headers["Host"].TakeUntilIfAny(":"),
