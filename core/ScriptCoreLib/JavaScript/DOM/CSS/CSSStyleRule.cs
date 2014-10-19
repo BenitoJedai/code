@@ -21,7 +21,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(InternalConstructor = true)]
     public partial class CSSStyleRule : CSSRule
     {
-        
+
         // http://css-tricks.com/useful-nth-child-recipies/
 
         public string selectorText;
@@ -1905,6 +1905,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Obsolete("experimental")]
         public new CSSStyleRuleMonkier this[Task task]
         {
+            // x:\jsc.svn\examples\javascript\async\asyncworkersourcesha1\asyncworkersourcesha1\application.cs
+
             get
             {
 

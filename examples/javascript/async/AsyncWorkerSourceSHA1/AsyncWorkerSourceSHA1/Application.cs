@@ -17,6 +17,8 @@ using AsyncWorkerSourceSHA1;
 using AsyncWorkerSourceSHA1.Design;
 using AsyncWorkerSourceSHA1.HTML.Pages;
 using System.Diagnostics;
+using System.Net;
+using System.Threading;
 
 namespace AsyncWorkerSourceSHA1
 {
@@ -62,10 +64,26 @@ namespace AsyncWorkerSourceSHA1
                 // Stopwatch does not have events nor tasks
                 // can we translate it?
 
+                var sha1 = await Task.Run(
+                    async delegate
+                {
+                    // X:\jsc.svn\examples\javascript\Test\TestScriptApplicationIntegrity\TestScriptApplicationIntegrity\Application.cs
+
+                    var c = new WebClient();
+                    var bytes = await c.DownloadDataTaskAsync("view-source");
+
+                    var a = new { name = "SHA-1" };
+                    var sha1bytes = await Native.crypto.subtle.digestAsync(a, bytes);
+
+                    return new { sha1bytes, Thread.CurrentThread.ManagedThreadId };
+                }
+                );
+
+                // {{ ManagedThreadId = 1, Length = 20, Worker = {{ ManagedThreadId = 10 }} }}
+                new IHTMLPre { new { Thread.CurrentThread.ManagedThreadId, sha1.sha1bytes.Length, Worker = new { sha1.ManagedThreadId } } }.AttachToDocument();
 
 
-
-                await Task.Delay(1000);
+                //await Task.Delay(1000);
 
                 sw.Stop();
 
@@ -87,13 +105,15 @@ namespace AsyncWorkerSourceSHA1
             new { }.With(
                 async scope =>
                 {
+                    // if jsc sees a variable is of no use.
+                    // can we take it out?
                     var i = 0;
                     i++;
-                    Native.document.title = new { i }.ToString();
+                    //Native.document.title = new { i }.ToString();
                     while (sw.IsRunning)
                     {
                         i++;
-                        Native.document.title = "yield " + new { i };
+                        //Native.document.title = "yield " + new { i };
                         // will it wait a frame?
                         // X:\jsc.svn\examples\javascript\Test\TestAsyncAssignArrayToEnumerable\TestAsyncAssignArrayToEnumerable\Application.cs
                         //await Task.Yield();
@@ -101,11 +121,11 @@ namespace AsyncWorkerSourceSHA1
                         await Task.Delay(1);
 
 
-                        Native.document.title = "continue " + new { i };
+                        //Native.document.title = "continue " + new { i };
                     }
                     i = -i;
 
-                    Native.document.title = new { i }.ToString();
+                    //Native.document.title = new { i }.ToString();
                     x.SetResult(sw);
                 }
             );
