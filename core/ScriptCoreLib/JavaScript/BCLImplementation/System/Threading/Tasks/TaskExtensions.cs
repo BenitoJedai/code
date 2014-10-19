@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     // http://referencesource.microsoft.com/#System.Core/System/Threading/Tasks/TaskExtensions.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System.Threading.Tasks/TaskExtensionsImpl.cs
 
     [Script(Implements = typeof(global::System.Threading.Tasks.TaskExtensions))]
     public static class __TaskExtensions
