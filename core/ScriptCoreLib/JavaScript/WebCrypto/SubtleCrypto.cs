@@ -208,9 +208,10 @@ namespace ScriptCoreLib.JavaScript.DOM
             var x = new TaskCompletionSource<byte[]>();
             var promise = that.decrypt(algorithm, key, data);
 
+            // android webview wont like .catch
             promise.@catch(
                 err =>
-                {
+                {// X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
 
                     Console.WriteLine(
                         "decryptAsync " + new { err }

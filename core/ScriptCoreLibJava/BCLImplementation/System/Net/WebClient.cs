@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Threading;
 using ScriptCoreLib.Shared.BCLImplementation.System.Net;
 using System.IO;
+using javax.net.ssl;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
@@ -30,6 +31,197 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
         public WebHeaderCollection Headers { get; set; }
 
 
+        public byte[] UploadValues(string address, NameValueCollection data)
+        {
+            return UploadValues(new Uri(address), data);
+        }
+
+        public byte[] UploadValues(Uri address, NameValueCollection data)
+        {
+            // http://www.xyzws.com/Javafaq/how-to-use-httpurlconnection-post-data-to-web-server/139
+
+            //Console.WriteLine("enter UploadValuesAsync");
+
+
+
+
+            //             String urlParameters =
+            //"fName=" + URLEncoder.encode("???", "UTF-8") +
+            //"&lName=" + URLEncoder.encode("???", "UTF-8")
+
+            var m = new MemoryStream();
+
+            try
+            {
+                //Console.WriteLine("before urlParameters");
+                #region urlParameters
+                var urlParameters = new StringBuilder();
+
+                //Implementation not found for type import :
+                //type: System.Collections.Specialized.NameObjectCollectionBase
+                //method: KeysCollection get_Keys()
+                //Did you forget to add the [Script] attribute?
+                //Please double check the signature!
+
+                //foreach (string key in data.Keys)
+
+                foreach (string key in data.AllKeys)
+                {
+                    if (urlParameters.Length > 0)
+                        urlParameters.Append("&");
+
+
+                    urlParameters.Append(
+                        key + "=" + URLEncoder.encode(data[key], "UTF-8")
+                    );
+
+                }
+                #endregion
+
+                //Console.WriteLine("after urlParameters");
+
+                //            Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Net\__WebClient___c__DisplayClass2.java:60: error: unreported exception UnsupportedEncodingException; must be caught or declared to be thrown
+                //builder0.Append(__String.Concat(string1, "=", URLEncoder.encode(this.data.get_Item(string1), "UTF-8")));
+                //                                                               ^
+
+                var addressString = address.ToString();
+                //Console.WriteLine(
+                //    new { addressString }
+                //);
+
+                var url = new java.net.URL(addressString);
+
+                // https://developer.android.com/training/articles/security-ssl.html
+
+                var connection = (HttpURLConnection)url.openConnection();
+                var https = connection as HttpsURLConnection;
+                if (https != null)
+                {
+                    Console.WriteLine(new { https });
+                }
+
+                // Numeric status code, 403: Forbidden
+
+                // UserAgent:  Java/1.7.0_45
+                //HtmlElement: Access denied | my.monese.com used CloudFlare to restrict access</title>
+                //- Http: Request, POST /xml/GetCurrencyRateBasedOnString 
+                //   Command: POST
+                // + URI: /xml/GetCurrencyRateBasedOnString
+                //   ProtocolVersion: HTTP/1.1
+                // + ContentType:  application/x-www-form-urlencoded
+                //   Cache-Control:  no-cache
+                //   Pragma:  no-cache
+                //   UserAgent:  Java/1.7.0_45
+                //   Host:  my.monese.com
+                //   Accept:  text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+                //   Connection:  keep-alive
+                //   ContentLength:  106
+                //   HeaderEnd: CRLF
+
+                //- Http: Request, POST /xml/GetCurrencyRateBasedOnString 
+                //   Command: POST
+                // + URI: /xml/GetCurrencyRateBasedOnString
+                //   ProtocolVersion: HTTP/1.1
+                // + ContentType:  application/x-www-form-urlencoded
+                //   Host:  my.monese.com
+                //   ContentLength:  106
+                //   Expect:  100-continue
+                //   Connection:  Keep-Alive
+                //   HeaderEnd: CRLF
+
+
+                //                error { Message = Connection timed out: connect, StackTrace = java.net.ConnectException: Connection timed out: connect
+                //at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+
+                connection.setRequestMethod("POST");
+
+                // https://issues.jenkins-ci.org/browse/JENKINS-21033?page=com.atlassian.jira.plugin.system.issuetabpanels:all-tabpanel
+                // https://github.com/scalaj/scalaj-http/issues/27
+
+                connection.setRequestProperty("User-Agent", "WebClient");
+                connection.setRequestProperty("Accept", "application/xml");
+
+                connection.setRequestProperty(
+                    "Content-Type", "application/x-www-form-urlencoded"
+                     );
+
+                var bytes = Encoding.UTF8.GetBytes(
+                    urlParameters.ToString()
+                );
+
+
+                connection.setRequestProperty("Content-Length", "" + bytes.Length);
+
+                //connection.setRequestProperty("Content-Language", "en-US");  
+
+                connection.setUseCaches(false);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+
+
+                if (Headers != null)
+                {
+                    foreach (string key in Headers.AllKeys)
+                        connection.addRequestProperty(key, Headers[key]);
+                }
+
+                //Console.WriteLine("before writeBytes " + new { bytes.Length });
+
+                #region Send request
+                var wr = new DataOutputStream(
+                            connection.getOutputStream());
+
+                wr.write((sbyte[])(object)bytes);
+
+                //wr.writeBytes(urlParameters.ToString());
+                wr.flush();
+                wr.close();
+                #endregion
+
+                //error { Message = Server returned HTTP response code: 403 for URL: 
+                //        at sun.net.www.protocol.http.HttpURLConnection.getInputStream(Unknown Source)
+                //        at ScriptCoreLibJava.BCLImplementation.System.Net.__WebClient___c__DisplayClass2._UploadValuesAsync_b__1(__WebClient___c__DisplayClass2.java:82)
+
+                //Console.WriteLine("before Read ");
+
+                // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs
+
+                //Get Response	
+                // namespace java.io
+                var xis = connection.getInputStream().ToNetworkStream();
+
+                var buffer = new byte[0x10000];
+
+                while (xis.DataAvailable)
+                {
+                    var s = xis.Read(buffer, 0, buffer.Length);
+
+                    if (s > 0)
+                        m.Write(buffer, 0, s);
+                }
+
+                xis.Close();
+                if (connection != null)
+                {
+                    connection.disconnect();
+                }
+                //xis.Read(
+                //xis.readall
+            }
+            catch (Exception ex)
+            {
+                // ?
+                Console.WriteLine("error " + new { ex.Message, ex.StackTrace });
+
+            }
+
+            //Thread.Sleep(666);
+            var Result = m.ToArray();
+
+            return Result;
+        }
+
+
         // X:\jsc.svn\core\ScriptCoreLib\Shared\BCLImplementation\System\Net\UploadValuesCompletedEventArgs.cs
         public event UploadValuesCompletedEventHandler UploadValuesCompleted;
 
@@ -44,178 +236,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
             new Thread(
                 delegate()
                 {
-                    // http://www.xyzws.com/Javafaq/how-to-use-httpurlconnection-post-data-to-web-server/139
+                    var Result = UploadValues(address, data);
 
-                    //Console.WriteLine("enter UploadValuesAsync");
-
-
-
-
-                    //             String urlParameters =
-                    //"fName=" + URLEncoder.encode("???", "UTF-8") +
-                    //"&lName=" + URLEncoder.encode("???", "UTF-8")
-
-                    var m = new MemoryStream();
-
-                    try
-                    {
-                        //Console.WriteLine("before urlParameters");
-                        #region urlParameters
-                        var urlParameters = new StringBuilder();
-
-                        //Implementation not found for type import :
-                        //type: System.Collections.Specialized.NameObjectCollectionBase
-                        //method: KeysCollection get_Keys()
-                        //Did you forget to add the [Script] attribute?
-                        //Please double check the signature!
-
-                        //foreach (string key in data.Keys)
-
-                        foreach (string key in data.AllKeys)
-                        {
-                            if (urlParameters.Length > 0)
-                                urlParameters.Append("&");
-
-
-                            urlParameters.Append(
-                                key + "=" + URLEncoder.encode(data[key], "UTF-8")
-                            );
-
-                        }
-                        #endregion
-
-                        //Console.WriteLine("after urlParameters");
-
-                        //            Y:\staging\web\java\ScriptCoreLibJava\BCLImplementation\System\Net\__WebClient___c__DisplayClass2.java:60: error: unreported exception UnsupportedEncodingException; must be caught or declared to be thrown
-                        //builder0.Append(__String.Concat(string1, "=", URLEncoder.encode(this.data.get_Item(string1), "UTF-8")));
-                        //                                                               ^
-
-                        var addressString = address.ToString();
-                        Console.WriteLine(
-                            new { addressString }
-                        );
-
-                        var url = new java.net.URL(addressString);
-
-                        var connection = (HttpURLConnection)url.openConnection();
-
-                        // Numeric status code, 403: Forbidden
-
-                        // UserAgent:  Java/1.7.0_45
-                        //HtmlElement: Access denied | my.monese.com used CloudFlare to restrict access</title>
-                        //- Http: Request, POST /xml/GetCurrencyRateBasedOnString 
-                        //   Command: POST
-                        // + URI: /xml/GetCurrencyRateBasedOnString
-                        //   ProtocolVersion: HTTP/1.1
-                        // + ContentType:  application/x-www-form-urlencoded
-                        //   Cache-Control:  no-cache
-                        //   Pragma:  no-cache
-                        //   UserAgent:  Java/1.7.0_45
-                        //   Host:  my.monese.com
-                        //   Accept:  text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
-                        //   Connection:  keep-alive
-                        //   ContentLength:  106
-                        //   HeaderEnd: CRLF
-
-                        //- Http: Request, POST /xml/GetCurrencyRateBasedOnString 
-                        //   Command: POST
-                        // + URI: /xml/GetCurrencyRateBasedOnString
-                        //   ProtocolVersion: HTTP/1.1
-                        // + ContentType:  application/x-www-form-urlencoded
-                        //   Host:  my.monese.com
-                        //   ContentLength:  106
-                        //   Expect:  100-continue
-                        //   Connection:  Keep-Alive
-                        //   HeaderEnd: CRLF
-
-
-                        //                error { Message = Connection timed out: connect, StackTrace = java.net.ConnectException: Connection timed out: connect
-                        //at java.net.DualStackPlainSocketImpl.connect0(Native Method)
-
-                        connection.setRequestMethod("POST");
-
-                        // https://issues.jenkins-ci.org/browse/JENKINS-21033?page=com.atlassian.jira.plugin.system.issuetabpanels:all-tabpanel
-                        // https://github.com/scalaj/scalaj-http/issues/27
-
-                        connection.setRequestProperty("User-Agent", "WebClient");
-                        connection.setRequestProperty("Accept", "application/xml");
-
-                        connection.setRequestProperty(
-                            "Content-Type", "application/x-www-form-urlencoded"
-                             );
-
-                        var bytes = Encoding.UTF8.GetBytes(
-                            urlParameters.ToString()
-                        );
-
-
-                        connection.setRequestProperty("Content-Length", "" + bytes.Length);
-
-                        //connection.setRequestProperty("Content-Language", "en-US");  
-
-                        connection.setUseCaches(false);
-                        connection.setDoInput(true);
-                        connection.setDoOutput(true);
-
-
-                        if (Headers != null)
-                        {
-                            foreach (string key in Headers.AllKeys)
-                                connection.addRequestProperty(key, Headers[key]);
-                        }
-
-                        Console.WriteLine("before writeBytes " + new { bytes.Length });
-
-                        #region Send request
-                        var wr = new DataOutputStream(
-                                    connection.getOutputStream());
-
-                        wr.write((sbyte[])(object)bytes);
-
-                        //wr.writeBytes(urlParameters.ToString());
-                        wr.flush();
-                        wr.close();
-                        #endregion
-
-                        //error { Message = Server returned HTTP response code: 403 for URL: 
-                        //        at sun.net.www.protocol.http.HttpURLConnection.getInputStream(Unknown Source)
-                        //        at ScriptCoreLibJava.BCLImplementation.System.Net.__WebClient___c__DisplayClass2._UploadValuesAsync_b__1(__WebClient___c__DisplayClass2.java:82)
-
-                        Console.WriteLine("before Read ");
-
-                        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs
-
-                        //Get Response	
-                        // namespace java.io
-                        var xis = connection.getInputStream().ToNetworkStream();
-
-                        var buffer = new byte[0x10000];
-
-                        while (xis.DataAvailable)
-                        {
-                            var s = xis.Read(buffer, 0, buffer.Length);
-
-                            if (s > 0)
-                                m.Write(buffer, 0, s);
-                        }
-
-                        xis.Close();
-                        if (connection != null)
-                        {
-                            connection.disconnect();
-                        }
-                        //xis.Read(
-                        //xis.readall
-                    }
-                    catch (Exception ex)
-                    {
-                        // ?
-                        Console.WriteLine("error " + new { ex.Message, ex.StackTrace });
-
-                    }
-
-                    //Thread.Sleep(666);
-                    var Result = m.ToArray();
 
                     Console.WriteLine("yield UploadValuesAsync " + new { Result.Length });
 
