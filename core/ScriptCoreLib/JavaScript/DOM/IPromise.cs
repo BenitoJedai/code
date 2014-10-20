@@ -45,10 +45,16 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         }
 
+
+        //): Uncaught SyntaxError: Unexpected token catch at http://83.191.214.142:1030/view-source:6824
+        //  f.catch(Yh8ABlQajj_aYV3DTlUa8mQ(FAMABBoZ8jSxXtI20l3A6g));
+        // android webview wont like .catch
+        // X:\jsc.svn\examples\javascript\test\TestFunctionDecorationForCatch\TestFunctionDecorationForCatch\Class1.cs
+
         public void @catch(Action<object> onError)
         {
+            // tested by?
             // X:\jsc.svn\examples\javascript\Test\TestWebCryptoKeyExport\TestWebCryptoKeyExport\Application.cs
-
             // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
 
         }

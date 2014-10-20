@@ -361,6 +361,9 @@
     <Compile Include="..\..\ScriptCoreLibJava\javax\crypto\Cipher.cs">
       <Link>javax\crypto\Cipher.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLibJava\javax\net\ssl\HttpsURLConnection.cs">
+      <Link>javax\net\ssl\HttpsURLConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\javax\xml\parsers\DocumentBuilder.cs">
       <Link>javax\xml\parsers\DocumentBuilder.cs</Link>
     </Compile>

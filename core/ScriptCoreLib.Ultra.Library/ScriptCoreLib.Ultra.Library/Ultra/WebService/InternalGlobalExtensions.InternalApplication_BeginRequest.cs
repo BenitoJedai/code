@@ -17,7 +17,9 @@ namespace ScriptCoreLib.Ultra.WebService
     {
         public static void InternalApplication_BeginRequest(InternalGlobal g)
         {
-            // is it ROSLYN friendly?
+            // is it ROSLYN friendly? no?
+            // need to compile it by 2012?
+
 
             var BeginRequestStopwatch = Stopwatch.StartNew();
 
