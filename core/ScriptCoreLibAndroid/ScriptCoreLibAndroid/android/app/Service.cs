@@ -15,6 +15,9 @@ namespace android.app
     [Script(IsNative = true)]
     public abstract class Service : ContextWrapper
     {
+        // http://developer.android.com/guide/components/services.html#Foreground
+        // http://developer.android.com/guide/topics/manifest/service-element.html
+
         // members and types are to be extended by jsc at release build
 
         public static int START_NOT_STICKY;

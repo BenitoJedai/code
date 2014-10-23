@@ -213,7 +213,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
         {
             return Enumerable.Concat(
                 new[] { (XElement)(object)this },
-                this.Elements().SelectMany(k => k.DescendantsAndSelf())
+                this.Descendants()
             );
         }
 

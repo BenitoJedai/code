@@ -314,5 +314,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
                 p = this.InternalElement.firstChild;
             }
         }
+
+        public IEnumerable<XElement> Descendants()
+        {
+            // X:\jsc.svn\examples\javascript\svg\DEAGELForecast\DEAGELForecast\Application.cs
+            return this.Elements().SelectMany(k => k.DescendantsAndSelf());
+
+
+        }
+
     }
 }
