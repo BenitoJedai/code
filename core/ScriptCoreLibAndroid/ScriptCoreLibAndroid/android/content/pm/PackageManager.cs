@@ -6,9 +6,10 @@ using ScriptCoreLib;
 
 namespace android.content.pm
 {
+    // http://developer.android.com/reference/android/content/pm/PackageManager.html
     // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/content/pm/PackageManager.java
     [Script(IsNative = true)]
-    public class PackageManager
+    public abstract class PackageManager
     {
 
     }

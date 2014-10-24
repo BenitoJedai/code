@@ -21,5 +21,17 @@ namespace android.hardware.display
         //* to the system such as an HDMI or Wireless display.  Applications can open
         //* windows on the display and the system may mirror the contents of other displays
         //* onto it.
+
+
+
+        public virtual void writeToParcel(Parcel dest, int flags)
+        { 
+        }
+
+
+        public virtual int describeContents()
+        {
+            return 0;
+        }
     }
 }
