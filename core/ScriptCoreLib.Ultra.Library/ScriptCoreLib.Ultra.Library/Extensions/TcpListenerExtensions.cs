@@ -72,6 +72,11 @@ namespace ScriptCoreLib.Extensions
 
         public static void BridgeConnectionToPort(this TcpListener x, int port, string rx, string tx)
         {
+            // http://stackoverflow.com/questions/5510063/makecert-exe-missing-in-windows-7-how-to-get-it-and-use-it
+
+            var makecert70A = "c:/program files/microsoft sdks/windows/v7.0A/bin/makecert.exe";
+            var makecert80 = @"C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe";
+
             // http://stackoverflow.com/questions/589834/what-rsa-key-length-should-i-use-for-my-ssl-certificates
             // ENISA recommends 15360 Bit. Have a look to the PDF (page 35)
             // Industry standards set by the Certification Authority/Browser (CA/B) Forum require that certificates issued after January 1, 2014 MUST be at least 2048-bit key length.
@@ -82,7 +87,9 @@ namespace ScriptCoreLib.Extensions
             // X:\jsc.svn\examples\java\hybrid\JVMCLRTCPMultiplex\JVMCLRTCPMultiplex\Program.cs
 
             // Error: There is no matching certificate in the issuer's Root cert store
-            var makecert = @"C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe";
+            var makecert = new[] { makecert70A, makecert80 }.FirstOrDefault(File.Exists);
+
+
 
             // certmgr.msc
             var CN = "device SSL authority for developers";
@@ -157,36 +164,44 @@ namespace ScriptCoreLib.Extensions
                         // http://stackoverflow.com/questions/13332569/how-to-create-certificate-authority-certificate-with-makecert
                         // http://www.jayway.com/2014/09/03/creating-self-signed-certificates-with-makecert-exe-for-development/
                         // http://stackoverflow.com/questions/4095297/self-signed-certificates-performance-in-wcf-scenarios
+
+
+                        // https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/7bdd659c-0f1a-47bb-b986-b3cd1e864c9d/creating-a-certificate-with-makecert-fails-without-the-pe-flag-why?forum=windowssecurity
+                        // Can't create the key of the subject ('JoeSoft') 
+                        // http://blog.aschommer.de/?tag=/makecert
+
+                        var args =
+                " -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -sk deviceSSLcontainer  -is Root -in \"" + CN + "\" -l " + link;
+
                         Console.WriteLine(
-                            new { makecert, link }
+                            new { makecert, args }
                             );
 
                         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\Native.cs
 
                         // logical store name
-                        Process.Start(
+                        var p = Process.Start(
                             new ProcessStartInfo(
-                            makecert,
-                //"-r  -n \"CN=localhost\" -m 12 -sky exchange -sv serverCert.pvk -pe -ss my serverCert.cer"
-                //"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr localMachine"
-                //"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr currentuser"
-                //"-r  -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange -pe -ss my -sr currentuser -l " + link
-                //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA512 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
+                            makecert, args
+                            //"-r  -n \"CN=localhost\" -m 12 -sky exchange -sv serverCert.pvk -pe -ss my serverCert.cer"
+                            //"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr localMachine"
+                            //"-r  -n \"CN=localhost\" -m 12 -sky exchange -pe -ss my serverCert.cer -sr currentuser"
+                            //"-r  -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange -pe -ss my -sr currentuser -l " + link
+                            //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA512 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
 
-                // chrome wont like SHA512
-                // https://code.google.com/p/chromium/issues/detail?id=342230
-                // http://serverfault.com/questions/407006/godaddy-ssl-certificate-shows-domain-name-instead-of-full-company-name
-                // The certificate's O attribute in the subject (organization), along with the C attribute (country) determine what is displayed. If they are absent, it will simply display the primary subject domain name from the certificate.
+                            // chrome wont like SHA512
+                            // https://code.google.com/p/chromium/issues/detail?id=342230
+                            // http://serverfault.com/questions/407006/godaddy-ssl-certificate-shows-domain-name-instead-of-full-company-name
+                            // The certificate's O attribute in the subject (organization), along with the C attribute (country) determine what is displayed. If they are absent, it will simply display the primary subject domain name from the certificate.
 
-                //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
-                //" -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
-                //" -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
+                            //"-r -cy authority -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + ",O=JVMCLRTCPMultiplex\"  -len 2048 -m 1 -sky exchange  -ss Root -sr currentuser -l " + link
+                            //" -eku 1.3.6.1.5.5.7.3.1,1.3.6.1.5.5.7.3.2 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
+                            //" -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
 
-                // http://serverfault.com/questions/193775/ssl-certificate-for-a-public-ip-address
-                // https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/525879b2-43c0-47fc-aa26-2e0e881b034e/makecert-and-increasing-to-2048-with-len-is-not-working-if-certificate-of-same-name-already-exists?forum=windowssecurity
-                // Error: The requested and current keysize are not the same.
-                // http://stackoverflow.com/questions/11708717/ip-address-as-hostname-cn-when-creating-a-certificate-https-hostname-wrong
-                " -eku 1.3.6.1.5.5.7.3.1 -a SHA1 -n \"CN=" + host + "\"  -len 2048 -m 1 -sky exchange  -ss MY -sr currentuser -is Root -in \"" + CN + "\" -l " + link
+                            // http://serverfault.com/questions/193775/ssl-certificate-for-a-public-ip-address
+                            // https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/525879b2-43c0-47fc-aa26-2e0e881b034e/makecert-and-increasing-to-2048-with-len-is-not-working-if-certificate-of-same-name-already-exists?forum=windowssecurity
+                            // Error: The requested and current keysize are not the same.
+                            // http://stackoverflow.com/questions/11708717/ip-address-as-hostname-cn-when-creating-a-certificate-https-hostname-wrong
                             )
 
                         {
@@ -194,7 +209,10 @@ namespace ScriptCoreLib.Extensions
 
                         }
 
-                            ).WaitForExit();
+                            );
+
+                        p.WaitForExit();
+                        Console.WriteLine(new { p.ExitCode });
 
                         n = CertificateFromCurrentUser();
                     }
