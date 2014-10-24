@@ -44,25 +44,8 @@ namespace TestEIDPIN2
 
             // X:\jsc.svn\examples\java\hybrid\JVMCLRSSLTCPListener\JVMCLRSSLTCPListener\Program.cs
 
-            #region secure origin
             // https://code.google.com/p/chromium/issues/detail?id=412681
-            //new IHTMLPre { new { Native.document.location.host } }.AttachToDocument();
-
-            //if (Native.document.location.host.TakeUntilOrEmpty(":") != "127.0.0.1")
-            //{
-
-            //    new IHTMLAnchor
-            //    {
-            //        href = "http://127.0.0.1:" + Native.document.location.host.SkipUntilOrEmpty(":"),
-            //        innerText = "open as secure origin!"
-            //    }.AttachToDocument();
-
-
-
-            //    // optional
-            //    //return;
-            //}
-            #endregion
+            // X:\jsc.svn\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\Extensions\TcpListenerExtensions.cs
 
 
             //if (navigator.mimeTypes && navigator.mimeTypes.length)

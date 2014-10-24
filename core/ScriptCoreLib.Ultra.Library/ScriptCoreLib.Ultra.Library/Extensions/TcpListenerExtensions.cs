@@ -84,7 +84,7 @@ namespace ScriptCoreLib.Extensions
             // Error: There is no matching certificate in the issuer's Root cert store
             var makecert = @"C:\Program Files (x86)\Windows Kits\8.0\bin\x64\makecert.exe";
 
-
+            // certmgr.msc
             var CN = "device SSL authority for developers";
 
             #region CertificateFromCurrentUserByLocalEndPoint
@@ -247,19 +247,27 @@ namespace ScriptCoreLib.Extensions
 
             if (r == null)
             {
-                Console.WriteLine(new { makecert });
 
-                Process.Start(
+                var args = "-r -cy authority -a SHA1 -n \"CN=" + CN + "\"  -len 2048 -m 72 -ss Root -sr currentuser";
+
+                Console.WriteLine(new { makecert, args });
+
+                var p = Process.Start(
                     new ProcessStartInfo(
                         makecert,
-                        // this cert is constant
-                        "-r -cy authority -a SHA1 -n \"CN=" + CN + "\"  -len 2048 -m 72 -ss Root -sr currentuser"
+                       // this cert is constant
+                       args
                     )
                 {
                     UseShellExecute = false
                 }
 
-                ).WaitForExit();
+                );
+
+                p.WaitForExit();
+
+                Console.WriteLine(new { p.ExitCode });
+
             }
             #endregion
 
