@@ -23,7 +23,17 @@ namespace android.content
 
         }
         public void addAction(string e)
-        { 
+        {
+        }
+
+        public virtual void writeToParcel(Parcel dest, int flags)
+        {
+        }
+
+
+        public virtual int describeContents()
+        {
+            return 0;
         }
     }
 }

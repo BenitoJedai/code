@@ -907,6 +907,7 @@
     <Compile Include="android\opengl\GLES20.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\os\BatteryManager.cs" />
+    <Compile Include="android\os\Parcel.cs" />
     <Compile Include="android\os\Handler.cs" />
     <Compile Include="android\os\Environment.cs" />
     <Compile Include="android\os\ServiceManager.cs" />

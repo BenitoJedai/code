@@ -11,6 +11,9 @@ namespace android.os
     [Script(IsNative = true)]
     public interface Parcelable
     {
+         int describeContents();
+
+         void writeToParcel(Parcel dest, int flags);
 
     }
 }
