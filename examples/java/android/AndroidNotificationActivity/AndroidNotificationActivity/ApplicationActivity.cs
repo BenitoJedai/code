@@ -18,11 +18,14 @@ namespace AndroidNotificationActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
- 
+
 
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
+            // cmd /K c:\util\android-sdk-windows\platform-tools\adb.exe logcat
+            // Camera PTP
+
             // http://developer.android.com/guide/topics/ui/notifiers/notifications.html
 
             base.onCreate(savedInstanceState);
@@ -41,6 +44,7 @@ namespace AndroidNotificationActivity.Activities
             b.setText("Notify!");
             int counter = 0;
 
+            // ScriptCoreLib.Ultra ?
             b.AtClick(
                 delegate
                 {
@@ -76,13 +80,17 @@ namespace AndroidNotificationActivity.Activities
 
             this.setContentView(sv);
 
-            this.ShowLongToast("http://jsc-solutions.net");
+            // X:\jsc.svn\examples\java\android\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs
+
+            // Error	1	'AndroidNotificationActivity.Activities.ApplicationActivity' does not contain a definition for 'ShowLongToast' and no extension method 'ShowLongToast' accepting a first argument of type 'AndroidNotificationActivity.Activities.ApplicationActivity' could be found (are you missing a using directive or an assembly reference?)	X:\jsc.svn\examples\java\android\AndroidNotificationActivity\AndroidNotificationActivity\ApplicationActivity.cs	80	18	AndroidNotificationActivity
+            //this.ShowLongToast("http://jsc-solutions.net");
+            this.ShowToast("http://jsc-solutions.net");
 
 
         }
 
 
-  
+
 
     }
 }

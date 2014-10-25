@@ -11,6 +11,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 	{
         public static global::System.Windows.Forms.DialogResult Show(string text)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141025
+            // X:\jsc.svn\examples\java\android\Test\TestAlertDialog\TestAlertDialog\ApplicationActivity.cs
+
             //AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
             //alertDialog.setTitle("Reset...");

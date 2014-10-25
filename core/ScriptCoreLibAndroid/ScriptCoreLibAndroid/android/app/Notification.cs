@@ -9,9 +9,14 @@ using java.lang;
 namespace android.app
 {
     // http://developer.android.com/reference/android/app/Notification.html
+    // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/app/Notification.java
+
     [Script(IsNative = true)]
     public class Notification
     {
+        // tested by
+        // X:\jsc.svn\examples\java\android\AndroidNotificationActivity\AndroidNotificationActivity\ApplicationActivity.cs
+
         public int flags;
         public int defaults;
 

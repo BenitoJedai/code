@@ -863,6 +863,7 @@
     <Compile Include="android\appwidget\AppWidgetHost.cs" />
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
+    <Compile Include="android\app\AlertDialog.cs" />
     <Compile Include="android\app\KeyguardManager.cs" />
     <Compile Include="android\app\WallpaperInfo.cs" />
     <Compile Include="android\app\WallpaperManager.cs" />
