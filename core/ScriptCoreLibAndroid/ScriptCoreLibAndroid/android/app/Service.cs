@@ -10,8 +10,8 @@ using android.view;
 namespace android.app
 {
     // https://android.googlesource.com/platform/frameworks/base.git/+/master/core/java/android/app/Service.java
-
     // http://developer.android.com/reference/android/app/Service.html
+
     [Script(IsNative = true)]
     public abstract class Service : ContextWrapper
     {
