@@ -45,10 +45,35 @@ namespace DEAGELForecast
             new { }.With(
                 async scope =>
                 {
+                    var rgb_red = new { r = 255, g = 0, b = 0 };
+                    var rgb_yellow = new { r = 255, g = 255, b = 0 };
+                    var rgb_green = new { r = 0, g = 255, b = 0 };
 
+                    var rgb_red_to_yellow = Enumerable.Range(0, 100 + 1).Select(
+                        i => new
+                    {
+                        // rgb likes ints instead of doubles
+                        r = (int)(rgb_yellow.r * (i / 100.0) + rgb_red.r * ((100.0 - i) / 100.0)),
+                        g = (int)(rgb_yellow.g * (i / 100.0) + rgb_red.g * ((100.0 - i) / 100.0)),
+                        b = (int)(rgb_yellow.b * (i / 100.0) + rgb_red.b * ((100.0 - i) / 100.0))
+                    }
+                    ).ToArray();
+
+                    var rgb_yellow_to_green = Enumerable.Range(0, 100 + 1).Select(
+                           i => new
+                    {
+                        // rgb likes ints instead of doubles
+                        r = (int)(rgb_green.r * (i / 100.0) + rgb_yellow.r * ((100.0 - i) / 100.0)),
+                        g = (int)(rgb_green.g * (i / 100.0) + rgb_yellow.g * ((100.0 - i) / 100.0)),
+                        b = (int)(rgb_green.b * (i / 100.0) + rgb_yellow.b * ((100.0 - i) / 100.0))
+                    }
+                       ).ToArray();
+
+                    var rgb_200_red_to_yellow_to_green = rgb_red_to_yellow.Concat(rgb_yellow_to_green).ToArray();
 
                     var ds = Data.forecast.GetDataSet();
-                    var forecast = (
+
+                    var forecast0 = (
                         from item in ds.Tables["population"].Rows.AsEnumerable()
                         let row = (Data.forecastpopulationRow)item
                         let diff = row.Forecast2025Population - row.Current2013Population
@@ -59,33 +84,55 @@ namespace DEAGELForecast
 
                     // whats the max delta?
 
-                    var min = forecast.Min(x => x.delta);
-                    var max = forecast.Max(x => x.delta);
+                    var min = forecast0.Min(x => x.delta);
+                    var max = forecast0.Max(x => x.delta);
+
+
+
+                    new IHTMLPre {
+                            new { min, max }
+                        }.AttachToDocument();
+
+
+
+                    var forecast = (
+                        from item in forecast0
+
+                        let indicator = (int)Math.Floor(200 * (item.delta + -min) / (-min + max))
+                        //let rgb = rgb_red_to_yellow[indicator]
+                        let rgb = rgb_200_red_to_yellow_to_green[indicator]
+
+                        select new { item.row, item.diff, item.delta, indicator, rgb }
+                    );
 
                     // {{ min = -0.7816455696202531, max = 0.16666666666666666 }}
                     // how do we get from min max to red yellow green?
 
-                    new IHTMLPre {
 
-                            new {
-                                    min, max
+
+
+                    foreach (var item in forecast)
+                    {
+
+
+                        var pre = new IHTMLPre {
+
+                            new { item.row.Current2013Population,
+                                    item.row.Name,
+                                    item.row.Forecast2025Population,
+
+                                    item.diff,
+
+                                    item.delta,
+                                    item.indicator
+                                    //, rgb
+
                             }
                         }.AttachToDocument();
 
-
-                    //foreach (var item in forecast)
-                    //{
-                    //    new IHTMLPre {
-
-                    //        new { item.row.Current2013Population,
-                    //                item.row.Name,
-                    //                item.row.Forecast2025Population,
-
-                    //                item.diff,
-                    //                item.delta
-                    //        }
-                    //    }.AttachToDocument();
-                    //}
+                        //pre.style.borderLeft = "2em solid yellow";
+                        pre.style.borderLeft = "2em solid rgba(" + item.rgb.r + "," + item.rgb.g + "," + item.rgb.b + ", 1.0)";
+                    }
 
 
                     var svg = new WebClient().DownloadStringTaskAsync(new HTML.Images.FromAssets.BlankMap_World6_Equirectangular().src);
@@ -125,21 +172,24 @@ namespace DEAGELForecast
                          paths =>
                         {
 
-                            (from f in forecast
+                            (from item in forecast
 
 
                                  // http://msdn.microsoft.com/en-us/library/bb311040.aspx
 
-                             join path in paths on f.row.Name equals path.Attribute("class").Value
+                             join path in paths on item.row.Name equals path.Attribute("class").Value
 
-                             select new { f, path }
+                             select new { item, path }
                             ).WithEach(
                                 x =>
                             {
                                 // http://stackoverflow.com/questions/11257015/how-to-give-hsl-color-value-to-an-svg-element
 
                                 var landUS_style = x.path.Attribute("style");
-                                landUS_style.Value = x.path.Value.TakeUntilIfAny("fill:").SkipUntilIfAny(";") + ";fill: yellow;";
+                                landUS_style.Value = x.path.Value.TakeUntilIfAny("fill:").SkipUntilIfAny(";")
+                                + ";fill: "
+                                    + "rgba(" + x.item.rgb.r + ", " + x.item.rgb.g + ", " + x.item.rgb.b + ", 1.0)";
+
                             }
                             );
                         }
