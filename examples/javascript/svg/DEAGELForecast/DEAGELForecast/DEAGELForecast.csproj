@@ -130,11 +130,11 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\BlankMap-World6-Equirectangular.svg" />
+    <None Include="Data\forecast.xlsx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\forecastpopulationBindingSource.datasource" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
