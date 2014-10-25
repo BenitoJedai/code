@@ -39,6 +39,11 @@ namespace WebGLEarthByBjorn
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // would ScriptCoreLib be able to 
+            // play navigator if we also
+            // have the role of AppWindow or Android Widget Service?
+
+
             // if we are running in a SYSTEM account
             // the chrome no-sandbox only allows software renderer
             // where we get 1 frame per sec.
@@ -80,7 +85,7 @@ namespace WebGLEarthByBjorn
             renderer.setSize();
             //renderer.setClearColor(
             scene.add(new THREE.AmbientLight(0x333333));
-            
+
 
             var light = new THREE.DirectionalLight(0xffffff, 1);
             light.position.set(5, 3, 5);
@@ -116,26 +121,27 @@ namespace WebGLEarthByBjorn
 
 
                                         Console.WriteLine("event: _2_no_clouds_4k_low");
-                                        s.image = await new _2_no_clouds_4k_low();
+                                        //s.image = await new _2_no_clouds_4k_low();
+                                        s.image = await new _2_no_clouds_DEAGEL_4k_low();
                                         //s.image = new _2_no_clouds_4k_low();
                                         //await s.image;
 
                                         s.needsUpdate = true;
                                         Console.WriteLine("event: _2_no_clouds_4k_low done");
 
-                                        await 20000;
+                                        //await 20000;
 
-                                        Console.WriteLine("event: _2_no_clouds_4k");
-                                        s.image = await new _2_no_clouds_4k();
-                                        s.needsUpdate = true;
-                                        Console.WriteLine("event: _2_no_clouds_4k done");
+                                        //Console.WriteLine("event: _2_no_clouds_4k");
+                                        //s.image = await new _2_no_clouds_4k();
+                                        //s.needsUpdate = true;
+                                        //Console.WriteLine("event: _2_no_clouds_4k done");
                                     }
                                 ),
 
 
                 bumpMap = THREE.ImageUtils.loadTexture(
                                     new elev_bump_4k().src
-                    //new elev_bump_4k_low().src
+                                //new elev_bump_4k_low().src
                                 ),
 
 
@@ -176,7 +182,7 @@ namespace WebGLEarthByBjorn
             #region clouds
             var clouds = new THREE.Mesh(
                     new THREE.SphereGeometry(
-                //radius + 0.003,
+                        //radius + 0.003,
                         radius + 0.006,
                         segments, segments),
                     new THREE.MeshPhongMaterial(
@@ -216,28 +222,62 @@ namespace WebGLEarthByBjorn
 
 
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeEarth\ChromeEarth\Application.cs
+            // X:\jsc.svn\examples\javascript\canvas\ConvertBlackToAlpha\ConvertBlackToAlpha\Application.cs
             // hidden for alpha AppWindows
-#if FBACKGROUND
-            var stars_material = new THREE.MeshBasicMaterial(
-                    new
-            {
-                map = THREE.ImageUtils.loadTexture(new galaxy_starfield().src),
-                side = THREE.BackSide,
-                transparent = true
-            });
+            //#if FBACKGROUND
+
+            #region galaxy_starfield
+            new THREE.Texture().With(
+                async s =>
+                {
+                    var i = new HTML.Images.FromAssets.galaxy_starfield();
+
+                    var bytes = await i.async.bytes;
+
+                    for (int ii = 0; ii < bytes.Length; ii += 4)
+                    {
+
+                        bytes[ii + 3] = (byte)(bytes[ii + 0]);
+
+                        bytes[ii + 0] = 0xff;
+                        bytes[ii + 1] = 0xff;
+                        bytes[ii + 2] = 0xff;
+                    }
+
+                    var c = new CanvasRenderingContext2D(i.width, i.height);
+
+                    c.bytes = bytes;
+
+                    s.image = c;
+                    s.needsUpdate = true;
+
+                    var stars_material = new THREE.MeshBasicMaterial(
+                            new
+                    {
+                        //map = THREE.ImageUtils.loadTexture(new galaxy_starfield().src),
+                        map = s,
+                        side = THREE.BackSide,
+                        transparent = true
+                    });
 
 
-            var stars = new THREE.Mesh(
-                    new THREE.SphereGeometry(90, 64, 64),
-                   stars_material
-                );
+                    var stars = new THREE.Mesh(
+                            new THREE.SphereGeometry(90, 64, 64),
+                           stars_material
+                        );
 
-            // http://stackoverflow.com/questions/8502150/three-js-how-can-i-dynamically-change-objects-opacity
-            (stars_material as dynamic).opacity = 0.5;
+                    // http://stackoverflow.com/questions/8502150/three-js-how-can-i-dynamically-change-objects-opacity
+                    //(stars_material as dynamic).opacity = 0.5;
 
 
-            scene.add(stars);
-#endif
+                    scene.add(stars);
+                }
+           );
+            #endregion
+
+
+
+            //#endif
 
 
             //var controls = new THREE.TrackballControls(camera);
@@ -327,7 +367,8 @@ namespace WebGLEarthByBjorn
 
                     if (e.MouseButton == IEvent.MouseButtonEnum.Middle)
                     {
-                        this.canvas.requestFullscreen();
+                        // F11 ?
+                        //this.canvas.requestFullscreen();
                         this.canvas.requestPointerLock();
                     }
                     else
@@ -420,7 +461,7 @@ namespace WebGLEarthByBjorn
 
                     camera.position.z += (z - camera.position.z) * e.delay.ElapsedMilliseconds / 200;
 
-
+                    // autorotation should pause while under mouse drag?
                     // the larger the vew the slower the rotation shall be
                     var speed = 0.0001 * e.delay.ElapsedMilliseconds +
                         0.007
@@ -443,15 +484,15 @@ namespace WebGLEarthByBjorn
 
             Native.window.onresize +=
                 delegate
-                {
+            {
 
 
-                    //if (canvas.parentNode == Native.document.body)
+                //if (canvas.parentNode == Native.document.body)
 
-                    // are we embedded?
-                    if (page != null)
-                        renderer.setSize();
-                };
+                // are we embedded?
+                if (page != null)
+                    renderer.setSize();
+            };
 
 
             //new IStyle(this.canvas.css.before)

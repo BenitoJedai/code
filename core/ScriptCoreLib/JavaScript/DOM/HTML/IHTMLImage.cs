@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.SVG;
 using System.Xml.Linq;
 using System.Linq;
 using System.Text;
+using System;
 
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
@@ -26,6 +27,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public string src;
 
+        [Obsolete("is this a good idea?")]
         [Script(DefineAsStatic = true)]
         public virtual void Add(string e)
         {
@@ -127,6 +129,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             return img;
         }
 
+
+        // tested by?
         public static implicit operator IHTMLImage(Task<ISVGSVGElement> ss)
         {
             System.Console.WriteLine("IHTMLImage <- Task<ISVGSVGElement>");
@@ -201,50 +205,89 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
 
-
+        [Obsolete]
         [Script(DefineAsStatic = true)]
         public void ToDocumentBackground()
         {
             ToBackground(Native.Document.body.style);
         }
 
+        [Obsolete]
         [Script(DefineAsStatic = true)]
         public void ToBackground(IStyle s)
         {
             ToBackground(s, true);
         }
 
+        [Obsolete]
         [Script(DefineAsStatic = true)]
         public void ToBackground(IStyle s, bool repeat)
         {
             s.SetBackground(src, repeat);
         }
 
-        [System.Obsolete]
+
+        // .async.bytes ?
+        [System.Obsolete("async.bytes")]
         public Task<byte[]> bytes
         {
             [Script(DefineAsStatic = true)]
             get
             {
-                var y = new TaskCompletionSource<byte[]>();
+                // X:\jsc.svn\examples\javascript\canvas\ConvertBlackToAlpha\ConvertBlackToAlpha\Application.cs
 
-                this.InvokeOnComplete(
-                    delegate
-                    {
-                        var c = new CanvasRenderingContext2D(this.width, this.height);
-
-                        c.drawImage(
-                            this, 0, 0, c.canvas.width, c.canvas.height
-                        );
-                        ;
-
-                        y.SetResult(c.bytes);
-                    }
-                );
-                return y.Task;
+                return this.async.bytes;
             }
 
         }
+
+
+
+        #region async
+        [Script]
+        public new class Tasks : IHTMLElement.Tasks<IHTMLImage>
+        {
+            // .async.bytes ?
+            // or name .pixels?
+            [System.Obsolete]
+            public Task<byte[]> bytes
+            {
+                [Script(DefineAsStatic = true)]
+                get
+                {
+                    var y = new TaskCompletionSource<byte[]>();
+
+                    that.InvokeOnComplete(
+                        delegate
+                        {
+                            var c = new CanvasRenderingContext2D(that.width, that.height);
+
+                            c.drawImage(
+                                that, 0, 0, c.canvas.width, c.canvas.height
+                            );
+                            ;
+
+                            y.SetResult(c.bytes);
+                        }
+                    );
+                    return y.Task;
+                }
+
+            }
+
+        }
+
+        [System.Obsolete("is this the best way to expose events as async?")]
+        public new Tasks async
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                return new Tasks { that = this };
+            }
+        }
+        #endregion
+
 
 
 

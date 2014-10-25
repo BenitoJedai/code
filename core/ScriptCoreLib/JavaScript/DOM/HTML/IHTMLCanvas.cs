@@ -7,8 +7,9 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/HTMLCanvasElement.webidl
-    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLCanvasElement.idl
     // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/html/nsIDOMHTMLCanvasElement.idl
+
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLCanvasElement.idl
     // https://src.chromium.org/viewvc/blink/trunk/Source/core/html/HTMLCanvasElement.cpp
 
     // could a post build extend a type via IDL ? :)
@@ -27,6 +28,7 @@ interface HTMLCanvasElement : HTMLElement {
     [Script(InternalConstructor = true)]
     public class IHTMLCanvas : IHTMLElement
     {
+        #region toDataURL
         /// <summary>
         /// http://my.jsc-solutions.net/toDataURL
         /// or
@@ -48,6 +50,8 @@ interface HTMLCanvasElement : HTMLElement {
             //https://developer.mozilla.org/en/docs/Web/API/HTMLCanvasElement
             return toDataURL("image/png");
         }
+        #endregion
+
 
 
         public object getContext(string contextId, object args)
