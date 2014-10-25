@@ -8,6 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeEarth", "ChromeEarth\
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}
 		{B23791BC-BBED-49D9-9808-08B230B69C55} = {B23791BC-BBED-49D9-9808-08B230B69C55}
 		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988} = {6B03ABE7-4457-43D8-8F25-CD3A91DF0988}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLEarthByBjorn", "..\..\..\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\WebGLEarthByBjorn.csproj", "{B23791BC-BBED-49D9-9808-08B230B69C55}"
@@ -27,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Windows.Forms", "..\..\..\..\..\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.csproj", "{B8D28279-57CD-4163-86F9-1DFDF540B58B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerAppWindow", "..\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow.csproj", "{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,6 +111,16 @@ Global
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|x86.ActiveCfg = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|x86.Build.0 = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|Any CPU.ActiveCfg = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|Mixed Platforms.Build.0 = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|x86.ActiveCfg = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,5 +132,6 @@ Global
 		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {6BF995D7-A604-4826-89DF-85E215F2D137}
 		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {6BF995D7-A604-4826-89DF-85E215F2D137}
 		{B8D28279-57CD-4163-86F9-1DFDF540B58B} = {6BF995D7-A604-4826-89DF-85E215F2D137}
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988} = {6BF995D7-A604-4826-89DF-85E215F2D137}
 	EndGlobalSection
 EndGlobal

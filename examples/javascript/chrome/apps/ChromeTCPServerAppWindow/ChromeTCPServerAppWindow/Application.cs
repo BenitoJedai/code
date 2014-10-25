@@ -198,6 +198,16 @@ namespace ChromeTCPServer
                     Native.window.close();
                 };
 
+                {
+                    var cs = f.ClientSize;
+
+                    w.SizeTo(
+                        cs.Width,
+                        cs.Height
+                        );
+                }
+
+
                 f.SizeChanged +=
                     delegate
                 {

@@ -32,6 +32,16 @@ namespace ChromeEarth
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(WebGLEarthByBjorn.HTML.Pages.IApp page)
         {
+            // Your item is in the process of being published and may take up to 60 minutes to appear in the Chrome Web Store. 
+            // Your item has successfully been uploaded and is currently being processed. Please check the status on the developer dashboard.
+            // https://chrome.google.com/webstore/developer/edit/odccmjodfgabfaolpgbepgneikcblman
+            // http://tropic.ssec.wisc.edu/real-time/mimic-tpw/global/main.html
+
+            // Boo... You have no extensions :-( Want to browse the gallery instead?
+
+            // data layer by
+            // X:\jsc.svn\examples\javascript\svg\DEAGELForecast\DEAGELForecast\Application.cs
+
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140811
             // https://code.google.com/p/chromium/issues/detail?id=169010
 

@@ -54,31 +54,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         #endregion
 
-        public byte[] bytes
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                var i = this.getImageData();
 
-                return i.data;
-            }
-
-            [Script(DefineAsStatic = true)]
-            set
-            {
-                if (value != null)
-                    if (value.Length == canvas.width * canvas.height * 4)
-                    {
-                        // tested by 
-                        // X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
-
-                        var i = this.getImageData();
-                        i.data.set(value, 0);
-                        this.putImageData(i, 0, 0, 0, 0, canvas.width, canvas.height);
-                    }
-            }
-        }
 
         #region Constructor
 
@@ -146,6 +122,43 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                 context.imageSmoothingEnabled = value;
                 context.webkitImageSmoothingEnabled = value;
                 context.mozImageSmoothingEnabled = value;
+            }
+        }
+
+
+
+        public static implicit operator IHTMLImage(CanvasRenderingContext2D c)
+        {
+            var i = new IHTMLImage { src = c.canvas.toDataURL() };
+
+            return i;
+        }
+
+
+        // X:\jsc.svn\examples\javascript\synergy\webgl\WebGLEarthByBjorn\WebGLEarthByBjorn\Application.cs
+        public byte[] bytes
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var i = this.getImageData();
+
+                return i.data;
+            }
+
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                if (value != null)
+                    if (value.Length == canvas.width * canvas.height * 4)
+                    {
+                        // tested by 
+                        // X:\jsc.svn\examples\javascript\canvas\CanvasFromBytes\CanvasFromBytes\Application.cs
+
+                        var i = this.getImageData();
+                        i.data.set(value, 0);
+                        this.putImageData(i, 0, 0, 0, 0, canvas.width, canvas.height);
+                    }
             }
         }
 
