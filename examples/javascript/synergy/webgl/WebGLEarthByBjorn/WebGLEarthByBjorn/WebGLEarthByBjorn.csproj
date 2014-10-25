@@ -138,6 +138,7 @@
     </Compile>
     <Content Include="Textures\2_no_clouds_4k.jpg" />
     <Content Include="Textures\2_no_clouds_4k_low.jpg" />
+    <Content Include="Textures\2_no_clouds_DEAGEL_CIMSS_4k_low.png" />
     <Content Include="Textures\elev_bump_4k.jpg" />
     <Content Include="Textures\fair_clouds_4k.png" />
     <Content Include="Textures\fair_clouds_4k_low.png" />

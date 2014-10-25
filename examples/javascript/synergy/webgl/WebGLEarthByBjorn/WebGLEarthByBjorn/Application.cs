@@ -122,7 +122,8 @@ namespace WebGLEarthByBjorn
 
                                         Console.WriteLine("event: _2_no_clouds_4k_low");
                                         //s.image = await new _2_no_clouds_4k_low();
-                                        s.image = await new _2_no_clouds_DEAGEL_4k_low();
+                                        //s.image = await new _2_no_clouds_DEAGEL_4k_low();
+                                        s.image = await new _2_no_clouds_DEAGEL_CIMSS_4k_low();
                                         //s.image = new _2_no_clouds_4k_low();
                                         //await s.image;
 
