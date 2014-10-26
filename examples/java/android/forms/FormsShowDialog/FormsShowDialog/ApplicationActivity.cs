@@ -29,16 +29,9 @@ namespace FormsShowDialog.Activities
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
+            // why isnt jsc doing automatic ref?
             var r = default(global::ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken_Forms);
             ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext = this;
-
-
- //           Implementation not found for type import :
- //type: System.Drawing.SizeF
- //           method: Void.ctor(Single, Single)
- //           Did you forget to add the[Script] attribute?
- //           Please double check the signature!
-
 
             // X:\jsc.svn\examples\java\android\forms\FormsMessageBox\FormsMessageBox\Library\ApplicationControl.cs
 
@@ -65,17 +58,17 @@ namespace FormsShowDialog.Activities
 
             b.AtClick(
                 delegate
-                {
-                    counter++;
+            {
+                counter++;
 
 
 
-                    var f = new Form1();
+                var f = new Form1();
 
-                    var value = f.ShowDialog();
+                var value = f.ShowDialog();
 
-                    b.setText("ShowDialog! " + new { value });
-                }
+                b.setText("ShowDialog! " + new { value, f.textBox1.Text });
+            }
             );
 
             ll.addView(b);

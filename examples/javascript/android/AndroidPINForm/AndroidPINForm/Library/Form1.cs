@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FormsShowDialog.Library
+namespace AndroidPINForm.Library
 {
     public partial class Form1 : Form
     {
