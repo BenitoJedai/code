@@ -14,6 +14,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Button))]
     public class __Button : __ButtonBase
     {
+        // X:\jsc.svn\examples\java\android\forms\AndroidFormsActivity\AndroidFormsActivity\ApplicationActivity.cs
+
         public Button InternalElement;
 
         public override View InternalGetElement()

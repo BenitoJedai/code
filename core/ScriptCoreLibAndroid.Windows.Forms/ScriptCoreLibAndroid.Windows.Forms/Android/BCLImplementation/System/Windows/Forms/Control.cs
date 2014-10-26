@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+//using System.Windows.Forms;
 using android.content;
 using android.view;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
@@ -167,5 +168,18 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             }
             remove { }
         }
+
+
+        #region operators
+        static public implicit operator global::System.Windows.Forms.Control(__Control e)
+        {
+            return (global::System.Windows.Forms.Control)(object)e;
+        }
+
+        static public implicit operator __Control(global::System.Windows.Forms.Control e)
+        {
+            return (__Control)(object)e;
+        }
+        #endregion
     }
 }
