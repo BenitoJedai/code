@@ -11,6 +11,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
     {
         // tested by
         // X:\jsc.svn\examples\javascript\forms\FormsConfiguredAtWebService\FormsConfiguredAtWebService\ApplicationWebService.cs
+        // X:\jsc.svn\examples\java\android\forms\FormsMessageBox\FormsMessageBox\ApplicationActivity.cs
 
         public override string Text { get; set; }
 

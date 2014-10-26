@@ -55,7 +55,8 @@ namespace TestAlertDialog.Activities
                 // http://xmlstackoverflow.blogspot.com/2014/07/how-to-use-alertdialog-to-prompt-for-pin.html
                 // http://incidencias-ctt.administracionelectronica.gob.es/websvn/filedetails.php?repname=clienteafirma&path=%2Fproject%2Fafirma-mobile%2Fafirma-android%2Ftrunk%2Fafirma-ui-android%2Fsrc%2Fes%2Fgob%2Fafirma%2Fandroid%2Fgui%2FPinDialog.java&peg=4040
 
-
+                // X:\jsc.svn\examples\java\android\forms\FormsMessageBox\FormsMessageBox\ApplicationActivity.cs
+                // X:\jsc.svn\examples\java\android\Test\TestAlertDialog\TestAlertDialog\ApplicationActivity.cs
                 AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
                 alertDialog.setTitle("Reset...");

@@ -24,11 +24,15 @@ namespace FormsMessageBox.Activities
     [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:minSdkVersion", value = "10")]
     public class ApplicationActivity : Activity
     {
+        // http://www.codeproject.com/Tips/623446/Style-Any-Activity-as-an-Alert-Dialog-in-Android
+        // android:theme="@android:style/Theme.Holo.Dialog"
 
 
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
+            ScriptCoreLib.Android.ThreadLocalContextReference.CurrentContext = this;
+
             // X:\jsc.svn\examples\java\android\forms\AndroidFormsActivity\AndroidFormsActivity\ApplicationActivity.cs
 
             // cmd /K c:\util\android-sdk-windows\platform-tools\adb.exe logcat
@@ -71,26 +75,7 @@ namespace FormsMessageBox.Activities
                 var alertDialog = new AlertDialog.Builder(this);
 
                 alertDialog.setTitle("Hello world");
-                //alertDialog.setMessage("PIN1");
-
-
-
-                //var xll = new LinearLayout(this);
-                //xll.setOrientation(LinearLayout.VERTICAL);
-
-                //var xt = new EditText(this);
-
-                ////http://stackoverflow.com/questions/6443286/type-number-variation-password-not-present-in-inputtype-class
-                //// https://groups.google.com/forum/#!topic/android-developers/UZuZjEbAnLE
-
-
-                //// http://kmansoft.com/2011/02/27/an-edittext-for-entering-ip-addresses/
-                //xt.setInputType(
-
-                //    android.text.InputType.TYPE_CLASS_NUMBER |
-                //    android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                //xt.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
-                //xll.addView(xt);
+               
 
 
                 alertDialog.setPositiveButton("OK",
@@ -103,24 +88,6 @@ namespace FormsMessageBox.Activities
                 }
 
                );
-
-                //{
-                //    var xb = new Button(this);
-                //    xb.setText("1");
-                //    xll.addView(xb);
-                //}
-
-                //{
-                //    var xb = new Button(this);
-                //    xb.setText("2");
-                //    xll.addView(xb);
-                //}
-
-                //{
-                //    var xb = new Button(this);
-                //    xb.setText("3");
-                //    xll.addView(xb);
-                //}
 
 
                 var cc = new AndroidFormsActivity.ApplicationControl();
