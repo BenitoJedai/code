@@ -69,13 +69,14 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
         private static void __throwAtDismissToExitLooper(AlertDialog.Builder alertDialog)
         {
             alertDialog.setOnDismissListener(
-               new xDialogInterface_OnDismissListener
-            {
-                yield = delegate
-                {
-                    throw null;
-                }
-            }
+               new xDialogInterface_OnDismissListener()
+           //{
+           // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141026
+           //yield = delegate
+           //{
+           //    throw null;
+           //}
+           //}
            );
         }
 
@@ -88,7 +89,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
             public void onDismiss(DialogInterface value)
             {
-                yield(value);
+                //yield(value);
+
+                throw null;
             }
         }
 
