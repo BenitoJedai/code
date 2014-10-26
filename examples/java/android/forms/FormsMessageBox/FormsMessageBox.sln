@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsMessageBox", "FormsMessageBox\FormsMessageBox.csproj", "{9D280B94-A86D-496D-940A-7C0C1C270590}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1E76DCF2-267C-460B-A43F-E94F71C2C769} = {1E76DCF2-267C-460B-A43F-E94F71C2C769}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{B445BA5A-7A49-4D81-BF1B-F7C88B2A9757}"
 EndProject
