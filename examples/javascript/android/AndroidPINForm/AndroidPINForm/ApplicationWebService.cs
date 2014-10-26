@@ -14,11 +14,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using ScriptCoreLib.Android.Extensions;
+using System.Windows.Forms;
 
 namespace AndroidPINForm
 {
     // we do get the PIN pad, yet no halo.. add halo?
-    // will it run on galaxy s?
+    // will it run on galaxy s? now it does.
     [ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:targetSdkVersion", value = "21")]
     //[ScriptCoreLib.Android.Manifest.ApplicationMetaData(name = "android:minSdkVersion", value = "10")]
     public class ApplicationWebService
@@ -52,6 +53,8 @@ namespace AndroidPINForm
 
                     value = f.textBox1.Text;
 
+                    MessageBox.Show(new { value }.ToString());
+
                     a.Set();
                 }
             );
@@ -65,6 +68,6 @@ namespace AndroidPINForm
 
 
 
- 
+
     }
 }

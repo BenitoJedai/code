@@ -36,9 +36,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             }
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141026
-            alertDialog.setOnDismissListener(
-               new xDialogInterface_OnDismissListener()
-           );
+
 
             alertDialog.setPositiveButton("OK",
                     new xDialogInterface_OnClickListener
@@ -52,7 +50,14 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
             // skip icons?
             //alertDialog.setIcon(android.R.drawable.star_off);
-            alertDialog.create().show();
+            var dialog = alertDialog.create();
+
+            dialog.setOnDismissListener(
+                new xDialogInterface_OnDismissListener()
+            );
+
+            dialog.show();
+
 
             // http://stackoverflow.com/questions/13974661/runonuithread-vs-looper-getmainlooper-post-in-android
             // http://developer.android.com/reference/android/os/Looper.html
@@ -69,7 +74,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             return value;
         }
 
-  
+
 
     }
 
