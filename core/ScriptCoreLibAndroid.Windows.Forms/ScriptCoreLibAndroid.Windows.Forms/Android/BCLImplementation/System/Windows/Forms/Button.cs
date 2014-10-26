@@ -16,6 +16,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
     {
         // X:\jsc.svn\examples\java\android\forms\AndroidFormsActivity\AndroidFormsActivity\ApplicationActivity.cs
 
+        // X:\jsc.svn\examples\java\android\forms\FormsShowDialog\FormsShowDialog\ApplicationActivity.cs
+        public virtual global::System.Windows.Forms.DialogResult DialogResult { get; set; }
+
         public Button InternalElement;
 
         public override View InternalGetElement()
@@ -39,6 +42,6 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             InternalAddClick();
         }
 
-    
+
     }
 }

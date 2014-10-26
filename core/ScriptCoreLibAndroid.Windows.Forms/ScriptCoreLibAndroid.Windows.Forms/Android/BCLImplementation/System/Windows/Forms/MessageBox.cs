@@ -35,10 +35,13 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
                 alertDialog.setMessage(text);
             }
 
-            __throwAtDismissToExitLooper(alertDialog);
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141026
+            alertDialog.setOnDismissListener(
+               new xDialogInterface_OnDismissListener()
+           );
 
             alertDialog.setPositiveButton("OK",
-                    new xOnClickListener
+                    new xDialogInterface_OnClickListener
             {
                 yield = delegate
                 {
@@ -66,44 +69,34 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             return value;
         }
 
-        private static void __throwAtDismissToExitLooper(AlertDialog.Builder alertDialog)
+  
+
+    }
+
+
+    [Script]
+    class xDialogInterface_OnDismissListener : DialogInterface_OnDismissListener
+    {
+        public Action<DialogInterface> yield;
+
+
+
+        public void onDismiss(DialogInterface value)
         {
-            alertDialog.setOnDismissListener(
-               new xDialogInterface_OnDismissListener()
-           //{
-           // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141026
-           //yield = delegate
-           //{
-           //    throw null;
-           //}
-           //}
-           );
+            //yield(value);
+
+            throw null;
         }
+    }
 
-        [Script]
-        class xDialogInterface_OnDismissListener : DialogInterface_OnDismissListener
+    [Script]
+    class xDialogInterface_OnClickListener : DialogInterface_OnClickListener
+    {
+        public Action<DialogInterface, int> yield;
+
+        public void onClick(DialogInterface arg0, int arg1)
         {
-            public Action<DialogInterface> yield;
-
-
-
-            public void onDismiss(DialogInterface value)
-            {
-                //yield(value);
-
-                throw null;
-            }
-        }
-
-        [Script]
-        class xOnClickListener : DialogInterface_OnClickListener
-        {
-            public Action<DialogInterface, int> yield;
-
-            public void onClick(DialogInterface arg0, int arg1)
-            {
-                yield(arg0, arg1);
-            }
+            yield(arg0, arg1);
         }
     }
 }

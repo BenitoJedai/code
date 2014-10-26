@@ -18,7 +18,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel
         // x:\jsc.svn\examples\java\Test\TestBaseCall\TestBaseCall\Class1.cs
         // X:\jsc.svn\examples\java\forms\AppletAsyncWhenReady\AppletAsyncWhenReady\ApplicationApplet.cs
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Data\SQLite\SQLiteConnection.cs
-        public virtual void Dispose(bool e)
+        // X:\jsc.svn\examples\java\android\forms\FormsShowDialog\FormsShowDialog\Library\Form1.Designer.cs
+        public virtual void Dispose(bool disposing)
         {
         }
 

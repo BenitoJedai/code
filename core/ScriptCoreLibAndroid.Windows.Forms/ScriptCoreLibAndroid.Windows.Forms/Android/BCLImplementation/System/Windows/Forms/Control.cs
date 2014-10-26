@@ -53,6 +53,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             InternalAttachChildren();
         }
 
+
         private void InternalAttachChildren()
         {
             var a = this.Controls.InternalItems;
@@ -99,6 +100,12 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
         public bool AutoSize { get; set; }
 
 
+
+        public virtual string InternalGetText()
+        {
+            return "";
+        }
+
         public virtual void InternalSetText(string value)
         {
 
@@ -106,8 +113,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
         public virtual string Text
         {
-            get
-            { return ""; }
+            get { return InternalGetText(); }
             set { InternalSetText(value); }
         }
 
