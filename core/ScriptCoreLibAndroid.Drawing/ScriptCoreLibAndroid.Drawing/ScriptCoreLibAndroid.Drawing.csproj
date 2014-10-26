@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Android\BCLImplementation\System\Drawing\Point.cs" />
+    <Compile Include="Android\BCLImplementation\System\Drawing\SizeF.cs" />
     <Compile Include="Android\BCLImplementation\System\Drawing\Size.cs" />
     <Compile Include="Android\Drawing\IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

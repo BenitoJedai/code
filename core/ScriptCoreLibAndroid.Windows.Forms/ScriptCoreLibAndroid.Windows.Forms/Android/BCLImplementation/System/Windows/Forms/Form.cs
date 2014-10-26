@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
@@ -18,5 +19,16 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
         public event EventHandler Load;
 
         public Size ClientSize { get; set; }
+
+
+        public DialogResult ShowDialog()
+        {
+            var value = MessageBox.Show("Form", this.Text);
+
+
+
+
+            return value;
+        }
     }
 }
