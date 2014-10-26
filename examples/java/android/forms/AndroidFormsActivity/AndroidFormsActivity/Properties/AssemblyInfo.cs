@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using ScriptCoreLib;
 
-[assembly: AssemblyTitle(@"Android Forms Activity")]
+[assembly: AssemblyTitle(@"AndroidFormsActivity")]
 [assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
 [assembly: AssemblyProduct(@"WebApplication")]
