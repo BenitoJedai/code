@@ -1,3 +1,5 @@
+#define JVM
+
 using java.util.zip;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
@@ -32,7 +34,7 @@ namespace TestJVMCLR1252Encoding
                typeof(object).AssemblyQualifiedName
             );
 
-#if DEBUG
+#if JVM
             //10-27 12:11:22.882: I/EstEIDNFC(28826): Last name 4dc44e4e494b9000
 
             var enc = new byte[] { 0x4D, 0xC4, 0x4E, 0x4E, 0x49, 0x4B };
