@@ -1,4 +1,4 @@
-#define JVM
+﻿//#define JVM
 
 using java.util.zip;
 using ScriptCoreLib;
@@ -29,43 +29,43 @@ namespace TestJVMCLR1252Encoding
         [STAThread]
         public static void Main(string[] args)
         {
-            
+
             System.Console.WriteLine(
                typeof(object).AssemblyQualifiedName
             );
 
-#if JVM
+            //#if JVM
             //10-27 12:11:22.882: I/EstEIDNFC(28826): Last name 4dc44e4e494b9000
 
             var enc = new byte[] { 0x4D, 0xC4, 0x4E, 0x4E, 0x49, 0x4B };
 
-            var res = Encoding.GetEncoding(1252).GetString(enc);
+            var res = Encoding.GetEncoding("Windows-1252").GetString(enc);
             // x = 41
-            Console.WriteLine(
 
+            // {{ res = M─NNIK }}
+            Console.WriteLine(
                 new { res }
-
-                );
-
-
-            CLRProgram.CLRMain();
-
-#else
-           
-            var enc = new byte[] { 0x4D, 0xC4, 0x4E, 0x4E, 0x49, 0x4B };
-
-            var encSbyte = (sbyte[])(object)enc;
-
-            java.lang.String res = new java.lang.String(encSbyte, "Windows-1252");
-
-            Console.WriteLine(
-
-               new { res }
-
             );
 
-            CLRProgram.CLRMain();
-#endif
+
+            CLRProgram.CLRMain(res);
+
+            //#else
+
+            //            var enc = new byte[] { 0x4D, 0xC4, 0x4E, 0x4E, 0x49, 0x4B };
+
+            //            var encSbyte = (sbyte[])(object)enc;
+
+            //            java.lang.String res = new java.lang.String(encSbyte, "Windows-1252");
+
+            //            Console.WriteLine(
+
+            //               new { res }
+
+            //            );
+
+            //            CLRProgram.CLRMain();
+            //#endif
 
         }
 
@@ -84,13 +84,13 @@ namespace TestJVMCLR1252Encoding
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        public static void CLRMain()
+        public static void CLRMain(string e)
         {
             System.Console.WriteLine(
                 typeof(object).AssemblyQualifiedName
             );
 
-            MessageBox.Show("click to close");
+            MessageBox.Show(new { e }.ToString());
 
         }
     }

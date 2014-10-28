@@ -39,6 +39,11 @@ namespace WebGLEarthByBjorn
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\javascript\svg\DEAGELForecast\DEAGELForecast\Application.cs
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141028
+
+            // http://www.thecommonsenseshow.com/2014/10/23/the-target-date-for-americas-depopulation-has-been-set/
+
             // would ScriptCoreLib be able to 
             // play navigator if we also
             // have the role of AppWindow or Android Widget Service?
