@@ -70,6 +70,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
             }
 
+            // X:\jsc.svn\examples\java\hybrid\Test\TestJVMCLR1252Encoding\TestJVMCLR1252Encoding\Program.cs
+
             // default:
             if (string.IsNullOrEmpty(u))
                 return "UTF-8";
