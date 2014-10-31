@@ -5,14 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9ED000E7-CC80-409A-829E-CFA4C20298F1}</ProjectGuid>
+    <ProjectGuid>{D999A593-AADE-40C9-8A6B-1D27678BBCD3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChromeNexus7</RootNamespace>
-    <AssemblyName>ChromeNexus7</AssemblyName>
+    <RootNamespace>ChromeDataviz</RootNamespace>
+    <AssemblyName>ChromeDataviz</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ChromeNexus7.Program</StartupObject>
+    <StartupObject>ChromeDataviz.Program</StartupObject>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -34,19 +36,20 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Abstractatech.JavaScript.Forms.FloatStyler">
-      <HintPath>..\packages\Abstractatech.JavaScript.Forms.FloatStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.FloatStyler.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\jsc.smokescreen.git\projects\13_DATAVIZ\WebGLDatavizLayout\packages\Abstractatech.JavaScript.Forms.FloatStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.FloatStyler.dll</HintPath>
     </Reference>
     <Reference Include="Chrome Web Server">
-      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\jsc.smokescreen.git\projects\13_DATAVIZ\WebGLDatavizLayout\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
     </Reference>
     <Reference Include="Chrome Web Server App Window">
-      <HintPath>..\packages\Chrome.Web.Server.AppWindow.1.0.0.0\lib\Chrome Web Server App Window.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\jsc.smokescreen.git\projects\13_DATAVIZ\WebGLDatavizLayout\packages\Chrome.Web.Server.AppWindow.1.0.0.0\lib\Chrome Web Server App Window.dll</HintPath>
     </Reference>
     <Reference Include="Chrome Web Store">
-      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\jsc.smokescreen.git\projects\13_DATAVIZ\WebGLDatavizLayout\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
@@ -125,17 +128,29 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ChromeNexus7.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ChromeNexus7.AssetsLibrary.dll</HintPath>
+    <Reference Include="ChromeDataviz.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeDataviz.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLNexus7.AssetsLibrary">
-      <HintPath>..\..\..\..\WebGL\WebGLNexus7\WebGLNexus7\bin\staging.AssetsLibrary\WebGLNexus7.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebGLDatavizLayout.AssetsLibrary">
+      <HintPath>..\..\..\..\..\..\jsc.smokescreen.git\projects\13_DATAVIZ\WebGLDatavizLayout\WebGLDatavizLayout\bin\staging.AssetsLibrary\WebGLDatavizLayout.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="TestShadowFlipForForm.AssetsLibrary">
-      <HintPath>..\..\..\..\Test\TestShadowFlipForForm\TestShadowFlipForForm\bin\staging.AssetsLibrary\TestShadowFlipForForm.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebGLCiscoColladaTest.AssetsLibrary">
+      <HintPath>..\..\..\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\bin\staging.AssetsLibrary\WebGLCiscoColladaTest.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLEmptyCiscoCollada.AssetsLibrary">
+      <HintPath>..\..\..\WebGL\WebGLEmptyCiscoCollada\WebGLEmptyCiscoCollada\bin\staging.AssetsLibrary\WebGLEmptyCiscoCollada.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLFirewallCollada.AssetsLibrary">
+      <HintPath>..\..\..\WebGL\WebGLFirewallCollada\WebGLFirewallCollada\bin\staging.AssetsLibrary\WebGLFirewallCollada.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLWorkstationCollada.AssetsLibrary">
+      <HintPath>..\..\..\WebGL\WebGLWorkstationCollada\bin\staging.AssetsLibrary\WebGLWorkstationCollada.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="THREELibrary.AssetsLibrary">
+      <HintPath>..\..\..\..\..\market\synergy\THREE\THREE\bin\staging.AssetsLibrary\THREELibrary.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -147,22 +162,36 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Textures\x128.png" />
-    <Content Include="Textures\x440x280.png" />
-    <Content Include="Textures\x640x400.png" />
+    <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="staging\ChromeNexus7.Application\web\manifest.json">
+    <None Include="staging\ChromeDataviz.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Test\TestShadowFlipForForm\TestShadowFlipForForm\TestShadowFlipForForm.csproj">
-      <Project>{e76457bb-a5f3-40ae-80b6-ca03fa0ce272}</Project>
-      <Name>TestShadowFlipForForm</Name>
+    <ProjectReference Include="..\..\..\..\..\..\jsc.smokescreen.git\projects\13_DATAVIZ\WebGLDatavizLayout\WebGLDatavizLayout\WebGLDatavizLayout.csproj">
+      <Project>{b23791bc-bbed-49d9-9808-08b230b69c55}</Project>
+      <Name>WebGLDatavizLayout</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\WebGL\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj">
-      <Project>{c072d820-0808-40c8-af3a-b965b715bc81}</Project>
-      <Name>WebGLNexus7</Name>
+    <ProjectReference Include="..\..\..\..\..\market\synergy\THREE\THREE\THREE.csproj">
+      <Project>{7b5c94c5-f6aa-42ba-815b-34dd472a47ac}</Project>
+      <Name>THREE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WebGL\WebGLCiscoColladaTest\WebGLCiscoColladaTest\WebGLCiscoColladaTest.csproj">
+      <Project>{8c170164-c4e6-4bee-9c24-d1e4ccc28665}</Project>
+      <Name>WebGLCiscoColladaTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WebGL\WebGLEmptyCiscoCollada\WebGLEmptyCiscoCollada\WebGLEmptyCiscoCollada.csproj">
+      <Project>{4fe96c26-f6f5-4769-9419-9de44af6d1fc}</Project>
+      <Name>WebGLEmptyCiscoCollada</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WebGL\WebGLFirewallCollada\WebGLFirewallCollada\WebGLFirewallCollada.csproj">
+      <Project>{747e8e9b-e9fc-4c8b-9eca-ea85f7ca8f0d}</Project>
+      <Name>WebGLFirewallCollada</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\WebGL\WebGLWorkstationCollada\WebGLWorkstationCollada.csproj">
+      <Project>{bfe71822-00f4-407b-b133-7cb0a4c42543}</Project>
+      <Name>WebGLWorkstationCollada</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -172,6 +201,6 @@
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
-		</PreBuildEvent>
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>
