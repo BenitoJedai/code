@@ -12,6 +12,7 @@ using System.Threading;
 using ScriptCoreLib.Shared.BCLImplementation.System.Net;
 using System.IO;
 using javax.net.ssl;
+using System.Diagnostics;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net
 {
@@ -39,8 +40,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
         public byte[] UploadValues(Uri address, NameValueCollection data)
         {
             // http://www.xyzws.com/Javafaq/how-to-use-httpurlconnection-post-data-to-web-server/139
+            // http://stackoverflow.com/questions/3038176/httpurlconnection-does-not-read-the-whole-respnse
 
-            //Console.WriteLine("enter UploadValuesAsync");
+            var addressString = address.ToString();
+            //Console.WriteLine("enter UploadValues " + new { addressString });
 
 
 
@@ -84,7 +87,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
                 //builder0.Append(__String.Concat(string1, "=", URLEncoder.encode(this.data.get_Item(string1), "UTF-8")));
                 //                                                               ^
 
-                var addressString = address.ToString();
                 //Console.WriteLine(
                 //    new { addressString }
                 //);
@@ -99,6 +101,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
                 {
                     Console.WriteLine(new { https });
                 }
+
+
+                connection.setUseCaches(false);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setChunkedStreamingMode(0);
 
                 // Numeric status code, 403: Forbidden
 
@@ -154,10 +162,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
                 //connection.setRequestProperty("Content-Language", "en-US");  
 
-                connection.setUseCaches(false);
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-
 
                 if (Headers != null)
                 {
@@ -175,7 +179,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
                 //wr.writeBytes(urlParameters.ToString());
                 wr.flush();
-                wr.close();
                 #endregion
 
                 //error { Message = Server returned HTTP response code: 403 for URL: 
@@ -188,19 +191,55 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
                 //Get Response	
                 // namespace java.io
+
+                var asw = Stopwatch.StartNew();
+
+                var ResponseCode = connection.getResponseCode();
+
+                //Console.WriteLine("awaiting for input...");
                 var xis = connection.getInputStream().ToNetworkStream();
 
-                var buffer = new byte[0x10000];
+                var buffer = new byte[0x4000];
+                //var buffer = new byte[0x10000];
+
+                // do we have to wait on android?
+                //Console.WriteLine(new { xis.DataAvailable, asw.ElapsedMilliseconds });
+
+                //var ss = xis.Read(buffer, 0, 0);
+
+                //Console.WriteLine(new { ss, xis.DataAvailable, asw.ElapsedMilliseconds });
+
+
+                //I/System.Console( 7821): { DataAvailable = false, ElapsedMilliseconds = 8278 }
+                //I/System.Console( 7821): awaiting for input... { s = 2730 }
+                //I/System.Console( 7821): awaiting for input... { s = 1340 }
+                //I/System.Console( 7821): awaiting for input... { s = 438 }
+                //I/System.Console( 7821): awaiting for input... { s = -1 }
+                //I/System.Console( 7821): bytes: {{ Length = 4508 }}
+                //I/System.Console( 7821): source: {{ Length = 4496 }}
+
+                //I/System.Console(10970): { DataAvailable = true, ElapsedMilliseconds = 236 }
+                //I/System.Console(10970): { ss = 0, DataAvailable = true, ElapsedMilliseconds = 237 }
+
+                //var ok = true;
 
                 while (xis.DataAvailable)
+                //while (ok)
                 {
                     var s = xis.Read(buffer, 0, buffer.Length);
+                    //Console.WriteLine("awaiting for input... " + new { s });
 
+                    //if (s < 0)
+                    //{
+                    //    ok = false;
+                    //}
+                    //else 
                     if (s > 0)
                         m.Write(buffer, 0, s);
                 }
 
-                xis.Close();
+                //wr.close();
+                //xis.Close();
                 if (connection != null)
                 {
                     connection.disconnect();
@@ -210,6 +249,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
             }
             catch (Exception ex)
             {
+                //error { Message = failed to connect to apps.emta.ee/213.184.49.80 (port 80): connect failed: ETIMEDOUT (Connection timed out), StackTrace = java.net.ConnectException: failed to connect to apps.emta.ee/213.184.49.80 (port 80): connect failed: ETIMEDOUT (Connection timed out)
+                //       at libcore.io.IoBridge.connect(IoBridge.java:114)
+                //       at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:192)
+                //       at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:459)
+                //       at java.net.Socket.connect(Socket.java:843)
+                //       at com.android.okhttp.internal.Platform.connectSocket(Platform.java:131)
+                //       at com.android.okhttp.Connection.connect(Connection.java:101)
+                //       at com.android.okhttp.internal.http.HttpEngine.connect(HttpEngine.java:294)
+                //       at com.android.okhttp.internal.http.HttpEngine.sendSocketRequest(HttpEngine.java:255)
+                //       at com.android.okhttp.internal.http.HttpEngine.sendRequest(HttpEngine.java:206)
+                //       at com.android.okhttp.internal.http.HttpURLConnectionImpl.execute(HttpURLConnectionImpl.java:345)
+                //       at com.android.okhttp.internal.http.HttpURLConnectionImpl.connect(HttpURLConnectionImpl.java:89)
+                //       at com.android.okhttp.internal.http.HttpURLConnectionImpl.getOutputStream(HttpURLConnectionImpl.java:197)
+
                 // ?
                 Console.WriteLine("error " + new { ex.Message, ex.StackTrace });
 

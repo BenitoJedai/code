@@ -30,6 +30,14 @@ namespace ChromeDataviz
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(WebGLDatavizLayout.HTML.Pages.IApp page)
         {
+            // https://chrome.google.com/webstore/developer/edit/ijhhfcakchepjhcaliedaifmafofmdnm
+
+            //Icon image is missing.
+            //At least one new-style screenshot or video is required.
+            //Small tile image is missing.
+            //Please select a Primary Category for your item.
+            //Language is not selected.
+
 
             #region += Launched chrome.app.window
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
