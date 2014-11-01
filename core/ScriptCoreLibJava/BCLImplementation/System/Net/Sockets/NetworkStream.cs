@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using ScriptCoreLibJava.BCLImplementation.System.IO;
 using ScriptCoreLib.Shared.BCLImplementation.System.IO;
+using System.Diagnostics;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 {
@@ -20,22 +21,56 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
         public global::java.io.OutputStream InternalOutputStream;
         public global::java.io.InputStream InternalInputStream;
 
+        // public virtual int ReadTimeout { get; set; }
+        //public override int ReadTimeout { get; set; }
+
+        //[Obsolete("does not work for android? why?")]
         public virtual bool DataAvailable
         {
             get
             {
-                var flag = false;
+                //I/System.Console(10354): { DataAvailable = false, ElapsedMilliseconds = 8229 }
+                //I/System.Console(10354): { ss = 0, DataAvailable = true, ElapsedMilliseconds = 8231 }
 
-                try
+                // I/System.Console(29412): { DataAvailable = false, ElapsedMilliseconds = 8230 }
+                // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Net\WebClient.cs
+
+                // I/System.Console(26083): { DataAvailable = false }
+                var w = Stopwatch.StartNew();
+                var buffer = new byte[0];
+
+                // I/System.Console(11709): bytes: {{ Length = 1166 }}
+
+
+                // 3g network lags upto 3000ms?
+                // I/System.Console(28055): { DataAvailable = false, ElapsedMilliseconds = 8151 }
+
+                while (w.ElapsedMilliseconds < 8000)
                 {
-                    flag = this.InternalInputStream.available() > 0;
-                }
-                catch
-                {
+                    var ss = this.Read(buffer, 0, 0);
+                    if (InternalDataAvailable())
+                        break;
+
+                    global::System.Threading.Thread.Sleep(1);
                 }
 
-                return flag;
+                return InternalDataAvailable();
             }
+        }
+
+        private bool InternalDataAvailable()
+        {
+            var flag = false;
+
+            try
+            {
+                flag = this.InternalInputStream.available() > 0;
+            }
+            catch
+            {
+            }
+
+            return flag;
         }
 
         public override void Close()
