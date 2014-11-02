@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9ED000E7-CC80-409A-829E-CFA4C20298F1}</ProjectGuid>
+    <ProjectGuid>{3DD87D64-162F-4560-9218-20CB45132F75}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChromeNexus7</RootNamespace>
-    <AssemblyName>ChromeNexus7</AssemblyName>
+    <RootNamespace>ChromeAudi</RootNamespace>
+    <AssemblyName>ChromeAudi</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ChromeNexus7.Program</StartupObject>
+    <StartupObject>ChromeAudi.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,16 +37,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Abstractatech.JavaScript.Forms.FloatStyler">
-      <HintPath>..\packages\Abstractatech.JavaScript.Forms.FloatStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.FloatStyler.dll</HintPath>
+      <HintPath>..\..\..\..\WebGL\collada\WebGLAudi\packages\Abstractatech.JavaScript.Forms.FloatStyler.1.0.0.0\lib\Abstractatech.JavaScript.Forms.FloatStyler.dll</HintPath>
     </Reference>
     <Reference Include="Chrome Web Server">
-      <HintPath>..\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
+      <HintPath>..\..\..\..\WebGL\collada\WebGLAudi\packages\Chrome.Web.Server.1.0.0.0\lib\Chrome Web Server.dll</HintPath>
     </Reference>
     <Reference Include="Chrome Web Server App Window">
-      <HintPath>..\packages\Chrome.Web.Server.AppWindow.1.0.0.0\lib\Chrome Web Server App Window.dll</HintPath>
+      <HintPath>..\..\..\..\WebGL\collada\WebGLAudi\packages\Chrome.Web.Server.AppWindow.1.0.0.0\lib\Chrome Web Server App Window.dll</HintPath>
     </Reference>
     <Reference Include="Chrome Web Store">
-      <HintPath>..\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
+      <HintPath>..\..\..\..\WebGL\collada\WebGLAudi\packages\Chrome.Web.Store.1.0.0.0\lib\Chrome Web Store.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta">
       <SpecificVersion>False</SpecificVersion>
@@ -125,17 +125,14 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ChromeNexus7.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\ChromeNexus7.AssetsLibrary.dll</HintPath>
+    <Reference Include="ChromeAudi.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\ChromeAudi.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Async">
       <HintPath>..\packages\ScriptCoreLib.Async.1.0.0.0\lib\ScriptCoreLib.Async.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLNexus7.AssetsLibrary">
-      <HintPath>..\..\..\..\WebGL\WebGLNexus7\WebGLNexus7\bin\staging.AssetsLibrary\WebGLNexus7.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="TestShadowFlipForForm.AssetsLibrary">
-      <HintPath>..\..\..\..\Test\TestShadowFlipForForm\TestShadowFlipForForm\bin\staging.AssetsLibrary\TestShadowFlipForForm.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebGLAudi.AssetsLibrary">
+      <HintPath>..\..\..\..\WebGL\collada\WebGLAudi\WebGLAudi\bin\staging.AssetsLibrary\WebGLAudi.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -148,17 +145,15 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Textures\x128.png" />
-    <Content Include="Textures\x440x280.png" />
-    <Content Include="Textures\x640x400.png" />
     <None Include="packages.config" />
-    <None Include="staging\ChromeNexus7.Application\web\manifest.json">
+    <None Include="staging\ChromeAudi.Application\web\manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Test\TestShadowFlipForForm\TestShadowFlipForForm\TestShadowFlipForForm.csproj">
-      <Project>{e76457bb-a5f3-40ae-80b6-ca03fa0ce272}</Project>
-      <Name>TestShadowFlipForForm</Name>
+    <ProjectReference Include="..\..\..\..\WebGL\collada\WebGLAudi\WebGLAudi\WebGLAudi.csproj">
+      <Project>{6b03abe7-4457-43d8-8f25-cd3a91df0988}</Project>
+      <Name>WebGLAudi</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -168,6 +163,6 @@
 		rem start /MIN /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServiceJava:true /DisableWebServicePHP:true /DisableWebServiceAndroid:true /DisableWebServiceChrome:true /FilterTo:"$(SolutionDir)"
 		)</PostBuildEvent>
     <PreBuildEvent>start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /RestorePackagesFrom:http://my.jsc-solutions.net/nuget
-		</PreBuildEvent>
+		            </PreBuildEvent>
   </PropertyGroup>
 </Project>
