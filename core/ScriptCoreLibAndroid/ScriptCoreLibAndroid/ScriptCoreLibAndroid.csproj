@@ -864,6 +864,7 @@
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
     <Compile Include="android\app\AlertDialog.cs" />
+    <Compile Include="android\app\Dialog.cs" />
     <Compile Include="android\app\KeyguardManager.cs" />
     <Compile Include="android\app\WallpaperInfo.cs" />
     <Compile Include="android\app\WallpaperManager.cs" />
@@ -872,6 +873,7 @@
     <Compile Include="android\app\Notification.cs" />
     <Compile Include="android\content\ComponentName.cs" />
     <Compile Include="android\content\ContentResolver.cs" />
+    <Compile Include="android\content\DialogInterface.cs" />
     <Compile Include="android\content\IntentFilter.cs" />
     <Compile Include="android\content\pm\ResolveInfo.cs" />
     <Compile Include="android\content\pm\PackageManager.cs" />
@@ -908,6 +910,7 @@
     <Compile Include="android\opengl\GLES20.cs" />
     <Compile Include="android\opengl\GLSurfaceView.cs" />
     <Compile Include="android\os\BatteryManager.cs" />
+    <Compile Include="android\os\Looper.cs" />
     <Compile Include="android\os\Parcel.cs" />
     <Compile Include="android\os\Handler.cs" />
     <Compile Include="android\os\Environment.cs" />
@@ -921,8 +924,10 @@
     <Compile Include="android\security\TextToSpeech.cs" />
     <Compile Include="android\speech\tts\AndroidKeyStore.cs" />
     <Compile Include="android\telephony\TelephonyManager.cs" />
+    <Compile Include="android\text\TextWatcher.cs" />
     <Compile Include="android\text\method\TransformationMethod.cs" />
     <Compile Include="android\text\method\PasswordTransformationMethod.cs" />
+    <Compile Include="android\text\Editable.cs" />
     <Compile Include="android\util\DisplayMetrics.cs" />
     <Compile Include="android\util\SparseArray.cs" />
     <Compile Include="android\util\Log.cs" />

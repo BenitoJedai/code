@@ -7,6 +7,7 @@ using android.view;
 using java.lang;
 using ScriptCoreLib;
 using android.text.method;
+using android.text;
 
 namespace android.widget
 {
@@ -14,6 +15,11 @@ namespace android.widget
     [Script(IsNative = true)]
     public class EditText : TextView
     {
+        public Editable getText()
+        {
+            return default(Editable);
+        }
+
         public EditText(Context c)
             : base(c)
         {
@@ -24,7 +30,7 @@ namespace android.widget
 
         public void setWidth(int pixels)
         {
- 
+
         }
 
         public void setHeight(int pixels)
@@ -33,10 +39,10 @@ namespace android.widget
         }
 
         public void setInputType(int type)
-        { 
+        {
         }
 
-        public void setTransformationMethod (TransformationMethod method)
+        public void setTransformationMethod(TransformationMethod method)
         {
 
         }
