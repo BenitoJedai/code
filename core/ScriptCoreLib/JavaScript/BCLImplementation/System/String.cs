@@ -35,6 +35,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return w.ToString();
         }
 
+
+        #region Format
         public static string Format(string format, object a)
         {
             // fast solution 
@@ -53,6 +55,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static string Format(string format, params object[] b)
         {
+            // X:\jsc.svn\examples\actionscript\async\Test\TestTaskDelay\TestTaskDelay\ApplicationSprite.cs
             // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
             // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
             // fast solution 
@@ -69,6 +72,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             return x;
         }
+        #endregion
 
 
 

@@ -12,6 +12,43 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         )]
     internal class __String
     {
+        #region Format
+        public static string Format(string format, object a)
+        {
+            // fast solution 
+
+            return format.Replace("{0}", "" + a);
+        }
+
+        public static string Format(string format, object a, object b)
+        {
+            // fast solution 
+
+            return format
+                .Replace("{0}", "" + a)
+                .Replace("{1}", "" + b);
+        }
+
+        public static string Format(string format, params object[] b)
+        {
+            // X:\jsc.svn\examples\actionscript\async\Test\TestTaskDelay\TestTaskDelay\ApplicationSprite.cs
+            // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\String.cs
+            // X:\jsc.svn\examples\javascript\test\TestRoslynAnonymousType\TestRoslynAnonymousType\Class1.cs
+            // fast solution 
+
+
+            var x = format;
+
+            for (int i = 0; i < b.Length; i++)
+            {
+                var value = b[i];
+
+                x = x.Replace("{" + i + "}", Convert.ToString(value));
+            }
+
+            return x;
+        }
+        #endregion
 
        
 
