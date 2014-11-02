@@ -29,8 +29,8 @@ namespace android.widget
         }
 
 
-        public void setBackgroundColor(int color)
-        { }
+        //public void setBackgroundColor(int color)
+        //{ }
 
         public void setTextColor(int color)
         {
