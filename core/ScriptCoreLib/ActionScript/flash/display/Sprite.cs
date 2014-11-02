@@ -12,8 +12,12 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
+        // October 22, 2014 — This is a beta release of AIR 15, code named Market.
+        // Last Updated: October 23, 2014 
+
         // http://labsdownload.adobe.com/pub/labs/flashruntimes/shared/air15_flashplayer15_releasenotes.pdf
         // http://labs.adobe.com/technologies/flashruntimes/air/
+        // https://forums.adobe.com/community/labs/flashruntimes/air/
 
         // https://forums.adobe.com/thread/1541258
         // https://forums.adobe.com/thread/1493673
