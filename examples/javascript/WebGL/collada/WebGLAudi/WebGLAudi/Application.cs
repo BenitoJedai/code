@@ -31,6 +31,11 @@ namespace WebGLAudi
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // http://blogs.msdn.com/b/dotnet/archive/2014/05/09/the-net-native-tool-chain.aspx
+
+            // http://stackoverflow.com/questions/23771022/plinq-c-net-4-5-1-vs-stream-jdk-java-8-performance
+            // http://blogs.msdn.com/b/dotnet/archive/2014/04/21/sharing-code-across-platforms.aspx
+
             // Uncaught TypeError: Cannot read property 'nodes' of null
             // sketchup creates empty nodes
             // .//dae:scene/dae:instance_visual_scene
