@@ -10,6 +10,10 @@ namespace ScriptCoreLib.ActionScript.flash.system
     [Script(IsNative = true)]
     public class Worker : EventDispatcher
     {
+        // Note: Native Extensions are not supported for background and secondary workers.
+
+        // X:\jsc.svn\examples\actionscript\air\AIRAudioWorker\AIRAudioWorker\ApplicationSprite.cs
+
         // Each additional worker is created from a separate swf. 
 
         public static bool isSupported { get; set; }
