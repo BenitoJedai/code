@@ -12,9 +12,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal partial class __Control : __Component, __IDropTarget, __ISynchronizeInvoke, __IWin32Window, __IBindableComponent, __IComponent, IDisposable
     {
+        // 0001 0200002d ScriptCoreLibJava.Windows.Forms::ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms.__FormClosingEventHandler
+        // script: error JSC1000: Java : class import: no implementation for System.Windows.Forms.ControlBindingsCollection at ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms.__IBindableComponent
+
         // X:\jsc.svn\core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.cs
 
-     
+
         #region Click
         public event EventHandler Click;
 
@@ -432,7 +435,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
                 SizeChanged(this, null);
 
         }
-        
+
         #endregion
 
 
@@ -454,7 +457,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
         public string Name { get; set; }
 
-    
+
 
         public int TabIndex { get; set; }
 

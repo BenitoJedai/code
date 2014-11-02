@@ -42,6 +42,9 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.TaskAwaiter")]
     public class __TaskAwaiter : __INotifyCompletion
     {
+        // X:\jsc.svn\examples\actionscript\async\Test\TestTaskDelay\TestTaskDelay\ApplicationSprite.cs
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs
+
         public Func<bool> InternalIsCompleted;
         public bool IsCompleted { get { return InternalIsCompleted(); } }
 

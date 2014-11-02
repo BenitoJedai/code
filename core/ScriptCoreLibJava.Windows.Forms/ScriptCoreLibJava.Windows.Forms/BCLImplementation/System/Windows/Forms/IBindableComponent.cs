@@ -10,5 +10,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 	[Script(Implements = typeof(global::System.Windows.Forms.IBindableComponent))]
 	internal interface __IBindableComponent : __IComponent, IDisposable
 	{
+        // ?
 	}
 }
