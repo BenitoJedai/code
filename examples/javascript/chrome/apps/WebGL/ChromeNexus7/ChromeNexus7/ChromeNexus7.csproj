@@ -160,7 +160,7 @@
       <Project>{e76457bb-a5f3-40ae-80b6-ca03fa0ce272}</Project>
       <Name>TestShadowFlipForForm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\WebGL\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj">
+    <ProjectReference Include="..\..\..\..\..\WebGL\WebGLNexus7\WebGLNexus7\WebGLNexus7.csproj">
       <Project>{c072d820-0808-40c8-af3a-b965b715bc81}</Project>
       <Name>WebGLNexus7</Name>
     </ProjectReference>

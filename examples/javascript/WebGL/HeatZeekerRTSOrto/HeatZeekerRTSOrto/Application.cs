@@ -36,35 +36,35 @@ namespace HeatZeekerRTSOrto
             // https://chrome.google.com/webstore/detail/dglmddjmdpdbijfkoaiadbpmjampfdjh/publish-delayed
 
 
-            #region ChromeTCPServer
-            dynamic self = Native.self;
-            dynamic self_chrome = self.chrome;
-            object self_chrome_socket = self_chrome.socket;
+            //#region ChromeTCPServer
+            //dynamic self = Native.self;
+            //dynamic self_chrome = self.chrome;
+            //object self_chrome_socket = self_chrome.socket;
 
-            if (self_chrome_socket != null)
-            {
-                #region AtFormCreated
-                FormStyler.AtFormCreated =
-                     ss =>
-                 {
-                     ss.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            //if (self_chrome_socket != null)
+            //{
+            //    #region AtFormCreated
+            //    FormStyler.AtFormCreated =
+            //         ss =>
+            //     {
+            //         ss.Context.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
-                     // this is working?
-                     var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(ss.Context.GetHTMLTarget());
-                 };
-                #endregion
+            //         // this is working?
+            //         var x = new ChromeTCPServerWithFrameNone.HTML.Pages.AppWindowDrag().AttachTo(ss.Context.GetHTMLTarget());
+            //     };
+            //    #endregion
 
-                chrome.Notification.DefaultTitle = "Heat Zeeker";
-                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Promotion3D_iso1_tiltshift_128().src;
+            //    chrome.Notification.DefaultTitle = "Heat Zeeker";
+            //    chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Promotion3D_iso1_tiltshift_128().src;
 
-                ChromeTCPServer.TheServerWithStyledForm.Invoke(
-                    AppSource.Text,
-                    AtFormCreated: FormStyler.AtFormCreated
-                );
+            //    ChromeTCPServer.TheServerWithStyledForm.Invoke(
+            //        AppSource.Text,
+            //        AtFormCreated: FormStyler.AtFormCreated
+            //    );
 
-                return;
-            }
-            #endregion
+            //    return;
+            //}
+            //#endregion
 
 
             Native.body.style.margin = "0px";

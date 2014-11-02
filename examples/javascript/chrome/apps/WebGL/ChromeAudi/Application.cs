@@ -13,13 +13,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using ChromeNexus7;
-using ChromeNexus7.Design;
-using ChromeNexus7.HTML.Pages;
-using System.Windows.Forms;
-using ChromeNexus7.HTML.Images.FromAssets;
+using ChromeAudi;
+using ChromeAudi.Design;
+using ChromeAudi.HTML.Pages;
+using ChromeAudi.HTML.Images.FromAssets;
 
-namespace ChromeNexus7
+namespace ChromeAudi
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -30,23 +29,14 @@ namespace ChromeNexus7
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(global::WebGLNexus7.HTML.Pages.IApp page)
+        public Application(
+            global::WebGLAudi.HTML.Pages.IApp page)
         {
-            // Your item is in the process of being published and may take up to 60 minutes to appear in the Chrome Web Store. 
-            // https://chrome.google.com/webstore/detail/blkjaankpapbilmlhpplkdjlkinfkmjd/publish-delayed
 
-            // http://www.asus.com/Tablets_Mobile/Nexus_7/HelpDesk_Download/
 
-            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201408/20140811
+            // X:\jsc.svn\examples\javascript\chrome\apps\WebGL\ChromeAudi\bin\Debug\staging\ChromeAudi.Application\web
 
-            // https://chrome.google.com/webstore/developer/edit/hdebmjbiddbadmkcnjepnefgmlolgjdd
-            // https://chrome.google.com/webstore/detail/hdebmjbiddbadmkcnjepnefgmlolgjdd/publish-delayed
-
-            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeGalaxyS\ChromeGalaxyS\Application.cs
-
-            // Your image size must be 1280 pixels wide and 800 pixels high. Please resize your image.
-            // wtf?
-            // 1280x800 or 640x400
+            //"128": "assets/ChromeNexus7/x128.png"
 
             #region += Launched chrome.app.window
             // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
@@ -56,18 +46,18 @@ namespace ChromeNexus7
 
             if (self_chrome_socket != null)
             {
-                chrome.Notification.DefaultTitle = "Nexus7";
+                chrome.Notification.DefaultTitle = "Audi Visualization";
                 chrome.Notification.DefaultIconUrl = new x128().src;
 
-                ChromeTCPServer.TheServerWithAppWindow.Invoke(AppSource.Text);
+                ChromeTCPServer.TheServerWithAppWindow.Invoke(
+                    global::WebGLAudi.HTML.Pages.AppSource.Text
+                    );
 
                 return;
             }
             #endregion
 
-
-            // 
-            new WebGLNexus7.Application(page);
+            new global::WebGLAudi.Application(page);
         }
 
     }
