@@ -6,11 +6,14 @@ using System.Text;
 namespace ScriptCoreLib.JavaScript.DOM
 {
     // http://mxr.mozilla.org/mozilla-central/source/dom/webidl/SharedWorker.webidl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/SharedWorker.idl
+    // http://src.chromium.org/viewvc/blink/trunk/Source/core/workers/SharedWorker.cpp
 
     [Script(HasNoPrototype = true, ExternalTarget = "SharedWorker")]
     public class SharedWorker : IEventTarget
     {
-        // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141102
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\flash\system\Worker.cs
 
         public readonly MessagePort port;
 

@@ -135,6 +135,8 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
         public static Func<Func<IDbConnection, Task>, Task> WithConnection(string DataSource)
         {
+            // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141102
+//#if FSQLiteConnectionStringBuilder
             // ScriptCoreLib.Extensions
             var csb = new SQLiteConnectionStringBuilder
             {
@@ -160,7 +162,10 @@ namespace ScriptCoreLib.Shared.Data.Diagnostics
 
                 return ret;
             };
+//#endif
+//            throw new NotImplementedException();
         }
+
     }
 
 

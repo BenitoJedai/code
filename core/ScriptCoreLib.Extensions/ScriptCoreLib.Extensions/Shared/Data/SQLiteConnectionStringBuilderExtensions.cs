@@ -9,6 +9,10 @@ using System.Threading;
 
 namespace System.Data.SQLite
 {
+    // X:\jsc.svn\core\ScriptCoreLib.Extensions\ScriptCoreLib.Extensions\Shared\Data\SQLiteConnectionStringBuilderExtensions.cs
+
+    // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141102
+    //#if FSQLiteConnection
     public static class SQLiteConnectionStringBuilderExtensions
     {
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201403/20140322
@@ -225,4 +229,6 @@ namespace System.Data.SQLite
 
 
     }
+    //#endif
+
 }

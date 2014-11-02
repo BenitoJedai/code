@@ -7,9 +7,19 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.flash.system
 {
     // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Worker.html
+
     [Script(IsNative = true)]
     public class Worker : EventDispatcher
     {
+        // what happens if we throw in the worker?
+
+
+        // X:\jsc.svn\examples\javascript\WebWorkerExperiment\WebWorkerExperiment\Application.cs
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\ServiceWorker.cs
+
+        // how does this relate to ServiceWorker?
+        // Task.Run?
+
         // Note: Native Extensions are not supported for background and secondary workers.
 
         // X:\jsc.svn\examples\actionscript\air\AIRAudioWorker\AIRAudioWorker\ApplicationSprite.cs

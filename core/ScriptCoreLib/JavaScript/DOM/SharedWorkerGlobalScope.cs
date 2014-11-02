@@ -11,7 +11,6 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class SharedWorkerGlobalScope : WorkerGlobalScope
     {
         // tested by?
-        // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
 
 
 

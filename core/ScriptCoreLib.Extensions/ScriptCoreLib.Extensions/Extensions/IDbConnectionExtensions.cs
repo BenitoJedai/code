@@ -26,6 +26,9 @@ namespace System.Data
                 return 0;
             }
 
+
+// https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141102
+//#if FSQLiteConnection
             var xSQLiteConnection = c as SQLite.SQLiteConnection;
 
             Console.WriteLine("enter GetLastInsertRowId " + new { xSQLiteConnection });
@@ -34,6 +37,7 @@ namespace System.Data
             {
                 return xSQLiteConnection.LastInsertRowId;
             }
+//#endif
 
             // http://stackoverflow.com/questions/12858588/mysql-last-inserted-row-id
             // http://dev.mysql.com/doc/refman/5.6/en/information-functions.html#function_last-insert-id

@@ -1,4 +1,4 @@
-using Abstractatech.ConsoleFormPackage.Library;
+//using Abstractatech.ConsoleFormPackage.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -22,9 +22,8 @@ namespace WebWorkerExperiment
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
     [Obsolete("JSC should not implement web workers unless, android webview has them and xml is supported.")]
-    public sealed class Application
+    public sealed class Application : ApplicationWebService 
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -32,7 +31,7 @@ namespace WebWorkerExperiment
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            new ConsoleForm { HandleFormClosing = false }.InitializeConsoleFormWriter().PopupInsteadOfClosing().Show();
+            //new ConsoleForm { HandleFormClosing = false }.InitializeConsoleFormWriter().PopupInsteadOfClosing().Show();
 
 
 

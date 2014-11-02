@@ -28,6 +28,10 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Obsolete("experimental")]
     public class ServiceWorker : Worker
     {
+        // X:\jsc.svn\examples\javascript\Test\TestServiceWorkerRegistrations\TestServiceWorkerRegistrations\Application.cs
+
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\flash\system\Worker.cs
+
         public string scriptURL;
         public string state;
 
