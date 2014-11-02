@@ -1,0 +1,46 @@
+﻿
+{
+"manifest_version": 2,
+  "name": "Audi Visualization",
+  "description": "Audi Visualization",
+  "version": "42",
+ "minimum_chrome_version": "38",
+  "offline_enabled": true,
+
+
+  
+     "externally_connectable": {
+    "ids": [
+      "*"
+		]
+	},
+
+
+  "app": {
+
+	"background": {
+	  "persistent": true,
+      "scripts": ["view-source"]
+    }
+  },
+  "icons": {
+            "128": "assets/ChromeAudi/x128.png"
+  },
+  
+  
+  "permissions": [
+     "app.window.alpha",
+  "<all_urls>",
+  "alwaysOnTopWindows",
+  "webview",
+  "fullscreen",
+  "pointerLock",
+    "unlimitedStorage",
+	    "notifications",
+		    "storage",
+    {
+      "socket": ["udp-send-to", "udp-bind", "udp-multicast-membership", "tcp-connect", "tcp-listen"]
+    }
+  ]
+
+}
