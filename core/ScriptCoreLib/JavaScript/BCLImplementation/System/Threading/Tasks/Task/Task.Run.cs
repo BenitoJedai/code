@@ -19,6 +19,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Threading.Tasks
 {
     internal partial class __Task
     {
+        // X:\jsc.svn\examples\actionscript\FlashWorkerExperiment\FlashWorkerExperiment\ApplicationSprite.cs
+        // what about AIR?
+
         // X:\jsc.svn\examples\javascript\async\test\TestTaskRun\TestTaskRun\Application.cs
         // X:\jsc.svn\examples\javascript\async\test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 

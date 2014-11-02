@@ -31,6 +31,7 @@ namespace TaskAsyncTaskRun
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            // X:\jsc.svn\examples\actionscript\async\Test\TestAsyncTaskRun\TestAsyncTaskRun\ApplicationSprite.cs
             // X:\jsc.svn\examples\javascript\async\Test\TestTaskRun\TestTaskRun\Application.cs
 
             new IHTMLButton { "invoke" }.AttachToDocument().onclick +=
