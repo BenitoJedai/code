@@ -10,6 +10,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Console))]
     internal static class __Console
     {
+        // C:\Windows\system32\Macromed\Flash\NPSWF64_15_0_0_189.dll
+
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Console.cs
 
 
@@ -34,6 +36,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // as described in Configuring the debugger version of Flash Player to record trace() output.
         // http://www.adobe.com/support/flashplayer/downloads.html
 
+        // http://jpauclair.net/2010/02/10/mmcfg-treasure/
+        // TraceOutputFileEnable=1
+        // "C:\Users\Arvo\mm.cfg"
 
         [Script(OptimizedCode = "trace(e);")]
         internal static void trace(string e)

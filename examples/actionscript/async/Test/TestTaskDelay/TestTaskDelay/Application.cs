@@ -33,14 +33,12 @@ namespace TestTaskDelay
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
+            sprite.AtWriteLine += x => new IHTMLPre { x }.AttachToDocument();
+
+
             // Initialize ApplicationSprite
             sprite.AttachSpriteTo(page.Content);
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            this.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+
         }
 
     }
