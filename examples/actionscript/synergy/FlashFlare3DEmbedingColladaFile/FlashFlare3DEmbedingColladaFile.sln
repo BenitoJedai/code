@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashFlare3DEmbedingColladaFile", "FlashFlare3DEmbedingColladaFile\FlashFlare3DEmbedingColladaFile.csproj", "{C4F01399-07E0-49BA-B022-91BF925E77DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flare3D", "..\..\..\..\market\synergy\actionscript\Flare3D\Flare3D\Flare3D.csproj", "{78BC6FC8-8C6A-4184-9650-29D3C3116457}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{C4F01399-07E0-49BA-B022-91BF925E77DB}.Debug|x86.Build.0 = Debug|x86
 		{C4F01399-07E0-49BA-B022-91BF925E77DB}.Release|x86.ActiveCfg = Release|x86
 		{C4F01399-07E0-49BA-B022-91BF925E77DB}.Release|x86.Build.0 = Release|x86
+		{78BC6FC8-8C6A-4184-9650-29D3C3116457}.Debug|x86.ActiveCfg = Debug|x86
+		{78BC6FC8-8C6A-4184-9650-29D3C3116457}.Debug|x86.Build.0 = Debug|x86
+		{78BC6FC8-8C6A-4184-9650-29D3C3116457}.Release|x86.ActiveCfg = Release|x86
+		{78BC6FC8-8C6A-4184-9650-29D3C3116457}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
