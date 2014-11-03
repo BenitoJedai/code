@@ -14,7 +14,7 @@ namespace TestResolveNativeImplementationExtension
     {
         public static void invoke(InteractiveObject x)
         {
-            //  double0 = x.alpha;
+            //    async0 = __InteractiveObject.get_async_4ebbe596_06001312(x);
             var a = x.async;
 
 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Task.cs
+
 
     [Script(Implements = typeof(global::System.Threading.Tasks.Task))]
     internal partial class __Task
@@ -91,6 +93,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         }
     }
 
+    // http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Future.cs
 
     [Script(Implements = typeof(global::System.Threading.Tasks.Task<>))]
     internal partial class __Task<TResult> : __Task
@@ -149,6 +152,37 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 
             return x.Task;
+        }
+
+
+        // http://msdn.microsoft.com/en-us/library/system.threading.tasks.task.getawaiter.aspx
+        // !supported in: 4.5
+        public __TaskAwaiter<TResult> GetAwaiter()
+        {
+            //Console.WriteLine("enter __Task.GetAwaiter");
+
+            // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
+
+            var awaiter = new __TaskAwaiter<TResult>
+            {
+                InternalIsCompleted = () => this.IsCompleted,
+                InternalGetResult = () => this.Result,
+            };
+
+            // ?
+            this.ContinueWith(
+                delegate
+                {
+                    //Console.WriteLine("continue __Task.GetAwaiter InternalOnCompleted");
+
+                    if (awaiter.InternalOnCompleted != null)
+                        awaiter.InternalOnCompleted();
+                }
+            );
+
+            //Console.WriteLine("exit __Task.GetAwaiter");
+
+            return awaiter;
         }
     }
 }

@@ -14,11 +14,11 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
     internal static class __InteractiveObject
     {
         // X:\jsc.svn\examples\actionscript\test\TestResolveNativeImplementationExtension\TestResolveNativeImplementationExtension\Class1.cs
-        public static InteractiveObjectAsync get_async(InteractiveObject that)
+        public static InteractiveObjectTasks get_async(InteractiveObject that)
         {
             Console.WriteLine("InteractiveObject get_async");
 
-            return new InteractiveObjectAsync();
+            return new InteractiveObjectTasks { that = that };
         }
 
 

@@ -131,42 +131,47 @@ namespace TestTaskDelay
             new { t }.With(
                 async scope =>
                  {
-                     var a = t.async;
+                     // X:\jsc.svn\examples\actionscript\test\TestResolveNativeImplementationExtension\TestResolveNativeImplementationExtension\Class1.cs
 
-                     Console.WriteLine(
+                     while (true)
+                     {
+                         await t.async.onclick;
 
-                         new { a }
-                         );
+                         Console.WriteLine("after t.async.onclick");
+
+                         t.text = "enter async";
+
+                         // do we have timers in bg thread?
+                         await Task.Delay(500);
+                         t.text = "in async";
+                         await Task.Delay(500);
+                         t.text = "exit async";
+                     }
 
 
-                     //t.async.onclick;
                  }
             );
 
 
-            t.click += delegate
-            {
-                Console.WriteLine(@"see C:\Users\arvo\AppData\Roaming\Macromedia\Flash Player\Logs");
+            //t.click += async delegate
+            //{
+            //    Console.WriteLine(@"see C:\Users\arvo\AppData\Roaming\Macromedia\Flash Player\Logs");
 
-                new { t }.With(
-                    async scope =>
-                 {
-                     //Console.WriteLine("enter async");
 
-                     t.text = "enter async";
-                     await Task.Delay(500);
-                     t.text = "in async";
-                     await Task.Delay(500);
-                     t.text = "exit async";
+            //    //Console.WriteLine("enter async");
+
+            //    t.text = "enter async";
+            //    await Task.Delay(500);
+            //    t.text = "in async";
+            //    await Task.Delay(500);
+            //    t.text = "exit async";
 
 
 
 
 
-                 }
-                );
 
-            };
+            //};
 
         }
 

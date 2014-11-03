@@ -31,6 +31,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [Script]
         public new class Tasks<TElement> where TElement : IHTMLElement
         {
+            // X:\jsc.svn\core\ScriptCoreLib\ActionScript\Extensions\flash\display\InteractiveObject.cs
+
             internal TElement that;
 
             [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]

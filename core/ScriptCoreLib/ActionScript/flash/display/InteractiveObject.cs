@@ -4,14 +4,44 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.flash.events;
+using System.Threading.Tasks;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
     [Script]
     [Obsolete("experimental")]
-    public class InteractiveObjectAsync
+    public class InteractiveObjectTasks
     {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLElement.async.cs
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\Extensions\flash\display\InteractiveObject.cs
 
+        internal InteractiveObject that;
+
+        [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
+        public virtual Task<MouseEvent> onclick
+        {
+            //[Script(DefineAsStatic = true)]
+            get
+            {
+                //Console.WriteLine("enter InteractiveObjectTasks.onclick");
+
+                var x = new TaskCompletionSource<MouseEvent>();
+
+                // tested by
+                // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
+                that.click +=
+                    e =>
+                    {
+                        //Console.WriteLine("at InteractiveObjectTasks.onclick");
+                        x.SetResult(e);
+                    };
+
+                //ScriptCoreLib.JavaScript.DOM.CSSStyleRuleMonkier.InternalTaskNameLookup[x.Task] = "onclick";
+
+                //Console.WriteLine("exit InteractiveObjectTasks.onclick");
+                return x.Task;
+            }
+        }
     }
 
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/InteractiveObject.html
@@ -22,10 +52,13 @@ namespace ScriptCoreLib.ActionScript.flash.display
     {
         // {{ errorID = 1069, message = Error #1069: Property async not found on flash.text.TextField and there is no default value., StackTrace = ReferenceError: Error #1069: Property async not found on flash.text.TextField and there is no default value
 
-        //[method: Script(NotImplementedHere = true)]
-        [property: Script(NotImplementedHere = true)]
+        //[property: Script(NotImplementedHere = true)]
         [Obsolete("experimental")]
-        public InteractiveObjectAsync async { get { return default(InteractiveObjectAsync); } }
+        public InteractiveObjectTasks async
+        {
+            [method: Script(NotImplementedHere = true)]
+            get { return default(InteractiveObjectTasks); }
+        }
 
 
         #region Events
