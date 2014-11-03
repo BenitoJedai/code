@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
@@ -77,8 +78,8 @@
     <Compile Include="BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\Control.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\Control.Container.cs" />
+    <Compile Include="BCLImplementation\System\Windows\Forms\ControlBindingsCollection.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\Form.cs" />
-    <Compile Include="BCLImplementation\System\Windows\Forms\IBindableComponent.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IContainerControl.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IDropTarget.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IWin32Window.cs" />
