@@ -70,6 +70,12 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
         }
 
 
+
+        // X:\jsc.svn\examples\actionscript\async\Test\TestTaskDelay\TestTaskDelay\ApplicationSprite.cs
+        // ApplicationSprite____ctor_b__4_d__0__MoveNext_06000024.__forwardref_583b1500_06000032(this);
+        // public static function __forwardref_583b1500_06000012(ref_arg1:*):void
+        //  ref_arg2.__t__builder.AwaitUnsafeOnCompleted_4ebbe596_06000cd1(ref_arg3, ref_arg2);
+        // machine0 = (__IAsyncStateMachine(ref_arg2[0]));
         public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(
              ref  TAwaiter awaiter,
              ref  TStateMachine stateMachine
@@ -80,7 +86,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
             // tested by
             // X:\jsc.svn\examples\java\Test\TestByRefAwaitUnsafeOnCompleted\TestByRefAwaitUnsafeOnCompleted\Class1.cs
 
-            //Console.WriteLine("__AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted");
+            Console.WriteLine("enter __AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted " + new { awaiter, stateMachine });
 
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
             var zstateMachine = xstateMachine;

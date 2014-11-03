@@ -26,6 +26,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Threading.Tasks
 
         public void SetResult(TResult result)
         {
+            Console.WriteLine("enter __TaskCompletionSource.SetResult");
             this.InternalTask.InternalSetCompleteAndYield(result);
         }
     }

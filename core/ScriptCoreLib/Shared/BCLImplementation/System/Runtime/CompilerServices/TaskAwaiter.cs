@@ -33,7 +33,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
                 continuation();
                 return;
             }
-            
+
             InternalOnCompleted += continuation;
         }
 
@@ -42,11 +42,21 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
     [Script(ImplementsViaAssemblyQualifiedName = "System.Runtime.CompilerServices.TaskAwaiter")]
     public class __TaskAwaiter : __INotifyCompletion
     {
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141103
+
         // X:\jsc.svn\examples\actionscript\async\Test\TestTaskDelay\TestTaskDelay\ApplicationSprite.cs
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Threading\Tasks\Task\Task.cs
 
         public Func<bool> InternalIsCompleted;
-        public bool IsCompleted { get { return InternalIsCompleted(); } }
+        public bool IsCompleted
+        {
+            get
+            {
+
+                Console.WriteLine("__TaskAwaiter.IsCompleted " + new { InternalIsCompleted });
+                return InternalIsCompleted();
+            }
+        }
 
         //script: error JSC1000: No implementation found for this native method, please implement [System.Runtime.CompilerServices.TaskAwaiter.GetResult()]
         // http://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.taskawaiter.getresult.aspx
@@ -60,10 +70,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
 
         public void OnCompleted(Action continuation)
         {
-            //Console.WriteLine("__TaskAwaiter.OnCompleted " + new { IsCompleted });
+            //if (continuation != null)
+
+            Console.WriteLine("__TaskAwaiter.OnCompleted " + new { IsCompleted, continuation });
+
             if (IsCompleted)
             {
                 continuation();
+
                 return;
             }
 

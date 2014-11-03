@@ -30,6 +30,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public Task ContinueWith(Action<Task> continuationAction)
         {
+            Console.WriteLine("enter __Task.ContinueWith " + new { this.IsCompleted, continuationAction });
+
             var x = new TaskCompletionSource<object>();
 
             if (this.IsCompleted)
@@ -52,6 +54,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
 
 
+            Console.WriteLine("exit __Task.ContinueWith " + new { this.IsCompleted, continuationAction });
             return x.Task;
         }
 
@@ -62,7 +65,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // !supported in: 4.5
         public __TaskAwaiter GetAwaiter()
         {
-            //Console.WriteLine("__Task.GetAwaiter");
+            Console.WriteLine("enter __Task.GetAwaiter");
 
             // see also: X:\jsc.svn\examples\javascript\forms\FormsAsyncButtonExperiment\FormsAsyncButtonExperiment\ApplicationControl.cs
 
@@ -75,12 +78,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             this.ContinueWith(
                 delegate
                 {
-                    //Console.WriteLine("__Task.GetAwaiter InternalYield");
+                    Console.WriteLine("continue __Task.GetAwaiter InternalOnCompleted");
 
                     if (awaiter.InternalOnCompleted != null)
                         awaiter.InternalOnCompleted();
                 }
             );
+
+            Console.WriteLine("exit __Task.GetAwaiter");
 
             return awaiter;
         }
@@ -104,12 +109,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         // TaskCompletionSource.SetResult
         public void InternalSetCompleteAndYield(TResult result)
         {
-            this.Result = result;
+            Console.WriteLine("enter __Task.InternalSetCompleteAndYield");
+
             this.IsCompleted = true;
+            this.Result = result;
 
             if (InternalContinueWithAfterIsCompleted != null)
                 InternalContinueWithAfterIsCompleted();
 
+            Console.WriteLine("exit __Task.InternalSetCompleteAndYield");
         }
 
 
