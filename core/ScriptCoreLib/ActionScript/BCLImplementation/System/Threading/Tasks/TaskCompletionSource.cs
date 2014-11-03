@@ -19,17 +19,23 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Threading.Tasks
 
         public __TaskCompletionSource()
         {
-            this.InternalTask = new __Task<TResult> { 
+            this.InternalTask = new __Task<TResult>
+            {
                 //InternalStart = null 
             };
         }
 
         public void SetResult(TResult result)
         {
+            // X:\jsc.svn\core\ScriptCoreLib\ActionScript\flash\display\InteractiveObject.cs
+
+            if (this.InternalTask.IsCompleted)
+                return;
+
             //Console.WriteLine("enter __TaskCompletionSource.SetResult");
             this.InternalTask.InternalSetCompleteAndYield(result);
         }
     }
 
-  
+
 }
