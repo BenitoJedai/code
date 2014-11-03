@@ -7,6 +7,12 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
+    [Script]
+    [Obsolete("experimental")]
+    public class InteractiveObjectAsync
+    {
+
+    }
 
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/InteractiveObject.html
     // http://livedocs.adobe.com/flex/3/langref/flash/display/InteractiveObject.html#contextMenu
@@ -14,6 +20,14 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class InteractiveObject : DisplayObject
     {
+        // {{ errorID = 1069, message = Error #1069: Property async not found on flash.text.TextField and there is no default value., StackTrace = ReferenceError: Error #1069: Property async not found on flash.text.TextField and there is no default value
+
+        //[method: Script(NotImplementedHere = true)]
+        [property: Script(NotImplementedHere = true)]
+        [Obsolete("experimental")]
+        public InteractiveObjectAsync async { get { return default(InteractiveObjectAsync); } }
+
+
         #region Events
         /// <summary>
         /// Dispatched when the user selects 'Clear' (or 'Delete') from the text context menu.

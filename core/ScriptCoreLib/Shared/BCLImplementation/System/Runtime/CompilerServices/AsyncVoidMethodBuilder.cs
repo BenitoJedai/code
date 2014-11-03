@@ -86,7 +86,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
             // tested by
             // X:\jsc.svn\examples\java\Test\TestByRefAwaitUnsafeOnCompleted\TestByRefAwaitUnsafeOnCompleted\Class1.cs
 
-            Console.WriteLine("enter __AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted " + new { awaiter, stateMachine });
+            //Console.WriteLine("enter __AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted " + new { awaiter, stateMachine });
 
             var xstateMachine = (__IAsyncStateMachine)stateMachine;
             var zstateMachine = xstateMachine;

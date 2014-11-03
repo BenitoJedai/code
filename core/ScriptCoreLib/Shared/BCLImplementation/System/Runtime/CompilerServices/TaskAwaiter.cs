@@ -53,7 +53,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
             get
             {
 
-                Console.WriteLine("__TaskAwaiter.IsCompleted " + new { InternalIsCompleted });
+                //Console.WriteLine("__TaskAwaiter.IsCompleted " + new { InternalIsCompleted });
                 return InternalIsCompleted();
             }
         }
@@ -72,7 +72,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices
         {
             //if (continuation != null)
 
-            Console.WriteLine("__TaskAwaiter.OnCompleted " + new { IsCompleted, continuation });
+            //Console.WriteLine("__TaskAwaiter.OnCompleted " + new { IsCompleted, continuation });
 
             if (IsCompleted)
             {

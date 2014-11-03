@@ -13,7 +13,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public static Task Delay(int millisecondsDelay)
         {
-            Console.WriteLine("enter __Task.Delay");
+            //Console.WriteLine("enter __Task.Delay");
 
             var x = new TaskCompletionSource<object>();
 
@@ -25,13 +25,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 {
                     timer.stop();
 
-                    Console.WriteLine("continue __Task.Delay");
+                    //Console.WriteLine("continue __Task.Delay");
                     x.SetResult(null);
                 };
 
             timer.start();
 
-            Console.WriteLine("exit __Task.Delay");
+            //Console.WriteLine("exit __Task.Delay");
             return x.Task;
         }
     }

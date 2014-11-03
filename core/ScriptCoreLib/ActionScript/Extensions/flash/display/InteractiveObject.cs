@@ -13,6 +13,16 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
     [Script(Implements = typeof(InteractiveObject))]
     internal static class __InteractiveObject
     {
+        // X:\jsc.svn\examples\actionscript\test\TestResolveNativeImplementationExtension\TestResolveNativeImplementationExtension\Class1.cs
+        public static InteractiveObjectAsync get_async(InteractiveObject that)
+        {
+            Console.WriteLine("InteractiveObject get_async");
+
+            return new InteractiveObjectAsync();
+        }
+
+
+
         #region Implementation for methods marked with [Script(NotImplementedHere = true)]
         #region clear
         public static void add_clear(InteractiveObject that, Action<Event> value)
