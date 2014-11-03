@@ -26,7 +26,6 @@ namespace FlashFlare3DEmbedingColladaFile
     public sealed class Application : ApplicationWebService
     {
 
-        public readonly ApplicationSprite sprite = new ApplicationSprite();
 
         /// <summary>
         /// This is a javascript application.
@@ -34,8 +33,39 @@ namespace FlashFlare3DEmbedingColladaFile
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IApp page)
         {
-            // Initialize ApplicationSprite
-            sprite.AttachSpriteTo(page.Content);
+            #region += Launched chrome.app.window
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
+
+            if (self_chrome_socket != null)
+            {
+                //chrome.Notification.DefaultTitle = "Audi Visualization";
+                //chrome.Notification.DefaultIconUrl = new x128().src;
+
+                ChromeTCPServer.TheServerWithAppWindow.Invoke(
+                    AppSource.Text
+                    );
+
+                return;
+            }
+            #endregion
+
+            var sprite = new ApplicationSprite();
+            sprite.AttachSpriteToDocument().With(
+                   embed =>
+                   {
+                       embed.style.SetLocation(0, 0);
+                       embed.style.SetSize(Native.window.Width, Native.window.Height);
+
+                       Native.window.onresize +=
+                           delegate
+                           {
+                               embed.style.SetSize(Native.window.Width, Native.window.Height);
+                           };
+                   }
+               );
 
         }
 

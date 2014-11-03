@@ -49,6 +49,8 @@ namespace MultitouchFingerTools.FlashLAN
 
                     // user code
                     content.ConnectToSession(ApplicationCanvasExtensionsForFlash.ConnectToSessionVariation.Flash);
+
+                    this.addChild(new net.hires.debug.Stats());
                 }
             );
         }

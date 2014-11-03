@@ -79,7 +79,8 @@ namespace HeatZeekerRTSOrto
 
 
             var camera = new THREE.OrthographicCamera(
-                Native.window.Width / -2, Native.window.Width / 2, Native.window.Height / 2, Native.window.Height / -2
+                Native.window.Width / -2, Native.window.Width / 2, 
+                Native.window.Height / 2, Native.window.Height / -2
                 ,
                 // if we change these values what will change?
                 -1000, 1000
