@@ -16,7 +16,7 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
         // X:\jsc.svn\examples\actionscript\test\TestResolveNativeImplementationExtension\TestResolveNativeImplementationExtension\Class1.cs
         public static InteractiveObjectTasks get_async(InteractiveObject that)
         {
-            Console.WriteLine("InteractiveObject get_async");
+            //Console.WriteLine("InteractiveObject get_async");
 
             return new InteractiveObjectTasks { that = that };
         }
