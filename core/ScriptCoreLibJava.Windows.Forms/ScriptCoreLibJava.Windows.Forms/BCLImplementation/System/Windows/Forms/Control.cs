@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using System.Windows.Forms;
 using System.Drawing;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
@@ -558,5 +559,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
         #endregion
 
 
+
+        public ControlBindingsCollection DataBindings
+        {
+            get;
+            set;
+        }
     }
 }

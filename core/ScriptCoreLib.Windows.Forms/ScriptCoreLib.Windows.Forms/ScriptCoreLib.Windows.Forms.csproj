@@ -65,7 +65,7 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Application.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BaseCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\BaseCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Button.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\CheckBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ComboBox.cs">
@@ -81,7 +81,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.Layout.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.Visible.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Control\Control.ControlCollection.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BindingsCollection.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Windows\Forms\BindingsCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Binding.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BindingSource.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\BindingNavigator.cs" />

@@ -1,4 +1,5 @@
-﻿using ScriptCoreLib.Shared.Lambda;
+﻿using ScriptCoreLib.Shared.BCLImplementation.System.Windows.Forms;
+using ScriptCoreLib.Shared.Lambda;
 using System;
 using System.Collections;
 using System.Collections.Generic;
