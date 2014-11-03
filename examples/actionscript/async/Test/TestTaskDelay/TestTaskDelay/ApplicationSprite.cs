@@ -13,14 +13,10 @@ namespace TestTaskDelay
 {
     public sealed class ApplicationSprite : Sprite
     {
+        // "X:\jsc.svn\examples\javascript\Test\TestByRefCall\TestByRefCall.sln"
         // X:\jsc.svn\examples\java\Test\TestGenericByRefThis\TestGenericByRefThis\Class1.cs
         // X:\jsc.svn\examples\javascript\Test\TestByRefLdarg0\TestByRefLdarg0\Program.cs
 
-        //{ errorID = 1006, message = Error #1006: GetResult_4ebbe596_06000cdb is not a function., StackTrace = TypeError: Error #1006: GetResult_4ebbe596_06000cdb is not a function.
-        //	at TestTaskDelay::ApplicationSprite____ctor_b__4_d__0__MoveNext_06000024$/_007c__ldloca_s_try_583b1500_06000044()
-
-        //__Console.WriteLine_4ebbe596_0600125a("TestTaskDelay.ApplicationSprite+<<_ctor>b__4>d__0 <007c> ldloca.s");
-        //    ref_arg3.GetResult_4ebbe596_06000cdb();
 
         //    V:\web\TestTaskDelay\ApplicationSprite___c__DisplayClass0____ctor_b__2_d__0.as(14): col: 24 Warning: No constructor function was specified for class ApplicationSprite___c__DisplayClass0____ctor_b__2_d__0.
         //public final class ApplicationSprite___c__DisplayClass0____ctor_b__2_d__0 implements __IAsyncStateMachine
@@ -109,7 +105,7 @@ namespace TestTaskDelay
                 AtWriteLine = x =>
                 {
 
-                    t.text = x;
+                    //t.text = x;
 
 
                     if (AtWriteLine != null) AtWriteLine(x);
@@ -125,50 +121,22 @@ namespace TestTaskDelay
             {
                 Console.WriteLine(@"see C:\Users\arvo\AppData\Roaming\Macromedia\Flash Player\Logs");
 
-
-
-                //            null
-                //at TestTaskDelay::ApplicationSprite$/ __ctor_b__2_583b1500_06000002()
-
-                //throw null;
-
-
-
-
                 new { t }.With(
                     async scope =>
                  {
+                     //Console.WriteLine("enter async");
 
-                     //t.text = "after 1";
-                     Console.WriteLine("enter async");
-
-                     //                     enter async
-                     //__AsyncVoidMethodBuilder.SetException { exception =  }
-
-                     // this does not yet work does it.
+                     t.text = "enter async";
                      await Task.Delay(500);
-
-                     //var a = Task.Delay(500).GetAwaiter();
-
-                     //a.OnCompleted(
-                     //    delegate
-                     //{
-
-                     //.ContinueWith(
-                     //    task =>
-                     //   {
-                     //t.text = "after 500";
-                     Console.WriteLine("exit async");
-
-                     //   }
-                     //);
-
-                     //}
-                     //    );
+                     t.text = "in async";
+                     await Task.Delay(500);
+                     t.text = "exit async";
 
 
 
-                }
+
+
+                 }
                 );
 
             };

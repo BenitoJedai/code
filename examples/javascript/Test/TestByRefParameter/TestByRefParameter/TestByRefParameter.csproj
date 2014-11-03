@@ -45,7 +45,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rem c:\util\jsc\bin\jsc.exe $(TargetPath) -js -php -java -as
-c:\util\jsc\bin\jsc.exe $(TargetPath) -js</PostBuildEvent>
+start /WAIT cmd /C c:\util\jsc\bin\jsc.exe $(TargetPath) -js -as</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
