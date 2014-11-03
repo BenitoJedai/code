@@ -82,6 +82,7 @@ namespace TestTaskDelay
         // can we stream console to html?
         //public Action<string> AtWriteLine;
         public event Action<string> AtWriteLine;
+        string __pending = "";
 
         public ApplicationSprite()
         {
@@ -108,7 +109,16 @@ namespace TestTaskDelay
                     //t.text = x;
 
 
-                    if (AtWriteLine != null) AtWriteLine(x);
+                    if (AtWriteLine == null)
+                    {
+                        __pending += x + "\n\r";
+                    }
+                    else
+                    {
+                        AtWriteLine(__pending + x);
+
+                        __pending = "";
+                    }
                 }
             }
             );
@@ -116,6 +126,23 @@ namespace TestTaskDelay
             // C:\Windows\system32\Macromed\Flash\NPSWF64_15_0_0_189.dll
 
             Console.WriteLine(@"hello!");
+
+
+            new { t }.With(
+                async scope =>
+                 {
+                     var a = t.async;
+
+                     Console.WriteLine(
+
+                         new { a }
+                         );
+
+
+                     //t.async.onclick;
+                 }
+            );
+
 
             t.click += delegate
             {
