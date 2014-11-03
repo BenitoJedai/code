@@ -210,10 +210,39 @@ namespace MultitouchFingerTools.FlashLAN
 
 #endif
 
-            var sprite = new ApplicationSprite();
+            #region += Launched chrome.app.window
+            // X:\jsc.svn\examples\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\Application.cs
+            dynamic self = Native.self;
+            dynamic self_chrome = self.chrome;
+            object self_chrome_socket = self_chrome.socket;
 
-            sprite.AttachSpriteTo(page.PageContainer);
-            sprite.AutoSizeSpriteTo(page.SizeShadow);
+            if (self_chrome_socket != null)
+            {
+                //chrome.Notification.DefaultTitle = "Audi Visualization";
+                //chrome.Notification.DefaultIconUrl = new x128().src;
+
+                ChromeTCPServer.TheServerWithAppWindow.Invoke(
+                    AppSource.Text
+                    );
+
+                return;
+            }
+            #endregion
+
+            var sprite = new ApplicationSprite();
+            sprite.AttachSpriteToDocument().With(
+                   embed =>
+                   {
+                       embed.style.SetLocation(0, 0);
+                       embed.style.SetSize(Native.window.Width, Native.window.Height);
+
+                       Native.window.onresize +=
+                           delegate
+                           {
+                               embed.style.SetSize(Native.window.Width, Native.window.Height);
+                           };
+                   }
+               );
         }
 
     }

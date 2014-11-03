@@ -2,8 +2,30 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashFlare3DEmbedingColladaFile", "FlashFlare3DEmbedingColladaFile\FlashFlare3DEmbedingColladaFile.csproj", "{C4F01399-07E0-49BA-B022-91BF925E77DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {6193012A-2B4F-4FB9-BC0A-42C3D75BF815}
+		{78BC6FC8-8C6A-4184-9650-29D3C3116457} = {78BC6FC8-8C6A-4184-9650-29D3C3116457}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flare3D", "..\..\..\..\market\synergy\actionscript\Flare3D\Flare3D\Flare3D.csproj", "{78BC6FC8-8C6A-4184-9650-29D3C3116457}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.hires.debug", "..\net.hires.debug\net.hires.debug\net.hires.debug.csproj", "{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chromelabs", "..\..\..\..\market\synergy\javascript\chrome\chrome\chromelabs.csproj", "{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServerAppWindow", "..\..\..\javascript\chrome\apps\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow\ChromeTCPServerAppWindow.csproj", "{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromeTCPServer", "..\..\..\javascript\chrome\apps\ChromeTCPServer\ChromeTCPServer\ChromeTCPServer.csproj", "{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractatech.JavaScript.Forms.FloatStyler", "..\..\..\..\market\javascript\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler\Abstractatech.JavaScript.Forms.FloatStyler.csproj", "{7E3E19CE-5998-41A5-8475-37B61FC63A64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{12EB2296-721F-45A0-B4CA-20CF98FFF249}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +41,36 @@ Global
 		{78BC6FC8-8C6A-4184-9650-29D3C3116457}.Debug|x86.Build.0 = Debug|x86
 		{78BC6FC8-8C6A-4184-9650-29D3C3116457}.Release|x86.ActiveCfg = Release|x86
 		{78BC6FC8-8C6A-4184-9650-29D3C3116457}.Release|x86.Build.0 = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.ActiveCfg = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Debug|x86.Build.0 = Debug|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.ActiveCfg = Release|x86
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815}.Release|x86.Build.0 = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.ActiveCfg = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Debug|x86.Build.0 = Debug|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.ActiveCfg = Release|x86
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7}.Release|x86.Build.0 = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|x86.ActiveCfg = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Debug|x86.Build.0 = Debug|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|x86.ActiveCfg = Release|x86
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988}.Release|x86.Build.0 = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.ActiveCfg = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Debug|x86.Build.0 = Debug|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.ActiveCfg = Release|x86
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D}.Release|x86.Build.0 = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|x86.ActiveCfg = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Debug|x86.Build.0 = Debug|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.ActiveCfg = Release|x86
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6193012A-2B4F-4FB9-BC0A-42C3D75BF815} = {12EB2296-721F-45A0-B4CA-20CF98FFF249}
+		{7E3E19CE-5998-41A5-8475-37B61FC63A64} = {12EB2296-721F-45A0-B4CA-20CF98FFF249}
+		{6C8F3C29-10F3-432B-B0E4-14C8EA3C79D7} = {12EB2296-721F-45A0-B4CA-20CF98FFF249}
+		{05C684CE-EA6D-4E6A-B90E-B0A4E20BE21D} = {12EB2296-721F-45A0-B4CA-20CF98FFF249}
+		{6B03ABE7-4457-43D8-8F25-CD3A91DF0988} = {12EB2296-721F-45A0-B4CA-20CF98FFF249}
+		{78BC6FC8-8C6A-4184-9650-29D3C3116457} = {12EB2296-721F-45A0-B4CA-20CF98FFF249}
 	EndGlobalSection
 EndGlobal
