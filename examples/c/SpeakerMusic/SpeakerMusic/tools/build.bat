@@ -27,7 +27,7 @@ goto :eof
 :jsc
 pushd ..\bin\%ConfigurationName%
 
-call c:\util\jsc\bin\jsc.exe %TargetFileName% -c
+call c:\util\jsc\bin\jsc.meta.exe %TargetFileName% -c
 
 
 popd
@@ -39,7 +39,7 @@ pushd ..\bin\%ConfigurationName%\web
 
 
 
-call C:\util\upx303w\upx.exe -9 -o %1.upx.exe %1
+rem call C:\util\upx303w\upx.exe -9 -o %1.upx.exe %1
 
 
 popd
