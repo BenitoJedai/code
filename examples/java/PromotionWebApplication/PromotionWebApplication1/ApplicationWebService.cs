@@ -10,6 +10,9 @@ namespace PromotionWebApplication1
     public sealed partial class ApplicationWebService
     //: ISoundCloudTracksDownload
     {
+        //Y:\PromotionWebApplication1.ApplicationWebService\staging.java\web\files
+        //C:\Program Files (x86)\Java\jdk1.7.0_45\bin\javac.exe  -encoding UTF-8 -cp Y:\PromotionWebApplication1.ApplicationWebService\staging.java\web\release;C:\util\appengine-java-sdk-1.9.9\lib\impl\*;C:\util\appengine-java-sdk-1.9.9\lib\shared\* -d "Y:\PromotionWebApplication1.ApplicationWebService\staging.java\web\release" @"Y:\PromotionWebApplication1.ApplicationWebService\staging.java\web\files"
+
 
         public void Hello(string data, StringAction result)
         {

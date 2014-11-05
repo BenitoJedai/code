@@ -6,9 +6,9 @@
   
   <!--<id>FlashWorkerExperiment</id>-->
 
-  <id>jsc-solutions.hellojsc</id>
+  <id>com.abstractatech.gamification.mft</id>
   
-  <versionNumber>1.0.1</versionNumber>
+  <versionNumber>2</versionNumber>
   <filename>MultitouchFingerTools.FlashLAN</filename>
   <name>MultitouchFingerTools.FlashLAN</name>
   <description>

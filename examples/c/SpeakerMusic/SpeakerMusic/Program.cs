@@ -194,6 +194,8 @@ namespace SpeakerMusic
     [Script]
     public unsafe class NativeClass1
     {
+        // http://msdn.microsoft.com/en-us/library/windows/desktop/ms679277(v=vs.85).aspx
+
         //Setting environment for using Microsoft Visual Studio 2010 x86 tools.
         //ERROR: Cannot determine the location of the VS Common Tools folder.
 

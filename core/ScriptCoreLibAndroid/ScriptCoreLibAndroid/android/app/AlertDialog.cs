@@ -33,25 +33,25 @@ namespace android.app
 
             }
 
-            public AlertDialog create()
+            public virtual AlertDialog create()
             {
                 return default(AlertDialog);
             }
 
-            public void setView(View view)
+            public virtual void setView(View view)
             {
 
             }
 
-            public void setMessage(string title)
+            public virtual void setMessage(string title)
             {
             }
 
-            public void setTitle(string title)
+            public virtual void setTitle(string title)
             {
             }
 
-            public void setPositiveButton(string text, DialogInterface_OnClickListener listener)
+            public virtual void setPositiveButton(string text, DialogInterface_OnClickListener listener)
             {
             }
         }

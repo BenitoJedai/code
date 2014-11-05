@@ -17,6 +17,7 @@ namespace MultitouchFingerTools.FlashLAN
 {
     public class ApplicationCanvas : global::MultitouchFingerTools.ApplicationCanvas
     {
+        //You just published this application. It can take several hours until the listing is available in Google Play.
         //* New packaged apps are currently able to be searched and browsed in the Chrome Web Store by Windows and Chrome OS users on Chrome's developer channel. Users on other OSs and Chrome channels can view and install the app via a direct link.
 
         //        Please fix the following errors:

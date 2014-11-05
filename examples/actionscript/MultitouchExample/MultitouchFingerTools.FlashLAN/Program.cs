@@ -221,6 +221,10 @@ namespace MultitouchFingerTools.FlashLAN
                 //chrome.Notification.DefaultTitle = "Audi Visualization";
                 //chrome.Notification.DefaultIconUrl = new x128().src;
 
+                chrome.Notification.DefaultIconUrl = new HTML.Images.FromAssets.Preview().src;
+                chrome.Notification.DefaultTitle = "MultitouchFingerTools.FlashLAN";
+
+
                 ChromeTCPServer.TheServerWithAppWindow.Invoke(
                     AppSource.Text
                     );
