@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms\Shared\BCLImplementation\System\Windows\Forms\Padding.cs">
+      <Link>Android\BCLImplementation\System\Windows\Forms\Padding.cs</Link>
+    </Compile>
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\Button.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\CheckBox.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
