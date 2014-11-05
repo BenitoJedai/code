@@ -11,6 +11,12 @@ namespace MultitouchFingerTools.FlashLAN
 {
     public sealed class ApplicationSprite : Sprite
     {
+        // This small tile image has been rejected due to the following reasons:
+        //Too much text
+        //Text is too small
+        //Too much detail
+        // You need to use a different version code for your APK because you already have one with version code 1000001.
+
         public const int DefaultWidth = ApplicationCanvas.DefaultWidth;
         public const int DefaultHeight = ApplicationCanvas.DefaultHeight;
 
