@@ -38,21 +38,24 @@ namespace android.app
                 return default(AlertDialog);
             }
 
-            public virtual void setView(View view)
+            public virtual Builder setView(View view)
             {
-
+                return default(Builder);
             }
 
-            public virtual void setMessage(string title)
+            public virtual Builder setMessage(string title)
             {
+                return default(Builder);
             }
 
-            public virtual void setTitle(string title)
+            public virtual Builder setTitle(string title)
             {
+                return default(Builder);
             }
 
-            public virtual void setPositiveButton(string text, DialogInterface_OnClickListener listener)
+            public virtual Builder setPositiveButton(string text, DialogInterface_OnClickListener listener)
             {
+                return default(Builder);
             }
         }
     }

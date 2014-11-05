@@ -31,6 +31,23 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             InternalScrollView = new ScrollView(c);
             InternalLinearLayout = new LinearLayout(c);
 
+            var p = this.Padding;
+            InternalLinearLayout.setPadding(
+                          p.Left,
+                          p.Top,
+                          p.Right,
+                          p.Bottom
+                          );
+
+
+            // shal we allow dynamic change after we have been shown?
+            //InternalLinearLayout.setPadding(
+            //    this.Padding.Left,
+            //    this.Padding.Top,
+            //    this.Padding.Right,
+            //    this.Padding.Bottom
+            //    );
+
             InternalLinearLayout.setOrientation(1);
 
             InternalScrollView.addView(InternalLinearLayout);

@@ -6,6 +6,7 @@ using System.Text;
 using android.content;
 using android.view;
 using ScriptCoreLib.Shared.BCLImplementation.System.ComponentModel;
+//using System.Windows.Forms;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
@@ -33,6 +34,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
         {
 
         }
+
+        public global::System.Windows.Forms.Padding Padding { get; set; }
+
         public void InternalSetContext(Context c)
         {
             InternalBeforeSetContext(c);
