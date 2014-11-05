@@ -18,39 +18,39 @@ namespace ScriptCoreLib.Extensions
         static void BridgeStreamTo(this Stream x, Stream y, int ClientCounter, string prefix = "#")
         {
             new Thread(
-               delegate ()
-            {
-                var buffer = new byte[0x100000];
+               delegate()
+               {
+                   var buffer = new byte[0x100000];
 
-                while (true)
-                {
-                    //
-                    try
-                    {
+                   while (true)
+                   {
+                       //
+                       try
+                       {
 
-                        var c = x.Read(buffer, 0, buffer.Length);
+                           var c = x.Read(buffer, 0, buffer.Length);
 
-                        if (c <= 0)
-                            return;
+                           if (c <= 0)
+                               return;
 
 
-                        Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
+                           Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
 
-                        if (prefix.StartsWith("?"))
-                            Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
+                           if (prefix.StartsWith("?"))
+                               Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
 
-                        y.Write(buffer, 0, c);
+                           y.Write(buffer, 0, c);
 
-                        Thread.Sleep(1);
-                    }
-                    catch
-                    {
-                        //Console.WriteLine("#" + ClientCounter + " error");
+                           Thread.Sleep(1);
+                       }
+                       catch
+                       {
+                           //Console.WriteLine("#" + ClientCounter + " error");
 
-                        return;
-                    }
-                }
-            }
+                           return;
+                       }
+                   }
+               }
            )
             {
                 Name = "BridgeStreamTo",
@@ -105,54 +105,54 @@ namespace ScriptCoreLib.Extensions
                     #region CertificateFromCurrentUser
                     Func<X509Certificate> CertificateFromCurrentUser =
                         delegate
-                    {
-                        X509Store store = new X509Store(
-                            //StoreName.Root,
-                            StoreName.My,
-                            StoreLocation.CurrentUser);
-                        // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                        // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
-
-                        // Policy Information:
-                        //URL = http://127.0.0.5:10500
-
-                        try
                         {
+                            X509Store store = new X509Store(
+                                //StoreName.Root,
+                                StoreName.My,
+                                StoreLocation.CurrentUser);
+                            // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+                            // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
 
-                            store.Open(OpenFlags.ReadOnly);
-                            // Additional information: The OID value was invalid.
-                            X509Certificate2Collection cers = store.Certificates;
+                            // Policy Information:
+                            //URL = http://127.0.0.5:10500
 
-
-                            foreach (var item in cers)
+                            try
                             {
-                                // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
-                                var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
 
-                                // // spcSpAgencyInfo private extension
+                                store.Open(OpenFlags.ReadOnly);
+                                // Additional information: The OID value was invalid.
+                                X509Certificate2Collection cers = store.Certificates;
 
-                                var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
-                                if (elink != null)
+
+                                foreach (var item in cers)
                                 {
-                                    var prefix = 6;
-                                    var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
+                                    // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
+                                    var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
 
-                                    //Console.WriteLine(new { item.Subject, linkvalue });
+                                    // // spcSpAgencyInfo private extension
 
-                                    if (linkvalue == link)
-                                        return item;
+                                    var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
+                                    if (elink != null)
+                                    {
+                                        var prefix = 6;
+                                        var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
+
+                                        //Console.WriteLine(new { item.Subject, linkvalue });
+
+                                        if (linkvalue == link)
+                                            return item;
+                                    }
                                 }
                             }
-                        }
-                        finally
-                        {
+                            finally
+                            {
 
-                            store.Close();
-                        }
+                                store.Close();
+                            }
 
-                        return null;
+                            return null;
 
-                    };
+                        };
                     #endregion
 
                     // are we slowing down checking certs at each connection?
@@ -227,36 +227,36 @@ namespace ScriptCoreLib.Extensions
             #region CertificateRootFromCurrentUser
             Func<X509Certificate> CertificateRootFromCurrentUser =
                 delegate
-            {
-                X509Store store = new X509Store(
-                            StoreName.Root,
-                    StoreLocation.CurrentUser);
-                // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
-
-                // Policy Information:
-                //URL = http://127.0.0.5:10500
-
-                try
                 {
+                    X509Store store = new X509Store(
+                                StoreName.Root,
+                        StoreLocation.CurrentUser);
+                    // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+                    // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
 
-                    store.Open(OpenFlags.ReadOnly);
+                    // Policy Information:
+                    //URL = http://127.0.0.5:10500
 
-                    var item = store.Certificates.Find(X509FindType.FindBySubjectName, CN, true);
+                    try
+                    {
 
-                    if (item.Count > 0)
-                        return item[0];
+                        store.Open(OpenFlags.ReadOnly);
 
-                }
-                finally
-                {
+                        var item = store.Certificates.Find(X509FindType.FindBySubjectName, CN, true);
 
-                    store.Close();
-                }
+                        if (item.Count > 0)
+                            return item[0];
 
-                return null;
+                    }
+                    finally
+                    {
 
-            };
+                        store.Close();
+                    }
+
+                    return null;
+
+                };
             #endregion
 
 
@@ -273,7 +273,7 @@ namespace ScriptCoreLib.Extensions
                 var p = Process.Start(
                     new ProcessStartInfo(
                         makecert,
-                       // this cert is constant
+                    // this cert is constant
                        args
                     )
                 {
@@ -322,20 +322,20 @@ namespace ScriptCoreLib.Extensions
                            userCertificateSelectionCallback:
                                new LocalCertificateSelectionCallback(
                                    (object sender, string targetHost, X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers) =>
-                        {
-                            return localCertificates[0];
-                        }
+                                   {
+                                       return localCertificates[0];
+                                   }
                                ),
                            userCertificateValidationCallback:
                                new RemoteCertificateValidationCallback(
                                    (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
-                        {
-                            //Console.WriteLine(
-                            //    new { certificate }
-                            //    );
+                                   {
+                                       //Console.WriteLine(
+                                       //    new { certificate }
+                                       //    );
 
-                            return true;
-                        }
+                                       return true;
+                                   }
                                ),
                            encryptionPolicy: EncryptionPolicy.RequireEncryption
                            );
@@ -361,10 +361,10 @@ namespace ScriptCoreLib.Extensions
 
                                 sslStream.AuthenticateAsServer(
                                     serverCertificate: CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)clientSocket.Client.LocalEndPoint),
-                                clientCertificateRequired: false,
-                                //clientCertificateRequired: true,
-                                // Tls12 = 3072
-                                //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
+                                    //clientCertificateRequired: false,
+                                    clientCertificateRequired: true,
+                                    // Tls12 = 3072
+                                    //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
                                 enabledSslProtocols: enabledSslProtocols,
                                     checkCertificateRevocation: false
                                 );
@@ -405,21 +405,21 @@ namespace ScriptCoreLib.Extensions
 
 
             new Thread(
-               delegate ()
-            {
-                while (true)
-                {
-                    var clientSocket = x.AcceptTcpClient();
-                    ClientCounter++;
+               delegate()
+               {
+                   while (true)
+                   {
+                       var clientSocket = x.AcceptTcpClient();
+                       ClientCounter++;
 
-                    //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
-
-
-                    yield(clientSocket);
-                }
+                       //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
 
 
-            }
+                       yield(clientSocket);
+                   }
+
+
+               }
            )
             {
                 IsBackground = true,
