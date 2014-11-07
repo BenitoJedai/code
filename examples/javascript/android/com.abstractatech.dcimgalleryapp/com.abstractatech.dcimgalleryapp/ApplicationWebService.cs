@@ -560,6 +560,8 @@ namespace com.abstractatech.dcimgalleryapp
             ystring yfile
             )
         {
+            // this will crash for empty nexus
+
             var skip = this.skip;
             var take = this.take;
 
