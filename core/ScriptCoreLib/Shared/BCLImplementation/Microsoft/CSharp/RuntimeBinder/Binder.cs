@@ -4,6 +4,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -12,11 +13,34 @@ namespace ScriptCoreLib.Shared.BCLImplementation.Microsoft.CSharp
     // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/20140705/20140714
     // X:\opensource\github\WootzJs\WootzJs.Runtime\Microsoft\CSharp\RuntimeBinder\Binder.cs
     // http://referencesource.microsoft.com/#Microsoft.CSharp/Microsoft/CSharp/RuntimeBinder/Binder.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/Microsoft.CSharp/Microsoft.CSharp.RuntimeBinder/Binder.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/Microsoft.CSharp/Microsoft.CSharp.RuntimeBinder/Binder.cs
 
     [Script(Implements = typeof(global::Microsoft.CSharp.RuntimeBinder.Binder))]
     public static partial class __Binder
     {
+        public static CallSiteBinder BinaryOperation(CSharpBinderFlags flags, ExpressionType operation, Type context, IEnumerable<CSharpArgumentInfo> argumentInfo)
+        {
+            return (CallSiteBinder)(object)new __BinaryOperationBinder
+            {
+                flags = flags,
+                operation = operation,
+                context = context,
+                argumentInfo = argumentInfo
+            };
+        }
+
+        public static CallSiteBinder UnaryOperation(CSharpBinderFlags flags, ExpressionType operation, Type context, IEnumerable<CSharpArgumentInfo> argumentInfo)
+        {
+            // X:\jsc.svn\examples\javascript\Test\TestUnaryOperation\TestUnaryOperation\Application.cs
+            return  (CallSiteBinder)(object)new __UnaryOperationBinder
+            {
+                flags = flags, 
+                operation = operation, 
+                context = context, 
+                argumentInfo = argumentInfo
+            };
+        }
+
         // how does this 
 
         public static CallSiteBinder GetIndex(CSharpBinderFlags flags, Type context, IEnumerable<CSharpArgumentInfo> argumentInfo)

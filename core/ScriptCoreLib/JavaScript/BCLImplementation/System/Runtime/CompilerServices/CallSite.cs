@@ -446,9 +446,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
             #endregion
 
 
+
+
+            #region __UnaryOperationBinder
+            {
+                var xUnaryOperationBinder = (object)binder as __UnaryOperationBinder;
+                if (xUnaryOperationBinder != null)
+                {
+                    throw new NotImplementedException(new { binder, xUnaryOperationBinder.operation }.ToString());
+                }
+            }
+            #endregion
+
+
+
+
+            #region __BinaryOperationBinder
+            {
+                var xBinaryOperationBinder = (object)binder as __BinaryOperationBinder;
+                if (xBinaryOperationBinder != null)
+                {
+                    throw new NotImplementedException(new { binder, xBinaryOperationBinder.operation }.ToString());
+                }
+            }
+            #endregion
+
             Console.WriteLine(new { binder });
 
-            throw new NotImplementedException("__CallSite.Create ");
+            throw new NotImplementedException("__CallSite.Create " + new { binder });
 
         }
 
