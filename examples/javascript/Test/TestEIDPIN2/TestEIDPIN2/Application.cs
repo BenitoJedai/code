@@ -91,13 +91,7 @@ namespace TestEIDPIN2
                     }.AttachToDocument().With(
                         (dynamic plugin) =>
                         {
-                            // can we have it yet?
-                            // script: error JSC1000: No implementation found for this native method, please implement [static Microsoft.CSharp.RuntimeBinder.Binder.UnaryOperation(Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, System.Linq.Expressions.ExpressionType, System.Type, System.Collections.Generic.IEnumerable`1[[Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]])]
-
-                            string version = plugin.version;
-
-                            //if (plugin.version == null)
-                            if (version == null)
+                            if (plugin.version == null)
                             {
                                 // user can also right click on plugin, but this wont help us as we wont know
                                 new IHTMLPre { "allow plugin, then retry." }.AttachToDocument();
@@ -111,7 +105,7 @@ namespace TestEIDPIN2
                             // {{ version = 3.5.5273.321 }}
 
                             new IHTMLPre {
-                                new { version }
+                                new { plugin.version }
                             }.AttachToDocument();
 
 
