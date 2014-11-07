@@ -42,6 +42,12 @@ namespace TestUnaryOperation
             Native.document.title = "foo";
             dynamic doc = Native.document;
 
+            if (doc.title == "zoo")
+            {
+                Native.css.style.backgroundColor = "yellow";
+
+            }
+
             if (doc.title == "foo")
             {
                 Native.css.style.backgroundColor = "cyan";
