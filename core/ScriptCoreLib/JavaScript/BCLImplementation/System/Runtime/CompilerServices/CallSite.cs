@@ -453,7 +453,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
                 var xUnaryOperationBinder = (object)binder as __UnaryOperationBinder;
                 if (xUnaryOperationBinder != null)
                 {
-                    throw new NotImplementedException(new { binder, xUnaryOperationBinder.operation }.ToString());
+
+                    var r = new Func<__CallSite, object, bool>(
+                       (site, target) =>
+                       {
+
+                           Console.WriteLine(
+                               new
+                               {
+                                   target,
+                                   xUnaryOperationBinder.operation,
+                                   xUnaryOperationBinder.flags
+                                   //, xUnaryOperationBinder.argumentInfo.ToArray().Length 
+                               }
+                               );
+
+
+                           if (xUnaryOperationBinder.operation == global::System.Linq.Expressions.ExpressionType.IsTrue)
+                           {
+                               //  0:46ms { target = true, operation = 83, flags = 0 }
+                               // now what?
+                               return global::System.Collections.Comparer.Default.Compare(target, true) == 0;
+                           }
+
+
+                           throw new NotImplementedException(new { binder, xUnaryOperationBinder.operation }.ToString());
+                       }
+                   );
+
+                    return r;
                 }
             }
             #endregion
@@ -466,7 +494,40 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Runtime.CompilerServ
                 var xBinaryOperationBinder = (object)binder as __BinaryOperationBinder;
                 if (xBinaryOperationBinder != null)
                 {
-                    throw new NotImplementedException(new { binder, xBinaryOperationBinder.operation }.ToString());
+                    var r = new Func<__CallSite, object, string, bool>(
+                       (site, target, value) =>
+                       {
+
+                           Console.WriteLine(
+                               new
+                               {
+                                   xBinaryOperationBinder.operation,
+                                   xBinaryOperationBinder.flags,
+
+                                   target,
+                                   value
+                                   //, xBinaryOperationBinder.argumentInfo.ToArray().Length 
+                               }
+                               );
+
+
+                           if (xBinaryOperationBinder.operation == global::System.Linq.Expressions.ExpressionType.Equal)
+                           {
+                               // Uncaught Error: NotImplementedException: { binder = BinaryOperationBinder, operation = 13 }
+
+                               // now what?
+                               // 0:45ms { operation = 13, flags = 0, target = foo, value = foo }
+
+                               return global::System.Collections.Comparer.Default.Compare(target, value) == 0;
+                           }
+
+
+                           throw new NotImplementedException(new { binder, xBinaryOperationBinder.operation }.ToString());
+                       }
+                   );
+
+                    return r;
+
                 }
             }
             #endregion
