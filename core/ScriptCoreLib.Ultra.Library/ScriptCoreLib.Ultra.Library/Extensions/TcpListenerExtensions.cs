@@ -18,39 +18,39 @@ namespace ScriptCoreLib.Extensions
         static void BridgeStreamTo(this Stream x, Stream y, int ClientCounter, string prefix = "#")
         {
             new Thread(
-               delegate()
-               {
-                   var buffer = new byte[0x100000];
+               delegate ()
+            {
+                var buffer = new byte[0x100000];
 
-                   while (true)
-                   {
-                       //
-                       try
-                       {
+                while (true)
+                {
+                    //
+                    try
+                    {
 
-                           var c = x.Read(buffer, 0, buffer.Length);
+                        var c = x.Read(buffer, 0, buffer.Length);
 
-                           if (c <= 0)
-                               return;
+                        if (c <= 0)
+                            return;
 
 
-                           Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
+                        Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
 
-                           if (prefix.StartsWith("?"))
-                               Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
+                        if (prefix.StartsWith("?"))
+                            Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, c));
 
-                           y.Write(buffer, 0, c);
+                        y.Write(buffer, 0, c);
 
-                           Thread.Sleep(1);
-                       }
-                       catch
-                       {
-                           //Console.WriteLine("#" + ClientCounter + " error");
+                        Thread.Sleep(1);
+                    }
+                    catch
+                    {
+                        //Console.WriteLine("#" + ClientCounter + " error");
 
-                           return;
-                       }
-                   }
-               }
+                        return;
+                    }
+                }
+            }
            )
             {
                 Name = "BridgeStreamTo",
@@ -69,6 +69,14 @@ namespace ScriptCoreLib.Extensions
         {
             BridgeConnectionToPort(x, port, "> ", "< ");
         }
+
+        // X:\jsc.svn\examples\javascript\Test\TestEIDPIN2\TestEIDPIN2\ApplicationWebService.cs
+        //  (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
+        [Obsolete("wont be visible for the child appdomain?")]
+        public static Dictionary<object, Action<RemoteCertificateValidationCallback>> RemoteCertificateValidationCallbackReplay
+            = new Dictionary<object, Action<RemoteCertificateValidationCallback>>();
+
+
 
         public static void BridgeConnectionToPort(this TcpListener x, int port, string rx, string tx)
         {
@@ -105,54 +113,54 @@ namespace ScriptCoreLib.Extensions
                     #region CertificateFromCurrentUser
                     Func<X509Certificate> CertificateFromCurrentUser =
                         delegate
-                        {
-                            X509Store store = new X509Store(
+                    {
+                        X509Store store = new X509Store(
                                 //StoreName.Root,
                                 StoreName.My,
-                                StoreLocation.CurrentUser);
-                            // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                            // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
+                            StoreLocation.CurrentUser);
+                        // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+                        // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
 
-                            // Policy Information:
-                            //URL = http://127.0.0.5:10500
+                        // Policy Information:
+                        //URL = http://127.0.0.5:10500
 
-                            try
+                        try
+                        {
+
+                            store.Open(OpenFlags.ReadOnly);
+                            // Additional information: The OID value was invalid.
+                            X509Certificate2Collection cers = store.Certificates;
+
+
+                            foreach (var item in cers)
                             {
+                                // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
+                                var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
 
-                                store.Open(OpenFlags.ReadOnly);
-                                // Additional information: The OID value was invalid.
-                                X509Certificate2Collection cers = store.Certificates;
+                                // // spcSpAgencyInfo private extension
 
-
-                                foreach (var item in cers)
+                                var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
+                                if (elink != null)
                                 {
-                                    // http://comments.gmane.org/gmane.comp.emulators.wine.devel/86862
-                                    var SPC_SP_AGENCY_INFO_OBJID = "1.3.6.1.4.1.311.2.1.10";
+                                    var prefix = 6;
+                                    var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
 
-                                    // // spcSpAgencyInfo private extension
+                                    //Console.WriteLine(new { item.Subject, linkvalue });
 
-                                    var elink = item.Extensions[SPC_SP_AGENCY_INFO_OBJID];
-                                    if (elink != null)
-                                    {
-                                        var prefix = 6;
-                                        var linkvalue = Encoding.UTF8.GetString(elink.RawData, prefix, elink.RawData.Length - prefix);
-
-                                        //Console.WriteLine(new { item.Subject, linkvalue });
-
-                                        if (linkvalue == link)
-                                            return item;
-                                    }
+                                    if (linkvalue == link)
+                                        return item;
                                 }
                             }
-                            finally
-                            {
+                        }
+                        finally
+                        {
 
-                                store.Close();
-                            }
+                            store.Close();
+                        }
 
-                            return null;
+                        return null;
 
-                        };
+                    };
                     #endregion
 
                     // are we slowing down checking certs at each connection?
@@ -227,36 +235,36 @@ namespace ScriptCoreLib.Extensions
             #region CertificateRootFromCurrentUser
             Func<X509Certificate> CertificateRootFromCurrentUser =
                 delegate
+            {
+                X509Store store = new X509Store(
+                            StoreName.Root,
+                    StoreLocation.CurrentUser);
+                // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
+                // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
+
+                // Policy Information:
+                //URL = http://127.0.0.5:10500
+
+                try
                 {
-                    X509Store store = new X509Store(
-                                StoreName.Root,
-                        StoreLocation.CurrentUser);
-                    // https://syfuhs.net/2011/05/12/making-the-x509store-more-friendly/
-                    // http://ftp.icpdas.com/pub/beta_version/VHM/wince600/at91sam9g45m10ek_armv4i/cesysgen/sdk/inc/wintrust.h
 
-                    // Policy Information:
-                    //URL = http://127.0.0.5:10500
+                    store.Open(OpenFlags.ReadOnly);
 
-                    try
-                    {
+                    var item = store.Certificates.Find(X509FindType.FindBySubjectName, CN, true);
 
-                        store.Open(OpenFlags.ReadOnly);
+                    if (item.Count > 0)
+                        return item[0];
 
-                        var item = store.Certificates.Find(X509FindType.FindBySubjectName, CN, true);
+                }
+                finally
+                {
 
-                        if (item.Count > 0)
-                            return item[0];
+                    store.Close();
+                }
 
-                    }
-                    finally
-                    {
+                return null;
 
-                        store.Close();
-                    }
-
-                    return null;
-
-                };
+            };
             #endregion
 
 
@@ -273,7 +281,7 @@ namespace ScriptCoreLib.Extensions
                 var p = Process.Start(
                     new ProcessStartInfo(
                         makecert,
-                    // this cert is constant
+                       // this cert is constant
                        args
                     )
                 {
@@ -330,9 +338,24 @@ namespace ScriptCoreLib.Extensions
                                new RemoteCertificateValidationCallback(
                                    (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
                                    {
+                                       // what if the app would also like to know
+                                       // how did the client authenticate?
+
                                        //Console.WriteLine(
-                                       //    new { certificate }
+                                       //    new { certificate, chain }
                                        //    );
+
+                                       //        SERIALNUMBER=47101010033, G=MARI-LIIS, SN=MÄNNIK, CN="MÄNNIK,MARI-LIIS,47101010033", OU=authentication, O=ESTEID, C=EE
+
+                                       // can we get the data to the web handler in another appdomain this way?
+
+
+                                       if (certificate != null)
+                                           //Console.Title = certificate.GetSerialNumberString();
+                                           Console.Title = new { certificate }.ToString();
+
+                                       //RemoteCertificateValidationCallbackReplay[sender] =
+                                       // y => y(sender, certificate, chain, sslPolicyErrors);
 
                                        return true;
                                    }
@@ -363,8 +386,8 @@ namespace ScriptCoreLib.Extensions
                                     serverCertificate: CertificateFromCurrentUserByLocalEndPoint((IPEndPoint)clientSocket.Client.LocalEndPoint),
                                     //clientCertificateRequired: false,
                                     clientCertificateRequired: true,
-                                    // Tls12 = 3072
-                                    //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
+                                // Tls12 = 3072
+                                //enabledSslProtocols: System.Security.Authentication.SslProtocols.Tls12,
                                 enabledSslProtocols: enabledSslProtocols,
                                     checkCertificateRevocation: false
                                 );
@@ -405,21 +428,21 @@ namespace ScriptCoreLib.Extensions
 
 
             new Thread(
-               delegate()
-               {
-                   while (true)
-                   {
-                       var clientSocket = x.AcceptTcpClient();
-                       ClientCounter++;
+               delegate ()
+            {
+                while (true)
+                {
+                    var clientSocket = x.AcceptTcpClient();
+                    ClientCounter++;
 
-                       //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
-
-
-                       yield(clientSocket);
-                   }
+                    //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
 
 
-               }
+                    yield(clientSocket);
+                }
+
+
+            }
            )
             {
                 IsBackground = true,

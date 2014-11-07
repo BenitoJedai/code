@@ -37,7 +37,7 @@ namespace TestEIDPIN2
             //  Signing software is available from https://installer.id.ee]
 
             // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201410/20141002
-            new IHTMLAnchor { href = "https://openxades.org/web_sign_demo/sign.html", innerText = "web_sign_demo" }.AttachToDocument();
+            //new IHTMLAnchor { href = "https://openxades.org/web_sign_demo/sign.html", innerText = "web_sign_demo" }.AttachToDocument();
 
 
             // // It is checked if the connection is https during the signing module loading
@@ -63,25 +63,25 @@ namespace TestEIDPIN2
 
             // !! actually IE wont report anything here.
 
-            new IHTMLButton { "list mimeTypes" }.AttachToDocument().onclick +=
-             e =>
-                {
+            //new IHTMLButton { "list mimeTypes" }.AttachToDocument().onclick +=
+            // e =>
+            //    {
 
-                    Native.window.navigator.mimeTypes.ToArray().AsEnumerable().WithEach(
-                        x =>
-                        {
-                            new IHTMLPre {
-                                new { x.type, x.description}
-                            }.AttachToDocument();
-
-
-                        }
-                    );
-                };
+            //        Native.window.navigator.mimeTypes.ToArray().AsEnumerable().WithEach(
+            //            x =>
+            //            {
+            //                new IHTMLPre {
+            //                    new { x.type, x.description}
+            //                }.AttachToDocument();
 
 
+            //            }
+            //        );
+            //    };
 
-            new IHTMLButton { "new object" }.AttachToDocument().onclick +=
+
+
+            new IHTMLButton { "use the API" }.AttachToDocument().onclick +=
                 e =>
                 {
                     new IHTMLObject
@@ -91,6 +91,7 @@ namespace TestEIDPIN2
                     }.AttachToDocument().With(
                         (dynamic plugin) =>
                         {
+                            // can we have it yet?
                             // script: error JSC1000: No implementation found for this native method, please implement [static Microsoft.CSharp.RuntimeBinder.Binder.UnaryOperation(Microsoft.CSharp.RuntimeBinder.CSharpBinderFlags, System.Linq.Expressions.ExpressionType, System.Type, System.Collections.Generic.IEnumerable`1[[Microsoft.CSharp.RuntimeBinder.CSharpArgumentInfo, Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]])]
 
                             string version = plugin.version;
@@ -139,8 +140,10 @@ namespace TestEIDPIN2
 
                                             // signature is a long hex string!
 
-                                            new IHTMLPre {
-                                                new { signature }
+                                            new IHTMLCode {
+                                                new { signature },
+
+                                                //new IStyle { color = "blue" }
                                             }.AttachToDocument();
 
                                             // we get a dialog
