@@ -16,6 +16,9 @@ namespace TestThreadStart
     {
         public ApplicationSprite()
         {
+            //__Thread.InternalWorkerInvoke_4ebbe596_06000030(this);
+            //this.__out_Method_6d788eff_06000003();
+
             // "X:\jsc.svn\examples\actionscript\async\AsyncWorkerTask\AsyncWorkerTask.sln"
             // X:\jsc.svn\examples\actionscript\async\AsyncWorkerTask\AsyncWorkerTask\ApplicationSprite.cs
             // X:\jsc.svn\examples\actionscript\FlashWorkerExperiment\FlashWorkerExperiment\ApplicationSprite.cs
@@ -24,16 +27,52 @@ namespace TestThreadStart
             // https://forums.adobe.com/thread/1164500
 
             // this looks like chrome context capture
+            #region worker
             if (!Worker.current.isPrimordial)
             {
+                var sw = Stopwatch.StartNew();
+
                 // iOS workers is still on the roadmap.  I don't have a release date, but I know it'll be an extended beta type of feature.  
                 // Most of the concurrency work was gated on the new AOT compiler work, which is still being actively worked on.  
                 // Lots of bug and performance fixes were added to AIR 15 and we're not stopping there.
 
+                var xfromWorker = (MessageChannel)Worker.current.getSharedProperty("fromWorker");
 
+                var FunctionToken_TypeFullName = (string)Worker.current.getSharedProperty("FunctionToken_TypeFullName");
+                var FunctionToken_MethodName = (string)Worker.current.getSharedProperty("FunctionToken_MethodName");
+                var arg0 = (string)Worker.current.getSharedProperty("arg0");
+
+                //               enter click
+                //{ { data = message from worker { { FunctionToken_TypeFullName = TestThreadStart.TheOtherClass, FunctionToken_MethodName = Invoke_6d788eff_0600001c } }, ElapsedMilliseconds = 1713 } }
+
+
+                IntPtr pp = __IntPtr.OfFunctionToken(null,
+                    FunctionToken_TypeFullName,
+                    FunctionToken_MethodName
+                );
+
+
+                MethodInfo mm = new __MethodInfo { _Method = pp };
+
+                //    t.text = "after invoke " + new { TheOtherClass.SharedField, sw.ElapsedMilliseconds };
+
+                //xfromWorker.send("message from worker " + new { FunctionToken_TypeFullName, FunctionToken_MethodName });
+
+                //throw null;
+
+
+
+                mm.Invoke(null, new object[] { arg0 });
+
+                //               enter click
+                //{ { ElapsedMilliseconds = 3103, data = message from worker { { ElapsedMilliseconds = 3057, SharedField = { { data = null, i = 65534, j = 3 } } } } } }
+                // {{ ElapsedMilliseconds = 3399, data = message from worker {{ ElapsedMilliseconds = 3352, SharedField = {{ data = hello world, i = 65534, j = 3 }} }} }}
+
+                xfromWorker.send("message from worker " + new { sw.ElapsedMilliseconds, TheOtherClass.SharedField });
 
                 return;
             }
+            #endregion
 
             // {{ os = Windows 7, version = WIN 15,0,0,189, length = 333983, Target = null, Method = { _Target = , _Method = IntPtr { StringToken = , FunctionToken = function Function() {}, ClassToken =  } } }}
             // start0 = new __ParameterizedThreadStart(null, __IntPtr.op_Explicit_4ebbe596_06001686(TheOtherClass.Invoke_6d788eff_0600000c));
@@ -115,13 +154,7 @@ namespace TestThreadStart
             //var pt = Type.GetType(p._Method.FunctionToken_TypeFullName);
 
 
-            IntPtr pp = __IntPtr.OfFunctionToken(null,
-                p._Method.FunctionToken_TypeFullName,
-                p._Method.FunctionToken_MethodName
-            );
 
-
-            MethodInfo mm = new __MethodInfo { _Method = pp };
 
             //new ParameterizedThreadStart(null, pp);
 
@@ -135,8 +168,13 @@ namespace TestThreadStart
                 multiline = true,
                 //wordWrap = true,
 
+                // {{ InternalPrimordialSprite = null, os = Windows 7, version = WIN 15,0,0,189, length = 353988, FunctionToken_TypeFullName = TestThreadStart.TheOtherClass, FunctionToken_MethodName = Invoke_6d788eff_06000016 }}
+
                 text = new
                 {
+                    // did the compiler set it yet?
+                    __Thread.InternalPrimordialSprite,
+
                     // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/Capabilities.html
                     Capabilities.os,
                     Capabilities.version,
@@ -177,17 +215,48 @@ namespace TestThreadStart
 
                 t.text = "enter click";
 
-                try
-                {
-                    // catch {{ err = ArgumentError: Error #1063: Argument count mismatch on TestThreadStart::TheOtherClass$/Invoke_6d788eff_06000013(). Expected 1, got 0. }}
+                var w = WorkerDomain.current.createWorker(
+                     this.loaderInfo.bytes
+                 );
 
-                    mm.Invoke(null, new object[1]);
-                    t.text = "after invoke " + new { TheOtherClass.SharedField, sw.ElapsedMilliseconds };
-                }
-                catch (Exception err)
-                {
-                    t.text = "catch " + new { err };
-                }
+                //p._Method.FunctionToken_TypeFullName,
+                //p._Method.FunctionToken_MethodName
+
+                w.setSharedProperty("FunctionToken_TypeFullName", p._Method.FunctionToken_TypeFullName);
+                w.setSharedProperty("FunctionToken_MethodName", p._Method.FunctionToken_MethodName);
+                w.setSharedProperty("arg0", "hello world");
+
+                var fromWorker = w.createMessageChannel(Worker.current);
+                w.setSharedProperty("fromWorker", fromWorker);
+
+                fromWorker.channelMessage +=
+                        e =>
+                        {
+                            var data = (string)fromWorker.receive();
+
+                            t.appendText(
+
+                                "\n " + new { sw.ElapsedMilliseconds, data }.ToString()
+
+                                );
+
+                        };
+
+                t.text = "enter click";
+                w.start();
+
+
+                //try
+                //{
+                //    // catch {{ err = ArgumentError: Error #1063: Argument count mismatch on TestThreadStart::TheOtherClass$/Invoke_6d788eff_06000013(). Expected 1, got 0. }}
+
+                //    mm.Invoke(null, new object[1]);
+                //    t.text = "after invoke " + new { TheOtherClass.SharedField, sw.ElapsedMilliseconds };
+                //}
+                //catch (Exception err)
+                //{
+                //    t.text = "catch " + new { err };
+                //}
 
 
             };
