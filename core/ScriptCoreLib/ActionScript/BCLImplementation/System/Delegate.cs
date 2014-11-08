@@ -9,8 +9,11 @@ using ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/delegate.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/corlib/System/Delegate.cs
+
     [Script(Implements = typeof(global::System.Delegate))]
-    internal class __Delegate : __ICloneable, __ISerializable
+    internal abstract class __Delegate : __ICloneable, __ISerializable
     {
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
         public object _Target;
@@ -24,9 +27,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             get
             {
-                return new __MethodInfo { 
+                return new __MethodInfo
+                {
                     //_Target = this._Target, 
-                    _Method = this._Method 
+                    _Method = this._Method
                 };
             }
         }
@@ -39,35 +43,40 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         }
 
 
-        Function _FunctionPointer;
+        //Function _FunctionPointer;
 
+        // used by ?
         public Function FunctionPointer
         {
             get
             {
-                if (_FunctionPointer == null)
-                {
-                    var method = ToIntPtr(_Method);
 
-                    if (method.FunctionToken != null)
+                __IntPtr p = this._Method;
+
+                if (p.FunctionToken == null)
+                {
+                    if (p.FunctionToken_MethodName != null)
                     {
-                        _FunctionPointer = method.FunctionToken;
+                        p.FunctionToken = GetFunctionPointer(
+                            Type.GetType(p.FunctionToken_TypeFullName),
+                            p.FunctionToken_MethodName
+                            );
                     }
                     else
                     {
-                        _FunctionPointer = GetFunctionPointer(_Target, method.StringToken);
+                        p.FunctionToken = GetFunctionPointer(_Target, p.StringToken);
                     }
                 }
 
-                return _FunctionPointer;
+                return p.FunctionToken;
             }
         }
 
-        [Script(OptimizedCode = "return o;")]
-        private static __IntPtr ToIntPtr(global::System.IntPtr o)
-        {
-            return default(__IntPtr);
-        }
+        //[Script(OptimizedCode = "return o;")]
+        //private static __IntPtr ToIntPtr(global::System.IntPtr o)
+        //{
+        //    return default(__IntPtr);
+        //}
 
         [Script(OptimizedCode = "return o[n];")]
         private static Function GetFunctionPointer(object o, string n)

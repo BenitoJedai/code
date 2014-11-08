@@ -10,16 +10,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection
     {
         // tested by ?
 
-        public override string Name
-        {
-            get { return ".ctor"; }
+        //public override string Name
+        //{
+        //    get { return ".ctor"; }
 
-        }
+        //}
 
-        public override Type DeclaringType
-        {
-            get { return null; }
-        }
+        //public override Type DeclaringType
+        //{
+        //    get { return null; }
+        //}
 
     }
 }
