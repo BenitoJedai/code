@@ -99,6 +99,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [System.Obsolete("experimental like .css")]
         public ShadowRoot<T> shadow
         {
+            // https://www.youtube.com/watch?v=Is4FZxKGqqk
+
             [method: Script(DefineAsStatic = true)]
             get
             {

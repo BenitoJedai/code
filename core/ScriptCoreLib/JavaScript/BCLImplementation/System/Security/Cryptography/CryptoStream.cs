@@ -2,10 +2,12 @@
 using ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptography.X509Certificates
+namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptography
 {
     // http://msdn.microsoft.com/en-us/library/system.security.cryptography.cryptostream(v=vs.110).aspx
     // https://github.com/mono/mono/tree/master/mcs/class/corlib/System.Security.Cryptography/CryptoStream.cs
@@ -21,7 +23,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Security.Cryptograph
     [Script(Implements = typeof(global::System.Security.Cryptography.CryptoStream))]
     internal class __CryptoStream : __Stream
     {
-        // tested by ?
+        // the view-source is the shared key
+        // the client creates a new key
+        // to encrypted respond to
+
+
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141108
+
+        public __CryptoStream(Stream stream, ICryptoTransform transform, CryptoStreamMode mode)
+        {
+            // tested by ?
+
+
+        }
+
 
         // will this allow async rsa encryption?
 

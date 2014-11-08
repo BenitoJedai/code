@@ -2,7 +2,9 @@
 using ScriptCoreLib.Shared.BCLImplementation.System.IO;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
@@ -21,7 +23,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
     [Script(Implements = typeof(global::System.Security.Cryptography.CryptoStream))]
     internal class __CryptoStream : __Stream
     {
-        // tested by ?
+        // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141108
+
+        public __CryptoStream(Stream stream, ICryptoTransform transform, CryptoStreamMode mode)
+        {
+            // tested by ?
+
+
+        }
+
 
         // will this allow async rsa encryption?
 
