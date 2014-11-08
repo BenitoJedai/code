@@ -46,6 +46,11 @@ namespace TestThreadStartInternalWorkerInvoke
                     new ParameterizedThreadStart(
                         data =>
                         {
+                            // can we render audio on the background thread now?
+                            // what else can AIR do on a background thread?
+                            // physics?
+                            // LAN calc?
+
                             // how can we report to the UI thread?
 
                             var nn = Stopwatch.StartNew();
@@ -56,10 +61,18 @@ namespace TestThreadStartInternalWorkerInvoke
                             // keep core2 buzy for a while to be noticed on the task manager
                             while (nn.ElapsedMilliseconds < 10000)
                             {
-                                SharedField = new { data, i, nn.ElapsedMilliseconds }.ToString();
+                                SharedField = new
+                                {
+                                    data,
+                                    i,
+                                    nn.ElapsedMilliseconds
+                                    //, Thread.CurrentThread.ManagedThreadId 
+                                }.ToString();
 
                                 i++;
                             }
+
+                            // i wonder, can we switch to UI thread via await and then back?
 
 
 
