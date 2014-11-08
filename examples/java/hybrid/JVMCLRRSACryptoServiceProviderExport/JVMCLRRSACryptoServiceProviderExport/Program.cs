@@ -176,7 +176,7 @@ namespace JVMCLRRSACryptoServiceProviderExport
             //at System.Security.Cryptography.RSACryptoServiceProvider.Encrypt(Byte[] rgb, Boolean fOAEP)
             //at JVMCLRCryptoKeyExport.CLRProgram.CLRMain(Byte[] e, Byte[] m)
 
-            var n = new RSACryptoServiceProvider(2048);
+            var n = new RSACryptoServiceProvider();
 
             n.ImportParameters(
                 new RSAParameters { Exponent = e, Modulus = m }

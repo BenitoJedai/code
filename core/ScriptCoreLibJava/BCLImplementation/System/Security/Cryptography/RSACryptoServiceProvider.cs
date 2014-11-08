@@ -78,6 +78,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
         //public async Task<byte[]> DecryptAsync(byte[] rgb, bool fOAEP)
         public byte[] Decrypt(byte[] rgb, bool fOAEP)
         {
+            // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
             // X:\jsc.svn\examples\javascript\appengine\test\TestAppEngineWebCryptoKeyImport\TestAppEngineWebCryptoKeyImport\ApplicationWebService.cs
             // You don't need BC for RSA support
 
@@ -90,7 +91,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
 
             // // choose between OAEP or PKCS#1 v.1.5 padding
 
-            // X:\jsc.svn\examples\java\hybrid\JVMCLRRSACryptoServiceProviderExport\JVMCLRRSACryptoServiceProviderExport\Program.cs
 
             // For those of you who will get this problem, it was related to the fact that the Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files was not installed and it was not letting me use encryption better than AES-128. Replacing the policy files with the JCE policy files, I was able to successfully decrypt my encrypted assertion.
             // http://stackoverflow.com/questions/9422545/decrypting-encrypted-assertion-using-saml-2-0-in-java-using-opensaml

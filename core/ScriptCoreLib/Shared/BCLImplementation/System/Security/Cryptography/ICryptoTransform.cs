@@ -11,6 +11,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Security.Cryptography
     [Script(Implements = typeof(global::System.Security.Cryptography.ICryptoTransform))]
     public interface __ICryptoTransform : IDisposable
     {
+        // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Security\Cryptography\CryptoStream.cs
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Security\Cryptography\CryptoStream.cs
         // can we get it working with webCrypto?
 
