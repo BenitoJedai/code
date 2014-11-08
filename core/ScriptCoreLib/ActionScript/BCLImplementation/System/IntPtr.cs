@@ -5,14 +5,28 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
+    // http://referencesource.microsoft.com/#mscorlib/system/intptr.cs
+    // X:\jsc.svn\core\ScriptCoreLibAndroid\ScriptCoreLibAndroid\BCLImplementation\System\IntPtr.cs
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\IntPtr.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IntPtr.cs
+
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
     {
-        public string StringToken;
+        // the fast ref
         public Function FunctionToken;
+
+        // data for worker threads
+        // to find the method yet again.
+        public string FunctionToken_TypeFullName;
+        public string FunctionToken_MethodName;
+
+
+        public string StringToken;
         public Class ClassToken;
 
-     
+
+        // start0 = new __ParameterizedThreadStart(null, __IntPtr.op_Explicit_4ebbe596_06001686(TheOtherClass.Invoke_6d788eff_0600000c));
 
         public static explicit operator __IntPtr(string _Token)
         {
@@ -24,6 +38,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return new __IntPtr { FunctionToken = _Token };
         }
 
+        [Obsolete("used by the compiler")]
+        // OpCodes.Ldftn
+        public static __IntPtr OfFunctionToken(Function FunctionToken, string FunctionToken_TypeFullName, string FunctionToken_MethodName)
+        {
+            return new __IntPtr
+            {
+                FunctionToken = FunctionToken,
+                FunctionToken_TypeFullName = FunctionToken_TypeFullName,
+                FunctionToken_MethodName = FunctionToken_MethodName
+            };
+        }
+
+        // when is this used?
         public static explicit operator string(__IntPtr _ptr)
         {
             return _ptr.StringToken;
@@ -36,7 +63,23 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 
 
+        public override string ToString()
+        {
+            // X:\jsc.svn\examples\actionscript\Test\TestThreadStart\TestThreadStart\ApplicationSprite.cs
 
-  
+            return "IntPtr " + new
+            {
+                this.StringToken,
+                this.ClassToken,
+
+                this.FunctionToken,
+                this.FunctionToken_TypeFullName,
+                this.FunctionToken_MethodName,
+
+            }.ToString();
+        }
+
+
+
     }
 }

@@ -11,6 +11,9 @@ namespace ScriptCoreLib.ActionScript.flash.system
     [Script(IsNative = true)]
     public class Worker : EventDispatcher
     {
+        // https://bugbase.adobe.com/index.cfm?event=bug&id=3683920
+
+
         // what happens if we throw in the worker?
 
 

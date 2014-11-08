@@ -12,6 +12,7 @@ namespace FlashWorkerExperiment
     {
         // X:\jsc.svn\examples\actionscript\async\Test\TestAsync\TestAsync\ApplicationSprite.cs
         // X:\jsc.svn\examples\actionscript\async\AsyncWorkerTask\AsyncWorkerTask\ApplicationSprite.cs
+        // X:\jsc.svn\examples\actionscript\Test\TestThreadStart\TestThreadStart\ApplicationSprite.cs
 
         [Obsolete("redirected to getSharedProperty if user cross threads?")]
         public static MessageChannel zfromWorker { get; set; }

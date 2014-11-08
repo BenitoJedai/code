@@ -8,6 +8,13 @@ using System.Reflection;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
+    // X:\jsc.svn\core\ScriptCoreLib\ActionScript\BCLImplementation\System\Type.cs
+    // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
+    // X:\jsc.svn\core\ScriptCoreLib\JavaScript\BCLImplementation\System\Type.cs
+    // http://sourceforge.net/p/jsc/code/HEAD/tree/core/ScriptCoreLib/JavaScript/BCLImplementation/System/Type.cs
+    // http://referencesource.microsoft.com/#mscorlib/system/type.cs
+    // https://github.com/mono/mono/tree/master/mcs/class/corlib/System/Type.cs
+
     [ScriptImportsType("flash.utils.describeType")]
     [ScriptImportsType("flash.utils.getDefinitionByName")]
     [Script(Implements = typeof(global::System.Type))]
@@ -15,15 +22,19 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     {
         // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Type.cs
 
-		public static implicit operator __Type(Type e)
-		{
-			return (__Type)(object)e;
-		}
+        public static implicit operator __Type(Type e)
+        {
+            return (__Type)(object)e;
+        }
 
         RuntimeTypeHandle _TypeHandle;
 
         public static Type GetType(string x)
         {
+            // tested by?
+            // X:\jsc.svn\examples\actionscript\Test\TestThreadStart\TestThreadStart\ApplicationSprite.cs
+
+
             var e = new __Type
             {
                 InternalTypeDescription = describeType(getDefinitionByName(x))
@@ -100,7 +111,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
         public override string ToString()
         {
-            return TypeDescription.ToString();
+            // X:\jsc.svn\examples\actionscript\Test\TestThreadStart\TestThreadStart\ApplicationSprite.cs
+
+            return "Type " + new { TypeDescription };
         }
 
         public string InternalFullName
@@ -111,8 +124,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
         }
 
-         //<method name="start" declaredBy="com.lytro::Player" returnType="void"/>
+        //<method name="start" declaredBy="com.lytro::Player" returnType="void"/>
 
+        #region GetFields
         public __FieldInfo GetField(string n)
         {
             // X:\jsc.svn\examples\actionscript\Test\TestFieldExpression\TestFieldExpression\ApplicationSprite.cs
@@ -150,7 +164,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             // e.GetType() has no <factory />
             if (f.length() == 1)
             {
-				//x = this.TypeDescription;
+                //x = this.TypeDescription;
                 v = f.child("variable");
                 for (int i = 0; i < v.length(); i++)
                 {
@@ -160,6 +174,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
             return a.ToArray();
         }
+        #endregion
 
         public override string Name
         {
@@ -176,6 +191,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 return v.Substring(i + z.Length);
             }
         }
+
 
         public string Namespace
         {
@@ -225,7 +241,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             get
             {
-                
+
                 var n = default(Type);
 
                 //<type name="FlashXMLExample.ActionScript.Serialized::MyDataClass" base="FlashXMLExample.ActionScript::MyDataClassCommon" isDynamic="false" isFinal="true" isStatic="false">

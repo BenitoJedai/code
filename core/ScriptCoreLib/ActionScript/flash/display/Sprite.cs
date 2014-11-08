@@ -12,6 +12,17 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class Sprite : DisplayObjectContainer
     {
+        // ! this class has economic metrics to it.
+
+        //We believe that the Runtime remains a great choice for developers who want a multi platform solution.  
+        // From games, education, enterprise and a myriad of other categories, developers have had great success 
+        // using Flash Player and AIR.   Flash Player remains ubiquitous, installed on easily over a billion computers.  
+        // It comes bundled with all new Windows 8.x systems and every Chrome/Chrome OS installation.  It's found on 
+        // nearly every computer with a connection to the internet.  AIR is also a huge success, with over 2.1 billion 
+        // user installations and over a hundred thousand distinct applications created.
+        // https://forums.adobe.com/thread/1365685?start=280&tstart=0
+
+
         // October 22, 2014 — This is a beta release of AIR 15, code named Market.
         // Last Updated: October 23, 2014 
 
