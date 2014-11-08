@@ -11,7 +11,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\IntPtr.cs
 
     [Script(Implements = typeof(global::System.IntPtr))]
-    internal class __IntPtr
+    public class __IntPtr
     {
         // the fast ref
         public Function FunctionToken;
@@ -27,7 +27,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 
 
-
+        public static implicit operator IntPtr(__IntPtr _ptr)
+        {
+            return (IntPtr)(object)_ptr;
+        }
         public static implicit operator __IntPtr(IntPtr _ptr)
         {
             return (__IntPtr)(object)_ptr;

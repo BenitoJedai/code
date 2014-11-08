@@ -1,5 +1,9 @@
 using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Threading;
+using ScriptCoreLib.ActionScript.BCLImplementation.System;
+using ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.system;
@@ -95,11 +99,36 @@ namespace TestThreadStart
             //  </factory>
             //</type> } }}
 
-            var z = typeof(TheOtherClass);
+            //var z = typeof(TheOtherClass);
             //var zz = Type.GetType("TestThreadStart::TheOtherClass");
-            var zz = Type.GetType("TestThreadStart.TheOtherClass");
+            //var zz = Type.GetType("TestThreadStart.TheOtherClass");
 
             //var zMethod = z.GetMethods();
+
+            __MethodInfo p = y.Method;
+
+            //{ { os = Windows 7, version = WIN 15,0,0,189, length = 335268, 
+            // FunctionToken_TypeFullName = TestThreadStart.TheOtherClass, 
+            // FunctionToken_MethodName = Invoke_6d788eff_0600000c 
+            // } }
+
+            //var pt = Type.GetType(p._Method.FunctionToken_TypeFullName);
+
+
+            IntPtr pp = __IntPtr.OfFunctionToken(null,
+                p._Method.FunctionToken_TypeFullName,
+                p._Method.FunctionToken_MethodName
+            );
+
+
+            MethodInfo mm = new __MethodInfo { _Method = pp };
+
+            //new ParameterizedThreadStart(null, pp);
+
+            //new Delegate();
+
+
+
 
             var t = new TextField
             {
@@ -120,10 +149,10 @@ namespace TestThreadStart
 
                     // {{ os = Windows 7, version = WIN 15,0,0,189, length = 333411, Target = null, Method = { InternalFunctionPointer = function Function() {} } }}
 
-                    y.Target,
+                    //y.Target,
 
                     // first step is to call a static method on the other side of thread
-                    y.Method,
+                    //y.Method,
                     //y.Method,
                     //y.Method.DeclaringType
 
@@ -132,7 +161,8 @@ namespace TestThreadStart
 
                     //z,
 
-                    zz
+                    p._Method.FunctionToken_TypeFullName,
+                    p._Method.FunctionToken_MethodName,
 
                 }.ToString(),
 
@@ -141,7 +171,26 @@ namespace TestThreadStart
 
             t.AttachTo(this);
 
+            t.click += delegate
+            {
+                var sw = Stopwatch.StartNew();
 
+                t.text = "enter click";
+
+                try
+                {
+                    // catch {{ err = ArgumentError: Error #1063: Argument count mismatch on TestThreadStart::TheOtherClass$/Invoke_6d788eff_06000013(). Expected 1, got 0. }}
+
+                    mm.Invoke(null, new object[1]);
+                    t.text = "after invoke " + new { TheOtherClass.SharedField, sw.ElapsedMilliseconds };
+                }
+                catch (Exception err)
+                {
+                    t.text = "catch " + new { err };
+                }
+
+
+            };
         }
 
 
@@ -152,9 +201,33 @@ namespace TestThreadStart
 
     static class TheOtherClass
     {
+        public static string SharedField;
+
+        // after invoke {{ SharedField = {{ data = null }} }}
+
+
+        //null
+        //	at TestThreadStart::TheOtherClass$/Invoke_6d788eff_06000013()
+        //    at Function/http://adobe.com/AS3/2006/builtin::apply()
+        //	at ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection::__MethodInfo/InternalInvoke_4ebbe596_06000018()
+        //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection::__MethodInfo/InternalInvoke_4ebbe596_06000013()
+        //    at ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection::__MethodBase/Invoke_4ebbe596_06000012()
+        //    at TestThreadStart::ApplicationSprite___c__DisplayClass0/__ctor_b__2_6d788eff_06000005()
+
         public static void Invoke(object data)
         {
+            // after invoke {{ SharedField = {{ data = null }}, ElapsedMilliseconds = 1 }}
+            // after invoke {{ SharedField = {{ data = null, i = 65534 }}, ElapsedMilliseconds = 830 }}
+            // after invoke {{ SharedField = {{ data = null, i = 65534, j = 3 }}, ElapsedMilliseconds = 2908 }}
 
+            for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 0xffff; i++)
+                {
+                    SharedField = new { data, i, j }.ToString();
+                }
+
+
+            //throw null;
         }
     }
 }
