@@ -23,9 +23,9 @@ namespace JVMCLRRSACryptoStream
 
         public bool CanTransformMultipleBlocks { get { return (false); } }
 
-        public int InputBlockSize { get { return (117); } }
+        public int InputBlockSize { get { return (OutputBlockSize * 8 - 384) / 8 + 7; } }
 
-        public int OutputBlockSize { get { return (128); } }
+        public int OutputBlockSize { get { return 128; } }
 
         private RSACryptoServiceProvider rsaEncryptor;
 
@@ -49,7 +49,8 @@ namespace JVMCLRRSACryptoStream
 
             byte[] ciphertext;
 
-            ciphertext = rsaEncryptor.Encrypt(plaintext, false);
+            ciphertext = rsaEncryptor.Encrypt(plaintext, true);
+            // Additional information: Bad Length.
 
             ciphertext.CopyTo(outputBuffer, outputOffset);
 
@@ -70,7 +71,7 @@ namespace JVMCLRRSACryptoStream
 
             ciphertext = rsaEncryptor.Encrypt(
 
-             plaintext, false);
+             plaintext, true);
 
             return (ciphertext);
         }
@@ -83,9 +84,9 @@ namespace JVMCLRRSACryptoStream
 
         public bool CanTransformMultipleBlocks { get { return (false); } }
 
-        public int InputBlockSize { get { return (128); } }
+        public int InputBlockSize { get { return 128; } }
 
-        public int OutputBlockSize { get { return (117); } }
+        public int OutputBlockSize { get { return (InputBlockSize * 8 - 384) / 8 + 7; ; } }
 
         private RSACryptoServiceProvider rsaDecryptor;
 
@@ -109,7 +110,7 @@ namespace JVMCLRRSACryptoStream
 
             byte[] plaintext;
 
-            plaintext = rsaDecryptor.Decrypt(ciphertext, false);
+            plaintext = rsaDecryptor.Decrypt(ciphertext, true);
 
             plaintext.CopyTo(outputBuffer, outputOffset);
 
@@ -122,14 +123,19 @@ namespace JVMCLRRSACryptoStream
         {
 
             byte[] ciphertext = new byte[inputCount];
+            byte[] plaintext = new byte[0];
 
-            Array.Copy(inputBuffer, inputOffset, ciphertext, 0, inputCount);
 
-            byte[] plaintext;
+            if (inputCount > 0)
+            {
+                Array.Copy(inputBuffer, inputOffset, ciphertext, 0, inputCount);
 
-            plaintext = rsaDecryptor.Decrypt(
 
-            ciphertext, false);
+                plaintext = rsaDecryptor.Decrypt(
+
+                ciphertext, true);
+            }
+            // Additional information: Error occurred while decoding OAEP padding.
 
             return (plaintext);
         }
@@ -164,9 +170,16 @@ namespace JVMCLRRSACryptoStream
 
             RSAParameters p = RSA.ExportParameters(includePrivateParameters: false);
 
+
+
+            var value = RSA.Encrypt(
+                    Encoding.UTF8.GetBytes("hello from server"), fOAEP: true
+            //Encoding.UTF8.GetBytes("hello from server"), fOAEP: false
+            );
+
+
             var data = new MemoryStream();
-            var goo = // new StreamWriter(
-                new CryptoStream(data, new RSAEnCryptoTransform(RSA), CryptoStreamMode.Write);
+            var goo = new CryptoStream(data, new RSAEnCryptoTransform(RSA), CryptoStreamMode.Write);
 
             var text = Encoding.UTF8.GetBytes("hello".PadRight(8000) + "world");
 
@@ -175,6 +188,15 @@ namespace JVMCLRRSACryptoStream
             goo.FlushFinalBlock();
 
             goo.FlushAsync().Wait();
+
+
+            var foo = new CryptoStream(data, new RSADeCryptoTransform(RSA), CryptoStreamMode.Read);
+
+            //var buffer = new byte[100];
+            //var buffer = new byte[MaxData];
+            var buffer = new byte[0x1000];
+            var result = foo.Read(buffer, 0, buffer.Length);
+            //var result = foo.ReadAsync(buffer, 0, buffer.Length).Result;
 
 
             CLRProgram.CLRMain();

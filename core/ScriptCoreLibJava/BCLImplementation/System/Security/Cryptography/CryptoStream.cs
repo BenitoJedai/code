@@ -23,6 +23,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Security.Cryptography
     [Script(Implements = typeof(global::System.Security.Cryptography.CryptoStream))]
     internal class __CryptoStream : __Stream
     {
+        // X:\jsc.svn\examples\java\hybrid\JVMCLRHopToThreadPool\JVMCLRHopToThreadPool\Program.cs
+
         // https://sites.google.com/a/jsc-solutions.net/backlog/knowledge-base/2014/201411/20141108
 
         public __CryptoStream(Stream stream, ICryptoTransform transform, CryptoStreamMode mode)
