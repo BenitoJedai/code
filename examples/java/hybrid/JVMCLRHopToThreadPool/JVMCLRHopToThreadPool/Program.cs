@@ -46,8 +46,14 @@ namespace JVMCLRHopToThreadPool
                typeof(object).AssemblyQualifiedName
             );
 
+ //           Implementation not found for type import :
+ //type: System.Threading.Tasks.Task
+ //           method: System.Threading.Tasks.Task Run(System.Action)
+ //           Did you forget to add the[Script] attribute?
+ //           Please double check the signature!
 
-            new { }.With(
+
+                       new { }.With(
                 async scope =>
                 {
                     //{ ManagedThreadId = 1 }

@@ -38,9 +38,8 @@ namespace TestThreadStartAsWebWorker
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
     /// </summary>
-    public sealed class Application
+    public sealed class Application : ApplicationWebService
     {
-        public readonly ApplicationWebService service = new ApplicationWebService();
 
         /// <summary>
         /// This is a javascript application.
@@ -65,7 +64,7 @@ namespace TestThreadStartAsWebWorker
 
 
                         // update local, then update parent memory
-                        oo.goo = "from thread";
+                        oo.goo += ", from thread " + new { Thread.CurrentThread.ManagedThreadId };
 
                         // or should the fields be transferable dictionary?
                         // we could just send the data part back now
@@ -73,7 +72,7 @@ namespace TestThreadStartAsWebWorker
                 )
             );
 
-            var ooo = new XData { goo = "goo1" };
+            var ooo = new XData { goo = "goo1 " + new { Thread.CurrentThread.ManagedThreadId } };
 
             t.Start(
                 // we are sending in data/objects
@@ -87,7 +86,15 @@ namespace TestThreadStartAsWebWorker
                     //                    0:18ms working on the other thread
                     //0:122ms { goo = from thread }
 
-                    Console.WriteLine(new { ooo.goo });
+                    //Console.WriteLine(new { ooo.goo });
+
+                    // { goo = goo1 { ManagedThreadId = 1 }, from thread { ManagedThreadId = 1 } }
+
+                    new IHTMLPre
+                    {
+                        new {  ooo.goo }
+                    }.AttachToDocument();
+
                 }
             );
 
