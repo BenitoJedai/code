@@ -12,11 +12,7 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace MP3PitchExample.ActionScript
 {
-    /// <summary>
-    /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
-    /// </summary>
-    [Script, ScriptApplicationEntryPoint(WithResources = true)]
-    [SWF]
+   
     public class MP3PitchExample : Sprite
     {
         /// <summary>
@@ -32,7 +28,7 @@ namespace MP3PitchExample.ActionScript
                 text = "1.0"
             }.AttachTo(this);
 
-            var p = new MP3Pitch("http://visit.abstractatech.com/assets/com.abstractatech.web/AbstractatechPostProductionVersion7.mp3");
+            var p = new MP3Pitch("http://visit.abstractatech.com/assets/com.abstractatech.web.design1/AbstractatechPostProductionVersion7.mp3");
 
             var o = new Sprite
             {
@@ -42,7 +38,7 @@ namespace MP3PitchExample.ActionScript
             o.click +=
                 delegate
                 {
-                    p = new MP3Pitch("http://visit.abstractatech.com/assets/com.abstractatech.web/AbstractatechPostProductionVersion7.mp3")
+                    p = new MP3Pitch("http://visit.abstractatech.com/assets/com.abstractatech.web.design1/AbstractatechPostProductionVersion7.mp3")
                     {
                         _rate = p._rate
                     };
