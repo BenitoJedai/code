@@ -26,6 +26,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         public Class ClassToken;
 
 
+
+
+        public static implicit operator __IntPtr(IntPtr _ptr)
+        {
+            return (__IntPtr)(object)_ptr;
+        }
+
+
         // start0 = new __ParameterizedThreadStart(null, __IntPtr.op_Explicit_4ebbe596_06001686(TheOtherClass.Invoke_6d788eff_0600000c));
 
         public static explicit operator __IntPtr(string _Token)

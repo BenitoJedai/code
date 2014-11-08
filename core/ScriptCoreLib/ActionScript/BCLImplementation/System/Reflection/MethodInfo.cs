@@ -12,16 +12,27 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Reflection
         // X:\jsc.svn\examples\actionscript\Test\TestThreadStart\TestThreadStart\ApplicationSprite.cs
 
 
-        public object _Target;
-        public global::System.IntPtr _Method;
+        //public object _Target;
+        public __IntPtr _Method;
 
+
+        public override string Name
+        {
+            get { return _Method.FunctionToken_MethodName; }
+
+        }
+
+        public override Type DeclaringType
+        {
+            get { return Type.GetType(_Method.FunctionToken_TypeFullName); }
+        }
 
 
         //public Function InternalFunctionPointer;
 
         public override string ToString()
         {
-            return new { _Target, _Method }.ToString();
+            return new { _Method, Name, DeclaringType }.ToString();
         }
 
 
