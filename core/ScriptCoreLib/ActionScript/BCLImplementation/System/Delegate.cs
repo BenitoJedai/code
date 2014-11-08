@@ -24,7 +24,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             get
             {
-                return new __MethodInfo { _Target = this._Target, _Method = this._Method };
+                return new __MethodInfo { 
+                    //_Target = this._Target, 
+                    _Method = this._Method 
+                };
             }
         }
 

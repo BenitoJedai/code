@@ -74,29 +74,30 @@ namespace TestThreadStart
 
             //          {{ os = Windows 7, version = WIN 15,0,0,189, length = 334570, Target = null, Method = { _Target = , _Method = IntPtr { StringToken = , 
             //FunctionToken = function Function() {}, ClassToken =  } }, FullName = TestThreadStart::TheOtherClass, z = Type { TypeDescription = <type name="TestThreadStart::TheOtherClass" base="Class" isDynamic="true" isFinal="true" isStatic="true">
-//  <extendsClass type="Class"/>
-//  <extendsClass type="Object"/>
-//  <accessor name="prototype" access="readonly" type="*" declaredBy="Class"/>
-//  <method name="Invoke_6d788eff_0600000c" declaredBy="TestThreadStart::TheOtherClass" returnType="void">
-//    <parameter index="1" type="Object" optional="false"/>
-//  </method>
-//  <factory type="TestThreadStart::TheOtherClass">
-//    <extendsClass type="Object"/>
-//  </factory>
-//</type> }, zz = Type { TypeDescription = <type name="TestThreadStart::TheOtherClass" base="Class" isDynamic="true" isFinal="true" isStatic="true">
-//  <extendsClass type="Class"/>
-//  <extendsClass type="Object"/>
-//  <accessor name="prototype" access="readonly" type="*" declaredBy="Class"/>
-//  <method name="Invoke_6d788eff_0600000c" declaredBy="TestThreadStart::TheOtherClass" returnType="void">
-//    <parameter index="1" type="Object" optional="false"/>
-//  </method>
-//  <factory type="TestThreadStart::TheOtherClass">
-//    <extendsClass type="Object"/>
-//  </factory>
-//</type> } }}
+            //  <extendsClass type="Class"/>
+            //  <extendsClass type="Object"/>
+            //  <accessor name="prototype" access="readonly" type="*" declaredBy="Class"/>
+            //  <method name="Invoke_6d788eff_0600000c" declaredBy="TestThreadStart::TheOtherClass" returnType="void">
+            //    <parameter index="1" type="Object" optional="false"/>
+            //  </method>
+            //  <factory type="TestThreadStart::TheOtherClass">
+            //    <extendsClass type="Object"/>
+            //  </factory>
+            //</type> }, zz = Type { TypeDescription = <type name="TestThreadStart::TheOtherClass" base="Class" isDynamic="true" isFinal="true" isStatic="true">
+            //  <extendsClass type="Class"/>
+            //  <extendsClass type="Object"/>
+            //  <accessor name="prototype" access="readonly" type="*" declaredBy="Class"/>
+            //  <method name="Invoke_6d788eff_0600000c" declaredBy="TestThreadStart::TheOtherClass" returnType="void">
+            //    <parameter index="1" type="Object" optional="false"/>
+            //  </method>
+            //  <factory type="TestThreadStart::TheOtherClass">
+            //    <extendsClass type="Object"/>
+            //  </factory>
+            //</type> } }}
 
             var z = typeof(TheOtherClass);
-            var zz = Type.GetType("TestThreadStart::TheOtherClass");
+            //var zz = Type.GetType("TestThreadStart::TheOtherClass");
+            var zz = Type.GetType("TestThreadStart.TheOtherClass");
 
             //var zMethod = z.GetMethods();
 
@@ -123,13 +124,15 @@ namespace TestThreadStart
 
                     // first step is to call a static method on the other side of thread
                     y.Method,
+                    //y.Method,
+                    //y.Method.DeclaringType
 
 
                     //z.FullName,
 
                     //z,
 
-                    //zz
+                    zz
 
                 }.ToString(),
 
