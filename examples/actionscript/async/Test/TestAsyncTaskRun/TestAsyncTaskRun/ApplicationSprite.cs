@@ -18,8 +18,13 @@ namespace TestAsyncTaskRun
 
         public ApplicationSprite()
         {
-            if (!Worker.current.isPrimordial)
-                return;
+            //if ((__Thread.InternalWorkerInvoke_4ebbe596_06000051(this)))
+            //{
+            //    return;
+            //}
+
+            //if (!Worker.current.isPrimordial)
+            //    return;
 
             // X:\jsc.svn\examples\javascript\async\Test\TaskAsyncTaskRun\TaskAsyncTaskRun\Application.cs
 
@@ -49,10 +54,16 @@ namespace TestAsyncTaskRun
                 // {{ ElapsedMilliseconds = 83, xvalue = hello world {{ SharedField = {{ i = 4094, ElapsedMilliseconds = 29 }} }} }}
                 // {{ ElapsedMilliseconds = 91, xvalue = hello world {{ SharedField = {{ i = 4094, ElapsedMilliseconds = 29 }} }} }}
                 // {{ ElapsedMilliseconds = 1192, xvalue = hello world {{ SharedField = {{ i = 65534, ElapsedMilliseconds = 1052 }} }} }}
+                // {{ ElapsedMilliseconds = 497, xvalue = hello world {{ SharedField = {{ i = 65534, ElapsedMilliseconds = 429 }} }} }}
+                // {{ ElapsedMilliseconds = 276, xvalue = hello world {{ SharedField = {{ i = 65534, ElapsedMilliseconds = 229 }} }} }}
+                // {{ ElapsedMilliseconds = 1048, xvalue = hello world {{ SharedField = {{ i = 65534, ElapsedMilliseconds = 931 }} }} }}
 
                 var value = Task.Run(
                      delegate
                 {
+                    // syncing data from worker is like multiplayer sync
+
+
                     var nn = Stopwatch.StartNew();
 
                     //                NotImplementedException:
@@ -111,6 +122,7 @@ namespace TestAsyncTaskRun
                     {
                         var sss = Stopwatch.StartNew();
 
+                        // sometimes it never completes. why?
 
                         while (!value.IsCompleted)
                         {
