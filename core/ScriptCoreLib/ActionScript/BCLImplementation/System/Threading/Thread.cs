@@ -20,6 +20,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Threading.Thread))]
     public class __Thread
     {
+        // http://bitsofinfo.wordpress.com/2008/09/22/threads-in-as3-flex-actionscript/
         // http://stackoverflow.com/questions/11902863/can-actionscript-workers-be-used-to-play-generate-sounds-in-a-separate-thread
 
         public static implicit operator __Thread(Thread e)
