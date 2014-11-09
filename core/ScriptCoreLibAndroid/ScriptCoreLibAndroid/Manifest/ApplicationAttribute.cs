@@ -10,7 +10,8 @@ namespace ScriptCoreLib.Android.Manifest
     internal sealed class ApplicationAttribute : Attribute
     {
         // tested by ?
-
+        // we seem to use the metadata also.
+        //  EIDNFC_Android_App\EIDNFC_Android_App\ApplicationActivity.cs
 
         // AssemblyDescription
         public string description;

@@ -253,9 +253,6 @@
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\RuntimeTypeHandle.cs">
       <Link>BCLImplementation\System\RuntimeTypeHandle.cs</Link>
     </Compile>
-    <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs">
-      <Link>BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs</Link>
-    </Compile>
     <Compile Include="..\..\ScriptCoreLibJava\BCLImplementation\System\Runtime\CompilerServices\CallSite.cs">
       <Link>BCLImplementation\System\Runtime\CompilerServices\CallSite.cs</Link>
     </Compile>

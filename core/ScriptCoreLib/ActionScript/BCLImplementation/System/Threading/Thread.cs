@@ -94,6 +94,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
                 return false;
             }
 
+
+            if (__Task.InternalWorkerInvoke(that))
+            {
+                // X:\jsc.svn\examples\actionscript\async\Test\TestAsyncTaskRun\TestAsyncTaskRun\ApplicationSprite.cs
+                // Task.Run called itself
+
+                return true;
+            }
+
+
             // X:\jsc.svn\examples\actionscript\Test\TestThreadStart\TestThreadStart\ApplicationSprite.cs
 
             // are we inside worker?

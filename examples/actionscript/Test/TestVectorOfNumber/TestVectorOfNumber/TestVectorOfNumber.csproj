@@ -122,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="starling.filters\ColorMatrixFilter.as" />
     <Content Include="Design\App.css" />
     <Content Include="Design\App.htm" />
     <Compile Include="ApplicationSprite.cs" />
@@ -132,7 +131,9 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <None Include="packages.config" />
-    <None Include="starling.filters\ZElement.as" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="starling.filters\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

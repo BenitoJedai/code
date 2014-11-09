@@ -5,17 +5,40 @@ using System.Text;
 using ScriptCoreLib.ActionScript.flash.ui;
 using ScriptCoreLib.ActionScript.flash.events;
 using System.Threading.Tasks;
+using ScriptCoreLib.ActionScript.flash.display;
+
+namespace ScriptCoreLib.ActionScript.Extensions.flash.display
+{
+    // if a type implements a type that is set to be native, then only implementation
+    // which is marked with NotImplementedHere applies
+
+    internal static partial class __InteractiveObject
+    {
+        // X:\jsc.svn\examples\actionscript\test\TestResolveNativeImplementationExtension\TestResolveNativeImplementationExtension\Class1.cs
+        public static InteractiveObjectTasks get_async(InteractiveObject that)
+        {
+            //Console.WriteLine("InteractiveObject get_async");
+
+            return new InteractiveObjectTasks
+            {
+                that_InteractiveObject = that,
+                that_DisplayObject = that
+
+            };
+        }
+    }
+}
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
     [Script]
     [Obsolete("experimental")]
-    public class InteractiveObjectTasks
+    public class InteractiveObjectTasks : DisplayObjectTasks
     {
         // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLElement.async.cs
         // X:\jsc.svn\core\ScriptCoreLib\ActionScript\Extensions\flash\display\InteractiveObject.cs
 
-        internal InteractiveObject that;
+        internal InteractiveObject that_InteractiveObject;
 
         [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
         public virtual Task<MouseEvent> onclick
@@ -29,7 +52,7 @@ namespace ScriptCoreLib.ActionScript.flash.display
 
                 // tested by
                 // X:\jsc.svn\examples\javascript\android\TextToSpeechExperiment\TextToSpeechExperiment\Application.cs
-                that.click +=
+                that_InteractiveObject.click +=
                     e =>
                     {
                         //Console.WriteLine("at InteractiveObjectTasks.onclick");

@@ -9,9 +9,63 @@ using ScriptCoreLib.ActionScript.flash.events;
 using System.Runtime.CompilerServices;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.accessibility;
+using System.Threading.Tasks;
+using ScriptCoreLib.ActionScript.flash.display;
+
+
+namespace ScriptCoreLib.ActionScript.Extensions.flash.display
+{
+    // if a type implements a type that is set to be native, then only implementation
+    // which is marked with NotImplementedHere applies
+
+    internal static partial class __DisplayObject
+    {
+        // X:\jsc.svn\examples\actionscript\test\TestResolveNativeImplementationExtension\TestResolveNativeImplementationExtension\Class1.cs
+        public static DisplayObjectTasks get_async(DisplayObject that)
+        {
+            //Console.WriteLine("InteractiveObject get_async");
+
+            return new DisplayObjectTasks { that_DisplayObject = that };
+        }
+    }
+}
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
+    [Script]
+    [Obsolete("experimental")]
+    public class DisplayObjectTasks
+    {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLElement.async.cs
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\Extensions\flash\display\InteractiveObject.cs
+
+        internal DisplayObject that_DisplayObject;
+
+        [System.Obsolete("should jsc expose events as async tasks until C# chooses to allow that?")]
+        public virtual Task<Event> onframe
+        {
+            get
+            {
+                // X:\jsc.svn\examples\actionscript\async\Test\TestAsyncTaskRun\TestAsyncTaskRun\ApplicationSprite.cs
+
+                //Console.WriteLine("enter InteractiveObjectTasks.onclick");
+
+                var x = new TaskCompletionSource<Event>();
+                var y = default(Action<Event>);
+
+                y = e =>
+                {
+                    that_DisplayObject.enterFrame -= y;
+                    x.SetResult(e);
+                };
+
+                that_DisplayObject.enterFrame += y;
+
+                return x.Task;
+            }
+        }
+    }
+
     // http://livedocs.adobe.com/flex/3/langref/flash/display/DisplayObject.html
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/DisplayObject.html
     /// <summary>
@@ -20,6 +74,13 @@ namespace ScriptCoreLib.ActionScript.flash.display
     [Script(IsNative = true)]
     public class DisplayObject : EventDispatcher, IBitmapDrawable
     {
+        [Obsolete("experimental")]
+        public DisplayObjectTasks async
+        {
+            [method: Script(NotImplementedHere = true)]
+            get { return default(DisplayObjectTasks); }
+        }
+
         #region Events
         /// <summary>
         /// Dispatched when a display object is added to the display list.

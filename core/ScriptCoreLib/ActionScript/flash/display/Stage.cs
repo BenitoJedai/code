@@ -5,14 +5,58 @@ using System.Text;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.events;
+using ScriptCoreLib.ActionScript.flash.display;
+using System.Threading.Tasks;
+
+
+namespace ScriptCoreLib.ActionScript.Extensions.flash.display
+{
+    // if a type implements a type that is set to be native, then only implementation
+    // which is marked with NotImplementedHere applies
+
+    internal static partial class __Stage
+    {
+        // X:\jsc.svn\examples\actionscript\test\TestResolveNativeImplementationExtension\TestResolveNativeImplementationExtension\Class1.cs
+        public static StageTasks get_async(Stage that)
+        {
+            //Console.WriteLine("InteractiveObject get_async");
+
+            return new StageTasks { 
+                that_Stage = that ,
+                that_DisplayObject = that
+            };
+        }
+    }
+}
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
+    [Script]
+    [Obsolete("experimental")]
+    public class StageTasks : DisplayObjectTasks
+    {
+        // X:\jsc.svn\core\ScriptCoreLib\JavaScript\DOM\HTML\IHTMLElement.async.cs
+        // X:\jsc.svn\core\ScriptCoreLib\ActionScript\Extensions\flash\display\InteractiveObject.cs
+
+        internal Stage that_Stage;
+
+
+    }
+
     // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/Stage.html
     [Script(IsNative = true)]
     public class Stage : DisplayObjectContainer
     {
+        [Obsolete("experimental")]
+        public StageTasks async
+        {
+            [method: Script(NotImplementedHere = true)]
+            get { return default(StageTasks); }
+        }
+
+
         // X:\jsc.svn\examples\actionscript\Test\TestVectorOfNumber\TestVectorOfNumber\ApplicationSprite.cs
+        // does it actually work?
         public uint color { get; set; }
 
         public bool mouseLock { get; set; }
@@ -148,31 +192,31 @@ namespace ScriptCoreLib.ActionScript.flash.display
         #endregion
 
 
-		#region Methods
-	
+        #region Methods
 
-		/// <summary>
-		/// Calling the invalidate() method signals Flash Player to alert display objects on the next opportunity it has to render the display list (for example, when the playhead advances to a new frame).
-		/// </summary>
-		public void invalidate()
-		{
-		}
 
-		/// <summary>
-		/// Determines whether the Stage.focus property returns null for security reasons.
-		/// </summary>
-		public bool isFocusInaccessible()
-		{
-			return default(bool);
-		}
+        /// <summary>
+        /// Calling the invalidate() method signals Flash Player to alert display objects on the next opportunity it has to render the display list (for example, when the playhead advances to a new frame).
+        /// </summary>
+        public void invalidate()
+        {
+        }
 
-		
+        /// <summary>
+        /// Determines whether the Stage.focus property returns null for security reasons.
+        /// </summary>
+        public bool isFocusInaccessible()
+        {
+            return default(bool);
+        }
 
-	
 
-		#endregion
 
-	
+
+
+        #endregion
+
+
 
 
     }

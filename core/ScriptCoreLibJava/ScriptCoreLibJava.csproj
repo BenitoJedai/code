@@ -128,7 +128,6 @@
     <Compile Include="BCLImplementation\System\Net\NetworkInformation\IPInterfaceProperties.cs" />
     <Compile Include="BCLImplementation\System\Net\NetworkInformation\PhysicalAddress.cs" />
     <Compile Include="BCLImplementation\System\Net\WebHeaderCollection.cs" />
-    <Compile Include="BCLImplementation\System\Runtime\CompilerServices\AsyncTaskMethodBuilder.cs" />
     <Compile Include="BCLImplementation\System\Runtime\CompilerServices\CallSite.cs" />
     <Compile Include="BCLImplementation\System\Single.cs" />
     <Compile Include="BCLImplementation\System\DateTime.cs">

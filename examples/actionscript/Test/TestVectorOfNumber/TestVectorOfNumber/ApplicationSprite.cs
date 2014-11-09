@@ -12,15 +12,15 @@ namespace TestVectorOfNumber
         {
             // X:\jsc.svn\examples\actionscript\svg\FlashHeatZeeker\FlashHeatZeeker.TestDriversWithAudio\Library\StarlingGameSpriteWithTestDriversWithAudio.cs
 
-            var n = new Vector<Number>();
+            //var n = new Vector<Number>();
 
-            var c = new starling.filters.ColorMatrixFilter();
+            //var c = new starling.filters.ColorMatrixFilter();
 
 
-            //       public static implicit operator Vector<T>(T[] e);
-            c.concat(
-                (Vector<double>)
-                new double[] { 5 });
+            ////       public static implicit operator Vector<T>(T[] e);
+            //c.concat(
+            //    (Vector<double>)
+            //    new double[] { 5 });
 
 
             // V:\web\TestVectorOfNumber\ApplicationSprite.as(49): col: 28 Error: Implicit coercion of a value of type __AS3__.vec:Vector.<String> to
