@@ -11,16 +11,9 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
     // which is marked with NotImplementedHere applies
 
     [Script(Implements = typeof(InteractiveObject))]
-    internal static class __InteractiveObject
+    internal static partial class __InteractiveObject
     {
-        // X:\jsc.svn\examples\actionscript\test\TestResolveNativeImplementationExtension\TestResolveNativeImplementationExtension\Class1.cs
-        public static InteractiveObjectTasks get_async(InteractiveObject that)
-        {
-            //Console.WriteLine("InteractiveObject get_async");
-
-            return new InteractiveObjectTasks { that = that };
-        }
-
+    
 
 
         #region Implementation for methods marked with [Script(NotImplementedHere = true)]

@@ -12,7 +12,7 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
 
     
     [Script(Implements = typeof(DisplayObject))]
-    internal static class __DisplayObject
+    internal static partial class __DisplayObject
     {
         #region added
         public static void add_added(DisplayObject that, Action<Event> value)

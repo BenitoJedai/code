@@ -12,7 +12,7 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
 
     
     [Script(Implements = typeof(Stage))]
-    internal static class __Stage
+    internal static partial class __Stage
     {
         #region fullScreen
         public static void add_fullScreen(Stage that, Action<FullScreenEvent> value)
