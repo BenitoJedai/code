@@ -8,6 +8,8 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XContainer.cs
+
     [Script(Implements = typeof(XContainer))]
     internal abstract class __XContainer : __XNode
     {

@@ -9,7 +9,8 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
     // http://referencesource.microsoft.com/#System.Xml.Linq/XLinq.cs
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/System.Xml.Linq/System.Xml.Linq/XElement.cs
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XElement.cs
+    // https://github.com/mono/mono/blob/master/mcs/class/System.Xml.Linq/System.Xml.Linq/XElement.cs
 
     [Script(Implements = typeof(XElement))]
     internal class __XElement : __XContainer

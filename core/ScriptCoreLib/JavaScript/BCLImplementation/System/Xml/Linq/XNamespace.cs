@@ -6,7 +6,9 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
-	[Script(Implements = typeof(global::System.Xml.Linq.XNamespace))]
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XNamespace.cs
+
+    [Script(Implements = typeof(global::System.Xml.Linq.XNamespace))]
 	internal class __XNamespace
 	{
 		public string NamespaceName { get; set; }

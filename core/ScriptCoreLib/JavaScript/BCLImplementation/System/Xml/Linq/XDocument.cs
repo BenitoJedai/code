@@ -7,8 +7,9 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XDocument.cs
 
-	[Script(Implements = typeof(XDocument))]
+    [Script(Implements = typeof(XDocument))]
 	internal class __XDocument : __XContainer
 	{
 		internal IXMLDocument InternalDocument;

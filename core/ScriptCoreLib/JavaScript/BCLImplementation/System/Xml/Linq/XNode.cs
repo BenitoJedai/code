@@ -12,8 +12,8 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
-    // https://github.com/mono/mono/blob/a31c107f59298053e4ff17fd09b2fa617b75c1ba/mcs/class/System.Xml.Linq/System.Xml.Linq/XNode.cs
-
+    // https://github.com/mono/mono/blob/master/mcs/class/System.Xml.Linq/System.Xml.Linq/XNode.cs
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XNode.cs
 
     [Script(Implements = typeof(XNode))]
     internal class __XNode : __XObject

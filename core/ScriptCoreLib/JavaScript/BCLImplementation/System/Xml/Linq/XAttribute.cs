@@ -6,6 +6,8 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XAttribute.cs
+
     [Script(Implements = typeof(XAttribute))]
     internal class __XAttribute : __XObject
     {

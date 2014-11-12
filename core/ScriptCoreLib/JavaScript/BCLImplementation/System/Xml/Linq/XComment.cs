@@ -7,7 +7,9 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Xml.Linq
 {
-	[Script(Implements = typeof(XComment))]
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Xml/Linq/XComment.cs
+
+    [Script(Implements = typeof(XComment))]
 	internal class __XComment : __XNode
 	{
 		public __XComment(string value)

@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 {
+    // https://github.com/dotnet/corefx/blob/master/src/System.Xml.XDocument/System/Linq/Enumerable.cs
+
     [Script]
     internal class __OrderedEnumerable<TSource, TKey> : __OrderedEnumerable<TSource>, IOrderedEnumerable<TSource>
     {
